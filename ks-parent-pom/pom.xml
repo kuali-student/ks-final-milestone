@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.poc</groupId>
+	<artifactId>ks-parent-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>0.0.2-SNAPSHOT</version>
+	<description>Kuali Student POC Parent POM</description>
+
+	<properties>
+		<atomikos.version>3.2.1</atomikos.version>
+		<cxf.version>2.0.4-incubator</cxf.version>
+		<jaxws-api.version>2.1</jaxws-api.version>
+		<jaxws.version>2.1.3</jaxws.version>
+		<junit.version>4.4</junit.version>
+		<spring.version>2.5.1</spring.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>external.repositories</id>
+			<activation>
+				<property>
+					<name>!ks.use.proxy</name>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>maven2-repository.dev.java.net</id>
+					<url>http://download.java.net/maven/2</url>
+				</repository>
+				<repository>
+					<id>maven-repository.dev.java.net</id>
+					<url>http://download.java.net/maven/1</url>
+					<layout>legacy</layout>
+				</repository>
+				<repository>
+					<id>jboss</id>
+					<url>http://repository.jboss.org/maven2</url>
+				</repository>
+				<repository>
+					<id>kuali.rice</id>
+					<url>https://test.kuali.org/maven</url>
+				</repository>
+			</repositories>
+
+			<pluginRepositories>
+				<pluginRepository>
+					<id>codehaussandbox</id>
+					<url>http://snapshots.repository.codehaus.org</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+	
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<distributionManagement>
+		<repository>
+			<id>kuali.release</id>
+			<name>Internal Release Repository</name>
+			<url>
+				dav:http://kuali.umd.edu/archiva/repository/release
+			</url>
+		</repository>
+		<snapshotRepository>
+			<id>kuali.snapshots</id>
+			<name>Internal Snapshot Repository</name>
+			<url>
+				dav:http://kuali.umd.edu/archiva/repository/snapshot
+			</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
