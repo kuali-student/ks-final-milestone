@@ -2,18 +2,13 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
-	<artifactId>brms-ri</artifactId>
+	<artifactId>brms-core</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 	<description></description>
-
 	<parent>
-		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-ri-pom</artifactId>
+		<groupId>org.kuali.student.poc.brms</groupId>
+		<artifactId>brms-ri</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<modules>
-		<module>brms-core</module>
-	</modules>
 </project>
