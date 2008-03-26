@@ -1,27 +1,54 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.common</groupId>
-	<artifactId>common-pom</artifactId>
+	<groupId>org.kuali.student.poc.personidentity</groupId>
+	<artifactId>personidentity-api</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
 	<description />
-
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-parent-pom</artifactId>
+		<artifactId>ks-api-pom</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
-	<modules>
-		<module>common-test</module>
-		<module>common-util</module>
-		<module>common-ws</module>
-	</modules>
-	
 	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/KualiStudent/poc/common/branches/common-dev</developerConnection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/KualiStudent/poc/personidentity/personidentity-api/branches/personidentity-api-dev</developerConnection>
 	</scm>
-
+	<build>
+   <plugins>
+      <plugin>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-codegen-plugin</artifactId>
+         <version>2.0.4-incubator</version>
+         <dependencies>
+            <dependency>
+               <groupId>org.apache.cxf</groupId>
+               <artifactId>
+                  cxf-rt-frontend-jaxws
+               </artifactId>
+               <version>2.0.4-incubator</version>
+            </dependency>
+         </dependencies>
+         <executions>
+            <execution>
+               <id>generate-wsdl</id>
+               <phase>process-classes</phase>
+               <configuration>
+                  <className>
+                     org.kuali.student.poc.wsdl.personidentity.person.PersonService
+                  </className>
+                  <targetNamespace>
+                     http://student.kuali.org/wsdl/...
+                  </targetNamespace>
+                  <verbose>true</verbose>
+               </configuration>
+               <goals>
+                  <goal>java2wsdl</goal>
+               </goals>
+            </execution>
+         </executions>
+      </plugin>
+   </plugins>
+</build>
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
@@ -54,24 +81,4 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 </project>
