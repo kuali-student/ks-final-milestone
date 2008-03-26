@@ -16,7 +16,7 @@ public class PersonName implements Serializable{
 	private String givenName;
 	private String nameType;
 	private String suffix;
-	private String preferredName;
+	private boolean preferredName;
 
 	private Date effectiveStartDate;
 	private Date effectiveEndDate;
@@ -123,13 +123,13 @@ public class PersonName implements Serializable{
 	/**
 	 * @return the preferredName
 	 */
-	public String getPreferredName() {
+	public boolean getPreferredName() {
 		return preferredName;
 	}
 	/**
 	 * @param preferredName the preferredName to set
 	 */
-	public void setPreferredName(String preferredName) {
+	public void setPreferredName(boolean preferredName) {
 		this.preferredName = preferredName;
 	}
 	/**

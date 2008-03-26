@@ -1,27 +1,56 @@
 package org.kuali.student.poc.xsd.personidentity.person.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.poc.util.jaxb.JaxbAttributeMapListAdapter;
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PersonInfo implements Serializable{
 
 	private static final long serialVersionUID = 2398792732220533518L;
 	
+	@XmlElement
 	private Long personId;
+	
+	@XmlElement
+	@XmlElementWrapper(name="names")
 	private List<PersonName> name;
+	@XmlElement
 	private char gender;
+	@XmlElement
 	private Date birthDate;
+	@XmlElement
+	@XmlElementWrapper(name="referenceIds")
 	private List<PersonReferenceId> referenceId;
+	@XmlElement
 	private PersonCitizenship citizenship;
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
 	private Map<String,String> attributes;
 	
+	@XmlElement
 	private Date createTime;
+	@XmlElement
 	private String createUserId;
+	@XmlElement
 	private String createUserComment;
+	@XmlElement
 	private Date updateTime;
+	@XmlElement
 	private String updateUserId;
+	@XmlElement
 	private String updateUserComment;
 	/**
 	 * @return the personId
@@ -39,6 +68,9 @@ public class PersonInfo implements Serializable{
 	 * @return the name
 	 */
 	public List<PersonName> getName() {
+		if(name == null){
+			name  = new ArrayList<PersonName>();
+		}
 		return name;
 	}
 	/**
@@ -75,6 +107,9 @@ public class PersonInfo implements Serializable{
 	 * @return the referenceId
 	 */
 	public List<PersonReferenceId> getReferenceId() {
+		if(referenceId == null){
+			referenceId  = new ArrayList<PersonReferenceId>();
+		}
 		return referenceId;
 	}
 	/**
@@ -99,6 +134,9 @@ public class PersonInfo implements Serializable{
 	 * @return the attributes
 	 */
 	public Map<String, String> getAttributes() {
+		if(attributes == null){
+			attributes  = new HashMap<String, String> ();
+		}
 		return attributes;
 	}
 	/**
