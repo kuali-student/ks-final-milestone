@@ -8,13 +8,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeSetDTO {
+public class AttributeSetDefinition {
 	@XmlAttribute
 	Long id;
 	@XmlAttribute
 	String name;
 	@XmlElement(name="attributeDefinition")
-	List<AttributeDefinitionDTO> attributeDefinitions;
+	List<AttributeDefinition> attributeDefinitions;
 
 	/**
 	 * @return the id
@@ -49,9 +49,9 @@ public class AttributeSetDTO {
 	/**
 	 * @return the attributeDefinitions
 	 */
-	public List<AttributeDefinitionDTO> getAttributeDefinitions() {
+	public List<AttributeDefinition> getAttributeDefinitions() {
 		if (attributeDefinitions == null) {
-			attributeDefinitions = new ArrayList<AttributeDefinitionDTO>();
+			attributeDefinitions = new ArrayList<AttributeDefinition>();
 		}
 		return attributeDefinitions;
 	}

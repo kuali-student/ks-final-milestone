@@ -11,17 +11,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PersonTypeDTO extends PersonTypeInfoDTO {
+public class PersonType extends PersonTypeInfoDTO {
 	@XmlElement(name = "set")
 	@XmlElementWrapper(name = "setList")
-	private List<AttributeSetDTO> attributeSets;
+	private List<AttributeSetDefinition> attributeSets;
 
 	/**
 	 * @return the attributeSets
 	 */
-	public List<AttributeSetDTO> getAttributeSets() {
+	public List<AttributeSetDefinition> getAttributeSets() {
 		if (attributeSets == null) {
-			attributeSets = new ArrayList<AttributeSetDTO>();
+			attributeSets = new ArrayList<AttributeSetDefinition>();
 		}
 		return attributeSets;
 	}

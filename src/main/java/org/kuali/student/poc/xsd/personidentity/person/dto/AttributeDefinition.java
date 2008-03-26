@@ -10,13 +10,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeDefinitionDTO {
+public class AttributeDefinition {
 	@XmlAttribute
 	private Long id;
 	@XmlAttribute
 	private String name;
 	@XmlElement
-	private AttributeDataTypeDTO type;
+	private String type;
 	@XmlElement
 	private String label;
 	@XmlElement(name="validator")
@@ -49,13 +49,13 @@ public class AttributeDefinitionDTO {
 	/**
 	 * @return the type
 	 */
-	public AttributeDataTypeDTO getType() {
+	public String getType() {
 		return type;
 	}
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(AttributeDataTypeDTO type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	/**
