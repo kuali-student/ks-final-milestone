@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeDefinition {
+public class PersonAttributeTypeInfo {
 	@XmlAttribute
 	private Long id;
 	@XmlAttribute

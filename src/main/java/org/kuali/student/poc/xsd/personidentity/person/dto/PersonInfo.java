@@ -26,16 +26,16 @@ public class PersonInfo implements Serializable{
 	
 	@XmlElement
 	@XmlElementWrapper(name="names")
-	private List<PersonName> name;
+	private List<PersonNameInfo> name;
 	@XmlElement
 	private char gender;
 	@XmlElement
 	private Date birthDate;
 	@XmlElement
 	@XmlElementWrapper(name="referenceIds")
-	private List<PersonReferenceId> referenceId;
+	private List<PersonReferenceIdInfo> referenceId;
 	@XmlElement
-	private PersonCitizenship citizenship;
+	private PersonCitizenshipInfo citizenship;
 	@XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
 	private Map<String,String> attributes;
@@ -67,16 +67,16 @@ public class PersonInfo implements Serializable{
 	/**
 	 * @return the name
 	 */
-	public List<PersonName> getName() {
+	public List<PersonNameInfo> getName() {
 		if(name == null){
-			name  = new ArrayList<PersonName>();
+			name  = new ArrayList<PersonNameInfo>();
 		}
 		return name;
 	}
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(List<PersonName> name) {
+	public void setName(List<PersonNameInfo> name) {
 		this.name = name;
 	}
 	/**
@@ -106,28 +106,28 @@ public class PersonInfo implements Serializable{
 	/**
 	 * @return the referenceId
 	 */
-	public List<PersonReferenceId> getReferenceId() {
+	public List<PersonReferenceIdInfo> getReferenceId() {
 		if(referenceId == null){
-			referenceId  = new ArrayList<PersonReferenceId>();
+			referenceId  = new ArrayList<PersonReferenceIdInfo>();
 		}
 		return referenceId;
 	}
 	/**
 	 * @param referenceId the referenceId to set
 	 */
-	public void setReferenceId(List<PersonReferenceId> referenceId) {
+	public void setReferenceId(List<PersonReferenceIdInfo> referenceId) {
 		this.referenceId = referenceId;
 	}
 	/**
 	 * @return the citizenship
 	 */
-	public PersonCitizenship getCitizenship() {
+	public PersonCitizenshipInfo getCitizenship() {
 		return citizenship;
 	}
 	/**
 	 * @param citizenship the citizenship to set
 	 */
-	public void setCitizenship(PersonCitizenship citizenship) {
+	public void setCitizenship(PersonCitizenshipInfo citizenship) {
 		this.citizenship = citizenship;
 	}
 	/**

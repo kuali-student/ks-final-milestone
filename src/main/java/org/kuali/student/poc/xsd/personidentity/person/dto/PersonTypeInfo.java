@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PersonType implements Serializable {
+public class PersonTypeInfo implements Serializable {
 
 	private static final long serialVersionUID = -6856445154958629007L;
 
@@ -24,14 +24,14 @@ public class PersonType implements Serializable {
 	
 	@XmlElement(name = "set")
 	@XmlElementWrapper(name = "setList")
-	private List<AttributeSetDefinition> attributeSets;
+	private List<PersonAttributeSetTypeInfo> attributeSets;
 
 	/**
 	 * @return the attributeSets
 	 */
-	public List<AttributeSetDefinition> getAttributeSets() {
+	public List<PersonAttributeSetTypeInfo> getAttributeSets() {
 		if (attributeSets == null) {
-			attributeSets = new ArrayList<AttributeSetDefinition>();
+			attributeSets = new ArrayList<PersonAttributeSetTypeInfo>();
 		}
 		return attributeSets;
 	}

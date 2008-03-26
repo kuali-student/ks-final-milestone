@@ -3,7 +3,7 @@ package org.kuali.student.poc.xsd.personidentity.person.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PersonReferenceId implements Serializable{
+public class PersonReferenceIdInfo implements Serializable{
 
 	private static final long serialVersionUID = -5482092601569681413L;
 
