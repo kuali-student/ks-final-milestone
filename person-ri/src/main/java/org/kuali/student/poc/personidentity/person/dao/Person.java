@@ -38,7 +38,10 @@ public class Person {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Set<PersonReferenceId> personReferenceIds;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Set<PersonCitizenship> personCitizenships;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
 	private Set<PersonAttribute> attributes;
 
 	@ManyToMany
@@ -97,22 +100,6 @@ public class Person {
 		this.personTypes = personTypes;
 	}
 
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public Person getUpdatePerson() {
-		return updatePerson;
-	}
-
-	public void setUpdatePerson(Person updatePerson) {
-		this.updatePerson = updatePerson;
-	}
-
     public Set<PersonName> getPersonNames() {
         if (personNames == null) {
             personNames = new HashSet<PersonName>();
@@ -139,6 +126,20 @@ public class Person {
             personReferenceIds = new HashSet<PersonReferenceId>();
         }
         this.personReferenceIds = personReferenceIds;
+    }
+
+    public Set<PersonCitizenship> getPersonCitizenships() {
+        if (personCitizenships == null) {
+            personCitizenships = new HashSet<PersonCitizenship>();
+        }
+        return personCitizenships;
+    }
+
+    public void setPersonCitizenships(Set<PersonCitizenship> personCitizenships) {
+        if (personCitizenships == null) {
+            personCitizenships = new HashSet<PersonCitizenship>();
+        }
+        this.personCitizenships = personCitizenships;
     }
 
     

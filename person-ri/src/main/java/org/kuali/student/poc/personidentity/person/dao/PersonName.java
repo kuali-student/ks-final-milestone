@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "PersonName_T")
+@Table(name = "Person_Name_T")
 @TableGenerator(name = "idGen")
 public class PersonName {
 
