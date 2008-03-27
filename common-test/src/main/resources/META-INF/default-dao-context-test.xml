@@ -29,7 +29,7 @@
 		</property>
 	</bean>
 	
-	<import resource="classpath:*-mock-context.xml" />
+	<import resource="classpath:*-mock-dao-context.xml" />
 	
 	<bean id="systemPropertyConfigurer"
 		class="org.kuali.student.poc.common.util.SystemPropertyConfigurer">
@@ -107,11 +107,6 @@
 	<bean id="dao"
 		class="${ks.test.daoImplClass}"
 		autowire="byType">
-	</bean>
-
-	<bean id="service"
-		class="${ks.test.serviceImplClass}" autowire="byType">
-		<!-- <property name="manager" ref="dao" />-->
 	</bean>
 
 </beans>
