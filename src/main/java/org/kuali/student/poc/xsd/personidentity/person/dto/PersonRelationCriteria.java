@@ -1,5 +1,28 @@
 package org.kuali.student.poc.xsd.personidentity.person.dto;
 
-public class PersonRelationCriteria {
-	//TODO stub
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlElement;
+
+public class PersonRelationCriteria implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	//TODO Create real criteria
+	@XmlElement
+	private String criteria;
+
+	/**
+	 * @return the criteria
+	 */
+	public String getCriteria() {
+		return criteria;
+	}
+
+	/**
+	 * @param criteria the criteria to set
+	 */
+	public void setCriteria(String criteria) {
+		this.criteria = criteria;
+	}
 }

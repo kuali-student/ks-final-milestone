@@ -21,8 +21,6 @@ public class PersonUpdateInfo implements Serializable{
 
 	private static final long serialVersionUID = 2398792732220533518L;
 	
-	@XmlElement
-	private Long personId;
 	
 	@XmlElement
 	@XmlElementWrapper(name="names")
@@ -40,30 +38,14 @@ public class PersonUpdateInfo implements Serializable{
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
 	private Map<String,String> attributes;
 	
-	@XmlElement
-	private Date createTime;
-	@XmlElement
-	private String createUserId;
-	@XmlElement
-	private String createUserComment;
+
 	@XmlElement
 	private Date updateTime;
 	@XmlElement
 	private String updateUserId;
 	@XmlElement
 	private String updateUserComment;
-	/**
-	 * @return the personId
-	 */
-	public Long getPersonId() {
-		return personId;
-	}
-	/**
-	 * @param personId the personId to set
-	 */
-	public void setPersonId(Long personId) {
-		this.personId = personId;
-	}
+
 	/**
 	 * @return the name
 	 */
@@ -145,42 +127,7 @@ public class PersonUpdateInfo implements Serializable{
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
 	}
-	/**
-	 * @return the createTime
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
-	/**
-	 * @param createTime the createTime to set
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	/**
-	 * @return the createUserId
-	 */
-	public String getCreateUserId() {
-		return createUserId;
-	}
-	/**
-	 * @param createUserId the createUserId to set
-	 */
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-	/**
-	 * @return the createUserComment
-	 */
-	public String getCreateUserComment() {
-		return createUserComment;
-	}
-	/**
-	 * @param createUserComment the createUserComment to set
-	 */
-	public void setCreateUserComment(String createUserComment) {
-		this.createUserComment = createUserComment;
-	}
+
 	/**
 	 * @return the updateTime
 	 */

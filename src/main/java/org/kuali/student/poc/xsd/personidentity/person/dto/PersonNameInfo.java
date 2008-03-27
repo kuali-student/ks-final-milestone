@@ -3,27 +3,49 @@ package org.kuali.student.poc.xsd.personidentity.person.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PersonNameInfo implements Serializable{
-	//TODO add JAXB annotations
 	private static final long serialVersionUID = 4349244836575781985L;
-
+	
+	@XmlAttribute
 	private Long personId;
-
-	private String personTitle;
-	private String nonStandardName;
-	private String surname;
-	private String middleName;
-	private String givenName;
-	private String nameType;
-	private String suffix;
+	
+	@XmlAttribute
 	private boolean preferredName;
 
+	@XmlElement
+	private String personTitle;
+	@XmlElement
+	private String nonStandardName;
+	@XmlElement
+	private String surname;
+	@XmlElement
+	private String middleName;
+	@XmlElement
+	private String givenName;
+	@XmlElement
+	private String nameType;
+	@XmlElement
+	private String suffix;
+
+	@XmlElement
 	private Date effectiveStartDate;
+	@XmlElement
 	private Date effectiveEndDate;
 	
+	@XmlElement
 	private Date updateTime;
+	@XmlElement
 	private String updateUserId;
+	@XmlElement
 	private String updateUserComment;
+	
 	/**
 	 * @return the personId
 	 */

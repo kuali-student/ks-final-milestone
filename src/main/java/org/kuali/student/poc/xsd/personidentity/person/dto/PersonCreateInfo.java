@@ -43,12 +43,6 @@ public class PersonCreateInfo implements Serializable{
 	private String createUserId;
 	@XmlElement
 	private String createUserComment;
-	@XmlElement
-	private Date updateTime;
-	@XmlElement
-	private String updateUserId;
-	@XmlElement
-	private String updateUserComment;
 
 	/**
 	 * @return the name
@@ -167,42 +161,7 @@ public class PersonCreateInfo implements Serializable{
 	public void setCreateUserComment(String createUserComment) {
 		this.createUserComment = createUserComment;
 	}
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-	/**
-	 * @param updateTime the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-	/**
-	 * @return the updateUserId
-	 */
-	public String getUpdateUserId() {
-		return updateUserId;
-	}
-	/**
-	 * @param updateUserId the updateUserId to set
-	 */
-	public void setUpdateUserId(String updateUserId) {
-		this.updateUserId = updateUserId;
-	}
-	/**
-	 * @return the updateUserComment
-	 */
-	public String getUpdateUserComment() {
-		return updateUserComment;
-	}
-	/**
-	 * @param updateUserComment the updateUserComment to set
-	 */
-	public void setUpdateUserComment(String updateUserComment) {
-		this.updateUserComment = updateUserComment;
-	}
+
 	
 	
 	

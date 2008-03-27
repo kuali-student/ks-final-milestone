@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,7 +22,7 @@ public class PersonInfo implements Serializable{
 
 	private static final long serialVersionUID = 2398792732220533518L;
 	
-	@XmlElement
+	@XmlAttribute
 	private Long personId;
 	
 	@XmlElement
