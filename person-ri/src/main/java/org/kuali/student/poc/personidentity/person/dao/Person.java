@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -28,24 +29,14 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private Long id;
 
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
+	private PersonalInformation personalInformation;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
 	private Set<PersonName> personNames;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private Set<PersonReferenceId> personReferenceIds;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateOfBirth;
-
-	private char Gender;
-	private boolean confidential;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updateDate;
-
-	@ManyToOne
-	@JoinColumn(name = "update_person_id")
-	private Person updatePerson;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
 	private Set<PersonAttribute> attributes;
@@ -53,7 +44,7 @@ public class Person {
 	@ManyToMany
 	@JoinTable(name = "Person_PersonType_J", joinColumns = @JoinColumn(name = "Person_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "PersonType_ID", referencedColumnName = "ID"))
 	protected Set<PersonType> personTypes;
-
+  
 	public Person() {
 		id = null;
 		attributes = null;
@@ -75,7 +66,16 @@ public class Person {
 		this.id = id;
 	}
 
-	public Set<PersonAttribute> getAttributes() {
+	
+	public PersonalInformation getPersonalInformation() {
+        return personalInformation;
+    }
+
+    public void setPersonalInformation(PersonalInformation personalInformation) {
+        this.personalInformation = personalInformation;
+    }
+
+    public Set<PersonAttribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new HashSet<PersonAttribute>();
 		}
@@ -95,30 +95,6 @@ public class Person {
 
 	public void setPersonTypes(Set<PersonType> personTypes) {
 		this.personTypes = personTypes;
-	}
-
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public char getGender() {
-		return Gender;
-	}
-
-	public void setGender(char gender) {
-		Gender = gender;
-	}
-
-	public boolean isConfidential() {
-		return confidential;
-	}
-
-	public void setConfidential(boolean confidential) {
-		this.confidential = confidential;
 	}
 
 	public Date getUpdateDate() {
@@ -151,18 +127,18 @@ public class Person {
         this.personNames = personNames;
     }
 
-    public Set<PersonReferenceId> getPersonReferenceId() {
+    public Set<PersonReferenceId> getPersonReferenceIds() {
         if (personReferenceIds == null) {
             personReferenceIds = new HashSet<PersonReferenceId>();
         }
         return personReferenceIds;
     }
 
-    public void setPersonReferenceId(Set<PersonReferenceId> personReferenceId) {
+    public void setPersonReferenceIds(Set<PersonReferenceId> personReferenceIds) {
         if (personReferenceIds == null) {
             personReferenceIds = new HashSet<PersonReferenceId>();
         }
-        this.personReferenceId = personReferenceId;
+        this.personReferenceIds = personReferenceIds;
     }
 
     

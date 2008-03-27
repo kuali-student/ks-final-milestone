@@ -20,6 +20,7 @@ import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
 import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
+import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -246,8 +247,13 @@ public class TestPersonDAO{
 	public void testFetchPersonByType(){
 		//Create a person with two types, human and student
 		Person person = new Person();
-		person.setGender('M');
-		person.setDateOfBirth(new Date());
+		
+		PersonalInformation personalInfo = new PersonalInformation();
+		
+		personalInfo.setGender('M');
+		personalInfo.setDateOfBirth(new Date());
+		personalInfo.setPerson(person);
+		person.setPersonalInformation(personalInfo);
 		
 		PersonName personName = new PersonName("Joe", "Student");
 	    personName.setPerson(person);
