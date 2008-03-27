@@ -2,13 +2,17 @@ package org.kuali.student.poc.xsd.personidentity.person.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PersonRelationCriteria implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	//TODO Create real criteria
 	@XmlElement
 	private String criteria;
 
@@ -25,4 +29,7 @@ public class PersonRelationCriteria implements Serializable{
 	public void setCriteria(String criteria) {
 		this.criteria = criteria;
 	}
+
+
 }
+

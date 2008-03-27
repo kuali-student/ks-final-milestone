@@ -32,7 +32,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationUpdateI
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
-import org.springframework.validation.Errors;
+import org.kuali.student.poc.xsd.personidentity.person.dto.ValidationError;
 
 @WebService(name = "PersonService", targetNamespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -298,7 +298,7 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public Errors validatePersonInfoForPersonType(@WebParam(name = "personId")
+	public ValidationError validatePersonInfoForPersonType(@WebParam(name = "personId")
 	Long personId, @WebParam(name = "personTypeKey")
 	Long personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,

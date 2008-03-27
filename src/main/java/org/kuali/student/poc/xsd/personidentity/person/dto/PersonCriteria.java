@@ -13,7 +13,6 @@ public class PersonCriteria implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	//TODO Create real criteria
 	@XmlElement
 	private String criteria;
 
@@ -30,4 +29,6 @@ public class PersonCriteria implements Serializable{
 	public void setCriteria(String criteria) {
 		this.criteria = criteria;
 	}
+
+
 }
