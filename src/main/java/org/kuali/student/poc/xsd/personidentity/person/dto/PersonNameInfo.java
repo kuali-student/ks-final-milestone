@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PersonNameInfo implements Serializable{
-
+	//TODO add JAXB annotations
 	private static final long serialVersionUID = 4349244836575781985L;
 
 	private Long personId;

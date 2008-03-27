@@ -1,5 +1,5 @@
 package org.kuali.student.poc.xsd.personidentity.person.dto;
 
-public class PersonRelationDisplay {
-	//TODO stub
+public class PersonRelationUpdateInfo {
+	// TODO stub
 }

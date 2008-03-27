@@ -8,6 +8,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.wsdl.personidentity.exceptions.CircularReferenceException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.DisabledIdentifierException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.DoesNotExistException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.InvalidParameterException;
@@ -18,15 +19,19 @@ import org.kuali.student.poc.wsdl.personidentity.exceptions.ReadOnlyException;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationTypeDisplay;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationUpdateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
 import org.springframework.validation.Errors;
 
 @WebService(name = "PersonService", targetNamespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
@@ -535,29 +540,187 @@ public interface PersonService {
 			OperationFailedException, PermissionDeniedException;
 
 	// Maintenance /////////////////////////////////////////////////////////////
+	/**
+	 * Creates a person record
+	 * 
+	 * @param personCreateInfo
+	 *            type of person being created
+	 * @param personTypeKeys
+	 *            information required to create a person - may consist of name,
+	 *            source type, effective date, expiration date, etc.
+	 * @return identifier for the newly created person
+	 * @throws AlreadyExistsException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
 	@WebMethod
-	public long createPerson(@WebParam(name = "person")
-	PersonInfo person, @WebParam(name = "personTypes")
-	List<PersonTypeInfo> personTypes) throws AlreadyExistsException,
+	public long createPerson(@WebParam(name = "personCreateInfo")
+	PersonCreateInfo personCreateInfo, @WebParam(name = "personTypeKeys")
+	List<Long> personTypeKeys) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
+	/**
+	 * Updates a person record
+	 * 
+	 * @param personUpdateInfo
+	 *            information needed to update a person record
+	 * @param personId
+	 * @return status of the operation (success or failure)
+	 * @throws DoesNotExistException
+	 * @throws DisabledIdentifierException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws ReadOnlyException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
 	@WebMethod
-	public boolean updatePerson(@WebParam(name = "person")
-	PersonInfo person) throws DoesNotExistException,
+	public boolean updatePerson(@WebParam(name = "personId")
+	Long personId, @WebParam(name = "personUpdateInfo")
+	PersonUpdateInfo personUpdateInfo) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, ReadOnlyException,
 			OperationFailedException, PermissionDeniedException;
 
+	/**
+	 * Deletes a person record.
+	 * 
+	 * @param personId
+	 *            identifier for person to be deleted
+	 * @return status of the operation (success or failure)
+	 * @throws DoesNotExistException
+	 * @throws DisabledIdentifierException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
 	@WebMethod
 	public boolean deletePerson(@WebParam(name = "personId")
 	Long personId) throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
-	// assignPersonType
-	// removePersonType
+	/**
+	 * Assigns a personType to a person record
+	 * 
+	 * @param personId
+	 *            identifier for person having a personType assigned
+	 * @param personTypeKey
+	 *            type of person being assigned
+	 * @return status of the operation (success or failure) - Why have this,
+	 *         shouldn't it always succeed unless an exception is thrown, or is
+	 *         it needed of in-out messages?
+	 * @throws AlreadyExistsException
+	 * @throws DisabledIdentifierException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	@WebMethod
+	public boolean assignPersonType(@WebParam(name = "personId")
+	Long personId, @WebParam(name = "personTypeKey")
+	Long personTypeKey) throws AlreadyExistsException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
 
+	/**
+	 * Disassociates a personType from a person record
+	 * 
+	 * @param personId
+	 *            identifier for person having a personType removed
+	 * @param personTypeKey
+	 *            type of person being removed
+	 * @return status of the operation
+	 * @throws DoesNotExistException
+	 * @throws DisabledIdentifierException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	@WebMethod
+	public boolean removePersonType(@WebParam(name = "personId")
+	Long personId, @WebParam(name = "personTypeKey")
+	Long personTypeKey) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+	/**
+	 * Creates a person to person relationship
+	 * 
+	 * @param personId
+	 * @param relatedPersonId
+	 * @param personRelationTypeKey
+	 * @param personRelationCreateInfo
+	 * @return identifier for the newly created person relationship
+	 * @throws AlreadyExistsException
+	 * @throws DoesNotExistException
+	 * @throws CircularReferenceException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	@WebMethod
+	public Long createPersonRelation(@WebParam(name = "personId")
+	Long personId, @WebParam(name = "relatedPersonId")
+	Long relatedPersonId, @WebParam(name = "personRelationTypeKey")
+	Long personRelationTypeKey, @WebParam(name = "personRelationCreateInfo")
+	PersonRelationCreateInfo personRelationCreateInfo)
+			throws AlreadyExistsException, DoesNotExistException,
+			CircularReferenceException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+	/**
+	 * Updates a person to person relationship
+	 * 
+	 * @param personRelationId
+	 *            identifier for person relationship to be updated
+	 * @param personRelationUpdateInfo
+	 *            changed information about a person relationship
+	 * @return status of the operation (success or failure)
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws ReadOnlyException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	@WebMethod
+	public boolean updatePersonRelation(@WebParam(name = "personRelationId")
+	Long personRelationId, @WebParam(name = "personRelationUpdateInfo")
+	PersonRelationUpdateInfo personRelationUpdateInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, ReadOnlyException,
+			OperationFailedException, PermissionDeniedException;
+
+	/**
+	 * Deletes a person relationship.
+	 * 
+	 * @param personRelationId
+	 *            identifier for person relationship to be deleted
+	 * @return status of the operation (success or failure)
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	@WebMethod
+	public boolean deletePersonRelation(@WebParam(name = "personRelationId")
+	Long personRelationId) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException;
+
+	// Additional maintenance methods /////////////////////////
 	@WebMethod
 	public long createAttributeDefinition(
 			@WebParam(name = "attributeDefinition")
