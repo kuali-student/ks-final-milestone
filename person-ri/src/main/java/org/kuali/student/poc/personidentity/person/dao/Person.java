@@ -28,9 +28,11 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private Long id;
 
-	// these will move to their own entity
-	private String firstName;
-	private String lastName;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	private Set<PersonName> personNames;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private Set<PersonReferenceId> personReferenceIds;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateOfBirth;
@@ -56,12 +58,13 @@ public class Person {
 		id = null;
 		attributes = null;
 		personTypes = null;
+		personNames= null;
 	}
 
+	//This needs to be removed
 	public Person(String firstName, String lastName) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
+		
 	}
 
 	public Long getId() {
@@ -70,22 +73,6 @@ public class Person {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public Set<PersonAttribute> getAttributes() {
@@ -150,4 +137,33 @@ public class Person {
 		this.updatePerson = updatePerson;
 	}
 
+    public Set<PersonName> getPersonNames() {
+        if (personNames == null) {
+            personNames = new HashSet<PersonName>();
+        }
+        return personNames;
+    }
+
+    public void setPersonNames(Set<PersonName> personNames) {
+        if (personNames == null) {
+            personNames = new HashSet<PersonName>();
+        }
+        this.personNames = personNames;
+    }
+
+    public Set<PersonReferenceId> getPersonReferenceId() {
+        if (personReferenceIds == null) {
+            personReferenceIds = new HashSet<PersonReferenceId>();
+        }
+        return personReferenceIds;
+    }
+
+    public void setPersonReferenceId(Set<PersonReferenceId> personReferenceId) {
+        if (personReferenceIds == null) {
+            personReferenceIds = new HashSet<PersonReferenceId>();
+        }
+        this.personReferenceId = personReferenceId;
+    }
+
+    
 }

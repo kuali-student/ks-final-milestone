@@ -110,4 +110,17 @@ public class PersonDAOImpl implements PersonDAO {
 		return (Person) query.getSingleResult();
 	}
 
+    @Override
+    public PersonName createPersonName(PersonName personName) {
+        entityManager.persist(personName); 
+        return personName;
+    }
+
+    @Override
+    public boolean deletePersonName(PersonName personName) {
+        entityManager.remove(personName);
+        return true;
+    }
+
+	
 }

@@ -1,6 +1,8 @@
 package org.kuali.student.poc.personidentity.person.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
+import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,7 +27,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:META-INF/default-context-test.xml"})
+@ContextConfiguration(locations={"classpath:META-INF/default-dao-context-test.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager="JtaTxManager")
 public class TestPersonDAO{
@@ -42,8 +45,9 @@ public class TestPersonDAO{
 	private Long humanTypeId;
 	
 	@Before
-    public void onSetUpInTransaction() throws Exception {
-		PersonType studentType = new PersonType("student");
+    //public void onSetUpInTransaction() throws Exception {
+	public void setUp() throws Exception {
+	    PersonType studentType = new PersonType("student");
 		PersonAttributeSetType directorySetDef;
 		directorySetDef = new PersonAttributeSetType("directory", Boolean.FALSE);
 		PersonAttributeType personAttributeType;
@@ -72,8 +76,12 @@ public class TestPersonDAO{
 		
 		
 		PersonType personType = personDAO.fetchPersonType(studentTypeId);
-		Person person = new Person("Joe", "Student");
-		person.getPersonTypes().add(personType);
+		Person person = new Person();
+        person.getPersonTypes().add(personType);
+		
+		PersonName personName = new PersonName("Joe", "Student");
+		personName.setPerson(person);
+		person.getPersonNames().add(personName);
 		
 		//quick hack
 		int emailCount = 0;
@@ -152,9 +160,13 @@ public class TestPersonDAO{
 	@Test
 	public void testCreatePerson() {
 		PersonType personType = personDAO.fetchPersonType(studentTypeId);
-		Person person = new Person("Joe", "Student");
+		Person person = new Person();
 		person.getPersonTypes().add(personType);
 		
+        PersonName personName = new PersonName("Joe", "Student");
+        personName.setPerson(person);
+        person.getPersonNames().add(personName);
+
 		//quick hack
 		int emailCount = 0;
 		
@@ -234,10 +246,13 @@ public class TestPersonDAO{
 	public void testFetchPersonByType(){
 		//Create a person with two types, human and student
 		Person person = new Person();
-		person.setFirstName("Rick");
-		person.setLastName("Astley");
 		person.setGender('M');
 		person.setDateOfBirth(new Date());
+		
+		PersonName personName = new PersonName("Joe", "Student");
+	    personName.setPerson(person);
+        person.getPersonNames().add(personName);
+		
 		person.getPersonTypes().add(personDAO.fetchPersonType(humanTypeId));
 		person.getPersonTypes().add(personDAO.fetchPersonType(studentTypeId));
 		for(PersonType personType : person.getPersonTypes()) {

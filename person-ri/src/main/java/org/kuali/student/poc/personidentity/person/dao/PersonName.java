@@ -23,7 +23,7 @@ public class PersonName {
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "Person_ID", nullable = false)
+    @JoinColumn(name = "Person_ID",nullable = false)
     private Person person;
     
     private String title;
@@ -52,10 +52,9 @@ public class PersonName {
         id = null;
     }
 
-    public PersonName(String surname, String givenName, String nameType){
-        this.surname = surname;
+    public PersonName(String givenName, String surname){
         this.givenName = givenName;
-        this.nameType = nameType;     
+        this.surname = surname;   
     }
     
     public Long getId() {
