@@ -21,5 +21,6 @@ public interface PersonDAO {
 	public Person fetchPersonByType(Long personId, Long personTypeId);
 	public PersonName createPersonName(PersonName personName);
 	public boolean deletePersonName(PersonName personName);
+	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(List<Long> personTypeIds);
 
 }

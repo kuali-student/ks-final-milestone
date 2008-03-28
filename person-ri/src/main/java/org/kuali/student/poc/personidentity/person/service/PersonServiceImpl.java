@@ -1,10 +1,21 @@
 package org.kuali.student.poc.personidentity.person.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
 
+import org.kuali.student.poc.personidentity.person.dao.Person;
+import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
+import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
+import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
+import org.kuali.student.poc.personidentity.person.dao.PersonCitizenship;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
+import org.kuali.student.poc.personidentity.person.dao.PersonName;
+import org.kuali.student.poc.personidentity.person.dao.PersonType;
+import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.CircularReferenceException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.DisabledIdentifierException;
@@ -18,10 +29,12 @@ import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationDisplay;
@@ -367,10 +380,10 @@ public class PersonServiceImpl implements PersonService {
 		attributeDefinitionDTO.setName(personAttributeType.getName());
 		attributeDefinitionDTO.setType(AttributeDataTypeDTO.valueOf(personAttributeType.getType()));
 		return attributeDefinitionDTO;
-	}
+	}*/
 	
 	private PersonAttributeType toPersonAttributeType(
-			AttributeDefinitionDTO attributeDefinition, boolean update) {
+			PersonAttributeTypeInfo attributeDefinition, boolean update) {
 		PersonAttributeType personAttributeType = new PersonAttributeType();
 		if(update||isNullOrZero(attributeDefinition.getId())){
 			if(isNullOrZero(attributeDefinition.getId())){
@@ -384,54 +397,54 @@ public class PersonServiceImpl implements PersonService {
 		}
 		return personAttributeType;
 	}
-	
+
 	private PersonAttributeSetType toPersonAttributeSetType(
-			AttributeSetDTO attributeSetDTO, boolean update) {
+			PersonAttributeSetTypeInfo attributeSetType, boolean update) {
 		PersonAttributeSetType personAttributeSetType = new PersonAttributeSetType();
-		if(update||isNullOrZero(attributeSetDTO.getId())){
-			if(!isNullOrZero(attributeSetDTO.getId())){
-				personAttributeSetType.setId(attributeSetDTO.getId());
+		if(update||isNullOrZero(attributeSetType.getId())){
+			if(!isNullOrZero(attributeSetType.getId())){
+				personAttributeSetType.setId(attributeSetType.getId());
 			}
-			personAttributeSetType.setName(attributeSetDTO.getName());
-			personAttributeSetType.setPersonAttributeTypes(toPersonAttributeTypes(attributeSetDTO.getAttributeDefinitions(), false));
+			personAttributeSetType.setName(attributeSetType.getName());
+			personAttributeSetType.setPersonAttributeTypes(toPersonAttributeTypes(attributeSetType.getAttributeTypes(), false));
 		}else{
-			return personDAO.fetchPersonAttributeSetType(attributeSetDTO.getId());
+			return personDAO.fetchPersonAttributeSetType(attributeSetType.getId());
 		}
 		return personAttributeSetType;
 	}
 
 	private Set<PersonAttributeType> toPersonAttributeTypes(
-			List<AttributeDefinitionDTO> attributeDefinitions, boolean update) {
+			List<PersonAttributeTypeInfo> attributeTypes, boolean update) {
 		Set<PersonAttributeType> personAttributeTypes = new HashSet<PersonAttributeType>();
-		for(AttributeDefinitionDTO attributeDefinition:attributeDefinitions){
+		for(PersonAttributeTypeInfo attributeDefinition:attributeTypes){
 			personAttributeTypes.add(toPersonAttributeType(attributeDefinition, update));
 		}
 		return personAttributeTypes;
 	}
-
+	
 	private Set<PersonAttributeSetType> toPersonAttributeSetTypes(
-			List<AttributeSetDTO> attributeSets, boolean update) {
+			List<PersonAttributeSetTypeInfo> attributeSets, boolean update) {
 		Set<PersonAttributeSetType> personAttributeSetTypes = new HashSet<PersonAttributeSetType>();
-		for(AttributeSetDTO attributeSetDTO:attributeSets){
-			personAttributeSetTypes.add(toPersonAttributeSetType(attributeSetDTO, update));
+		for(PersonAttributeSetTypeInfo attributeSetType:attributeSets){
+			personAttributeSetTypes.add(toPersonAttributeSetType(attributeSetType, update));
 		}
 		return personAttributeSetTypes;
 	}
-	
-	private PersonType toPersonType(PersonTypeDTO personTypeDTO, boolean update) {
+
+	private PersonType toPersonType(PersonTypeInfo personTypeInfo, boolean update) {
 		PersonType personType = new PersonType();
-		if(update||isNullOrZero(personTypeDTO.getId())){
-			if(!isNullOrZero(personTypeDTO.getId())){
-				personType.setId(personTypeDTO.getId());
+		if(update||isNullOrZero(personTypeInfo.getId())){
+			if(!isNullOrZero(personTypeInfo.getId())){
+				personType.setId(personTypeInfo.getId());
 			}
-			personType.setName(personTypeDTO.getName());
-			personType.setPersonAttributeSetTypes(toPersonAttributeSetTypes(personTypeDTO.getAttributeSets(), false));
+			personType.setName(personTypeInfo.getName());
+			personType.setPersonAttributeSetTypes(toPersonAttributeSetTypes(personTypeInfo.getAttributeSets(), false));
 		}else{
-			return this.personDAO.fetchPersonType(personTypeDTO.getId());
+			return this.personDAO.fetchPersonType(personTypeInfo.getId());
 		}
 		return personType;
 	}
-
+/*
 	private PersonDTO toPersonDTO(Person person) {
 		PersonDTO personDTO = new PersonDTO();
 		
@@ -478,6 +491,8 @@ public class PersonServiceImpl implements PersonService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
+		
+		
 		throw new UnsupportedOperationException();
 	}
 
@@ -503,9 +518,82 @@ public class PersonServiceImpl implements PersonService {
 			List<Long> personTypeKeys) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		//create a JPA entity
+		Person person = new Person();
+		
+		// First look up the personTypes
+		Set<PersonType> personTypeSet = new HashSet<PersonType>();
+		Set<PersonAttributeType> attributeTypeSet = new HashSet<PersonAttributeType>();
 
+		//Find all the types we are adding to the person to be created
+		for(Long personTypeKey:personTypeKeys){	
+		
+			//Look up the person types
+			PersonType personType =  personDAO.fetchPersonType(personTypeKey);
+			
+			//Add them to the list of person types
+			personTypeSet.add(personType);
+			
+			//find all the attributes in the person type and add them to our set
+			for(PersonAttributeSetType personAttributeSetType:personType.getPersonAttributeSetTypes()){
+				for(PersonAttributeType personAttributeType:personAttributeSetType.getPersonAttributeTypes()){
+					attributeTypeSet.add(personAttributeType);
+				}
+			}
+		}
+		
+		//Add all the attribute types
+		person.getPersonTypes().addAll(personTypeSet);
+		
+		//Add all of the attributes that were in the personTypes and exist on the person
+		for(PersonAttributeType personAttributeType:attributeTypeSet){
+		
+			//Check that the person being passed in actually has this attribute
+			if(personCreateInfo.getAttribute(personAttributeType.getName())!=null){
+			
+				//Create a new attribute
+				PersonAttribute personAttribute = new PersonAttribute();
+				personAttribute.setPerson(person);
+				personAttribute.setPersonAttributeType(personAttributeType);
+				personAttribute.setValue(personCreateInfo.getAttribute(personAttributeType.getName()));
+				
+				//Add the attribute to the person
+				person.getAttributes().add(personAttribute);
+			}
+			
+		}
+
+		//Copy the standard person fields
+		PersonalInformation personalInformation = new PersonalInformation();
+		personalInformation.setGender(personCreateInfo.getGender());
+		personalInformation.setDateOfBirth(personCreateInfo.getBirthDate());
+		person.setPersonalInformation(personalInformation);
+		
+		PersonCitizenship citizenship = new PersonCitizenship();
+		PersonCitizenshipInfo citizenshipInfo = personCreateInfo.getCitizenship();
+		citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
+		citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
+		citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
+		Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
+		personCitizenship.add(citizenship);
+		person.setPersonCitizenships(personCitizenship);
+	
+		PersonName personName = new PersonName();
+		for(PersonNameInfo nameInfo : personCreateInfo.getName()){
+			personName.setEffectiveEndDate(nameInfo.getEffectiveEndDate());
+			personName.setEffectiveStartDate(nameInfo.getEffectiveStartDate());
+			personName.setGivenName(nameInfo.getGivenName());
+			personName.setMiddleNames(nameInfo.getMiddleName());
+			personName.setNameType(nameInfo.getNameType());
+			personName.setSuffix(nameInfo.getSuffix());
+			personName.setSurname(nameInfo.getSurname());
+			personName.setTitle(nameInfo.getPersonTitle());
+			person.getPersonNames().add(personName);
+		}
+		
+		//Create the person
+		Person created = personDAO.createPerson(person);
+		return created.getId();
 	}
 
 	/* (non-Javadoc)
@@ -539,19 +627,6 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonType(org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo)
-	 */
-	@Override
-	public long createPersonType(PersonTypeInfo personType)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonTypeInfo(org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo)
 	 */
 	@Override
@@ -560,7 +635,9 @@ public class PersonServiceImpl implements PersonService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		PersonType personType = toPersonType(personTypeInfo,false);
+		PersonType created = personDAO.createPersonType(personType);
+		return created.getId();
 
 	}
 
@@ -700,6 +777,7 @@ public class PersonServiceImpl implements PersonService {
 	public List<PersonTypeDisplay> findCreatablePersonTypes()
 			throws OperationFailedException {
 		// TODO Auto-generated method stub
+		
 		throw new UnsupportedOperationException();
 
 	}
@@ -786,9 +864,20 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public List<PersonTypeDisplay> findPersonTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		List<PersonTypeDisplay> personTypeInfoList = new ArrayList<PersonTypeDisplay>();
+		List<PersonType> personTypeList = personDAO.findPersonTypes("%");
+		for(PersonType personType : personTypeList)	{
+			personTypeInfoList.add(toPersonTypeDisplay(personType));
+		}
+		
+		return personTypeInfoList;
+	}
 
+	private PersonTypeDisplay toPersonTypeDisplay(PersonType personType) {
+		PersonTypeDisplay personTypeDisplay = new PersonTypeDisplay();
+		personTypeDisplay.setId(personType.getId());
+		personTypeDisplay.setName(personType.getName());
+		return personTypeDisplay;
 	}
 
 	/* (non-Javadoc)
