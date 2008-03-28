@@ -14,6 +14,7 @@ import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
 import org.kuali.student.poc.personidentity.person.dao.PersonCitizenship;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
 import org.kuali.student.poc.personidentity.person.dao.PersonName;
+import org.kuali.student.poc.personidentity.person.dao.PersonReferenceId;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
 import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
@@ -35,6 +36,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonReferenceIdInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationDisplay;
@@ -336,51 +338,51 @@ public class PersonServiceImpl implements PersonService {
 		
 		return toPersonDTO(person);
 	}
-
-	private PersonTypeDTO toPersonTypeDTO(PersonType personType){
-		PersonTypeDTO personTypeDTO = new PersonTypeDTO();
-		personTypeDTO.setId(personType.getId());
-		personTypeDTO.setName(personType.getName());
-		personTypeDTO.getAttributeSets().addAll(toAttributeSetDTO(personType.getPersonAttributeSetTypes()));
-		return personTypeDTO;
+*/
+	private PersonTypeInfo toPersonTypeInfo(PersonType personType){
+		PersonTypeInfo personTypeInfo = new PersonTypeInfo();
+		personTypeInfo.setId(personType.getId());
+		personTypeInfo.setName(personType.getName());
+		personTypeInfo.getAttributeSets().addAll(PersonAttributeSetTypeInfos(personType.getPersonAttributeSetTypes()));
+		return personTypeInfo;
 	}
 
-	private Set<AttributeSetDTO> toAttributeSetDTO(
+	private Set<PersonAttributeSetTypeInfo> PersonAttributeSetTypeInfos(
 			Set<PersonAttributeSetType> personAttributeSetTypes) {
-		Set<AttributeSetDTO> attributeSetDTO = new HashSet<AttributeSetDTO>(); 
+		Set<PersonAttributeSetTypeInfo> personAttributeSetTypeInfos = new HashSet<PersonAttributeSetTypeInfo>(); 
 		for(PersonAttributeSetType personAttributeSetType:personAttributeSetTypes){
-			attributeSetDTO.add(toAttributeSetDTO(personAttributeSetType));
+			personAttributeSetTypeInfos.add(toPersonAttributeSetTypeInfo(personAttributeSetType));
 		}
-		return attributeSetDTO;
+		return personAttributeSetTypeInfos;
 	}
 
-	private AttributeSetDTO toAttributeSetDTO(
+	private PersonAttributeSetTypeInfo toPersonAttributeSetTypeInfo(
 			PersonAttributeSetType personAttributeSetType) {
-		AttributeSetDTO attributeSetDTO = new AttributeSetDTO();
-		attributeSetDTO.setId(personAttributeSetType.getId());
-		attributeSetDTO.setName(personAttributeSetType.getName());
-		attributeSetDTO.getAttributeDefinitions().addAll(toAttributeDefinition(personAttributeSetType.getPersonAttributeTypes()));
-		return attributeSetDTO;
+		PersonAttributeSetTypeInfo personAttributeSetTypeInfo = new PersonAttributeSetTypeInfo();
+		personAttributeSetTypeInfo.setId(personAttributeSetType.getId());
+		personAttributeSetTypeInfo.setName(personAttributeSetType.getName());
+		personAttributeSetTypeInfo.getAttributeTypes().addAll(toPersonAttributeTypeInfos(personAttributeSetType.getPersonAttributeTypes()));
+		return personAttributeSetTypeInfo;
 	}
 
-	private Set<AttributeDefinitionDTO> toAttributeDefinition(
+	private Set<PersonAttributeTypeInfo> toPersonAttributeTypeInfos(
 			Set<PersonAttributeType> personAttributeTypes) {
-		Set<AttributeDefinitionDTO> attributeDefinitionDTO = new HashSet<AttributeDefinitionDTO>();
+		Set<PersonAttributeTypeInfo> personAttributeTypeInfos = new HashSet<PersonAttributeTypeInfo>();
 		for(PersonAttributeType personAttributeType:personAttributeTypes){
-			attributeDefinitionDTO.add(toAttributeDefinition(personAttributeType));
+			personAttributeTypeInfos.add(toPersonAttributeTypeInfo(personAttributeType));
 		}
-		return attributeDefinitionDTO;
+		return personAttributeTypeInfos;
 	}
-
-	private AttributeDefinitionDTO toAttributeDefinition(
+	
+	private PersonAttributeTypeInfo toPersonAttributeTypeInfo(
 			PersonAttributeType personAttributeType) {
-		AttributeDefinitionDTO attributeDefinitionDTO = new AttributeDefinitionDTO();
-		attributeDefinitionDTO.setId(personAttributeType.getId());
-		attributeDefinitionDTO.setLabel(personAttributeType.getDisplayLabel());
-		attributeDefinitionDTO.setName(personAttributeType.getName());
-		attributeDefinitionDTO.setType(AttributeDataTypeDTO.valueOf(personAttributeType.getType()));
-		return attributeDefinitionDTO;
-	}*/
+		PersonAttributeTypeInfo personAttributeTypeInfo = new PersonAttributeTypeInfo();
+		personAttributeTypeInfo.setId(personAttributeType.getId());
+		personAttributeTypeInfo.setLabel(personAttributeType.getDisplayLabel());
+		personAttributeTypeInfo.setName(personAttributeType.getName());
+		personAttributeTypeInfo.setType(personAttributeType.getType());
+		return personAttributeTypeInfo;
+	}
 	
 	private PersonAttributeType toPersonAttributeType(
 			PersonAttributeTypeInfo attributeDefinition, boolean update) {
@@ -444,32 +446,65 @@ public class PersonServiceImpl implements PersonService {
 		}
 		return personType;
 	}
-/*
-	private PersonDTO toPersonDTO(Person person) {
-		PersonDTO personDTO = new PersonDTO();
+
+	private PersonInfo toPersonInfo(Person person) {
+		PersonInfo personInfo = new PersonInfo();
 		
-		personDTO.setId(person.getId());
-		personDTO.setFirstName(person.getFirstName());
-		personDTO.setLastName(person.getLastName());
-		personDTO.setConfidential(person.isConfidential());
-		personDTO.setDob(person.getDateOfBirth());
-		personDTO.setGender(person.getGender());
-		
-		// call getAttributes just in case there are none to set.  it shouldn't be a problem
-		// but jaxb will throw null pointer exception if it's not done here
-		personDTO.getAttributes();
-		for(PersonAttribute attribute : person.getAttributes()) {
-			personDTO.setAttribute(attribute.getPersonAttributeType().getName(), attribute.getValue());
+		//Copy fields
+		personInfo.setPersonId(person.getId());
+		if(person.getPersonalInformation() != null){
+			personInfo.setBirthDate(person.getPersonalInformation().getDateOfBirth());
+			personInfo.setGender(person.getPersonalInformation().getGender());
 		}
 
-		List<PersonTypeInfoDTO> personTypeInfoList = personDTO.getPersonTypes();
-		for(PersonType personType : person.getPersonTypes()) {
-			personTypeInfoList.add(toPersonTypeInfoDTO(personType));
+		personInfo.getName();
+		for(PersonName personName : person.getPersonNames()){
+			PersonNameInfo personNameInfo = new PersonNameInfo();
+			personNameInfo.setEffectiveEndDate(personName.getEffectiveEndDate());
+			personNameInfo.setEffectiveStartDate(personName.getEffectiveStartDate());
+			personNameInfo.setGivenName(personName.getGivenName());
+			personNameInfo.setMiddleName(personName.getMiddleNames());
+			personNameInfo.setNameType(personName.getNameType());
+			personNameInfo.setSuffix(personName.getSuffix());
+			personNameInfo.setSurname(personName.getSurname());
+			personNameInfo.setPersonTitle(personName.getTitle());
+			personInfo.getName().add(personNameInfo);
 		}
 		
-		return personDTO;
+		for(PersonCitizenship personCitizenship:person.getPersonCitizenships()){
+			PersonCitizenshipInfo personCitizenshipInfo = new PersonCitizenshipInfo();
+			personCitizenshipInfo.setCountryOfCitizenshipCode(personCitizenship.getCountryOfCitizenship());
+			personCitizenshipInfo.setEffectiveEndDate(personCitizenship.getEffectiveEndDate());
+			personCitizenshipInfo.setEffectiveStartDate(personCitizenship.getEffectiveStartDate());
+			//personCitizenshipInfo.setPersonId(personCitizenship.getPerson().getId());
+			personCitizenshipInfo.setUpdateTime(personCitizenshipInfo.getUpdateTime());
+			personCitizenshipInfo.setUpdateUserComment(personCitizenshipInfo.getUpdateUserComment());
+			personCitizenshipInfo.setUpdateUserId(personCitizenshipInfo.getUpdateUserId());
+			//TODO - personInfo has only one citizenship while person (DAO) has a list
+			personInfo.setCitizenship(personCitizenshipInfo);
+		}
+
+		personInfo.getReferenceId();
+		for(PersonReferenceId personReferenceId:person.getPersonReferenceIds()){
+			PersonReferenceIdInfo personReferenceIdInfo = new PersonReferenceIdInfo();
+			personReferenceIdInfo.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
+			personReferenceIdInfo.setReferenceId(personReferenceIdInfo.getReferenceId());
+			personReferenceIdInfo.setRestrictedAccess(personReferenceId.isRestrictedAccess());
+			personReferenceIdInfo.setUpdateTime(personReferenceId.getUpdateTime());
+			personReferenceIdInfo.setUpdateUserComment(personReferenceId.getUpdateUserComment());
+			personReferenceIdInfo.setUpdateUserId(personReferenceId.getUpdateUserId());
+			personInfo.getReferenceId().add(personReferenceIdInfo);
+		}
+		
+		//Copy/convert attributes to map
+		personInfo.getAttributes();
+		for(PersonAttribute attribute : person.getAttributes()) {
+			personInfo.setAttribute(attribute.getPersonAttributeType().getName(), attribute.getValue());
+		}
+
+		return personInfo;
 	}
-	
+	/*
 	private PersonTypeInfoDTO toPersonTypeInfoDTO(PersonType personType) {
 		PersonTypeInfoDTO personTypeInfoDTO = new PersonTypeInfoDTO();
 		personTypeInfoDTO.setId(personType.getId());
@@ -567,19 +602,23 @@ public class PersonServiceImpl implements PersonService {
 		PersonalInformation personalInformation = new PersonalInformation();
 		personalInformation.setGender(personCreateInfo.getGender());
 		personalInformation.setDateOfBirth(personCreateInfo.getBirthDate());
+		personalInformation.setPerson(person);
 		person.setPersonalInformation(personalInformation);
 		
-		PersonCitizenship citizenship = new PersonCitizenship();
 		PersonCitizenshipInfo citizenshipInfo = personCreateInfo.getCitizenship();
-		citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
-		citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
-		citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
-		Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
-		personCitizenship.add(citizenship);
-		person.setPersonCitizenships(personCitizenship);
-	
-		PersonName personName = new PersonName();
+		if(citizenshipInfo!=null){
+			PersonCitizenship citizenship = new PersonCitizenship();
+			citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
+			citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
+			citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
+			citizenship.setPerson(person);
+			Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
+			personCitizenship.add(citizenship);
+			person.setPersonCitizenships(personCitizenship);
+		}	
+		
 		for(PersonNameInfo nameInfo : personCreateInfo.getName()){
+			PersonName personName = new PersonName();
 			personName.setEffectiveEndDate(nameInfo.getEffectiveEndDate());
 			personName.setEffectiveStartDate(nameInfo.getEffectiveStartDate());
 			personName.setGivenName(nameInfo.getGivenName());
@@ -588,7 +627,20 @@ public class PersonServiceImpl implements PersonService {
 			personName.setSuffix(nameInfo.getSuffix());
 			personName.setSurname(nameInfo.getSurname());
 			personName.setTitle(nameInfo.getPersonTitle());
+			personName.setPerson(person);
 			person.getPersonNames().add(personName);
+		}
+		
+		for(PersonReferenceIdInfo personReferenceIdInfo:personCreateInfo.getReferenceId()){
+			PersonReferenceId personReferenceId = new PersonReferenceId();
+			personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
+			personReferenceId.setReferenceId(personReferenceIdInfo.getReferenceId());
+			personReferenceId.setRestrictedAccess(personReferenceIdInfo.isRestrictedAccess());
+			personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
+			personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
+			personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
+			personReferenceId.setPerson(person);
+			person.getPersonReferenceIds().add(personReferenceId);
 		}
 		
 		//Create the person
@@ -675,9 +727,8 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		Person person = personDAO.lookupPerson(personId);
+		return toPersonInfo(person);
 	}
 
 	/* (non-Javadoc)
@@ -752,10 +803,10 @@ public class PersonServiceImpl implements PersonService {
 	public PersonTypeInfo fetchPersonType(Long personTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		return this.toPersonTypeInfo(personDAO.fetchPersonType(personTypeKey));
 	}
+
+
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchReplacementPersonId(java.lang.Long)
@@ -776,9 +827,7 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public List<PersonTypeDisplay> findCreatablePersonTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		
-		throw new UnsupportedOperationException();
+		return findPersonTypes();
 
 	}
 

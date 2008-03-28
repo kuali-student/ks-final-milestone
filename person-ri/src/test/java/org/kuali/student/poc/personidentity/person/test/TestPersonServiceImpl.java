@@ -2,7 +2,11 @@ package org.kuali.student.poc.personidentity.person.test;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -17,6 +21,9 @@ import org.kuali.student.poc.wsdl.personidentity.exceptions.PermissionDeniedExce
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,48 +61,54 @@ public class TestPersonServiceImpl {
 		Long personTypeId = client.createPersonTypeInfo(personType1);
 		
 		//Now find all the types
-		List<PersonTypeDisplay> personTypes = client.findPersonTypes();
+		PersonTypeInfo personTypeInfo = client.fetchPersonType(personTypeId);
 
 		//Validate results
-		assertEquals(1,personTypes.size());
-		assertEquals("PersonType1",personTypes.get(0).getName());
-		assertEquals(personTypeId,personTypes.get(0).getId());
-		
+		assertEquals("PersonType1",personTypeInfo.getName());
+		assertEquals(personTypeId,personTypeInfo.getId());
 		
 	}
 	
-	/*@Test
+	@Test
 	public void testCreatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException{
+		PersonAttributeTypeInfo attributeType3 = new PersonAttributeTypeInfo();
+		attributeType3.setLabel("Attribute 3 Label");
+		attributeType3.setName("Attr3");
+		attributeType3.setType("STRING");
 		
-		List<PersonTypeDTO> personTypes = client.findCreatablePersonTypes();
-		PersonTypeDTO personType = null;
-		for(PersonTypeDTO type : personTypes) {
-			if(type.getName().equals("PersonType1")) {
-				personType = type;
-			}
-		}
-		assertNotNull(personType);
+		PersonAttributeSetTypeInfo attributeSet2 = new PersonAttributeSetTypeInfo();
+		attributeSet2.setName("AttrSet2");
+		attributeSet2.getAttributeTypes().add(attributeType3);
 		
-		PersonDTO person = new PersonDTO();
-		person.setConfidential(false);
-		person.setDob(new Date());
-		person.setFirstName("Eric");
-		person.setLastName("Clapton");
+		PersonTypeInfo personType2 = new PersonTypeInfo();
+		personType2.setName("PersonType2");
+		personType2.getAttributeSets().add(attributeSet2);
+		
+		Long personTypeId = client.createPersonTypeInfo(personType2);
+
+		assertNotNull(personTypeId);
+		
+		PersonCreateInfo person = new PersonCreateInfo();
+		person.setBirthDate(new Date());
 		person.setGender('M');
 		person.setAttribute("Attr1", "123-23-3456");
 		
-		List<PersonTypeInfoDTO> personTypeInfoList = new ArrayList<PersonTypeInfoDTO>();
-		personTypeInfoList.add(personType);
+		PersonNameInfo name = new PersonNameInfo();
+		name.setGivenName("Harold Horkins");
+		person.getName().add(name);
+		
+		List<Long> personTypeInfoList = new ArrayList<Long>();
+		personTypeInfoList.add(personTypeId);
 		
 		long resultId = client.createPerson(person, personTypeInfoList);
 		
-		PersonDTO result = client.fetchFullPersonInfo(resultId);
+		PersonInfo result = client.fetchFullPersonInfo(resultId);
 		
-		assertEquals(result.getFirstName(), person.getFirstName());
-		assertEquals(result.getAttribute("Attr1"), person.getAttribute("Attr1"));
+		assertEquals(result.getName().get(0).getGivenName(), person.getName().get(0).getGivenName());
+		assertEquals(result.getAttribute("Attr3"), person.getAttribute("Attr3"));
 		
 		// TODO test invalid (or unrelated) personTypes and attributeTypes
-	}*/
+	}
 	
 	/*
 	@Test(expected=AlreadyExistsException.class)
