@@ -970,9 +970,15 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
 
+	    Person person = personDAO.lookupPerson(personId);
+	    Set<PersonType> personTypeSet = person.getPersonTypes();
+	    List<Long> personTypeIdList = new ArrayList<Long>();
+	    for (PersonType personType:personTypeSet){
+	        personTypeIdList.add(personType.getId());
+	    }
+	        
+	    return personTypeIdList;
 	}
 
 	/* (non-Javadoc)
@@ -983,9 +989,10 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
 
+	    Person person = personDAO.lookupPerson(personId);
+
+	    return person.getPersonTypes().contains(personTypeKey);
 	}
 
 	/* (non-Javadoc)
