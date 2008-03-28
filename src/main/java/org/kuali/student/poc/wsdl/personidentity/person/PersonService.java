@@ -730,12 +730,6 @@ public interface PersonService {
 			PermissionDeniedException;
 
 	@WebMethod
-	public long createPersonType(@WebParam(name = "personType")
-	PersonTypeInfo personType) throws AlreadyExistsException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException;
-
-	@WebMethod
 	public long createPersonTypeInfo(@WebParam(name = "personTypeInfo")
 	PersonTypeInfo personTypeInfo) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
