@@ -17,8 +17,8 @@ public class PersonAttributeSetTypeInfo implements Serializable{
 	private Long id;
 	@XmlAttribute
 	private String name;
-	@XmlElement(name="attributeDefinition")
-	List<PersonAttributeTypeInfo> attributeTypes;
+	@XmlElement(name="attributeTypes")
+	private List<PersonAttributeTypeInfo> attributeTypes;
 
 	/**
 	 * @return the id
@@ -53,7 +53,7 @@ public class PersonAttributeSetTypeInfo implements Serializable{
 	/**
 	 * @return the attributeDefinitions
 	 */
-	public List<PersonAttributeTypeInfo> getAttributeDefinitions() {
+	public List<PersonAttributeTypeInfo> getAttributeTypes() {
 		if (attributeTypes == null) {
 			attributeTypes = new ArrayList<PersonAttributeTypeInfo>();
 		}

@@ -161,8 +161,14 @@ public class PersonCreateInfo implements Serializable{
 	public void setCreateUserComment(String createUserComment) {
 		this.createUserComment = createUserComment;
 	}
-
 	
+	public String getAttribute(String attributeName) {
+		return this.getAttributes().get(attributeName);
+	}
+
+	public void setAttribute(String attributeName, String value) {
+		this.getAttributes().put(attributeName, value);
+	}
 	
 	
 }

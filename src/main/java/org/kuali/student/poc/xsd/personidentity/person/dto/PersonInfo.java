@@ -219,6 +219,13 @@ public class PersonInfo implements Serializable{
 		this.updateUserComment = updateUserComment;
 	}
 	
+	public String getAttribute(String attributeName) {
+		return this.getAttributes().get(attributeName);
+	}
+
+	public void setAttribute(String attributeName, String value) {
+		this.getAttributes().put(attributeName, value);
+	}
 	
 	
 }
