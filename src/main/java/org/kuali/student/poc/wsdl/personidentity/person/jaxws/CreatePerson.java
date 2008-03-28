@@ -23,7 +23,7 @@ public class CreatePerson {
     @XmlElement(name = "personCreateInfo")
     private org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo personCreateInfo;
     @XmlElement(name = "personTypeKeys")
-    private java.util.List personTypeKeys;
+    private java.util.List<Long> personTypeKeys;
 
     public org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo getPersonCreateInfo() {
         return this.personCreateInfo;
@@ -33,11 +33,11 @@ public class CreatePerson {
         this.personCreateInfo = newPersonCreateInfo;
     }
     
-    public java.util.List getPersonTypeKeys() {
+    public java.util.List<Long> getPersonTypeKeys() {
         return this.personTypeKeys;
     }
     
-    public void setPersonTypeKeys( java.util.List newPersonTypeKeys ) {
+    public void setPersonTypeKeys( java.util.List<Long> newPersonTypeKeys ) {
         this.personTypeKeys = newPersonTypeKeys;
     }
     

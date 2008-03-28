@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 public class FindPersonIdsForPersonTypeResponse {
 
     @XmlElement(name = "return")
-    private java.util.List _return;
+    private java.util.List<Long> _return;
 
-    public java.util.List get_return() {
+    public java.util.List<Long> get_return() {
         return this._return;
     }
     
-    public void set_return( java.util.List new_return ) {
+    public void set_return( java.util.List<Long> new_return ) {
         this._return = new_return;
     }
     

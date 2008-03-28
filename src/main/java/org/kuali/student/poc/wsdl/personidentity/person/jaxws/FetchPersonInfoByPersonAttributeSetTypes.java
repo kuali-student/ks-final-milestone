@@ -23,7 +23,7 @@ public class FetchPersonInfoByPersonAttributeSetTypes {
     @XmlElement(name = "personId")
     private java.lang.Long personId;
     @XmlElement(name = "personAttributeSetTypeKeyList")
-    private java.util.List personAttributeSetTypeKeyList;
+    private java.util.List<Long> personAttributeSetTypeKeyList;
 
     public java.lang.Long getPersonId() {
         return this.personId;
@@ -33,11 +33,11 @@ public class FetchPersonInfoByPersonAttributeSetTypes {
         this.personId = newPersonId;
     }
     
-    public java.util.List getPersonAttributeSetTypeKeyList() {
+    public java.util.List<Long> getPersonAttributeSetTypeKeyList() {
         return this.personAttributeSetTypeKeyList;
     }
     
-    public void setPersonAttributeSetTypeKeyList( java.util.List newPersonAttributeSetTypeKeyList ) {
+    public void setPersonAttributeSetTypeKeyList( java.util.List<Long> newPersonAttributeSetTypeKeyList ) {
         this.personAttributeSetTypeKeyList = newPersonAttributeSetTypeKeyList;
     }
     
