@@ -837,10 +837,24 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
 
+        List<PersonAttributeSetTypeDisplay> personAttrSetTypeDispList = 
+               new ArrayList<PersonAttributeSetTypeDisplay>();
+        List<PersonAttributeSetType> personAttrSetTypeList = personDAO.findPersonAttributeSetTypes("%");
+        for(PersonAttributeSetType personAttrSetType : personAttrSetTypeList) {
+            personAttrSetTypeDispList.add(toPersonAttributeSetTypeDisplay(personAttrSetType));
+        }
+        
+        return personAttrSetTypeDispList;
 	}
+	
+    private PersonAttributeSetTypeDisplay toPersonAttributeSetTypeDisplay(PersonAttributeSetType personAttrSetType) {
+        PersonAttributeSetTypeDisplay personAttrSetTypeDisp = new PersonAttributeSetTypeDisplay();
+        personAttrSetTypeDisp.setId(personAttrSetType.getId());
+        personAttrSetTypeDisp.setName(personAttrSetType.getName());
+        return personAttrSetTypeDisp;
+    }
+	
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPerson(java.lang.Long)
@@ -850,9 +864,20 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
 
+	    Set<Long> personAttrSetTypeIds = new HashSet<Long>();
+	    
+        Person person = personDAO.lookupPerson(personId);
+        
+        Set<PersonType> personTypes = person.getPersonTypes();
+        for (PersonType personType : personTypes){
+            Set<PersonAttributeSetType>  personAttrSetTypes = personType.getPersonAttributeSetTypes();
+            for(PersonAttributeSetType personAttrSetType : personAttrSetTypes) {
+                personAttrSetTypeIds.add(personAttrSetType.getId());
+            }
+        }
+
+        return (new ArrayList<Long>(personAttrSetTypeIds));
 	}
 
 	/* (non-Javadoc)
@@ -863,9 +888,17 @@ public class PersonServiceImpl implements PersonService {
 			Long personTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
 
+	    PersonType personType = personDAO.fetchPersonType(personTypeKey);
+	    Set<PersonAttributeSetType> personAttrSetTypeSet = personType.getPersonAttributeSetTypes();
+	    
+	    List<PersonAttributeSetTypeDisplay> personAttrSetTypeDispList = 
+	        new ArrayList<PersonAttributeSetTypeDisplay>();
+	    for (PersonAttributeSetType personAttrSetType : personAttrSetTypeSet){
+	        personAttrSetTypeDispList.add(toPersonAttributeSetTypeDisplay(personAttrSetType)); 
+	    }
+	    
+	    return personAttrSetTypeDispList;
 	}
 
 	/* (non-Javadoc)

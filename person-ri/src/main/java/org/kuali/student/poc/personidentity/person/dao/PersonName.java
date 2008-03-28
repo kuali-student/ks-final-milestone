@@ -57,12 +57,20 @@ public class PersonName {
         this.surname = surname;   
     }
     
+    /**
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
+    
+    /**
+     * @param id 
+     */
     public void setId(Long id) {
         this.id = id;
     }
+    
     public Person getPerson() {
         return person;
     }

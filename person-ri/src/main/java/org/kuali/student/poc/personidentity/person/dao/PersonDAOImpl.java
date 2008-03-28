@@ -66,6 +66,15 @@ public class PersonDAOImpl implements PersonDAO {
 		return entityManager.find(Person.class, id);
 	}
 
+	
+	@Override
+	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch){
+	    Query query = entityManager.createNamedQuery("PersonAttributeSetType.findByName");
+	    query.setParameter("nameMatch", nameMatch);
+	    List<PersonAttributeSetType> personAttributeSetTypes = query.getResultList();
+	    return personAttributeSetTypes;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PersonType> findPersonTypes(String nameMatch) {

@@ -13,12 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 @Entity
 @Table(name = "Person_Attribute_Set_Type_T")
 @TableGenerator(name = "idGen")
+@NamedQueries(
+        {@NamedQuery( name = "PersonAttributeSetType.findByName",
+                query = "SELECT t FROM Person_Attribute_Set_Type_T t WHERE t.name LIKE :nameMatch")}
+)
 public class PersonAttributeSetType {
 
 	@Id

@@ -9,6 +9,7 @@ public interface PersonDAO {
 	public PersonAttributeType createPersonAttributeType(PersonAttributeType personAttributeType);
 	public PersonType createPersonType(PersonType personType);
 	public PersonType fetchPersonType(Long id);
+	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch);
 	public List<PersonType> findPersonTypes(String nameMatch);
 	public PersonType updatePersonType(PersonType personType);
 	public PersonAttributeSetType createPersonAttributeSetType(PersonAttributeSetType personAttributeSetType);
