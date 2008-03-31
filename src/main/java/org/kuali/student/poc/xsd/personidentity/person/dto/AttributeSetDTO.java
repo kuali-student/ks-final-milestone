@@ -1,6 +1,5 @@
 package org.kuali.student.poc.xsd.personidentity.person.dto;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +8,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PersonAttributeSetTypeInfo implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-
+public class AttributeSetDTO {
 	@XmlAttribute
-	private Long id;
+	Long id;
 	@XmlAttribute
-	private String name;
-	@XmlElement(name="attributeTypes")
-	private List<PersonAttributeTypeInfo> attributeTypes;
+	String name;
+	@XmlElement(name="attributeDefinition")
+	List<AttributeDefinitionDTO> attributeDefinitions;
 
 	/**
 	 * @return the id
@@ -53,11 +49,11 @@ public class PersonAttributeSetTypeInfo implements Serializable{
 	/**
 	 * @return the attributeDefinitions
 	 */
-	public List<PersonAttributeTypeInfo> getAttributeTypes() {
-		if (attributeTypes == null) {
-			attributeTypes = new ArrayList<PersonAttributeTypeInfo>();
+	public List<AttributeDefinitionDTO> getAttributeDefinitions() {
+		if (attributeDefinitions == null) {
+			attributeDefinitions = new ArrayList<AttributeDefinitionDTO>();
 		}
-		return attributeTypes;
+		return attributeDefinitions;
 	}
 
 }

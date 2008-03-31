@@ -1,22 +1,30 @@
 package org.kuali.student.poc.xsd.personidentity.person.dto;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PersonTypeDisplay implements Serializable {
-
-	private static final long serialVersionUID = -6856445154958629007L;
-
-	@XmlAttribute
+public class PersonTypeInfoDTO {
+    @XmlAttribute
     private Long id;
     @XmlAttribute
     private String name;
+	/**
+	 * 
+	 */
+	public PersonTypeInfoDTO() {
+		super();
+	}
+	/**
+	 * @param id
+	 * @param name
+	 */
+	public PersonTypeInfoDTO(long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 	/**
 	 * @return the id
 	 */

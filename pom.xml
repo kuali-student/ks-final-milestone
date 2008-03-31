@@ -2,16 +2,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-api</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-alpha</version>
 	<description />
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-api-pom</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.1-alpha</version>
 	</parent>
 
 	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/KualiStudent/poc/personidentity/personidentity-api/branches/personidentity-api-dev</developerConnection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/tags/personidentity-api-0.0.1-alpha</developerConnection>
 	</scm>
 	<build>
    <plugins>
