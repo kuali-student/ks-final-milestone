@@ -22,8 +22,8 @@ import javax.persistence.TableGenerator;
 @Table(name = "Person_Attribute_Set_Type_T")
 @TableGenerator(name = "idGen")
 @NamedQueries(
-        {@NamedQuery( name = "PersonAttributeSetType.findByName",
-                query = "SELECT t FROM Person_Attribute_Set_Type_T t WHERE t.name LIKE :nameMatch")}
+        {@NamedQuery( name = "findByName",
+                query = "SELECT t FROM PersonAttributeSetType t WHERE t.name LIKE :nameMatch")}
 )
 public class PersonAttributeSetType {
 
