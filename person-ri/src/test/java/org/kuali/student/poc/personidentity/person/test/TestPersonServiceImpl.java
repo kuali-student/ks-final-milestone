@@ -121,9 +121,9 @@ public class TestPersonServiceImpl {
 			OperationFailedException, PermissionDeniedException,
 			DisabledIdentifierException, DoesNotExistException {
 		//FIXME
-		if(true){
-			return;
-		}
+//		if(true){
+//			return;
+//		}
 		
 		PersonAttributeTypeInfo attributeType4 = new PersonAttributeTypeInfo();
 		attributeType4.setLabel("Attribute 4 Label");
@@ -141,9 +141,9 @@ public class TestPersonServiceImpl {
 		Long personType3Id = client.createPersonTypeInfo(personType3);
 
 		PersonAttributeTypeInfo attributeType5 = new PersonAttributeTypeInfo();
-		attributeType4.setLabel("Attribute 5 Label");
-		attributeType4.setName("Attr5");
-		attributeType4.setType("STRING");
+		attributeType5.setLabel("Attribute 5 Label");
+		attributeType5.setName("Attr5");
+		attributeType5.setType("STRING");
 
 		PersonAttributeSetTypeInfo attributeSet4 = new PersonAttributeSetTypeInfo();
 		attributeSet4.setName("AttrSet4");
