@@ -67,6 +67,7 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch){
 	    Query query = entityManager.createNamedQuery("PersonAttributeSetType.findByName");
@@ -114,16 +115,6 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 
 	@Override
-	public Person fetchPersonByType(Long personId, Long personTypeId) {
-		// TODO need to do @EntityResult to really filter
-		Query query = entityManager
-				.createQuery("SELECT person FROM Person person, IN(person.personTypes) personType WHERE person.id = :personId AND personType.id = :personTypeId");
-		query.setParameter("personId", personId);
-		query.setParameter("personTypeId", personTypeId);
-		return (Person) query.getSingleResult();
-	}
-
-	@Override
 	public PersonName createPersonName(PersonName personName) {
 		entityManager.persist(personName);
 		return personName;
@@ -148,6 +139,38 @@ public class PersonDAOImpl implements PersonDAO {
 			}
 		}
 		return new ArrayList<PersonAttributeType>(personAttributeTypes);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<PersonAttribute> fetchAttributesByPersonAttributeSetType(
+			Long personId, List<Long> personAttributeSetTypeKeyList) {
+		Set<PersonAttribute> attributeSet = new HashSet<PersonAttribute>(); 
+		for(Long personAttributeSetTypeKey:personAttributeSetTypeKeyList){
+			Query q = entityManager.createQuery("SELECT attributes FROM PersonAttribute attributes " +
+					"JOIN attributes.person per " +
+					"JOIN attributes.personAttributeType pat, " +
+					"IN(pat.personAttributeSetTypes) past " +
+					"WHERE per.id=:personId and past.id=:personAttributeSetTypeKey ");
+					q.setParameter("personId", personId);
+					q.setParameter("personAttributeSetTypeKey", personAttributeSetTypeKey);
+			attributeSet.addAll(q.getResultList());
+		}
+		return attributeSet;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<PersonAttribute> fetchAttributesByPersonType(Long personId,
+			Long personTypeKey) {
+		Query q = entityManager.createQuery("SELECT attributes FROM PersonAttribute attributes " +
+				"JOIN attributes.person per " +
+				"JOIN attributes.personAttributeType pat, " +
+				"IN(pat.personAttributeSetTypes) past, IN(past.personTypes) pt " +
+				"WHERE per.id=:personId and pt.id=:personTypeKey ");
+				q.setParameter("personId", personId);
+				q.setParameter("personTypeKey", personTypeKey);
+		return new HashSet<PersonAttribute>(q.getResultList());
 	}
 
 }

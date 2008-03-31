@@ -687,7 +687,6 @@ public class PersonServiceImpl implements PersonService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		PersonType personType = toPersonType(personTypeInfo,false);
 		PersonType created = personDAO.createPersonType(personType);
 		return created.getId();
@@ -739,9 +738,8 @@ public class PersonServiceImpl implements PersonService {
 			Long personAttributeSetTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		PersonAttributeSetType personAttributeSetType = personDAO.fetchPersonAttributeSetType(personAttributeSetTypeKey);
+		return toPersonAttributeSetTypeInfo(personAttributeSetType);
 	}
 
 	/* (non-Javadoc)
@@ -753,9 +751,10 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		Person person = personDAO.lookupPerson(personId);
+		Set<PersonAttribute> filteredAttributes = personDAO.fetchAttributesByPersonAttributeSetType(personId, personAttributeSetTypeKeyList);
+		person.setAttributes(filteredAttributes);
+		return toPersonInfo(person);
 	}
 
 	/* (non-Javadoc)
@@ -767,9 +766,10 @@ public class PersonServiceImpl implements PersonService {
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		Person person = personDAO.lookupPerson(personId);
+		Set<PersonAttribute> filteredAttributes = personDAO.fetchAttributesByPersonType(personId, personTypeKey);
+		person.setAttributes(filteredAttributes);
+		return toPersonInfo(person);
 	}
 
 	/* (non-Javadoc)

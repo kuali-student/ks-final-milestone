@@ -1,6 +1,7 @@
 package org.kuali.student.poc.personidentity.person.dao;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PersonDAO {
 
@@ -19,9 +20,12 @@ public interface PersonDAO {
 	public boolean deletePerson(Person person);
 	public PersonAttributeSetType fetchPersonAttributeSetType(Long id);
 	public PersonAttributeType fetchPersonAttributeType(Long id);
-	public Person fetchPersonByType(Long personId, Long personTypeId);
 	public PersonName createPersonName(PersonName personName);
 	public boolean deletePersonName(PersonName personName);
 	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(List<Long> personTypeIds);
+	public Set<PersonAttribute> fetchAttributesByPersonAttributeSetType(
+			Long personId, List<Long> personAttributeSetTypeKeyList);
+	public Set<PersonAttribute> fetchAttributesByPersonType(Long personId,
+			Long personTypeKey);
 
 }

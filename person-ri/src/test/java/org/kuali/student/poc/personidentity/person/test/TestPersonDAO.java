@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -283,11 +284,10 @@ public class TestPersonDAO{
 		long createdId = personDAO.createPerson(person).getId();
 		
 		//fetch just one of those types
-		Person foundPerson = personDAO.fetchPersonByType(createdId, humanTypeId);
+		Set<PersonAttribute> attributes = personDAO.fetchAttributesByPersonType(createdId, humanTypeId);
 		
 		//ThHis is not filtered yet
-		assertEquals(6,foundPerson.getAttributes().size());
-		//assertEquals(3,foundPerson.getAttributes().size());
+		assertEquals(3,attributes.size());
 	}
 	
 }
