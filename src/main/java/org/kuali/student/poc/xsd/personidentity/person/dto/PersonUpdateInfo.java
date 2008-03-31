@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,6 +22,8 @@ public class PersonUpdateInfo implements Serializable{
 
 	private static final long serialVersionUID = 2398792732220533518L;
 	
+    @XmlAttribute
+    private Long personId;
 	
 	@XmlElement
 	@XmlElementWrapper(name="names")
@@ -46,6 +49,20 @@ public class PersonUpdateInfo implements Serializable{
 	@XmlElement
 	private String updateUserComment;
 
+
+    /**
+     * @return the personId
+     */
+    public Long getPersonId() {
+        return personId;
+    }
+    /**
+     * @param personId the personId to set
+     */
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+	
 	/**
 	 * @return the name
 	 */
@@ -165,6 +182,12 @@ public class PersonUpdateInfo implements Serializable{
 		this.updateUserComment = updateUserComment;
 	}
 	
-	
+   public String getAttribute(String attributeName) {
+        return this.getAttributes().get(attributeName);
+    }
+
+    public void setAttribute(String attributeName, String value) {
+        this.getAttributes().put(attributeName, value);
+    }
 	
 }
