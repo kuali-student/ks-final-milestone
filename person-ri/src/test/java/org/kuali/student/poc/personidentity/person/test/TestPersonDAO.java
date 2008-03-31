@@ -245,7 +245,7 @@ public class TestPersonDAO{
 	}
 	
 	@Test
-	public void testFetchPersonByType(){
+	public void testFetchAttributesByPersonType(){
 		//Create a person with two types, human and student
 		Person person = new Person();
 		
@@ -287,6 +287,7 @@ public class TestPersonDAO{
 		Set<PersonAttribute> attributes = personDAO.fetchAttributesByPersonType(createdId, humanTypeId);
 		
 		//ThHis is not filtered yet
+		assertEquals(6,person.getAttributes().size());
 		assertEquals(3,attributes.size());
 	}
 	
