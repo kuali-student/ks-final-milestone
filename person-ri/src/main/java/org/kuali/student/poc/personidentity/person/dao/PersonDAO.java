@@ -9,7 +9,6 @@ public interface PersonDAO {
 	public PersonAttributeType createPersonAttributeType(PersonAttributeType personAttributeType);
 	public PersonType createPersonType(PersonType personType);
 	public PersonType fetchPersonType(Long id);
-	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch);
 	public List<PersonType> findPersonTypes(String nameMatch);
 	public PersonType updatePersonType(PersonType personType);
 	public PersonAttributeSetType createPersonAttributeSetType(PersonAttributeSetType personAttributeSetType);
@@ -19,9 +18,4 @@ public interface PersonDAO {
 	public boolean deletePerson(Person person);
 	public PersonAttributeSetType fetchPersonAttributeSetType(Long id);
 	public PersonAttributeType fetchPersonAttributeType(Long id);
-	public Person fetchPersonByType(Long personId, Long personTypeId);
-	public PersonName createPersonName(PersonName personName);
-	public boolean deletePersonName(PersonName personName);
-	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(List<Long> personTypeIds);
-
 }

@@ -1,10 +1,7 @@
 package org.kuali.student.poc.personidentity.person.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,9 +15,7 @@ import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
-import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
-import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,7 +23,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:META-INF/default-dao-context-test.xml"})
+@ContextConfiguration(locations={"classpath:META-INF/default-context-test.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager="JtaTxManager")
 public class TestPersonDAO{
@@ -42,47 +37,34 @@ public class TestPersonDAO{
 	private long studentTypeId;
 
 	private long personId;
-
-	private Long humanTypeId;
 	
 	@Before
-    //public void onSetUpInTransaction() throws Exception {
-	public void setUp() throws Exception {
-	    PersonType studentType = new PersonType("student");
+    public void onSetUpInTransaction() throws Exception {
+		PersonType studentType = new PersonType("student");
+		
 		PersonAttributeSetType directorySetDef;
 		directorySetDef = new PersonAttributeSetType("directory", Boolean.FALSE);
+		
 		PersonAttributeType personAttributeType;
+		
 		personAttributeType = new PersonAttributeType("year", "String");
 		directorySetDef.getPersonAttributeTypes().add(personAttributeType);
+		
 		personAttributeType = new PersonAttributeType("email", "email");
 		directorySetDef.getPersonAttributeTypes().add(personAttributeType);
+		
 		personAttributeType = new PersonAttributeType("major", "String");
 		directorySetDef.getPersonAttributeTypes().add(personAttributeType);
+		
 		studentType.getPersonAttributeSetTypes().add(directorySetDef);
+		
 		em.persist(studentType);
+		
 		studentTypeId = studentType.getId();
 		
-		PersonType humanType = new PersonType("human");
-		PersonAttributeSetType bioSetDef;
-		bioSetDef = new PersonAttributeSetType("bio", Boolean.FALSE);
-		personAttributeType = new PersonAttributeType("height", "INT");
-		bioSetDef.getPersonAttributeTypes().add(personAttributeType);
-		personAttributeType = new PersonAttributeType("weight", "INT");
-		bioSetDef.getPersonAttributeTypes().add(personAttributeType);
-		personAttributeType = new PersonAttributeType("hair", "STRING");
-		bioSetDef.getPersonAttributeTypes().add(personAttributeType);
-		humanType.getPersonAttributeSetTypes().add(bioSetDef);
-		em.persist(humanType);
-		humanTypeId = humanType.getId();
-		
-		
 		PersonType personType = personDAO.fetchPersonType(studentTypeId);
-		Person person = new Person();
-        person.getPersonTypes().add(personType);
-		
-		PersonName personName = new PersonName("Joe", "Student");
-		personName.setPerson(person);
-		person.getPersonNames().add(personName);
+		Person person = new Person("Joe", "Student");
+		person.getPersonTypes().add(personType);
 		
 		//quick hack
 		int emailCount = 0;
@@ -161,13 +143,9 @@ public class TestPersonDAO{
 	@Test
 	public void testCreatePerson() {
 		PersonType personType = personDAO.fetchPersonType(studentTypeId);
-		Person person = new Person();
+		Person person = new Person("Joe", "Student");
 		person.getPersonTypes().add(personType);
 		
-        PersonName personName = new PersonName("Joe", "Student");
-        personName.setPerson(person);
-        person.getPersonNames().add(personName);
-
 		//quick hack
 		int emailCount = 0;
 		
@@ -242,52 +220,4 @@ public class TestPersonDAO{
 	    assertTrue(personDAO.deletePerson(person));
 	    assertNull(personDAO.lookupPerson(personId));
 	}
-	
-	@Test
-	public void testFetchPersonByType(){
-		//Create a person with two types, human and student
-		Person person = new Person();
-		
-		PersonalInformation personalInfo = new PersonalInformation();
-		
-		personalInfo.setGender('M');
-		personalInfo.setDateOfBirth(new Date());
-		personalInfo.setPerson(person);
-		person.setPersonalInformation(personalInfo);
-		
-		PersonName personName = new PersonName("Joe", "Student");
-	    personName.setPerson(person);
-        person.getPersonNames().add(personName);
-		
-		person.getPersonTypes().add(personDAO.fetchPersonType(humanTypeId));
-		person.getPersonTypes().add(personDAO.fetchPersonType(studentTypeId));
-		for(PersonType personType : person.getPersonTypes()) {
-			for(PersonAttributeSetType setDef : personType.getPersonAttributeSetTypes()) {
-				for(PersonAttributeType def : setDef.getPersonAttributeTypes()) {
-					PersonAttribute personAttribute = new PersonAttribute();
-					personAttribute.setPerson(person);
-					personAttribute.setPersonAttributeType(def);
-					if(def.getName().equals("year")){
-						personAttribute.setValue("1994");
-					}else if(def.getName().equals("hair")){
-						personAttribute.setValue("Brown");
-					}else{
-						personAttribute.setValue(setDef.getName() + " : " + def.getName() + " : value");
-					}
-					person.getAttributes().add(personAttribute);
-				}
-				
-			}
-		}
-		//save the person
-		long createdId = personDAO.createPerson(person).getId();
-		
-		//fetch just one of those types
-		Person foundPerson = personDAO.fetchPersonByType(createdId, humanTypeId);
-		
-		//ThHis is not filtered yet
-		assertEquals(6,foundPerson.getAttributes().size());
-		//assertEquals(3,foundPerson.getAttributes().size());
-	}
-	
 }

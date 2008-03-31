@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-ri</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-alpha</version>
 	<description></description>
 	<packaging>pom</packaging>
 	<modules>
@@ -13,12 +13,12 @@
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-ri-pom</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.1-alpha</version>
 	</parent>
 
 	<scm>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/KualiStudent/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/tags/personidentity-ri-0.0.1-alpha
 		</developerConnection>
 	</scm>
 	
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.1-alpha</version>
 		</dependency>
 	</dependencies>
 	<repositories>

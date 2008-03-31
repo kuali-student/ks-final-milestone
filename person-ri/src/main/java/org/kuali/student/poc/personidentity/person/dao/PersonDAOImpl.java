@@ -1,24 +1,20 @@
 package org.kuali.student.poc.personidentity.person.dao;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 //@Transactional
 public class PersonDAOImpl implements PersonDAO {
 
 	private EntityManager entityManager;
 
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
 	@Override
 	public Person createPerson(Person person) {
 		entityManager.persist(person);
@@ -30,7 +26,7 @@ public class PersonDAOImpl implements PersonDAO {
 		entityManager.persist(personType);
 		return personType;
 	}
-
+	
 	@Override
 	public PersonType fetchPersonType(Long id) {
 		return entityManager.find(PersonType.class, id);
@@ -50,8 +46,9 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 
 	@Override
-	public PersonAttribute createPersonAttribute(PersonAttribute personAttribute) {
-
+	public PersonAttribute createPersonAttribute(
+			PersonAttribute personAttribute) {
+		
 		entityManager.persist(personAttribute);
 		return personAttribute;
 	}
@@ -66,15 +63,6 @@ public class PersonDAOImpl implements PersonDAO {
 		return entityManager.find(Person.class, id);
 	}
 
-	
-	@Override
-	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch){
-	    Query query = entityManager.createNamedQuery("PersonAttributeSetType.findByName");
-	    query.setParameter("nameMatch", nameMatch);
-	    List<PersonAttributeSetType> personAttributeSetTypes = query.getResultList();
-	    return personAttributeSetTypes;
-	}
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PersonType> findPersonTypes(String nameMatch) {
@@ -84,11 +72,11 @@ public class PersonDAOImpl implements PersonDAO {
 		return personTypes;
 	}
 
-	@Override
-	public boolean deletePerson(Person person) {
-		entityManager.remove(person);
-		return true; // until I know better what needs to happen
-	}
+    @Override
+    public boolean deletePerson(Person person) {
+        entityManager.remove(person);
+        return true; //until I know better what needs to happen
+    }
 
 	@Override
 	public PersonAttributeType createPersonAttributeType(
@@ -107,47 +95,10 @@ public class PersonDAOImpl implements PersonDAO {
 		return entityManager.find(PersonAttributeType.class, id);
 	}
 
-	@Override
-	public boolean deletePersonAttribute(PersonAttribute personAttribute) {
-		entityManager.remove(personAttribute);
-		return true; // error if it fails, right?
-	}
-
-	@Override
-	public Person fetchPersonByType(Long personId, Long personTypeId) {
-		// TODO need to do @EntityResult to really filter
-		Query query = entityManager
-				.createQuery("SELECT person FROM Person person, IN(person.personTypes) personType WHERE person.id = :personId AND personType.id = :personTypeId");
-		query.setParameter("personId", personId);
-		query.setParameter("personTypeId", personTypeId);
-		return (Person) query.getSingleResult();
-	}
-
-	@Override
-	public PersonName createPersonName(PersonName personName) {
-		entityManager.persist(personName);
-		return personName;
-	}
-
-	@Override
-	public boolean deletePersonName(PersonName personName) {
-		entityManager.remove(personName);
-		return true;
-	}
-
-	@Override
-	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(
-			List<Long> personTypeIds) {
-		Set<PersonAttributeType> personAttributeTypes = new HashSet<PersonAttributeType>();
-		for (Long personTypeId : personTypeIds) {
-			PersonType personType = fetchPersonType(personTypeId);
-			for (PersonAttributeSetType personAttributeSetType : personType
-					.getPersonAttributeSetTypes()) {
-				personAttributeTypes.addAll(personAttributeSetType
-						.getPersonAttributeTypes());
-			}
-		}
-		return new ArrayList<PersonAttributeType>(personAttributeTypes);
-	}
+    @Override
+    public boolean deletePersonAttribute(PersonAttribute personAttribute) {
+        entityManager.remove(personAttribute);
+        return true; //error if it fails, right?
+    }
 
 }

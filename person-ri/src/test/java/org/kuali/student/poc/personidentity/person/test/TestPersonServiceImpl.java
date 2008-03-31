@@ -2,6 +2,7 @@ package org.kuali.student.poc.personidentity.person.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -17,230 +18,176 @@ import org.kuali.student.poc.wsdl.personidentity.exceptions.InvalidParameterExce
 import org.kuali.student.poc.wsdl.personidentity.exceptions.MissingParameterException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.OperationFailedException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.wsdl.personidentity.exceptions.ReadOnlyException;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.AttributeDataTypeDTO;
+import org.kuali.student.poc.xsd.personidentity.person.dto.AttributeDefinitionDTO;
+import org.kuali.student.poc.xsd.personidentity.person.dto.AttributeSetDTO;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDTO;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeDTO;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:META-INF/jetty-context.xml" })
+@ContextConfiguration(locations={"classpath:META-INF/jetty-context.xml"})
 public class TestPersonServiceImpl {
 	@Autowired
 	PersonService client;
 
 	@Test
-	public void testCreatePersonInfoType() throws AlreadyExistsException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DoesNotExistException, DisabledIdentifierException {
-
-		PersonAttributeTypeInfo attributeType1 = new PersonAttributeTypeInfo();
+	public void testCreatePersonType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException{
+		
+		AttributeDefinitionDTO attributeType1 = new AttributeDefinitionDTO();
 		attributeType1.setLabel("Attribute 1 Label");
 		attributeType1.setName("Attr1");
-		attributeType1.setType("STRING");
-
-		PersonAttributeTypeInfo attributeType2 = new PersonAttributeTypeInfo();
+		attributeType1.setType(AttributeDataTypeDTO.STRING);
+		
+		AttributeDefinitionDTO attributeType2 = new AttributeDefinitionDTO();
 		attributeType2.setLabel("Attribute 2 Label");
 		attributeType2.setName("Attr2");
-		attributeType2.setType("DATE");
-
-		PersonAttributeSetTypeInfo attributeSet1 = new PersonAttributeSetTypeInfo();
+		attributeType2.setType(AttributeDataTypeDTO.DATE);
+		
+		AttributeSetDTO attributeSet1 = new AttributeSetDTO();
 		attributeSet1.setName("AttrSet1");
-		attributeSet1.getAttributeTypes().add(attributeType1);
-		attributeSet1.getAttributeTypes().add(attributeType2);
-
-		PersonTypeInfo personType1 = new PersonTypeInfo();
+		attributeSet1.getAttributeDefinitions().add(attributeType1);
+		attributeSet1.getAttributeDefinitions().add(attributeType2);
+		
+		PersonTypeDTO personType1 = new PersonTypeDTO();
 		personType1.setName("PersonType1");
 		personType1.getAttributeSets().add(attributeSet1);
+		
+		long personTypeId = client.createPersonType(personType1);
 
-		Long personTypeId = client.createPersonTypeInfo(personType1);
-
-		// Now find all the types
-		PersonTypeInfo personTypeInfo = client.fetchPersonType(personTypeId);
-
-		// Validate results
-		assertEquals("PersonType1", personTypeInfo.getName());
-		assertEquals(personTypeId, personTypeInfo.getId());
-
-	}
-
-	@Test
-	public void testCreatePerson() throws AlreadyExistsException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DoesNotExistException, DisabledIdentifierException {
-		PersonAttributeTypeInfo attributeType3 = new PersonAttributeTypeInfo();
+		//Create a person using the new person type
+		PersonDTO person = new PersonDTO();
+		person.setConfidential(false);
+		person.setDob(new Date());
+		person.setFirstName("Jeff");
+		person.setLastName("Beck");
+		person.setGender('M');
+		person.setAttribute("Attr1", "123-23-3456");
+		person.setAttribute("Attr2", "20080202");
+		List<PersonTypeInfoDTO> personTypeList = new ArrayList<PersonTypeInfoDTO>();
+		personType1.setId(personTypeId);
+		personTypeList.add(personType1);
+		long personId = client.createPerson(person, personTypeList);
+		client.fetchPersonInfoByPersonType(personId, personType1);
+		
+		//Now find all the types
+		List<PersonTypeDTO> personTypes = client.findCreatablePersonTypes();
+		//create a new personType using a pre-existing set and a new one
+		AttributeDefinitionDTO attributeType3 = new AttributeDefinitionDTO();
 		attributeType3.setLabel("Attribute 3 Label");
 		attributeType3.setName("Attr3");
-		attributeType3.setType("STRING");
-
-		PersonAttributeSetTypeInfo attributeSet2 = new PersonAttributeSetTypeInfo();
+		attributeType3.setType(AttributeDataTypeDTO.BOOLEAN);
+		
+		AttributeSetDTO attributeSet2 = new AttributeSetDTO();
 		attributeSet2.setName("AttrSet2");
-		attributeSet2.getAttributeTypes().add(attributeType3);
-
-		PersonTypeInfo personType2 = new PersonTypeInfo();
+		attributeSet2.getAttributeDefinitions().add(attributeType3);
+		
+		PersonTypeDTO personType2 = new PersonTypeDTO();
 		personType2.setName("PersonType2");
 		personType2.getAttributeSets().add(attributeSet2);
-
-		Long personTypeId = client.createPersonTypeInfo(personType2);
-
-		assertNotNull(personTypeId);
-
-		PersonCreateInfo person = new PersonCreateInfo();
-		person.setBirthDate(new Date());
+		
+		//Add the first Attribute set of the first found person
+		AttributeSetDTO preexistingAttributeSet =  personTypes.get(0).getAttributeSets().get(0);
+		personType2.getAttributeSets().add(preexistingAttributeSet);
+		
+		client.createPersonType(personType2);
+		
+	}
+	
+	@Test
+	public void testCreatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException{
+		
+		List<PersonTypeDTO> personTypes = client.findCreatablePersonTypes();
+		PersonTypeDTO personType = null;
+		for(PersonTypeDTO type : personTypes) {
+			if(type.getName().equals("PersonType1")) {
+				personType = type;
+			}
+		}
+		assertNotNull(personType);
+		
+		PersonDTO person = new PersonDTO();
+		person.setConfidential(false);
+		person.setDob(new Date());
+		person.setFirstName("Eric");
+		person.setLastName("Clapton");
 		person.setGender('M');
-		person.setAttribute("Attr3", "123-23-3456");
-
-		PersonNameInfo name = new PersonNameInfo();
-		name.setGivenName("Harold Horkins");
-		person.getName().add(name);
-
-		List<Long> personTypeInfoList = new ArrayList<Long>();
-		personTypeInfoList.add(personTypeId);
-
+		person.setAttribute("Attr1", "123-23-3456");
+		
+		List<PersonTypeInfoDTO> personTypeInfoList = new ArrayList<PersonTypeInfoDTO>();
+		personTypeInfoList.add(personType);
+		
 		long resultId = client.createPerson(person, personTypeInfoList);
-
-		PersonInfo result = client.fetchFullPersonInfo(resultId);
-
-		assertEquals(result.getName().get(0).getGivenName(), person.getName()
-				.get(0).getGivenName());
-		assertEquals(result.getAttribute("Attr3"), person.getAttribute("Attr3"));
-
+		
+		PersonDTO result = client.fetchFullPersonInfo(resultId);
+		
+		assertEquals(result.getFirstName(), person.getFirstName());
+		assertEquals(result.getAttribute("Attr1"), person.getAttribute("Attr1"));
+		
 		// TODO test invalid (or unrelated) personTypes and attributeTypes
 	}
-
-	@Test
-	public void testAssignPersonType() throws AlreadyExistsException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DisabledIdentifierException, DoesNotExistException {
-		//FIXME
-//		if(true){
-//			return;
-//		}
+	
+	@Test(expected=javax.xml.ws.soap.SOAPFaultException.class)
+//	@Test(expected=AlreadyExistsException.class)
+	public void testCreatePersonTypeInfo() throws OperationFailedException, InvalidParameterException, AlreadyExistsException, MissingParameterException, PermissionDeniedException {
+		PersonTypeInfoDTO personTypeInfo = new PersonTypeInfoDTO(0, "testType");
+		long newId = client.createPersonTypeInfo(personTypeInfo);
+		assertTrue(newId > 0);
 		
-		PersonAttributeTypeInfo attributeType4 = new PersonAttributeTypeInfo();
-		attributeType4.setLabel("Attribute 4 Label");
-		attributeType4.setName("Attr4");
-		attributeType4.setType("STRING");
-
-		PersonAttributeSetTypeInfo attributeSet3 = new PersonAttributeSetTypeInfo();
-		attributeSet3.setName("AttrSet3");
-		attributeSet3.getAttributeTypes().add(attributeType4);
-
-		PersonTypeInfo personType3 = new PersonTypeInfo();
-		personType3.setName("PersonType3");
-		personType3.getAttributeSets().add(attributeSet3);
-
-		Long personType3Id = client.createPersonTypeInfo(personType3);
-
-		PersonAttributeTypeInfo attributeType5 = new PersonAttributeTypeInfo();
-		attributeType5.setLabel("Attribute 5 Label");
-		attributeType5.setName("Attr5");
-		attributeType5.setType("STRING");
-
-		PersonAttributeSetTypeInfo attributeSet4 = new PersonAttributeSetTypeInfo();
-		attributeSet4.setName("AttrSet4");
-		attributeSet4.getAttributeTypes().add(attributeType5);
-
-		PersonTypeInfo personType4 = new PersonTypeInfo();
-		personType4.setName("PersonType4");
-		personType4.getAttributeSets().add(attributeSet4);
-
-		Long personType4Id = client.createPersonTypeInfo(personType4);
-
-		PersonCreateInfo person = new PersonCreateInfo();
-		person.setBirthDate(new Date());
-		person.setGender('M');
-		person.setAttribute("Attr4", "Cobra Commander");
-
-		PersonNameInfo name = new PersonNameInfo();
-		name.setGivenName("Foggy Bottom");
-		person.getName().add(name);
-
-		List<Long> personTypeInfoList = new ArrayList<Long>();
-		personTypeInfoList.add(personType3Id);
-
-		Long personId = client.createPerson(person, personTypeInfoList);
-
-		assertTrue(client.assignPersonType(personId, personType4Id));
-
-		List<Long> personTypes = client.findPersonTypesForPerson(personId);
-
-		assertEquals(2, personTypes.size());
-		assertTrue((personTypes.get(0).equals(personType3Id) && personTypes
-				.get(1).equals(personType4Id))
-				|| (personTypes.get(0).equals(personType4Id) && personTypes
-						.get(1).equals(personType3Id)));
-
+		List<PersonTypeDTO> personTypeDTOList = client.findCreatablePersonTypes();
+		
+		boolean found = false;
+		for(PersonTypeDTO personTypeDTO : personTypeDTOList) {
+			if(personTypeDTO.getId() == newId && personTypeDTO.getName().equals("testType")) {
+				found = true;
+			}
+		}
+		
+		assertTrue(found);
+		
+		// Test the AlreadyExistsException
+		client.createPersonTypeInfo(personTypeInfo);
 	}
+	
+	@Test
+	public void testUpdatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
+        PersonDTO person = new PersonDTO();
+        person.setConfidential(false);
+        person.setDob(new Date());
+        person.setFirstName("Deric");
+        person.setLastName("D'Clapton");
+        person.setGender('M');
+        person.setAttribute("ssn", "879-65-3154");
+        person.setAttribute("Attr1", "123-23-3456");
+        person.setAttribute("Attr2", "20080202");
+        List<PersonTypeInfoDTO> persontypes = new ArrayList<PersonTypeInfoDTO>();
+        for(PersonTypeDTO ptype: client.findCreatablePersonTypes()) {
+            persontypes.add(ptype);
+        }
+        long id = client.createPerson(person, persontypes);
 
-	/*
-	 * @Test(expected=AlreadyExistsException.class) public void
-	 * testCreatePersonTypeInfo() throws OperationFailedException,
-	 * InvalidParameterException, AlreadyExistsException,
-	 * MissingParameterException, PermissionDeniedException { PersonTypeInfoDTO
-	 * personTypeInfo = new PersonTypeInfoDTO(0, "testType"); long newId =
-	 * client.createPersonTypeInfo(personTypeInfo); assertTrue(newId > 0);
-	 * 
-	 * List<PersonTypeDTO> personTypeDTOList =
-	 * client.findCreatablePersonTypes();
-	 * 
-	 * boolean found = false; for(PersonTypeDTO personTypeDTO :
-	 * personTypeDTOList) { if(personTypeDTO.getId() == newId &&
-	 * personTypeDTO.getName().equals("testType")) { found = true; } }
-	 * 
-	 * assertTrue(found);
-	 *  // Test the AlreadyExistsException
-	 * client.createPersonTypeInfo(personTypeInfo); }
-	 * 
-	 * @Test public void testUpdatePerson() throws AlreadyExistsException,
-	 * InvalidParameterException, MissingParameterException,
-	 * OperationFailedException, PermissionDeniedException,
-	 * DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
-	 * PersonDTO person = new PersonDTO(); person.setConfidential(false);
-	 * person.setDob(new Date()); person.setFirstName("Deric");
-	 * person.setLastName("D'Clapton"); person.setGender('M');
-	 * person.setAttribute("ssn", "879-65-3154"); person.setAttribute("Attr1",
-	 * "123-23-3456"); person.setAttribute("Attr2", "20080202"); List<PersonTypeInfoDTO>
-	 * persontypes = new ArrayList<PersonTypeInfoDTO>(); for(PersonTypeDTO
-	 * ptype: client.findCreatablePersonTypes()) { persontypes.add(ptype); }
-	 * long id = client.createPerson(person, persontypes);
-	 * 
-	 * person.getAttributes().clear(); person.setId(id);
-	 * person.setFirstName("Derek"); client.updatePerson(person);
-	 * 
-	 * person.setAttribute("Attr1", "879-65-3154"); client.updatePerson(person);
-	 * 
-	 * PersonDTO personResult = client.fetchFullPersonInfo(id);
-	 * assertEquals("879-65-3154", personResult.getAttribute("Attr1"));
-	 * assertEquals("20080202", personResult.getAttribute("Attr2"));
-	 * 
-	 * person.setAttribute("Attr2", null); client.updatePerson(person);
-	 * 
-	 * personResult = client.fetchFullPersonInfo(id);
-	 * assertNull(personResult.getAttribute("Attr2")); }
-	 * 
-	 * @Test public void testFetchPersonByPeronType() throws
-	 * DoesNotExistException, DisabledIdentifierException,
-	 * InvalidParameterException, MissingParameterException,
-	 * OperationFailedException, AlreadyExistsException,
-	 * PermissionDeniedException{ PersonDTO person = new PersonDTO();
-	 * person.setConfidential(false); person.setDob(new Date());
-	 * person.setFirstName("Frank"); person.setLastName("Zappa");
-	 * person.setGender('M'); person.setAttribute("ssn", "879-65-3154");
-	 * person.setAttribute("Attr1", "123-23-3456"); person.setAttribute("Attr2",
-	 * "20080202"); List<PersonTypeInfoDTO> persontypes = new ArrayList<PersonTypeInfoDTO>();
-	 * for(PersonTypeDTO ptype: client.findCreatablePersonTypes()) {
-	 * persontypes.add(ptype); } long id = client.createPerson(person,
-	 * persontypes); PersonDTO foundPerson =
-	 * client.fetchPersonInfoByPersonType(id, persontypes.get(0));
-	 * assertEquals(1,foundPerson.getPersonTypes().size()); }
-	 */
+        person.getAttributes().clear();
+        person.setId(id);
+        person.setFirstName("Derek");
+        client.updatePerson(person);
+        
+        person.setAttribute("Attr1", "879-65-3154");
+        client.updatePerson(person);
+        
+        PersonDTO personResult = client.fetchFullPersonInfo(id);
+        assertEquals("879-65-3154", personResult.getAttribute("Attr1"));
+        assertEquals("20080202", personResult.getAttribute("Attr2"));
+        
+        person.setAttribute("Attr2", null);
+        client.updatePerson(person);
+        
+        personResult = client.fetchFullPersonInfo(id);
+        assertNull(personResult.getAttribute("Attr2"));
+	}
+	
 }

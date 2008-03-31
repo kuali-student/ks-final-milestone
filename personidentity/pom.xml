@@ -7,21 +7,21 @@
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-alpha</version>
 	<name>PersonIdentity WAR</name>
 	<description></description>
 
 	<parent>
 		<groupId>org.kuali.student.poc.personidentity</groupId>
 		<artifactId>personidentity-ri</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.1-alpha</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>person-ri</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.1-alpha</version>
 		</dependency>
 	</dependencies>
 
