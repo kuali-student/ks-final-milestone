@@ -29,7 +29,7 @@
 		</property>
 	</bean>
 	
-	<import resource="classpath:*-mock-dao-context.xml" />
+	<import resource="classpath:*-mock-context.xml" />
 	
 	<bean id="systemPropertyConfigurer"
 		class="org.kuali.student.poc.common.util.SystemPropertyConfigurer">
@@ -99,7 +99,7 @@
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000"/>
+	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
@@ -107,6 +107,11 @@
 	<bean id="dao"
 		class="${ks.test.daoImplClass}"
 		autowire="byType">
+	</bean>
+
+	<bean id="service"
+		class="${ks.test.serviceImplClass}" autowire="byType">
+		<!-- <property name="manager" ref="dao" />-->
 	</bean>
 
 </beans>
