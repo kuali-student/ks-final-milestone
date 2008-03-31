@@ -543,9 +543,8 @@ public class PersonServiceImpl implements PersonService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		PersonAttributeType perAttrTyp = toPersonAttributeType(attributeDefinition, false);
+		return personDAO.createPersonAttributeType(perAttrTyp).getId();
 	}
 
 	/* (non-Javadoc)
@@ -660,9 +659,8 @@ public class PersonServiceImpl implements PersonService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		PersonAttributeSetType personAttributeSetType = this.toPersonAttributeSetType(attributeSetDTO, false);
+		return personDAO.createPersonAttributeSetType(personAttributeSetType).getId();
 	}
 
 	/* (non-Javadoc)
@@ -704,9 +702,8 @@ public class PersonServiceImpl implements PersonService {
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+		Person person = personDAO.lookupPerson(personId);
+		return personDAO.deletePerson(person);
 	}
 
 	/* (non-Javadoc)
