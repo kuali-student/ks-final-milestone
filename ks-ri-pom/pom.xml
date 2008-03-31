@@ -4,29 +4,29 @@
 	<groupId>org.kuali.student.poc</groupId>
 	<artifactId>ks-ri-pom</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-alpha</version>
 	<description>Kuali Student POC Services-RI Parent POM</description>
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1-alpha</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-ws</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.1-alpha</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.1-alpha</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-util</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.1-alpha</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -297,10 +297,6 @@
 							<artifactId>spring-beans</artifactId>
 							<groupId>org.springframework</groupId>
 						</exclusion>
-						<exclusion>
-							<artifactId>spring-web</artifactId>
-							<groupId>org.springframework</groupId>
-						</exclusion>
 					</exclusions>
 				</dependency>
 				<dependency>
@@ -320,10 +316,6 @@
 							<artifactId>spring-beans</artifactId>
 							<groupId>org.springframework</groupId>
 						</exclusion>
-						<exclusion>
-							<artifactId>spring-web</artifactId>
-							<groupId>org.springframework</groupId>
-						</exclusion>
 					</exclusions>
 				</dependency>
 				<dependency>
@@ -332,12 +324,6 @@
 						cxf-rt-transports-http-jetty
 					</artifactId>
 					<version>${cxf.version}</version>
-					<exclusions>
-						<exclusion>
-							<artifactId>spring-web</artifactId>
-							<groupId>org.springframework</groupId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
