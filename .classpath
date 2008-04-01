@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="brms-core/src/main/java" output="brms-core/target/classes"/>
-	<classpathentry kind="src" path="brms-core/src/main/resources" output="brms-core/target/classes"/>
-	<classpathentry kind="src" path="brms-core/src/main/rules" output="brms-core/target/classes"/>
-	<classpathentry kind="src" path="brms-core/src/test/java" output="brms-core/target/test-classes"/>
-	<classpathentry kind="src" path="brms-core/src/test/resources" output="brms-core/target/test-classes"/>
-	<classpathentry kind="src" path="brms-core/src/test/rules" output="brms-core/target/test-classes"/>
+	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/java"/>
+	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/resources"/>
+	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/rules"/>
+	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/java"/>
+	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/resources"/>
+	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/rules"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
+	<classpathentry kind="src" output="inspect-rule-failure/target/classes" path="inspect-rule-failure/src/main/java"/>
+	<classpathentry kind="src" output="inspect-rule-failure/target/classes" path="resources"/>
+	<classpathentry kind="src" output="inspect-rule-failure/target/test-classes" path="inspect-rule-failure/src/test/java"/>
+	<classpathentry kind="src" output="inspect-rule-failure/target/test-classes" path="inspect-rule-failure/src/test/resources"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
