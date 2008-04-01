@@ -1105,9 +1105,122 @@ public class PersonServiceImpl implements PersonService {
 			InvalidParameterException, MissingParameterException,
 			ReadOnlyException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+        // Find the JPA entity
+        Person personJPA = personDAO.lookupPerson(personId);     
+       
+        // First look up the personTypes
+        Set<PersonType> personTypeSetJPA = personJPA.getPersonTypes();
+        Set<PersonAttributeType> attributeTypeSetJPA = new HashSet<PersonAttributeType>();
 
+        //Find all the types that can exist on the person to be updated
+        for(PersonType personTypeJPA: personTypeSetJPA) {
+            for(PersonAttributeSetType personAttributeSetType:personTypeJPA.getPersonAttributeSetTypes()){
+                for(PersonAttributeType personAttributeType:personAttributeSetType.getPersonAttributeTypes()){
+                    attributeTypeSetJPA.add(personAttributeType);
+                }
+            }
+        }
+        
+        //Add all of the attributes that were in the personTypes and exist on the person
+        for(PersonAttributeType personAttributeType:attributeTypeSetJPA){
+        
+            //Check that the person being passed in actually has this attribute
+            if(personUpdateInfo.getAttributes().containsKey(personAttributeType.getName())){
+                String attributeValue = personUpdateInfo.getAttribute(personAttributeType.getName());
+                
+                //I hate writing lookups
+                //Find the actual entry in the attribute set
+                PersonAttribute attribute = null;
+                Set<PersonAttribute> attributes = personJPA.getAttributes();
+                for (PersonAttribute personAttribute : attributes) {
+                    if(personAttribute.getPersonAttributeType().getId().equals(personAttributeType.getId())) {
+                        attribute = personAttribute;
+                        break;
+                    }
+                }
+                // if value is null, that means we're removing it. that's why we did containsKey up there instead of getAttribute()
+                if(attributeValue == null) {
+                    attributes.remove(attribute);
+                    personDAO.deletePersonAttribute(attribute);
+                } else {
+                    //The problem here is that jpa allows for multi-valued attrs, whereas the dto has a map with 1:1
+                    attribute.setValue(attributeValue);
+                }
+            }
+            
+        }
+       
+        //Copy the standard person fields
+        PersonalInformation personalInformation = personJPA.getPersonalInformation();
+        personalInformation.setGender(personUpdateInfo.getGender());
+        personalInformation.setDateOfBirth(personUpdateInfo.getBirthDate());
+        
+        //TODO: Need to handle multiple citizenship in DTO 
+        PersonCitizenshipInfo citizenshipInfo = personUpdateInfo.getCitizenship();
+        if(citizenshipInfo!=null){
+            PersonCitizenship citizenship = new PersonCitizenship();
+            citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
+            citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
+            citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
+            citizenship.setPerson(personJPA);
+            Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
+            personCitizenship.add(citizenship);
+            personJPA.setPersonCitizenships(personCitizenship);
+        }
+        
+        //Update person names
+        for (PersonNameInfo personNameInfo : personUpdateInfo.getName()) {
+
+            //Find existing name
+            PersonName name = null;
+            Set<PersonName> personNameSet = personJPA.getPersonNames(); 
+            for (PersonName personName: personNameSet) {
+                if(personName.getNameType().equals(personNameInfo.getNameType())) {
+                    name = personName;
+                    break;
+                }
+            }
+  
+            //create new name if it doesn't exist
+            if (name == null){
+                name = new PersonName();
+                name.setPerson(personJPA);
+                personNameSet.add(name);
+            }
+            
+            if (personNameInfo.getGivenName() == null){
+                personNameSet.remove(name);
+            } else {            
+                name.setEffectiveEndDate(personNameInfo.getEffectiveEndDate());
+                name.setEffectiveStartDate(personNameInfo.getEffectiveStartDate());
+                name.setGivenName(personNameInfo.getGivenName());
+                name.setMiddleNames(personNameInfo.getMiddleName());
+                name.setNameType(personNameInfo.getNameType());
+                name.setSuffix(personNameInfo.getSuffix());
+                name.setSurname(personNameInfo.getSurname());
+                name.setTitle(personNameInfo.getPersonTitle());
+            }            
+        }
+        
+        //Update reference ids
+        //TODO: Fix so it doesn't do simply delete existing and replace with new
+        personJPA.setPersonReferenceIds(new HashSet<PersonReferenceId>());
+        for(PersonReferenceIdInfo personReferenceIdInfo:personUpdateInfo.getReferenceId()){
+            PersonReferenceId personReferenceId = new PersonReferenceId();
+            personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
+            personReferenceId.setReferenceId(personReferenceIdInfo.getReferenceId());
+            personReferenceId.setRestrictedAccess(personReferenceIdInfo.isRestrictedAccess());
+            personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
+            personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
+            personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
+            personReferenceId.setPerson(personJPA);
+            personJPA.getPersonReferenceIds().add(personReferenceId);
+        }
+        
+
+        //Create the person        
+        personDAO.updatePerson(personJPA);
+        return true;    
 	}
 
 	/* (non-Javadoc)

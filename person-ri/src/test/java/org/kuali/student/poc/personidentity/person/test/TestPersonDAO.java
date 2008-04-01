@@ -47,8 +47,7 @@ public class TestPersonDAO{
 	private Long humanTypeId;
 	
 	@Before
-    //public void onSetUpInTransaction() throws Exception {
-	public void setUp() throws Exception {
+    public void onSetUpInTransaction() throws Exception {
 	    PersonType studentType = new PersonType("student");
 		PersonAttributeSetType directorySetDef;
 		directorySetDef = new PersonAttributeSetType("directory", Boolean.FALSE);
@@ -82,6 +81,7 @@ public class TestPersonDAO{
         person.getPersonTypes().add(personType);
 		
 		PersonName personName = new PersonName("Joe", "Student");
+		personName.setNameType("Official");
 		personName.setPerson(person);
 		person.getPersonNames().add(personName);
 		
@@ -167,9 +167,15 @@ public class TestPersonDAO{
 		
         PersonName personName = new PersonName("Joe", "Student");
         personName.setPerson(person);
+        personName.setNameType("Official");
         person.getPersonNames().add(personName);
 
-		//quick hack
+        personName = new PersonName("Joseph", "Student");
+        personName.setPerson(person);
+        personName.setNameType("Diploma");
+        person.getPersonNames().add(personName);
+		
+        //quick hack
 		int emailCount = 0;
 		
 		PersonAttribute personAttribute;
@@ -195,7 +201,10 @@ public class TestPersonDAO{
 		
 		person = personDAO.createPerson(person);
 		assertTrue(person.getId() != null);
-		
+				        
+        person = personDAO.lookupPerson(person.getId());
+        assertEquals(2,person.getPersonNames().size());        
+		       
 		// test for the join table link - we know there is only one person
 		// this doesn't work, will succeed even if join table not populated
 		personType = personDAO.fetchPersonType(studentTypeId);
@@ -258,6 +267,7 @@ public class TestPersonDAO{
 		
 		PersonName personName = new PersonName("Joe", "Student");
 	    personName.setPerson(person);
+	    personName.setNameType("Official");
         person.getPersonNames().add(personName);
 		
 		person.getPersonTypes().add(personDAO.fetchPersonType(humanTypeId));

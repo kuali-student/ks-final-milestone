@@ -2,6 +2,7 @@ package org.kuali.student.poc.personidentity.person.dao;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,6 +39,7 @@ public class PersonName {
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveEndDate;
     
+    @Column(nullable = false)
     private String nameType;
     private String suffix;
     

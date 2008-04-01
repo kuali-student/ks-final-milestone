@@ -2,6 +2,7 @@ package org.kuali.student.poc.personidentity.person.dao;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,8 @@ public class PersonReferenceId {
     private Person person;
     
     private String referenceId;
+    
+    @Column(nullable = false)
     private String organizationReferenceId;
     private boolean restrictedAccess;
     
