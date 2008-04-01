@@ -186,26 +186,56 @@ public class TestPersonServiceImpl {
     
     @Test
     public void testUpdatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
-        //Need better way to setup
-        PersonInfo person = client.fetchFullPersonInfo(new Long(1));
-        PersonUpdateInfo personUpdateInfo = new PersonUpdateInfo(person);
+        PersonAttributeTypeInfo attributeType5 = new PersonAttributeTypeInfo();
+        attributeType5.setLabel("Attribute 5 Label");
+        attributeType5.setName("Attr5");
+        attributeType5.setType("STRING");
+
+        PersonAttributeSetTypeInfo attributeSet3 = new PersonAttributeSetTypeInfo();
+        attributeSet3.setName("AttrSet3");
+        attributeSet3.getAttributeTypes().add(attributeType5);
+
+        PersonTypeInfo personType3 = new PersonTypeInfo();
+        personType3.setName("PersonType3");
+        personType3.getAttributeSets().add(attributeSet3);
+
+        Long personTypeId = client.createPersonTypeInfo(personType3);
+
+        assertNotNull(personTypeId);
+
+        PersonCreateInfo person = new PersonCreateInfo();
+        person.setBirthDate(new Date());
+        person.setAttribute("Attr5", "none");
+        
+        PersonNameInfo name = new PersonNameInfo();
+        name.setGivenName("John Smith");
+        name.setNameType("Official");
+        person.getName().add(name);
+
+        List<Long> personTypeInfoList = new ArrayList<Long>();
+        personTypeInfoList.add(personTypeId);
+
+        long resultId = client.createPerson(person, personTypeInfoList);
+               
+        PersonInfo personInfo = client.fetchFullPersonInfo(resultId);
+        PersonUpdateInfo personUpdateInfo = new PersonUpdateInfo(personInfo);
         
         //Update existing name
         List<PersonNameInfo> personNameList = personUpdateInfo.getName();
-        PersonNameInfo name = personNameList.get(0);               
-        name.setGivenName("Harold");
-        name.setSurname("Horkins");
+        name = personNameList.get(0);               
+        name.setGivenName("John");
+        name.setSurname("Smith");
         
         //Add new name
         name = new PersonNameInfo();
-        name.setGivenName("Harold");
-        name.setSurname("Horkins");
+        name.setGivenName("John");
+        name.setSurname("Smith");
         name.setSuffix("III");
         name.setNameType("Diploma");
         personNameList.add(name);
          
         personUpdateInfo.getAttributes().clear();
-        personUpdateInfo.setAttribute("Attr3", "Thunder Clap");
+        personUpdateInfo.setAttribute("Attr5", "Thunder Clap");
         
         personUpdateInfo.setGender('F');
         
@@ -222,9 +252,9 @@ public class TestPersonServiceImpl {
         
         personUpdateInfo.setUpdateUserComment("Testing update");
         
-        client.updatePerson(person.getPersonId(), personUpdateInfo);
+        client.updatePerson(personInfo.getPersonId(), personUpdateInfo);
         
-        PersonInfo personUpdated = client.fetchFullPersonInfo(person.getPersonId());
+        PersonInfo personUpdated = client.fetchFullPersonInfo(personInfo.getPersonId());
         
         assertEquals(2, personUpdated.getName().size());
         assertEquals(personUpdateInfo.getGender(),personUpdated.getGender());
