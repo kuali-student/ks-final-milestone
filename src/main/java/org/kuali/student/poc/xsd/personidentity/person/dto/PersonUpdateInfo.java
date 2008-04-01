@@ -22,9 +22,6 @@ public class PersonUpdateInfo implements Serializable{
 
 	private static final long serialVersionUID = 2398792732220533518L;
 	
-    @XmlAttribute
-    private Long personId;
-	
 	@XmlElement
 	@XmlElementWrapper(name="names")
 	private List<PersonNameInfo> name;
@@ -50,18 +47,24 @@ public class PersonUpdateInfo implements Serializable{
 	private String updateUserComment;
 
 
-    /**
-     * @return the personId
-     */
-    public Long getPersonId() {
-        return personId;
-    }
-    /**
-     * @param personId the personId to set
-     */
-    public void setPersonId(Long personId) {
-        this.personId = personId;
-    }
+
+	public PersonUpdateInfo(){
+	    super();
+	}
+	
+	public PersonUpdateInfo(PersonInfo personInfo){
+        this.name = personInfo.getName();
+	    this.birthDate = personInfo.getBirthDate();
+        this.gender = personInfo.getGender();	    
+	    this.referenceId = personInfo.getReferenceId();
+	    this.citizenship = personInfo.getCitizenship();
+	    this.attributes = personInfo.getAttributes();
+	    
+	    this.updateTime = personInfo.getUpdateTime();
+	    this.updateUserComment = personInfo.getUpdateUserComment();
+	    this.updateUserId = personInfo.getUpdateUserId();
+	}
+
 	
 	/**
 	 * @return the name
