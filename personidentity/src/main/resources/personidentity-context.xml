@@ -20,9 +20,9 @@
 		destroy-method="close">
 		<property name="uniqueResourceName" value="personDataSource" />
 		<property name="xaDataSourceClassName"
-			value="org.apache.derby.jdbc.EmbeddedXADataSource" />
+			value="${jdbc.xaDataSourceClassName}" />
  		<property name="xaDataSourceProperties"
-			value="databaseName=${jdbc.Person.url};user=${jdbc.Person.username};password=${jdbc.Person.password};createDatabase=create" />
+			value="${jdbc.xaDataSourceProperties}" />
 		<property name="exclusiveConnectionMode" value="true" />
 		<property name="connectionPoolSize" value="5" />
 	</bean>
@@ -37,9 +37,9 @@
 	<bean id="personEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
-			<bean class="${jpa.vendorAdapter}">
+			<bean class="${jpa.adapter}">
 				<property name="databasePlatform"
-					value="${jpa.databasePlatform}" />
+					value="${jpa.platform}" />
 				<property name="showSql" value="${jpa.showSql}" />
 				<property name="generateDdl" value="${jpa.generateDdl}" />
 			</bean>
