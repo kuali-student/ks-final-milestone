@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.poc.brms</groupId>
+	<artifactId>inspect-rule-failure</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<description>Generates a message describing why a given rule failed.</description>
+	 
+	<parent>
+		<groupId>org.kuali.student.poc.brms</groupId>
+		<artifactId>brms-ri</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.brms-ri</groupId>
+			<artifactId>booleanfunctionparser</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-jsr94</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+	</dependencies>
+
+</project>
