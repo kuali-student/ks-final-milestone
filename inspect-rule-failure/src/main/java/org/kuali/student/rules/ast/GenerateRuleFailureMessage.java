@@ -17,7 +17,6 @@ public class GenerateRuleFailureMessage {
 	
 	static HashMap<String, Boolean> nodeValueMap;
 	static HashMap<String, String> nodeFailureMessageMap;
-	static HashMap<String, String> nodeFailureMessage4ComplexProposition;
 	static String functionString;
 	
     public static final void main(String[] args) {
@@ -70,12 +69,6 @@ public class GenerateRuleFailureMessage {
 		nodeFailureMessageMap.put("B", "Need MATH 110");
 		nodeFailureMessageMap.put("C", "Need 15 credits or more of 1st year science");
 		nodeFailureMessageMap.put("D", "Need English 6000");
-		
-		nodeFailureMessage4ComplexProposition = new HashMap<String, String>();
-		nodeFailureMessage4ComplexProposition.put("A", "Set");
-		nodeFailureMessage4ComplexProposition.put("B", "null");
-		nodeFailureMessage4ComplexProposition.put("C", "null");
-		nodeFailureMessage4ComplexProposition.put("D", "null");
 	}
     
 
