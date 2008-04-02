@@ -250,7 +250,7 @@
 			<id>cxf</id>
 			<activation>
 				<property>
-					<name>!ks.use.jaxws</name>
+					<name>ks.use.cxf</name>
 				</property>
 			</activation>
 
@@ -334,7 +334,7 @@
 			<id>jaxws</id>
 			<activation>
 				<property>
-					<name>ks.use.jaxws</name>
+					<name>!ks.use.cxf</name>
 				</property>
 			</activation>
 
