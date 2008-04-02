@@ -4,12 +4,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-@XmlRootElement
+//@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidationError implements Errors{
 	@XmlElement
