@@ -40,6 +40,20 @@ public class TestPersonServiceImpl {
 
     @Test
     public void testCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
+//		BindingProvider bp = (BindingProvider) client;
+//
+//		Binding binding = bp.getBinding();
+//		System.out.println("1: "
+//				+ bp.getRequestContext().get(
+//						BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
+//
+//		List<Handler> list = binding.getHandlerChain();
+//
+//		if (list == null) {
+//			list = new ArrayList<Handler>();
+//		}
+//		list.add(new DebugHandler());
+//		binding.setHandlerChain(list);
 
         PersonAttributeTypeInfo attributeType1 = new PersonAttributeTypeInfo();
         attributeType1.setLabel("Attribute 1 Label");
@@ -113,12 +127,11 @@ public class TestPersonServiceImpl {
         // TODO test invalid (or unrelated) personTypes and attributeTypes
     }
 
-    @Test
-    public void testAssignPersonType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException, DoesNotExistException {
-        // FIXME
-        if (true) {
-            return;
-        }
+	@Test
+	public void testAssignPersonType() throws AlreadyExistsException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DisabledIdentifierException, DoesNotExistException {
 
         PersonAttributeTypeInfo attributeType4 = new PersonAttributeTypeInfo();
         attributeType4.setLabel("Attribute 4 Label");
@@ -136,19 +149,19 @@ public class TestPersonServiceImpl {
         Long personType3Id = client.createPersonTypeInfo(personType3);
 
         PersonAttributeTypeInfo attributeType5 = new PersonAttributeTypeInfo();
-        attributeType4.setLabel("Attribute 5 Label");
-        attributeType4.setName("Attr5");
-        attributeType4.setType("STRING");
+        attributeType5.setLabel("Attribute 5 Label");
+        attributeType5.setName("Attr5");
+        attributeType5.setType("STRING");
 
         PersonAttributeSetTypeInfo attributeSet4 = new PersonAttributeSetTypeInfo();
         attributeSet4.setName("AttrSet4");
         attributeSet4.getAttributeTypes().add(attributeType5);
 
-        PersonTypeInfo personType4 = new PersonTypeInfo();
-        personType4.setName("PersonType4");
-        personType4.getAttributeSets().add(attributeSet4);
+        PersonTypeInfo personType5 = new PersonTypeInfo();
+        personType5.setName("PersonType5");
+        personType5.getAttributeSets().add(attributeSet4);
 
-        Long personType4Id = client.createPersonTypeInfo(personType4);
+        Long personType4Id = client.createPersonTypeInfo(personType5);
 
         PersonCreateInfo person = new PersonCreateInfo();
         person.setBirthDate(new Date());
@@ -172,7 +185,69 @@ public class TestPersonServiceImpl {
         assertEquals(2, personTypes.size());
         assertTrue((personTypes.get(0).equals(personType3Id) && personTypes.get(1).equals(personType4Id)) || (personTypes.get(0).equals(personType4Id) && personTypes.get(1).equals(personType3Id)));
 
-    }
+	}
+	/*
+	 * @Test(expected=AlreadyExistsException.class) public void
+	 * testCreatePersonTypeInfo() throws OperationFailedException,
+	 * InvalidParameterException, AlreadyExistsException,
+	 * MissingParameterException, PermissionDeniedException { PersonTypeInfoDTO
+	 * personTypeInfo = new PersonTypeInfoDTO(0, "testType"); long newId =
+	 * client.createPersonTypeInfo(personTypeInfo); assertTrue(newId > 0);
+	 * 
+	 * List<PersonTypeDTO> personTypeDTOList =
+	 * client.findCreatablePersonTypes();
+	 * 
+	 * boolean found = false; for(PersonTypeDTO personTypeDTO :
+	 * personTypeDTOList) { if(personTypeDTO.getId() == newId &&
+	 * personTypeDTO.getName().equals("testType")) { found = true; } }
+	 * 
+	 * assertTrue(found); // Test the AlreadyExistsException
+	 * client.createPersonTypeInfo(personTypeInfo); }
+	 * 
+	 * @Test public void testUpdatePerson() throws AlreadyExistsException,
+	 * InvalidParameterException, MissingParameterException,
+	 * OperationFailedException, PermissionDeniedException,
+	 * DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
+	 * PersonDTO person = new PersonDTO(); person.setConfidential(false);
+	 * person.setDob(new Date()); person.setFirstName("Deric");
+	 * person.setLastName("D'Clapton"); person.setGender('M');
+	 * person.setAttribute("ssn", "879-65-3154"); person.setAttribute("Attr1",
+	 * "123-23-3456"); person.setAttribute("Attr2", "20080202"); List<PersonTypeInfoDTO>
+	 * persontypes = new ArrayList<PersonTypeInfoDTO>(); for(PersonTypeDTO
+	 * ptype: client.findCreatablePersonTypes()) { persontypes.add(ptype); }
+	 * long id = client.createPerson(person, persontypes);
+	 * 
+	 * person.getAttributes().clear(); person.setId(id);
+	 * person.setFirstName("Derek"); client.updatePerson(person);
+	 * 
+	 * person.setAttribute("Attr1", "879-65-3154"); client.updatePerson(person);
+	 * 
+	 * PersonDTO personResult = client.fetchFullPersonInfo(id);
+	 * assertEquals("879-65-3154", personResult.getAttribute("Attr1"));
+	 * assertEquals("20080202", personResult.getAttribute("Attr2"));
+	 * 
+	 * person.setAttribute("Attr2", null); client.updatePerson(person);
+	 * 
+	 * personResult = client.fetchFullPersonInfo(id);
+	 * assertNull(personResult.getAttribute("Attr2")); }
+	 * 
+	 * @Test public void testFetchPersonByPeronType() throws
+	 * DoesNotExistException, DisabledIdentifierException,
+	 * InvalidParameterException, MissingParameterException,
+	 * OperationFailedException, AlreadyExistsException,
+	 * PermissionDeniedException{ PersonDTO person = new PersonDTO();
+	 * person.setConfidential(false); person.setDob(new Date());
+	 * person.setFirstName("Frank"); person.setLastName("Zappa");
+	 * person.setGender('M'); person.setAttribute("ssn", "879-65-3154");
+	 * person.setAttribute("Attr1", "123-23-3456"); person.setAttribute("Attr2",
+	 * "20080202"); List<PersonTypeInfoDTO> persontypes = new ArrayList<PersonTypeInfoDTO>();
+	 * for(PersonTypeDTO ptype: client.findCreatablePersonTypes()) {
+	 * persontypes.add(ptype); } long id = client.createPerson(person,
+	 * persontypes); PersonDTO foundPerson =
+	 * client.fetchPersonInfoByPersonType(id, persontypes.get(0));
+	 * assertEquals(1,foundPerson.getPersonTypes().size()); }
+	 */
+
 
     /*
      * @Test(expected=AlreadyExistsException.class) public void testCreatePersonTypeInfo() throws OperationFailedException,
@@ -186,26 +261,26 @@ public class TestPersonServiceImpl {
     
     @Test
     public void testUpdatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
-        PersonAttributeTypeInfo attributeType5 = new PersonAttributeTypeInfo();
-        attributeType5.setLabel("Attribute 5 Label");
-        attributeType5.setName("Attr5");
-        attributeType5.setType("STRING");
+        PersonAttributeTypeInfo attributeType6 = new PersonAttributeTypeInfo();
+        attributeType6.setLabel("Attribute 6 Label");
+        attributeType6.setName("Attr6");
+        attributeType6.setType("STRING");
 
-        PersonAttributeSetTypeInfo attributeSet3 = new PersonAttributeSetTypeInfo();
-        attributeSet3.setName("AttrSet3");
-        attributeSet3.getAttributeTypes().add(attributeType5);
+        PersonAttributeSetTypeInfo attributeSet5 = new PersonAttributeSetTypeInfo();
+        attributeSet5.setName("AttrSet5");
+        attributeSet5.getAttributeTypes().add(attributeType6);
 
-        PersonTypeInfo personType3 = new PersonTypeInfo();
-        personType3.setName("PersonType3");
-        personType3.getAttributeSets().add(attributeSet3);
+        PersonTypeInfo personType4 = new PersonTypeInfo();
+        personType4.setName("PersonType4");
+        personType4.getAttributeSets().add(attributeSet5);
 
-        Long personTypeId = client.createPersonTypeInfo(personType3);
+        Long personTypeId = client.createPersonTypeInfo(personType4);
 
         assertNotNull(personTypeId);
 
         PersonCreateInfo person = new PersonCreateInfo();
         person.setBirthDate(new Date());
-        person.setAttribute("Attr5", "none");
+        person.setAttribute("Attr6", "none");
         
         PersonNameInfo name = new PersonNameInfo();
         name.setGivenName("John Smith");
@@ -235,7 +310,7 @@ public class TestPersonServiceImpl {
         personNameList.add(name);
          
         personUpdateInfo.getAttributes().clear();
-        personUpdateInfo.setAttribute("Attr5", "Thunder Clap");
+        personUpdateInfo.setAttribute("Attr6", "Thunder Clap");
         
         personUpdateInfo.setGender('F');
         
@@ -260,7 +335,7 @@ public class TestPersonServiceImpl {
         assertEquals(personUpdateInfo.getGender(),personUpdated.getGender());
         assertEquals(1, personUpdated.getReferenceId().size());
         assertEquals(personUpdateInfo.getCitizenship().getCountryOfCitizenshipCode(),personUpdated.getCitizenship().getCountryOfCitizenshipCode());
-        assertEquals(personUpdateInfo.getAttribute("Attr3"), personUpdated.getAttribute("Attr3"));
+        assertEquals(personUpdateInfo.getAttribute("Attr6"), personUpdated.getAttribute("Attr6"));
 
     }
 
@@ -274,4 +349,5 @@ public class TestPersonServiceImpl {
      * persontypes.add(ptype); } long id = client.createPerson(person, persontypes); PersonDTO foundPerson =
      * client.fetchPersonInfoByPersonType(id, persontypes.get(0)); assertEquals(1,foundPerson.getPersonTypes().size()); }
      */
+
 }
