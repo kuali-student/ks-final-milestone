@@ -11,7 +11,7 @@
 	</parent>
 
 	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/KualiStudent/poc/personidentity/personidentity-api/branches/personidentity-api-dev</developerConnection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev</developerConnection>
 	</scm>
 	<build>
    <plugins>
