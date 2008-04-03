@@ -40,22 +40,8 @@ public class TestPersonServiceImpl {
 
     @Test
     public void testCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
-//		BindingProvider bp = (BindingProvider) client;
-//
-//		Binding binding = bp.getBinding();
-//		System.out.println("1: "
-//				+ bp.getRequestContext().get(
-//						BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
-//
-//		List<Handler> list = binding.getHandlerChain();
-//
-//		if (list == null) {
-//			list = new ArrayList<Handler>();
-//		}
-//		list.add(new DebugHandler());
-//		binding.setHandlerChain(list);
-
-        PersonAttributeTypeInfo attributeType1 = new PersonAttributeTypeInfo();
+        
+    	PersonAttributeTypeInfo attributeType1 = new PersonAttributeTypeInfo();
         attributeType1.setLabel("Attribute 1 Label");
         attributeType1.setName("Attr1");
         attributeType1.setType("STRING");

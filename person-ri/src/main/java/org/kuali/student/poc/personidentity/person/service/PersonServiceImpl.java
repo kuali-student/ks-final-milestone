@@ -978,6 +978,9 @@ public class PersonServiceImpl implements PersonService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 	    Person person = personDAO.lookupPerson(personId);
+	    if(person==null){
+	    	throw new DoesNotExistException("Person with id '" + personId + "' does not exist.");
+	    }
 	    Set<PersonType> personTypeSet = person.getPersonTypes();
 	    List<Long> personTypeIdList = new ArrayList<Long>();
 	    for (PersonType personType:personTypeSet){

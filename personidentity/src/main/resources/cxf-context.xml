@@ -10,7 +10,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	<import resource="classpath:personidentity-context.xml" />
 
-	<jaxws:endpoint id="personService" implementor="#personServiceImpl"
+	<jaxws:endpoint id="personService" 
+	implementorClass="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl"
+	implementor="#personServiceImpl"
 		address="/PersonService" />
 
 </beans>
