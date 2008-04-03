@@ -27,7 +27,6 @@
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-util</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
