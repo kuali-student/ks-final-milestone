@@ -23,9 +23,8 @@ public class PersonAttributeTypeInfo implements Serializable{
 	private String type;
 	@XmlElement
 	private String label;
-	@XmlElement(name="validator")
-	@XmlElementWrapper(name="validatorList")
-	private List<String> validators;
+	@XmlElement
+	private String validators;
 	/**
 	 * @return the id
 	 */
@@ -77,11 +76,15 @@ public class PersonAttributeTypeInfo implements Serializable{
 	/**
 	 * @return the validators
 	 */
-	public List<String> getValidators() {
-		if(validators==null){
-			validators=new ArrayList<String>();
-		}
+	public String getValidators() {
 		return validators;
-	} 
+	}
+	/**
+	 * @param validators the validators to set
+	 */
+	public void setValidators(String validators) {
+		this.validators = validators;
+	}
+
 	
 }
