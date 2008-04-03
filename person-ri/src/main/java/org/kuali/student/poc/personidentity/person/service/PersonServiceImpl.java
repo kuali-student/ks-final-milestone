@@ -394,6 +394,7 @@ public class PersonServiceImpl implements PersonService {
 			personAttributeType.setDisplayLabel(attributeDefinition.getLabel());
 			personAttributeType.setName(attributeDefinition.getName());
 			personAttributeType.setType(attributeDefinition.getType().toString());
+			personAttributeType.setValidator(attributeDefinition.getValidators());
 		}else{
 			return personDAO.fetchPersonAttributeType(attributeDefinition.getId());
 		}
