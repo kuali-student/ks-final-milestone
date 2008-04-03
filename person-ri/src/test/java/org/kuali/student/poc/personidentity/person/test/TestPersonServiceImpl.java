@@ -124,9 +124,14 @@ public class TestPersonServiceImpl {
         assertEquals(result.getName().get(0).getGivenName(), person.getName().get(0).getGivenName());
         assertEquals(result.getAttribute("Attr3"), person.getAttribute("Attr3"));
 
+        //Sneaking in a test for findPersonIdsForPersonType.
+        List<Long> personIds = client.findPersonIdsForPersonType(personTypeId, null);
+        assertEquals(1, personIds.size());
+        assertEquals(resultId, personIds.get(0).longValue());
+        
         // TODO test invalid (or unrelated) personTypes and attributeTypes
     }
-
+    
 	@Test
 	public void testAssignPersonType() throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
