@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <!-- bean post-processor for JPA annotations -->
+  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+	<bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.BRMSCore.FunctionalBusinessRuleDAOImpl">
+		<property name="entityManagerFactory" ref="entityMgrFactory"/>
+	</bean>
+
+  <bean id="ruleElementDAO"  class="org.kuali.student.rules.BRMSCore.RuleElementDAOImpl">
+    <property name="entityManagerFactory" ref="entityMgrFactory"/>
+  </bean>
+  
+  <bean id="rulePropositionDAO"  class="org.kuali.student.rules.BRMSCore.RulePropositionDAOImpl">
+    <property name="entityManagerFactory" ref="entityMgrFactory"/>
+  </bean>
+
+  <bean id="BRMSMetaData"  class="org.kuali.student.rules.BRMSCore.BRMSMetaData">
+    <property name="businessRuleSetDAO" ref="functionalBusinessRuleDAO"/>    
+  </bean>
+	
+	<bean id="entityMgrFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="myDataSource"/>
+		<property name="jpaVendorAdapter">
+		   <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+			 <property name="showSql" value="true" />
+			 <property name="generateDdl" value="true" />
+			 <property name="databasePlatform" value="org.hibernate.dialect.DerbyDialect"/>
+		   </bean>
+		</property>	
+	 </bean>	
+
+	<bean id="myDataSource"	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+		<property name="url" value="jdbc:derby:BRMSMetadataDB;create=true;" />
+		<property name="username" value="Zdenek" />
+		<property name="password" value="" />
+	</bean>
+ 
+  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory"	ref="entityMgrFactory" />
+		<property name="dataSource" ref="myDataSource"/>
+	</bean>
+
+  <tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>	
+
