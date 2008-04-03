@@ -1047,9 +1047,17 @@ public class PersonServiceImpl implements PersonService {
 			PersonCriteria personCriteria) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
 
+	    //TODO: Use personCriteria to further limit search
+        PersonType personType = personDAO.fetchPersonType(personTypeKey);
+        
+        Set<Person> people = personType.getPeople();
+        List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
+        for (Person person : people) {
+            personInfoList.add(toPersonInfo(person));            
+        }
+        
+	    return personInfoList;	    
 	}
 
 	/* (non-Javadoc)
