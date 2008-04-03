@@ -1,4 +1,4 @@
-package org.kuali.student.rules.ast;
+package org.kuali.student.rules.runtime.ast;
 
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;

@@ -1,11 +1,11 @@
-package org.kuali.student.rules.ast;
+package org.kuali.student.rules.runtime.ast;
 
 import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.rules.ast.GenerateRuleFailureMessage;
+import org.kuali.student.rules.runtime.ast.GenerateRuleFailureMessage;
 
 import static org.junit.Assert.assertEquals;
 

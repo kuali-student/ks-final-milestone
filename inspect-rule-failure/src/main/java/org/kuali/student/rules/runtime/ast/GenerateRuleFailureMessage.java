@@ -1,4 +1,4 @@
-package org.kuali.student.rules.ast;
+package org.kuali.student.rules.runtime.ast;
 
 import java.io.InputStreamReader;
 import java.io.Reader;

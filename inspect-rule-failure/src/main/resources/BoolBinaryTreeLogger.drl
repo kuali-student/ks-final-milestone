@@ -1,7 +1,7 @@
-package org.kuali.student.rules.ast
+package org.kuali.student.rules.runtime.ast
  
-import org.kuali.student.rules.ast.BooleanNode;
-import org.kuali.student.rules.ast.BinaryTree;
+import org.kuali.student.rules.runtime.ast.BooleanNode;
+import org.kuali.student.rules.runtime.ast.BinaryTree;
  
 rule "OR"
 	#salience 1
