@@ -19,7 +19,7 @@
 	</modules>
 	
 	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/KualiStudent/poc/common/branches/common-dev</developerConnection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/common/branches/common-dev</developerConnection>
 	</scm>
 
 	<repositories>
