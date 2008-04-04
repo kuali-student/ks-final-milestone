@@ -2,19 +2,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.common</groupId>
 	<artifactId>common-test</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<description />
 
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>common-pom</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-util</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
