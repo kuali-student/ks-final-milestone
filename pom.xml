@@ -18,7 +18,7 @@
 
 	<scm>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/KualiStudent/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev
 		</developerConnection>
 	</scm>
 	
