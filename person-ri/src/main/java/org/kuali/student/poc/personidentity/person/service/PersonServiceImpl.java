@@ -73,136 +73,427 @@ public class PersonServiceImpl implements PersonService {
 		this.personDAO = personDAO;
 	}
 
-	/*
-	@Override
-	public List<PersonTypeDTO> findPersonTypes()
-			throws OperationFailedException {
-		
-		List<PersonTypeDTO> personTypeDTOList = new ArrayList<PersonTypeDTO>();
-		List<PersonType> personTypeList = personDAO.findPersonTypes("%");
-		for(PersonType personType : personTypeList)	{
-			personTypeDTOList.add(toPersonTypeDTO(personType));
-		}
-		
-		return personTypeDTOList;
-	}
 	
-	@Override
-	public List<PersonTypeDTO> findCreatablePersonTypes()
-			throws OperationFailedException {
-		
-		return findPersonTypes();
+	private boolean isNullOrZero(Long id) {
+		return id==null||Long.valueOf(0).equals(id);
 	}
-	
-	@Override
-	public PersonDTO fetchFullPersonInfo(long personId)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
 
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#assignPersonType(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public boolean assignPersonType(Long personId, Long personTypeKey)
+			throws AlreadyExistsException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		PersonType personType = personDAO.fetchPersonType(personTypeKey);
 		Person person = personDAO.lookupPerson(personId);
 		
-		if(person == null) {
-			throw new DoesNotExistException();
-		}
-		
-		return toPersonDTO(person);
+		//personType.getPeople().add(person);
+		person.getPersonTypes().add(personType);
+		personDAO.updatePerson(person);
+		return true;
 	}
-	
 
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createAttributeDefinition(org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo)
+	 */
 	@Override
-	public long createPerson(PersonInfoDTO person, List<PersonTypeInfoDTO> personTypes)
+	public long createAttributeDefinition(
+			PersonAttributeTypeInfo attributeDefinition)
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		
+		PersonAttributeType perAttrTyp = toPersonAttributeType(attributeDefinition, false);
+		return personDAO.createPersonAttributeType(perAttrTyp).getId();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPerson(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo, java.util.List)
+	 */
+	@Override
+	public long createPerson(PersonCreateInfo personCreateInfo,
+			List<Long> personTypeKeys) throws AlreadyExistsException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 		//create a JPA entity
-		Person personJPA = new Person();
+		Person person = new Person();
 		
 		// First look up the personTypes
-		Set<PersonType> personTypeSetJPA = new HashSet<PersonType>();
-		Set<PersonAttributeType> attributeTypeSetJPA = new HashSet<PersonAttributeType>();
+		Set<PersonType> personTypeSet = new HashSet<PersonType>();
+		Set<PersonAttributeType> attributeTypeSet = new HashSet<PersonAttributeType>();
 
 		//Find all the types we are adding to the person to be created
-		for(PersonTypeInfoDTO personTypeInfo:personTypes){	
+		for(Long personTypeKey:personTypeKeys){	
 		
 			//Look up the person types
-			PersonType personTypeJPA =  personDAO.fetchPersonType(personTypeInfo.getId());
+			PersonType personType =  personDAO.fetchPersonType(personTypeKey);
 			
 			//Add them to the list of person types
-			personTypeSetJPA.add(personTypeJPA);
+			personTypeSet.add(personType);
 			
 			//find all the attributes in the person type and add them to our set
-			for(PersonAttributeSetType personAttributeSetType:personTypeJPA.getPersonAttributeSetTypes()){
+			for(PersonAttributeSetType personAttributeSetType:personType.getPersonAttributeSetTypes()){
 				for(PersonAttributeType personAttributeType:personAttributeSetType.getPersonAttributeTypes()){
-					attributeTypeSetJPA.add(personAttributeType);
+					attributeTypeSet.add(personAttributeType);
 				}
 			}
 		}
 		
 		//Add all the attribute types
-		personJPA.getPersonTypes().addAll(personTypeSetJPA);
+		person.getPersonTypes().addAll(personTypeSet);
 		
 		//Add all of the attributes that were in the personTypes and exist on the person
-		for(PersonAttributeType personAttributeType:attributeTypeSetJPA){
+		for(PersonAttributeType personAttributeType:attributeTypeSet){
 		
 			//Check that the person being passed in actually has this attribute
-			if(person.getAttribute(personAttributeType.getName())!=null){
+			if(personCreateInfo.getAttribute(personAttributeType.getName())!=null){
 			
 				//Create a new attribute
 				PersonAttribute personAttribute = new PersonAttribute();
-				personAttribute.setPerson(personJPA);
+				personAttribute.setPerson(person);
 				personAttribute.setPersonAttributeType(personAttributeType);
-				personAttribute.setValue(person.getAttribute(personAttributeType.getName()));
+				personAttribute.setValue(personCreateInfo.getAttribute(personAttributeType.getName()));
 				
 				//Add the attribute to the person
-				personJPA.getAttributes().add(personAttribute);
+				person.getAttributes().add(personAttribute);
 			}
 			
 		}
 
 		//Copy the standard person fields
-		personJPA.setDateOfBirth(person.getDob());
-		personJPA.setConfidential(person.isConfidential());
-		personJPA.setFirstName(person.getFirstName());
-		personJPA.setLastName(person.getLastName());
-		personJPA.setGender(person.getGender());
+		PersonalInformation personalInformation = new PersonalInformation();
+		personalInformation.setGender(personCreateInfo.getGender());
+		personalInformation.setDateOfBirth(personCreateInfo.getBirthDate());
+		personalInformation.setPerson(person);
+		person.setPersonalInformation(personalInformation);
 		
-		//Set the DB specific fields
-		personJPA.setUpdateDate(new Date());
-		personJPA.setUpdatePerson(null);
+		PersonCitizenshipInfo citizenshipInfo = personCreateInfo.getCitizenship();
+		if(citizenshipInfo!=null){
+			PersonCitizenship citizenship = new PersonCitizenship();
+			citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
+			citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
+			citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
+			citizenship.setPerson(person);
+			Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
+			personCitizenship.add(citizenship);
+			person.setPersonCitizenships(personCitizenship);
+		}	
+		
+		for(PersonNameInfo nameInfo : personCreateInfo.getName()){
+			PersonName personName = new PersonName();
+			personName.setEffectiveEndDate(nameInfo.getEffectiveEndDate());
+			personName.setEffectiveStartDate(nameInfo.getEffectiveStartDate());
+			personName.setGivenName(nameInfo.getGivenName());
+			personName.setMiddleNames(nameInfo.getMiddleName());
+			personName.setNameType(nameInfo.getNameType());
+			personName.setSuffix(nameInfo.getSuffix());
+			personName.setSurname(nameInfo.getSurname());
+			personName.setTitle(nameInfo.getPersonTitle());
+			personName.setPerson(person);
+			person.getPersonNames().add(personName);
+		}
+		
+		for(PersonReferenceIdInfo personReferenceIdInfo:personCreateInfo.getReferenceId()){
+			PersonReferenceId personReferenceId = new PersonReferenceId();
+			personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
+			personReferenceId.setReferenceId(personReferenceIdInfo.getReferenceId());
+			personReferenceId.setRestrictedAccess(personReferenceIdInfo.isRestrictedAccess());
+			personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
+			personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
+			personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
+			personReferenceId.setPerson(person);
+			person.getPersonReferenceIds().add(personReferenceId);
+		}
 		
 		//Create the person
-		personDAO.createPerson(personJPA);
-		return personJPA.getId();
+		Person created = personDAO.createPerson(person);
+		return created.getId();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonAttributeSetType(org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo)
+	 */
 	@Override
-	public boolean deletePerson(PersonIdDTO personId) throws DoesNotExistException,
+	public long createPersonAttributeSetType(
+			PersonAttributeSetTypeInfo attributeSetDTO)
+			throws AlreadyExistsException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		PersonAttributeSetType personAttributeSetType = this.toPersonAttributeSetType(attributeSetDTO, false);
+		return personDAO.createPersonAttributeSetType(personAttributeSetType).getId();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonTypeInfo(org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo)
+	 */
+	@Override
+	public long createPersonTypeInfo(PersonTypeInfo personTypeInfo)
+			throws AlreadyExistsException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		PersonType personType = toPersonType(personTypeInfo,false);
+		PersonType created = personDAO.createPersonType(personType);
+		return created.getId();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePerson(java.lang.Long)
+	 */
+	@Override
+	public boolean deletePerson(Long personId) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-	    Person person = personDAO.lookupPerson(personId.getId());
-	    if(person != null) {
-	        personDAO.deletePerson(person);
-	        return true;
-	    }
-		return false;
+		Person person = personDAO.lookupPerson(personId);
+		return personDAO.deletePerson(person);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchFullPersonInfo(java.lang.Long)
+	 */
 	@Override
-	public boolean updatePerson(PersonDTO person) throws DoesNotExistException,
-			DisabledIdentifierException, InvalidParameterException,
-			MissingParameterException, ReadOnlyException,
+	public PersonInfo fetchFullPersonInfo(Long personId)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-        // Find the JPA entity
-        Person personJPA = personDAO.lookupPerson(person.getId());
+		Person person = personDAO.lookupPerson(personId);
+		return toPersonInfo(person);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonAttributeSetType(java.lang.Long)
+	 */
+	@Override
+	public PersonAttributeSetTypeInfo fetchPersonAttributeSetType(
+			Long personAttributeSetTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		PersonAttributeSetType personAttributeSetType = personDAO.fetchPersonAttributeSetType(personAttributeSetTypeKey);
+		return toPersonAttributeSetTypeInfo(personAttributeSetType);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonAttributeSetTypes(java.lang.Long, java.util.List)
+	 */
+	@Override
+	public PersonInfo fetchPersonInfoByPersonAttributeSetTypes(Long personId,
+			List<Long> personAttributeSetTypeKeyList)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		Person person = personDAO.lookupPerson(personId);
+		Set<PersonAttribute> filteredAttributes = personDAO.fetchAttributesByPersonAttributeSetType(personId, personAttributeSetTypeKeyList);
+		person.setAttributes(filteredAttributes);
+		return toPersonInfo(person);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonType(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public PersonInfo fetchPersonInfoByPersonType(Long personId,
+			Long personTypeKey) throws DoesNotExistException,
+			DisabledIdentifierException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		Person person = personDAO.lookupPerson(personId);
+		Set<PersonAttribute> filteredAttributes = personDAO.fetchAttributesByPersonType(personId, personTypeKey);
+		person.setAttributes(filteredAttributes);
+		return toPersonInfo(person);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonType(java.lang.Long)
+	 */
+	@Override
+	public PersonTypeInfo fetchPersonType(Long personTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return this.toPersonTypeInfo(personDAO.fetchPersonType(personTypeKey));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findCreatablePersonTypes()
+	 */
+	@Override
+	public List<PersonTypeDisplay> findCreatablePersonTypes()
+			throws OperationFailedException {
+		return findPersonTypes();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypes()
+	 */
+	@Override
+	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypes()
+			throws OperationFailedException {
+
+        List<PersonAttributeSetTypeDisplay> personAttrSetTypeDispList = 
+               new ArrayList<PersonAttributeSetTypeDisplay>();
+        List<PersonAttributeSetType> personAttrSetTypeList = personDAO.findPersonAttributeSetTypes("%");
+        for(PersonAttributeSetType personAttrSetType : personAttrSetTypeList) {
+            personAttrSetTypeDispList.add(toPersonAttributeSetTypeDisplay(personAttrSetType));
+        }
         
+        return personAttrSetTypeDispList;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPerson(java.lang.Long)
+	 */
+	@Override
+	public List<Long> findPersonAttributeSetTypesForPerson(Long personId)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+
+	    Set<Long> personAttrSetTypeIds = new HashSet<Long>();
+	    
+        Person person = personDAO.lookupPerson(personId);
+        
+        Set<PersonType> personTypes = person.getPersonTypes();
+        for (PersonType personType : personTypes){
+            Set<PersonAttributeSetType>  personAttrSetTypes = personType.getPersonAttributeSetTypes();
+            for(PersonAttributeSetType personAttrSetType : personAttrSetTypes) {
+                personAttrSetTypeIds.add(personAttrSetType.getId());
+            }
+        }
+
+        return (new ArrayList<Long>(personAttrSetTypeIds));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPersonType(java.lang.Long)
+	 */
+	@Override
+	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypesForPersonType(
+			Long personTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+
+	    PersonType personType = personDAO.fetchPersonType(personTypeKey);
+	    Set<PersonAttributeSetType> personAttrSetTypeSet = personType.getPersonAttributeSetTypes();
+	    
+	    List<PersonAttributeSetTypeDisplay> personAttrSetTypeDispList = 
+	        new ArrayList<PersonAttributeSetTypeDisplay>();
+	    for (PersonAttributeSetType personAttrSetType : personAttrSetTypeSet){
+	        personAttrSetTypeDispList.add(toPersonAttributeSetTypeDisplay(personAttrSetType)); 
+	    }
+	    
+	    return personAttrSetTypeDispList;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonIdsForPersonType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 */
+	@Override
+	public List<Long> findPersonIdsForPersonType(Long personTypeKey,
+			PersonCriteria personFilter) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+	    
+        PersonType personType = personDAO.fetchPersonType(personTypeKey);
+        List<Long> personIds = new ArrayList<Long>();
+        
+        Set<Person> people = personType.getPeople();
+        for (Person person : people) {
+            personIds.add(person.getId());
+        }
+        
+        return personIds;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonTypes()
+	 */
+	@Override
+	public List<PersonTypeDisplay> findPersonTypes()
+			throws OperationFailedException {
+		List<PersonTypeDisplay> personTypeInfoList = new ArrayList<PersonTypeDisplay>();
+		List<PersonType> personTypeList = personDAO.findPersonTypes("%");
+		for(PersonType personType : personTypeList)	{
+			personTypeInfoList.add(toPersonTypeDisplay(personType));
+		}
+		
+		return personTypeInfoList;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonTypesForPerson(java.lang.Long)
+	 */
+	@Override
+	public List<Long> findPersonTypesForPerson(Long personId)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+	    Person person = personDAO.lookupPerson(personId);
+	    if(person==null){
+	    	throw new DoesNotExistException("Person with id '" + personId + "' does not exist.");
+	    }
+	    Set<PersonType> personTypeSet = person.getPersonTypes();
+	    List<Long> personTypeIdList = new ArrayList<Long>();
+	    for (PersonType personType:personTypeSet){
+	        personTypeIdList.add(personType.getId());
+	    }
+	        
+	    return personTypeIdList;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#isPersonType(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public boolean isPersonType(Long personId, Long personTypeKey)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+
+	    Person person = personDAO.lookupPerson(personId);
+
+	    return person.getPersonTypes().contains(personTypeKey);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 */
+	@Override
+	public List<PersonInfo> searchForPeopleByPersonType(Long personTypeKey,
+			PersonCriteria personCriteria) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+
+	    //TODO: Use personCriteria to further limit search
+        PersonType personType = personDAO.fetchPersonType(personTypeKey);
+        
+        Set<Person> people = personType.getPeople();
+        List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
+        for (Person person : people) {
+            personInfoList.add(toPersonInfo(person));            
+        }
+        
+	    return personInfoList;	    
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePerson(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo)
+	 */
+	@Override
+	public boolean updatePerson(Long personId, PersonUpdateInfo personUpdateInfo)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			ReadOnlyException, OperationFailedException,
+			PermissionDeniedException {
+        // Find the JPA entity
+        Person personJPA = personDAO.lookupPerson(personId);     
+       
         // First look up the personTypes
         Set<PersonType> personTypeSetJPA = personJPA.getPersonTypes();
         Set<PersonAttributeType> attributeTypeSetJPA = new HashSet<PersonAttributeType>();
 
-        //Find all the types we are adding to the person to be created
+        //Find all the types that can exist on the person to be updated
         for(PersonType personTypeJPA: personTypeSetJPA) {
             for(PersonAttributeSetType personAttributeSetType:personTypeJPA.getPersonAttributeSetTypes()){
                 for(PersonAttributeType personAttributeType:personAttributeSetType.getPersonAttributeTypes()){
@@ -215,8 +506,8 @@ public class PersonServiceImpl implements PersonService {
         for(PersonAttributeType personAttributeType:attributeTypeSetJPA){
         
             //Check that the person being passed in actually has this attribute
-            if(person.getAttributes().containsKey(personAttributeType.getName())){
-                String attributeValue = person.getAttribute(personAttributeType.getName());
+            if(personUpdateInfo.getAttributes().containsKey(personAttributeType.getName())){
+                String attributeValue = personUpdateInfo.getAttribute(personAttributeType.getName());
                 
                 //I hate writing lookups
                 //Find the actual entry in the attribute set
@@ -239,106 +530,161 @@ public class PersonServiceImpl implements PersonService {
             }
             
         }
-
+       
         //Copy the standard person fields
-        personJPA.setDateOfBirth(person.getDob());
-        personJPA.setConfidential(person.isConfidential());
-        personJPA.setFirstName(person.getFirstName());
-        personJPA.setLastName(person.getLastName());
-        personJPA.setGender(person.getGender());
+        PersonalInformation personalInformation = personJPA.getPersonalInformation();
+        personalInformation.setGender(personUpdateInfo.getGender());
+        personalInformation.setDateOfBirth(personUpdateInfo.getBirthDate());
         
-        //Set the DB specific fields
-        personJPA.setUpdateDate(new Date());
-        personJPA.setUpdatePerson(null);
+        //TODO: Need to handle multiple citizenship in DTO 
+        PersonCitizenshipInfo citizenshipInfo = personUpdateInfo.getCitizenship();
+        if(citizenshipInfo!=null){
+            PersonCitizenship citizenship = new PersonCitizenship();
+            citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
+            citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
+            citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
+            citizenship.setPerson(personJPA);
+            Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
+            personCitizenship.add(citizenship);
+            personJPA.setPersonCitizenships(personCitizenship);
+        }
         
-        //Create the person
+        //Update person names
+        for (PersonNameInfo personNameInfo : personUpdateInfo.getName()) {
+
+            //Find existing name
+            PersonName name = null;
+            Set<PersonName> personNameSet = personJPA.getPersonNames(); 
+            for (PersonName personName: personNameSet) {
+                if(personName.getNameType().equals(personNameInfo.getNameType())) {
+                    name = personName;
+                    break;
+                }
+            }
+  
+            //create new name if it doesn't exist
+            if (name == null){
+                name = new PersonName();
+                name.setPerson(personJPA);
+                personNameSet.add(name);
+            }
+            
+            if (personNameInfo.getGivenName() == null){
+                personNameSet.remove(name);
+            } else {            
+                name.setEffectiveEndDate(personNameInfo.getEffectiveEndDate());
+                name.setEffectiveStartDate(personNameInfo.getEffectiveStartDate());
+                name.setGivenName(personNameInfo.getGivenName());
+                name.setMiddleNames(personNameInfo.getMiddleName());
+                name.setNameType(personNameInfo.getNameType());
+                name.setSuffix(personNameInfo.getSuffix());
+                name.setSurname(personNameInfo.getSurname());
+                name.setTitle(personNameInfo.getPersonTitle());
+            }            
+        }
+        
+        //Update reference ids
+        //TODO: Fix so it doesn't do simply delete existing and replace with new
+        personJPA.setPersonReferenceIds(new HashSet<PersonReferenceId>());
+        for(PersonReferenceIdInfo personReferenceIdInfo:personUpdateInfo.getReferenceId()){
+            PersonReferenceId personReferenceId = new PersonReferenceId();
+            personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
+            personReferenceId.setReferenceId(personReferenceIdInfo.getReferenceId());
+            personReferenceId.setRestrictedAccess(personReferenceIdInfo.isRestrictedAccess());
+            personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
+            personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
+            personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
+            personReferenceId.setPerson(personJPA);
+            personJPA.getPersonReferenceIds().add(personReferenceId);
+        }
+        
+
+        //Create the person        
         personDAO.updatePerson(personJPA);
-		return true;
+        return true;    
 	}
 
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#validatePersonInfoForPersonType(java.lang.Long, java.lang.Long)
+	 */
 	@Override
-	public long createAttributeDefinition(
-			AttributeDefinitionDTO attributeDefinition)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		//TODO exceptions
-		PersonAttributeType personAttributeType = toPersonAttributeType(attributeDefinition,false);
-		PersonAttributeType created = personDAO.createPersonAttributeType(personAttributeType);
-		return created.getId();
-	}
-
-
-
-	@Override
-	public long createPersonTypeInfo(PersonTypeInfoDTO personType)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-
-		PersonType personTypeJPA = new PersonType();
-		personTypeJPA.setName(personType.getName());
-
-		//FIXME Exceptions are not working because Transactions cause commits to occur outside of the dao
-		//and jpa exceptions will not be thrown until they are commited.
-		
-		try {
-			personTypeJPA = personDAO.createPersonType(personTypeJPA);
-		}
-		catch(javax.persistence.EntityExistsException ex) {
-			throw new AlreadyExistsException();
-		}
-		
-		return personTypeJPA.getId();
-	}
-	
-	@Override
-	public long createPersonAttributeSetType(AttributeSetDTO attributeSetDTO)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		//TODO exceptions
-		PersonAttributeSetType personAttributeSetType = toPersonAttributeSetType(attributeSetDTO,false);
-		PersonAttributeSetType created = personDAO.createPersonAttributeSetType(personAttributeSetType);
-		return created.getId();
-	}
-	
-	@Override
-	public long createPersonType(PersonTypeDTO personTypeDTO)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		//TODO Exceptions
-		PersonType personType = toPersonType(personTypeDTO,false);
-		PersonType created = personDAO.createPersonType(personType);
-		return created.getId();
-	}
-	@Override
-	public PersonDTO fetchPersonInfoByPersonType(Long personId,
-			PersonTypeInfoDTO personType) throws DoesNotExistException,
+	public ValidationError validatePersonInfoForPersonType(Long personId,
+			Long personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		//lookup the full person
-		Person person = personDAO.lookupPerson(personId);
-		
-		//Filter out the unneeded person types
-		for(Iterator<PersonType> i = person.getPersonTypes().iterator();i.hasNext();){
-			PersonType currentPersonType = i.next();
-			if(!currentPersonType.getId().equals(personType.getId())){
-				i.remove();
-			}
-		}
-		
-		for(Iterator<PersonAttribute> i = person.getAttributes().iterator();i.hasNext();){
-			PersonAttribute personAttribute = i.next();
-			if(!personAttribute.getPersonAttributeType().getId().equals(personType.getId())){
-				i.remove();
-			}
-		}
-		
-		return toPersonDTO(person);
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+
 	}
-*/
+	
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchReplacementPersonId(java.lang.Long)
+	 */
+	@Override
+	public Long fetchReplacementPersonId(Long personId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#removePersonType(java.lang.Long, java.lang.Long)
+	 */
+	@Override
+	public boolean removePersonType(Long personId, Long personTypeKey)
+			throws DoesNotExistException, DisabledIdentifierException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeople(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 */
+	@Override
+	public List<PersonInfo> searchForPeople(PersonCriteria personCriteria)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonAttributeSetType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 */
+	@Override
+	public List<PersonInfo> searchForPeopleByPersonAttributeSetType(
+			Long personAttributeSetTypeKey, PersonCriteria personCriteria)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPersonIds(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 */
+	@Override
+	public List<Long> searchForPersonIds(PersonCriteria personCriteria)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+
+	}
+	
+	
+//------------- Bean Copy Mess -------------------------------------------------
+	
+	
 	private PersonTypeInfo toPersonTypeInfo(PersonType personType){
 		PersonTypeInfo personTypeInfo = new PersonTypeInfo();
 		personTypeInfo.setId(personType.getId());
@@ -505,165 +851,23 @@ public class PersonServiceImpl implements PersonService {
 
 		return personInfo;
 	}
-	/*
-	private PersonTypeInfoDTO toPersonTypeInfoDTO(PersonType personType) {
-		PersonTypeInfoDTO personTypeInfoDTO = new PersonTypeInfoDTO();
-		personTypeInfoDTO.setId(personType.getId());
-		personTypeInfoDTO.setName(personType.getName());
-		
-		return personTypeInfoDTO;
-	}*/
+
+    private PersonAttributeSetTypeDisplay toPersonAttributeSetTypeDisplay(PersonAttributeSetType personAttrSetType) {
+        PersonAttributeSetTypeDisplay personAttrSetTypeDisp = new PersonAttributeSetTypeDisplay();
+        personAttrSetTypeDisp.setId(personAttrSetType.getId());
+        personAttrSetTypeDisp.setName(personAttrSetType.getName());
+        return personAttrSetTypeDisp;
+    }
 	
-	private boolean isNullOrZero(Long id) {
-		return id==null||Long.valueOf(0).equals(id);
+	private PersonTypeDisplay toPersonTypeDisplay(PersonType personType) {
+		PersonTypeDisplay personTypeDisplay = new PersonTypeDisplay();
+		personTypeDisplay.setId(personType.getId());
+		personTypeDisplay.setName(personType.getName());
+		return personTypeDisplay;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#assignPersonType(java.lang.Long, java.lang.Long)
-	 */
-	@Override
-	public boolean assignPersonType(Long personId, Long personTypeKey)
-			throws AlreadyExistsException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		PersonType personType = personDAO.fetchPersonType(personTypeKey);
-		Person person = personDAO.lookupPerson(personId);
-		
-		//personType.getPeople().add(person);
-		person.getPersonTypes().add(personType);
-		personDAO.updatePerson(person);
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createAttributeDefinition(org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo)
-	 */
-	@Override
-	public long createAttributeDefinition(
-			PersonAttributeTypeInfo attributeDefinition)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		PersonAttributeType perAttrTyp = toPersonAttributeType(attributeDefinition, false);
-		return personDAO.createPersonAttributeType(perAttrTyp).getId();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPerson(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo, java.util.List)
-	 */
-	@Override
-	public long createPerson(PersonCreateInfo personCreateInfo,
-			List<Long> personTypeKeys) throws AlreadyExistsException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		//create a JPA entity
-		Person person = new Person();
-		
-		// First look up the personTypes
-		Set<PersonType> personTypeSet = new HashSet<PersonType>();
-		Set<PersonAttributeType> attributeTypeSet = new HashSet<PersonAttributeType>();
-
-		//Find all the types we are adding to the person to be created
-		for(Long personTypeKey:personTypeKeys){	
-		
-			//Look up the person types
-			PersonType personType =  personDAO.fetchPersonType(personTypeKey);
-			
-			//Add them to the list of person types
-			personTypeSet.add(personType);
-			
-			//find all the attributes in the person type and add them to our set
-			for(PersonAttributeSetType personAttributeSetType:personType.getPersonAttributeSetTypes()){
-				for(PersonAttributeType personAttributeType:personAttributeSetType.getPersonAttributeTypes()){
-					attributeTypeSet.add(personAttributeType);
-				}
-			}
-		}
-		
-		//Add all the attribute types
-		person.getPersonTypes().addAll(personTypeSet);
-		
-		//Add all of the attributes that were in the personTypes and exist on the person
-		for(PersonAttributeType personAttributeType:attributeTypeSet){
-		
-			//Check that the person being passed in actually has this attribute
-			if(personCreateInfo.getAttribute(personAttributeType.getName())!=null){
-			
-				//Create a new attribute
-				PersonAttribute personAttribute = new PersonAttribute();
-				personAttribute.setPerson(person);
-				personAttribute.setPersonAttributeType(personAttributeType);
-				personAttribute.setValue(personCreateInfo.getAttribute(personAttributeType.getName()));
-				
-				//Add the attribute to the person
-				person.getAttributes().add(personAttribute);
-			}
-			
-		}
-
-		//Copy the standard person fields
-		PersonalInformation personalInformation = new PersonalInformation();
-		personalInformation.setGender(personCreateInfo.getGender());
-		personalInformation.setDateOfBirth(personCreateInfo.getBirthDate());
-		personalInformation.setPerson(person);
-		person.setPersonalInformation(personalInformation);
-		
-		PersonCitizenshipInfo citizenshipInfo = personCreateInfo.getCitizenship();
-		if(citizenshipInfo!=null){
-			PersonCitizenship citizenship = new PersonCitizenship();
-			citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
-			citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
-			citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
-			citizenship.setPerson(person);
-			Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
-			personCitizenship.add(citizenship);
-			person.setPersonCitizenships(personCitizenship);
-		}	
-		
-		for(PersonNameInfo nameInfo : personCreateInfo.getName()){
-			PersonName personName = new PersonName();
-			personName.setEffectiveEndDate(nameInfo.getEffectiveEndDate());
-			personName.setEffectiveStartDate(nameInfo.getEffectiveStartDate());
-			personName.setGivenName(nameInfo.getGivenName());
-			personName.setMiddleNames(nameInfo.getMiddleName());
-			personName.setNameType(nameInfo.getNameType());
-			personName.setSuffix(nameInfo.getSuffix());
-			personName.setSurname(nameInfo.getSurname());
-			personName.setTitle(nameInfo.getPersonTitle());
-			personName.setPerson(person);
-			person.getPersonNames().add(personName);
-		}
-		
-		for(PersonReferenceIdInfo personReferenceIdInfo:personCreateInfo.getReferenceId()){
-			PersonReferenceId personReferenceId = new PersonReferenceId();
-			personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
-			personReferenceId.setReferenceId(personReferenceIdInfo.getReferenceId());
-			personReferenceId.setRestrictedAccess(personReferenceIdInfo.isRestrictedAccess());
-			personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
-			personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
-			personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
-			personReferenceId.setPerson(person);
-			person.getPersonReferenceIds().add(personReferenceId);
-		}
-		
-		//Create the person
-		Person created = personDAO.createPerson(person);
-		return created.getId();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonAttributeSetType(org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo)
-	 */
-	@Override
-	public long createPersonAttributeSetType(
-			PersonAttributeSetTypeInfo attributeSetDTO)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		PersonAttributeSetType personAttributeSetType = this.toPersonAttributeSetType(attributeSetDTO, false);
-		return personDAO.createPersonAttributeSetType(personAttributeSetType).getId();
-	}
-
+//----------- Relationship Operations not implemented in POC -------------------	
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonRelation(java.lang.Long, java.lang.Long, java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo)
 	 */
@@ -679,33 +883,21 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonTypeInfo(org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePersonRelation(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationUpdateInfo)
 	 */
 	@Override
-	public long createPersonTypeInfo(PersonTypeInfo personTypeInfo)
-			throws AlreadyExistsException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		PersonType personType = toPersonType(personTypeInfo,false);
-		PersonType created = personDAO.createPersonType(personType);
-		return created.getId();
+	public boolean updatePersonRelation(Long personRelationId,
+			PersonRelationUpdateInfo personRelationUpdateInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, ReadOnlyException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePerson(java.lang.Long)
-	 */
-	@Override
-	public boolean deletePerson(Long personId) throws DoesNotExistException,
-			DisabledIdentifierException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		Person person = personDAO.lookupPerson(personId);
-		return personDAO.deletePerson(person);
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePersonRelation(java.lang.Long)
 	 */
@@ -718,61 +910,7 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchFullPersonInfo(java.lang.Long)
-	 */
-	@Override
-	public PersonInfo fetchFullPersonInfo(Long personId)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		Person person = personDAO.lookupPerson(personId);
-		return toPersonInfo(person);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonAttributeSetType(java.lang.Long)
-	 */
-	@Override
-	public PersonAttributeSetTypeInfo fetchPersonAttributeSetType(
-			Long personAttributeSetTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		PersonAttributeSetType personAttributeSetType = personDAO.fetchPersonAttributeSetType(personAttributeSetTypeKey);
-		return toPersonAttributeSetTypeInfo(personAttributeSetType);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonAttributeSetTypes(java.lang.Long, java.util.List)
-	 */
-	@Override
-	public PersonInfo fetchPersonInfoByPersonAttributeSetTypes(Long personId,
-			List<Long> personAttributeSetTypeKeyList)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		Person person = personDAO.lookupPerson(personId);
-		Set<PersonAttribute> filteredAttributes = personDAO.fetchAttributesByPersonAttributeSetType(personId, personAttributeSetTypeKeyList);
-		person.setAttributes(filteredAttributes);
-		return toPersonInfo(person);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonType(java.lang.Long, java.lang.Long)
-	 */
-	@Override
-	public PersonInfo fetchPersonInfoByPersonType(Long personId,
-			Long personTypeKey) throws DoesNotExistException,
-			DisabledIdentifierException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		Person person = personDAO.lookupPerson(personId);
-		Set<PersonAttribute> filteredAttributes = personDAO.fetchAttributesByPersonType(personId, personTypeKey);
-		person.setAttributes(filteredAttributes);
-		return toPersonInfo(person);
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonRelation(java.lang.Long)
 	 */
@@ -798,131 +936,6 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonType(java.lang.Long)
-	 */
-	@Override
-	public PersonTypeInfo fetchPersonType(Long personTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		return this.toPersonTypeInfo(personDAO.fetchPersonType(personTypeKey));
-	}
-
-
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchReplacementPersonId(java.lang.Long)
-	 */
-	@Override
-	public Long fetchReplacementPersonId(Long personId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findCreatablePersonTypes()
-	 */
-	@Override
-	public List<PersonTypeDisplay> findCreatablePersonTypes()
-			throws OperationFailedException {
-		return findPersonTypes();
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypes()
-	 */
-	@Override
-	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypes()
-			throws OperationFailedException {
-
-        List<PersonAttributeSetTypeDisplay> personAttrSetTypeDispList = 
-               new ArrayList<PersonAttributeSetTypeDisplay>();
-        List<PersonAttributeSetType> personAttrSetTypeList = personDAO.findPersonAttributeSetTypes("%");
-        for(PersonAttributeSetType personAttrSetType : personAttrSetTypeList) {
-            personAttrSetTypeDispList.add(toPersonAttributeSetTypeDisplay(personAttrSetType));
-        }
-        
-        return personAttrSetTypeDispList;
-	}
-	
-    private PersonAttributeSetTypeDisplay toPersonAttributeSetTypeDisplay(PersonAttributeSetType personAttrSetType) {
-        PersonAttributeSetTypeDisplay personAttrSetTypeDisp = new PersonAttributeSetTypeDisplay();
-        personAttrSetTypeDisp.setId(personAttrSetType.getId());
-        personAttrSetTypeDisp.setName(personAttrSetType.getName());
-        return personAttrSetTypeDisp;
-    }
-	
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPerson(java.lang.Long)
-	 */
-	@Override
-	public List<Long> findPersonAttributeSetTypesForPerson(Long personId)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-
-	    Set<Long> personAttrSetTypeIds = new HashSet<Long>();
-	    
-        Person person = personDAO.lookupPerson(personId);
-        
-        Set<PersonType> personTypes = person.getPersonTypes();
-        for (PersonType personType : personTypes){
-            Set<PersonAttributeSetType>  personAttrSetTypes = personType.getPersonAttributeSetTypes();
-            for(PersonAttributeSetType personAttrSetType : personAttrSetTypes) {
-                personAttrSetTypeIds.add(personAttrSetType.getId());
-            }
-        }
-
-        return (new ArrayList<Long>(personAttrSetTypeIds));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPersonType(java.lang.Long)
-	 */
-	@Override
-	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypesForPersonType(
-			Long personTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-
-	    PersonType personType = personDAO.fetchPersonType(personTypeKey);
-	    Set<PersonAttributeSetType> personAttrSetTypeSet = personType.getPersonAttributeSetTypes();
-	    
-	    List<PersonAttributeSetTypeDisplay> personAttrSetTypeDispList = 
-	        new ArrayList<PersonAttributeSetTypeDisplay>();
-	    for (PersonAttributeSetType personAttrSetType : personAttrSetTypeSet){
-	        personAttrSetTypeDispList.add(toPersonAttributeSetTypeDisplay(personAttrSetType)); 
-	    }
-	    
-	    return personAttrSetTypeDispList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonIdsForPersonType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
-	 */
-	@Override
-	public List<Long> findPersonIdsForPersonType(Long personTypeKey,
-			PersonCriteria personFilter) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-	    
-        PersonType personType = personDAO.fetchPersonType(personTypeKey);
-        List<Long> personIds = new ArrayList<Long>();
-        
-        Set<Person> people = personType.getPeople();
-        for (Person person : people) {
-            personIds.add(person.getId());
-        }
-        
-        return personIds;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonPersonRelationIds(java.lang.Long, java.lang.Long)
 	 */
 	@Override
@@ -934,7 +947,7 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonRelations(java.lang.Long, java.lang.Long)
 	 */
@@ -947,148 +960,7 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonTypes()
-	 */
-	@Override
-	public List<PersonTypeDisplay> findPersonTypes()
-			throws OperationFailedException {
-		List<PersonTypeDisplay> personTypeInfoList = new ArrayList<PersonTypeDisplay>();
-		List<PersonType> personTypeList = personDAO.findPersonTypes("%");
-		for(PersonType personType : personTypeList)	{
-			personTypeInfoList.add(toPersonTypeDisplay(personType));
-		}
-		
-		return personTypeInfoList;
-	}
-
-	private PersonTypeDisplay toPersonTypeDisplay(PersonType personType) {
-		PersonTypeDisplay personTypeDisplay = new PersonTypeDisplay();
-		personTypeDisplay.setId(personType.getId());
-		personTypeDisplay.setName(personType.getName());
-		return personTypeDisplay;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonTypesForPerson(java.lang.Long)
-	 */
-	@Override
-	public List<Long> findPersonTypesForPerson(Long personId)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-	    Person person = personDAO.lookupPerson(personId);
-	    if(person==null){
-	    	throw new DoesNotExistException("Person with id '" + personId + "' does not exist.");
-	    }
-	    Set<PersonType> personTypeSet = person.getPersonTypes();
-	    List<Long> personTypeIdList = new ArrayList<Long>();
-	    for (PersonType personType:personTypeSet){
-	        personTypeIdList.add(personType.getId());
-	    }
-	        
-	    return personTypeIdList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#isPersonType(java.lang.Long, java.lang.Long)
-	 */
-	@Override
-	public boolean isPersonType(Long personId, Long personTypeKey)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-
-	    Person person = personDAO.lookupPerson(personId);
-
-	    return person.getPersonTypes().contains(personTypeKey);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#removePersonType(java.lang.Long, java.lang.Long)
-	 */
-	@Override
-	public boolean removePersonType(Long personId, Long personTypeKey)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeople(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
-	 */
-	@Override
-	public List<PersonInfo> searchForPeople(PersonCriteria personCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonAttributeSetType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
-	 */
-	@Override
-	public List<PersonInfo> searchForPeopleByPersonAttributeSetType(
-			Long personAttributeSetTypeKey, PersonCriteria personCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
-	 */
-	@Override
-	public List<PersonInfo> searchForPeopleByPersonType(Long personTypeKey,
-			PersonCriteria personCriteria) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-
-	    //TODO: Use personCriteria to further limit search
-        PersonType personType = personDAO.fetchPersonType(personTypeKey);
-        
-        Set<Person> people = personType.getPeople();
-        List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
-        for (Person person : people) {
-            personInfoList.add(toPersonInfo(person));            
-        }
-        
-	    return personInfoList;	    
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByRelation(org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria)
-	 */
-	@Override
-	public List<PersonDisplay> searchForPeopleByRelation(
-			PersonRelationCriteria personRelationCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPersonIds(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
-	 */
-	@Override
-	public List<Long> searchForPersonIds(PersonCriteria personCriteria)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPersonIdsByRelation(org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria)
 	 */
@@ -1114,163 +986,18 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePerson(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByRelation(org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria)
 	 */
 	@Override
-	public boolean updatePerson(Long personId, PersonUpdateInfo personUpdateInfo)
-			throws DoesNotExistException, DisabledIdentifierException,
-			InvalidParameterException, MissingParameterException,
-			ReadOnlyException, OperationFailedException,
-			PermissionDeniedException {
-        // Find the JPA entity
-        Person personJPA = personDAO.lookupPerson(personId);     
-       
-        // First look up the personTypes
-        Set<PersonType> personTypeSetJPA = personJPA.getPersonTypes();
-        Set<PersonAttributeType> attributeTypeSetJPA = new HashSet<PersonAttributeType>();
-
-        //Find all the types that can exist on the person to be updated
-        for(PersonType personTypeJPA: personTypeSetJPA) {
-            for(PersonAttributeSetType personAttributeSetType:personTypeJPA.getPersonAttributeSetTypes()){
-                for(PersonAttributeType personAttributeType:personAttributeSetType.getPersonAttributeTypes()){
-                    attributeTypeSetJPA.add(personAttributeType);
-                }
-            }
-        }
-        
-        //Add all of the attributes that were in the personTypes and exist on the person
-        for(PersonAttributeType personAttributeType:attributeTypeSetJPA){
-        
-            //Check that the person being passed in actually has this attribute
-            if(personUpdateInfo.getAttributes().containsKey(personAttributeType.getName())){
-                String attributeValue = personUpdateInfo.getAttribute(personAttributeType.getName());
-                
-                //I hate writing lookups
-                //Find the actual entry in the attribute set
-                PersonAttribute attribute = null;
-                Set<PersonAttribute> attributes = personJPA.getAttributes();
-                for (PersonAttribute personAttribute : attributes) {
-                    if(personAttribute.getPersonAttributeType().getId().equals(personAttributeType.getId())) {
-                        attribute = personAttribute;
-                        break;
-                    }
-                }
-                // if value is null, that means we're removing it. that's why we did containsKey up there instead of getAttribute()
-                if(attributeValue == null) {
-                    attributes.remove(attribute);
-                    personDAO.deletePersonAttribute(attribute);
-                } else {
-                    //The problem here is that jpa allows for multi-valued attrs, whereas the dto has a map with 1:1
-                    attribute.setValue(attributeValue);
-                }
-            }
-            
-        }
-       
-        //Copy the standard person fields
-        PersonalInformation personalInformation = personJPA.getPersonalInformation();
-        personalInformation.setGender(personUpdateInfo.getGender());
-        personalInformation.setDateOfBirth(personUpdateInfo.getBirthDate());
-        
-        //TODO: Need to handle multiple citizenship in DTO 
-        PersonCitizenshipInfo citizenshipInfo = personUpdateInfo.getCitizenship();
-        if(citizenshipInfo!=null){
-            PersonCitizenship citizenship = new PersonCitizenship();
-            citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
-            citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
-            citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
-            citizenship.setPerson(personJPA);
-            Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
-            personCitizenship.add(citizenship);
-            personJPA.setPersonCitizenships(personCitizenship);
-        }
-        
-        //Update person names
-        for (PersonNameInfo personNameInfo : personUpdateInfo.getName()) {
-
-            //Find existing name
-            PersonName name = null;
-            Set<PersonName> personNameSet = personJPA.getPersonNames(); 
-            for (PersonName personName: personNameSet) {
-                if(personName.getNameType().equals(personNameInfo.getNameType())) {
-                    name = personName;
-                    break;
-                }
-            }
-  
-            //create new name if it doesn't exist
-            if (name == null){
-                name = new PersonName();
-                name.setPerson(personJPA);
-                personNameSet.add(name);
-            }
-            
-            if (personNameInfo.getGivenName() == null){
-                personNameSet.remove(name);
-            } else {            
-                name.setEffectiveEndDate(personNameInfo.getEffectiveEndDate());
-                name.setEffectiveStartDate(personNameInfo.getEffectiveStartDate());
-                name.setGivenName(personNameInfo.getGivenName());
-                name.setMiddleNames(personNameInfo.getMiddleName());
-                name.setNameType(personNameInfo.getNameType());
-                name.setSuffix(personNameInfo.getSuffix());
-                name.setSurname(personNameInfo.getSurname());
-                name.setTitle(personNameInfo.getPersonTitle());
-            }            
-        }
-        
-        //Update reference ids
-        //TODO: Fix so it doesn't do simply delete existing and replace with new
-        personJPA.setPersonReferenceIds(new HashSet<PersonReferenceId>());
-        for(PersonReferenceIdInfo personReferenceIdInfo:personUpdateInfo.getReferenceId()){
-            PersonReferenceId personReferenceId = new PersonReferenceId();
-            personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
-            personReferenceId.setReferenceId(personReferenceIdInfo.getReferenceId());
-            personReferenceId.setRestrictedAccess(personReferenceIdInfo.isRestrictedAccess());
-            personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
-            personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
-            personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
-            personReferenceId.setPerson(personJPA);
-            personJPA.getPersonReferenceIds().add(personReferenceId);
-        }
-        
-
-        //Create the person        
-        personDAO.updatePerson(personJPA);
-        return true;    
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePersonRelation(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationUpdateInfo)
-	 */
-	@Override
-	public boolean updatePersonRelation(Long personRelationId,
-			PersonRelationUpdateInfo personRelationUpdateInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, ReadOnlyException,
+	public List<PersonDisplay> searchForPeopleByRelation(
+			PersonRelationCriteria personRelationCriteria)
+			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 
 	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#validatePersonInfoForPersonType(java.lang.Long, java.lang.Long)
-	 */
-	@Override
-	public ValidationError validatePersonInfoForPersonType(Long personId,
-			Long personTypeKey) throws DoesNotExistException,
-			DisabledIdentifierException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
-	}
-
-
-
-
+	
 }
