@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.common</groupId>
 	<artifactId>common-pom</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>pom</packaging>
 	<description />
 
@@ -19,7 +19,7 @@
 	</modules>
 	
 	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/common/branches/common-dev</developerConnection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/common/tags/common-0.0.2</developerConnection>
 	</scm>
 
 	<repositories>
