@@ -13,15 +13,18 @@
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-ri-pom</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 
 	<scm>
+		<connection>
+			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev
+		</connection>
 		<developerConnection>
 			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev
 		</developerConnection>
 	</scm>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
