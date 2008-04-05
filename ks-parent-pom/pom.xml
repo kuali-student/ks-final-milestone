@@ -24,6 +24,7 @@
 					<name>!ks.use.proxy</name>
 				</property>
 			</activation>
+			
 			<repositories>
 				<repository>
 					<id>maven2-repository.dev.java.net</id>
@@ -42,12 +43,24 @@
 					<id>kuali.rice</id>
 					<url>https://test.kuali.org/maven</url>
 				</repository>
+				<repository>
+					<id>apache.incubating</id>
+					<url>http://people.apache.org/repo/m2-incubating-repository</url>
+				</repository>
+				<repository>
+					<id>ks.external.free</id>
+					<url>http://kuali.umd.edu/archiva/repository/external-free</url>
+				</repository>
 			</repositories>
 
 			<pluginRepositories>
 				<pluginRepository>
 					<id>codehaussandbox</id>
 					<url>http://snapshots.repository.codehaus.org</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>apache.incubating</id>
+					<url>http://people.apache.org/repo/m2-incubating-repository</url>
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
