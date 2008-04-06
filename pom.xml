@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-ri-pom</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.2</version>
 	</parent>
 
 	<modules>
@@ -19,6 +19,9 @@
 	</modules>
 
 	<scm>
+		<connection>
+			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
+		</connection>
 		<developerConnection>
 			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
 		</developerConnection>
