@@ -23,14 +23,25 @@
 			<list>
 				<value>classpath:META-INF/jdbc.properties</value>
 				<value>classpath:maven-config.properties</value>
-				<value>classpath:META-INF/default-test.properties</value>
-				<value>classpath:META-INF/default-test-override.properties</value>
+				<value>
+					classpath:META-INF/default-test.properties
+				</value>
+				<value>
+					classpath:META-INF/default-test-override.properties
+				</value>
 			</list>
 		</property>
+		<property name="order" value="0" />
 	</bean>
-	
+
+	<bean id="propertyOverride"
+		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+		<property name="ignoreResourceNotFound" value="true"/>
+		<property name="location" value="classpath:override.properties" />
+	</bean>
+
 	<import resource="classpath:*-mock-dao-context.xml" />
-	
+
 	<bean id="systemPropertyConfigurer"
 		class="org.kuali.student.poc.common.util.SystemPropertyConfigurer">
 		<property name="properties">
@@ -41,14 +52,14 @@
 		</property>
 	</bean>
 
-	<bean id="dataSource"
-		class="com.atomikos.jdbc.SimpleDataSourceBean" init-method="init"
-		destroy-method="close" depends-on="systemPropertyConfigurer">
+	<bean id="dataSource" class="com.atomikos.jdbc.SimpleDataSourceBean"
+		init-method="init" destroy-method="close"
+		depends-on="systemPropertyConfigurer">
 		<property name="uniqueResourceName" value="dataSource" />
 		<property name="xaDataSourceClassName"
-			value="org.apache.derby.jdbc.EmbeddedXADataSource" />
+			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaDataSourceProperties"
-			value="databaseName=${jdbc.url};user=${jdbc.username};password=${jdbc.password};createDatabase=create;" />
+			value="${jdbc.xaDataSourceProperties}" />
 		<property name="exclusiveConnectionMode" value="true" />
 		<property name="connectionPoolSize" value="5" />
 	</bean>
@@ -60,17 +71,16 @@
 			value="classpath:META-INF/jpa.properties" />
 	</bean>
 
+	<bean id="vendorAdapter" class="${jpa.vendorAdapter}">
+		<property name="databasePlatform"
+			value="${jpa.databasePlatform}" />
+		<property name="showSql" value="${jpa.showSql}" />
+		<property name="generateDdl" value="${jpa.generateDdl}" />
+	</bean>
+
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="jpaVendorAdapter">
-			<bean
-				class="${jpa.vendorAdapter}">
-				<property name="databasePlatform"
-					value="${jpa.databasePlatform}" />
-				<property name="showSql" value="${jpa.showSql}" />
-				<property name="generateDdl" value="${jpa.generateDdl}" />
-			</bean>
-		</property>
+		<property name="jpaVendorAdapter" ref="vendorAdapter"/>
 		<property name="persistenceXmlLocation"
 			value="${ks.test.persistenceLocation}" />
 		<property name="dataSource" ref="dataSource" />
@@ -99,14 +109,13 @@
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000"/>
+	<tx:annotation-driven transaction-manager="JtaTxManager"
+		order="1000" />
 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-	<bean id="dao"
-		class="${ks.test.daoImplClass}"
-		autowire="byType">
+	<bean id="dao" class="${ks.test.daoImplClass}" autowire="byType">
 	</bean>
 
 </beans>
