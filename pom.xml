@@ -6,10 +6,13 @@
 	<version>0.0.3-SNAPSHOT</version>
 	<description></description>
 	<packaging>pom</packaging>
+	<name>Kuali Student PersonIdentity RI</name>
+	
 	<modules>
 		<module>person-ri</module>
 		<module>personidentity</module>
 	</modules>
+	
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-ri-pom</artifactId>
