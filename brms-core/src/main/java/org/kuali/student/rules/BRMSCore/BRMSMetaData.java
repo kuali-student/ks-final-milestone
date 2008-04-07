@@ -6,10 +6,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-@ContextConfiguration(locations={"classpath:application-context.xml"})
 @Transactional
 public class BRMSMetaData {	
 	
