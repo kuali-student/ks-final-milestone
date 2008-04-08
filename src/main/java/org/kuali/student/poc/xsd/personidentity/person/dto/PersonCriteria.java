@@ -13,8 +13,18 @@ public class PersonCriteria implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private String firstName;
-	private String lastName;
+	private String firstName = "%";
+    @XmlElement
+	private String lastName = "%";
+    
+    public PersonCriteria() {
+        
+    }
+    public PersonCriteria(String firstName, String lastName) {
+        setFirstName(firstName);
+        setLastName(lastName);
+    }
+    
     public String getFirstName() {
         return firstName;
     }
