@@ -639,8 +639,8 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	    //TODO fix again
-	    //TODO didn't read
+        PersonType personType = null;
+        
         Person person = personDAO.lookupPerson(personId);
         if(person==null){
             throw new DoesNotExistException("Person with id '" + personId + "' does not exist.");
@@ -648,10 +648,15 @@ public class PersonServiceImpl implements PersonService {
 
         for(PersonType type : person.getPersonTypes()) {
             if(type.getId().equals(personTypeKey)) {
-                return personDAO.deletePersonType(type);
+                personType = type;
+                break;
             }
         }
-        throw new DoesNotExistException("Person with id '" + personId + "' does not exist have Person Type with id '" + personTypeKey + "'");
+        if(personType == null)
+            throw new DoesNotExistException("Person with id '" + personId + "' does not exist have Person Type with id '" + personTypeKey + "'");
+        person.getPersonTypes().remove(personType);
+        personDAO.updatePerson(person);
+        return true;
 
 	}
 	

@@ -177,6 +177,13 @@ public class TestPersonServiceImpl {
         assertEquals(2, personTypes.size());
         assertTrue((personTypes.get(0).equals(personType3Id) && personTypes.get(1).equals(personType4Id)) || (personTypes.get(0).equals(personType4Id) && personTypes.get(1).equals(personType3Id)));
 
+        //Testing removePersonType
+        assertTrue(client.removePersonType(personId, personType3Id));
+        
+        personTypes = client.findPersonTypesForPerson(personId);
+        
+        assertEquals(1, personTypes.size());
+        assertTrue(personTypes.get(0).equals(personType4Id));
 	}
 	/*
 	 * @Test(expected=AlreadyExistsException.class) public void
