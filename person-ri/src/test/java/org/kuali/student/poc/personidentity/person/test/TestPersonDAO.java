@@ -363,11 +363,14 @@ public class TestPersonDAO{
         people = personDAO.findPeopleWithAttributeSetType(pasts.get(0).getId(), criteria);
         assertEquals(1,people.size());
         
-//        //fetch just one of those types
-//        Set<PersonAttribute> attributes = personDAO.fetchAttributesByPersonType(createdId, humanTypeId);
-//        
-//        //ThHis is not filtered yet
-//        assertEquals(6,person.getAttributes().size());
-//        assertEquals(3,attributes.size());
+        //and now with personType
+        List<PersonType> personTypes = personDAO.findPersonTypes("student");
+        assertEquals(1,personTypes.size());
+        criteria.setLastName("%");
+        people = personDAO.findPeopleWithPersonType(personTypes.get(0).getId(), criteria);
+        assertEquals(2,people.size());
+        criteria.setLastName("Christmas");
+        people = personDAO.findPeopleWithPersonType(personTypes.get(0).getId(), criteria);
+        assertEquals(1,people.size());
     }
 }

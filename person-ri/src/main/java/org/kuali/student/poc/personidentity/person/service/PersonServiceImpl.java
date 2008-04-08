@@ -394,15 +394,20 @@ public class PersonServiceImpl implements PersonService {
 			PersonCriteria personFilter) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	    //TODO need to impl crit
-        PersonType personType = personDAO.fetchPersonType(personTypeKey);
         List<Long> personIds = new ArrayList<Long>();
-        
-        Set<Person> people = personType.getPeople();
-        for (Person person : people) {
-            personIds.add(person.getId());
-        }
-        
+	    if(personFilter == null) {
+	        PersonType personType = personDAO.fetchPersonType(personTypeKey);
+	        
+	        Set<Person> people = personType.getPeople();
+	        for (Person person : people) {
+	            personIds.add(person.getId());
+	        }
+	    } else {
+            List<Person> people = personDAO.findPeopleWithPersonType(personTypeKey, personFilter);
+            for (Person person : people) {
+                personIds.add(person.getId());
+            }
+	    }
         return personIds;
 	}
 
@@ -464,17 +469,21 @@ public class PersonServiceImpl implements PersonService {
 			PersonCriteria personCriteria) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-
-	    //TODO: Use personCriteria to further limit search
-        PersonType personType = personDAO.fetchPersonType(personTypeKey);
-        
-        Set<Person> people = personType.getPeople();
         List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
-        for (Person person : people) {
-            personInfoList.add(toPersonInfo(person));            
-        }
-        
-	    return personInfoList;	    
+	    if(personCriteria == null) {
+	        PersonType personType = personDAO.fetchPersonType(personTypeKey);
+	        
+	        Set<Person> people = personType.getPeople();
+	        for (Person person : people) {
+	            personInfoList.add(toPersonInfo(person));            
+	        }
+	    } else {
+            List<Person> people = personDAO.findPeopleWithPersonType(personTypeKey, personCriteria);
+            for (Person person : people) {
+                personInfoList.add(toPersonInfo(person));
+            }
+	    }
+        return personInfoList;
 	}
 
 	/* (non-Javadoc)
@@ -667,6 +676,13 @@ public class PersonServiceImpl implements PersonService {
 	public List<PersonInfo> searchForPeople(PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+        if(personCriteria == null) {
+            //Can't really do a non-criteria search
+            personCriteria = new PersonCriteria();
+            personCriteria.setFirstName("%");
+            personCriteria.setLastName("%");
+        }
+        
 	    List<PersonInfo> infos = new ArrayList<PersonInfo>();
 	    List<Person> people = personDAO.findPeople(personCriteria);
 	    for (Person person : people) {
@@ -683,12 +699,25 @@ public class PersonServiceImpl implements PersonService {
 			Long personAttributeSetTypeKey, PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-        List<PersonInfo> infos = new ArrayList<PersonInfo>();
-        List<Person> people = personDAO.findPeopleWithAttributeSetType(personAttributeSetTypeKey, personCriteria);
-        for (Person person : people) {
-            infos.add(toPersonInfo(person));
+        List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
+        if(personCriteria == null) {
+            //I'll do a non-criteria search, but this is probably slower than a criteria search depending on how nested everything is
+            PersonAttributeSetType personAttributeSetType = personDAO.fetchPersonAttributeSetType(personAttributeSetTypeKey);
+            
+            Set<PersonType> personTypes = personAttributeSetType.getPersonTypes();
+            for (PersonType personType : personTypes) {
+                Set<Person> people = personType.getPeople();
+                for (Person person : people) {
+                    personInfoList.add(toPersonInfo(person));            
+                }
+            }
+        } else {
+            List<Person> people = personDAO.findPeopleWithAttributeSetType(personAttributeSetTypeKey, personCriteria);
+            for (Person person : people) {
+                personInfoList.add(toPersonInfo(person));
+            }
         }
-        return infos;
+        return personInfoList;
 	}
 
 	/* (non-Javadoc)

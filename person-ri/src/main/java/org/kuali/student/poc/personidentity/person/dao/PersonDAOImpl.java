@@ -105,10 +105,21 @@ public class PersonDAOImpl implements PersonDAO {
 
     @Override
     public List<Person> findPeopleWithAttributeSetType(Long personAttributeSetTypeId, PersonCriteria criteria) {
-        Query query = entityManager.createNamedQuery("Person.findByAttributeSetAndCriteria");
+        Query query = entityManager.createNamedQuery("Person.findByAttributeSetTypeAndCriteria");
         query.setParameter("firstName", criteria.getFirstName());
         query.setParameter("lastName", criteria.getLastName());
         query.setParameter("personAttributeSetTypeId", personAttributeSetTypeId);
+        @SuppressWarnings("unchecked")
+        List<Person> people = query.getResultList();
+        return people;
+    }
+
+    @Override
+    public List<Person> findPeopleWithPersonType(Long personTypeId, PersonCriteria criteria) {
+        Query query = entityManager.createNamedQuery("Person.findByPersonTypeAndCriteria");
+        query.setParameter("firstName", criteria.getFirstName());
+        query.setParameter("lastName", criteria.getLastName());
+        query.setParameter("personTypeId", personTypeId);
         @SuppressWarnings("unchecked")
         List<Person> people = query.getResultList();
         return people;

@@ -99,6 +99,7 @@ public class TestPersonServiceImpl {
 
         PersonNameInfo name = new PersonNameInfo();
         name.setGivenName("Harold Horkins");
+        name.setSurname("Sea Bass");
         name.setNameType("Official");
         person.getName().add(name);
 

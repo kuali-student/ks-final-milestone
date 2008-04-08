@@ -17,6 +17,7 @@ public interface PersonDAO {
 	public List<PersonType> findPersonTypes(String nameMatch);
 	public List<Person> findPeople(PersonCriteria criteria);
 	public List<Person> findPeopleWithAttributeSetType(Long personAttributeSetTypeId, PersonCriteria criteria);
+	public List<Person> findPeopleWithPersonType(Long personTypeId, PersonCriteria criteria);
 	public PersonType updatePersonType(PersonType personType);
 	public PersonAttributeSetType createPersonAttributeSetType(PersonAttributeSetType personAttributeSetType);
 	public Person createPerson(Person person);
