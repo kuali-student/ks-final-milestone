@@ -312,4 +312,62 @@ public class TestPersonDAO{
 		assertEquals(3,attributes.size());
 	}
 	
+    @Test
+    public void testFindPeopleWithAttributeSetType(){
+        //Create a person with two types, human and student
+        Person person = new Person();
+        
+        PersonalInformation personalInfo = new PersonalInformation();
+        
+        personalInfo.setGender('M');
+        personalInfo.setDateOfBirth(new Date());
+        personalInfo.setPerson(person);
+        person.setPersonalInformation(personalInfo);
+        
+        PersonName personName = new PersonName("Lloyd", "Christmas");
+        personName.setPerson(person);
+        personName.setNameType("Official");
+        person.getPersonNames().add(personName);
+        
+        person.getPersonTypes().add(personDAO.fetchPersonType(humanTypeId));
+        person.getPersonTypes().add(personDAO.fetchPersonType(studentTypeId));
+        for(PersonType personType : person.getPersonTypes()) {
+            for(PersonAttributeSetType setDef : personType.getPersonAttributeSetTypes()) {
+                for(PersonAttributeType def : setDef.getPersonAttributeTypes()) {
+                    PersonAttribute personAttribute = new PersonAttribute();
+                    personAttribute.setPerson(person);
+                    personAttribute.setPersonAttributeType(def);
+                    if(def.getName().equals("year")){
+                        personAttribute.setValue("1994");
+                    }else if(def.getName().equals("hair")){
+                        personAttribute.setValue("Brown");
+                    }else{
+                        personAttribute.setValue(setDef.getName() + " : " + def.getName() + " : value");
+                    }
+                    person.getAttributes().add(personAttribute);
+                }
+                
+            }
+        }
+        //save the person
+        long createdId = personDAO.createPerson(person).getId();
+        
+        List<PersonAttributeSetType> pasts = personDAO.findPersonAttributeSetTypes("directory");
+        assertEquals(1,pasts.size());
+        PersonCriteria criteria = new PersonCriteria();
+        criteria.setFirstName("%");
+        criteria.setLastName("%");
+        List<Person> people = personDAO.findPeopleWithAttributeSetType(pasts.get(0).getId(), criteria);
+        assertEquals(2,people.size());
+        criteria.setLastName("Christmas");
+        people = personDAO.findPeopleWithAttributeSetType(pasts.get(0).getId(), criteria);
+        assertEquals(1,people.size());
+        
+//        //fetch just one of those types
+//        Set<PersonAttribute> attributes = personDAO.fetchAttributesByPersonType(createdId, humanTypeId);
+//        
+//        //ThHis is not filtered yet
+//        assertEquals(6,person.getAttributes().size());
+//        assertEquals(3,attributes.size());
+    }
 }

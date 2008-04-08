@@ -683,10 +683,12 @@ public class PersonServiceImpl implements PersonService {
 			Long personAttributeSetTypeKey, PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-	    //TODO derek
-		throw new UnsupportedOperationException();
-
+        List<PersonInfo> infos = new ArrayList<PersonInfo>();
+        List<Person> people = personDAO.findPeopleWithAttributeSetType(personAttributeSetTypeKey, personCriteria);
+        for (Person person : people) {
+            infos.add(toPersonInfo(person));
+        }
+        return infos;
 	}
 
 	/* (non-Javadoc)

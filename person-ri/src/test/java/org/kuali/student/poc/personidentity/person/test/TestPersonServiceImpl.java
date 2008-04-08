@@ -19,6 +19,7 @@ import org.kuali.student.poc.wsdl.personidentity.exceptions.OperationFailedExcep
 import org.kuali.student.poc.wsdl.personidentity.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.ReadOnlyException;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo;
@@ -162,6 +163,7 @@ public class TestPersonServiceImpl {
 
         PersonNameInfo name = new PersonNameInfo();
         name.setGivenName("Foggy Bottom");
+        name.setSurname("Serpentor");
         name.setNameType("Official");
         person.getName().add(name);
 
@@ -176,6 +178,37 @@ public class TestPersonServiceImpl {
 
         assertEquals(2, personTypes.size());
         assertTrue((personTypes.get(0).equals(personType3Id) && personTypes.get(1).equals(personType4Id)) || (personTypes.get(0).equals(personType4Id) && personTypes.get(1).equals(personType3Id)));
+        
+        //Testing searchForPeopleByPersonAttributeSetType
+        person = new PersonCreateInfo();
+        person.setBirthDate(new Date());
+        person.setGender('F');
+        person.setAttribute("Attr4", "Check the briefcase");
+        
+        name = new PersonNameInfo();
+        name.setGivenName("Mary");
+        name.setSurname("Swanson");
+        name.setNameType("Official");
+        person.getName().add(name);
+        
+        name = new PersonNameInfo();
+        name.setGivenName("Mary");
+        name.setSurname("Samsonite");
+        name.setNameType("Briefcase");
+        person.getName().add(name);
+        
+        client.createPerson(person, personTypeInfoList);
+        
+        PersonCriteria criteria = new PersonCriteria();
+        criteria.setFirstName("%");
+        criteria.setLastName("%");
+        List<PersonAttributeSetTypeDisplay> attributeSetTypes = client.findPersonAttributeSetTypesForPersonType(personType3Id);
+        assertEquals(1,attributeSetTypes.size());
+        List<PersonInfo> people = client.searchForPeopleByPersonAttributeSetType(attributeSetTypes.get(0).getId(), criteria);
+        assertEquals(2,people.size());
+        criteria.setFirstName("Mary");
+        people = client.searchForPeopleByPersonAttributeSetType(attributeSetTypes.get(0).getId(), criteria);
+        assertEquals(1,people.size());
 
         //Testing removePersonType
         assertTrue(client.removePersonType(personId, personType3Id));

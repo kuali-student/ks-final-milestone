@@ -104,6 +104,17 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
+    public List<Person> findPeopleWithAttributeSetType(Long personAttributeSetTypeId, PersonCriteria criteria) {
+        Query query = entityManager.createNamedQuery("Person.findByAttributeSetAndCriteria");
+        query.setParameter("firstName", criteria.getFirstName());
+        query.setParameter("lastName", criteria.getLastName());
+        query.setParameter("personAttributeSetTypeId", personAttributeSetTypeId);
+        @SuppressWarnings("unchecked")
+        List<Person> people = query.getResultList();
+        return people;
+    }
+
+    @Override
 	public boolean deletePerson(Person person) {
 		entityManager.remove(person);
 		return true; // until I know better what needs to happen

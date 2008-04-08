@@ -26,8 +26,12 @@ import javax.persistence.TemporalType;
 @Table(name = "Person_T")
 @TableGenerator(name = "idGen")
 @NamedQueries(
-        {@NamedQuery( name = "Person.findByName",
-                query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName")}
+    {
+        @NamedQuery( name = "Person.findByName",
+            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName"),
+        @NamedQuery( name = "Person.findByAttributeSetAndCriteria",
+            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt JOIN pt.personAttributeSetTypes past WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName AND past.id = :personAttributeSetTypeId")
+    }
 )
 public class Person {
 
