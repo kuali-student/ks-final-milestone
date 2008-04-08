@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -23,6 +25,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "Person_T")
 @TableGenerator(name = "idGen")
+@NamedQueries(
+        {@NamedQuery( name = "Person.findByName",
+                query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName")}
+)
 public class Person {
 
 	@Id

@@ -23,6 +23,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTyp
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonReferenceIdInfo;
@@ -70,7 +71,7 @@ public class TestPersonServiceImpl {
         assertEquals(personTypeId, personTypeInfo.getId());
 
     }
-
+    
     @Test
     public void testCreatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
         PersonAttributeTypeInfo attributeType3 = new PersonAttributeTypeInfo();
@@ -327,7 +328,14 @@ public class TestPersonServiceImpl {
         assertEquals(1, personUpdated.getReferenceId().size());
         assertEquals(personUpdateInfo.getCitizenship().getCountryOfCitizenshipCode(),personUpdated.getCitizenship().getCountryOfCitizenshipCode());
         assertEquals(personUpdateInfo.getAttribute("Attr6"), personUpdated.getAttribute("Attr6"));
-
+        
+        //testing searchForPeople
+        PersonCriteria personCriteria = new PersonCriteria();
+        personCriteria.setFirstName("John");
+        personCriteria.setLastName("Smith");
+        List<PersonInfo> people = client.searchForPeople(personCriteria);
+        assertEquals(1,people.size());
+        assertEquals(resultId,people.get(0).getPersonId().longValue());
     }
 
     /*

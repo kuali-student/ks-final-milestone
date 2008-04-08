@@ -22,6 +22,7 @@ import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
 import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
 import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -211,6 +212,16 @@ public class TestPersonDAO{
 		for(Person p : personType.getPeople()) {
 			assertTrue(p.getId().equals(person.getId()));
 		}
+		
+		//testing findPeople
+		PersonCriteria criteria = new PersonCriteria();
+		criteria.setFirstName("Joseph");
+		criteria.setLastName("Student");
+		List<Person> people = personDAO.findPeople(criteria);
+		assertEquals(1,people.size());
+		criteria.setFirstName("%");
+		people = personDAO.findPeople(criteria);
+		assertEquals(2,people.size()); //the one created in @Before and the one created here, but not counting the two nicknames as separate people 
 	}
 	
 	@Test

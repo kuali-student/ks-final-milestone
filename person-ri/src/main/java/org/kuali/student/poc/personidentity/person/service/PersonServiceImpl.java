@@ -394,7 +394,7 @@ public class PersonServiceImpl implements PersonService {
 			PersonCriteria personFilter) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	    
+	    //TODO need to impl crit
         PersonType personType = personDAO.fetchPersonType(personTypeKey);
         List<Long> personIds = new ArrayList<Long>();
         
@@ -639,8 +639,19 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+	    //TODO fix again
+	    //TODO didn't read
+        Person person = personDAO.lookupPerson(personId);
+        if(person==null){
+            throw new DoesNotExistException("Person with id '" + personId + "' does not exist.");
+        }
+
+        for(PersonType type : person.getPersonTypes()) {
+            if(type.getId().equals(personTypeKey)) {
+                return personDAO.deletePersonType(type);
+            }
+        }
+        throw new DoesNotExistException("Person with id '" + personId + "' does not exist have Person Type with id '" + personTypeKey + "'");
 
 	}
 	
@@ -651,9 +662,12 @@ public class PersonServiceImpl implements PersonService {
 	public List<PersonInfo> searchForPeople(PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-
+	    List<PersonInfo> infos = new ArrayList<PersonInfo>();
+	    List<Person> people = personDAO.findPeople(personCriteria);
+	    for (Person person : people) {
+            infos.add(toPersonInfo(person));
+        }
+	    return infos;
 	}
 	
 	/* (non-Javadoc)
@@ -665,6 +679,7 @@ public class PersonServiceImpl implements PersonService {
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
+	    //TODO derek
 		throw new UnsupportedOperationException();
 
 	}
@@ -677,6 +692,7 @@ public class PersonServiceImpl implements PersonService {
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
+	    //TODO derek
 		throw new UnsupportedOperationException();
 
 	}

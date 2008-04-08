@@ -3,6 +3,8 @@ package org.kuali.student.poc.personidentity.person.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
+
 public interface PersonDAO {
 
 	public PersonAttribute createPersonAttribute(PersonAttribute personAttribute);
@@ -10,8 +12,10 @@ public interface PersonDAO {
 	public PersonAttributeType createPersonAttributeType(PersonAttributeType personAttributeType);
 	public PersonType createPersonType(PersonType personType);
 	public PersonType fetchPersonType(Long id);
+	public boolean deletePersonType(PersonType personType);
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch);
 	public List<PersonType> findPersonTypes(String nameMatch);
+	public List<Person> findPeople(PersonCriteria criteria);
 	public PersonType updatePersonType(PersonType personType);
 	public PersonAttributeSetType createPersonAttributeSetType(PersonAttributeSetType personAttributeSetType);
 	public Person createPerson(Person person);

@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
+
 //@Transactional
 public class PersonDAOImpl implements PersonDAO {
 
@@ -35,6 +37,12 @@ public class PersonDAOImpl implements PersonDAO {
 	public PersonType fetchPersonType(Long id) {
 		return entityManager.find(PersonType.class, id);
 	}
+	
+    @Override
+    public boolean deletePersonType(PersonType personType) {
+        entityManager.remove(personType);
+        return true;
+    }
 
 	@Override
 	public PersonType updatePersonType(PersonType personType) {
@@ -86,6 +94,16 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 
 	@Override
+    public List<Person> findPeople(PersonCriteria criteria) {
+	    Query query = entityManager.createNamedQuery("Person.findByName");
+	    query.setParameter("firstName", criteria.getFirstName());
+	    query.setParameter("lastName", criteria.getLastName());
+	    @SuppressWarnings("unchecked")
+	    List<Person> people = query.getResultList();
+        return people;
+    }
+
+    @Override
 	public boolean deletePerson(Person person) {
 		entityManager.remove(person);
 		return true; // until I know better what needs to happen
