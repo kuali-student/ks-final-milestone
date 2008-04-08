@@ -696,10 +696,12 @@ public class PersonServiceImpl implements PersonService {
 	public List<Long> searchForPersonIds(PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-	    //TODO derek
-		throw new UnsupportedOperationException();
-
+        List<Long> infos = new ArrayList<Long>();
+        List<Person> people = personDAO.findPeople(personCriteria);
+        for (Person person : people) {
+            infos.add(person.getId());
+        }
+        return infos;
 	}
 	
 	

@@ -343,6 +343,9 @@ public class TestPersonServiceImpl {
         List<PersonInfo> people = client.searchForPeople(personCriteria);
         assertEquals(1,people.size());
         assertEquals(resultId,people.get(0).getPersonId().longValue());
+        List<Long> personIds = client.searchForPersonIds(personCriteria);
+        assertEquals(1,personIds.size());
+        assertEquals(resultId,personIds.get(0).longValue());
     }
 
     /*
