@@ -23,19 +23,20 @@
 		<property name="locations">
 			<list>
 				<value>classpath:maven-config.properties</value>
-				<value>classpath:META-INF/default-test.properties</value>
-				<value>classpath:META-INF/default-test-override.properties</value>
 			</list>
 		</property>
 	</bean>
-	
-	<bean name="client" class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean" depends-on="server">
+	<!-- 
+		<bean name="client" class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean" depends-on="server">
 		<property name="serviceEndpointInterface" value="${ks.test.serviceInterface}"/>
 		<property name="wsdlDocumentLocation" value="http://localhost:${ks.test.port}/Service/Service?wsdl"/>
 		<property name="serviceNamespaceURI" value="${ks.test.serviceNamespace}"/>
 		<property name="serviceName" value="${ks.test.serviceName}"/>
-	</bean>
-
+		</bean>
+	-->
+	<bean name="contextLoaderListener"
+		class="org.springframework.web.context.ContextLoaderListener" />
+		
 	<bean name="server" class="org.mortbay.jetty.Server"
 		init-method="start" destroy-method="stop">
 		<constructor-arg value="${ks.test.port}" />
@@ -70,8 +71,11 @@
 										<property
 											name="eventListeners">
 											<list>
-												<bean
+												<ref
+													bean="contextLoaderListener" />
+												<!-- <bean name="contextLoaderListener" 
 													class="org.springframework.web.context.ContextLoaderListener" />
+												-->
 											</list>
 										</property>
 										<property

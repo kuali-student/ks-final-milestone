@@ -10,7 +10,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.ClassPathResource;
 
 public class JaxWsClientFactoryBean implements FactoryBean {
-	private Class<Object> serviceEndpointInterface = null;
+	private Class<?> serviceEndpointInterface = null;
 	private String wsdlDocumentLocation="";
 	private String serviceNamespaceURI="";
 	private String serviceName="";
@@ -38,14 +38,14 @@ public class JaxWsClientFactoryBean implements FactoryBean {
 	}
 
 	@Override
-	public Class<Object> getObjectType() {
+	public Class<?> getObjectType() {
 		return serviceEndpointInterface;
 	}
 
 	/**
 	 * @return the serviceEndpointInterface
 	 */
-	public Class<Object> getServiceEndpointInterface() {
+	public Class<?> getServiceEndpointInterface() {
 		return serviceEndpointInterface;
 	}
 
@@ -54,7 +54,7 @@ public class JaxWsClientFactoryBean implements FactoryBean {
 	 *            the serviceEndpointInterface to set
 	 */
 	public void setServiceEndpointInterface(
-			Class<Object> serviceEndpointInterface) {
+			Class<?> serviceEndpointInterface) {
 		this.serviceEndpointInterface = serviceEndpointInterface;
 	}
 

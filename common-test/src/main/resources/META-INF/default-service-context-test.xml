@@ -5,9 +5,14 @@
 
 	<import resource="classpath:*-mock-service-context.xml" />
 
-	<bean id="service"
-		class="${ks.test.serviceImplClass}" autowire="byType">
-		<!-- <property name="manager" ref="dao" />-->
+	<bean id="service" class="${ks.test.serviceImplClass}"
+		autowire="byType">
 	</bean>
-
+	
+	<bean id="daoPostProcessor"
+		class="org.kuali.student.poc.common.test.spring.DaoPostProcessor">
+		<property name="daoImplClasses"
+			value="${ks.test.daoImplClasses}" />
+	</bean>
+	
 </beans>
