@@ -1,6 +1,7 @@
 package org.kuali.student.poc.personidentity.person.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -8,12 +9,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.poc.common.test.spring.Dao;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.poc.personidentity.person.dao.Person;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
@@ -23,23 +23,12 @@ import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
 import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:META-INF/default-dao-context-test.xml"})
-@Transactional
-@TransactionConfiguration(transactionManager="JtaTxManager")
-public class TestPersonDAO{
+@PersistenceFileLocation("classpath:META-INF/person-persistence.xml")		
+public class TestPersonDAO extends AbstractTransactionalDaoTest{
 
-	@Autowired
-    private PersonDAO personDAO;
-	
-	@PersistenceContext
-	private EntityManager em;
+	@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")
+    public PersonDAO personDAO;
 	
 	private long studentTypeId;
 
@@ -350,7 +339,8 @@ public class TestPersonDAO{
             }
         }
         //save the person
-        long createdId = personDAO.createPerson(person).getId();
+        Long createdId = personDAO.createPerson(person).getId();
+        assertNotNull(createdId);
         
         List<PersonAttributeSetType> pasts = personDAO.findPersonAttributeSetTypes("directory");
         assertEquals(1,pasts.size());

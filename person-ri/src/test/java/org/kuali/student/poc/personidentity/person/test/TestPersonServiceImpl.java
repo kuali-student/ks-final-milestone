@@ -9,7 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
+import org.kuali.student.poc.common.test.spring.Client;
+import org.kuali.student.poc.common.test.spring.Dao;
+import org.kuali.student.poc.common.test.spring.Daos;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.DisabledIdentifierException;
 import org.kuali.student.poc.wsdl.personidentity.exceptions.DoesNotExistException;
@@ -30,15 +34,13 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonReferenceIdInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:META-INF/jetty-context.xml"})
-public class TestPersonServiceImpl {
-    @Autowired
-    PersonService client;
+@Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
+@PersistenceFileLocation("classpath:META-INF/person-persistence.xml")	
+public class TestPersonServiceImpl extends AbstractServiceTest{
+	
+    @Client("org.kuali.student.poc.personidentity.person.service.PersonServiceImpl")
+    public PersonService client;
 
     @Test
     public void testCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
