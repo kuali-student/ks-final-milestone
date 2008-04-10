@@ -25,6 +25,12 @@
 			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-cxf</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
