@@ -17,6 +17,18 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<verbose>true</verbose>
+						<fork>true</fork>
+	                    <source>1.5</source>
+	                    <target>1.5</target>
+						<executable>${JAVA_1_5_HOME}/bin/javac.exe</executable>
+						<compilerVersion>1.5</compilerVersion>
+					</configuration>
+				</plugin>
+				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
 					<configuration>
 						<filesets>
