@@ -111,20 +111,18 @@ public class BRMSRepositoryTest
 		SimpleCredentials credentials = new SimpleCredentials( "lcarlsen", "password".toCharArray() );
         if ( repository == null )
         {
-        	String path = BRMSRepositoryTest.class.getResource("/").getPath();
-        	//String path = "C:/Temp/repo";
-	        System.out.println( "*****  path = " +path );
+        	//String path = BRMSRepositoryTest.class.getResource("/").getPath();
+        	//path = path.substring( 0, path.length()-1 );
+	        //System.out.println( "*****  path = " +path );
 	        
-            File repoDir = new File( path + "/repository" );
+            File repoDir = new File( "repository" );
             System.out.println("DELETE test repository directory: " + repoDir.getAbsolutePath());
             RepositorySessionUtil.deleteDir( repoDir );
-            //File lock = new File( path + "/.lock" );
-            //System.out.println("*****  .lock deleted = " + lock.delete() );
-            //System.out.println("*****  .lock exists  = " + lock.exists() );
             System.out.println("TEST repository directory deleted.");
 
             repoConfig = new JackrabbitRepositoryConfigurator();
-	        repository = repoConfig.getJCRRepository( path );
+	        //repository = repoConfig.getJCRRepository( path );
+	        repository = repoConfig.getJCRRepository( null );
 	        repositorySession = repository.login( credentials );
 
 	        initializeRepository( repositorySession );
