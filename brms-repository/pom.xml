@@ -1,14 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.poc.brms</groupId>
+  <artifactId>brms-repository</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>Rules repository.</description>
+
   <parent>
     <artifactId>brms-ri</artifactId>
     <groupId>org.kuali.student.poc.brms</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.kuali.student.poc.brms</groupId>
-  <artifactId>brms-repository</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <description>Rules repository.</description>
+
+  <!--build>
+    <finalName>brms-repository</finalName>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>./</directory>
+                <includes>
+                  <include>repository**/*</include>
+                  <include>repository*.xml</include>
+                  <include>repository</include>
+                </includes>
+                <followSymlinks>false</followSymlinks>
+              </fileset>
+            </filesets>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build-->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.0-alpha-4</version>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>org.antlr</groupId>
@@ -129,6 +165,12 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.3.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.3.2.1</version>
     </dependency>
   </dependencies>
 </project>

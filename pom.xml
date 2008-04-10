@@ -16,6 +16,7 @@
 	<modules>
 		<module>brms-core</module>
 		<module>inspect-rule-failure</module>
+        <module>brms-repository</module>
 	</modules>
 
 	<scm>
