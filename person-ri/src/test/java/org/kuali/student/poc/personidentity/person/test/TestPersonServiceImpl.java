@@ -39,7 +39,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")	
 public class TestPersonServiceImpl extends AbstractServiceTest{
 	
-    @Client("org.kuali.student.poc.personidentity.person.service.PersonServiceImpl")
+    @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl", port="9191")
     public PersonService client;
 
     @Test

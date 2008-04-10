@@ -4,15 +4,15 @@
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-ri</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
-	<description></description>
+	<description />
 	<packaging>pom</packaging>
 	<name>Kuali Student PersonIdentity RI</name>
-	
+
 	<modules>
 		<module>person-ri</module>
 		<module>personidentity</module>
 	</modules>
-	
+
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
 		<artifactId>ks-ri-pom</artifactId>
@@ -34,7 +34,13 @@
 			<artifactId>personidentity-api</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.1.0</version>
+		</dependency>
 	</dependencies>
+
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
