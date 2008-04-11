@@ -7,27 +7,15 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Rules repository.</description>
 	<parent>
-        <groupId>org.kuali.student.poc.brms</groupId>
+		<groupId>org.kuali.student.poc.brms</groupId>
 		<artifactId>brms-ri</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<build>
 		<finalName>brms-repository</finalName>
 		<pluginManagement>
 			<plugins>
-				<!--plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<verbose>true</verbose>
-						<fork>true</fork>
-	                    <source>1.5</source>
-	                    <target>1.5</target>
-						<executable>${JAVA_1_5_HOME}/bin/javac.exe</executable>
-						<compilerVersion>1.5</compilerVersion>
-					</configuration>
-				</plugin-->
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
 					<configuration>
@@ -37,7 +25,7 @@
 								<includes>
 									<include>repository**/*</include>
 									<include>repository*.xml</include>
-									<include>repository</include>             
+									<include>repository</include>
 								</includes>
 								<followSymlinks>false</followSymlinks>
 							</fileset>
@@ -45,153 +33,154 @@
 					</configuration>
 				</plugin>
 			</plugins>
-		</pluginManagement>       
+		</pluginManagement>
 	</build>
 
 	<dependencies>
-	  <dependency>
-	  	<groupId>org.antlr</groupId>
-	  	<artifactId>antlr-runtime</artifactId>
-	  	<version>3.0</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>commons-collections</groupId>
-	    <artifactId>commons-collections</artifactId>
-	    <version>3.1</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>concurrent</groupId>
-	    <artifactId>concurrent</artifactId>
-	    <version>1.3.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.eclipse.jdt</groupId>
-	    <artifactId>core</artifactId>
-	    <version>3.2.3.v_686_R32x</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.drools</groupId>
-	    <artifactId>drools-analytics</artifactId>
-	    <version>4.0.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.drools</groupId>
-	    <artifactId>drools-compiler</artifactId>
-	    <version>4.0.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.drools</groupId>
-	    <artifactId>drools-core</artifactId>
-	    <version>4.0.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.drools</groupId>
-	    <artifactId>drools-decisiontables</artifactId>
-	    <version>4.0.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.drools</groupId>
-	    <artifactId>drools-repository</artifactId>
-	    <version>4.0.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.drools</groupId>
-	    <artifactId>drools-jsr94</artifactId>
-	    <version>4.0.4</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>jsr94</groupId>
-	    <artifactId>jsr94</artifactId>
-	    <version>1.1</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.apache.jackrabbit</groupId>
-	    <artifactId>jackrabbit-core</artifactId>
-	    <version>1.3</version>
-        <exclusions>
-            <exclusion>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>pdfbox</groupId>
-                <artifactId>pdfbox</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>poi</groupId>
-                <artifactId>poi</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>org.textmining</groupId>
-                <artifactId>tm-extractors</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>nekohtml</groupId>
-            <artifactId>nekohtml</artifactId>
-            </exclusion>
-        </exclusions>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.apache.jackrabbit</groupId>
-	    <artifactId>jackrabbit-api</artifactId>
-	    <version>1.3</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.apache.jackrabbit</groupId>
-	    <artifactId>jackrabbit-text-extractors</artifactId>
-	    <version>1.3</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.apache.jackrabbit</groupId>
-	    <artifactId>jackrabbit-jcr-commons</artifactId>
-	    <version>1.3</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>janino</groupId>
-	    <artifactId>janino</artifactId>
-	    <version>2.5.10</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>javax.jcr</groupId>
-	    <artifactId>jcr</artifactId>
-	    <version>1.0</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>log4j</groupId>
-	    <artifactId>log4j</artifactId>
-	    <version>1.2.13</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.apache.lucene</groupId>
-	    <artifactId>lucene-core</artifactId>
-	    <version>2.0.0</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>com.thoughtworks.xstream</groupId>
-	    <artifactId>xstream</artifactId>
-	    <version>1.2.2</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.slf4j</groupId>
-	    <artifactId>slf4j-api</artifactId>
-	    <version>1.3.0</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.slf4j</groupId>
-	    <artifactId>slf4j-log4j12</artifactId>
-	    <version>1.3.0</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.mvel</groupId>
-	    <artifactId>mvel14</artifactId>
-	    <version>1.2.21</version>
-	  </dependency>
-	  <dependency>
-	    <groupId>junit</groupId>
-	    <artifactId>junit</artifactId>
-	    <version>4.3.1</version>
-	  </dependency>
-	  
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>concurrent</groupId>
+			<artifactId>concurrent</artifactId>
+			<version>1.3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>core</artifactId>
+			<version>3.2.3.v_686_R32x</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-analytics</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<version>${drools.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-repository</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-jsr94</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jsr94</groupId>
+			<artifactId>jsr94</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-core</artifactId>
+			<version>1.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.geronimo.specs</groupId>
+					<artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>pdfbox</groupId>
+					<artifactId>pdfbox</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>poi</groupId>
+					<artifactId>poi</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.textmining</groupId>
+					<artifactId>tm-extractors</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>nekohtml</groupId>
+					<artifactId>nekohtml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-api</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-text-extractors</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-jcr-commons</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.5.10</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mvel</groupId>
+			<artifactId>mvel14</artifactId>
+			<version>1.2.21</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

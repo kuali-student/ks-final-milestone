@@ -12,6 +12,10 @@
 		<artifactId>ks-ri-pom</artifactId>
 		<version>0.0.2</version>
 	</parent>
+	
+	<properties>
+		<drools.version>4.0.4</drools.version>
+	</properties>
 
 	<modules>
 		<module>brms-core</module>
