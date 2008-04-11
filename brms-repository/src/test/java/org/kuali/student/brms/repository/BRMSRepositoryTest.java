@@ -1,14 +1,11 @@
 package org.kuali.student.brms.repository;
 
-import java.sql.DriverManager;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -16,23 +13,11 @@ import java.util.Calendar;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import javax.jcr.Repository;
-import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
-
-import org.apache.jackrabbit.api.JackrabbitRepository;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
-import org.drools.StatefulSession;
 import org.drools.StatelessSession;
-import org.drools.common.DroolsObjectInputStream;
 import org.drools.jsr94.rules.RuleServiceProviderImpl;
-import org.drools.repository.JCRRepositoryConfigurator;
-import org.drools.repository.JackrabbitRepositoryConfigurator;
-import org.drools.repository.RepositorySessionUtil;
 import org.drools.repository.RulesRepository;
-import org.drools.repository.RulesRepositoryAdministrator;
-import org.drools.util.BinaryRuleBaseLoader;
 
 import javax.rules.RuleRuntime;
 import javax.rules.RuleServiceProvider;
@@ -49,7 +34,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.repository.BRMSRepository;
 import org.kuali.student.brms.repository.BRMSRepositoryException;
-import org.kuali.student.brms.repository.BuilderResult;
 import org.kuali.student.brms.repository.Rule;
 import org.kuali.student.brms.repository.RuleSet;
 import org.kuali.student.brms.repository.drools.BRMSRepositoryDroolsImpl;
@@ -58,13 +42,9 @@ import org.kuali.student.brms.repository.test.Message;
 
 import static org.junit.Assert.*;
 
-public class BRMSRepositoryTest
+public class BRMSRepositoryTest extends DroolsJackRabbitRepository
 {
-	private static Repository repository;
-	
 	private static BRMSRepository brmsRepository;
-
-    //private static ThreadLocal<BRMSRepository> threadLocalRepository = new ThreadLocal<BRMSRepository>();
 
     /*public static void main(String[] args) throws Exception
     {
@@ -100,67 +80,6 @@ public class BRMSRepositoryTest
 		}
     }*/
     
-	private static JCRRepositoryConfigurator repoConfig;
-	
-	private static Session repositorySession;
-
-	private static Session getSession() throws Exception
-	{
-        try
-        {
-		SimpleCredentials credentials = new SimpleCredentials( "lcarlsen", "password".toCharArray() );
-        if ( repository == null )
-        {
-        	//String path = BRMSRepositoryTest.class.getResource("/").getPath();
-        	//path = path.substring( 0, path.length()-1 );
-	        //System.out.println( "*****  path = " +path );
-	        
-            File repoDir = new File( "repository" );
-            System.out.println("DELETE test repository directory: " + repoDir.getAbsolutePath());
-            RepositorySessionUtil.deleteDir( repoDir );
-            System.out.println("TEST repository directory deleted.");
-
-            repoConfig = new JackrabbitRepositoryConfigurator();
-	        //repository = repoConfig.getJCRRepository( path );
-	        repository = repoConfig.getJCRRepository( null );
-	        repositorySession = repository.login( credentials );
-
-	        initializeRepository( repositorySession );
-	        //return repositorySession;
-        }
-        else
-        {
-	        //Session repoSession = repository.login( credentials );
-	        //initializeRepository( repoSession );
-	        //return repoSession;
-        }
-        return repositorySession;
-        }
-        catch( Throwable t )
-        { 
-        	t.printStackTrace();
-        	throw (Exception) t;
-        }
-	}
-	
-	private static void initializeRepository( Session repoSession )
-	{
-        RulesRepositoryAdministrator repoAdmin = new RulesRepositoryAdministrator( repoSession );
-
-        if ( repoAdmin.isRepositoryInitialized() ) 
-        {
-        	repoAdmin.clearRulesRepository();
-        }
-        repoConfig.setupRulesRepository( repoSession );
-	}
-
-	private static RulesRepository createRepository() throws Exception
-	{
-        RulesRepository ruleRepository = new RulesRepository( getSession() );   
-        //threadLocalRepository.set( repository );
-        return ruleRepository;
-	}
-	
 	private String getSimpleRule()
 	{
 		return 
@@ -317,8 +236,7 @@ public class BRMSRepositoryTest
 	@AfterClass
 	public static void tearDown() throws Exception 
 	{
-		getSession().logout();
-        ( (JackrabbitRepository) repository ).shutdown();
+		shutdown();
 	}
 
 	@Test
@@ -349,7 +267,7 @@ public class BRMSRepositoryTest
 		assertEquals( "PreReq", category.get( 0 ) );
 		assertEquals( "CoReq", category.get( 1 ) );
 	}
-/*
+
 	@Test
 	public void testRemoveCategory() throws Exception
 	{
@@ -1036,5 +954,5 @@ public class BRMSRepositoryTest
 			assertTrue( e.getMessage() != null );
 		}
 	}
-*/
+
 }
