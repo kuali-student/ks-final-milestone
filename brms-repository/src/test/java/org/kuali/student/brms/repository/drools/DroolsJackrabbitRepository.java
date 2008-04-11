@@ -1,4 +1,4 @@
-package org.kuali.student.brms.repository;
+package org.kuali.student.brms.repository.drools;
 
 import java.io.File;
 

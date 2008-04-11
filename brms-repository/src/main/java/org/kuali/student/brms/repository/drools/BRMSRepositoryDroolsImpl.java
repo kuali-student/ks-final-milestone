@@ -340,7 +340,9 @@ public class BRMSRepositoryDroolsImpl implements BRMSRepository
 	public List<RuleSet> loadArchivedRuleSets()
 			throws BRMSRepositoryException
 	{
-        try 
+        throw new BRMSRepositoryException( "Drools repository bug - Cannot load archived rule sets" );
+        
+		/*try 
         {
 System.out.println( "\n\n******************  loadArchivedRuleSets  *****************\n\n" );
         	Iterator<PackageItem> it = findArchivedPackages();
@@ -358,7 +360,7 @@ System.out.println( "\n\n*******************************************************
         catch( RulesRepositoryException e )
         {
         	throw new BRMSRepositoryException( "Loading archieved rule sets failed", e );
-        }
+        }*/
 	}
 
 	private Iterator<PackageItem> findArchivedPackages() 

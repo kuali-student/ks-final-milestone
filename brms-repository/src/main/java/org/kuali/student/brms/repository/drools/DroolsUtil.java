@@ -196,7 +196,7 @@ public class DroolsUtil
 
     public static BuilderResultList compile( PackageItem pkg ) throws IOException, DroolsParserException
     {
-        PackageBuilder builder = DroolsUtil.createPackageBuilder();
+        PackageBuilder builder = createPackageBuilder();
         builder.addPackage( new PackageDescr( pkg.getName() ) );
         String drl = pkg.getHeader();
         builder.addPackageFromDrl( new StringReader( drl ) );
@@ -205,7 +205,7 @@ public class DroolsUtil
     	
         if ( builder.hasErrors() )
     	{
-    		List<BuilderResult> l = DroolsUtil.generateBuilderResults( builder.getErrors(), pkg );
+    		List<BuilderResult> l = generateBuilderResults( builder.getErrors(), pkg );
     		errors.addAll( l );
     	}
         
@@ -215,7 +215,7 @@ public class DroolsUtil
         	builder.addPackageFromDrl( new StringReader( item.getContent() ) );
         	if ( builder.hasErrors() )
         	{
-        		List<BuilderResult> l = DroolsUtil.generateBuilderResults( builder.getErrors(), item );
+        		List<BuilderResult> l = generateBuilderResults( builder.getErrors(), item );
         		errors.addAll( l );
         	}
         }
