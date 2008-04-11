@@ -1,7 +1,5 @@
 package org.kuali.student.brms.repository;
 
-import org.kuali.student.brms.repository.DroolsJackRabbitRepository;
-
 import java.io.File;
 
 import javax.jcr.Repository;
@@ -15,7 +13,7 @@ import org.drools.repository.RepositorySessionUtil;
 import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryAdministrator;
 
-public class DroolsJackRabbitRepository {
+public class DroolsJackrabbitRepository {
 
 	private static Repository repository = null;
 	
@@ -59,7 +57,7 @@ public class DroolsJackRabbitRepository {
         return ruleRepository;
 	}
 	
-	public static void shutdown() throws Exception
+	public static void shutdownRepository() throws Exception
 	{
 		JackrabbitRepository repo = (JackrabbitRepository) repository;
 		repo.shutdown();
