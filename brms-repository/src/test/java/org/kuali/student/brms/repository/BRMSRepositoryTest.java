@@ -42,7 +42,7 @@ import org.kuali.student.brms.repository.test.Message;
 
 import static org.junit.Assert.*;
 
-public class BRMSRepositoryTest extends DroolsJackRabbitRepository
+public class BRMSRepositoryTest extends DroolsJackrabbitRepository
 {
 	private static BRMSRepository brmsRepository;
 
