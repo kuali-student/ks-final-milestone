@@ -27,7 +27,6 @@ import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
 
 import org.drools.jsr94.rules.RuleServiceProviderImpl;
-import org.hibernate.validator.AssertTrue;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
