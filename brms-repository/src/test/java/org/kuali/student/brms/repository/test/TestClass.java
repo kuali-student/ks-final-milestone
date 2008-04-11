@@ -16,10 +16,17 @@ import org.drools.brms.server.util.BRLPersistence;
 import org.drools.brms.server.util.BRXMLPersistence;
 import org.drools.compiler.PackageBuilder;
 import org.drools.event.DebugWorkingMemoryEventListener;
+import org.junit.Test;
 import org.kuali.student.brms.repository.BRMSRepositoryTest;
 
 public class TestClass 
 {
+	@Test
+	public void testMain() throws Exception
+	{
+		main(null);
+	}
+	
 	public static void main(String[] args ) throws Exception
 	{
 		RuleBase[] businessRules = new RuleBase[2];
