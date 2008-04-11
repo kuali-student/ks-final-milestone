@@ -19,28 +19,34 @@ public class DroolsJackRabbitRepository {
 
 	private static Repository repository = null;
 	
+	private static JCRRepositoryConfigurator repoConfig;
+
 	private static Session repositorySession = null;
 
-	private static Session getSession() throws Exception
+	public static void setupRepository() throws Exception
 	{
-		SimpleCredentials credentials = new SimpleCredentials( "lcarlsen", "password".toCharArray() );
-        if ( repository == null )
+        //if ( repository == null )
         {
             File repoDir = new File( "repository" );
             System.out.println("DELETE test repository directory: " + repoDir.getAbsolutePath());
             RepositorySessionUtil.deleteDir( repoDir );
             System.out.println("TEST repository directory deleted.");
 
-            JCRRepositoryConfigurator repoConfig = new JackrabbitRepositoryConfigurator();
+    		//SimpleCredentials credentials = new SimpleCredentials( "lcarlsen", "password".toCharArray() );
+            repoConfig = new JackrabbitRepositoryConfigurator();
 	        repository = repoConfig.getJCRRepository( null );
-	        repositorySession = repository.login( credentials );
+	        repositorySession = repository.login( getCredentials() );
 
-	        clearRepository( repoConfig );
+	        clearRepository();
         }
-        return repositorySession;
 	}
 
-	private static void clearRepository( JCRRepositoryConfigurator repoConfig )
+	private static SimpleCredentials getCredentials()
+	{
+		return new SimpleCredentials( "lcarlsen", "password".toCharArray() );
+	}
+	
+	public static void clearRepository()
 	{
         RulesRepositoryAdministrator repoAdmin = new RulesRepositoryAdministrator( repositorySession );
 
@@ -51,17 +57,25 @@ public class DroolsJackRabbitRepository {
         repoConfig.setupRulesRepository( repositorySession );
 	}
 
-	public static RulesRepository createRepository() throws Exception
+	public static RulesRepository getRepository() throws Exception
 	{
-        RulesRepository ruleRepository = new RulesRepository( getSession() );   
+		RulesRepository ruleRepository = new RulesRepository( repositorySession );   
         return ruleRepository;
 	}
 	
 	public static void shutdown() throws Exception
 	{
-		getSession().logout();
 		JackrabbitRepository repo = (JackrabbitRepository) repository;
 		repo.shutdown();
 	}
 	
+	public static void logout() throws Exception
+	{
+		repositorySession.logout();
+	}
+
+	public static void login() throws Exception
+	{
+    	repositorySession = repository.login( getCredentials() );
+	}
 }

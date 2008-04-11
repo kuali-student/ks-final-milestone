@@ -227,16 +227,29 @@ public class BRMSRepositoryTest extends DroolsJackRabbitRepository
 	}
 
 	@BeforeClass
-	public static void setUp() throws Exception 
+	public static void setUpOnce() throws Exception 
 	{
-		RulesRepository repo = createRepository();
-		brmsRepository = new BRMSRepositoryDroolsImpl( repo );
+		setupRepository();
 	}
-
+	
 	@AfterClass
-	public static void tearDown() throws Exception 
+	public static void tearDownOnce() throws Exception 
 	{
 		shutdown();
+	}
+
+	@Before
+	public void setUp() throws Exception 
+	{
+		login();
+		clearRepository();
+		brmsRepository = new BRMSRepositoryDroolsImpl( getRepository() );
+	}
+
+	@After
+	public void tearDown() throws Exception 
+	{
+		logout();
 	}
 
 	@Test
