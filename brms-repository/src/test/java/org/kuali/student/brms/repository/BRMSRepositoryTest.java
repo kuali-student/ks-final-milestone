@@ -235,7 +235,7 @@ public class BRMSRepositoryTest extends DroolsJackRabbitRepository
 	@AfterClass
 	public static void tearDownOnce() throws Exception 
 	{
-		shutdown();
+		shutdownRepository();
 	}
 
 	@Before

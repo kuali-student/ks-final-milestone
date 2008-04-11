@@ -63,7 +63,7 @@ public class DroolsJackRabbitRepository {
         return ruleRepository;
 	}
 	
-	public static void shutdown() throws Exception
+	public static void shutdownRepository() throws Exception
 	{
 		JackrabbitRepository repo = (JackrabbitRepository) repository;
 		repo.shutdown();
