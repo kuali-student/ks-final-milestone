@@ -166,12 +166,15 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
     {
         String rulesetUuid = brmsRepository.createRuleSet( 
         		"testBinaryPackageCompile", "" );
-        String ruleUuid = brmsRepository.createRule( 
-        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRules2(), null );
+        String ruleUuid1 = brmsRepository.createRule( 
+        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRule3(), null );
+        brmsRepository.checkinRule( ruleUuid1, null );
+        String ruleUuid2= brmsRepository.createRule( 
+        		rulesetUuid, "rule_2", "", DroolsTestUtil.getSimpleRule4(), null );
+        brmsRepository.checkinRule( ruleUuid2, null );
         brmsRepository.setFactsToRuleSet( rulesetUuid, 
         		"import java.util.Calendar " +
     			"import org.kuali.student.brms.repository.test.Message" );
-        brmsRepository.checkinRule( ruleUuid, null );
 
         BuilderResultList results = brmsRepository.compileRuleSet( rulesetUuid );
 
@@ -250,8 +253,10 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
 	{
         String rulesetUuid = brmsRepository.createRuleSet( 
         		"MyPackage", "My package description" );
-        String ruleUuid = brmsRepository.createRule( 
-        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRules(), null );
+        String ruleUuid1 = brmsRepository.createRule( 
+        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRule1(), null );
+        String ruleUuid2 = brmsRepository.createRule( 
+        		rulesetUuid, "rule_2", "", DroolsTestUtil.getSimpleRule2(), null );
         brmsRepository.setFactsToRuleSet( rulesetUuid, "import java.util.Calendar" );
 
         // Must compile a ruleset before it will save a compiled ruleset
@@ -281,8 +286,11 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
         String rulesetUuid = brmsRepository.createRuleSet( 
         		"MyPackage", "My package description" );
         String ruleUuid1 = brmsRepository.createRule( 
-        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRules(), "testJSR94" );
+        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRule1(), "testJSR94" );
         brmsRepository.checkinRule( ruleUuid1, null );
+        String ruleUuid2 = brmsRepository.createRule( 
+        		rulesetUuid, "rule_2", "", DroolsTestUtil.getSimpleRule2(), "testJSR94" );
+        brmsRepository.checkinRule( ruleUuid2, null );
         brmsRepository.setFactsToRuleSet( rulesetUuid, "import java.util.Calendar" );
         
         BuilderResultList results = brmsRepository.compileRuleSet( rulesetUuid );
@@ -361,7 +369,7 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
 
         Rule rule = brmsRepository.loadRule( ruleUUID );
         assertEquals( rule.getUUID(), ruleUUID );
-        assertEquals( rule.getContent(), DroolsTestUtil.getSimpleRules() );
+        assertEquals( rule.getContent(), DroolsTestUtil.getSimpleRule1() );
         assertEquals( rule.getName(), "rule_1" );
         assertEquals( rule.getDescription(), "Rule set description" );
         assertEquals( rule.getCheckinComment(), "Checkin rule comments" );
@@ -446,7 +454,11 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
 	{
 		String ruleSetUUID = createRuleSet( "testCompileValidRuleSetSource", 
 				"import java.util.Calendar", false );
-		createRule( ruleSetUUID, "testCompileValidRuleSetSource" );
+		//createRule( ruleSetUUID, "testCompileValidRuleSetSource" );
+        brmsRepository.createRule( ruleSetUUID, "rule_1", "", 
+        		DroolsTestUtil.getSimpleRule1(), "testCompileValidRuleSetSource" );
+        brmsRepository.createRule( ruleSetUUID, "rule_2", "", 
+        		DroolsTestUtil.getSimpleRule2(), "testCompileValidRuleSetSource" );
 
 		try
 		{
@@ -544,7 +556,7 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
         RuleSet ruleSet = brmsRepository.loadRuleSet( ruleSetUUID );
         assertEquals( ruleSetUUID, ruleSet.getUUID() );
 
-        String ruleSource = DroolsTestUtil.getSimpleRules();
+        String ruleSource = DroolsTestUtil.getSimpleRule1();
         String ruleUUID = brmsRepository.createRule( 
         		ruleSetUUID, "rule_1", "Rule set description", ruleSource,  null );
         brmsRepository.checkinRule( ruleUUID, null );
@@ -563,7 +575,7 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
         RuleSet ruleSet = brmsRepository.loadRuleSet( ruleSetUUID );
         assertEquals( ruleSetUUID, ruleSet.getUUID() );
 
-        String ruleSource = DroolsTestUtil.getSimpleRules();
+        String ruleSource = DroolsTestUtil.getSimpleRule1();
         String ruleUUID = brmsRepository.createRule( 
         		ruleSetUUID, "rule_1", "Rule set description", ruleSource,  null );
         brmsRepository.checkinRule( ruleUUID, null );

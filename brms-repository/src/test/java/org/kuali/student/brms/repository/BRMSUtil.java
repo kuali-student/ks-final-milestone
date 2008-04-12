@@ -57,7 +57,7 @@ public class BRMSUtil
 									 boolean checkin ) throws BRMSRepositoryException
 	{
 		// Create rule
-        String ruleSource = DroolsTestUtil.getSimpleRules();
+        String ruleSource = DroolsTestUtil.getSimpleRule1();
         String ruleUUID = brmsRepository.createRule( 
         		ruleSetUUID, "rule_1", "Rule set description", ruleSource, 
         		categoryName );
