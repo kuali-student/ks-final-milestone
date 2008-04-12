@@ -12,6 +12,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.jcr.ItemExistsException;
+import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.UnsupportedRepositoryOperationException;
@@ -331,6 +332,43 @@ public class BRMSRepositoryDroolsImpl implements BRMSRepository
         }
 	}
     
+    /*public List<RuleSet> loadRuleSetHistory( String uuid )
+		throws BRMSRepositoryException 
+	{
+		if ( uuid == null || uuid.trim().length() == 0 )
+		{
+			throw new IllegalArgumentException( "UUID cannot be null or empty" );
+		}
+	
+	    try 
+	    {
+			PackageItem item = this.repository.loadPackageByUUID( uuid );
+			Node node = item.getNode();
+			AssetHistoryIterator it = new AssetHistoryIterator( this.repository, node );
+
+			//AssetHistoryIterator it = item.getHistory();
+			List<RuleSet> list = new ArrayList<RuleSet>();
+			while( it != null && it.hasNext() )
+			{
+				AssetItem historyItem = (AssetItem) it.next();
+				long versionNumber = historyItem.getVersionNumber();
+System.out.println( "*****  uuid=" +historyItem.getUUID() + ", version="+versionNumber );
+System.out.println( "*****  getCheckinComment=" +historyItem.getCheckinComment() );
+System.out.println( "*****  getContent=" +historyItem.getContent() );
+	            if ( versionNumber != 0 && versionNumber != item.getVersionNumber() )
+	            {
+					RuleSet ruleset = DroolsUtil.buildHistoricalRuleSet( historyItem );
+					list.add( ruleset );
+	            }
+			}
+			return list;
+	    }
+	    catch( RulesRepositoryException e )
+	    {
+	    	throw new BRMSRepositoryException( "Loading ruleset history failed: uuid=" + uuid, e );
+	    }
+	}*/
+
 	/**
 	 * Loads all archived rule sets.
 	 * 
@@ -930,7 +968,6 @@ System.out.println( "\n\n*******************************************************
 	            }
             }
             item.checkin( comment );
-
         } 
         catch ( RulesRepositoryException e ) 
         {
@@ -1130,40 +1167,6 @@ System.out.println( "\n\n*******************************************************
 	    }
     }
 
-    private org.drools.rule.Package getPackage( byte[] binPackage )
-		throws Exception
-    {
-    	ByteArrayInputStream bin = null;
-    	ObjectInputStream in = null;
-    	
-    	try
-    	{
-	    	bin = new ByteArrayInputStream( binPackage );
-	    	in = new DroolsObjectInputStream( bin );
-	        return (org.drools.rule.Package) in.readObject();
-    	}
-	    catch ( IOException e ) 
-	    {
-	    	throw new BRMSRepositoryException( e );
-	    }
-	    catch ( ClassNotFoundException e ) 
-	    {
-	    	throw new BRMSRepositoryException( e );
-	    }
-    	finally
-    	{
-	        try
-	        {
-	    		if ( in != null ) in.close();
-		        if ( bin != null ) bin.close();
-	        }
-		    catch ( IOException e ) 
-		    {
-		    	throw new Exception( "Loading rule set failed", e );
-		    }
-    	}
-    }
-
     /**
      * Loads a compiled rule set.
      *
@@ -1177,7 +1180,7 @@ System.out.println( "\n\n*******************************************************
     	try
     	{
 			PackageItem pkg = this.repository.loadPackageByUUID( ruleSetUuid );
-	    	return getPackage( pkg.getCompiledPackageBytes() );
+	    	return DroolsUtil.getPackage( pkg.getCompiledPackageBytes() );
 	    } 
 	    catch ( RulesRepositoryException e ) 
 	    {
@@ -1205,7 +1208,7 @@ System.out.println( "\n\n*******************************************************
     	try
     	{
 	    	PackageItem pkg = this.repository.loadPackageSnapshot( ruleSetName, snapshotName );
-	    	return getPackage( pkg.getCompiledPackageBytes() );
+	    	return DroolsUtil.getPackage( pkg.getCompiledPackageBytes() );
 	    } 
 	    catch (RulesRepositoryException e) 
 	    {

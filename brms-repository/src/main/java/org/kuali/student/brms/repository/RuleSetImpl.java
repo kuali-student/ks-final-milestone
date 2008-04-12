@@ -6,6 +6,7 @@ public class RuleSetImpl extends ItemImpl implements RuleSet
 {
 	private List<Rule> rules = null;
 	private byte[] compiledRulerSet = null;
+	private Object compiledRuleSetObject = null;
 
 	private boolean snapshot = false;
 	
@@ -24,7 +25,7 @@ public class RuleSetImpl extends ItemImpl implements RuleSet
 		this.rules = rules;
 	}
 	
-	public byte[] getCompileRuleSet()
+	public byte[] getCompiledRuleSet()
 	{
 		return this.compiledRulerSet;
 	}
@@ -32,6 +33,16 @@ public class RuleSetImpl extends ItemImpl implements RuleSet
 	public void setCompiledRuleSet( byte[] compiledRuleSet )
 	{
 		this.compiledRulerSet = compiledRuleSet;
+	}
+
+	public Object getCompiledRuleSetObject()
+	{
+		return this.compiledRuleSetObject;
+	}
+	
+	public void setCompiledRuleSetObject( Object compiledRuleSetObject )
+	{
+		this.compiledRuleSetObject = compiledRuleSetObject;
 	}
 
 	public boolean isSnapshot() {

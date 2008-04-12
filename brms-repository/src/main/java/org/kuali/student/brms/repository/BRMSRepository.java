@@ -95,6 +95,9 @@ public interface BRMSRepository
     public List<Rule> loadRuleHistory( String uuid )
 			throws BRMSRepositoryException;
 
+    //public List<RuleSet> loadRuleSetHistory( String uuid )
+	//	throws BRMSRepositoryException; 
+
 	/**
 	 * Loads all archived rule sets.
 	 * 

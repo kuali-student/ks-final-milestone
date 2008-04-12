@@ -227,6 +227,7 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
         		DroolsTestUtil.getValidationRule2(), "testLoadCompiledRuleSetAndExecute" );
         brmsRepository.checkinRule( ruleUuid2, null );
 		
+        // Must compile a ruleset before it will save a compiled ruleset 
         BuilderResultList results = brmsRepository.compileRuleSet( rulesetUuid );
 		
 		// No errors
@@ -243,6 +244,28 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
         DroolsTestUtil.executeRule( binPkg, new Object[] { email, message } );
 		assertEquals( "Valid Email Address: len.carlsen@ubc.ca", message.getMessage() );
     }
+	
+	@Test
+	public void testLoadCompiledRuleSetObject() throws Exception
+	{
+        String rulesetUuid = brmsRepository.createRuleSet( 
+        		"MyPackage", "My package description" );
+        String ruleUuid = brmsRepository.createRule( 
+        		rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRules(), null );
+        brmsRepository.setFactsToRuleSet( rulesetUuid, "import java.util.Calendar" );
+
+        // Must compile a ruleset before it will save a compiled ruleset
+        // A ruleset doesn't need to be checked in before compiling
+        BuilderResultList results = brmsRepository.compileRuleSet( rulesetUuid );
+		assertNull( BRMSUtil.getErrorMessage( results ), results );
+        
+        RuleSet ruleset = brmsRepository.loadRuleSet( rulesetUuid );
+        assertNotNull( ruleset );
+        assertNotNull( ruleset.getCompiledRuleSet() );
+        assertNotNull( ruleset.getCompiledRuleSetObject() );
+        Class c = ruleset.getCompiledRuleSetObject().getClass();
+        assertEquals( "org.drools.rule.Package", c.getName() );
+	}
 	
 	@Test
 	public void testJSR94() throws Exception
@@ -326,10 +349,10 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
 	}
 	
 	@Test
-	public void testCreateNewRule() throws Exception
+	public void testCreateRule() throws Exception
 	{
-		String ruleSetUUID = createRuleSet( "testCreateNewRule" );
-		String ruleUUID = createRule( ruleSetUUID, "testCreateNewRule" );
+		String ruleSetUUID = createRuleSet( "testCreateRule" );
+		String ruleUUID = createRule( ruleSetUUID, "testCreateRule" );
         
         RuleSet ruleSet = brmsRepository.loadRuleSet( ruleSetUUID );
         List<Rule> list = ruleSet.getRules();
@@ -631,6 +654,58 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
         assertEquals( !rule.isArchived(), !rule2.isArchived() );
         assertEquals( "Unarchived", rule2.getCheckinComment() );
 	}
+
+	@Test
+	public void testLoadRuleHistory() throws Exception
+	{
+		String ruleSetUUID = createRuleSet( "testLoadRuleHistory", "import java.util.Calendar", false );
+		String ruleUUID = createRule( ruleSetUUID, "testLoadRuleHistory", false );
+
+        // Version 1
+        Rule rule1 = brmsRepository.loadRule( ruleUUID );
+        brmsRepository.checkinRule( rule1.getUUID(), "Checkin version 1" );
+        
+        // Version 2
+        Rule rule2 = brmsRepository.loadRule( ruleUUID );
+        brmsRepository.checkinRule( rule2, "Checkin version 2" );
+
+        // Version 3
+        Rule rule3Head = brmsRepository.loadRule( ruleUUID );
+        brmsRepository.checkinRule( rule3Head, "Checkin version 3 - HEAD version" );
+
+        List<Rule> ruleHistory = brmsRepository.loadRuleHistory( ruleUUID );
+        assertEquals( 2, ruleHistory.size() );
+        
+        long version1 = ruleHistory.get( 0 ).getVersionNumber();
+        long version2 = ruleHistory.get( 1 ).getVersionNumber();
+        assertTrue( version1 != version2 );
+	}
+
+	/*@Test
+	public void testLoadRuleSetHistory() throws Exception
+	{
+		String ruleSetUUID = createRuleSet( "testLoadRuleSetHistory", "import java.util.Calendar", false );
+		//String ruleUUID = createRule( ruleSetUUID, "testLoadRuleSetHistory", false );
+
+        // Version 1
+        RuleSet ruleset1 = brmsRepository.loadRuleSet( ruleSetUUID );
+        brmsRepository.checkinRuleSet( ruleset1.getUUID(), "Checkin version 1" );
+        
+        // Version 2
+        RuleSet ruleset2 = brmsRepository.loadRuleSet( ruleSetUUID );
+        brmsRepository.checkinRuleSet( ruleset2.getUUID(), "Checkin version 2" );
+
+        // Version 3
+        RuleSet ruleset3Head = brmsRepository.loadRuleSet( ruleSetUUID );
+        brmsRepository.checkinRuleSet( ruleset3Head.getUUID(), "Checkin version 3 - HEAD version" );
+
+        List<RuleSet> rulesetHistory = brmsRepository.loadRuleSetHistory( ruleSetUUID );
+        assertEquals( 2, rulesetHistory.size() );
+        
+        long version1 = rulesetHistory.get( 0 ).getVersionNumber();
+        long version2 = rulesetHistory.get( 1 ).getVersionNumber();
+        assertTrue( version1 != version2 );
+	}*/
 
 	@Test
 	public void testLoadRuleHistoryAndRestore() throws Exception

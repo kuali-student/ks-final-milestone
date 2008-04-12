@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Properties;
 
 import javax.jcr.RepositoryException;
 
+import org.drools.common.DroolsObjectInputStream;
 import org.drools.compiler.DroolsError;
 import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.PackageBuilder;
@@ -115,6 +117,39 @@ public class DroolsUtil
 		return rule;
 	}
     
+    /*public static RuleSet buildHistoricalRuleSet( AssetItem item )
+		throws BRMSRepositoryException
+	{
+		RuleSetImpl ruleSet = new RuleSetImpl( item.getUUID(), item.getName() );
+		//ruleSet.setContent( item.getContent() );
+		//ruleSet.setBinaryContent( item.getBinaryContentAsBytes() );
+		// item.getFormat() throws exception when creating from history
+		//ruleSet.setFormat( null );
+		ruleSet.setVersionNumber( item.getVersionNumber() );
+		ruleSet.setStatus( ( item.getState() == null ? "Draft" : item.getState().getName() ) );
+		ruleSet.setDescription( item.getDescription() );
+		ruleSet.setCheckinComment( item.getCheckinComment() );
+		//ruleSet.setEffectiveDate( item.getDateEffective() );
+		//ruleSet.setExpiryDate( item.getDateExpired() );
+		ruleSet.setCreatedDate( item.getCreatedDate() );
+		// item.getLastModified() throws exception when creating from history
+		ruleSet.setLastModifiedDate( null );
+		// item.isArchived() throws exception when creating from history
+		ruleSet.setArchived( false );
+		ruleSet.setVersionSnapshotUUID( item.getVersionSnapshotUUID() );
+	
+		try
+		{
+			ruleSet.setHistorical( item.isHistoricalVersion() );
+		}
+		catch( RepositoryException e )
+		{
+			throw new BRMSRepositoryException( "Unable to set ruleset historical version", e );
+		}
+		
+		return ruleSet;
+	}*/
+
     /**
      * Build a rule set from an Drools repository item.
      * 
@@ -138,6 +173,8 @@ public class DroolsUtil
 		ruleSet.setSnapshot( pkg.isSnapshot() );
 		
 		ruleSet.setCompiledRuleSet( pkg.getCompiledPackageBytes() );
+		org.drools.rule.Package p = getPackage( pkg.getCompiledPackageBytes() );
+		ruleSet.setCompiledRuleSetObject( p );
 		
 		try
 		{
@@ -160,6 +197,52 @@ public class DroolsUtil
 		return ruleSet;
     }
 
+    /**
+     * Gets a Drools <code>org.drools.rule.Package</code> from a byte array.
+     * 
+     * @param binPackage A byte array
+     * @return Drools Package
+     * @throws Exception
+     */
+    public static org.drools.rule.Package getPackage( byte[] binPackage )
+		throws BRMSRepositoryException
+	{
+		if ( binPackage == null )
+		{
+			return null;
+		}
+
+    	ByteArrayInputStream bin = null;
+		ObjectInputStream in = null;
+		
+		try
+		{
+	    	bin = new ByteArrayInputStream( binPackage );
+	    	in = new DroolsObjectInputStream( bin );
+	        return (org.drools.rule.Package) in.readObject();
+		}
+	    catch ( IOException e ) 
+	    {
+	    	throw new BRMSRepositoryException( e );
+	    }
+	    catch ( ClassNotFoundException e ) 
+	    {
+	    	throw new BRMSRepositoryException( e );
+	    }
+		finally
+		{
+	        try
+	        {
+	    		if ( in != null ) in.close();
+		        if ( bin != null ) bin.close();
+	        }
+		    catch ( IOException e ) 
+		    {
+		    	throw new BRMSRepositoryException( "Loading rule set failed", e );
+		    }
+		}
+	}
+	
     public static List<BuilderResult> generateBuilderResults( PackageBuilderErrors errors, org.drools.repository.VersionableItem item ) 
     {
     	List<BuilderResult> result = new ArrayList<BuilderResult>();
