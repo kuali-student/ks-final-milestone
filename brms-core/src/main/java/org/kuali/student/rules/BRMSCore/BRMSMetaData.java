@@ -1,14 +1,22 @@
 package org.kuali.student.rules.BRMSCore;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
+/**
+ * An interface to BRMS Meta Data that allows to store and retrieve a business rule
+ * @author Zdenek Zraly (zdenek.zraly@ub.ca)
+ */
 public class BRMSMetaData {	
 	
 	public static final String FACT_CONTAINER = "AcademicRecord";
@@ -16,21 +24,65 @@ public class BRMSMetaData {
 	@Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
 	
-	public FunctionalBusinessRule getFunctionalBusinessRule() throws Exception {
-						
-		//insert our meta data
-		insertBusinessRuleMetadata(businessRuleDAO);
+	long id;
+	
+	public String getRuleFunctionString(String ruleID) {
 		
-		FunctionalBusinessRule ruleSet = businessRuleDAO.lookupBusinessRuleID("PR 40244");			
+		Map<String, String> propositions = new HashMap<String, String>();
+		
+		FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);	
+		//FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(id);	
+		
+		Collection <RuleElement> ruleElements = rule.getRuleElements();
+			
+		String functionString = new String("");
+		char proposition = 'A';
+		for (RuleElement ruleElement : ruleElements) {
+			functionString += " ";
+			switch (ruleElement.getOperation()) {
+				case AND_TYPE:
+					functionString += "AND";
+					break;
+				case LPAREN_TYPE:
+					functionString += "(";
+					break;
+				case NOT_TYPE:
+					functionString += "NOT";
+					break;
+				case OR_TYPE:
+					functionString += "OR";
+					break;
+				case PROPOSITION_TYPE:
+					functionString += proposition;
+//					propositions.put(proposition, )
+					proposition++;
+					
+					break;
+				case RPAREN_TYPE:
+					functionString += ")";
+					break;
+				case XOR_TYPE:
+					functionString += "XOR";
+					break;	
+				default:
+					functionString += "Not found";
+			}
+		}
+		return functionString;
+	}
+
+	public FunctionalBusinessRule getFunctionalBusinessRuleTest(String ruleID) throws Exception {
+							
+		FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);			
 		//FunctionalBusinessRule ruleSet = businessRuleSetDAO.lookupBusinessRuleSet(ruleSetId);
 		
-		if (ruleSet != null) {
-			System.out.println("Found rule: " + ruleSet.getName());		
+		if (rule != null) {
+			System.out.println("Found rule: " + rule.getName());		
 		} else {
 			System.out.println("Rule not found");
 		}
 		
-		return ruleSet;
+		return rule;
 	}
 	
 	public static void main(String [ ] args) throws Exception {
@@ -38,9 +90,20 @@ public class BRMSMetaData {
 		
 		// add a shutdown hook for the above context... 
         ctx.registerShutdownHook();	
-		
+		       
         BRMSMetaData metadata = (BRMSMetaData) ctx.getBean("BRMSMetaData");
-        metadata.getFunctionalBusinessRule();
+        
+		//insert our meta data
+        try {
+            metadata.insertBusinessRuleMetadata();
+        } catch (Exception e) {
+            System.out.println("Cannot insert duplicate record:" + e.getMessage());
+        }
+        
+        //metadata.getFunctionalBusinessRuleTest("PR 40244");
+        
+        String functionString = metadata.getRuleFunctionString("PR 40244");
+        System.out.println("Function String: " + functionString);
 	}	
 
 	/**
@@ -58,7 +121,7 @@ public class BRMSMetaData {
 		this.businessRuleDAO = businessRuleSetDAO;
 	}	
 	
-    public void insertBusinessRuleMetadata(FunctionalBusinessRuleDAO businessRuleSetDAO) throws Exception {
+    public void insertBusinessRuleMetadata() throws ConstraintViolationException {
 
 		int ordinalPosition = 1;
 		RuleElement ruleElement = null;
@@ -84,6 +147,7 @@ public class BRMSMetaData {
 		// ( Completed any 2 of (Math 101, 102, 103) OR Completed any 3 of (Chem 101, 102, 103) )
 		// =======================================
 		ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		// Completed any 2 of (Math 101, 102, 103)
@@ -96,10 +160,12 @@ public class BRMSMetaData {
 		rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);				
 		ruleProp = new RuleProposition("Math Prerequisite", "enumeration of required Math courses", leftSide, operator, rightSide);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		// OR
 		ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		// Completed any 3 of (Chem 101, 102, 103)
@@ -112,9 +178,11 @@ public class BRMSMetaData {
 		rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);						
 		ruleProp = new RuleProposition("Chemistry Prerequisite", "enumeration of required Chem courses", leftSide, operator, rightSide);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 
 		
@@ -122,6 +190,7 @@ public class BRMSMetaData {
 		// AND Accumulated 10 creds in Basic Core
 		// =======================================
 		ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		facts = new ArrayList<String>();		
@@ -133,6 +202,7 @@ public class BRMSMetaData {
 		rightSide = new RightHandSide("requiredCoreUnits", "java.lang.Integer", criteria);				
 		ruleProp = new RuleProposition("Required Core Units", "Number of core units", leftSide, operator, rightSide);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		
@@ -140,9 +210,11 @@ public class BRMSMetaData {
 		// AND ( obtained instructor approval OR has Senior class standing )
 		// =======================================		
 		ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);		
 		
 		ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		// obtained instructor approval
@@ -155,10 +227,12 @@ public class BRMSMetaData {
 		rightSide = new RightHandSide("instructorApproval", "java.lang.Boolean", criteria);				
 		ruleProp = new RuleProposition("Instructor Approval", "approval granted", leftSide, operator, rightSide);		
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);		
 	
 		// OR		
 		ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);
 		
 		// has Senior class standing
@@ -171,16 +245,27 @@ public class BRMSMetaData {
 		rightSide = new RightHandSide("seniorStanding", "java.lang.Boolean", criteria);				
 		ruleProp = new RuleProposition("Senior Class Standing", "Senior standing achieved", leftSide, operator, rightSide);	
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+		ruleElement.setFunctionalBusinessRule(busRule);
 		busRule.addRuleElement(ruleElement);		
 		
 		ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-		busRule.addRuleElement(ruleElement);		
-				
+		ruleElement.setFunctionalBusinessRule(busRule);
+		//ruleElementDAO.createRuleElement(ruleElement);
+		busRule.addRuleElement(ruleElement);				
+		
 		businessRuleDAO.createBusinessRule(busRule);	
+		
+		Collection <RuleElement> ruleElements = busRule.getRuleElements();
+		id = busRule.getId();
+		System.out.println("Rule ID:" + id);
+		System.out.println("Rule IDname:" + busRule.getRuleSetIdentifier());
+		
+		//FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("PR 40244");
+		FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRule(id);		
 	}
     
     protected String[] getConfigLocations() {
     	System.out.println("HERE");
     	return new String[] {"classpath:/application-context.xml"};
-    }    
+    }
 }

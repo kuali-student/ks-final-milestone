@@ -3,6 +3,8 @@ package org.kuali.student.rules.BRMSCore;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,12 +15,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
-@TableGenerator(name = "idGen")
+@TableGenerator(name = "idGen", uniqueConstraints= {@UniqueConstraint(columnNames={"ruleIdentifier"})})
 @NamedQueries({@NamedQuery(name = "FunctionalBusinessRule.findByRuleID",
-		query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleSetIdentifier = ?1")})
+		query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = ?1")})
 public class FunctionalBusinessRule {
 
 	@Id
@@ -26,12 +29,13 @@ public class FunctionalBusinessRule {
 	private Long id;
 	private String name;
 	private String description;
-	private String ruleSetIdentifier;
+	@Column(unique = true, nullable = false)
+	private String ruleIdentifier;
 	@Embedded
 	private RuleMetaData ruleMetaData;	
 	@Embedded
 	private BusinessRuleEvaluation businessRuleEvaluation;	
-	@OneToMany(mappedBy="functionalBusinessRule") private Collection<RuleElement> ruleElements;
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy="functionalBusinessRule") private Collection<RuleElement> ruleElements;
 
 	
 	/**
@@ -41,7 +45,7 @@ public class FunctionalBusinessRule {
 		id = null;
 		name = null;
 		description = null;
-		ruleSetIdentifier = null;
+		ruleIdentifier = null;
 		ruleMetaData = null;
 		businessRuleEvaluation = null;
 	}
@@ -57,7 +61,7 @@ public class FunctionalBusinessRule {
 			String ruleSetIdentified, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
 		this.name = name;
 		this.description = description;
-		this.ruleSetIdentifier = ruleSetIdentified;
+		this.ruleIdentifier = ruleSetIdentified;
 		this.ruleMetaData = ruleMetaData;
 		this.businessRuleEvaluation = businessRuleEvaluation;
 	}
@@ -112,20 +116,6 @@ public class FunctionalBusinessRule {
 	}
 
 	/**
-	 * @return the ruleSetIdentified
-	 */
-	public final String getRuleSetIdentified() {
-		return ruleSetIdentifier;
-	}
-
-	/**
-	 * @param ruleSetIdentified the ruleSetIdentified to set
-	 */
-	public final void setRuleSetIdentified(String ruleSetIdentified) {
-		this.ruleSetIdentifier = ruleSetIdentified;
-	}
-
-	/**
 	 * @return the ruleMetaData
 	 */
 	public final RuleMetaData getRuleMetaData() {
@@ -152,5 +142,33 @@ public class FunctionalBusinessRule {
 	public final void setBusinessRuleEvaluation(
 			BusinessRuleEvaluation businessRuleEvaluation) {
 		this.businessRuleEvaluation = businessRuleEvaluation;
+	}
+
+	/**
+	 * @return the ruleSetIdentifier
+	 */
+	public final String getRuleSetIdentifier() {
+		return ruleIdentifier;
+	}
+
+	/**
+	 * @param ruleSetIdentifier the ruleSetIdentifier to set
+	 */
+	public final void setRuleSetIdentifier(String ruleSetIdentifier) {
+		this.ruleIdentifier = ruleSetIdentifier;
+	}
+
+	/**
+	 * @return the ruleElements
+	 */
+	public final Collection<RuleElement> getRuleElements() {
+		return ruleElements;
+	}
+
+	/**
+	 * @param ruleElements the ruleElements to set
+	 */
+	public final void setRuleElements(Collection<RuleElement> ruleElements) {
+		this.ruleElements = ruleElements;
 	}
 }

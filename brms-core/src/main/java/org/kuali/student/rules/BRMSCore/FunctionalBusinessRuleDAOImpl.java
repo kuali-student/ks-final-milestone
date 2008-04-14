@@ -1,5 +1,6 @@
 package org.kuali.student.rules.BRMSCore;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.orm.jpa.support.JpaDaoSupport;
@@ -9,15 +10,15 @@ import org.springframework.stereotype.Repository;
 public class FunctionalBusinessRuleDAOImpl extends JpaDaoSupport implements FunctionalBusinessRuleDAO {
 
 	@Override
-	public FunctionalBusinessRule createBusinessRule(FunctionalBusinessRule ruleSet) {
-		super.getJpaTemplate().persist(ruleSet);
-		return ruleSet;
+	public FunctionalBusinessRule createBusinessRule(FunctionalBusinessRule rule) {
+		super.getJpaTemplate().persist(rule);
+		return rule;
 	}
 
 	@Override
-	public FunctionalBusinessRule updateBusinessRule(FunctionalBusinessRule ruleSet) {
-		super.getJpaTemplate().merge(ruleSet);
-		return ruleSet;
+	public FunctionalBusinessRule updateBusinessRule(FunctionalBusinessRule rule) {
+		super.getJpaTemplate().merge(rule);
+		return rule;
 	}
 
 	@Override

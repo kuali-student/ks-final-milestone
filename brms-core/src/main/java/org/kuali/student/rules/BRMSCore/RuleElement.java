@@ -1,5 +1,6 @@
 package org.kuali.student.rules.BRMSCore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class RuleElement {
 	@Embedded
 	private RuleMetaData ruleMetaData;
 	@ManyToOne @JoinColumn(name="fkFunctionalBusinessRule") private FunctionalBusinessRule functionalBusinessRule;
-	@OneToOne
+	@OneToOne (cascade = { CascadeType.ALL })
 	private RuleProposition ruleProposition;
 	
 	/**

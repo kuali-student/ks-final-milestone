@@ -67,7 +67,6 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		// ( Completed any 2 of (Math 101, 102, 103) OR Completed any 3 of (Chem 101, 102, 103) )
 		// =======================================
 		ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		// Completed any 2 of (Math 101, 102, 103)
@@ -79,14 +78,11 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		criteria.add("2");		
 		rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);				
 		ruleProp = new RuleProposition("Math Prerequisite", "enumeration of required Math courses", leftSide, operator, rightSide);
-		em.persist(ruleProp);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		// OR
 		ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		// Completed any 3 of (Chem 101, 102, 103)
@@ -98,13 +94,10 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		criteria.add("3");		
 		rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);						
 		ruleProp = new RuleProposition("Chemistry Prerequisite", "enumeration of required Chem courses", leftSide, operator, rightSide);
-		em.persist(ruleProp);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 
 		
@@ -112,7 +105,6 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		// AND Accumulated 10 creds in Basic Core
 		// =======================================
 		ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		facts = new ArrayList<String>();		
@@ -123,9 +115,7 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		criteria.add("2");		
 		rightSide = new RightHandSide("requiredCoreUnits", "java.lang.Integer", criteria);				
 		ruleProp = new RuleProposition("Required Core Units", "Number of core units", leftSide, operator, rightSide);
-		em.persist(ruleProp);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		
@@ -133,11 +123,9 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		// AND ( obtained instructor approval OR has Senior class standing )
 		// =======================================		
 		ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);		
 		
 		ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		// obtained instructor approval
@@ -149,14 +137,11 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		criteria.add("true");		
 		rightSide = new RightHandSide("instructorApproval", "java.lang.Boolean", criteria);				
 		ruleProp = new RuleProposition("Instructor Approval", "approval granted", leftSide, operator, rightSide);		
-		em.persist(ruleProp);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);		
 	
 		// OR		
 		ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);
 		
 		// has Senior class standing
@@ -168,18 +153,14 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 		criteria.add("true");		
 		rightSide = new RightHandSide("seniorStanding", "java.lang.Boolean", criteria);				
 		ruleProp = new RuleProposition("Senior Class Standing", "Senior standing achieved", leftSide, operator, rightSide);	
-		em.persist(ruleProp);
 		ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);		
 		
 		ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-		em.persist(ruleElement);
 		busRule.addRuleElement(ruleElement);		
 				
 		functionalBusinessRuleDAO.createBusinessRule(busRule);	
 				
-		em.persist(busRule);
 		ruleId = busRule.getId();
 	}
 	
@@ -203,6 +184,7 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 	public void testUpdateRule() {
 		FunctionalBusinessRule rule = functionalBusinessRuleDAO.lookupBusinessRule(ruleId);		
 		//FunctionalBusinessRule ruleSet = functionalBusinessRuleDAO.lookupBusinessRuleID("PR 40244");				
+		
 		
 		rule.setName("New Rule Name");
 		
