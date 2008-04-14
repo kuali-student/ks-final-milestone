@@ -3,8 +3,6 @@ package org.kuali.student.rules.BRMSCore;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +24,8 @@ public class BRMSMetaData {
 	
 	long id;
 	
-	public String getRuleFunctionString(String ruleID) {
-		
-		Map<String, String> propositions = new HashMap<String, String>();
-		
-		FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);	
-		//FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(id);	
-		
+	public String getRuleFunctionString(FunctionalBusinessRule rule) {
+			
 		Collection <RuleElement> ruleElements = rule.getRuleElements();
 			
 		String functionString = new String("");
@@ -71,20 +64,6 @@ public class BRMSMetaData {
 		return functionString;
 	}
 
-	public FunctionalBusinessRule getFunctionalBusinessRuleTest(String ruleID) throws Exception {
-							
-		FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);			
-		//FunctionalBusinessRule ruleSet = businessRuleSetDAO.lookupBusinessRuleSet(ruleSetId);
-		
-		if (rule != null) {
-			System.out.println("Found rule: " + rule.getName());		
-		} else {
-			System.out.println("Rule not found");
-		}
-		
-		return rule;
-	}
-	
 	public static void main(String [ ] args) throws Exception {
 		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-context.xml");
 		
@@ -93,7 +72,7 @@ public class BRMSMetaData {
 		       
         BRMSMetaData metadata = (BRMSMetaData) ctx.getBean("BRMSMetaData");
         
-		//insert our meta data
+		//insert our demo MetaData
         try {
             metadata.insertBusinessRuleMetadata();
         } catch (Exception e) {
@@ -102,8 +81,15 @@ public class BRMSMetaData {
         
         //metadata.getFunctionalBusinessRuleTest("PR 40244");
         
-        String functionString = metadata.getRuleFunctionString("PR 40244");
+        
+        FunctionalBusinessRule rule = metadata.businessRuleDAO.lookupBusinessRuleID("PR 40244"); 
+        //FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(id); 
+        
+        String functionString = metadata.getRuleFunctionString(rule);
         System.out.println("Function String: " + functionString);
+        
+        
+        
 	}	
 
 	/**
@@ -255,17 +241,39 @@ public class BRMSMetaData {
 		
 		businessRuleDAO.createBusinessRule(busRule);	
 		
-		Collection <RuleElement> ruleElements = busRule.getRuleElements();
 		id = busRule.getId();
 		System.out.println("Rule ID:" + id);
-		System.out.println("Rule IDname:" + busRule.getRuleSetIdentifier());
-		
-		//FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("PR 40244");
-		FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRule(id);		
+		System.out.println("Rule IDname:" + busRule.getRuleSetIdentifier());	
 	}
     
     protected String[] getConfigLocations() {
-    	System.out.println("HERE");
     	return new String[] {"classpath:/application-context.xml"};
     }
+    
+    private String mapMetaRuleToDroolRule(String metaRule) {
+        
+        if (metaRule.indexOf("Completed any") != -1) { 
+            return "Person( $academicRecord : academicRecord )" + System.getProperty("line.separator") +       
+                   "//Count using the Drools count accumulate function" + System.getProperty("line.separator") +
+                   "countCLUMatches1 : Long( longValue >= 1 )" + System.getProperty("line.separator") +
+                   "from accumulate( LUIPersonAssociation( canonicalLUName in ( \"CPSC219\", \"CPSC124\" ), $clu : canonicalLU )" +
+                   System.getProperty("line.separator") + "from $academicRecord.records, count( $clu ) )";         
+        }
+        return "";        
+    }
+    
+    public FunctionalBusinessRule getFunctionalBusinessRuleTest(String ruleID) throws Exception {
+        
+        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);         
+        //FunctionalBusinessRule ruleSet = businessRuleSetDAO.lookupBusinessRuleSet(ruleSetId);
+        
+        if (rule != null) {
+            System.out.println("Found rule: " + rule.getName());        
+        } else {
+            System.out.println("Rule " + ruleID + " not found");
+        }
+        
+        return rule;
+    }    
+    
 }
