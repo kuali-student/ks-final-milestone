@@ -33,13 +33,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.repository.drools.BRMSRepositoryDroolsImpl;
-import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
 import org.kuali.student.brms.repository.drools.DroolsTestUtil;
+import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
 
-public class BRMSRepositoryTest extends DroolsJackrabbitRepository
+public class BRMSRepositoryTest //extends DroolsJackrabbitRepositoryOld
 {
+	private static DroolsJackrabbitRepository jackrabbitRepository;
+	
 	private static BRMSRepository brmsRepository;
 
     /*public static void main(String[] args) throws Exception
@@ -99,27 +101,28 @@ public class BRMSRepositoryTest extends DroolsJackrabbitRepository
 	@BeforeClass
 	public static void setUpOnce() throws Exception 
 	{
-		setupRepository();
+		jackrabbitRepository = new DroolsJackrabbitRepository();
+		jackrabbitRepository.init();
 	}
 	
 	@AfterClass
 	public static void tearDownOnce() throws Exception 
 	{
-		shutdownRepository();
+		jackrabbitRepository.shutdownRepository();
 	}
 
 	@Before
 	public void setUp() throws Exception 
 	{
-		login();
-		clearRepository();
-		brmsRepository = new BRMSRepositoryDroolsImpl( getRepository() );
+		jackrabbitRepository.login( jackrabbitRepository.getCredentials() );
+		jackrabbitRepository.clearData();
+		brmsRepository = new BRMSRepositoryDroolsImpl( jackrabbitRepository.getRepository() );
 	}
 
 	@After
 	public void tearDown() throws Exception 
 	{
-		logout();
+		jackrabbitRepository.logout();
 	}
 
 	@Test

@@ -1,9 +1,7 @@
 package org.kuali.student.brms.repository.drools;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,14 +10,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.jcr.ItemExistsException;
-import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.UnsupportedRepositoryOperationException;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryResult;
 
-import org.drools.common.DroolsObjectInputStream;
 import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.PackageBuilder;
 import org.drools.repository.AssetHistoryIterator;
@@ -37,16 +33,18 @@ import org.kuali.student.brms.repository.BuilderResultList;
 import org.kuali.student.brms.repository.Rule;
 import org.kuali.student.brms.repository.RuleSet;
 
-public class BRMSRepositoryDroolsImpl implements BRMSRepository 
+public class BRMSRepositoryDroolsImpl implements BRMSRepository
 {
     private RulesRepository repository;
+    
+    private BRMSRepository brms;
 
     public BRMSRepositoryDroolsImpl( RulesRepository repository )
     {
     	this.repository = repository;
     }
     
-	/**
+    /**
 	 * Loads child categories.
 	 * 
 	 * @param categoryPath Category path
@@ -378,9 +376,10 @@ System.out.println( "*****  getContent=" +historyItem.getContent() );
 	public List<RuleSet> loadArchivedRuleSets()
 			throws BRMSRepositoryException
 	{
-        throw new BRMSRepositoryException( "Drools repository bug - Cannot load archived rule sets" );
+        throw new BRMSRepositoryException( "Not implemented - Drools repository bug - Cannot load archived rule sets" );
         
-		/*try 
+		//XXX This doesn't work properly
+        /*try
         {
 System.out.println( "\n\n******************  loadArchivedRuleSets  *****************\n\n" );
         	Iterator<PackageItem> it = findArchivedPackages();
@@ -401,6 +400,12 @@ System.out.println( "\n\n*******************************************************
         }*/
 	}
 
+	/**
+	 * Finds archived packages. 
+	 * XXX This method doesn't find archived packages for some reason.
+	 * 
+	 * @return An iterator of PackageItem
+	 */
 	private Iterator<PackageItem> findArchivedPackages() 
 	{
         try 
