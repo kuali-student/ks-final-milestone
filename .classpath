@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target-eclipse/classes" path="brms-core/src/main/java"/>
-	<classpathentry kind="src" output="target-eclipse/test-classes" path="brms-core/src/test/java">
+	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/java"/>
+	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/java">
 		<attributes>
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="brms-core/src/main/resources" path="brms-core/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="brms-core/src/test/resources" path="brms-core/src/test/resources"/>
-	<classpathentry kind="src" output="target-eclipse/classes" path="inspect-rule-failure/src/main/java"/>
-	<classpathentry kind="src" output="target-eclipse/test-classes" path="inspect-rule-failure/src/test/java">
+	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/resources"/>
+	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/resources"/>
+	<classpathentry kind="src" output="inspect-rule-failure/target/classes" path="inspect-rule-failure/src/main/java"/>
+	<classpathentry kind="src" output="inspect-rule-failure/target/test-classes" path="inspect-rule-failure/src/test/java">
 		<attributes>
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="inspect-rule-failure/src/main/resources" path="inspect-rule-failure/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="inspect-rule-failure/src/test/resources" path="inspect-rule-failure/src/test/resources"/>
-	<classpathentry kind="src" output="target-eclipse/classes" path="brms-repository/src/main/java"/>
-	<classpathentry kind="src" output="target-eclipse/test-classes" path="brms-repository/src/test/java">
+	<classpathentry excluding="**" kind="src" output="inspect-rule-failure/target/classes" path="inspect-rule-failure/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="inspect-rule-failure/target/test-classes" path="inspect-rule-failure/src/test/resources"/>
+	<classpathentry kind="src" output="brms-repository/target/classes" path="brms-repository/src/main/java"/>
+	<classpathentry kind="src" output="brms-repository/target/test-classes" path="brms-repository/src/test/java">
 		<attributes>
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="brms-repository/src/main/resources" path="brms-repository/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="brms-repository/src/test/resources" path="brms-repository/src/test/resources"/>
+	<classpathentry excluding="**" kind="src" output="brms-repository/target/classes" path="brms-repository/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="brms-repository/target/test-classes" path="brms-repository/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="target-eclipse/classes"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
 </classpath>
