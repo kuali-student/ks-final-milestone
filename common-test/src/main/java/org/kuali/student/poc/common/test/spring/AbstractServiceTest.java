@@ -29,10 +29,17 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  * list of beans that should be persisted. The list bean should be called
  * "persistList"
  * <p>
- * The &#064;Client requires the name of the service implementation class which
+ * &#064;Client requires the name of the service implementation class which
  * should be annotated with the &#064;WebService and have the targetNamespace
- * and serviceName set. The &#064;Client can also take a port if the default
- * port 8181 is not available.
+ * and serviceName set.
+ * <p> 
+ * &#064;Client can also take the following additional settings
+ * <ul>
+ * <li>port - use to set port if the default port 8181 is not available.
+ * <li>secure - set to true to return a secure client (default is false)
+ * </ul>
+ * 
+ * 
  * <p>
  * Example:
  * <p>
