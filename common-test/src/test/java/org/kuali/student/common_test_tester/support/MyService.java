@@ -9,4 +9,7 @@ import javax.jws.soap.SOAPBinding;
 public interface MyService {
 	@WebMethod
 	public Long saveString(String value);
+	
+	@WebMethod
+	public Long findStringId(String value);
 }

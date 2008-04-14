@@ -32,16 +32,22 @@ public class DaoPostProcessor implements BeanFactoryPostProcessor {
 		String[] classes = daoImplClasses.split(",");
 		BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) beanFactory);
 		PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor();
-		for (String className : classes) {
+
+		for (String line : classes) {
 			try {
+				String[] split = line.split("\\|");
+				String className = split[0];
 				Class<?> clazz = Class.forName(className);
 				BeanDefinition definition = new RootBeanDefinition(clazz);
-				registry.registerBeanDefinition(clazz.getSimpleName(), definition);
-				pabpp.postProcessMergedBeanDefinition((RootBeanDefinition) definition, clazz, clazz.getSimpleName());
-			} catch (ClassNotFoundException e) {
+				registry.registerBeanDefinition(clazz.getSimpleName(),
+						definition);
+				pabpp.postProcessMergedBeanDefinition(
+						(RootBeanDefinition) definition, clazz, clazz
+								.getSimpleName());
+
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
 	}
-
 }

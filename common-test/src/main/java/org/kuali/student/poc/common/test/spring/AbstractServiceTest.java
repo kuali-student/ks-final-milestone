@@ -47,7 +47,7 @@ public abstract class AbstractServiceTest {
 		if (daos != null) {
 			int i = 1;
 			for (Dao dao : daos.value()) {
-				daoImpls+=dao.value();
+				daoImpls+=dao.value()+"|"+dao.testDataFile();
 				if(i<daos.value().length){
 					daoImpls+=",";
 				}

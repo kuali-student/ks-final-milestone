@@ -13,6 +13,12 @@ public class Value {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")private Long id;
 	private String value;
 	/**
+	 * 
+	 */
+	public Value() {
+		super();
+	}
+	/**
 	 * @param value
 	 */
 	public Value(String value) {

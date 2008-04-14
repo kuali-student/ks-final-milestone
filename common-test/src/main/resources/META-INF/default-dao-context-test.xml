@@ -120,7 +120,4 @@
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-	<!-- <bean id="dao" class="${ks.test.daoImplClass}" autowire="byType">
-		</bean> -->
-
 </beans>

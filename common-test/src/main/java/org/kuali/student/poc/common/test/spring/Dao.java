@@ -7,4 +7,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dao {
 	public String value();
+	public String testDataFile() default "";
 }

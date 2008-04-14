@@ -10,17 +10,23 @@ import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 
-@Daos({ @Dao("org.kuali.student.common_test_tester.support.MyDaoImpl"),
+@Daos( {
+		@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml"),
 		@Dao("org.kuali.student.common_test_tester.support.OtherDaoImpl") })
-@PersistenceFileLocation("classpath:META-INF/test-persistence.xml")		
+@PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class ServiceCommonTest extends AbstractServiceTest {
 
 	@Client("org.kuali.student.common_test_tester.support.MyServiceImpl")
 	public MyService client;
 
 	@Test
-	public void test1()  {
+	public void test1() {
 		System.out.println(System.getProperty("ks.test.daoImplClasses"));
 		assertNotNull(client.saveString("la la la"));
+	}
+	
+	@Test
+	public void test2() {
+		assertNotNull(client.findStringId("Value Number One"));
 	}
 }
