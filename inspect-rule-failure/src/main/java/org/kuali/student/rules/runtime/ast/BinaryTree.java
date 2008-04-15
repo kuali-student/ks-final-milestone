@@ -14,6 +14,10 @@ public class BinaryTree {
 	private HashMap<String, Boolean> nodeValueMap;
 	private HashMap<String, String> nodeFailureMessageMap;
 	
+	public BinaryTree() {
+		nodes = new ArrayList<BooleanNode>();
+	}
+	
 	public BinaryTree(HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
 		this.nodeValueMap = nodeValueMap;
 		this.nodeFailureMessageMap = nodeFailureMessageMap;
@@ -43,6 +47,21 @@ public class BinaryTree {
         }
         // get the root of the AST from the parsed expression
         return root = (BooleanNode) boolexpr_ret.getTree();
+	}
+	
+	public void traverseTreePostOrderDontSetNode(BooleanNode bnode, BooleanNode parent) {
+		if ( bnode != null ) {
+			for ( int i = 0; i < bnode.getChildCount(); i++ ) {
+				traverseTreePostOrderDontSetNode( (BooleanNode)bnode.getChild(i), bnode );
+				//System.out.println(bnode.getChild(i).toString());
+			}
+		if ( parent != null ) {
+			//System.out.println(bnode.getLabel() + "'s parent is " + parent.getLabel());
+			bnode.setParent(parent);
+		}
+			//System.out.println(bnode.getText());
+			nodes.add(bnode);
+		}
 	}
 	
 	/** This method walks the tree depth first, while setting node values with setNode()
