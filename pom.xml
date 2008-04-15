@@ -6,6 +6,7 @@
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-api</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
+	<name>Kuali Student PersonIdentity API</name>
 	<description />
 	
 	<parent>
