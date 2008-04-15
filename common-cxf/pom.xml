@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.poc.common</groupId>
+	<artifactId>common-cxf</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+
+	<parent>
+		<artifactId>common-pom</artifactId>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<version>0.0.3-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-bindings-soap</artifactId>
+			<version>${cxf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.acegisecurity</groupId>
+			<artifactId>acegi-security</artifactId>
+			<version>1.0.6</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>
