@@ -165,7 +165,7 @@ public class DroolsJackrabbitRepository
 		this.repoConfig = new JackrabbitRepositoryConfigurator();
 		this.repository = repoConfig.getJCRRepository( this.path );
 	}
-
+ 
 	/**
 	 * Gets the current logged in credentials.
 	 * 
