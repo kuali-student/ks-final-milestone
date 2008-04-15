@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -101,8 +102,9 @@ public class BRMSRepositoryTest //extends DroolsJackrabbitRepositoryOld
 	@BeforeClass
 	public static void setUpOnce() throws Exception 
 	{
-		jackrabbitRepository = new DroolsJackrabbitRepository();
-		jackrabbitRepository.init();
+		URL url = BRMSRepositoryTest.class.getResource( "/repository" );
+		jackrabbitRepository = new DroolsJackrabbitRepository( url );
+		jackrabbitRepository.initialize();
 	}
 	
 	@AfterClass
