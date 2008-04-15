@@ -24,6 +24,14 @@
 	</classpathentry>
 	<classpathentry kind="src" output="brms-repository/target/classes" path="brms-repository/src/main/resources"/>
 	<classpathentry kind="src" output="brms-repository/target/test-classes" path="brms-repository/src/test/resources"/>
+	<classpathentry kind="src" output="generate-rule/target/classes" path="generate-rule/src/main/java"/>
+	<classpathentry kind="src" output="generate-rule/target/test-classes" path="generate-rule/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="generate-rule/target/classes" path="generate-rule/src/main/resources"/>
+	<classpathentry kind="src" output="generate-rule/target/test-classes" path="generate-rule/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
 </classpath>
