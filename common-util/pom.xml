@@ -22,6 +22,11 @@
 			<artifactId>eclipselink</artifactId>
 			<version>1.0M4-Incubation</version>
 		</dependency>
+		<dependency>
+        	<groupId>net.sf.ehcache</groupId>
+        	<artifactId>ehcache</artifactId>
+        	<version>1.4.1</version>
+     	</dependency>
 	</dependencies>
 
 </project>
