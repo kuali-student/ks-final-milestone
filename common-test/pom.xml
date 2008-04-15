@@ -24,12 +24,6 @@
 			<artifactId>common-ws</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-cxf</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -48,7 +42,7 @@
 			<artifactId>spring</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
@@ -146,7 +140,7 @@
 			</resource>
 		</resources>
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>ks-ri-testing</id>
@@ -303,6 +297,11 @@
 			</properties>
 
 			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>common-cxf</artifactId>
+					<version>0.0.3-SNAPSHOT</version>
+				</dependency>
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-frontend-jaxws</artifactId>
