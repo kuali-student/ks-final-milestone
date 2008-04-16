@@ -21,7 +21,7 @@ public class ValidationError implements Errors{
 	}
 
 	@Override
-	public List getAllErrors() {
+	public List<?> getAllErrors() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -57,19 +57,19 @@ public class ValidationError implements Errors{
 	}
 
 	@Override
-	public List getFieldErrors() {
+	public List<?> getFieldErrors() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List getFieldErrors(String arg0) {
+	public List<?> getFieldErrors(String arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class getFieldType(String arg0) {
+	public Class<?> getFieldType(String arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -93,7 +93,7 @@ public class ValidationError implements Errors{
 	}
 
 	@Override
-	public List getGlobalErrors() {
+	public List<?> getGlobalErrors() {
 		// TODO Auto-generated method stub
 		return null;
 	}
