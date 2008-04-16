@@ -54,25 +54,11 @@ import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
 
-public class BRMSRepositoryTest // extends DroolsJackrabbitRepositoryOld
+public class BRMSRepositoryTest
 {
     private static DroolsJackrabbitRepository jackrabbitRepository;
 
     private static BRMSRepository brmsRepository;
-
-    /*
-     * public static void main(String[] args) throws Exception { RulesRepository repo = createRepository(); PackageItem item =
-     * repo.createPackage( "testPackage", "A test" ); item.archiveItem( true ); item.checkin( "Archive test" );
-     * System.out.println( "Archived=" + repo.loadPackageByUUID( item.getUUID() ).isArchived()); String sql = "SELECT " +
-     * PackageItem.TITLE_PROPERTY_NAME + ", " + PackageItem.DESCRIPTION_PROPERTY_NAME + ", " +
-     * PackageItem.CONTENT_PROPERTY_ARCHIVE_FLAG; sql += " FROM " + PackageItem.RULE_PACKAGE_TYPE_NAME; sql += " WHERE "; sql += "
-     * jcr:path LIKE '/" + RulesRepository.RULES_REPOSITORY_NAME + "/" + RulesRepository.RULE_PACKAGE_AREA + "/%'"; //sql += "
-     * AND " + PackageItem.CONTENT_PROPERTY_ARCHIVE_FLAG + " = 'true'"; Query q =
-     * repo.getSession().getWorkspace().getQueryManager().createQuery( sql, Query.SQL ); QueryResult res = q.execute();
-     * Iterator<PackageItem> it = new PackageIterator( repo, res.getNodes() ); while( it.hasNext() ) { PackageItem pi =
-     * it.next(); System.out.println( "***** item=" +pi.getUUID() + ", name=" +pi.getName() + ", isArchived=" +
-     * pi.isArchived() ); } }
-     */
 
     private String createRuleSet(String categoryName) throws BRMSRepositoryException {
         return createRuleSet(categoryName, null, true);
