@@ -1,122 +1,133 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.brms.repository;
 
 import java.util.Calendar;
 
-public abstract class ItemImpl 
-{
-	private String uuid = null;
-	private String name = null;
-	private String description = null;
-	private long versionNumber;
-	private String versionSnapshotUUID;
-	
-	private String status = null;
-	
-	private Calendar createdDate = null;
-	private Calendar lastModifiedDate = null;
-	
-	private String checkinComment = null;
+public abstract class ItemImpl {
+    private String uuid = null;
+    private String name = null;
+    private String description = null;
+    private long versionNumber;
+    private String versionSnapshotUUID;
 
-	private boolean archived = false;
-	private boolean historical = false;
-	
-	public ItemImpl( String uuid, String name )
-	{
-		this.uuid = uuid;
-		this.name = name;
-	}
+    private String status = null;
 
-	/**
-	 * Gets the asset's name.
-	 * 
-	 * @return Asset's name
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
+    private Calendar createdDate = null;
+    private Calendar lastModifiedDate = null;
 
-	public String getDescription() {
-		return description;
-	}
+    private String checkinComment = null;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    private boolean archived = false;
+    private boolean historical = false;
 
-	public void setCheckinComment(String checkinComment) {
-		this.checkinComment = checkinComment;
-	}
+    public ItemImpl(String uuid, String name) {
+        this.uuid = uuid;
+        this.name = name;
+    }
 
-	public String getCheckinComment() {
-		return checkinComment;
-	}
+    /**
+     * Gets the asset's name.
+     * 
+     * @return Asset's name
+     */
+    public String getName() {
+        return this.name;
+    }
 
-	public String getUUID() {
-		return uuid;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setVersionNumber(long versionNumber) {
-		this.versionNumber = versionNumber;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public long getVersionNumber() {
-		return versionNumber;
-	}
+    public void setCheckinComment(String checkinComment) {
+        this.checkinComment = checkinComment;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getCheckinComment() {
+        return checkinComment;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getUUID() {
+        return uuid;
+    }
 
-	public void setCreatedDate(Calendar createdDate) {
-		this.createdDate = createdDate;
-	}
+    public void setVersionNumber(long versionNumber) {
+        this.versionNumber = versionNumber;
+    }
 
-	public Calendar getCreatedDate() {
-		return createdDate;
-	}
-	
-	public void setLastModifiedDate( Calendar lastModifiedDate ) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public long getVersionNumber() {
+        return versionNumber;
+    }
 
-	public Calendar getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public boolean isArchived() {
-		return archived;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setArchived(boolean archived) {
-		this.archived = archived;
-	}
+    public void setCreatedDate(Calendar createdDate) {
+        this.createdDate = createdDate;
+    }
 
-	public boolean isHistorical() {
-		return historical;
-	}
+    public Calendar getCreatedDate() {
+        return createdDate;
+    }
 
-	public void setHistorical(boolean historical) {
-		this.historical = historical;
-	}
+    public void setLastModifiedDate(Calendar lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
-	/**
-	 * Return the UUID of the snapshot version.
-	 * This will return null if the this is the current version.
-	 * Only historical version wil return a UUID.
-	 * 
-	 * @return UUID of the historical version
-	 */
-	public String getVersionSnapshotUUID() {
-		return versionSnapshotUUID;
-	}
+    public Calendar getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
-	public void setVersionSnapshotUUID(String versionSnapshotUUID) {
-		this.versionSnapshotUUID = versionSnapshotUUID;
-	}
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public boolean isHistorical() {
+        return historical;
+    }
+
+    public void setHistorical(boolean historical) {
+        this.historical = historical;
+    }
+
+    /**
+     * Return the UUID of the snapshot version. This will return null if the this is the current version. Only historical
+     * version wil return a UUID.
+     * 
+     * @return UUID of the historical version
+     */
+    public String getVersionSnapshotUUID() {
+        return versionSnapshotUUID;
+    }
+
+    public void setVersionSnapshotUUID(String versionSnapshotUUID) {
+        this.versionSnapshotUUID = versionSnapshotUUID;
+    }
 
 }
