@@ -22,6 +22,7 @@
 		<module>brms-core</module>
 		<module>inspect-rule-failure</module>
         <module>brms-repository</module>
+        <module>generate-rule</module>
 	</modules>
 
 	<scm>
