@@ -45,7 +45,7 @@
               default user name to be used instead of the anonymous user
               when no login credentials are provided (unset by default)
            -->
-           <param name="defaultUserId" value="superuser"/>
+           <!-- <param name="defaultUserId" value="superuser"/> -->
         </LoginModule>
     </Security>
 
