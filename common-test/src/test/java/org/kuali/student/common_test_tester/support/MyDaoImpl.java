@@ -30,6 +30,7 @@ public class MyDaoImpl implements MyDao {
 		return tv.getValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Value findValue(String value) {
 		Query q = entityManager.createQuery("SELECT v FROM Value v WHERE v.value=:valueIn");

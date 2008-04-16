@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.persistence.EntityManager;
 import javax.persistence.spi.PersistenceProvider;
 
 import org.eclipse.persistence.jpa.config.PersistenceUnitProperties;
@@ -12,14 +13,12 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 
 public class EclipseLinkJpaVendorAdapter extends AbstractJpaVendorAdapter {
 
-	private final PersistenceProvider persistenceProvider = new 
-    	org.eclipse.persistence.jpa.PersistenceProvider();
+	private final PersistenceProvider persistenceProvider = new org.eclipse.persistence.jpa.PersistenceProvider();
 
+	private final JpaDialect jpaDialect = null;
 
-	private final JpaDialect jpaDialect = null;	
-	
 	@Override
-	public Class getEntityManagerInterface() {
+	public Class<? extends EntityManager> getEntityManagerInterface() {
 		return org.eclipse.persistence.jpa.JpaEntityManager.class;
 	}
 
@@ -29,23 +28,27 @@ public class EclipseLinkJpaVendorAdapter extends AbstractJpaVendorAdapter {
 	}
 
 	@Override
-	public Map getJpaPropertyMap() {
-        Properties jpaProperties = new Properties();
+	public Map<?, ?> getJpaPropertyMap() {
+		Properties jpaProperties = new Properties();
 
-        if (isGenerateDdl()) {
-            jpaProperties.setProperty(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.CREATE_ONLY);
-            jpaProperties.setProperty(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_DATABASE_GENERATION);
-        }
-        if (isShowSql()) {
-        	jpaProperties.setProperty(PersistenceUnitProperties.LOGGING_LEVEL, Level.FINE.toString());
-        }
+		if (isGenerateDdl()) {
+			jpaProperties.setProperty(PersistenceUnitProperties.DDL_GENERATION,
+					PersistenceUnitProperties.CREATE_ONLY);
+			jpaProperties.setProperty(
+					PersistenceUnitProperties.DDL_GENERATION_MODE,
+					PersistenceUnitProperties.DDL_DATABASE_GENERATION);
+		}
+		if (isShowSql()) {
+			jpaProperties.setProperty(PersistenceUnitProperties.LOGGING_LEVEL,
+					Level.FINE.toString());
+		}
 
-        return jpaProperties;
+		return jpaProperties;
 	}
 
 	@Override
 	public PersistenceProvider getPersistenceProvider() {
 		return this.persistenceProvider;
 	}
-	
+
 }
