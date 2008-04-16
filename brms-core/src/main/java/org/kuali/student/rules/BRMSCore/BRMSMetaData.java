@@ -3,31 +3,44 @@ package org.kuali.student.rules.BRMSCore;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Properties;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import java.io.StringWriter;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.Template;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.MethodInvocationException;
 
-@Transactional
 /**
  * An interface to BRMS Meta Data that allows to store and retrieve a business rule
  * @author Zdenek Zraly (zdenek.zraly@ub.ca)
  */
+@Transactional //(propagation = Propagation.REQUIRED, readOnly = false)
 public class BRMSMetaData {	
 	
 	public static final String FACT_CONTAINER = "AcademicRecord";
+	VelocityContext context;
 	
 	@Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
 	
 	long id;
-	
+		
 	public String getRuleFunctionString(FunctionalBusinessRule rule) {
 			
 		Collection <RuleElement> ruleElements = rule.getRuleElements();
-			
+		
+		ruleElements.size();
+		
 		String functionString = new String("");
 		char proposition = 'A';
 		for (RuleElement ruleElement : ruleElements) {
@@ -47,9 +60,7 @@ public class BRMSMetaData {
 					break;
 				case PROPOSITION_TYPE:
 					functionString += proposition;
-//					propositions.put(proposition, )
-					proposition++;
-					
+					proposition++;					
 					break;
 				case RPAREN_TYPE:
 					functionString += ")";
@@ -63,40 +74,29 @@ public class BRMSMetaData {
 		}
 		return functionString;
 	}
-
-	public static void main(String [ ] args) throws Exception {
-		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+	
+	public HashMap <String, RuleProposition> getRulePropositions(FunctionalBusinessRule rule) {
 		
-		// add a shutdown hook for the above context... 
-        ctx.registerShutdownHook();	
-		       
-        BRMSMetaData metadata = (BRMSMetaData) ctx.getBean("BRMSMetaData");
-        
-		//insert our demo MetaData
-        try {
-            metadata.insertBusinessRuleMetadata();
-        } catch (Exception e) {
-            System.out.println("Cannot insert duplicate record:" + e.getMessage());
-        }
-        
-        //metadata.getFunctionalBusinessRuleTest("PR 40244");
-        
-        
-        FunctionalBusinessRule rule = metadata.businessRuleDAO.lookupBusinessRuleID("PR 40244"); 
-        //FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(id); 
-        
-        String functionString = metadata.getRuleFunctionString(rule);
-        System.out.println("Function String: " + functionString);
-        
-        
-        
+		HashMap <String, RuleProposition> propositions = new HashMap <String, RuleProposition>();
+		Collection <RuleElement> ruleElements = rule.getRuleElements();
+		
+		char key = 'A';
+		for (RuleElement ruleElement : ruleElements) {
+			
+			if (ruleElement.getOperation() == RuleElementType.PROPOSITION_TYPE) {
+				propositions.put(String.valueOf(key), ruleElement.getRuleProposition());
+				key++;
+			}
+		}		
+		return propositions;
 	}	
 
 	/**
 	 * @return the businessRuleSetDAO
 	 */
 	public final FunctionalBusinessRuleDAO getBusinessRuleSetDAO() {
-		return businessRuleDAO;
+System.out.println("1-getClass="+this.getClass());
+		return this.businessRuleDAO;
 	}
 
 	/**
@@ -104,8 +104,9 @@ public class BRMSMetaData {
 	 */
 	public final void setBusinessRuleSetDAO(
 			FunctionalBusinessRuleDAO businessRuleSetDAO) {
+System.out.println("2-setClass="+this.getClass());
 		this.businessRuleDAO = businessRuleSetDAO;
-	}	
+	}
 	
     public void insertBusinessRuleMetadata() throws ConstraintViolationException {
 
@@ -252,20 +253,63 @@ public class BRMSMetaData {
     
     private String mapMetaRuleToDroolRule(String metaRule) {
         
-        if (metaRule.indexOf("Completed any") != -1) { 
-            return "Person( $academicRecord : academicRecord )" + System.getProperty("line.separator") +       
-                   "//Count using the Drools count accumulate function" + System.getProperty("line.separator") +
-                   "countCLUMatches1 : Long( longValue >= 1 )" + System.getProperty("line.separator") +
-                   "from accumulate( LUIPersonAssociation( canonicalLUName in ( \"CPSC219\", \"CPSC124\" ), $clu : canonicalLU )" +
-                   System.getProperty("line.separator") + "from $academicRecord.records, count( $clu ) )";         
+        try{
+        	Properties p = new Properties();
+        	p.setProperty("resource.loader", "class");
+        	p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader ");
+        	Velocity.init(p);
         }
-        return "";        
-    }
+        catch( Exception e ){
+        	System.out.println("Problem initializing Velocity : " + e );
+        	return null;
+        }
+        
+        ArrayList<String> facts = new ArrayList<String>();
+        facts.add("MATH101");
+        facts.add("MATH102");
+        facts.add("MATH103");
+        
+        context.put( "criteria", new String("1") );
+        context.put("facts", facts);
+    	Template template = null;
+   		StringWriter sw = new StringWriter();
+    	
+    	try
+    	{
+    		template = Velocity.getTemplate("RuleWhenTemplate.vm");
+       		template.merge( context, sw );    	    	   	   
+    	}
+    	catch( ResourceNotFoundException rnfe )
+    	{
+    	   // couldn't find the template
+    		System.out.println("Velocity: Could not find the template. " + rnfe );
+    		return null;        		
+    	}
+    	catch( ParseErrorException pee )
+    	{
+    	  // syntax error: problem parsing the template
+    		System.out.println("Velocity: parsing template error. " + pee );
+    		return null;    		
+    	}
+    	catch( MethodInvocationException mie )
+    	{
+    	  // something invoked in the template threw an exception
+    		System.out.println("Velocity: template method exception. " + mie );
+    		return null;
+    	}
+    	catch( Exception e )
+    	{
+    		System.out.println("Velocity: error occured. " + e );
+    		return null;    
+    	}
+
+   		return sw.toString();  
+    }    
     
     public FunctionalBusinessRule getFunctionalBusinessRuleTest(String ruleID) throws Exception {
         
-        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);         
-        //FunctionalBusinessRule ruleSet = businessRuleSetDAO.lookupBusinessRuleSet(ruleSetId);
+        FunctionalBusinessRule rule = getBusinessRuleSetDAO().lookupBusinessRuleID(ruleID);         
+        //FunctionalBusinessRule ruleSet = businessRuleSetDAO.lookupBusinessRule(ruleSetId);
         
         if (rule != null) {
             System.out.println("Found rule: " + rule.getName());        

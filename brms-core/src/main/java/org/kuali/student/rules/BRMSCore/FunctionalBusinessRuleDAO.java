@@ -5,5 +5,5 @@ public interface FunctionalBusinessRuleDAO {
 	public FunctionalBusinessRule updateBusinessRule(FunctionalBusinessRule ruleSet);
 	public FunctionalBusinessRule lookupBusinessRule(long id);
 	public FunctionalBusinessRule lookupBusinessRuleID(String ruleIdentifier);
-	public boolean deleteBusinessRuleSet(FunctionalBusinessRule ruleSet);
+	public boolean deleteBusinessRule(FunctionalBusinessRule ruleSet);
 }

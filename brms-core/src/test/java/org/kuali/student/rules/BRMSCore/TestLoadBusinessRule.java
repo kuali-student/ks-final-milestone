@@ -197,7 +197,7 @@ public class TestLoadBusinessRule extends AbstractJpaTests {
 	@Test
 	public void testDeleteRule() {
 	    FunctionalBusinessRule ruleSet = functionalBusinessRuleDAO.lookupBusinessRule(ruleId);
-	    assertTrue(functionalBusinessRuleDAO.deleteBusinessRuleSet(ruleSet));
+	    assertTrue(functionalBusinessRuleDAO.deleteBusinessRule(ruleSet));
 	    assertNull(functionalBusinessRuleDAO.lookupBusinessRule(ruleId));
 	}
 	

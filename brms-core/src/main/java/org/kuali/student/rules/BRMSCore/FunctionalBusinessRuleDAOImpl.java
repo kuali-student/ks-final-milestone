@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class FunctionalBusinessRuleDAOImpl extends JpaDaoSupport implements FunctionalBusinessRuleDAO {
 
 	public FunctionalBusinessRule createBusinessRule(FunctionalBusinessRule rule) {
-		super.getJpaTemplate().persist(rule);
+		super.getJpaTemplate().persist(rule);		
 		return rule;
 	}
 
@@ -22,7 +22,7 @@ public class FunctionalBusinessRuleDAOImpl extends JpaDaoSupport implements Func
 		return super.getJpaTemplate().find(FunctionalBusinessRule.class, id);
 	}
 
-    public boolean deleteBusinessRuleSet(FunctionalBusinessRule ruleSet) {
+    public boolean deleteBusinessRule(FunctionalBusinessRule ruleSet) {
     	super.getJpaTemplate().remove(ruleSet);
         return true; //until I know better what needs to happen
     }
