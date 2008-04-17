@@ -55,6 +55,8 @@ public class RuleTemplate {
 	public RuleTemplate(){
         try{
         	Properties p = new Properties();
+        	// Line below to disables logging, remove to enable
+        	p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
         	p.setProperty("resource.loader", "class");
         	p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         	Velocity.init(p);
