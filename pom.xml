@@ -5,7 +5,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.learningunit</groupId>
-	<artifactId>learningunit-api</artifactId>
+	<artifactId>lum-api</artifactId>
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Kuali Student LearningUnit API</name>

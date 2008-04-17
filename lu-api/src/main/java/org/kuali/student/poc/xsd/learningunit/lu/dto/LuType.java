@@ -1,5 +1,5 @@
 package org.kuali.student.poc.xsd.learningunit.lu.dto;
 
-public class LuTemplate {
+public class LuType {
 
 }
