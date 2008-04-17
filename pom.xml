@@ -15,7 +15,15 @@
 		<artifactId>ks-api-pom</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
-
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-ws</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	
 	<modules>
 		<module>lu-api</module>
 		<module>lupersonrelation-api</module>

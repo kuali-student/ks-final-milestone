@@ -5,6 +5,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
 
 @WebService(name = "LuService", targetNamespace = "http://student.kuali.org/poc/wsdl/learningunit/lu")
@@ -12,5 +13,5 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
 
 public interface LuService {
 	@WebMethod
-	public List<LuTypeInfo> findLuTypes();
+	public List<LuTypeInfo> findLuTypes() throws OperationFailedException;
 }
