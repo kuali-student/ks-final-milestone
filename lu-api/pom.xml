@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>lu-api</artifactId>
+	<description></description>
+	
+	<parent>
+		<groupId>org.kuali.student.poc.learningunit</groupId>
+		<artifactId>learningunit-api</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+</project>

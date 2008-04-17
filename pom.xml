@@ -1,25 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.common</groupId>
-	<artifactId>common-pom</artifactId>
-	<version>0.0.1-alpha</version>
+	<groupId>org.kuali.student.poc.learningunit</groupId>
+	<artifactId>learningunit-api</artifactId>
 	<packaging>pom</packaging>
-	<description />
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Kuali Student LearningUnit API</name>
 
 	<parent>
 		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.1-alpha</version>
+		<artifactId>ks-api-pom</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 
 	<modules>
-		<module>common-test</module>
-		<module>common-util</module>
-		<module>common-ws</module>
+		<module>lu-api</module>
+		<module>lupersonrelation-api</module>
 	</modules>
-	
+
 	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/common/tags/common-0.0.1-alpha</developerConnection>
+		<connection>
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunit/learningunit-api/branches/learningunit-api-dev
+		</connection>
+		<developerConnection>
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunit/learningunit-api/branches/learningunit-api-dev
+		</developerConnection>
 	</scm>
 
 	<repositories>
@@ -38,40 +46,6 @@
 			</releases>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+
 </project>
