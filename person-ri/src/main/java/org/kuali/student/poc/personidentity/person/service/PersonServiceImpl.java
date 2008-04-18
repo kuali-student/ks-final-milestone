@@ -7,6 +7,9 @@ import java.util.Set;
 
 import javax.jws.WebService;
 
+import net.sf.ehcache.Element;
+
+import org.kuali.student.poc.common.util.EhCacheHelper;
 import org.kuali.student.poc.personidentity.person.dao.Person;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
@@ -57,7 +60,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonServiceImpl implements PersonService {
 
 	private PersonDAO personDAO;
+	private EhCacheHelper ehCacheHelper;
+	private final String personInfoCacheName = "PersonInfo";
 
+	public PersonServiceImpl() {
+		ehCacheHelper = new EhCacheHelper();		
+		ehCacheHelper.createCache(personInfoCacheName);
+	}
 	/**
 	 * @return the personDAO
 	 */
@@ -116,6 +125,7 @@ public class PersonServiceImpl implements PersonService {
 			List<Long> personTypeKeys) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		
 		//create a JPA entity
 		Person person = new Person();
 		
@@ -139,7 +149,6 @@ public class PersonServiceImpl implements PersonService {
 				}
 			}
 		}
-		
 		//Add all the attribute types
 		person.getPersonTypes().addAll(personTypeSet);
 		
@@ -160,7 +169,6 @@ public class PersonServiceImpl implements PersonService {
 			}
 			
 		}
-
 		//Copy the standard person fields
 		PersonalInformation personalInformation = new PersonalInformation();
 		personalInformation.setGender(personCreateInfo.getGender());
@@ -193,7 +201,6 @@ public class PersonServiceImpl implements PersonService {
 			personName.setPerson(person);
 			person.getPersonNames().add(personName);
 		}
-		
 		for(PersonReferenceIdInfo personReferenceIdInfo:personCreateInfo.getReferenceId()){
 			PersonReferenceId personReferenceId = new PersonReferenceId();
 			personReferenceId.setOrganizationReferenceId(personReferenceIdInfo.getOrganizationReferenceId());
@@ -205,10 +212,11 @@ public class PersonServiceImpl implements PersonService {
 			personReferenceId.setPerson(person);
 			person.getPersonReferenceIds().add(personReferenceId);
 		}
-		
 		//Create the person
 		Person created = personDAO.createPerson(person);
+		ehCacheHelper.saveOrUpdateCacheElement(personInfoCacheName, created.getId().toString(), toPersonInfo(created));
 		return created.getId();
+
 	}
 
 	/* (non-Javadoc)
@@ -247,6 +255,7 @@ public class PersonServiceImpl implements PersonService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		Person person = personDAO.lookupPerson(personId);
+		ehCacheHelper.evictCacheElement(personInfoCacheName, personId.toString());
 		return personDAO.deletePerson(person);
 	}
 
@@ -258,6 +267,10 @@ public class PersonServiceImpl implements PersonService {
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		PersonInfo cachedPersonInfo = (PersonInfo)ehCacheHelper.getCacheElementValue(personInfoCacheName, personId.toString());
+		if(cachedPersonInfo != null) {
+			return cachedPersonInfo;
+		}
 		Person person = personDAO.lookupPerson(personId);
 		return toPersonInfo(person);
 	}
@@ -609,7 +622,8 @@ public class PersonServiceImpl implements PersonService {
         
 
         //Create the person        
-        personDAO.updatePerson(personJPA);
+        Person updatedPerson = personDAO.updatePerson(personJPA);
+        ehCacheHelper.saveOrUpdateCacheElement(personInfoCacheName, updatedPerson.getId().toString(), toPersonInfo(updatedPerson));
         return true;    
 	}
 
@@ -1053,5 +1067,6 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
+
 	
 }
