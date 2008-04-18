@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.poc.exampleTests</groupId>
+	<artifactId>exampleTests-ri</artifactId> 
+	<version>0.0.3-SNAPSHOT</version>
+	<description></description>
+	<packaging>pom</packaging>
+	<modules>
+		<module>jpa-ri</module>
+	</modules>
+	<parent>
+		<groupId>org.kuali.student.poc</groupId>
+		<artifactId>ks-ri-pom</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
+
+	<scm>
+		<developerConnection>
+			scm:svn:https://test.kuali.org/svn/KualiStudent/poc/common/branches/common-dev/common-test/exampleTests-ri-dev
+		</developerConnection>
+	</scm>
+	
+	<repositories>
+		<repository>
+			<id>kuali.release</id>
+			<url>http://kuali.umd.edu/archiva/repository/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>kuali.snapshot</id>
+			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+</project>
