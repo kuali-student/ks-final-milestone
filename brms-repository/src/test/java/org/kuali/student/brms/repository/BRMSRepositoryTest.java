@@ -54,8 +54,7 @@ import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
 
-public class BRMSRepositoryTest
-{
+public class BRMSRepositoryTest {
     private static DroolsJackrabbitRepository jackrabbitRepository;
 
     private static BRMSRepository brmsRepository;
@@ -154,8 +153,6 @@ public class BRMSRepositoryTest
         org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(rulesetUuid);
 
         assertNotNull(binPkg);
-
-        assertNotNull(binPkg);
         assertTrue(binPkg.isValid());
 
         DroolsTestUtil.executeRule(binPkg, new Object[]{Calendar.getInstance()});
@@ -225,10 +222,6 @@ public class BRMSRepositoryTest
 
     @Test
     public void testJSR94() throws Exception {
-        // ************************************************************************************
-        // * Load binary rule set (org.drools.rule.Package) from a repository (e.g. database) *
-        // ************************************************************************************
-
         // Create category
         boolean b = brmsRepository.createCategory("/", "testJSR94", "A test category 1.0 description");
         assertTrue(b);
@@ -288,6 +281,7 @@ public class BRMSRepositoryTest
 
         try {
             brmsRepository.loadRuleSet("XYZ");
+            fail("Rule set UUID='XYZ' should not exist");
         } catch (BRMSRepositoryException e) {
             assertTrue(true);
         }
@@ -403,6 +397,7 @@ public class BRMSRepositoryTest
 
         try {
             String drl = brmsRepository.compileRuleSetSource(ruleSetUUID);
+            fail("Invalid rule should throw an exception");
         } catch (BRMSRepositoryException e) {
             assertTrue(e.getMessage() != null);
         }
@@ -448,6 +443,7 @@ public class BRMSRepositoryTest
 
         try {
             brmsRepository.loadRule(ruleUUID);
+            fail("Rule should not exist: UUID="+ruleUUID);
         } catch (BRMSRepositoryException e) {
             assertTrue(true);
         }
@@ -510,6 +506,7 @@ public class BRMSRepositoryTest
     public void testLoadArchivedRuleSet_FailTest() throws Exception {
         try {
             brmsRepository.loadArchivedRuleSets();
+            fail("Loading archived rule sets should not have been implemented");
         } catch (BRMSRepositoryException e) {
             e.printStackTrace();
             assertTrue(true);
@@ -638,6 +635,7 @@ public class BRMSRepositoryTest
 
         try {
             brmsRepository.rebuildAllSnapshots();
+            fail("Rebuilding of shanpshots should fail because of invlaid rule: "+rule.getContent());
         } catch (BRMSRepositoryException e) {
             assertTrue(true);
         }
@@ -653,6 +651,7 @@ public class BRMSRepositoryTest
             byte[] export = brmsRepository.exportRulesRepositoryAsXml();
             brmsRepository.removeRule(ruleUUID);
             brmsRepository.importRulesRepository(export);
+            assertTrue(true);
         } catch (BRMSRepositoryException e) {
             fail(e.getMessage());
         }
@@ -676,6 +675,7 @@ public class BRMSRepositoryTest
 
             brmsRepository.removeRule(ruleUUID);
             brmsRepository.importRulesRepository(byteExport);
+            assertTrue(true);
         } catch (BRMSRepositoryException e) {
             fail(e.getMessage());
         }
@@ -726,6 +726,7 @@ public class BRMSRepositoryTest
         Reader drl = new StringReader(src);
         try {
             brmsRepository.compileSource(drl);
+            fail("Compilation should fail because of invalid rule");
         } catch (BRMSRepositoryException e) {
             assertTrue(e.getMessage() != null);
         }
@@ -738,6 +739,7 @@ public class BRMSRepositoryTest
 
         try {
             brmsRepository.compileSource(drl);
+            fail("compilation should fail because of an invalid package");
         } catch (BRMSRepositoryException e) {
             assertTrue(e.getMessage() != null);
         }
@@ -766,6 +768,7 @@ public class BRMSRepositoryTest
 
         try {
             brmsRepository.compileSource(drl);
+            fail("compilation should fail because of a missing import");
         } catch (BRMSRepositoryException e) {
             assertTrue(e.getMessage() != null);
         }
@@ -792,6 +795,7 @@ public class BRMSRepositoryTest
 
         try {
             brmsRepository.compileSource(drl);
+            fail("compilation should fail because of an invalid rule");
         } catch (BRMSRepositoryException e) {
             assertTrue(e.getMessage() != null);
         }
