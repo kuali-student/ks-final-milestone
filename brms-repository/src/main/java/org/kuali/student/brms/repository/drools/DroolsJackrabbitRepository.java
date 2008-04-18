@@ -125,19 +125,18 @@ public class DroolsJackrabbitRepository {
     public DroolsJackrabbitRepository(URL url) {
         this.url = url;
 
-        if (url == null) {
-            throw new RuntimeException("JackRabbit repository configuration not found");
-        }
-
-        if (url.getProtocol().equalsIgnoreCase("file")) {
-            try {
-                File file = new File(url.toURI());
-                this.path = file.getAbsolutePath();
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+        if ( url != null )
+        {
+            if (this.url.getProtocol().equalsIgnoreCase("file")) {
+                try {
+                    File file = new File(this.url.toURI());
+                    this.path = file.getAbsolutePath();
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                this.path = url.getPath();
             }
-        } else {
-            this.path = url.getPath();
         }
     }
 
@@ -160,7 +159,7 @@ public class DroolsJackrabbitRepository {
      * Starts up the repository.
      */
     public void startupRepository() {
-        // System.out.println( "Repository: " + this.path );
+        //System.out.println( "Repository: " + this.path );
         this.repoConfig = new JackrabbitRepositoryConfigurator();
         this.repository = repoConfig.getJCRRepository(this.path);
     }
@@ -181,12 +180,19 @@ public class DroolsJackrabbitRepository {
      */
     public void clearAll() {
         try {
-            File repoDir = new File(this.url.toURI());
-            // System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
-            File config = new File(this.path + "/" + REPOSITORY_CONFIG_FILE);
-            File[] exclude = new File[]{repoDir, config};
+            File repoDir = null;
+            File[] exclude = null;
+            if ( url == null ) {
+                repoDir = new File("repository");
+            }
+            else {
+                repoDir = new File(this.url.toURI());
+                File config = new File(this.path + "/" + REPOSITORY_CONFIG_FILE);
+                exclude = new File[]{repoDir, config};
+            }
+            //System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
             boolean b = deleteDir(exclude, repoDir);
-            // System.out.println( "Repository sub-directories deleted: " + b );
+            //System.out.println( "Repository sub-directories deleted: " + b );
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -202,7 +208,7 @@ public class DroolsJackrabbitRepository {
      *            Sub-directories under which to delete
      * @return True if all sub-directories have been deleted, otherwise false
      */
-    public boolean deleteDir(File[] exclude, File dir) {
+    private boolean deleteDir(File[] exclude, File dir) {
         if (dir.isDirectory()) {
             String subdir[] = dir.list();
             for (int i = 0; i < subdir.length; i++) {
@@ -213,7 +219,7 @@ public class DroolsJackrabbitRepository {
             }
         }
         boolean delete = true;
-        for (int i = 0; i < exclude.length; i++) {
+        for (int i = 0; exclude != null && i < exclude.length; i++) {
             if (dir == exclude[i] || dir.getAbsolutePath().equals(exclude[i].getAbsolutePath())) {
                 delete = false;
                 break;
@@ -230,7 +236,6 @@ public class DroolsJackrabbitRepository {
      */
     public void clearData() {
         RulesRepositoryAdministrator repoAdmin = new RulesRepositoryAdministrator(this.repositorySession);
-
         if (repoAdmin.isRepositoryInitialized()) {
             repoAdmin.clearRulesRepository();
         }
@@ -279,5 +284,6 @@ public class DroolsJackrabbitRepository {
     public void login(Credentials credentials) throws Exception {
         this.credentials = credentials;
         this.repositorySession = repository.login(credentials);
+        this.repoConfig.setupRulesRepository(this.repositorySession);
     }
 }
