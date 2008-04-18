@@ -408,7 +408,7 @@ public interface BRMSRepository {
     public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName) throws BRMSRepositoryException;
 
     /**
-     * Rebuilts all snapshots in the repository.
+     * Rebuilds all snapshots in the repository.
      * 
      * @throws BRMSRepositoryException
      */
