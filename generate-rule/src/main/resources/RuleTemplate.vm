@@ -8,7 +8,7 @@ when
 #foreach( $ce in $LHS )
 	$ce
 #end
-then 
+then
 #foreach( $action in $RHS )
 	$action
 #end

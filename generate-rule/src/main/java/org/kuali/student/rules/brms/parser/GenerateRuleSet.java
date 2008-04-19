@@ -3,6 +3,7 @@
  */
 package org.kuali.student.rules.brms.parser;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,31 +17,57 @@ import org.kuali.student.brms.repository.*;
 public class GenerateRuleSet {
 	String functionString;
 	ArrayList<String> ruleAttributes = new ArrayList<String>();
-    ArrayList<String> lhs = new ArrayList<String>();
-    ArrayList<String> rhs = new ArrayList<String>();
+    ArrayList<String> lhsDB = new ArrayList<String>();
+    ArrayList<String> rhsDB = new ArrayList<String>();
+    ArrayList<String> lhsConst = new ArrayList<String>();
+    ArrayList<String> rhsConst = new ArrayList<String>();
     
-    String ruleName;
+    BRMSRepository brmsRepository;
     String rulesetUuid;
+    String ruleName;
+    String description;
+    String category;
+    
 	
 	public static void main(String[] args){
 		try{
-			// Initialize repository, throw exception for now. This code should probably go in another class.
-			/*
+			// Initialize repository
 			DroolsJackrabbitRepository repo;
-			repo = new DroolsJackrabbitRepository();
-			repo.init();
+			URL url = DroolsJackrabbitRepository.class.getResource("/repository");
+			System.out.println("the url " + url.toString());
+			repo = new DroolsJackrabbitRepository(url);
+			repo.initialize();
 			
-			
+			repo.clearData();
+			BRMSRepository brmsRepository = new BRMSRepositoryDroolsImpl( repo.getRepository() );
 			String rulePackage = "org.kuali.student.rules.enrollment";
-			// where is brmsRepository instantiated ?
 			String rulesetUuid = brmsRepository.createRuleSet(rulePackage, "My package description" );
-			*/
+			
 			
 			GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
+			grs.setBRMSRepository(brmsRepository);
+			grs.setRuleSetUuid(rulesetUuid);
+			grs.setRuleName("Enrollment Physics 5000");
+			grs.setRuleDescription("");
+			grs.setRuleCategory(null);
+			
+			grs.setRuleAttributes(null);
+			//grs.setLhsDB(null);
+			//grs.setRhsDB(null);
+			
 			grs.parse();
 			
-			 //Shutdown (and logout from) the repository:
-			 //repo.shutdownRepository();
+			// compile rule and save in repository
+			BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+			
+			// load rule from repo and print
+			RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
+			List<Rule> rules = ruleset.getRules();
+			for (Rule myrule : rules) {
+			    System.out.println("the rule " + myrule.getContent() );
+			}
+			//Shutdown (and logout from) the repository:
+			repo.shutdownRepository();
 			 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -56,61 +83,68 @@ public class GenerateRuleSet {
 		List<String> funcVars = f.getVariables();
 		
 		RuleTemplate rt = new RuleTemplate();
+		String extRuleName;
 		
 		// create a rule per function var
 		for (String var : funcVars) {
 			//System.out.println("The var is " + var );
-			rt.setRuleName(ruleName + " " + var);
+			extRuleName = ruleName + " (" + var + ")";
+			rt.setRuleName(extRuleName);
 			rt.setRuleAttributes(ruleAttributes);
 			
 			// Left Hand Side
-			lhs.add("This is coming from the Databse");
-			rt.setLHS(lhs);
+			
+			lhsDB.add("This is coming from the Databse");
+			rt.setLHS(lhsDB);
 			
 			// Right Hand Side
-			rhs.add("Proposition.setProposition(\"" + var + "\", true);");
-			rt.setRHS(rhs);
+			rhsConst.add("Proposition.setProposition(\"" + var + "\", true);");
+			rt.setRHS(rhsConst);
 			
-			// Merge the template with the cotext set in lhs, rhs, etc ..
+			// Merge the template with the context set in lhs, rhs, etc ..
 			String ruleSourceCode = rt.process("RuleTemplate.vm");
 			
+			// depending on how we set the ruleAttributes and lhsDB we may not need to clear.
+			// for example if lhsDB is set as an array (before parse() is called)
+			// then we just iterate over it and do not clear.
 			ruleAttributes.clear();
-			lhs.clear();
-			rhs.clear();
+			lhsDB.clear();
+			// always clear
+			rhsConst.clear();
 			
 			// Add rule to ruleset created in constructor
-			//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, ruleName, "", ruleSourceCode, "MyCategory" );
+			String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
         }
 		
 		// create the final composite rule for the function
 		List<String> symbols = f.getSymbols();
-		
-		rt.setRuleName(ruleName + " " + "Func");
+		extRuleName = ruleName + " " + "Func";
+		rt.setRuleName(extRuleName);
 		rt.setRuleAttributes(ruleAttributes);
 		
 		for (String symbol : symbols) {
 			// Left Hand Side
 			if ( symbol.equals("+") ){
-				lhs.add("||");
+				lhsConst.add("||");
         	}
 			else if( symbol.equals("*") ){
-				lhs.add("&&");
+			    lhsConst.add("&&");
 			}
 			else if( symbol.equals("(") ){
-				lhs.add("(");
+			    lhsConst.add("(");
 			}
 			else if( symbol.equals(")") ){
-				lhs.add(")");
+			    lhsConst.add(")");
 			}
 			else {
-				lhs.add("Proposition.getProposition(\"" + symbol + "\")");
+			    lhsConst.add("Proposition.getProposition(\"" + symbol + "\")");
 			}
-			rt.setLHS(lhs);
+			rt.setLHS(lhsConst);
 		}	
 			
 		// Right Hand Side
-		rhs.add("This is the final outcome");
-		rt.setRHS(rhs);
+		rhsDB.add("This is the final outcome");
+		rt.setRHS(rhsDB);
 			
 		// Merge the template with the cotext set in lhs, rhs, etc ..
 		String ruleSourceCode = rt.process("RuleTemplate.vm");
@@ -120,6 +154,40 @@ public class GenerateRuleSet {
 		//rhs.clear();
 			
 		// Add rule to ruleset created in constructor
-		//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, ruleName, "", ruleSourceCode, "MyCategory" );
+		String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
 	}
+	
+	public void setBRMSRepository(BRMSRepository brmsRepository) {
+	    this.brmsRepository = brmsRepository;
+	}
+	
+	public void setRuleSetUuid(String rulesetUuid) {
+        this.rulesetUuid = rulesetUuid;
+    }
+	
+	public void setRuleName(String ruleName){
+        this.ruleName = ruleName;
+    }
+	
+	public void setRuleDescription(String description) {
+	    this.description = description;
+	}
+	
+	public void setRuleCategory(String category){
+	    this.category = category;
+	}
+	
+	public void setRuleAttributes(ArrayList<String> ruleAttributes) {
+	    if (ruleAttributes != null){
+	        this.ruleAttributes = ruleAttributes;
+	    }
+	}
+	
+	public void setLhsDB(ArrayList<String> lhsDB) {
+	    this.lhsDB = lhsDB;
+	}
+	
+	public void setRhsDB(ArrayList<String> rhsDB) {
+        this.rhsDB = rhsDB;
+    }
 }

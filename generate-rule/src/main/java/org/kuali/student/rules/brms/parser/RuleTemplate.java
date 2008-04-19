@@ -24,34 +24,6 @@ public class RuleTemplate {
 	ArrayList<String> lhs;
 	ArrayList<String> rhs;
 	
-	
-	public static void main(String[] args){
-		RuleTemplate rt = new RuleTemplate();
-		
-		rt.setRuleName("The Rule Name");
-	    
-		ArrayList<String> ruleAttributes = new ArrayList<String>();
-		ruleAttributes.add("#no-loop true" );
-		ruleAttributes.add("#salience 1" );
-		rt.setRuleAttributes(ruleAttributes);
-		
-        ArrayList<String> lhs = new ArrayList<String>();
-        lhs.add("n : BooleanNode()" );
-        rt.setLHS(lhs);
-        
-        ArrayList<String> rhs = new ArrayList<String>();
-        rhs.add("String logMessage = n.getLeftNode().getRuleFailureMessage() + \" OR \" + n.getRightNode().getRuleFailureMessage();"  );
-        rhs.add("n.setRuleFailureMessage(logMessage);");
-        rhs.add("System.out.println( n.getRuleFailureMessage() + \"   rule OR\");"  );
-        rhs.add("BooleanNode parent = n.getParent();"  );
-        rhs.add("if (parent != null){"  );
-        rhs.add("    update(parent);"   );
-        rhs.add("}"  );
-        rt.setRHS(rhs);
-        
-		rt.process("RuleTemplate.vm");
-	}
-	   
 	public RuleTemplate(){
         try{
         	Properties p = new Properties();
