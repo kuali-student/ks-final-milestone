@@ -98,7 +98,7 @@ public class GenerateRuleSet {
 			rt.setLHS(lhsDB);
 			
 			// Right Hand Side
-			rhsConst.add("Proposition.setProposition(\"" + var + "\", true);");
+			rhsConst.add("Propositions.setProposition(\"" + var + "\", true);");
 			rt.setRHS(rhsConst);
 			
 			// Merge the template with the context set in lhs, rhs, etc ..
@@ -137,7 +137,7 @@ public class GenerateRuleSet {
 			    lhsConst.add(")");
 			}
 			else {
-			    lhsConst.add("Proposition.getProposition(\"" + symbol + "\")");
+			    lhsConst.add("Propositions.getProposition(\"" + symbol + "\")");
 			}
 			rt.setLHS(lhsConst);
 		}	
