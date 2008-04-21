@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="lupersonrelation-ri/src/main/java"/>
-	<classpathentry kind="src" path="lupersonrelation-ri/src/main/resources"/>
-	<classpathentry kind="src" path="lupersonrelation-ri/src/test/java"/>
-	<classpathentry kind="src" path="lupersonrelation-ri/src/test/resources"/>
-	<classpathentry kind="src" path="lu-ri/src/main/java"/>
-	<classpathentry kind="src" path="lu-ri/src/main/resources"/>
-	<classpathentry kind="src" path="lu-ri/src/test/java"/>
-	<classpathentry kind="src" path="lu-ri/src/test/resources"/>
+	<classpathentry kind="src" output="target/classes" path="lu-ri/src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="lu-ri/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="lu-ri/src/main/resources" path="lu-ri/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="lu-ri/src/test/resources" path="lu-ri/src/test/resources"/>
+	<classpathentry kind="src" output="target/classes" path="lupersonrelation-ri/src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="lupersonrelation-ri/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="lupersonrelation-ri/src/main/resources" path="lupersonrelation-ri/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="lupersonrelation-ri/src/test/resources" path="lupersonrelation-ri/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
