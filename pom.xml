@@ -6,7 +6,7 @@
 	<version>0.0.3-SNAPSHOT</version>
 	<description />
 	<packaging>pom</packaging>
-	<name>Kuali Student PersonIdentity RI</name>
+	<name>KS POC PersonIdentity RI</name>
 
 	<modules>
 		<module>person-ri</module>
@@ -14,8 +14,8 @@
 	</modules>
 
 	<parent>
-		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-ri-pom</artifactId>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-service-pom</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 
@@ -30,26 +30,30 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-test</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources/</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
 </project>
