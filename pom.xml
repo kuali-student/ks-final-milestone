@@ -26,7 +26,7 @@
 	
 	<modules>
 		<module>lu-api</module>
-		<module>lupersonrelation-api</module>
+		<module>luipersonrelation-api</module>
 	</modules>
 
 	<scm>
