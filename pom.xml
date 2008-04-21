@@ -31,10 +31,10 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunit/learningunit-api/branches/learningunit-api-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-api/branches/lum-api-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunit/learningunit-api/branches/learningunit-api-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-api/branches/lum-api-dev
 		</developerConnection>
 	</scm>
 
