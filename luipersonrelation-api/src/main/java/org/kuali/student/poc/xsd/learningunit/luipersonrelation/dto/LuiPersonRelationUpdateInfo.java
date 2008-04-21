@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationUpdateInfo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2767988735753860338L;
     @XmlElement
     private RelationState relationState;
     @XmlElement

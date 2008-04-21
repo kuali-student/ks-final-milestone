@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationCriteria implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2541872844557390290L;
     @XmlElement
     private String query;
 

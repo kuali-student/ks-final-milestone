@@ -13,7 +13,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationDisplay implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1575015530864361975L;
     @XmlElement
     private LuiDisplay luiDisplay;
     @XmlElement

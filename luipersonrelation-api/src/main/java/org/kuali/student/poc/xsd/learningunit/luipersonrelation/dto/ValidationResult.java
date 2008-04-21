@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidationResult implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5692209282548494108L;
     @XmlElement
     private boolean success;
     @XmlElement
