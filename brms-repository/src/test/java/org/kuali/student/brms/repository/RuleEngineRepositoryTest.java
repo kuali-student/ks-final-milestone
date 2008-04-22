@@ -106,7 +106,7 @@ public class RuleEngineRepositoryTest {
         return RuleEngineUtil.createRule(brmsRepository, ruleSetUUID, categoryName, checkin);
     }
 
-    private RuleSetImpl createRuleSet(String name, String description, String facts) throws RuleEngineRepositoryException {
+    private RuleSetImpl createRuleSet(String name, String description, List<String> facts) throws RuleEngineRepositoryException {
         RuleSetImpl ruleSet = new RuleSetImpl(name);
         ruleSet.setDescription(description);
         if ( facts != null && !facts.isEmpty()) {
@@ -178,8 +178,9 @@ public class RuleEngineRepositoryTest {
         String ruleCategory = "MyCategory";
         brmsRepository.createCategory("/", ruleCategory, "My new rule category");
 
-        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", 
-                "import java.util.Calendar");
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", header);
         
         RuleImpl rule = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
                 DroolsTestUtil.getSimpleRule1());
@@ -345,7 +346,7 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
-    public void testCreateRuleSet() throws Exception {
+    public void testLoadRuleSetWithInvalidUUID() throws Exception {
         String rulesetUuid = brmsRepository.createRuleSet("testCreateRuleSet", "Rule set description");
         assertNotNull(rulesetUuid);
 
@@ -361,11 +362,43 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
-    public void testCreateAndLoadRuleSet() throws Exception {
-        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", 
-                "import java.util.Calendar");
+    public void testCreateRuleSet() throws Exception {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", header);
 
-        String ruleCategory = "MyCategory";
+        RuleImpl rule1 = createRuleDRL("MyRule1", "My new rule 1", null, 
+                DroolsTestUtil.getSimpleRule1());
+        ruleSet1.addRule(rule1);
+
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
+        assertTrue( ruleSetUUID != null && !ruleSetUUID.isEmpty() );
+    }
+
+    @Test
+    public void testCreateRuleSet_MissingImport() throws Exception {
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+
+        RuleImpl rule1 = createRuleDRL("MyRule1", "My new rule 1", null, 
+                DroolsTestUtil.getSimpleRule1());
+        ruleSet1.addRule(rule1);
+
+        try {
+            String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
+            fail("Should not be able to create rule set without an header (import)");
+        }
+        catch(RuleEngineRepositoryException e) {
+            assertTrue( true );
+        }
+    }
+
+    @Test
+    public void testCreateAndLoadRuleSet() throws Exception {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", header);
+
+        String ruleCategory = null; //"MyCategory";
         
         RuleImpl rule1 = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
                 DroolsTestUtil.getSimpleRule1());
@@ -375,7 +408,7 @@ public class RuleEngineRepositoryTest {
                 DroolsTestUtil.getSimpleRule2());
         ruleSet1.addRule(rule2);
 
-        brmsRepository.createCategory("/", ruleCategory, "My new rule category");
+        //brmsRepository.createCategory("/", ruleCategory, "My new rule category");
         
         String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
         assertTrue( ruleSetUUID != null && !ruleSetUUID.isEmpty() );
@@ -418,7 +451,7 @@ public class RuleEngineRepositoryTest {
         // Update Rule Set with new header
         RuleSetImpl newRuleSet = (RuleSetImpl) ruleSet;
         String header = "import java.util.List";
-        newRuleSet.setHeader(header);
+        newRuleSet.addHeader(header);
         brmsRepository.updateRuleSet(ruleSet);
         
         ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
@@ -430,29 +463,9 @@ public class RuleEngineRepositoryTest {
         String ruleCategory = "MyCategory";
         brmsRepository.createCategory("/", ruleCategory, "My new rule category");
 
-        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", 
-                "import java.util.Calendar");
-        
-        RuleImpl rule = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
-                DroolsTestUtil.getSimpleRule1());
-        ruleSet.addRule(rule);
-        
-        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet);
-        
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) 
-            brmsRepository.loadCompiledRuleSet(ruleSetUUID);
-
-        assertNotNull(binPkg);
-        assertTrue(binPkg.isValid());
-    }
-    
-    @Test
-    public void testLoadCompiledRuleSet_MissingPackageImport() throws Exception {
-        String ruleCategory = "MyCategory";
-        brmsRepository.createCategory("/", ruleCategory, "My new rule category");
-        // Missing import
-        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", 
-                "import java.util.Calendar");
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", header);
         
         RuleImpl rule = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
                 DroolsTestUtil.getSimpleRule1());
