@@ -1153,10 +1153,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         } catch (RulesRepositoryException e) {
             if (e.getCause() instanceof ItemExistsException) {
                 throw new RuleEngineRepositoryException("Creating new rule set failed - " + 
-                        "Duplicate rule set: ruleName=" + ruleSet.getName(), e);
+                        "Duplicate rule set: rule name=" + ruleSet.getName(), e);
             } else {
                 throw new RuleEngineRepositoryException("Creating new rule set failed: " + 
-                        "rule set Name=" + ruleSet.getName(), e);
+                        "rule set name=" + ruleSet.getName(), e);
             }
         }
     }
@@ -1169,9 +1169,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Rule description cannot be null or empty");
         }
-        else if (rule.getCategory() == null || rule.getCategory().isEmpty()) {
-            throw new IllegalArgumentException("Rule category cannot be null or empty");
-        }
+        //else if (rule.getCategory() == null || rule.getCategory().isEmpty()) {
+        //    throw new IllegalArgumentException("Rule category cannot be null or empty");
+        //}
         else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
             throw new IllegalArgumentException("Rule format cannot be null or empty");
         }
