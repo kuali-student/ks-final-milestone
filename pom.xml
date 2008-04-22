@@ -19,7 +19,6 @@
 		<module>common-util</module>
 		<module>common-ws</module>
 		<module>common-cxf</module>
-		<module>common-metro</module>
 	</modules>
 
 	<scm>
