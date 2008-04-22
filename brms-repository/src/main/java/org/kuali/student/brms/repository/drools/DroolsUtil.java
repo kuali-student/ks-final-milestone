@@ -153,9 +153,11 @@ public class DroolsUtil {
         ruleSet.setLastModifiedDate(pkg.getLastModified());
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
-        String[] headerLine = pkg.getHeader().split(" ");
+        String[] headerLine = pkg.getHeader().split(";");
         for(int i=0; i<headerLine.length; i++) {
-            ruleSet.addHeader(headerLine[i]);
+            if ( headerLine[i] != null && !headerLine[i].trim().isEmpty()) {
+                ruleSet.addHeader(headerLine[i].trim());
+            }
         }
 
         ruleSet.setCompiledRuleSet(pkg.getCompiledPackageBytes());
