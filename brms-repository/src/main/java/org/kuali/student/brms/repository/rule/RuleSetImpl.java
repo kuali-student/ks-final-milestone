@@ -22,7 +22,7 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
     private List<Rule> rules = new ArrayList<Rule>();
     private byte[] compiledRulerSet = null;
     private Object compiledRuleSetObject = null;
-    private String header = null;
+    private List<String> header = new ArrayList<String>();
 
     private boolean snapshot = false;
 
@@ -44,6 +44,23 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
 
     public void setRules(List<Rule> rules) {
         this.rules = rules;
+    }
+
+    public void addHeader(String header) {
+        this.header.add(header);
+    }
+
+    public String getHeader() {
+        StringBuilder sb = new StringBuilder();
+        for( int i=0; i<this.header.size(); i++) {
+            sb.append( this.header.get(i) );
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+    
+    public void setHeader(List<String> header) {
+        this.header = header;
     }
 
     public byte[] getCompiledRuleSet() {
@@ -68,14 +85,6 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
 
     public void setSnapshot(boolean snapshot) {
         this.snapshot = snapshot;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
     }
 
 }
