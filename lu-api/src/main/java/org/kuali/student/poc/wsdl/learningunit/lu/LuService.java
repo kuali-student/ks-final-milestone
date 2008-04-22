@@ -75,8 +75,8 @@ public interface LuService {
 	 * @throws OperationFailedException
 	 */
 	@WebMethod
-	public LuTypeInfo fetchLuType(@WebParam(name = "luTypeId")
-	String luTypeId) throws DoesNotExistException, InvalidParameterException,
+	public LuTypeInfo fetchLuType(@WebParam(name = "luTypeKey")
+	String luTypeKey) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
 	/**
@@ -93,9 +93,9 @@ public interface LuService {
 	 */
 	@WebMethod
 	public List<String> findAllowedLuLuRelationTypesForLuType(
-			@WebParam(name = "luTypeId")
-			String luTypeId, @WebParam(name = "relatedLuTypeId")
-			String relatedLuTypeId) throws DoesNotExistException,
+			@WebParam(name = "luTypeKey")
+			String luTypeKey, @WebParam(name = "relatedLuTypeKey")
+			String relatedLuTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 
@@ -141,8 +141,8 @@ public interface LuService {
 	 * @throws OperationFailedException
 	 */
 	@WebMethod
-	public List<CluDisplay> findClusForLuType(@WebParam(name = "luTypeId")
-	String luTypeId) throws DoesNotExistException, InvalidParameterException,
+	public List<CluDisplay> findClusForLuType(@WebParam(name = "luTypeKey")
+	String luTypeKey) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
 	/**
@@ -156,8 +156,8 @@ public interface LuService {
 	 * @throws OperationFailedException
 	 */
 	@WebMethod
-	public List<String> findCluIdsForLuType(@WebParam(name = "luTypeId")
-	String luTypeId) throws DoesNotExistException, InvalidParameterException,
+	public List<String> findCluIdsForLuType(@WebParam(name = "luTypeKey")
+	String luTypeKey) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
 	/**
@@ -824,8 +824,8 @@ public interface LuService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public String createClu(@WebParam(name = "luTypeId")
-	String luTypeId, @WebParam(name = "cluCreateInfo")
+	public String createClu(@WebParam(name = "luTypeKey")
+	String luTypeKey, @WebParam(name = "cluCreateInfo")
 	CluCreateInfo cluCreateInfo) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
