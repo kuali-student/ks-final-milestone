@@ -26,5 +26,9 @@ public interface RuleSet extends Item {
 
     public String getHeader();
 
+    public List<String> getHeaderList();
+    
+    public String getContent();
+    
     public boolean isSnapshot();
 }
