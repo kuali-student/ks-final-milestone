@@ -153,7 +153,10 @@ public class DroolsUtil {
         ruleSet.setLastModifiedDate(pkg.getLastModified());
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
-        ruleSet.setHeader(pkg.getHeader());
+        String[] headerLine = pkg.getHeader().split(" ");
+        for(int i=0; i<headerLine.length; i++) {
+            ruleSet.addHeader(headerLine[i]);
+        }
 
         ruleSet.setCompiledRuleSet(pkg.getCompiledPackageBytes());
         org.drools.rule.Package p = getPackage(pkg.getCompiledPackageBytes());
@@ -175,7 +178,7 @@ public class DroolsUtil {
 
         return ruleSet;
     }
-
+    
     /**
      * Gets a Drools <code>org.drools.rule.Package</code> from a byte array.
      * 
