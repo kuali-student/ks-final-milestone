@@ -1,0 +1,5 @@
+## Drools "when" template for business rule "Count CLUs"
+
+        countCLUMatches1 : Long( longValue >= $criteria ) 
+        from accumulate( LUIPersonAssociation( canonicalLUName in ($fact)), $clu : canonicalLU ) 
+        from $academicRecord.records, count( $clu ) )
