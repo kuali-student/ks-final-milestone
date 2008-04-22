@@ -12,7 +12,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-
+/**
+ * Contains meta data about one Rule Element within a functional business rule. Rule Element can represent
+ * a logical operator (AND, OR, XOR, NOT), a parentheses (left or right) or a proposition. If Rule Element
+ * type is Proposition then the object has one Rule Proposition associated with it.
+ * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ */
 @Entity
 @Table(name = "RuleElement_T")
 @TableGenerator(name = "idGen")
@@ -32,7 +37,7 @@ public class RuleElement {
 	private RuleProposition ruleProposition;
 	
 	/**
-	 * 
+	 *  Sets up an empty instance.
 	 */
 	public RuleElement() {
 		id = null;
@@ -45,6 +50,8 @@ public class RuleElement {
 	}
 
 	/**
+	 * Sets up a RuleElement instance.
+	 * 
 	 * @param id
 	 * @param operation
 	 * @param ordinalPosition

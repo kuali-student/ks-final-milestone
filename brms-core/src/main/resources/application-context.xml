@@ -25,7 +25,11 @@
   </bean>
 
   <bean id="BRMSMetaData"  class="org.kuali.student.rules.BRMSCore.BRMSMetaData">
-    <property name="businessRuleSetDAO" ref="functionalBusinessRuleDAO"/>    
+    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
+  </bean>
+
+  <bean id="TestEndToEnd"  class="org.kuali.student.rules.BRMSCore.TestEndToEnd">
+    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
 	
 	<bean id="entityMgrFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -40,15 +44,14 @@
 	 </bean>	
 
 	<bean id="myDataSource"	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-		<property name="url" value="jdbc:derby:BRMSMetadataDB;create=true;" />
+		<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
+		<property name="url" value="jdbc:derby://localhost:1527/BRMSMetadataDBQ;create=true" />
 		<property name="username" value="Zdenek" />
-		<property name="password" value="" />
+		<property name="password" value="Europe" />
 	</bean>
  
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory"	ref="entityMgrFactory" />
-		<property name="dataSource" ref="myDataSource"/>
 	</bean>
 
   <tx:annotation-driven transaction-manager="transactionManager" />

@@ -2,19 +2,26 @@ package org.kuali.student.rules.BRMSCore;
 
 import javax.persistence.Embeddable;
 
+/**
+ * Contains meta data about the operator of a Rule Proposition. For example,
+ * in "completed any 2 of (MATH101, MATH102, MATH103)", the Drool rule operator is '='. 
+ * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ */
 @Embeddable
 public class Operator {
 
 	ComparisonOperatorType value;
 	
 	/**
-	 * 
+	 *  Sets up an empty instance.
 	 */
 	public Operator() {
 		this.value = null;		
 	}
 	
 	/**
+	 * Sets up a Operator instance.
+	 * 
 	 * @param businessEntity
 	 * @param facts
 	 * @param className

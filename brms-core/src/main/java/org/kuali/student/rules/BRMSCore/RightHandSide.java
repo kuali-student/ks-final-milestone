@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import javax.persistence.Embeddable;
 
+/**
+ * Contains meta data about the right hand side of a Rule Proposition. For example,
+ * in "completed any 2 of (MATH101, MATH102, MATH103)" the right hand side is a criterion '2'. 
+ * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ */
 @Embeddable
 public class RightHandSide {
 
@@ -12,7 +17,7 @@ public class RightHandSide {
 	ArrayList<String> criterionValues;
 	
 	/**
-	 * 
+	 *  Sets up an empty instance.
 	 */
 	public RightHandSide() {
 		this.businessEntityRight = null;
@@ -21,6 +26,8 @@ public class RightHandSide {
 	}
 	
 	/**
+	 * Sets up a RightHandSide instance.
+	 * 
 	 * @param businessEntity
 	 * @param facts
 	 * @param className

@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+/**
+ * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of
+ * left hand side, operator and right hand side of a given rule.
+ * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ */
 @Entity
 @Table(name = "RuleProposition_T")
 @TableGenerator(name = "idGen")
@@ -26,7 +31,7 @@ public class RuleProposition {
 	private RightHandSide rightHandSide;
 	
 	/**
-	 * 
+	 * Sets up an empty instance.
 	 */
 	public RuleProposition() {
 		this.id = null;		
@@ -34,11 +39,12 @@ public class RuleProposition {
 		this.description = null;
 		this.leftHandSide = null;
 		this.operator = null;
-		this.rightHandSide = null;
-	
+		this.rightHandSide = null;	
 	}
 	
 	/**
+	 * Sets up a RuleProposition instance.
+	 * 
 	 * @param name
 	 * @param description
 	 * @param leftHandSide

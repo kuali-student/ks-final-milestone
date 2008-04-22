@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student.poc.brms</groupId>
+  <artifactId>brms-core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>brms-core</name>
+  <description>An interface to BRMS meta data structures stored in a database</description>
+
   <parent>
     <artifactId>brms-ri</artifactId>
     <groupId>org.kuali.student.poc.brms</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.kuali.student.poc.brms</groupId>
-  <artifactId>brms-core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Kuali Student BRMS - brms-core</name>
-  <description></description>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.5</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <dependencies>
     <dependency>
       <groupId>javax.persistence</groupId>

@@ -17,6 +17,12 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * Contains meta data about a functional business rule. Since a functional business rule
+ * is composed of one or more Rule Elements, this class is associated with one or more RuleElement instances.
+ * The class also contains BusinessRuleEvaluation and RuleMetaData instances.
+ * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ */
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
 @TableGenerator(name = "idGen", uniqueConstraints= {@UniqueConstraint(columnNames={"ruleIdentifier"})})
@@ -39,7 +45,7 @@ public class FunctionalBusinessRule {
 
 	
 	/**
-	 * 
+	 *  Sets up an empty instance.
 	 */
 	public FunctionalBusinessRule() {
 		id = null;
@@ -51,6 +57,8 @@ public class FunctionalBusinessRule {
 	}
 
 	/**
+	 * Sets up a RuleProposition instance.
+	 * 
 	 * @param id
 	 * @param name
 	 * @param description
@@ -66,6 +74,10 @@ public class FunctionalBusinessRule {
 		this.businessRuleEvaluation = businessRuleEvaluation;
 	}
 
+	/**
+	 * Adds a new RuleElement to the list of rule elements that the functional business rule is composed of
+	 * @param ruleElement a new Rule Element to add to this business rule object
+	 */	
 	public void addRuleElement(RuleElement ruleElement) {
 		if (this.ruleElements == null) {
 			this.ruleElements = new ArrayList<RuleElement>(); 

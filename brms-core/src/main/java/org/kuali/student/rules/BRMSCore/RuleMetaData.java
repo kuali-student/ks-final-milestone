@@ -5,6 +5,10 @@ import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**  
+ * Contains meta data on version and history of a functional business rule
+ * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ */
 @Embeddable
 public class RuleMetaData {
 
@@ -29,6 +33,8 @@ public class RuleMetaData {
 
 
 	/**
+	 * Sets up a RuleMetaData instance.
+	 * 
 	 * @param createdBy
 	 * @param createDate
 	 * @param updateBy
@@ -52,7 +58,7 @@ public class RuleMetaData {
 	}
 	
 	/**
-	 * 
+	 *   Sets up an empty instance.
 	 */
 	public RuleMetaData() {
 		this.createdBy = null;
@@ -71,90 +77,105 @@ public class RuleMetaData {
 	public final String getCreatedBy() {
 		return createdBy;
 	}
+	
 	/**
 	 * @param createdBy the createdBy to set
 	 */
 	public final void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+	
 	/**
 	 * @return the createDate
 	 */
 	public final Date getCreateDate() {
 		return createDate;
 	}
+	
 	/**
 	 * @param createDate the createDate to set
 	 */
 	public final void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	
 	/**
 	 * @return the updateBy
 	 */
 	public final String getUpdateBy() {
 		return updateBy;
 	}
+	
 	/**
 	 * @param updateBy the updateBy to set
 	 */
 	public final void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
 	}
+	
 	/**
 	 * @return the updateDate
 	 */
 	public final Date getUpdateDate() {
 		return updateDate;
 	}
+	
 	/**
 	 * @param updateDate the updateDate to set
 	 */
 	public final void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+	
 	/**
 	 * @return the effectiveDateStart
 	 */
 	public final Date getEffectiveDateStart() {
 		return effectiveDateStart;
 	}
+	
 	/**
 	 * @param effectiveDateStart the effectiveDateStart to set
 	 */
 	public final void setEffectiveDateStart(Date effectiveDateStart) {
 		this.effectiveDateStart = effectiveDateStart;
 	}
+	
 	/**
 	 * @return the effectiveDateEnd
 	 */
 	public final Date getEffectiveDateEnd() {
 		return effectiveDateEnd;
 	}
+	
 	/**
 	 * @param effectiveDateEnd the effectiveDateEnd to set
 	 */
 	public final void setEffectiveDateEnd(Date effectiveDateEnd) {
 		this.effectiveDateEnd = effectiveDateEnd;
 	}
+	
 	/**
 	 * @return the version
 	 */
 	public final String getVersion() {
 		return version;
 	}
+	
 	/**
 	 * @param version the version to set
 	 */
 	public final void setVersion(String version) {
 		this.version = version;
 	}
+	
 	/**
 	 * @return the statusEnum
 	 */
 	public final String getStatusEnum() {
 		return statusEnum;
 	}
+	
 	/**
 	 * @param statusEnum the statusEnum to set
 	 */
