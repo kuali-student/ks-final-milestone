@@ -110,7 +110,7 @@ public class RuleEngineRepositoryTest {
         RuleSetImpl ruleSet = new RuleSetImpl(name);
         ruleSet.setDescription(description);
         if ( facts != null && !facts.isEmpty()) {
-            ruleSet.setHeader( facts );
+            ruleSet.setHeaderList( facts );
         }
         return ruleSet;
     }
@@ -384,12 +384,37 @@ public class RuleEngineRepositoryTest {
         ruleSet1.addRule(rule1);
 
         try {
-            String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
+            brmsRepository.createRuleSet(ruleSet1);
             fail("Should not be able to create rule set without an header (import)");
         }
         catch(RuleEngineRepositoryException e) {
             assertTrue( true );
         }
+    }
+
+    @Test
+    public void testCreateRuleSet_MultipleImport() throws Exception {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.regex.Pattern");
+        header.add("import org.kuali.student.brms.repository.test.Email;");
+        header.add("import org.kuali.student.brms.repository.test.Message;");
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "Email Initialization Rule", header);
+
+        RuleImpl rule1 = createRuleDRL("MyRule1", "My new rule 1", null, 
+                DroolsTestUtil.getValidationRule1());
+        ruleSet1.addRule(rule1);
+
+        RuleImpl rule2 = createRuleDRL("MyRule2", "My new rule 2", null, 
+                DroolsTestUtil.getValidationRule2());
+        ruleSet1.addRule(rule2);
+
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
+        assertTrue( ruleSetUUID != null && !ruleSetUUID.isEmpty() );
+
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+        assertEquals(header.get(0)+";", ruleSet2.getHeaderList().get(0));
+        assertEquals(header.get(1), ruleSet2.getHeaderList().get(1));
+        assertEquals(header.get(2), ruleSet2.getHeaderList().get(2));
     }
 
     @Test
