@@ -13,7 +13,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>lu-ri</module>
-		<module>lupersonrelation-ri</module>
+		<module>luipersonrelation-ri</module>
 	</modules>
 
 	<parent>

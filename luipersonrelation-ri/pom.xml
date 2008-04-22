@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>lupersonrelation-ri</artifactId>
+	<artifactId>luipersonrelation-ri</artifactId>
 	<description></description>
-	<name>Learning Unit Person Relation RI JAR</name>
+	<name>LUI Person Relation RI JAR</name>
 	<parent>
 		<groupId>org.kuali.student.poc.learningunit</groupId>
 		<artifactId>lum-ri</artifactId>
