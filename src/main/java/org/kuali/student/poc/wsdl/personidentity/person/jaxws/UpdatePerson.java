@@ -21,15 +21,15 @@ import javax.xml.bind.annotation.XmlType;
 public class UpdatePerson {
 
     @XmlElement(name = "personId")
-    private java.lang.Long personId;
+    private java.lang.String personId;
     @XmlElement(name = "personUpdateInfo")
     private org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo personUpdateInfo;
 
-    public java.lang.Long getPersonId() {
+    public java.lang.String getPersonId() {
         return this.personId;
     }
     
-    public void setPersonId( java.lang.Long newPersonId ) {
+    public void setPersonId( java.lang.String newPersonId ) {
         this.personId = newPersonId;
     }
     

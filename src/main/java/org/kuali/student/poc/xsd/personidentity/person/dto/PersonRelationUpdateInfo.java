@@ -14,12 +14,12 @@ public class PersonRelationUpdateInfo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute
-	private Long personId;
+	private String personId;
 	
 	@XmlElement
-	private Long organizationId;
+	private String organizationId;
 	@XmlElement
-	private Long posistionId;
+	private String posistionId;
 	@XmlElement
 	private Long relationshipType;
 	@XmlElement
@@ -30,38 +30,38 @@ public class PersonRelationUpdateInfo implements Serializable{
 	/**
 	 * @return the personId
 	 */
-	public Long getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
 	/**
 	 * @param personId the personId to set
 	 */
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 
 	/**
 	 * @return the organizationId
 	 */
-	public Long getOrganizationId() {
+	public String getOrganizationId() {
 		return organizationId;
 	}
 	/**
 	 * @param organizationId the organizationId to set
 	 */
-	public void setOrganizationId(Long organizationId) {
+	public void setOrganizationId(String organizationId) {
 		this.organizationId = organizationId;
 	}
 	/**
 	 * @return the posistionId
 	 */
-	public Long getPosistionId() {
+	public String getPosistionId() {
 		return posistionId;
 	}
 	/**
 	 * @param posistionId the posistionId to set
 	 */
-	public void setPosistionId(Long posistionId) {
+	public void setPosistionId(String posistionId) {
 		this.posistionId = posistionId;
 	}
 	/**

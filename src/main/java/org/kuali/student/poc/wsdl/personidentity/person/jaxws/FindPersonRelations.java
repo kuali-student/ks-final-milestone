@@ -21,23 +21,23 @@ import javax.xml.bind.annotation.XmlType;
 public class FindPersonRelations {
 
     @XmlElement(name = "personId")
-    private java.lang.Long personId;
+    private java.lang.String personId;
     @XmlElement(name = "personRelationTypeKey")
-    private java.lang.Long personRelationTypeKey;
+    private java.lang.String personRelationTypeKey;
 
-    public java.lang.Long getPersonId() {
+    public java.lang.String getPersonId() {
         return this.personId;
     }
     
-    public void setPersonId( java.lang.Long newPersonId ) {
+    public void setPersonId( java.lang.String newPersonId ) {
         this.personId = newPersonId;
     }
     
-    public java.lang.Long getPersonRelationTypeKey() {
+    public java.lang.String getPersonRelationTypeKey() {
         return this.personRelationTypeKey;
     }
     
-    public void setPersonRelationTypeKey( java.lang.Long newPersonRelationTypeKey ) {
+    public void setPersonRelationTypeKey( java.lang.String newPersonRelationTypeKey ) {
         this.personRelationTypeKey = newPersonRelationTypeKey;
     }
     

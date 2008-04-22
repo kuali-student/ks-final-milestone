@@ -14,7 +14,7 @@ public class PersonCitizenshipInfo implements Serializable{
 	private static final long serialVersionUID = -404428611781445073L;
 	
 	@XmlAttribute
-	private Long personId;
+	private String personId;
 	
 	@XmlElement
 	private String countryOfCitizenshipCode;
@@ -36,13 +36,13 @@ public class PersonCitizenshipInfo implements Serializable{
 	/**
 	 * @return the personId
 	 */
-	public Long getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
 	/**
 	 * @param personId the personId to set
 	 */
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 	/**

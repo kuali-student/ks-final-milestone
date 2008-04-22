@@ -21,23 +21,23 @@ import javax.xml.bind.annotation.XmlType;
 public class FetchPersonInfoByPersonAttributeSetTypes {
 
     @XmlElement(name = "personId")
-    private java.lang.Long personId;
+    private java.lang.String personId;
     @XmlElement(name = "personAttributeSetTypeKeyList")
-    private java.util.List<Long> personAttributeSetTypeKeyList;
+    private java.util.List<String> personAttributeSetTypeKeyList;
 
-    public java.lang.Long getPersonId() {
+    public java.lang.String getPersonId() {
         return this.personId;
     }
     
-    public void setPersonId( java.lang.Long newPersonId ) {
+    public void setPersonId( java.lang.String newPersonId ) {
         this.personId = newPersonId;
     }
     
-    public java.util.List<Long> getPersonAttributeSetTypeKeyList() {
+    public java.util.List<String> getPersonAttributeSetTypeKeyList() {
         return this.personAttributeSetTypeKeyList;
     }
     
-    public void setPersonAttributeSetTypeKeyList( java.util.List<Long> newPersonAttributeSetTypeKeyList ) {
+    public void setPersonAttributeSetTypeKeyList( java.util.List<String> newPersonAttributeSetTypeKeyList ) {
         this.personAttributeSetTypeKeyList = newPersonAttributeSetTypeKeyList;
     }
     

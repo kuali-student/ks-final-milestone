@@ -13,7 +13,7 @@ public class PersonAttributeTypeInfo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute
-	private Long id;
+	private String id;
 	@XmlAttribute
 	private String name;
 	@XmlElement
@@ -25,13 +25,13 @@ public class PersonAttributeTypeInfo implements Serializable{
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**

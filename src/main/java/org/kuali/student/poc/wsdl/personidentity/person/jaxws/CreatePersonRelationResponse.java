@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 public class CreatePersonRelationResponse {
 
     @XmlElement(name = "return")
-    private java.lang.Long _return;
+    private java.lang.String _return;
 
-    public java.lang.Long get_return() {
+    public java.lang.String get_return() {
         return this._return;
     }
     
-    public void set_return( java.lang.Long new_return ) {
+    public void set_return( java.lang.String new_return ) {
         this._return = new_return;
     }
     

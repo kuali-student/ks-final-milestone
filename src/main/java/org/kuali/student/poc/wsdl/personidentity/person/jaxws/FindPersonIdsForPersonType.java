@@ -21,15 +21,15 @@ import javax.xml.bind.annotation.XmlType;
 public class FindPersonIdsForPersonType {
 
     @XmlElement(name = "personTypeKey")
-    private java.lang.Long personTypeKey;
+    private java.lang.String personTypeKey;
     @XmlElement(name = "personFilter")
     private org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria personFilter;
 
-    public java.lang.Long getPersonTypeKey() {
+    public java.lang.String getPersonTypeKey() {
         return this.personTypeKey;
     }
     
-    public void setPersonTypeKey( java.lang.Long newPersonTypeKey ) {
+    public void setPersonTypeKey( java.lang.String newPersonTypeKey ) {
         this.personTypeKey = newPersonTypeKey;
     }
     

@@ -14,14 +14,14 @@ public class PersonDisplay implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute
-	private Long personId;
+	private String personId;
 	@XmlElement
 	private PersonNameInfo name;
 
 	/**
 	 * @return the personId
 	 */
-	public Long getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
 
@@ -29,7 +29,7 @@ public class PersonDisplay implements Serializable{
 	 * @param personId
 	 *            the personId to set
 	 */
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 

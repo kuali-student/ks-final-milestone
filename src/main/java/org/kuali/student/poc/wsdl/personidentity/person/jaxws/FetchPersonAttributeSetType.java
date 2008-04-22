@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 public class FetchPersonAttributeSetType {
 
     @XmlElement(name = "personAttributeSetTypeKey")
-    private java.lang.Long personAttributeSetTypeKey;
+    private java.lang.String personAttributeSetTypeKey;
 
-    public java.lang.Long getPersonAttributeSetTypeKey() {
+    public java.lang.String getPersonAttributeSetTypeKey() {
         return this.personAttributeSetTypeKey;
     }
     
-    public void setPersonAttributeSetTypeKey( java.lang.Long newPersonAttributeSetTypeKey ) {
+    public void setPersonAttributeSetTypeKey( java.lang.String newPersonAttributeSetTypeKey ) {
         this.personAttributeSetTypeKey = newPersonAttributeSetTypeKey;
     }
     

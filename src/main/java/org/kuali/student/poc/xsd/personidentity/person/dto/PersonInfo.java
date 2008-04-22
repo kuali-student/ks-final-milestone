@@ -22,7 +22,7 @@ public class PersonInfo implements Serializable{
 	private static final long serialVersionUID = 2398792732220533518L;
 	
 	@XmlAttribute
-	private Long personId;
+	private String personId;
 	
 	@XmlElement
 	@XmlElementWrapper(name="names")
@@ -55,13 +55,13 @@ public class PersonInfo implements Serializable{
 	/**
 	 * @return the personId
 	 */
-	public Long getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
 	/**
 	 * @param personId the personId to set
 	 */
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 	/**
