@@ -11,8 +11,10 @@ import org.kuali.student.rules.util.*;
 import org.kuali.student.brms.repository.drools.*;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.BuilderResultList;
+import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.rule.RuleSetImpl;
 import org.kuali.student.brms.repository.*;
 /**
  * @author Rich Diaz
@@ -31,6 +33,7 @@ public class GenerateRuleSet {
     String ruleName;
     String description;
     String category;
+    RuleSetImpl ruleSet;
     
 	
 	public static void main(String[] args){
@@ -45,14 +48,14 @@ public class GenerateRuleSet {
 			repo.clearData();
 			RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
 			String rulePackage = "org.kuali.student.rules.enrollment";
-			String rulesetUuid = brmsRepository.createRuleSet(rulePackage, "My package description" );
+			//String rulesetUuid = brmsRepository.createRuleSet(rulePackage, "My package description" );
 			
 			
 			GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
-			grs.setRuleEngineRepository(brmsRepository);
-			grs.setRuleSetUuid(rulesetUuid);
+			//grs.setRuleEngineRepository(brmsRepository);
+			//grs.setRuleSetUuid(rulesetUuid);
 			grs.setRuleName("Enrollment Physics 5000");
-			grs.setRuleDescription("");
+			grs.setRuleDescription("A rule description"); // Rule description cannot be empty
 			grs.setRuleCategory(null);
 			
 			grs.setRuleAttributes(null);
@@ -62,7 +65,8 @@ public class GenerateRuleSet {
 			grs.parse();
 			
 			// compile rule and save in repository
-			BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+			//BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+			String rulesetUuid = brmsRepository.createRuleSet(grs.getRuleSet());
 			
 			// load rule from repo and print
 			RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
@@ -89,7 +93,12 @@ public class GenerateRuleSet {
 		RuleTemplate rt = new RuleTemplate();
 		String extRuleName;
 		
-		// create a rule per function var
+        ruleSet = new RuleSetImpl( ruleName );
+        ruleSet.setDescription("My Rule set");
+        ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
+        ruleSet.addHeader("import org.kuali.student.rules.util.Function");
+
+        // create a rule per function var
 		for (String var : funcVars) {
 			//System.out.println("The var is " + var );
 			extRuleName = ruleName + " (" + var + ")";
@@ -98,7 +107,7 @@ public class GenerateRuleSet {
 			
 			// Left Hand Side
 			
-			lhsDB.add("This is coming from the Databse");
+			lhsDB.add("// This is coming from the Database");
 			rt.setLHS(lhsDB);
 			
 			// Right Hand Side
@@ -117,7 +126,13 @@ public class GenerateRuleSet {
 			rhsConst.clear();
 			
 			// Add rule to ruleset created in constructor
-			String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
+			//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
+	        RuleImpl rule = new RuleImpl(extRuleName);
+	        rule.setDescription(description);
+	        rule.setCategory(category);
+	        rule.setContent(ruleSourceCode);
+	        rule.setFormat("drl");
+			ruleSet.addRule(rule);
         }
 		
 		// create the final composite rule for the function
@@ -147,7 +162,7 @@ public class GenerateRuleSet {
 		}	
 			
 		// Right Hand Side
-		rhsDB.add("This is the final outcome");
+		rhsDB.add("// This is the final outcome");
 		rt.setRHS(rhsDB);
 			
 		// Merge the template with the cotext set in lhs, rhs, etc ..
@@ -158,7 +173,13 @@ public class GenerateRuleSet {
 		//rhs.clear();
 			
 		// Add rule to ruleset created in constructor
-		String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
+		//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
+        RuleImpl rule = new RuleImpl(extRuleName);
+        rule.setDescription(description);
+        rule.setCategory(category);
+        rule.setContent(ruleSourceCode);
+        rule.setFormat("drl");
+        ruleSet.addRule(rule);
 	}
 	
 	public void setRuleEngineRepository(RuleEngineRepository brmsRepository) {
@@ -194,4 +215,8 @@ public class GenerateRuleSet {
 	public void setRhsDB(ArrayList<String> rhsDB) {
         this.rhsDB = rhsDB;
     }
+	
+	public RuleSet getRuleSet() {
+	    return this.ruleSet;
+	}
 }
