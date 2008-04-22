@@ -65,7 +65,7 @@ public class LuiDisplay implements Serializable {
 	 *            the luTypeId to set
 	 */
 	public void setLuTypeKey(String luTypeKey) {
-		this.luTypeKey = luTypeId;
+		this.luTypeKey = luTypeKey;
 	}
 
 	/**
