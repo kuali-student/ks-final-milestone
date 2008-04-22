@@ -43,7 +43,7 @@ public class TestPersonServiceSecure extends AbstractServiceTest {
         // Make a call with valid username/pwd
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("dummy", "dummy"));
 
-        Long personTypeId = client.createPersonTypeInfo(personType1);
+        String personTypeId = client.createPersonTypeInfo(personType1);
 
         // Now find all the types
         PersonTypeInfo personTypeInfo = client.fetchPersonType(personTypeId);

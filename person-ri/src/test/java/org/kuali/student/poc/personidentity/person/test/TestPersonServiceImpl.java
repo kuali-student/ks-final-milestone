@@ -64,7 +64,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personType1.setName("PersonType1");
         personType1.getAttributeSets().add(attributeSet1);
 
-        Long personTypeId = client.createPersonTypeInfo(personType1);
+        String personTypeId = client.createPersonTypeInfo(personType1);
 
         // Now find all the types
         PersonTypeInfo personTypeInfo = client.fetchPersonType(personTypeId);
@@ -90,7 +90,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personType2.setName("PersonType2");
         personType2.getAttributeSets().add(attributeSet2);
 
-        Long personTypeId = client.createPersonTypeInfo(personType2);
+        String personTypeId = client.createPersonTypeInfo(personType2);
 
         assertNotNull(personTypeId);
 
@@ -105,10 +105,10 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         name.setNameType("Official");
         person.getName().add(name);
 
-        List<Long> personTypeInfoList = new ArrayList<Long>();
+        List<String> personTypeInfoList = new ArrayList<String>();
         personTypeInfoList.add(personTypeId);
 
-        long resultId = client.createPerson(person, personTypeInfoList);
+        String resultId = client.createPerson(person, personTypeInfoList);
 
         PersonInfo result = client.fetchFullPersonInfo(resultId);
 
@@ -116,9 +116,9 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         assertEquals(result.getAttribute("Attr3"), person.getAttribute("Attr3"));
 
         //Sneaking in a test for findPersonIdsForPersonType.
-        List<Long> personIds = client.findPersonIdsForPersonType(personTypeId, null);
+        List<String> personIds = client.findPersonIdsForPersonType(personTypeId, null);
         assertEquals(1, personIds.size());
-        assertEquals(resultId, personIds.get(0).longValue());
+        assertEquals(resultId, personIds.get(0));
         
         // TODO test invalid (or unrelated) personTypes and attributeTypes
     }
@@ -142,7 +142,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personType3.setName("PersonType3");
         personType3.getAttributeSets().add(attributeSet3);
 
-        Long personType3Id = client.createPersonTypeInfo(personType3);
+        String personType3Id = client.createPersonTypeInfo(personType3);
 
         PersonAttributeTypeInfo attributeType5 = new PersonAttributeTypeInfo();
         attributeType5.setLabel("Attribute 5 Label");
@@ -157,7 +157,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personType5.setName("PersonType5");
         personType5.getAttributeSets().add(attributeSet4);
 
-        Long personType4Id = client.createPersonTypeInfo(personType5);
+        String personType4Id = client.createPersonTypeInfo(personType5);
 
         PersonCreateInfo person = new PersonCreateInfo();
         person.setBirthDate(new Date());
@@ -170,14 +170,14 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         name.setNameType("Official");
         person.getName().add(name);
 
-        List<Long> personTypeInfoList = new ArrayList<Long>();
+        List<String> personTypeInfoList = new ArrayList<String>();
         personTypeInfoList.add(personType3Id);
 
-        Long personId = client.createPerson(person, personTypeInfoList);
+        String personId = client.createPerson(person, personTypeInfoList);
 
         assertTrue(client.assignPersonType(personId, personType4Id));
 
-        List<Long> personTypes = client.findPersonTypesForPerson(personId);
+        List<String> personTypes = client.findPersonTypesForPerson(personId);
 
         assertEquals(2, personTypes.size());
         assertTrue((personTypes.get(0).equals(personType3Id) && personTypes.get(1).equals(personType4Id)) || (personTypes.get(0).equals(personType4Id) && personTypes.get(1).equals(personType3Id)));
@@ -309,7 +309,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personType4.setName("PersonType4");
         personType4.getAttributeSets().add(attributeSet5);
 
-        Long personTypeId = client.createPersonTypeInfo(personType4);
+        String personTypeId = client.createPersonTypeInfo(personType4);
 
         assertNotNull(personTypeId);
 
@@ -322,10 +322,10 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         name.setNameType("Official");
         person.getName().add(name);
 
-        List<Long> personTypeInfoList = new ArrayList<Long>();
+        List<String> personTypeInfoList = new ArrayList<String>();
         personTypeInfoList.add(personTypeId);
 
-        long resultId = client.createPerson(person, personTypeInfoList);
+        String resultId = client.createPerson(person, personTypeInfoList);
                
         PersonInfo personInfo = client.fetchFullPersonInfo(resultId);
         PersonUpdateInfo personUpdateInfo = new PersonUpdateInfo(personInfo);
@@ -378,10 +378,10 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personCriteria.setLastName("Smith");
         List<PersonInfo> people = client.searchForPeople(personCriteria);
         assertEquals(1,people.size());
-        assertEquals(resultId,people.get(0).getPersonId().longValue());
-        List<Long> personIds = client.searchForPersonIds(personCriteria);
+        assertEquals(resultId,people.get(0).getPersonId());
+        List<String> personIds = client.searchForPersonIds(personCriteria);
         assertEquals(1,personIds.size());
-        assertEquals(resultId,personIds.get(0).longValue());
+        assertEquals(resultId,personIds.get(0));
     }
 
     /*

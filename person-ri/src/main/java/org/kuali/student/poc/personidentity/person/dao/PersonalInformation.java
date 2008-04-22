@@ -3,160 +3,165 @@ package org.kuali.student.poc.personidentity.person.dao;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.poc.common.util.UUIDHelper;
+
 @Entity
 @Table(name = "Personal_Information_T")
-@TableGenerator(name = "idGen")
 public class PersonalInformation {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-    private Long id;   
-    
-    @OneToOne
-    @JoinColumn(name = "Person_ID", nullable = false)  
-    private Person person;
-    
-    private char Gender;
+	@Id
+	private String id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateOfBirth;
-    
-    private String photo;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deceasedDate;
+	@OneToOne
+	@JoinColumn(name = "Person_ID", nullable = false)
+	private Person person;
 
-    private boolean confidential;
-   
-    private String maritalStatus;
-    
-    private String primaryLanguageCode;
-    
-    private String secondaryLanguageCode;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    
-    @ManyToOne
-    @JoinColumn(name = "update_person_id")
-    private Person updatePerson;
-    
-    private String updateComment;
-    
-    public Long getId() {
-        return id;
-    }
+	private char Gender;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-   
-    public Person getPerson() {
-        return person;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateOfBirth;
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+	private String photo;
 
-    public char getGender() {
-        return Gender;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date deceasedDate;
 
-    public void setGender(char gender) {
-        Gender = gender;
-    }
-   
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+	private boolean confidential;
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+	private String maritalStatus;
 
-    public boolean isConfidential() {
-        return confidential;
-    }
+	private String primaryLanguageCode;
 
-    public void setConfidential(boolean confidential) {
-        this.confidential = confidential;
-    }
+	private String secondaryLanguageCode;
 
-    public String getPhoto() {
-        return photo;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateDate;
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
+	@ManyToOne
+	@JoinColumn(name = "update_person_id")
+	private Person updatePerson;
 
-    public Date getDeceasedDate() {
-        return deceasedDate;
-    }
+	private String updateComment;
 
-    public void setDeceasedDate(Date deceasedDate) {
-        this.deceasedDate = deceasedDate;
-    }
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
 
-    public String getMaritalStatus() {
-        return maritalStatus;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setMaritalStatus(String maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getPrimaryLanguageCode() {
-        return primaryLanguageCode;
-    }
+	public Person getPerson() {
+		return person;
+	}
 
-    public void setPrimaryLanguageCode(String primaryLanguageCode) {
-        this.primaryLanguageCode = primaryLanguageCode;
-    }
+	public void setPerson(Person person) {
+		this.person = person;
+	}
 
-    public String getSecondaryLanguageCode() {
-        return secondaryLanguageCode;
-    }
+	public char getGender() {
+		return Gender;
+	}
 
-    public void setSecondaryLanguageCode(String secondaryLanguageCode) {
-        this.secondaryLanguageCode = secondaryLanguageCode;
-    }
+	public void setGender(char gender) {
+		Gender = gender;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    public Person getUpdatePerson() {
-        return updatePerson;
-    }
+	public boolean isConfidential() {
+		return confidential;
+	}
 
-    public void setUpdatePerson(Person updatePerson) {
-        this.updatePerson = updatePerson;
-    }
+	public void setConfidential(boolean confidential) {
+		this.confidential = confidential;
+	}
 
-    public String getUpdateComment() {
-        return updateComment;
-    }
+	public String getPhoto() {
+		return photo;
+	}
 
-    public void setUpdateComment(String updateComment) {
-        this.updateComment = updateComment;
-    }
-    
-    
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public Date getDeceasedDate() {
+		return deceasedDate;
+	}
+
+	public void setDeceasedDate(Date deceasedDate) {
+		this.deceasedDate = deceasedDate;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getPrimaryLanguageCode() {
+		return primaryLanguageCode;
+	}
+
+	public void setPrimaryLanguageCode(String primaryLanguageCode) {
+		this.primaryLanguageCode = primaryLanguageCode;
+	}
+
+	public String getSecondaryLanguageCode() {
+		return secondaryLanguageCode;
+	}
+
+	public void setSecondaryLanguageCode(String secondaryLanguageCode) {
+		this.secondaryLanguageCode = secondaryLanguageCode;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public Person getUpdatePerson() {
+		return updatePerson;
+	}
+
+	public void setUpdatePerson(Person updatePerson) {
+		this.updatePerson = updatePerson;
+	}
+
+	public String getUpdateComment() {
+		return updateComment;
+	}
+
+	public void setUpdateComment(String updateComment) {
+		this.updateComment = updateComment;
+	}
+
 }

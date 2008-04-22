@@ -7,8 +7,6 @@ import java.util.Set;
 
 import javax.jws.WebService;
 
-import net.sf.ehcache.Element;
-
 import org.kuali.student.poc.common.util.EhCacheHelper;
 import org.kuali.student.poc.personidentity.person.dao.Person;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
@@ -83,15 +81,15 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	
-	private boolean isNullOrZero(Long id) {
-		return id==null||Long.valueOf(0).equals(id);
+	private boolean isNullOrBlank(String id) {
+		return id==null||"".equals(id);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#assignPersonType(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#assignPersonType(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean assignPersonType(Long personId, Long personTypeKey)
+	public boolean assignPersonType(String personId, String personTypeKey)
 			throws AlreadyExistsException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -108,7 +106,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createAttributeDefinition(org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo)
 	 */
 	@Override
-	public long createAttributeDefinition(
+	public String createAttributeDefinition(
 			PersonAttributeTypeInfo attributeDefinition)
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -121,8 +119,8 @@ public class PersonServiceImpl implements PersonService {
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPerson(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo, java.util.List)
 	 */
 	@Override
-	public long createPerson(PersonCreateInfo personCreateInfo,
-			List<Long> personTypeKeys) throws AlreadyExistsException,
+	public String createPerson(PersonCreateInfo personCreateInfo,
+			List<String> personTypeKeys) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		
@@ -134,7 +132,7 @@ public class PersonServiceImpl implements PersonService {
 		Set<PersonAttributeType> attributeTypeSet = new HashSet<PersonAttributeType>();
 
 		//Find all the types we are adding to the person to be created
-		for(Long personTypeKey:personTypeKeys){	
+		for(String personTypeKey:personTypeKeys){	
 		
 			//Look up the person types
 			PersonType personType =  personDAO.fetchPersonType(personTypeKey);
@@ -223,7 +221,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonAttributeSetType(org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo)
 	 */
 	@Override
-	public long createPersonAttributeSetType(
+	public String createPersonAttributeSetType(
 			PersonAttributeSetTypeInfo attributeSetDTO)
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -236,7 +234,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonTypeInfo(org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo)
 	 */
 	@Override
-	public long createPersonTypeInfo(PersonTypeInfo personTypeInfo)
+	public String createPersonTypeInfo(PersonTypeInfo personTypeInfo)
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -247,10 +245,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePerson(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePerson(java.lang.String)
 	 */
 	@Override
-	public boolean deletePerson(Long personId) throws DoesNotExistException,
+	public boolean deletePerson(String personId) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -260,10 +258,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchFullPersonInfo(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchFullPersonInfo(java.lang.String)
 	 */
 	@Override
-	public PersonInfo fetchFullPersonInfo(Long personId)
+	public PersonInfo fetchFullPersonInfo(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -276,11 +274,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonAttributeSetType(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonAttributeSetType(java.lang.String)
 	 */
 	@Override
 	public PersonAttributeSetTypeInfo fetchPersonAttributeSetType(
-			Long personAttributeSetTypeKey) throws DoesNotExistException,
+			String personAttributeSetTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		PersonAttributeSetType personAttributeSetType = personDAO.fetchPersonAttributeSetType(personAttributeSetTypeKey);
@@ -288,11 +286,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonAttributeSetTypes(java.lang.Long, java.util.List)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonAttributeSetTypes(java.lang.String, java.util.List)
 	 */
 	@Override
-	public PersonInfo fetchPersonInfoByPersonAttributeSetTypes(Long personId,
-			List<Long> personAttributeSetTypeKeyList)
+	public PersonInfo fetchPersonInfoByPersonAttributeSetTypes(String personId,
+			List<String> personAttributeSetTypeKeyList)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -303,11 +301,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonType(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonInfoByPersonType(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public PersonInfo fetchPersonInfoByPersonType(Long personId,
-			Long personTypeKey) throws DoesNotExistException,
+	public PersonInfo fetchPersonInfoByPersonType(String personId,
+			String personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -318,10 +316,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonType(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonType(java.lang.String)
 	 */
 	@Override
-	public PersonTypeInfo fetchPersonType(Long personTypeKey)
+	public PersonTypeInfo fetchPersonType(String personTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		return this.toPersonTypeInfo(personDAO.fetchPersonType(personTypeKey));
@@ -355,15 +353,15 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPerson(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPerson(java.lang.String)
 	 */
 	@Override
-	public List<Long> findPersonAttributeSetTypesForPerson(Long personId)
+	public List<String> findPersonAttributeSetTypesForPerson(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
-	    Set<Long> personAttrSetTypeIds = new HashSet<Long>();
+	    Set<String> personAttrSetTypeIds = new HashSet<String>();
 	    
         Person person = personDAO.lookupPerson(personId);
         
@@ -375,15 +373,15 @@ public class PersonServiceImpl implements PersonService {
             }
         }
 
-        return (new ArrayList<Long>(personAttrSetTypeIds));
+        return (new ArrayList<String>(personAttrSetTypeIds));
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPersonType(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonAttributeSetTypesForPersonType(java.lang.String)
 	 */
 	@Override
 	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypesForPersonType(
-			Long personTypeKey) throws DoesNotExistException,
+			String personTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
@@ -400,14 +398,14 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonIdsForPersonType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonIdsForPersonType(java.lang.String, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
 	 */
 	@Override
-	public List<Long> findPersonIdsForPersonType(Long personTypeKey,
+	public List<String> findPersonIdsForPersonType(String personTypeKey,
 			PersonCriteria personFilter) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-        List<Long> personIds = new ArrayList<Long>();
+        List<String> personIds = new ArrayList<String>();
 	    if(personFilter == null) {
 	        PersonType personType = personDAO.fetchPersonType(personTypeKey);
 	        
@@ -440,10 +438,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonTypesForPerson(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonTypesForPerson(java.lang.String)
 	 */
 	@Override
-	public List<Long> findPersonTypesForPerson(Long personId)
+	public List<String> findPersonTypesForPerson(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -452,7 +450,7 @@ public class PersonServiceImpl implements PersonService {
 	    	throw new DoesNotExistException("Person with id '" + personId + "' does not exist.");
 	    }
 	    Set<PersonType> personTypeSet = person.getPersonTypes();
-	    List<Long> personTypeIdList = new ArrayList<Long>();
+	    List<String> personTypeIdList = new ArrayList<String>();
 	    for (PersonType personType:personTypeSet){
 	        personTypeIdList.add(personType.getId());
 	    }
@@ -461,10 +459,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#isPersonType(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#isPersonType(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean isPersonType(Long personId, Long personTypeKey)
+	public boolean isPersonType(String personId, String personTypeKey)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -475,10 +473,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonType(java.lang.String, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
 	 */
 	@Override
-	public List<PersonInfo> searchForPeopleByPersonType(Long personTypeKey,
+	public List<PersonInfo> searchForPeopleByPersonType(String personTypeKey,
 			PersonCriteria personCriteria) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -500,10 +498,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePerson(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePerson(java.lang.String, org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo)
 	 */
 	@Override
-	public boolean updatePerson(Long personId, PersonUpdateInfo personUpdateInfo)
+	public boolean updatePerson(String personId, PersonUpdateInfo personUpdateInfo)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			ReadOnlyException, OperationFailedException,
@@ -628,11 +626,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#validatePersonInfoForPersonType(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#validatePersonInfoForPersonType(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public ValidationError validatePersonInfoForPersonType(Long personId,
-			Long personTypeKey) throws DoesNotExistException,
+	public ValidationError validatePersonInfoForPersonType(String personId,
+			String personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -642,10 +640,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchReplacementPersonId(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchReplacementPersonId(java.lang.String)
 	 */
 	@Override
-	public Long fetchReplacementPersonId(Long personId)
+	public String fetchReplacementPersonId(String personId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -655,10 +653,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#removePersonType(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#removePersonType(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean removePersonType(Long personId, Long personTypeKey)
+	public boolean removePersonType(String personId, String personTypeKey)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -706,11 +704,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonAttributeSetType(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPeopleByPersonAttributeSetType(java.lang.String, org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
 	 */
 	@Override
 	public List<PersonInfo> searchForPeopleByPersonAttributeSetType(
-			Long personAttributeSetTypeKey, PersonCriteria personCriteria)
+			String personAttributeSetTypeKey, PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
@@ -738,10 +736,10 @@ public class PersonServiceImpl implements PersonService {
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPersonIds(org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria)
 	 */
 	@Override
-	public List<Long> searchForPersonIds(PersonCriteria personCriteria)
+	public List<String> searchForPersonIds(PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-        List<Long> infos = new ArrayList<Long>();
+        List<String> infos = new ArrayList<String>();
         List<Person> people = personDAO.findPeople(personCriteria);
         for (Person person : people) {
             infos.add(person.getId());
@@ -801,8 +799,8 @@ public class PersonServiceImpl implements PersonService {
 	private PersonAttributeType toPersonAttributeType(
 			PersonAttributeTypeInfo attributeDefinition, boolean update) {
 		PersonAttributeType personAttributeType = new PersonAttributeType();
-		if(update||isNullOrZero(attributeDefinition.getId())){
-			if(isNullOrZero(attributeDefinition.getId())){
+		if(update||isNullOrBlank(attributeDefinition.getId())){
+			if(isNullOrBlank(attributeDefinition.getId())){
 				personAttributeType.setId(attributeDefinition.getId());
 			}
 			personAttributeType.setDisplayLabel(attributeDefinition.getLabel());
@@ -818,8 +816,8 @@ public class PersonServiceImpl implements PersonService {
 	private PersonAttributeSetType toPersonAttributeSetType(
 			PersonAttributeSetTypeInfo attributeSetType, boolean update) {
 		PersonAttributeSetType personAttributeSetType = new PersonAttributeSetType();
-		if(update||isNullOrZero(attributeSetType.getId())){
-			if(!isNullOrZero(attributeSetType.getId())){
+		if(update||isNullOrBlank(attributeSetType.getId())){
+			if(!isNullOrBlank(attributeSetType.getId())){
 				personAttributeSetType.setId(attributeSetType.getId());
 			}
 			personAttributeSetType.setName(attributeSetType.getName());
@@ -850,8 +848,8 @@ public class PersonServiceImpl implements PersonService {
 
 	private PersonType toPersonType(PersonTypeInfo personTypeInfo, boolean update) {
 		PersonType personType = new PersonType();
-		if(update||isNullOrZero(personTypeInfo.getId())){
-			if(!isNullOrZero(personTypeInfo.getId())){
+		if(update||isNullOrBlank(personTypeInfo.getId())){
+			if(!isNullOrBlank(personTypeInfo.getId())){
 				personType.setId(personTypeInfo.getId());
 			}
 			personType.setName(personTypeInfo.getName());
@@ -937,11 +935,11 @@ public class PersonServiceImpl implements PersonService {
 //----------- Relationship Operations not implemented in POC -------------------	
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonRelation(java.lang.Long, java.lang.Long, java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#createPersonRelation(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo)
 	 */
 	@Override
-	public Long createPersonRelation(Long personId, Long relatedPersonId,
-			Long personRelationTypeKey,
+	public String createPersonRelation(String personId, String relatedPersonId,
+			String personRelationTypeKey,
 			PersonRelationCreateInfo personRelationCreateInfo)
 			throws AlreadyExistsException, DoesNotExistException,
 			CircularReferenceException, InvalidParameterException,
@@ -953,10 +951,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePersonRelation(java.lang.Long, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationUpdateInfo)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#updatePersonRelation(java.lang.String, org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationUpdateInfo)
 	 */
 	@Override
-	public boolean updatePersonRelation(Long personRelationId,
+	public boolean updatePersonRelation(String personRelationId,
 			PersonRelationUpdateInfo personRelationUpdateInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, ReadOnlyException,
@@ -967,10 +965,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePersonRelation(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#deletePersonRelation(java.lang.String)
 	 */
 	@Override
-	public boolean deletePersonRelation(Long personRelationId)
+	public boolean deletePersonRelation(String personRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -980,10 +978,10 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonRelation(java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonRelation(java.lang.String)
 	 */
 	@Override
-	public PersonRelationInfo fetchPersonRelation(Long personRelationId)
+	public PersonRelationInfo fetchPersonRelation(String personRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -1004,11 +1002,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonPersonRelationIds(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonPersonRelationIds(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Long> findPersonPersonRelationIds(Long personId,
-			Long personRelationTypeKey) throws DoesNotExistException,
+	public List<String> findPersonPersonRelationIds(String personId,
+			String personRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
@@ -1017,11 +1015,11 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonRelations(java.lang.Long, java.lang.Long)
+	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#findPersonRelations(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<PersonRelationDisplay> findPersonRelations(Long personId,
-			Long personRelationTypeKey) throws DoesNotExistException,
+	public List<PersonRelationDisplay> findPersonRelations(String personId,
+			String personRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
@@ -1033,7 +1031,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#searchForPersonIdsByRelation(org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria)
 	 */
 	@Override
-	public List<Long> searchForPersonIdsByRelation(
+	public List<String> searchForPersonIdsByRelation(
 			PersonRelationCriteria personRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {

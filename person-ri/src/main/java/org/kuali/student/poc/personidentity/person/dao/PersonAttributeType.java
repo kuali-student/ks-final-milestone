@@ -5,22 +5,20 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "Person_Attribute_Definition_T")
-@TableGenerator(name = "idGen")
 public class PersonAttributeType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-	private Long id;
+	private String id;
 
 	// this is an alternate key, undecided on id vs name for primary
 	@Column(nullable = false, unique = true)
@@ -53,11 +51,19 @@ public class PersonAttributeType {
 		this.type = type;
 	}
 
-	public Long getId() {
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -11,27 +11,27 @@ public interface PersonDAO {
 	public boolean deletePersonAttribute(PersonAttribute personAttribute);
 	public PersonAttributeType createPersonAttributeType(PersonAttributeType personAttributeType);
 	public PersonType createPersonType(PersonType personType);
-	public PersonType fetchPersonType(Long id);
+	public PersonType fetchPersonType(String id);
 	public boolean deletePersonType(PersonType personType);
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch);
 	public List<PersonType> findPersonTypes(String nameMatch);
 	public List<Person> findPeople(PersonCriteria criteria);
-	public List<Person> findPeopleWithAttributeSetType(Long personAttributeSetTypeId, PersonCriteria criteria);
-	public List<Person> findPeopleWithPersonType(Long personTypeId, PersonCriteria criteria);
+	public List<Person> findPeopleWithAttributeSetType(String personAttributeSetTypeId, PersonCriteria criteria);
+	public List<Person> findPeopleWithPersonType(String personTypeId, PersonCriteria criteria);
 	public PersonType updatePersonType(PersonType personType);
 	public PersonAttributeSetType createPersonAttributeSetType(PersonAttributeSetType personAttributeSetType);
 	public Person createPerson(Person person);
 	public Person updatePerson(Person person);
-	public Person lookupPerson(long id);
+	public Person lookupPerson(String id);
 	public boolean deletePerson(Person person);
-	public PersonAttributeSetType fetchPersonAttributeSetType(Long id);
-	public PersonAttributeType fetchPersonAttributeType(Long id);
+	public PersonAttributeSetType fetchPersonAttributeSetType(String id);
+	public PersonAttributeType fetchPersonAttributeType(String id);
 	public PersonName createPersonName(PersonName personName);
 	public boolean deletePersonName(PersonName personName);
-	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(List<Long> personTypeIds);
+	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(List<String> personTypeIds);
 	public Set<PersonAttribute> fetchAttributesByPersonAttributeSetType(
-			Long personId, List<Long> personAttributeSetTypeKeyList);
-	public Set<PersonAttribute> fetchAttributesByPersonType(Long personId,
-			Long personTypeKey);
+			String personId, List<String> personAttributeSetTypeKeyList);
+	public Set<PersonAttribute> fetchAttributesByPersonType(String personId,
+			String personTypeKey);
 
 }

@@ -1,22 +1,20 @@
 package org.kuali.student.poc.personidentity.person.dao;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "Person_Attribute_T")
-@TableGenerator(name = "idGen")
 public class PersonAttribute {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-	private Long id;
+	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "Person_ID", nullable = false)
@@ -28,6 +26,14 @@ public class PersonAttribute {
 
 	private String value;
 
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
+
 	public PersonAttribute() {
 		id = null;
 	}
@@ -37,11 +43,11 @@ public class PersonAttribute {
 		this.value = value;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

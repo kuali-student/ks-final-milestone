@@ -30,11 +30,11 @@ public class TestPersonDAO extends AbstractTransactionalDaoTest{
 	@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")
     public PersonDAO personDAO;
 	
-	private long studentTypeId;
+	private String studentTypeId;
 
-	private long personId;
+	private String personId;
 
-	private Long humanTypeId;
+	private String humanTypeId;
 	
 	@Before
     public void onSetUpInTransaction() throws Exception {
@@ -291,7 +291,7 @@ public class TestPersonDAO extends AbstractTransactionalDaoTest{
 			}
 		}
 		//save the person
-		long createdId = personDAO.createPerson(person).getId();
+		String createdId = personDAO.createPerson(person).getId();
 		
 		//fetch just one of those types
 		Set<PersonAttribute> attributes = personDAO.fetchAttributesByPersonType(createdId, humanTypeId);
@@ -339,7 +339,7 @@ public class TestPersonDAO extends AbstractTransactionalDaoTest{
             }
         }
         //save the person
-        Long createdId = personDAO.createPerson(person).getId();
+        String createdId = personDAO.createPerson(person).getId();
         assertNotNull(createdId);
         
         List<PersonAttributeSetType> pasts = personDAO.findPersonAttributeSetTypes("directory");

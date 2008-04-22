@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -15,12 +13,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "Person_T")
-@TableGenerator(name = "idGen")
 @NamedQueries(
     {
         @NamedQuery( name = "Person.findByName",
@@ -34,8 +33,7 @@ import javax.persistence.TableGenerator;
 public class Person {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-	private Long id;
+	private String id;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
 	private PersonalInformation personalInformation;
@@ -62,18 +60,26 @@ public class Person {
 		personTypes = null;
 		personNames= null;
 	}
-
+	
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
+	
 	//This needs to be removed
 	public Person(String firstName, String lastName) {
 		super();
 		
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

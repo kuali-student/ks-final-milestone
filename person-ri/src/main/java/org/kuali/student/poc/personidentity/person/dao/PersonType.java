@@ -6,64 +6,64 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "PersonType_T")
-@TableGenerator(name = "idGen")
-@NamedQueries(
-		{@NamedQuery( name = "PersonType.findByName",
-				query = "SELECT t FROM PersonType t WHERE t.name LIKE :nameMatch")}
-)
+@NamedQueries( { @NamedQuery(name = "PersonType.findByName", query = "SELECT t FROM PersonType t WHERE t.name LIKE :nameMatch") })
 public class PersonType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-	private Long id;
-	
+	private String id;
+
 	@Column(nullable = false, unique = true)
 	private String name;
-	
-	@ManyToMany(mappedBy="personTypes")
+
+	@ManyToMany(mappedBy = "personTypes")
 	protected Set<Person> people;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "PersonType_PersonAttrSetTyp_J",
-			joinColumns = @JoinColumn(name = "PersonType_ID", referencedColumnName = "ID"),
-			inverseJoinColumns = @JoinColumn(name = "PersonAttrSetTyp_ID", referencedColumnName = "ID")
-	)
+	@JoinTable(name = "PersonType_PersonAttrSetTyp_J", joinColumns = @JoinColumn(name = "PersonType_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "PersonAttrSetTyp_ID", referencedColumnName = "ID"))
 	protected Set<PersonAttributeSetType> personAttributeSetTypes;
-	
+
 	public PersonType() {
 		id = null;
 		people = null;
 		personAttributeSetTypes = null;
 	}
-	
+
 	public PersonType(String name) {
 		super();
 		this.name = name;
 	}
-	
-	public Long getId() {
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	public Set<Person> getPeople() {
-		if(people == null) {
+		if (people == null) {
 			people = new HashSet<Person>();
 		}
 		return people;
@@ -82,7 +82,7 @@ public class PersonType {
 	}
 
 	public Set<PersonAttributeSetType> getPersonAttributeSetTypes() {
-		if(personAttributeSetTypes == null) {
+		if (personAttributeSetTypes == null) {
 			personAttributeSetTypes = new HashSet<PersonAttributeSetType>();
 		}
 		return personAttributeSetTypes;
