@@ -32,7 +32,7 @@ import org.drools.brms.server.util.BRXMLPersistence;
 import org.drools.compiler.PackageBuilder;
 import org.drools.event.DebugWorkingMemoryEventListener;
 import org.junit.Test;
-import org.kuali.student.brms.repository.BRMSRepositoryTest;
+import org.kuali.student.brms.repository.RuleEngineRepositoryTest;
 
 public class TestClass 
 {
@@ -142,7 +142,7 @@ public class TestClass
 
 	private static String loadRule( String file ) throws Exception
 	{
-        String filename = BRMSRepositoryTest.class.getResource( file ).getFile();
+        String filename = RuleEngineRepositoryTest.class.getResource( file ).getFile();
         System.out.println( "*****  filename = " +filename );
 
         String str = "";
