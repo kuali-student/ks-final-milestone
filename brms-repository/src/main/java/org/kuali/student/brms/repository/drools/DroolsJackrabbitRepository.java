@@ -51,7 +51,7 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * Credentials credentials = new SimpleCredentials( id, password );
  * repo.login( credentials );
  * 
- * BRMSRepository brmsRepository = new BRMSRepositoryDroolsImpl( repo.getRepository() );
+ * RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
  * 
  * String rulesetUuid = brmsRepository.createRuleSet( 
  *     &quot;MyPackage&quot;, &quot;My package description&quot; );
@@ -78,7 +78,7 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * Credentials credentials = new SimpleCredentials( id, password );
  * repo.login( credentials );
  * 
- * BRMSRepository brmsRepository = new BRMSRepositoryDroolsImpl( repo.getRepository() );
+ * RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
  * 
  * String rulesetUuid = brmsRepository.createRuleSet( 
  *     &quot;MyPackage&quot;, &quot;My package description&quot; );

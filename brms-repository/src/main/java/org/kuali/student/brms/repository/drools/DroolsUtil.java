@@ -39,13 +39,13 @@ import org.drools.lang.descr.PackageDescr;
 import org.drools.repository.AssetItem;
 import org.drools.repository.PackageItem;
 import org.drools.util.ChainedProperties;
-import org.kuali.student.brms.repository.BRMSRepositoryException;
-import org.kuali.student.brms.repository.BuilderResult;
-import org.kuali.student.brms.repository.BuilderResultList;
-import org.kuali.student.brms.repository.Rule;
-import org.kuali.student.brms.repository.RuleImpl;
-import org.kuali.student.brms.repository.RuleSet;
-import org.kuali.student.brms.repository.RuleSetImpl;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.rule.BuilderResult;
+import org.kuali.student.brms.repository.rule.BuilderResultList;
+import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.rule.RuleImpl;
+import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.brms.repository.rule.RuleSetImpl;
 
 public class DroolsUtil {
     /**
@@ -54,9 +54,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository item
      * @return A rule
-     * @throws BRMSRepositoryException
+     * @throws RuleEngineRepositoryException
      */
-    public static RuleImpl buildRule(AssetItem item) throws BRMSRepositoryException {
+    public static RuleImpl buildRule(AssetItem item) throws RuleEngineRepositoryException {
         RuleImpl rule = new RuleImpl(item.getUUID(), item.getName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -77,7 +77,7 @@ public class DroolsUtil {
                 rule.setVersionSnapshotUUID(item.getVersionSnapshotUUID());
             }
         } catch (RepositoryException e) {
-            throw new BRMSRepositoryException("Unable to set rule historical version", e);
+            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
         }
 
         return rule;
@@ -90,9 +90,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository history item
      * @return A history rule
-     * @throws BRMSRepositoryException
+     * @throws RuleEngineRepositoryException
      */
-    public static Rule buildHistoricalRule(AssetItem item) throws BRMSRepositoryException {
+    public static Rule buildHistoricalRule(AssetItem item) throws RuleEngineRepositoryException {
         RuleImpl rule = new RuleImpl(item.getUUID(), item.getName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -114,14 +114,14 @@ public class DroolsUtil {
         try {
             rule.setHistorical(item.isHistoricalVersion());
         } catch (RepositoryException e) {
-            throw new BRMSRepositoryException("Unable to set rule historical version", e);
+            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
         }
 
         return rule;
     }
 
     /*
-     * public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws BRMSRepositoryException { RuleSetImpl ruleSet =
+     * public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { RuleSetImpl ruleSet =
      * new RuleSetImpl( item.getUUID(), item.getName() ); //ruleSet.setContent( item.getContent() );
      * //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); // item.getFormat() throws exception when creating from
      * history //ruleSet.setFormat( null ); ruleSet.setVersionNumber( item.getVersionNumber() ); ruleSet.setStatus( (
@@ -131,7 +131,7 @@ public class DroolsUtil {
      * item.getLastModified() throws exception when creating from history ruleSet.setLastModifiedDate( null ); //
      * item.isArchived() throws exception when creating from history ruleSet.setArchived( false );
      * ruleSet.setVersionSnapshotUUID( item.getVersionSnapshotUUID() ); try { ruleSet.setHistorical(
-     * item.isHistoricalVersion() ); } catch( RepositoryException e ) { throw new BRMSRepositoryException( "Unable to set
+     * item.isHistoricalVersion() ); } catch( RepositoryException e ) { throw new RuleEngineRepositoryException( "Unable to set
      * ruleset historical version", e ); } return ruleSet; }
      */
 
@@ -141,9 +141,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository package item
      * @return A rule set
-     * @throws BRMSRepositoryException
+     * @throws RuleEngineRepositoryException
      */
-    public static RuleSet buildRuleSet(PackageItem pkg) throws BRMSRepositoryException {
+    public static RuleSet buildRuleSet(PackageItem pkg) throws RuleEngineRepositoryException {
         RuleSetImpl ruleSet = new RuleSetImpl(pkg.getUUID(), pkg.getName());
         ruleSet.setVersionNumber(pkg.getVersionNumber());
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
@@ -153,6 +153,7 @@ public class DroolsUtil {
         ruleSet.setLastModifiedDate(pkg.getLastModified());
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
+        ruleSet.setHeader(pkg.getHeader());
 
         ruleSet.setCompiledRuleSet(pkg.getCompiledPackageBytes());
         org.drools.rule.Package p = getPackage(pkg.getCompiledPackageBytes());
@@ -161,7 +162,7 @@ public class DroolsUtil {
         try {
             ruleSet.setHistorical(pkg.isHistoricalVersion());
         } catch (RepositoryException e) {
-            throw new BRMSRepositoryException("Unable to set rule set historical version", e);
+            throw new RuleEngineRepositoryException("Unable to set rule set historical version", e);
         }
 
         List<Rule> list = new ArrayList<Rule>();
@@ -183,7 +184,7 @@ public class DroolsUtil {
      * @return Drools Package
      * @throws Exception
      */
-    public static org.drools.rule.Package getPackage(byte[] binPackage) throws BRMSRepositoryException {
+    public static org.drools.rule.Package getPackage(byte[] binPackage) throws RuleEngineRepositoryException {
         if (binPackage == null) {
             return null;
         }
@@ -196,9 +197,9 @@ public class DroolsUtil {
             in = new DroolsObjectInputStream(bin);
             return (org.drools.rule.Package) in.readObject();
         } catch (IOException e) {
-            throw new BRMSRepositoryException(e);
+            throw new RuleEngineRepositoryException(e);
         } catch (ClassNotFoundException e) {
-            throw new BRMSRepositoryException(e);
+            throw new RuleEngineRepositoryException(e);
         } finally {
             try {
                 if (in != null)
@@ -206,7 +207,7 @@ public class DroolsUtil {
                 if (bin != null)
                     bin.close();
             } catch (IOException e) {
-                throw new BRMSRepositoryException("Loading rule set failed", e);
+                throw new RuleEngineRepositoryException("Loading rule set failed", e);
             }
         }
     }
@@ -268,7 +269,7 @@ public class DroolsUtil {
 
     public static PackageBuilder createPackageBuilder() {
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        ChainedProperties chainedProperties = new ChainedProperties(BRMSRepositoryDroolsImpl.class.getClassLoader(), // pass
+        ChainedProperties chainedProperties = new ChainedProperties(RuleEngineRepositoryDroolsImpl.class.getClassLoader(), // pass
                                                                                                                         // this
                                                                                                                         // as
                                                                                                                         // it
