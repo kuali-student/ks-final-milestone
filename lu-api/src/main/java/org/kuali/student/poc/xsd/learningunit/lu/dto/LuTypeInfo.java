@@ -13,7 +13,7 @@ public class LuTypeInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private String luTypeId;
+	private String luTypeKey;
 	@XmlElement
 	private String description;
 	@XmlElement
@@ -32,16 +32,16 @@ public class LuTypeInfo implements Serializable {
 	/**
 	 * @return the luTypeId
 	 */
-	public String getLuTypeId() {
-		return luTypeId;
+	public String getLuTypeKey() {
+		return luTypeKey;
 	}
 
 	/**
-	 * @param luTypeId
+	 * @param luTypeKey
 	 *            the luTypeId to set
 	 */
-	public void setLuTypeId(String luTypeId) {
-		this.luTypeId = luTypeId;
+	public void setLuTypeKey(String luTypeKey) {
+		this.luTypeKey = luTypeKey;
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class LuTypeInfo implements Serializable {
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result
-				+ ((luTypeId == null) ? 0 : luTypeId.hashCode());
+				+ ((luTypeKey == null) ? 0 : luTypeKey.hashCode());
 		result = prime * result
 				+ ((updateTime == null) ? 0 : updateTime.hashCode());
 		result = prime
@@ -215,10 +215,10 @@ public class LuTypeInfo implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (luTypeId == null) {
-			if (other.luTypeId != null)
+		if (luTypeKey == null) {
+			if (other.luTypeKey != null)
 				return false;
-		} else if (!luTypeId.equals(other.luTypeId))
+		} else if (!luTypeKey.equals(other.luTypeKey))
 			return false;
 		if (updateTime == null) {
 			if (other.updateTime != null)

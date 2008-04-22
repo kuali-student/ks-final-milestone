@@ -6,62 +6,39 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+/**
+ * Search criteria for Learning Unit Instances.  Description comes from CLU
+ * and can have % as wildcard matching.  LuTypeKey is the actual LuType and
+ * does not support wildcards.  If both parameters have values then
+ * the fields are used as an AND.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiCriteria implements Serializable {
 
 	private static final long serialVersionUID = -2109862706103417878L;
 	
 	@XmlElement
-	private String query;
+	private String luTypeKey;
+	
+	@XmlElement
+	private String description;
 
-	/**
-	 * @return the query
-	 */
-	public String getQuery() {
-		return query;
+	public String getLuTypeKey() {
+		return luTypeKey;
 	}
 
-	/**
-	 * @param query
-	 *            the query to set
-	 */
-	public void setQuery(String query) {
-		this.query = query;
+	public void setLuTypeKey(String luTypeKey) {
+		this.luTypeKey = luTypeKey;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((query == null) ? 0 : query.hashCode());
-		return result;
+	public String getDescription() {
+		return description;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final LuiCriteria other = (LuiCriteria) obj;
-		if (query == null) {
-			if (other.query != null)
-				return false;
-		} else if (!query.equals(other.query))
-			return false;
-		return true;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+
+	
 
 }
