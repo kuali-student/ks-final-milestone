@@ -67,7 +67,7 @@ public interface LuService {
 	/**
 	 * Retrieves information about a LU Type
 	 * 
-	 * @param luTypeId
+	 * @param luTypeKey
 	 * @return information about a LU Type
 	 * @throws DoesNotExistException
 	 * @throws InvalidParameterException
@@ -83,8 +83,8 @@ public interface LuService {
 	 * Retrieves the list of allowed relation types between the two specified LU
 	 * Types
 	 * 
-	 * @param luTypeId
-	 * @param relatedLuTypeId
+	 * @param luTypeKey
+	 * @param relatedLuTypeKey
 	 * @return list of LU to LU relation types
 	 * @throws DoesNotExistException
 	 * @throws InvalidParameterException
@@ -133,7 +133,7 @@ public interface LuService {
 	/**
 	 * Retrieves the list of CLUs for the specified LU Type
 	 * 
-	 * @param luTypeId
+	 * @param luTypeKey
 	 * @return list of CLU information
 	 * @throws DoesNotExistException
 	 * @throws InvalidParameterException
@@ -148,7 +148,7 @@ public interface LuService {
 	/**
 	 * Retrieves the list of CLU ids for the specified LU Type
 	 * 
-	 * @param luTypeId
+	 * @param luTypeKey
 	 * @return list of CLU identifiers
 	 * @throws DoesNotExistException
 	 * @throws InvalidParameterException
@@ -814,7 +814,7 @@ public interface LuService {
 	/**
 	 * Creates a CLU record
 	 * 
-	 * @param luTypeId
+	 * @param luTypeKey
 	 * @param cluCreateInfo
 	 * @return identifier for the newly created CLU
 	 * @throws AlreadyExistsException

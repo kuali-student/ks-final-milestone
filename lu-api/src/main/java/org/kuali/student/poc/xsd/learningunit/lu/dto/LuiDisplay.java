@@ -17,7 +17,7 @@ public class LuiDisplay implements Serializable {
 	@XmlElement
 	private String luiCode;
 	@XmlElement
-	private String luTypeId;
+	private String luTypeKey;
 	@XmlElement
 	private CluDisplay cluDisplay;
 	@XmlElement
@@ -56,16 +56,16 @@ public class LuiDisplay implements Serializable {
 	/**
 	 * @return the luTypeId
 	 */
-	public String getLuTypeId() {
-		return luTypeId;
+	public String getLuTypeKey() {
+		return luTypeKey;
 	}
 
 	/**
 	 * @param luTypeId
 	 *            the luTypeId to set
 	 */
-	public void setLuTypeId(String luTypeId) {
-		this.luTypeId = luTypeId;
+	public void setLuTypeKey(String luTypeKey) {
+		this.luTypeKey = luTypeId;
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class LuiDisplay implements Serializable {
 		result = prime * result
 				+ ((cluDisplay == null) ? 0 : cluDisplay.hashCode());
 		result = prime * result
-				+ ((luTypeId == null) ? 0 : luTypeId.hashCode());
+				+ ((luTypeKey == null) ? 0 : luTypeKey.hashCode());
 		result = prime * result + ((luiCode == null) ? 0 : luiCode.hashCode());
 		result = prime * result + ((luiId == null) ? 0 : luiId.hashCode());
 		return result;
@@ -142,10 +142,10 @@ public class LuiDisplay implements Serializable {
 				return false;
 		} else if (!cluDisplay.equals(other.cluDisplay))
 			return false;
-		if (luTypeId == null) {
-			if (other.luTypeId != null)
+		if (luTypeKey == null) {
+			if (other.luTypeKey != null)
 				return false;
-		} else if (!luTypeId.equals(other.luTypeId))
+		} else if (!luTypeKey.equals(other.luTypeKey))
 			return false;
 		if (luiCode == null) {
 			if (other.luiCode != null)
