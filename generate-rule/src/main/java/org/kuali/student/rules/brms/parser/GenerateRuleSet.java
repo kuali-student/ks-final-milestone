@@ -10,10 +10,8 @@ import java.util.List;
 import org.kuali.student.rules.util.*;
 import org.kuali.student.brms.repository.drools.*;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
-import org.kuali.student.brms.repository.rule.BuilderResultList;
 import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
-import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSetImpl;
 import org.kuali.student.brms.repository.*;
 /**
@@ -30,6 +28,8 @@ public class GenerateRuleSet {
     
     RuleEngineRepository brmsRepository;
     String rulesetUuid;
+    String ruleSetName;
+    String ruleSetDescription;
     String ruleName;
     String description;
     String category;
@@ -54,6 +54,8 @@ public class GenerateRuleSet {
 			GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
 			//grs.setRuleEngineRepository(brmsRepository);
 			//grs.setRuleSetUuid(rulesetUuid);
+			grs.setRuleSetName(rulePackage);
+			grs.setRuleSetDescription("A rule set description");
 			grs.setRuleName("Enrollment Physics 5000");
 			grs.setRuleDescription("A rule description"); // Rule description cannot be empty
 			grs.setRuleCategory(null);
@@ -66,14 +68,18 @@ public class GenerateRuleSet {
 			
 			// compile rule and save in repository
 			//BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+
+            System.out.println("***** Rule source before compilation *****");
+			System.out.println(grs.getRuleSet().getContent());
+            System.out.println("\n******************************************");
+			
 			String rulesetUuid = brmsRepository.createRuleSet(grs.getRuleSet());
 			
 			// load rule from repo and print
+            System.out.println("***** Rule source after compilation *****");
 			RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
-			List<Rule> rules = ruleset.getRules();
-			for (Rule myrule : rules) {
-			    System.out.println("the rule " + myrule.getContent() );
-			}
+            System.out.println(ruleset.getContent());
+            System.out.println("******************************************");
 			//Shutdown (and logout from) the repository:
 			repo.shutdownRepository();
 			 
@@ -93,8 +99,8 @@ public class GenerateRuleSet {
 		RuleTemplate rt = new RuleTemplate();
 		String extRuleName;
 		
-        ruleSet = new RuleSetImpl( ruleName );
-        ruleSet.setDescription("My Rule set");
+        ruleSet = new RuleSetImpl(ruleSetName);
+        ruleSet.setDescription(ruleSetDescription);
         ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
         ruleSet.addHeader("import org.kuali.student.rules.util.Function");
 
@@ -140,7 +146,7 @@ public class GenerateRuleSet {
 		extRuleName = ruleName + " " + "Func";
 		rt.setRuleName(extRuleName);
 		rt.setRuleAttributes(ruleAttributes);
-		
+lhsConst.add("eval(");		
 		for (String symbol : symbols) {
 			// Left Hand Side
 			if ( symbol.equals("+") ){
@@ -160,6 +166,7 @@ public class GenerateRuleSet {
 			}
 			rt.setLHS(lhsConst);
 		}	
+lhsConst.add(")");
 			
 		// Right Hand Side
 		rhsDB.add("// This is the final outcome");
@@ -194,6 +201,14 @@ public class GenerateRuleSet {
         this.ruleName = ruleName;
     }
 	
+    public void setRuleSetName(String ruleSetName){
+        this.ruleSetName = ruleSetName;
+    }
+    
+    public void setRuleSetDescription(String ruleSetDescription) {
+        this.ruleSetDescription = ruleSetDescription;
+    }
+    
 	public void setRuleDescription(String description) {
 	    this.description = description;
 	}
