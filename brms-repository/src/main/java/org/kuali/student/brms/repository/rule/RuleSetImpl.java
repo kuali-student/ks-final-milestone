@@ -16,7 +16,10 @@
 package org.kuali.student.brms.repository.rule;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.drools.repository.AssetItem;
 
 public class RuleSetImpl extends ItemImpl implements RuleSet {
     private List<Rule> rules = new ArrayList<Rule>();
@@ -46,21 +49,33 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
         this.rules = rules;
     }
 
+    private String getHeader( String header ) {
+        return (header.endsWith(";") ? header : header.trim() + ";");
+    }
+    
     public void addHeader(String header) {
-        this.header.add(header);
+        this.header.add(getHeader(header));
     }
 
     public String getHeader() {
         StringBuilder sb = new StringBuilder();
         for( int i=0; i<this.header.size(); i++) {
-            sb.append( this.header.get(i) );
+            sb.append( getHeader(this.header.get(i)) );
             sb.append(" ");
         }
         return sb.toString();
     }
     
-    public void setHeader(List<String> header) {
+    public void setHeaderList(List<String> header) {
         this.header = header;
+    }
+
+    public List<String> getHeaderList() {
+        List<String> list = new ArrayList<String>();
+        for(int i=0; i<this.header.size(); i++) {
+            list.add(getHeader(this.header.get(i)));
+        }
+        return list;
     }
 
     public byte[] getCompiledRuleSet() {
@@ -85,6 +100,24 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
 
     public void setSnapshot(boolean snapshot) {
         this.snapshot = snapshot;
+    }
+    
+    public String getContent() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("package ");
+        sb.append(super.getName());
+        sb.append("\n");
+        for(int i=0; i<this.header.size(); i++) {
+            sb.append(this.header.get(i));
+            sb.append("\n");
+        }
+
+        for(int i=0; i<this.rules.size(); i++) {
+            sb.append(this.rules.get(i).getContent());
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
 }
