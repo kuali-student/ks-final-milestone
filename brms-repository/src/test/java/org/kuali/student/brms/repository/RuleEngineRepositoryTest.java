@@ -47,6 +47,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.brms.repository.drools.DroolsTestUtil;
@@ -773,6 +774,7 @@ public class RuleEngineRepositoryTest {
      */
 
     @Test
+    @Ignore
     public void testLoadArchivedRuleSet_FailTest() throws Exception {
         try {
             brmsRepository.loadArchivedRuleSets();
