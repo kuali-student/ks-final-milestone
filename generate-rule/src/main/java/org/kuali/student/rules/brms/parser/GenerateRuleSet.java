@@ -9,6 +9,10 @@ import java.util.List;
 
 import org.kuali.student.rules.util.*;
 import org.kuali.student.brms.repository.drools.*;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.rule.BuilderResultList;
+import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.*;
 /**
  * @author Rich Diaz
@@ -22,7 +26,7 @@ public class GenerateRuleSet {
     ArrayList<String> lhsConst = new ArrayList<String>();
     ArrayList<String> rhsConst = new ArrayList<String>();
     
-    BRMSRepository brmsRepository;
+    RuleEngineRepository brmsRepository;
     String rulesetUuid;
     String ruleName;
     String description;
@@ -39,13 +43,13 @@ public class GenerateRuleSet {
 			repo.initialize();
 			
 			repo.clearData();
-			BRMSRepository brmsRepository = new BRMSRepositoryDroolsImpl( repo.getRepository() );
+			RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
 			String rulePackage = "org.kuali.student.rules.enrollment";
 			String rulesetUuid = brmsRepository.createRuleSet(rulePackage, "My package description" );
 			
 			
 			GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
-			grs.setBRMSRepository(brmsRepository);
+			grs.setRuleEngineRepository(brmsRepository);
 			grs.setRuleSetUuid(rulesetUuid);
 			grs.setRuleName("Enrollment Physics 5000");
 			grs.setRuleDescription("");
@@ -78,7 +82,7 @@ public class GenerateRuleSet {
 		this.functionString = functionString;
 	}
 	
-	public void parse() throws BRMSRepositoryException {
+	public void parse() throws RuleEngineRepositoryException {
 		Function f = new Function(functionString);
 		List<String> funcVars = f.getVariables();
 		
@@ -157,7 +161,7 @@ public class GenerateRuleSet {
 		String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
 	}
 	
-	public void setBRMSRepository(BRMSRepository brmsRepository) {
+	public void setRuleEngineRepository(RuleEngineRepository brmsRepository) {
 	    this.brmsRepository = brmsRepository;
 	}
 	
