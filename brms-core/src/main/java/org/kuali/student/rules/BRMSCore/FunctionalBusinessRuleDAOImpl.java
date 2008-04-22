@@ -3,13 +3,14 @@ package org.kuali.student.rules.BRMSCore;
 import java.util.List;
 
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implements DAO interface for operations on Functional Business Rule entity using Spring JPA
  * 
  * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
  */
-// @Repository
+@Repository
 public class FunctionalBusinessRuleDAOImpl extends JpaDaoSupport implements FunctionalBusinessRuleDAO {
 
     /**

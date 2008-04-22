@@ -191,8 +191,8 @@ public class TestBRMSMetaData extends AbstractJpaTests {
 
     @Test
     public void testDeleteRule() {
-        FunctionalBusinessRule ruleSet = functionalBusinessRuleDAO.lookupBusinessRule(ruleId);
-        assertTrue(functionalBusinessRuleDAO.deleteBusinessRule(ruleSet));
+        FunctionalBusinessRule rule = functionalBusinessRuleDAO.lookupBusinessRule(ruleId);
+        assertTrue(functionalBusinessRuleDAO.deleteBusinessRule(rule));
         assertNull(functionalBusinessRuleDAO.lookupBusinessRule(ruleId));
     }
 

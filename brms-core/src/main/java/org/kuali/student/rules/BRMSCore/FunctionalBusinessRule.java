@@ -18,169 +18,176 @@ import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
 /**
- * Contains meta data about a functional business rule. Since a functional business rule
- * is composed of one or more Rule Elements, this class is associated with one or more RuleElement instances.
- * The class also contains BusinessRuleEvaluation and RuleMetaData instances.
+ * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
+ * Elements, this class is associated with one or more RuleElement instances. The class also contains BusinessRuleEvaluation
+ * and RuleMetaData instances.
+ * 
  * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
  */
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
-@TableGenerator(name = "idGen", uniqueConstraints= {@UniqueConstraint(columnNames={"ruleIdentifier"})})
-@NamedQueries({@NamedQuery(name = "FunctionalBusinessRule.findByRuleID",
-		query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = ?1")})
+@TableGenerator(name = "idGen", uniqueConstraints = {@UniqueConstraint(columnNames = {"ruleIdentifier"})})
+@NamedQueries({@NamedQuery(name = "FunctionalBusinessRule.findByRuleID", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = ?1")})
 public class FunctionalBusinessRule {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-	private Long id;
-	private String name;
-	private String description;
-	@Column(unique = true, nullable = false)
-	private String ruleIdentifier;
-	@Embedded
-	private RuleMetaData ruleMetaData;	
-	@Embedded
-	private BusinessRuleEvaluation businessRuleEvaluation;	
-	@OneToMany(cascade = { CascadeType.ALL }, mappedBy="functionalBusinessRule") private Collection<RuleElement> ruleElements;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
+    private Long id;
+    private String name;
+    private String description;
+    @Column(unique = true, nullable = false)
+    private String ruleIdentifier;
+    @Embedded
+    private RuleMetaData ruleMetaData;
+    @Embedded
+    private BusinessRuleEvaluation businessRuleEvaluation;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "functionalBusinessRule")
+    private Collection<RuleElement> ruleElements;
 
-	
-	/**
-	 *  Sets up an empty instance.
-	 */
-	public FunctionalBusinessRule() {
-		id = null;
-		name = null;
-		description = null;
-		ruleIdentifier = null;
-		ruleMetaData = null;
-		businessRuleEvaluation = null;
-	}
+    /**
+     * Sets up an empty instance.
+     */
+    public FunctionalBusinessRule() {
+        id = null;
+        name = null;
+        description = null;
+        ruleIdentifier = null;
+        ruleMetaData = null;
+        businessRuleEvaluation = null;
+    }
 
-	/**
-	 * Sets up a RuleProposition instance.
-	 * 
-	 * @param id
-	 * @param name
-	 * @param description
-	 * @param ruleSetIdentified
-	 * @param ruleMetaData
-	 */
-	public FunctionalBusinessRule(String name, String description,
-			String ruleSetIdentified, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
-		this.name = name;
-		this.description = description;
-		this.ruleIdentifier = ruleSetIdentified;
-		this.ruleMetaData = ruleMetaData;
-		this.businessRuleEvaluation = businessRuleEvaluation;
-	}
+    /**
+     * Sets up a RuleProposition instance.
+     * 
+     * @param id
+     * @param name
+     * @param description
+     * @param ruleSetIdentified
+     * @param ruleMetaData
+     */
+    public FunctionalBusinessRule(String name, String description, String ruleSetIdentified, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
+        this.name = name;
+        this.description = description;
+        this.ruleIdentifier = ruleSetIdentified;
+        this.ruleMetaData = ruleMetaData;
+        this.businessRuleEvaluation = businessRuleEvaluation;
+    }
 
-	/**
-	 * Adds a new RuleElement to the list of rule elements that the functional business rule is composed of
-	 * @param ruleElement a new Rule Element to add to this business rule object
-	 */	
-	public void addRuleElement(RuleElement ruleElement) {
-		if (this.ruleElements == null) {
-			this.ruleElements = new ArrayList<RuleElement>(); 
-		}
-		this.ruleElements.add(ruleElement);
-	}
-		
-	/**
-	 * @return the id
-	 */
-	public final Long getId() {
-		return id;
-	}
+    /**
+     * Adds a new RuleElement to the list of rule elements that the functional business rule is composed of
+     * 
+     * @param ruleElement
+     *            a new Rule Element to add to this business rule object
+     */
+    public void addRuleElement(RuleElement ruleElement) {
+        if (this.ruleElements == null) {
+            this.ruleElements = new ArrayList<RuleElement>();
+        }
+        this.ruleElements.add(ruleElement);
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public final void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     * @return the id
+     */
+    public final Long getId() {
+        return id;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public final String getName() {
-		return name;
-	}
+    /**
+     * @param id
+     *            the id to set
+     */
+    public final void setId(Long id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public final void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @return the name
+     */
+    public final String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the description
-	 */
-	public final String getDescription() {
-		return description;
-	}
+    /**
+     * @param name
+     *            the name to set
+     */
+    public final void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @param description the description to set
-	 */
-	public final void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * @return the description
+     */
+    public final String getDescription() {
+        return description;
+    }
 
-	/**
-	 * @return the ruleMetaData
-	 */
-	public final RuleMetaData getRuleMetaData() {
-		return ruleMetaData;
-	}
+    /**
+     * @param description
+     *            the description to set
+     */
+    public final void setDescription(String description) {
+        this.description = description;
+    }
 
-	/**
-	 * @param ruleMetaData the ruleMetaData to set
-	 */
-	public final void setRuleMetaData(RuleMetaData ruleMetaData) {
-		this.ruleMetaData = ruleMetaData;
-	}
+    /**
+     * @return the ruleMetaData
+     */
+    public final RuleMetaData getRuleMetaData() {
+        return ruleMetaData;
+    }
 
-	/**
-	 * @return the businessRuleEvaluation
-	 */
-	public final BusinessRuleEvaluation getBusinessRuleEvaluation() {
-		return businessRuleEvaluation;
-	}
+    /**
+     * @param ruleMetaData
+     *            the ruleMetaData to set
+     */
+    public final void setRuleMetaData(RuleMetaData ruleMetaData) {
+        this.ruleMetaData = ruleMetaData;
+    }
 
-	/**
-	 * @param businessRuleEvaluation the businessRuleEvaluation to set
-	 */
-	public final void setBusinessRuleEvaluation(
-			BusinessRuleEvaluation businessRuleEvaluation) {
-		this.businessRuleEvaluation = businessRuleEvaluation;
-	}
+    /**
+     * @return the businessRuleEvaluation
+     */
+    public final BusinessRuleEvaluation getBusinessRuleEvaluation() {
+        return businessRuleEvaluation;
+    }
 
-	/**
-	 * @return the ruleSetIdentifier
-	 */
-	public final String getRuleSetIdentifier() {
-		return ruleIdentifier;
-	}
+    /**
+     * @param businessRuleEvaluation
+     *            the businessRuleEvaluation to set
+     */
+    public final void setBusinessRuleEvaluation(BusinessRuleEvaluation businessRuleEvaluation) {
+        this.businessRuleEvaluation = businessRuleEvaluation;
+    }
 
-	/**
-	 * @param ruleSetIdentifier the ruleSetIdentifier to set
-	 */
-	public final void setRuleSetIdentifier(String ruleSetIdentifier) {
-		this.ruleIdentifier = ruleSetIdentifier;
-	}
+    /**
+     * @return the ruleSetIdentifier
+     */
+    public final String getRuleSetIdentifier() {
+        return ruleIdentifier;
+    }
 
-	/**
-	 * @return the ruleElements
-	 */
-	public final Collection<RuleElement> getRuleElements() {
-		return ruleElements;
-	}
+    /**
+     * @param ruleSetIdentifier
+     *            the ruleSetIdentifier to set
+     */
+    public final void setRuleSetIdentifier(String ruleSetIdentifier) {
+        this.ruleIdentifier = ruleSetIdentifier;
+    }
 
-	/**
-	 * @param ruleElements the ruleElements to set
-	 */
-	public final void setRuleElements(Collection<RuleElement> ruleElements) {
-		this.ruleElements = ruleElements;
-	}
+    /**
+     * @return the ruleElements
+     */
+    public final Collection<RuleElement> getRuleElements() {
+        return ruleElements;
+    }
+
+    /**
+     * @param ruleElements
+     *            the ruleElements to set
+     */
+    public final void setRuleElements(Collection<RuleElement> ruleElements) {
+        this.ruleElements = ruleElements;
+    }
 }

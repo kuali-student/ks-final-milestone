@@ -13,6 +13,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Zdenek Zraly (zdenek.zraly@ub.ca)
  */
+@Repository
 @Transactional
 public class BRMSMetaData {
 
@@ -165,7 +167,7 @@ public class BRMSMetaData {
      *            Functional business rule ID.
      * @return Returns functional business rule with Rule ID
      */
-    public FunctionalBusinessRule getFunctionalBusinessRule(String ruleID) throws Exception {
+    public FunctionalBusinessRule getFunctionalBusinessRule(String ruleID) {
 
         FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);
 
@@ -189,5 +191,4 @@ public class BRMSMetaData {
     public final void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
         this.businessRuleDAO = businessRuleDAO;
     }
-
 }

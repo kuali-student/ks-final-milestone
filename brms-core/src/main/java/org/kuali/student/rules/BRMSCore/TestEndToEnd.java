@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -18,25 +19,33 @@ public class TestEndToEnd {
 
     public static void main(String[] args) throws Exception {
 
+        FunctionalBusinessRule rule = null;
+
         AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-context.xml");
 
         // add a shutdown hook for the above context...
         ctx.registerShutdownHook();
 
         BRMSMetaData metadata = (BRMSMetaData) ctx.getBean("BRMSMetaData");
-        // TestEndToEnd testEndToEnd = (TestEndToEnd) ctx.getBean("TestEndToEnd");
+        TestEndToEnd testEndToEnd = (TestEndToEnd) ctx.getBean("TestEndToEnd");
 
         // 1. load one business rule MetaData into database
         try {
-            // testEndToEnd.insertBusinessRuleMetadata();
+            testEndToEnd.insertBusinessRuleMetadata();
         } catch (Exception e) {
-            System.out.println("Cannot insert duplicate record:" + e.getMessage());
+            System.out.println("Could not insert duplicate record:"); // + e.getMessage());
             return;
         }
 
         // 2. retrieve business rule
         String ruleID = "PR 40244";
-        FunctionalBusinessRule rule = metadata.getFunctionalBusinessRule(ruleID);
+
+        try {
+            rule = metadata.getFunctionalBusinessRule(ruleID);
+        } catch (DataAccessException dae) {
+            System.out.println("Could not load rule " + ruleID + " from database." + dae.getRootCause());
+            return;
+        }
 
         if (rule == null) {
             System.out.println("Rule " + ruleID + " not found");
