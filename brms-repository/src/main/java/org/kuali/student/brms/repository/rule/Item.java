@@ -20,6 +20,7 @@ import java.util.Calendar;
 public interface Item {
     public String getName();
 
+    public void setDescription(String description);
     public String getDescription();
 
     public void setCheckinComment(String checkinComment);
@@ -28,10 +29,12 @@ public interface Item {
 
     public String getUUID();
 
+    public void setFormat(String format);
     public String getFormat();
 
     public long getVersionNumber();
 
+    public void setStatus(String status);
     public String getStatus();
 
     public Calendar getCreatedDate();
