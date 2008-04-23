@@ -17,8 +17,8 @@
 	</modules>
 
 	<parent>
-		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-ri-pom</artifactId>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-service-pom</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 

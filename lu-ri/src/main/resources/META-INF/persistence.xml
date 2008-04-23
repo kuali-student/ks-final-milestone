@@ -1,0 +1,34 @@
+<persistence>
+   <persistence-unit name="manager1" transaction-type="RESOURCE_LOCAL">
+      <class>org.kuali.student.poc.learningunit.lu.dao.Atp</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <class>org.kuali.student.poc.learningunit.lu.dao.</class>
+      <properties>
+         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+         <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+         <property name="hibernate.connection.username" value="sa"/>
+         <property name="hibernate.connection.password" value=""/>
+         <property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
+         <!-- <property name="hibernate.max_fetch_depth" value="3"/>-->
+       
+         <!-- cache configuration -->
+         <!-- <property name="hibernate.ejb.classcache.org.hibernate.ejb.test.Item" value="read-write"/>
+         <property name="hibernate.ejb.collectioncache.org.hibernate.ejb.test.Item.distributors" value="read-write, RegionName"/>-->
+
+         <!-- alternatively to <class> and <property> declarations, you can use a regular hibernate.cfg.xml file -->
+         <!-- property name="hibernate.ejb.cfgfile" value="/org/hibernate/ejb/test/hibernate.cfg.xml"/ -->
+      </properties>
+   </persistence-unit>
+</persistence>
