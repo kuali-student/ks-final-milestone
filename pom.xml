@@ -11,8 +11,8 @@
 	<name>Kuali Student LearningUnit API</name>
 
 	<parent>
-		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-api-pom</artifactId>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-service-api-pom</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	
