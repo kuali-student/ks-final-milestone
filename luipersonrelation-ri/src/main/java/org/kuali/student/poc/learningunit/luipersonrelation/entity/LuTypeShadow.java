@@ -5,22 +5,19 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-public class RelationState {
+public class LuTypeShadow {
     @Id
     private String id;
-    
-    @OneToMany(mappedBy="luiPersonRelationType")
-    private Set<LuiPersonRelation> luiPersonRelations;
-    @ManyToMany
+    private String luTypeId;
+    @ManyToMany(mappedBy="luTypes")
     private Set<LuiPersonRelationType> luiPersonRelationTypes;
-    @ManyToMany
-    private Set<LuTypeShadow> luTypes;
+    @ManyToMany(mappedBy="luTypes")
+    private Set<RelationState> relationStates;
 
     /**
      * AutoGenerate the Id
@@ -38,12 +35,12 @@ public class RelationState {
         this.id = id;
     }
 
-    public Set<LuiPersonRelation> getLuiPersonRelations() {
-        return luiPersonRelations;
+    public String getLuTypeId() {
+        return luTypeId;
     }
 
-    public void setLuiPersonRelations(Set<LuiPersonRelation> luiPersonRelations) {
-        this.luiPersonRelations = luiPersonRelations;
+    public void setLuTypeId(String luTypeId) {
+        this.luTypeId = luTypeId;
     }
 
     public Set<LuiPersonRelationType> getLuiPersonRelationTypes() {
@@ -54,12 +51,12 @@ public class RelationState {
         this.luiPersonRelationTypes = luiPersonRelationTypes;
     }
 
-    public Set<LuTypeShadow> getLuTypes() {
-        return luTypes;
+    public Set<RelationState> getRelationStates() {
+        return relationStates;
     }
 
-    public void setLuTypes(Set<LuTypeShadow> luTypes) {
-        this.luTypes = luTypes;
+    public void setRelationStates(Set<RelationState> relationStates) {
+        this.relationStates = relationStates;
     }
-
+    
 }
