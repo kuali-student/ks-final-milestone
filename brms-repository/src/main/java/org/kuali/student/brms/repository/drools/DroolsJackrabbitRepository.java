@@ -51,12 +51,12 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * Credentials credentials = new SimpleCredentials( id, password );
  * repo.login( credentials );
  * 
- * RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
+ * RuleEngineRepository rulesRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
  * 
- * String rulesetUuid = brmsRepository.createRuleSet( 
+ * String rulesetUuid = rulesRepository.createRuleSet( 
  *     &quot;MyPackage&quot;, &quot;My package description&quot; );
  * String ruleSourceCode = &quot;rule \&quot;rule_1\&quot; when then end&quot;;
- * String ruleUuid1 = brmsRepository.createRule( 
+ * String ruleUuid1 = rulesRepository.createRule( 
  *     rulesetUuid, &quot;rule_1&quot;, &quot;&quot;, ruleSourceCode, &quot;testJSR94&quot; );
  * ...
  * 
@@ -78,12 +78,12 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * Credentials credentials = new SimpleCredentials( id, password );
  * repo.login( credentials );
  * 
- * RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
+ * RuleEngineRepository rulesRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
  * 
- * String rulesetUuid = brmsRepository.createRuleSet( 
+ * String rulesetUuid = rulesRepository.createRuleSet( 
  *     &quot;MyPackage&quot;, &quot;My package description&quot; );
  * String ruleSourceCode = &quot;rule \&quot;rule_1\&quot; when then end&quot;;
- * String ruleUuid1 = brmsRepository.createRule( 
+ * String ruleUuid1 = rulesRepository.createRule( 
  *     rulesetUuid, &quot;rule_1&quot;, &quot;&quot;, ruleSourceCode, &quot;testJSR94&quot; );
  * ...
  * 

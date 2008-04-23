@@ -1057,7 +1057,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Creates a rule set and compiles all rules.
+     * Creates and compiles a rule set.
      * 
      * @param ruleSet
      *            Rule set to create

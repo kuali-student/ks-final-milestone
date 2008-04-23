@@ -17,17 +17,248 @@ package org.kuali.student.brms.repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Reader;
+import java.net.URL;
 import java.util.List;
 
+import javax.jcr.SimpleCredentials;
+
+import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
+import org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
-
 /**
- * This is the interface to the rules engine repository which stores
- * rule sets, rules, categories, states, snapshots and compiled rule sets.
+ * <p>
+ * This is the interface to the rules engine repository which stores rule sets, rules, categories, states, snapshots and
+ * compiled rule sets.
+ * </p>
+ * <p>
+ * Example 1: Setup a Drools repository
+ * </p>
+ * <pre>
+ * // Location of the repository.xml file
+ * URL url = RuleEngineRepository.class.getResource("/repository");
+ * 
+ * // Setup repository
+ * jackrabbitRepo = new DroolsJackrabbitRepository(url);
+ * jackrabbitRepo.initialize();
+ *
+ * // Login to the Jackrabbit repository
+ * String id = "superuser";
+ * char[] password = "superuser".toCharArray();
+ * Credentials credentials = new SimpleCredentials(id, password);
+ * jackrabbitRepo.login(jackrabbitRepository.getCredentials());
+ * 
+ * // Delete all data in the repository
+ * jackrabbitRepo.clearData();
+ * rulesRepository = new RuleEngineRepositoryDroolsImpl(jackrabbitRepo.getRepository());
+ * 
+ * // Do rules stuff here ...
+ * RuleSet ruleSet = rulesRepository.loadRuleSet(ruleSetUUID);
+ * ...
+ *  
+ * // Logout from the Jackrabbit repository
+ * jackrabbitRepo.logout();
+ * // Shutdown the Jackrabbit repository
+ * jackrabbitRepo.shutdownRepository();
+ * </pre>
+ * <p>
+ * Below are some examples of how to use this repository interface.
+ * </p>
+ * <p>
+ * Example 1: Create a new category for rules
+ * </p>
+ * 
+ * <pre>
+ * boolean b = rulesRepository.createCategory(&quot;/&quot;, &quot;EnrollmentRules&quot;, &quot;A test category 1.0 description&quot;);
+ * b = rulesRepository.createCategory(&quot;/EnrollmentRules&quot;, &quot;Math&quot;, &quot;A Math category description&quot;);
+ * 
+ * List&lt;String&gt; category = rulesRepository.loadChildCategories(&quot;/&quot;);
+ * ... 
+ * category = rulesRepository.loadChildCategories(&quot;/EnrollmentRules&quot;);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 3: Create a rule set and a rule and store it in the repository.
+ * </p>
+ * 
+ * <pre>
+ * // Create rule set
+ * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * ruleSet.setDescription(&quot;My new rule set&quot;);
+ * 
+ * // Create rule
+ * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * rule.setDescription(&quot;My new rule&quot;);
+ * rule.setCategory(null);
+ * rule.setFormat(&quot;drl&quot;);
+ * rule.setContent(&quot;rule \&quot;new_rule\&quot; when then end&quot;);
+ * ruleSet.addRule(rule);
+ * 
+ * // Create a category for the rules
+ * rulesRepository.createCategory(&quot;/&quot;, &quot;MyCategory&quot;, &quot;My new rule category&quot;);
+ * 
+ * // Create and store the rule set in the repository
+ * String ruleSetUUID = rulesRepository.createRuleSet(ruleSet);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 4: Load a rule set by UUID.
+ * </p>
+ * 
+ * <pre>
+ * // Create rule set
+ * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * ...
+ * 
+ * // Create rule
+ * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * ...
+ * 
+ * // Create rule set
+ * String ruleSetUUID = rulesRepository.createRuleSet(ruleSet);
+ * 
+ * // Load rule set
+ * RuleSet ruleSet = rulesRepository.loadRuleSet(ruleSetUUID);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 5: Create and check in a rule set.
+ * </p>
+ * 
+ * <pre>
+ * // Create rule set
+ * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * ruleSet.setDescription(&quot;My new rule set&quot;);
+ * 
+ * // Rule Set Version 1
+ * String ruleSetUUID = rulesRepository.createRuleSet(ruleSet);
+ * 
+ * // Check in rule set version 2
+ * rulesRepository.checkinRuleSet(ruleSetUUID, &quot;Checkin Rule Set Version 2&quot;);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 6: Update a rule with new source code content.
+ * </p>
+ * 
+ * <pre>
+ * // Load rule
+ * RuleSet ruleSet = rulesRepository.loadRuleSet(ruleSetUUID);
+ * Rule rule = ruleSet.getRules().get(0);
+ * 
+ * // Update Rule
+ * String newContent = &quot;rule \&quot;new_rule\&quot; when then end&quot;;
+ * rule.setContent(newContent);
+ * rulesRepository.updateRule(rule);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 7: Create a rule set and check in a rule into the repository.
+ * </p>
+ * 
+ * <pre>
+ * // Create rule set
+ * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * ...
+ * 
+ * // Create rule
+ * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * ...
+ * ruleSet.addRule(rule);
+ * 
+ * // Create a category for the rules
+ * rulesRepository.createCategory(&quot;/&quot;, &quot;MyCategory&quot;, &quot;My new rule category&quot;);
+ * 
+ * // Create and store the rule set in the repository
+ * String ruleSetUUID = rulesRepository.createRuleSet(ruleSet);
+ * // Load rule set to get rule UUID
+ * RuleSet ruleSet2 = rulesRepository.loadRuleSet(ruleSetUUID);
+ * Rule rule2 = ruleSet2.getRules().get(0);
+ * 
+ * rulesRepository.checkinRule(rule2.getUUID(), &quot;Checkin Rule Version 1&quot;);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 8: Create a rule set and a rule and store it in the repository.
+ * </p>
+ * 
+ * <pre>
+ * // Create rule set
+ * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * ruleSet.setDescription(&quot;My new rule set&quot;);
+ * 
+ * // Create rule
+ * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * rule.setDescription(&quot;My new rule&quot;);
+ * rule.setCategory(null);
+ * rule.setFormat(&quot;drl&quot;);
+ * rule.setContent(&quot;rule \&quot;new_rule\&quot; when then end&quot;);
+ * ruleSet.addRule(rule);
+ * 
+ * // Create a category for the rules
+ * rulesRepository.createCategory(&quot;/&quot;, &quot;MyCategory&quot;, &quot;My new rule category&quot;);
+ * 
+ * // Create and store the rule set in the repository
+ * String ruleSetUUID = rulesRepository.createRuleSet(ruleSet);
+ * RuleSet ruleSet2 = rulesRepository.loadRuleSet(ruleSetUUID);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 9: Load a compiled rule set (e.g. Drools package).
+ * </p>
+ * 
+ * <pre>
+ * org.drools.rule.Package binPkg = (org.drools.rule.Package)
+ *     rulesRepository.loadCompiledRuleSet(ruleSetUUID);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 10: Create and load a rule set snapshot.
+ * </p>
+ * 
+ * <pre>
+ * // Load rule set
+ * RuleSet ruleSet = rulesRepository.loadRuleSet(ruleSetUUID);
+ * 
+ * rulesRepository.createRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;,
+ *     false, &quot;Snapshot Version 1&quot;);
+ * 
+ * org.drools.rule.Package pkg = (org.drools.rule.Package)
+ *     rulesRepository.loadCompiledRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;);
+ * ...
+ * </pre>
+ * 
+ * <p>
+ * Example 11: Load and execute a compiled rule set snapshot.
+ * </p>
+ * 
+ * <pre>
+ * // Load rule set
+ * RuleSet ruleSet = rulesRepository.loadRuleSet(ruleSetUUID);
+ * 
+ * rulesRepository.createRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;,
+ *     false, &quot;Snapshot Version 1&quot;);
+ * 
+ * org.drools.rule.Package pkg = (org.drools.rule.Package)
+ *     rulesRepository.loadCompiledRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;);
+ * 
+ * RuleBase rb = RuleBaseFactory.newRuleBase();
+ * rb.addPackage( pkg );
+ * StatelessSession sess = rb.newStatelessSession();
+ * sess.execute( ... );
+ * ...
+ * </pre>
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  */
@@ -173,7 +404,7 @@ public interface RuleEngineRepository {
     public void importRulesRepository(byte byteArray[]) throws RuleEngineRepositoryException;
 
     /**
-     * Creates a rule set and compiles all rules.
+     * Creates and compiles a rule set.
      * 
      * @param ruleSet
      *            Rule set to create
