@@ -15,7 +15,7 @@
  */
 package org.kuali.student.brms.repository;
 
-import org.kuali.student.brms.repository.rule.BuilderResultList;
+import org.kuali.student.brms.repository.rule.CompilerResultList;
 
 public class RuleEngineUtil {
     /**
@@ -25,7 +25,7 @@ public class RuleEngineUtil {
      *            Builder result list
      * @return Errors messages
      */
-    public static String getErrorMessage(BuilderResultList result) {
+    public static String getErrorMessage(CompilerResultList result) {
         return (result == null ? "Null Error Message" : result.toString());
     }
 
