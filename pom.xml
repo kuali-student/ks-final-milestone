@@ -19,6 +19,7 @@
 		<module>common-util</module>
 		<module>common-ws</module>
 		<module>common-cxf</module>
+		<module>common-metro</module>
 	</modules>
 
 	<scm>
@@ -250,6 +251,11 @@
 					<exclusion>
 						<artifactId>servlet-api</artifactId>
 						<groupId>javax.servlet</groupId>
+					</exclusion>
+					
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring</artifactId>
 					</exclusion>
 
 					<!-- These must be excluded for WSIT to work -->
