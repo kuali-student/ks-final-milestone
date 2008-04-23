@@ -67,7 +67,7 @@ public class GenerateRuleSet {
 			grs.parse();
 			
 			// compile rule and save in repository
-			//BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+			//CompilerResultList results = brmsRepository.compileRuleSet(rulesetUuid);
 
             System.out.println("***** Rule source before compilation *****");
 			System.out.println(grs.getRuleSet().getContent());
