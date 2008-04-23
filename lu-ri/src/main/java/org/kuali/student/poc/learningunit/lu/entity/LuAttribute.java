@@ -1,18 +1,16 @@
 package org.kuali.student.poc.learningunit.lu.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.TableGenerator;
+import javax.persistence.PrePersist;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-@TableGenerator(name = "idGen")
 public class LuAttribute {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private String id;
 	@ManyToOne
 	@JoinColumn(name = "Clu_ID", nullable = false)
@@ -23,6 +21,14 @@ public class LuAttribute {
 	private LuAttributeType luAttributeType;
 
 	private String value;
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
 
 	/**
 	 * @return the id
@@ -77,7 +83,8 @@ public class LuAttribute {
 	}
 
 	/**
-	 * @param luAttributeType the luAttributeType to set
+	 * @param luAttributeType
+	 *            the luAttributeType to set
 	 */
 	public void setLuAttributeType(LuAttributeType luAttributeType) {
 		this.luAttributeType = luAttributeType;

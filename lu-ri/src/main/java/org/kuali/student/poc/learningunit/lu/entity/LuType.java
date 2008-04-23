@@ -3,34 +3,41 @@ package org.kuali.student.poc.learningunit.lu.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
+
 @Entity
-@TableGenerator(name = "idGen")
 public class LuType {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private String luTypeId;
 
 	private String description;
-	
-    @Temporal(TemporalType.TIMESTAMP)
+
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 
 	private String createUserId;
 
 	private String createUserComment;
-	
-    @Temporal(TemporalType.TIMESTAMP)
+
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
 
 	private String updateUserId;
 
 	private String updateUserComment;
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.luTypeId = UUIDHelper.genStringUUID();
+	}
 
 	/**
 	 * @return the luTypeId
@@ -40,7 +47,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param luTypeId the luTypeId to set
+	 * @param luTypeId
+	 *            the luTypeId to set
 	 */
 	public void setLuTypeId(String luTypeId) {
 		this.luTypeId = luTypeId;
@@ -54,7 +62,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -68,7 +77,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param createTime the createTime to set
+	 * @param createTime
+	 *            the createTime to set
 	 */
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
@@ -82,7 +92,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param createUserId the createUserId to set
+	 * @param createUserId
+	 *            the createUserId to set
 	 */
 	public void setCreateUserId(String createUserId) {
 		this.createUserId = createUserId;
@@ -96,7 +107,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param createUserComment the createUserComment to set
+	 * @param createUserComment
+	 *            the createUserComment to set
 	 */
 	public void setCreateUserComment(String createUserComment) {
 		this.createUserComment = createUserComment;
@@ -110,7 +122,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param updateTime the updateTime to set
+	 * @param updateTime
+	 *            the updateTime to set
 	 */
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
@@ -124,7 +137,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param updateUserId the updateUserId to set
+	 * @param updateUserId
+	 *            the updateUserId to set
 	 */
 	public void setUpdateUserId(String updateUserId) {
 		this.updateUserId = updateUserId;
@@ -138,7 +152,8 @@ public class LuType {
 	}
 
 	/**
-	 * @param updateUserComment the updateUserComment to set
+	 * @param updateUserComment
+	 *            the updateUserComment to set
 	 */
 	public void setUpdateUserComment(String updateUserComment) {
 		this.updateUserComment = updateUserComment;

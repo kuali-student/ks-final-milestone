@@ -4,25 +4,31 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.TableGenerator;
+import javax.persistence.PrePersist;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-@TableGenerator(name = "idGen")
 public class LuAttributeType {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private String id;
 
 	// this is an alternate key, undecided on id vs name for primary
 	@Column(nullable = false, unique = true)
 	private String name;
-	
+
 	@OneToMany(mappedBy = "luAttributeType")
 	private Set<LuAttribute> luAttributes;
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID();
+	}
 
 	/**
 	 * @return the id
@@ -32,7 +38,8 @@ public class LuAttributeType {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -46,7 +53,8 @@ public class LuAttributeType {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -60,7 +68,8 @@ public class LuAttributeType {
 	}
 
 	/**
-	 * @param luAttributes the luAttributes to set
+	 * @param luAttributes
+	 *            the luAttributes to set
 	 */
 	public void setLuAttributes(Set<LuAttribute> luAttributes) {
 		this.luAttributes = luAttributes;

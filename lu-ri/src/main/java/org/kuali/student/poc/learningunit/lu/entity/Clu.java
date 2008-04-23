@@ -5,17 +5,16 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.TableGenerator;
+import javax.persistence.PrePersist;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
+
 @Entity
-@TableGenerator(name = "idGen")
 public class Clu {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private String cluId;
 
 	private String cluCategory;
@@ -31,15 +30,23 @@ public class Clu {
 
 	@ManyToOne
 	private Atp atpStart;
-	
+
 	@ManyToOne
 	private Atp atpEnd;
 
 	private Long learningResultType;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
 	private Set<LuAttribute> attributes;
-	
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.cluId = UUIDHelper.genStringUUID();
+	}
+
 	/**
 	 * @return the cluId
 	 */
@@ -48,7 +55,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param cluId the cluId to set
+	 * @param cluId
+	 *            the cluId to set
 	 */
 	public void setCluId(String cluId) {
 		this.cluId = cluId;
@@ -62,7 +70,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param cluCategory the cluCategory to set
+	 * @param cluCategory
+	 *            the cluCategory to set
 	 */
 	public void setCluCategory(String cluCategory) {
 		this.cluCategory = cluCategory;
@@ -76,7 +85,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -90,7 +100,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param cluShortTitle the cluShortTitle to set
+	 * @param cluShortTitle
+	 *            the cluShortTitle to set
 	 */
 	public void setCluShortTitle(String cluShortTitle) {
 		this.cluShortTitle = cluShortTitle;
@@ -104,7 +115,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param cluCode the cluCode to set
+	 * @param cluCode
+	 *            the cluCode to set
 	 */
 	public void setCluCode(String cluCode) {
 		this.cluCode = cluCode;
@@ -118,7 +130,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param atpStart the atpStart to set
+	 * @param atpStart
+	 *            the atpStart to set
 	 */
 	public void setAtpStart(Atp atpStart) {
 		this.atpStart = atpStart;
@@ -132,7 +145,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param atpEnd the atpEnd to set
+	 * @param atpEnd
+	 *            the atpEnd to set
 	 */
 	public void setAtpEnd(Atp atpEnd) {
 		this.atpEnd = atpEnd;
@@ -146,7 +160,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param learningResultType the learningResultType to set
+	 * @param learningResultType
+	 *            the learningResultType to set
 	 */
 	public void setLearningResultType(Long learningResultType) {
 		this.learningResultType = learningResultType;
@@ -160,7 +175,8 @@ public class Clu {
 	}
 
 	/**
-	 * @param luType the luType to set
+	 * @param luType
+	 *            the luType to set
 	 */
 	public void setLuType(LuType luType) {
 		this.luType = luType;
@@ -170,14 +186,15 @@ public class Clu {
 	 * @return the attributes
 	 */
 	public Set<LuAttribute> getAttributes() {
-		if(attributes==null){
+		if (attributes == null) {
 			attributes = new HashSet<LuAttribute>();
 		}
 		return attributes;
 	}
 
 	/**
-	 * @param attributes the attributes to set
+	 * @param attributes
+	 *            the attributes to set
 	 */
 	public void setAttributes(Set<LuAttribute> attributes) {
 		this.attributes = attributes;

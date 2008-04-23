@@ -1,17 +1,15 @@
 package org.kuali.student.poc.learningunit.lu.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.TableGenerator;
+import javax.persistence.PrePersist;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-@TableGenerator(name = "idGen")
 public class Lui {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
 	private String luiId;
 	private String luiCode;
 	@ManyToOne
@@ -19,6 +17,14 @@ public class Lui {
 	@ManyToOne
 	private Atp atp;
 	private int maxSeats;
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.luiId = UUIDHelper.genStringUUID();
+	}
 
 	/**
 	 * @return the luiId
