@@ -91,25 +91,10 @@ public class RuleEngineRepositoryTest {
         jackrabbitRepository.logout();
     }
 
-    private String createRuleSet(String categoryName) throws RuleEngineRepositoryException {
-        return createRuleSet(categoryName, null, true);
-    }
-
-    private String createRuleSet(String categoryName, String facts, boolean checkin) throws RuleEngineRepositoryException {
-        return RuleEngineUtil.createRuleSet(brmsRepository, categoryName, facts, checkin);
-    }
-
-    private String createRule(String ruleSetUUID, String categoryName) throws RuleEngineRepositoryException {
-        return createRule(ruleSetUUID, categoryName, true);
-    }
-
-    private static String createRule(String ruleSetUUID, String categoryName, boolean checkin) throws RuleEngineRepositoryException {
-        return RuleEngineUtil.createRule(brmsRepository, ruleSetUUID, categoryName, checkin);
-    }
-
     private RuleSetImpl createRuleSet(String name, String description, List<String> facts) throws RuleEngineRepositoryException {
         RuleSetImpl ruleSet = new RuleSetImpl(name);
         ruleSet.setDescription(description);
+        ruleSet.setFormat("drl");
         if ( facts != null && !facts.isEmpty()) {
             ruleSet.setHeaderList( facts );
         }
@@ -125,6 +110,23 @@ public class RuleEngineRepositoryTest {
         return rule;
     }
 
+    private RuleSet createSimpleRuleSet(String ruleSetName) throws RuleEngineRepositoryException {
+        return createSimpleRuleSet( ruleSetName, null );
+    }
+
+    private RuleSet createSimpleRuleSet(String ruleSetName, String category) throws RuleEngineRepositoryException {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet = createRuleSet(ruleSetName, "My new rule set", header);
+        
+        RuleImpl rule = createRuleDRL("rule_1", "My new rule 1", category, 
+                DroolsTestUtil.getSimpleRule1());
+        ruleSet.addRule(rule);
+
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet);
+        return brmsRepository.loadRuleSet(ruleSetUUID);
+    }
+    
     private void assertRule( Rule rule1, Rule rule2) throws Exception {
         assertEquals( rule1.getName(), rule2.getName() );
         assertEquals( rule1.getContent(), rule2.getContent() );
@@ -179,15 +181,8 @@ public class RuleEngineRepositoryTest {
         String ruleCategory = "MyCategory";
         brmsRepository.createCategory("/", ruleCategory, "My new rule category");
 
-        List<String> header = new ArrayList<String>();
-        header.add("import java.util.Calendar");
-        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", header);
+        createSimpleRuleSet("MyRuleSet");
         
-        RuleImpl rule = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
-                DroolsTestUtil.getSimpleRule1());
-        ruleSet.addRule(rule);
-
-        brmsRepository.createRuleSet(ruleSet);
         brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                 false, "Snapshot Version 1");
         
@@ -200,30 +195,31 @@ public class RuleEngineRepositoryTest {
     
     @Test
     public void testLoadCompiledRuleSetSnapshotAndExecuteSnapshot() throws Exception {
-        String rulesetUuid = brmsRepository.createRuleSet("testBinaryPackageCompile", "");
-        String ruleUuid1 = brmsRepository.createRule(rulesetUuid, "rule_1", "", 
-                DroolsTestUtil.getSimpleRule3(), null);
-        //brmsRepository.checkinRule(ruleUuid1, null);
-        String ruleUuid2 = brmsRepository.createRule(rulesetUuid, "rule_2", "", 
-                DroolsTestUtil.getSimpleRule4(), null);
-        //brmsRepository.checkinRule(ruleUuid2, null);
-        brmsRepository.setFactsToRuleSet(rulesetUuid, "import java.util.Calendar " + "import org.kuali.student.brms.repository.test.Message");
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        header.add("import org.kuali.student.brms.repository.test.Message");
+        RuleSetImpl ruleSet = createRuleSet("MyPackage", "My package description", header);
+        Rule rule1 = createRuleDRL("rule_1", "Email Initialization Rule", null, DroolsTestUtil.getSimpleRule3() );
+        ruleSet.addRule(rule1);
+        Rule rule2 = createRuleDRL("rule_2", "Email Validation Rule", null, DroolsTestUtil.getSimpleRule4() );
+        ruleSet.addRule(rule2);
+        String rulesetUUID = brmsRepository.createRuleSet(ruleSet);
 
-        BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+        BuilderResultList results = brmsRepository.compileRuleSet(rulesetUUID);
 
         // No errors
         assertNull(RuleEngineUtil.getErrorMessage(results), results);
 
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(rulesetUuid);
+        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(rulesetUUID);
 
         assertNotNull(binPkg);
         assertTrue(binPkg.isValid());
 
         DroolsTestUtil.executeRule(binPkg, new Object[]{Calendar.getInstance()});
 
-        brmsRepository.createRuleSetSnapshot("testBinaryPackageCompile", "SNAP1", false, "A snapshot");
+        brmsRepository.createRuleSetSnapshot("MyPackage", "SNAPSHOT1", false, "A snapshot");
 
-        binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSetSnapshot("testBinaryPackageCompile", "SNAP1");
+        binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSetSnapshot("MyPackage", "SNAPSHOT1");
 
         assertNotNull(binPkg);
         assertTrue(binPkg.isValid());
@@ -241,30 +237,24 @@ public class RuleEngineRepositoryTest {
                 "testLoadCompiledRuleSetAndExecute", "A test category 1.0 description");
         assertTrue(b);
 
-        String rulesetUuid = brmsRepository.createRuleSet("testBinaryPackageCompile2", 
-                "Email Validation Rule Package");
-        brmsRepository.setFactsToRuleSet(rulesetUuid, 
-                "import java.util.regex.Pattern " + 
-                "import org.kuali.student.brms.repository.test.Email " + 
-                "import org.kuali.student.brms.repository.test.Message");
-        String ruleUuid1 = brmsRepository.createRule(rulesetUuid, "rule_1", 
-                "Email Initialization Rule", 
-                DroolsTestUtil.getValidationRule1(), 
-                "testLoadCompiledRuleSetAndExecute");
-        brmsRepository.checkinRule(ruleUuid1, null);
-        String ruleUuid2 = brmsRepository.createRule(rulesetUuid, "rule_2", 
-                "Email Validation Rule", 
-                DroolsTestUtil.getValidationRule2(), 
-                "testLoadCompiledRuleSetAndExecute");
-        brmsRepository.checkinRule(ruleUuid2, null);
-
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.regex.Pattern");
+        header.add("import org.kuali.student.brms.repository.test.Email");
+        header.add("import org.kuali.student.brms.repository.test.Message");
+        RuleSetImpl ruleSet = createRuleSet("MyPackage", "My package description", header);
+        Rule rule1 = createRuleDRL("rule_1", "Email Initialization Rule", "testLoadCompiledRuleSetAndExecute", DroolsTestUtil.getValidationRule1() );
+        ruleSet.addRule(rule1);
+        Rule rule2 = createRuleDRL("rule_2", "Email Validation Rule", "testLoadCompiledRuleSetAndExecute", DroolsTestUtil.getValidationRule2() );
+        ruleSet.addRule(rule2);
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet);
+        
         // Must compile a ruleset before it will save a compiled ruleset
-        BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+        BuilderResultList results = brmsRepository.compileRuleSet(ruleSetUUID);
 
         // No errors
         assertNull(RuleEngineUtil.getErrorMessage(results), results);
 
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(rulesetUuid);
+        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(ruleSetUUID);
 
         assertNotNull(binPkg);
         assertTrue(binPkg.isValid());
@@ -277,17 +267,14 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testLoadCompiledRuleSetObject() throws Exception {
-        String rulesetUuid = brmsRepository.createRuleSet("MyPackage", "My package description");
-        String ruleUuid1 = brmsRepository.createRule(rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRule1(), null);
-        String ruleUuid2 = brmsRepository.createRule(rulesetUuid, "rule_2", "", DroolsTestUtil.getSimpleRule2(), null);
-        brmsRepository.setFactsToRuleSet(rulesetUuid, "import java.util.Calendar");
+        String ruleSetUUID = createSimpleRuleSet("MyPackage").getUUID();
 
         // Must compile a ruleset before it will save a compiled ruleset
         // A ruleset doesn't need to be checked in before compiling
-        BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+        BuilderResultList results = brmsRepository.compileRuleSet(ruleSetUUID);
         assertNull(RuleEngineUtil.getErrorMessage(results), results);
 
-        RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
+        RuleSet ruleset = brmsRepository.loadRuleSet(ruleSetUUID);
         assertNotNull(ruleset);
         assertNotNull(ruleset.getCompiledRuleSet());
         assertNotNull(ruleset.getCompiledRuleSetObject());
@@ -301,19 +288,14 @@ public class RuleEngineRepositoryTest {
         boolean b = brmsRepository.createCategory("/", "testJSR94", "A test category 1.0 description");
         assertTrue(b);
 
-        String rulesetUuid = brmsRepository.createRuleSet("MyPackage", "My package description");
-        String ruleUuid1 = brmsRepository.createRule(rulesetUuid, "rule_1", "", DroolsTestUtil.getSimpleRule1(), "testJSR94");
-        brmsRepository.checkinRule(ruleUuid1, null);
-        String ruleUuid2 = brmsRepository.createRule(rulesetUuid, "rule_2", "", DroolsTestUtil.getSimpleRule2(), "testJSR94");
-        brmsRepository.checkinRule(ruleUuid2, null);
-        brmsRepository.setFactsToRuleSet(rulesetUuid, "import java.util.Calendar");
-
-        BuilderResultList results = brmsRepository.compileRuleSet(rulesetUuid);
+        String ruleSetUUID = createSimpleRuleSet("MyPackage").getUUID();
+        
+        BuilderResultList results = brmsRepository.compileRuleSet(ruleSetUUID);
 
         // No errors
         assertNull(RuleEngineUtil.getErrorMessage(results), results);
 
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(rulesetUuid);
+        org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(ruleSetUUID);
 
         assertNotNull(binPkg);
 
@@ -348,11 +330,13 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testLoadRuleSetWithInvalidUUID() throws Exception {
-        String rulesetUuid = brmsRepository.createRuleSet("testCreateRuleSet", "Rule set description");
-        assertNotNull(rulesetUuid);
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        String rulesetUUID = brmsRepository.createRuleSet(ruleSet1);
+        
+        assertNotNull(rulesetUUID);
 
-        RuleSet ruleSet = brmsRepository.loadRuleSet(rulesetUuid);
-        assertEquals(ruleSet.getUUID(), rulesetUuid);
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(rulesetUUID);
+        assertEquals(ruleSet2.getUUID(), rulesetUUID);
 
         try {
             brmsRepository.loadRuleSet("XYZ");
@@ -489,15 +473,7 @@ public class RuleEngineRepositoryTest {
         String ruleCategory = "MyCategory";
         brmsRepository.createCategory("/", ruleCategory, "My new rule category");
 
-        List<String> header = new ArrayList<String>();
-        header.add("import java.util.Calendar");
-        RuleSetImpl ruleSet = createRuleSet("MyRuleSet", "My new rule set", header);
-        
-        RuleImpl rule = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
-                DroolsTestUtil.getSimpleRule1());
-        ruleSet.addRule(rule);
-        
-        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet);
+        String ruleSetUUID = createSimpleRuleSet("MyRuleSet").getUUID();
         
         org.drools.rule.Package binPkg = (org.drools.rule.Package) 
             brmsRepository.loadCompiledRuleSet(ruleSetUUID);
@@ -508,19 +484,18 @@ public class RuleEngineRepositoryTest {
     
     @Test
     public void testCreateRule() throws Exception {
-        String ruleSetUUID = createRuleSet("testCreateRule");
-        String ruleUUID = createRule(ruleSetUUID, "testCreateRule");
+        RuleSet ruleSet2 = createSimpleRuleSet("MyPackage");
 
-        RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        List<Rule> list = ruleSet.getRules();
+        List<Rule> list = ruleSet2.getRules();
         assertNotNull(list);
         assertTrue(list.size() > 0);
 
-        Rule rule = brmsRepository.loadRule(ruleUUID);
-        assertEquals(rule.getUUID(), ruleUUID);
+        brmsRepository.checkinRule(list.get(0).getUUID(), "Checkin rule comments");
+
+        Rule rule = brmsRepository.loadRule(list.get(0).getUUID());
         assertEquals(rule.getContent(), DroolsTestUtil.getSimpleRule1());
         assertEquals(rule.getName(), "rule_1");
-        assertEquals(rule.getDescription(), "Rule set description");
+        assertEquals(rule.getDescription(), "My new rule 1");
         assertEquals(rule.getCheckinComment(), "Checkin rule comments");
     }
 
@@ -575,11 +550,11 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testRenameRuleSet() throws Exception {
-        String rulesetUuid = brmsRepository.createRuleSet("testRenameRuleSet", 
-                "Rule set description");
-        assertNotNull(rulesetUuid);
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSetUUID);
 
-        String newUUID = brmsRepository.renameRuleSet(rulesetUuid, 
+        String newUUID = brmsRepository.renameRuleSet(ruleSetUUID, 
                 "testRenameRuleSet_NEW_NAME");
         RuleSet ruleSet = brmsRepository.loadRuleSet(newUUID);
         assertEquals(ruleSet.getUUID(), newUUID);
@@ -588,13 +563,19 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testRenameRule() throws Exception {
-        String ruleSetUUID = createRuleSet("testRenameRule");
-        String ruleUUID = createRule(ruleSetUUID, "testRenameRule");
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet1 = createRuleSet("MyPackage", "My package description", header);
+        Rule rule1 = createRuleDRL("rule_1", "Email Initialization Rule", null, DroolsTestUtil.getSimpleRule1() );
+        ruleSet1.addRule(rule1);
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
 
-        String newRuleUUID = brmsRepository.renameRule(ruleUUID, "rule_1_NEW_NAME");
-        Rule rule = brmsRepository.loadRule(newRuleUUID);
-        assertEquals(rule.getUUID(), newRuleUUID);
-        assertEquals(rule.getName(), "rule_1_NEW_NAME");
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+
+        String newRuleUUID = brmsRepository.renameRule(ruleSet2.getRules().get(0).getUUID(), "rule_1_NEW_NAME");
+        Rule rule2 = brmsRepository.loadRule(newRuleUUID);
+        assertEquals(rule2.getUUID(), newRuleUUID);
+        assertEquals(rule2.getName(), "rule_1_NEW_NAME");
     }
 
     @Test
@@ -612,61 +593,85 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testChangeRuleSetStatus() throws Exception {
-        String ruleSetUUID = brmsRepository.createRuleSet("testChangeRuleSetStatus", "Rule set description");
-        assertNotNull(ruleSetUUID);
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
 
         brmsRepository.createStatus("Active");
         brmsRepository.createStatus("Inactive");
 
         brmsRepository.changeRuleSetStatus(ruleSetUUID, "Active");
-        RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        assertEquals(ruleSet.getStatus(), "Active");
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+        assertEquals(ruleSet2.getStatus(), "Active");
 
         brmsRepository.changeRuleSetStatus(ruleSetUUID, "Inactive");
-        ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        assertEquals(ruleSet.getStatus(), "Inactive");
+        ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+        assertEquals(ruleSet2.getStatus(), "Inactive");
     }
 
     @Test
     public void testChangeRuleStatus() throws Exception {
-        String ruleSetUUID = createRuleSet("testChangeRuleStatus");
-        String ruleUUID = createRule(ruleSetUUID, "testChangeRuleStatus");
-
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        Rule rule1 = ruleSet.getRules().get(0);
+        
         brmsRepository.createStatus("Active");
         brmsRepository.createStatus("Inactive");
 
-        brmsRepository.changeRuleStatus(ruleUUID, "Active");
-        Rule rule = brmsRepository.loadRule(ruleUUID);
-        assertEquals(rule.getStatus(), "Active");
+        brmsRepository.changeRuleStatus(rule1.getUUID(), "Active");
+        Rule rule2 = brmsRepository.loadRule(rule1.getUUID());
+        assertEquals(rule2.getStatus(), "Active");
 
-        brmsRepository.changeRuleStatus(ruleUUID, "Inactive");
-        rule = brmsRepository.loadRule(ruleUUID);
-        assertEquals(rule.getStatus(), "Inactive");
+        brmsRepository.changeRuleStatus(rule1.getUUID(), "Inactive");
+        rule2 = brmsRepository.loadRule(rule1.getUUID());
+        assertEquals(rule2.getStatus(), "Inactive");
     }
 
     @Test
     public void testCompileValidRuleSetSource() throws Exception {
-        String ruleSetUUID = createRuleSet("testCompileValidRuleSetSource", "import java.util.Calendar", false);
-        // createRule( ruleSetUUID, "testCompileValidRuleSetSource" );
-        brmsRepository.createRule(ruleSetUUID, "rule_1", "", DroolsTestUtil.getSimpleRule1(), "testCompileValidRuleSetSource");
-        brmsRepository.createRule(ruleSetUUID, "rule_2", "", DroolsTestUtil.getSimpleRule2(), "testCompileValidRuleSetSource");
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", header);
+        Rule rule1 = createRuleDRL("rule_1", "My new rule 1", null, DroolsTestUtil.getSimpleRule1() );
+        ruleSet1.addRule(rule1);
+        Rule rule2 = createRuleDRL("rule_2", "My new rule 1", null, DroolsTestUtil.getSimpleRule2() );
+        ruleSet1.addRule(rule2);
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1);
 
         try {
-            String drl1 = DroolsTestUtil.getSimpleDRL("testCompileValidRuleSetSource");
+            String drl1 = DroolsTestUtil.getSimpleDRL("MyRuleSet");
             String drl2 = brmsRepository.compileRuleSetSource(ruleSetUUID);
-            assertTrue(drl2.indexOf(drl1) > -1);
+            assertEquals(drl1, drl2);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
         }
     }
 
     @Test
-    public void testCompileInvalidRuleSetSource() throws Exception {
-        String ruleSetUUID = createRuleSet("testCompileRuleSetSource", "import jav.util.Calend", false);
-        createRule(ruleSetUUID, "testCompileRuleSetSource");
-
+    public void testCreateInvalidRuleSetSource() throws Exception {
         try {
-            String drl = brmsRepository.compileRuleSetSource(ruleSetUUID);
+            List<String> header = new ArrayList<String>();
+            header.add("import jav.util.Calend");
+            RuleSetImpl ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", header);
+            Rule rule1 = createRuleDRL("rule_1", "My new rule 1", null, DroolsTestUtil.getSimpleRule1() );
+            ruleSet1.addRule(rule1);
+            brmsRepository.createRuleSet(ruleSet1);
+        } catch (RuleEngineRepositoryException e) {
+            assertTrue(e.getMessage() != null);
+        }
+    }
+
+    @Test
+    public void testCompileInvalidRuleSetSource() throws Exception {
+        try {
+            RuleSetImpl ruleSet = (RuleSetImpl)createSimpleRuleSet("MyRuleSet");
+
+            List<String> header = new ArrayList<String>();
+            header.add("import jav.uti.Calend");
+            ruleSet.setHeaderList(header);
+            // Since casting to RuleSetImpl format is lost so we must set it here
+            ruleSet.setFormat("drl"); 
+            brmsRepository.updateRuleSet(ruleSet);
+            
+            String drl = brmsRepository.compileRuleSetSource(ruleSet.getUUID());
             fail("Invalid rule should throw an exception");
         } catch (RuleEngineRepositoryException e) {
             assertTrue(e.getMessage() != null);
@@ -675,11 +680,10 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testCompileValidRuleSet() throws Exception {
-        String ruleSetUUID = createRuleSet("testCompileRuleSet", "import java.util.Calendar", false);
-        createRule(ruleSetUUID, "testCompileRuleSet");
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
 
         try {
-            BuilderResultList results = brmsRepository.compileRuleSet(ruleSetUUID);
+            BuilderResultList results = brmsRepository.compileRuleSet(ruleSet.getUUID());
             assertNull(results);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
@@ -688,16 +692,15 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testCompileInvalidRuleSet() throws Exception {
-        String ruleSetUUID = createRuleSet("testCompileInvalidRuleSet", "import java.util.Calendar", false);
-        String ruleUUID = createRule(ruleSetUUID, "testCompileInvalidRuleSet");
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
 
-        Rule rule = brmsRepository.loadRule(ruleUUID);
+        Rule rule = brmsRepository.loadRule(ruleSet.getRules().get(0).getUUID());
         rule.setContent("InvalidRuleSource");
         brmsRepository.updateRule(rule);
         brmsRepository.checkinRule(rule.getUUID(), "Some invalid source");
 
         try {
-            BuilderResultList results = brmsRepository.compileRuleSet(ruleSetUUID);
+            BuilderResultList results = brmsRepository.compileRuleSet(ruleSet.getUUID());
             assertNotNull(results);
             assertTrue(results.toString().indexOf("InvalidRuleSource") > -1);
         } catch (RuleEngineRepositoryException e) {
@@ -707,9 +710,9 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testRemoveRule() throws Exception {
-        String ruleSetUUID = createRuleSet("testRemoveRule");
-        String ruleUUID = createRule(ruleSetUUID, "testRemoveRule");
-
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        String ruleUUID = ruleSet.getRules().get(0).getUUID();
+        
         brmsRepository.removeRule(ruleUUID);
 
         try {
@@ -722,41 +725,29 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testArchiveRuleSet() throws Exception {
-        String ruleSetUUID = createRuleSet("testArchiveRuleSet", null, false);
-
-        RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        assertEquals(ruleSetUUID, ruleSet.getUUID());
-
-        String ruleSource = DroolsTestUtil.getSimpleRule1();
-        String ruleUUID = brmsRepository.createRule(ruleSetUUID, "rule_1", "Rule set description", ruleSource, null);
-        brmsRepository.checkinRule(ruleUUID, null);
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), null);
 
         // Archived Rule set
-        brmsRepository.archiveRuleSet(ruleSetUUID, null);
-
-        assertTrue(brmsRepository.loadRuleSet(ruleSetUUID).isArchived());
+        brmsRepository.archiveRuleSet(ruleSet.getUUID(), null);
+        assertTrue(brmsRepository.loadRuleSet(ruleSet.getUUID()).isArchived());
     }
 
     @Test
     public void testUnArchiveRuleSet() throws Exception {
-        String ruleSetUUID = createRuleSet("testUnArchiveRuleSet", null, false);
-
-        RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        assertEquals(ruleSetUUID, ruleSet.getUUID());
-
-        String ruleSource = DroolsTestUtil.getSimpleRule1();
-        String ruleUUID = brmsRepository.createRule(ruleSetUUID, "rule_1", "Rule set description", ruleSource, null);
-        brmsRepository.checkinRule(ruleUUID, null);
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        
+        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), null);
 
         // Archived Rule set
-        brmsRepository.archiveRuleSet(ruleSetUUID, null);
+        brmsRepository.archiveRuleSet(ruleSet.getUUID(), null);
 
-        assertTrue(brmsRepository.loadRuleSet(ruleSetUUID).isArchived());
+        assertTrue(brmsRepository.loadRuleSet(ruleSet.getUUID()).isArchived());
 
         // UnArchived Rule set
-        brmsRepository.unArchiveRuleSet(ruleSetUUID, null);
+        brmsRepository.unArchiveRuleSet(ruleSet.getUUID(), null);
 
-        assertFalse(brmsRepository.loadRuleSet(ruleSetUUID).isArchived());
+        assertFalse(brmsRepository.loadRuleSet(ruleSet.getUUID()).isArchived());
     }
 
     /*
@@ -787,15 +778,13 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testArchiveUnArchiveRule() throws Exception {
-        String ruleSetUUID = createRuleSet("testArchiveUnArchiveRule");
-        String ruleUUID = createRule(ruleSetUUID, "testArchiveUnArchiveRule");
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        Rule rule = ruleSet.getRules().get(0);
 
-        Rule rule = brmsRepository.loadRule(ruleUUID);
-
-        assertFalse(brmsRepository.loadRule(ruleUUID).isArchived());
+        assertFalse(brmsRepository.loadRule(rule.getUUID()).isArchived());
         // Archived Rule
-        brmsRepository.archiveRule(ruleUUID, null);
-        assertTrue(brmsRepository.loadRule(ruleUUID).isArchived());
+        brmsRepository.archiveRule(rule.getUUID(), null);
+        assertTrue(brmsRepository.loadRule(rule.getUUID()).isArchived());
 
         List<Rule> list = brmsRepository.loadArchivedRules();
         assertNotNull(list);
@@ -805,9 +794,9 @@ public class RuleEngineRepositoryTest {
         assertEquals("Archived", list.get(0).getCheckinComment());
 
         // UnArchived Rule
-        brmsRepository.unArchiveRule(ruleUUID, null);
+        brmsRepository.unArchiveRule(rule.getUUID(), null);
 
-        Rule rule2 = brmsRepository.loadRule(ruleUUID);
+        Rule rule2 = brmsRepository.loadRule(rule.getUUID());
         assertEquals(rule.getUUID(), rule2.getUUID());
         assertEquals(!rule.isArchived(), !rule2.isArchived());
         assertEquals("Unarchived", rule2.getCheckinComment());
@@ -815,20 +804,20 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testLoadRuleHistory() throws Exception {
-        String ruleSetUUID = createRuleSet("testLoadRuleHistory", "import java.util.Calendar", false);
-        String ruleUUID = createRule(ruleSetUUID, "testLoadRuleHistory", false);
-
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        String ruleUUID = ruleSet.getRules().get(0).getUUID();
+        
         // Version 1
-        Rule rule1 = brmsRepository.loadRule(ruleUUID);
-        brmsRepository.checkinRule(rule1.getUUID(), "Checkin version 1");
+        Rule rule2 = brmsRepository.loadRule(ruleUUID);
+        brmsRepository.checkinRule(rule2.getUUID(), "Checkin version 1");
 
         // Version 2
-        Rule rule2 = brmsRepository.loadRule(ruleUUID);
-        brmsRepository.checkinRule(rule2.getUUID(), "Checkin version 2");
+        Rule rule3 = brmsRepository.loadRule(ruleUUID);
+        brmsRepository.checkinRule(rule3.getUUID(), "Checkin version 2");
 
         // Version 3
-        Rule rule3Head = brmsRepository.loadRule(ruleUUID);
-        brmsRepository.checkinRule(rule3Head.getUUID(), "Checkin version 3 - HEAD version");
+        Rule rule4Head = brmsRepository.loadRule(ruleUUID);
+        brmsRepository.checkinRule(rule4Head.getUUID(), "Checkin version 3 - HEAD version");
 
         List<Rule> ruleHistory = brmsRepository.loadRuleHistory(ruleUUID);
         assertEquals(2, ruleHistory.size());
@@ -853,20 +842,20 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testLoadRuleHistoryAndRestore() throws Exception {
-        String ruleSetUUID = createRuleSet("testLoadRuleHistoryAndRestore", "import java.util.Calendar", false);
-        String ruleUUID = createRule(ruleSetUUID, "testLoadRuleHistoryAndRestore", false);
-
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        String ruleUUID = ruleSet.getRules().get(0).getUUID();
+        
         // Version 1
-        Rule rule1 = brmsRepository.loadRule(ruleUUID);
-        brmsRepository.checkinRule(rule1.getUUID(), "Checkin version 1");
+        Rule rule2 = brmsRepository.loadRule(ruleUUID);
+        brmsRepository.checkinRule(rule2.getUUID(), "Checkin version 1");
 
         // Version 2
-        Rule rule2 = brmsRepository.loadRule(ruleUUID);
-        brmsRepository.checkinRule(rule2.getUUID(), "Checkin version 2");
+        Rule rule3 = brmsRepository.loadRule(ruleUUID);
+        brmsRepository.checkinRule(rule3.getUUID(), "Checkin version 2");
 
         // Version 3
-        Rule rule3Head = brmsRepository.loadRule(ruleUUID);
-        brmsRepository.checkinRule(rule3Head.getUUID(), "Checkin version 3 - HEAD version");
+        Rule rule4Head = brmsRepository.loadRule(ruleUUID);
+        brmsRepository.checkinRule(rule4Head.getUUID(), "Checkin version 3 - HEAD version");
 
         List<Rule> ruleHistory = brmsRepository.loadRuleHistory(ruleUUID);
         assertEquals(2, ruleHistory.size());
@@ -886,9 +875,8 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testRebuildAllSnapshots() throws Exception {
-        String ruleSetUUID = createRuleSet("testRebuildAllSnapshots", "import java.util.Calendar", true);
-        String ruleUUID = createRule(ruleSetUUID, "testRebuildAllSnapshots");
-
+        RuleSet ruleSet = createSimpleRuleSet("testRebuildAllSnapshots");
+        
         brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1", false, "Build snapshot 1");
 
         long snapshotTime1 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
@@ -899,10 +887,10 @@ public class RuleEngineRepositoryTest {
 
         assertTrue(snapshotTime2 > snapshotTime1);
 
-        Rule rule = brmsRepository.loadRule(ruleUUID);
+        Rule rule = brmsRepository.loadRule(ruleSet.getRules().get(0).getUUID());
         rule.setContent("Some invalid source code");
         brmsRepository.updateRule(rule);
-        brmsRepository.checkinRule(rule.getUUID(), "Checkin invalid source");
+        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), "Checkin invalid source");
 
         brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-2", false, "Build invalid snapshot 2");
 
@@ -916,27 +904,25 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testExportImportAsXmlRulesRepository() throws Exception {
-        String ruleSetUUID = createRuleSet("testExportImportAsXmlRulesRepository");
-        String ruleUUID = createRule(ruleSetUUID, "testExportImportAsXmlRulesRepository");
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
 
         try {
             // Export repository
             byte[] export = brmsRepository.exportRulesRepositoryAsXml();
-            brmsRepository.removeRule(ruleUUID);
+            brmsRepository.removeRule(ruleSet.getRules().get(0).getUUID());
             brmsRepository.importRulesRepository(export);
             assertTrue(true);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
         }
 
-        RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        assertFalse(ruleSet.getUUID() == null);
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSet.getUUID());
+        assertFalse(ruleSet2.getUUID() == null);
     }
 
     @Test
     public void testExportImportRulesRepository() throws Exception {
-        String ruleSetUUID = createRuleSet("testExportImportRulesRepository");
-        String ruleUUID = createRule(ruleSetUUID, "testExportImportRulesRepository");
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
 
         try {
             // Export repository
@@ -946,15 +932,15 @@ public class RuleEngineRepositoryTest {
             byte[] byteExport = toByteArrayFromZip(export, "repository-export.xml");
             assertNotNull(byteExport);
 
-            brmsRepository.removeRule(ruleUUID);
+            brmsRepository.removeRule(ruleSet.getRules().get(0).getUUID());
             brmsRepository.importRulesRepository(byteExport);
             assertTrue(true);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
         }
 
-        RuleSet ruleSet = brmsRepository.loadRuleSet(ruleSetUUID);
-        assertFalse(ruleSet.getUUID() == null);
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSet.getUUID());
+        assertFalse(ruleSet2.getUUID() == null);
     }
 
     private byte[] toByteArrayFromZip(ByteArrayOutputStream baos, String filename) throws IOException {
