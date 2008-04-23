@@ -1,5 +1,8 @@
 package org.kuali.student.poc.learningunit.lu.dao.impl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.kuali.student.poc.learningunit.lu.dao.LuDao;
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
@@ -10,47 +13,63 @@ import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
 
 public class LuDaoImpl implements LuDao {
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
-	public String createAtp(Atp atp) {
-		// TODO Auto-generated method stub
-		return null;
+	public Atp createAtp(Atp atp) {
+		em.persist(atp);
+		return atp;
 	}
 
 	@Override
-	public String createClu(Clu clu) {
-		// TODO Auto-generated method stub
-		return null;
+	public Clu createClu(Clu clu) {
+		em.persist(clu);
+		return clu;
 	}
 
 	@Override
-	public String createCluRelation(CluRelation cluRelation) {
-		// TODO Auto-generated method stub
-		return null;
+	public CluRelation createCluRelation(CluRelation cluRelation) {
+		em.persist(cluRelation);
+		return cluRelation;
 	}
 
 	@Override
-	public String createLuRelationType(LuRelationType luRelationType) {
-		// TODO Auto-generated method stub
-		return null;
+	public LuRelationType createLuRelationType(LuRelationType luRelationType) {
+		em.persist(luRelationType);
+		return luRelationType;
 	}
 
 	@Override
-	public String createLuType(LuType luType) {
-		// TODO Auto-generated method stub
-		return null;
+	public LuType createLuType(LuType luType) {
+		em.persist(luType);
+		return luType;
 	}
 
 	@Override
-	public String createLui(Lui lui) {
-		// TODO Auto-generated method stub
-		return null;
+	public Lui createLui(Lui lui) {
+		em.persist(lui);
+		return lui;
 	}
 
 	@Override
-	public String createLuiRelation(LuiRelation luiRelation) {
-		// TODO Auto-generated method stub
-		return null;
+	public LuiRelation createLuiRelation(LuiRelation luiRelation) {
+		em.persist(luiRelation);
+		return luiRelation;
+	}
+
+	/**
+	 * @return the em
+	 */
+	public EntityManager getEm() {
+		return em;
+	}
+
+	/**
+	 * @param em the em to set
+	 */
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
 
 }

@@ -9,11 +9,12 @@ import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
 
 public interface LuDao {
-	public String createClu(Clu clu);
-	public String createAtp(Atp atp);
-	public String createLuType(LuType luType);
-	public String createLui(Lui lui);
-	public String createLuiRelation(LuiRelation luiRelation);
-	public String createLuRelationType(LuRelationType luRelationType);
-	public String createCluRelation(CluRelation cluRelation);
+	public Clu createClu(Clu clu);
+	public Atp createAtp(Atp atp);
+	public LuType createLuType(LuType luType);
+	public Lui createLui(Lui lui);
+	public LuiRelation createLuiRelation(LuiRelation luiRelation);
+	public LuRelationType createLuRelationType(LuRelationType luRelationType);
+	public CluRelation createCluRelation(CluRelation cluRelation);
+	
 }
