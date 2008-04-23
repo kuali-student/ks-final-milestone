@@ -28,6 +28,7 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
     private List<String> header = new ArrayList<String>();
 
     private boolean snapshot = false;
+    private String snapshotName = null;
 
     public RuleSetImpl(String name) {
         super(name);
@@ -95,7 +96,7 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
     }
 
     public boolean isSnapshot() {
-        return snapshot;
+        return this.snapshot;
     }
 
     public void setSnapshot(boolean snapshot) {
@@ -118,6 +119,14 @@ public class RuleSetImpl extends ItemImpl implements RuleSet {
         }
 
         return sb.toString();
+    }
+
+    public String getSnapshotName() {
+        return this.snapshotName;
+    }
+
+    public void setSnapshotName(String snapshotName) {
+        this.snapshotName = snapshotName;
     }
 
 }
