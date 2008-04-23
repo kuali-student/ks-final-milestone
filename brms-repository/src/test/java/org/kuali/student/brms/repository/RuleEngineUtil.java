@@ -15,71 +15,9 @@
  */
 package org.kuali.student.brms.repository;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import org.kuali.student.brms.repository.drools.DroolsTestUtil;
-import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.BuilderResultList;
 
 public class RuleEngineUtil {
-    /**
-     * Creates a rule set (Drools package) in a category and returns the rule set UUID.
-     * 
-     * @param repository
-     *            BRMS repository
-     * @param categoryName
-     *            Category for the rules set
-     * @param facts
-     *            Rule facts
-     * @param checkin
-     *            Checkin rule set if true
-     * @return Rule set UUID
-     * @throws RuleEngineRepositoryException
-     */
-    public static String createRuleSet(RuleEngineRepository repository, String categoryName, String facts, boolean checkin) throws RuleEngineRepositoryException {
-        // Create category
-        boolean b = repository.createCategory("/", categoryName, "A test category description");
-        assertTrue(b);
-        // Create rule set
-        String ruleSetUUID = repository.createRuleSet(categoryName, "Rule set description");
-        if (facts != null) {
-            repository.setFactsToRuleSet(ruleSetUUID, facts);
-        }
-        if (checkin) {
-            repository.checkinRuleSet(ruleSetUUID, "Checkin ruleset comments");
-        }
-        assertNotNull(ruleSetUUID);
-
-        return ruleSetUUID;
-    }
-
-    /**
-     * Creates a rule in a rule set and returns the rule UUID.
-     * 
-     * @param repository
-     *            BRMS Repository
-     * @param ruleSetUUID
-     *            Rule set UUID the rule belongs to
-     * @param categoryName
-     *            Category the rule set belongs to
-     * @param checkin
-     *            Checkin rule if true
-     * @return Rule UUID
-     * @throws RuleEngineRepositoryException
-     */
-    public static String createRule(RuleEngineRepository repository, String ruleSetUUID, String categoryName, boolean checkin) throws RuleEngineRepositoryException {
-        // Create rule
-        String ruleSource = DroolsTestUtil.getSimpleRule1();
-        String ruleUUID = repository.createRule(ruleSetUUID, "rule_1", "Rule set description", ruleSource, categoryName);
-        if (checkin) {
-            repository.checkinRule(ruleUUID, "Checkin rule comments");
-        }
-        assertNotNull(ruleUUID);
-
-        return ruleUUID;
-    }
-
     /**
      * Return a messages of the <code>result</code> as a string.
      * 
