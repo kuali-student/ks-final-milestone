@@ -8,6 +8,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
+import org.kuali.student.poc.learningunit.lu.entity.Clu;
+import org.kuali.student.poc.learningunit.lu.entity.LuAttribute;
 import org.kuali.student.poc.learningunit.lu.entity.LuAttributeType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 
@@ -36,6 +38,8 @@ public class MainTest {
 		luType.getLuAttributeTypes().add(luAtTyp1);
 		
 		em.persist(luType);
+		
+		
 		Atp atpStart = new Atp();
 		atpStart.setAtpName("Atp Start!");
 		em.persist(atpStart);
@@ -43,7 +47,21 @@ public class MainTest {
 		atpEnd.setAtpName("Atp End!");
 		em.persist(atpEnd);
 		
-		
+		Clu clu = new Clu();
+		LuAttribute at1 = new LuAttribute();
+		at1.setClu(clu);
+		at1.setLuAttributeType(luAtTyp1);
+		at1.setValue("Attr VALUE 1");
+		clu.setAtpStart(atpStart);
+		clu.setAtpEnd(atpEnd);
+		clu.getAttributes().add(at1);
+		clu.setCluCategory("Category 123");
+		clu.setCluCode("Clu code 2345");
+		clu.setCluShortTitle("Clu ShortTitle");
+		clu.setDescription("CLU DESCRIPTION LA LA LA");
+		clu.setLearningResultType(new Long(8675309));
+		clu.setLuType(luType);
+		em.persist(clu);
 		tx.commit();
 	}
 
