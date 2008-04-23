@@ -116,55 +116,6 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Creates a new rule n a rule set. It will be saved, but not checked in. The initial state will be set to draft state.
-     * 
-     * @param ruleSetUuid
-     *            Rule set uuid
-     * @param ruleName
-     *            Rule name
-     * @param description
-     *            Rule description
-     * @param ruleContent
-     *            Rule code content
-     * @param category
-     *            Cateogry to add rule under
-     * @return Rule set uuid
-     * @throws RuleEngineRepositoryException
-     */
-    public String createRule(String ruleSetUuid, String ruleName, String description, String ruleContent, String category) throws RuleEngineRepositoryException {
-        if (ruleName == null || ruleName.trim().length() == 0) {
-            throw new IllegalArgumentException("ruleName cannot be null or empty");
-        } else if (ruleContent == null || ruleContent.trim().length() == 0) {
-            throw new IllegalArgumentException("ruleContent cannot be null or empty");
-        }
-        /*
-         * else if ( category == null || category.trim().length() == 0 ) { throw new IllegalArgumentException( "category
-         * cannot be null or empty" ); }
-         */
-        else if (ruleSetUuid == null || ruleSetUuid.trim().length() == 0) {
-            throw new IllegalArgumentException("ruleSetUuid cannot be null or empty");
-        }
-
-        try {
-            // String format = AssetFormats.DRL;
-            String format = "drl";
-            PackageItem pkg = this.repository.loadPackageByUUID(ruleSetUuid);
-            AssetItem asset = null;
-            asset = pkg.addAsset(ruleName, description, category, format);
-            asset.updateContent(ruleContent);
-            asset.updateDescription(description);
-            this.repository.save();
-            return asset.getUUID();
-        } catch (RulesRepositoryException e) {
-            if (e.getCause() instanceof ItemExistsException) {
-                throw new RuleEngineRepositoryException("Creating new rule failed - " + "Duplicate rule: ruleName=" + ruleName, e);
-            } else {
-                throw new RuleEngineRepositoryException("Creating new rule failed: " + "ruleName=" + ruleName, e);
-            }
-        }
-    }
-
-    /**
      * Checkin a rule set into the repository.
      * 
      * @param uuid
@@ -499,30 +450,6 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             this.repository.importRulesRepository(byteArray);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Importing rules repository failed", e);
-        }
-    }
-
-    /**
-     * Creates a new rule set.
-     * 
-     * @param name
-     *            Rule set name
-     * @param description
-     *            Rule set description
-     * @return Rule set uuid
-     * @throws RuleEngineRepositoryException
-     */
-    public String createRuleSet(String name, String description) throws RuleEngineRepositoryException {
-        if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException("name cannot be null or empty");
-        }
-
-        try {
-            PackageItem item = this.repository.createPackage(name, description);
-            this.repository.save();
-            return item.getUUID();
-        } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Creating rule set failed: name=" + name, e);
         }
     }
 

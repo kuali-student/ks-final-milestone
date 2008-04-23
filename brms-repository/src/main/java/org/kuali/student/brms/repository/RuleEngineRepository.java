@@ -57,24 +57,6 @@ public interface RuleEngineRepository {
     public Boolean createCategory(String path, String name, String description) throws RuleEngineRepositoryException;
 
     /**
-     * Creates a new rule n a rule set. It will be saved, but not checked in. The initial state will be set to draft state.
-     * 
-     * @param ruleSetUuid
-     *            Rule set uuid
-     * @param ruleName
-     *            Rule name
-     * @param description
-     *            Rule description
-     * @param ruleContent
-     *            Rule code content
-     * @param category
-     *            Cateogry to add rule under
-     * @return Rule set uuid
-     * @throws RuleEngineRepositoryException
-     */
-    public String createRule(String ruleSetUuid, String ruleName, String description, String ruleContent, String category) throws RuleEngineRepositoryException;
-
-    /**
      * Checkin a rule set into the repository.
      * 
      * @param uuid
@@ -189,18 +171,6 @@ public interface RuleEngineRepository {
      * @throws RuleEngineRepositoryException
      */
     public void importRulesRepository(byte byteArray[]) throws RuleEngineRepositoryException;
-
-    /**
-     * Creates a new rule set.
-     * 
-     * @param name
-     *            Rule set name
-     * @param description
-     *            Rule set description
-     * @return Rule set uuid
-     * @throws RuleEngineRepositoryException
-     */
-    public String createRuleSet(String name, String description) throws RuleEngineRepositoryException;
 
     /**
      * Creates a rule set and compiles all rules.
