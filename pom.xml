@@ -41,16 +41,20 @@
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
-		</dependency>
+		</dependency>			
 	</dependencies>
 
 	<build>
+		
+		<!-- 
 		<testResources>
 			<testResource>
 				<directory>src/test/resources/</directory>
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
+ 		-->		
+		
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

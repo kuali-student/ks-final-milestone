@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.ws.WebServiceException;
+import javax.xml.ws.soap.SOAPFaultException;
+
+import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
@@ -36,11 +41,14 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
 
 @Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
-@PersistenceFileLocation("classpath:META-INF/person-persistence.xml")	
+@PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonServiceImpl extends AbstractServiceTest{
 	
     @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl", port="9191")
     public PersonService client;
+   
+    @Client(value = "org.kuali.student.poc.personidentity.person.service.PersonServiceSecure", port = "9191", secure=true)
+    public PersonService clientSecure;
 
     @Test
     public void testCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
@@ -393,6 +401,46 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
      * persontypes = new ArrayList<PersonTypeInfoDTO>(); for(PersonTypeDTO ptype: client.findCreatablePersonTypes()) {
      * persontypes.add(ptype); } long id = client.createPerson(person, persontypes); PersonDTO foundPerson =
      * client.fetchPersonInfoByPersonType(id, persontypes.get(0)); assertEquals(1,foundPerson.getPersonTypes().size()); }
-     */
+     */    
+    
+    @Test
+    public void testSecureCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, Exception {
 
+        PersonAttributeSetTypeInfo attributeSet1 = new PersonAttributeSetTypeInfo();
+        attributeSet1.setName("AttrSetSecure");
+
+        PersonTypeInfo personType1 = new PersonTypeInfo();
+        personType1.setName("PersonTypeSecure");
+        personType1.getAttributeSets().add(attributeSet1);
+
+        // Make a call with valid username/pwd
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("dummy", "dummy"));
+
+        String personTypeId = clientSecure.createPersonTypeInfo(personType1);
+
+        // Now find all the types
+        PersonTypeInfo personTypeInfo = clientSecure.fetchPersonType(personTypeId);
+
+        // Validate results
+        assertEquals("PersonTypeSecure", personTypeInfo.getName());
+        assertEquals(personTypeId, personTypeInfo.getId());
+
+        // Make a call with valid username/pwd
+        SecurityContextHolder.clearContext();
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("dummy", "nodummy"));
+       
+        try {
+            clientSecure.createPersonTypeInfo(personType1);
+            throw new Exception("Security not processed");
+        } catch (SOAPFaultException sfe) {
+            //This is the soap fault message thrown by CXF
+            assertEquals("Security processing failed.", sfe.getMessage());
+        } catch (WebServiceException wse){
+            //This is a wrong, because Metro should be throwing SoapFaultException, but is 
+            //throwing "javax.xml.ws.WebServiceException: No Content-type in the header!"
+            assertEquals("No Content-type in the header!", wse.getMessage());
+        }
+    }
+  
+    
 }
