@@ -18,17 +18,32 @@ package org.kuali.student.brms.repository.rule;
 import java.util.List;
 
 public interface RuleSet extends Item {
+
+    public void addRule(Rule rule);
+
+    public void setRules(List<Rule> rules);
     public List<Rule> getRules();
 
+    public void setCompiledRuleSet(byte[] compiledRuleSet);
     public byte[] getCompiledRuleSet();
 
+    public void setCompiledRuleSetObject(Object compiledRuleSetObject);
     public Object getCompiledRuleSetObject();
 
+    public void addHeader(String header);
+
     public String getHeader();
+
+    public void setHeaderList(List<String> header);
 
     public List<String> getHeaderList();
     
     public String getContent();
     
+    public void setSnapshot(boolean snapshot);
     public boolean isSnapshot();
+
+    public String getSnapshotName();
+
+    public void setSnapshotName(String snapshotName);
 }
