@@ -40,8 +40,8 @@ import org.drools.repository.AssetItem;
 import org.drools.repository.PackageItem;
 import org.drools.util.ChainedProperties;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
-import org.kuali.student.brms.repository.rule.BuilderResult;
-import org.kuali.student.brms.repository.rule.BuilderResultList;
+import org.kuali.student.brms.repository.rule.CompilerResult;
+import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
@@ -148,11 +148,13 @@ public class DroolsUtil {
         ruleSet.setVersionNumber(pkg.getVersionNumber());
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
         ruleSet.setDescription(pkg.getDescription());
+        ruleSet.setFormat(pkg.getFormat());
         ruleSet.setCheckinComment(pkg.getCheckinComment());
         ruleSet.setCreatedDate(pkg.getCreatedDate());
         ruleSet.setLastModifiedDate(pkg.getLastModified());
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
+        ruleSet.setSnapshotName(pkg.getSnapshotName());
         String[] headerLine = pkg.getHeader().split(";");
         for(int i=0; i<headerLine.length; i++) {
             if ( headerLine[i] != null && !headerLine[i].trim().isEmpty()) {
@@ -217,15 +219,15 @@ public class DroolsUtil {
         }
     }
 
-    public static List<BuilderResult> generateBuilderResults(PackageBuilderErrors errors, org.drools.repository.VersionableItem item) {
-        List<BuilderResult> result = new ArrayList<BuilderResult>();
+    public static List<CompilerResult> generateCompilerResults(PackageBuilderErrors errors, org.drools.repository.VersionableItem item) {
+        List<CompilerResult> result = new ArrayList<CompilerResult>();
         DroolsError[] dr = errors.getErrors();
         for (int i = 0; i < dr.length; i++) {
             String uuid = item.getUUID();
             String name = item.getName();
             String format = item.getFormat();
             String message = dr[i].getMessage();
-            BuilderResult br = new BuilderResult(uuid, name, format, message);
+            CompilerResult br = new CompilerResult(uuid, name, format, message);
             result.add(br);
         }
         return result;
@@ -246,16 +248,16 @@ public class DroolsUtil {
         }
     }
 
-    public static BuilderResultList compile(PackageItem pkg) throws IOException, DroolsParserException {
+    public static CompilerResultList compile(PackageItem pkg) throws IOException, DroolsParserException {
         PackageBuilder builder = createPackageBuilder();
         builder.addPackage(new PackageDescr(pkg.getName()));
         String drl = pkg.getHeader();
         builder.addPackageFromDrl(new StringReader(drl));
 
-        List<BuilderResult> errors = new ArrayList<BuilderResult>();
+        List<CompilerResult> errors = new ArrayList<CompilerResult>();
 
         if (builder.hasErrors()) {
-            List<BuilderResult> l = generateBuilderResults(builder.getErrors(), pkg);
+            List<CompilerResult> l = generateCompilerResults(builder.getErrors(), pkg);
             errors.addAll(l);
         }
 
@@ -263,11 +265,11 @@ public class DroolsUtil {
             AssetItem item = it.next();
             builder.addPackageFromDrl(new StringReader(item.getContent()));
             if (builder.hasErrors()) {
-                List<BuilderResult> l = generateBuilderResults(builder.getErrors(), item);
+                List<CompilerResult> l = generateCompilerResults(builder.getErrors(), item);
                 errors.addAll(l);
             }
         }
-        BuilderResultList result = new BuilderResultList(builder.getPackage());
+        CompilerResultList result = new CompilerResultList(builder.getPackage());
         result.addAll(errors);
         return result;
     }
