@@ -15,36 +15,84 @@
  */
 package org.kuali.student.brms.repository.rule;
 
+/**
+ * This class contains a single rule or rule set compilation error. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class CompilerResult implements java.io.Serializable {
-    public String assetUuid;
-    public String assetName;
-    public String assetFormat;
-    public String assetMessage;
+    
+    private static final long serialVersionUID = 1L;
 
-    public CompilerResult(String uuid, String assetName, String assetFormat, String message) {
-        this.assetUuid = uuid;
-        this.assetName = assetName;
-        this.assetFormat = assetFormat;
-        this.assetMessage = message;
+    /** Item UUID */
+    public String itemUuid;
+    /** Item name */
+    public String itemName;
+    /** Item format E.g. Drools drl */
+    public String itemFormat;
+    /** Item compilation error message */
+    public String itemMessage;
+
+    /**
+     * Constructs a new compiler result.
+     * 
+     * @param uuid Item UUID
+     * @param name Item name
+     * @param format Item format
+     * @param message Compilation error message
+     */
+    public CompilerResult(String uuid, String name, String format, String message) {
+        this.itemUuid = uuid;
+        this.itemName = name;
+        this.itemFormat = format;
+        this.itemMessage = message;
     }
 
-    public String getUuid() {
-        return this.assetUuid;
+    /**
+     * Gets the item UUID.
+     * 
+     * @return Item UUID
+     */
+    public String getItemUuid() {
+        return this.itemUuid;
     }
 
-    public String getAssetName() {
-        return this.assetName;
+    /**
+     * Gets the item name.
+     * 
+     * @return Item name
+     */
+    public String getItemName() {
+        return this.itemName;
     }
 
-    public String getAssetFormat() {
-        return this.assetFormat;
+    /**
+     * Gets the item format. E.g. Drools DRL (drl)
+     * 
+     * @return Item format (e.g. drl)
+     */
+    public String getItemFormat() {
+        return this.itemFormat;
     }
 
+    /**
+     * Gets the compilation error message.
+     * 
+     * @return Compilation error message
+     */
     public String getMessage() {
-        return this.assetMessage;
+        return this.itemMessage;
     }
 
+    /**
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
-        return "\nAsset: " + this.assetName + "\nFormat: " + this.assetFormat + "\nUUID: " + this.assetUuid + "\nMessage: " + this.assetMessage;
+        return 
+            "\nItem: UUID: " + this.itemUuid + 
+            "\nName: " + this.itemName + 
+            "\nFormat: " + this.itemFormat + 
+            "\nMessage: " + this.itemMessage;
     }
 }

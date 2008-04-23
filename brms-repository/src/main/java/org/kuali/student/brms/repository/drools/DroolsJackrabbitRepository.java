@@ -94,19 +94,19 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * </pre>
  */
 public class DroolsJackrabbitRepository {
-    // Jackrabbit repository configuration file
+    /** Jackrabbit repository configuration file */
     private final static String REPOSITORY_CONFIG_FILE = "repository.xml";
-    // Location of the Jackrabbit repository
+    /** Location of the Jackrabbit repository */
     private URL url;
-    // Location of the Jackrabbit repository
+    /** Location of the Jackrabbit repository */
     private String path;
-    // Current repository credentials
+    /** Current repository credentials */
     private Credentials credentials;
-    // Jackrabbit repository
-    private Repository repository;
-    // Jackrabbit repository configuration
+    /** Jackrabbit repository */
+    private Repository repository; 
+    /** Jackrabbit repository configuration */
     private JCRRepositoryConfigurator repoConfig;
-    // Current Jackrabbit repository session for a logged in user
+    /** Current Jackrabbit repository session for a logged in user */
     private Session repositorySession;
 
     /**

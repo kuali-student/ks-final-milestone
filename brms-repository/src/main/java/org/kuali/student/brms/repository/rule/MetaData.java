@@ -112,7 +112,7 @@ public interface MetaData {
     /**
      * Removes a category.
      * 
-     * @param idx
+     * @param index
      *            The index of the cat to remove.
      */
     public void removeCategory(int index);

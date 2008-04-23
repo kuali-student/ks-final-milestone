@@ -16,14 +16,33 @@
 package org.kuali.student.brms.repository.exceptions;
 
 public class RuleEngineRepositoryException extends Exception {
+    
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Constructs a new rule engine exception.
+     * 
+     * @param cause Cause of this exception
+     */
     public RuleEngineRepositoryException(Throwable cause) {
         super(cause);
     }
 
+    /**
+     * Constructs a new rule engine exception.
+     * 
+     * @param msg Error message description
+     * @param cause Cause of this exception
+     */
     public RuleEngineRepositoryException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
+    /**
+     * Constructs a new rule engine exception.
+     * 
+     * @param msg Error message description
+     */
     public RuleEngineRepositoryException(String msg) {
         super(msg);
     }

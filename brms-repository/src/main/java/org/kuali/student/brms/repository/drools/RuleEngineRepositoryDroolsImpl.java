@@ -25,7 +25,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.jcr.ItemExistsException;
-import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.UnsupportedRepositoryOperationException;
@@ -50,6 +49,8 @@ import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
 public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
+    
+    /** Drools rule repository */
     RulesRepository repository;
 
     public RuleEngineRepositoryDroolsImpl(RulesRepository repository) {
@@ -384,12 +385,12 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /**
      * Restores a rule or rule set to a specific version.
      * 
-     * @param versionUUID
-     *            Version uuid
-     * @param assetUUID
-     *            rule or rule set uuid
+     * @param oldVersionUUID
+     *            Old version UUID
+     * @param newVersionUUID
+     *            New version UUID
      * @param comment
-     *            Comments
+     *            Comments of why a version was restored
      * @throws RuleEngineRepositoryException
      */
     public void restoreVersion(String oldVersionUUID, String newVersionUUID, String comment) throws RuleEngineRepositoryException {
@@ -441,8 +442,6 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /**
      * Exports the rules repository as XML.
      * 
-     * @param filename
-     *            E.g. repository_export.xml
      * @return XML content as a byte array
      * @throws RuleEngineRepositoryException
      */
@@ -880,7 +879,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             if (result != null && result.size() > 0) {
                 return result;
             } else {
-                item.updateCompiledPackage(DroolsUtil.getBinaryPackage(result.getPackage()));
+                org.drools.rule.Package pkg = (org.drools.rule.Package) result.getObject();
+                item.updateCompiledPackage(DroolsUtil.getBinaryPackage(pkg));
                 this.repository.save();
             }
         } catch (IOException e) {
@@ -925,7 +925,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /**
      * Loads a compiled rule set.
      * 
-     * @param ruleSetUuid
+     * @param ruleSetUUID
      *            Rule set uuid
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
@@ -1034,7 +1034,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * Compiles source code (e.g. A Drools DRL file) and returns a compiled rule engine specific object (e.g. a Drools
      * <code>org.drools.rule.Package</code>).
      * 
-     * @param sourceDrl
+     * @param source
      *            DRL file to compile
      * @return A drools package (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
@@ -1083,7 +1083,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             if (result != null && !result.isEmpty()) {
                 throw new RuleEngineRepositoryException("Compiling rule set failed: " + result);
             }
-            pkg.updateCompiledPackage(DroolsUtil.getBinaryPackage(result.getPackage()));
+            org.drools.rule.Package compiledPkg = (org.drools.rule.Package) result.getObject();
+            pkg.updateCompiledPackage(DroolsUtil.getBinaryPackage(compiledPkg));
         } catch (IOException e) {
             throw new RuleEngineRepositoryException("Compiling rule set failed", e);
         } catch (DroolsParserException e) {

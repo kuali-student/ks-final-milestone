@@ -120,25 +120,37 @@ public class DroolsUtil {
         return rule;
     }
 
-    /*
-     * public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { RuleSetImpl ruleSet =
-     * new RuleSetImpl( item.getUUID(), item.getName() ); //ruleSet.setContent( item.getContent() );
-     * //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); // item.getFormat() throws exception when creating from
-     * history //ruleSet.setFormat( null ); ruleSet.setVersionNumber( item.getVersionNumber() ); ruleSet.setStatus( (
-     * item.getState() == null ? "Draft" : item.getState().getName() ) ); ruleSet.setDescription( item.getDescription() );
-     * ruleSet.setCheckinComment( item.getCheckinComment() ); //ruleSet.setEffectiveDate( item.getDateEffective() );
-     * //ruleSet.setExpiryDate( item.getDateExpired() ); ruleSet.setCreatedDate( item.getCreatedDate() ); //
-     * item.getLastModified() throws exception when creating from history ruleSet.setLastModifiedDate( null ); //
-     * item.isArchived() throws exception when creating from history ruleSet.setArchived( false );
-     * ruleSet.setVersionSnapshotUUID( item.getVersionSnapshotUUID() ); try { ruleSet.setHistorical(
-     * item.isHistoricalVersion() ); } catch( RepositoryException e ) { throw new RuleEngineRepositoryException( "Unable to set
-     * ruleset historical version", e ); } return ruleSet; }
-     */
+    /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { 
+        RuleSetImpl ruleSet = new RuleSetImpl( item.getUUID(), item.getName() ); 
+        //ruleSet.setContent( item.getContent() );
+        //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); 
+        //item.getFormat() throws exception when creating from history 
+        //ruleSet.setFormat( null ); 
+        ruleSet.setVersionNumber( item.getVersionNumber() ); 
+        ruleSet.setStatus( ( item.getState() == null ? "Draft" : item.getState().getName() ) ); 
+        ruleSet.setDescription( item.getDescription() );
+        ruleSet.setCheckinComment( item.getCheckinComment() ); 
+        //ruleSet.setEffectiveDate( item.getDateEffective() );
+        //ruleSet.setExpiryDate( item.getDateExpired() ); 
+        ruleSet.setCreatedDate( item.getCreatedDate() ); 
+        //item.getLastModified() throws exception when creating from history 
+        ruleSet.setLastModifiedDate( null ); 
+        //item.isArchived() throws exception when creating from history 
+        ruleSet.setArchived( false );
+        ruleSet.setVersionSnapshotUUID( item.getVersionSnapshotUUID() ); 
+        try { 
+            ruleSet.setHistorical( item.isHistoricalVersion() ); 
+        } 
+        catch( RepositoryException e ) { 
+            throw new RuleEngineRepositoryException( "Unable to set ruleset historical version", e ); 
+        } 
+        return ruleSet; 
+    }*/
 
     /**
      * Build a rule set from an Drools repository item.
      * 
-     * @param item
+     * @param pkg
      *            Drools repository package item
      * @return A rule set
      * @throws RuleEngineRepositoryException

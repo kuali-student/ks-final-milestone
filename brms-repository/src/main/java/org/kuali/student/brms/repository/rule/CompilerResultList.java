@@ -17,14 +17,38 @@ package org.kuali.student.brms.repository.rule;
 
 import java.util.ArrayList;
 
-public class CompilerResultList extends ArrayList<CompilerResult> implements java.io.Serializable {
-    private org.drools.rule.Package pkg;
+/**
+ * This class contains a list of rule and/or rule set compilation errors
+ * <code>CompilerResult</code>. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
+public class CompilerResultList 
+    extends ArrayList<CompilerResult> 
+    implements java.io.Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
-    public CompilerResultList(org.drools.rule.Package pkg) {
-        this.pkg = pkg;
+    /** Compilation results for object E.g. Compiling org.drools.rule.Package */
+    private Object object;
+
+    /**
+     * Constructs a compilation error list.
+     * E.g. Compilation errors for org.drools.rule.Package
+     * 
+     * @param obj Compilation results for object
+     */
+    public CompilerResultList(Object obj) {
+        this.object = obj;
     }
 
-    public org.drools.rule.Package getPackage() {
-        return this.pkg;
+    /**
+     * Gets the object that failed compilation.
+     * 
+     * @return An object
+     */
+    public Object getObject() {
+        return this.object;
     }
 }

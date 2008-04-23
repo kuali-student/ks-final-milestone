@@ -17,24 +17,81 @@ package org.kuali.student.brms.repository.rule;
 
 import java.util.Calendar;
 
+/**
+ * This is the <code>Rule</code> interface. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public interface Rule extends Item {
+    /**
+     * Sets the compiled binary content of the rule.
+     * 
+     * @param binaryContent Compiled byte array
+     */
     public void setBinaryContent(byte[] binaryContent);
 
+    /**
+     * Returns the compiled binary content as a byte array.
+     * 
+     * @return Compiled byte array
+     */
     public byte[] getBinaryContent();
 
+    /**
+     * Returns the rule source string. 
+     * If this is a binary asset, this will return null (use #getBinaryContent instead).
+     * 
+     * @return Rule source code
+     */
     public String getContent();
 
+    /**
+     * Sets the rule source code
+     * 
+     * @param content Rule source code
+     */
     public void setContent(String content);
 
+    /**
+     * Sets the category the rule belongs to.
+     * 
+     * @param category Rule category
+     */
     public void setCategory(String category);
     
+    /**
+     * Gets the category the rule belongs to.
+     * 
+     * @return Rule category
+     */
     public String getCategory();
     
+    /**
+     * Sets the rule effective date.
+     * 
+     * @param effectiveDate Rule effective date
+     */
     public void setEffectiveDate(Calendar effectiveDate);
 
+    /**
+     * Return the date the rule becomes effective.
+     * 
+     * @return Date the rule becomes effective
+     */
     public Calendar getEffectiveDate();
 
+    /**
+     * Sets the rule expiry date.
+     * 
+     * @param expiryDate Rule expiry date
+     */
     public void setExpiryDate(Calendar expiryDate);
 
+    /**
+     * Returns the rule expiry date.
+     * 
+     * @return Date the rule expires
+     */
     public Calendar getExpiryDate();
 }

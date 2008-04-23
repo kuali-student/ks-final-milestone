@@ -17,13 +17,8 @@ package org.kuali.student.brms.repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Reader;
-import java.net.URL;
 import java.util.List;
 
-import javax.jcr.SimpleCredentials;
-
-import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
-import org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;

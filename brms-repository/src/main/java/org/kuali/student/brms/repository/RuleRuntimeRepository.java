@@ -238,7 +238,7 @@ public interface RuleRuntimeRepository {
      * ...
      * </pre>
      * 
-     * @param ruleSetUuid
+     * @param ruleSetUUID
      *            Rule set uuid
      * @return A compiled rule set (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException

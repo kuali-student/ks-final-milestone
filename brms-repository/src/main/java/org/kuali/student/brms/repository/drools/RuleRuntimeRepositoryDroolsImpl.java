@@ -263,8 +263,8 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * ...
      * </pre>
      * 
-     * @param ruleSetUuid
-     *            Rule set uuid
+     * @param ruleSetUUID
+     *            Rule set UUID
      * @return A compiled rule set (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */

@@ -17,16 +17,30 @@ package org.kuali.student.brms.repository.rule;
 
 import java.util.Calendar;
 
-public class RuleImpl extends ItemImpl implements Rule {
-    private byte[] binaryContent = null;
-    private String content = null;
-    private String category;
+/**
+ * This is the implementation of a <code>Rule</code>. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
+public class RuleImpl 
+    extends ItemImpl 
+    implements java.io.Serializable, Rule {
 
+    private static final long serialVersionUID = 1L;
+    
+    /** Binary content of this rule */
+    private byte[] binaryContent = null;
+    /** Source code content of this rule */
+    private String content = null;
+    /** Category this rule belongs to */
+    private String category;
+    /** Date this rule becomes effective */
     private Calendar effectiveDate = null;
+    /** Date this rule expires */
     private Calendar expiryDate = null;
 
     /**
-     * 
      * Constructs a new rule
      * 
      * @param name Rule name
@@ -36,78 +50,82 @@ public class RuleImpl extends ItemImpl implements Rule {
     }
 
     /**
-     * @param name
-     *            Asset's name
-     * @param content
-     *            Rule source
-     * @param binaryContent
-     *            Binary content
-     * @param effectiveDate
-     *            Date asset becomes effective
-     * @param expiryDate
-     *            Date asset expires
+     * Constructs a new rule
+     * 
+     * @param uuid Rule UUID
+     * @param name Rule name
      */
     public RuleImpl(String uuid, String name) {
         super(uuid, name);
     }
 
     /**
-     * Returns the binary data as a byte array.
-     * 
-     * @return Binary data as a byte array
+     * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
     public byte[] getBinaryContent() {
         return this.binaryContent;
     }
 
+    /**
+     * @see org.kuali.student.brms.repository.rule.Rule#setBinaryContent(byte[])
+     */
     public void setBinaryContent(byte[] binaryContent) {
         this.binaryContent = binaryContent;
     }
 
+    /**
+     * @see org.kuali.student.brms.repository.rule.Rule#setContent(java.lang.String)
+     */
     public void setContent(String content) {
         this.content = content;
     }
 
     /**
-     * Returns the rule source string. If this is a binary asset, this will return null (use #getBinaryContent instead).
-     * 
-     * @return Rule source
+     * @see org.kuali.student.brms.repository.rule.Rule#getContent()
      */
     public String getContent() {
         return this.content;
     }
 
+    /**
+     * @see org.kuali.student.brms.repository.rule.Rule#setCategory(java.lang.String)
+     */
     public void setCategory(String category)
     {
         this.category = category;
     }
     
+    /**
+     * @see org.kuali.student.brms.repository.rule.Rule#getCategory()
+     */
     public String getCategory()
     {
         return this.category;
     }
     
+    /**
+     * @see org.kuali.student.brms.repository.rule.Rule#setEffectiveDate(java.util.Calendar)
+     */
     public void setEffectiveDate(Calendar effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
     /**
-     * Return the date the rule becomes effective.
-     * 
-     * @return Date the rule becomes effective
+     * @see org.kuali.student.brms.repository.rule.Rule#getEffectiveDate()
      */
     public Calendar getEffectiveDate() {
         return this.effectiveDate;
     }
 
+    /**
+     * @see org.kuali.student.brms.repository.rule.Rule#setExpiryDate(java.util.Calendar)
+     */
     public void setExpiryDate(Calendar expiryDate) {
         this.expiryDate = expiryDate;
     }
 
     /**
-     * Returns the date the rule expires.
-     * 
-     * @return Date the rule expires
+     * @see org.kuali.student.brms.repository.rule.Rule#getExpiryDate()
      */
     public Calendar getExpiryDate() {
         return this.expiryDate;
