@@ -113,11 +113,12 @@ public class DroolsTestUtil
 		return 
 			"package " + packageName +
 			"\n" +
-			"import java.util.Calendar" +
+			"import java.util.Calendar; " +
 			"\n\n" +
 			getSimpleRule1() +
 			"\n" +
-			getSimpleRule2();
+			getSimpleRule2() +
+            "\n";
 	}
 
 	/**
