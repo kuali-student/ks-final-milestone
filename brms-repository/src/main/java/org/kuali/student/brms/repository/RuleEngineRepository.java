@@ -20,7 +20,7 @@ import java.io.Reader;
 import java.util.List;
 
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
-import org.kuali.student.brms.repository.rule.BuilderResultList;
+import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
@@ -352,7 +352,7 @@ public interface RuleEngineRepository {
      * @return Any rule set building errors otherwise null
      * @throws RuleEngineRepositoryException
      */
-    public BuilderResultList compileRuleSet(String ruleSetUUID) throws RuleEngineRepositoryException;
+    public CompilerResultList compileRuleSet(String ruleSetUUID) throws RuleEngineRepositoryException;
 
     /**
      * Compiles a rule set and returns the source code. For Drools, it returns the DRL.
