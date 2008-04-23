@@ -20,10 +20,10 @@ public class ServiceTestDependencyInjectorListener extends DependencyInjectionTe
                 Client a = f.getAnnotation(Client.class);
                 Class<?> serviceImplClass = Class.forName(a.value());
                 String serviceName = "";
-                String serviceWsdlLocation = "http://localhost:" + a.port() + "/Service/Service?wsdl";
                 String serviceNamespaceURI = "";
-                String serviceAddress = "http://localhost:" + a.port() + "/Service/Service";
-
+                String serviceWsdlLocation = "http://localhost:" + a.port() + "/Service/Service" + (a.secure()?"Secure":"") + "?wsdl";
+                String serviceAddress = "http://localhost:" + a.port() + "/Service/Service" + (a.secure()?"Secure":"");
+               
                 if (serviceImplClass.isAnnotationPresent(WebService.class)) {
                     WebService wsAnnotation = serviceImplClass.getAnnotation(WebService.class);
                     serviceName = wsAnnotation.serviceName();
@@ -31,11 +31,10 @@ public class ServiceTestDependencyInjectorListener extends DependencyInjectionTe
                 }
 
                 Class<?> clientImplClass = Class.forName("org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean");
-
-                if (a.secure()) {
+              
+                if (a.secure()) {                    
                     try {
                         clientImplClass = Class.forName("org.kuali.student.poc.common.cxf.security.SecureJaxWsProxyFactoryBean");
-                        serviceAddress += "Secure";
                     } catch (ClassNotFoundException cnfe) {}
                 }
 

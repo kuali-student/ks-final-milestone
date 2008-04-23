@@ -110,9 +110,19 @@ public abstract class AbstractServiceTest {
 		for (Field f : this.getClass().getFields()) {
 			if (f.isAnnotationPresent(Client.class)) {
 				Client a = f.getAnnotation(Client.class);
-				System.setProperty("ks.test.serviceImplClass", a.value());
+				if (a.secure()){
+				    System.setProperty("ks.test.serviceImplSecure", a.value());
+				} else {
+				    System.setProperty("ks.test.serviceImplClass", a.value());
+				}
 				System.setProperty("ks.test.port", a.port());
 			}
+		}
+		
+		//If no secure client defined, set secure service endpoint impl
+		//to be same as non-secure endpoint impl
+		if (System.getProperty("ks.test.serviceImplSecure") == null){
+		    System.setProperty("ks.test.serviceImplSecure", System.getProperty("ks.test.serviceImplClass"));
 		}
 
 		// Grab the persistence context loacation or set a default value

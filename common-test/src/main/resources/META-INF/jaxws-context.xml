@@ -18,4 +18,8 @@
 
 	<wss:binding url="/Service" service="#serviceWS" />
 
+	<ws:service id="serviceWSSecure" bean="#service"
+		impl="${ks.test.serviceImplSecure}" />
+
+	<wss:binding url="/ServiceSecure" service="#serviceWSSecure" />
 </beans>

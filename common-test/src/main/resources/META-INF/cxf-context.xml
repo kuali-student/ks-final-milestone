@@ -25,16 +25,17 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 		implementorClass="${ks.test.serviceImplClass}" address="/Service" />
 		
 	<jaxws:endpoint id="serviceSecureWS" implementor="#service"
-		implementorClass="${ks.test.serviceImplClass}" address="/ServiceSecure">
+		implementorClass="${ks.test.serviceImplSecure}" address="/ServiceSecure">
 		<jaxws:inInterceptors>
 			<bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
 			<ref bean="wss4jInConfiguration"/>
 		</jaxws:inInterceptors>			
-<!-- 
+<!--  
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature"/>
 		</jaxws:features>
--->		
+-->
+
 	</jaxws:endpoint>
 
 	<bean id="passwordCallback" class="org.kuali.student.poc.common.cxf.security.SimpleServerPasswordCallback"/>
