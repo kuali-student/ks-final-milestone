@@ -1,4 +1,4 @@
-package org.kuali.student.poc.learningunit.lu.service;
+package org.kuali.student.poc.learningunit.lu.service.impl;
 import java.util.List;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;

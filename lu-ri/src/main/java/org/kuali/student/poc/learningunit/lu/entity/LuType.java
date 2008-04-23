@@ -1,4 +1,4 @@
-package org.kuali.student.poc.learningunit.lu.dao;
+package org.kuali.student.poc.learningunit.lu.entity;
 
 import java.util.Date;
 
