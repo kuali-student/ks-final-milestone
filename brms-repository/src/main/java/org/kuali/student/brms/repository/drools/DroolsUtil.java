@@ -245,6 +245,14 @@ public class DroolsUtil {
         return result;
     }
 
+    /**
+     * Gets the binary Drools <code>org.drools.rule.Package</code> as an
+     * {@link InputStream}.
+     * 
+     * @param pkg A package
+     * @return A {@link ByteArrayInputStream}
+     * @throws IOException
+     */
     public static InputStream getBinaryPackage(org.drools.rule.Package pkg) throws IOException {
         ObjectOutputStream oos = null;
         try {
@@ -260,6 +268,15 @@ public class DroolsUtil {
         }
     }
 
+    /**
+     * Compiles a {@link PackageItem} and returns a {@link CompilerResultList} 
+     * if there are any compilation errors. 
+     * 
+     * @param pkg
+     * @return Compilation errors, if any
+     * @throws IOException
+     * @throws DroolsParserException
+     */
     public static CompilerResultList compile(PackageItem pkg) throws IOException, DroolsParserException {
         PackageBuilder builder = createPackageBuilder();
         builder.addPackage(new PackageDescr(pkg.getName()));
@@ -286,6 +303,11 @@ public class DroolsUtil {
         return result;
     }
 
+    /**
+     * Creates a Drools {@link PackageBuilder}
+     * 
+     * @return A {@link PackageBuilder}
+     */
     public static PackageBuilder createPackageBuilder() {
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
         ChainedProperties chainedProperties = new ChainedProperties(RuleEngineRepositoryDroolsImpl.class.getClassLoader(), // pass
@@ -306,6 +328,13 @@ public class DroolsUtil {
         return builder;
     }
 
+    /**
+     * Gets the Drools DRL source code of a Drools 
+     * <code>org.drools.repository.PackageItem</code>
+     * 
+     * @param pkg A Drools Package
+     * @return A Drools DRL source code
+     */
     public static String getDRL(PackageItem pkg) {
         StringBuilder sb = new StringBuilder();
         sb.append("package ");

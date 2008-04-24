@@ -100,7 +100,7 @@ public interface RuleSet extends Item {
     /**
      * Gets a list of this rule sets headers.
      * 
-     * @return
+     * @return A list of header items
      */
     public List<String> getHeaderList();
     
