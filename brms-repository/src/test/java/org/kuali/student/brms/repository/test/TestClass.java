@@ -146,14 +146,14 @@ public class TestClass
         System.out.println( "*****  filename = " +filename );
 
         String str = "";
-        String drl = "";
+        StringBuilder drl = new StringBuilder();
         BufferedReader in = null;
 		try
 		{
 			in = new BufferedReader( new FileReader( filename ) );
 	        while ( ( str = in.readLine() ) != null ) 
 	        {
-	        	drl += str;
+	            drl.append(str);
 	        }
             System.out.println( drl );
 		}
@@ -161,7 +161,7 @@ public class TestClass
 		{
 	        if (in != null ) in.close();
 		}
-        return drl;
+        return drl.toString();
 	}
 
 }
