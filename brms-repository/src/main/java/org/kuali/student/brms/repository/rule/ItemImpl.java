@@ -25,7 +25,9 @@ import java.util.Calendar;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public abstract class ItemImpl implements Item {
+public abstract class ItemImpl implements java.io.Serializable, Item {
+    
+    private static final long serialVersionUID = 1L;
     
     /** Item UUID */
     private String uuid = null;
