@@ -42,19 +42,19 @@ public class MyServiceImpl implements MyService {
 	}
 
 	@Override
-	public Long saveString(String value) {
+	public String saveString(String value) {
 		System.out.println("######==" + dao0);
 		if (dao0 == null) {
-			return -1L;
+			return "";
 		}
-		Long id = this.dao0.createValue(new Value(value));
+		String id = this.dao0.createValue(new Value(value));
 		this.otherDao.foo();
 		return id;
 	}
 
 	@Override
-	public Long findStringId(String value) {
-		Value v = this.dao0.findValue(value);
+	public String findStringId(String value) {
+		Value v = this.dao0.findValueFromValue(value);
 		if (v != null) {
 			return v.getId();
 		}

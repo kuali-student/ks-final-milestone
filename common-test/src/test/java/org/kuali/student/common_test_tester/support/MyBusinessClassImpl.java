@@ -11,7 +11,7 @@ public class MyBusinessClassImpl implements MyBusinessClass{
 	public int doBusinessThing(){
 		myDao.createValue(new Value("lalala"));
 		otherDao.foo();
-		if(myDao.findValue("Value Number One")!=null){
+		if(myDao.findValueFromValue("Value Number One")!=null){
 			return 1;
 		}
 		return 0;

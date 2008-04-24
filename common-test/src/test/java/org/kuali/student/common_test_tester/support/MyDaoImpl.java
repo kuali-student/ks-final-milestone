@@ -16,13 +16,13 @@ public class MyDaoImpl implements MyDao {
 	}
 	
 	@Override
-	public Long createValue(Value value) {
+	public String createValue(Value value) {
 		entityManager.persist(value);
 		return value.getId();
 	}
 
 	@Override
-	public String findValue(Long id) {
+	public String findValue(String id) {
 		Value tv =  entityManager.find(Value.class, id);
 		if(tv==null){
 			return null;
@@ -32,7 +32,7 @@ public class MyDaoImpl implements MyDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Value findValue(String value) {
+	public Value findValueFromValue(String value) {
 		Query q = entityManager.createQuery("SELECT v FROM Value v WHERE v.value=:valueIn");
 		q.setParameter("valueIn", value);
 		for(Value tv : (List<Value>)q.getResultList()){

@@ -1,23 +1,33 @@
 package org.kuali.student.common_test_tester.support;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.TableGenerator;
+import javax.persistence.PrePersist;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-@TableGenerator(name = "idGen")
 public class Value {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")private Long id;
+	private String id;
+
 	private String value;
+
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+
 	/**
 	 * 
 	 */
 	public Value() {
 		super();
 	}
+
 	/**
 	 * @param value
 	 */
@@ -25,26 +35,32 @@ public class Value {
 		super();
 		this.value = value;
 	}
+
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
+
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
+
 	/**
 	 * @return the value
 	 */
 	public String getValue() {
 		return value;
 	}
+
 	/**
-	 * @param value the value to set
+	 * @param value
+	 *            the value to set
 	 */
 	public void setValue(String value) {
 		this.value = value;

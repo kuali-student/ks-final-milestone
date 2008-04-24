@@ -22,13 +22,11 @@ public class DaoCommonTest extends AbstractTransactionalDaoTest {
 	public void test1() {
 		Value value = new Value("Cheerios");
 
-		Long id = myDao.createValue(value);
+		String id = myDao.createValue(value);
 		String result = myDao.findValue(id);
 		assertEquals("Cheerios", result);
-
-		result = myDao.findValue(new Long(123));
 		
-		assertNotNull(myDao.findValue("Value Number One"));
-		assertNotNull(value1);
+		assertNotNull(myDao.findValueFromValue("Value Number One"));
+		assertNotNull(myDao.findValue("11223344-1122-1122-1111-000000000000"));
 	}
 }

@@ -8,8 +8,8 @@ import javax.jws.soap.SOAPBinding;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface MyService {
 	@WebMethod
-	public Long saveString(String value);
+	public String saveString(String value);
 	
 	@WebMethod
-	public Long findStringId(String value);
+	public String findStringId(String value);
 }
