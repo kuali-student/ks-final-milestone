@@ -57,12 +57,15 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     /** Determines whether item is historical or not */
     private boolean historical = false;
 
+    private ItemImpl() {
+    }
+    
     /**
      * Constructs a new item.
      * 
      * @param name Item name
      */
-    public ItemImpl(String name) {
+    ItemImpl(String name) {
         this.name = name;
     }
 
@@ -72,7 +75,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
      * @param uuid Item UUID
      * @param name Item name
      */
-    public ItemImpl(String uuid, String name) {
+    ItemImpl(String uuid, String name) {
         this.uuid = uuid;
         this.name = name;
     }
@@ -134,7 +137,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @param versionNumber
+     * @see org.kuali.student.brms.repository.rule.Item#setVersionNumber(long)
      */
     public void setVersionNumber(long versionNumber) {
         this.versionNumber = versionNumber;
@@ -162,7 +165,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @param createdDate
+     * @see org.kuali.student.brms.repository.rule.Item#setCreatedDate(java.util.Calendar)
      */
     public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
@@ -176,7 +179,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @param lastModifiedDate
+     * @see org.kuali.student.brms.repository.rule.Item#setLastModifiedDate(java.util.Calendar)
      */
     public void setLastModifiedDate(Calendar lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
@@ -211,7 +214,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @param historical
+     * @see org.kuali.student.brms.repository.rule.Item#setHistorical(boolean)
      */
     public void setHistorical(boolean historical) {
         this.historical = historical;
@@ -225,7 +228,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @param versionSnapshotUUID
+     * @see org.kuali.student.brms.repository.rule.Item#setVersionSnapshotUUID(java.lang.String)
      */
     public void setVersionSnapshotUUID(String versionSnapshotUUID) {
         this.versionSnapshotUUID = versionSnapshotUUID;

@@ -48,7 +48,7 @@ public class RuleSetImpl
      * 
      * @param name Rule name
      */
-    public RuleSetImpl(String name) {
+    RuleSetImpl(String name) {
         super(name);
     }
 
@@ -58,7 +58,7 @@ public class RuleSetImpl
      * @param uuid Rule UUID - This is created by the repository
      * @param name Rule name
      */
-    public RuleSetImpl(String uuid, String name) {
+    RuleSetImpl(String uuid, String name) {
         super(uuid, name);
     }
 
@@ -128,6 +128,8 @@ public class RuleSetImpl
     }
 
     /**
+     * Returns a copy of the compiled rule set binary;
+     * 
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSet()
      */
     public byte[] getCompiledRuleSet() {

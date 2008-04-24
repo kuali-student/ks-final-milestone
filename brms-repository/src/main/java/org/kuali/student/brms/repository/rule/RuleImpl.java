@@ -45,7 +45,7 @@ public class RuleImpl
      * 
      * @param name Rule name
      */
-    public RuleImpl(String name) {
+    RuleImpl(String name) {
         super(name);
     }
 
@@ -55,11 +55,13 @@ public class RuleImpl
      * @param uuid Rule UUID
      * @param name Rule name
      */
-    public RuleImpl(String uuid, String name) {
+    RuleImpl(String uuid, String name) {
         super(uuid, name);
     }
 
     /**
+     * Returns a copy of the binary content;
+     * 
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
     public byte[] getBinaryContent() {
