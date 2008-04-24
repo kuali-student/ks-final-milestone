@@ -55,8 +55,10 @@ import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.brms.repository.rule.RuleSetFactory;
 import org.kuali.student.brms.repository.rule.RuleSetImpl;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
@@ -92,7 +94,7 @@ public class RuleEngineRepositoryTest {
     }
 
     private RuleSet createRuleSet(String name, String description, List<String> facts) throws RuleEngineRepositoryException {
-        RuleSet ruleSet = new RuleSetImpl(name);
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(name);
         ruleSet.setDescription(description);
         ruleSet.setFormat("drl");
         if ( facts != null && !facts.isEmpty()) {
@@ -102,7 +104,7 @@ public class RuleEngineRepositoryTest {
     }
 
     private static Rule createRuleDRL(String name, String description, String category, String content) throws RuleEngineRepositoryException {
-        Rule rule = new RuleImpl(name);
+        Rule rule = RuleFactory.getInstance().createRule(name);
         rule.setDescription(description);
         rule.setCategory(category);
         rule.setFormat("drl");
@@ -662,11 +664,12 @@ public class RuleEngineRepositoryTest {
     @Test
     public void testCompileInvalidRuleSetSource() throws Exception {
         try {
-            RuleSet ruleSet = (RuleSet)createSimpleRuleSet("MyRuleSet");
+            RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
 
-            List<String> header = new ArrayList<String>();
-            header.add("import jav.uti.Calend");
-            ruleSet.setHeaderList(header);
+            //List<String> header = new ArrayList<String>();
+            //header.add("import jav.uti.Calend");
+            //ruleSet.setHeaderList(header);
+            ruleSet.addHeader("import jav.uti.Calend");
             brmsRepository.updateRuleSet(ruleSet);
             
             String drl = brmsRepository.compileRuleSetSource(ruleSet.getUUID());
