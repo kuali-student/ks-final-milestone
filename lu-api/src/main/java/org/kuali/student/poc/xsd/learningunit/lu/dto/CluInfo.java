@@ -1,144 +1,336 @@
 package org.kuali.student.poc.xsd.learningunit.lu.dto;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInfo implements Serializable {
 
 	private static final long serialVersionUID = 8378784724612312877L;
-
 	@XmlAttribute
 	private String cluId;
 	@XmlElement
-	private String cluCategory;
+	private String luTypeId;
+	@XmlElement
+	private String cluLongName;
+	@XmlElement
+	private String cluShortName;
 	@XmlElement
 	private String description;
 	@XmlElement
-	private String luTypeId;
+	private Date effectiveStartDate;
 	@XmlElement
-	private String cluShortTitle;
+	private Date effectiveEndDate;
 	@XmlElement
-	private String cluCode;
+	private String effectiveStartCycle;
 	@XmlElement
-	private AtpDisplay atpDisplayStart;
+	private String effectiveEndCycle;
 	@XmlElement
-	private AtpDisplay atpDisplayEnd;
+	private String approvalStatus;
 	@XmlElement
-	private Long learningResultType;
+	private String approvalStatusTime;
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
+	@XmlElement
+	private Date createTime;
+	@XmlElement
+	private String createUserId;
+	@XmlElement
+	private String createUserComment;
+	@XmlElement
+	private Date updateTime;
+	@XmlElement
+	private String updateUserId;
+	@XmlElement
+	private String updateUserComment;
+
 	/**
 	 * @return the cluId
 	 */
 	public String getCluId() {
 		return cluId;
 	}
+
 	/**
-	 * @param cluId the cluId to set
+	 * @param cluId
+	 *            the cluId to set
 	 */
 	public void setCluId(String cluId) {
 		this.cluId = cluId;
 	}
-	/**
-	 * @return the cluCategory
-	 */
-	public String getCluCategory() {
-		return cluCategory;
-	}
-	/**
-	 * @param cluCategory the cluCategory to set
-	 */
-	public void setCluCategory(String cluCategory) {
-		this.cluCategory = cluCategory;
-	}
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 	/**
 	 * @return the luTypeId
 	 */
 	public String getLuTypeId() {
 		return luTypeId;
 	}
+
 	/**
-	 * @param luTypeId the luTypeId to set
+	 * @param luTypeId
+	 *            the luTypeId to set
 	 */
 	public void setLuTypeId(String luTypeId) {
 		this.luTypeId = luTypeId;
 	}
+
 	/**
-	 * @return the cluShortTitle
+	 * @return the cluLongName
 	 */
-	public String getCluShortTitle() {
-		return cluShortTitle;
+	public String getCluLongName() {
+		return cluLongName;
 	}
+
 	/**
-	 * @param cluShortTitle the cluShortTitle to set
+	 * @param cluLongName
+	 *            the cluLongName to set
 	 */
-	public void setCluShortTitle(String cluShortTitle) {
-		this.cluShortTitle = cluShortTitle;
+	public void setCluLongName(String cluLongName) {
+		this.cluLongName = cluLongName;
 	}
+
 	/**
-	 * @return the cluCode
+	 * @return the cluShortName
 	 */
-	public String getCluCode() {
-		return cluCode;
+	public String getCluShortName() {
+		return cluShortName;
 	}
+
 	/**
-	 * @param cluCode the cluCode to set
+	 * @param cluShortName
+	 *            the cluShortName to set
 	 */
-	public void setCluCode(String cluCode) {
-		this.cluCode = cluCode;
+	public void setCluShortName(String cluShortName) {
+		this.cluShortName = cluShortName;
 	}
+
 	/**
-	 * @return the atpDisplayStart
+	 * @return the description
 	 */
-	public AtpDisplay getAtpDisplayStart() {
-		return atpDisplayStart;
+	public String getDescription() {
+		return description;
 	}
+
 	/**
-	 * @param atpDisplayStart the atpDisplayStart to set
+	 * @param description
+	 *            the description to set
 	 */
-	public void setAtpDisplayStart(AtpDisplay atpDisplayStart) {
-		this.atpDisplayStart = atpDisplayStart;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+
 	/**
-	 * @return the atpDisplayEnd
+	 * @return the effectiveStartDate
 	 */
-	public AtpDisplay getAtpDisplayEnd() {
-		return atpDisplayEnd;
+	public Date getEffectiveStartDate() {
+		return effectiveStartDate;
 	}
+
 	/**
-	 * @param atpDisplayEnd the atpDisplayEnd to set
+	 * @param effectiveStartDate
+	 *            the effectiveStartDate to set
 	 */
-	public void setAtpDisplayEnd(AtpDisplay atpDisplayEnd) {
-		this.atpDisplayEnd = atpDisplayEnd;
+	public void setEffectiveStartDate(Date effectiveStartDate) {
+		this.effectiveStartDate = effectiveStartDate;
 	}
+
 	/**
-	 * @return the learningResultType
+	 * @return the effectiveEndDate
 	 */
-	public Long getLearningResultType() {
-		return learningResultType;
+	public Date getEffectiveEndDate() {
+		return effectiveEndDate;
 	}
+
 	/**
-	 * @param learningResultType the learningResultType to set
+	 * @param effectiveEndDate
+	 *            the effectiveEndDate to set
 	 */
-	public void setLearningResultType(Long learningResultType) {
-		this.learningResultType = learningResultType;
+	public void setEffectiveEndDate(Date effectiveEndDate) {
+		this.effectiveEndDate = effectiveEndDate;
 	}
-	/* (non-Javadoc)
+
+	/**
+	 * @return the effectiveStartCycle
+	 */
+	public String getEffectiveStartCycle() {
+		return effectiveStartCycle;
+	}
+
+	/**
+	 * @param effectiveStartCycle
+	 *            the effectiveStartCycle to set
+	 */
+	public void setEffectiveStartCycle(String effectiveStartCycle) {
+		this.effectiveStartCycle = effectiveStartCycle;
+	}
+
+	/**
+	 * @return the effectiveEndCycle
+	 */
+	public String getEffectiveEndCycle() {
+		return effectiveEndCycle;
+	}
+
+	/**
+	 * @param effectiveEndCycle
+	 *            the effectiveEndCycle to set
+	 */
+	public void setEffectiveEndCycle(String effectiveEndCycle) {
+		this.effectiveEndCycle = effectiveEndCycle;
+	}
+
+	/**
+	 * @return the approvalStatus
+	 */
+	public String getApprovalStatus() {
+		return approvalStatus;
+	}
+
+	/**
+	 * @param approvalStatus
+	 *            the approvalStatus to set
+	 */
+	public void setApprovalStatus(String approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
+
+	/**
+	 * @return the approvalStatusTime
+	 */
+	public String getApprovalStatusTime() {
+		return approvalStatusTime;
+	}
+
+	/**
+	 * @param approvalStatusTime
+	 *            the approvalStatusTime to set
+	 */
+	public void setApprovalStatusTime(String approvalStatusTime) {
+		this.approvalStatusTime = approvalStatusTime;
+	}
+
+	/**
+	 * @return the attributes
+	 */
+	public Map<String, String> getAttributes() {
+		if (attributes == null) {
+			attributes = new HashMap<String, String>();
+		}
+		return attributes;
+	}
+
+	/**
+	 * @param attributes
+	 *            the attributes to set
+	 */
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
+	}
+
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	/**
+	 * @param createTime
+	 *            the createTime to set
+	 */
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	/**
+	 * @return the createUserId
+	 */
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+	/**
+	 * @param createUserId
+	 *            the createUserId to set
+	 */
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	/**
+	 * @return the createUserComment
+	 */
+	public String getCreateUserComment() {
+		return createUserComment;
+	}
+
+	/**
+	 * @param createUserComment
+	 *            the createUserComment to set
+	 */
+	public void setCreateUserComment(String createUserComment) {
+		this.createUserComment = createUserComment;
+	}
+
+	/**
+	 * @return the updateTime
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	/**
+	 * @param updateTime
+	 *            the updateTime to set
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	/**
+	 * @return the updateUserId
+	 */
+	public String getUpdateUserId() {
+		return updateUserId;
+	}
+
+	/**
+	 * @param updateUserId
+	 *            the updateUserId to set
+	 */
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	/**
+	 * @return the updateUserComment
+	 */
+	public String getUpdateUserComment() {
+		return updateUserComment;
+	}
+
+	/**
+	 * @param updateUserComment
+	 *            the updateUserComment to set
+	 */
+	public void setUpdateUserComment(String updateUserComment) {
+		this.updateUserComment = updateUserComment;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -146,26 +338,59 @@ public class CluInfo implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((atpDisplayEnd == null) ? 0 : atpDisplayEnd.hashCode());
+				+ ((approvalStatus == null) ? 0 : approvalStatus.hashCode());
+		result = prime
+				* result
+				+ ((approvalStatusTime == null) ? 0 : approvalStatusTime
+						.hashCode());
 		result = prime * result
-				+ ((atpDisplayStart == null) ? 0 : atpDisplayStart.hashCode());
-		result = prime * result
-				+ ((cluCategory == null) ? 0 : cluCategory.hashCode());
-		result = prime * result + ((cluCode == null) ? 0 : cluCode.hashCode());
+				+ ((attributes == null) ? 0 : attributes.hashCode());
 		result = prime * result + ((cluId == null) ? 0 : cluId.hashCode());
 		result = prime * result
-				+ ((cluShortTitle == null) ? 0 : cluShortTitle.hashCode());
+				+ ((cluLongName == null) ? 0 : cluLongName.hashCode());
+		result = prime * result
+				+ ((cluShortName == null) ? 0 : cluShortName.hashCode());
+		result = prime * result
+				+ ((createTime == null) ? 0 : createTime.hashCode());
+		result = prime
+				* result
+				+ ((createUserComment == null) ? 0 : createUserComment
+						.hashCode());
+		result = prime * result
+				+ ((createUserId == null) ? 0 : createUserId.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime
 				* result
-				+ ((learningResultType == null) ? 0 : learningResultType
+				+ ((effectiveEndCycle == null) ? 0 : effectiveEndCycle
+						.hashCode());
+		result = prime
+				* result
+				+ ((effectiveEndDate == null) ? 0 : effectiveEndDate.hashCode());
+		result = prime
+				* result
+				+ ((effectiveStartCycle == null) ? 0 : effectiveStartCycle
+						.hashCode());
+		result = prime
+				* result
+				+ ((effectiveStartDate == null) ? 0 : effectiveStartDate
 						.hashCode());
 		result = prime * result
 				+ ((luTypeId == null) ? 0 : luTypeId.hashCode());
+		result = prime * result
+				+ ((updateTime == null) ? 0 : updateTime.hashCode());
+		result = prime
+				* result
+				+ ((updateUserComment == null) ? 0 : updateUserComment
+						.hashCode());
+		result = prime * result
+				+ ((updateUserId == null) ? 0 : updateUserId.hashCode());
 		return result;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -177,50 +402,95 @@ public class CluInfo implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final CluInfo other = (CluInfo) obj;
-		if (atpDisplayEnd == null) {
-			if (other.atpDisplayEnd != null)
+		if (approvalStatus == null) {
+			if (other.approvalStatus != null)
 				return false;
-		} else if (!atpDisplayEnd.equals(other.atpDisplayEnd))
+		} else if (!approvalStatus.equals(other.approvalStatus))
 			return false;
-		if (atpDisplayStart == null) {
-			if (other.atpDisplayStart != null)
+		if (approvalStatusTime == null) {
+			if (other.approvalStatusTime != null)
 				return false;
-		} else if (!atpDisplayStart.equals(other.atpDisplayStart))
+		} else if (!approvalStatusTime.equals(other.approvalStatusTime))
 			return false;
-		if (cluCategory == null) {
-			if (other.cluCategory != null)
+		if (attributes == null) {
+			if (other.attributes != null)
 				return false;
-		} else if (!cluCategory.equals(other.cluCategory))
-			return false;
-		if (cluCode == null) {
-			if (other.cluCode != null)
-				return false;
-		} else if (!cluCode.equals(other.cluCode))
+		} else if (!attributes.equals(other.attributes))
 			return false;
 		if (cluId == null) {
 			if (other.cluId != null)
 				return false;
 		} else if (!cluId.equals(other.cluId))
 			return false;
-		if (cluShortTitle == null) {
-			if (other.cluShortTitle != null)
+		if (cluLongName == null) {
+			if (other.cluLongName != null)
 				return false;
-		} else if (!cluShortTitle.equals(other.cluShortTitle))
+		} else if (!cluLongName.equals(other.cluLongName))
+			return false;
+		if (cluShortName == null) {
+			if (other.cluShortName != null)
+				return false;
+		} else if (!cluShortName.equals(other.cluShortName))
+			return false;
+		if (createTime == null) {
+			if (other.createTime != null)
+				return false;
+		} else if (!createTime.equals(other.createTime))
+			return false;
+		if (createUserComment == null) {
+			if (other.createUserComment != null)
+				return false;
+		} else if (!createUserComment.equals(other.createUserComment))
+			return false;
+		if (createUserId == null) {
+			if (other.createUserId != null)
+				return false;
+		} else if (!createUserId.equals(other.createUserId))
 			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (learningResultType == null) {
-			if (other.learningResultType != null)
+		if (effectiveEndCycle == null) {
+			if (other.effectiveEndCycle != null)
 				return false;
-		} else if (!learningResultType.equals(other.learningResultType))
+		} else if (!effectiveEndCycle.equals(other.effectiveEndCycle))
+			return false;
+		if (effectiveEndDate == null) {
+			if (other.effectiveEndDate != null)
+				return false;
+		} else if (!effectiveEndDate.equals(other.effectiveEndDate))
+			return false;
+		if (effectiveStartCycle == null) {
+			if (other.effectiveStartCycle != null)
+				return false;
+		} else if (!effectiveStartCycle.equals(other.effectiveStartCycle))
+			return false;
+		if (effectiveStartDate == null) {
+			if (other.effectiveStartDate != null)
+				return false;
+		} else if (!effectiveStartDate.equals(other.effectiveStartDate))
 			return false;
 		if (luTypeId == null) {
 			if (other.luTypeId != null)
 				return false;
 		} else if (!luTypeId.equals(other.luTypeId))
+			return false;
+		if (updateTime == null) {
+			if (other.updateTime != null)
+				return false;
+		} else if (!updateTime.equals(other.updateTime))
+			return false;
+		if (updateUserComment == null) {
+			if (other.updateUserComment != null)
+				return false;
+		} else if (!updateUserComment.equals(other.updateUserComment))
+			return false;
+		if (updateUserId == null) {
+			if (other.updateUserId != null)
+				return false;
+		} else if (!updateUserId.equals(other.updateUserId))
 			return false;
 		return true;
 	}
