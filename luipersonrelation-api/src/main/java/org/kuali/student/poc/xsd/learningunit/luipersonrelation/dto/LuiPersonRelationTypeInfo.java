@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuiPersonRelationType implements Serializable {
+public class LuiPersonRelationTypeInfo implements Serializable {
 
     private static final long serialVersionUID = -6835826348507818548L;
     @XmlElement

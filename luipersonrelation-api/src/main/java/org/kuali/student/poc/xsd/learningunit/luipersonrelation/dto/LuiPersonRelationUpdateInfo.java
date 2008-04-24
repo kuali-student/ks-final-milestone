@@ -12,23 +12,23 @@ public class LuiPersonRelationUpdateInfo implements Serializable {
 
     private static final long serialVersionUID = -2767988735753860338L;
     @XmlElement
-    private RelationState relationState;
+    private RelationStateInfo relationState;
     @XmlElement
-    private LuiPersonRelationType luiPersonRelationType;
+    private LuiPersonRelationTypeInfo luiPersonRelationType;
     @XmlElement
     private Date effectiveStartDate;
     @XmlElement
     private Date effectiveEndDate;
-    public RelationState getRelationState() {
+    public RelationStateInfo getRelationState() {
         return relationState;
     }
-    public void setRelationState(RelationState relationState) {
+    public void setRelationState(RelationStateInfo relationState) {
         this.relationState = relationState;
     }
-    public LuiPersonRelationType getLuiPersonRelationType() {
+    public LuiPersonRelationTypeInfo getLuiPersonRelationType() {
         return luiPersonRelationType;
     }
-    public void setLuiPersonRelationType(LuiPersonRelationType luiPersonRelationType) {
+    public void setLuiPersonRelationType(LuiPersonRelationTypeInfo luiPersonRelationType) {
         this.luiPersonRelationType = luiPersonRelationType;
     }
     public Date getEffectiveStartDate() {

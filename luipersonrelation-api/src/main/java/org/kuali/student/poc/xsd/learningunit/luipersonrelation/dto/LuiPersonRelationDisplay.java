@@ -19,9 +19,9 @@ public class LuiPersonRelationDisplay implements Serializable {
     @XmlElement
     private PersonDisplay personDisplay;
     @XmlElement
-    private LuiPersonRelationType luiPersonRelationType;
+    private LuiPersonRelationTypeInfo luiPersonRelationType;
     @XmlElement
-    private RelationState relationState;
+    private RelationStateInfo relationState;
     @XmlAttribute
     private String luiPersonRelationId;
     public LuiDisplay getLuiDisplay() {
@@ -36,16 +36,16 @@ public class LuiPersonRelationDisplay implements Serializable {
     public void setPersonDisplay(PersonDisplay personDisplay) {
         this.personDisplay = personDisplay;
     }
-    public LuiPersonRelationType getLuiPersonRelationType() {
+    public LuiPersonRelationTypeInfo getLuiPersonRelationType() {
         return luiPersonRelationType;
     }
-    public void setLuiPersonRelationType(LuiPersonRelationType luiPersonRelationType) {
+    public void setLuiPersonRelationType(LuiPersonRelationTypeInfo luiPersonRelationType) {
         this.luiPersonRelationType = luiPersonRelationType;
     }
-    public RelationState getRelationState() {
+    public RelationStateInfo getRelationState() {
         return relationState;
     }
-    public void setRelationState(RelationState relationState) {
+    public void setRelationState(RelationStateInfo relationState) {
         this.relationState = relationState;
     }
     public String getLuiPersonRelationId() {
