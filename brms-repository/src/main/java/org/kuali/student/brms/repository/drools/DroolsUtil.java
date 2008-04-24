@@ -43,9 +43,9 @@ import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryExceptio
 import org.kuali.student.brms.repository.rule.CompilerResult;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
-import org.kuali.student.brms.repository.rule.RuleImpl;
+import org.kuali.student.brms.repository.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleSet;
-import org.kuali.student.brms.repository.rule.RuleSetImpl;
+import org.kuali.student.brms.repository.rule.RuleSetFactory;
 
 /**
  * This is a general Drools utility class. 
@@ -62,8 +62,8 @@ public class DroolsUtil {
      * @return A rule
      * @throws RuleEngineRepositoryException
      */
-    public static RuleImpl buildRule(AssetItem item) throws RuleEngineRepositoryException {
-        RuleImpl rule = new RuleImpl(item.getUUID(), item.getName());
+    public static Rule buildRule(AssetItem item) throws RuleEngineRepositoryException {
+        Rule rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
         rule.setFormat(item.getFormat());
@@ -99,7 +99,7 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public static Rule buildHistoricalRule(AssetItem item) throws RuleEngineRepositoryException {
-        RuleImpl rule = new RuleImpl(item.getUUID(), item.getName());
+        Rule rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
         // item.getFormat() throws exception when creating from history
@@ -127,7 +127,7 @@ public class DroolsUtil {
     }
 
     /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { 
-        RuleSetImpl ruleSet = new RuleSetImpl( item.getUUID(), item.getName() ); 
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( item.getUUID(), item.getName() );
         //ruleSet.setContent( item.getContent() );
         //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); 
         //item.getFormat() throws exception when creating from history 
@@ -162,7 +162,7 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public static RuleSet buildRuleSet(PackageItem pkg) throws RuleEngineRepositoryException {
-        RuleSetImpl ruleSet = new RuleSetImpl(pkg.getUUID(), pkg.getName());
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName() );
         ruleSet.setVersionNumber(pkg.getVersionNumber());
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
         ruleSet.setDescription(pkg.getDescription());
