@@ -131,7 +131,10 @@ public class RuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSet()
      */
     public byte[] getCompiledRuleSet() {
-        return this.compiledRulerSet;
+        int size = this.compiledRulerSet.length;
+        byte[] temp = new byte[size];
+        System.arraycopy(this.compiledRulerSet, 0, temp, 0, size);
+        return temp;
     }
 
     /**
