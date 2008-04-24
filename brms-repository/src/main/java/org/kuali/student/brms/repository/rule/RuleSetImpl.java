@@ -33,7 +33,7 @@ public class RuleSetImpl
     /** List of rules in this rule set */
     private List<Rule> rules = new ArrayList<Rule>();
     /** Compiled rule set bye array */
-    private byte[] compiledRulerSet;
+    private byte[] compiledRuleSet;
     /** Compiled rule set object */
     private Object compiledRuleSetObject;
     /** List of header items */
@@ -131,9 +131,9 @@ public class RuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSet()
      */
     public byte[] getCompiledRuleSet() {
-        int size = this.compiledRulerSet.length;
+        int size = this.compiledRuleSet.length;
         byte[] temp = new byte[size];
-        System.arraycopy(this.compiledRulerSet, 0, temp, 0, size);
+        System.arraycopy(this.compiledRuleSet, 0, temp, 0, size);
         return temp;
     }
 
@@ -141,7 +141,7 @@ public class RuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#setCompiledRuleSet(byte[])
      */
     public void setCompiledRuleSet(byte[] compiledRuleSet) {
-        this.compiledRulerSet = compiledRuleSet;
+        this.compiledRuleSet = compiledRuleSet;
     }
 
     /**
