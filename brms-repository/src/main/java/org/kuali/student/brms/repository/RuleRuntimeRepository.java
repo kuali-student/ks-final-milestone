@@ -19,6 +19,12 @@ import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryExceptio
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
+/**
+ * This is the rule engine runtime repository interface.
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public interface RuleRuntimeRepository {
 
     /**

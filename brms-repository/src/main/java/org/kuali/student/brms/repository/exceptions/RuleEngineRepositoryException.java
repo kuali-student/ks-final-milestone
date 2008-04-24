@@ -15,6 +15,12 @@
  */
 package org.kuali.student.brms.repository.exceptions;
 
+/**
+ * This is the rule engine repository exception class. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class RuleEngineRepositoryException extends Exception {
     
     private static final long serialVersionUID = 1L;

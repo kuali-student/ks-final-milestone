@@ -26,8 +26,8 @@ import org.kuali.student.brms.repository.rule.RuleSet;
 
 /**
  * <p>
- * This is the interface to the rules engine repository which stores rule sets, rules, categories, states, snapshots and
- * compiled rule sets.
+ * This is the rules engine repository interface which stores rule sets, 
+ * rules, categories, states, snapshots and compiled rule sets.
  * </p>
  * <p>
  * Example 1: Setup a Drools repository

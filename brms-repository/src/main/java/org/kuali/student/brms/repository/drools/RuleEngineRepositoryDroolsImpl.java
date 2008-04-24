@@ -48,6 +48,13 @@ import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
+/**
+ * This is the Drools repository implementation of the rule engine
+ * repository interface {@link RuleEngineRepository}. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     
     /** Drools rule repository */

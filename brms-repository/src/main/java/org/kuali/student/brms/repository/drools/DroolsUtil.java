@@ -47,9 +47,15 @@ import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.rule.RuleSetImpl;
 
+/**
+ * This is a general Drools utility class. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class DroolsUtil {
     /**
-     * Build a rule from an Drools repository item.
+     * Builds a rule from an Drools repository item.
      * 
      * @param item
      *            Drools repository item
@@ -84,7 +90,7 @@ public class DroolsUtil {
     }
 
     /**
-     * Build a rule from from history from an Drools repository item. Note: AssetItem.getFormat(),
+     * Builds a rule from from history from an Drools repository item. Note: AssetItem.getFormat(),
      * AssetItem.getLastModified(), AssetItem.isArchived() throws exception when creating from history
      * 
      * @param item
@@ -148,7 +154,7 @@ public class DroolsUtil {
     }*/
 
     /**
-     * Build a rule set from an Drools repository item.
+     * Builds a rule set from an Drools repository item.
      * 
      * @param pkg
      *            Drools repository package item
@@ -231,6 +237,13 @@ public class DroolsUtil {
         }
     }
 
+    /**
+     * Generates and returns a list of compilation errors.
+     * 
+     * @param errors Package builder/compiler errors
+     * @param item Item that contains the error 
+     * @return List of compiler errors
+     */
     public static List<CompilerResult> generateCompilerResults(PackageBuilderErrors errors, org.drools.repository.VersionableItem item) {
         List<CompilerResult> result = new ArrayList<CompilerResult>();
         DroolsError[] dr = errors.getErrors();
@@ -304,7 +317,7 @@ public class DroolsUtil {
     }
 
     /**
-     * Creates a Drools {@link PackageBuilder}
+     * Creates a Drools {@link PackageBuilder}.
      * 
      * @return A {@link PackageBuilder}
      */
@@ -330,7 +343,7 @@ public class DroolsUtil {
 
     /**
      * Gets the Drools DRL source code of a Drools 
-     * <code>org.drools.repository.PackageItem</code>
+     * <code>org.drools.repository.PackageItem</code>.
      * 
      * @param pkg A Drools Package
      * @return A Drools DRL source code
