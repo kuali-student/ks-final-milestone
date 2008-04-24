@@ -10,8 +10,11 @@ import java.util.List;
 import org.kuali.student.rules.util.*;
 import org.kuali.student.brms.repository.drools.*;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.brms.repository.rule.RuleSetFactory;
 import org.kuali.student.brms.repository.rule.RuleSetImpl;
 import org.kuali.student.brms.repository.*;
 /**
@@ -33,7 +36,7 @@ public class GenerateRuleSet {
     String ruleName;
     String description;
     String category;
-    RuleSetImpl ruleSet;
+    RuleSet ruleSet;
     
 	
 	public static void main(String[] args){
@@ -99,7 +102,8 @@ public class GenerateRuleSet {
 		RuleTemplate rt = new RuleTemplate();
 		String extRuleName;
 		
-        ruleSet = new RuleSetImpl(ruleSetName);
+        //ruleSet = new RuleSetImpl(ruleSetName);
+		ruleSet = RuleSetFactory.getInstance().createRuleSet(ruleSetName);
         ruleSet.setDescription(ruleSetDescription);
         ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
         ruleSet.addHeader("import org.kuali.student.rules.util.Function");
@@ -133,7 +137,8 @@ public class GenerateRuleSet {
 			
 			// Add rule to ruleset created in constructor
 			//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
-	        RuleImpl rule = new RuleImpl(extRuleName);
+	        //RuleImpl rule = new RuleImpl(extRuleName);
+			Rule rule = RuleFactory.getInstance().createRule(extRuleName);
 	        rule.setDescription(description);
 	        rule.setCategory(category);
 	        rule.setContent(ruleSourceCode);
@@ -182,7 +187,8 @@ public class GenerateRuleSet {
 			
 		// Add rule to ruleset created in constructor
 		//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
-        RuleImpl rule = new RuleImpl(extRuleName);
+        //RuleImpl rule = new RuleImpl(extRuleName);
+		Rule rule = RuleFactory.getInstance().createRule(extRuleName);
         rule.setDescription(description);
         rule.setCategory(category);
         rule.setContent(ruleSourceCode);
