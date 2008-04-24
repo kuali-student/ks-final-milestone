@@ -146,7 +146,7 @@ public class GenerateRuleSet {
 		extRuleName = ruleName + " " + "Func";
 		rt.setRuleName(extRuleName);
 		rt.setRuleAttributes(ruleAttributes);
-lhsConst.add("eval(");		
+		lhsConst.add("eval(");		
 		for (String symbol : symbols) {
 			// Left Hand Side
 			if ( symbol.equals("+") ){
@@ -164,9 +164,10 @@ lhsConst.add("eval(");
 			else {
 			    lhsConst.add("Propositions.getProposition(\"" + symbol + "\")");
 			}
-			rt.setLHS(lhsConst);
-		}	
-lhsConst.add(")");
+			
+		}
+		rt.setLHS(lhsConst);
+		lhsConst.add(")");
 			
 		// Right Hand Side
 		rhsDB.add("// This is the final outcome");
