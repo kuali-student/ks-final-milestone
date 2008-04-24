@@ -3,6 +3,7 @@ package org.kuali.student.poc.learningunit.lu.dao;
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
 import org.kuali.student.poc.learningunit.lu.entity.CluRelation;
+import org.kuali.student.poc.learningunit.lu.entity.CluSet;
 import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
@@ -16,5 +17,10 @@ public interface LuDao {
 	public LuiRelation createLuiRelation(LuiRelation luiRelation);
 	public LuRelationType createLuRelationType(LuRelationType luRelationType);
 	public CluRelation createCluRelation(CluRelation cluRelation);
-	
+	public CluSet createCluSet(CluSet cluSet);
+	public boolean deleteClu(Clu clu);
+	public boolean deleteCluRelation(CluRelation cluRelation);
+	public boolean deleteCluSet(CluSet cluSet);
+	public boolean deleteLui(Lui lui);
+	public boolean deleteLuiRelation(LuiRelation luiRelation);
 }

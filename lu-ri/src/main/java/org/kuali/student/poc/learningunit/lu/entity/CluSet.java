@@ -1,5 +1,6 @@
 package org.kuali.student.poc.learningunit.lu.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class CluSet {
 	}
 
 	/**
-	 * @param cluSetId the cluSetId to set
+	 * @param cluSetId
+	 *            the cluSetId to set
 	 */
 	public void setCluSetId(String cluSetId) {
 		this.cluSetId = cluSetId;
@@ -65,7 +67,8 @@ public class CluSet {
 	}
 
 	/**
-	 * @param cluSetName the cluSetName to set
+	 * @param cluSetName
+	 *            the cluSetName to set
 	 */
 	public void setCluSetName(String cluSetName) {
 		this.cluSetName = cluSetName;
@@ -79,7 +82,8 @@ public class CluSet {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -93,7 +97,8 @@ public class CluSet {
 	}
 
 	/**
-	 * @param effectiveStartDate the effectiveStartDate to set
+	 * @param effectiveStartDate
+	 *            the effectiveStartDate to set
 	 */
 	public void setEffectiveStartDate(Date effectiveStartDate) {
 		this.effectiveStartDate = effectiveStartDate;
@@ -107,7 +112,8 @@ public class CluSet {
 	}
 
 	/**
-	 * @param effectiveEndDate the effectiveEndDate to set
+	 * @param effectiveEndDate
+	 *            the effectiveEndDate to set
 	 */
 	public void setEffectiveEndDate(Date effectiveEndDate) {
 		this.effectiveEndDate = effectiveEndDate;
@@ -117,11 +123,15 @@ public class CluSet {
 	 * @return the cluSetList
 	 */
 	public List<CluSet> getCluSetList() {
+		if (cluSetList == null) {
+			cluSetList = new ArrayList<CluSet>();
+		}
 		return cluSetList;
 	}
 
 	/**
-	 * @param cluSetList the cluSetList to set
+	 * @param cluSetList
+	 *            the cluSetList to set
 	 */
 	public void setCluSetList(List<CluSet> cluSetList) {
 		this.cluSetList = cluSetList;
@@ -131,11 +141,15 @@ public class CluSet {
 	 * @return the cluList
 	 */
 	public List<Clu> getCluList() {
+		if (cluList == null) {
+			cluList = new ArrayList<Clu>();
+		}
 		return cluList;
 	}
 
 	/**
-	 * @param cluList the cluList to set
+	 * @param cluList
+	 *            the cluList to set
 	 */
 	public void setCluList(List<Clu> cluList) {
 		this.cluList = cluList;
@@ -149,7 +163,8 @@ public class CluSet {
 	}
 
 	/**
-	 * @param cluCriteria the cluCriteria to set
+	 * @param cluCriteria
+	 *            the cluCriteria to set
 	 */
 	public void setCluCriteria(String cluCriteria) {
 		this.cluCriteria = cluCriteria;

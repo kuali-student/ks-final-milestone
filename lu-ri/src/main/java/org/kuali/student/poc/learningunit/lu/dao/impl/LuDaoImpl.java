@@ -7,6 +7,7 @@ import org.kuali.student.poc.learningunit.lu.dao.LuDao;
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
 import org.kuali.student.poc.learningunit.lu.entity.CluRelation;
+import org.kuali.student.poc.learningunit.lu.entity.CluSet;
 import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
@@ -35,15 +36,9 @@ public class LuDaoImpl implements LuDao {
 	}
 
 	@Override
-	public LuRelationType createLuRelationType(LuRelationType luRelationType) {
-		em.persist(luRelationType);
-		return luRelationType;
-	}
-
-	@Override
-	public LuType createLuType(LuType luType) {
-		em.persist(luType);
-		return luType;
+	public CluSet createCluSet(CluSet cluSet) {
+		em.persist(cluSet);
+		return cluSet;
 	}
 
 	@Override
@@ -56,6 +51,48 @@ public class LuDaoImpl implements LuDao {
 	public LuiRelation createLuiRelation(LuiRelation luiRelation) {
 		em.persist(luiRelation);
 		return luiRelation;
+	}
+
+	@Override
+	public LuRelationType createLuRelationType(LuRelationType luRelationType) {
+		em.persist(luRelationType);
+		return luRelationType;
+	}
+
+	@Override
+	public LuType createLuType(LuType luType) {
+		em.persist(luType);
+		return luType;
+	}
+
+	@Override
+	public boolean deleteClu(Clu clu) {
+		em.remove(clu);
+		return true;
+	}
+
+	@Override
+	public boolean deleteCluRelation(CluRelation cluRelation) {
+		em.remove(cluRelation);
+		return true;
+	}
+
+	@Override
+	public boolean deleteCluSet(CluSet cluSet) {
+		em.remove(cluSet);
+		return true;
+	}
+
+	@Override
+	public boolean deleteLui(Lui lui) {
+		em.remove(lui);
+		return true;
+	}
+
+	@Override
+	public boolean deleteLuiRelation(LuiRelation luiRelation) {
+		em.remove(luiRelation);
+		return true;
 	}
 
 	/**
