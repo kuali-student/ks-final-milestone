@@ -97,6 +97,11 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * </pre>
  */
 public class DroolsJackrabbitRepository {
+    
+    /** Loggin framework */
+    private static org.apache.log4j.Logger logger =
+        org.apache.log4j.Logger.getLogger( DroolsJackrabbitRepository.class );
+    
     /** Jackrabbit repository configuration file */
     private final static String REPOSITORY_CONFIG_FILE = "repository.xml";
     /** Location of the Jackrabbit repository */
@@ -162,7 +167,7 @@ public class DroolsJackrabbitRepository {
      * Starts up the repository.
      */
     public void startupRepository() {
-        //System.out.println( "Repository: " + this.path );
+        logger.info( "Repository: " + this.path );
         this.repoConfig = new JackrabbitRepositoryConfigurator();
         this.repository = repoConfig.getJCRRepository(this.path);
     }
@@ -193,9 +198,9 @@ public class DroolsJackrabbitRepository {
                 File config = new File(this.path + "/" + REPOSITORY_CONFIG_FILE);
                 exclude = new File[]{repoDir, config};
             }
-            //System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
+            logger.info( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
             boolean b = deleteDir(exclude, repoDir);
-            //System.out.println( "Repository sub-directories deleted: " + b );
+            logger.info( "Repository deleted: " + b );
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
