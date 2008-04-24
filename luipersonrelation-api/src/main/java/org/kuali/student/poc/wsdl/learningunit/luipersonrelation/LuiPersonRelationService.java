@@ -50,7 +50,7 @@ public interface LuiPersonRelationService {
     /**
      * Retrieves the list of Allowed Relation States.
      * 
-     * @param luiPersonRelationType Type of LUI Person Relation
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
      * @return list of relationState
      * @throws OperationFailedException unable to complete request
      * @throws DoesNotExistException luiPersonRelationType not found
@@ -58,8 +58,8 @@ public interface LuiPersonRelationService {
      * @throws MissingParameterException missing luiPersonRelationType
      */
     @WebMethod
-    public List<RelationStateInfo> findAllowedRelationStates(@WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException;
+    public List<RelationStateInfo> findAllowedRelationStates(@WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException;
 
     // Read
     /**
@@ -81,8 +81,8 @@ public interface LuiPersonRelationService {
      * Retrieves the LUI Ids for Person related to LUI.
      * 
      * @param personId Identifier for the LUI Person Relation
-     * @param luiPersonRelationType Type of LUI Person Relation
-     * @param relationState Relation State
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
+     * @param relationStateInfo Relation State
      * @return Simple list of LUI Ids
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, ? person to LUI relationship not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -93,16 +93,16 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public List<String> findLuiIdsRelatedToPerson(@WebParam(name = "personId")
-    String personId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String personId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves Person Ids related to the specified LUI.
      * 
      * @param luiId Identifier for the LUI
      * @param luiPersonRelationType Type of LUI Person Relation
-     * @param relationState Relation State
+     * @param relationStateInfo Relation State
      * @return Simple list of Person Ids
      * @throws DoesNotExistException luiId, luiPersonRelationType, relationState, ? LUI to person relationship not found
      * @throws InvalidParameterException invalid luiId, luiPersonRelationType, relationState
@@ -112,16 +112,16 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public List<String> findPersonIdsRelatedToLui(@WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves Person Relation Types for LUI.
      * 
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param relationState Relation State
+     * @param relationStateInfo Relation State
      * @return Simple list of LUI Person Relation Types
      * @throws DoesNotExistException personId, luiId, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -133,8 +133,8 @@ public interface LuiPersonRelationService {
     @WebMethod
     public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypesForLuiPersonRelation(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiId")
-    String luiId, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves Person Relation for LUI.
@@ -239,7 +239,7 @@ public interface LuiPersonRelationService {
      * 
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param luiPersonRelationType Type of LUI Person Relation
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
      * @return list of valid relation states
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -251,16 +251,16 @@ public interface LuiPersonRelationService {
     @WebMethod
     public List<RelationStateInfo> findValidRelationStatesForLuiPersonRelation(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Checks to see if it's ok to create a particular type and state of a relation between Person and LUI.
      * 
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param luiPersonRelationType Type of LUI Person relation
-     * @param relationState Relation state
+     * @param luiPersonRelationTypeInfo Type of LUI Person relation
+     * @param relationStateInfo Relation state
      * @return true if relation of specified type and state is ok to create between person and lui
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -272,17 +272,17 @@ public interface LuiPersonRelationService {
     @WebMethod
     public boolean isValidLuiPersonRelation(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Checks if a Person and LUI have a particular relation in a particular state.
      * 
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param luiPersonRelationType Type of LUI Person Relation
-     * @param relationState Relation state
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
+     * @param relationStateInfo Relation state
      * @return true if relation of specified type and state exists between person and lui
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -294,17 +294,17 @@ public interface LuiPersonRelationService {
     @WebMethod
     public boolean isRelated(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates the particular relation in a state for a Person and LUI.
      * 
      * @param personId Identifier for person
      * @param luiId Identifier for LUI
-     * @param luiPersonRelationType Type of luiPersonRelationI
-     * @param relationState Relation State
+     * @param luiPersonRelationTypeInfo Type of luiPersonRelationI
+     * @param relationStateInfo Relation State
      * @return result from validation operation ? not sure of specifics
      * @throws DoesNotExistException personId, luiId, luiPersonRelationType, relationState not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -316,16 +316,16 @@ public interface LuiPersonRelationService {
     @WebMethod
     public ValidationResult validateLuiPersonRelation(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves LUIs for an academic time period where the specified relation type and state would be valid for the specified person.
      * 
      * @param personId Identifier for person
-     * @param luiPersonRelationType Type of luiPersonRelationI
-     * @param relationState Relation State
+     * @param luiPersonRelationTypeInfo Type of luiPersonRelationI
+     * @param relationStateInfo Relation State
      * @param atpId Identifier for academic time period
      * @return List of LUIs
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, atpId not found
@@ -337,17 +337,17 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public List<LuiDisplay> findAllValidLuisForPerson(@WebParam(name = "personId")
-    String personId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState, @WebParam(name = "atpId")
+    String personId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo, @WebParam(name = "atpId")
     String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves LUI Ids for an academic time period where the specified relation type and state would be valid for the specified person.
      * 
      * @param personId Identifier for person
-     * @param luiPersonRelationType Type of LUI Person Relation
-     * @param relationState Relation State
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
+     * @param relationStateInfo Relation State
      * @param atpId identifier for the academic time period
      * @return List of LUI Ids for person, of a given relation type for a given academic time period
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, atpId not found
@@ -359,17 +359,17 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public List<String> findAllValidLuiIdsForPerson(@WebParam(name = "personId")
-    String personId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState, @WebParam(name = "atpId")
+    String personId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo, @WebParam(name = "atpId")
     String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of people where the specified relation type and state would be valid for the specified LUI.
      * 
      * @param luiId Identifier for LUI
-     * @param luiPersonRelationType Type of LUI Person Relation
-     * @param relationState Relation state
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
+     * @param relationStateInfo Relation state
      * @return List of people that could have a particular relation with a LUI
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, atpId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -380,16 +380,16 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public List<PersonDisplay> findAllValidPeopleForLui(@WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of person ids where the specified relation type and state would be valid for the specified LUI.
      * 
      * @param luiId Identifier for LUI
-     * @param luiPersonRelationType Type of LUI Person Relation
-     * @param relationState Relation state
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
+     * @param relationStateInfo Relation state
      * @return List of Ids for people that have a particular relation with a LUI for an academic time period
      * @throws DoesNotExistException personId, luiPersonRelationType, relationState, atpId not found
      * @throws DisabledIdentifierException personId found, but has been retired
@@ -400,9 +400,9 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public List<String> findAllValidPersonIdsForLui(@WebParam(name = "luiId")
-    String luiId, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiId, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves an ordered list of the "history" of a particular LUI Person Relation, including state and date of change.
@@ -454,8 +454,8 @@ public interface LuiPersonRelationService {
      * 
      * @param personId Identifier for Person
      * @param luiId Identifier for LUI
-     * @param relationState Relation State
-     * @param luiPersonRelationType Type of LUI Person Relation
+     * @param relationStateInfo Relation State
+     * @param luiPersonRelationTypeInfo Type of LUI Person Relation
      * @param luiPersonRelationCreateInfo Information required to create the LUI Person relation
      * @return Structure containing LUI Person relation identifiers
      * @throws AlreadyExistsException relation already exists
@@ -469,9 +469,9 @@ public interface LuiPersonRelationService {
     @WebMethod
     public String createLuiPersonRelation(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiId")
-    String luiId, @WebParam(name = "relationState")
-    RelationStateInfo relationState, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "luiPersonRelationCreateInfo")
+    String luiId, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "luiPersonRelationCreateInfo")
     LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -479,8 +479,8 @@ public interface LuiPersonRelationService {
      * 
      * @param luiId Identifier for LUI
      * @param personIdList Simple list of Person identifiers
-     * @param relationState Relation state
-     * @param luiPersonRelationType Type of LUI Person relation
+     * @param relationStateInfo Relation state
+     * @param luiPersonRelationTypeInfo Type of LUI Person relation
      * @param luiPersonRelationCreateInfo Information required to create the LUI Person relation
      * @return Structure containing LUI Person relation identifiers
      * @throws AlreadyExistsException relation already exists
@@ -494,9 +494,9 @@ public interface LuiPersonRelationService {
     @WebMethod
     public List<String> createBulkRelationshipsForLui(@WebParam(name = "luiId")
     String luiId, @WebParam(name = "personIdList")
-    List<String> personIdList, @WebParam(name = "relationState")
-    RelationStateInfo relationState, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "luiPersonRelationCreateInfo")
+    List<String> personIdList, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "luiPersonRelationCreateInfo")
     LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -504,8 +504,8 @@ public interface LuiPersonRelationService {
      * 
      * @param personId Identifier for Person
      * @param luiIdList Simple list of LUI identifiers
-     * @param relationState Relation state
-     * @param luiPersonRelationType Type of LUI Person relation
+     * @param relationStateInfo Relation state
+     * @param luiPersonRelationTypeInfo Type of LUI Person relation
      * @param luiPersonRelationCreateInfo Information required to create the LUI Person relation
      * @return Structure containing LUI Person relation identifiers
      * @throws AlreadyExistsException relation already exists
@@ -519,9 +519,9 @@ public interface LuiPersonRelationService {
     @WebMethod
     public List<String> createBulkRelationshipsForPerson(@WebParam(name = "personId")
     String personId, @WebParam(name = "luiIdList")
-    List<String> luiIdList, @WebParam(name = "relationState")
-    RelationStateInfo relationState, @WebParam(name = "luiPersonRelationType")
-    LuiPersonRelationTypeInfo luiPersonRelationType, @WebParam(name = "luiPersonRelationCreateInfo")
+    List<String> luiIdList, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo, @WebParam(name = "luiPersonRelationTypeInfo")
+    LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, @WebParam(name = "luiPersonRelationCreateInfo")
     LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -561,7 +561,7 @@ public interface LuiPersonRelationService {
      * Update relation state. ? Yu-Tin Kuo Would we ever need a READ_ONLY error on the relationState?
      * 
      * @param luiPersonRelationId Identifier for the LUI Person Relation
-     * @param relationState Relation state
+     * @param relationStateInfo Relation state
      * @return status of the operation (success or failure)
      * @throws DoesNotExistException luiPersonRelationId, relationState does not exist
      * @throws InvalidParameterException invalid luiPersonRelationId, relationState
@@ -571,6 +571,6 @@ public interface LuiPersonRelationService {
      */
     @WebMethod
     public Status updateRelationState(@WebParam(name = "luiPersonRelationId")
-    String luiPersonRelationId, @WebParam(name = "relationState")
-    RelationStateInfo relationState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    String luiPersonRelationId, @WebParam(name = "relationStateInfo")
+    RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
