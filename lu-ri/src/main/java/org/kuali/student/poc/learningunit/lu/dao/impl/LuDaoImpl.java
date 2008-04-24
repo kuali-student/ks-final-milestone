@@ -95,6 +95,31 @@ public class LuDaoImpl implements LuDao {
 		return true;
 	}
 
+	@Override
+	public Clu updateClu(Clu clu) {
+		return em.merge(clu);
+	}
+
+	@Override
+	public CluRelation updateCluRelation(CluRelation cluRelation) {
+		return em.merge(cluRelation);
+	}
+
+	@Override
+	public CluSet updateCluSet(CluSet cluSet) {
+		return em.merge(cluSet);
+	}
+
+	@Override
+	public Lui updateLui(Lui lui) {
+		return em.merge(lui);
+	}
+
+	@Override
+	public LuiRelation updateLuiRelation(LuiRelation luiRelation) {
+		return em.merge(luiRelation);
+	}
+
 	/**
 	 * @return the em
 	 */
@@ -103,7 +128,8 @@ public class LuDaoImpl implements LuDao {
 	}
 
 	/**
-	 * @param em the em to set
+	 * @param em
+	 *            the em to set
 	 */
 	public void setEm(EntityManager em) {
 		this.em = em;

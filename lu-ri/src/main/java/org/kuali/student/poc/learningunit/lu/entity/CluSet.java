@@ -41,7 +41,7 @@ public class CluSet {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.cluSetId = UUIDHelper.genStringUUID();
+		this.cluSetId = UUIDHelper.genStringUUID(this.cluSetId);
 	}
 
 	/**

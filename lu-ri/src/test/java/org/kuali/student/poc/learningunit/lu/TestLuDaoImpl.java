@@ -49,14 +49,22 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		at1.setClu(clu);
 		at1.setLuAttributeType(luAttrTyp1);
 		at1.setValue("Attr VALUE 1");
-		clu.setAtpStart(atpStart);
-		clu.setAtpEnd(atpEnd);
+		clu.setEffectiveStartCycle(atpStart);
+		clu.setEffectiveEndCycle(atpEnd);
 		clu.getAttributes().add(at1);
-		clu.setCluCategory("Category 123");
-		clu.setCluCode("Clu code 2345");
-		clu.setCluShortTitle("Clu ShortTitle");
+		clu.setApprovalStatus("Approved");
+		clu.setApprovalStatusTime("ShouldBeDate?");
+		clu.setCluLongName("Clu LongName 2345");
+		clu.setCluShortName("Clu ShortName 2345");
 		clu.setDescription("CREATED CLU DESCRIPTION LA LA LA");
-		clu.setLearningResultType(new Long(8675309));
+		clu.setEffectiveEndDate(new Date());
+		clu.setEffectiveStartDate(new Date());
+		clu.setCreateTime(new Date());
+		clu.setCreateUserComment("CreateUserComment");
+		clu.setCreateUserId("CreateUserId");
+		clu.setUpdateTime(new Date());
+		clu.setUpdateUserComment("UpdateUserComment");
+		clu.setUpdateUserId("UpdateUserId");
 		clu.setLuType(luType1);
 		dao.createClu(clu);
 		assertEquals(em.find(Clu.class, clu.getCluId()), clu);
@@ -197,4 +205,40 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		dao.deleteLuiRelation(luiRelation1);
 		assertNull(em.find(CluRelation.class, id));
 	}
+
+	public void testUpdateClu() {
+		Date currentTime = new Date();
+		clu1.setEffectiveStartCycle(atpEnd);
+		clu1.setEffectiveEndCycle(atpStart);
+		clu1.getAttributes().iterator().next().setValue(
+				"UPDATED ATTRIBUTE VALUE");
+		clu1.setCluLongName("UPDATED Clu code 2345");
+		clu1.setCluShortName("UPDATED Clu ShortTitle");
+		clu1.setDescription("UPDATED CLU DESCRIPTION LA LA LA");
+		clu1.setEffectiveStartDate(currentTime);
+		clu1.setEffectiveEndDate(currentTime);
+		dao.updateClu(clu1);
+		Clu updated = em.find(Clu.class, clu1.getCluId());
+		assertEquals(atpEnd,updated.getEffectiveStartCycle());
+		assertEquals(atpStart,updated.getEffectiveEndCycle());
+		assertEquals("UPDATED ATTRIBUTE VALUE",updated.getAttributes().iterator().next().getValue());
+
+	}
+
+	public void testUpdateCluRelation() {
+
+	}
+
+	public void testUpdateCluSet() {
+
+	}
+
+	public void testUpdateLui() {
+
+	}
+
+	public void testUpdateLuiRelation() {
+
+	}
+
 }

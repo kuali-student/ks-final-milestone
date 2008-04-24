@@ -28,7 +28,7 @@ public class LuAttributeType {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.id = UUIDHelper.genStringUUID();
+		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 
 	/**
@@ -61,23 +61,23 @@ public class LuAttributeType {
 		this.name = name;
 	}
 
-//	/**
-//	 * @return the luAttributes
-//	 */
-//	public Set<LuAttribute> getLuAttributes() {
-//		if (luAttributes == null) {
-//			luAttributes = new HashSet<LuAttribute>();
-//		}
-//		return luAttributes;
-//	}
-//
-//	/**
-//	 * @param luAttributes
-//	 *            the luAttributes to set
-//	 */
-//	public void setLuAttributes(Set<LuAttribute> luAttributes) {
-//		this.luAttributes = luAttributes;
-//	}
+	// /**
+	// * @return the luAttributes
+	// */
+	// public Set<LuAttribute> getLuAttributes() {
+	// if (luAttributes == null) {
+	// luAttributes = new HashSet<LuAttribute>();
+	// }
+	// return luAttributes;
+	// }
+	//
+	// /**
+	// * @param luAttributes
+	// * the luAttributes to set
+	// */
+	// public void setLuAttributes(Set<LuAttribute> luAttributes) {
+	// this.luAttributes = luAttributes;
+	// }
 
 	/**
 	 * @return the luTypes

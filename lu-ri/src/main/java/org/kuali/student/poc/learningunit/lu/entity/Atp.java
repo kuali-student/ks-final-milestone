@@ -17,7 +17,7 @@ public class Atp {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.atpId = UUIDHelper.genStringUUID();
+		this.atpId = UUIDHelper.genStringUUID(this.atpId);
 	}
 
 	/**

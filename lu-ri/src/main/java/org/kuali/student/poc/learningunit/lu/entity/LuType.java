@@ -46,7 +46,7 @@ public class LuType {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.luTypeId = UUIDHelper.genStringUUID();
+		this.luTypeId = UUIDHelper.genStringUUID(this.luTypeId);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package org.kuali.student.poc.learningunit.lu.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,44 +10,50 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
 public class Clu {
+
 	@Id
 	private String cluId;
-
-	private String cluCategory;
-
-	private String description;
-
 	@ManyToOne
 	private LuType luType;
-
-	private String cluShortTitle;
-
-	private String cluCode;
-
+	private String cluLongName;
+	private String cluShortName;
+	private String description;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date effectiveStartDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date effectiveEndDate;
 	@ManyToOne
-	private Atp atpStart;
-
+	private Atp effectiveStartCycle;
 	@ManyToOne
-	private Atp atpEnd;
-
-	private Long learningResultType;
-
+	private Atp effectiveEndCycle;
+	private String approvalStatus;
+	private String approvalStatusTime;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "clu")
 	private Set<LuAttribute> attributes;
-
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
+	private String createUserId;
+	private String createUserComment;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateTime;
+	private String updateUserId;
+	private String updateUserComment;
+	
 	/**
 	 * AutoGenerate the Id
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.cluId = UUIDHelper.genStringUUID();
+		this.cluId = UUIDHelper.genStringUUID(this.cluId);
 	}
-
+	
 	/**
 	 * @return the cluId
 	 */
@@ -63,18 +70,48 @@ public class Clu {
 	}
 
 	/**
-	 * @return the cluCategory
+	 * @return the luType
 	 */
-	public String getCluCategory() {
-		return cluCategory;
+	public LuType getLuType() {
+		return luType;
 	}
 
 	/**
-	 * @param cluCategory
-	 *            the cluCategory to set
+	 * @param luType
+	 *            the luType to set
 	 */
-	public void setCluCategory(String cluCategory) {
-		this.cluCategory = cluCategory;
+	public void setLuType(LuType luType) {
+		this.luType = luType;
+	}
+
+	/**
+	 * @return the cluLongName
+	 */
+	public String getCluLongName() {
+		return cluLongName;
+	}
+
+	/**
+	 * @param cluLongName
+	 *            the cluLongName to set
+	 */
+	public void setCluLongName(String cluLongName) {
+		this.cluLongName = cluLongName;
+	}
+
+	/**
+	 * @return the cluShortName
+	 */
+	public String getCluShortName() {
+		return cluShortName;
+	}
+
+	/**
+	 * @param cluShortName
+	 *            the cluShortName to set
+	 */
+	public void setCluShortName(String cluShortName) {
+		this.cluShortName = cluShortName;
 	}
 
 	/**
@@ -93,93 +130,183 @@ public class Clu {
 	}
 
 	/**
-	 * @return the cluShortTitle
+	 * @return the effectiveStartDate
 	 */
-	public String getCluShortTitle() {
-		return cluShortTitle;
+	public Date getEffectiveStartDate() {
+		return effectiveStartDate;
 	}
 
 	/**
-	 * @param cluShortTitle
-	 *            the cluShortTitle to set
+	 * @param effectiveStartDate
+	 *            the effectiveStartDate to set
 	 */
-	public void setCluShortTitle(String cluShortTitle) {
-		this.cluShortTitle = cluShortTitle;
+	public void setEffectiveStartDate(Date effectiveStartDate) {
+		this.effectiveStartDate = effectiveStartDate;
 	}
 
 	/**
-	 * @return the cluCode
+	 * @return the effectiveEndDate
 	 */
-	public String getCluCode() {
-		return cluCode;
+	public Date getEffectiveEndDate() {
+		return effectiveEndDate;
 	}
 
 	/**
-	 * @param cluCode
-	 *            the cluCode to set
+	 * @param effectiveEndDate
+	 *            the effectiveEndDate to set
 	 */
-	public void setCluCode(String cluCode) {
-		this.cluCode = cluCode;
+	public void setEffectiveEndDate(Date effectiveEndDate) {
+		this.effectiveEndDate = effectiveEndDate;
 	}
 
 	/**
-	 * @return the atpStart
+	 * @return the effectiveStartCycle
 	 */
-	public Atp getAtpStart() {
-		return atpStart;
+	public Atp getEffectiveStartCycle() {
+		return effectiveStartCycle;
 	}
 
 	/**
-	 * @param atpStart
-	 *            the atpStart to set
+	 * @param effectiveStartCycle
+	 *            the effectiveStartCycle to set
 	 */
-	public void setAtpStart(Atp atpStart) {
-		this.atpStart = atpStart;
+	public void setEffectiveStartCycle(Atp effectiveStartCycle) {
+		this.effectiveStartCycle = effectiveStartCycle;
 	}
 
 	/**
-	 * @return the atpEnd
+	 * @return the effectiveEndCycle
 	 */
-	public Atp getAtpEnd() {
-		return atpEnd;
+	public Atp getEffectiveEndCycle() {
+		return effectiveEndCycle;
 	}
 
 	/**
-	 * @param atpEnd
-	 *            the atpEnd to set
+	 * @param effectiveEndCycle
+	 *            the effectiveEndCycle to set
 	 */
-	public void setAtpEnd(Atp atpEnd) {
-		this.atpEnd = atpEnd;
+	public void setEffectiveEndCycle(Atp effectiveEndCycle) {
+		this.effectiveEndCycle = effectiveEndCycle;
 	}
 
 	/**
-	 * @return the learningResultType
+	 * @return the approvalStatus
 	 */
-	public Long getLearningResultType() {
-		return learningResultType;
+	public String getApprovalStatus() {
+		return approvalStatus;
 	}
 
 	/**
-	 * @param learningResultType
-	 *            the learningResultType to set
+	 * @param approvalStatus
+	 *            the approvalStatus to set
 	 */
-	public void setLearningResultType(Long learningResultType) {
-		this.learningResultType = learningResultType;
+	public void setApprovalStatus(String approvalStatus) {
+		this.approvalStatus = approvalStatus;
 	}
 
 	/**
-	 * @return the luType
+	 * @return the approvalStatusTime
 	 */
-	public LuType getLuType() {
-		return luType;
+	public String getApprovalStatusTime() {
+		return approvalStatusTime;
 	}
 
 	/**
-	 * @param luType
-	 *            the luType to set
+	 * @param approvalStatusTime
+	 *            the approvalStatusTime to set
 	 */
-	public void setLuType(LuType luType) {
-		this.luType = luType;
+	public void setApprovalStatusTime(String approvalStatusTime) {
+		this.approvalStatusTime = approvalStatusTime;
+	}
+
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	/**
+	 * @param createTime
+	 *            the createTime to set
+	 */
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	/**
+	 * @return the createUserId
+	 */
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+	/**
+	 * @param createUserId
+	 *            the createUserId to set
+	 */
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	/**
+	 * @return the createUserComment
+	 */
+	public String getCreateUserComment() {
+		return createUserComment;
+	}
+
+	/**
+	 * @param createUserComment
+	 *            the createUserComment to set
+	 */
+	public void setCreateUserComment(String createUserComment) {
+		this.createUserComment = createUserComment;
+	}
+
+	/**
+	 * @return the updateTime
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	/**
+	 * @param updateTime
+	 *            the updateTime to set
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	/**
+	 * @return the updateUserId
+	 */
+	public String getUpdateUserId() {
+		return updateUserId;
+	}
+
+	/**
+	 * @param updateUserId
+	 *            the updateUserId to set
+	 */
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	/**
+	 * @return the updateUserComment
+	 */
+	public String getUpdateUserComment() {
+		return updateUserComment;
+	}
+
+	/**
+	 * @param updateUserComment
+	 *            the updateUserComment to set
+	 */
+	public void setUpdateUserComment(String updateUserComment) {
+		this.updateUserComment = updateUserComment;
 	}
 
 	/**

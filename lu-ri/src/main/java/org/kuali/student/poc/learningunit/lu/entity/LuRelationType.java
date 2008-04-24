@@ -11,7 +11,7 @@ public class LuRelationType {
 	@Id
 	private String id;
 	private String relation;
-	
+
 	/**
 	 * @return the id
 	 */
@@ -20,7 +20,8 @@ public class LuRelationType {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -34,7 +35,8 @@ public class LuRelationType {
 	}
 
 	/**
-	 * @param relation the relation to set
+	 * @param relation
+	 *            the relation to set
 	 */
 	public void setRelation(String relation) {
 		this.relation = relation;
@@ -45,6 +47,6 @@ public class LuRelationType {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.id = UUIDHelper.genStringUUID();
+		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 }

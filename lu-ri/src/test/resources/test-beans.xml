@@ -69,13 +69,13 @@
 				</bean>
 			</set>
 		</property>
-		<property name="atpStart" ref="atpStart" />
-		<property name="atpEnd" ref="atpEnd" />
-		<property name="cluCategory" value="Category 11123423" />
-		<property name="cluCode" value="Clu code 111234" />
-		<property name="cluShortTitle" value="Premade Clu Short Title" />
+		<property name="effectiveStartCycle" ref="atpStart" />
+		<property name="effectiveEndCycle" ref="atpEnd" />
+		<property name="effectiveStartDate" ref="currentTime" />
+		<property name="effectiveEndDate" ref="currentTime" />
+		<property name="cluLongName" value="Clu code 111234" />
+		<property name="cluShortName" value="Premade Clu Short Title" />
 		<property name="description" value="PreMade CLU DESCRIPTION" />
-		<property name="learningResultType" value="112358" />
 		<property name="luType" ref="luType1" />
 	</bean>
 	<bean id="clu2"
@@ -90,13 +90,13 @@
 				</bean>
 			</set>
 		</property>
-		<property name="atpStart" ref="atpStart" />
-		<property name="atpEnd" ref="atpEnd" />
-		<property name="cluCategory" value="Category 66654" />
-		<property name="cluCode" value="Clu code 0000" />
-		<property name="cluShortTitle" value="Premade Clu2 Short Title" />
+		<property name="effectiveStartCycle" ref="atpStart" />
+		<property name="effectiveEndCycle" ref="atpEnd" />
+		<property name="effectiveStartDate" ref="currentTime" />
+		<property name="effectiveEndDate" ref="currentTime" />
+		<property name="cluLongName" value="Clu code 234234" />
+		<property name="cluShortName" value="Premade Clu2 Short Title" />
 		<property name="description" value="PreMade CLU2 DESCRIPTION" />
-		<property name="learningResultType" value="97564" />
 		<property name="luType" ref="luType1" />
 	</bean>
 	<bean id="lui1"

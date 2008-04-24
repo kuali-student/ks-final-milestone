@@ -23,7 +23,7 @@ public class Lui {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.luiId = UUIDHelper.genStringUUID();
+		this.luiId = UUIDHelper.genStringUUID(this.luiId);
 	}
 
 	/**
