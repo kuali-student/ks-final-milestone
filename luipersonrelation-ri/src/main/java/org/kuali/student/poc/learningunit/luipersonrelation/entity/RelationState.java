@@ -15,6 +15,7 @@ public class RelationState {
     @Id
     private String id;
     
+    private String state;
     @OneToMany(mappedBy="luiPersonRelationType")
     private Set<LuiPersonRelation> luiPersonRelations;
     @ManyToMany
@@ -36,6 +37,14 @@ public class RelationState {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public Set<LuiPersonRelation> getLuiPersonRelations() {

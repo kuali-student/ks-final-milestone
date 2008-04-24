@@ -15,6 +15,7 @@ public class LuiPersonRelationType {
     @Id
     private String id;
     
+    String name;
     @OneToMany(mappedBy="luiPersonRelationType")
     private Set<LuiPersonRelation> luiPersonRelations;
     @ManyToMany(mappedBy="luiPersonRelationTypes")
@@ -60,6 +61,14 @@ public class LuiPersonRelationType {
 
     public void setLuTypes(Set<LuTypeShadow> luTypes) {
         this.luTypes = luTypes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

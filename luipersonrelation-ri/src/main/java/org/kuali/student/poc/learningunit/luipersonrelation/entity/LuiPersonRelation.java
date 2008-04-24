@@ -17,8 +17,8 @@ public class LuiPersonRelation {
     @Id
     private String id;
     
-    private String lui;
-    private String person;
+    private String luiId;
+    private String personId;
     @ManyToOne
     private LuiPersonRelationType luiPersonRelationType;
     @ManyToOne
@@ -52,20 +52,20 @@ public class LuiPersonRelation {
         this.id = id;
     }
 
-    public String getLui() {
-        return lui;
+    public String getLuiId() {
+        return luiId;
     }
 
-    public void setLui(String lui) {
-        this.lui = lui;
+    public void setLuiId(String luiId) {
+        this.luiId = luiId;
     }
 
-    public String getPerson() {
-        return person;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setPerson(String person) {
-        this.person = person;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public LuiPersonRelationType getLuiPersonRelationType() {
