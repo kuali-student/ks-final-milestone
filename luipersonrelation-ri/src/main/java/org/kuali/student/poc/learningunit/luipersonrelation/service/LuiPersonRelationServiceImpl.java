@@ -41,35 +41,35 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> createBulkRelationshipsForLui(String luiId, List<String> personIdList, RelationStateInfo relationState, LuiPersonRelationTypeInfo luiPersonRelationType, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> createBulkRelationshipsForLui(String luiId, List<String> personIdList, RelationStateInfo relationStateInfo, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> ids = new ArrayList<String>();
         for (String personId : personIdList) {
-            ids.add(createLuiPersonRelation(personId, luiId, relationState, luiPersonRelationType, luiPersonRelationCreateInfo));
+            ids.add(createLuiPersonRelation(personId, luiId, relationStateInfo, luiPersonRelationTypeInfo, luiPersonRelationCreateInfo));
         }
         return ids;
     }
 
     @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, RelationStateInfo relationState, LuiPersonRelationTypeInfo luiPersonRelationType, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, RelationStateInfo relationStateInfo, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //I wonder if error handling should be somewhat different somehow, but I doubt it
         List<String> ids = new ArrayList<String>();
         for (String luiId : luiIdList) {
-            ids.add(createLuiPersonRelation(personId, luiId, relationState, luiPersonRelationType, luiPersonRelationCreateInfo));
+            ids.add(createLuiPersonRelation(personId, luiId, relationStateInfo, luiPersonRelationTypeInfo, luiPersonRelationCreateInfo));
         }
         return ids;
     }
 
     @Override
-    public String createLuiPersonRelation(String personId, String luiId, RelationStateInfo relationState, LuiPersonRelationTypeInfo luiPersonRelationType, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public String createLuiPersonRelation(String personId, String luiId, RelationStateInfo relationStateInfo, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //TODO should we validate personId and luiId?
-        org.kuali.student.poc.learningunit.luipersonrelation.entity.RelationState dbRS = toRelationState(relationState);
-        org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelationType dbLPRT = toLuiPersonRelationType(luiPersonRelationType);
+        RelationState relationState = toRelationState(relationStateInfo);
+        LuiPersonRelationType luiPersonRelationType = toLuiPersonRelationType(luiPersonRelationTypeInfo);
         
         LuiPersonRelation luiPersonRelation = new LuiPersonRelation();
         luiPersonRelation.setPersonId(personId);
         luiPersonRelation.setLuiId(luiId);
-        luiPersonRelation.setRelationState(dbRS);
-        luiPersonRelation.setLuiPersonRelationType(dbLPRT);
+        luiPersonRelation.setRelationState(relationState);
+        luiPersonRelation.setLuiPersonRelationType(luiPersonRelationType);
         luiPersonRelation.setEffectiveEndDate(luiPersonRelationCreateInfo.getEffectiveEndDate());
         luiPersonRelation.setEffectiveStartDate(luiPersonRelationCreateInfo.getEffectiveStartDate());
         String id = dao.createLuiPersonRelation(luiPersonRelation);
@@ -77,15 +77,15 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return id;
     }
 
-    private LuiPersonRelationType toLuiPersonRelationType(LuiPersonRelationTypeInfo luiPersonRelationType) {
+    private LuiPersonRelationType toLuiPersonRelationType(LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) {
         LuiPersonRelationType lprtDb = new LuiPersonRelationType();
-        lprtDb.setName(luiPersonRelationType.getName());
+        lprtDb.setName(luiPersonRelationTypeInfo.getName());
         return lprtDb;
     }
 
-    private RelationState toRelationState(RelationStateInfo relationState) {
+    private RelationState toRelationState(RelationStateInfo relationStateInfo) {
         RelationState rsDb = new RelationState();
-        rsDb.setState(relationState.getState());
+        rsDb.setState(relationStateInfo.getState());
         return rsDb;
     }
 
@@ -106,37 +106,37 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> findAllValidLuiIdsForPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState, String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> findAllValidLuiIdsForPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo, String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<LuiDisplay> findAllValidLuisForPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState, String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiDisplay> findAllValidLuisForPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo, String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<PersonDisplay> findAllValidPeopleForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<PersonDisplay> findAllValidPeopleForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<String> findAllValidPersonIdsForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> findAllValidPersonIdsForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<RelationStateInfo> findAllowedRelationStates(LuiPersonRelationTypeInfo luiPersonRelationType) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+    public List<RelationStateInfo> findAllowedRelationStates(LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<String> findLuiIdsRelatedToPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> findLuiIdsRelatedToPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -166,7 +166,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypesForLuiPersonRelation(String personId, String luiId, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypesForLuiPersonRelation(String personId, String luiId, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -196,7 +196,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> findPersonIdsRelatedToLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> findPersonIdsRelatedToLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -208,19 +208,19 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<RelationStateInfo> findValidRelationStatesForLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationType) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RelationStateInfo> findValidRelationStatesForLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public boolean isRelated(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public boolean isRelated(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean isValidLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public boolean isValidLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return false;
     }
@@ -244,13 +244,13 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public Status updateRelationState(String luiPersonRelationId, RelationStateInfo relationState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Status updateRelationState(String luiPersonRelationId, RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ValidationResult validateLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationType, RelationStateInfo relationState) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ValidationResult validateLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
         return null;
     }
