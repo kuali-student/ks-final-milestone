@@ -24,6 +24,11 @@ import org.drools.StatelessSession;
 
 public class DroolsTestUtil 
 {
+    /** A simple validation rule */
+    private static String validationRule1;
+    /** A simple validation rule */
+    private static String validationRule2;
+    
 	/**
 	 * Gets a simple rule. 
 	 * First rule determines whether the minutes of the hour is even.
@@ -131,7 +136,10 @@ public class DroolsTestUtil
 	 * @throws Exception
 	 */
 	public static String getValidationRule1() throws Exception {
-		return loadFile( "/test-rule-1.txt" );
+		if ( validationRule1 == null || validationRule1.trim().isEmpty() ) {
+		    validationRule1 = loadFile( "/test-rule-1.txt" );
+		}
+	    return validationRule1;
 	}
 
 	/**
@@ -144,7 +152,10 @@ public class DroolsTestUtil
 	 * @throws Exception
 	 */
 	public static String getValidationRule2() throws Exception {
-		return loadFile( "/test-rule-2.txt" );
+        if ( validationRule2 == null || validationRule2.trim().isEmpty() ) {
+            validationRule2 = loadFile( "/test-rule-2.txt" );
+        }
+        return validationRule2;
 	}
 
 	/**
@@ -157,17 +168,17 @@ public class DroolsTestUtil
 	public static String loadFile( String file ) throws Exception
 	{
         String filename = DroolsTestUtil.class.getResource( file ).getFile();
-        System.out.println( "*****  filename = " +filename );
+        //System.out.println( "*****  filename = " +filename );
 
         String str = "";
-        String drl = "";
+        StringBuilder drl = new StringBuilder();
         BufferedReader in = null;
 		try
 		{
 			in = new BufferedReader( new FileReader( filename ) );
 	        while ( ( str = in.readLine() ) != null ) 
 	        {
-	        	drl += str;
+                drl.append(str);
 	        }
             System.out.println( drl );
 		}
@@ -175,7 +186,7 @@ public class DroolsTestUtil
 		{
 	        if (in != null ) in.close();
 		}
-        return drl;
+        return drl.toString();
 	}
 
 	/**
