@@ -66,7 +66,7 @@ public class RuleImpl
         int size = this.binaryContent.length;
         byte[] temp = new byte[size];
         System.arraycopy(this.binaryContent, 0, temp, 0, size);
-        return this.binaryContent;
+        return temp;
     }
 
     /**
