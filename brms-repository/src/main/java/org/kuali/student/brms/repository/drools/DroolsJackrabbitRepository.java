@@ -31,8 +31,11 @@ import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryAdministrator;
 
 /**
- * Drools repository. Example: 1 - Create, initialize and login to a new default repository
- * 
+ * This is the <a href="http://www.jboss.org/drools/">Drools</a> and 
+ * <a href="http://jackrabbit.apache.org/">Jackrabbit</a> repository implementation.
+ * <p>
+ * <b>Example: 1 - Create, initialize and login to a new default repository</b>
+ * </p>
  * <pre>
  * DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository();
  * // Initialize repository - delete any existing files 
@@ -41,7 +44,7 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * repo.shutdownRepository()
  * </pre>
  * 
- * Example: 2 - Create and login to an existing repository
+ * <b>Example: 2 - Create and login to an existing repository</b>
  * 
  * <pre>
  * DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository(); 
@@ -64,7 +67,7 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * repo.shutdownRepository();
  * </pre>
  * 
- * Example: 3 - Create, delete a repository's data and file system files and login
+ * <b>Example: 3 - Create, delete a repository's data and file system files and login</b>
  * 
  * <pre>
  * DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository(); 

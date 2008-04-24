@@ -49,8 +49,9 @@ import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
 /**
- * This is the Drools repository implementation of the rule engine
- * repository interface {@link RuleEngineRepository}. 
+ * This is the <a href="http://www.jboss.org/drools/">Drools</a> repository 
+ * implementation of the rule engine repository interface 
+ * {@link RuleEngineRepository}. 
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *

@@ -30,7 +30,10 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * rules, categories, states, snapshots and compiled rule sets.
  * </p>
  * <p>
- * Example 1: Setup a Drools repository
+ * Below are some examples of how to use this repository interface.
+ * </p>
+ * <p>
+ * <b>Example 1: Setup a Drools repository.</b>
  * </p>
  * <pre>
  * // Location of the repository.xml file
@@ -60,10 +63,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * jackrabbitRepo.shutdownRepository();
  * </pre>
  * <p>
- * Below are some examples of how to use this repository interface.
- * </p>
- * <p>
- * Example 1: Create a new category for rules
+ * <b>Example 2: Create a new category for rules.</b>
  * </p>
  * 
  * <pre>
@@ -77,7 +77,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 3: Create a rule set and a rule and store it in the repository.
+ * <b>Example 3: Create a rule set and a rule and store it in the repository.</b>
  * </p>
  * 
  * <pre>
@@ -102,7 +102,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 4: Load a rule set by UUID.
+ * <b>Example 4: Load a rule set by UUID.</b>
  * </p>
  * 
  * <pre>
@@ -123,7 +123,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 5: Create and check in a rule set.
+ * <b>Example 5: Create and check in a rule set.</b>
  * </p>
  * 
  * <pre>
@@ -140,7 +140,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 6: Update a rule with new source code content.
+ * <b>Example 6: Update a rule with new source code content.</b>
  * </p>
  * 
  * <pre>
@@ -156,7 +156,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 7: Create a rule set and check in a rule into the repository.
+ * <b>Example 7: Create a rule set and check in a rule into the repository.</b>
  * </p>
  * 
  * <pre>
@@ -183,7 +183,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 8: Create a rule set and a rule and store it in the repository.
+ * <b>Example 8: Create a rule set and a rule and store it in the repository.</b>
  * </p>
  * 
  * <pre>
@@ -209,7 +209,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 9: Load a compiled rule set (e.g. Drools package).
+ * <b>Example 9: Load a compiled rule set (e.g. Drools package).</b>
  * </p>
  * 
  * <pre>
@@ -219,7 +219,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 10: Create and load a rule set snapshot.
+ * <b>Example 10: Create and load a rule set snapshot.</b>
  * </p>
  * 
  * <pre>
@@ -235,7 +235,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * Example 11: Load and execute a compiled rule set snapshot.
+ * <b>Example 11: Load and execute a compiled rule set snapshot.</b>
  * </p>
  * 
  * <pre>
