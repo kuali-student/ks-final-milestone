@@ -63,6 +63,9 @@ public class RuleImpl
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
     public byte[] getBinaryContent() {
+        int size = this.binaryContent.length;
+        byte[] temp = new byte[size];
+        System.arraycopy(this.binaryContent, 0, temp, 0, size);
         return this.binaryContent;
     }
 
