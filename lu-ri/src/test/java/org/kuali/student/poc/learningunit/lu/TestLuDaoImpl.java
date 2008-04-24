@@ -26,20 +26,20 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl", testDataFile = "classpath:test-beans.xml")
 	public LuDao dao;
 
-	// Beans (defined and preloaded in test-beans.xml)
-	public LuType luType1;
-	public Atp atpStart;
-	public Atp atpEnd;
-	public Atp atp1;
-	public LuAttributeType luAttrTyp1;
-	public static final String clu1_id = "11223344-1122-1122-11-11-000000000005";
-	public Clu clu2;
-	public Lui lui1;
-	public Lui lui2;
-	public LuRelationType luRelationType1;
-	public CluRelation cluRelation1;
-	public CluSet cluSet2;
-	public LuiRelation luiRelation1;
+	// Bean Ids (defined and preloaded in test-beans.xml)
+	public static final String atp1_id = "11223344-1122-1122-1111-000000000000";
+	public static final String atpStart_id = "11223344-1122-1122-1111-000000000001";
+	public static final String atpEnd_id = "11223344-1122-1122-1111-000000000002";
+	public static final String luType1_id = "11223344-1122-1122-1111-000000000003";
+	public static final String luAttrTyp1_id = "11223344-1122-1122-1111-000000000004";
+	public static final String clu1_id = "11223344-1122-1122-1111-000000000005";
+	public static final String clu2_id = "11223344-1122-1122-1111-000000000006";
+	public static final String lui1_id = "11223344-1122-1122-1111-000000000007";
+	public static final String lui2_id = "11223344-1122-1122-1111-000000000008";
+	public static final String luRelationType1_id = "11223344-1122-1122-1111-000000000009";
+	public static final String cluRelation1_id = "11223344-1122-1122-1111-000000000010";
+	public static final String luiRelation1_id = "11223344-1122-1122-1111-000000000011";
+	public static final String cluSet2_id = "11223344-1122-1122-1111-000000000013";
 
 	@Test
 	public void testCreateClu() {
@@ -47,10 +47,10 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		Clu clu = new Clu();
 		LuAttribute at1 = new LuAttribute();
 		at1.setClu(clu);
-		at1.setLuAttributeType(luAttrTyp1);
+		at1.setLuAttributeType(em.find(LuAttributeType.class, luAttrTyp1_id));
 		at1.setValue("Attr VALUE 1");
-		clu.setEffectiveStartCycle(atpStart);
-		clu.setEffectiveEndCycle(atpEnd);
+		clu.setEffectiveStartCycle(em.find(Atp.class, atpStart_id));
+		clu.setEffectiveEndCycle(em.find(Atp.class, atpEnd_id));
 		clu.getAttributes().add(at1);
 		clu.setApprovalStatus("Approved");
 		clu.setApprovalStatusTime("ShouldBeDate?");
@@ -65,7 +65,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		clu.setUpdateTime(new Date());
 		clu.setUpdateUserComment("UpdateUserComment");
 		clu.setUpdateUserId("UpdateUserId");
-		clu.setLuType(luType1);
+		clu.setLuType(em.find(LuType.class, luType1_id));
 		dao.createClu(clu);
 		assertEquals(em.find(Clu.class, clu.getCluId()), clu);
 	}
@@ -87,7 +87,8 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		luType.setUpdateTime(new Date());
 		luType.setUpdateUserComment("Created");
 		luType.setUpdateUserId("USER-12345");
-		luType.getLuAttributeTypes().add(luAttrTyp1);
+		luType.getLuAttributeTypes().add(
+				em.find(LuAttributeType.class, luAttrTyp1_id));
 		dao.createLuType(luType);
 		assertEquals(em.find(LuType.class, luType.getLuTypeId()), luType);
 	}
@@ -95,7 +96,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	@Test
 	public void testCreateLui() {
 		Lui lui = new Lui();
-		lui.setAtp(atp1);
+		lui.setAtp(em.find(Atp.class, atp1_id));
 		lui.setClu(em.find(Clu.class, clu1_id));
 		lui.setLuiCode("CREATED Lui Code");
 		lui.setMaxSeats(128);
@@ -111,9 +112,10 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		luiRelation.setCreateUserId("CreateUserId");
 		luiRelation.setEffectiveEndDate(new Date());
 		luiRelation.setEffectiveStartDate(new Date());
-		luiRelation.setLui(lui1);
-		luiRelation.setLuRelationType(luRelationType1);
-		luiRelation.setRelatedLui(lui2);
+		luiRelation.setLui(em.find(Lui.class, lui1_id));
+		luiRelation.setLuRelationType(em.find(LuRelationType.class,
+				luRelationType1_id));
+		luiRelation.setRelatedLui(em.find(Lui.class, lui2_id));
 		luiRelation.setUpdateTime(new Date());
 		luiRelation.setUpdateUserComment("UpdateUserComment");
 		luiRelation.setUpdateUserId("UpdateUserId");
@@ -140,8 +142,9 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		cluRelation.setEffectiveEndDate(new Date());
 		cluRelation.setEffectiveStartDate(new Date());
 		cluRelation.setClu(em.find(Clu.class, clu1_id));
-		cluRelation.setLuRelationType(luRelationType1);
-		cluRelation.setRelatedClu(clu2);
+		cluRelation.setLuRelationType(em.find(LuRelationType.class,
+				luRelationType1_id));
+		cluRelation.setRelatedClu(em.find(Clu.class, clu2_id));
 		cluRelation.setUpdateTime(new Date());
 		cluRelation.setUpdateUserComment("UpdateUserComment");
 		cluRelation.setUpdateUserId("UpdateUserId");
@@ -167,7 +170,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		cluSet2.setDescription("Set1 Description");
 		cluSet2.setEffectiveEndDate(new Date());
 		cluSet2.setEffectiveStartDate(new Date());
-		cluSet2.getCluList().add(clu2);
+		cluSet2.getCluList().add(em.find(Clu.class, clu2_id));
 		cluSet2.getCluSetList().add(cluSet1);
 		dao.createCluSet(cluSet2);
 
@@ -183,24 +186,28 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	}
 
 	public void testDeleteCluRelation() {
+		CluRelation cluRelation1 = em.find(CluRelation.class, cluRelation1_id);
 		String id = cluRelation1.getId();
 		dao.deleteCluRelation(cluRelation1);
 		assertNull(em.find(CluRelation.class, id));
 	}
 
 	public void testDeleteCluSet() {
+		CluSet cluSet2 = em.find(CluSet.class, cluSet2_id);
 		String id = cluSet2.getCluSetId();
 		dao.deleteCluSet(cluSet2);
 		assertNull(em.find(CluSet.class, id));
 	}
 
 	public void testDeleteLui() {
+		Lui lui1 = em.find(Lui.class, lui1_id);
 		String id = lui1.getLuiId();
 		dao.deleteLui(lui1);
 		assertNull(em.find(Lui.class, id));
 	}
 
 	public void testDeleteLuiRelation() {
+		LuiRelation luiRelation1 = em.find(LuiRelation.class, luiRelation1_id);
 		String id = luiRelation1.getId();
 		dao.deleteLuiRelation(luiRelation1);
 		assertNull(em.find(CluRelation.class, id));
@@ -209,8 +216,8 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	public void testUpdateClu() {
 		Date currentTime = new Date();
 		Clu clu1 = em.find(Clu.class, clu1_id);
-		clu1.setEffectiveStartCycle(atpEnd);
-		clu1.setEffectiveEndCycle(atpStart);
+		clu1.setEffectiveStartCycle(em.find(Atp.class, atpEnd_id));
+		clu1.setEffectiveEndCycle(em.find(Atp.class, atpStart_id));
 		clu1.getAttributes().iterator().next().setValue(
 				"UPDATED ATTRIBUTE VALUE");
 		clu1.setCluLongName("UPDATED Clu code 2345");
@@ -220,8 +227,10 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		clu1.setEffectiveEndDate(currentTime);
 		dao.updateClu(clu1);
 		Clu updated = em.find(Clu.class, clu1.getCluId());
-		assertEquals(atpEnd, updated.getEffectiveStartCycle());
-		assertEquals(atpStart, updated.getEffectiveEndCycle());
+		assertEquals(em.find(Atp.class, atpEnd_id), updated
+				.getEffectiveStartCycle());
+		assertEquals(em.find(Atp.class, atpStart_id), updated
+				.getEffectiveEndCycle());
 		assertEquals("UPDATED ATTRIBUTE VALUE", updated.getAttributes()
 				.iterator().next().getValue());
 
