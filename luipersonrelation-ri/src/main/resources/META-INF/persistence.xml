@@ -6,9 +6,6 @@
 	<persistence-unit name="HibernatePU">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation</class>
-		<class>org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelationType</class>
-		<class>org.kuali.student.poc.learningunit.luipersonrelation.entity.RelationState</class>
-		<class>org.kuali.student.poc.learningunit.luipersonrelation.entity.LuTypeShadow</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.connection.driver_class"

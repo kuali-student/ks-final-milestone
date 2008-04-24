@@ -13,8 +13,6 @@ import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.learningunit.luipersonrelation.dao.LuiPersonRelationDAO;
 import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation;
-import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelationType;
-import org.kuali.student.poc.learningunit.luipersonrelation.entity.RelationState;
 import org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
@@ -62,31 +60,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public String createLuiPersonRelation(String personId, String luiId, RelationStateInfo relationStateInfo, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //TODO should we validate personId and luiId?
-        RelationState relationState = toRelationState(relationStateInfo);
-        LuiPersonRelationType luiPersonRelationType = toLuiPersonRelationType(luiPersonRelationTypeInfo);
         
         LuiPersonRelation luiPersonRelation = new LuiPersonRelation();
         luiPersonRelation.setPersonId(personId);
         luiPersonRelation.setLuiId(luiId);
-        luiPersonRelation.setRelationState(relationState);
-        luiPersonRelation.setLuiPersonRelationType(luiPersonRelationType);
+        luiPersonRelation.setRelationState(relationStateInfo.getState());
+        luiPersonRelation.setLuiPersonRelationType(luiPersonRelationTypeInfo.getName());
         luiPersonRelation.setEffectiveEndDate(luiPersonRelationCreateInfo.getEffectiveEndDate());
         luiPersonRelation.setEffectiveStartDate(luiPersonRelationCreateInfo.getEffectiveStartDate());
-        String id = dao.createLuiPersonRelation(luiPersonRelation);
+        String id = dao.createLuiPersonRelation(luiPersonRelation).getId();
         
         return id;
-    }
-
-    private LuiPersonRelationType toLuiPersonRelationType(LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) {
-        LuiPersonRelationType lprtDb = new LuiPersonRelationType();
-        lprtDb.setName(luiPersonRelationTypeInfo.getName());
-        return lprtDb;
-    }
-
-    private RelationState toRelationState(RelationStateInfo relationStateInfo) {
-        RelationState rsDb = new RelationState();
-        rsDb.setState(relationStateInfo.getState());
-        return rsDb;
     }
 
     @Override
@@ -198,6 +182,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public List<String> findPersonIdsRelatedToLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
+        // TODO frist?
         return null;
     }
 

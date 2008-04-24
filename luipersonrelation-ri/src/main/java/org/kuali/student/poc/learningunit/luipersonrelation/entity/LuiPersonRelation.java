@@ -19,10 +19,8 @@ public class LuiPersonRelation {
     
     private String luiId;
     private String personId;
-    @ManyToOne
-    private LuiPersonRelationType luiPersonRelationType;
-    @ManyToOne
-    private RelationState relationState;
+    private String luiPersonRelationType;
+    private String relationState;
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveStartDate;
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,11 +34,11 @@ public class LuiPersonRelation {
         this.id = UUIDHelper.genStringUUID();
     }
 
-    public RelationState getRelationState() {
+    public String getRelationState() {
         return relationState;
     }
 
-    public void setRelationState(RelationState relationState) {
+    public void setRelationState(String relationState) {
         this.relationState = relationState;
     }
 
@@ -68,11 +66,11 @@ public class LuiPersonRelation {
         this.personId = personId;
     }
 
-    public LuiPersonRelationType getLuiPersonRelationType() {
+    public String getLuiPersonRelationType() {
         return luiPersonRelationType;
     }
 
-    public void setLuiPersonRelationType(LuiPersonRelationType luiPersonRelationType) {
+    public void setLuiPersonRelationType(String luiPersonRelationType) {
         this.luiPersonRelationType = luiPersonRelationType;
     }
 

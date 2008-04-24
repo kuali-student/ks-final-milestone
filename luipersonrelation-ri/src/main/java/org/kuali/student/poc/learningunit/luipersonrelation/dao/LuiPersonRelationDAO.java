@@ -4,8 +4,8 @@ import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRela
 
 public interface LuiPersonRelationDAO {
 
-    String createLuiPersonRelation(LuiPersonRelation luiPersonRelation);
+    public LuiPersonRelation createLuiPersonRelation(LuiPersonRelation luiPersonRelation);
 
-    boolean deleteLuiPersonRelation(String luiPersonRelationId);
+    public boolean deleteLuiPersonRelation(String luiPersonRelationId);
 
 }
