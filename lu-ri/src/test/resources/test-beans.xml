@@ -23,19 +23,27 @@
 	</bean>
 	<bean id="atp1"
 		class="org.kuali.student.poc.learningunit.lu.entity.Atp">
+		<property name="atpId"
+			value="11223344-1122-1122-11-11-000000000000" />
 		<property name="atpName" value="Atp Number One" />
 	</bean>
 	<bean id="atpStart"
 		class="org.kuali.student.poc.learningunit.lu.entity.Atp">
+		<property name="atpId"
+			value="11223344-1122-1122-11-11-000000000001" />
 		<property name="atpName" value="Atp Start" />
 	</bean>
 	<bean id="atpEnd"
 		class="org.kuali.student.poc.learningunit.lu.entity.Atp">
+		<property name="atpId"
+			value="11223344-1122-1122-11-11-000000000002" />
 		<property name="atpName" value="Atp End" />
 	</bean>
 	<bean id="currentTime" class="java.util.Date" />
 	<bean id="luType1"
 		class="org.kuali.student.poc.learningunit.lu.entity.LuType">
+		<property name="luTypeId"
+			value="11223344-1122-1122-11-11-000000000003" />
 		<property name="createTime" ref="currentTime" />
 		<property name="createUserComment" value="Created" />
 		<property name="createUserId" value="USER-12345" />
@@ -50,6 +58,8 @@
 	</bean>
 	<bean id="luAttrTyp1"
 		class="org.kuali.student.poc.learningunit.lu.entity.LuAttributeType">
+		<property name="id"
+			value="11223344-1122-1122-11-11-000000000004" />
 		<property name="name" value="Attribute Type One" />
 		<property name="luTypes">
 			<set>
@@ -59,6 +69,8 @@
 	</bean>
 	<bean id="clu1"
 		class="org.kuali.student.poc.learningunit.lu.entity.Clu">
+		<property name="cluId"
+			value="11223344-1122-1122-11-11-000000000005" />
 		<property name="attributes">
 			<set>
 				<bean
@@ -80,6 +92,8 @@
 	</bean>
 	<bean id="clu2"
 		class="org.kuali.student.poc.learningunit.lu.entity.Clu">
+		<property name="cluId"
+			value="11223344-1122-1122-11-11-000000000006" />
 		<property name="attributes">
 			<set>
 				<bean
@@ -101,6 +115,8 @@
 	</bean>
 	<bean id="lui1"
 		class="org.kuali.student.poc.learningunit.lu.entity.Lui">
+		<property name="luiId"
+			value="11223344-1122-1122-11-11-000000000007" />
 		<property name="atp" ref="atp1" />
 		<property name="clu" ref="clu1" />
 		<property name="luiCode" value="Premade Lui1 Code" />
@@ -108,6 +124,8 @@
 	</bean>
 	<bean id="lui2"
 		class="org.kuali.student.poc.learningunit.lu.entity.Lui">
+		<property name="luiId"
+			value="11223344-1122-1122-11-11-000000000008" />
 		<property name="atp" ref="atp1" />
 		<property name="clu" ref="clu2" />
 		<property name="luiCode" value="Premade Lui2 Code" />
@@ -115,12 +133,16 @@
 	</bean>
 	<bean id="luRelationType1"
 		class="org.kuali.student.poc.learningunit.lu.entity.LuRelationType">
+		<property name="id"
+			value="11223344-1122-1122-11-11-000000000009" />
 		<property name="relation" value="Premade Relation Type1" />
 	</bean>
 
 
 	<bean id="cluRelation1"
 		class="org.kuali.student.poc.learningunit.lu.entity.CluRelation">
+		<property name="id"
+			value="11223344-1122-1122-11-11-000000000010" />
 		<property name="createTime" ref="currentTime" />
 		<property name="createUserComment" value="CreateUserComment" />
 		<property name="createUserId" value="CreateUserId" />
@@ -136,6 +158,8 @@
 
 	<bean id="luiRelation1"
 		class="org.kuali.student.poc.learningunit.lu.entity.LuiRelation">
+		<property name="id"
+			value="11223344-1122-1122-11-11-000000000011" />
 		<property name="createTime" ref="currentTime" />
 		<property name="createUserComment" value="CreateUserComment" />
 		<property name="createUserId" value="CreateUserId" />
@@ -151,6 +175,8 @@
 
 	<bean id="cluSet1"
 		class="org.kuali.student.poc.learningunit.lu.entity.CluSet">
+		<property name="cluSetId"
+			value="11223344-1122-1122-11-11-000000000012" />
 		<property name="cluCriteria" value="CLU*LA%" />
 		<property name="cluSetName" value="Premade Set Number 1" />
 		<property name="description" value="Premade Set1 Description" />
@@ -165,6 +191,8 @@
 
 	<bean id="cluSet2"
 		class="org.kuali.student.poc.learningunit.lu.entity.CluSet">
+		<property name="cluSetId"
+			value="11223344-1122-1122-11-11-000000000013" />
 		<property name="cluCriteria" value="CLU*LA%" />
 		<property name="cluSetName" value="Premade Set Number 2" />
 		<property name="description" value="Premade Set2 Description" />
