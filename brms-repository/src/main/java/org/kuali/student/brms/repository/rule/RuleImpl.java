@@ -30,15 +30,15 @@ public class RuleImpl
     private static final long serialVersionUID = 1L;
     
     /** Binary content of this rule */
-    private byte[] binaryContent = null;
+    private byte[] binaryContent;
     /** Source code content of this rule */
-    private String content = null;
+    private String content;
     /** Category this rule belongs to */
     private String category;
     /** Date this rule becomes effective */
-    private Calendar effectiveDate = null;
+    private Calendar effectiveDate;
     /** Date this rule expires */
-    private Calendar expiryDate = null;
+    private Calendar expiryDate;
 
     /**
      * Constructs a new rule

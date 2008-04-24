@@ -33,15 +33,15 @@ public class RuleSetImpl
     /** List of rules in this rule set */
     private List<Rule> rules = new ArrayList<Rule>();
     /** Compiled rule set bye array */
-    private byte[] compiledRulerSet = null;
+    private byte[] compiledRulerSet;
     /** Compiled rule set object */
-    private Object compiledRuleSetObject = null;
+    private Object compiledRuleSetObject;
     /** List of header items */
     private List<String> header = new ArrayList<String>();
     /** true if this rule set is a snapshot, otherwise false */
     private boolean snapshot = false;
     /** snapshot name */
-    private String snapshotName = null;
+    private String snapshotName;
 
     /**
      * Constructs a new rule.

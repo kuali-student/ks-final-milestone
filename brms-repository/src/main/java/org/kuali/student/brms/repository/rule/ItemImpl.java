@@ -30,27 +30,27 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     private static final long serialVersionUID = 1L;
     
     /** Item UUID */
-    private String uuid = null;
+    private String uuid;
     /** Item name */
-    private String name = null;
+    private String name;
     /** Item description */
-    private String description = null;
+    private String description;
     /** Item format */
-    private String format = null;
+    private String format;
     /** Item version number */
     private long versionNumber;
     /** Item status */
-    private String status = null;
+    private String status;
 
     /** Item snapshot version UUID */
     private String versionSnapshotUUID;
 
     /** Item created date */
-    private Calendar createdDate = null;
+    private Calendar createdDate;
     /** Item last modified date */
-    private Calendar lastModifiedDate = null;
+    private Calendar lastModifiedDate;
     /** Item checkin comment */
-    private String checkinComment = null;
+    private String checkinComment;
 
     /** Determines whether item is archived or not */
     private boolean archived = false;
