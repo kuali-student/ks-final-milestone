@@ -82,11 +82,11 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * 
  * <pre>
  * // Create rule set
- * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
  * ruleSet.setDescription(&quot;My new rule set&quot;);
  * 
  * // Create rule
- * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
  * rule.setDescription(&quot;My new rule&quot;);
  * rule.setCategory(null);
  * rule.setFormat(&quot;drl&quot;);
@@ -107,11 +107,11 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * 
  * <pre>
  * // Create rule set
- * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
  * ...
  * 
  * // Create rule
- * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
  * ...
  * 
  * // Create rule set
@@ -128,7 +128,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * 
  * <pre>
  * // Create rule set
- * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
  * ruleSet.setDescription(&quot;My new rule set&quot;);
  * 
  * // Rule Set Version 1
@@ -161,11 +161,11 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * 
  * <pre>
  * // Create rule set
- * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
  * ...
  * 
  * // Create rule
- * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
  * ...
  * ruleSet.addRule(rule);
  * 
@@ -188,11 +188,11 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * 
  * <pre>
  * // Create rule set
- * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+ * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
  * ruleSet.setDescription(&quot;My new rule set&quot;);
  * 
  * // Create rule
- * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+ * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
  * rule.setDescription(&quot;My new rule&quot;);
  * rule.setCategory(null);
  * rule.setFormat(&quot;drl&quot;);

@@ -86,11 +86,11 @@ public interface RuleRuntimeRepository {
      * 
      * <pre>
      * // Create rule set
-     * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+     * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
      * ...
      * 
      * // Create rule
-     * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+     * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
      * ...
      * ruleSet.addRule(rule);
      * 
@@ -123,11 +123,11 @@ public interface RuleRuntimeRepository {
      * 
      * <pre>
      * // Create rule set
-     * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+     * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
      * ruleSet.setDescription(&quot;My new rule set&quot;);
      * 
      * // Create rule
-     * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+     * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
      * rule.setDescription(&quot;My new rule&quot;);
      * rule.setCategory(null);
      * rule.setFormat(&quot;drl&quot;);
@@ -183,7 +183,7 @@ public interface RuleRuntimeRepository {
      * 
      * <pre>
      * // Create rule set
-     * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+     * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
      * ruleSet.setDescription(&quot;My new rule set&quot;);
      * 
      * // Rule Set Version 1
@@ -210,11 +210,11 @@ public interface RuleRuntimeRepository {
      * 
      * <pre>
      * // Create rule set
-     * RuleSetImpl ruleSet = new RuleSetImpl(&quot;MyNewRuleSet&quot;);
+     * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
      * ...
      * 
      * // Create rule
-     * Rule rule = new RuleImpl(&quot;MyNewRule&quot;);
+     * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
      * ...
      * 
      * // Create rule set
