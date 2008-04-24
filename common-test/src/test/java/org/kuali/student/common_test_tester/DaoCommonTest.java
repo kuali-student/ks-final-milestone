@@ -16,6 +16,8 @@ public class DaoCommonTest extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml")
 	public MyDao myDao;
 
+	public Value value1;
+	
 	@Test
 	public void test1() {
 		Value value = new Value("Cheerios");
@@ -27,5 +29,6 @@ public class DaoCommonTest extends AbstractTransactionalDaoTest {
 		result = myDao.findValue(new Long(123));
 		
 		assertNotNull(myDao.findValue("Value Number One"));
+		assertNotNull(value1);
 	}
 }

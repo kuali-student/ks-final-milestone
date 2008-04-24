@@ -116,6 +116,17 @@ public abstract class AbstractTransactionalDaoTest {
 					for (Object o : (List<?>) ac.getBean("persistList")) {
 						em.persist(o);
 					}
+					for(String name:ac.getBeanDefinitionNames()){
+						//Set any beans with the same name back into the test
+						if(!"persistList".equals(name)){
+							try{
+								Field field = this.getClass().getDeclaredField(name);
+								field.set(this, ac.getBean(name));
+							}catch(Exception e){
+								//Dont do anything if we can't set this field
+							} 
+						}
+					}
 				}
 			}
 		}
