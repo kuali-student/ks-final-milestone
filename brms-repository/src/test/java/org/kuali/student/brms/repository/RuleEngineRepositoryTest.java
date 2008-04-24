@@ -670,7 +670,7 @@ public class RuleEngineRepositoryTest {
             brmsRepository.updateRuleSet(ruleSet);
             
             String drl = brmsRepository.compileRuleSetSource(ruleSet.getUUID());
-            fail("Invalid rule should throw an exception");
+            fail("Invalid rule should throw an exception: drl=\n" + drl);
         } catch (RuleEngineRepositoryException e) {
             assertTrue(e.getMessage() != null);
         }
