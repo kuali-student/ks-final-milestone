@@ -5,10 +5,9 @@
 	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/resources"/>
 	<classpathentry kind="src" output="common-util/target/classes" path="common-util/src/main/java"/>
 	<classpathentry kind="src" output="common-ws/target/classes" path="common-ws/src/main/java"/>
-	<classpathentry kind="src" path="common-test/src/test/java"/>
-	<classpathentry kind="src" path="common-test/src/test/resources"/>
-	<classpathentry kind="src" path="common-metro/src/main/java"/>
+	<classpathentry kind="src" output="common-metro/target/classes" path="common-metro/src/main/java"/>
+	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/java"/>
+	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
-	<classpathentry kind="output" path="target-eclipse/classes"/>
 </classpath>
