@@ -13,7 +13,9 @@ import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.learningunit.luipersonrelation.dao.LuiPersonRelationDAO;
 import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation;
+import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService;
+import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationCreateInfo;
@@ -29,6 +31,8 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     private LuiPersonRelationDAO dao;
+    private PersonService personClient;
+    private LuService luClient;
 
     public LuiPersonRelationDAO getDao() {
         return dao;
