@@ -7,7 +7,7 @@ import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService;
 
-//@Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
+@Daos({@Dao("org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl")})
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")   
 public class TestLuiPersonRelationServiceImpl {
 

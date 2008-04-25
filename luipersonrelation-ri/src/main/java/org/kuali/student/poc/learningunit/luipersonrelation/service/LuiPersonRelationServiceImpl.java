@@ -27,7 +27,7 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationRe
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
-    
+
     private LuiPersonRelationDAO dao;
 
     public LuiPersonRelationDAO getDao() {
@@ -49,7 +49,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, RelationStateInfo relationStateInfo, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //I wonder if error handling should be somewhat different somehow, but I doubt it
+        // I wonder if error handling should be somewhat different somehow, but I doubt it
         List<String> ids = new ArrayList<String>();
         for (String luiId : luiIdList) {
             ids.add(createLuiPersonRelation(personId, luiId, relationStateInfo, luiPersonRelationTypeInfo, luiPersonRelationCreateInfo));
@@ -59,25 +59,31 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public String createLuiPersonRelation(String personId, String luiId, RelationStateInfo relationStateInfo, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, LuiPersonRelationCreateInfo luiPersonRelationCreateInfo) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //TODO should we validate personId and luiId?
+
+        String id = null;
         
-        LuiPersonRelation luiPersonRelation = new LuiPersonRelation();
-        luiPersonRelation.setPersonId(personId);
-        luiPersonRelation.setLuiId(luiId);
-        luiPersonRelation.setRelationState(relationStateInfo.getState());
-        luiPersonRelation.setLuiPersonRelationType(luiPersonRelationTypeInfo.getName());
-        luiPersonRelation.setEffectiveEndDate(luiPersonRelationCreateInfo.getEffectiveEndDate());
-        luiPersonRelation.setEffectiveStartDate(luiPersonRelationCreateInfo.getEffectiveStartDate());
-        String id = dao.createLuiPersonRelation(luiPersonRelation).getId();
-        
+        if (validateLuiPersonRelation(personId, luiId, luiPersonRelationTypeInfo, relationStateInfo).isSuccess()
+                && isCreatableRelation(luiId, luiPersonRelationTypeInfo, relationStateInfo)) {
+            LuiPersonRelation luiPersonRelation = new LuiPersonRelation();
+            luiPersonRelation.setPersonId(personId);
+            luiPersonRelation.setLuiId(luiId);
+            luiPersonRelation.setRelationState(relationStateInfo.getState());
+            luiPersonRelation.setLuiPersonRelationType(luiPersonRelationTypeInfo.getName());
+            luiPersonRelation.setEffectiveEndDate(luiPersonRelationCreateInfo.getEffectiveEndDate());
+            luiPersonRelation.setEffectiveStartDate(luiPersonRelationCreateInfo.getEffectiveStartDate());
+            id = dao.createLuiPersonRelation(luiPersonRelation).getId();
+        }
+       
         return id;
     }
 
     @Override
     public Status deleteLuiPersonRelation(String luiPersonRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        boolean success = dao.deleteLuiPersonRelation(luiPersonRelationId);
         
-        //this is of course stupid since if there is no success, an error gets thrown
+        //TODO
+        boolean success = dao.deleteLuiPersonRelation(luiPersonRelationId);
+
+        // this is of course stupid since if there is no success, an error gets thrown
         Status status = new Status();
         status.setSuccess(success);
         return status;
@@ -85,38 +91,46 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public LuiPersonRelationInfo fetchLUIPersonRelation(String luiPersonRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+
+        LuiPersonRelation luiPersonRelation = dao.lookupLuiPersonRelation(luiPersonRelationId);
+        return toLuiPersonRelationInfo(luiPersonRelation);
     }
 
     @Override
     public List<String> findAllValidLuiIdsForPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo, String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+        // TODO Do we lookup lui to filter on atpId
         return null;
     }
 
     @Override
     public List<LuiDisplay> findAllValidLuisForPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo, String atpId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+        // TODO Do we lookup lui to filter on atpId
         return null;
     }
 
     @Override
     public List<PersonDisplay> findAllValidPeopleForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+        
+        // TODO: Does this belong in this service? PersonDisplay could be obtained from Person Service, but we
+        //can just make a call to person service
         return null;
     }
 
     @Override
     public List<String> findAllValidPersonIdsForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByLui(luiId, luiPersonRelationTypeInfo.getName());
+        List<String> personIdList = new ArrayList<String>();
+        
+        for (LuiPersonRelation lpr : luiPersonRelations) {
+            personIdList.add(lpr.getPersonId());
+        }        
         return null;
     }
 
     @Override
     public List<RelationStateInfo> findAllowedRelationStates(LuiPersonRelationTypeInfo luiPersonRelationTypeInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-        // TODO Auto-generated method stub
-        return null;
+        
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -169,7 +183,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationDisplay> findLuiPersonRelationsForPerson(String personId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub        
         return null;
     }
 
@@ -230,14 +244,33 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public Status updateRelationState(String luiPersonRelationId, RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub,
         return null;
     }
 
     @Override
     public ValidationResult validateLuiPersonRelation(String personId, String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO Use "rules" for validation (eg. prereq checks).
+        
+        ValidationResult validationResult = new ValidationResult();        
+        validationResult.setSuccess(true);
+                
+        return validationResult;
+    }
+    
+    private boolean isCreatableRelation(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo){
+        //TODO: Relation should not be creatable if seats full
+        return true;
+    }
+
+    private LuiPersonRelationInfo toLuiPersonRelationInfo(LuiPersonRelation luiPersonRelation) {
+        LuiPersonRelationInfo luiPersonRelationInfo = new LuiPersonRelationInfo();
+
+        luiPersonRelationInfo.setEffectiveEndDate(luiPersonRelation.getEffectiveEndDate());
+        luiPersonRelationInfo.setEffectiveStartDate(luiPersonRelation.getEffectiveStartDate());
+        // TODO copy rest of fields
+
+        return luiPersonRelationInfo;
     }
 
 }

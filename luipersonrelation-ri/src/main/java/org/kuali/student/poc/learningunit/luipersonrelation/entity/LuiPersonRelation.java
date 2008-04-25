@@ -4,7 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -12,6 +13,14 @@ import javax.persistence.TemporalType;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
+@NamedQueries(
+    {
+        @NamedQuery( name = "LuiPersonRelation.findByPerson",
+                query = "SELECT DISTINCT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiPersonRelationType LIKE :luiPersonRelationType"),
+        @NamedQuery( name = "LuiPersonRelation.findByLui",
+                query = "SELECT DISTINCT lpr FROM LuiPersonRelation lpr WHERE lpr.luiId = :luiId AND lpr.luiPersonRelationType LIKE :luiPersonRelationType")
+    }
+)
 public class LuiPersonRelation {
 
     @Id
