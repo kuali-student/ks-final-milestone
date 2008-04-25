@@ -8,4 +8,8 @@ public interface LuiPersonRelationDAO {
 
     public boolean deleteLuiPersonRelation(String luiPersonRelationId);
 
+    public LuiPersonRelation lookupLuiPersonRelation(String luiPersonRelationId);
+    
+    
+
 }

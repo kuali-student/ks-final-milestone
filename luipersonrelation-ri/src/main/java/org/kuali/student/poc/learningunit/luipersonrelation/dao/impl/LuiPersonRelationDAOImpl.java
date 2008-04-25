@@ -27,8 +27,15 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
 
     @Override
     public boolean deleteLuiPersonRelation(String luiPersonRelationId) {
-        // TODO Auto-generated method stub
+        LuiPersonRelation luiPersonRelation = lookupLuiPersonRelation(luiPersonRelationId);
+        em.remove(luiPersonRelation);
         return false;
     }
 
+    @Override
+    public LuiPersonRelation lookupLuiPersonRelation(String luiPersonRelationId) {
+        return em.find(LuiPersonRelation.class, luiPersonRelationId);
+    }
+
+    
 }
