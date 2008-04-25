@@ -20,25 +20,25 @@ import javax.xml.bind.annotation.XmlType;
 
 public class FindAllowedLuLuRelationTypesForLuType {
 
-    @XmlElement(name = "luTypeId")
-    private java.lang.String luTypeId;
-    @XmlElement(name = "relatedLuTypeId")
-    private java.lang.String relatedLuTypeId;
+    @XmlElement(name = "luTypeKey")
+    private java.lang.String luTypeKey;
+    @XmlElement(name = "relatedLuTypeKey")
+    private java.lang.String relatedLuTypeKey;
 
-    public java.lang.String getLuTypeId() {
-        return this.luTypeId;
+    public java.lang.String getLuTypeKey() {
+        return this.luTypeKey;
     }
     
-    public void setLuTypeId( java.lang.String newLuTypeId ) {
-        this.luTypeId = newLuTypeId;
+    public void setLuTypeKey( java.lang.String newLuTypeKey ) {
+        this.luTypeKey = newLuTypeKey;
     }
     
-    public java.lang.String getRelatedLuTypeId() {
-        return this.relatedLuTypeId;
+    public java.lang.String getRelatedLuTypeKey() {
+        return this.relatedLuTypeKey;
     }
     
-    public void setRelatedLuTypeId( java.lang.String newRelatedLuTypeId ) {
-        this.relatedLuTypeId = newRelatedLuTypeId;
+    public void setRelatedLuTypeKey( java.lang.String newRelatedLuTypeKey ) {
+        this.relatedLuTypeKey = newRelatedLuTypeKey;
     }
     
 }

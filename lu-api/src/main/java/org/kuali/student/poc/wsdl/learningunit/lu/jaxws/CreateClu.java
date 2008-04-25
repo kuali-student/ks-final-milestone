@@ -20,17 +20,17 @@ import javax.xml.bind.annotation.XmlType;
 
 public class CreateClu {
 
-    @XmlElement(name = "luTypeId")
-    private java.lang.String luTypeId;
+    @XmlElement(name = "luTypeKey")
+    private java.lang.String luTypeKey;
     @XmlElement(name = "cluCreateInfo")
     private org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo cluCreateInfo;
 
-    public java.lang.String getLuTypeId() {
-        return this.luTypeId;
+    public java.lang.String getLuTypeKey() {
+        return this.luTypeKey;
     }
     
-    public void setLuTypeId( java.lang.String newLuTypeId ) {
-        this.luTypeId = newLuTypeId;
+    public void setLuTypeKey( java.lang.String newLuTypeKey ) {
+        this.luTypeKey = newLuTypeKey;
     }
     
     public org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo getCluCreateInfo() {
