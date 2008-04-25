@@ -237,19 +237,76 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	}
 
 	public void testUpdateCluRelation() {
-
+		CluRelation cluRelation = em.find(CluRelation.class, cluRelation1_id);
+		cluRelation.setCreateTime(new Date());
+		cluRelation.setCreateUserComment("UpdatedCreateUserComment");
+		cluRelation.setCreateUserId("UpdatedCreateUserId");
+		cluRelation.setEffectiveEndDate(new Date());
+		cluRelation.setEffectiveStartDate(new Date());
+		cluRelation.setClu(em.find(Clu.class, clu2_id));
+		cluRelation.setLuRelationType(em.find(LuRelationType.class,
+				luRelationType1_id));
+		cluRelation.setRelatedClu(em.find(Clu.class, clu1_id));
+		cluRelation.setUpdateTime(new Date());
+		cluRelation.setUpdateUserComment("UpdateUserComment");
+		cluRelation.setUpdateUserId("UpdateUserId");
+		dao.updateCluRelation(cluRelation);
+		CluRelation updated = em.find(CluRelation.class, cluRelation1_id);
+		assertEquals(em.find(Clu.class, clu2_id), updated.getClu());
+		assertEquals(em.find(Clu.class, clu1_id), updated.getRelatedClu());
+		assertEquals("UpdatedCreateUserComment", updated.getCreateUserComment());
 	}
 
 	public void testUpdateCluSet() {
-
+		CluSet cluSet2 = em.find(CluSet.class, cluSet2_id);
+		cluSet2.setCluCriteria("Updated CLU*LA%");
+		cluSet2.setCluSetName("Updated Set Number 1");
+		cluSet2.setDescription("Updated Set1 Description");
+		cluSet2.setEffectiveEndDate(new Date());
+		cluSet2.setEffectiveStartDate(new Date());
+		cluSet2.getCluList().add(em.find(Clu.class, clu1_id));
+		cluSet2.getCluSetList().clear();
+		dao.updateCluSet(cluSet2);
+		CluSet updated =  em.find(CluSet.class, cluSet2_id);
+		assertEquals("Updated CLU*LA%",updated.getCluCriteria());
+		assertEquals(2,updated.getCluList().size());
+		assertEquals(0,updated.getCluSetList().size());
 	}
 
 	public void testUpdateLui() {
-
+		Lui lui = em.find(Lui.class, lui1_id);
+		lui.setAtp(em.find(Atp.class, atpStart_id));
+		lui.setClu(em.find(Clu.class, clu2_id));
+		lui.setLuiCode("Updated Lui Code");
+		lui.setMaxSeats(222);
+		dao.updateLui(lui);
+		Lui updated = em.find(Lui.class, lui1_id);
+		assertEquals("Updated Lui Code",updated.getLuiCode());
+		assertEquals(em.find(Atp.class, atpStart_id),updated.getAtp());
+		assertEquals(em.find(Clu.class, clu2_id),updated.getClu());
+		assertEquals(222,updated.getMaxSeats());
 	}
 
 	public void testUpdateLuiRelation() {
-
+		LuiRelation luiRelation = em.find(LuiRelation.class, luiRelation1_id);
+		luiRelation.setCreateTime(new Date());
+		luiRelation.setCreateUserComment("Updated CreateUserComment");
+		luiRelation.setCreateUserId("Updated CreateUserId");
+		luiRelation.setEffectiveEndDate(new Date());
+		luiRelation.setEffectiveStartDate(new Date());
+		luiRelation.setLui(em.find(Lui.class, lui2_id));
+		luiRelation.setLuRelationType(em.find(LuRelationType.class,
+				luRelationType1_id));
+		luiRelation.setRelatedLui(em.find(Lui.class, lui1_id));
+		luiRelation.setUpdateTime(new Date());
+		luiRelation.setUpdateUserComment("Updated UpdateUserComment");
+		luiRelation.setUpdateUserId("Updated UpdateUserId");
+		dao.updateLuiRelation(luiRelation);
+		LuiRelation updated =  em.find(LuiRelation.class, luiRelation1_id);
+		assertEquals(em.find(Lui.class, lui1_id),updated.getRelatedLui());
+		assertEquals(em.find(Lui.class, lui2_id),updated.getLui());
+		assertEquals("Updated CreateUserComment",updated.getCreateUserComment());
+		
 	}
 
 }
