@@ -69,7 +69,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
      * 
      * @param name Item name
      */
-    ItemImpl(String name) {
+    ItemImpl(final String name) {
         this.name = name;
     }
 
@@ -79,7 +79,7 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
      * @param uuid Item UUID
      * @param name Item name
      */
-    ItemImpl(String uuid, String name) {
+    ItemImpl(final String uuid, final String name) {
         this.uuid = uuid;
         this.name = name;
     }
