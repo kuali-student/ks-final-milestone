@@ -49,7 +49,7 @@ public class RuleSetImpl
      * 
      * @param name Rule name
      */
-    RuleSetImpl(String name) {
+    RuleSetImpl(final String name) {
         super(name);
     }
 
@@ -59,7 +59,7 @@ public class RuleSetImpl
      * @param uuid Rule UUID - This is created by the repository
      * @param name Rule name
      */
-    RuleSetImpl(String uuid, String name) {
+    RuleSetImpl(final String uuid, final String name) {
         super(uuid, name);
     }
 

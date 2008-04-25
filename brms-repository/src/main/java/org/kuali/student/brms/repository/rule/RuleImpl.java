@@ -46,7 +46,7 @@ public class RuleImpl
      * 
      * @param name Rule name
      */
-    RuleImpl(String name) {
+    RuleImpl(final String name) {
         super(name);
     }
 
@@ -56,7 +56,7 @@ public class RuleImpl
      * @param uuid Rule UUID
      * @param name Rule name
      */
-    RuleImpl(String uuid, String name) {
+    RuleImpl(final String uuid, final String name) {
         super(uuid, name);
     }
 
