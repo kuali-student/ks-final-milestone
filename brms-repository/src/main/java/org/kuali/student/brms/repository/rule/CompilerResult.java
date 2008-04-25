@@ -23,6 +23,7 @@ package org.kuali.student.brms.repository.rule;
  */
 public class CompilerResult implements java.io.Serializable {
     
+    /** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
     /** Item UUID */

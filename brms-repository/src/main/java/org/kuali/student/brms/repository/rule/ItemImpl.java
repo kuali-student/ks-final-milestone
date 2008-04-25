@@ -27,6 +27,7 @@ import java.util.Calendar;
  */
 public abstract class ItemImpl implements java.io.Serializable, Item {
     
+    /** Class serial version uid */
     private static final long serialVersionUID = 1L;
     
     /** Item UUID */
@@ -57,6 +58,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     /** Determines whether item is historical or not */
     private boolean historical = false;
 
+    /**
+     * Private constructor.
+     */
     private ItemImpl() {
     }
     

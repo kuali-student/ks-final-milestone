@@ -17,6 +17,12 @@ package org.kuali.student.brms.repository.rule;
 
 import java.util.Calendar;
 
+/**
+ * This class holds rule and rule set meta data. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public interface MetaData {
     /**
      * Returns the rule name.

@@ -28,6 +28,7 @@ public class RuleSetImpl
     extends ItemImpl 
     implements java.io.Serializable, RuleSet {
 
+    /** Class serial version uid */
     private static final long serialVersionUID = 1L;
     
     /** List of rules in this rule set */

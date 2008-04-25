@@ -23,6 +23,7 @@ package org.kuali.student.brms.repository.exceptions;
  */
 public class RuleEngineRepositoryException extends Exception {
     
+    /** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
     /**

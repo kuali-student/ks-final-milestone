@@ -28,6 +28,7 @@ public class CompilerResultList
     extends ArrayList<CompilerResult> 
     implements java.io.Serializable {
     
+    /** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
     /** Compilation results for object E.g. Compiling org.drools.rule.Package */

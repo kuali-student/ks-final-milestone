@@ -61,6 +61,11 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /** Drools rule repository */
     RulesRepository repository;
 
+    /**
+     * Constructor.
+     * 
+     * @param repository Drools rules repository
+     */
     public RuleEngineRepositoryDroolsImpl(RulesRepository repository) {
         this.repository = repository;
     }
@@ -288,6 +293,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
     }
 
+    /**
+     * Loads a rule set history
+     * 
+     * @param uuid Rule set uuid
+     * @return A list of <code>RuleSet</code>s
+     * @throws RuleEngineRepositoryException
+     */
     public List<RuleSet> loadRuleSetHistory(String uuid) throws RuleEngineRepositoryException {
         throw new RuleEngineRepositoryException("Not implemented - Drools repository bug? - Cannot load rule sets history");
 
@@ -1079,7 +1091,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
 
         List<Rule> rules = ruleSet.getRules();
-        PackageItem pkg = createpackage(ruleSet);
+        PackageItem pkg = createPackage(ruleSet);
 
         for(int i=0; i<rules.size(); i++) {
             createRule( pkg, rules.get(i) );
@@ -1103,7 +1115,14 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         return pkg.getUUID();
     }
     
-    private PackageItem createpackage(RuleSet ruleSet) throws RuleEngineRepositoryException
+    /**
+     * Creates a drools repository <code>PackageItem</code>
+     * 
+     * @param ruleSet A rule set
+     * @return A Drools package item
+     * @throws RuleEngineRepositoryException
+     */
+    private PackageItem createPackage(RuleSet ruleSet) throws RuleEngineRepositoryException
     {
         try {
             PackageItem pkg = this.repository.createPackage(ruleSet.getName(), ruleSet.getDescription());
@@ -1121,6 +1140,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
     }
     
+    /**
+     * Creates a rule from a <code>PackageItem</code> and a <code>Rule</code>.
+     * 
+     * @param pkg A Drools package item
+     * @param rule A kuali rule
+     * @throws RuleEngineRepositoryException
+     */
     private void createRule(PackageItem pkg, Rule rule) throws RuleEngineRepositoryException
     {
         if (rule.getName() == null || rule.getName().isEmpty()) {

@@ -28,6 +28,11 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  */
 public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsImpl implements RuleRuntimeRepository {
 
+    /**
+     * Constructor
+     * 
+     * @param repository Drools rules repository
+     */
     public RuleRuntimeRepositoryDroolsImpl(RulesRepository repository) {
         super(repository);
     }
