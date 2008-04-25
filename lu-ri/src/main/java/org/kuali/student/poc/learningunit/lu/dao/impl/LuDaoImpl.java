@@ -144,4 +144,10 @@ public class LuDaoImpl implements LuDao {
 		return q.getResultList();
 	}
 
+	@Override
+	public List<LuRelationType> findLuRelationTypes() {
+		Query q = em.createQuery("SELECT lurt FROM LuRelationType lurt");
+		return q.getResultList();
+	}
+
 }

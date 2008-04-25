@@ -15,6 +15,7 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.UnsupportedActionException;
 import org.kuali.student.poc.learningunit.lu.dao.LuDao;
+import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
@@ -401,8 +402,12 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<String> findLuRelationTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<LuRelationType> luRelationTypes = dao.findLuRelationTypes();
+		List<String> result = new ArrayList<String>();
+		for(LuRelationType luRelationType:luRelationTypes){
+			result.add(luRelationType.getId());
+		}
+		return result;
 	}
 
 	@Override
