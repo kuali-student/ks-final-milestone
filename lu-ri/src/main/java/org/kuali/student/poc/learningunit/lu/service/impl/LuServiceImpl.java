@@ -16,12 +16,15 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.UnsupportedActionException;
 import org.kuali.student.poc.learningunit.lu.dao.LuDao;
+import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
 import org.kuali.student.poc.learningunit.lu.entity.LuAttribute;
 import org.kuali.student.poc.learningunit.lu.entity.LuAttributeType;
 import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
+import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.AtpDisplay;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCriteria;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluDisplay;
@@ -139,27 +142,8 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		Clu clu = new Clu();
-		BeanUtils.copyProperties(cluCreateInfo, clu, new String[] {
-				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
-		clu.setEffectiveEndCycle(dao.fetchAtp(cluCreateInfo
-				.getEffectiveEndCycle()));
-		clu.setEffectiveStartCycle(dao.fetchAtp(cluCreateInfo
-				.getEffectiveStartCycle()));
-		LuType luType = dao.fetchLuType(luTypeId);
-		clu.setLuType(luType);
-		// Add all the attributes that match from the LuType
-		for (LuAttributeType luAttributeType : luType.getLuAttributeTypes()) {
-			if (cluCreateInfo.getAttributes().containsKey(
-					luAttributeType.getName())) {
-				LuAttribute luAttr = new LuAttribute();
-				luAttr.setValue(cluCreateInfo.getAttributes().get(
-						luAttributeType.getName()));
-				luAttr.setLuAttributeType(luAttributeType);
-				luAttr.setClu(clu);
-				clu.getAttributes().add(luAttr);
-			}
-		}
+		Clu clu = toClu(luTypeId, cluCreateInfo);
+
 		dao.createClu(clu);
 		return clu.getCluId();
 	}
@@ -241,17 +225,8 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		Clu clu = dao.fetchClu(cluId);
-		CluInfo cluInfo = new CluInfo();
-		BeanUtils.copyProperties(clu, cluInfo, new String[] {
-				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
-		cluInfo.setEffectiveEndCycle(clu.getEffectiveEndCycle().getAtpId());
-		cluInfo.setEffectiveStartCycle(clu.getEffectiveStartCycle().getAtpId());
-		cluInfo.setLuTypeId(clu.getLuType().getLuTypeId());
-		for (LuAttribute attr : clu.getAttributes()) {
-			cluInfo.getAttributes().put(attr.getLuAttributeType().getName(),
-					attr.getValue());
-		}
-		return cluInfo;
+		return toCluInfo(clu);
+
 	}
 
 	@Override
@@ -510,8 +485,18 @@ public class LuServiceImpl implements LuService {
 	public List<LuiDisplay> findLuisForClu(String cluId, String atpId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<LuiDisplay> result = new ArrayList<LuiDisplay>();
+		List<Lui> luis = dao.findLuisForClu(cluId, atpId);
+		for (Lui lui : luis) {
+			LuiDisplay luiDisplay = new LuiDisplay();
+			luiDisplay.setAtpDisplay(toAtpDisplay(lui.getAtp()));
+			luiDisplay.setCluDisplay(toCluDisplay(lui.getClu()));
+			luiDisplay.setLuiCode(lui.getLuiCode());
+			luiDisplay.setLuiId(lui.getLuiId());
+			luiDisplay.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
+			result.add(luiDisplay);
+		}
+		return result;
 	}
 
 	@Override
@@ -763,6 +748,64 @@ public class LuServiceImpl implements LuService {
 	 */
 	public void setDao(LuDao dao) {
 		this.dao = dao;
+	}
+
+	//TODO - Move these to the assembler classes
+	private Clu toClu(String luTypeId, CluCreateInfo cluCreateInfo) {
+		Clu clu = new Clu();
+		BeanUtils.copyProperties(cluCreateInfo, clu, new String[] {
+				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
+		clu.setEffectiveEndCycle(dao.fetchAtp(cluCreateInfo
+				.getEffectiveEndCycle()));
+		clu.setEffectiveStartCycle(dao.fetchAtp(cluCreateInfo
+				.getEffectiveStartCycle()));
+		LuType luType = dao.fetchLuType(luTypeId);
+		clu.setLuType(luType);
+		// Add all the attributes that match from the LuType
+		for (LuAttributeType luAttributeType : luType.getLuAttributeTypes()) {
+			if (cluCreateInfo.getAttributes().containsKey(
+					luAttributeType.getName())) {
+				LuAttribute luAttr = new LuAttribute();
+				luAttr.setValue(cluCreateInfo.getAttributes().get(
+						luAttributeType.getName()));
+				luAttr.setLuAttributeType(luAttributeType);
+				luAttr.setClu(clu);
+				clu.getAttributes().add(luAttr);
+			}
+		}
+		return clu;
+	}
+
+	private CluInfo toCluInfo(Clu clu) {
+		CluInfo cluInfo = new CluInfo();
+		BeanUtils.copyProperties(clu, cluInfo, new String[] {
+				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
+		cluInfo.setEffectiveEndCycle(clu.getEffectiveEndCycle().getAtpId());
+		cluInfo.setEffectiveStartCycle(clu.getEffectiveStartCycle().getAtpId());
+		cluInfo.setLuTypeId(clu.getLuType().getLuTypeId());
+		for (LuAttribute attr : clu.getAttributes()) {
+			cluInfo.getAttributes().put(attr.getLuAttributeType().getName(),
+					attr.getValue());
+		}
+		return cluInfo;
+	}
+
+	private CluDisplay toCluDisplay(Clu clu) {
+		CluDisplay cluDisplay = new CluDisplay();
+		cluDisplay.setAtpDisplayEnd(toAtpDisplay(clu.getEffectiveEndCycle()));
+		cluDisplay.setAtpDisplayStart(toAtpDisplay(clu.getEffectiveStartCycle()));
+		cluDisplay.setCluCode(clu.getCluLongName());//FIXME there is no Clucode...maybe this message was updated?
+		cluDisplay.setCluShortTitle(clu.getCluShortName());
+		cluDisplay.setCluId(clu.getCluId());
+		cluDisplay.setLuTypeId(clu.getLuType().getLuTypeId());
+		return cluDisplay;
+	}
+
+	private AtpDisplay toAtpDisplay(Atp atp) {
+		AtpDisplay atpDisplay = new AtpDisplay();
+		atpDisplay.setAtpId(atp.getAtpId());
+		atpDisplay.setAtpName(atp.getAtpName());
+		return atpDisplay;
 	}
 
 }

@@ -24,6 +24,7 @@ import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
 
 @Daos( { @Dao(value = "org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl", testDataFile = "classpath:test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -115,6 +116,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("Long Name Qwerty",foundClu.getCluLongName());
 		assertEquals(luType2_id,foundClu.getLuTypeId());
 		
+	}
+	
+	@Test
+	public void testFindLuisForClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		List<LuiDisplay> luis = client.findLuisForClu(clu1_id, atp1_id);
+		assertNotNull(luis);
 	}
 
 }

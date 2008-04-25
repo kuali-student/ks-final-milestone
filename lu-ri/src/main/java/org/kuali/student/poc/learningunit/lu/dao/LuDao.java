@@ -61,4 +61,6 @@ public interface LuDao {
 	public Atp fetchAtp(String atpId);
 
 	public Clu fetchClu(String cluId);
+
+	public List<Lui> findLuisForClu(String cluId, String atpId);
 }

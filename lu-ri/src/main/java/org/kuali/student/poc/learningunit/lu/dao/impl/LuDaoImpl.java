@@ -159,8 +159,10 @@ public class LuDaoImpl implements LuDao {
 	@Override
 	public Set<LuRelationType> findAllowedLuLuRelationTypesForLuType(
 			String luTypeId, String relatedLuTypeId) {
-		Set<LuRelationType> set1=em.find(LuType.class, luTypeId).getAllowedLuRelationTypes();
-		Set<LuRelationType> set2=em.find(LuType.class, relatedLuTypeId).getAllowedLuRelationTypes();
+		Set<LuRelationType> set1 = em.find(LuType.class, luTypeId)
+				.getAllowedLuRelationTypes();
+		Set<LuRelationType> set2 = em.find(LuType.class, relatedLuTypeId)
+				.getAllowedLuRelationTypes();
 		set1.retainAll(set2);
 		return set1;
 	}
@@ -173,6 +175,15 @@ public class LuDaoImpl implements LuDao {
 	@Override
 	public Clu fetchClu(String cluId) {
 		return em.find(Clu.class, cluId);
+	}
+
+	@Override
+	public List<Lui> findLuisForClu(String cluId, String atpId) {
+		Query q = em
+				.createQuery("SELECT l FROM Lui l WHERE l.clu.cluId=:cluId AND l.atp.atpId=:atpId");
+		q.setParameter("cluId", cluId);
+		q.setParameter("atpId", atpId);
+		return q.getResultList();
 	}
 
 }
