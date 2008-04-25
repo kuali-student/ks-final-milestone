@@ -49,4 +49,8 @@ public interface LuDao {
 	public LuiRelation updateLuiRelation(LuiRelation luiRelation);
 
 	public List<LuType> findLuTypes();
+
+	public List<LuRelationType> findLuRelationTypes();
+
+	public LuType fetchLuType(String luTypeId);
 }

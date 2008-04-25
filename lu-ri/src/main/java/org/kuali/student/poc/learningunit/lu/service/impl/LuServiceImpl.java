@@ -241,8 +241,15 @@ public class LuServiceImpl implements LuService {
 	public LuTypeInfo fetchLuType(String luTypeId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		LuType luType = dao.fetchLuType(luTypeId);
+		if (luType == null) {
+			throw new DoesNotExistException("Lu Type with id:" + luTypeId
+					+ " does not exist.");
+		}
+		LuTypeInfo luTypeInfo = new LuTypeInfo();
+		BeanUtils.copyProperties(luType, luTypeInfo);
+		luTypeInfo.setLuTypeKey(luType.getLuTypeId());
+		return luTypeInfo;
 	}
 
 	@Override
@@ -404,7 +411,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> findLuRelationTypes() throws OperationFailedException {
 		List<LuRelationType> luRelationTypes = dao.findLuRelationTypes();
 		List<String> result = new ArrayList<String>();
-		for(LuRelationType luRelationType:luRelationTypes){
+		for (LuRelationType luRelationType : luRelationTypes) {
 			result.add(luRelationType.getId());
 		}
 		return result;

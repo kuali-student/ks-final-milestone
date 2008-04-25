@@ -1,6 +1,7 @@
 package org.kuali.student.poc.learningunit.lu;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
@@ -55,5 +59,23 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		List<String> luRelationTypeIds = client.findLuRelationTypes();
 		assertEquals(1, luRelationTypeIds.size());
 		assertEquals(luRelationType1_id, luRelationTypeIds.get(0));
+	}
+
+	@Test
+	public void testFetchLuType() throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		LuTypeInfo luTypeInfo = client.fetchLuType(luType1_id);
+		assertNotNull(luTypeInfo);
+		assertEquals("USER-12345", luTypeInfo.getCreateUserId());
+	}
+
+	@Test
+	public void testFindAllowedLuLuRelationTypesForLuType()
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		List<String> luRelationTypeIds = client
+				.findAllowedLuLuRelationTypesForLuType(luType1_id, luType2_id);
+		
 	}
 }

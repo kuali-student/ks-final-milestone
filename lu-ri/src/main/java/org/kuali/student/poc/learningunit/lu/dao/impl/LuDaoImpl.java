@@ -150,4 +150,9 @@ public class LuDaoImpl implements LuDao {
 		return q.getResultList();
 	}
 
+	@Override
+	public LuType fetchLuType(String luTypeId) {
+		return em.find(LuType.class, luTypeId);
+	}
+
 }
