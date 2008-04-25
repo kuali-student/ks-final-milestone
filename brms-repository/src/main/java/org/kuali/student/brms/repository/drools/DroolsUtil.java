@@ -38,6 +38,7 @@ import org.drools.compiler.PackageBuilderErrors;
 import org.drools.lang.descr.PackageDescr;
 import org.drools.repository.AssetItem;
 import org.drools.repository.PackageItem;
+import org.drools.repository.VersionableItem;
 import org.drools.util.ChainedProperties;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResult;
@@ -62,7 +63,7 @@ public class DroolsUtil {
      * @return A rule
      * @throws RuleEngineRepositoryException
      */
-    public static Rule buildRule(AssetItem item) throws RuleEngineRepositoryException {
+    public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
         Rule rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -98,7 +99,7 @@ public class DroolsUtil {
      * @return A history rule
      * @throws RuleEngineRepositoryException
      */
-    public static Rule buildHistoricalRule(AssetItem item) throws RuleEngineRepositoryException {
+    public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
         Rule rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -161,7 +162,7 @@ public class DroolsUtil {
      * @return A rule set
      * @throws RuleEngineRepositoryException
      */
-    public static RuleSet buildRuleSet(PackageItem pkg) throws RuleEngineRepositoryException {
+    public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName() );
         ruleSet.setVersionNumber(pkg.getVersionNumber());
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
@@ -209,7 +210,7 @@ public class DroolsUtil {
      * @return Drools Package
      * @throws Exception
      */
-    public static org.drools.rule.Package getPackage(byte[] binPackage) throws RuleEngineRepositoryException {
+    public static org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryException {
         if (binPackage == null) {
             return null;
         }
@@ -244,7 +245,7 @@ public class DroolsUtil {
      * @param item Item that contains the error 
      * @return List of compiler errors
      */
-    public static List<CompilerResult> generateCompilerResults(PackageBuilderErrors errors, org.drools.repository.VersionableItem item) {
+    public static List<CompilerResult> generateCompilerResults(final PackageBuilderErrors errors, final VersionableItem item) {
         List<CompilerResult> result = new ArrayList<CompilerResult>();
         DroolsError[] dr = errors.getErrors();
         for (int i = 0; i < dr.length; i++) {
@@ -266,7 +267,7 @@ public class DroolsUtil {
      * @return A {@link ByteArrayInputStream}
      * @throws IOException
      */
-    public static InputStream getBinaryPackage(org.drools.rule.Package pkg) throws IOException {
+    public static InputStream getBinaryPackage(final org.drools.rule.Package pkg) throws IOException {
         ObjectOutputStream oos = null;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -290,7 +291,7 @@ public class DroolsUtil {
      * @throws IOException
      * @throws DroolsParserException
      */
-    public static CompilerResultList compile(PackageItem pkg) throws IOException, DroolsParserException {
+    public static CompilerResultList compile(final PackageItem pkg) throws IOException, DroolsParserException {
         PackageBuilder builder = createPackageBuilder();
         builder.addPackage(new PackageDescr(pkg.getName()));
         String drl = pkg.getHeader();
@@ -348,7 +349,7 @@ public class DroolsUtil {
      * @param pkg A Drools Package
      * @return A Drools DRL source code
      */
-    public static String getDRL(PackageItem pkg) {
+    public static String getDRL(final PackageItem pkg) {
         StringBuilder sb = new StringBuilder();
         sb.append("package ");
         sb.append(pkg.getName());
