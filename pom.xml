@@ -306,7 +306,7 @@
 
 			<!--  Metro Dependencies -->
 			<dependency>
-				<groupId>metro</groupId>
+				<groupId>com.sun.xml.ws</groupId>
 				<artifactId>webservices-rt</artifactId>
 				<version>${metro.version}</version>
 			</dependency>

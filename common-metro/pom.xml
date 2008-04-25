@@ -17,9 +17,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>metro</groupId>
+			<groupId>com.sun.xml.ws</groupId>
 			<artifactId>webservices-rt</artifactId>
-			<version>1.1</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
