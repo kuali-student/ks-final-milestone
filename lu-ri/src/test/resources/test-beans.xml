@@ -19,6 +19,7 @@
 				<ref bean="cluRelation1" />
 				<ref bean="cluSet1" />
 				<ref bean="cluSet2" />
+				<ref bean="luType2" />
 			</list>
 		</property>
 	</bean>
@@ -210,4 +211,46 @@
 			</list>
 		</property>
 	</bean>
+
+
+	<bean id="luType2"
+		class="org.kuali.student.poc.learningunit.lu.entity.LuType">
+		<property name="luTypeId"
+			value="11223344-1122-1122-1111-000000000014" />
+		<property name="createTime" ref="currentTime" />
+		<property name="createUserComment" value="Created" />
+		<property name="createUserId" value="USER-12345" />
+		<property name="updateTime" ref="currentTime" />
+		<property name="updateUserComment" value="Created" />
+		<property name="updateUserId" value="USER-12345" />
+		<property name="luAttributeTypes">
+			<set>
+				<ref bean="luAttrTyp2" />
+				<ref bean="luAttrTyp3" />
+			</set>
+		</property>
+	</bean>
+	<bean id="luAttrTyp2"
+		class="org.kuali.student.poc.learningunit.lu.entity.LuAttributeType">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000015" />
+		<property name="name" value="Attribute Type Two" />
+		<property name="luTypes">
+			<set>
+				<ref bean="luType2" />
+			</set>
+		</property>
+	</bean>
+	<bean id="luAttrTyp3"
+		class="org.kuali.student.poc.learningunit.lu.entity.LuAttributeType">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000016" />
+		<property name="name" value="Attribute Type Three" />
+		<property name="luTypes">
+			<set>
+				<ref bean="luType2" />
+			</set>
+		</property>
+	</bean>
+
 </beans>

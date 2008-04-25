@@ -1,5 +1,9 @@
 package org.kuali.student.poc.learningunit.lu.service.impl;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.CircularReferenceException;
@@ -10,6 +14,8 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.UnsupportedActionException;
+import org.kuali.student.poc.learningunit.lu.dao.LuDao;
+import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCriteria;
@@ -36,8 +42,13 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiRelationInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiRelationUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
+import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Transactional;
 
-public class LuServiceImpl implements LuService{
+@WebService(endpointInterface = "org.kuali.student.poc.wsdl.learningunit.lu.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/poc/wsdl/learningunit/lu")
+@Transactional
+public class LuServiceImpl implements LuService {
+	private LuDao dao;
 
 	@Override
 	public Status addCluSetToCluSet(String cluSetId, String addedCluSetId)
@@ -396,8 +407,15 @@ public class LuServiceImpl implements LuService{
 
 	@Override
 	public List<LuTypeInfo> findLuTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<LuType> luTypes = dao.findLuTypes();
+		List<LuTypeInfo> result = new ArrayList<LuTypeInfo>();
+		for (LuType luType : luTypes) {
+			LuTypeInfo luTypeInfo = new LuTypeInfo();
+			BeanUtils.copyProperties(luType, luTypeInfo);
+			luTypeInfo.setLuTypeKey(luType.getLuTypeId());
+			result.add(luTypeInfo);
+		}
+		return result;
 	}
 
 	@Override
@@ -679,6 +697,19 @@ public class LuServiceImpl implements LuService{
 		return null;
 	}
 
+	/**
+	 * @return the dao
+	 */
+	public LuDao getDao() {
+		return dao;
+	}
 
+	/**
+	 * @param dao
+	 *            the dao to set
+	 */
+	public void setDao(LuDao dao) {
+		this.dao = dao;
+	}
 
 }

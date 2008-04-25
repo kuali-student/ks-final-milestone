@@ -1,7 +1,10 @@
 package org.kuali.student.poc.learningunit.lu.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.kuali.student.poc.learningunit.lu.dao.LuDao;
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
@@ -133,6 +136,12 @@ public class LuDaoImpl implements LuDao {
 	 */
 	public void setEm(EntityManager em) {
 		this.em = em;
+	}
+
+	@Override
+	public List<LuType> findLuTypes() {
+		Query q = em.createQuery("SELECT lut FROM LuType lut");
+		return q.getResultList();
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.kuali.student.poc.learningunit.lu.dao;
 
+import java.util.List;
+
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
 import org.kuali.student.poc.learningunit.lu.entity.CluRelation;
@@ -45,4 +47,6 @@ public interface LuDao {
 	public Lui updateLui(Lui lui);
 
 	public LuiRelation updateLuiRelation(LuiRelation luiRelation);
+
+	public List<LuType> findLuTypes();
 }
