@@ -1,6 +1,7 @@
 package org.kuali.student.poc.learningunit.lu.dao.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -153,6 +154,15 @@ public class LuDaoImpl implements LuDao {
 	@Override
 	public LuType fetchLuType(String luTypeId) {
 		return em.find(LuType.class, luTypeId);
+	}
+
+	@Override
+	public Set<LuRelationType> findAllowedLuLuRelationTypesForLuType(
+			String luTypeId, String relatedLuTypeId) {
+		Set<LuRelationType> set1=em.find(LuType.class, luTypeId).getAllowedLuRelationTypes();
+		Set<LuRelationType> set2=em.find(LuType.class, relatedLuTypeId).getAllowedLuRelationTypes();
+		set1.retainAll(set2);
+		return set1;
 	}
 
 }

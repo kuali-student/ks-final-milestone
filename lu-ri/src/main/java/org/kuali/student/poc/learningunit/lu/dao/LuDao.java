@@ -1,6 +1,7 @@
 package org.kuali.student.poc.learningunit.lu.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
@@ -53,4 +54,7 @@ public interface LuDao {
 	public List<LuRelationType> findLuRelationTypes();
 
 	public LuType fetchLuType(String luTypeId);
+
+	public Set<LuRelationType> findAllowedLuLuRelationTypesForLuType(
+			String luTypeId, String relatedLuTypeId);
 }

@@ -2,6 +2,7 @@ package org.kuali.student.poc.learningunit.lu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
 
@@ -274,8 +275,14 @@ public class LuServiceImpl implements LuService {
 			String relatedLuTypeId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		Set<LuRelationType> luRelationTypes = dao
+				.findAllowedLuLuRelationTypesForLuType(luTypeId,
+						relatedLuTypeId);
+		List<String> result = new ArrayList<String>();
+		for(LuRelationType luRelationType:luRelationTypes){
+			result.add(luRelationType.getId());
+		}
+		return result;
 	}
 
 	@Override

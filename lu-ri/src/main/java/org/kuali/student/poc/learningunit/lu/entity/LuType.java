@@ -41,6 +41,9 @@ public class LuType {
 	@JoinTable(name = "LuTyp_LuAtTyp_J", joinColumns = @JoinColumn(name = "LuType_ID", referencedColumnName = "LUTYPEID"), inverseJoinColumns = @JoinColumn(name = "LuAtTyp_ID", referencedColumnName = "ID"))
 	private Set<LuAttributeType> luAttributeTypes;
 
+	@ManyToMany
+	private Set<LuRelationType> allowedLuRelationTypes;
+
 	/**
 	 * AutoGenerate the Id
 	 */
@@ -185,5 +188,24 @@ public class LuType {
 	 */
 	public void setLuAttributeTypes(Set<LuAttributeType> luAttributeTypes) {
 		this.luAttributeTypes = luAttributeTypes;
+	}
+
+	/**
+	 * @return the allowedLuRelationTypes
+	 */
+	public Set<LuRelationType> getAllowedLuRelationTypes() {
+		if (allowedLuRelationTypes == null) {
+			allowedLuRelationTypes = new HashSet<LuRelationType>();
+		}
+		return allowedLuRelationTypes;
+	}
+
+	/**
+	 * @param allowedLuRelationTypes
+	 *            the allowedLuRelationTypes to set
+	 */
+	public void setAllowedLuRelationTypes(
+			Set<LuRelationType> allowedLuRelationTypes) {
+		this.allowedLuRelationTypes = allowedLuRelationTypes;
 	}
 }

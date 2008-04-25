@@ -40,7 +40,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public static final String luiRelation1_id = "11223344-1122-1122-1111-000000000011";
 	public static final String cluSet2_id = "11223344-1122-1122-1111-000000000013";
 	public static final String luType2_id = "11223344-1122-1122-1111-000000000014";
-
+	public static final String luRelationType2_id = "11223344-1122-1122-1111-000000000017";
+	public static final String luRelationType3_id = "11223344-1122-1122-1111-000000000018";
+	public static final String luRelationType4_id = "11223344-1122-1122-1111-000000000019";
+	
 	@Test
 	public void testFindLuTypes() throws OperationFailedException {
 		List<LuTypeInfo> luTypes = client.findLuTypes();
@@ -57,8 +60,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testFindLuRelationTypes() throws OperationFailedException {
 		List<String> luRelationTypeIds = client.findLuRelationTypes();
-		assertEquals(1, luRelationTypeIds.size());
-		assertEquals(luRelationType1_id, luRelationTypeIds.get(0));
+		assertEquals(4, luRelationTypeIds.size());
+		assertTrue(luRelationTypeIds.contains(luRelationType1_id));
+		assertTrue(luRelationTypeIds.contains(luRelationType2_id));
+		assertTrue(luRelationTypeIds.contains(luRelationType3_id));
+		assertTrue(luRelationTypeIds.contains(luRelationType4_id));
 	}
 
 	@Test
@@ -76,6 +82,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			MissingParameterException, OperationFailedException {
 		List<String> luRelationTypeIds = client
 				.findAllowedLuLuRelationTypesForLuType(luType1_id, luType2_id);
-		
+		assertEquals(2, luRelationTypeIds.size());
+		assertTrue(luRelationTypeIds.contains(luRelationType2_id));
+		assertTrue(luRelationTypeIds.contains(luRelationType3_id));
 	}
 }
