@@ -172,8 +172,9 @@ public class LuServiceImpl implements LuService {
 			LuiCreateInfo luiCreateInfo) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		Lui lui = toLui(cluId, atpId, luiCreateInfo);
+		dao.createLui(lui);
+		return lui.getLuiId();
 	}
 
 	@Override
@@ -459,8 +460,12 @@ public class LuServiceImpl implements LuService {
 	public List<String> findLuiIdsForClu(String cluId, String atpId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> result = new ArrayList<String>();
+		List<Lui> luis = dao.findLuisForClu(cluId, atpId);
+		for (Lui lui : luis) {
+			result.add(lui.getLuiId());
+		}
+		return result;
 	}
 
 	@Override
@@ -750,7 +755,7 @@ public class LuServiceImpl implements LuService {
 		this.dao = dao;
 	}
 
-	//TODO - Move these to the assembler classes
+	// FIXME - Move these to the assembler classes
 	private Clu toClu(String luTypeId, CluCreateInfo cluCreateInfo) {
 		Clu clu = new Clu();
 		BeanUtils.copyProperties(cluCreateInfo, clu, new String[] {
@@ -793,8 +798,10 @@ public class LuServiceImpl implements LuService {
 	private CluDisplay toCluDisplay(Clu clu) {
 		CluDisplay cluDisplay = new CluDisplay();
 		cluDisplay.setAtpDisplayEnd(toAtpDisplay(clu.getEffectiveEndCycle()));
-		cluDisplay.setAtpDisplayStart(toAtpDisplay(clu.getEffectiveStartCycle()));
-		cluDisplay.setCluCode(clu.getCluLongName());//FIXME there is no Clucode...maybe this message was updated?
+		cluDisplay
+				.setAtpDisplayStart(toAtpDisplay(clu.getEffectiveStartCycle()));
+		// FIXME there is no Clucode...maybe this message was updated?
+		cluDisplay.setCluCode(clu.getCluLongName());
 		cluDisplay.setCluShortTitle(clu.getCluShortName());
 		cluDisplay.setCluId(clu.getCluId());
 		cluDisplay.setLuTypeId(clu.getLuType().getLuTypeId());
@@ -808,4 +815,13 @@ public class LuServiceImpl implements LuService {
 		return atpDisplay;
 	}
 
+	private Lui toLui(String cluId, String atpId, LuiCreateInfo luiCreateInfo) {
+		// FIXME - the Lui class does not match the luiCreate info
+		// need to add attributes to lui.
+		Lui lui = new Lui();
+		lui.setAtp(dao.fetchAtp(atpId));
+		lui.setClu(dao.fetchClu(cluId));
+		luiCreateInfo.getAttributes();
+		return lui;
+	}
 }
