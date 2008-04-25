@@ -57,4 +57,8 @@ public interface LuDao {
 
 	public Set<LuRelationType> findAllowedLuLuRelationTypesForLuType(
 			String luTypeId, String relatedLuTypeId);
+
+	public Atp fetchAtp(String atpId);
+
+	public Clu fetchClu(String cluId);
 }

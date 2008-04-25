@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -13,11 +14,15 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.CluInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
 
 @Daos( { @Dao(value = "org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl", testDataFile = "classpath:test-beans.xml") })
@@ -44,7 +49,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public static final String luRelationType2_id = "11223344-1122-1122-1111-000000000017";
 	public static final String luRelationType3_id = "11223344-1122-1122-1111-000000000018";
 	public static final String luRelationType4_id = "11223344-1122-1122-1111-000000000019";
-	
+
 	@Test
 	public void testFindLuTypes() throws OperationFailedException {
 		List<LuTypeInfo> luTypes = client.findLuTypes();
@@ -85,4 +90,31 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertTrue(luRelationTypeIds.contains(luRelationType2_id));
 		assertTrue(luRelationTypeIds.contains(luRelationType3_id));
 	}
+
+	@Test
+	public void testCreateClu() throws AlreadyExistsException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		CluCreateInfo cluCreate = new CluCreateInfo();
+		cluCreate.setCluLongName("Long Name Qwerty");
+		cluCreate.setCluShortName("Clu Short Name");
+		cluCreate.setDescription("Description");
+		cluCreate.setEffectiveEndCycle(atpEnd_id);
+		cluCreate.setEffectiveStartCycle(atpStart_id);
+		cluCreate.setEffectiveEndDate(new Date());
+		cluCreate.setEffectiveStartDate(new Date());
+		cluCreate.getAttributes().put("Attribute Type Two", "Value2");
+		cluCreate.getAttributes().put("Attribute Type Three", "Value3");
+		String createdId = client.createClu(luType2_id, cluCreate);
+		CluInfo foundClu  = client.fetchClu(createdId);
+		assertNotNull(foundClu);
+		assertEquals("Value2",foundClu.getAttributes().get("Attribute Type Two"));
+		assertEquals("Value3",foundClu.getAttributes().get("Attribute Type Three"));
+		assertEquals(atpEnd_id,foundClu.getEffectiveEndCycle());
+		assertEquals(atpStart_id,foundClu.getEffectiveStartCycle());
+		assertEquals("Long Name Qwerty",foundClu.getCluLongName());
+		assertEquals(luType2_id,foundClu.getLuTypeId());
+		
+	}
+
 }

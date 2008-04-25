@@ -16,6 +16,9 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.UnsupportedActionException;
 import org.kuali.student.poc.learningunit.lu.dao.LuDao;
+import org.kuali.student.poc.learningunit.lu.entity.Clu;
+import org.kuali.student.poc.learningunit.lu.entity.LuAttribute;
+import org.kuali.student.poc.learningunit.lu.entity.LuAttributeType;
 import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
@@ -136,8 +139,29 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		Clu clu = new Clu();
+		BeanUtils.copyProperties(cluCreateInfo, clu, new String[] {
+				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
+		clu.setEffectiveEndCycle(dao.fetchAtp(cluCreateInfo
+				.getEffectiveEndCycle()));
+		clu.setEffectiveStartCycle(dao.fetchAtp(cluCreateInfo
+				.getEffectiveStartCycle()));
+		LuType luType = dao.fetchLuType(luTypeId);
+		clu.setLuType(luType);
+		// Add all the attributes that match from the LuType
+		for (LuAttributeType luAttributeType : luType.getLuAttributeTypes()) {
+			if (cluCreateInfo.getAttributes().containsKey(
+					luAttributeType.getName())) {
+				LuAttribute luAttr = new LuAttribute();
+				luAttr.setValue(cluCreateInfo.getAttributes().get(
+						luAttributeType.getName()));
+				luAttr.setLuAttributeType(luAttributeType);
+				luAttr.setClu(clu);
+				clu.getAttributes().add(luAttr);
+			}
+		}
+		dao.createClu(clu);
+		return clu.getCluId();
 	}
 
 	@Override
@@ -216,8 +240,18 @@ public class LuServiceImpl implements LuService {
 	public CluInfo fetchClu(String cluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		Clu clu = dao.fetchClu(cluId);
+		CluInfo cluInfo = new CluInfo();
+		BeanUtils.copyProperties(clu, cluInfo, new String[] {
+				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
+		cluInfo.setEffectiveEndCycle(clu.getEffectiveEndCycle().getAtpId());
+		cluInfo.setEffectiveStartCycle(clu.getEffectiveStartCycle().getAtpId());
+		cluInfo.setLuTypeId(clu.getLuType().getLuTypeId());
+		for (LuAttribute attr : clu.getAttributes()) {
+			cluInfo.getAttributes().put(attr.getLuAttributeType().getName(),
+					attr.getValue());
+		}
+		return cluInfo;
 	}
 
 	@Override
@@ -279,7 +313,7 @@ public class LuServiceImpl implements LuService {
 				.findAllowedLuLuRelationTypesForLuType(luTypeId,
 						relatedLuTypeId);
 		List<String> result = new ArrayList<String>();
-		for(LuRelationType luRelationType:luRelationTypes){
+		for (LuRelationType luRelationType : luRelationTypes) {
 			result.add(luRelationType.getId());
 		}
 		return result;

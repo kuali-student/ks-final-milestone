@@ -165,4 +165,14 @@ public class LuDaoImpl implements LuDao {
 		return set1;
 	}
 
+	@Override
+	public Atp fetchAtp(String atpId) {
+		return em.find(Atp.class, atpId);
+	}
+
+	@Override
+	public Clu fetchClu(String cluId) {
+		return em.find(Clu.class, cluId);
+	}
+
 }
