@@ -118,13 +118,16 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> findAllValidPersonIdsForLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByLui(luiId, luiPersonRelationTypeInfo.getName());
-        List<String> personIdList = new ArrayList<String>();
+        //TODO: Incorporate relation state info
         
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByLui(luiId, luiPersonRelationTypeInfo.getName());
+        
+        List<String> personIdList = new ArrayList<String>();        
         for (LuiPersonRelation lpr : luiPersonRelations) {
             personIdList.add(lpr.getPersonId());
         }        
-        return null;
+
+        return personIdList;
     }
 
     @Override
@@ -135,31 +138,55 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> findLuiIdsRelatedToPerson(String personId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        //TODO: Incorporate relation state info
+        
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByPerson(personId, luiPersonRelationTypeInfo.getName());
+        List<String> personIdList = new ArrayList<String>();
+
+        List<String> luiIdList = new ArrayList<String>();
+        
+        for (LuiPersonRelation lpr : luiPersonRelations) {
+            personIdList.add(lpr.getLuiId());
+        }        
+     
+        return luiIdList;
     }
 
     @Override
     public List<String> findLuiPersonRelationIds(String personId, String luiId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public List<String> findLuiPersonRelationIdsForLui(String luiId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByLui(luiId, "%");
+        
+        List<String> luiPersonRelationIdList = new ArrayList<String>();        
+        for (LuiPersonRelation lpr : luiPersonRelations) {
+            luiPersonRelationIdList.add(lpr.getId());
+        }        
+        
+        return luiPersonRelationIdList;
     }
 
     @Override
     public List<String> findLuiPersonRelationIdsForPerson(String personId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByPerson(personId, "%");
+
+        List<String> luiPersonRelationIdList = new ArrayList<String>();
+        
+        for (LuiPersonRelation lpr : luiPersonRelations) {
+            luiPersonRelationIdList.add(lpr.getId());
+        }
+        
+        return luiPersonRelationIdList;
     }
 
     @Override
     public List<LuiPersonRelationTypeInfo> findLuiPersonRelationTypes() throws OperationFailedException {
-        // TODO Auto-generated method stub
+        // TODO Make up relation types to send back
         return null;
     }
 
@@ -177,14 +204,26 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationDisplay> findLuiPersonRelationsForLui(String luiId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByLui(luiId, "%");
+        
+        List<LuiPersonRelationDisplay> lprDisplayList = new ArrayList<LuiPersonRelationDisplay>();        
+        for (LuiPersonRelation lpr : luiPersonRelations) {                                   
+            lprDisplayList.add(toLuiPersonRelationDisplay(lpr));
+        }        
+        
+        return lprDisplayList;
     }
 
     @Override
     public List<LuiPersonRelationDisplay> findLuiPersonRelationsForPerson(String personId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub        
-        return null;
+        List<LuiPersonRelation> luiPersonRelations = dao.findLuiPersonRelationByPerson(personId, "%");
+      
+        List<LuiPersonRelationDisplay> lprDisplayList = new ArrayList<LuiPersonRelationDisplay>();        
+        for (LuiPersonRelation lpr : luiPersonRelations) {                                   
+            lprDisplayList.add(toLuiPersonRelationDisplay(lpr));
+        }        
+        
+        return lprDisplayList;          
     }
 
     @Override
@@ -196,7 +235,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public List<String> findPersonIdsRelatedToLui(String luiId, LuiPersonRelationTypeInfo luiPersonRelationTypeInfo, RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
-        // TODO frist?
         return null;
     }
 
@@ -271,6 +309,30 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         // TODO copy rest of fields
 
         return luiPersonRelationInfo;
+    }
+    
+    private LuiPersonRelationDisplay toLuiPersonRelationDisplay(LuiPersonRelation lpr){
+        LuiPersonRelationDisplay lprDisplay = new LuiPersonRelationDisplay();
+        
+        //TODO: Call person service to get person display
+        PersonDisplay personDisplay = null;
+        lprDisplay.setPersonDisplay(personDisplay);
+        
+        //TODO: Call lui service to get LUI display
+        LuiDisplay luiDisplay = null;
+        lprDisplay.setLuiDisplay(luiDisplay);
+        
+        LuiPersonRelationTypeInfo lprTypeInfo = new LuiPersonRelationTypeInfo();
+        lprTypeInfo.setName(lpr.getLuiPersonRelationType());            
+        lprDisplay.setLuiPersonRelationType(lprTypeInfo);
+        
+        lprDisplay.setLuiPersonRelationId(lpr.getId());
+        
+        RelationStateInfo relationStateInfo = new RelationStateInfo();
+        relationStateInfo.setState(lpr.getRelationState());           
+        lprDisplay.setRelationState(relationStateInfo);
+        
+        return lprDisplay;
     }
 
 }
