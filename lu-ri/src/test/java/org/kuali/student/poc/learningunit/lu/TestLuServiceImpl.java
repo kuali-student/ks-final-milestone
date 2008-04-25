@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -48,13 +49,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testFindLuTypes() throws OperationFailedException {
 		List<LuTypeInfo> luTypes = client.findLuTypes();
 		assertEquals(2, luTypes.size());
-		if (luType2_id.equals(luTypes.get(0).getLuTypeKey())) {
-
-		} else if (luType2_id.equals(luTypes.get(1).getLuTypeKey())) {
-
-		} else {
-			assertTrue(false);
-		}
+		List<String> idList = new ArrayList<String>();
+		idList.add(luTypes.get(0).getLuTypeKey());
+		idList.add(luTypes.get(1).getLuTypeKey());
+		assertTrue(idList.contains(luType1_id));
+		assertTrue(idList.contains(luType2_id));
 	}
 
 	@Test
