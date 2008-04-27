@@ -11,6 +11,23 @@
 	<name>KS POC Parent POM</name>
 	<description>Kuali Student POC Parent POM</description>
 
+	<url>http://kuali.org/communities/ks/</url>
+	<licenses>
+		<license>
+			<name>
+				The Kuali Foundation Educational Community License 1.0
+			</name>
+			<url>
+				https://test.kuali.org/confluence/display/KULDOC/The+Kuali+Foundation+ECL
+			</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
+	<ciManagement>
+		<system>continuum</system>
+		<url>http://kuali.umd.edu/continuum</url>
+	</ciManagement>
+
 
 	<modules>
 		<module>ks-service-api-pom</module>
@@ -105,6 +122,9 @@
 				<pluginRepository>
 					<id>codehaussandbox</id>
 					<url>http://snapshots.repository.codehaus.org</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
 				</pluginRepository>
 				<pluginRepository>
 					<id>apache.incubating</id>
@@ -201,7 +221,7 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
-			</dependency>					
+			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aspects</artifactId>
@@ -226,7 +246,7 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
 				<version>${spring.version}</version>
-			</dependency> 	
+			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
@@ -253,7 +273,7 @@
 						<artifactId>servlet-api</artifactId>
 						<groupId>javax.servlet</groupId>
 					</exclusion>
-					
+
 					<exclusion>
 						<groupId>org.springframework</groupId>
 						<artifactId>spring</artifactId>
@@ -355,5 +375,5 @@
 
 		</dependencies>
 	</dependencyManagement>
-	
+
 </project>
