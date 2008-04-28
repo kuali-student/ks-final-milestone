@@ -95,7 +95,7 @@ public class GenerateRuleSet {
 		this.functionString = functionString;
 	}
 	
-	public void parse() throws RuleEngineRepositoryException {
+	public void parse() throws Exception, RuleEngineRepositoryException {
 		Function f = new Function(functionString);
 		List<String> funcVars = f.getVariables();
 		
