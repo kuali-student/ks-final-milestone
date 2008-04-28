@@ -162,7 +162,8 @@ public class GenerateRuleSet {
         
         // create the proposition rule, one per function variable
 		for (String var : funcVars) {
-			extRuleName = ruleName + " (" + var + ")";
+			//extRuleName = ruleName + " (" + var + ")";
+		    extRuleName = ruleName + " " + var;
 			rt.setRuleName(extRuleName);
 			rt.setRuleAttributes(ruleAttributes);
 			
