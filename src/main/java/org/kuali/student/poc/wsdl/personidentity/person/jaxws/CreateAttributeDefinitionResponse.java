@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 public class CreateAttributeDefinitionResponse {
 
     @XmlElement(name = "return")
-    private long _return;
+    private String _return;
 
-    public long get_return() {
+    public String get_return() {
         return this._return;
     }
     
-    public void set_return( long new_return ) {
+    public void set_return( String new_return ) {
         this._return = new_return;
     }
     

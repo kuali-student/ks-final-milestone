@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 public class FetchPersonRelation {
 
     @XmlElement(name = "personRelationId")
-    private java.lang.Long personRelationId;
+    private java.lang.String personRelationId;
 
-    public java.lang.Long getPersonRelationId() {
+    public java.lang.String getPersonRelationId() {
         return this.personRelationId;
     }
     
-    public void setPersonRelationId( java.lang.Long newPersonRelationId ) {
+    public void setPersonRelationId( java.lang.String newPersonRelationId ) {
         this.personRelationId = newPersonRelationId;
     }
     

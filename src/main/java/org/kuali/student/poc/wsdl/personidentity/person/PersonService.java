@@ -83,9 +83,48 @@ public interface PersonService {
 	@WebMethod
 	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypesForPersonType(
 			@WebParam(name = "personTypeKey")
-			Long personTypeKey) throws DoesNotExistException,
+			String personTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
+
+
+    /**
+     * Retrieves a list of person display for the people specified in the person id list.
+     * 
+     * NOTE: This operation not included in original service description.
+     * 
+     * @param personIdList
+     * @return list of PersonDisplay
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+	public List<PersonDisplay> findPeopleDisplayByPersonIds(
+	        @WebParam(name = "personIdList")
+	        List<String> personIdList)
+	throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+	
+    /**
+     * Retrieves a list of person info for the people specified in the person id list.
+     * 
+     * NOTE: This operation not included in original service description.
+     * 
+     * @param personIdList
+     * @return a list of person info
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+	public List<PersonInfo> findPeopleByPersonIds(
+            @WebParam(name = "personIdList")
+            List<String> personIdList)
+    throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
 
 	/**
 	 * Retrieves the metadata about the specified person type
@@ -99,7 +138,7 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public PersonTypeInfo fetchPersonType(@WebParam(name = "personTypeKey")
-	Long personTypeKey) throws DoesNotExistException,
+	String personTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 
@@ -116,7 +155,7 @@ public interface PersonService {
 	@WebMethod
 	public PersonAttributeSetTypeInfo fetchPersonAttributeSetType(
 			@WebParam(name = "personAttributeSetTypeKey")
-			Long personAttributeSetTypeKey) throws DoesNotExistException,
+			String personAttributeSetTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 
@@ -146,7 +185,7 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public PersonInfo fetchFullPersonInfo(@WebParam(name = "personId")
-	Long personId) throws DoesNotExistException, DisabledIdentifierException,
+	String personId) throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -169,8 +208,8 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public PersonInfo fetchPersonInfoByPersonType(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personTypeKey")
-	Long personTypeKey) throws DoesNotExistException,
+	String personId, @WebParam(name = "personTypeKey")
+	String personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -194,8 +233,8 @@ public interface PersonService {
 	@WebMethod
 	public PersonInfo fetchPersonInfoByPersonAttributeSetTypes(
 			@WebParam(name = "personId")
-			Long personId, @WebParam(name = "personAttributeSetTypeKeyList")
-			List<Long> personAttributeSetTypeKeyList)
+			String personId, @WebParam(name = "personAttributeSetTypeKeyList")
+			List<String> personAttributeSetTypeKeyList)
 			throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
@@ -214,9 +253,9 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public List<Long> findPersonAttributeSetTypesForPerson(
+	public List<String> findPersonAttributeSetTypesForPerson(
 			@WebParam(name = "personId")
-			Long personId) throws DoesNotExistException,
+			String personId) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -234,8 +273,8 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public List<Long> findPersonTypesForPerson(@WebParam(name = "personId")
-	Long personId) throws DoesNotExistException, DisabledIdentifierException,
+	public List<String> findPersonTypesForPerson(@WebParam(name = "personId")
+	String personId) throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -253,9 +292,9 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public List<Long> findPersonIdsForPersonType(
+	public List<String> findPersonIdsForPersonType(
 			@WebParam(name = "personTypeKey")
-			Long personTypeKey, @WebParam(name = "personFilter")
+			String personTypeKey, @WebParam(name = "personFilter")
 			PersonCriteria personFilter) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
@@ -275,8 +314,8 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean isPersonType(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personTypeKey")
-	Long personTypeKey) throws DoesNotExistException,
+	String personId, @WebParam(name = "personTypeKey")
+	String personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -299,8 +338,8 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public ValidationError validatePersonInfoForPersonType(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personTypeKey")
-	Long personTypeKey) throws DoesNotExistException,
+	String personId, @WebParam(name = "personTypeKey")
+	String personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -318,8 +357,8 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public Long fetchReplacementPersonId(@WebParam(name = "personId")
-	Long personId) throws DoesNotExistException, InvalidParameterException,
+	public String fetchReplacementPersonId(@WebParam(name = "personId")
+	String personId) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
 
@@ -340,8 +379,8 @@ public interface PersonService {
 	@WebMethod
 	public List<PersonRelationDisplay> findPersonRelations(
 			@WebParam(name = "personId")
-			Long personId, @WebParam(name = "personRelationTypeKey")
-			Long personRelationTypeKey) throws DoesNotExistException,
+			String personId, @WebParam(name = "personRelationTypeKey")
+			String personRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -360,9 +399,9 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public List<Long> findPersonPersonRelationIds(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personRelationTypeKey")
-	Long personRelationTypeKey) throws DoesNotExistException,
+	public List<String> findPersonPersonRelationIds(@WebParam(name = "personId")
+	String personId, @WebParam(name = "personRelationTypeKey")
+	String personRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -380,7 +419,7 @@ public interface PersonService {
 	@WebMethod
 	public PersonRelationInfo fetchPersonRelation(
 			@WebParam(name = "personRelationId")
-			Long personRelationId) throws DoesNotExistException,
+			String personRelationId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -399,7 +438,7 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public List<Long> searchForPersonIds(@WebParam(name = "personCriteria")
+	public List<String> searchForPersonIds(@WebParam(name = "personCriteria")
 	PersonCriteria personCriteria) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -447,7 +486,7 @@ public interface PersonService {
 	@WebMethod
 	public List<PersonInfo> searchForPeopleByPersonType(
 			@WebParam(name = "personTypeKey")
-			Long personTypeKey, @WebParam(name = "personCriteria")
+			String personTypeKey, @WebParam(name = "personCriteria")
 			PersonCriteria personCriteria) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -474,7 +513,7 @@ public interface PersonService {
 	@WebMethod
 	public List<PersonInfo> searchForPeopleByPersonAttributeSetType(
 			@WebParam(name = "personAttributeSetTypeKey")
-			Long personAttributeSetTypeKey, @WebParam(name = "personCriteria")
+			String personAttributeSetTypeKey, @WebParam(name = "personCriteria")
 			PersonCriteria personCriteria) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -533,7 +572,7 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public List<Long> searchForPersonIdsByRelation(
+	public List<String> searchForPersonIdsByRelation(
 			@WebParam(name = "personRelationCriteria")
 			PersonRelationCriteria personRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
@@ -556,9 +595,9 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public long createPerson(@WebParam(name = "personCreateInfo")
+	public String createPerson(@WebParam(name = "personCreateInfo")
 	PersonCreateInfo personCreateInfo, @WebParam(name = "personTypeKeys")
-	List<Long> personTypeKeys) throws AlreadyExistsException,
+	List<String> personTypeKeys) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -579,7 +618,7 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean updatePerson(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personUpdateInfo")
+	String personId, @WebParam(name = "personUpdateInfo")
 	PersonUpdateInfo personUpdateInfo) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, ReadOnlyException,
@@ -600,7 +639,7 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean deletePerson(@WebParam(name = "personId")
-	Long personId) throws DoesNotExistException, DisabledIdentifierException,
+	String personId) throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
@@ -623,8 +662,8 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean assignPersonType(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personTypeKey")
-	Long personTypeKey) throws AlreadyExistsException,
+	String personId, @WebParam(name = "personTypeKey")
+	String personTypeKey) throws AlreadyExistsException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -646,8 +685,8 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean removePersonType(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "personTypeKey")
-	Long personTypeKey) throws DoesNotExistException,
+	String personId, @WebParam(name = "personTypeKey")
+	String personTypeKey) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -669,10 +708,10 @@ public interface PersonService {
 	 * @throws PermissionDeniedException
 	 */
 	@WebMethod
-	public Long createPersonRelation(@WebParam(name = "personId")
-	Long personId, @WebParam(name = "relatedPersonId")
-	Long relatedPersonId, @WebParam(name = "personRelationTypeKey")
-	Long personRelationTypeKey, @WebParam(name = "personRelationCreateInfo")
+	public String createPersonRelation(@WebParam(name = "personId")
+	String personId, @WebParam(name = "relatedPersonId")
+	String relatedPersonId, @WebParam(name = "personRelationTypeKey")
+	String personRelationTypeKey, @WebParam(name = "personRelationCreateInfo")
 	PersonRelationCreateInfo personRelationCreateInfo)
 			throws AlreadyExistsException, DoesNotExistException,
 			CircularReferenceException, InvalidParameterException,
@@ -696,7 +735,7 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean updatePersonRelation(@WebParam(name = "personRelationId")
-	Long personRelationId, @WebParam(name = "personRelationUpdateInfo")
+	String personRelationId, @WebParam(name = "personRelationUpdateInfo")
 	PersonRelationUpdateInfo personRelationUpdateInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, ReadOnlyException,
@@ -716,13 +755,13 @@ public interface PersonService {
 	 */
 	@WebMethod
 	public boolean deletePersonRelation(@WebParam(name = "personRelationId")
-	Long personRelationId) throws DoesNotExistException,
+	String personRelationId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
 	// Additional maintenance methods /////////////////////////
 	@WebMethod
-	public long createAttributeDefinition(
+	public String createAttributeDefinition(
 			@WebParam(name = "attributeDefinition")
 			PersonAttributeTypeInfo attributeDefinition)
 			throws AlreadyExistsException, InvalidParameterException,
@@ -730,13 +769,13 @@ public interface PersonService {
 			PermissionDeniedException;
 
 	@WebMethod
-	public long createPersonTypeInfo(@WebParam(name = "personTypeInfo")
+	public String createPersonTypeInfo(@WebParam(name = "personTypeInfo")
 	PersonTypeInfo personTypeInfo) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
 
 	@WebMethod
-	public long createPersonAttributeSetType(
+	public String createPersonAttributeSetType(
 			@WebParam(name = "attributeSetDTO")
 			PersonAttributeSetTypeInfo attributeSetDTO)
 			throws AlreadyExistsException, InvalidParameterException,

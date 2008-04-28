@@ -13,7 +13,7 @@ public class PersonNameInfo implements Serializable{
 	private static final long serialVersionUID = 4349244836575781985L;
 	
 	@XmlAttribute
-	private Long personId;
+	private String personId;
 	
 	@XmlAttribute
 	private boolean preferredName;
@@ -48,13 +48,13 @@ public class PersonNameInfo implements Serializable{
 	/**
 	 * @return the personId
 	 */
-	public Long getPersonId() {
+	public String getPersonId() {
 		return personId;
 	}
 	/**
 	 * @param personId the personId to set
 	 */
-	public void setPersonId(Long personId) {
+	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
 	/**

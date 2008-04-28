@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 public class FindPersonAttributeSetTypesForPerson {
 
     @XmlElement(name = "personId")
-    private java.lang.Long personId;
+    private java.lang.String personId;
 
-    public java.lang.Long getPersonId() {
+    public java.lang.String getPersonId() {
         return this.personId;
     }
     
-    public void setPersonId( java.lang.Long newPersonId ) {
+    public void setPersonId( java.lang.String newPersonId ) {
         this.personId = newPersonId;
     }
     
