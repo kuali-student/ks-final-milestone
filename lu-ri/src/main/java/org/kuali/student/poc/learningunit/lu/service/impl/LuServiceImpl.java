@@ -699,6 +699,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -800,9 +801,7 @@ public class LuServiceImpl implements LuService {
 		cluDisplay.setAtpDisplayEnd(toAtpDisplay(clu.getEffectiveEndCycle()));
 		cluDisplay
 				.setAtpDisplayStart(toAtpDisplay(clu.getEffectiveStartCycle()));
-		// FIXME there is no Clucode...maybe this message was updated?
-		cluDisplay.setCluCode(clu.getCluLongName());
-		cluDisplay.setCluShortTitle(clu.getCluShortName());
+		cluDisplay.setCluShortName(clu.getCluShortName());
 		cluDisplay.setCluId(clu.getCluId());
 		cluDisplay.setLuTypeId(clu.getLuType().getLuTypeId());
 		return cluDisplay;
@@ -817,11 +816,11 @@ public class LuServiceImpl implements LuService {
 
 	private Lui toLui(String cluId, String atpId, LuiCreateInfo luiCreateInfo) {
 		// FIXME - the Lui class does not match the luiCreate info
-		// need to add attributes to lui.
+		// need to add attributes to lui?
 		Lui lui = new Lui();
 		lui.setAtp(dao.fetchAtp(atpId));
 		lui.setClu(dao.fetchClu(cluId));
-		luiCreateInfo.getAttributes();
+		//set the attributes
 		return lui;
 	}
 }

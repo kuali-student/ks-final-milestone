@@ -123,7 +123,7 @@ public class Assembler {
 		cluDisplay.setAtpDisplayStart(atpDisplayStart);
 		//cluDisplay.setCluCode(clu.) @FIX_ME
 		cluDisplay.setCluId(clu.getCluId());
-		cluDisplay.setCluShortTitle(clu.getCluShortName());
+		cluDisplay.setCluShortName(clu.getCluShortName());
 		cluDisplay.setLuTypeId(clu.getLuType().getLuTypeId());
 		return cluDisplay;
 	}
@@ -143,7 +143,7 @@ public class Assembler {
 		atp = new Atp();
 		atp.setAtpId(cluDisplay.getAtpDisplayEnd().getAtpId());
 		clu.setEffectiveEndCycle(atp);
-		clu.setCluShortName(cluDisplay.getCluShortTitle());
+		clu.setCluShortName(cluDisplay.getCluShortName());
 		LuType luType = new LuType();
 		luType.setLuTypeId(cluDisplay.getLuTypeId());
 		clu.setLuType(luType);
