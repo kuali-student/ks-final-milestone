@@ -17,8 +17,9 @@ public class CluDisplay implements Serializable {
 	private String luTypeId;
 	@XmlElement
 	private String cluShortName;
-	@XmlElement
-	private String cluCode;
+	//Removed because there is no corresponding cluCode on info or create
+	//@XmlElement
+	//private String cluCode;
 	@XmlElement
 	private AtpDisplay atpDisplayStart;
 	@XmlElement
@@ -69,20 +70,20 @@ public class CluDisplay implements Serializable {
 		this.cluShortName = cluShortName;
 	}
 
-	/**
-	 * @return the cluCode
-	 */
-	public String getCluCode() {
-		return cluCode;
-	}
-
-	/**
-	 * @param cluCode
-	 *            the cluCode to set
-	 */
-	public void setCluCode(String cluCode) {
-		this.cluCode = cluCode;
-	}
+//	/**
+//	 * @return the cluCode
+//	 */
+//	public String getCluCode() {
+//		return cluCode;
+//	}
+//
+//	/**
+//	 * @param cluCode
+//	 *            the cluCode to set
+//	 */
+//	public void setCluCode(String cluCode) {
+//		this.cluCode = cluCode;
+//	}
 
 	/**
 	 * @return the atpDisplayStart
@@ -127,7 +128,7 @@ public class CluDisplay implements Serializable {
 				+ ((atpDisplayEnd == null) ? 0 : atpDisplayEnd.hashCode());
 		result = prime * result
 				+ ((atpDisplayStart == null) ? 0 : atpDisplayStart.hashCode());
-		result = prime * result + ((cluCode == null) ? 0 : cluCode.hashCode());
+		//result = prime * result + ((cluCode == null) ? 0 : cluCode.hashCode());
 		result = prime * result + ((cluId == null) ? 0 : cluId.hashCode());
 		result = prime * result
 				+ ((cluShortName == null) ? 0 : cluShortName.hashCode());
@@ -160,11 +161,11 @@ public class CluDisplay implements Serializable {
 				return false;
 		} else if (!atpDisplayStart.equals(other.atpDisplayStart))
 			return false;
-		if (cluCode == null) {
-			if (other.cluCode != null)
-				return false;
-		} else if (!cluCode.equals(other.cluCode))
-			return false;
+//		if (cluCode == null) {
+//			if (other.cluCode != null)
+//				return false;
+//		} else if (!cluCode.equals(other.cluCode))
+//			return false;
 		if (cluId == null) {
 			if (other.cluId != null)
 				return false;
