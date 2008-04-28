@@ -40,4 +40,27 @@ public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
         
         
     }
+    
+    @Test
+    public void testUpdateLuiPersonRelation() {
+        LuiPersonRelation lpr = new LuiPersonRelation();
+        lpr.setEffectiveEndDate(new Date());
+        lpr.setEffectiveStartDate(new Date());
+        lpr.setLuiId("whatever1");
+        lpr.setPersonId("whatever2");
+        lpr.setLuiPersonRelationType("whatever3");
+        lpr.setRelationState("whatever4");
+        
+        dao.createLuiPersonRelation(lpr);
+        LuiPersonRelation lpr2 = dao.findLuiPersonRelation(lpr.getId());
+        
+        assertEquals(lpr,lpr2);
+        
+        lpr2.setRelationState("why not?");
+        dao.updateLuiPersonRelation(lpr2);
+        lpr = dao.findLuiPersonRelation(lpr2.getId());
+        
+        assertEquals(lpr2.getRelationState(),lpr.getRelationState());
+        
+    }
 }

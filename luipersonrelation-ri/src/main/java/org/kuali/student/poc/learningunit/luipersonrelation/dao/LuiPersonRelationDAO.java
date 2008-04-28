@@ -17,4 +17,8 @@ public interface LuiPersonRelationDAO {
     public List<LuiPersonRelation> findLuiPersonRelationsByLui(String luiId, String luiRelationType, String relationState);
     
     public List<LuiPersonRelation> findLuiPersonRelations(String personId, String luiId, String luiRelationType, String relationState);
+
+    public LuiPersonRelation findLuiPersonRelation(String luiPersonRelationId);
+
+    public LuiPersonRelation updateLuiPersonRelation(LuiPersonRelation luiPersonRelation);
 }
