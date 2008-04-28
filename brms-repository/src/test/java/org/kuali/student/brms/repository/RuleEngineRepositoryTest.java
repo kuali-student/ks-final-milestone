@@ -56,10 +56,8 @@ import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryExceptio
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleFactory;
-import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.rule.RuleSetFactory;
-import org.kuali.student.brms.repository.rule.RuleSetImpl;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
 
@@ -766,7 +764,7 @@ public class RuleEngineRepositoryTest {
      */
 
     @Test
-    @Ignore
+    @Ignore( "loadArchivedRuleSets method is not implemented beacuse of a Drools bug" )
     public void testLoadArchivedRuleSet_FailTest() throws Exception {
         try {
             brmsRepository.loadArchivedRuleSets();
