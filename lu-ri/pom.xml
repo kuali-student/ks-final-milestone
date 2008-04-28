@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>lu-ri</artifactId>
+	<description></description>
+	<name>Learning Unit RI JAR</name>
+	<parent>
+		<groupId>org.kuali.student.poc.learningunit</groupId>
+		<artifactId>lum-ri</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+</project>
