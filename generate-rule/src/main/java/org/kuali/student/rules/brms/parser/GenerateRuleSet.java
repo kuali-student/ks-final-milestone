@@ -5,6 +5,7 @@ package org.kuali.student.rules.brms.parser;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.kuali.student.rules.util.*;
@@ -24,10 +25,11 @@ import org.kuali.student.brms.repository.*;
 public class GenerateRuleSet {
 	String functionString;
 	ArrayList<String> ruleAttributes = new ArrayList<String>();
-    ArrayList<String> lhsDB = new ArrayList<String>();
-    ArrayList<String> rhsDB = new ArrayList<String>();
-    ArrayList<String> lhsConst = new ArrayList<String>();
-    ArrayList<String> rhsConst = new ArrayList<String>();
+    ArrayList<String> lhs = new ArrayList<String>();
+    ArrayList<String> rhs = new ArrayList<String>();
+    
+    Hashtable<String, String> funcConstraintsMap;
+    String outcome;
     
     RuleEngineRepository brmsRepository;
     String rulesetUuid;
@@ -59,14 +61,19 @@ public class GenerateRuleSet {
 			//grs.setRuleSetUuid(rulesetUuid);
 			grs.setRuleSetName(rulePackage);
 			grs.setRuleSetDescription("A rule set description");
-			grs.setRuleName("Enrollment Physics 5000");
+			grs.setRuleName("Enrollment Physics");
 			grs.setRuleDescription("A rule description"); // Rule description cannot be empty
 			grs.setRuleCategory(null);
-			
 			grs.setRuleAttributes(null);
-			//grs.setLhsDB(null);
-			//grs.setRhsDB(null);
 			
+		    Hashtable<String, String> funcConstraintsMap = new Hashtable<String, String>();
+		    funcConstraintsMap.put("A0", "A constraintID from DB");
+		    funcConstraintsMap.put("B4", "A constraintID from DB");
+		    funcConstraintsMap.put("C", "A constraintID from DB");
+		    funcConstraintsMap.put("D", "A constraintID from DB");
+		    grs.setLhsFuncConstraintMap(funcConstraintsMap);
+		    grs.setRuleOutcome("System.out.println(\"I'm Enrolled\");");
+		    
 			grs.parse();
 			
 			// compile rule and save in repository
@@ -95,100 +102,96 @@ public class GenerateRuleSet {
 		this.functionString = functionString;
 	}
 	
-	public void parse() throws Exception, RuleEngineRepositoryException {
+	public void parse() throws Exception{
 		Function f = new Function(functionString);
 		List<String> funcVars = f.getVariables();
 		
 		RuleTemplate rt = new RuleTemplate();
-		String extRuleName;
 		
         //ruleSet = new RuleSetImpl(ruleSetName);
 		ruleSet = RuleSetFactory.getInstance().createRuleSet(ruleSetName);
         ruleSet.setDescription(ruleSetDescription);
         ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
-        ruleSet.addHeader("import org.kuali.student.rules.util.Function");
+        ruleSet.addHeader("import org.kuali.student.rules.util.Constraint");
 
-        // create a rule per function var
+        // create the final composite rule for the function
+        List<String> symbols = f.getSymbols();
+        
+        String extRuleName = ruleName + " " + "Func";
+        rt.setRuleName(extRuleName);
+        rt.setRuleAttributes(ruleAttributes);
+        
+        // Left Hand Side
+        lhs.add("props : Propositions()");
+        lhs.add("eval(");
+              
+        for (String symbol : symbols) {
+            if ( symbol.equals("+") ){
+                lhs.add("||");
+            }
+            else if( symbol.equals("*") ){
+                lhs.add("&&");
+            }
+            else if( symbol.equals("(") ){
+                lhs.add("(");
+            }
+            else if( symbol.equals(")") ){
+                lhs.add(")");
+            }
+            else {
+                lhs.add("Propositions.getProposition(\"" + symbol + "\")");
+            }
+            
+        }
+        lhs.add(")");
+        rt.setLHS(lhs);
+        
+        
+        // Right Hand Side
+        rhs.add(outcome);
+        rt.setRHS(rhs);
+        
+        // Merge the template with the context set in lhs, rhs, etc ..
+        String ruleSourceCode = rt.process("RuleTemplate.vm");
+        saveRule(extRuleName, ruleSourceCode);
+        
+        ruleAttributes.clear();
+        lhs.clear();
+        rhs.clear();
+        
+        
+        // create the proposition rule, one per function variable
 		for (String var : funcVars) {
-			//System.out.println("The var is " + var );
 			extRuleName = ruleName + " (" + var + ")";
 			rt.setRuleName(extRuleName);
 			rt.setRuleAttributes(ruleAttributes);
 			
 			// Left Hand Side
-			
-			lhsDB.add("// This is coming from the Database");
-			rt.setLHS(lhsDB);
+			String dbConstraint = funcConstraintsMap.get(var);
+			lhs.add("constraint : Constraint(constraintID == \"" + dbConstraint + "\")");
+            lhs.add("Boolean(booleanValue == Boolean.TRUE) from constraint.apply(\"" + var + "\")");
+            lhs.add("props : Propositions()");
+            rt.setLHS(lhs);
 			
 			// Right Hand Side
-			rhsConst.add("Propositions.setProposition(\"" + var + "\", true);");
-			rt.setRHS(rhsConst);
+            rhs.add("Propositions.setProposition(\"" + var + "\", true);");
+            rhs.add("retract(constraint);");
+            rhs.add("update(props);");
+            rt.setRHS(rhs);
 			
-			// Merge the template with the context set in lhs, rhs, etc ..
-			String ruleSourceCode = rt.process("RuleTemplate.vm");
+            // Merge the template with the context set in lhs, rhs, etc ..
+			ruleSourceCode = rt.process("RuleTemplate.vm");
+			saveRule(extRuleName, ruleSourceCode);
 			
-			// depending on how we set the ruleAttributes and lhsDB we may not need to clear.
-			// for example if lhsDB is set as an array (before parse() is called)
-			// then we just iterate over it and do not clear.
 			ruleAttributes.clear();
-			lhsDB.clear();
-			// always clear
-			rhsConst.clear();
-			
-			// Add rule to ruleset created in constructor
-			//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
-	        //RuleImpl rule = new RuleImpl(extRuleName);
-			Rule rule = RuleFactory.getInstance().createRule(extRuleName);
-	        rule.setDescription(description);
-	        rule.setCategory(category);
-	        rule.setContent(ruleSourceCode);
-	        rule.setFormat("drl");
-			ruleSet.addRule(rule);
+            lhs.clear();
+            rhs.clear();
         }
-		
-		// create the final composite rule for the function
-		List<String> symbols = f.getSymbols();
-		extRuleName = ruleName + " " + "Func";
-		rt.setRuleName(extRuleName);
-		rt.setRuleAttributes(ruleAttributes);
-		lhsConst.add("eval(");		
-		for (String symbol : symbols) {
-			// Left Hand Side
-			if ( symbol.equals("+") ){
-				lhsConst.add("||");
-        	}
-			else if( symbol.equals("*") ){
-			    lhsConst.add("&&");
-			}
-			else if( symbol.equals("(") ){
-			    lhsConst.add("(");
-			}
-			else if( symbol.equals(")") ){
-			    lhsConst.add(")");
-			}
-			else {
-			    lhsConst.add("Propositions.getProposition(\"" + symbol + "\")");
-			}
-			
-		}
-		rt.setLHS(lhsConst);
-		lhsConst.add(")");
-			
-		// Right Hand Side
-		rhsDB.add("// This is the final outcome");
-		rt.setRHS(rhsDB);
-			
-		// Merge the template with the cotext set in lhs, rhs, etc ..
-		String ruleSourceCode = rt.process("RuleTemplate.vm");
-			
-		//ruleAttributes.clear();
-		//lhs.clear();
-		//rhs.clear();
-			
-		// Add rule to ruleset created in constructor
-		//String ruleUuid1 = brmsRepository.createRule(rulesetUuid, extRuleName, description, ruleSourceCode, category );
-        //RuleImpl rule = new RuleImpl(extRuleName);
-		Rule rule = RuleFactory.getInstance().createRule(extRuleName);
+	}
+	
+	// Add rule to ruleset created in constructor
+	private void saveRule(String extRuleName, String ruleSourceCode){
+        Rule rule = RuleFactory.getInstance().createRule(extRuleName);
         rule.setDescription(description);
         rule.setCategory(category);
         rule.setContent(ruleSourceCode);
@@ -230,15 +233,23 @@ public class GenerateRuleSet {
 	    }
 	}
 	
-	public void setLhsDB(ArrayList<String> lhsDB) {
-	    this.lhsDB = lhsDB;
+	public void setLhs(ArrayList<String> lhs) {
+	    this.lhs = lhs;
 	}
 	
-	public void setRhsDB(ArrayList<String> rhsDB) {
-        this.rhsDB = rhsDB;
+	public void setRhs(ArrayList<String> rhs) {
+        this.rhs = rhs;
     }
 	
 	public RuleSet getRuleSet() {
 	    return this.ruleSet;
 	}
+	
+    public void setLhsFuncConstraintMap(Hashtable<String, String> funcConstraintsMap) {
+        this.funcConstraintsMap = funcConstraintsMap;
+    }
+    
+    public void setRuleOutcome(String outcome) {
+        this.outcome = outcome;
+    }
 }
