@@ -302,8 +302,18 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public Status updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationUpdateInfo luiPersonRelationUpdateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        LuiPersonRelation luiPersonRelation = dao.findLuiPersonRelation(luiPersonRelationId);
+        if(luiPersonRelation == null)
+            throw new DoesNotExistException("No LUI Person Relation with id "+luiPersonRelationId);
+        luiPersonRelation.setEffectiveEndDate(luiPersonRelationUpdateInfo.getEffectiveEndDate());
+        luiPersonRelation.setEffectiveStartDate(luiPersonRelationUpdateInfo.getEffectiveStartDate());
+        luiPersonRelation.setLuiPersonRelationType(luiPersonRelationUpdateInfo.getLuiPersonRelationType().getName());
+        luiPersonRelation.setRelationState(luiPersonRelationUpdateInfo.getRelationState().getState());
+        dao.updateLuiPersonRelation(luiPersonRelation);
+        
+        Status status = new Status();
+        status.setSuccess(true); //if no exceptions, then it must've worked
+        return status;
     }
 
     @Override
