@@ -77,11 +77,6 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     }
 
     @Override
-    public LuiPersonRelation findLuiPersonRelation(String luiPersonRelationId) {
-        return em.find(LuiPersonRelation.class, luiPersonRelationId);
-    }
-
-    @Override
     public LuiPersonRelation updateLuiPersonRelation(LuiPersonRelation luiPersonRelation) {
         return em.merge(luiPersonRelation);
     }

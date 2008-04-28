@@ -302,7 +302,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public Status updateLuiPersonRelation(String luiPersonRelationId, LuiPersonRelationUpdateInfo luiPersonRelationUpdateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException {
-        LuiPersonRelation luiPersonRelation = dao.findLuiPersonRelation(luiPersonRelationId);
+        LuiPersonRelation luiPersonRelation = dao.lookupLuiPersonRelation(luiPersonRelationId);
         if(luiPersonRelation == null)
             throw new DoesNotExistException("No LUI Person Relation with id "+luiPersonRelationId);
         luiPersonRelation.setEffectiveEndDate(luiPersonRelationUpdateInfo.getEffectiveEndDate());
@@ -318,7 +318,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public Status updateRelationState(String luiPersonRelationId, RelationStateInfo relationStateInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiPersonRelation luiPersonRelation = dao.findLuiPersonRelation(luiPersonRelationId);
+        LuiPersonRelation luiPersonRelation = dao.lookupLuiPersonRelation(luiPersonRelationId);
         if(luiPersonRelation == null)
             throw new DoesNotExistException("No LUI Person Relation with id "+luiPersonRelationId);
         luiPersonRelation.setRelationState(relationStateInfo.getState());

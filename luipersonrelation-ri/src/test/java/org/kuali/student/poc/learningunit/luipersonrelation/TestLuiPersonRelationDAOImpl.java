@@ -52,13 +52,13 @@ public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
         lpr.setRelationState("whatever4");
         
         dao.createLuiPersonRelation(lpr);
-        LuiPersonRelation lpr2 = dao.findLuiPersonRelation(lpr.getId());
+        LuiPersonRelation lpr2 = dao.lookupLuiPersonRelation(lpr.getId());
         
         assertEquals(lpr,lpr2);
         
         lpr2.setRelationState("why not?");
         dao.updateLuiPersonRelation(lpr2);
-        lpr = dao.findLuiPersonRelation(lpr2.getId());
+        lpr = dao.lookupLuiPersonRelation(lpr2.getId());
         
         assertEquals(lpr2.getRelationState(),lpr.getRelationState());
         
