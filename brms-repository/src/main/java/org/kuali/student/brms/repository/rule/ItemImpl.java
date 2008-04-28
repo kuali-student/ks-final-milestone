@@ -70,6 +70,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
      * @param name Item name
      */
     ItemImpl(final String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("name cannot be null or empty");
+        }
         this.name = name;
     }
 
@@ -80,6 +83,12 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
      * @param name Item name
      */
     ItemImpl(final String uuid, final String name) {
+        if (uuid == null || uuid.trim().isEmpty()) {
+            throw new IllegalArgumentException("name cannot be null or empty");
+        }
+        else if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("name cannot be null or empty");
+        }
         this.uuid = uuid;
         this.name = name;
     }
@@ -236,6 +245,51 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
      */
     public void setVersionSnapshotUUID(String versionSnapshotUUID) {
         this.versionSnapshotUUID = versionSnapshotUUID;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( name == null ? 0 : name.hashCode() );
+        result = prime * result + ( uuid == null ? 0 : uuid.hashCode() );
+        result = prime * result + (int) ( versionNumber ^ ( versionNumber >>> 32 ) );
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null ) {
+            return false;
+        }
+        if ( getClass() != obj.getClass() ) {
+            return false;
+        }
+        if ( name == null ) {
+            return false;
+        }
+
+        final ItemImpl item = (ItemImpl) obj;
+        
+        if ( item.getName() == null ) {
+            return false;
+        }
+        
+        if ( name.equals( item.getName() ) ) {
+            if ( item.getUUID() != null ) {
+                return ( item.getUUID().equals( this.getUUID() ) );
+            }
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public String toString() {
+        return "Name=" + this.name + ", UUID=" + this.uuid;
     }
 
 }

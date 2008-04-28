@@ -210,4 +210,57 @@ public class RuleSetImpl
         this.snapshotName = snapshotName;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( getName() == null ? 0 : getName().hashCode() );
+        result = prime * result + ( getUUID() == null ? 0 : getUUID().hashCode() );
+        result = prime * result + ( header == null ? 0 : header.hashCode() );
+        result = prime * result + ( rules == null ? 0 : rules.hashCode() );
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null ) {
+            return false;
+        }
+        if ( this.getClass() != obj.getClass() ) {
+            return false;
+        }
+        if ( this.getName() == null ) {
+            return false;
+        }
+        
+        final RuleSetImpl ruleSet = (RuleSetImpl) obj;
+        
+        if ( ruleSet.getName() == null ) {
+            return false;
+        }
+        if ( header == null && ruleSet.header != null  ) {
+            return false;
+        } else if ( !header.equals( ruleSet.header ) ) {
+            return false;
+        }
+        
+        if ( rules == null && ruleSet.rules != null ) {
+            return false;
+        } else if ( !rules.equals( ruleSet.rules ) ) {
+            return false;
+        }
+        
+        if ( !getName().equals( ruleSet.getName() ) ) {
+            return false;
+        }
+        if ( ruleSet.getUUID() != null && !ruleSet.getUUID().equals( this.getUUID() ) ) {
+            return false;
+        }
+        
+        return true;
+    }
+
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.brms.repository.rule;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -135,6 +136,50 @@ public class RuleImpl
      */
     public Calendar getExpiryDate() {
         return this.expiryDate;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + super.hashCode();
+        result = prime * result + ( getContent() == null ? 0 : getContent().hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null ) {
+            return false;
+        }
+        if ( this.getClass() != obj.getClass() ) {
+            return false;
+        }
+        if ( this.getName() == null ) {
+            return false;
+        }
+
+        final RuleImpl rule = (RuleImpl) obj;
+
+        if ( rule.getName() == null ) {
+            return false;
+        }
+        
+        if ( !getName().equals( rule.getName() ) ) {
+            return false;
+        }
+        if ( getContent() != null && !getContent().equals( rule.getContent() ) ) {
+            return false;
+        }
+
+        if ( rule.getUUID() != null && !rule.getUUID().equals( this.getUUID() ) ) {
+            return false;
+        }
+        
+        return true;
     }
 
 }
