@@ -57,17 +57,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonServiceImpl implements PersonService {
 
-	@Override
-    public List<PersonInfo> findPeopleByPersonIds(List<String> personIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public List<PersonDisplay> findPeopleDisplayByPersonIds(List<String> personIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
     private PersonDAO personDAO;
 	private EhCacheHelper ehCacheHelper;
 	private final String personInfoCacheName = "PersonInfo";
@@ -469,6 +458,34 @@ public class PersonServiceImpl implements PersonService {
 	    return personTypeIdList;
 	}
 
+    @Override
+    public List<PersonInfo> findPeopleByPersonIds(List<String> personIdList) 
+        throws DoesNotExistException, InvalidParameterException, 
+        MissingParameterException, OperationFailedException {
+        List<Person> people = personDAO.findPeople(personIdList);
+        
+        List<PersonInfo> personInfoList = new ArrayList<PersonInfo>();
+        for (Person person:people){
+            personInfoList.add(toPersonInfo(person));
+        }
+        
+        return personInfoList;
+    }
+    
+    @Override
+    public List<PersonDisplay> findPeopleDisplayByPersonIds(List<String> personIdList) 
+        throws DoesNotExistException, InvalidParameterException, 
+        MissingParameterException, OperationFailedException {
+        List<Person> people = personDAO.findPeople(personIdList);
+        
+        List<PersonDisplay> personDispList = new ArrayList<PersonDisplay>();
+        for (Person person:people){
+            personDispList.add(toPersonDisplay(person));
+        }
+        
+        return personDispList;        
+    }
+	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#isPersonType(java.lang.String, java.lang.String)
 	 */
@@ -883,16 +900,7 @@ public class PersonServiceImpl implements PersonService {
 
 		personInfo.getName();
 		for(PersonName personName : person.getPersonNames()){
-			PersonNameInfo personNameInfo = new PersonNameInfo();
-			personNameInfo.setEffectiveEndDate(personName.getEffectiveEndDate());
-			personNameInfo.setEffectiveStartDate(personName.getEffectiveStartDate());
-			personNameInfo.setGivenName(personName.getGivenName());
-			personNameInfo.setMiddleName(personName.getMiddleNames());
-			personNameInfo.setNameType(personName.getNameType());
-			personNameInfo.setSuffix(personName.getSuffix());
-			personNameInfo.setSurname(personName.getSurname());
-			personNameInfo.setPersonTitle(personName.getTitle());
-			personInfo.getName().add(personNameInfo);
+			personInfo.getName().add(toPersonNameInfo(personName));
 		}
 		
 		for(PersonCitizenship personCitizenship:person.getPersonCitizenships()){
@@ -929,6 +937,21 @@ public class PersonServiceImpl implements PersonService {
 		return personInfo;
 	}
 
+	private PersonDisplay toPersonDisplay(Person person){
+	    PersonDisplay personDisplay = new PersonDisplay();
+	    
+	    personDisplay.setPersonId(person.getId());
+	    
+	    PersonNameInfo personNameInfo = null;
+	    if (person.getPersonNames().iterator().hasNext()){
+	        personNameInfo = toPersonNameInfo(person.getPersonNames().iterator().next());
+	    }
+	    
+	    personDisplay.setName(personNameInfo);
+	    
+	    return personDisplay;
+	}
+	
     private PersonAttributeSetTypeDisplay toPersonAttributeSetTypeDisplay(PersonAttributeSetType personAttrSetType) {
         PersonAttributeSetTypeDisplay personAttrSetTypeDisp = new PersonAttributeSetTypeDisplay();
         personAttrSetTypeDisp.setId(personAttrSetType.getId());
@@ -936,7 +959,21 @@ public class PersonServiceImpl implements PersonService {
         return personAttrSetTypeDisp;
     }
 	
-	private PersonTypeDisplay toPersonTypeDisplay(PersonType personType) {
+	private PersonNameInfo toPersonNameInfo(PersonName personName){
+        PersonNameInfo personNameInfo = new PersonNameInfo();
+	    personNameInfo.setEffectiveEndDate(personName.getEffectiveEndDate());
+        personNameInfo.setEffectiveStartDate(personName.getEffectiveStartDate());
+        personNameInfo.setGivenName(personName.getGivenName());
+        personNameInfo.setMiddleName(personName.getMiddleNames());
+        personNameInfo.setNameType(personName.getNameType());
+        personNameInfo.setSuffix(personName.getSuffix());
+        personNameInfo.setSurname(personName.getSurname());
+        personNameInfo.setPersonTitle(personName.getTitle());
+        
+        return personNameInfo;
+	}
+	
+    private PersonTypeDisplay toPersonTypeDisplay(PersonType personType) {
 		PersonTypeDisplay personTypeDisplay = new PersonTypeDisplay();
 		personTypeDisplay.setId(personType.getId());
 		personTypeDisplay.setName(personType.getName());

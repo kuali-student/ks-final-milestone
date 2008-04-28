@@ -34,6 +34,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeIn
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonReferenceIdInfo;
@@ -208,7 +209,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         name.setNameType("Briefcase");
         person.getName().add(name);
         
-        client.createPerson(person, personTypeInfoList);
+        String personId2 = client.createPerson(person, personTypeInfoList);
         
         PersonCriteria criteria = new PersonCriteria();
         criteria.setFirstName("%");
@@ -221,6 +222,16 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         people = client.searchForPeopleByPersonAttributeSetType(attributeSetTypes.get(0).getId(), criteria);
         assertEquals(1,people.size());
 
+        //Testing find people by person ids
+        
+        List<String> personIdList = new ArrayList<String>();
+        personIdList.add(personId);
+        personIdList.add(personId2);
+        
+        List<PersonDisplay> personDisplay = client.findPeopleDisplayByPersonIds(personIdList);        
+        assertEquals(((PersonDisplay)personDisplay.get(0)).getName().getGivenName(), "Foggy Bottom");
+        assertEquals(((PersonDisplay)personDisplay.get(1)).getName().getGivenName(), "Mary");
+        
         //Testing removePersonType
         assertTrue(client.removePersonType(personId, personType3Id));
         
@@ -229,50 +240,8 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         assertEquals(1, personTypes.size());
         assertTrue(personTypes.get(0).equals(personType4Id));
 	}
+
 	/*
-	 * @Test(expected=AlreadyExistsException.class) public void
-	 * testCreatePersonTypeInfo() throws OperationFailedException,
-	 * InvalidParameterException, AlreadyExistsException,
-	 * MissingParameterException, PermissionDeniedException { PersonTypeInfoDTO
-	 * personTypeInfo = new PersonTypeInfoDTO(0, "testType"); long newId =
-	 * client.createPersonTypeInfo(personTypeInfo); assertTrue(newId > 0);
-	 * 
-	 * List<PersonTypeDTO> personTypeDTOList =
-	 * client.findCreatablePersonTypes();
-	 * 
-	 * boolean found = false; for(PersonTypeDTO personTypeDTO :
-	 * personTypeDTOList) { if(personTypeDTO.getId() == newId &&
-	 * personTypeDTO.getName().equals("testType")) { found = true; } }
-	 * 
-	 * assertTrue(found); // Test the AlreadyExistsException
-	 * client.createPersonTypeInfo(personTypeInfo); }
-	 * 
-	 * @Test public void testUpdatePerson() throws AlreadyExistsException,
-	 * InvalidParameterException, MissingParameterException,
-	 * OperationFailedException, PermissionDeniedException,
-	 * DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
-	 * PersonDTO person = new PersonDTO(); person.setConfidential(false);
-	 * person.setDob(new Date()); person.setFirstName("Deric");
-	 * person.setLastName("D'Clapton"); person.setGender('M');
-	 * person.setAttribute("ssn", "879-65-3154"); person.setAttribute("Attr1",
-	 * "123-23-3456"); person.setAttribute("Attr2", "20080202"); List<PersonTypeInfoDTO>
-	 * persontypes = new ArrayList<PersonTypeInfoDTO>(); for(PersonTypeDTO
-	 * ptype: client.findCreatablePersonTypes()) { persontypes.add(ptype); }
-	 * long id = client.createPerson(person, persontypes);
-	 * 
-	 * person.getAttributes().clear(); person.setId(id);
-	 * person.setFirstName("Derek"); client.updatePerson(person);
-	 * 
-	 * person.setAttribute("Attr1", "879-65-3154"); client.updatePerson(person);
-	 * 
-	 * PersonDTO personResult = client.fetchFullPersonInfo(id);
-	 * assertEquals("879-65-3154", personResult.getAttribute("Attr1"));
-	 * assertEquals("20080202", personResult.getAttribute("Attr2"));
-	 * 
-	 * person.setAttribute("Attr2", null); client.updatePerson(person);
-	 * 
-	 * personResult = client.fetchFullPersonInfo(id);
-	 * assertNull(personResult.getAttribute("Attr2")); }
 	 * 
 	 * @Test public void testFetchPersonByPeronType() throws
 	 * DoesNotExistException, DisabledIdentifierException,
@@ -291,16 +260,6 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
 	 * assertEquals(1,foundPerson.getPersonTypes().size()); }
 	 */
 
-
-    /*
-     * @Test(expected=AlreadyExistsException.class) public void testCreatePersonTypeInfo() throws OperationFailedException,
-     * InvalidParameterException, AlreadyExistsException, MissingParameterException, PermissionDeniedException {
-     * PersonTypeInfoDTO personTypeInfo = new PersonTypeInfoDTO(0, "testType"); long newId =
-     * client.createPersonTypeInfo(personTypeInfo); assertTrue(newId > 0); List<PersonTypeDTO> personTypeDTOList =
-     * client.findCreatablePersonTypes(); boolean found = false; for(PersonTypeDTO personTypeDTO : personTypeDTOList) {
-     * if(personTypeDTO.getId() == newId && personTypeDTO.getName().equals("testType")) { found = true; } }
-     * assertTrue(found); // Test the AlreadyExistsException client.createPersonTypeInfo(personTypeInfo); }
-     */
     
     @Test
     public void testUpdatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
@@ -392,17 +351,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         assertEquals(resultId,personIds.get(0));
     }
 
-    /*
-     * @Test public void testFetchPersonByPeronType() throws DoesNotExistException, DisabledIdentifierException,
-     * InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException,
-     * PermissionDeniedException{ PersonDTO person = new PersonDTO(); person.setConfidential(false); person.setDob(new
-     * Date()); person.setFirstName("Frank"); person.setLastName("Zappa"); person.setGender('M'); person.setAttribute("ssn",
-     * "879-65-3154"); person.setAttribute("Attr1", "123-23-3456"); person.setAttribute("Attr2", "20080202"); List<PersonTypeInfoDTO>
-     * persontypes = new ArrayList<PersonTypeInfoDTO>(); for(PersonTypeDTO ptype: client.findCreatablePersonTypes()) {
-     * persontypes.add(ptype); } long id = client.createPerson(person, persontypes); PersonDTO foundPerson =
-     * client.fetchPersonInfoByPersonType(id, persontypes.get(0)); assertEquals(1,foundPerson.getPersonTypes().size()); }
-     */    
-    
+   
     @Test
     public void testSecureCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, Exception {
 

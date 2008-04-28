@@ -16,6 +16,7 @@ public interface PersonDAO {
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch);
 	public List<PersonType> findPersonTypes(String nameMatch);
 	public List<Person> findPeople(PersonCriteria criteria);
+	public List<Person> findPeople(List<String> personIdList);
 	public List<Person> findPeopleWithAttributeSetType(String personAttributeSetTypeId, PersonCriteria criteria);
 	public List<Person> findPeopleWithPersonType(String personTypeId, PersonCriteria criteria);
 	public PersonType updatePersonType(PersonType personType);
