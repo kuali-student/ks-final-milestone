@@ -16,7 +16,7 @@ public class CluDisplay implements Serializable {
 	@XmlElement
 	private String luTypeId;
 	@XmlElement
-	private String cluShortTitle;
+	private String cluShortName;
 	@XmlElement
 	private String cluCode;
 	@XmlElement
@@ -55,18 +55,18 @@ public class CluDisplay implements Serializable {
 	}
 
 	/**
-	 * @return the cluShortTitle
+	 * @return the cluShortName
 	 */
-	public String getCluShortTitle() {
-		return cluShortTitle;
+	public String getCluShortName() {
+		return cluShortName;
 	}
 
 	/**
-	 * @param cluShortTitle
-	 *            the cluShortTitle to set
+	 * @param cluShortName
+	 *            the cluShortName to set
 	 */
-	public void setCluShortTitle(String cluShortTitle) {
-		this.cluShortTitle = cluShortTitle;
+	public void setCluShortName(String cluShortName) {
+		this.cluShortName = cluShortName;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class CluDisplay implements Serializable {
 		result = prime * result + ((cluCode == null) ? 0 : cluCode.hashCode());
 		result = prime * result + ((cluId == null) ? 0 : cluId.hashCode());
 		result = prime * result
-				+ ((cluShortTitle == null) ? 0 : cluShortTitle.hashCode());
+				+ ((cluShortName == null) ? 0 : cluShortName.hashCode());
 		result = prime * result
 				+ ((luTypeId == null) ? 0 : luTypeId.hashCode());
 		return result;
@@ -170,10 +170,10 @@ public class CluDisplay implements Serializable {
 				return false;
 		} else if (!cluId.equals(other.cluId))
 			return false;
-		if (cluShortTitle == null) {
-			if (other.cluShortTitle != null)
+		if (cluShortName == null) {
+			if (other.cluShortName != null)
 				return false;
-		} else if (!cluShortTitle.equals(other.cluShortTitle))
+		} else if (!cluShortName.equals(other.cluShortName))
 			return false;
 		if (luTypeId == null) {
 			if (other.luTypeId != null)
