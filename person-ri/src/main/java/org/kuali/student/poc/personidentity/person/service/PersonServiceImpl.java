@@ -57,7 +57,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonServiceImpl implements PersonService {
 
-	private PersonDAO personDAO;
+	@Override
+    public List<PersonInfo> findPeopleByPersonIds(List<String> personIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public List<PersonDisplay> findPeopleDisplayByPersonIds(List<String> personIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    private PersonDAO personDAO;
 	private EhCacheHelper ehCacheHelper;
 	private final String personInfoCacheName = "PersonInfo";
 
