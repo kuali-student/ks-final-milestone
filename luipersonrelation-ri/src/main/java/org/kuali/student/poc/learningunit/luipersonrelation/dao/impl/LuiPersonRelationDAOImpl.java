@@ -41,7 +41,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<LuiPersonRelation> findLuiPersonRelationByPerson(String personId, String luiRelationType) {
+    public List<LuiPersonRelation> findLuiPersonRelationsByPerson(String personId, String luiRelationType, String relationState) {
         Query query = em.createNamedQuery("LuiPersonRelation.findByPerson");
         query.setParameter("personId", personId);
         query.setParameter("luiRelationType", luiRelationType);
@@ -52,7 +52,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<LuiPersonRelation> findLuiPersonRelationByLui(String luiId, String luiRelationType) {
+    public List<LuiPersonRelation> findLuiPersonRelationsByLui(String luiId, String luiRelationType, String relationState) {
         Query query = em.createNamedQuery("LuiPersonRelation.findByPerson");
         query.setParameter("luiId", luiId);
         query.setParameter("luiRelationType", luiId);
@@ -61,6 +61,20 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
         return luiPersonRelations;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<LuiPersonRelation> findLuiPersonRelations(String personId, String luiId, String luiRelationType, String relationState) {
+        Query query = em.createQuery(
+             "SELECT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiId = : luiId " +
+              "lpr.luiPersonRelationType LIKE :luiPersonRelationType");                
+        query.setParameter("personId", personId);
+        query.setParameter("luiId", luiId);
+        query.setParameter("luiRelationType", luiId);
+        
+        List<LuiPersonRelation> luiPersonRelations = query.getResultList();
+        
+        return luiPersonRelations;
+    }
 
      
 }

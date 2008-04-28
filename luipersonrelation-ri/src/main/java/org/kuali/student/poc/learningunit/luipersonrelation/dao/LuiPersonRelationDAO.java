@@ -12,7 +12,9 @@ public interface LuiPersonRelationDAO {
 
     public LuiPersonRelation lookupLuiPersonRelation(String luiPersonRelationId);
     
-    public List<LuiPersonRelation> findLuiPersonRelationByPerson(String personId, String luiRelationType);
+    public List<LuiPersonRelation> findLuiPersonRelationsByPerson(String personId, String luiRelationType, String relationState);
     
-    public List<LuiPersonRelation> findLuiPersonRelationByLui(String luiId, String luiRelationType);
+    public List<LuiPersonRelation> findLuiPersonRelationsByLui(String luiId, String luiRelationType, String relationState);
+    
+    public List<LuiPersonRelation> findLuiPersonRelations(String personId, String luiId, String luiRelationType, String relationState);
 }
