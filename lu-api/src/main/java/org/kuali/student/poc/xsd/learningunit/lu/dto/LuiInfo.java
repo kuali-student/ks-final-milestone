@@ -1,11 +1,16 @@
 package org.kuali.student.poc.xsd.learningunit.lu.dto;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiInfo implements Serializable {
@@ -24,6 +29,26 @@ public class LuiInfo implements Serializable {
 	private AtpDisplay atpDisplay;
 	@XmlElement
 	private int maxSeats;
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
+	
+	/**
+	 * @return the attributes
+	 */
+	public Map<String, String> getAttributes() {
+		if(attributes==null){
+			attributes = new HashMap<String, String>();
+		}
+		return attributes;
+	}
+
+	/**
+	 * @param attributes the attributes to set
+	 */
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
+	}
 
 	/**
 	 * @return the luiId
