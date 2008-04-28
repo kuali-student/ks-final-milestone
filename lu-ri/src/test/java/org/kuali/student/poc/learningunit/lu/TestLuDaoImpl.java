@@ -1,6 +1,7 @@
 package org.kuali.student.poc.learningunit.lu;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Date;
@@ -164,15 +165,15 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		SearchKeyValue searchKeyValue = new SearchKeyValue();
 		searchKeyValue.setKeyName("Field1");
 		searchKeyValue.setValue("Value1");
-		//searchKeyValue.setCluCrit(cluCrit1);
+		// searchKeyValue.setCluCrit(cluCrit1);
 		cluCrit1.getSearchKeyValues().add(searchKeyValue);
 		searchKeyValue = new SearchKeyValue();
 		searchKeyValue.setKeyName("Field2");
 		searchKeyValue.setValue("Value2");
-		//searchKeyValue.setCluCrit(cluCrit1);
+		// searchKeyValue.setCluCrit(cluCrit1);
 		cluCrit1.getSearchKeyValues().add(searchKeyValue);
-		//cluCrit1.setCluSet(cluSet1);
-		
+		// cluCrit1.setCluSet(cluSet1);
+
 		cluSet1.setCluCriteria(cluCrit1);
 		cluSet1.setCluSetName("Set Number 1");
 		cluSet1.setDescription("Set1 Description");
@@ -182,21 +183,21 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		dao.createCluSet(cluSet1);
 
 		CluSet cluSet2 = new CluSet();
-		
+
 		CluCrit cluCrit2 = new CluCrit();
 		cluCrit2.setLuTypeKey(luType1_id);
 		searchKeyValue = new SearchKeyValue();
 		searchKeyValue.setKeyName("Field1");
 		searchKeyValue.setValue("Value1");
-		//searchKeyValue.setCluCrit(cluCrit2);
+		// searchKeyValue.setCluCrit(cluCrit2);
 		cluCrit2.getSearchKeyValues().add(searchKeyValue);
 		searchKeyValue = new SearchKeyValue();
 		searchKeyValue.setKeyName("Field2");
 		searchKeyValue.setValue("Value2");
-		//searchKeyValue.setCluCrit(cluCrit2);
+		// searchKeyValue.setCluCrit(cluCrit2);
 		cluCrit2.getSearchKeyValues().add(searchKeyValue);
-		//cluCrit2.setCluSet(cluSet2);
-		
+		// cluCrit2.setCluSet(cluSet2);
+
 		cluSet2.setCluCriteria(cluCrit2);
 		cluSet2.setCluSetName("Set Number 1");
 		cluSet2.setDescription("Set1 Description");
@@ -354,4 +355,21 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 
 	}
 
+	@Test
+	public void testFetchLuiRelation() {
+		LuiRelation luiRelation = dao.fetchLuiRelation(lui1_id, lui2_id,
+				luRelationType1_id);
+		assertNotNull(luiRelation);
+		assertEquals(luRelationType1_id,luiRelation.getLuRelationType().getId());
+		assertEquals(luiRelation1_id,luiRelation.getId());
+	}
+	
+	@Test
+	public void testFetchCluRelation() {
+		CluRelation cluRelation = dao.fetchCluRelation(clu1_id, clu2_id,
+				luRelationType1_id);
+		assertNotNull(cluRelation);
+		assertEquals(luRelationType1_id,cluRelation.getLuRelationType().getId());
+		assertEquals(cluRelation1_id,cluRelation.getId());
+	}
 }

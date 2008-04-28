@@ -191,4 +191,35 @@ public class LuDaoImpl implements LuDao {
 		return em.find(CluSet.class, cluSetId);
 	}
 
+	@Override
+	public Lui fetchLui(String luiId) {
+		return em.find(Lui.class, luiId);
+	}
+
+	@Override
+	public LuiRelation fetchLuiRelation(String luiId, String relatedLuiId,
+			String luRelationTypeId) {
+		Query q = em.createQuery("SELECT lr FROM LuiRelation lr "
+				+ "WHERE lr.lui.luiId=:luiId "
+				+ "AND lr.relatedLui.luiId=:relatedLuiId "
+				+ "AND lr.luRelationType.id=:luRelationTypeId");
+		q.setParameter("luiId", luiId);
+		q.setParameter("relatedLuiId", relatedLuiId);
+		q.setParameter("luRelationTypeId", luRelationTypeId);
+		return (LuiRelation) q.getSingleResult();
+	}
+
+	@Override
+	public CluRelation fetchCluRelation(String cluId, String relatedCluId,
+			String luRelationTypeId) {
+		Query q = em.createQuery("SELECT cr FROM CluRelation cr "
+				+ "WHERE cr.clu.cluId=:cluId "
+				+ "AND cr.relatedClu.cluId=:relatedCluId "
+				+ "AND cr.luRelationType.id=:luRelationTypeId");
+		q.setParameter("cluId", cluId);
+		q.setParameter("relatedCluId", relatedCluId);
+		q.setParameter("luRelationTypeId", luRelationTypeId);
+		return (CluRelation) q.getSingleResult();
+	}
+
 }

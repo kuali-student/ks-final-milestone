@@ -20,12 +20,14 @@ import org.kuali.student.poc.learningunit.lu.dao.LuDao;
 import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
 import org.kuali.student.poc.learningunit.lu.entity.CluCrit;
+import org.kuali.student.poc.learningunit.lu.entity.CluRelation;
 import org.kuali.student.poc.learningunit.lu.entity.CluSet;
 import org.kuali.student.poc.learningunit.lu.entity.LuAttribute;
 import org.kuali.student.poc.learningunit.lu.entity.LuAttributeType;
 import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
+import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
 import org.kuali.student.poc.learningunit.lu.entity.SearchKeyValue;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.AtpDisplay;
@@ -67,8 +69,34 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, CircularReferenceException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+		CluSet cluSetChild = dao.fetchCluSet(cluSetId);
+		CluSet cluParentSet = dao.fetchCluSet(addedCluSetId);
+		// Check for CircularReference
+		if (cluSetId.equals(addedCluSetId)) {
+			throw new InvalidParameterException(
+					"Can not add a Clu set to itself for CluSet id:" + cluSetId);
+		}
+		if (isMemberOfSetRecursive(cluSetChild, cluParentSet)) {
+			throw new CircularReferenceException(
+					"Can not create a circular reference to a Clu Set for CluChildSet id:"
+							+ cluSetId + " CluParentSet id:" + addedCluSetId);
+		}
+		cluParentSet.getCluSetList().add(cluSetChild);
+		dao.updateCluSet(cluParentSet);
 		return null;
+	}
+
+	private boolean isMemberOfSetRecursive(CluSet cluSetMember,
+			CluSet cluSetContainer) {
+		if (cluSetContainer.getCluSetList().contains(cluSetMember)) {
+			return true;
+		}
+		for (CluSet set : cluSetContainer.getCluSetList()) {
+			if (isMemberOfSetRecursive(cluSetMember, set)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -77,8 +105,29 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			UnsupportedActionException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		Clu clu = dao.fetchClu(cluId);
+		CluSet cluSet = dao.fetchCluSet(cluSetId);
+		if (isMemberOfSetRecursive(clu, cluSet)) {
+			throw new CircularReferenceException(
+					"Can not create a circular reference to a Clu Set for CluSet id:"
+							+ cluSetId + " CluId:" + cluId);
+		}
+		cluSet.getCluList().add(clu);
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
+	}
+
+	private boolean isMemberOfSetRecursive(Clu clu, CluSet cluSetContainer) {
+		if (cluSetContainer.getCluList().contains(clu)) {
+			return true;
+		}
+		for (CluSet set : cluSetContainer.getCluSetList()) {
+			if (isMemberOfSetRecursive(clu, set)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -241,8 +290,11 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			DependentObjectsExistException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		Lui lui = dao.fetchLui(luiId);
+		Status status = new Status();
+		status.setSuccess(dao.deleteLui(lui));
+		return status;
 	}
 
 	@Override
@@ -250,8 +302,12 @@ public class LuServiceImpl implements LuService {
 			String luRelationTypeId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		LuiRelation luiRelation = dao.fetchLuiRelation(luiId, relatedLuiId,
+				luRelationTypeId);
+		Status status = new Status();
+		status.setSuccess(dao.deleteLuiRelation(luiRelation));
+		return status;
 	}
 
 	@Override
@@ -268,8 +324,9 @@ public class LuServiceImpl implements LuService {
 			String luRelationTypeId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		CluRelation cluRelation = dao.fetchCluRelation(cluId, relatedCluId,
+				luRelationTypeId);
+		return toCluRelationInfo(cluRelation);
 	}
 
 	@Override
@@ -277,8 +334,8 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		CluSet cluSet = dao.fetchCluSet(cluSetId);
+		return toCluSetInfo(cluSet);
 	}
 
 	@Override
@@ -290,18 +347,14 @@ public class LuServiceImpl implements LuService {
 			throw new DoesNotExistException("Lu Type with id:" + luTypeId
 					+ " does not exist.");
 		}
-		LuTypeInfo luTypeInfo = new LuTypeInfo();
-		BeanUtils.copyProperties(luType, luTypeInfo);
-		luTypeInfo.setLuTypeKey(luType.getLuTypeId());
-		return luTypeInfo;
+		return toLuTypeInfo(luType);
 	}
 
 	@Override
 	public LuiInfo fetchLui(String luiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return toLuiInfo(dao.fetchLui(luiId));
 	}
 
 	@Override
@@ -309,8 +362,10 @@ public class LuServiceImpl implements LuService {
 			String luRelationTypeId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		LuiRelation luiRelation = dao.fetchLuiRelation(luiId, relatedLuiId,
+				luRelationTypeId);
+		return toLuiRelationInfo(luiRelation);
 	}
 
 	@Override
@@ -493,9 +548,9 @@ public class LuServiceImpl implements LuService {
 	public List<String> findLuiIdsForClu(String cluId, String atpId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
+
 		List<String> result = new ArrayList<String>();
-		List<Lui> luis = dao.findLuisForClu(cluId, atpId);
-		for (Lui lui : luis) {
+		for (Lui lui : dao.findLuisForClu(cluId, atpId)) {
 			result.add(lui.getLuiId());
 		}
 		return result;
@@ -526,13 +581,7 @@ public class LuServiceImpl implements LuService {
 		List<LuiDisplay> result = new ArrayList<LuiDisplay>();
 		List<Lui> luis = dao.findLuisForClu(cluId, atpId);
 		for (Lui lui : luis) {
-			LuiDisplay luiDisplay = new LuiDisplay();
-			luiDisplay.setAtpDisplay(toAtpDisplay(lui.getAtp()));
-			luiDisplay.setCluDisplay(toCluDisplay(lui.getClu()));
-			luiDisplay.setLuiCode(lui.getLuiCode());
-			luiDisplay.setLuiId(lui.getLuiId());
-			luiDisplay.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
-			result.add(luiDisplay);
+			result.add(toLuiDisplay(lui));
 		}
 		return result;
 	}
@@ -790,6 +839,14 @@ public class LuServiceImpl implements LuService {
 	}
 
 	// FIXME - Move these to the assembler classes
+
+	private LuTypeInfo toLuTypeInfo(LuType luType) {
+		LuTypeInfo luTypeInfo = new LuTypeInfo();
+		BeanUtils.copyProperties(luType, luTypeInfo);
+		luTypeInfo.setLuTypeKey(luType.getLuTypeId());
+		return luTypeInfo;
+	}
+
 	private Clu toClu(String luTypeId, CluCreateInfo cluCreateInfo) {
 		Clu clu = new Clu();
 		BeanUtils.copyProperties(cluCreateInfo, clu, new String[] {
@@ -855,5 +912,65 @@ public class LuServiceImpl implements LuService {
 		lui.setClu(dao.fetchClu(cluId));
 		// set the attributes
 		return lui;
+	}
+
+	private LuiRelationInfo toLuiRelationInfo(LuiRelation luiRelation) {
+		LuiRelationInfo luiRelationInfo = new LuiRelationInfo();
+		BeanUtils.copyProperties(luiRelation, luiRelationInfo);
+		luiRelationInfo.setLuiDisplay(toLuiDisplay(luiRelation.getLui()));
+		luiRelationInfo.setRelatedLuiDisplay(toLuiDisplay(luiRelation
+				.getRelatedLui()));
+		luiRelationInfo.setLuRelationTypeId(luiRelation.getLuRelationType()
+				.getId());
+		return luiRelationInfo;
+	}
+
+	private LuiDisplay toLuiDisplay(Lui lui) {
+		LuiDisplay luiDisplay = new LuiDisplay();
+		luiDisplay.setAtpDisplay(toAtpDisplay(lui.getAtp()));
+		luiDisplay.setCluDisplay(toCluDisplay(lui.getClu()));
+		luiDisplay.setLuiCode(lui.getLuiCode());
+		luiDisplay.setLuiId(lui.getLuiId());
+		luiDisplay.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
+		return luiDisplay;
+	}
+
+	private CluRelationInfo toCluRelationInfo(CluRelation cluRelation) {
+		CluRelationInfo cluRelationInfo = new CluRelationInfo();
+		BeanUtils.copyProperties(cluRelation, cluRelationInfo);
+		cluRelationInfo.setCluDisplay(toCluDisplay(cluRelation.getClu()));
+		cluRelationInfo.setRelatedCluDisplay(toCluDisplay(cluRelation
+				.getRelatedClu()));
+		cluRelationInfo.setLuRelationTypeId(cluRelation.getLuRelationType()
+				.getId());
+		return cluRelationInfo;
+	}
+
+	private CluSetInfo toCluSetInfo(CluSet cluSet) {
+		CluSetInfo cluSetInfo = new CluSetInfo();
+		BeanUtils.copyProperties(cluSet, cluSetInfo,
+				new String[] { "cluCriteria" });
+		cluSetInfo.setCluCriteria(toCluCriteria(cluSet.getCluCriteria()));
+		return cluSetInfo;
+	}
+
+	private CluCriteria toCluCriteria(CluCrit cluCrit) {
+		CluCriteria cluCriteria = new CluCriteria();
+		cluCriteria.setLuTypeKey(cluCrit.getLuTypeKey());
+		for (SearchKeyValue entry : cluCrit.getSearchKeyValues()) {
+			cluCriteria.getSearchKeyValue().put(entry.getKeyName(),
+					entry.getValue());
+		}
+		return cluCriteria;
+	}
+
+	private LuiInfo toLuiInfo(Lui lui) {
+		LuiInfo luiInfo = new LuiInfo();
+		BeanUtils.copyProperties(lui, luiInfo);
+		luiInfo.setAtpDisplay(toAtpDisplay(lui.getAtp()));
+		luiInfo.setCluDisplay(toCluDisplay(lui.getClu()));
+		luiInfo.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
+		// FIXME copy attributes when they are added
+		return luiInfo;
 	}
 }

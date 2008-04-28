@@ -62,7 +62,16 @@ public interface LuDao {
 
 	public Clu fetchClu(String cluId);
 
+	public CluSet fetchCluSet(String cluSetId);
+
+	public Lui fetchLui(String luiId);
+
 	public List<Lui> findLuisForClu(String cluId, String atpId);
 
-	public CluSet fetchCluSet(String cluSetId);
+	public LuiRelation fetchLuiRelation(String luiId, String relatedLuiId,
+			String luRelationTypeId);
+
+	public CluRelation fetchCluRelation(String cluId, String relatedCluId,
+			String luRelationTypeId);
+
 }
