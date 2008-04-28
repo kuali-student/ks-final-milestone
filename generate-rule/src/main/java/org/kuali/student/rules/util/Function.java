@@ -16,21 +16,6 @@ public class Function {
     private ArrayList<String> funcVars = new ArrayList<String>();
     private ArrayList<String> symbols = new ArrayList<String>();
 
-    public static final void main(String[] args) {
-
-        Function f = new Function("A0*B4+(C*D)");
-
-        List<String> funcVars = f.getVariables();
-        for (String var : funcVars) {
-            System.out.println("The var is " + var);
-        }
-
-        List<String> symbols = f.getSymbols();
-        for (String symbol : symbols) {
-            System.out.println("The symbol is " + symbol);
-        }
-    }
-
     public Function(String functionString) {
 
         // Since the AST calls the Boolean Function parser,
