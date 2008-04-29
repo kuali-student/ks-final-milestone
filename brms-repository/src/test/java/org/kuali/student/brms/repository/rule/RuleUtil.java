@@ -8,8 +8,8 @@ public class RuleUtil {
         return rule;
     }
 
-    public static Rule createRule( String uuid, String name ) {
-        Rule rule = RuleFactory.getInstance().createRule( uuid, name );
+    public static Rule createRule( String uuid, String name, long version ) {
+        Rule rule = RuleFactory.getInstance().createRule( uuid, name, version );
         rule.setContent( "rule \"" + name + "\" when then end" );
         return rule;
     }
@@ -18,8 +18,8 @@ public class RuleUtil {
         return RuleSetFactory.getInstance().createRuleSet( name );
     }    
 
-    public static RuleSet createRuleSet( String uuid, String name ) {
-        return RuleSetFactory.getInstance().createRuleSet( uuid, name );
+    public static RuleSet createRuleSet( String uuid, String name, long version ) {
+        return RuleSetFactory.getInstance().createRuleSet( uuid, name, version );
     }    
 
 }
