@@ -9,9 +9,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.poc.learningunit.luipersonrelation.dao.LuiPersonRelationDAO;
 import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation;
 
+@PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")
 public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
     //@Dao(value = "org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:test-beans.xml")
     @Dao("org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl")
