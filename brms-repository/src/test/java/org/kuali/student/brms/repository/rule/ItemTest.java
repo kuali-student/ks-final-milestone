@@ -22,7 +22,7 @@ public class ItemTest {
      * @author Kuali Student Team (len.kuali@googlegroups.com)
      *
      */
-    private class ItemImpl extends AbstractItem {
+    private static class ItemImpl extends AbstractItem {
 
         /** Class serial version uid */
         private static final long serialVersionUID = 1L;
