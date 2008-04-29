@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.rule.Rule;
-import org.kuali.student.brms.repository.rule.RuleFactory;
+import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleSet;
-import org.kuali.student.brms.repository.rule.RuleSetFactory;
+import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.util.Function;
 
 /**
@@ -123,7 +123,7 @@ public class GenerateRuleSet {
 
     // Add rule to ruleset created in constructor
     private void saveRule(String extRuleName, String ruleSourceCode) {
-        Rule rule = RuleFactory.getInstance().createRule(extRuleName);
+        Rule rule = RuleFactory.getInstance().createDroolsRule(extRuleName);
         rule.setDescription(description);
         rule.setCategory(category);
         rule.setContent(ruleSourceCode);
