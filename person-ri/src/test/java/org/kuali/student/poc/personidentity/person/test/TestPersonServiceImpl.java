@@ -229,8 +229,12 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personIdList.add(personId2);
         
         List<PersonDisplay> personDisplay = client.findPeopleDisplayByPersonIds(personIdList);        
-        assertEquals(((PersonDisplay)personDisplay.get(0)).getName().getGivenName(), "Foggy Bottom");
-        assertEquals(((PersonDisplay)personDisplay.get(1)).getName().getGivenName(), "Mary");
+        assertTrue(personDisplay.size()==2);
+        List<String> personNames = new ArrayList<String>();
+        personNames.add(((PersonDisplay)personDisplay.get(0)).getName().getGivenName());
+        personNames.add(((PersonDisplay)personDisplay.get(1)).getName().getGivenName());
+        assertTrue(personNames.contains("Foggy Bottom"));
+        assertTrue(personNames.contains("Mary"));
         
         //Testing removePersonType
         assertTrue(client.removePersonType(personId, personType3Id));
