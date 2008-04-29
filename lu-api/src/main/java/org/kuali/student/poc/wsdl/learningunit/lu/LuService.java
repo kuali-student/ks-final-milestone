@@ -129,7 +129,20 @@ public interface LuService {
 	public LuiInfo fetchLui(@WebParam(name = "luiId")
 	String luiId) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
-
+	/**
+	 * Retrieves Display information about a LUI
+	 * 
+	 * @param luiId
+	 * @return Display information about a LUI
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 */
+	@WebMethod
+	public LuiDisplay fetchLuiDisplay(@WebParam(name = "luiId")
+	String luiId) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
 	/**
 	 * Retrieves the list of CLUs for the specified LU Type
 	 * 
