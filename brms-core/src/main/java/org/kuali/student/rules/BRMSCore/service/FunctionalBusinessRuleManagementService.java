@@ -1,4 +1,4 @@
-package org.kuali.student.rules.BRMSCore;
+package org.kuali.student.rules.BRMSCore.service;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -12,6 +12,12 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
+import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
+import org.kuali.student.rules.BRMSCore.entity.RuleElement;
+import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
+import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class BRMSMetaData {
+public class FunctionalBusinessRuleManagementService {
 
     VelocityContext context;
+
+    public static final char INITIAL_PROPOSITION_PLACEHOLDER = 'A';
 
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
@@ -37,44 +45,44 @@ public class BRMSMetaData {
      *            Functional business rule used to create its function string representation
      * @return Returns function string e.g. "(A OR B) AND C"
      */
-    public String getRuleFunctionString(FunctionalBusinessRule rule) {
+    public String createRuleFunctionString(FunctionalBusinessRule rule) {
 
         Collection<RuleElement> ruleElements = rule.getRuleElements();
 
-        String functionString = new String("");
-        char proposition = 'A'; // each proposition is represented as a letter
+        StringBuilder functionString = new StringBuilder();
+        char proposition = INITIAL_PROPOSITION_PLACEHOLDER; // each proposition is represented as a letter
 
         // step through rule elements and create a function string
         for (RuleElement ruleElement : ruleElements) {
-            functionString += " ";
+            functionString.append(" ");
             switch (ruleElement.getOperation()) {
                 case AND_TYPE:
-                    functionString += RuleElementType.AND_TYPE.getName();
+                    functionString.append(RuleElementType.AND_TYPE.getName());
                     break;
                 case LPAREN_TYPE:
-                    functionString += RuleElementType.LPAREN_TYPE.getName();
+                    functionString.append(RuleElementType.LPAREN_TYPE.getName());
                     break;
                 case NOT_TYPE:
-                    functionString += RuleElementType.NOT_TYPE.getName();
+                    functionString.append(RuleElementType.NOT_TYPE.getName());
                     break;
                 case OR_TYPE:
-                    functionString += RuleElementType.OR_TYPE.getName();
+                    functionString.append(RuleElementType.OR_TYPE.getName());
                     break;
                 case PROPOSITION_TYPE:
-                    functionString += proposition;
+                    functionString.append(proposition);
                     proposition++;
                     break;
                 case RPAREN_TYPE:
-                    functionString += RuleElementType.RPAREN_TYPE.getName();
+                    functionString.append(RuleElementType.RPAREN_TYPE.getName());
                     break;
                 case XOR_TYPE:
-                    functionString += RuleElementType.XOR_TYPE.getName();
+                    functionString.append(RuleElementType.XOR_TYPE.getName());
                     break;
                 default:
-                    functionString += "(unknown)";
+                    functionString.append("(unknown)");
             }
         }
-        return functionString;
+        return functionString.toString();
     }
 
     /**
@@ -89,7 +97,7 @@ public class BRMSMetaData {
         HashMap<String, RuleProposition> propositions = new HashMap<String, RuleProposition>();
         Collection<RuleElement> ruleElements = rule.getRuleElements();
 
-        char key = 'A';
+        char key = INITIAL_PROPOSITION_PLACEHOLDER;
         for (RuleElement ruleElement : ruleElements) {
             if (ruleElement.getOperation() == RuleElementType.PROPOSITION_TYPE) {
                 propositions.put(String.valueOf(key), ruleElement.getRuleProposition());
@@ -106,17 +114,9 @@ public class BRMSMetaData {
      *            Functional business rule used to transform.
      * @return Returns WHEN part
      */
-    public String mapMetaRuleToDroolRule(FunctionalBusinessRule rule) {
+    public String mapMetaRuleToDroolRule(FunctionalBusinessRule rule) throws Exception {
 
-        try {
-            Properties p = new Properties();
-            p.setProperty("resource.loader", "class");
-            p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-            Velocity.init(p);
-        } catch (Exception e) {
-            System.out.println("Problem initializing Velocity : " + e);
-            return null;
-        }
+        InitializeVelocity();
 
         // for now we only retrieve the first proposition
         HashMap<String, RuleProposition> propositions = getRulePropositions(rule);
@@ -142,22 +142,34 @@ public class BRMSMetaData {
             template.merge(context, sw);
         } catch (ResourceNotFoundException rnfe) {
             // couldn't find the template
-            System.out.println("Velocity: Could not find the template. " + rnfe);
-            return null;
+            System.out.println("Velocity: Could not find the template. " + rnfe.getStackTrace());
+            throw rnfe;
         } catch (ParseErrorException pee) {
             // syntax error: problem parsing the template
-            System.out.println("Velocity: parsing template error. " + pee);
-            return null;
+            System.out.println("Velocity: parsing template error. " + pee.getStackTrace());
+            throw pee;
         } catch (MethodInvocationException mie) {
             // something invoked in the template threw an exception
-            System.out.println("Velocity: template method exception. " + mie);
-            return null;
+            System.out.println("Velocity: template method exception. " + mie.getStackTrace());
+            throw mie;
         } catch (Exception e) {
-            System.out.println("Velocity: error occured. " + e);
-            return null;
+            System.out.println("Velocity: error occured. " + e.getStackTrace());
+            throw e;
         }
 
         return sw.toString();
+    }
+
+    private void InitializeVelocity() throws Exception {
+        try {
+            Properties p = new Properties();
+            p.setProperty("resource.loader", "class");
+            p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+            Velocity.init(p);
+        } catch (Exception e) {
+            System.out.println("Problem initializing Velocity : " + e.getStackTrace());
+            throw e;
+        }
     }
 
     /**

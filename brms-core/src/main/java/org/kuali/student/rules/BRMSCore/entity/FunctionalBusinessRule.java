@@ -1,4 +1,4 @@
-package org.kuali.student.rules.BRMSCore;
+package org.kuali.student.rules.BRMSCore.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,12 +27,13 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
 @TableGenerator(name = "idGen", uniqueConstraints = {@UniqueConstraint(columnNames = {"ruleIdentifier"})})
-@NamedQueries({@NamedQuery(name = "FunctionalBusinessRule.findByRuleID", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = ?1")})
+@NamedQueries({@NamedQuery(name = "FunctionalBusinessRule.findByRuleID", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = :ruleID")})
 public class FunctionalBusinessRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
     private Long id;
+
     private String name;
     private String description;
     @Column(unique = true, nullable = false)
@@ -80,10 +81,10 @@ public class FunctionalBusinessRule {
      *            a new Rule Element to add to this business rule object
      */
     public void addRuleElement(RuleElement ruleElement) {
-        if (this.ruleElements == null) {
-            this.ruleElements = new ArrayList<RuleElement>();
+        if (ruleElements == null) {
+            ruleElements = new ArrayList<RuleElement>();
         }
-        this.ruleElements.add(ruleElement);
+        ruleElements.add(ruleElement);
     }
 
     /**
@@ -173,7 +174,7 @@ public class FunctionalBusinessRule {
      *            the ruleSetIdentifier to set
      */
     public final void setRuleSetIdentifier(String ruleSetIdentifier) {
-        this.ruleIdentifier = ruleSetIdentifier;
+        ruleIdentifier = ruleSetIdentifier;
     }
 
     /**

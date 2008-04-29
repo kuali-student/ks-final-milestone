@@ -1,4 +1,4 @@
-package org.kuali.student.rules.BRMSCore;
+package org.kuali.student.rules.BRMSCore.entity;
 
 import javax.persistence.Embeddable;
 
@@ -18,9 +18,9 @@ public class BusinessRuleEvaluation {
      * Sets up an empty instance.
      */
     public BusinessRuleEvaluation() {
-        this.postCondition = null;
-        this.outcome = false;
-        this.advice = null;
+        postCondition = null;
+        outcome = false;
+        advice = null;
     }
 
     /**

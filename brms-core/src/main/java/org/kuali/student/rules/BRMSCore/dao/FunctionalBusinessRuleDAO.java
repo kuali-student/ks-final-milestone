@@ -1,4 +1,6 @@
-package org.kuali.student.rules.BRMSCore;
+package org.kuali.student.rules.BRMSCore.dao;
+
+import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
 
 /**
  * Defines DAO operations for Functional Business Rule

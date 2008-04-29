@@ -2,27 +2,41 @@ package org.kuali.student.rules.BRMSCore;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
+import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
+import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
+import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
+import org.kuali.student.rules.BRMSCore.entity.Operator;
+import org.kuali.student.rules.BRMSCore.entity.RightHandSide;
+import org.kuali.student.rules.BRMSCore.entity.RuleElement;
+import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
+import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
+import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application-context.xml"})
 @Transactional
+@TransactionConfiguration(transactionManager = "JtaTxManager")
 public class TestBRMSMetaData extends AbstractJpaTests {
 
     public static final String FACT_CONTAINER = "AcademicRecord";
 
     @Autowired
-    private FunctionalBusinessRuleDAO functionalBusinessRuleDAO;
+    private FunctionalBusinessRuleDAO businessRuleDAO;
 
     @PersistenceContext
     private EntityManager em;
@@ -157,7 +171,7 @@ public class TestBRMSMetaData extends AbstractJpaTests {
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
         busRule.addRuleElement(ruleElement);
 
-        functionalBusinessRuleDAO.createBusinessRule(busRule);
+        businessRuleDAO.createBusinessRule(busRule);
 
         ruleId = busRule.getId();
     }
@@ -170,7 +184,7 @@ public class TestBRMSMetaData extends AbstractJpaTests {
 
         FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 200", "enrollment prerequisites for Chemistry 200", "PR 40244", metaData, businessRuleEvaluation);
 
-        functionalBusinessRuleDAO.createBusinessRule(rule);
+        businessRuleDAO.createBusinessRule(rule);
 
         FunctionalBusinessRule newRule = em.find(FunctionalBusinessRule.class, rule.getId());
         assertEquals(newRule.getId(), rule.getId());
@@ -178,12 +192,12 @@ public class TestBRMSMetaData extends AbstractJpaTests {
 
     @Test
     public void testUpdateRule() {
-        FunctionalBusinessRule rule = functionalBusinessRuleDAO.lookupBusinessRule(ruleId);
+        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(ruleId);
         // FunctionalBusinessRule ruleSet = functionalBusinessRuleDAO.lookupBusinessRuleID("PR 40244");
 
         rule.setName("New Rule Name");
 
-        functionalBusinessRuleDAO.updateBusinessRule(rule);
+        businessRuleDAO.updateBusinessRule(rule);
 
         FunctionalBusinessRule updatedRule = em.find(FunctionalBusinessRule.class, rule.getId());
         assertEquals(updatedRule.getName(), rule.getName());
@@ -191,13 +205,43 @@ public class TestBRMSMetaData extends AbstractJpaTests {
 
     @Test
     public void testDeleteRule() {
-        FunctionalBusinessRule rule = functionalBusinessRuleDAO.lookupBusinessRule(ruleId);
-        assertTrue(functionalBusinessRuleDAO.deleteBusinessRule(rule));
-        assertNull(functionalBusinessRuleDAO.lookupBusinessRule(ruleId));
+        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(ruleId);
+        assertTrue(businessRuleDAO.deleteBusinessRule(rule));
+        assertNull(businessRuleDAO.lookupBusinessRule(ruleId));
     }
 
     @Override
     protected boolean shouldUseShadowLoader() {
         return false;
+    }
+
+    /**
+     * @return the businessRuleDAO
+     */
+    public final FunctionalBusinessRuleDAO getBusinessRuleDAO() {
+        return businessRuleDAO;
+    }
+
+    /**
+     * @param businessRuleDAO
+     *            the businessRuleDAO to set
+     */
+    public final void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
+        this.businessRuleDAO = businessRuleDAO;
+    }
+
+    /**
+     * @return the em
+     */
+    public final EntityManager getEm() {
+        return em;
+    }
+
+    /**
+     * @param em
+     *            the em to set
+     */
+    public final void setEm(EntityManager em) {
+        this.em = em;
     }
 }

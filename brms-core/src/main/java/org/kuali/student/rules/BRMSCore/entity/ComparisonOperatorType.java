@@ -1,4 +1,4 @@
-package org.kuali.student.rules.BRMSCore;
+package org.kuali.student.rules.BRMSCore.entity;
 
 /**
  * Defines comparison operator types.

@@ -1,4 +1,4 @@
-package org.kuali.student.rules.BRMSCore;
+package org.kuali.student.rules.BRMSCore.entity;
 
 import java.util.ArrayList;
 
@@ -22,10 +22,10 @@ public class LeftHandSide {
      * Sets up an empty instance.
      */
     public LeftHandSide() {
-        this.businessEntityLeft = null;
-        this.factContainer = null;
-        this.factContainerMethod = null;
-        this.methodParameters = null;
+        businessEntityLeft = null;
+        factContainer = null;
+        factContainerMethod = null;
+        methodParameters = null;
     }
 
     /**
