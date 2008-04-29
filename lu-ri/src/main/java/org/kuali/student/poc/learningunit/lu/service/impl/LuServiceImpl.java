@@ -664,8 +664,10 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return false;
+
+		CluSet cluSet = dao.fetchCluSet(cluSetId);
+		Clu clu = dao.fetchClu(cluId);
+		return extractClusFromCluSets(flattenCluSet(cluSet)).contains(clu);
 	}
 
 	@Override

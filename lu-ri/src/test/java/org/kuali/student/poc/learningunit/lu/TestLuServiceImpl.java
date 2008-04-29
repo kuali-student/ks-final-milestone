@@ -1,6 +1,7 @@
 package org.kuali.student.poc.learningunit.lu;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -24,6 +25,7 @@ import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluInfo;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.CluUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
 import org.springframework.test.annotation.ExpectedException;
@@ -122,6 +124,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		
 	}
 	
+	@Test 
+	public void testUpdateClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		CluUpdateInfo cluUpdateInfo = new CluUpdateInfo();
+		cluUpdateInfo.setCluLongName("Updated Long Name!!");
+		cluUpdateInfo.setEffectiveEndCycle(atp1_id);
+		cluUpdateInfo.getAttributes();
+		assertTrue(client.updateClu(clu1_id, cluUpdateInfo).isSuccess());
+		CluInfo clu = client.fetchClu(clu1_id);
+		assertEquals("Updated Long Name!!",clu.getCluLongName());
+	}
+	
 	@Test
 	public void testFindLuisForClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
 		List<LuiDisplay> luis = client.findLuisForClu(clu1_id, atp1_id);
@@ -133,5 +146,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testAddCluSetToCluSet() throws DoesNotExistException, CircularReferenceException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		assertEquals(true,client.addCluSetToCluSet(cluSet2_id, cluSet3_id).isSuccess());
 		client.addCluSetToCluSet(cluSet3_id, cluSet1_id);
+	}
+	
+	@Test
+	public void testIsCluInCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		assertTrue(client.isCluInCluSet(clu1_id, cluSet1_id));
+		assertFalse(client.isCluInCluSet(clu1_id, cluSet3_id));
 	}
 }
