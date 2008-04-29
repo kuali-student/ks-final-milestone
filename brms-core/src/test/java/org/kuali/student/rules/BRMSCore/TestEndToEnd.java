@@ -3,7 +3,12 @@ package org.kuali.student.rules.BRMSCore;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
@@ -17,48 +22,43 @@ import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
 import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:application-context.xml"})
 @Transactional
-public class TestEndToEnd {
+@TransactionConfiguration(transactionManager = "JtaTxManager")
+public class TestEndToEnd extends AbstractJpaTests {
 
     public static final String FACT_CONTAINER = "AcademicRecord";
 
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
 
+    @Autowired
+    FunctionalBusinessRuleManagementService metadata;
+
+    @PersistenceContext
+    private EntityManager em;
+
     @Test
     public void testBRMS() throws Exception {
 
         FunctionalBusinessRule rule = null;
 
-        AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:application-context.xml");
-
-        // add a shutdown hook for the above context...
-        ctx.registerShutdownHook();
-
-        FunctionalBusinessRuleManagementService metadata = (FunctionalBusinessRuleManagementService) ctx.getBean("FunctionalBusinessRuleManagementService");
-        TestEndToEnd testEndToEnd = (TestEndToEnd) ctx.getBean("TestEndToEnd");
-
-        // 1. load one business rule MetaData into database
-        try {
-            // testEndToEnd.insertBusinessRuleMetadata();
-            // testEndToEnd.insertRules();
-        } catch (Exception e) {
-            System.out.println("Could not insert duplicate record:"); // + e.getMessage());
-            return;
-        }
-
-        // 2. retrieve business rule
-        String ruleID = "PR 40244";
+        // 1. retrieve business rule
+        String ruleID = "1";
 
         try {
             rule = metadata.getFunctionalBusinessRule(ruleID);
         } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database." + dae.getRootCause());
+            System.out.println("Could not load rule " + ruleID + " from database.");
             return;
         }
 
@@ -71,23 +71,83 @@ public class TestEndToEnd {
         // FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(id);
         System.out.println(System.getProperty("line.separator"));
 
-        // 3. get function string for a given business rule
+        // 2. get function string for a given business rule
         String functionString = metadata.createRuleFunctionString(rule);
         System.out.println("Function String: " + functionString);
         System.out.println(System.getProperty("line.separator"));
 
-        // 4. generate Drool rule WHEN part based on business rule propositions
-        String droolWhenPart = metadata.mapMetaRuleToDroolRule(rule);
-        if (droolWhenPart != null) {
-            System.out.println("Drools WHEN:" + droolWhenPart);
-            System.out.println(System.getProperty("line.separator"));
-        } else {
-            System.out.println("Could not map Meta Data into Drool rules.");
+        // 3. generate Drool rule WHEN part based on business rule propositions
+        // String droolWhenPart = metadata.mapMetaRuleToDroolRule(rule);
+        // if (droolWhenPart != null) {
+        // System.out.println("Drools WHEN:" + droolWhenPart);
+        // System.out.println(System.getProperty("line.separator"));
+        // } else {
+        // System.out.println("Could not map Meta Data into Drool rules.");
+        // }
+
+        ruleID = "2";
+
+        try {
+            rule = metadata.getFunctionalBusinessRule(ruleID);
+        } catch (DataAccessException dae) {
+            System.out.println("Could not load rule " + ruleID + " from database.");
+            return;
         }
 
+        if (rule == null) {
+            System.out.println("Rule " + ruleID + " not found");
+        } else {
+            System.out.println("Found rule: " + rule.getName());
+        }
+
+        functionString = metadata.createRuleFunctionString(rule);
+        System.out.println("Function String: " + functionString);
+        System.out.println(System.getProperty("line.separator"));
+
+        ruleID = "3";
+
+        try {
+            rule = metadata.getFunctionalBusinessRule(ruleID);
+        } catch (DataAccessException dae) {
+            System.out.println("Could not load rule " + ruleID + " from database.");
+            return;
+        }
+
+        if (rule == null) {
+            System.out.println("Rule " + ruleID + " not found");
+        } else {
+            System.out.println("Found rule: " + rule.getName());
+        }
+
+        functionString = metadata.createRuleFunctionString(rule);
+        System.out.println("Function String: " + functionString);
+        System.out.println(System.getProperty("line.separator"));
+
+        ruleID = "4";
+
+        try {
+            rule = metadata.getFunctionalBusinessRule(ruleID);
+        } catch (DataAccessException dae) {
+            System.out.println("Could not load rule " + ruleID + " from database.");
+            return;
+        }
+
+        if (rule == null) {
+            System.out.println("Rule " + ruleID + " not found");
+        } else {
+            System.out.println("Found rule: " + rule.getName());
+        }
+
+        functionString = metadata.createRuleFunctionString(rule);
+        System.out.println("Function String: " + functionString);
+        System.out.println(System.getProperty("line.separator"));
     }
 
-    public void insertRules() throws Exception {
+    @Override
+    @Before
+    public void onSetUpInTransaction() throws Exception {
+
+        deleteRules();
 
         int ordinalPosition = 1;
         RuleElement ruleElement = null;
@@ -109,7 +169,7 @@ public class TestEndToEnd {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR", "CPR 201", metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "1", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -120,7 +180,7 @@ public class TestEndToEnd {
         facts = new ArrayList<String>();
         facts.add("CPR 101");
         leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
-        operator = new Operator(ComparisonOperatorType.GREATER_THAN_OR_EQUAL_TO_TYPE);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         criteria = new ArrayList<String>();
         criteria.add("1");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
@@ -138,7 +198,7 @@ public class TestEndToEnd {
         facts = new ArrayList<String>();
         facts.add("FA 001");
         leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
-        operator = new Operator(ComparisonOperatorType.GREATER_THAN_OR_EQUAL_TO_TYPE);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         criteria = new ArrayList<String>();
         criteria.add("1");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
@@ -147,142 +207,230 @@ public class TestEndToEnd {
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
+        // right bracket ')'
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        businessRuleDAO.createBusinessRule(busRule);
+
+        /********************************************************************************************************************
+         * insert "2 of CPR 101 and CPR 201"
+         *******************************************************************************************************************/
+
+        // create basic rule structure
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "2", metaData, businessRuleEvaluation);
+
+        // 2 of CPR 101 and CPR 201
+        facts = new ArrayList<String>();
+        facts.add("CPR 101");
+        facts.add("CPR 201");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("2");
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        businessRuleDAO.createBusinessRule(busRule);
+
+        /********************************************************************************************************************
+         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301) OR (1 of CPR 4005 and 1 of FA 001, WS 001)"
+         *******************************************************************************************************************/
+
+        // create basic rule structure
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "3", metaData, businessRuleEvaluation);
+
+        // left bracket '('
+        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
+        facts = new ArrayList<String>();
+        facts.add("CPR 101");
+        facts.add("CPR 105");
+        facts.add("CPR 201");
+        facts.add("CPR 301");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUCredits", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("12");
+        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // right bracket ')'
+        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // OR
+        ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // left bracket '('
+        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // 1 of CPR 4005
+        facts = new ArrayList<String>();
+        facts.add("CPR 4005");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("1");
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // AND
+        ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // 1 of FA 001, WS 001
+        facts = new ArrayList<String>();
+        facts.add("FA 001");
+        facts.add("WS 001");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("2");
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // right bracket ')'
+        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        businessRuleDAO.createBusinessRule(busRule);
+
+        /********************************************************************************************************************
+         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR 1 of CPR 4005) and 1 of FA 001, WS 001"
+         *******************************************************************************************************************/
+
+        // create basic rule structure
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "4", metaData, businessRuleEvaluation);
+
+        // left bracket '('
+        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
+        facts = new ArrayList<String>();
+        facts.add("CPR 101");
+        facts.add("CPR 105");
+        facts.add("CPR 201");
+        facts.add("CPR 301");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUCredits", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("12");
+        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // OR
+        ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // 1 of CPR 4005
+        facts = new ArrayList<String>();
+        facts.add("CPR 4005");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("1");
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // right bracket ')'
+        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // AND
+        ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
+        ruleElement.setFunctionalBusinessRule(busRule);
+        busRule.addRuleElement(ruleElement);
+
+        // 1 of FA 001, WS 001
+        facts = new ArrayList<String>();
+        facts.add("FA 001");
+        facts.add("WS 001");
+        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        criteria = new ArrayList<String>();
+        criteria.add("2");
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         businessRuleDAO.createBusinessRule(busRule);
     }
 
-    public void insertBusinessRuleMetadata() throws Exception {
+    public void deleteRules() {
+        try {
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("1");
+            businessRuleDAO.deleteBusinessRule(rule);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println(e.toString());
+        }
 
-        int ordinalPosition = 1;
-        RuleElement ruleElement = null;
-        RuleProposition ruleProp = null;
-        LeftHandSide leftSide = null;
-        RightHandSide rightSide = null;
-        Operator operator = null;
-        ArrayList<String> criteria = null;
-        ArrayList<String> facts = null;
+        try {
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("2");
+            businessRuleDAO.deleteBusinessRule(rule);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println(e.toString());
+        }
 
-        // setup business rule meta data and main rule entity
-        RuleMetaData metaData = new RuleMetaData("Tom Smith", new Date(), "", null, new Date(), new Date(), "1.1", "active");
+        try {
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("3");
+            businessRuleDAO.deleteBusinessRule(rule);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println(e.toString());
+        }
 
-        // we keep this entity empty for now
-        BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
+        try {
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("4");
+            businessRuleDAO.deleteBusinessRule(rule);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println(e.toString());
+        }
 
-        // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("PR CHEM 200", "enrollment prerequisites for Chemistry 200", "PR 40244", metaData, businessRuleEvaluation);
+        em.flush();
+    }
 
-        // =======================================
-        // ( Completed any 2 of (Math 101, 102, 103) OR Completed any 3 of (Chem 101, 102, 103) )
-        // =======================================
-        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
+    @Override
+    // @After
+    public void onTearDownAfterTransaction() throws Exception {
 
-        // Completed any 2 of (Math 101, 102, 103)
-        facts = new ArrayList<String>();
-        facts.add("MATH101, MATH102, MATH103");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatchesXXX", facts);
-        operator = new Operator(ComparisonOperatorType.GREATER_THAN_OR_EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("2");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("Math Prerequisite", "enumeration of required Math courses", leftSide, operator, rightSide);
-        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // OR
-        ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // Completed any 3 of (Chem 101, 102, 103)
-        facts = new ArrayList<String>();
-        facts.add("CHEM101, CHEM102, CHEM103");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
-        operator = new Operator(ComparisonOperatorType.GREATER_THAN_OR_EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("3");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("Chemistry Prerequisite", "enumeration of required Chem courses", leftSide, operator, rightSide);
-        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // =======================================
-        // AND Accumulated 10 creds in Basic Core
-        // =======================================
-        ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        facts = new ArrayList<String>();
-        facts.add("ENG100, PSYC102, MATH103");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCoreUnits", facts);
-        operator = new Operator(ComparisonOperatorType.GREATER_THAN_OR_EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("2");
-        rightSide = new RightHandSide("requiredCoreUnits", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("Required Core Units", "Number of core units", leftSide, operator, rightSide);
-        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // =======================================
-        // AND ( obtained instructor approval OR has Senior class standing )
-        // =======================================
-        ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // obtained instructor approval
-        facts = new ArrayList<String>();
-        facts.add("");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "isApprovedByInstructor", facts);
-        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("true");
-        rightSide = new RightHandSide("instructorApproval", "java.lang.Boolean", criteria);
-        ruleProp = new RuleProposition("Instructor Approval", "approval granted", leftSide, operator, rightSide);
-        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // OR
-        ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        // has Senior class standing
-        facts = new ArrayList<String>();
-        facts.add("");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "hasSeniorStanding", facts);
-        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("true");
-        rightSide = new RightHandSide("seniorStanding", "java.lang.Boolean", criteria);
-        ruleProp = new RuleProposition("Senior Class Standing", "Senior standing achieved", leftSide, operator, rightSide);
-        ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        busRule.addRuleElement(ruleElement);
-
-        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
-        // ruleElementDAO.createRuleElement(ruleElement);
-        busRule.addRuleElement(ruleElement);
-
-        businessRuleDAO.createBusinessRule(busRule);
+        deleteRules();
+        super.onTearDownInTransaction();
+        setDirty();
     }
 
     /**
@@ -299,4 +447,35 @@ public class TestEndToEnd {
     public final void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
         this.businessRuleDAO = businessRuleDAO;
     }
+
+    /**
+     * @return the em
+     */
+    public final EntityManager getEm() {
+        return em;
+    }
+
+    /**
+     * @param em
+     *            the em to set
+     */
+    public final void setEm(EntityManager em) {
+        this.em = em;
+    }
+
+    /**
+     * @return the metadata
+     */
+    public final FunctionalBusinessRuleManagementService getMetadata() {
+        return metadata;
+    }
+
+    /**
+     * @param metadata
+     *            the metadata to set
+     */
+    public final void setMetadata(FunctionalBusinessRuleManagementService metadata) {
+        this.metadata = metadata;
+    }
+
 }
