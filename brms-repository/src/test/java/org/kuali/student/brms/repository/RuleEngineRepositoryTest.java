@@ -52,12 +52,12 @@ import org.junit.Test;
 import org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.brms.repository.drools.DroolsTestUtil;
 import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
+import org.kuali.student.brms.repository.drools.rule.RuleFactory;
+import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
-import org.kuali.student.brms.repository.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleSet;
-import org.kuali.student.brms.repository.rule.RuleSetFactory;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
 
@@ -105,7 +105,7 @@ public class RuleEngineRepositoryTest {
     }
 
     private static Rule createRuleDRL(String name, String description, String category, String content) throws RuleEngineRepositoryException {
-        Rule rule = RuleFactory.getInstance().createRule(name);
+        Rule rule = RuleFactory.getInstance().createDroolsRule(name);
         rule.setDescription(description);
         rule.setCategory(category);
         rule.setFormat("drl");
