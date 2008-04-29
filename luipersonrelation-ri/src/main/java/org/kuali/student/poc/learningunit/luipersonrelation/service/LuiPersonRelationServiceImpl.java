@@ -438,8 +438,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			LuiPersonRelationCriteria luiPersonRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return dao.searchForLuiPersonRelationIds(luiPersonRelationCriteria.getLuiId(), luiPersonRelationCriteria.getPersonId(), luiPersonRelationCriteria.getLuiPersonRelationType().getName(), luiPersonRelationCriteria.getRelationState().getState(), luiPersonRelationCriteria.getEffectiveStartDate(), luiPersonRelationCriteria.getEffectiveEndDate());
 	}
 
 	@Override
@@ -447,8 +446,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			LuiPersonRelationCriteria luiPersonRelationCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    List<LuiPersonRelation> luiPersonRelations = dao.searchForLuiPersonRelations(luiPersonRelationCriteria.getLuiId(), luiPersonRelationCriteria.getPersonId(), luiPersonRelationCriteria.getLuiPersonRelationType().getName(), luiPersonRelationCriteria.getRelationState().getState(), luiPersonRelationCriteria.getEffectiveStartDate(), luiPersonRelationCriteria.getEffectiveEndDate());
+	    return toLuiPersonRelationDisplayList(luiPersonRelations);
 	}
 
 	@Override
