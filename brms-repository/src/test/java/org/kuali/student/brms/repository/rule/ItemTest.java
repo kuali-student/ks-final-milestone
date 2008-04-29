@@ -7,14 +7,60 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import org.kuali.student.brms.repository.rule.ItemImpl;
-
 public class ItemTest {
+
+    private class ItemImpl extends AbstractItem {
+
+        /** Class serial version uid */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Constructs a new item.
+         * 
+         * @param name Item name
+         */
+        public ItemImpl( String name ) {
+            super( name );
+        }
+
+        /**
+         * Constructs a new item.
+         * 
+         * @param uuid Item uuid
+         * @param name Item name
+         * @param version Item version
+         */
+        public ItemImpl( String uuid, String name, long version) {
+            super( uuid, name, version );
+        }
+    }
+
+    /**
+     * Create a new Item.
+     * 
+     * @param name Item name
+     * @return A new Item
+     */
+    private Item createItem( String name ) {
+        return new ItemImpl( name );
+    }
+
+    /**
+     * Create a new Item.
+     * 
+     * @param uuid Item uuid
+     * @param name Item name
+     * @param version Item version
+     * @return A new Item
+     */
+    private Item createItem( String uuid, String name, long version ) {
+        return new ItemImpl( uuid, name, version );
+    }
 
     @Test
     public void testNullName() {
         try {
-            RuleFactory.getInstance().createRule( null );
+            createItem( null );
             fail( "Should not be able to create an item with a null name" );
         }
         catch( RuntimeException e ) {
@@ -25,7 +71,7 @@ public class ItemTest {
     @Test
     public void testNullUuid() {
         try {
-            RuleFactory.getInstance().createRule( null, "ruleName", -1 );
+            createItem( null, "item1", -1 );
             fail( "Should not be able to create an item with a null UUID" );
         }
         catch( RuntimeException e ) {
@@ -36,7 +82,7 @@ public class ItemTest {
     @Test
     public void testNullUuidAndName() {
         try {
-            RuleFactory.getInstance().createRule( null, null, -1 );
+            createItem( null, null, -1 );
             fail( "Should not be able to create an item with a null UUID and a null name" );
         }
         catch( RuntimeException e ) {
@@ -46,40 +92,40 @@ public class ItemTest {
 
     @Test
     public void testNameEquals() {
-        Rule rule1 = RuleFactory.getInstance().createRule( "itemName" );
-        ItemImpl item1 = (ItemImpl) rule1;
-        Rule rule2 = RuleFactory.getInstance().createRule( "itemName" );
-        ItemImpl item2 = (ItemImpl) rule2;
+        Item item1 = createItem( "item1" );
+        Item item2 = createItem( "item1" );
 
         assertEquals( item1, item2 );
     }
 
     @Test
     public void testNameNotEquals() {
-        Rule rule1 = RuleFactory.getInstance().createRule( "itemName1" );
-        ItemImpl item1 = (ItemImpl) rule1;
-        Rule rule2 = RuleFactory.getInstance().createRule( "itemName2" );
-        ItemImpl item2 = (ItemImpl) rule2;
+        Item item1 = createItem( "item1" );
+        Item item2 = createItem( "item2" );
 
         assertFalse( item1.equals( item2 ) );
     }
 
     @Test
     public void testNameUuidEquals() {
-        Rule rule1 = RuleFactory.getInstance().createRule( "123", "itemName", 1L );
-        ItemImpl item1 = (ItemImpl) rule1;
-        Rule rule2 = RuleFactory.getInstance().createRule( "123", "itemName", 1L );
-        ItemImpl item2 = (ItemImpl) rule2;
+        Item item1 = createItem( "123", "item1", 1L );
+        Item item2 = createItem( "123", "item1", 1L );
 
         assertEquals( item1, item2 );
     }
 
     @Test
     public void testNameUuidNotEquals() {
-        Rule rule1 = RuleFactory.getInstance().createRule( "123", "itemName1", 1L );
-        ItemImpl item1 = (ItemImpl) rule1;
-        Rule rule2 = RuleFactory.getInstance().createRule( "987", "itemName2", 1L );
-        ItemImpl item2 = (ItemImpl) rule2;
+        Item item1 = createItem( "123", "item1", 1L );
+        Item item2 = createItem( "987", "item2", 1L );
+
+        assertFalse( item1.equals( item2 ) );
+    }
+
+    @Test
+    public void testNameUuidVersionNotEquals() {
+        Item item1 = createItem( "123", "item1", 1L );
+        Item item2 = createItem( "987", "item2", 2L );
 
         assertFalse( item1.equals( item2 ) );
     }
