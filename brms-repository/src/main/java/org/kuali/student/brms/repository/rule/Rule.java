@@ -25,13 +25,6 @@ import java.util.Calendar;
  */
 public interface Rule extends Item {
     /**
-     * Sets the compiled binary content of the rule.
-     * 
-     * @param binaryContent Compiled byte array
-     */
-    public void setBinaryContent(byte[] binaryContent);
-
-    /**
      * Returns the compiled binary content as a byte array.
      * 
      * @return Compiled byte array

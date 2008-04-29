@@ -85,13 +85,6 @@ public interface Item {
     public String getFormat();
 
     /**
-     * Sets the item version number.
-     * 
-     * @param versionNumber Version number
-     */
-    public void setVersionNumber(long versionNumber);
-    
-    /**
      * Gets the item version number.
      * 
      * @return Version number
@@ -115,25 +108,11 @@ public interface Item {
     public String getStatus();
 
     /**
-     * Sets the item created date.
-     * 
-     * @param createdDate
-     */
-    public void setCreatedDate(Calendar createdDate);
-    
-    /**
      * Gets the date this item was created.
      * 
      * @return Item created date
      */
     public Calendar getCreatedDate();
-
-    /**
-     * Sets the date this item was last modified. 
-     * 
-     * @param lastModifiedDate Item last modified date
-     */
-    public void setLastModifiedDate(Calendar lastModifiedDate);
 
     /**
      * Gets the date this item was last modified.
@@ -150,33 +129,12 @@ public interface Item {
     public boolean isArchived();
 
     /**
-     * Sets this item to archived if <code>archived</code> is true. 
-     * 
-     * @param archived True if this item is archived, otherwise false
-     */
-    public void setArchived(boolean archived);
-
-    /**
-     * Sets this item historical to true or false.
-     * 
-     * @param historical True equals historical, otherwise false
-     */
-    public void setHistorical(boolean historical);
-    
-    /**
      * Determines whether this item is a historical item.
      * 
      * @return True if this item is historical
      */
     public boolean isHistorical();
 
-    /**
-     * Sets the UUID of this version's snapshot
-     * 
-     * @param versionSnapshotUUID
-     */
-    public void setVersionSnapshotUUID(String versionSnapshotUUID);
-    
     /**
      * Returns the UUID of the snapshot version. 
      * This will return null if this is the current version. 
