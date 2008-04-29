@@ -23,7 +23,7 @@ public class RuleSetTest {
     @Test
     public void testNullUuid() {
         try {
-            RuleUtil.createRuleSet( null, "ruleSetName" );
+            RuleUtil.createRuleSet( null, "ruleSetName", -1L );
             fail( "Should not be able to create a rule set with a null UUID" );
         }
         catch( RuntimeException e ) {
@@ -34,7 +34,7 @@ public class RuleSetTest {
     @Test
     public void testNullUuidAndName() {
         try {
-            RuleUtil.createRuleSet( null, null );
+            RuleUtil.createRuleSet( null, null, -1L );
             fail( "Should not be able to create a rule set with a null UUID and a null name" );
         }
         catch( RuntimeException e ) {
@@ -59,17 +59,17 @@ public class RuleSetTest {
     }
 
     @Test
-    public void testNameUuidEquals() {
-        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSetName" );
-        RuleSet ruleSet2 = RuleUtil.createRuleSet( "123", "ruleSetName" );
+    public void testNameUuidVersionEquals() {
+        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSetName", 1L );
+        RuleSet ruleSet2 = RuleUtil.createRuleSet( "123", "ruleSetName", 1L );
 
         assertEquals( ruleSet1, ruleSet2 );
     }
 
     @Test
-    public void testNameUuidNotEquals() {
-        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSet1" );
-        RuleSet ruleSet2 = RuleUtil.createRuleSet( "987", "ruleSet2" );
+    public void testNameUuidVersionNotEquals() {
+        RuleSet ruleSet1 = RuleUtil.createRuleSet( "123", "ruleSet1", 1L );
+        RuleSet ruleSet2 = RuleUtil.createRuleSet( "987", "ruleSet2", 2L );
 
         assertFalse( ruleSet1.equals( ruleSet2 ) );
     }

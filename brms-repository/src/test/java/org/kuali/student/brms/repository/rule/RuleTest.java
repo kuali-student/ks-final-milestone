@@ -23,7 +23,7 @@ public class RuleTest {
     @Test
     public void testNullUuid() {
         try {
-            RuleUtil.createRule( null, "rule1" );
+            RuleUtil.createRule( null, "rule1", -1 );
             fail( "Should not be able to create a rule with a null UUID" );
         }
         catch( RuntimeException e ) {
@@ -34,7 +34,7 @@ public class RuleTest {
     @Test
     public void testNullUuidAndName() {
         try {
-            RuleUtil.createRule( null, null );
+            RuleUtil.createRule( null, null, -1 );
             fail( "Should not be able to create a rule with a null UUID and a null name" );
         }
         catch( RuntimeException e ) {
@@ -44,32 +44,40 @@ public class RuleTest {
 
     @Test
     public void testNameEquals() {
-        Rule rule1 = RuleUtil.createRule( "123", "rule1" );
-        Rule rule2 = RuleUtil.createRule( "123", "rule1" );
+        Rule rule1 = RuleUtil.createRule( "123", "rule1", 1L );
+        Rule rule2 = RuleUtil.createRule( "123", "rule1", 1L );
 
         assertEquals( rule1, rule2 );
     }
 
     @Test
     public void testNameNotEquals() {
-        Rule rule1 = RuleUtil.createRule( "123", "rule1" );
-        Rule rule2 = RuleUtil.createRule( "123", "rule2" );
+        Rule rule1 = RuleUtil.createRule( "123", "rule1", 1L );
+        Rule rule2 = RuleUtil.createRule( "123", "rule2", 1L );
 
         assertFalse( rule1.equals( rule2 ) );
     }
 
     @Test
-    public void testNameUuidEquals() {
-        Rule rule1 = RuleUtil.createRule( "123", "rule1" );
-        Rule rule2 = RuleUtil.createRule( "123", "rule1" );
+    public void testVersionNotEquals() {
+        Rule rule1 = RuleUtil.createRule( "123", "rule1", 1L );
+        Rule rule2 = RuleUtil.createRule( "123", "rule1", 2L );
+
+        assertFalse( rule1.equals( rule2 ) );
+    }
+
+    @Test
+    public void testNameUuidVersionEquals() {
+        Rule rule1 = RuleUtil.createRule( "123", "rule1", 1L );
+        Rule rule2 = RuleUtil.createRule( "123", "rule1", 1L );
 
         assertEquals( rule1, rule2 );
     }
 
     @Test
-    public void testNameUuidNotEquals() {
-        Rule rule1 = RuleUtil.createRule( "123", "rule1" );
-        Rule rule2 = RuleUtil.createRule( "987", "rule2" );
+    public void testNameUuidVersionNotEquals() {
+        Rule rule1 = RuleUtil.createRule( "123", "rule1", 1L );
+        Rule rule2 = RuleUtil.createRule( "987", "rule2", 2L );
 
         assertFalse( rule1.equals( rule2 ) );
     }
@@ -90,20 +98,4 @@ public class RuleTest {
         assertFalse( rule1.equals( rule2 ) );
     }
 
-    @Test
-    public void testNameUuidRulesEquals() {
-        Rule rule1 = RuleUtil.createRule( "123", "rule1" );
-        Rule rule2 = RuleUtil.createRule( "123", "rule1" );
-
-        assertEquals( rule1, rule2 );
-    }
-
-    @Test
-    public void testNameUuidRulesNotEquals() {
-        Rule rule1 = RuleUtil.createRule( "123", "rule1" );
-        Rule rule2 = RuleUtil.createRule( "987", "rule1" );
-
-        assertFalse( rule1.equals( rule2 ) );
-    }
-    
 }

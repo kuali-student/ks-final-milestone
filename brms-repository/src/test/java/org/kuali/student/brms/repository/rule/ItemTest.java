@@ -25,7 +25,7 @@ public class ItemTest {
     @Test
     public void testNullUuid() {
         try {
-            RuleFactory.getInstance().createRule( null, "ruleName" );
+            RuleFactory.getInstance().createRule( null, "ruleName", -1 );
             fail( "Should not be able to create an item with a null UUID" );
         }
         catch( RuntimeException e ) {
@@ -36,7 +36,7 @@ public class ItemTest {
     @Test
     public void testNullUuidAndName() {
         try {
-            RuleFactory.getInstance().createRule( null, null );
+            RuleFactory.getInstance().createRule( null, null, -1 );
             fail( "Should not be able to create an item with a null UUID and a null name" );
         }
         catch( RuntimeException e ) {
@@ -66,9 +66,9 @@ public class ItemTest {
 
     @Test
     public void testNameUuidEquals() {
-        Rule rule1 = RuleFactory.getInstance().createRule( "123", "itemName" );
+        Rule rule1 = RuleFactory.getInstance().createRule( "123", "itemName", 1L );
         ItemImpl item1 = (ItemImpl) rule1;
-        Rule rule2 = RuleFactory.getInstance().createRule( "123", "itemName" );
+        Rule rule2 = RuleFactory.getInstance().createRule( "123", "itemName", 1L );
         ItemImpl item2 = (ItemImpl) rule2;
 
         assertEquals( item1, item2 );
@@ -76,9 +76,9 @@ public class ItemTest {
 
     @Test
     public void testNameUuidNotEquals() {
-        Rule rule1 = RuleFactory.getInstance().createRule( "123", "itemName1" );
+        Rule rule1 = RuleFactory.getInstance().createRule( "123", "itemName1", 1L );
         ItemImpl item1 = (ItemImpl) rule1;
-        Rule rule2 = RuleFactory.getInstance().createRule( "987", "itemName2" );
+        Rule rule2 = RuleFactory.getInstance().createRule( "987", "itemName2", 1L );
         ItemImpl item2 = (ItemImpl) rule2;
 
         assertFalse( item1.equals( item2 ) );
