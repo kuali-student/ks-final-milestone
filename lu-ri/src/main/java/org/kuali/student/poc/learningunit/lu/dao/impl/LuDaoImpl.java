@@ -222,4 +222,33 @@ public class LuDaoImpl implements LuDao {
 		return (CluRelation) q.getSingleResult();
 	}
 
+	@Override
+	public Set<LuRelationType> findAllowedLuRelationTypesForClu(String cluId,
+			String relatedCluId) {
+		String luTypeId = em.find(Clu.class, cluId).getLuType().getLuTypeId();
+		String relatedLuTypeId = em.find(Clu.class, relatedCluId).getLuType()
+				.getLuTypeId();
+		Set<LuRelationType> set1 = em.find(LuType.class, luTypeId)
+				.getAllowedLuRelationTypes();
+		Set<LuRelationType> set2 = em.find(LuType.class, relatedLuTypeId)
+				.getAllowedLuRelationTypes();
+		set1.retainAll(set2);
+		return set1;
+	}
+
+	@Override
+	public Set<LuRelationType> findAllowedLuRelationTypesForLui(String luiId,
+			String relatedLuiId) {
+		String luTypeId = em.find(Lui.class, luiId).getClu().getLuType()
+				.getLuTypeId();
+		String relatedLuTypeId = em.find(Lui.class, relatedLuiId).getClu()
+				.getLuType().getLuTypeId();
+		Set<LuRelationType> set1 = em.find(LuType.class, luTypeId)
+				.getAllowedLuRelationTypes();
+		Set<LuRelationType> set2 = em.find(LuType.class, relatedLuTypeId)
+				.getAllowedLuRelationTypes();
+		set1.retainAll(set2);
+		return set1;
+	}
+
 }

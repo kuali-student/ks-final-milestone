@@ -407,24 +407,68 @@ public class Assembler {
 		return cluUpdateInfo;
 	}
 
-	public static Clu createClu(CluUpdateInfo cluUpdateInfo) {
-		Clu clu = new Clu();
-		updateClu(cluUpdateInfo, clu);
-		return clu;
-	}
+	// public static Clu createClu(CluUpdateInfo cluUpdateInfo) {
+	// Clu clu = new Clu();
+	// updateClu(cluUpdateInfo, clu);
+	// return clu;
+	// }
 
-	public static void updateClu(CluUpdateInfo cluUpdateInfo, Clu clu) {
-		Atp atp = new Atp();
-		atp.setAtpId(cluUpdateInfo.getEffectiveStartCycle());
-		clu.setEffectiveStartCycle(atp);
-		atp = new Atp();
-		atp.setAtpId(cluUpdateInfo.getEffectiveEndCycle());
-		clu.setEffectiveEndCycle(atp);
-		clu.setCluLongName(cluUpdateInfo.getCluLongName());
-		clu.setCluShortName(cluUpdateInfo.getCluShortName());
-		clu.setDescription(cluUpdateInfo.getDescription());
-		clu.setEffectiveEndDate(cluUpdateInfo.getEffectiveEndDate());
-		clu.setEffectiveStartDate(cluUpdateInfo.getEffectiveStartDate());
+	/**
+	 * Updates the clu parameter with the cluUpdateInfo for non null values
+	 * 
+	 * @param cluUpdateInfo
+	 * @param clu
+	 *            Mutable
+	 * @param dao
+	 */
+	public static void updateClu(CluUpdateInfo cluUpdateInfo, Clu clu, LuDao dao) {
+		if (cluUpdateInfo.getCluLongName() != null) {
+			clu.setCluLongName(cluUpdateInfo.getCluLongName());
+		}
+		if (cluUpdateInfo.getCluShortName() != null) {
+			clu.setCluShortName(cluUpdateInfo.getCluShortName());
+		}
+		if (cluUpdateInfo.getDescription() != null) {
+			clu.setDescription(cluUpdateInfo.getDescription());
+		}
+		if (cluUpdateInfo.getEffectiveEndDate() != null) {
+			clu.setEffectiveEndDate(cluUpdateInfo.getEffectiveEndDate());
+		}
+		if (cluUpdateInfo.getEffectiveStartDate() != null) {
+			clu.setEffectiveStartDate(cluUpdateInfo.getEffectiveStartDate());
+		}
+		if (cluUpdateInfo.getEffectiveEndCycle() != null) {
+			clu.setEffectiveEndCycle(dao.fetchAtp(cluUpdateInfo
+					.getEffectiveEndCycle()));
+		}
+		if (cluUpdateInfo.getEffectiveStartCycle() != null) {
+			clu.setEffectiveStartCycle(dao.fetchAtp(cluUpdateInfo
+					.getEffectiveStartCycle()));
+		}
+
+		// Update the attributes that exist already and remove each one from the
+		// UpdateInfo
+		for (LuAttribute updateAttr : clu.getAttributes()) {
+			if (cluUpdateInfo.getAttributes().containsKey(
+					updateAttr.getLuAttributeType().getName())) {
+				updateAttr.setValue(cluUpdateInfo.getAttributes().remove(
+						updateAttr.getLuAttributeType().getName()));
+			}
+		}
+
+		// Create a list of all the new attributes that are to be updated
+		LuType luType = clu.getLuType();
+		for (LuAttributeType luAttributeType : luType.getLuAttributeTypes()) {
+			if (cluUpdateInfo.getAttributes().containsKey(
+					luAttributeType.getName())) {
+				LuAttribute luAttr = new LuAttribute();
+				luAttr.setValue(cluUpdateInfo.getAttributes().get(
+						luAttributeType.getName()));
+				luAttr.setLuAttributeType(luAttributeType);
+				luAttr.setClu(clu);
+				clu.getAttributes().add(luAttr);
+			}
+		}
 	}
 
 	public static LuiCreateInfo createLuiCreateInfo(Lui lui) {

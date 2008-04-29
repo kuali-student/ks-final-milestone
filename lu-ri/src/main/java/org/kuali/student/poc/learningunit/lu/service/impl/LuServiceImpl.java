@@ -65,17 +65,18 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException, PermissionDeniedException {
 		CluSet cluSetChild = dao.fetchCluSet(cluSetId);
 		CluSet cluParentSet = dao.fetchCluSet(addedCluSetId);
-		//Check if the sets do not exist
-		if(cluSetChild==null||cluParentSet==null){
+		// Check if the sets do not exist
+		if (cluSetChild == null || cluParentSet == null) {
 			throw new DoesNotExistException();
 		}
-		//Check if trying to add a set to itself
+		// Check if trying to add a set to itself
 		if (cluSetId.equals(addedCluSetId)) {
 			throw new InvalidParameterException(
 					"Can not add a Clu set to itself for CluSet id:" + cluSetId);
 		}
-		//Check for CircularReference  -
-		//We can't add a child to a parent if that child already contains said parent
+		// Check for CircularReference -
+		// We can't add a child to a parent if that child already contains said
+		// parent
 		if (flattenCluSet(cluSetChild).contains(cluParentSet)) {
 			throw new CircularReferenceException(
 					"Can not create a circular reference to a Clu Set for CluChildSet id:"
@@ -103,8 +104,6 @@ public class LuServiceImpl implements LuService {
 		status.setSuccess(true);
 		return status;
 	}
-
-
 
 	private Set<CluSet> flattenCluSet(CluSet cluSet) {
 		Set<CluSet> flattenedSet = new HashSet<CluSet>();
@@ -329,6 +328,13 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+	public LuiDisplay fetchLuiDisplay(String luiId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return Assembler.createLuiDisplay(dao.fetchLui(luiId));
+	}
+
+	@Override
 	public LuiRelationInfo fetchLuiRelation(String luiId, String relatedLuiId,
 			String luRelationTypeId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -359,8 +365,13 @@ public class LuServiceImpl implements LuService {
 			String relatedCluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> results = new ArrayList<String>();
+		Set<LuRelationType> luRelationTypes = dao
+				.findAllowedLuRelationTypesForClu(cluId, relatedCluId);
+		for (LuRelationType luRelationType : luRelationTypes) {
+			results.add(luRelationType.getId());
+		}
+		return results;
 	}
 
 	@Override
@@ -368,8 +379,13 @@ public class LuServiceImpl implements LuService {
 			String relatedLuiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> results = new ArrayList<String>();
+		Set<LuRelationType> luRelationTypes = dao
+				.findAllowedLuRelationTypesForLui(luiId, relatedLuiId);
+		for (LuRelationType luRelationType : luRelationTypes) {
+			results.add(luRelationType.getId());
+		}
+		return results;
 	}
 
 	@Override
@@ -403,8 +419,8 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		List<String> cluIds = new ArrayList<String>();
-		CluSet cluSet=dao.fetchCluSet(cluSetId);
-		for(Clu clu:extractClusFromCluSets(flattenCluSet(cluSet))){
+		CluSet cluSet = dao.fetchCluSet(cluSetId);
+		for (Clu clu : extractClusFromCluSets(flattenCluSet(cluSet))) {
 			cluIds.add(clu.getCluId());
 		}
 		return cluIds;
@@ -425,9 +441,9 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		List<String> cluSetIds = new ArrayList<String>();
-		CluSet cluSet=dao.fetchCluSet(cluSetId);
-		for(CluSet currentCluSet:flattenCluSet(cluSet)){
-			if(!cluSetId.equals(currentCluSet.getCluSetId())){
+		CluSet cluSet = dao.fetchCluSet(cluSetId);
+		for (CluSet currentCluSet : flattenCluSet(cluSet)) {
+			if (!cluSetId.equals(currentCluSet.getCluSetId())) {
 				cluSetIds.add(currentCluSet.getCluSetId());
 			}
 		}
@@ -761,9 +777,13 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 
-		return null;
+		Clu clu = dao.fetchClu(cluId);
+		Assembler.updateClu(cluUpdateInfo, clu, dao);
+		dao.updateClu(clu);
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
 	}
 
 	@Override
