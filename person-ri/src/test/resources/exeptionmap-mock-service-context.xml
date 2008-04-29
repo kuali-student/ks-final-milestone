@@ -22,7 +22,7 @@
 		<property name="exceptionMapping">
 			<map>
 				<entry key="javax.persistence.EntityExistsException"
-					value="org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException" />
+					value="org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException" />
 			</map>
 		</property>
 	</bean>
