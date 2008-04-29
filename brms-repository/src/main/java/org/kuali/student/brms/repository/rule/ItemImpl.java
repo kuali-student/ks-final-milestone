@@ -93,6 +93,18 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
         this.name = name;
     }
 
+    ItemImpl(final String uuid, final String name, final long versionNumber) {
+        if (uuid == null || uuid.trim().isEmpty()) {
+            throw new IllegalArgumentException("name cannot be null or empty");
+        }
+        else if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("name cannot be null or empty");
+        }
+        this.uuid = uuid;
+        this.name = name;
+        this.versionNumber = versionNumber;
+    }
+
     /**
      * @see org.kuali.student.brms.repository.rule.Item#getName()
      */
@@ -150,7 +162,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setVersionNumber(long)
+     * Sets the item version number.
+     * 
+     * @param versionNumber Version number
      */
     public void setVersionNumber(long versionNumber) {
         this.versionNumber = versionNumber;
@@ -178,7 +192,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setCreatedDate(java.util.Calendar)
+     * Sets the item created date.
+     * 
+     * @param createdDate
      */
     public void setCreatedDate(Calendar createdDate) {
         this.createdDate = createdDate;
@@ -192,7 +208,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setLastModifiedDate(java.util.Calendar)
+     * Sets the date this item was last modified. 
+     * 
+     * @param lastModifiedDate Item last modified date
      */
     public void setLastModifiedDate(Calendar lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
@@ -213,7 +231,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setArchived(boolean)
+     * Sets this item to archived if <code>archived</code> is true. 
+     * 
+     * @param archived True if this item is archived, otherwise false
      */
     public void setArchived(boolean archived) {
         this.archived = archived;
@@ -227,7 +247,9 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setHistorical(boolean)
+     * Sets this item historical to true or false.
+     * 
+     * @param historical True equals historical, otherwise false
      */
     public void setHistorical(boolean historical) {
         this.historical = historical;
@@ -241,12 +263,19 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setVersionSnapshotUUID(java.lang.String)
+     * Sets the UUID of this version's snapshot
+     * 
+     * @param versionSnapshotUUID
      */
     public void setVersionSnapshotUUID(String versionSnapshotUUID) {
         this.versionSnapshotUUID = versionSnapshotUUID;
     }
 
+    /**
+     * Overrides hashCode
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -257,6 +286,11 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
         return result;
     }
 
+    /**
+     * Overrides equals
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if ( this == obj ) {
@@ -278,14 +312,17 @@ public abstract class ItemImpl implements java.io.Serializable, Item {
             return false;
         }
         
-        if ( name.equals( item.getName() ) ) {
-            if ( item.getUUID() != null ) {
-                return ( item.getUUID().equals( this.getUUID() ) );
-            }
-            return true;
+        if ( !getName().equals( item.getName() ) ) {
+            return false;
+        }
+        if ( getUUID() != null && !item.getUUID().equals( this.getUUID() ) ) {
+            return false;
+        }
+        if ( item.getVersionNumber() != this.getVersionNumber() ) {
+            return false;
         }
         
-        return false;
+        return true;
     }
     
     public String toString() {

@@ -64,9 +64,20 @@ public class RuleSetImpl
     }
 
     /**
+     * Constructs a new rule.
+     * 
+     * @param uuid Rule UUID - This is created by the repository
+     * @param name Rule name
+     * @param versionNumber Rule version number
+     */
+    RuleSetImpl(final String uuid, final String name, final long versionNumber) {
+        super(uuid, name, versionNumber);
+    }
+
+    /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#addRule(org.kuali.student.brms.repository.rule.Rule)
      */
-    public void addRule(Rule rule) {
+    public void addRule(final Rule rule) {
         this.rules.add(rule);
     }
 
@@ -78,9 +89,11 @@ public class RuleSetImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.RuleSet#setRules(java.util.List)
+     * Sets a list of <code>org.kuali.student.brms.repository.rule.Rule</code> to this rule set.
+     *  
+     * @param rules List of rules
      */
-    public void setRules(List<Rule> rules) {
+    public void setRules(final List<Rule> rules) {
         this.rules = rules;
     }
 
@@ -94,7 +107,7 @@ public class RuleSetImpl
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#addHeader(java.lang.String)
      */
-    public void addHeader(String header) {
+    public void addHeader(final String header) {
         this.header.add(getHeader(header));
     }
 
@@ -111,9 +124,11 @@ public class RuleSetImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.RuleSet#setHeaderList(java.util.List)
+     * Sets a list of rule set headers.
+     * 
+     * @param header Rule set header
      */
-    public void setHeaderList(List<String> header) {
+    public void setHeaderList(final List<String> header) {
         this.header = header;
     }
 
@@ -141,9 +156,11 @@ public class RuleSetImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.RuleSet#setCompiledRuleSet(byte[])
+     * Sets a compiled rule set byte array
+     * 
+     * @param compiledRuleSet Compiled rule set byte array
      */
-    public void setCompiledRuleSet(byte[] compiledRuleSet) {
+    public void setCompiledRuleSet(final byte[] compiledRuleSet) {
         this.compiledRuleSet = compiledRuleSet;
     }
 
@@ -155,9 +172,11 @@ public class RuleSetImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.RuleSet#setCompiledRuleSetObject(java.lang.Object)
+     * Sets a compiled rule set object. E.g. A Drools a <code>org.drools.rule.Package</code> 
+     * 
+     * @param compiledRuleSetObject A compiled rule set object
      */
-    public void setCompiledRuleSetObject(Object compiledRuleSetObject) {
+    public void setCompiledRuleSetObject(final Object compiledRuleSetObject) {
         this.compiledRuleSetObject = compiledRuleSetObject;
     }
 
@@ -169,9 +188,13 @@ public class RuleSetImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.RuleSet#setSnapshot(boolean)
+     * Sets whether this rule set is a snapshot.
+     * If <code>snapshot</code> is set to true then this rule set is a snapshot,
+     * otherwise this rule set is not a snapshot.
+     * 
+     * @param snapshot True if this rule set is snapshot, otherwise false 
      */
-    public void setSnapshot(boolean snapshot) {
+    public void setSnapshot(final boolean snapshot) {
         this.snapshot = snapshot;
     }
 
@@ -206,10 +229,15 @@ public class RuleSetImpl
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#setSnapshotName(java.lang.String)
      */
-    public void setSnapshotName(String snapshotName) {
+    public void setSnapshotName(final String snapshotName) {
         this.snapshotName = snapshotName;
     }
 
+    /**
+     * Overrides hashCode
+     * 
+     * @see org.kuali.student.brms.repository.rule.ItemImpl#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -221,6 +249,11 @@ public class RuleSetImpl
         return result;
     }
 
+    /**
+     * Overrides equals
+     * 
+     * @see org.kuali.student.brms.repository.rule.ItemImpl#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if ( this == obj ) {
@@ -257,6 +290,9 @@ public class RuleSetImpl
             return false;
         }
         if ( ruleSet.getUUID() != null && !ruleSet.getUUID().equals( this.getUUID() ) ) {
+            return false;
+        }
+        if ( ruleSet.getVersionNumber() != this.getVersionNumber() ) {
             return false;
         }
         

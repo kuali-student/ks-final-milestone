@@ -15,7 +15,6 @@
  */
 package org.kuali.student.brms.repository.rule;
 
-import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -62,6 +61,17 @@ public class RuleImpl
     }
 
     /**
+     * Constructs a new rule
+     * 
+     * @param uuid Rule UUID
+     * @param name Rule name
+     * @param versionNumber Rule version number
+     */
+    RuleImpl(final String uuid, final String name, final long versionNumber) {
+        super(uuid, name, versionNumber);
+    }
+
+    /**
      * Returns a copy of the binary content;
      * 
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
@@ -74,7 +84,9 @@ public class RuleImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Rule#setBinaryContent(byte[])
+     * Sets the compiled binary content of the rule.
+     * 
+     * @param binaryContent Compiled byte array
      */
     public void setBinaryContent(byte[] binaryContent) {
         this.binaryContent = binaryContent;
@@ -138,6 +150,11 @@ public class RuleImpl
         return this.expiryDate;
     }
 
+    /**
+     * Overrides hashCode
+     * 
+     * @see org.kuali.student.brms.repository.rule.ItemImpl#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -147,6 +164,11 @@ public class RuleImpl
         return result;
     }
 
+    /**
+     * Overrides equals
+     * 
+     * @see org.kuali.student.brms.repository.rule.ItemImpl#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if ( this == obj ) {
@@ -176,6 +198,10 @@ public class RuleImpl
         }
 
         if ( rule.getUUID() != null && !rule.getUUID().equals( this.getUUID() ) ) {
+            return false;
+        }
+        
+        if ( rule.getVersionNumber() != this.getVersionNumber() ) {
             return false;
         }
         
