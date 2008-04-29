@@ -96,7 +96,10 @@ public class RuleEngineRepositoryTest {
         ruleSet.setDescription(description);
         ruleSet.setFormat("drl");
         if ( facts != null && !facts.isEmpty()) {
-            ruleSet.setHeaderList( facts );
+            //ruleSet.setHeaderList( facts );
+            for( int i=0; i<facts.size(); i++ ) {
+                ruleSet.addHeader( facts.get( i ) );
+            }
         }
         return ruleSet;
     }
