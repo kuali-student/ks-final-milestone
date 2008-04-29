@@ -7,15 +7,15 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.CircularReferenceException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.DisabledIdentifierException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.DoesNotExistException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.InvalidParameterException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.MissingParameterException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.OperationFailedException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.PermissionDeniedException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.ReadOnlyException;
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.common.ws.exceptions.CircularReferenceException;
+import org.kuali.student.poc.common.ws.exceptions.DisabledIdentifierException;
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
+import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
@@ -188,6 +188,25 @@ public interface PersonService {
 	String personId) throws DoesNotExistException, DisabledIdentifierException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves person display information about a person.
+     * 
+     * @param personId
+     *            identifier of the person to be retrieved
+     * @return person display info
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    @WebMethod
+    public PersonDisplay fetchPersonDisplay(@WebParam(name = "personId")
+    String personId) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
 
 	/**
 	 * Retrieves information about a person, returning only the information
