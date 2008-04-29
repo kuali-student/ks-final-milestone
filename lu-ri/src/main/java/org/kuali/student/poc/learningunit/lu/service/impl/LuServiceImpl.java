@@ -792,8 +792,14 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		CluRelation cluRelation = dao.fetchCluRelation(cluId, relatedCluId,
+				luRelationTypeId);
+		Assembler.updateCluRelation(cluRelationUpdateInfo, cluRelation);
+		dao.updateCluRelation(cluRelation);
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
 	}
 
 	@Override
@@ -801,27 +807,41 @@ public class LuServiceImpl implements LuService {
 			CluSetUpdateInfo cluSetUpdateInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		CluSet cluSet = dao.fetchCluSet(cluSetId);
+		Assembler.updateCluSet(cluSet, cluSetUpdateInfo, dao);
+		dao.updateCluSet(cluSet);
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
 	}
 
 	@Override
-	public Status updateLui(String luiId, LuiUpdateInfo cluUpdateInfo)
+	public Status updateLui(String luiId, LuiUpdateInfo luiUpdateInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		Lui lui = dao.fetchLui(luiId);
+		Assembler.updateLui(luiUpdateInfo, lui);
+		dao.updateLui(lui);
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
 	}
 
 	@Override
 	public Status updateLuiRelation(String luiId, String relatedLuiId,
-			String luRelationType, LuiRelationUpdateInfo luiRelationUpdateInfo)
+			String luRelationTypeId, LuiRelationUpdateInfo luiRelationUpdateInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		LuiRelation luiRelation = dao.fetchLuiRelation(luiId, relatedLuiId,
+				luRelationTypeId);
+		Assembler.updateLuiRelation(luiRelationUpdateInfo, luiRelation);
+		dao.updateLuiRelation(luiRelation);
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
 	}
 
 	/**

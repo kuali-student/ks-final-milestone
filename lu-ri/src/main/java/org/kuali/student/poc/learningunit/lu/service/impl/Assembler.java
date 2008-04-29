@@ -45,6 +45,7 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiRelationAssignInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiRelationDisplay;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiRelationInfo;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiRelationUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiUpdateInfo;
 import org.springframework.beans.BeanUtils;
 
@@ -248,10 +249,14 @@ public class Assembler {
 
 	public static void updateCluRelation(
 			CluRelationUpdateInfo cluRelationUpdateInfo, CluRelation cluRelation) {
-		cluRelation.setEffectiveEndDate(cluRelationUpdateInfo
-				.getEffectiveEndDate());
-		cluRelation.setEffectiveStartDate(cluRelationUpdateInfo
-				.getEffectiveStartDate());
+		if (cluRelationUpdateInfo.getEffectiveEndDate() != null) {
+			cluRelation.setEffectiveEndDate(cluRelationUpdateInfo
+					.getEffectiveEndDate());
+		}
+		if (cluRelationUpdateInfo.getEffectiveStartDate() != null) {
+			cluRelation.setEffectiveStartDate(cluRelationUpdateInfo
+					.getEffectiveStartDate());
+		}
 	}
 
 	public static CluCreateInfo createCluCreateInfo(Clu clu) {
@@ -604,10 +609,7 @@ public class Assembler {
 	}
 
 	public static void updateLui(LuiUpdateInfo luiUpdateInfo, Lui lui) {
-		Clu clu = new Clu();
-		clu.setEffectiveEndDate(luiUpdateInfo.getEffectiveEndDate());
-		clu.setEffectiveStartDate(luiUpdateInfo.getEffectiveStartDate());
-		lui.setClu(clu);
+		// FIXME The LuiUpdateInfo seems incompatable with Lui
 	}
 
 	public static LuTypeInfo createLuTypeInfo(Lui lui) {
@@ -803,5 +805,39 @@ public class Assembler {
 		cluSet.setEffectiveStartCycle(dao.fetchAtp(cluSetCreateInfo
 				.getEffectiveStartCycle()));
 		return cluSet;
+	}
+
+	public static void updateCluSet(CluSet cluSet,
+			CluSetUpdateInfo cluSetUpdateInfo, LuDao dao) {
+		if (cluSetUpdateInfo.getCluSetName() != null) {
+			cluSet.setCluSetName(cluSetUpdateInfo.getCluSetName());
+		}
+		if (cluSetUpdateInfo.getDescription() != null) {
+			cluSet.setDescription(cluSetUpdateInfo.getDescription());
+		}
+		if (cluSetUpdateInfo.getEffectiveEndDate() != null) {
+			cluSet.setEffectiveEndDate(cluSetUpdateInfo.getEffectiveEndDate());
+		}
+		if (cluSetUpdateInfo.getEffectiveStartDate() != null) {
+			cluSet.setEffectiveStartDate(cluSetUpdateInfo
+					.getEffectiveStartDate());
+		}
+		if (cluSetUpdateInfo.getEffectiveEndCycle() != null) {
+			cluSet.setEffectiveEndCycle(dao.fetchAtp(cluSetUpdateInfo
+					.getEffectiveEndCycle()));
+		}
+		if (cluSetUpdateInfo.getEffectiveStartCycle() != null) {
+			cluSet.setEffectiveStartCycle(dao.fetchAtp(cluSetUpdateInfo
+					.getEffectiveStartCycle()));
+		}
+
+	}
+
+	public static void updateLuiRelation(
+			LuiRelationUpdateInfo luiRelationUpdateInfo, LuiRelation luiRelation) {
+		luiRelation.setEffectiveEndDate(luiRelationUpdateInfo
+				.getEffectiveEndDate());
+		luiRelation.setEffectiveStartDate(luiRelationUpdateInfo
+				.getEffectiveStartDate());
 	}
 }
