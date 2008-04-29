@@ -270,13 +270,17 @@ public class DroolsRuleSetImpl
         }
         if ( header == null && ruleSet.header != null  ) {
             return false;
-        } else if ( !header.equals( ruleSet.header ) ) {
+        } else if ( header != null && ruleSet.header == null  ) {
+            return false;
+        } else if ( header != null && ruleSet.header != null && !header.equals( ruleSet.header ) ) {
             return false;
         }
         
         if ( rules == null && ruleSet.rules != null ) {
             return false;
-        } else if ( !rules.equals( ruleSet.rules ) ) {
+        } else if ( rules != null && ruleSet.rules == null ) {
+            return false;
+        } else if ( rules != null && ruleSet.rules != null && !rules.equals( ruleSet.rules ) ) {
             return false;
         }
         
