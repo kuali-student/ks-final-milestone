@@ -81,7 +81,7 @@ public class DroolsRuleImpl
      * 
      * @param binaryContent Compiled byte array
      */
-    public void setBinaryContent(byte[] binaryContent) {
+    public void setBinaryContent(final byte[] binaryContent) {
         this.binaryContent = binaryContent;
     }
 
