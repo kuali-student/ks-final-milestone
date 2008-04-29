@@ -47,9 +47,9 @@ public class RuleSetFactory {
      * <code>uuid</code> and <code>version</code> are set by the 
      * repository implementation.</p>
      * 
-     * @param uuid Rule set UUID - Set the by the repository implementation
+     * @param uuid Rule set UUID - Set by the repository implementation
      * @param name Rule set name
-     * @param version Rule version number - Set the by the repository implementation
+     * @param version Rule version number - Set by the repository implementation
      * @return A new rule set
      */
     public DroolsRuleSetImpl createRuleSet( final String uuid, final String name, long version ) {
