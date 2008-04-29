@@ -51,7 +51,7 @@ public class RuleTemplateTest {
         
         System.out.println("Char count expected " + expected.length());
         String actual = rt.process("RuleTemplate.vm");
-        
+        System.out.println(actual);
         System.out.println("\nChar count actual " + actual.length());
         assertEquals(expected , actual);
     }
