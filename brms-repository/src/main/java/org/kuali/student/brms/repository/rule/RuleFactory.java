@@ -39,13 +39,33 @@ public class RuleFactory {
     }
 
     /**
-     * Creates a rule.
+     * <p>For internal use only.</p>
      * 
-     * @param uuid Rule UUID
+     * <p>Creates a rule.
+     * <code>uuid</code> and <code>version</code> are set by the 
+     * repository implementation.</p>
+     * 
+     * @param uuid Rule UUID - Set the by the repository implementation
      * @param name Rule name
      * @return A new rule
      */
-    public Rule createRule( final String uuid, final String name ) {
+    /*public Rule createRule( final String uuid, final String name ) {
         return new RuleImpl( uuid, name );
+    }*/
+
+    /**
+     * <p>For internal use only.</p>
+     * 
+     * <p>Creates a rule.
+     * <code>uuid</code> and <code>version</code> are set by the 
+     * repository implementation.</p>
+     * 
+     * @param uuid Rule UUID - Set the by the repository implementation
+     * @param name Rule name
+     * @param version Rule version number - Set the by the repository implementation
+     * @return A new rule
+     */
+    public RuleImpl createRule( final String uuid, final String name, long version ) {
+        return new RuleImpl( uuid, name, version );
     }
 }
