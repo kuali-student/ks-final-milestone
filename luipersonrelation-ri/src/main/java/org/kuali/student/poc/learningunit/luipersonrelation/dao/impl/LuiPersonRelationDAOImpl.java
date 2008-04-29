@@ -48,7 +48,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     public List<LuiPersonRelation> findLuiPersonRelationsByPerson(String personId, String luiRelationType, String relationState) {
         Query query = em.createNamedQuery("LuiPersonRelation.findByPerson");
         query.setParameter("personId", personId);
-        query.setParameter("luiRelationType", luiRelationType);
+        query.setParameter("luiPersonRelationType", luiRelationType);
         List<LuiPersonRelation> luiPersonRelations = query.getResultList();
 
         return luiPersonRelations;
@@ -57,9 +57,9 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<LuiPersonRelation> findLuiPersonRelationsByLui(String luiId, String luiRelationType, String relationState) {
-        Query query = em.createNamedQuery("LuiPersonRelation.findByPerson");
+        Query query = em.createNamedQuery("LuiPersonRelation.findByLui");
         query.setParameter("luiId", luiId);
-        query.setParameter("luiRelationType", luiId);
+        query.setParameter("luiPersonRelationType", luiRelationType);
         List<LuiPersonRelation> luiPersonRelations = query.getResultList();
         
         return luiPersonRelations;
@@ -69,11 +69,11 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     @Override
     public List<LuiPersonRelation> findLuiPersonRelations(String personId, String luiId, String luiRelationType, String relationState) {
         Query query = em.createQuery(
-             "SELECT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiId = : luiId " +
-              "lpr.luiPersonRelationType LIKE :luiPersonRelationType");                
+             "SELECT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiId = :luiId " +
+              "AND lpr.luiPersonRelationType LIKE :luiPersonRelationType");                
         query.setParameter("personId", personId);
         query.setParameter("luiId", luiId);
-        query.setParameter("luiRelationType", luiId);
+        query.setParameter("luiPersonRelationType", luiRelationType);
         
         List<LuiPersonRelation> luiPersonRelations = query.getResultList();
         
