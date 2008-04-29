@@ -15,6 +15,7 @@ import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.common.ws.exceptions.CircularReferenceException;
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
@@ -25,6 +26,7 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
+import org.springframework.test.annotation.ExpectedException;
 
 @Daos( { @Dao(value = "org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl", testDataFile = "classpath:test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
@@ -45,11 +47,13 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public static final String luRelationType1_id = "11223344-1122-1122-1111-000000000009";
 	public static final String cluRelation1_id = "11223344-1122-1122-1111-000000000010";
 	public static final String luiRelation1_id = "11223344-1122-1122-1111-000000000011";
+	public static final String cluSet1_id = "11223344-1122-1122-1111-000000000012";
 	public static final String cluSet2_id = "11223344-1122-1122-1111-000000000013";
 	public static final String luType2_id = "11223344-1122-1122-1111-000000000014";
 	public static final String luRelationType2_id = "11223344-1122-1122-1111-000000000017";
 	public static final String luRelationType3_id = "11223344-1122-1122-1111-000000000018";
 	public static final String luRelationType4_id = "11223344-1122-1122-1111-000000000019";
+	public static final String cluSet3_id = "11223344-1122-1122-1111-000000000020";
 
 	@Test
 	public void testFindLuTypes() throws OperationFailedException {
@@ -124,4 +128,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(luis);
 	}
 
+	@Test
+	@ExpectedException(CircularReferenceException.class)
+	public void testAddCluSetToCluSet() throws DoesNotExistException, CircularReferenceException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		assertEquals(true,client.addCluSetToCluSet(cluSet2_id, cluSet3_id).isSuccess());
+		client.addCluSetToCluSet(cluSet3_id, cluSet1_id);
+	}
 }

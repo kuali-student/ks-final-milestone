@@ -22,6 +22,7 @@
 				<ref bean="cluRelation1" />
 				<ref bean="cluSet1" />
 				<ref bean="cluSet2" />
+				<ref bean="cluSet3" />
 				<ref bean="luType2" />
 			</list>
 		</property>
@@ -306,5 +307,14 @@
 			</set>
 		</property>
 		<property name="cluSet" ref="cluSet1" />
+	</bean>
+	<bean id="cluSet3"
+		class="org.kuali.student.poc.learningunit.lu.entity.CluSet">
+		<property name="cluSetId"
+			value="11223344-1122-1122-1111-000000000020" />
+		<property name="cluSetName" value="Premade Set Number 3" />
+		<property name="description" value="Premade Set3 Description" />
+		<property name="effectiveEndDate" ref="currentTime" />
+		<property name="effectiveStartDate" ref="currentTime" />
 	</bean>
 </beans>

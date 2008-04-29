@@ -7,8 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -31,10 +31,10 @@ public class CluSet {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date effectiveEndDate;
 
-	@OneToMany
+	@ManyToMany
 	private List<CluSet> cluSetList;
 
-	@OneToMany
+	@ManyToMany
 	private List<Clu> cluList;
 
 	@ManyToOne

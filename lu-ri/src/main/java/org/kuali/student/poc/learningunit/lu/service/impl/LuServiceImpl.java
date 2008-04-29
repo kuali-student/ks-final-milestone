@@ -1,6 +1,7 @@
 package org.kuali.student.poc.learningunit.lu.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -64,32 +65,27 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException, PermissionDeniedException {
 		CluSet cluSetChild = dao.fetchCluSet(cluSetId);
 		CluSet cluParentSet = dao.fetchCluSet(addedCluSetId);
-		// Check for CircularReference
+		//Check if the sets do not exist
+		if(cluSetChild==null||cluParentSet==null){
+			throw new DoesNotExistException();
+		}
+		//Check if trying to add a set to itself
 		if (cluSetId.equals(addedCluSetId)) {
 			throw new InvalidParameterException(
 					"Can not add a Clu set to itself for CluSet id:" + cluSetId);
 		}
-		if (isMemberOfSetRecursive(cluSetChild, cluParentSet)) {
+		//Check for CircularReference  -
+		//We can't add a child to a parent if that child already contains said parent
+		if (flattenCluSet(cluSetChild).contains(cluParentSet)) {
 			throw new CircularReferenceException(
 					"Can not create a circular reference to a Clu Set for CluChildSet id:"
 							+ cluSetId + " CluParentSet id:" + addedCluSetId);
 		}
 		cluParentSet.getCluSetList().add(cluSetChild);
 		dao.updateCluSet(cluParentSet);
-		return null;
-	}
-
-	private boolean isMemberOfSetRecursive(CluSet cluSetMember,
-			CluSet cluSetContainer) {
-		if (cluSetContainer.getCluSetList().contains(cluSetMember)) {
-			return true;
-		}
-		for (CluSet set : cluSetContainer.getCluSetList()) {
-			if (isMemberOfSetRecursive(cluSetMember, set)) {
-				return true;
-			}
-		}
-		return false;
+		Status status = new Status();
+		status.setSuccess(true);
+		return status;
 	}
 
 	@Override
@@ -100,27 +96,31 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		Clu clu = dao.fetchClu(cluId);
 		CluSet cluSet = dao.fetchCluSet(cluSetId);
-		if (isMemberOfSetRecursive(clu, cluSet)) {
-			throw new CircularReferenceException(
-					"Can not create a circular reference to a Clu Set for CluSet id:"
-							+ cluSetId + " CluId:" + cluId);
+		if (!cluSet.getCluList().contains(clu)) {
+			cluSet.getCluList().add(clu);
 		}
-		cluSet.getCluList().add(clu);
 		Status status = new Status();
 		status.setSuccess(true);
 		return status;
 	}
 
-	private boolean isMemberOfSetRecursive(Clu clu, CluSet cluSetContainer) {
-		if (cluSetContainer.getCluList().contains(clu)) {
-			return true;
+
+
+	private Set<CluSet> flattenCluSet(CluSet cluSet) {
+		Set<CluSet> flattenedSet = new HashSet<CluSet>();
+		flattenedSet.add(cluSet);
+		for (CluSet subSet : cluSet.getCluSetList()) {
+			flattenedSet.addAll(flattenCluSet(subSet));
 		}
-		for (CluSet set : cluSetContainer.getCluSetList()) {
-			if (isMemberOfSetRecursive(clu, set)) {
-				return true;
-			}
+		return flattenedSet;
+	}
+
+	private Set<Clu> extractClusFromCluSets(Set<CluSet> cluSets) {
+		Set<Clu> clus = new HashSet<Clu>();
+		for (CluSet subSet : cluSets) {
+			clus.addAll(subSet.getCluList());
 		}
-		return false;
+		return clus;
 	}
 
 	@Override
@@ -402,8 +402,12 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> cluIds = new ArrayList<String>();
+		CluSet cluSet=dao.fetchCluSet(cluSetId);
+		for(Clu clu:extractClusFromCluSets(flattenCluSet(cluSet))){
+			cluIds.add(clu.getCluId());
+		}
+		return cluIds;
 	}
 
 	@Override
@@ -420,8 +424,14 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> cluSetIds = new ArrayList<String>();
+		CluSet cluSet=dao.fetchCluSet(cluSetId);
+		for(CluSet currentCluSet:flattenCluSet(cluSet)){
+			if(!cluSetId.equals(currentCluSet.getCluSetId())){
+				cluSetIds.add(currentCluSet.getCluSetId());
+			}
+		}
+		return cluSetIds;
 	}
 
 	@Override
