@@ -25,7 +25,7 @@ import java.util.List;
  *
  */
 public class RuleSetImpl 
-    extends ItemImpl 
+    extends AbstractItem 
     implements java.io.Serializable, RuleSet {
 
     /** Class serial version uid */
@@ -51,16 +51,6 @@ public class RuleSetImpl
      */
     RuleSetImpl(final String name) {
         super(name);
-    }
-
-    /**
-     * Constructs a new rule.
-     * 
-     * @param uuid Rule UUID - This is created by the repository
-     * @param name Rule name
-     */
-    RuleSetImpl(final String uuid, final String name) {
-        super(uuid, name);
     }
 
     /**
@@ -236,7 +226,7 @@ public class RuleSetImpl
     /**
      * Overrides hashCode
      * 
-     * @see org.kuali.student.brms.repository.rule.ItemImpl#hashCode()
+     * @see org.kuali.student.brms.repository.rule.AbstractItem#hashCode()
      */
     @Override
     public int hashCode() {
@@ -252,7 +242,7 @@ public class RuleSetImpl
     /**
      * Overrides equals
      * 
-     * @see org.kuali.student.brms.repository.rule.ItemImpl#equals(java.lang.Object)
+     * @see org.kuali.student.brms.repository.rule.AbstractItem#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {

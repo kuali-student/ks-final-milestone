@@ -24,7 +24,7 @@ import java.util.Calendar;
  *
  */
 public class RuleImpl 
-    extends ItemImpl 
+    extends AbstractItem 
     implements java.io.Serializable, Rule {
 
     /** Class serial version uid */
@@ -48,16 +48,6 @@ public class RuleImpl
      */
     RuleImpl(final String name) {
         super(name);
-    }
-
-    /**
-     * Constructs a new rule
-     * 
-     * @param uuid Rule UUID
-     * @param name Rule name
-     */
-    RuleImpl(final String uuid, final String name) {
-        super(uuid, name);
     }
 
     /**
@@ -153,7 +143,7 @@ public class RuleImpl
     /**
      * Overrides hashCode
      * 
-     * @see org.kuali.student.brms.repository.rule.ItemImpl#hashCode()
+     * @see org.kuali.student.brms.repository.rule.AbstractItem#hashCode()
      */
     @Override
     public int hashCode() {
@@ -167,7 +157,7 @@ public class RuleImpl
     /**
      * Overrides equals
      * 
-     * @see org.kuali.student.brms.repository.rule.ItemImpl#equals(java.lang.Object)
+     * @see org.kuali.student.brms.repository.rule.AbstractItem#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
