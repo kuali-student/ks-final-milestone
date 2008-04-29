@@ -3,6 +3,7 @@ package org.kuali.student.rules.BRMSCore;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.junit.Test;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
@@ -29,7 +30,8 @@ public class TestEndToEnd {
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
 
-    public static void main(String[] args) throws Exception {
+    @Test
+    public void testBRMS() throws Exception {
 
         FunctionalBusinessRule rule = null;
 
