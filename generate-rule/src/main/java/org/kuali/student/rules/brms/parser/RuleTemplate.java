@@ -49,7 +49,7 @@ public class RuleTemplate {
             template.merge(context, writer);
         }
 
-        System.out.println(writer);
+        //System.out.println(writer);
         return writer.toString();
     }
 
