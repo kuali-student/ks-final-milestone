@@ -7,8 +7,21 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * This is an <code>Item</code> test class. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class ItemTest {
 
+    /**
+     * This class implementation is used to test the 
+     * <code>org.kuali.student.brms.repository.rule.AbstractItem</code> class
+     * 
+     * @author Kuali Student Team (len.kuali@googlegroups.com)
+     *
+     */
     private class ItemImpl extends AbstractItem {
 
         /** Class serial version uid */

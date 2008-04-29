@@ -17,7 +17,14 @@ package org.kuali.student.brms.repository;
 
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 
+/**
+ * This is a rule engine test utility class. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class RuleEngineUtil {
+
     /**
      * Return a messages of the <code>result</code> as a string.
      * 

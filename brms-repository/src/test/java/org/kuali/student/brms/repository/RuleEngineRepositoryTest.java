@@ -61,6 +61,12 @@ import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.test.Email;
 import org.kuali.student.brms.repository.test.Message;
 
+/**
+ * This is a Drools rules engine repository test class. 
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class RuleEngineRepositoryTest {
 
     private static DroolsJackrabbitRepository jackrabbitRepository;

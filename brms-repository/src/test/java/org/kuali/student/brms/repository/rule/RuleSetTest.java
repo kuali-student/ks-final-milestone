@@ -7,6 +7,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * This is a <code>RuleSet</code> test class.
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class RuleSetTest {
 
     @Test

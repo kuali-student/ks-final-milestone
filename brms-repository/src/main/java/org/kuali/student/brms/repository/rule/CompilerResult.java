@@ -16,7 +16,7 @@
 package org.kuali.student.brms.repository.rule;
 
 /**
- * This class contains a single rule or rule set compilation error. 
+ * This class contains a single rule or rule set compilation errors. 
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
