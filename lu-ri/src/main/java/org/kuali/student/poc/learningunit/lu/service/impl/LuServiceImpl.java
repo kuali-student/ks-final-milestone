@@ -2,7 +2,6 @@ package org.kuali.student.poc.learningunit.lu.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.jws.WebService;
@@ -17,20 +16,14 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.UnsupportedActionException;
 import org.kuali.student.poc.learningunit.lu.dao.LuDao;
-import org.kuali.student.poc.learningunit.lu.entity.Atp;
 import org.kuali.student.poc.learningunit.lu.entity.Clu;
-import org.kuali.student.poc.learningunit.lu.entity.CluCrit;
 import org.kuali.student.poc.learningunit.lu.entity.CluRelation;
 import org.kuali.student.poc.learningunit.lu.entity.CluSet;
-import org.kuali.student.poc.learningunit.lu.entity.LuAttribute;
-import org.kuali.student.poc.learningunit.lu.entity.LuAttributeType;
 import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
-import org.kuali.student.poc.learningunit.lu.entity.SearchKeyValue;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
-import org.kuali.student.poc.xsd.learningunit.lu.dto.AtpDisplay;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCriteria;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluDisplay;
@@ -195,8 +188,8 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		Clu clu = toClu(luTypeId, cluCreateInfo);
 
+		Clu clu = Assembler.createClu(luTypeId, cluCreateInfo, dao);
 		dao.createClu(clu);
 		return clu.getCluId();
 	}
@@ -207,25 +200,9 @@ public class LuServiceImpl implements LuService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		CluSet cluSet = new CluSet();
-		CluCrit cluCrit = new CluCrit();
-		cluCrit.setLuTypeKey(cluCriteria.getLuTypeKey());
-		for (Map.Entry<String, String> a : cluCriteria.getSearchKeyValue()
-				.entrySet()) {
-			SearchKeyValue s = new SearchKeyValue();
-			s.setKeyName(a.getKey());
-			s.setValue(a.getValue());
-			cluCrit.getSearchKeyValues().add(s);
-		}
-		cluSet.setCluCriteria(cluCrit);
-		cluSet.setCluSetName(cluSetName);
-		cluSet.setDescription(cluSetCreateInfo.getDescription());
-		cluSet.setEffectiveEndDate(cluSetCreateInfo.getEffectiveEndDate());
-		cluSet.setEffectiveStartDate(cluSetCreateInfo.getEffectiveStartDate());
-		cluSet.setEffectiveEndCycle(dao.fetchAtp(cluSetCreateInfo
-				.getEffectiveEndCycle()));
-		cluSet.setEffectiveStartCycle(dao.fetchAtp(cluSetCreateInfo
-				.getEffectiveStartCycle()));
+
+		CluSet cluSet = Assembler.createCluSet(cluSetName, cluSetCreateInfo,
+				cluCriteria, dao);
 		dao.createCluSet(cluSet);
 		return cluSet.getCluSetId();
 	}
@@ -235,15 +212,9 @@ public class LuServiceImpl implements LuService {
 			CluSetCreateInfo cluSetCreateInfo) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		CluSet cluSet = new CluSet();
-		cluSet.setCluSetName(cluSetName);
-		cluSet.setDescription(cluSetCreateInfo.getDescription());
-		cluSet.setEffectiveEndDate(cluSetCreateInfo.getEffectiveEndDate());
-		cluSet.setEffectiveStartDate(cluSetCreateInfo.getEffectiveStartDate());
-		cluSet.setEffectiveEndCycle(dao.fetchAtp(cluSetCreateInfo
-				.getEffectiveEndCycle()));
-		cluSet.setEffectiveStartCycle(dao.fetchAtp(cluSetCreateInfo
-				.getEffectiveStartCycle()));
+
+		CluSet cluSet = Assembler.createCluSet(cluSetName, cluSetCreateInfo,
+				null, dao);
 		dao.createCluSet(cluSet);
 		return cluSet.getCluSetId();
 	}
@@ -253,7 +224,7 @@ public class LuServiceImpl implements LuService {
 			LuiCreateInfo luiCreateInfo) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		Lui lui = toLui(cluId, atpId, luiCreateInfo);
+		Lui lui = Assembler.createLui(cluId, atpId, luiCreateInfo, dao);
 		dao.createLui(lui);
 		return lui.getLuiId();
 	}
@@ -315,7 +286,7 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		Clu clu = dao.fetchClu(cluId);
-		return toCluInfo(clu);
+		return Assembler.createCluInfo(clu);
 
 	}
 
@@ -326,7 +297,7 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException {
 		CluRelation cluRelation = dao.fetchCluRelation(cluId, relatedCluId,
 				luRelationTypeId);
-		return toCluRelationInfo(cluRelation);
+		return Assembler.createCluRelationInfo(cluRelation);
 	}
 
 	@Override
@@ -335,7 +306,7 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		CluSet cluSet = dao.fetchCluSet(cluSetId);
-		return toCluSetInfo(cluSet);
+		return Assembler.createCluSetInfo(cluSet);
 	}
 
 	@Override
@@ -347,14 +318,14 @@ public class LuServiceImpl implements LuService {
 			throw new DoesNotExistException("Lu Type with id:" + luTypeId
 					+ " does not exist.");
 		}
-		return toLuTypeInfo(luType);
+		return Assembler.createLuTypeInfo(luType);
 	}
 
 	@Override
 	public LuiInfo fetchLui(String luiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return toLuiInfo(dao.fetchLui(luiId));
+		return Assembler.createLuiInfo(dao.fetchLui(luiId));
 	}
 
 	@Override
@@ -365,7 +336,7 @@ public class LuServiceImpl implements LuService {
 
 		LuiRelation luiRelation = dao.fetchLuiRelation(luiId, relatedLuiId,
 				luRelationTypeId);
-		return toLuiRelationInfo(luiRelation);
+		return Assembler.createLuiRelationInfo(luiRelation);
 	}
 
 	@Override
@@ -581,7 +552,7 @@ public class LuServiceImpl implements LuService {
 		List<LuiDisplay> result = new ArrayList<LuiDisplay>();
 		List<Lui> luis = dao.findLuisForClu(cluId, atpId);
 		for (Lui lui : luis) {
-			result.add(toLuiDisplay(lui));
+			result.add(Assembler.createLuiDisplay(lui));
 		}
 		return result;
 	}
@@ -838,139 +809,4 @@ public class LuServiceImpl implements LuService {
 		this.dao = dao;
 	}
 
-	// FIXME - Move these to the assembler classes
-
-	private LuTypeInfo toLuTypeInfo(LuType luType) {
-		LuTypeInfo luTypeInfo = new LuTypeInfo();
-		BeanUtils.copyProperties(luType, luTypeInfo);
-		luTypeInfo.setLuTypeKey(luType.getLuTypeId());
-		return luTypeInfo;
-	}
-
-	private Clu toClu(String luTypeId, CluCreateInfo cluCreateInfo) {
-		Clu clu = new Clu();
-		BeanUtils.copyProperties(cluCreateInfo, clu, new String[] {
-				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
-		clu.setEffectiveEndCycle(dao.fetchAtp(cluCreateInfo
-				.getEffectiveEndCycle()));
-		clu.setEffectiveStartCycle(dao.fetchAtp(cluCreateInfo
-				.getEffectiveStartCycle()));
-		LuType luType = dao.fetchLuType(luTypeId);
-		clu.setLuType(luType);
-		// Add all the attributes that match from the LuType
-		for (LuAttributeType luAttributeType : luType.getLuAttributeTypes()) {
-			if (cluCreateInfo.getAttributes().containsKey(
-					luAttributeType.getName())) {
-				LuAttribute luAttr = new LuAttribute();
-				luAttr.setValue(cluCreateInfo.getAttributes().get(
-						luAttributeType.getName()));
-				luAttr.setLuAttributeType(luAttributeType);
-				luAttr.setClu(clu);
-				clu.getAttributes().add(luAttr);
-			}
-		}
-		return clu;
-	}
-
-	private CluInfo toCluInfo(Clu clu) {
-		CluInfo cluInfo = new CluInfo();
-		BeanUtils.copyProperties(clu, cluInfo, new String[] {
-				"effectiveEndCycle", "effectiveStartCycle", "attributes" });
-		cluInfo.setEffectiveEndCycle(clu.getEffectiveEndCycle().getAtpId());
-		cluInfo.setEffectiveStartCycle(clu.getEffectiveStartCycle().getAtpId());
-		cluInfo.setLuTypeId(clu.getLuType().getLuTypeId());
-		for (LuAttribute attr : clu.getAttributes()) {
-			cluInfo.getAttributes().put(attr.getLuAttributeType().getName(),
-					attr.getValue());
-		}
-		return cluInfo;
-	}
-
-	private CluDisplay toCluDisplay(Clu clu) {
-		CluDisplay cluDisplay = new CluDisplay();
-		cluDisplay.setAtpDisplayEnd(toAtpDisplay(clu.getEffectiveEndCycle()));
-		cluDisplay
-				.setAtpDisplayStart(toAtpDisplay(clu.getEffectiveStartCycle()));
-		cluDisplay.setCluShortName(clu.getCluShortName());
-		cluDisplay.setCluId(clu.getCluId());
-		cluDisplay.setLuTypeId(clu.getLuType().getLuTypeId());
-		return cluDisplay;
-	}
-
-	private AtpDisplay toAtpDisplay(Atp atp) {
-		AtpDisplay atpDisplay = new AtpDisplay();
-		atpDisplay.setAtpId(atp.getAtpId());
-		atpDisplay.setAtpName(atp.getAtpName());
-		return atpDisplay;
-	}
-
-	private Lui toLui(String cluId, String atpId, LuiCreateInfo luiCreateInfo) {
-		// FIXME - the Lui class does not match the luiCreate info
-		// need to add attributes to lui?
-		Lui lui = new Lui();
-		lui.setAtp(dao.fetchAtp(atpId));
-		lui.setClu(dao.fetchClu(cluId));
-		// set the attributes
-		return lui;
-	}
-
-	private LuiRelationInfo toLuiRelationInfo(LuiRelation luiRelation) {
-		LuiRelationInfo luiRelationInfo = new LuiRelationInfo();
-		BeanUtils.copyProperties(luiRelation, luiRelationInfo);
-		luiRelationInfo.setLuiDisplay(toLuiDisplay(luiRelation.getLui()));
-		luiRelationInfo.setRelatedLuiDisplay(toLuiDisplay(luiRelation
-				.getRelatedLui()));
-		luiRelationInfo.setLuRelationTypeId(luiRelation.getLuRelationType()
-				.getId());
-		return luiRelationInfo;
-	}
-
-	private LuiDisplay toLuiDisplay(Lui lui) {
-		LuiDisplay luiDisplay = new LuiDisplay();
-		luiDisplay.setAtpDisplay(toAtpDisplay(lui.getAtp()));
-		luiDisplay.setCluDisplay(toCluDisplay(lui.getClu()));
-		luiDisplay.setLuiCode(lui.getLuiCode());
-		luiDisplay.setLuiId(lui.getLuiId());
-		luiDisplay.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
-		return luiDisplay;
-	}
-
-	private CluRelationInfo toCluRelationInfo(CluRelation cluRelation) {
-		CluRelationInfo cluRelationInfo = new CluRelationInfo();
-		BeanUtils.copyProperties(cluRelation, cluRelationInfo);
-		cluRelationInfo.setCluDisplay(toCluDisplay(cluRelation.getClu()));
-		cluRelationInfo.setRelatedCluDisplay(toCluDisplay(cluRelation
-				.getRelatedClu()));
-		cluRelationInfo.setLuRelationTypeId(cluRelation.getLuRelationType()
-				.getId());
-		return cluRelationInfo;
-	}
-
-	private CluSetInfo toCluSetInfo(CluSet cluSet) {
-		CluSetInfo cluSetInfo = new CluSetInfo();
-		BeanUtils.copyProperties(cluSet, cluSetInfo,
-				new String[] { "cluCriteria" });
-		cluSetInfo.setCluCriteria(toCluCriteria(cluSet.getCluCriteria()));
-		return cluSetInfo;
-	}
-
-	private CluCriteria toCluCriteria(CluCrit cluCrit) {
-		CluCriteria cluCriteria = new CluCriteria();
-		cluCriteria.setLuTypeKey(cluCrit.getLuTypeKey());
-		for (SearchKeyValue entry : cluCrit.getSearchKeyValues()) {
-			cluCriteria.getSearchKeyValue().put(entry.getKeyName(),
-					entry.getValue());
-		}
-		return cluCriteria;
-	}
-
-	private LuiInfo toLuiInfo(Lui lui) {
-		LuiInfo luiInfo = new LuiInfo();
-		BeanUtils.copyProperties(lui, luiInfo);
-		luiInfo.setAtpDisplay(toAtpDisplay(lui.getAtp()));
-		luiInfo.setCluDisplay(toCluDisplay(lui.getClu()));
-		luiInfo.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
-		// FIXME copy attributes when they are added
-		return luiInfo;
-	}
 }
