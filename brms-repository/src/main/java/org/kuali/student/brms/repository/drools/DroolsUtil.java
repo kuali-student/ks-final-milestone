@@ -45,8 +45,10 @@ import org.kuali.student.brms.repository.rule.CompilerResult;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleFactory;
+import org.kuali.student.brms.repository.rule.RuleImpl;
 import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.rule.RuleSetFactory;
+import org.kuali.student.brms.repository.rule.RuleSetImpl;
 
 /**
  * This is a general Drools utility class. 
@@ -64,11 +66,10 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
-        Rule rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName());
+        RuleImpl rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
         rule.setFormat(item.getFormat());
-        rule.setVersionNumber(item.getVersionNumber());
         rule.setStatus((item.getState() == null ? "Draft" : item.getState().getName()));
         rule.setDescription(item.getDescription());
         rule.setCheckinComment(item.getCheckinComment());
@@ -100,12 +101,11 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
-        Rule rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName());
+        RuleImpl rule = RuleFactory.getInstance().createRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
         // item.getFormat() throws exception when creating from history
         rule.setFormat(null);
-        rule.setVersionNumber(item.getVersionNumber());
         rule.setStatus((item.getState() == null ? "Draft" : item.getState().getName()));
         rule.setDescription(item.getDescription());
         rule.setCheckinComment(item.getCheckinComment());
@@ -163,8 +163,7 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName() );
-        ruleSet.setVersionNumber(pkg.getVersionNumber());
+        RuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName(), pkg.getVersionNumber() );
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
         ruleSet.setDescription(pkg.getDescription());
         ruleSet.setFormat(pkg.getFormat());
