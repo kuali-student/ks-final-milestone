@@ -7,24 +7,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.poc.common.util.EhCacheHelper;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.DisabledIdentifierException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.DoesNotExistException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.InvalidParameterException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.MissingParameterException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.OperationFailedException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.PermissionDeniedException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.ReadOnlyException;
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.common.ws.exceptions.DisabledIdentifierException;
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
+import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo;
@@ -33,7 +30,6 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
-import org.springframework.test.context.transaction.AfterTransaction;
 
 @Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")

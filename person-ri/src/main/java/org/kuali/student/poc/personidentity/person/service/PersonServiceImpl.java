@@ -8,6 +8,15 @@ import java.util.Set;
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.util.EhCacheHelper;
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.common.ws.exceptions.CircularReferenceException;
+import org.kuali.student.poc.common.ws.exceptions.DisabledIdentifierException;
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
+import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.personidentity.person.dao.Person;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
@@ -18,15 +27,6 @@ import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonReferenceId;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
 import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.AlreadyExistsException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.CircularReferenceException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.DisabledIdentifierException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.DoesNotExistException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.InvalidParameterException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.MissingParameterException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.OperationFailedException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.PermissionDeniedException;
-import org.kuali.student.poc.wsdl.personidentity.exceptions.ReadOnlyException;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
@@ -272,8 +272,14 @@ public class PersonServiceImpl implements PersonService {
 		Person person = personDAO.lookupPerson(personId);
 		return toPersonInfo(person);
 	}
-
-	/* (non-Javadoc)
+		
+	@Override
+    public PersonDisplay fetchPersonDisplay(String personId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Person person = personDAO.lookupPerson(personId);
+        return toPersonDisplay(person);
+	}
+	
+    /* (non-Javadoc)
 	 * @see org.kuali.student.poc.wsdl.personidentity.person.PersonService#fetchPersonAttributeSetType(java.lang.String)
 	 */
 	@Override
