@@ -47,21 +47,6 @@ public class RuleFactory {
      * 
      * @param uuid Rule UUID - Set the by the repository implementation
      * @param name Rule name
-     * @return A new rule
-     */
-    /*public Rule createRule( final String uuid, final String name ) {
-        return new RuleImpl( uuid, name );
-    }*/
-
-    /**
-     * <p>For internal use only.</p>
-     * 
-     * <p>Creates a rule.
-     * <code>uuid</code> and <code>version</code> are set by the 
-     * repository implementation.</p>
-     * 
-     * @param uuid Rule UUID - Set the by the repository implementation
-     * @param name Rule name
      * @param version Rule version number - Set the by the repository implementation
      * @return A new rule
      */
