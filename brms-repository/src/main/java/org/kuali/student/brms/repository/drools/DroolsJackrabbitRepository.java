@@ -38,7 +38,7 @@ import org.drools.repository.RulesRepositoryAdministrator;
  * </p>
  * <pre>
  * DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository();
- * // Initialize repository - delete any existing files 
+ * // Initialize repository - startup and login to repository 
  * repo.initialize();
  * //Shutdown (and logout from) the repository:
  * repo.shutdownRepository()

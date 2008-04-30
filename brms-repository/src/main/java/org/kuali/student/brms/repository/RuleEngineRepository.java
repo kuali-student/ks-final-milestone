@@ -41,7 +41,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * 
  * // Setup repository
  * jackrabbitRepo = new DroolsJackrabbitRepository(url);
- * jackrabbitRepo.initialize();
+ * jackrabbitRepo.startupRepository();
  *
  * // Login to the Jackrabbit repository
  * String id = "superuser";
