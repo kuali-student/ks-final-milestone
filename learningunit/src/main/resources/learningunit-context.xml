@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
@@ -21,7 +21,7 @@
 		<property name="uniqueResourceName" value="luDataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
- 		<property name="xaDataSourceProperties"
+		<property name="xaDataSourceProperties"
 			value="${jdbc.xaDataSourceProperties}" />
 		<property name="exclusiveConnectionMode" value="true" />
 		<property name="connectionPoolSize" value="5" />
@@ -30,8 +30,7 @@
 	<!-- JPA EntityManagerFactory -->
 	<bean id="jpaConfig"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location"
-			value="classpath:jpa.properties" />
+		<property name="location" value="classpath:jpa.properties" />
 	</bean>
 
 	<bean id="personEntityManagerFactory"
@@ -45,7 +44,7 @@
 			</bean>
 		</property>
 		<property name="persistenceXmlLocation"
-			value="classpath:META-INF/person-persistence.xml" />
+			value="classpath:META-INF/lu-persistence.xml" />
 		<property name="dataSource" ref="luDataSource" />
 		<property name="jpaPropertyMap" ref="jpaConfig" />
 	</bean>
@@ -74,15 +73,25 @@
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
 	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-	<bean id="luDAO"
-		class="org.kuali.student.poc.learningunit.lu.dao.impl.LuDAOImpl">
+	<bean id="dao"
+		class="org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl">
 	</bean>
-	
+
 	<bean id="luServiceImpl"
-		class="org.kuali.student.poc.learningunit.lu.service.LuServiceImpl">
-		<property name="luDAO" ref="luDAO" />
+		class="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl">
+		<property name="dao" ref="dao" />
 	</bean>
 	
+	<bean id="loadDataBean"
+		class="org.kuali.student.poc.learningunit.lu.LoadDataBean">
+		<property name="contextLocation"
+			value="classpath:test-beans.xml" />
+	</bean>
+
+	<bean id="loadBeanListener"
+		class="org.kuali.student.poc.learningunit.lu.LoadBeanListener">
+		<property name="ldb" ref="loadDataBean" />
+	</bean>
 </beans>

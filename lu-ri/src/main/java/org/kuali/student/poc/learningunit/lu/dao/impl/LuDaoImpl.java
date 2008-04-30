@@ -251,4 +251,12 @@ public class LuDaoImpl implements LuDao {
 		return set1;
 	}
 
+	@Override
+	public List<Clu> findClusForLuType(String luTypeId) {
+		Query q = em.createQuery("SELECT c FROM Clu c "
+				+ "WHERE c.luType.luTypeId=:luTypeId ");
+		q.setParameter("luTypeId", luTypeId);
+		return q.getResultList();
+	}
+
 }

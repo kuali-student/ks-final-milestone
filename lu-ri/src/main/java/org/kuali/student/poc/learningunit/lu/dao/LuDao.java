@@ -80,4 +80,6 @@ public interface LuDao {
 	public CluRelation fetchCluRelation(String cluId, String relatedCluId,
 			String luRelationTypeId);
 
+	public List<Clu> findClusForLuType(String luTypeId);
+
 }

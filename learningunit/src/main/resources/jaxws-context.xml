@@ -13,7 +13,7 @@
 	<import resource="classpath:learningunit-context.xml" />
 
 	<ws:service id="luService" bean="#luServiceImpl"
-		impl="org.kuali.student.poc.learningunit.lu.service.LuServiceImpl" />
+		impl="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl" />
 
 	<wss:binding url="/LuService" service="#luService" />
 

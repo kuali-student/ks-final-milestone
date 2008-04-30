@@ -409,8 +409,12 @@ public class LuServiceImpl implements LuService {
 	public List<String> findCluIdsForLuType(String luTypeId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> cluIds = new ArrayList<String>();
+		List<Clu> clus = dao.findClusForLuType(luTypeId);
+		for(Clu clu:clus){
+			cluIds.add(clu.getCluId());
+		}
+		return cluIds;
 	}
 
 	@Override
@@ -463,8 +467,12 @@ public class LuServiceImpl implements LuService {
 	public List<CluDisplay> findClusForLuType(String luTypeId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<CluDisplay> cluDisplays = new ArrayList<CluDisplay>();
+		List<Clu> clus = dao.findClusForLuType(luTypeId);
+		for(Clu clu:clus){
+			cluDisplays.add(Assembler.createCluDisplay(clu));
+		}
+		return cluDisplays;
 	}
 
 	@Override

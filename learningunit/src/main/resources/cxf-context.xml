@@ -11,12 +11,12 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:learningunit-context.xml" />
 
 	<jaxws:endpoint id="luService"
-		implementorClass="org.kuali.student.poc.learningunit.lu.service.LuServiceImpl"
+		implementorClass="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl"
 		implementor="#luServiceImpl" address="/LuService" />
 
 	<jaxws:endpoint id="luServiceSecure"
-		implementorClass="org.kuali.student.poc.learningunit.lu.service.LuServiceImpl"
-		implementor="#personServiceImpl" address="/LuServiceSecure">
+		implementorClass="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl"
+		implementor="#luServiceImpl" address="/LuServiceSecure">
 		<jaxws:inInterceptors>
 			<bean
 				class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
