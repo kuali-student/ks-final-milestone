@@ -19,6 +19,7 @@ import java.util.Calendar;
 
 import org.kuali.student.brms.repository.rule.AbstractItem;
 import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.util.ObjectUtil;
 
 /**
  * This is the implementation of a <code>Rule</code>. 
@@ -70,13 +71,7 @@ public class DroolsRuleImpl
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
     public byte[] getBinaryContent() {
-        if ( this.binaryContent == null ) {
-            return null;
-        }
-        int size = this.binaryContent.length;
-        byte[] temp = new byte[size];
-        System.arraycopy(this.binaryContent, 0, temp, 0, size);
-        return temp;
+        return ObjectUtil.arrayCopy( this.binaryContent );
     }
 
     /**
@@ -86,13 +81,7 @@ public class DroolsRuleImpl
      * @param binaryContent Compiled byte array
      */
     public void setBinaryContent(final byte[] binaryContent) {
-        if ( binaryContent == null ) {
-            this.binaryContent = null;
-        } else {
-            int size = binaryContent.length;
-            this.binaryContent = new byte[size];
-            System.arraycopy(binaryContent, 0, this.binaryContent , 0, size);
-        }
+        this.binaryContent = ObjectUtil.arrayCopy( binaryContent );
     }
 
     /**

@@ -145,13 +145,7 @@ public class DroolsRuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSet()
      */
     public byte[] getCompiledRuleSet() {
-        if ( this.compiledRuleSet == null ) {
-            return null;
-        }
-        int size = this.compiledRuleSet.length;
-        byte[] temp = new byte[size];
-        System.arraycopy(this.compiledRuleSet, 0, temp, 0, size);
-        return temp;
+        return ObjectUtil.arrayCopy( this.compiledRuleSet );
     }
 
     /**
@@ -161,13 +155,7 @@ public class DroolsRuleSetImpl
      * @param compiledRuleSet Compiled rule set byte array
      */
     public void setCompiledRuleSet(final byte[] compiledRuleSet) {
-        if ( compiledRuleSet == null ) {
-            this.compiledRuleSet = null;
-        } else {
-            int size = compiledRuleSet.length;
-            this.compiledRuleSet = new byte[size];
-            System.arraycopy(compiledRuleSet, 0, this.compiledRuleSet, 0, size);
-        }
+        this.compiledRuleSet = ObjectUtil.arrayCopy( compiledRuleSet );
     }
 
     /**
