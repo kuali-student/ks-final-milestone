@@ -43,6 +43,7 @@ import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.kuali.student.brms.repository.RuleEngineRepository;
+import org.kuali.student.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
