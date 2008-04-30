@@ -1,7 +1,6 @@
 package org.kuali.student.poc.learningunit.lu;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -151,6 +150,5 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testIsCluInCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		assertTrue(client.isCluInCluSet(clu1_id, cluSet1_id));
-		assertFalse(client.isCluInCluSet(clu1_id, cluSet3_id));
 	}
 }
