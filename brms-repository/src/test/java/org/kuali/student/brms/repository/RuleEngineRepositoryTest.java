@@ -77,6 +77,7 @@ public class RuleEngineRepositoryTest {
     public static void setUpOnce() throws Exception {
         URL url = RuleEngineRepositoryTest.class.getResource("/repository");
         jackrabbitRepository = new DroolsJackrabbitRepository(url);
+        jackrabbitRepository.clearAll();
         jackrabbitRepository.initialize();
     }
 
