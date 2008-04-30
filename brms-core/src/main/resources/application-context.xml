@@ -28,7 +28,7 @@
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
 
-  <bean id="TestEndToEnd"  class="org.kuali.student.rules.BRMSCore.TestEndToEnd">
+  <bean id="UtilBRMSDatabase"  class="org.kuali.student.rules.BRMSCore.util.UtilBRMSDatabase">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
 	

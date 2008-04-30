@@ -56,7 +56,6 @@ public class TestBRMSMetaData extends AbstractJpaTests {
 
     @Override
     @Before
-    // Create a test rule
     public void onSetUpInTransaction() throws Exception {
 
         int ordinalPosition = 1;
