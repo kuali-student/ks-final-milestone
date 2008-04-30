@@ -1,11 +1,14 @@
 package org.kuali.student.brms.repository.rule;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.kuali.student.brms.repository.drools.rule.DroolsRuleImpl;
 
 /**
  * This is an <code>Rule</code> test class. 
@@ -104,4 +107,20 @@ public class RuleTest {
         assertFalse( rule1.equals( rule2 ) );
     }
 
+    @Test
+    public void testBinaryContent() {
+        DroolsRuleImpl rule = (DroolsRuleImpl) RuleUtil.createRule( "rule1" );
+        byte[] b = rule.getContent().getBytes();
+        rule.setBinaryContent( b );
+        assertArrayEquals( b, rule.getBinaryContent() );
+        b = null;
+        assertNotNull( "getCompiledRuleSet should not be null", rule.getBinaryContent() );
+    }
+    
+    @Test
+    public void testNullBinaryContent() {
+        DroolsRuleImpl rule = (DroolsRuleImpl) RuleUtil.createRule( "rule1" );
+        rule.setBinaryContent( null );
+        assertArrayEquals( null, rule.getBinaryContent() );
+    }
 }
