@@ -112,8 +112,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public Boolean createCategory(String path, String name, String description) throws RuleEngineRepositoryException {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("name cannot be null or empty");
-        }
-        else if (description == null || description.isEmpty()) {
+        } else if (description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Category description cannot be null or empty");
         }
 
@@ -143,8 +142,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public void checkinRuleSet(String uuid, String comment) throws RuleEngineRepositoryException {
         if (uuid == null || uuid.trim().isEmpty()) {
             throw new IllegalArgumentException("UUID cannot be null or empty");
-        }
-        else if (comment == null || comment.isEmpty()) {
+        } else if (comment == null || comment.isEmpty()) {
             throw new IllegalArgumentException("Rule set checkin comment cannot be null or empty");
         }
 
@@ -166,11 +164,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public void updateRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException {
         if (ruleSet == null) {
             throw new IllegalArgumentException("ruleSet cannot be null or empty");
-        }
-        else if (ruleSet.getDescription() == null || ruleSet.getDescription().isEmpty()) {
+        } else if (ruleSet.getDescription() == null || ruleSet.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Rule set description cannot be null or empty");
-        }
-        else if (ruleSet.getFormat() == null || ruleSet.getFormat().isEmpty()) {
+        } else if (ruleSet.getFormat() == null || ruleSet.getFormat().isEmpty()) {
             throw new IllegalArgumentException("Rule set format cannot be null or empty");
         }
         
@@ -219,11 +215,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public void updateRule(Rule rule) throws RuleEngineRepositoryException {
         if (rule.getUUID() == null || rule.getUUID().trim().isEmpty()) {
             throw new IllegalArgumentException("UUID cannot be null or empty");
-        }
-        else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
+        } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Rule description cannot be null or empty");
-        }
-        else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
+        } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
             throw new IllegalArgumentException("Rule format cannot be null or empty");
         }
 
@@ -485,7 +479,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Byte array (XML file) - E.g. an repository_export.xml
      * @throws RuleEngineRepositoryException
      */
-    public void importRulesRepository(byte byteArray[]) throws RuleEngineRepositoryException {
+    public void importRulesRepository(byte[] byteArray) throws RuleEngineRepositoryException {
         if (byteArray == null || byteArray.length == 0) {
             throw new IllegalArgumentException("byteArray cannot be null or empty");
         }
@@ -979,8 +973,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) throws RuleEngineRepositoryException {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
-        }
-        else if (snapshotName == null || snapshotName.trim().isEmpty()) {
+        } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
             throw new IllegalArgumentException("snapshotName cannot be null or empty");
         }
 
@@ -1007,8 +1000,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName) throws RuleEngineRepositoryException {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
-        }
-        else if (snapshotName == null || snapshotName.trim().isEmpty()) {
+        } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
             throw new IllegalArgumentException("snapshotName cannot be null or empty");
         }
 
@@ -1152,14 +1144,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     {
         if (rule.getName() == null || rule.getName().isEmpty()) {
             throw new IllegalArgumentException("Rule name cannot be null or empty");
-        }
-        else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
+        } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Rule description cannot be null or empty");
-        }
-        //else if (rule.getCategory() == null || rule.getCategory().isEmpty()) {
-        //    throw new IllegalArgumentException("Rule category cannot be null or empty");
-        //}
-        else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
+        } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
             throw new IllegalArgumentException("Rule format cannot be null or empty");
         }
 

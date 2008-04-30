@@ -133,8 +133,7 @@ public class DroolsJackrabbitRepository {
     public DroolsJackrabbitRepository(URL url) {
         this.url = url;
 
-        if ( url != null )
-        {
+        if ( url != null ) {
             if (this.url.getProtocol().equalsIgnoreCase("file")) {
                 try {
                     File file = new File(this.url.toURI());
@@ -149,8 +148,12 @@ public class DroolsJackrabbitRepository {
     }
 
     /**
-     * Warning: This will delete all repository system files.</br> Initialize a new repository.<br/><br/> Calls:</br>
-     * <code>clearAll()</code></br> <code>startupRepository()</code></br> <code>login( ... )</code></br>
+     * Warning: This will delete all repository system files.<br/> 
+     * Initialize a new repository.<br/><br/> 
+     * Calls:</br>
+     * <code>clearAll()</code><br/> 
+     * <code>startupRepository()</code><br/> 
+     * <code>login( ... )</code><br/>
      * 
      * @throws Exception
      */
@@ -192,8 +195,7 @@ public class DroolsJackrabbitRepository {
             File[] exclude = null;
             if ( url == null ) {
                 repoDir = new File("repository");
-            }
-            else {
+            } else {
                 repoDir = new File(this.url.toURI());
                 File config = new File(this.path + "/" + REPOSITORY_CONFIG_FILE);
                 exclude = new File[]{repoDir, config};
@@ -210,15 +212,15 @@ public class DroolsJackrabbitRepository {
      * Deletes all sub directories under <code>parent</code>. <code>parent</code> will not be deleted.
      * <code>parent</code> and <code>dir</code> should be the same.
      * 
-     * @param parent
-     *            Parent directory which not to delete
+     * @param exclude
+     *            File or directories to exclude
      * @param dir
      *            Sub-directories under which to delete
      * @return True if all sub-directories have been deleted, otherwise false
      */
     private boolean deleteDir(File[] exclude, File dir) {
         if (dir.isDirectory()) {
-            String subdir[] = dir.list();
+            String[] subdir = dir.list();
             for (int i = 0; i < subdir.length; i++) {
                 boolean success = deleteDir(exclude, new File(dir, subdir[i]));
                 if (!success) {

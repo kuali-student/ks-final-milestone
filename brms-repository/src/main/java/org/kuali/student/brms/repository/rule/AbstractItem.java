@@ -20,7 +20,7 @@ import java.util.Calendar;
 /**
  * This is the base class that 
  * <code>org.kuali.student.brms.repository.rule.DroolsRuleImpl</code> and 
- * <code>org.kuali.student.brms.repository.rule.DroolsRuleSetImpl<code> extends.
+ * <code>org.kuali.student.brms.repository.rule.DroolsRuleSetImpl</code> extends.
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
@@ -81,23 +81,12 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
      * 
      * @param uuid Item UUID
      * @param name Item name
+     * @param versionNumber Item version number
      */
-    /*AbstractItem(final String uuid, final String name) {
-        if (uuid == null || uuid.trim().isEmpty()) {
-            throw new IllegalArgumentException("name cannot be null or empty");
-        }
-        else if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("name cannot be null or empty");
-        }
-        this.uuid = uuid;
-        this.name = name;
-    }*/
-
     public AbstractItem(final String uuid, final String name, final long versionNumber) {
         if (uuid == null || uuid.trim().isEmpty()) {
             throw new IllegalArgumentException("name cannot be null or empty");
-        }
-        else if (name == null || name.trim().isEmpty()) {
+        } else if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("name cannot be null or empty");
         }
         this.uuid = uuid;
@@ -325,6 +314,11 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
         return true;
     }
     
+    /**
+     * Writes out name and UUID of item.
+     * 
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
         return "Name=" + this.name + ", UUID=" + this.uuid;
     }

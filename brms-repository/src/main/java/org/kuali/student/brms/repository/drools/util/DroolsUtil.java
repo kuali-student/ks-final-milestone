@@ -58,6 +58,13 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  *
  */
 public class DroolsUtil {
+    
+    /**
+     * Private Constructor.
+     *
+     */
+    private DroolsUtil() { }
+    
     /**
      * Builds a rule from an Drools repository item.
      * 
@@ -228,10 +235,12 @@ public class DroolsUtil {
             throw new RuleEngineRepositoryException(e);
         } finally {
             try {
-                if (in != null)
+                if (in != null) {
                     in.close();
-                if (bin != null)
+                }
+                if (bin != null) {
                     bin.close();
+                }
             } catch (IOException e) {
                 throw new RuleEngineRepositoryException("Loading rule set failed", e);
             }
@@ -275,10 +284,12 @@ public class DroolsUtil {
             oos.writeObject(pkg);
             return new ByteArrayInputStream(baos.toByteArray());
         } finally {
-            if (oos != null)
+            if (oos != null) {
                 oos.flush();
-            if (oos != null)
+            }
+            if (oos != null) {
                 oos.close();
+            }
         }
     }
 

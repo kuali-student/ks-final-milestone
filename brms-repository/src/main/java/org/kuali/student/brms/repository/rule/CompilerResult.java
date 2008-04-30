@@ -27,13 +27,13 @@ public class CompilerResult implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Item UUID */
-    public String itemUuid;
+    private String itemUuid;
     /** Item name */
-    public String itemName;
+    private String itemName;
     /** Item format E.g. Drools drl */
-    public String itemFormat;
+    private String itemFormat;
     /** Item compilation error message */
-    public String itemMessage;
+    private String itemMessage;
 
     /**
      * Constructs a new compiler result.
@@ -88,6 +88,7 @@ public class CompilerResult implements java.io.Serializable {
 
     /**
      * @see java.lang.Object#toString()
+     * @return Returns the UUID, name, format and error message
      */
     public String toString() {
         return 

@@ -40,14 +40,14 @@ public interface RuleSet extends Item {
     public List<Rule> getRules();
 
     /**
-     * Gets a compiled rule set byte array
+     * Gets a compiled rule set byte array.
      * 
      * @return Compiled rule set byte array
      */
     public byte[] getCompiledRuleSet();
 
     /**
-     * Gets a compiled rule set object. E.g. A Drools a <code>org.drools.rule.Package</code> 
+     * Gets a compiled rule set object. E.g. A Drools a <code>org.drools.rule.Package</code>.
      * 
      * @return A compiled rule set object
      */

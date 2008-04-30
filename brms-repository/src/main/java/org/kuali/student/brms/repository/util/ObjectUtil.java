@@ -38,11 +38,11 @@ public class ObjectUtil {
     /**
      * Creates a deep copy of an object by serialization.
      * 
-     * @param obj object to do a deep copy of
-     * @return
+     * @param object object to do a deep copy of
+     * @return A copy of <code>object</code>
      * @throws Exception
      */
-    public static Object deepCopy( Serializable object ) throws Exception {
+    public static Object deepCopy( final Serializable object ) throws Exception {
         if ( object == null ) {
             throw new IllegalArgumentException( "object cannot be null" );
         }

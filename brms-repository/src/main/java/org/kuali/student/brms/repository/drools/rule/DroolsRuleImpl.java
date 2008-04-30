@@ -112,16 +112,14 @@ public class DroolsRuleImpl
     /**
      * @see org.kuali.student.brms.repository.rule.Rule#setCategory(java.lang.String)
      */
-    public void setCategory(String category)
-    {
+    public void setCategory(String category) {
         this.category = category;
     }
     
     /**
      * @see org.kuali.student.brms.repository.rule.Rule#getCategory()
      */
-    public String getCategory()
-    {
+    public String getCategory() {
         return this.category;
     }
     
