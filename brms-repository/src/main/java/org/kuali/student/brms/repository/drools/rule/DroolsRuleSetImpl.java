@@ -42,7 +42,7 @@ public class DroolsRuleSetImpl
     /** Compiled rule set bye array */
     private byte[] compiledRuleSet;
     /** Compiled rule set object */
-    private Object compiledRuleSetObject;
+    private Serializable compiledRuleSetObject;
     /** List of header items */
     private List<String> header = new ArrayList<String>();
     /** true if this rule set is a snapshot, otherwise false */
@@ -191,7 +191,7 @@ public class DroolsRuleSetImpl
      */
     public void setCompiledRuleSetObject(final Serializable compiledRuleSetObject) {
         try {
-            this.compiledRuleSetObject = ObjectUtil.deepCopy( compiledRuleSetObject );
+            this.compiledRuleSetObject = (Serializable) ObjectUtil.deepCopy( compiledRuleSetObject );
         } catch( Exception e ) {
             throw new RuntimeException( e );
         }
