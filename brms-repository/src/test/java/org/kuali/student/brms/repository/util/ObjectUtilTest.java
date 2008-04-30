@@ -18,6 +18,7 @@ package org.kuali.student.brms.repository.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -36,13 +37,8 @@ public class ObjectUtilTest {
 
     @Test
     public void testDeepCopy_NullObject() throws Exception {
-        CompiledObject object = null;
-        try {
-            ObjectUtil.deepCopy( object );
-            fail( "ObjectUtil.deepCopy should throw a IllegalArgumentException" );
-        } catch( IllegalArgumentException e ) {
-            assertTrue( true );
-        }
+        Object copy = ObjectUtil.deepCopy( null );
+        assertNull( copy );
     }
 
     @Test
@@ -60,5 +56,18 @@ public class ObjectUtilTest {
         object = null;
         actual = (String) copy.getObject();
         assertEquals( expected, actual );
+    }
+    
+    @Test
+    public void testArrayCopy() throws Exception {
+        byte[] b = "A String Test".getBytes();
+        byte[] copy = ObjectUtil.arrayCopy( b );
+        assertFalse( b.equals( copy ) );
+    }
+
+    @Test
+    public void testArrayCopy_NullObject() throws Exception {
+        byte[] copy = ObjectUtil.arrayCopy( null );
+        assertNull( copy );
     }
 }
