@@ -1,5 +1,8 @@
 package org.kuali.student.poc.common.ws.exceptions;
 
+import javax.xml.ws.WebFault;
+
+@WebFault(faultBean = "org.kuali.student.poc.common.ws.exceptions.jaxws.CircularReferenceExceptionBean")
 public class CircularReferenceException extends Exception {
 
 	private static final long serialVersionUID = -6652661226236017610L;
