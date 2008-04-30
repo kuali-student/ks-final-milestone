@@ -70,6 +70,9 @@ public class DroolsRuleImpl
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
     public byte[] getBinaryContent() {
+        if ( this.binaryContent == null ) {
+            return null;
+        }
         int size = this.binaryContent.length;
         byte[] temp = new byte[size];
         System.arraycopy(this.binaryContent, 0, temp, 0, size);
@@ -78,11 +81,18 @@ public class DroolsRuleImpl
 
     /**
      * Sets the compiled binary content of the rule.
+     * This method makes a copy of the compiled rules.
      * 
      * @param binaryContent Compiled byte array
      */
     public void setBinaryContent(final byte[] binaryContent) {
-        this.binaryContent = binaryContent;
+        if ( binaryContent == null ) {
+            this.binaryContent = null;
+        } else {
+            int size = binaryContent.length;
+            this.binaryContent = new byte[size];
+            System.arraycopy(binaryContent, 0, this.binaryContent , 0, size);
+        }
     }
 
     /**

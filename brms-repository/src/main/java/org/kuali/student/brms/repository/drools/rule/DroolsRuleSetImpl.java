@@ -15,12 +15,14 @@
  */
 package org.kuali.student.brms.repository.drools.rule;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.brms.repository.rule.AbstractItem;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.brms.repository.util.ObjectUtil;
 
 /**
  * This is the implementation of a <code>RuleSet</code>. 
@@ -143,6 +145,9 @@ public class DroolsRuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSet()
      */
     public byte[] getCompiledRuleSet() {
+        if ( this.compiledRuleSet == null ) {
+            return null;
+        }
         int size = this.compiledRuleSet.length;
         byte[] temp = new byte[size];
         System.arraycopy(this.compiledRuleSet, 0, temp, 0, size);
@@ -150,28 +155,46 @@ public class DroolsRuleSetImpl
     }
 
     /**
-     * Sets a compiled rule set byte array
+     * Sets a compiled rule set byte array. 
+     * This method makes a copy of the compiled rules set.
      * 
      * @param compiledRuleSet Compiled rule set byte array
      */
     public void setCompiledRuleSet(final byte[] compiledRuleSet) {
-        this.compiledRuleSet = compiledRuleSet;
+        if ( compiledRuleSet == null ) {
+            this.compiledRuleSet = null;
+        } else {
+            int size = compiledRuleSet.length;
+            this.compiledRuleSet = new byte[size];
+            System.arraycopy(compiledRuleSet, 0, this.compiledRuleSet, 0, size);
+        }
     }
 
     /**
+     * Returns a deep copy of the compiled rule set object.
+     * 
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSetObject()
      */
     public Object getCompiledRuleSetObject() {
-        return this.compiledRuleSetObject;
+        try {
+            return ObjectUtil.deepCopy( this.compiledRuleSetObject );
+        } catch( Exception e ) {
+            throw new RuntimeException( e );
+        }
     }
 
     /**
-     * Sets a compiled rule set object. E.g. A Drools a <code>org.drools.rule.Package</code> 
+     * Sets a compiled rule set object. E.g. A Drools a <code>org.drools.rule.Package</code>.
+     * This methods makes a deep copy of the <code>compiledRuleSetObject</code>.
      * 
      * @param compiledRuleSetObject A compiled rule set object
      */
-    public void setCompiledRuleSetObject(final Object compiledRuleSetObject) {
-        this.compiledRuleSetObject = compiledRuleSetObject;
+    public void setCompiledRuleSetObject(final Serializable compiledRuleSetObject) {
+        try {
+            this.compiledRuleSetObject = ObjectUtil.deepCopy( compiledRuleSetObject );
+        } catch( Exception e ) {
+            throw new RuntimeException( e );
+        }
     }
 
     /**
