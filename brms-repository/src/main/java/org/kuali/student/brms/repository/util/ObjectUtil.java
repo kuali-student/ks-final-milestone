@@ -44,7 +44,7 @@ public class ObjectUtil {
      */
     public static Object deepCopy( final Serializable object ) throws Exception {
         if ( object == null ) {
-            throw new IllegalArgumentException( "object cannot be null" );
+            return null;
         }
         
         ByteArrayOutputStream bos = null;
@@ -74,5 +74,21 @@ public class ObjectUtil {
                 bos.close();
             }
         }
+    }
+    
+    /**
+     * Makes a copy of a <code>binaryContent</code> byte array.
+     * 
+     * @param binaryContent Binary content to be copied
+     * @return A copy of <code>binaryContent</code>
+     */
+    public static byte[] arrayCopy( final byte[] binaryContent ) {
+        if ( binaryContent == null ) {
+            return null;
+        }
+        int size = binaryContent.length;
+        byte[] copy = new byte[size];
+        System.arraycopy(binaryContent, 0, copy , 0, size);
+        return copy;
     }
 }
