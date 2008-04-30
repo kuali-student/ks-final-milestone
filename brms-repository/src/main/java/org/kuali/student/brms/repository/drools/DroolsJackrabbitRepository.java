@@ -148,17 +148,15 @@ public class DroolsJackrabbitRepository {
     }
 
     /**
-     * Warning: This will delete all repository system files.<br/> 
-     * Initialize a new repository.<br/><br/> 
+     * Starts up a repository and logins as a superuser. 
+     * This is a convenience method.<br/><br/> 
      * Calls:</br>
-     * <code>clearAll()</code><br/> 
      * <code>startupRepository()</code><br/> 
-     * <code>login( ... )</code><br/>
+     * <code>login( "superuser" )</code><br/>
      * 
      * @throws Exception
      */
     public void initialize() throws Exception {
-        clearAll();
         startupRepository();
         String id = "superuser";
         char[] password = "superuser".toCharArray();
@@ -185,9 +183,14 @@ public class DroolsJackrabbitRepository {
     }
 
     /**
-     * Warning: This will delete everything in the repository including all the repository system files. Path value must be
-     * repository in repository.xml <FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem"> <param
-     * name="path" value="repository"/> </FileSystem>
+     * <p>Warning: This will delete everything in the repository including all 
+     * the repository system files.</p> 
+     * <p>Path value must be 'repository' in repository.xml</p>
+     * Example:
+     * <pre>
+     * &lt;FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem"&gt;
+     * &lt;param name="path" value="<b>repository</b>"/&gt;&lt;/FileSystem&gt;
+     * </pre>
      */
     public void clearAll() {
         try {
@@ -212,10 +215,8 @@ public class DroolsJackrabbitRepository {
      * Deletes all sub directories under <code>parent</code>. <code>parent</code> will not be deleted.
      * <code>parent</code> and <code>dir</code> should be the same.
      * 
-     * @param exclude
-     *            File or directories to exclude
-     * @param dir
-     *            Sub-directories under which to delete
+     * @param exclude File or directories to exclude
+     * @param dir Sub-directories under which to delete
      * @return True if all sub-directories have been deleted, otherwise false
      */
     private boolean deleteDir(File[] exclude, File dir) {
@@ -242,7 +243,8 @@ public class DroolsJackrabbitRepository {
     }
 
     /**
-     * This will clear all the repository data. This will not delete any files on the file system.
+     * This will clear all the repository data. 
+     * This will not delete any files on the file system.
      */
     public void clearData() {
         RulesRepositoryAdministrator repoAdmin = new RulesRepositoryAdministrator(this.repositorySession);
@@ -287,8 +289,7 @@ public class DroolsJackrabbitRepository {
     /**
      * Login a user.
      * 
-     * @param credentials
-     *            User credentials
+     * @param credentials User credentials
      * @throws Exception
      */
     public void login(Credentials credentials) throws Exception {
