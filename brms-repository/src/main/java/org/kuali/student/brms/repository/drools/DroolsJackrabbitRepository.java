@@ -148,7 +148,7 @@ public class DroolsJackrabbitRepository {
     }
 
     /**
-     * Starts up a repository and logins as a superuser. 
+     * Starts up the repository and logins as a superuser. 
      * This is a convenience method.<br/><br/> 
      * Calls:</br>
      * <code>startupRepository()</code><br/> 
