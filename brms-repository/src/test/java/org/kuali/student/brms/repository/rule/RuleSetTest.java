@@ -1,11 +1,16 @@
 package org.kuali.student.brms.repository.rule;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.Serializable;
 
 import org.junit.Test;
+import org.kuali.student.brms.repository.drools.rule.DroolsRuleSetImpl;
 
 /**
  * This is a <code>RuleSet</code> test class.
@@ -14,6 +19,47 @@ import org.junit.Test;
  *
  */
 public class RuleSetTest {
+
+    /**
+     * This class is used for testing compiled rule set object references. 
+     * 
+     * @author Kuali Student Team (len.kuali@googlegroups.com)
+     *
+     */
+    private static class CompiledObject implements Serializable {
+
+        /** Class serial version uid */
+        private static final long serialVersionUID = 1L;
+
+        private Object object;
+        
+        /**
+         * Constructor.
+         * 
+         * @param obj A compiled object
+         */
+        public CompiledObject( Object obj ) {
+            this.object = obj;
+        }
+
+        /**
+         * Sets a compiled object.
+         * 
+         * @param obj A compiled object
+         */
+        public void setObject( Object obj ) {
+            this.object = obj;
+        }
+
+        /**
+         * Gets a compiled object.
+         * 
+         * @return A compiled object
+         */
+        public Object getObject() {
+            return this.object;
+        }
+    }
 
     @Test
     public void testNullName() {
@@ -166,6 +212,48 @@ public class RuleSetTest {
         ruleSet2.addRule( RuleUtil.createRule( "rule5" ) );
 
         assertFalse( ruleSet1.equals( ruleSet2 ) );
+    }
+    
+    @Test
+    public void testCompiledRuleSet() {
+        DroolsRuleSetImpl ruleSet = (DroolsRuleSetImpl) RuleUtil.createRuleSet( "ruleSet1" );
+        ruleSet.addHeader("import java.util.Calendar");
+        ruleSet.addRule( RuleUtil.createRule( "rule1" ) );
+        byte[] b = ruleSet.getContent().getBytes();
+        ruleSet.setCompiledRuleSet( b );
+        
+        assertArrayEquals( b, ruleSet.getCompiledRuleSet() );
+        b = null;
+        assertNotNull( "getCompiledRuleSet should not be null", ruleSet.getCompiledRuleSet() );
+    }
+
+    @Test
+    public void testNullCompiledRuleSet() {
+        DroolsRuleSetImpl ruleSet = (DroolsRuleSetImpl) RuleUtil.createRuleSet( "ruleSet1" );
+        ruleSet.addHeader("import java.util.Calendar");
+        ruleSet.addRule( RuleUtil.createRule( "rule1" ) );
+        ruleSet.setCompiledRuleSet( null );
+        
+        assertArrayEquals( null, ruleSet.getCompiledRuleSet() );
+    }
+
+    @Test
+    public void testCompiledRuleSetObject_ObjectReference() {
+        DroolsRuleSetImpl ruleSet = (DroolsRuleSetImpl) RuleUtil.createRuleSet( "ruleSet1" );
+        ruleSet.addHeader("import java.util.Calendar");
+        ruleSet.addRule( RuleUtil.createRule( "rule1" ) );
+        
+        String expected = "ACompiledObject";
+        CompiledObject obj1 = new CompiledObject( expected );
+        ruleSet.setCompiledRuleSetObject( obj1 );
+        
+        assertFalse( obj1.equals( ruleSet.getCompiledRuleSetObject() ) );
+        obj1 = new CompiledObject( "Some stuff" );
+
+        assertNotNull( "getCompiledRuleSet should not be null", ruleSet.getCompiledRuleSetObject() );
+
+        CompiledObject obj2 = (CompiledObject) ruleSet.getCompiledRuleSetObject();
+        assertEquals( expected, obj2.getObject() );
     }
     
 }
