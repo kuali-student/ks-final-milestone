@@ -16,9 +16,16 @@
 package org.kuali.student.brms.repository.test;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -29,6 +36,7 @@ import org.drools.brms.client.modeldriven.brl.RuleModel;
 import org.drools.brms.server.util.BRDRLPersistence;
 import org.drools.brms.server.util.BRLPersistence;
 import org.drools.brms.server.util.BRXMLPersistence;
+import org.drools.common.DroolsObjectInputStream;
 import org.drools.compiler.PackageBuilder;
 import org.drools.event.DebugWorkingMemoryEventListener;
 import org.junit.Test;
@@ -84,15 +92,41 @@ public class TestClass
 		Reader sourceDsl = new InputStreamReader(dsl);
 		PackageBuilder builder = new PackageBuilder();
 
-		// this will parse and compile
-		builder.addPackageFromDrl( sourceDrl, sourceDsl );
+        // This will parse and compile
+        builder.addPackageFromDrl( sourceDrl, sourceDsl );
 
+        // Deserialize a Drools package
+        byte[] bytes = deserialize( builder.getPackage() );
+        // Serialize a Drools package
+        org.drools.rule.Package pkg2 = (org.drools.rule.Package) serialize( bytes );
+		assert( pkg2 != null );
+		
 		// deploy the rulebase
 		RuleBase businessRules = RuleBaseFactory.newRuleBase();
 		businessRules.addPackage(builder.getPackage());
 		return businessRules;
 	}
 
+    private static Object serialize(final byte[] bytes) throws IOException, ClassNotFoundException {
+        final ObjectInput in = new DroolsObjectInputStream(new ByteArrayInputStream(bytes));
+        final Object obj = in.readObject();
+        in.close();
+        return obj;
+    }
+
+    private static byte[] deserialize(final Object obj) throws IOException {
+        // Serialize to a byte array
+        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        final ObjectOutput out = new ObjectOutputStream(bos);
+        out.writeObject(obj);
+        out.close();
+
+        // Get the bytes of the serialized object
+        final byte[] bytes = bos.toByteArray();
+        return bytes;
+    }
+
+	
 	private static RuleBase getRules2() throws Exception
 	{
 		InputStream drl = TestClass.class.getResourceAsStream( "/test.drl" );
