@@ -1,43 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.learningunit</groupId>
-	<artifactId>lum-api</artifactId>
-	<packaging>pom</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Kuali Student LearningUnit API</name>
-
+	<groupId>org.kuali.student.poc.personidentity</groupId>
+	<artifactId>personidentity-api</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+	<name>Kuali Student PersonIdentity API</name>
+	<description />
+	
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-api-pom</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-ws</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-	
-	<modules>
-		<module>lu-api</module>
-		<module>luipersonrelation-api</module>
-	</modules>
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-api/branches/lum-api-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-api/branches/lum-api-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev
 		</developerConnection>
 	</scm>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-jaxws</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>generate-wsdl</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>
+								org.kuali.student.poc.wsdl.personidentity.person.PersonService
+							</className>
+							<targetNamespace>
+								http://student.kuali.org/wsdl/...
+							</targetNamespace>
+							<verbose>true</verbose>
+						</configuration>
+						<goals>
+							<goal>java2wsdl</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
@@ -54,6 +75,22 @@
 			</releases>
 		</repository>
 	</repositories>
-
-
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>kuali.release</id>
+			<url>http://kuali.umd.edu/archiva/repository/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>kuali.snapshot</id>
+			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	
 </project>
