@@ -71,7 +71,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         try {
             rule = metadata.getFunctionalBusinessRule(ruleID);
         } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database.");
+            System.out.println("Could not load rule " + ruleID + " from database:" + dae.getStackTrace());
             return null;
         }
 
@@ -112,7 +112,7 @@ public class TestEndToEnd extends AbstractJpaTests {
     @Before
     public void onSetUpInTransaction() throws Exception {
 
-        // deleteRules();
+        deleteRules();
 
         int ordinalPosition = 1;
         RuleElement ruleElement = null;
