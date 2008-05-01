@@ -18,6 +18,9 @@ package org.kuali.student.brms.repository.drools;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import javax.jcr.Credentials;
+import javax.jcr.SimpleCredentials;
+
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
@@ -205,4 +208,15 @@ public class DroolsTestUtil
         sess.execute( fact );
 	}
 	
+    /**
+     * Gets default superuser credentials.
+     * 
+     * @return Superuser credentials
+     */
+	public static Credentials getSuperUserCredentials() {
+        String id = "superuser";
+        char[] password = "superuser".toCharArray();
+        return new SimpleCredentials(id, password);
+    }
+    
 }
