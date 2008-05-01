@@ -19,7 +19,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.Reader;
 import java.util.List;
 
+import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.exceptions.RuleExistsException;
+import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
@@ -266,7 +269,7 @@ public interface RuleEngineRepository {
      * @return List of child category names
      * @throws RuleEngineRepositoryException
      */
-    public List<String> loadChildCategories(String categoryPath) throws RuleEngineRepositoryException;
+    public List<String> loadChildCategories(String categoryPath);
 
     /**
      * Creates a new category.
@@ -278,9 +281,10 @@ public interface RuleEngineRepository {
      * @param description
      *            Category description
      * @return True if category successfully created, otherwise false
+     * @throws CategoryExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public Boolean createCategory(String path, String name, String description) throws RuleEngineRepositoryException;
+    public Boolean createCategory(String path, String name, String description) throws CategoryExistsException;
 
     /**
      * Checkin a rule set into the repository.
@@ -291,7 +295,7 @@ public interface RuleEngineRepository {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    public void checkinRuleSet(String uuid, String comment) throws RuleEngineRepositoryException;
+    public void checkinRuleSet(String uuid, String comment);
 
     /**
      * Updates a rule and save it to the repository.
@@ -299,7 +303,7 @@ public interface RuleEngineRepository {
      * @param ruleSet A rule set to update
      * @throws RuleEngineRepositoryException
      */
-    public void updateRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException;
+    public void updateRuleSet(RuleSet ruleSet);
     
     /**
      * Checkin a rule into the repository.
@@ -310,7 +314,7 @@ public interface RuleEngineRepository {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    public void checkinRule(String uuid, String comment) throws RuleEngineRepositoryException;
+    public void checkinRule(String uuid, String comment);
 
     /**
      * Updates a rule and saves it to the repository.
@@ -318,7 +322,7 @@ public interface RuleEngineRepository {
      * @param rule A rule to update
      * @throws RuleEngineRepositoryException
      */
-    public void updateRule(Rule rule) throws RuleEngineRepositoryException;
+    public void updateRule(Rule rule);
     
     /**
      * Deletes a rule by uuid.
@@ -327,7 +331,7 @@ public interface RuleEngineRepository {
      *            Rule uuid
      * @throws RuleEngineRepositoryException
      */
-    public void removeRule(String uuid) throws RuleEngineRepositoryException;
+    public void removeRule(String uuid);
 
     /**
      * Loads a rule's history.
@@ -337,10 +341,9 @@ public interface RuleEngineRepository {
      * @return List of history rules
      * @throws RuleEngineRepositoryException
      */
-    public List<Rule> loadRuleHistory(String uuid) throws RuleEngineRepositoryException;
+    public List<Rule> loadRuleHistory(String uuid);
 
-    // public List<RuleSet> loadRuleSetHistory( String uuid )
-    // throws RuleEngineRepositoryException;
+    // public List<RuleSet> loadRuleSetHistory( String uuid );
 
     /**
      * Loads all archived rule sets.
@@ -348,7 +351,7 @@ public interface RuleEngineRepository {
      * @return List of archived rules
      * @throws RuleEngineRepositoryException
      */
-    public List<RuleSet> loadArchivedRuleSets() throws RuleEngineRepositoryException;
+    public List<RuleSet> loadArchivedRuleSets();
 
     /**
      * Loads all archived rules.
@@ -356,7 +359,7 @@ public interface RuleEngineRepository {
      * @return List of archived rules
      * @throws RuleEngineRepositoryException
      */
-    public List<Rule> loadArchivedRules() throws RuleEngineRepositoryException;
+    public List<Rule> loadArchivedRules();
 
     /**
      * Restores a rule or rule set to a specific version.
@@ -369,7 +372,7 @@ public interface RuleEngineRepository {
      *            Comments
      * @throws RuleEngineRepositoryException
      */
-    public void restoreVersion(String versionUUID, String assetUUID, String comment) throws RuleEngineRepositoryException;
+    public void restoreVersion(String versionUUID, String assetUUID, String comment);
 
     /**
      * Exports the rules repository as a zip file container an XML repository file.
@@ -379,7 +382,7 @@ public interface RuleEngineRepository {
      * @return A zip file
      * @throws RuleEngineRepositoryException
      */
-    public ByteArrayOutputStream exportRulesRepositoryAsZip(String filename) throws RuleEngineRepositoryException;
+    public ByteArrayOutputStream exportRulesRepositoryAsZip(String filename);
 
     /**
      * Exports the rules repository as XML.
@@ -387,7 +390,7 @@ public interface RuleEngineRepository {
      * @return XML content as a byte array
      * @throws RuleEngineRepositoryException
      */
-    public byte[] exportRulesRepositoryAsXml() throws RuleEngineRepositoryException;
+    public byte[] exportRulesRepositoryAsXml();
 
     /**
      * Imports an XML rules repository file.
@@ -396,7 +399,7 @@ public interface RuleEngineRepository {
      *            Byte array (XML file) - E.g. an repository_export.xml
      * @throws RuleEngineRepositoryException
      */
-    public void importRulesRepository(byte[] byteArray) throws RuleEngineRepositoryException;
+    public void importRulesRepository(byte[] byteArray);
 
     /**
      * Creates and compiles a rule set.
@@ -404,20 +407,11 @@ public interface RuleEngineRepository {
      * @param ruleSet
      *            Rule set to create
      * @return Rule set uuid
+     * @throws RuleExistsException Thrown if a rule within the rule set already exists
+     * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public String createRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException;
-
-    /**
-     * Adds a fact to a rule set. E.g. in Drools: import java.util.Calendar
-     * 
-     * @param ruleSetUuid
-     *            Rule set uuid
-     * @param fact
-     *            A java class
-     * @throws RuleEngineRepositoryException
-     */
-    public void setFactsToRuleSet(String ruleSetUuid, String fact) throws RuleEngineRepositoryException;
+    public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
 
     /**
      * Loads all rule set (and rules) for a specific uuid.
@@ -427,7 +421,7 @@ public interface RuleEngineRepository {
      * @return A rule set
      * @throws RuleEngineRepositoryException
      */
-    public RuleSet loadRuleSet(String uuid) throws RuleEngineRepositoryException;
+    public RuleSet loadRuleSet(String uuid);
 
     /**
      * Loads a rule by uuid.
@@ -437,7 +431,7 @@ public interface RuleEngineRepository {
      * @return A rule
      * @throws RuleEngineRepositoryException
      */
-    public Rule loadRule(String uuid) throws RuleEngineRepositoryException;
+    public Rule loadRule(String uuid);
 
     /**
      * Creates a new status.
@@ -447,7 +441,7 @@ public interface RuleEngineRepository {
      * @return New status uuid
      * @throws RuleEngineRepositoryException
      */
-    public String createStatus(String name) throws RuleEngineRepositoryException;
+    public String createStatus(String name);
 
     /**
      * Loads all states (statuses).
@@ -455,7 +449,7 @@ public interface RuleEngineRepository {
      * @return Array of all states (statuses)
      * @throws RuleEngineRepositoryException
      */
-    public String[] loadStates() throws RuleEngineRepositoryException;
+    public String[] loadStates();
 
     /**
      * Changes rule status by uuid.
@@ -466,7 +460,7 @@ public interface RuleEngineRepository {
      *            New rule status
      * @throws RuleEngineRepositoryException
      */
-    public void changeRuleStatus(String uuid, String newState) throws RuleEngineRepositoryException;
+    public void changeRuleStatus(String uuid, String newState);
 
     /**
      * Changes rule set status by uuid.
@@ -477,7 +471,7 @@ public interface RuleEngineRepository {
      *            New rule set status
      * @throws RuleEngineRepositoryException
      */
-    public void changeRuleSetStatus(String uuid, String newState) throws RuleEngineRepositoryException;
+    public void changeRuleSetStatus(String uuid, String newState);
 
     /**
      * Creates a new rule set snapshot for deployment. Creates a copy of the rule set for deployment.
@@ -492,7 +486,7 @@ public interface RuleEngineRepository {
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException
      */
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) throws RuleEngineRepositoryException;
+    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment);
 
     /**
      * Removes a category.
@@ -501,7 +495,7 @@ public interface RuleEngineRepository {
      *            Category path
      * @throws RuleEngineRepositoryException
      */
-    public void removeCategory(String categoryPath) throws RuleEngineRepositoryException;
+    public void removeCategory(String categoryPath);
 
     /**
      * Renames an rule.
@@ -513,7 +507,7 @@ public interface RuleEngineRepository {
      * @return New uuid of the rule
      * @throws RuleEngineRepositoryException
      */
-    public String renameRule(String uuid, String newName) throws RuleEngineRepositoryException;
+    public String renameRule(String uuid, String newName);
 
     /**
      * Archives a rule.
@@ -524,7 +518,7 @@ public interface RuleEngineRepository {
      *            Rule comment
      * @throws RuleEngineRepositoryException
      */
-    public void archiveRule(String uuid, String comment) throws RuleEngineRepositoryException;
+    public void archiveRule(String uuid, String comment);
 
     /**
      * Unarchives a rule.
@@ -535,7 +529,7 @@ public interface RuleEngineRepository {
      *            Rule comment
      * @throws RuleEngineRepositoryException
      */
-    public void unArchiveRule(String uuid, String comment) throws RuleEngineRepositoryException;
+    public void unArchiveRule(String uuid, String comment);
 
     /**
      * Archives an rule set.
@@ -546,7 +540,7 @@ public interface RuleEngineRepository {
      *            Rule comment
      * @throws RuleEngineRepositoryException
      */
-    public void archiveRuleSet(String uuid, String comment) throws RuleEngineRepositoryException;
+    public void archiveRuleSet(String uuid, String comment);
 
     /**
      * Unarchives an rule set.
@@ -557,7 +551,7 @@ public interface RuleEngineRepository {
      *            Rule set comment
      * @throws RuleEngineRepositoryException
      */
-    public void unArchiveRuleSet(String uuid, String comment) throws RuleEngineRepositoryException;
+    public void unArchiveRuleSet(String uuid, String comment);
 
     /**
      * Renames a rule set.
@@ -568,7 +562,7 @@ public interface RuleEngineRepository {
      * @return uuid of new rule set
      * @throws RuleEngineRepositoryException
      */
-    public String renameRuleSet(String uuid, String newName) throws RuleEngineRepositoryException;
+    public String renameRuleSet(String uuid, String newName);
 
     /**
      * Compiles a rule set.
@@ -578,7 +572,7 @@ public interface RuleEngineRepository {
      * @return Any rule set building errors otherwise null
      * @throws RuleEngineRepositoryException
      */
-    public CompilerResultList compileRuleSet(String ruleSetUUID) throws RuleEngineRepositoryException;
+    public CompilerResultList compileRuleSet(String ruleSetUUID);
 
     /**
      * Compiles a rule set and returns the source code. For Drools, it returns the DRL.
@@ -588,7 +582,7 @@ public interface RuleEngineRepository {
      * @return Rule set source
      * @throws RuleEngineRepositoryException
      */
-    public String compileRuleSetSource(String ruleSetUUID) throws RuleEngineRepositoryException;
+    public String compileRuleSetSource(String ruleSetUUID);
 
     /**
      * Loads a compiled rule set.
@@ -598,7 +592,7 @@ public interface RuleEngineRepository {
      * @return A compiled rule set (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */
-    public Object loadCompiledRuleSet(String ruleSetUuid) throws RuleEngineRepositoryException;
+    public Object loadCompiledRuleSet(String ruleSetUuid);
 
     /**
      * Loads a compiled rule set snapshot.
@@ -610,7 +604,7 @@ public interface RuleEngineRepository {
      * @return Compiled rule set (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */
-    public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) throws RuleEngineRepositoryException;
+    public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName);
 
     /**
      * Loads a rule set snapshot.
@@ -622,14 +616,14 @@ public interface RuleEngineRepository {
      * @return A rule set snapshot
      * @throws RuleEngineRepositoryException
      */
-    public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName) throws RuleEngineRepositoryException;
+    public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName);
 
     /**
      * Rebuilds all snapshots in the repository.
      * 
      * @throws RuleEngineRepositoryException
      */
-    public void rebuildAllSnapshots() throws RuleEngineRepositoryException;
+    public void rebuildAllSnapshots();
 
     /**
      * Compiles source code (e.g. A Drools DRL file) and returns a compiled rule engine specific object (e.g. a Drools
@@ -641,5 +635,5 @@ public interface RuleEngineRepository {
      * @throws RuleEngineRepositoryException
      *             Thrown if compilation fails
      */
-    public Object compileSource(Reader source) throws RuleEngineRepositoryException;
+    public Object compileSource(Reader source);
 }

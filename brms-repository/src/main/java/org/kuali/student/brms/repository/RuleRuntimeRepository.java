@@ -15,7 +15,10 @@
  */
 package org.kuali.student.brms.repository;
 
+import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.exceptions.RuleExistsException;
+import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
@@ -50,9 +53,11 @@ public interface RuleRuntimeRepository {
      * @param description
      *            Category description
      * @return True if category successfully created, otherwise false
+     * @throws CategoryExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public Boolean createCategory(String path, String name, String description) throws RuleEngineRepositoryException;
+    public Boolean createCategory(String path, String name, String description) 
+        throws CategoryExistsException;
 
     /**
      * <p>
@@ -146,9 +151,11 @@ public interface RuleRuntimeRepository {
      * @param ruleSet
      *            Rule set to create
      * @return Rule set uuid
+     * @throws RuleExistsException Thrown if a rule within the rule set already exists
+     * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public String createRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException;
+    public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
 
     /**
      * <p>
