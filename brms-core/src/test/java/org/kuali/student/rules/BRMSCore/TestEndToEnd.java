@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,106 +49,48 @@ public class TestEndToEnd extends AbstractJpaTests {
     private EntityManager em;
 
     @Test
-    public void testBRMS() throws Exception {
+    public void testPOCRules() throws Exception {
+        assertEquals("(A OR B)", retrieveFunctionString("1"));
+        assertEquals("A", retrieveFunctionString("2"));
+        assertEquals("(A) OR (B AND C)", retrieveFunctionString("3"));
+        assertEquals("(A OR B) AND C", retrieveFunctionString("4"));
+    }
+
+    private String retrieveFunctionString(String ruleID) throws Exception {
 
         FunctionalBusinessRule rule = null;
 
-        // 1. retrieve business rule
-        String ruleID = "1";
-
         try {
             rule = metadata.getFunctionalBusinessRule(ruleID);
         } catch (DataAccessException dae) {
             System.out.println("Could not load rule " + ruleID + " from database.");
-            return;
+            return null;
         }
 
-        if (rule == null) {
-            System.out.println("Rule " + ruleID + " not found");
-        } else {
-            System.out.println("Found rule: " + rule.getName());
-        }
-
-        // FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(id);
-        System.out.println(System.getProperty("line.separator"));
-
-        // 2. get function string for a given business rule
-        String functionString = metadata.createRuleFunctionString(rule);
-        System.out.println("Function String: " + functionString);
-        System.out.println(System.getProperty("line.separator"));
-
-        // 3. generate Drool rule WHEN part based on business rule propositions
-        // String droolWhenPart = metadata.mapMetaRuleToDroolRule(rule);
-        // if (droolWhenPart != null) {
-        // System.out.println("Drools WHEN:" + droolWhenPart);
-        // System.out.println(System.getProperty("line.separator"));
-        // } else {
-        // System.out.println("Could not map Meta Data into Drool rules.");
-        // }
-
-        ruleID = "2";
-
-        try {
-            rule = metadata.getFunctionalBusinessRule(ruleID);
-        } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database.");
-            return;
-        }
-
-        if (rule == null) {
-            System.out.println("Rule " + ruleID + " not found");
-        } else {
-            System.out.println("Found rule: " + rule.getName());
-        }
-
-        functionString = metadata.createRuleFunctionString(rule);
-        System.out.println("Function String: " + functionString);
-        System.out.println(System.getProperty("line.separator"));
-
-        ruleID = "3";
-
-        try {
-            rule = metadata.getFunctionalBusinessRule(ruleID);
-        } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database.");
-            return;
-        }
-
-        if (rule == null) {
-            System.out.println("Rule " + ruleID + " not found");
-        } else {
-            System.out.println("Found rule: " + rule.getName());
-        }
-
-        functionString = metadata.createRuleFunctionString(rule);
-        System.out.println("Function String: " + functionString);
-        System.out.println(System.getProperty("line.separator"));
-
-        ruleID = "4";
-
-        try {
-            rule = metadata.getFunctionalBusinessRule(ruleID);
-        } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database.");
-            return;
-        }
-
-        if (rule == null) {
-            System.out.println("Rule " + ruleID + " not found");
-        } else {
-            System.out.println("Found rule: " + rule.getName());
-        }
-
-        functionString = metadata.createRuleFunctionString(rule);
-        System.out.println("Function String: " + functionString);
-        System.out.println(System.getProperty("line.separator"));
+        return metadata.createRuleFunctionString(rule);
     }
 
+    @After
+    @Override
+    public void onTearDownAfterTransaction() throws Exception {
+        super.onTearDownInTransaction();
+        setDirty();
+        deleteRules();
+    }
+
+    @Override
+    protected String[] getConfigLocations() {
+        return new String[]{"classpath:application-context.xml"};
+    }
+
+    /*
+     * public void onTearDownAfterTransaction() throws Exception { super.onTearDownInTransaction(); setDirty(); }
+     */
     @Override
     @Before
     public void onSetUpInTransaction() throws Exception {
 
-        deleteRules();
+        // deleteRules();
 
         int ordinalPosition = 1;
         RuleElement ruleElement = null;
@@ -212,7 +155,8 @@ public class TestEndToEnd extends AbstractJpaTests {
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        businessRuleDAO.createBusinessRule(busRule);
+        // businessRuleDAO.createBusinessRule(busRule);
+        em.persist(busRule);
 
         /********************************************************************************************************************
          * insert "2 of CPR 101 and CPR 201"
@@ -235,7 +179,8 @@ public class TestEndToEnd extends AbstractJpaTests {
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        businessRuleDAO.createBusinessRule(busRule);
+        // businessRuleDAO.createBusinessRule(busRule);
+        em.persist(busRule);
 
         /********************************************************************************************************************
          * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301) OR (1 of CPR 4005 and 1 of FA 001, WS 001)"
@@ -317,7 +262,8 @@ public class TestEndToEnd extends AbstractJpaTests {
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        businessRuleDAO.createBusinessRule(busRule);
+        // businessRuleDAO.createBusinessRule(busRule);
+        em.persist(busRule);
 
         /********************************************************************************************************************
          * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR 1 of CPR 4005) and 1 of FA 001, WS 001"
@@ -389,7 +335,8 @@ public class TestEndToEnd extends AbstractJpaTests {
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        businessRuleDAO.createBusinessRule(busRule);
+        // businessRuleDAO.createBusinessRule(busRule);
+        em.persist(busRule);
     }
 
     public void deleteRules() {
@@ -422,15 +369,6 @@ public class TestEndToEnd extends AbstractJpaTests {
         }
 
         em.flush();
-    }
-
-    @Override
-    // @After
-    public void onTearDownAfterTransaction() throws Exception {
-
-        deleteRules();
-        super.onTearDownInTransaction();
-        setDirty();
     }
 
     /**

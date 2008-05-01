@@ -54,10 +54,9 @@ public class FunctionalBusinessRuleManagementService {
 
         // step through rule elements and create a function string
         for (RuleElement ruleElement : ruleElements) {
-            functionString.append(" ");
             switch (ruleElement.getOperation()) {
                 case AND_TYPE:
-                    functionString.append(RuleElementType.AND_TYPE.getName());
+                    functionString.append(" " + RuleElementType.AND_TYPE.getName() + " ");
                     break;
                 case LPAREN_TYPE:
                     functionString.append(RuleElementType.LPAREN_TYPE.getName());
@@ -66,7 +65,7 @@ public class FunctionalBusinessRuleManagementService {
                     functionString.append(RuleElementType.NOT_TYPE.getName());
                     break;
                 case OR_TYPE:
-                    functionString.append(RuleElementType.OR_TYPE.getName());
+                    functionString.append(" " + RuleElementType.OR_TYPE.getName() + " ");
                     break;
                 case PROPOSITION_TYPE:
                     functionString.append(proposition);
@@ -82,7 +81,7 @@ public class FunctionalBusinessRuleManagementService {
                     functionString.append("(unknown)");
             }
         }
-        return functionString.toString();
+        return functionString.toString().trim();
     }
 
     /**
