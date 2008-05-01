@@ -56,6 +56,14 @@ public class TestEndToEnd extends AbstractJpaTests {
         assertEquals("(A OR B) AND C", retrieveFunctionString("4"));
     }
 
+    @Test
+    public void testAdjustedPOCRules() throws Exception {
+        assertEquals("(A + B)", retrieveAdjustedFunctionString("1"));
+        assertEquals("A", retrieveAdjustedFunctionString("2"));
+        assertEquals("(A) + (B * C)", retrieveAdjustedFunctionString("3"));
+        assertEquals("(A + B) * C", retrieveAdjustedFunctionString("4"));
+    }
+
     private String retrieveFunctionString(String ruleID) throws Exception {
 
         FunctionalBusinessRule rule = null;
@@ -68,6 +76,20 @@ public class TestEndToEnd extends AbstractJpaTests {
         }
 
         return metadata.createRuleFunctionString(rule);
+    }
+
+    private String retrieveAdjustedFunctionString(String ruleID) throws Exception {
+
+        FunctionalBusinessRule rule = null;
+
+        try {
+            rule = metadata.getFunctionalBusinessRule(ruleID);
+        } catch (DataAccessException dae) {
+            System.out.println("Could not load rule " + ruleID + " from database.");
+            return null;
+        }
+
+        return metadata.createAdjustedRuleFunctionString(rule);
     }
 
     @After
@@ -112,7 +134,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "1", metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -127,7 +149,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("1");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -145,7 +167,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("1");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -163,7 +185,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "2", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
         facts = new ArrayList<String>();
@@ -174,7 +196,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("2");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -187,7 +209,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "3", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -205,7 +227,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("12");
         rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -233,7 +255,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("1");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -252,7 +274,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("2");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -270,7 +292,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "4", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -288,7 +310,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("12");
         rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -306,7 +328,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("1");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
@@ -330,7 +352,7 @@ public class TestEndToEnd extends AbstractJpaTests {
         criteria = new ArrayList<String>();
         criteria.add("2");
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
-        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", leftSide, operator, rightSide);
+        ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);

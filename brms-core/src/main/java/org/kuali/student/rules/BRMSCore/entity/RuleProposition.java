@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-
 /**
  * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, operator and right
  * hand side of a given rule.
@@ -25,6 +24,7 @@ public class RuleProposition {
     private Long id;
     private String name;
     private String description;
+    private String failureMessage;
     @Embedded
     private LeftHandSide leftHandSide;
     @Embedded
@@ -39,6 +39,7 @@ public class RuleProposition {
         id = null;
         name = null;
         description = null;
+        failureMessage = null;
         leftHandSide = null;
         operator = null;
         rightHandSide = null;
@@ -53,9 +54,10 @@ public class RuleProposition {
      * @param operator
      * @param rightHandSide
      */
-    public RuleProposition(String name, String description, LeftHandSide leftHandSide, Operator operator, RightHandSide rightHandSide) {
+    public RuleProposition(String name, String description, String failureMessage, LeftHandSide leftHandSide, Operator operator, RightHandSide rightHandSide) {
         this.name = name;
         this.description = description;
+        this.failureMessage = failureMessage;
         this.leftHandSide = leftHandSide;
         this.operator = operator;
         this.rightHandSide = rightHandSide;
@@ -149,5 +151,20 @@ public class RuleProposition {
      */
     public final void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the failureMessage
+     */
+    public final String getFailureMessage() {
+        return failureMessage;
+    }
+
+    /**
+     * @param failureMessage
+     *            the failureMessage to set
+     */
+    public final void setFailureMessage(String failureMessage) {
+        this.failureMessage = failureMessage;
     }
 }

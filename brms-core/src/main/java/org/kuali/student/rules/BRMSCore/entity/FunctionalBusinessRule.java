@@ -36,6 +36,8 @@ public class FunctionalBusinessRule {
 
     private String name;
     private String description;
+    private String successMessage;
+    private String failureMessage;
     @Column(unique = true, nullable = false)
     private String ruleIdentifier;
     @Embedded
@@ -52,6 +54,8 @@ public class FunctionalBusinessRule {
         id = null;
         name = null;
         description = null;
+        successMessage = null;
+        failureMessage = null;
         ruleIdentifier = null;
         ruleMetaData = null;
         businessRuleEvaluation = null;
@@ -66,9 +70,11 @@ public class FunctionalBusinessRule {
      * @param ruleSetIdentified
      * @param ruleMetaData
      */
-    public FunctionalBusinessRule(String name, String description, String ruleSetIdentified, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
+    public FunctionalBusinessRule(String name, String description, String successMessage, String failureMessage, String ruleSetIdentified, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
         this.name = name;
         this.description = description;
+        this.successMessage = successMessage;
+        this.failureMessage = failureMessage;
         this.ruleIdentifier = ruleSetIdentified;
         this.ruleMetaData = ruleMetaData;
         this.businessRuleEvaluation = businessRuleEvaluation;
@@ -190,5 +196,35 @@ public class FunctionalBusinessRule {
      */
     public final void setRuleElements(Collection<RuleElement> ruleElements) {
         this.ruleElements = ruleElements;
+    }
+
+    /**
+     * @return the successMessage
+     */
+    public final String getSuccessMessage() {
+        return successMessage;
+    }
+
+    /**
+     * @param successMessage
+     *            the successMessage to set
+     */
+    public final void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
+    }
+
+    /**
+     * @return the failureMessage
+     */
+    public final String getFailureMessage() {
+        return failureMessage;
+    }
+
+    /**
+     * @param failureMessage
+     *            the failureMessage to set
+     */
+    public final void setFailureMessage(String failureMessage) {
+        this.failureMessage = failureMessage;
     }
 }

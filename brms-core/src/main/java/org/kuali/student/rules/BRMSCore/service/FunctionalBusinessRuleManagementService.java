@@ -84,6 +84,13 @@ public class FunctionalBusinessRuleManagementService {
         return functionString.toString().trim();
     }
 
+    public String createAdjustedRuleFunctionString(FunctionalBusinessRule rule) {
+        String functionString = createRuleFunctionString(rule);
+        functionString = functionString.replace("AND", "*");
+        functionString = functionString.replace("OR", "+");
+        return functionString;
+    }
+
     /**
      * Generates a HashMap of <unique alphabet character, proposition> pair from a functional business rule.
      * 
