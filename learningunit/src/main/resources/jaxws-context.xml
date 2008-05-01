@@ -17,4 +17,9 @@
 
 	<wss:binding url="/LuService" service="#luService" />
 
+	<ws:service id="lprService" bean="#lprServiceImpl"
+		impl="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl" />
+
+	<wss:binding url="/LprService" service="#lprService" />
+
 </beans>

@@ -33,6 +33,11 @@
 		<url-pattern>/LuService/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>LuService</servlet-name>
+		<url-pattern>/LprService/*</url-pattern>
+	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

@@ -18,7 +18,7 @@ import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
 
 public class LuDaoImpl implements LuDao {
-	@PersistenceContext
+	@PersistenceContext(unitName="Lu")
 	private EntityManager em;
 
 	@Override

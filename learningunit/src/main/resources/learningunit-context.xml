@@ -22,7 +22,19 @@
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaDataSourceProperties"
-			value="${jdbc.xaDataSourceProperties}" />
+			value="${jdbc.lu.xaDataSourceProperties}" />
+		<property name="exclusiveConnectionMode" value="true" />
+		<property name="connectionPoolSize" value="5" />
+	</bean>
+
+	<bean id="lprDataSource"
+		class="com.atomikos.jdbc.SimpleDataSourceBean" init-method="init"
+		destroy-method="close">
+		<property name="uniqueResourceName" value="lprDataSource" />
+		<property name="xaDataSourceClassName"
+			value="${jdbc.xaDataSourceClassName}" />
+		<property name="xaDataSourceProperties"
+			value="${jdbc.lpr.xaDataSourceProperties}" />
 		<property name="exclusiveConnectionMode" value="true" />
 		<property name="connectionPoolSize" value="5" />
 	</bean>
@@ -33,7 +45,7 @@
 		<property name="location" value="classpath:jpa.properties" />
 	</bean>
 
-	<bean id="personEntityManagerFactory"
+	<bean id="luEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
 			<bean class="${jpa.adapter}">
@@ -45,6 +57,22 @@
 		</property>
 		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/lu-persistence.xml" />
+		<property name="dataSource" ref="luDataSource" />
+		<property name="jpaPropertyMap" ref="jpaConfig" />
+	</bean>
+
+	<bean id="lprEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter">
+			<bean class="${jpa.adapter}">
+				<property name="databasePlatform"
+					value="${jpa.platform}" />
+				<property name="showSql" value="${jpa.showSql}" />
+				<property name="generateDdl" value="${jpa.generateDdl}" />
+			</bean>
+		</property>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/luipersonrelation-persistence.xml" />
 		<property name="dataSource" ref="luDataSource" />
 		<property name="jpaPropertyMap" ref="jpaConfig" />
 	</bean>
@@ -83,6 +111,19 @@
 		class="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl">
 		<property name="dao" ref="dao" />
 	</bean>
+	
+	<bean id="lprDao"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl">
+	</bean>
+	
+	<bean id="lprServiceImpl"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl">
+		<property name="dao" ref="lprDao" />
+		<property name="luClient" ref="luServiceImpl"/>
+<!-- 		<property name="personClient" ref="personClient"/> -->
+	</bean>
+	
+
 	
 	<bean id="loadDataBean"
 		class="org.kuali.student.poc.learningunit.lu.LoadDataBean">

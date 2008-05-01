@@ -27,6 +27,23 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		</jaxws:features>
 	</jaxws:endpoint>
 
+	<jaxws:endpoint id="lprService"
+		implementorClass="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl"
+		implementor="#lprServiceImpl" address="/LprService" />
+
+	<jaxws:endpoint id="lprServiceSecure"
+		implementorClass="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl"
+		implementor="#lprServiceImpl" address="/LprServiceSecure">
+		<jaxws:inInterceptors>
+			<bean
+				class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+			<ref bean="wss4jInConfiguration" />
+		</jaxws:inInterceptors>
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+	</jaxws:endpoint>
+
 	<bean id="passwordCallback"
 		class="org.kuali.student.poc.common.cxf.security.SimpleServerPasswordCallback" />
 

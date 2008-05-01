@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class LoadDataBean {
-	@PersistenceContext
+	@PersistenceContext(unitName="Lu")
 	EntityManager em;
 	private boolean loaded = false;
 	private String contextLocation;

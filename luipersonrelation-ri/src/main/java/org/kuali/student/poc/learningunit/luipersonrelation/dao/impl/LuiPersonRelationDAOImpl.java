@@ -15,7 +15,7 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStat
 
 public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
 
-    @PersistenceContext
+    @PersistenceContext(unitName="LuiPersonRelation")
     private EntityManager em;
     
     public EntityManager getEm() {
