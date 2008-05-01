@@ -1,8 +1,5 @@
 package org.kuali.student.poc.common.ws.exceptions;
 
-import javax.xml.ws.WebFault;
-
-@WebFault(faultBean = "org.kuali.student.poc.common.ws.exceptions.jaxws.AlreadyExistsExceptionBean")
 public class AlreadyExistsException extends Exception {
 
 	/**
