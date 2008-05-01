@@ -46,7 +46,7 @@ import org.kuali.student.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.brms.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
-import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryRuntimeException;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.rule.CompilerResult;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
@@ -72,9 +72,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository item
      * @return A rule
-     * @throws RuleEngineRepositoryRuntimeException
+     * @throws RuleEngineRepositoryException
      */
-    public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryRuntimeException {
+    public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -94,7 +94,7 @@ public class DroolsUtil {
                 rule.setVersionSnapshotUUID(item.getVersionSnapshotUUID());
             }
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryRuntimeException("Unable to set rule historical version", e);
+            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
         }
 
         return rule;
@@ -107,9 +107,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository history item
      * @return A history rule
-     * @throws RuleEngineRepositoryRuntimeException
+     * @throws RuleEngineRepositoryException
      */
-    public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryRuntimeException {
+    public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -130,13 +130,13 @@ public class DroolsUtil {
         try {
             rule.setHistorical(item.isHistoricalVersion());
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryRuntimeException("Unable to set rule historical version", e);
+            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
         }
 
         return rule;
     }
 
-    /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryRuntimeException { 
+    /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { 
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( item.getUUID(), item.getName() );
         //ruleSet.setContent( item.getContent() );
         //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); 
@@ -158,7 +158,7 @@ public class DroolsUtil {
             ruleSet.setHistorical( item.isHistoricalVersion() ); 
         } 
         catch( RepositoryException e ) { 
-            throw new RuleEngineRepositoryRuntimeException( "Unable to set ruleset historical version", e ); 
+            throw new RuleEngineRepositoryException( "Unable to set ruleset historical version", e ); 
         } 
         return ruleSet; 
     }*/
@@ -169,9 +169,9 @@ public class DroolsUtil {
      * @param pkg
      *            Drools repository package item
      * @return A rule set
-     * @throws RuleEngineRepositoryRuntimeException
+     * @throws RuleEngineRepositoryException
      */
-    public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryRuntimeException {
+    public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
         DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName(), pkg.getVersionNumber() );
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
         ruleSet.setDescription(pkg.getDescription());
@@ -196,7 +196,7 @@ public class DroolsUtil {
         try {
             ruleSet.setHistorical(pkg.isHistoricalVersion());
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryRuntimeException("Unable to set rule set historical version", e);
+            throw new RuleEngineRepositoryException("Unable to set rule set historical version", e);
         }
 
         List<Rule> list = new ArrayList<Rule>();
@@ -218,7 +218,7 @@ public class DroolsUtil {
      * @return Drools Package
      * @throws Exception
      */
-    public static org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryRuntimeException {
+    public static org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryException {
         if (binPackage == null) {
             return null;
         }
@@ -231,9 +231,9 @@ public class DroolsUtil {
             in = new DroolsObjectInputStream(bin); 
             return (org.drools.rule.Package) in.readObject();
         } catch (IOException e) {
-            throw new RuleEngineRepositoryRuntimeException(e);
+            throw new RuleEngineRepositoryException(e);
         } catch (ClassNotFoundException e) {
-            throw new RuleEngineRepositoryRuntimeException(e);
+            throw new RuleEngineRepositoryException(e);
         } finally {
             try {
                 if (in != null) {
@@ -243,7 +243,7 @@ public class DroolsUtil {
                     bin.close();
                 }
             } catch (IOException e) {
-                throw new RuleEngineRepositoryRuntimeException("Loading rule set failed", e);
+                throw new RuleEngineRepositoryException("Loading rule set failed", e);
             }
         }
     }
@@ -336,17 +336,12 @@ public class DroolsUtil {
      */
     public static PackageBuilder createPackageBuilder() {
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        ChainedProperties chainedProperties = new ChainedProperties(RuleEngineRepositoryDroolsImpl.class.getClassLoader(), // pass
-                                                                                                                        // this
-                                                                                                                        // as
-                                                                                                                        // it
-                                                                                                                        // searches
-                                                                                                                        // currentThread
-                                                                                                                        // anyway
+        ChainedProperties chainedProperties = new ChainedProperties(RuleEngineRepositoryDroolsImpl.class.getClassLoader(), 
                 "packagebuilder.conf", false); // false means it ignores any default values
-        // the default compiler. This is nominally JANINO but can be overridden by setting drools.dialect.java.compiler to
-        // ECLIPSE
         Properties properties = new Properties();
+        // The default compiler. This is nominally JANINO 
+        // but can be overridden by setting drools.dialect.java.compiler to
+        // ECLIPSE
         properties.setProperty("drools.dialect.java.compiler", chainedProperties.getProperty("drools.dialect.java.compiler", "JANINO"));
         PackageBuilderConfiguration pkgConf = new PackageBuilderConfiguration(properties);
         pkgConf.setClassLoader(parentClassLoader);
