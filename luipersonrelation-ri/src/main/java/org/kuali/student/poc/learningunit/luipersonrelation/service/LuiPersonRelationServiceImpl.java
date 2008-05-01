@@ -156,6 +156,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
 		LuiPersonRelation luiPersonRelation = dao
 				.lookupLuiPersonRelation(luiPersonRelationId);
+		
+		if (luiPersonRelation == null){
+		    throw new DoesNotExistException();
+		}
+		
 		return toLuiPersonRelationInfo(luiPersonRelation);
 	}
 
@@ -188,12 +193,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		List<String> personIds = findAllValidPersonIdsForLui(luiId,
+		
+	    List<String> personIds = findAllValidPersonIdsForLui(luiId,
 				luiPersonRelationTypeInfo, relationStateInfo);
 
-		// TODO: Make a call to person service to get PersonDisplay list
-
-		return null;
+		return personClient.findPeopleDisplayByPersonIds(personIds);
 	}
 
 	@Override
@@ -237,12 +241,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 				.findLuiPersonRelationsByPerson(personId,
 						luiPersonRelationTypeInfo.getName(), relationStateInfo
 								.getState());
-		List<String> personIdList = new ArrayList<String>();
 
 		List<String> luiIdList = new ArrayList<String>();
 
 		for (LuiPersonRelation lpr : luiPersonRelations) {
-			personIdList.add(lpr.getLuiId());
+			luiIdList.add(lpr.getLuiId());
 		}
 
 		return luiIdList;
@@ -391,7 +394,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 	public List<RelationStateInfo> findRelationStates()
 			throws OperationFailedException {
 		// TODO What are all the relation states?
-		return null;
+	    List <RelationStateInfo> rsList = new ArrayList<RelationStateInfo>();
+	    
+	    RelationStateInfo rs = new RelationStateInfo();
+	    rs.setState("add");
+	    rsList.add(rs);
+	    
+	    rs= new RelationStateInfo();
+	    rs.setState("drop");
+	    rsList.add(rs);
+	    
+		return rsList;
 	}
 
 	@Override
@@ -402,7 +415,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO What are all the valid relation states?
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -417,7 +430,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 						luiPersonRelationTypeInfo.getName(), relationStateInfo
 								.getState());
 
-		return (luiPersonRelations != null);
+		return (luiPersonRelations != null && luiPersonRelations.size() > 0);
 	}
 
 	@Override
@@ -427,10 +440,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Should this method call LU Service to get seat count.
-		LuiInfo lui = luClient.fetchLui(luiId);
 
-		return lui.getMaxSeats() == 10;
+	    //TODO: So far this only checks if seats full.
+	    
+	    //Get max seat count from lui service
+	    LuiInfo lui = luClient.fetchLui(luiId);
+	    
+	    //Get total registered for course (#of "student" relation types having relation state "add") 
+	    List<LuiPersonRelation> lprList = 
+	        dao.findLuiPersonRelationsByLui(luiId, luiPersonRelationTypeInfo.getName(), relationStateInfo.getState());
+
+		return (lprList.size() < lui.getMaxSeats());
 	}
 
 	@Override
@@ -510,30 +530,61 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 	}
 
 	private LuiPersonRelationInfo toLuiPersonRelationInfo(
-			LuiPersonRelation luiPersonRelation) {
+			LuiPersonRelation luiPersonRelation) throws OperationFailedException{
 		LuiPersonRelationInfo luiPersonRelationInfo = new LuiPersonRelationInfo();
 
 		luiPersonRelationInfo.setEffectiveEndDate(luiPersonRelation
 				.getEffectiveEndDate());
 		luiPersonRelationInfo.setEffectiveStartDate(luiPersonRelation
 				.getEffectiveStartDate());
-		// TODO copy rest of fields
+
+		luiPersonRelationInfo.setLuiPersonRelationId(luiPersonRelation.getId());
+		
+		LuiPersonRelationTypeInfo lprTypeInfo = new LuiPersonRelationTypeInfo();
+		lprTypeInfo.setName(luiPersonRelation.getLuiPersonRelationType());
+		luiPersonRelationInfo.setLuiPersonRelationType(lprTypeInfo);
+		
+		RelationStateInfo rsInfo = new RelationStateInfo();
+		rsInfo.setState(luiPersonRelation.getRelationState());
+		luiPersonRelationInfo.setRelationState(rsInfo);
+		
+        try{ 
+            PersonDisplay personDisplay = personClient.fetchPersonDisplay(luiPersonRelation.getPersonId());
+            luiPersonRelationInfo.setPersonDisplay(personDisplay);
+        } catch (Exception e){
+            throw new OperationFailedException("Could not fetch person display");
+        }
+
+        try {
+            LuiDisplay luiDisplay = luClient.fetchLuiDisplay(luiPersonRelation.getLuiId());
+            luiPersonRelationInfo.setLuiDisplay(luiDisplay);
+        } catch (Exception e){
+            throw new OperationFailedException("Could not fetch lui display");
+        }
 
 		return luiPersonRelationInfo;
 	}
 
 	private LuiPersonRelationDisplay toLuiPersonRelationDisplay(
-			LuiPersonRelation lpr) {
+			LuiPersonRelation lpr) 
+	    throws OperationFailedException {
 		LuiPersonRelationDisplay lprDisplay = new LuiPersonRelationDisplay();
 
-		// TODO: Call person service to get person display
-		PersonDisplay personDisplay = null;
-		lprDisplay.setPersonDisplay(personDisplay);
+		try{ 
+    		PersonDisplay personDisplay = personClient.fetchPersonDisplay(lpr.getPersonId());
+    		lprDisplay.setPersonDisplay(personDisplay);
+		} catch (Exception e){
+		    throw new OperationFailedException("Could not fetch person display");
+		}
 
-		// TODO: Call lui service to get LUI display
-		LuiDisplay luiDisplay = null;
-		lprDisplay.setLuiDisplay(luiDisplay);
+		try {
+    		LuiDisplay luiDisplay = luClient.fetchLuiDisplay(lpr.getLuiId());
+    		lprDisplay.setLuiDisplay(luiDisplay);
+        } catch (Exception e){
+            throw new OperationFailedException("Could not fetch lui display");
+        }
 
+		
 		LuiPersonRelationTypeInfo lprTypeInfo = new LuiPersonRelationTypeInfo();
 		lprTypeInfo.setName(lpr.getLuiPersonRelationType());
 		lprDisplay.setLuiPersonRelationType(lprTypeInfo);
@@ -548,7 +599,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 	}
 
 	private List<LuiPersonRelationDisplay> toLuiPersonRelationDisplayList(
-			List<LuiPersonRelation> lprs) {
+			List<LuiPersonRelation> lprs) throws OperationFailedException {
 		List<LuiPersonRelationDisplay> lprDisplayList = new ArrayList<LuiPersonRelationDisplay>();
 		for (LuiPersonRelation lpr : lprs) {
 			lprDisplayList.add(toLuiPersonRelationDisplay(lpr));
@@ -556,5 +607,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
 		return lprDisplayList;
 	}
+
 
 }

@@ -10,6 +10,7 @@
 				<ref bean="lpr2" />
 				<ref bean="lpr3" />
 				<ref bean="lpr4" />
+				<ref bean="lpr5" />
 			</list>
 		</property>
 	</bean>
@@ -44,12 +45,20 @@
 		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
 		<property name="id"
 			value="11223344-1122-1122-1111-000000000004" />
-		<property name="personId" value="Person 2" />
-		<property name="luiId" value="Lui 2" />
-		<property name="relationState" value="drop"/>
+		<property name="personId" value="Person 3" />
+		<property name="luiId" value="Lui 1" />
+		<property name="relationState" value="add"/>
 		<property name="luiPersonRelationType" value="student"/>
 	</bean>
-
+	<bean id="lpr5"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000005" />
+		<property name="personId" value="Person 2" />
+		<property name="luiId" value="Lui 2" />
+		<property name="relationState" value="add"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
 	
 	
 </beans>

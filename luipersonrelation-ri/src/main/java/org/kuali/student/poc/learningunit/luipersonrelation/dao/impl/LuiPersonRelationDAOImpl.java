@@ -35,7 +35,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     @Override
     public boolean deleteLuiPersonRelation(String luiPersonRelationId) {
         em.remove(lookupLuiPersonRelation(luiPersonRelationId));
-        return false;
+        return true;
     }
 
     @Override
@@ -49,6 +49,8 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
         Query query = em.createNamedQuery("LuiPersonRelation.findByPerson");
         query.setParameter("personId", personId);
         query.setParameter("luiPersonRelationType", luiRelationType);
+        query.setParameter("relationState", relationState);        
+        
         List<LuiPersonRelation> luiPersonRelations = query.getResultList();
 
         return luiPersonRelations;
@@ -60,6 +62,8 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
         Query query = em.createNamedQuery("LuiPersonRelation.findByLui");
         query.setParameter("luiId", luiId);
         query.setParameter("luiPersonRelationType", luiRelationType);
+        query.setParameter("relationState", relationState);
+        
         List<LuiPersonRelation> luiPersonRelations = query.getResultList();
         
         return luiPersonRelations;
@@ -70,10 +74,12 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     public List<LuiPersonRelation> findLuiPersonRelations(String personId, String luiId, String luiRelationType, String relationState) {
         Query query = em.createQuery(
              "SELECT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiId = :luiId " +
-              "AND lpr.luiPersonRelationType LIKE :luiPersonRelationType");                
+              "AND lpr.luiPersonRelationType LIKE :luiPersonRelationType " +
+              "AND lpr.relationState LIKE :relationState");                
         query.setParameter("personId", personId);
         query.setParameter("luiId", luiId);
         query.setParameter("luiPersonRelationType", luiRelationType);
+        query.setParameter("relationState", relationState);
         
         List<LuiPersonRelation> luiPersonRelations = query.getResultList();
         

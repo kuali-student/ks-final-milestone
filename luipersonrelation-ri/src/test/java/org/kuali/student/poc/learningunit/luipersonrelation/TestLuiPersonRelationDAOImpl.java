@@ -61,7 +61,7 @@ public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
        lprList = dao.findLuiPersonRelations(person_id1, lui_id1, "student", "add");       
        assertEquals(lpr_id1, ((LuiPersonRelation)lprList.get(0)).getId());
        
-       lprList = dao.findLuiPersonRelationsByLui(lui_id1, "student", "add");
+       lprList = dao.findLuiPersonRelationsByLui(lui_id2, "student", "add");
        assertTrue(lprList.size()==2);
        idList.add(((LuiPersonRelation)lprList.get(0)).getPersonId());
        idList.add(((LuiPersonRelation)lprList.get(1)).getPersonId());

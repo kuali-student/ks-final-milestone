@@ -16,9 +16,9 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 @NamedQueries(
     {
         @NamedQuery( name = "LuiPersonRelation.findByPerson",
-                query = "SELECT DISTINCT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiPersonRelationType LIKE :luiPersonRelationType"),
+                query = "SELECT DISTINCT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiPersonRelationType LIKE :luiPersonRelationType AND lpr.relationState LIKE :relationState"),
         @NamedQuery( name = "LuiPersonRelation.findByLui",
-                query = "SELECT DISTINCT lpr FROM LuiPersonRelation lpr WHERE lpr.luiId = :luiId AND lpr.luiPersonRelationType LIKE :luiPersonRelationType")
+                query = "SELECT DISTINCT lpr FROM LuiPersonRelation lpr WHERE lpr.luiId = :luiId AND lpr.luiPersonRelationType LIKE :luiPersonRelationType AND lpr.relationState LIKE :relationState")
     }
 )
 public class LuiPersonRelation {
