@@ -55,6 +55,11 @@ public class MockProxy implements InvocationHandler {
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
 		Object result = methodReturnMap.get(method.getName());
+		
+		if (result instanceof MockArgumentMapper){
+		    result = ((MockArgumentMapper)result).getReturnValue(args);
+		}
+		
 		return result;
 	}
 
