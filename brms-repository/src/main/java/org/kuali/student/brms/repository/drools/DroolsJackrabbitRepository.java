@@ -20,7 +20,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.jcr.Credentials;
+import javax.jcr.LoginException;
 import javax.jcr.Repository;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 
@@ -29,6 +31,7 @@ import org.drools.repository.JCRRepositoryConfigurator;
 import org.drools.repository.JackrabbitRepositoryConfigurator;
 import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryAdministrator;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 
 /**
  * This is the <a href="http://www.jboss.org/drools/">Drools</a> and 
@@ -98,7 +101,7 @@ import org.drools.repository.RulesRepositoryAdministrator;
  */
 public class DroolsJackrabbitRepository {
     
-    /** Loggin framework */
+    /** Logging framework */
     private static org.apache.log4j.Logger logger =
         org.apache.log4j.Logger.getLogger( DroolsJackrabbitRepository.class );
     
@@ -127,8 +130,8 @@ public class DroolsJackrabbitRepository {
     /**
      * URL of the Jackrabbit repository <code>repository.xml</code> configuration file.
      * 
-     * @param url
-     *            Location of <code>repository.xml</code>
+     * @param url Location of <code>repository.xml</code>
+     * @r
      */
     public DroolsJackrabbitRepository(URL url) {
         this.url = url;
@@ -156,7 +159,7 @@ public class DroolsJackrabbitRepository {
      * 
      * @throws Exception
      */
-    public void initialize() throws Exception {
+    public void initialize() {
         startupRepository();
         String id = "superuser";
         char[] password = "superuser".toCharArray();
@@ -292,9 +295,15 @@ public class DroolsJackrabbitRepository {
      * @param credentials User credentials
      * @throws Exception
      */
-    public void login(Credentials credentials) throws Exception {
+    public void login(Credentials credentials) {
         this.credentials = credentials;
-        this.repositorySession = repository.login(credentials);
+        try {
+            this.repositorySession = repository.login(credentials);
+        } catch (LoginException e) {
+            throw new RuleEngineRepositoryException( e );
+        } catch (RepositoryException e) {
+            throw new RuleEngineRepositoryException( e );
+        }
         this.repoConfig.setupRulesRepository(this.repositorySession);
     }
 }
