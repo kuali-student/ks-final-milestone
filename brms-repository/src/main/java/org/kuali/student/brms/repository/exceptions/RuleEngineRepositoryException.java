@@ -21,7 +21,7 @@ package org.kuali.student.brms.repository.exceptions;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public class RuleEngineRepositoryException extends Exception {
+public class RuleEngineRepositoryException extends RuntimeException {
     
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
