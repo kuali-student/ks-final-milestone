@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
@@ -45,7 +46,7 @@ import org.kuali.student.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.brms.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
-import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryRuntimeException;
 import org.kuali.student.brms.repository.rule.CompilerResult;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
@@ -71,9 +72,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository item
      * @return A rule
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryRuntimeException
      */
-    public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
+    public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryRuntimeException {
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -93,7 +94,7 @@ public class DroolsUtil {
                 rule.setVersionSnapshotUUID(item.getVersionSnapshotUUID());
             }
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
+            throw new RuleEngineRepositoryRuntimeException("Unable to set rule historical version", e);
         }
 
         return rule;
@@ -106,9 +107,9 @@ public class DroolsUtil {
      * @param item
      *            Drools repository history item
      * @return A history rule
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryRuntimeException
      */
-    public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
+    public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryRuntimeException {
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -129,13 +130,13 @@ public class DroolsUtil {
         try {
             rule.setHistorical(item.isHistoricalVersion());
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
+            throw new RuleEngineRepositoryRuntimeException("Unable to set rule historical version", e);
         }
 
         return rule;
     }
 
-    /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { 
+    /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryRuntimeException { 
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( item.getUUID(), item.getName() );
         //ruleSet.setContent( item.getContent() );
         //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); 
@@ -157,7 +158,7 @@ public class DroolsUtil {
             ruleSet.setHistorical( item.isHistoricalVersion() ); 
         } 
         catch( RepositoryException e ) { 
-            throw new RuleEngineRepositoryException( "Unable to set ruleset historical version", e ); 
+            throw new RuleEngineRepositoryRuntimeException( "Unable to set ruleset historical version", e ); 
         } 
         return ruleSet; 
     }*/
@@ -168,9 +169,9 @@ public class DroolsUtil {
      * @param pkg
      *            Drools repository package item
      * @return A rule set
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryRuntimeException
      */
-    public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
+    public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryRuntimeException {
         DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName(), pkg.getVersionNumber() );
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
         ruleSet.setDescription(pkg.getDescription());
@@ -195,7 +196,7 @@ public class DroolsUtil {
         try {
             ruleSet.setHistorical(pkg.isHistoricalVersion());
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryException("Unable to set rule set historical version", e);
+            throw new RuleEngineRepositoryRuntimeException("Unable to set rule set historical version", e);
         }
 
         List<Rule> list = new ArrayList<Rule>();
@@ -217,22 +218,22 @@ public class DroolsUtil {
      * @return Drools Package
      * @throws Exception
      */
-    public static org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryException {
+    public static org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryRuntimeException {
         if (binPackage == null) {
             return null;
         }
 
         ByteArrayInputStream bin = null;
-        ObjectInputStream in = null;
+        ObjectInput in = null;
 
         try {
             bin = new ByteArrayInputStream(binPackage);
-            in = new DroolsObjectInputStream(bin);
+            in = new DroolsObjectInputStream(bin); 
             return (org.drools.rule.Package) in.readObject();
         } catch (IOException e) {
-            throw new RuleEngineRepositoryException(e);
+            throw new RuleEngineRepositoryRuntimeException(e);
         } catch (ClassNotFoundException e) {
-            throw new RuleEngineRepositoryException(e);
+            throw new RuleEngineRepositoryRuntimeException(e);
         } finally {
             try {
                 if (in != null) {
@@ -242,7 +243,7 @@ public class DroolsUtil {
                     bin.close();
                 }
             } catch (IOException e) {
-                throw new RuleEngineRepositoryException("Loading rule set failed", e);
+                throw new RuleEngineRepositoryRuntimeException("Loading rule set failed", e);
             }
         }
     }
