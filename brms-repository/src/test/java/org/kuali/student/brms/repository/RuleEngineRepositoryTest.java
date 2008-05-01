@@ -81,7 +81,7 @@ public class RuleEngineRepositoryTest {
         URL url = RuleEngineRepositoryTest.class.getResource("/repository");
         jackrabbitRepository = new DroolsJackrabbitRepository(url);
         jackrabbitRepository.clearAll();
-        //jackrabbitRepository.initialize();
+        jackrabbitRepository.initialize();
     }
 
     @AfterClass
