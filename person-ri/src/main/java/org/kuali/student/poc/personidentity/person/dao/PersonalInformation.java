@@ -25,7 +25,7 @@ public class PersonalInformation {
 	@JoinColumn(name = "Person_ID", nullable = false)
 	private Person person;
 
-	private char Gender;
+	private char gender;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateOfBirth;
@@ -77,11 +77,11 @@ public class PersonalInformation {
 	}
 
 	public char getGender() {
-		return Gender;
+		return gender;
 	}
 
 	public void setGender(char gender) {
-		Gender = gender;
+		this.gender = gender;
 	}
 
 	public Date getDateOfBirth() {
