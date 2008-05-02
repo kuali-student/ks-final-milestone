@@ -55,15 +55,9 @@ public class DroolsJackrabbitRepositoryTest {
     public void tearDown() throws Exception {
     }
 
-    private static Credentials getCredentials() {
-        String id = "superuser";
-        char[] password = "superuser".toCharArray();
-        return new SimpleCredentials(id, password);
-    }
-    
     @Test
     public void testGetRepository() throws Exception {
-        repo.login( getCredentials() );
+        repo.login( DroolsTestUtil.getSuperUserCredentials() );
         assertFalse( repo.getRepository() == null );
         assertTrue( repo.getRepository().getSession().isLive() );
         repo.logout();
@@ -72,21 +66,21 @@ public class DroolsJackrabbitRepositoryTest {
     @Test
     public void testLogin() throws Exception
     {
-        repo.login( getCredentials() );
+        repo.login( DroolsTestUtil.getSuperUserCredentials() );
         assertTrue( repo.getRepository().getSession().isLive() );
         repo.logout();
     }
 
     @Test
     public void testLogout() throws Exception {
-        repo.login( getCredentials() );
+        repo.login( DroolsTestUtil.getSuperUserCredentials() );
         repo.logout();
         assertFalse( repo.getRepository().getSession().isLive() );
     }
     
     @Test
     public void testClearData() throws Exception {
-        repo.login( getCredentials() );
+        repo.login( DroolsTestUtil.getSuperUserCredentials() );
         StateItem item1 = repo.getRepository().createState( "NewState" );
         StateItem item2 = repo.getRepository().getState( "NewState" );
         assertEquals( item1.getName(), item2.getName() );
