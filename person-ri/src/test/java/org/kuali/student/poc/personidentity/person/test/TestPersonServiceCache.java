@@ -3,9 +3,17 @@ package org.kuali.student.poc.personidentity.person.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.distribution.CacheManagerPeerListener;
+import net.sf.ehcache.distribution.CacheManagerPeerProvider;
+import net.sf.ehcache.distribution.CachePeer;
+import net.sf.ehcache.distribution.RMICacheManagerPeerProvider;
+import net.sf.ehcache.event.CacheManagerEventListener;
 
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
@@ -13,6 +21,7 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.poc.common.util.EhCacheHelper;
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.DisabledIdentifierException;
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
@@ -41,6 +50,47 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 	private int numInstances = 5;
 	private char he = 'M';
 	private char she = 'F';
+	private final String personInfoCacheName = "PersonInfo";
+	
+	@Test
+	public void checkPersonInfoIsDistributedCache() throws RemoteException{
+		EhCacheHelper ehCacheHelper;
+		ehCacheHelper = new EhCacheHelper();
+		String[] cacheNames = ehCacheHelper.getCacheNames();
+		assertNotNull("CACHNAMES are null ", cacheNames);
+		CacheManager cacheManager = new CacheManager();
+		CacheManagerPeerProvider cacheManagerPeerProvider = cacheManager.getCachePeerProvider();
+		assertNotNull("CacheManagerPeerProvider is null check ehcache.xml is in the classpath and cacheManagerPeerProviderFactory is set",
+				cacheManagerPeerProvider);
+		CacheManagerPeerListener cachePeerListener = cacheManager.getCachePeerListener();
+		assertNotNull("No CacheManagerPeerListener is null check ehcache.xml sets cacheManagerPeerListenerFactory",
+				cachePeerListener);
+		List<CachePeer> cachePeers = cachePeerListener.getBoundCachePeers();
+		assertNotNull("No distributed cachePeers check cache configuration in ehcache.xml ", cachePeers);
+		for(CachePeer cachePeer : cachePeers) {
+			if(cachePeer.getName().equals(personInfoCacheName)){
+				return;
+			}
+		}
+		/* Debug
+		CacheConfiguration cacheConfiguration = null;
+		for(int i = 0; i < cacheNames.length; i++) {
+			System.out.println("CACHE NAME :" + cacheNames[i]);
+			Cache cache = cacheManager.getCache(cacheNames[i]);
+			if(cache != null) {
+				cacheConfiguration = cache.getCacheConfiguration();
+				if(cacheConfiguration != null) {
+					System.out.println("cacheConfiguration " + cacheConfiguration.toString());
+				} else {
+					System.out.println("cacheConfiguration is NULL for" + cacheNames[i]);
+				}
+			}else {
+				System.out.println("Cache is NULL! " + cacheNames[i]);
+			}
+
+		}
+		*/
+	}
 	
 	@Test
 	public void cachPersonTypeInfo() throws AlreadyExistsException, DisabledIdentifierException, DoesNotExistException, 
