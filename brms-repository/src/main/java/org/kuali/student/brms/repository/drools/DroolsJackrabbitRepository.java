@@ -31,6 +31,7 @@ import org.drools.repository.JCRRepositoryConfigurator;
 import org.drools.repository.JackrabbitRepositoryConfigurator;
 import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryAdministrator;
+import org.kuali.student.brms.repository.exceptions.RepositoryLoginException;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 
 /**
@@ -273,8 +274,6 @@ public class DroolsJackrabbitRepository {
 
     /**
      * Shuts down the repository.
-     * 
-     * @throws Exception
      */
     public void shutdownRepository() {
         if (this.repositorySession != null) {
@@ -286,8 +285,6 @@ public class DroolsJackrabbitRepository {
 
     /**
      * Logout the current user.
-     * 
-     * @throws Exception
      */
     public void logout() {
         this.repositorySession.logout();
@@ -297,16 +294,16 @@ public class DroolsJackrabbitRepository {
      * Login a user.
      * 
      * @param credentials User credentials
-     * @throws Exception
+     * @throws RepositoryLoginException
      */
-    public void login(Credentials credentials) {
+    public void login(Credentials credentials) throws RepositoryLoginException{
         this.credentials = credentials;
         try {
             this.repositorySession = repository.login(credentials);
         } catch (LoginException e) {
-            throw new RuleEngineRepositoryException( e );
+            throw new RepositoryLoginException( e );
         } catch (RepositoryException e) {
-            throw new RuleEngineRepositoryException( e );
+            throw new RepositoryLoginException( e );
         }
         this.repoConfig.setupRulesRepository(this.repositorySession);
     }
