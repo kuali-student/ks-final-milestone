@@ -120,11 +120,22 @@
 		class="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl">
 		<property name="dao" ref="lprDao" />
 		<property name="luClient" ref="luServiceImpl"/>
-<!-- 		<property name="personClient" ref="personClient"/> -->
+		<property name="personClient" ref="personClient"/>
 	</bean>
 	
+	<bean id="personClient"
+		class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:wsdl/PersonService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.poc.wsdl.personidentity.person.PersonService" />
+		<property name="serviceNamespaceURI"
+			value="http://student.kuali.org/poc/wsdl/personidentity/person" />
+		<property name="serviceNameLocalPart" value="PersonService" />
+		<property name="address"
+			value="http://localhost:8080/personidentity/PersonService" />
+	</bean>
 
-	
 	<bean id="loadDataBean"
 		class="org.kuali.student.poc.learningunit.lu.LoadDataBean">
 		<property name="contextLocation"
