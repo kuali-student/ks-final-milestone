@@ -48,15 +48,9 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
     public void tearDown() throws Exception {
     }
 
-    private static Credentials getCredentials() {
-        String id = "superuser";
-        char[] password = "superuser".toCharArray();
-        return new SimpleCredentials(id, password);
-    }
-    
     private void assertLogin( DroolsJackrabbitRepository repo ) {
         try {
-            repo.login( getCredentials() );
+            repo.login( DroolsTestUtil.getSuperUserCredentials() );
             assertTrue( true );
         } catch( Exception e ) {
             fail( "Unable to login to repository: " + e.getMessage() );
@@ -64,7 +58,7 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
     }
     
     @Test
-    public void testStartupRepositoryWithUrlConfiguration() throws Exception {
+    public void testStartupShutdownRepositoryWithUrlConfiguration() throws Exception {
         // Get repository.xml from /repository
         URL url = DroolsJackrabbitRepositoryStartupShutdownTest.class.getResource("/repository");
         DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository( url );
@@ -76,24 +70,15 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
     }    
 
     @Test
-    public void testStartupDefaultRepository() throws Exception {
+    public void testStartupShutdownRepository() throws Exception {
+        // repository.xml configuration file is not needed
         DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository();
         repo.clearAll();
         repo.startupRepository();
         assertLogin( repo );
         assertNotNull( repo.getRepository().listStates() );
         repo.shutdownRepository();
-    }    
-    
-    @Test
-    public void testShutdownRepository() throws Exception {
-        DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository();
-        repo.clearAll();
-        repo.startupRepository();
-        repo.login( getCredentials() );
-        assertLogin( repo );
-        repo.shutdownRepository();
         assertFalse( repo.getRepository().getSession().isLive() );
-    }
+    }    
 
 }
