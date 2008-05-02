@@ -883,10 +883,10 @@ public class RuleEngineRepositoryTest {
     @Test
     public void testArchiveRuleSet() throws Exception {
         RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
-        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), null);
+        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), "A new rule");
 
         // Archived Rule set
-        brmsRepository.archiveRuleSet(ruleSet.getUUID(), null);
+        brmsRepository.archiveRuleSet(ruleSet.getUUID(), "Archive rule set");
         assertTrue(brmsRepository.loadRuleSet(ruleSet.getUUID()).isArchived());
     }
 
@@ -894,15 +894,15 @@ public class RuleEngineRepositoryTest {
     public void testUnArchiveRuleSet() throws Exception {
         RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
         
-        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), null);
+        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), "A new rule");
 
         // Archived Rule set
-        brmsRepository.archiveRuleSet(ruleSet.getUUID(), null);
+        brmsRepository.archiveRuleSet(ruleSet.getUUID(), "Archive rule set");
 
         assertTrue(brmsRepository.loadRuleSet(ruleSet.getUUID()).isArchived());
 
         // UnArchived Rule set
-        brmsRepository.unArchiveRuleSet(ruleSet.getUUID(), null);
+        brmsRepository.unArchiveRuleSet(ruleSet.getUUID(), "Unarchive rule set");
 
         assertFalse(brmsRepository.loadRuleSet(ruleSet.getUUID()).isArchived());
     }
@@ -940,7 +940,8 @@ public class RuleEngineRepositoryTest {
 
         assertFalse(brmsRepository.loadRule(rule.getUUID()).isArchived());
         // Archived Rule
-        brmsRepository.archiveRule(rule.getUUID(), null);
+        String expectedArchiveComment = "Archive rule";
+        brmsRepository.archiveRule(rule.getUUID(), expectedArchiveComment);
         assertTrue(brmsRepository.loadRule(rule.getUUID()).isArchived());
 
         List<Rule> list = brmsRepository.loadArchivedRules();
@@ -948,15 +949,16 @@ public class RuleEngineRepositoryTest {
         assertTrue(list.size() > 0);
         assertEquals(rule.getUUID(), list.get(0).getUUID());
         assertEquals(!rule.isArchived(), list.get(0).isArchived());
-        assertEquals("Archived", list.get(0).getCheckinComment());
+        assertEquals(expectedArchiveComment, list.get(0).getCheckinComment());
 
         // UnArchived Rule
-        brmsRepository.unArchiveRule(rule.getUUID(), null);
+        String expectedUnarchiveComment = "Unarchive rule";
+        brmsRepository.unArchiveRule(rule.getUUID(), expectedUnarchiveComment);
 
         Rule rule2 = brmsRepository.loadRule(rule.getUUID());
         assertEquals(rule.getUUID(), rule2.getUUID());
         assertEquals(!rule.isArchived(), !rule2.isArchived());
-        assertEquals("Unarchived", rule2.getCheckinComment());
+        assertEquals(expectedUnarchiveComment, rule2.getCheckinComment());
     }
 
     @Test
