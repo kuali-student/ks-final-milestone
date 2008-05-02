@@ -16,6 +16,7 @@
 package org.kuali.student.brms.repository.drools;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -121,50 +122,54 @@ public class DroolsJackrabbitRepository {
     private Session repositorySession;
 
     /**
-     * Constructor
+     * Constructs a new default Jackrabbit repository.
      */
     public DroolsJackrabbitRepository() {
-        this(null);
     }
 
     /**
-     * URL of the Jackrabbit repository <code>repository.xml</code> configuration file.
+     * Constructs a new Drools Jackrabbit repository.
      * 
-     * @param url Location of <code>repository.xml</code>
-     * @r
+     * @param url Location of <code>repository.xml</code> configuration file
      */
     public DroolsJackrabbitRepository(URL url) {
         this.url = url;
-
-        if ( url != null ) {
-            if (this.url.getProtocol().equalsIgnoreCase("file")) {
-                try {
-                    File file = new File(this.url.toURI());
-                    this.path = file.getAbsolutePath();
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                this.path = url.getPath();
-            }
-        }
+        setRepositoryPath();
     }
 
     /**
-     * Starts up the repository and logins as a superuser. 
-     * This is a convenience method.<br/><br/> 
-     * Calls:</br>
-     * <code>startupRepository()</code><br/> 
-     * <code>login( "superuser" )</code><br/>
+     * Constructs a new Drools Jackrabbit repository.
      * 
-     * @throws Exception
+     * @param url Location of <code>repository.xml</code> configuration file
      */
-    public void initialize() {
-        startupRepository();
-        String id = "superuser";
-        char[] password = "superuser".toCharArray();
-        credentials = new SimpleCredentials(id, password);
-        login(credentials);
+    public DroolsJackrabbitRepository(String url) {
+        try {
+            URL newURL = new URL( url );
+            this.url = newURL;
+        } catch (MalformedURLException e) {
+            throw new RuleEngineRepositoryException(e);
+        }
+        setRepositoryPath();
+    }
+    
+    private void setRepositoryPath() {
+        this.path = getPath( this.url );
+    }
+    
+    private String getPath( URL url ) {
+        if (url == null) {
+            return null;
+        }
+        if (url.getProtocol().equalsIgnoreCase("file")) {
+            try {
+                File file = new File(url.toURI());
+                return file.getAbsolutePath();
+            } catch (URISyntaxException e) {
+                throw new RuleEngineRepositoryException(e);
+            }
+        } else {
+            return url.getPath();
+        }
     }
 
     /**
@@ -210,7 +215,7 @@ public class DroolsJackrabbitRepository {
             boolean b = deleteDir(exclude, repoDir);
             logger.info( "Repository deleted: " + b );
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new RuleEngineRepositoryException(e);
         }
     }
 
