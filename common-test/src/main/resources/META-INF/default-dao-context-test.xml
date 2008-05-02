@@ -22,7 +22,6 @@
 		<property name="locations">
 			<list>
 				<value>classpath:META-INF/jdbc.properties</value>
-				<value>classpath:maven-config.properties</value>
 			</list>
 		</property>
 		<property name="order" value="0" />

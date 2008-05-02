@@ -9,9 +9,25 @@ public class ModPropertyPlaceholderConfigurer extends
 	public static final String KS_MVN_ARTIFACTID_INITIALCAPS = "ks.mvn.artifactId.initialCaps";
 	public static final String KS_MVN_ARTIFACTID_LOWERCASE = "ks.mvn.artifactId.lowercase";
 	public static final String KS_MVN_PARENT_ARTIFACTID_LOWERCASE = "ks.mvn.parent.artifactId.lowercase";
-
+	public static final String JPA_VENDOR_ADAPTER = "jpa.vendorAdapter";
+	public static final String JPA_DATABASEPLATFORM = "jpa.databasePlatform";
 	@Override
 	protected String resolvePlaceholder(String placeholder, Properties props) {
+		if(JPA_VENDOR_ADAPTER.equals(placeholder)){
+			if(System.getProperties().containsKey("ks.use.eclipselink")){
+				return "org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter";
+			}else{
+				return "org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter";
+			}
+		}
+		
+		if(JPA_DATABASEPLATFORM.equals(placeholder)){
+			if(System.getProperties().containsKey("ks.use.eclipselink")){
+				return "org.eclipse.peristence.platform.database.DerbyPlatform";
+			}else{
+				return "org.hibernate.dialect.DerbyDialect";
+			}
+		}
 		
 		/*
 		 *For the properties ks.mvn.artifactId.initialCaps and

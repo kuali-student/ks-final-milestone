@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.jws.WebService;
 import javax.servlet.Servlet;
@@ -19,7 +18,6 @@ import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHandler;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.servlet.ServletMapping;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.ContextLoaderListener;
 
 public class ServiceTestClassRunner extends JUnit4ClassRunner {
@@ -161,13 +159,13 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			ServletMapping servletMapping = new ServletMapping();
 			ContextLoaderListener contextLoaderListener = new ContextLoaderListener();
 
-			Properties props = new Properties();
-			ClassPathResource cpResource = new ClassPathResource(
-					"maven-config.properties");
-			props.load(cpResource.getInputStream());
-
-			Class<?> servletClass = Class.forName(props
-					.getProperty("ws.servlet"));
+			String wsEngine = "cxf";
+			String wsServlet = "org.apache.cxf.transport.servlet.CXFServlet";
+			if (System.getProperties().contains("ks.use.jaxws")) {
+				wsEngine = "jaxws";
+				wsServlet = "com.sun.xml.ws.transport.http.servlet.WSSpringServlet";
+			}
+			Class<?> servletClass = Class.forName(wsServlet);
 
 			Servlet servlet = (Servlet) servletClass.newInstance();
 
@@ -185,7 +183,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 
 			Map<String, String> initParams = new HashMap<String, String>();
 			initParams.put("contextConfigLocation", "classpath:META-INF/"
-					+ props.getProperty("ws.engine") + "-context.xml");
+					+ wsEngine + "-context.xml");
 			initParams.put("log4jConfigLocation", "log4j.properties");
 			context.setInitParams(initParams);
 			context
