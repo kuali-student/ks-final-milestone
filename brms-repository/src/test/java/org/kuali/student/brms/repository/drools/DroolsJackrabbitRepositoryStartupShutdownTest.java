@@ -22,9 +22,6 @@ import static org.junit.Assert.fail;
 
 import java.net.URL;
 
-import javax.jcr.Credentials;
-import javax.jcr.SimpleCredentials;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

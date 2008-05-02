@@ -21,9 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import javax.jcr.Credentials;
-import javax.jcr.SimpleCredentials;
-
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.junit.After;

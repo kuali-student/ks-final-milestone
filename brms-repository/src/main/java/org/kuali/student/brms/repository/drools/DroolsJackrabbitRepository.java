@@ -25,7 +25,6 @@ import javax.jcr.LoginException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.api.JackrabbitRepository;
 import org.drools.repository.JCRRepositoryConfigurator;
