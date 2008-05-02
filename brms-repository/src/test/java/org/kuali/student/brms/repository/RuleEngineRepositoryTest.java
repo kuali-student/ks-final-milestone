@@ -81,7 +81,8 @@ public class RuleEngineRepositoryTest {
         URL url = RuleEngineRepositoryTest.class.getResource("/repository");
         jackrabbitRepository = new DroolsJackrabbitRepository(url);
         jackrabbitRepository.clearAll();
-        jackrabbitRepository.initialize();
+        jackrabbitRepository.startupRepository();
+        jackrabbitRepository.login( DroolsTestUtil.getSuperUserCredentials() );
     }
 
     @AfterClass
@@ -100,7 +101,7 @@ public class RuleEngineRepositoryTest {
     public void tearDown() throws Exception {
         jackrabbitRepository.logout();
     }
-
+    
     private RuleSet createRuleSet(String name, String description, List<String> facts) throws RuleEngineRepositoryException {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(name);
         ruleSet.setDescription(description);
