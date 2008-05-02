@@ -27,12 +27,17 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
 				<version>${cxf.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.cxf</groupId>
 						<artifactId>cxf-rt-frontend-jaxws</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-simple</artifactId>
 						<version>${cxf.version}</version>
 					</dependency>
 				</dependencies>
@@ -47,10 +52,12 @@
 							<targetNamespace>
 								http://student.kuali.org/wsdl/...
 							</targetNamespace>
+							<genWsdl>true</genWsdl>
+							<genWrapperbean>true</genWrapperbean>
 							<verbose>true</verbose>
 						</configuration>
 						<goals>
-							<goal>java2wsdl</goal>
+							<goal>java2ws</goal>
 						</goals>
 					</execution>
 				</executions>

@@ -7,9 +7,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationCriteria implements Serializable {
 
