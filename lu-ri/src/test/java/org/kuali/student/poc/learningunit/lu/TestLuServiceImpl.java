@@ -27,12 +27,11 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.CluInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
-import org.springframework.test.annotation.ExpectedException;
 
 @Daos( { @Dao(value = "org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl", testDataFile = "classpath:test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestLuServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl", port = "9191")
+	@Client(value = "org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl", port = "8181")
 	public LuService client;
 
 	// Bean Ids (defined and preloaded in test-beans.xml)
@@ -140,8 +139,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(luis);
 	}
 
-	@Test
-	@ExpectedException(CircularReferenceException.class)
+	@Test(expected=CircularReferenceException.class)
 	public void testAddCluSetToCluSet() throws DoesNotExistException, CircularReferenceException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		assertEquals(true,client.addCluSetToCluSet(cluSet2_id, cluSet3_id).isSuccess());
 		client.addCluSetToCluSet(cluSet3_id, cluSet1_id);
