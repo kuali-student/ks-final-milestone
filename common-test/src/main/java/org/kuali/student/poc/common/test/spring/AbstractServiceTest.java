@@ -1,12 +1,6 @@
 package org.kuali.student.poc.common.test.spring;
 
-import java.lang.reflect.Field;
-
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  * This test will start a jetty server and deploy the service define in the
@@ -32,7 +26,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  * &#064;Client requires the name of the service implementation class which
  * should be annotated with the &#064;WebService and have the targetNamespace
  * and serviceName set.
- * <p> 
+ * <p>
  * &#064;Client can also take the following additional settings
  * <ul>
  * <li>port - use to set port if the default port 8181 is not available.
@@ -45,16 +39,16 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  * <p>
  * 
  * <pre>
- * &#064;Daos( {  &#064;Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
+ *  @Daos( {   @Dao(value = &quot;org.kuali.student.MyDaoImpl&quot;, 
  *               testDataFile = &quot;classpath:META-INF/pretest-data-beans.xml&quot;),
- *           &#064;Dao(&quot;org.kuali.student.OtherDaoImpl&quot;) })
- * &#064;PersistenceFileLocation(&quot;classpath:META-INF/custom-persistence.xml&quot;)
+ *            @Dao(&quot;org.kuali.student.OtherDaoImpl&quot;) })
+ *  @PersistenceFileLocation(&quot;classpath:META-INF/custom-persistence.xml&quot;)
  * public class ServiceCommonTest extends AbstractServiceTest {
  * 
- * &#064;Client(&quot;org.kuali.student.MyServiceImpl&quot;)
+ *  @Client(&quot;org.kuali.student.MyServiceImpl&quot;)
  * public MyService client;
  * 
- * &#064;Test
+ *  @Test
  * public void test1() {
  * 	client.foo();
  * }
@@ -70,86 +64,29 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  *  
  *  &lt;bean id=&quot;persistList&quot;
  *  class=&quot;org.springframework.beans.factory.config.ListFactoryBean&quot;&gt;
- *	&lt;property name=&quot;sourceList&quot;&gt;
- *		&lt;list&gt;
- *			&lt;ref bean=&quot;value1&quot; /&gt;
- *			&lt;ref bean=&quot;value2&quot; /&gt;
- *		&lt;/list&gt;
- *	&lt;/property&gt;
+ * &lt;property name=&quot;sourceList&quot;&gt;
+ * 	&lt;list&gt;
+ * 		&lt;ref bean=&quot;value1&quot; /&gt;
+ * 		&lt;ref bean=&quot;value2&quot; /&gt;
+ * 	&lt;/list&gt;
+ * &lt;/property&gt;
  *  &lt;/bean&gt;
  *  
  *  &lt;bean id=&quot;value1&quot;
  *  class=&quot;org.kuali.student.Value&quot;&gt;
- *	&lt;property name=&quot;value&quot; value=&quot;Value Number One&quot; /&gt;
+ * &lt;property name=&quot;value&quot; value=&quot;Value Number One&quot; /&gt;
  *  &lt;/bean&gt;
  *  
  *  &lt;bean id=&quot;value2&quot;
  *  class=&quot;org.kuali.student.Value&quot;&gt;
- *	&lt;property name=&quot;value&quot; value=&quot;Value Number Two&quot; /&gt;
+ * &lt;property name=&quot;value&quot; value=&quot;Value Number Two&quot; /&gt;
  *  &lt;/bean&gt;
  * 
  * &lt;/beans&gt;
  * </pre>
  * 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:META-INF/jetty-context.xml" })
-@TestExecutionListeners( { ServiceTestDependencyInjectorListener.class,
-		DirtiesContextTestExecutionListener.class })
+@RunWith(ServiceTestClassRunner.class)
 public abstract class AbstractServiceTest {
-
-	public AbstractServiceTest() {
-
-		super();
-
-		// Set the default Port
-		System.setProperty("ks.test.port", "8181");
-
-		// Grab the client annotation and set the service implementation and
-		// port as system properties
-		for (Field f : this.getClass().getFields()) {
-			if (f.isAnnotationPresent(Client.class)) {
-				Client a = f.getAnnotation(Client.class);
-				if (a.secure()){
-				    System.setProperty("ks.test.serviceImplSecure", a.value());
-				} else {
-				    System.setProperty("ks.test.serviceImplClass", a.value());
-				}
-				System.setProperty("ks.test.port", a.port());
-			}
-		}
-		
-		//If no secure client defined, set secure service endpoint impl
-		//to be same as non-secure endpoint impl
-		if (System.getProperty("ks.test.serviceImplSecure") == null){
-		    System.setProperty("ks.test.serviceImplSecure", System.getProperty("ks.test.serviceImplClass"));
-		}
-
-		// Grab the persistence context loacation or set a default value
-		if (this.getClass().isAnnotationPresent(PersistenceFileLocation.class)) {
-			PersistenceFileLocation a = this.getClass().getAnnotation(
-					PersistenceFileLocation.class);
-			System.setProperty("ks.test.persistenceLocation", a.value());
-		} else {
-			System.setProperty("ks.test.persistenceLocation",
-					"classpath:META-INF/persistence.xml");
-		}
-
-		// Grab the Dao information and pass it to a System variable
-		Daos daos = this.getClass().getAnnotation(Daos.class);
-
-		String daoImpls = "";
-		if (daos != null) {
-			int i = 1;
-			for (Dao dao : daos.value()) {
-				daoImpls += dao.value() + "|" + dao.testDataFile();
-				if (i < daos.value().length) {
-					daoImpls += ",";
-				}
-				i++;
-			}
-			System.setProperty("ks.test.daoImplClasses", daoImpls);
-		}
-	}
 
 }
