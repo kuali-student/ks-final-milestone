@@ -5,6 +5,9 @@ import java.net.URL;
 import javax.jcr.Credentials;
 import javax.jcr.SimpleCredentials;
 
+import org.kuali.student.brms.repository.exceptions.RepositoryLoginException;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+
 public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
 
     /**
@@ -17,7 +20,11 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      */
     public DefaultDroolsRepository() {
         super();
-        initialize();
+        try {
+            initialize();
+        } catch( RepositoryLoginException e ) {
+            throw new RuleEngineRepositoryException( e );
+        }
     }
 
     /**
@@ -32,7 +39,11 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      */
     public DefaultDroolsRepository( URL url ) {
         super( url );
-        initialize();
+        try {
+            initialize();
+        } catch( RepositoryLoginException e ) {
+            throw new RuleEngineRepositoryException( e );
+        }
     }
 
     /**
@@ -47,7 +58,11 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      */
     public DefaultDroolsRepository( String url ) {
         super( url );
-        initialize();
+        try {
+            initialize();
+        } catch( RepositoryLoginException e ) {
+            throw new RuleEngineRepositoryException( e );
+        }
     }
 
     /**
@@ -59,7 +74,7 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      * 
      * @throws Exception
      */
-    private void initialize() {
+    private void initialize() throws RepositoryLoginException {
         startupRepository();
         String id = "superuser";
         char[] password = "superuser".toCharArray();
