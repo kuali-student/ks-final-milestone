@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-api</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 	<name>Kuali Student PersonIdentity API</name>
 	<description />
-	
+
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-api-pom</artifactId>
@@ -28,12 +28,17 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
 				<version>${cxf.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.cxf</groupId>
 						<artifactId>cxf-rt-frontend-jaxws</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-simple</artifactId>
 						<version>${cxf.version}</version>
 					</dependency>
 				</dependencies>
@@ -48,17 +53,19 @@
 							<targetNamespace>
 								http://student.kuali.org/wsdl/...
 							</targetNamespace>
+							<genWsdl>true</genWsdl>
+							<genWrapperbean>true</genWrapperbean>
 							<verbose>true</verbose>
 						</configuration>
 						<goals>
-							<goal>java2wsdl</goal>
+							<goal>java2ws</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
@@ -75,7 +82,7 @@
 			</releases>
 		</repository>
 	</repositories>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>kuali.release</id>
@@ -92,5 +99,5 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 </project>
