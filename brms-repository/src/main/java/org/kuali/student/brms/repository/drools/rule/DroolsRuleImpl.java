@@ -48,16 +48,17 @@ public class DroolsRuleImpl
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
     
     /**
-     * Constructs a new rule
+     * Constructs a new rule.
      * 
      * @param name Rule name
      */
-    DroolsRuleImpl(final String name) {
+    public DroolsRuleImpl(final String name) {
         super(name);
     }
 
     /**
-     * Constructs a new rule
+     * <p>Constructs a new rule.</p>
+     * <p>Internal use only. This is set by the repository when persisting a rule set.</p>
      * 
      * @param uuid Rule UUID
      * @param name Rule name
@@ -68,7 +69,7 @@ public class DroolsRuleImpl
     }
 
     /**
-     * Returns a copy of the binary content;
+     * Returns a copy of the binary content.
      * 
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
@@ -143,7 +144,7 @@ public class DroolsRuleImpl
     }
 
     /**
-     * Overrides hashCode
+     * Overrides hashCode.
      * 
      * @see org.kuali.student.brms.repository.rule.AbstractItem#hashCode()
      */
@@ -152,7 +153,7 @@ public class DroolsRuleImpl
         final int prime = 31;
         int result = 1;
         result = prime * result + super.hashCode();
-        result = prime * result + ( getContent() == null ? 0 : getContent().hashCode());
+        result = prime * result + ( this.getContent() == null ? 0 : this.getContent().hashCode());
         return result;
     }
 

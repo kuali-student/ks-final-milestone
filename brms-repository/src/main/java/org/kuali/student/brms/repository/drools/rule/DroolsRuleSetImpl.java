@@ -53,16 +53,17 @@ public class DroolsRuleSetImpl
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
 
     /**
-     * Constructs a new rule.
+     * Constructs a new rule set.
      * 
      * @param name Rule name
      */
-    DroolsRuleSetImpl(final String name) {
+    public DroolsRuleSetImpl(final String name) {
         super(name);
     }
 
     /**
-     * Constructs a new rule.
+     * <p>Constructs a new rule set.<p/>
+     * <p>Internal use only. This is set by the repository when persisting a rule set.</p>
      * 
      * @param uuid Rule UUID - This is created by the repository
      * @param name Rule name
@@ -249,15 +250,14 @@ public class DroolsRuleSetImpl
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( getName() == null ? 0 : getName().hashCode() );
-        result = prime * result + ( getUUID() == null ? 0 : getUUID().hashCode() );
-        result = prime * result + ( header == null ? 0 : header.hashCode() );
-        result = prime * result + ( rules == null ? 0 : rules.hashCode() );
+        result = prime * result + super.hashCode();
+        result = prime * result + ( this.header == null ? 0 : this.header.hashCode() );
+        result = prime * result + ( this.rules == null ? 0 : this.rules.hashCode() );
         return result;
     }
 
     /**
-     * Overrides equals
+     * Overrides equals.
      * 
      * @see org.kuali.student.brms.repository.rule.AbstractItem#equals(java.lang.Object)
      */
