@@ -49,6 +49,8 @@ public class DroolsRuleSetImpl
     private boolean snapshot = false;
     /** snapshot name */
     private String snapshotName;
+    /** Object utility class */
+    private ObjectUtil objectUtil = ObjectUtil.getInstance();
 
     /**
      * Constructs a new rule.
@@ -145,7 +147,7 @@ public class DroolsRuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#getCompiledRuleSet()
      */
     public byte[] getCompiledRuleSet() {
-        return ObjectUtil.arrayCopy( this.compiledRuleSet );
+        return objectUtil.arrayCopy( this.compiledRuleSet );
     }
 
     /**
@@ -155,7 +157,7 @@ public class DroolsRuleSetImpl
      * @param compiledRuleSet Compiled rule set byte array
      */
     public void setCompiledRuleSet(final byte[] compiledRuleSet) {
-        this.compiledRuleSet = ObjectUtil.arrayCopy( compiledRuleSet );
+        this.compiledRuleSet = objectUtil.arrayCopy( compiledRuleSet );
     }
 
     /**
@@ -165,7 +167,7 @@ public class DroolsRuleSetImpl
      */
     public Object getCompiledRuleSetObject() {
         try {
-            return ObjectUtil.deepCopy( this.compiledRuleSetObject );
+            return objectUtil.deepCopy( this.compiledRuleSetObject );
         } catch( Exception e ) {
             throw new RuntimeException( e );
         }
@@ -179,7 +181,7 @@ public class DroolsRuleSetImpl
      */
     public void setCompiledRuleSetObject(final Serializable compiledRuleSetObject) {
         try {
-            this.compiledRuleSetObject = (Serializable) ObjectUtil.deepCopy( compiledRuleSetObject );
+            this.compiledRuleSetObject = (Serializable) objectUtil.deepCopy( compiledRuleSetObject );
         } catch( Exception e ) {
             throw new RuntimeException( e );
         }

@@ -64,7 +64,17 @@ public class DroolsUtil {
      * Private Constructor.
      *
      */
-    private DroolsUtil() { }
+    private DroolsUtil() {
+    }
+    
+    /**
+     * Returns a new instance of <code>DroolsUtil</code>
+     * 
+     * @return A new instance of <code>DroolsUtil</code>
+     */
+    public static DroolsUtil getInstance() {
+        return new DroolsUtil();
+    }
     
     /**
      * Builds a rule from an Drools repository item.
@@ -74,7 +84,7 @@ public class DroolsUtil {
      * @return A rule
      * @throws RuleEngineRepositoryException
      */
-    public static Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
+    public Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -109,7 +119,7 @@ public class DroolsUtil {
      * @return A history rule
      * @throws RuleEngineRepositoryException
      */
-    public static Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
+    public Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
         DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
@@ -136,7 +146,7 @@ public class DroolsUtil {
         return rule;
     }
 
-    /*public static RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { 
+    /*public RuleSet buildHistoricalRuleSet( AssetItem item ) throws RuleEngineRepositoryException { 
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet( item.getUUID(), item.getName() );
         //ruleSet.setContent( item.getContent() );
         //ruleSet.setBinaryContent( item.getBinaryContentAsBytes() ); 
@@ -171,7 +181,7 @@ public class DroolsUtil {
      * @return A rule set
      * @throws RuleEngineRepositoryException
      */
-    public static RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
+    public RuleSet buildRuleSet(final PackageItem pkg) throws RuleEngineRepositoryException {
         DroolsRuleSetImpl ruleSet = RuleSetFactory.getInstance().createRuleSet( pkg.getUUID(), pkg.getName(), pkg.getVersionNumber() );
         ruleSet.setStatus((pkg.getState() == null ? "Draft" : pkg.getState().getName()));
         ruleSet.setDescription(pkg.getDescription());
@@ -218,7 +228,7 @@ public class DroolsUtil {
      * @return Drools Package
      * @throws Exception
      */
-    public static org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryException {
+    public org.drools.rule.Package getPackage(final byte[] binPackage) throws RuleEngineRepositoryException {
         if (binPackage == null) {
             return null;
         }
@@ -255,7 +265,7 @@ public class DroolsUtil {
      * @param item Item that contains the error 
      * @return List of compiler errors
      */
-    public static List<CompilerResult> generateCompilerResults(final PackageBuilderErrors errors, final VersionableItem item) {
+    public List<CompilerResult> generateCompilerResults(final PackageBuilderErrors errors, final VersionableItem item) {
         List<CompilerResult> result = new ArrayList<CompilerResult>();
         DroolsError[] dr = errors.getErrors();
         for (int i = 0; i < dr.length; i++) {
@@ -277,7 +287,7 @@ public class DroolsUtil {
      * @return A {@link ByteArrayInputStream}
      * @throws IOException
      */
-    public static InputStream getBinaryPackage(final org.drools.rule.Package pkg) throws IOException {
+    public InputStream getBinaryPackage(final org.drools.rule.Package pkg) throws IOException {
         ObjectOutputStream oos = null;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -303,7 +313,7 @@ public class DroolsUtil {
      * @throws IOException
      * @throws DroolsParserException
      */
-    public static CompilerResultList compile(final PackageItem pkg) throws IOException, DroolsParserException {
+    public CompilerResultList compile(final PackageItem pkg) throws IOException, DroolsParserException {
         PackageBuilder builder = createPackageBuilder();
         builder.addPackage(new PackageDescr(pkg.getName()));
         String drl = pkg.getHeader();
@@ -334,7 +344,7 @@ public class DroolsUtil {
      * 
      * @return A {@link PackageBuilder}
      */
-    public static PackageBuilder createPackageBuilder() {
+    public PackageBuilder createPackageBuilder() {
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
         ChainedProperties chainedProperties = new ChainedProperties(RuleEngineRepositoryDroolsImpl.class.getClassLoader(), 
                 "packagebuilder.conf", false); // false means it ignores any default values
@@ -356,7 +366,7 @@ public class DroolsUtil {
      * @param pkg A Drools Package
      * @return A Drools DRL source code
      */
-    public static String getDRL(final PackageItem pkg) {
+    public String getDRL(final PackageItem pkg) {
         StringBuilder sb = new StringBuilder();
         sb.append("package ");
         sb.append(pkg.getName());

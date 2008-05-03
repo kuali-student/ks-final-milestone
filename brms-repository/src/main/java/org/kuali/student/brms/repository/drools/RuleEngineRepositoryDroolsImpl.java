@@ -61,9 +61,10 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  *
  */
 public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
-    
     /** Drools rule repository */
     RulesRepository repository;
+    /** Drools utility class */
+    private DroolsUtil droolsUtil = DroolsUtil.getInstance();
 
     /**
      * Constructor.
@@ -290,7 +291,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                 AssetItem historyItem = (AssetItem) it.next();
                 long versionNumber = historyItem.getVersionNumber();
                 if (versionNumber != 0 && versionNumber != item.getVersionNumber()) {
-                    Rule rule = DroolsUtil.buildHistoricalRule(historyItem);
+                    Rule rule = droolsUtil.buildHistoricalRule(historyItem);
                     list.add(rule);
                 }
             }
@@ -327,7 +328,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                 System.out.println("***** getCheckinComment=" + historyItem.getCheckinComment());
                 System.out.println("***** getContent=" + historyItem.getContent());
                 if (versionNumber != 0 && versionNumber != item.getVersionNumber()) {
-                    RuleSet ruleset = DroolsUtil.buildHistoricalRuleSet(historyItem);
+                    RuleSet ruleset = droolsUtil.buildHistoricalRuleSet(historyItem);
                     list.add(ruleset);
                 }
             }
@@ -354,7 +355,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             while( it.hasNext() ) { 
                 PackageItem item = it.next(); 
                 System.out.println( "***** item=" +item.getUUID() + ", name=" +item.getName() + ", isArchived=" + item.isArchived() ); 
-                RuleSet ruleSet = DroolsUtil.buildRuleSet( item ); 
+                RuleSet ruleSet = droolsUtil.buildRuleSet( item ); 
                 list.add( ruleSet ); 
             } 
             System.out.println( "\n\n***********************************************************\n\n" ); 
@@ -400,7 +401,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             List<Rule> list = new ArrayList<Rule>();
             while (it.hasNext()) {
                 AssetItem item = (AssetItem) it.next();
-                Rule rule = DroolsUtil.buildRule(item);
+                Rule rule = droolsUtil.buildRule(item);
                 list.add(rule);
             }
             return list;
@@ -538,7 +539,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
         try {
             PackageItem pkg = this.repository.loadPackageByUUID(uuid);
-            RuleSet ruleSet = DroolsUtil.buildRuleSet(pkg);
+            RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
             return ruleSet;
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading rule set failed: uuid=" + uuid, e);
@@ -560,7 +561,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
         try {
             AssetItem item = repository.loadAssetByUUID(uuid);
-            Rule rule = DroolsUtil.buildRule(item);
+            Rule rule = droolsUtil.buildRule(item);
 
             return rule;
         } catch (RulesRepositoryException e) {
@@ -923,13 +924,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
 
         try {
-            CompilerResultList result = DroolsUtil.compile(item);
+            CompilerResultList result = droolsUtil.compile(item);
 
             if (result != null && result.size() > 0) {
                 return result;
             } else {
                 org.drools.rule.Package pkg = (org.drools.rule.Package) result.getObject();
-                item.updateCompiledPackage(DroolsUtil.getBinaryPackage(pkg));
+                item.updateCompiledPackage(droolsUtil.getBinaryPackage(pkg));
                 this.repository.save();
             }
         } catch (IOException e) {
@@ -956,12 +957,12 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         try {
             PackageItem pkg = this.repository.loadPackageByUUID(ruleSetUUID);
 
-            CompilerResultList result = DroolsUtil.compile(pkg);
+            CompilerResultList result = droolsUtil.compile(pkg);
 
             if (result != null && result.size() > 0) {
                 throw new RuleEngineRepositoryException("Compiling rule set failed: " + result);
             }
-            return DroolsUtil.getDRL(pkg);
+            return droolsUtil.getDRL(pkg);
         } catch (IOException e) {
             throw new RuleEngineRepositoryException("Compiling rule set failed: ", e);
         } catch (DroolsParserException e) {
@@ -986,7 +987,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
         try {
             PackageItem pkg = this.repository.loadPackageByUUID(ruleSetUUID);
-            return DroolsUtil.getPackage(pkg.getCompiledPackageBytes());
+            return droolsUtil.getPackage(pkg.getCompiledPackageBytes());
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetUuid=" + ruleSetUUID, e);
         } catch (Exception e) {
@@ -1013,7 +1014,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
         try {
             PackageItem pkg = this.repository.loadPackageSnapshot(ruleSetName, snapshotName);
-            return DroolsUtil.getPackage(pkg.getCompiledPackageBytes());
+            return droolsUtil.getPackage(pkg.getCompiledPackageBytes());
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading compiled rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
         } catch (Exception e) {
@@ -1040,7 +1041,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
         try {
             PackageItem pkg = this.repository.loadPackageSnapshot(ruleSetName, snapshotName);
-            RuleSet ruleSet = DroolsUtil.buildRuleSet(pkg);
+            RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
             return ruleSet;
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
@@ -1134,13 +1135,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
 
         try {
-            CompilerResultList result = DroolsUtil.compile(pkg);
+            CompilerResultList result = droolsUtil.compile(pkg);
 
             if (result != null && !result.isEmpty()) {
                 throw new RuleEngineRepositoryException("Compiling rule set failed: " + result);
             }
             org.drools.rule.Package compiledPkg = (org.drools.rule.Package) result.getObject();
-            pkg.updateCompiledPackage(DroolsUtil.getBinaryPackage(compiledPkg));
+            pkg.updateCompiledPackage(droolsUtil.getBinaryPackage(compiledPkg));
         } catch (IOException e) {
             throw new RuleEngineRepositoryException("Compiling rule set failed", e);
         } catch (DroolsParserException e) {

@@ -36,13 +36,22 @@ public class ObjectUtil {
     }
 
     /**
+     * Returns a new instance of <code>ObjectUtil</code>
+     * 
+     * @return A new instance of <code>ObjectUtil</code>
+     */
+    public static ObjectUtil getInstance() {
+        return new ObjectUtil();
+    }
+    
+    /**
      * Creates a deep copy of an object by serialization.
      * 
      * @param object object to do a deep copy of
      * @return A copy of <code>object</code>
      * @throws Exception
      */
-    public static Object deepCopy( final Serializable object ) throws Exception {
+    public Object deepCopy( final Serializable object ) throws Exception {
         if ( object == null ) {
             return null;
         }
@@ -82,7 +91,7 @@ public class ObjectUtil {
      * @param binaryContent Binary content to be copied
      * @return A copy of <code>binaryContent</code>
      */
-    public static byte[] arrayCopy( final byte[] binaryContent ) {
+    public byte[] arrayCopy( final byte[] binaryContent ) {
         if ( binaryContent == null ) {
             return null;
         }

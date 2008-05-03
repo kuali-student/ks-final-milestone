@@ -44,7 +44,9 @@ public class DroolsRuleImpl
     private Calendar effectiveDate;
     /** Date this rule expires */
     private Calendar expiryDate;
-
+    /** Object utility class */
+    private ObjectUtil objectUtil = ObjectUtil.getInstance();
+    
     /**
      * Constructs a new rule
      * 
@@ -71,7 +73,7 @@ public class DroolsRuleImpl
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
      */
     public byte[] getBinaryContent() {
-        return ObjectUtil.arrayCopy( this.binaryContent );
+        return objectUtil.arrayCopy( this.binaryContent );
     }
 
     /**
@@ -81,7 +83,7 @@ public class DroolsRuleImpl
      * @param binaryContent Compiled byte array
      */
     public void setBinaryContent(final byte[] binaryContent) {
-        this.binaryContent = ObjectUtil.arrayCopy( binaryContent );
+        this.binaryContent = objectUtil.arrayCopy( binaryContent );
     }
 
     /**
