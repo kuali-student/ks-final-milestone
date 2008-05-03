@@ -30,7 +30,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DroolsJackrabbitRepositoryTest {
+    /** Drools Jackrabbit repository */
     private static DroolsJackrabbitRepository repo;
+    /** Drools test utility class */
+    private DroolsTestUtil droolsTestUtil = DroolsTestUtil.getInstance();
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -54,7 +57,7 @@ public class DroolsJackrabbitRepositoryTest {
 
     @Test
     public void testGetRepository() throws Exception {
-        repo.login( DroolsTestUtil.getSuperUserCredentials() );
+        repo.login( droolsTestUtil.getSuperUserCredentials() );
         assertFalse( repo.getRepository() == null );
         assertTrue( repo.getRepository().getSession().isLive() );
         repo.logout();
@@ -63,21 +66,21 @@ public class DroolsJackrabbitRepositoryTest {
     @Test
     public void testLogin() throws Exception
     {
-        repo.login( DroolsTestUtil.getSuperUserCredentials() );
+        repo.login( droolsTestUtil.getSuperUserCredentials() );
         assertTrue( repo.getRepository().getSession().isLive() );
         repo.logout();
     }
 
     @Test
     public void testLogout() throws Exception {
-        repo.login( DroolsTestUtil.getSuperUserCredentials() );
+        repo.login( droolsTestUtil.getSuperUserCredentials() );
         repo.logout();
         assertFalse( repo.getRepository().getSession().isLive() );
     }
     
     @Test
     public void testClearData() throws Exception {
-        repo.login( DroolsTestUtil.getSuperUserCredentials() );
+        repo.login( droolsTestUtil.getSuperUserCredentials() );
         StateItem item1 = repo.getRepository().createState( "NewState" );
         StateItem item2 = repo.getRepository().getState( "NewState" );
         assertEquals( item1.getName(), item2.getName() );

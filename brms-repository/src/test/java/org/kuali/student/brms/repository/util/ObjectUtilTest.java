@@ -16,19 +16,19 @@
 package org.kuali.student.brms.repository.util;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 public class ObjectUtilTest {
+    /** Object utility class */
+    private ObjectUtil objectUtil = ObjectUtil.getInstance();
 
     @Test
     public void testDeepCopy() throws Exception {
         CompiledObject object = new CompiledObject( "ACompiledObjectTest" );
-        CompiledObject copy = (CompiledObject) ObjectUtil.deepCopy( object );
+        CompiledObject copy = (CompiledObject) objectUtil.deepCopy( object );
         assertFalse( object.equals( copy ) );
         String expected = (String) object.getObject();
         String actual = (String) copy.getObject();
@@ -37,7 +37,7 @@ public class ObjectUtilTest {
 
     @Test
     public void testDeepCopy_NullObject() throws Exception {
-        Object copy = ObjectUtil.deepCopy( null );
+        Object copy = objectUtil.deepCopy( null );
         assertNull( copy );
     }
 
@@ -45,7 +45,7 @@ public class ObjectUtilTest {
     public void testDeepCopy_NoObjectReference() throws Exception {
         String expected = "ACompiledObjectTest";
         CompiledObject object = new CompiledObject( expected );
-        CompiledObject copy = (CompiledObject) ObjectUtil.deepCopy( object );
+        CompiledObject copy = (CompiledObject) objectUtil.deepCopy( object );
         
         assertFalse( object.equals( copy ) );
 
@@ -61,13 +61,13 @@ public class ObjectUtilTest {
     @Test
     public void testArrayCopy() throws Exception {
         byte[] b = "A String Test".getBytes();
-        byte[] copy = ObjectUtil.arrayCopy( b );
+        byte[] copy = objectUtil.arrayCopy( b );
         assertFalse( b.equals( copy ) );
     }
 
     @Test
     public void testArrayCopy_NullObject() throws Exception {
-        byte[] copy = ObjectUtil.arrayCopy( null );
+        byte[] copy = objectUtil.arrayCopy( null );
         assertNull( copy );
     }
 }

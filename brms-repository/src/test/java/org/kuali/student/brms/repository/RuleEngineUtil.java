@@ -26,13 +26,27 @@ import org.kuali.student.brms.repository.rule.CompilerResultList;
 public class RuleEngineUtil {
 
     /**
+     * Private constructor.
+     */
+    private RuleEngineUtil() {
+    }
+
+    /**
+     * Returns a new instance of <code>RuleEngineUtil</code>
+     * 
+     * @return A new instance of <code>RuleEngineUtil</code>
+     */
+    public static RuleEngineUtil getInstance() {
+        return new RuleEngineUtil();
+    }
+    /**
      * Return a messages of the <code>result</code> as a string.
      * 
      * @param result
      *            Builder result list
      * @return Errors messages
      */
-    public static String getErrorMessage(CompilerResultList result) {
+    public String getErrorMessage(CompilerResultList result) {
         return (result == null ? "Null Error Message" : result.toString());
     }
 

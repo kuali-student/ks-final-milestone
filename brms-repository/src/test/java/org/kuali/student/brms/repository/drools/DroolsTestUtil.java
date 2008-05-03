@@ -32,6 +32,15 @@ public class DroolsTestUtil
     /** A simple validation rule */
     private static String validationRule2;
     
+    /**
+     * Returns a new instance of <code>DroolsTestUtil</code>
+     * 
+     * @return A new instance of <code>DroolsTestUtil</code>
+     */
+    public static DroolsTestUtil getInstance() {
+        return new DroolsTestUtil();
+    }
+    
 	/**
 	 * Gets a simple rule. 
 	 * First rule determines whether the minutes of the hour is even.
@@ -39,7 +48,7 @@ public class DroolsTestUtil
 	 *  
 	 * @return a Drools' rule
 	 */
-	public static String getSimpleRule1() {
+	public String getSimpleRule1() {
 		return 
 			"rule \"HelloDroolsEven\"" +
 			"     when" +
@@ -57,7 +66,7 @@ public class DroolsTestUtil
 	 *  
 	 * @return a Drools' rule
 	 */
-	public static String getSimpleRule2() {
+	public String getSimpleRule2() {
 		return 
 			"rule \"HelloDroolsOdd\"" +
 			"     when" +
@@ -77,7 +86,7 @@ public class DroolsTestUtil
 	 * 
 	 * @return a Drools' rule
 	 */
-	public static String getSimpleRule3() {
+	public String getSimpleRule3() {
 		return 
 			"rule \"HelloDroolsEven\"" +
 			"     when" +
@@ -98,7 +107,7 @@ public class DroolsTestUtil
 	 * 
 	 * @return a Drools' rule
 	 */
-	public static String getSimpleRule4() {
+	public String getSimpleRule4() {
 		return 
 			"rule \"HelloDroolsOdd\"" +
 			"     when" +
@@ -117,7 +126,7 @@ public class DroolsTestUtil
 	 * @param packageName Drools package name (ruleset)
 	 * @return Drools DRL
 	 */
-	public static String getSimpleDRL( String packageName ) {
+	public String getSimpleDRL( String packageName ) {
 		return 
 			"package " + packageName +
 			"\n" +
@@ -138,7 +147,7 @@ public class DroolsTestUtil
 	 * @return Drools validation rule
 	 * @throws Exception
 	 */
-	public static String getValidationRule1() throws Exception {
+	public String getValidationRule1() throws Exception {
 		if ( validationRule1 == null || validationRule1.trim().isEmpty() ) {
 		    validationRule1 = loadFile( "/test-rule-1.txt" );
 		}
@@ -154,7 +163,7 @@ public class DroolsTestUtil
 	 * @return Drools validation rule
 	 * @throws Exception
 	 */
-	public static String getValidationRule2() throws Exception {
+	public String getValidationRule2() throws Exception {
         if ( validationRule2 == null || validationRule2.trim().isEmpty() ) {
             validationRule2 = loadFile( "/test-rule-2.txt" );
         }
@@ -168,7 +177,7 @@ public class DroolsTestUtil
 	 * @return A text file
 	 * @throws Exception
 	 */
-	public static String loadFile( String file ) throws Exception
+	public String loadFile( String file ) throws Exception
 	{
         String filename = DroolsTestUtil.class.getResource( file ).getFile();
         //System.out.println( "*****  filename = " +filename );
@@ -199,7 +208,7 @@ public class DroolsTestUtil
 	 * @param fact Facts to assert
 	 * @throws Exception
 	 */
-	public static void executeRule( org.drools.rule.Package pkg, Object[] fact )
+	public void executeRule( org.drools.rule.Package pkg, Object[] fact )
 		throws Exception
 	{
 		RuleBase rb = RuleBaseFactory.newRuleBase();
@@ -213,7 +222,7 @@ public class DroolsTestUtil
      * 
      * @return Superuser credentials
      */
-	public static Credentials getSuperUserCredentials() {
+	public Credentials getSuperUserCredentials() {
         String id = "superuser";
         char[] password = "superuser".toCharArray();
         return new SimpleCredentials(id, password);

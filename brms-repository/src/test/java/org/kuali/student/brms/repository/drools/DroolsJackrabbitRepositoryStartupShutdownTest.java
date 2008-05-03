@@ -29,6 +29,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DroolsJackrabbitRepositoryStartupShutdownTest {
+    /** Drools test utility class */
+    private DroolsTestUtil droolsTestUtil = DroolsTestUtil.getInstance();
+    
     @BeforeClass
     public static void setUpOnce() throws Exception {
     }
@@ -47,7 +50,7 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
 
     private void assertLogin( DroolsJackrabbitRepository repo ) {
         try {
-            repo.login( DroolsTestUtil.getSuperUserCredentials() );
+            repo.login( droolsTestUtil.getSuperUserCredentials() );
             assertTrue( true );
         } catch( Exception e ) {
             fail( "Unable to login to repository: " + e.getMessage() );
