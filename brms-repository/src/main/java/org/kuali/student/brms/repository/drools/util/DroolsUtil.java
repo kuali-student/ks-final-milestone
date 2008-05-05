@@ -208,13 +208,11 @@ public class DroolsUtil {
             throw new RuleEngineRepositoryException("Unable to set rule set historical version", e);
         }
 
-        List<Rule> list = new ArrayList<Rule>();
         for (Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             AssetItem item = it.next();
             Rule rule = buildRule(item);
-            list.add(rule);
+            ruleSet.addRule(rule);
         }
-        ruleSet.setRules(list);
 
         return ruleSet;
     }
