@@ -1,12 +1,15 @@
 package org.kuali.student.rules.brms.parser;
 
-import static org.junit.Assert.*;
-
 import java.net.URL;
 import java.util.Hashtable;
 
+import javax.jcr.Credentials;
+import javax.jcr.SimpleCredentials;
+
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
@@ -15,24 +18,51 @@ import org.kuali.student.brms.repository.rule.RuleSet;
 
 public class GenerateRuleSetTest {
 
+    private static DroolsJackrabbitRepository repo;
+    
+    private Credentials getCredentials() {
+        String id = "superuser";
+        char[] password = "superuser".toCharArray();
+        return new SimpleCredentials(id, password);
+    }
+
+    @BeforeClass
+    public static void setUpOnce() throws Exception {
+        // Start and initialize a new repository
+        URL url = DroolsJackrabbitRepository.class.getResource("/repository");
+        System.out.println("repository URL: " + url.toString());
+        repo = new DroolsJackrabbitRepository(url);
+        // Remove all repository files
+        repo.clearAll();
+        repo.startupRepository();
+    }
+
+    @AfterClass
+    public static void tearDownOnce() throws Exception {
+        //Shutdown repository:
+        repo.shutdownRepository();
+    }
+
     @Before
     public void setUp() throws Exception {
-        // Initialize repository
-        DroolsJackrabbitRepository repo;
-        URL url = DroolsJackrabbitRepository.class.getResource("/repository");
-        System.out.println("the url " + url.toString());
-        repo = new DroolsJackrabbitRepository(url);
-        repo.initialize();
-        
+        //Login to repository:
+        repo.login(getCredentials());
+        // Clear all data from repository
         repo.clearData();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        //Logout from repository:
+        repo.logout();
+    }
+
+    @Test
+    public void testParse() throws Exception {
         RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
         String rulePackage = "org.kuali.student.rules.enrollment";
-        //String rulesetUuid = brmsRepository.createRuleSet(rulePackage, "My package description" );
-        
         
         GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
-        //grs.setRuleEngineRepository(brmsRepository);
-        //grs.setRuleSetUuid(rulesetUuid);
         grs.setRuleSetName(rulePackage);
         grs.setRuleSetDescription("A rule set description");
         grs.setRuleName("Enrollment Physics");
@@ -50,30 +80,19 @@ public class GenerateRuleSetTest {
         
         grs.parse();
         
-        // compile rule and save in repository
-        //CompilerResultList results = brmsRepository.compileRuleSet(rulesetUuid);
-
+        // Print rule set
         System.out.println("***** Rule source before compilation *****");
         System.out.println(grs.getRuleSet().getContent());
         System.out.println("\n******************************************");
         
+        // Create, compile and save a new rule set to the repository
         String rulesetUuid = brmsRepository.createRuleSet(grs.getRuleSet());
         
-        // load rule from repo and print
+        // Load rule set from repository and print it
         System.out.println("***** Rule source after compilation *****");
         RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
         System.out.println(ruleset.getContent());
         System.out.println("******************************************");
-        //Shutdown (and logout from) the repository:
-        repo.shutdownRepository();
-    }
-
-    @After
-    public void tearDown() throws Exception {}
-
-    @Test
-    public void testParse() {
-        //fail("Not yet implemented");
     }
 
 }
