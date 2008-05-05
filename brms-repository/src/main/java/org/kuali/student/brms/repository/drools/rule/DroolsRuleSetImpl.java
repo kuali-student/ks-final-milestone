@@ -36,6 +36,8 @@ public class DroolsRuleSetImpl
     extends AbstractItem 
     implements java.io.Serializable, RuleSet {
 
+    private final static String SEMICOLON = ";";
+
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
     
@@ -79,14 +81,24 @@ public class DroolsRuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#addRule(org.kuali.student.brms.repository.rule.Rule)
      */
     public void addRule(final Rule rule) {
+        if ( rule == null ) {
+            return;
+        }
         this.rules.put(rule.getName(), rule);
     }
 
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#removeRule(java.lang.String)
      */
-    public void removeRule(final String ruleName) {
-        this.rules.remove( ruleName );
+    public Rule removeRule(final String ruleName) {
+        return this.rules.remove( ruleName );
+    }
+
+    /**
+     * @see org.kuali.student.brms.repository.rule.RuleSet#containsRule(java.lang.String)
+     */
+    public boolean containsRule(final String ruleName) {
+        return this.rules.containsKey( ruleName );
     }
 
     /**
@@ -107,6 +119,12 @@ public class DroolsRuleSetImpl
         }
     }
     
+    /**
+     * Creates a <code>java.util.List<Rule></code> from a 
+     * <code>Map<String,Rule></code>
+     * 
+     * @return A list of rules
+     */
     private List<Rule> createList() {
         List<Rule> list = new ArrayList<Rule>();
         for(Rule rule : this.rules.values()) {
@@ -116,26 +134,29 @@ public class DroolsRuleSetImpl
     }
     
     /**
-     * @see org.kuali.student.brms.repository.rule.RuleSet#getHeader(java.lang.String)
-     */
-    private String getHeader( String header ) {
-        return (header.endsWith(";") ? header : header.trim() + ";");
-    }
-    
-    /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#addHeader(java.lang.String)
      */
     public void addHeader(final String header) {
-        this.header.add(getHeader(header));
+        if ( header == null ) {
+            return;
+        }
+        this.header.add(getProperHeader(header));
     }
 
+    public boolean containsHeader(String header) {
+        return this.header.contains(getProperHeader(header));
+    }
+    
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#removeHeader(java.lang.String)
      */
-    public void removeHeader(String header) {
-        this.header.remove( header );
+    public boolean removeHeader(final String header) {
+        return this.header.remove( getProperHeader(header) );
     }
 
+    private String getProperHeader(String header) {
+        return (header.endsWith(SEMICOLON) ? header : header.trim() + SEMICOLON);
+    }
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#clearHeaders()
      */
@@ -149,7 +170,7 @@ public class DroolsRuleSetImpl
     public String getHeader() {
         StringBuilder sb = new StringBuilder();
         for(String header : this.header) {
-            sb.append(getHeader(header));
+            sb.append(getProperHeader(header));
             sb.append(" ");
         }
         return sb.toString();
@@ -170,7 +191,7 @@ public class DroolsRuleSetImpl
     public List<String> getHeaderList() {
         List<String> list = new ArrayList<String>();
         for(String header : this.header) {
-            list.add(getHeader(header));
+            list.add(getProperHeader(header));
         }
         return list;
     }
@@ -247,16 +268,12 @@ public class DroolsRuleSetImpl
         sb.append("package ");
         sb.append(super.getName());
         sb.append("\n");
-        for(int i=0; i<this.header.size(); i++) {
-            sb.append(this.header.get(i));
+        for(String header : this.header) {
+            sb.append(header);
             sb.append("\n");
         }
 
-        //for(int i=0; i<this.rules.size(); i++) {
-        //    sb.append(this.rules.get(i).getContent());
-        //    sb.append("\n");
-        //}
-        for( Rule rule : this.rules.values() ) {
+        for(Rule rule : this.rules.values()) {
             sb.append(rule.getContent());
             sb.append("\n");
         }
