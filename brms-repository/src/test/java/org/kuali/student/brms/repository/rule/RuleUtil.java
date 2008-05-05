@@ -26,6 +26,10 @@ import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
  */
 public class RuleUtil {
 
+    public static String getSimpleRule( String name ) {
+        return "rule \"" + name + "\" when then end";
+    }
+
     /**
      * Creates a new rule.
      * 
@@ -34,7 +38,7 @@ public class RuleUtil {
      */
     public static Rule createRule( String name ) {
         Rule rule = RuleFactory.getInstance().createDroolsRule( name );
-        rule.setContent( "rule \"" + name + "\" when then end" );
+        rule.setContent(getSimpleRule(name));
         return rule;
     }
 
@@ -48,7 +52,7 @@ public class RuleUtil {
      */
     public static Rule createRule( String uuid, String name, long version ) {
         Rule rule = RuleFactory.getInstance().createDroolsRule( uuid, name, version );
-        rule.setContent( "rule \"" + name + "\" when then end" );
+        rule.setContent(getSimpleRule(name));
         return rule;
     }
 
