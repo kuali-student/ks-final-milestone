@@ -18,6 +18,11 @@
   <bean id="enforceRule"  class="org.kuali.student.rules.validate.EnforceRule">
     <property name="metadata" ref="FunctionalBusinessRuleManagementService"/>
   </bean>
+
+  <bean id="brmsDatabaseUtil" class="org.kuali.student.rules.BRMSCore.util.UtilBRMSDatabase">
+    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>
+    <property name="metadata" ref="FunctionalBusinessRuleManagementService"/>
+  </bean>
   
 </beans>	
 
