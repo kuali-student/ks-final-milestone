@@ -100,7 +100,17 @@
 					<name>ks.use.eclipselink</name>
 				</property>
 			</activation>
-			
+
+			<properties>
+				<jpa.impl>eclipselink</jpa.impl>
+				<jpa.vendorAdapter>
+					org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter
+				</jpa.vendorAdapter>
+				<jpa.databasePlatform>
+					org.eclipse.peristence.platform.database.DerbyPlatform
+				</jpa.databasePlatform>
+			</properties>
+
 			<dependencies>
 				<dependency>
 					<groupId>org.eclipse.persistence</groupId>
@@ -117,6 +127,16 @@
 					<name>!ks.use.eclipselink</name>
 				</property>
 			</activation>
+
+			<properties>
+				<jpa.impl>hibernate</jpa.impl>
+				<jpa.vendorAdapter>
+					org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+				</jpa.vendorAdapter>
+				<jpa.databasePlatform>
+					org.hibernate.dialect.DerbyDialect
+				</jpa.databasePlatform>
+			</properties>
 
 			<dependencies>
 				<dependency>
