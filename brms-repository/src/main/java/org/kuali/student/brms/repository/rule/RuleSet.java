@@ -27,17 +27,27 @@ public interface RuleSet extends Item {
 
     /**
      * Adds a rule to this rule set.
+     * Null and duplicate rules are not allowed.
      * 
      * @param rule A rule
      */
     public void addRule(Rule rule);
 
     /**
+     * Determines whether a rule exists in the rule set.
+     * 
+     * @param ruleName Rule name
+     * @return True if the rule exists in the rule set otherwise false
+     */
+    public boolean containsRule(String ruleName);
+    
+    /**
      * Removes a rule from this rule set.
      * 
      * @param rule A rule
+     * @return The rule that was removed
      */
-    public void removeRule(String name);
+    public Rule removeRule(String name);
 
     /**
      * Removes all rules from this rule set.
@@ -70,18 +80,28 @@ public interface RuleSet extends Item {
     /**
      * Adds a header to this rule set. 
      * E.g. <code>ruleSet.addHeader("java.util.Calendar");</code>
+     * Null and duplicate headers are not allowed.
      * 
      * @param header A rule set header
      */
     public void addHeader(String header);
 
     /**
+     * Determines whether a header exists in the rule set.
+     * 
+     * @param ruleName Rule name
+     * @return True if the header exists in the rule set otherwise false
+     */
+    public boolean containsHeader(String header);
+    
+    /**
      * Removes a header from this rule set. 
      * E.g. <code>ruleSet.removeHeader("java.util.Calendar");</code>
      * 
      * @param header A rule set header
+     * @return True if header was removed otherwise false
      */
-    public void removeHeader(String header);
+    public boolean removeHeader(String header);
 
     /**
      * Removes all headers from this rule set. 
