@@ -88,7 +88,6 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      *
      */
     public void shutdown() {
-      clearAll();
       shutdownRepository();
     }
     
