@@ -52,6 +52,8 @@ public class Function {
      * validated in the constructor Function() Function example A0*B4+(C*D)
      */
     public List<String> getSymbols() {
+        // remove spaces
+        functionString = functionString.replaceAll("\\s+", "");
 
         for (int i = 0; i < functionString.length(); i++) {
 
