@@ -8,51 +8,72 @@ import org.springframework.core.Ordered;
 
 /**
  * @author Daniel Epstein
- *<p>Use this Advice to map one exception to another for use when other advice 
- *eats your exceptions outside of your code. This happens in Transactions when 
- *commit is not called until outside of your DAO layer.</p>
- 
- *<p>Set the property "exceptionMapping" as a map that maps an exception class 
- *to your own exception class</p>
- *
- *<p>Remember that aspect order is important and that this bean will always be order "500"</p>
- *
- *Example:
- *<pre>&lt;tx:annotation-driven transaction-manager=&quot;JtaTxManager&quot; order=&quot;1000&quot;/&gt;
- *&lt;bean id=&quot;mapExceptionAdvisor&quot;
- *	class=&quot;org.myfoo.ExceptionMappingAdvice&quot;&gt;
- *	&lt;property name=&quot;exceptionMapping&quot;&gt;
- *		&lt;map&gt;
- *			&lt;entry key=&quot;javax.persistence.EntityExistsException&quot;
- *				value=&quot;org.myfoo.exceptions.AlreadyExistsException&quot; /&gt;
- *		&lt;/map&gt;
- *	&lt;/property&gt;
- *&lt;/bean&gt;
- *&lt;aop:config&gt;
- *	&lt;aop:aspect id=&quot;dataAccessToBusinessException&quot;
- *		ref=&quot;mapExceptionAdvisor&quot;&gt;
- *		&lt;aop:after-throwing
- *			pointcut=&quot;execution(* org.myfoo.service.*.*(..))&quot;
- *			method=&quot;afterThrowing&quot; throwing=&quot;ex&quot; /&gt;
- *	&lt;/aop:aspect&gt;
- *&lt;/aop:config&gt;</pre>
+ *         <p>
+ *         Use this Advice to map one exception to another for use when other
+ *         advice eats your exceptions outside of your code. This happens in
+ *         Transactions when commit is not called until outside of your DAO
+ *         layer.
+ *         </p>
+ * 
+ * <p>
+ * Set the property "exceptionMapping" as a map that maps an exception class to
+ * your own exception class
+ * </p>
+ * 
+ * <p>
+ * Remember that aspect order is important and that this bean will always be
+ * order "500"
+ * </p>
+ * 
+ * Example:
+ * 
+ * <pre>
+ * &lt;tx:annotation-driven transaction-manager=&quot;JtaTxManager&quot; order=&quot;1000&quot;/&gt;
+ * lt;bean id=&quot;mapExceptionAdvisor&quot;
+ * class=&quot;org.myfoo.ExceptionMappingAdvice&quot;&gt;
+ * &lt;property name=&quot;exceptionMapping&quot;&gt;
+ * 	&lt;map&gt;
+ * 		&lt;entry key=&quot;javax.persistence.EntityExistsException&quot;
+ * 			value=&quot;org.myfoo.exceptions.AlreadyExistsException&quot; /&gt;
+ * 	&lt;/map&gt;
+ * &lt;/property&gt;
+ * lt;/bean&gt;
+ * lt;aop:config&gt;
+ * &lt;aop:aspect id=&quot;dataAccessToBusinessException&quot;
+ * 	ref=&quot;mapExceptionAdvisor&quot;&gt;
+ * 	&lt;aop:after-throwing
+ * 		pointcut=&quot;execution(* org.myfoo.service.*.*(..))&quot;
+ * 		method=&quot;afterThrowing&quot; throwing=&quot;ex&quot; /&gt;
+ * &lt;/aop:aspect&gt;
+ * lt;/aop:config&gt;
+ * </pre>
  */
 public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
-	private int order=500;
+	private int order = 500;
 	private static final long serialVersionUID = 1L;
 	private Map<Class<? extends Exception>, Class<? extends Exception>> exceptionMapping;
+	private Class<? extends Exception> defaultException;
 
 	/**
-	 * This method will use the real exception thrown and look up the exception that should be thrown
+	 * This method will use the real exception thrown and look up the exception
+	 * that should be thrown
+	 * 
 	 * @param ex
 	 * @throws Exception
 	 */
 	public void afterThrowing(Exception ex) throws Exception {
-		Class<? extends Exception> mappedExceptionClass = exceptionMapping.get(ex.getClass());
+		Class<? extends Exception> mappedExceptionClass = exceptionMapping
+				.get(ex.getClass());
 		if (mappedExceptionClass != null) {
-			Constructor<? extends Exception> c = mappedExceptionClass.getConstructor(String.class);
+			Constructor<? extends Exception> c = mappedExceptionClass
+					.getConstructor(String.class);
 			Exception mappedException = c.newInstance(ex.getMessage());
 			throw mappedException;
+		}
+		if (defaultException != null) {
+			Constructor<? extends Exception> c = defaultException
+					.getConstructor(String.class);
+			throw c.newInstance(ex.getMessage());
 		}
 		throw new RuntimeException("Could Not Map: " + ex.toString());
 	}
@@ -63,12 +84,13 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 	}
 
 	/**
-	 * @param order the order to set
+	 * @param order
+	 *            the order to set
 	 */
 	public void setOrder(int order) {
 		this.order = order;
 	}
-	
+
 	/**
 	 * @return the exceptionMapping
 	 */
@@ -83,6 +105,21 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 	public void setExceptionMapping(
 			Map<Class<? extends Exception>, Class<? extends Exception>> exceptionMapping) {
 		this.exceptionMapping = exceptionMapping;
+	}
+
+	/**
+	 * @return the defaultException
+	 */
+	public Class<? extends Exception> getDefaultException() {
+		return defaultException;
+	}
+
+	/**
+	 * @param defaultException
+	 *            the defaultException to set
+	 */
+	public void setDefaultException(Class<? extends Exception> defaultException) {
+		this.defaultException = defaultException;
 	}
 
 }
