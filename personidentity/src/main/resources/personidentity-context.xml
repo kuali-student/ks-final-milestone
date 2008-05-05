@@ -21,7 +21,7 @@
 		<property name="uniqueResourceName" value="personDataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
- 		<property name="xaDataSourceProperties"
+		<property name="xaDataSourceProperties"
 			value="${jdbc.xaDataSourceProperties}" />
 		<property name="exclusiveConnectionMode" value="true" />
 		<property name="connectionPoolSize" value="5" />
@@ -30,8 +30,7 @@
 	<!-- JPA EntityManagerFactory -->
 	<bean id="jpaConfig"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location"
-			value="classpath:jpa.properties" />
+		<property name="location" value="classpath:jpa.properties" />
 	</bean>
 
 	<bean id="personEntityManagerFactory"
@@ -74,15 +73,34 @@
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
 	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<bean id="personDAO"
 		class="org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl">
 	</bean>
-	
+
 	<bean id="personServiceImpl"
 		class="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl">
 		<property name="personDAO" ref="personDAO" />
 	</bean>
-	
+	<bean id="mapExceptionAdvisor"
+		class="org.kuali.student.poc.common.util.ExceptionMappingAdvice">
+		<property name="defaultException" value="org.kuali.student.poc.common.ws.exceptions.OperationFailedException"/>
+		<property name="exceptionMapping">
+			<map>
+				<entry key="javax.persistence.EntityExistsException"
+					value="org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException" />
+				<entry key="org.hibernate.exception.ConstraintViolationException"
+					value="org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException" />
+			</map>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:aspect id="dataAccessToBusinessException"
+			ref="mapExceptionAdvisor">
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.poc.personidentity.person.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
+		</aop:aspect>
+	</aop:config>
 </beans>
