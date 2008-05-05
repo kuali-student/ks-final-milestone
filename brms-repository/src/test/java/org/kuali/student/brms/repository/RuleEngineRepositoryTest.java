@@ -106,13 +106,13 @@ public class RuleEngineRepositoryTest {
         jackrabbitRepository.logout();
     }
     
-    private RuleSet createRuleSet(String name, String description, List<String> facts) throws RuleEngineRepositoryException {
+    private RuleSet createRuleSet(String name, String description, List<String> header) throws RuleEngineRepositoryException {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(name);
         ruleSet.setDescription(description);
         ruleSet.setFormat("drl");
-        if ( facts != null && !facts.isEmpty()) {
-            for( int i=0; i<facts.size(); i++ ) {
-                ruleSet.addHeader( facts.get( i ) );
+        if ( header != null && !header.isEmpty()) {
+            for( int i=0; i<header.size(); i++ ) {
+                ruleSet.addHeader( header.get( i ) );
             }
         }
         return ruleSet;
@@ -622,7 +622,7 @@ public class RuleEngineRepositoryTest {
         assertEquals(rule.getCheckinComment(), "Checkin rule comments");
     }
 
-    /*@Test
+    @Test
     public void testCreateDuplicateRule() throws Exception {
         List<String> header = new ArrayList<String>();
         header.add("import java.util.Calendar");
@@ -631,19 +631,23 @@ public class RuleEngineRepositoryTest {
         Rule rule = createRuleDRL("MyRule1", "My new rule 1", null, 
                 droolsTestUtil.getSimpleRule1());
         ruleSet.addRule(rule);
+        String uuid = brmsRepository.createRuleSet(ruleSet);
+
+        // Create duplicate rule
+        RuleSet duplicateRuleSet = createRuleSet("MyDuplicateRule", "My new rule set", header);
         Rule duplicateRule = createRuleDRL("MyRule1", "My new rule 1", null, 
                 droolsTestUtil.getSimpleRule1());
-        ruleSet.addRule(duplicateRule);
-
-        //try {
-        //    brmsRepository.createRuleSet(ruleSet);
-        //    fail( "Creating a duplicate rule should have thrown a RuleExistsException" );
-        //} catch( RuleExistsException e ) {
-        //    assertTrue( true );
-        //}
+        duplicateRuleSet.addRule(duplicateRule);
+        String duplicateUUID = brmsRepository.createRuleSet(duplicateRuleSet);
         
-        assertEquals( 1, ruleSet.getRules().size() );
-    }*/
+        ruleSet = brmsRepository.loadRuleSet(uuid);
+        duplicateRuleSet = brmsRepository.loadRuleSet(duplicateUUID);
+        assertFalse(ruleSet.equals(duplicateRuleSet));
+
+        rule = ruleSet.getRules().get(0);
+        duplicateRule = duplicateRuleSet.getRules().get(0);
+        assertEquals(rule.getContent(), duplicateRule.getContent());
+    }
 
     @Test
     public void testCheckinRule() throws Exception {
