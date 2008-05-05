@@ -27,7 +27,10 @@ import java.io.Serializable;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public class ObjectUtil {
+public class ObjectUtil implements java.io.Serializable {
+
+    /** Class serial version uid */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Private constructor.
@@ -51,7 +54,7 @@ public class ObjectUtil {
      * @return A copy of <code>object</code>
      * @throws Exception
      */
-    public Object deepCopy( final Serializable object ) throws Exception {
+    public Object deepCopy( final Object object ) throws Exception {
         if ( object == null ) {
             return null;
         }
