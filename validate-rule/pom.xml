@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.poc.brms</groupId>
+	<artifactId>validate-rule</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<description>
+		Bridges various components of the Kuali Rule System
+	</description>
+
+	<parent>
+		<groupId>org.kuali.student.poc.brms</groupId>
+		<artifactId>brms-ri</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+	<!--
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.5</version>
+		</dependency>
+	-->
+		<dependency>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>inspect-rule-failure</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>brms-repository</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>brms-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	 </dependencies>
+</project>
