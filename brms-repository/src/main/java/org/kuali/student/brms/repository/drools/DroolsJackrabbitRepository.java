@@ -16,7 +16,6 @@
 package org.kuali.student.brms.repository.drools;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -250,10 +249,19 @@ public class DroolsJackrabbitRepository {
      * This will not delete any files on the file system.
      */
     public void clearData() {
-        RulesRepositoryAdministrator repoAdmin = new RulesRepositoryAdministrator(this.repositorySession);
-        if (repoAdmin.isRepositoryInitialized()) {
-            repoAdmin.clearRulesRepository();
+        if ( this.repositorySession == null ) {
+            throw new RuleEngineRepositoryException( "Login to repository is required" );
         }
+        RulesRepositoryAdministrator repoAdmin = new RulesRepositoryAdministrator(this.repositorySession);
+        
+        if ( repoAdmin == null ) {
+            throw new RuleEngineRepositoryException( "Unable to create a repository administrator to clear data" );
+        }
+        else if ( !repoAdmin.isRepositoryInitialized() ) {
+            throw new RuleEngineRepositoryException( "Repository has not been initialized. Please login again." );
+        }
+        
+        repoAdmin.clearRulesRepository();
         this.repoConfig.setupRulesRepository(this.repositorySession);
     }
 
