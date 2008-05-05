@@ -5,11 +5,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
-	<artifactId>generate-rule</artifactId>
+	<artifactId>validate-rule</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
-		Generates a ruleset from BRMS database and stores in the
-		repository (jackrabbit)
+		Bridges various components of the Kuali Rule System
 	</description>
 
 	<parent>
@@ -36,5 +35,10 @@
 			<artifactId>brms-repository</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>brms-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	 </dependencies>
 </project>
