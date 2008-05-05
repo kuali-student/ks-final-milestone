@@ -37,14 +37,14 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      * 
      * @param url Location of the Jackrabbit <code>repository.xml</code> configuration file
      */
-    public DefaultDroolsRepository( URL url ) {
-        super( url );
-        try {
-            initialize();
-        } catch( RepositoryLoginException e ) {
-            throw new RuleEngineRepositoryException( e );
-        }
-    }
+//    public DefaultDroolsRepository( URL url ) {
+//        super( url );
+//        try {
+//            initialize();
+//        } catch( RepositoryLoginException e ) {
+//            throw new RuleEngineRepositoryException( e );
+//        }
+//    }
 
     /**
      * Constructs a default repository and initialize it:
@@ -82,4 +82,14 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
         login(credentials);
     }
 
+    /**
+     * 
+     * This method is a convenience method to cleanly shutdown the repository
+     *
+     */
+    public void shutdown() {
+      clearAll();
+      shutdownRepository();
+    }
+    
 }

@@ -143,13 +143,8 @@ public class DroolsJackrabbitRepository {
      * @param url Location of <code>repository.xml</code> configuration file
      */
     public DroolsJackrabbitRepository(String url) {
-        try {
-            URL newURL = new URL( url );
-            this.url = newURL;
-        } catch (MalformedURLException e) {
-            throw new RuleEngineRepositoryException(e);
-        }
-        setRepositoryPath();
+       this.url =  DroolsJackrabbitRepository.class.getResource(url) ;
+       setRepositoryPath();
     }
     
     private void setRepositoryPath() {
