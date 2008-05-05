@@ -171,6 +171,13 @@
 				</property>
 			</activation>
 
+			<properties>
+				<ws.engine>cxf</ws.engine>
+				<ws.servlet>
+					org.apache.cxf.transport.servlet.CXFServlet
+				</ws.servlet>
+			</properties>
+
 			<dependencies>
 				<dependency>
 					<groupId>org.kuali.student.poc.common</groupId>
@@ -206,6 +213,13 @@
 					<name>ks.use.jaxws</name>
 				</property>
 			</activation>
+
+			<properties>
+				<ws.servlet>
+					com.sun.xml.ws.transport.http.servlet.WSSpringServlet
+				</ws.servlet>
+				<ws.engine>jaxws</ws.engine>
+			</properties>
 
 			<dependencies>
 				<dependency>
