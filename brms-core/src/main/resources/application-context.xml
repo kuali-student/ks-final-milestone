@@ -13,11 +13,13 @@
       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.FunctionalBusinessRuleDAOImpl">
-	</bean>
+  <context:annotation-config/>
+  
+  <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.FunctionalBusinessRuleDAOImpl">
+  </bean>
 
   <bean id="ruleElementDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.RuleElementDAOImpl">
-    <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
+   	<property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
   
   <bean id="rulePropositionDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.RulePropositionDAOImpl">
@@ -28,8 +30,9 @@
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
 
-  <bean id="UtilBRMSDatabase"  class="org.kuali.student.rules.BRMSCore.util.UtilBRMSDatabase">
-    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
+  <bean class="org.kuali.student.rules.BRMSCore.util.UtilBRMSDatabase">
+    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>
+    <property name="metadata" ref="FunctionalBusinessRuleManagementService"/>
   </bean>
 	
   <!-- JPA EntityManagerFactory -->
@@ -46,9 +49,26 @@
 			 <property name="databasePlatform" value="org.hibernate.dialect.DerbyDialect"/>
 		   </bean>
 		</property>
-    <property name="jpaPropertyMap" ref="jpaConfig" />			
+    	<property name="jpaPropertyMap" ref="jpaConfig" />			
 	 </bean>	
 
+   <!-- 
+	<bean id="droolsRepository" class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+		<constructor-arg type="org.drools.repository.RulesRepository" 
+					ref="rulesRepository"/>
+	</bean>
+
+	<bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
+		  destroy-method="shutdown">
+		<constructor-arg type="java.lang.String" value="/repository"/>
+	</bean>
+	
+	<bean id="rulesRepository"
+      factory-bean="defaultDroolsRepositoryContainer"
+      factory-method="getRepository"/>
+    --> 
+     
+     
 	<bean id="myDataSource"	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
 		<property name="url" value="jdbc:derby:BRMSMetadataDB;create=true;" />
