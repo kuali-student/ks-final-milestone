@@ -866,13 +866,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         try {
             PackageItem item = this.repository.loadPackageByUUID(uuid);
             item.archiveItem(archive);
-            if (comment == null) {
-                if (archive) {
-                    comment = "Archived";
-                } else {
-                    comment = "Unarchived";
-                }
-            }
+            //if (comment == null) {
+            //    if (archive) {
+            //        comment = "Archived";
+            //    } else {
+            //        comment = "Unarchived";
+            //    }
+            //}
             item.checkin(comment);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Archiving rule failed: " + "uuid=" + uuid, e);
