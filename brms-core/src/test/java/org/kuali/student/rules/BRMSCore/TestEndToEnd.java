@@ -100,11 +100,6 @@ public class TestEndToEnd extends AbstractJpaTests {
         deleteRules();
     }
 
-    @Override
-    protected String[] getConfigLocations() {
-        return new String[]{"classpath:application-context.xml"};
-    }
-
     /*
      * public void onTearDownAfterTransaction() throws Exception { super.onTearDownInTransaction(); setDirty(); }
      */
@@ -134,7 +129,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -185,7 +180,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", null, metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
         facts = new ArrayList<String>();
@@ -209,7 +204,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -292,7 +287,7 @@ public class TestEndToEnd extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);

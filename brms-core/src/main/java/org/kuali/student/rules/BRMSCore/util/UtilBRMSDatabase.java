@@ -34,22 +34,22 @@ public class UtilBRMSDatabase {
 
     @Autowired
     private FunctionalBusinessRuleManagementService metadata;
-    
+
     @PersistenceContext
     private EntityManager em;
 
     private RuleEngineRepository droolsRepository;
-    
+
     public final void populateDatabase() throws Exception {
 
-        if(em == null) 
+        if (em == null)
             System.out.println("Setting EM is null");
-        else 
+        else
             System.out.println("Setting EM NOT null");
 
-        if(metadata == null) 
+        if (metadata == null)
             System.out.println(" brdao is null");
-        else 
+        else
             System.out.println(" brdao NOT null");
 
         deleteRules();
@@ -74,7 +74,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -118,8 +118,8 @@ public class UtilBRMSDatabase {
         busRule.addRuleElement(ruleElement);
 
         // businessRuleDAO.createBusinessRule(busRule);
-        if(null == em) 
-               System.out.println("Empty entity manager");
+        if (null == em)
+            System.out.println("Empty entity manager");
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -127,7 +127,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", null, metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
         facts = new ArrayList<String>();
@@ -151,7 +151,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -234,7 +234,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -304,7 +304,6 @@ public class UtilBRMSDatabase {
         em.flush();
     }
 
-    
     public final void compileDroolsRule() throws Exception {
         
         FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
@@ -327,9 +326,7 @@ public class UtilBRMSDatabase {
         String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
         droolsRepository.loadRuleSet(rulesetUuid4);        
     }
-    
-    
-    
+
     public void deleteRules() {
         try {
             FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("1");
@@ -361,7 +358,7 @@ public class UtilBRMSDatabase {
 
         em.flush();
     }
-    
+
     public final FunctionalBusinessRuleDAO getBusinessRuleDAO() {
         return businessRuleDAO;
     }
@@ -390,7 +387,6 @@ public class UtilBRMSDatabase {
         this.em = em;
     }
 
-
     /**
      * @return the droolsRepository
      */
@@ -398,15 +394,14 @@ public class UtilBRMSDatabase {
         return droolsRepository;
     }
 
-
     /**
-     * @param droolsRepository the droolsRepository to set
+     * @param droolsRepository
+     *            the droolsRepository to set
      */
     public void setDroolsRepository(RuleEngineRepository droolsRepository) {
         System.out.println("Setting DRepo");
         this.droolsRepository = droolsRepository;
     }
-
 
     /**
      * @return the metadata
@@ -415,13 +410,12 @@ public class UtilBRMSDatabase {
         return metadata;
     }
 
-
     /**
-     * @param metadata the metadata to set
+     * @param metadata
+     *            the metadata to set
      */
     public void setMetadata(FunctionalBusinessRuleManagementService metadata) {
         this.metadata = metadata;
     }
-    
-    
+
 }

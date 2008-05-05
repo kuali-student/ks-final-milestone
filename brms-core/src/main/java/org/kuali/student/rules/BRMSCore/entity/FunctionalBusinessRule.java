@@ -40,6 +40,7 @@ public class FunctionalBusinessRule {
     private String failureMessage;
     @Column(unique = true, nullable = false)
     private String ruleIdentifier;
+    private final String compiledRuleID;
     @Embedded
     private RuleMetaData ruleMetaData;
     @Embedded
@@ -57,6 +58,7 @@ public class FunctionalBusinessRule {
         successMessage = null;
         failureMessage = null;
         ruleIdentifier = null;
+        compiledRuleID = null;
         ruleMetaData = null;
         businessRuleEvaluation = null;
     }
@@ -70,12 +72,13 @@ public class FunctionalBusinessRule {
      * @param ruleSetIdentified
      * @param ruleMetaData
      */
-    public FunctionalBusinessRule(String name, String description, String successMessage, String failureMessage, String ruleSetIdentified, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
+    public FunctionalBusinessRule(String name, String description, String successMessage, String failureMessage, String ruleSetIdentified, String compileRuleID, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
         this.name = name;
         this.description = description;
         this.successMessage = successMessage;
         this.failureMessage = failureMessage;
         this.ruleIdentifier = ruleSetIdentified;
+        this.compiledRuleID = compileRuleID;
         this.ruleMetaData = ruleMetaData;
         this.businessRuleEvaluation = businessRuleEvaluation;
     }
@@ -226,5 +229,34 @@ public class FunctionalBusinessRule {
      */
     public final void setFailureMessage(String failureMessage) {
         this.failureMessage = failureMessage;
+    }
+
+    /**
+     * @return the ruleIdentifier
+     */
+    public final String getRuleIdentifier() {
+        return ruleIdentifier;
+    }
+
+    /**
+     * @param ruleIdentifier
+     *            the ruleIdentifier to set
+     */
+    public final void setRuleIdentifier(String ruleIdentifier) {
+        this.ruleIdentifier = ruleIdentifier;
+    }
+
+    /**
+     * @return the compileRuleID
+     */
+    public final String getCompileRuleID() {
+        return compiledRuleID;
+    }
+
+    /**
+     * @return the compiledRuleID
+     */
+    public final String getCompiledRuleID() {
+        return compiledRuleID;
     }
 }
