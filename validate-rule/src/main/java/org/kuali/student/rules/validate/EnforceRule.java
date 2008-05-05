@@ -28,7 +28,7 @@ public class EnforceRule {
     public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType, String relationState) {
         
         ValidationResult result = new ValidationResult();
-        
+              
         /*
          * Currently map relationType to ruleId (until further clarification from service team or
          * implementation of agenda
