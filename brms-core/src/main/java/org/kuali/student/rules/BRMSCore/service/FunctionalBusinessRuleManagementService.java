@@ -4,7 +4,9 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -18,6 +20,7 @@ import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
 import org.kuali.student.rules.BRMSCore.entity.RuleElement;
 import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
+import org.kuali.student.rules.brms.parser.GenerateRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +34,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FunctionalBusinessRuleManagementService {
 
+    private static final String RULE_PACKAGE = "org.kuali.student.rules.enrollment";
+    private static final String RULESET_DESC = "Enrollment Rules";
+    
     VelocityContext context;
 
     public static final char INITIAL_PROPOSITION_PLACEHOLDER = 'A';
+    
+    
 
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
@@ -113,6 +121,45 @@ public class FunctionalBusinessRuleManagementService {
         return propositions;
     }
 
+
+    /**
+     * 
+     * This method builds the drools rule set container associated with the functional 
+     * business rule.
+     * 
+     * @param rule
+     * @return
+     * @throws Exception
+     */
+    public GenerateRuleSet buildRuleSet(FunctionalBusinessRule rule) throws Exception {
+        GenerateRuleSet grs = new GenerateRuleSet(createRuleFunctionString(rule));
+        
+        grs.setRuleSetName(RULE_PACKAGE);
+        grs.setRuleSetDescription(RULESET_DESC);
+        grs.setRuleName(rule.getRuleSetIdentifier());
+        grs.setRuleDescription(rule.getDescription()); // Rule description cannot be empty
+        grs.setRuleCategory(null);
+        grs.setRuleAttributes(null);
+        
+        Hashtable<String, String> funcConstraintsMap = new Hashtable<String, String>();
+        
+        HashMap<String, RuleProposition> propositions = getRulePropositions(rule);
+        
+        Set<String> labels = propositions.keySet();
+        
+        for(String label : labels) {
+            funcConstraintsMap.put(label,label);
+        }
+
+        grs.setLhsFuncConstraintMap(funcConstraintsMap);
+        grs.setRuleOutcome("System.out.println(\"I'm Enrolled\");");
+        
+        grs.parse();
+
+        return grs;
+    }
+    
+    
     /**
      * Transforms a functional business rule into Drool WHEN part of the Drool rule.
      * 
@@ -120,63 +167,63 @@ public class FunctionalBusinessRuleManagementService {
      *            Functional business rule used to transform.
      * @return Returns WHEN part
      */
-    public String mapMetaRuleToDroolRule(FunctionalBusinessRule rule) throws Exception {
+//    public String mapMetaRuleToDroolRule(FunctionalBusinessRule rule) throws Exception {
+//
+//        InitializeVelocity();
+//
+//        // for now we only retrieve the first proposition
+//        HashMap<String, RuleProposition> propositions = getRulePropositions(rule);
+//        RuleProposition ruleProposition = propositions.get("A");
+//        LeftHandSide leftHandSide = ruleProposition.getLeftHandSide();
+//
+//        // String allFacts = "MATH101, MATH102, MATH103";
+//        ArrayList<String> facts = leftHandSide.getMethodParameters();
+//        String allFacts = "";
+//        for (String fact : facts) {
+//            allFacts += fact;
+//        }
+//
+//        context = new VelocityContext();
+//        context.put("criteria", new String("1"));
+//        context.put("fact", allFacts);
+//        Template template = null;
+//        StringWriter sw = new StringWriter();
+//
+//        // create WHEN part based on supplied fact, criteria and template
+//        try {
+//            template = Velocity.getTemplate("RuleWhenTemplate.vm");
+//            template.merge(context, sw);
+//        } catch (ResourceNotFoundException rnfe) {
+//            // couldn't find the template
+//            System.out.println("Velocity: Could not find the template. " + rnfe.getStackTrace());
+//            throw rnfe;
+//        } catch (ParseErrorException pee) {
+//            // syntax error: problem parsing the template
+//            System.out.println("Velocity: parsing template error. " + pee.getStackTrace());
+//            throw pee;
+//        } catch (MethodInvocationException mie) {
+//            // something invoked in the template threw an exception
+//            System.out.println("Velocity: template method exception. " + mie.getStackTrace());
+//            throw mie;
+//        } catch (Exception e) {
+//            System.out.println("Velocity: error occured. " + e.getStackTrace());
+//            throw e;
+//        }
+//
+//        return sw.toString();
+//    }
 
-        InitializeVelocity();
-
-        // for now we only retrieve the first proposition
-        HashMap<String, RuleProposition> propositions = getRulePropositions(rule);
-        RuleProposition ruleProposition = propositions.get("A");
-        LeftHandSide leftHandSide = ruleProposition.getLeftHandSide();
-
-        // String allFacts = "MATH101, MATH102, MATH103";
-        ArrayList<String> facts = leftHandSide.getMethodParameters();
-        String allFacts = "";
-        for (String fact : facts) {
-            allFacts += fact;
-        }
-
-        context = new VelocityContext();
-        context.put("criteria", new String("1"));
-        context.put("fact", allFacts);
-        Template template = null;
-        StringWriter sw = new StringWriter();
-
-        // create WHEN part based on supplied fact, criteria and template
-        try {
-            template = Velocity.getTemplate("RuleWhenTemplate.vm");
-            template.merge(context, sw);
-        } catch (ResourceNotFoundException rnfe) {
-            // couldn't find the template
-            System.out.println("Velocity: Could not find the template. " + rnfe.getStackTrace());
-            throw rnfe;
-        } catch (ParseErrorException pee) {
-            // syntax error: problem parsing the template
-            System.out.println("Velocity: parsing template error. " + pee.getStackTrace());
-            throw pee;
-        } catch (MethodInvocationException mie) {
-            // something invoked in the template threw an exception
-            System.out.println("Velocity: template method exception. " + mie.getStackTrace());
-            throw mie;
-        } catch (Exception e) {
-            System.out.println("Velocity: error occured. " + e.getStackTrace());
-            throw e;
-        }
-
-        return sw.toString();
-    }
-
-    private void InitializeVelocity() throws Exception {
-        try {
-            Properties p = new Properties();
-            p.setProperty("resource.loader", "class");
-            p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-            Velocity.init(p);
-        } catch (Exception e) {
-            System.out.println("Problem initializing Velocity : " + e.getStackTrace());
-            throw e;
-        }
-    }
+//    private void InitializeVelocity() throws Exception {
+//        try {
+//            Properties p = new Properties();
+//            p.setProperty("resource.loader", "class");
+//            p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+//            Velocity.init(p);
+//        } catch (Exception e) {
+//            System.out.println("Problem initializing Velocity : " + e.getStackTrace());
+//            throw e;
+//        }
+//    }
 
     /**
      * Retrieves a functional business rule from database based on Rule ID.
