@@ -25,14 +25,14 @@ public class EnforceRuleTest extends AbstractJpaTests {
     
     @Test
     public void testValidation() throws Exception {
-        // enforceRule.validateLuiPersonRelation("John", "Math 101", "1", null);
+        enforceRule.validateLuiPersonRelation("John", "Math 101", "1", null);
     }
 
     @Override
     @Before
     public void onSetUpInTransaction() throws Exception {
         brmsDatabaseUtil.populateDatabase();
-        //brmsDatabase.compileDroolsRule();
+        brmsDatabaseUtil.compileDroolsRule();
     }
 
     @Override
