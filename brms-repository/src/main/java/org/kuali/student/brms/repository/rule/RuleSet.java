@@ -33,6 +33,20 @@ public interface RuleSet extends Item {
     public void addRule(Rule rule);
 
     /**
+     * Removes a rule from this rule set.
+     * 
+     * @param rule A rule
+     */
+    public void removeRule(String name);
+
+    /**
+     * Removes all rules from this rule set.
+     * 
+     * @param rule A rule
+     */
+    public void clearRules();
+
+    /**
      * Gets a list of <code>org.kuali.student.brms.repository.rule.Rule</code> from this rule set.
      * 
      * @return List of rules
@@ -60,6 +74,22 @@ public interface RuleSet extends Item {
      * @param header A rule set header
      */
     public void addHeader(String header);
+
+    /**
+     * Removes a header from this rule set. 
+     * E.g. <code>ruleSet.removeHeader("java.util.Calendar");</code>
+     * 
+     * @param header A rule set header
+     */
+    public void removeHeader(String header);
+
+    /**
+     * Removes all headers from this rule set. 
+     * E.g. <code>ruleSet.removeHeader("java.util.Calendar");</code>
+     * 
+     * @param header A rule set header
+     */
+    public void clearHeaders();
 
     /**
      * Gets this rule set header as a string. 

@@ -17,7 +17,9 @@ package org.kuali.student.brms.repository.drools.rule;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.brms.repository.rule.AbstractItem;
 import org.kuali.student.brms.repository.rule.Rule;
@@ -38,7 +40,7 @@ public class DroolsRuleSetImpl
     private static final long serialVersionUID = 1L;
     
     /** List of rules in this rule set */
-    private List<Rule> rules = new ArrayList<Rule>();
+    private Map<String,Rule> rules = new LinkedHashMap<String,Rule>();
     /** Compiled rule set bye array */
     private byte[] compiledRuleSet;
     /** Compiled rule set object */
@@ -77,25 +79,42 @@ public class DroolsRuleSetImpl
      * @see org.kuali.student.brms.repository.rule.RuleSet#addRule(org.kuali.student.brms.repository.rule.Rule)
      */
     public void addRule(final Rule rule) {
-        this.rules.add(rule);
+        this.rules.put(rule.getName(), rule);
+    }
+
+    /**
+     * @see org.kuali.student.brms.repository.rule.RuleSet#removeRule(java.lang.String)
+     */
+    public void removeRule(final String ruleName) {
+        this.rules.remove( ruleName );
+    }
+
+    /**
+     * @see org.kuali.student.brms.repository.rule.RuleSet#clearRules()
+     */
+    public void clearRules() {
+        this.rules.clear();
     }
 
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#getRules()
      */
     public List<Rule> getRules() {
-        return this.rules;
+        try {
+            return (List<Rule>) objectUtil.deepCopy(this.createList());
+        } catch( Exception e ) {
+            throw new RuntimeException( e );
+        }
     }
-
-    /**
-     * Sets a list of <code>org.kuali.student.brms.repository.rule.Rule</code> to this rule set.
-     *  
-     * @param rules List of rules
-     */
-    public void setRules(final List<Rule> rules) {
-        this.rules = rules;
+    
+    private List<Rule> createList() {
+        List<Rule> list = new ArrayList<Rule>();
+        for(Rule rule : this.rules.values()) {
+            list.add(rule);
+        }
+        return list;
     }
-
+    
     /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#getHeader(java.lang.String)
      */
@@ -111,12 +130,26 @@ public class DroolsRuleSetImpl
     }
 
     /**
+     * @see org.kuali.student.brms.repository.rule.RuleSet#removeHeader(java.lang.String)
+     */
+    public void removeHeader(String header) {
+        this.header.remove( header );
+    }
+
+    /**
+     * @see org.kuali.student.brms.repository.rule.RuleSet#clearHeaders()
+     */
+    public void clearHeaders() {
+        this.header.clear();
+    }
+
+    /**
      * @see org.kuali.student.brms.repository.rule.RuleSet#getHeader()
      */
     public String getHeader() {
         StringBuilder sb = new StringBuilder();
-        for( int i=0; i<this.header.size(); i++) {
-            sb.append( getHeader(this.header.get(i)) );
+        for(String header : this.header) {
+            sb.append(getHeader(header));
             sb.append(" ");
         }
         return sb.toString();
@@ -136,8 +169,8 @@ public class DroolsRuleSetImpl
      */
     public List<String> getHeaderList() {
         List<String> list = new ArrayList<String>();
-        for(int i=0; i<this.header.size(); i++) {
-            list.add(getHeader(this.header.get(i)));
+        for(String header : this.header) {
+            list.add(getHeader(header));
         }
         return list;
     }
@@ -219,8 +252,12 @@ public class DroolsRuleSetImpl
             sb.append("\n");
         }
 
-        for(int i=0; i<this.rules.size(); i++) {
-            sb.append(this.rules.get(i).getContent());
+        //for(int i=0; i<this.rules.size(); i++) {
+        //    sb.append(this.rules.get(i).getContent());
+        //    sb.append("\n");
+        //}
+        for( Rule rule : this.rules.values() ) {
+            sb.append(rule.getContent());
             sb.append("\n");
         }
 
