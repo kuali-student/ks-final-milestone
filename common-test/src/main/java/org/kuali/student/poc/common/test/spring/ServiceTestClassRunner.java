@@ -161,7 +161,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 
 			String wsEngine = "cxf";
 			String wsServlet = "org.apache.cxf.transport.servlet.CXFServlet";
-			if (System.getProperties().contains("ks.use.jaxws")) {
+			if (System.getProperties().containsKey("ks.use.jaxws")) {
 				wsEngine = "jaxws";
 				wsServlet = "com.sun.xml.ws.transport.http.servlet.WSSpringServlet";
 			}
