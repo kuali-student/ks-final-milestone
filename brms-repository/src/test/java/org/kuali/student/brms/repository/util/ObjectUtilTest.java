@@ -16,8 +16,11 @@
 package org.kuali.student.brms.repository.util;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -62,7 +65,10 @@ public class ObjectUtilTest {
     public void testArrayCopy() throws Exception {
         byte[] b = "A String Test".getBytes();
         byte[] copy = objectUtil.arrayCopy( b );
-        assertFalse( b.equals( copy ) );
+        // Compare the content of the copy
+        assertTrue( Arrays.equals(b,  copy ) );
+        // Comparing whether the copy is a true copy of b
+        assertFalse( b == copy );
     }
 
     @Test
