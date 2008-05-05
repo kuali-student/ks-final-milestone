@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.kuali.student.brms.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.brms.repository.util.CompiledObject;
@@ -129,13 +131,49 @@ public class RuleSetTest {
     }
 
     @Test
+    public void testRuleSetGetRules_NonModifiableRuleContent() {
+        RuleSet ruleSet = RuleUtil.createRuleSet( "ruleSet1" );
+        ruleSet.addRule( RuleUtil.createRule( "rule1" ) );
+        Rule rule = ruleSet.getRules().get(0);
+        
+        Rule ruleCopy = ruleSet.getRules().get(0);
+        ruleCopy.setContent( "xxx" );
+        // Test that the rule is not modifiable
+        assertFalse( rule.equals( ruleCopy ) );
+    }
+
+    @Test
+    public void testRuleSetGetRules_NonModifiableRuleList() {
+        RuleSet ruleSet = RuleUtil.createRuleSet( "ruleSet1" );
+        Rule rule = RuleUtil.createRule( "rule1" );
+        ruleSet.addRule( rule );
+        ruleSet.getRules().clear();
+        
+        // Test that the rule list is not modifiable
+        assertEquals( 1, ruleSet.getRules().size() );
+        assertEquals( rule, ruleSet.getRules().get(0) );
+    }
+
+    @Test
+    public void testRuleSetGetRules_NonModifiableHeaders() {
+        RuleSet ruleSet = RuleUtil.createRuleSet( "ruleSet1" );
+        String header = "import java.util.Calendar;";
+        ruleSet.addHeader( header );
+        ruleSet.getHeaderList().clear();
+        
+        // Test that the rule is not modifiable
+        assertEquals( 1, ruleSet.getHeaderList().size() );
+        assertEquals( header, ruleSet.getHeaderList().get(0) );
+    }
+
+    @Test
     public void testRuleSetsEquals() {
         RuleSet ruleSet1 = RuleUtil.createRuleSet( "ruleSet1" );
         ruleSet1.addHeader("import java.util.Calendar");
         ruleSet1.addRule( RuleUtil.createRule( "rule1" ) );
         
         RuleSet ruleSet2 = RuleUtil.createRuleSet( "ruleSet1" );
-        ruleSet2.addHeader("import java.util.Calendar");
+        ruleSet2.addHeader( "import java.util.Calendar" );
         ruleSet2.addRule( RuleUtil.createRule( "rule1" ) );
 
         assertEquals( ruleSet1, ruleSet2 );
@@ -144,11 +182,11 @@ public class RuleSetTest {
     @Test
     public void testRuleSetsNotEquals() {
         RuleSet ruleSet1 = RuleUtil.createRuleSet( "ruleSet1" );
-        ruleSet1.addHeader("import java.util.Calendar");
+        ruleSet1.addHeader( "import java.util.Calendar" );
         ruleSet1.addRule( RuleUtil.createRule( "rule1" ) );
         
         RuleSet ruleSet2 = RuleUtil.createRuleSet( "ruleSet2" );
-        ruleSet2.addHeader("import java.util.Calendar");
+        ruleSet2.addHeader( "import java.util.Calendar" );
         ruleSet2.addRule( RuleUtil.createRule( "rule2" ) );
 
         assertFalse( ruleSet1.equals( ruleSet2 ) );
