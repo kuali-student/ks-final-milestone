@@ -15,14 +15,14 @@ public class DefaultDroolsRepositoryTest {
         repo.shutdownRepository();
     }    
 
-    @Test
-    public void testStartupShutdownRepositoryWithUrlConfiguration() throws Exception {
+    //@Test
+    //public void testStartupShutdownRepositoryWithUrlConfiguration() throws Exception {
         // Get repository.xml from /repository
-        URL url = DefaultDroolsRepositoryTest.class.getResource("/repository");
-        DefaultDroolsRepository repo = new DefaultDroolsRepository( url );
-        assertNotNull( repo.getRepository().listStates() );
-        repo.shutdownRepository();
-    }    
+    //    URL url = DefaultDroolsRepositoryTest.class.getResource("/repository");
+    //    DefaultDroolsRepository repo = new DefaultDroolsRepository( url );
+    //    assertNotNull( repo.getRepository().listStates() );
+    //    repo.shutdownRepository();
+    //}    
 
     @Test
     public void testStartupShutdownRepositoryWithPathConfiguration() throws Exception {
