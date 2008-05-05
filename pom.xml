@@ -23,6 +23,7 @@
 		<module>inspect-rule-failure</module>
         <module>brms-repository</module>
         <module>generate-rule</module>
+        <module>validate-rule</module>
 	</modules>
 
 	<scm>
