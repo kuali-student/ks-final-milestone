@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
@@ -17,6 +18,8 @@ import org.kuali.student.rules.BRMSCore.entity.RuleElement;
 import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
+import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.brms.parser.GenerateRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +32,25 @@ public class UtilBRMSDatabase {
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
 
+    @Autowired
+    private FunctionalBusinessRuleManagementService metadata;
+    
     @PersistenceContext
     private EntityManager em;
 
-    public void populateDatabase() throws Exception {
+    private RuleEngineRepository droolsRepository;
+    
+    public final void populateDatabase() throws Exception {
+
+        if(em == null) 
+            System.out.println("Setting EM is null");
+        else 
+            System.out.println("Setting EM NOT null");
+
+        if(metadata == null) 
+            System.out.println(" brdao is null");
+        else 
+            System.out.println(" brdao NOT null");
 
         deleteRules();
 
@@ -100,6 +118,8 @@ public class UtilBRMSDatabase {
         busRule.addRuleElement(ruleElement);
 
         // businessRuleDAO.createBusinessRule(busRule);
+        if(null == em) 
+               System.out.println("Empty entity manager");
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -284,6 +304,32 @@ public class UtilBRMSDatabase {
         em.flush();
     }
 
+    
+    public final void compileDroolsRule() throws Exception {
+        
+        FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
+        GenerateRuleSet grs1 = metadata.buildRuleSet(rule1);
+        String rulesetUuid1 = droolsRepository.createRuleSet(grs1.getRuleSet());
+        droolsRepository.loadRuleSet(rulesetUuid1);
+        
+        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
+        GenerateRuleSet grs2 = metadata.buildRuleSet(rule2);
+        String rulesetUuid2 = droolsRepository.createRuleSet(grs2.getRuleSet());
+        droolsRepository.loadRuleSet(rulesetUuid2);
+        
+        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
+        GenerateRuleSet grs3 = metadata.buildRuleSet(rule3);
+        String rulesetUuid3 = droolsRepository.createRuleSet(grs3.getRuleSet());
+        droolsRepository.loadRuleSet(rulesetUuid3);
+        
+        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
+        GenerateRuleSet grs4 = metadata.buildRuleSet(rule4);
+        String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
+        droolsRepository.loadRuleSet(rulesetUuid4);        
+    }
+    
+    
+    
     public void deleteRules() {
         try {
             FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("1");
@@ -315,7 +361,7 @@ public class UtilBRMSDatabase {
 
         em.flush();
     }
-
+    
     public final FunctionalBusinessRuleDAO getBusinessRuleDAO() {
         return businessRuleDAO;
     }
@@ -340,6 +386,42 @@ public class UtilBRMSDatabase {
      *            the em to set
      */
     public final void setEm(EntityManager em) {
+        System.out.println("Setting EM");
         this.em = em;
     }
+
+
+    /**
+     * @return the droolsRepository
+     */
+    public RuleEngineRepository getDroolsRepository() {
+        return droolsRepository;
+    }
+
+
+    /**
+     * @param droolsRepository the droolsRepository to set
+     */
+    public void setDroolsRepository(RuleEngineRepository droolsRepository) {
+        System.out.println("Setting DRepo");
+        this.droolsRepository = droolsRepository;
+    }
+
+
+    /**
+     * @return the metadata
+     */
+    public FunctionalBusinessRuleManagementService getMetadata() {
+        return metadata;
+    }
+
+
+    /**
+     * @param metadata the metadata to set
+     */
+    public void setMetadata(FunctionalBusinessRuleManagementService metadata) {
+        this.metadata = metadata;
+    }
+    
+    
 }
