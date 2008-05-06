@@ -30,5 +30,20 @@
       <artifactId>persistence-api</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derbyclient</artifactId>
+      <version>10.3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.poc.brms</groupId>
+      <artifactId>brms-repository</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>    
+    <dependency>
+      <groupId>org.kuali.student.poc.brms</groupId>
+      <artifactId>generate-rule</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
