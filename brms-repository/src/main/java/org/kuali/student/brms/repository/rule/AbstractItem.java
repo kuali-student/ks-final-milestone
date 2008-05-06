@@ -63,11 +63,13 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
      */
     private AbstractItem() {
     }
-    
+
     /**
      * Constructs a new item.
      * 
      * @param name Item name
+     * @param name Item description
+     * @param name Item format
      */
     public AbstractItem(final String name, 
                         final String description,
@@ -95,7 +97,7 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
      */
     public AbstractItem(final String uuid, final String name, final long versionNumber) {
         if (uuid == null || uuid.trim().isEmpty()) {
-            throw new IllegalArgumentException("name cannot be null or empty");
+            throw new IllegalArgumentException("uuid cannot be null or empty");
         } else if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("name cannot be null or empty");
         }
@@ -163,15 +165,6 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
      */
     public String getFormat() {
         return this.format;
-    }
-
-    /**
-     * Sets the item version number.
-     * 
-     * @param versionNumber Version number
-     */
-    public void setVersionNumber(long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 
     /**
