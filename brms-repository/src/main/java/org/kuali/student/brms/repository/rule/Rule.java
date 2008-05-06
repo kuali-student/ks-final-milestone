@@ -47,13 +47,6 @@ public interface Rule extends Item {
     public void setContent(String content);
 
     /**
-     * Sets the category the rule belongs to.
-     * 
-     * @param category Rule category
-     */
-    public void setCategory(String category);
-    
-    /**
      * Gets the category the rule belongs to.
      * 
      * @return Rule category
@@ -61,25 +54,11 @@ public interface Rule extends Item {
     public String getCategory();
     
     /**
-     * Sets the rule effective date.
-     * 
-     * @param effectiveDate Rule effective date
-     */
-    public void setEffectiveDate(Calendar effectiveDate);
-
-    /**
      * Return the date the rule becomes effective.
      * 
      * @return Date the rule becomes effective
      */
     public Calendar getEffectiveDate();
-
-    /**
-     * Sets the rule expiry date.
-     * 
-     * @param expiryDate Rule expiry date
-     */
-    public void setExpiryDate(Calendar expiryDate);
 
     /**
      * Returns the rule expiry date.
