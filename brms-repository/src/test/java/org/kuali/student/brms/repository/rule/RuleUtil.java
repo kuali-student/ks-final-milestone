@@ -15,6 +15,7 @@
  */
 package org.kuali.student.brms.repository.rule;
 
+import org.kuali.student.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
 
@@ -64,7 +65,7 @@ public class RuleUtil {
      * @return A new rule set
      */
     public static RuleSet createRuleSet( final String name ) {
-        return RuleSetFactory.getInstance().createRuleSet( name, "A new rule set", AbstractItem.DRL );
+        return RuleSetFactory.getInstance().createRuleSet( name, "A new rule set", DroolsConstants.FORMAT_DRL );
     }   
 
     /**

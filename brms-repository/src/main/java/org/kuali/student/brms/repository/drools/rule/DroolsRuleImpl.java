@@ -55,7 +55,7 @@ public class DroolsRuleImpl
     public DroolsRuleImpl(final String name, 
                           final String description,
                           final String content) {
-        super(name, description,DRL);
+        super(name, description, DroolsConstants.FORMAT_DRL);
         if (content == null || content.trim().isEmpty()) {
             throw new IllegalArgumentException("content cannot be null or empty");
         }

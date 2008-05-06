@@ -54,7 +54,7 @@ public class RuleSetFactory {
      * @return A new rule set
      */
     public RuleSet createRuleSet( final String name, final String description ) {
-        return new DroolsRuleSetImpl( name, description, AbstractItem.DRL );
+        return new DroolsRuleSetImpl( name, description, DroolsConstants.FORMAT_DRL );
     }
     
     /**

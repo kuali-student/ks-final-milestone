@@ -21,6 +21,7 @@ import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.kuali.student.brms.repository.drools.rule.DroolsConstants;
 
 /**
  * This is an <code>Item</code> test class. 
@@ -70,7 +71,7 @@ public class ItemTest {
      * @return A new Item
      */
     private Item createItem( String name ) {
-        return new ItemImpl( name, "A description", AbstractItem.DRL );
+        return new ItemImpl( name, "A description", DroolsConstants.FORMAT_DRL );
     }
 
     /**

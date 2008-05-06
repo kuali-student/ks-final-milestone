@@ -62,7 +62,7 @@ public class DroolsRuleSetImpl
      * @param name Rule name
      */
     public DroolsRuleSetImpl(final String name, final String description) {
-        super(name, description, DRL);
+        super(name, description, DroolsConstants.FORMAT_DRL);
     }
 
     public DroolsRuleSetImpl(final String name, final String description, final String format) {

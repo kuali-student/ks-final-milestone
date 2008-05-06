@@ -52,6 +52,7 @@ import org.junit.Test;
 import org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.brms.repository.drools.DroolsTestUtil;
 import org.kuali.student.brms.repository.drools.DroolsJackrabbitRepository;
+import org.kuali.student.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
@@ -108,7 +109,8 @@ public class RuleEngineRepositoryTest {
     }
     
     private RuleSet createRuleSet(String name, String description, List<String> header) throws RuleEngineRepositoryException {
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(name, description, AbstractItem.DRL);
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
+                name, description, DroolsConstants.FORMAT_DRL);
         if ( header != null && !header.isEmpty()) {
             for( int i=0; i<header.size(); i++ ) {
                 ruleSet.addHeader( header.get( i ) );
@@ -118,7 +120,8 @@ public class RuleEngineRepositoryTest {
     }
 
     private static Rule createRuleDRL(String name, String description, String category, String content) throws RuleEngineRepositoryException {
-        Rule rule = RuleFactory.getInstance().createDroolsRule(name, description, category, content, AbstractItem.DRL);
+        Rule rule = RuleFactory.getInstance().createDroolsRule(
+                name, description, category, content, DroolsConstants.FORMAT_DRL);
         return rule;
     }
 
