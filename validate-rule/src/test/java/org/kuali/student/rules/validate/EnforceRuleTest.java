@@ -3,6 +3,7 @@ package org.kuali.student.rules.validate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.BRMSCore.util.UtilBRMSDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,10 +23,13 @@ public class EnforceRuleTest extends AbstractJpaTests {
     
     @Autowired
     private UtilBRMSDatabase brmsDatabaseUtil;
+        
     
     @Test
     public void testValidation() throws Exception {
+        // Only thing that matters is the 3rd argument which maps to the functional rule Id
         enforceRule.validateLuiPersonRelation("John", "Math 101", "1", null);
+        enforceRule.validateLuiPersonRelation("John", "Math 101", "2", null);
     }
 
     @Override
@@ -39,8 +43,8 @@ public class EnforceRuleTest extends AbstractJpaTests {
     // @After
     public void onTearDownAfterTransaction() throws Exception {
         brmsDatabaseUtil.deleteRules();
+        
         super.onTearDownInTransaction();
-        setDirty();
     }
 
     /**
@@ -56,18 +60,19 @@ public class EnforceRuleTest extends AbstractJpaTests {
     public void setEnforceRule(EnforceRule enforceRule) {
         this.enforceRule = enforceRule;
     }
-
     /**
      * @return the brmsDatabase
      */
-    public UtilBRMSDatabase getBrmsDatabase() {
+    public UtilBRMSDatabase getBrmsDatabaseUttil() {
         return brmsDatabaseUtil;
     }
 
     /**
      * @param brmsDatabase the brmsDatabase to set
      */
-    public void setBrmsDatabase(UtilBRMSDatabase brmsDatabase) {
+    public void setBrmsDatabaseUtils(UtilBRMSDatabase brmsDatabase) {
         this.brmsDatabaseUtil = brmsDatabase;
     }
+
+    
 }
