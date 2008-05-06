@@ -1211,6 +1211,5 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                         "ruleName=" + rule.getName(), e);
             }
         }
-    }
-    
+    }    
 }
