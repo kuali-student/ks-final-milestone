@@ -22,9 +22,7 @@ import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagement
 import org.kuali.student.rules.brms.parser.GenerateRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class UtilBRMSDatabase {
 
     public static final String FACT_CONTAINER = "AcademicRecord";
@@ -38,19 +36,10 @@ public class UtilBRMSDatabase {
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
     private RuleEngineRepository droolsRepository;
 
     public final void populateDatabase() throws Exception {
-
-        if (em == null)
-            System.out.println("Setting EM is null");
-        else
-            System.out.println("Setting EM NOT null");
-
-        if (metadata == null)
-            System.out.println(" brdao is null");
-        else
-            System.out.println(" brdao NOT null");
 
         deleteRules();
 
@@ -118,8 +107,6 @@ public class UtilBRMSDatabase {
         busRule.addRuleElement(ruleElement);
 
         // businessRuleDAO.createBusinessRule(busRule);
-        if (null == em)
-            System.out.println("Empty entity manager");
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -234,7 +221,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Rule 1 Success Message", "Rule 1 Failure Message", "4", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -309,22 +296,39 @@ public class UtilBRMSDatabase {
         FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
         GenerateRuleSet grs1 = metadata.buildRuleSet(rule1);
         String rulesetUuid1 = droolsRepository.createRuleSet(grs1.getRuleSet());
+        rule1.setCompiledRuleID(rulesetUuid1);
         droolsRepository.loadRuleSet(rulesetUuid1);
+        em.merge(rule1);
         
+        System.out.println("Rule set1:\n" + grs1.getRuleSet().getContent());
+                
         FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
         GenerateRuleSet grs2 = metadata.buildRuleSet(rule2);
         String rulesetUuid2 = droolsRepository.createRuleSet(grs2.getRuleSet());
+        rule2.setCompiledRuleID(rulesetUuid2);
         droolsRepository.loadRuleSet(rulesetUuid2);
+        em.merge(rule2);
         
+        System.out.println("Rule set2:\n" + grs2.getRuleSet().getContent());
+
         FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
         GenerateRuleSet grs3 = metadata.buildRuleSet(rule3);
         String rulesetUuid3 = droolsRepository.createRuleSet(grs3.getRuleSet());
+        rule3.setCompiledRuleID(rulesetUuid3);
         droolsRepository.loadRuleSet(rulesetUuid3);
+        em.merge(rule3);
+        
+        System.out.println("Rule set3:\n" + grs3.getRuleSet().getContent());
         
         FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
         GenerateRuleSet grs4 = metadata.buildRuleSet(rule4);
         String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
+        rule4.setCompiledRuleID(rulesetUuid4);
         droolsRepository.loadRuleSet(rulesetUuid4);        
+        em.merge(rule4);
+        
+        System.out.println("Rule set4:\n" + grs4.getRuleSet().getContent());
+
     }
 
     public void deleteRules() {
