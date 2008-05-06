@@ -59,7 +59,6 @@ import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.brms.repository.exceptions.RuleExistsException;
 import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
-import org.kuali.student.brms.repository.rule.AbstractItem;
 import org.kuali.student.brms.repository.rule.CompilerResultList;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
