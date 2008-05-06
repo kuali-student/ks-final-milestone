@@ -45,7 +45,7 @@ public class SubsetConstraint<E> extends ConstraintStrategy {
      */
     @Override
     public Boolean apply(String propVar) {
-        System.out.println("applying constraint ");
+        //System.out.println("applying constraint ");
         populateFactSet();
 
         Set<E> met = and();
