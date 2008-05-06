@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
@@ -45,9 +46,8 @@ public class GenerateRuleSet {
 
         RuleTemplate rt = new RuleTemplate();
 
-        // ruleSet = new RuleSetImpl(ruleSetName);
-        ruleSet = RuleSetFactory.getInstance().createRuleSet(ruleSetName);
-        ruleSet.setDescription(ruleSetDescription);
+        ruleSet = RuleSetFactory.getInstance().createRuleSet(
+                ruleSetName, ruleSetDescription);
         ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
         ruleSet.addHeader("import org.kuali.student.rules.util.Constraint");
 
@@ -123,11 +123,9 @@ public class GenerateRuleSet {
 
     // Add rule to ruleset created in constructor
     private void saveRule(String extRuleName, String ruleSourceCode) {
-        Rule rule = RuleFactory.getInstance().createDroolsRule(extRuleName);
-        rule.setDescription(description);
-        rule.setCategory(category);
-        rule.setContent(ruleSourceCode);
-        rule.setFormat("drl");
+        Rule rule = RuleFactory.getInstance().createDroolsRule(
+                extRuleName, description, category, ruleSourceCode, 
+                DroolsRuleImpl.DRL);
         ruleSet.addRule(rule);
     }
 
