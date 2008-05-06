@@ -150,8 +150,10 @@ public interface RuleSet extends Item {
     public String getSnapshotName();
 
     /**
-     * Sets the snapshot name of this rule set. 
-     * A rule set can have multiple snapshots.
+     * <p>Sets the snapshot name of this rule set. 
+     * A rule set can have multiple snapshots.</p>
+     * <p>This method has no effect unless a rule set snapshot is created in 
+     * the repository.</p>
      * 
      * @param snapshotName Snapshot name
      */
