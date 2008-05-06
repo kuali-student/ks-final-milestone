@@ -15,7 +15,6 @@
  */
 package org.kuali.student.brms.repository.drools.rule;
 
-import org.kuali.student.brms.repository.rule.AbstractItem;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
 /**
