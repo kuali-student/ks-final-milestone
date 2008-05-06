@@ -52,8 +52,29 @@ public class DroolsRuleImpl
      * 
      * @param name Rule name
      */
-    public DroolsRuleImpl(final String name) {
-        super(name);
+    public DroolsRuleImpl(final String name, 
+                          final String description,
+                          final String content) {
+        super(name, description,DRL);
+        if (content == null || content.trim().isEmpty()) {
+            throw new IllegalArgumentException("content cannot be null or empty");
+        }
+        this.content = content;
+    }
+
+    /**
+     * Constructs a new rule.
+     * 
+     * @param name Rule name
+     */
+    public DroolsRuleImpl(final String name, 
+                          final String description, 
+                          final String category, 
+                          final String content, 
+                          final String format) {
+        super(name, description, format);
+        this.category = category;
+        this.content = content;
     }
 
     /**
@@ -116,7 +137,9 @@ public class DroolsRuleImpl
     }
     
     /**
-     * @see org.kuali.student.brms.repository.rule.Rule#setEffectiveDate(java.util.Calendar)
+     * Sets the rule effective date.
+     * 
+     * @param effectiveDate Rule effective date
      */
     public void setEffectiveDate(Calendar effectiveDate) {
         this.effectiveDate = effectiveDate;
@@ -130,7 +153,9 @@ public class DroolsRuleImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Rule#setExpiryDate(java.util.Calendar)
+     * Sets the rule expiry date.
+     * 
+     * @param expiryDate Rule expiry date
      */
     public void setExpiryDate(Calendar expiryDate) {
         this.expiryDate = expiryDate;

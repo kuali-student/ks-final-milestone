@@ -15,6 +15,7 @@
  */
 package org.kuali.student.brms.repository.drools.rule;
 
+import org.kuali.student.brms.repository.rule.AbstractItem;
 import org.kuali.student.brms.repository.rule.RuleSet;
 
 /**
@@ -49,10 +50,23 @@ public class RuleSetFactory {
      * Creates a new rule set.
      * 
      * @param name Rule set name
+     * @param description Rule set description
      * @return A new rule set
      */
-    public RuleSet createRuleSet( final String name ) {
-        return new DroolsRuleSetImpl( name );
+    public RuleSet createRuleSet( final String name, final String description ) {
+        return new DroolsRuleSetImpl( name, description, AbstractItem.DRL );
+    }
+    
+    /**
+     * Creates a new rule set.
+     * 
+     * @param name Rule set name
+     * @param description Rule set description
+     * @param format Rule set source code format
+     * @return A new rule set
+     */
+    public RuleSet createRuleSet( final String name, final String description, String format ) {
+        return new DroolsRuleSetImpl( name, description, format );
     }
     
     /**

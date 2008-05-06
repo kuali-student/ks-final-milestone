@@ -46,19 +46,35 @@ public class RuleFactory {
     }
 
     /**
-     * Creates a rule.
+     * Creates a new rule.
      * 
      * @param name Rule name
+     * @param description Rule description
+     * @param content Rule source code content
      * @return A new rule
      */
-    public Rule createDroolsRule( final String name ) {
-        return new DroolsRuleImpl( name );
+    public Rule createDroolsRule( final String name, final String description, final String content ) {
+        return new DroolsRuleImpl( name, description, content );
+    }
+
+    /**
+     * Creates a new rule.
+     * 
+     * @param name Rule name
+     * @param description Rule description
+     * @param category Rule category
+     * @param content Rule source code content
+     * @param format Rule source code format
+     * @return A new rule
+     */
+    public Rule createDroolsRule( final String name, final String description, final String category, final String content, final String format ) {
+        return new DroolsRuleImpl( name, description, category, content, format );
     }
 
     /**
      * <p>For internal use only.</p>
      * 
-     * <p>Creates a rule.
+     * <p>Creates a new rule.
      * <code>uuid</code> and <code>version</code> are set by the 
      * repository implementation.</p>
      * 
