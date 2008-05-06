@@ -138,4 +138,17 @@ public class RuleTest {
         rule.setBinaryContent( null );
         assertArrayEquals( null, rule.getBinaryContent() );
     }
+
+    /*@Test
+    public void testRuleCopy() {
+        DroolsRuleImpl rule = (DroolsRuleImpl) RuleUtil.createRule( "rule1" );
+        String content = "Some binary stuff";
+        rule.setBinaryContent( content.getBytes() );
+        rule.setCategory( "MyCategory" );
+        Rule copy = rule.copy();
+        // Make sure it is a true copy
+        assertFalse( copy == rule );
+        // Make sure that the copy is equal to the original rule
+        assertEquals( copy, rule );
+    }*/
 }
