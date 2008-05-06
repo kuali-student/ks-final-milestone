@@ -30,6 +30,9 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
     
+    /** Drools file format */
+    public final static String DRL = "drl";
+    
     /** Item UUID */
     private String uuid;
     /** Item name */
@@ -69,11 +72,21 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
      * 
      * @param name Item name
      */
-    public AbstractItem(final String name) {
+    public AbstractItem(final String name, 
+                        final String description,
+                        final String format) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("name cannot be null or empty");
         }
+        else if (description == null || description.trim().isEmpty()) {
+            throw new IllegalArgumentException("description cannot be null or empty");
+        }
+        else if (format == null || format.trim().isEmpty()) {
+            throw new IllegalArgumentException("format cannot be null or empty");
+        }
         this.name = name;
+        this.description = description;
+        this.format = format;
     }
 
     /**
@@ -109,7 +122,9 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setDescription(java.lang.String)
+     * Sets the description of this item.
+     * 
+     * @param description Item description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -137,7 +152,10 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Item#setFormat(java.lang.String)
+     * Sets the item source format. 
+     * E.g. XML (xml) or Drools DRL (drl).
+     * 
+     * @param format Item format
      */
     public void setFormat(String format) {
         this.format = format;
