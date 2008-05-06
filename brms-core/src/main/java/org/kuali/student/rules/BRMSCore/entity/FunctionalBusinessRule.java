@@ -40,7 +40,7 @@ public class FunctionalBusinessRule {
     private String failureMessage;
     @Column(unique = true, nullable = false)
     private String ruleIdentifier;
-    private final String compiledRuleID;
+    private String compiledRuleID;
     @Embedded
     private RuleMetaData ruleMetaData;
     @Embedded
@@ -247,16 +247,17 @@ public class FunctionalBusinessRule {
     }
 
     /**
-     * @return the compileRuleID
+     * @return the compiledRuleID
      */
-    public final String getCompileRuleID() {
+    public String getCompiledRuleID() {
         return compiledRuleID;
     }
 
     /**
-     * @return the compiledRuleID
+     * @param compiledRuleID the compiledRuleID to set
      */
-    public final String getCompiledRuleID() {
-        return compiledRuleID;
+    public void setCompiledRuleID(String compiledRuleID) {
+        this.compiledRuleID = compiledRuleID;
     }
+
 }

@@ -37,6 +37,8 @@ public class FunctionalBusinessRuleManagementService {
     private static final String RULE_PACKAGE = "org.kuali.student.rules.enrollment";
     private static final String RULESET_DESC = "Enrollment Rules";
     
+    public static final String VALIDATION_OUTCOME = "validationResultOutcome";
+    
     VelocityContext context;
 
     public static final char INITIAL_PROPOSITION_PLACEHOLDER = 'A';
@@ -132,11 +134,11 @@ public class FunctionalBusinessRuleManagementService {
      * @throws Exception
      */
     public GenerateRuleSet buildRuleSet(FunctionalBusinessRule rule) throws Exception {
-        GenerateRuleSet grs = new GenerateRuleSet(createRuleFunctionString(rule));
+        GenerateRuleSet grs = new GenerateRuleSet(createAdjustedRuleFunctionString(rule));
         
-        grs.setRuleSetName(RULE_PACKAGE);
+        grs.setRuleSetName(RULE_PACKAGE + rule.getRuleIdentifier());
         grs.setRuleSetDescription(RULESET_DESC);
-        grs.setRuleName(rule.getRuleSetIdentifier());
+        grs.setRuleName(rule.getRuleIdentifier());
         grs.setRuleDescription(rule.getDescription()); // Rule description cannot be empty
         grs.setRuleCategory(null);
         grs.setRuleAttributes(null);
@@ -152,7 +154,7 @@ public class FunctionalBusinessRuleManagementService {
         }
 
         grs.setLhsFuncConstraintMap(funcConstraintsMap);
-        grs.setRuleOutcome("System.out.println(\"I'm Enrolled\");");
+        grs.setRuleOutcome("Propositions.setProposition(\"" + VALIDATION_OUTCOME + "\",true);");
         
         grs.parse();
 
@@ -160,71 +162,6 @@ public class FunctionalBusinessRuleManagementService {
     }
     
     
-    /**
-     * Transforms a functional business rule into Drool WHEN part of the Drool rule.
-     * 
-     * @param rule
-     *            Functional business rule used to transform.
-     * @return Returns WHEN part
-     */
-//    public String mapMetaRuleToDroolRule(FunctionalBusinessRule rule) throws Exception {
-//
-//        InitializeVelocity();
-//
-//        // for now we only retrieve the first proposition
-//        HashMap<String, RuleProposition> propositions = getRulePropositions(rule);
-//        RuleProposition ruleProposition = propositions.get("A");
-//        LeftHandSide leftHandSide = ruleProposition.getLeftHandSide();
-//
-//        // String allFacts = "MATH101, MATH102, MATH103";
-//        ArrayList<String> facts = leftHandSide.getMethodParameters();
-//        String allFacts = "";
-//        for (String fact : facts) {
-//            allFacts += fact;
-//        }
-//
-//        context = new VelocityContext();
-//        context.put("criteria", new String("1"));
-//        context.put("fact", allFacts);
-//        Template template = null;
-//        StringWriter sw = new StringWriter();
-//
-//        // create WHEN part based on supplied fact, criteria and template
-//        try {
-//            template = Velocity.getTemplate("RuleWhenTemplate.vm");
-//            template.merge(context, sw);
-//        } catch (ResourceNotFoundException rnfe) {
-//            // couldn't find the template
-//            System.out.println("Velocity: Could not find the template. " + rnfe.getStackTrace());
-//            throw rnfe;
-//        } catch (ParseErrorException pee) {
-//            // syntax error: problem parsing the template
-//            System.out.println("Velocity: parsing template error. " + pee.getStackTrace());
-//            throw pee;
-//        } catch (MethodInvocationException mie) {
-//            // something invoked in the template threw an exception
-//            System.out.println("Velocity: template method exception. " + mie.getStackTrace());
-//            throw mie;
-//        } catch (Exception e) {
-//            System.out.println("Velocity: error occured. " + e.getStackTrace());
-//            throw e;
-//        }
-//
-//        return sw.toString();
-//    }
-
-//    private void InitializeVelocity() throws Exception {
-//        try {
-//            Properties p = new Properties();
-//            p.setProperty("resource.loader", "class");
-//            p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-//            Velocity.init(p);
-//        } catch (Exception e) {
-//            System.out.println("Problem initializing Velocity : " + e.getStackTrace());
-//            throw e;
-//        }
-//    }
-
     /**
      * Retrieves a functional business rule from database based on Rule ID.
      * 
