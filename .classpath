@@ -32,6 +32,11 @@
 	</classpathentry>
 	<classpathentry kind="src" output="generate-rule/target/classes" path="generate-rule/src/main/resources"/>
 	<classpathentry kind="src" output="generate-rule/target/test-classes" path="generate-rule/src/test/resources"/>
+	<classpathentry kind="src" path="validate-rule/src/main/java"/>
+	<classpathentry kind="src" output="validate-rule/src/main/resources" path="validate-rule/src/main/resources"/>
+	<classpathentry kind="src" path="validate-rule/src/test/java"/>
+	<classpathentry kind="src" output="validate-rule/src/test/resources" path="validate-rule/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
