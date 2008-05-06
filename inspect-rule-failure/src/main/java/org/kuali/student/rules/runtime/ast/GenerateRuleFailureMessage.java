@@ -43,9 +43,9 @@ public class GenerateRuleFailureMessage {
             	//System.out.println(bnode.getLabel() + "   " + bnode.getValue() + "   " + bnode.getRuleFailureMessage());
             	workingMemory.insert( bnode );
             }
-            System.out.println("ABOUT TO FIRE ALL RULES");
+            //System.out.println("ABOUT TO FIRE ALL RULES");
             workingMemory.fireAllRules();
-            System.out.println( ASTtree.getRoot().getRuleFailureMessage() + "   IM ROOT");
+            //System.out.println( ASTtree.getRoot().getRuleFailureMessage() + "   IM ROOT");
             
             
         } catch (Throwable t) {
