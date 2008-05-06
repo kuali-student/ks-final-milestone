@@ -298,6 +298,10 @@ public class DroolsRuleSetImpl
     public void setSnapshotName(final String snapshotName) {
         this.snapshotName = snapshotName;
     }
+    
+    public String toString() {
+        return "RuleSet UUID=" + getUUID() + ", name=" + getName() + ", versionNumber=" + getVersionNumber();
+    }
 
     /**
      * Overrides hashCode

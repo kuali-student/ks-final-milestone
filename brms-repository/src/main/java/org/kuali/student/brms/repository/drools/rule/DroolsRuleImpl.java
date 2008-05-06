@@ -90,6 +90,37 @@ public class DroolsRuleImpl
     }
 
     /**
+     * Creates a copy of this rule.
+     * 
+     * @return A new copy of this rule
+     */
+    /*public Rule copy() {
+        DroolsRuleImpl rule = null;
+
+        if ( getUUID() == null ) {
+            rule = new DroolsRuleImpl( getName(), getDescription(), getContent() );
+        } else {
+            rule = new DroolsRuleImpl( getUUID(), getName(), getVersionNumber() );
+        }
+        
+        rule.setArchived(isArchived());
+        rule.setBinaryContent(getBinaryContent());
+        rule.setCategory(getCategory());
+        rule.setCheckinComment(getCheckinComment());
+        rule.setContent(getContent());
+        rule.setCreatedDate(getCreatedDate());
+        rule.setDescription(getDescription());
+        rule.setEffectiveDate(getEffectiveDate());
+        rule.setExpiryDate(getExpiryDate());
+        rule.setFormat(getFormat());
+        rule.setHistorical(isHistorical());
+        rule.setLastModifiedDate(getLastModifiedDate());
+        rule.setStatus(getStatus());
+        rule.setVersionSnapshotUUID(getVersionSnapshotUUID());
+        return rule;
+    }*/
+
+    /**
      * Returns a copy of the binary content.
      * 
      * @see org.kuali.student.brms.repository.rule.Rule#getBinaryContent()
@@ -170,6 +201,9 @@ public class DroolsRuleImpl
         return this.expiryDate;
     }
 
+    public String toString() {
+        return "Rule UUID=" + getUUID() + ", name=" + getName() + ", versionNumber=" + getVersionNumber();
+    }
     /**
      * Overrides hashCode.
      * 
