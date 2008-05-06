@@ -8,13 +8,13 @@ import java.util.Hashtable;
 import java.util.List;
 
 import org.kuali.student.brms.repository.RuleEngineRepository;
-import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.drools.rule.DroolsConstants;
-import org.kuali.student.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
-import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
+import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.util.Function;
+
 
 /**
  * @author Rich Diaz
@@ -47,8 +47,7 @@ public class GenerateRuleSet {
 
         RuleTemplate rt = new RuleTemplate();
 
-        ruleSet = RuleSetFactory.getInstance().createRuleSet(
-                ruleSetName, ruleSetDescription);
+        ruleSet = RuleSetFactory.getInstance().createRuleSet(ruleSetName, ruleSetDescription);
         ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
         ruleSet.addHeader("import org.kuali.student.rules.util.Constraint");
 
