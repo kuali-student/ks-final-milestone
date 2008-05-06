@@ -16,6 +16,7 @@
 package org.kuali.student.rules.validate;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * This is a description of what this class does - Kamal don't forget to fill this in. 
@@ -23,9 +24,9 @@ import java.util.List;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public class MockCourseEnrollmentRequest {
+public class CourseEnrollmentRequest {
 
-    private List<String> luiIds;
+    private Set<String> luiIds;
 
     private List<Number> learningResults;
     
@@ -46,14 +47,14 @@ public class MockCourseEnrollmentRequest {
     /**
      * @return the luiIds
      */
-    public List<String> getLuiIds() {
+    public Set<String> getLuiIds() {
         return luiIds;
     }
 
     /**
      * @param luiIds the luiIds to set
      */
-    public void setLuiIds(List<String> luiIds) {
+    public void setLuiIds(Set<String> luiIds) {
         this.luiIds = luiIds;
     }
     
