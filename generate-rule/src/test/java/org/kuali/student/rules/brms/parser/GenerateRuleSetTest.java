@@ -29,8 +29,8 @@ public class GenerateRuleSetTest {
     @BeforeClass
     public static void setUpOnce() throws Exception {
         // Start and initialize a new repository
-        URL url = DroolsJackrabbitRepository.class.getResource("/repository");
-        System.out.println("repository URL: " + url.toString());
+        URL url = GenerateRuleSetTest.class.getResource("/repository");
+        System.out.println("Repository URL: " + url.toString());
         repo = new DroolsJackrabbitRepository(url);
         // Remove all repository files
         repo.clearAll();
