@@ -28,9 +28,12 @@ public class EnforceRuleTest extends AbstractJpaTests {
     @Test
     public void testValidation() throws Exception {
         // Only thing that matters is the 3rd argument which maps to the functional rule Id
-        enforceRule.validateLuiPersonRelation("John", "Math 101", "1", null);
-        enforceRule.validateLuiPersonRelation("John", "Math 101", "2", null);
-    }
+        ValidationResult result1= enforceRule.validateLuiPersonRelation("John", "Math 101", "1", null);
+        assertEquals(result1.isSuccess(), true);
+        
+        ValidationResult result2 = enforceRule.validateLuiPersonRelation("John", "Math 101", "2", null);
+        assertEquals(result2.isSuccess(), false);
+    }   
 
     @Override
     @Before
