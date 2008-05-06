@@ -34,13 +34,6 @@ public interface Item {
     public String getName();
 
     /**
-     * Sets the description of this item.
-     * 
-     * @param description Item description
-     */
-    public void setDescription(String description);
-
-    /**
      * Gets the description of this item.
      * 
      * @return Item name
@@ -68,14 +61,6 @@ public interface Item {
      */
     public String getUUID();
 
-    /**
-     * Sets the item source format. 
-     * E.g. XML (xml) or Drools DRL (drl).
-     * 
-     * @param format Item format
-     */
-    public void setFormat(String format);
-    
     /**
      * Gets the item source format. 
      * E.g. XML (xml) or Drools DRL (drl).
