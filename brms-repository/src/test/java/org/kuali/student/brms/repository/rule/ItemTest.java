@@ -47,8 +47,8 @@ public class ItemTest {
          * 
          * @param name Item name
          */
-        public ItemImpl( String name ) {
-            super( name );
+        public ItemImpl( String name, String description, String format ) {
+            super( name, description, format );
         }
 
         /**
@@ -70,7 +70,7 @@ public class ItemTest {
      * @return A new Item
      */
     private Item createItem( String name ) {
-        return new ItemImpl( name );
+        return new ItemImpl( name, "A description", AbstractItem.DRL );
     }
 
     /**

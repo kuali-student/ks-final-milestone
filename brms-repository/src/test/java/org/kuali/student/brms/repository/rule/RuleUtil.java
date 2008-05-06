@@ -26,7 +26,7 @@ import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
  */
 public class RuleUtil {
 
-    public static String getSimpleRule( String name ) {
+    public static String getSimpleRule( final String name ) {
         return "rule \"" + name + "\" when then end";
     }
 
@@ -36,8 +36,9 @@ public class RuleUtil {
      * @param name Rule name
      * @return A new rule
      */
-    public static Rule createRule( String name ) {
-        Rule rule = RuleFactory.getInstance().createDroolsRule( name );
+    public static Rule createRule( final String name ) {
+        Rule rule = RuleFactory.getInstance().createDroolsRule( 
+                name, "A new rule", "rule \"" + name + "\" when then end" );
         rule.setContent(getSimpleRule(name));
         return rule;
     }
@@ -50,7 +51,7 @@ public class RuleUtil {
      * @param version Rule version
      * @return A new rule
      */
-    public static Rule createRule( String uuid, String name, long version ) {
+    public static Rule createRule( final String uuid, final String name, long version ) {
         Rule rule = RuleFactory.getInstance().createDroolsRule( uuid, name, version );
         rule.setContent(getSimpleRule(name));
         return rule;
@@ -62,9 +63,9 @@ public class RuleUtil {
      * @param name Rule set name
      * @return A new rule set
      */
-    public static RuleSet createRuleSet( String name ) {
-        return RuleSetFactory.getInstance().createRuleSet( name );
-    }    
+    public static RuleSet createRuleSet( final String name ) {
+        return RuleSetFactory.getInstance().createRuleSet( name, "A new rule set", AbstractItem.DRL );
+    }   
 
     /**
      * Creates a new rule set.
@@ -74,7 +75,7 @@ public class RuleUtil {
      * @param version Rule set version
      * @return A new rule set
      */
-    public static RuleSet createRuleSet( String uuid, String name, long version ) {
+    public static RuleSet createRuleSet( final String uuid, final String name, final long version ) {
         return RuleSetFactory.getInstance().createRuleSet( uuid, name, version );
     }    
 
