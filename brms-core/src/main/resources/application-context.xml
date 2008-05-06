@@ -29,11 +29,6 @@
   <bean id="FunctionalBusinessRuleManagementService"  class="org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
-
-  <bean class="org.kuali.student.rules.BRMSCore.util.UtilBRMSDatabase">
-    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>
-    <property name="metadata" ref="FunctionalBusinessRuleManagementService"/>
-  </bean>
 	
   <!-- JPA EntityManagerFactory -->
   <bean id="jpaConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -52,7 +47,6 @@
     	<property name="jpaPropertyMap" ref="jpaConfig" />			
 	 </bean>	
 
-   <!-- 
 	<bean id="droolsRepository" class="org.kuali.student.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
 		<constructor-arg type="org.drools.repository.RulesRepository" 
 					ref="rulesRepository"/>
@@ -66,7 +60,6 @@
 	<bean id="rulesRepository"
       factory-bean="defaultDroolsRepositoryContainer"
       factory-method="getRepository"/>
-    --> 
      
      
 	<bean id="myDataSource"	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
