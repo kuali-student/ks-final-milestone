@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.rule.RuleSet;
@@ -125,7 +126,7 @@ public class GenerateRuleSet {
     private void saveRule(String extRuleName, String ruleSourceCode) {
         Rule rule = RuleFactory.getInstance().createDroolsRule(
                 extRuleName, description, category, ruleSourceCode, 
-                DroolsRuleImpl.DRL);
+                DroolsConstants.FORMAT_DRL);
         ruleSet.addRule(rule);
     }
 
