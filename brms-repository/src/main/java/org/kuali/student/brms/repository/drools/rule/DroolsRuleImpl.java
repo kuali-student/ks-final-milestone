@@ -123,7 +123,9 @@ public class DroolsRuleImpl
     }
 
     /**
-     * @see org.kuali.student.brms.repository.rule.Rule#setCategory(java.lang.String)
+     * Sets the category the rule belongs to.
+     * 
+     * @param category Rule category
      */
     public void setCategory(String category) {
         this.category = category;
