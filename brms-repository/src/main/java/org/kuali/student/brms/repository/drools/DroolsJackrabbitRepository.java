@@ -171,6 +171,7 @@ public class DroolsJackrabbitRepository {
      */
     public void startupRepository() {
         logger.info( "Repository: " + this.path );
+        System.out.println("Repository: " + this.path);
         this.repoConfig = new JackrabbitRepositoryConfigurator();
         this.repository = repoConfig.getJCRRepository(this.path);
     }
