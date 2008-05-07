@@ -129,11 +129,10 @@
 			value="classpath:wsdl/PersonService.wsdl" />
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.poc.wsdl.personidentity.person.PersonService" />
-		<property name="serviceNamespaceURI"
-			value="http://student.kuali.org/poc/wsdl/personidentity/person" />
-		<property name="serviceNameLocalPart" value="PersonService" />
+		<property name="serviceQNameString"
+			value="{http://student.kuali.org/poc/wsdl/personidentity/person}PersonService" />
 		<property name="address"
-			value="http://localhost:8080/personidentity/PersonService" />
+			value="http://kualidev.oti.fsu.edu:18080/personidentity-0.0.3-SNAPSHOT/PersonService/PersonService" />
 	</bean>
 
 	<bean id="loadDataBean"
