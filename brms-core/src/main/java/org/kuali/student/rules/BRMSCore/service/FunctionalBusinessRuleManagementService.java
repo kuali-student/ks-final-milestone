@@ -1,22 +1,12 @@
 package org.kuali.student.rules.BRMSCore.service;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Properties;
 import java.util.Set;
 
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
-import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
 import org.kuali.student.rules.BRMSCore.entity.RuleElement;
 import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
@@ -36,14 +26,10 @@ public class FunctionalBusinessRuleManagementService {
 
     private static final String RULE_PACKAGE = "org.kuali.student.rules.enrollment";
     private static final String RULESET_DESC = "Enrollment Rules";
-    
+
     public static final String VALIDATION_OUTCOME = "validationResultOutcome";
-    
-    VelocityContext context;
 
     public static final char INITIAL_PROPOSITION_PLACEHOLDER = 'A';
-    
-    
 
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
@@ -123,11 +109,8 @@ public class FunctionalBusinessRuleManagementService {
         return propositions;
     }
 
-
     /**
-     * 
-     * This method builds the drools rule set container associated with the functional 
-     * business rule.
+     * This method builds the drools rule set container associated with the functional business rule.
      * 
      * @param rule
      * @return
@@ -135,33 +118,32 @@ public class FunctionalBusinessRuleManagementService {
      */
     public GenerateRuleSet buildRuleSet(FunctionalBusinessRule rule) throws Exception {
         GenerateRuleSet grs = new GenerateRuleSet(createAdjustedRuleFunctionString(rule));
-        
+
         grs.setRuleSetName(RULE_PACKAGE + rule.getRuleIdentifier());
         grs.setRuleSetDescription(RULESET_DESC);
         grs.setRuleName(rule.getRuleIdentifier());
         grs.setRuleDescription(rule.getDescription()); // Rule description cannot be empty
         grs.setRuleCategory(null);
         grs.setRuleAttributes(null);
-        
+
         Hashtable<String, String> funcConstraintsMap = new Hashtable<String, String>();
-        
+
         HashMap<String, RuleProposition> propositions = getRulePropositions(rule);
-        
+
         Set<String> labels = propositions.keySet();
-        
-        for(String label : labels) {
-            funcConstraintsMap.put(label,label);
+
+        for (String label : labels) {
+            funcConstraintsMap.put(label, label);
         }
 
         grs.setLhsFuncConstraintMap(funcConstraintsMap);
         grs.setRuleOutcome("Propositions.setProposition(\"" + VALIDATION_OUTCOME + "\",true);");
-        
+
         grs.parse();
 
         return grs;
     }
-    
-    
+
     /**
      * Retrieves a functional business rule from database based on Rule ID.
      * 

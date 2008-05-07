@@ -63,7 +63,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", null, metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message", "Rule 1 Failure Message", "1", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -114,7 +114,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Rule 2 Success Message", "Rule 2 Failure Message", "2", null, metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
         facts = new ArrayList<String>();
@@ -138,7 +138,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Rule 3 Success Message", "Rule 3 Failure Message", "3", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -221,7 +221,7 @@ public class UtilBRMSDatabase {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Rule 1 Success Message", "Rule 1 Failure Message", "4", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Rule 4 Success Message", "Rule 4 Failure Message", "4", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -292,23 +292,23 @@ public class UtilBRMSDatabase {
     }
 
     public final void compileDroolsRule() throws Exception {
-        
+
         FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
         GenerateRuleSet grs1 = metadata.buildRuleSet(rule1);
         String rulesetUuid1 = droolsRepository.createRuleSet(grs1.getRuleSet());
         rule1.setCompiledRuleID(rulesetUuid1);
         droolsRepository.loadRuleSet(rulesetUuid1);
         em.merge(rule1);
-        
+
         System.out.println("Rule set1:\n" + grs1.getRuleSet().getContent());
-                
+
         FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
         GenerateRuleSet grs2 = metadata.buildRuleSet(rule2);
         String rulesetUuid2 = droolsRepository.createRuleSet(grs2.getRuleSet());
         rule2.setCompiledRuleID(rulesetUuid2);
         droolsRepository.loadRuleSet(rulesetUuid2);
         em.merge(rule2);
-        
+
         System.out.println("Rule set2:\n" + grs2.getRuleSet().getContent());
 
         FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
@@ -317,16 +317,16 @@ public class UtilBRMSDatabase {
         rule3.setCompiledRuleID(rulesetUuid3);
         droolsRepository.loadRuleSet(rulesetUuid3);
         em.merge(rule3);
-        
+
         System.out.println("Rule set3:\n" + grs3.getRuleSet().getContent());
-        
+
         FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
         GenerateRuleSet grs4 = metadata.buildRuleSet(rule4);
         String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
         rule4.setCompiledRuleID(rulesetUuid4);
-        droolsRepository.loadRuleSet(rulesetUuid4);        
+        droolsRepository.loadRuleSet(rulesetUuid4);
         em.merge(rule4);
-        
+
         System.out.println("Rule set4:\n" + grs4.getRuleSet().getContent());
 
     }
