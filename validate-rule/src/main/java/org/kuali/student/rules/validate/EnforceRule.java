@@ -10,7 +10,6 @@ import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.kuali.student.brms.repository.RuleEngineRepository;
-import org.kuali.student.brms.repository.drools.DroolsTestUtil;
 import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.util.Constraint;
