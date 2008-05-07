@@ -54,19 +54,13 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
         this.serviceEndpointInterface = serviceEndpointInterface;
     }
 
-    /**
-     * @return the serviceName
-     */
-    public QName getServiceName() {
-        return serviceQName;
-    }
-
+ 
     /**
      * @param serviceName
      *            the serviceName to set
      */
-    public void setServiceName(QName serviceName) {
-        this.serviceQName = serviceName;
+    public void setServiceQNameString(String serviceName) {
+        this.serviceQName = QName.valueOf(serviceName);
     }
 
     @Override
@@ -103,5 +97,29 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
     public void setAddress(String add) {
         this.serviceUrl = add;
     }
+
+	/**
+	 * @return the serviceQName
+	 */
+	public QName getServiceQName() {
+		return serviceQName;
+	}
+
+	/**
+	 * @param serviceQName the serviceQName to set
+	 */
+	public void setServiceQName(QName serviceQName) {
+		this.serviceQName = serviceQName;
+	}
+
+	@Override
+	public QName getServiceName() {
+		return serviceQName;
+	}
+
+	@Override
+	public void setServiceName(QName serviceName) {
+		this.serviceQName = serviceName;
+	}
 
 }
