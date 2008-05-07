@@ -6,6 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
 	<artifactId>validate-rule</artifactId>
+	<name>Kuali Student BRMS - validate-rule</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
 		Bridges various components of the Kuali Rule System
@@ -18,13 +19,11 @@
 	</parent>
 
 	<dependencies>
-	<!--
 		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.5</version>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>brms-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	-->
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>inspect-rule-failure</artifactId>
@@ -37,8 +36,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
-			<artifactId>brms-core</artifactId>
+			<artifactId>generate-rule</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency>		
 	 </dependencies>
 </project>
