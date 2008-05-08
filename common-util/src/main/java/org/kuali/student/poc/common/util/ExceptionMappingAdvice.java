@@ -3,6 +3,8 @@ package org.kuali.student.poc.common.util;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.core.Ordered;
 
@@ -53,6 +55,7 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 	private static final long serialVersionUID = 1L;
 	private Map<Class<? extends Exception>, Class<? extends Exception>> exceptionMapping;
 	private Class<? extends Exception> defaultException;
+	final Logger logger = LoggerFactory.getLogger(ExceptionMappingAdvice.class);
 
 	/**
 	 * This method will use the real exception thrown and look up the exception
@@ -64,17 +67,20 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 	public void afterThrowing(Exception ex) throws Exception {
 		Class<? extends Exception> mappedExceptionClass = exceptionMapping
 				.get(ex.getClass());
+        logger.debug("Mapping exception {} to {}",ex.getClass(),mappedExceptionClass);
 		if (mappedExceptionClass != null) {
 			Constructor<? extends Exception> c = mappedExceptionClass
 					.getConstructor(String.class);
 			Exception mappedException = c.newInstance(ex.getMessage());
 			throw mappedException;
 		}
+		logger.trace("No mapping available, throwing default exception {}",defaultException);
 		if (defaultException != null) {
 			Constructor<? extends Exception> c = defaultException
 					.getConstructor(String.class);
 			throw c.newInstance(ex.getMessage());
 		}
+		logger.debug("No mapping or default exception available. Exception {}",ex.getClass());
 		throw new RuntimeException("Could Not Map: " + ex.toString());
 	}
 
