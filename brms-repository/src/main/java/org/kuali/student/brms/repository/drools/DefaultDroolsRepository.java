@@ -1,7 +1,5 @@
 package org.kuali.student.brms.repository.drools;
 
-import java.net.URL;
-
 import javax.jcr.Credentials;
 import javax.jcr.SimpleCredentials;
 
