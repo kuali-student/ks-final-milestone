@@ -12,9 +12,8 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.distribution.CacheManagerPeerListener;
 import net.sf.ehcache.distribution.CacheManagerPeerProvider;
 import net.sf.ehcache.distribution.CachePeer;
-import net.sf.ehcache.distribution.RMICacheManagerPeerProvider;
-import net.sf.ehcache.event.CacheManagerEventListener;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
@@ -30,6 +29,7 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
+import org.kuali.student.poc.personidentity.person.service.PersonServiceCacheDelegate;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
@@ -44,14 +44,17 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonServiceCache extends AbstractServiceTest {
 	
-    @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl", port="9191")
+    @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceCacheDelegate", port="9191")
     public PersonService client;
-    
+	public PersonService clientCacheDelegate;
 	private int numInstances = 5;
 	private char he = 'M';
 	private char she = 'F';
 	private final String personInfoCacheName = "PersonInfo";
-	
+	@Before
+	public void setup() {
+		clientCacheDelegate = new PersonServiceCacheDelegate(client, "ehcache2.xml");
+	}
 	@Test
 	public void checkPersonInfoIsDistributedCache() throws RemoteException{
 		EhCacheHelper ehCacheHelper;
@@ -158,7 +161,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		
 	private List<PersonTypeInfo>findAllPersonTypeInfos(List<String>personTypeInfoIds) throws DoesNotExistException,
 										InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<PersonTypeInfo> personTypeInfos = new ArrayList();
+		List<PersonTypeInfo> personTypeInfos = new ArrayList<PersonTypeInfo>();
 		for(String personTypeInfoId : personTypeInfoIds) {
 			PersonTypeInfo personTypeInfo = client.fetchPersonType(personTypeInfoId);
 			assertNotNull("PersonTypeInfo is null ", personTypeInfo);
