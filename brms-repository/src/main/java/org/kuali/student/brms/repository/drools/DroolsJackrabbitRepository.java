@@ -224,27 +224,27 @@ System.out.println("**************************************************\n\n");
      * </pre>
      */
     public void clearAll() {
-        //try {
-            File repoDir = null;
-            File[] exclude = null;
-            if ( this.url == null ) {
-                repoDir = new File(REPOSITORY_CONFIG_DIR);
-            } else {
-                repoDir = new File( getPath( this.url ) );
-                File config = new File( getPath( this.url ) + "/" + 
-                        RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
-                if ( !isJar( this.url ) ) {
-                    exclude = new File[]{repoDir, config};
-                }
+        if (this.repositorySession.isLive()) {
+            throw new RuleEngineRepositoryException("Repository must be shut down before clearing all repository database files.");
+        }
+        
+        File repoDir = null;
+        File[] exclude = null;
+        if ( this.url == null ) {
+            repoDir = new File(REPOSITORY_CONFIG_DIR);
+        } else {
+            repoDir = new File( getPath( this.url ) );
+            File config = new File( getPath( this.url ) + "/" + 
+                    RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
+            if ( !isJar( this.url ) ) {
+                exclude = new File[]{repoDir, config};
             }
-            logger.info( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
+        }
+        logger.info( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
 System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
-            boolean b = deleteDir(exclude, repoDir);
-            logger.info( "Repository deleted: " + b );
+        boolean b = deleteDir(exclude, repoDir);
+        logger.info( "Repository deleted: " + b );
 System.out.println( "Repository deleted: " + b );
-        /*} catch (URISyntaxException e) {
-            throw new RuleEngineRepositoryException(e);
-        }*/
     }
 
     /**
