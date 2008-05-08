@@ -22,6 +22,16 @@ public class EhCacheHelper {
 	public EhCacheHelper() {
 		initCacheManager();
 	}
+	
+	public EhCacheHelper(String configurationFileName) {
+		initCacheManager(configurationFileName);
+	}
+	
+	private void initCacheManager(String configurationFileName) {
+		if(cacheManager == null) {
+			cacheManager = CacheManager.create(configurationFileName); 			
+		}
+	}
 
 	/**
 	 * EhCache has a default configuration file within ehcache.jar which is used if there is no ehcache.xml in the classpath.
