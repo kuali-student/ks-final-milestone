@@ -1,21 +1,18 @@
 package org.kuali.student.poc.common.metro.security;
 
+import org.kuali.student.poc.common.ws.security.AuthenticationService;
+
 import com.sun.xml.wss.impl.callback.PasswordValidationCallback;
 
 public class PlainTextPasswordValidator implements
 		PasswordValidationCallback.PasswordValidator {
-
-	public boolean validate(PasswordValidationCallback.Request request)
+   
+    public boolean validate(PasswordValidationCallback.Request request)
 			throws PasswordValidationCallback.PasswordValidationException {
 
 		PasswordValidationCallback.PlainTextPasswordRequest 
 		plainTextRequest = (PasswordValidationCallback.PlainTextPasswordRequest) request;
 			
-		//Really simple, allows you trhough if username=password
-		if (plainTextRequest.getUsername().equals(plainTextRequest.getPassword())){ 
-			return true;
-		} else {
-			return false;
-		}
-	}
+		return AuthenticationService.validateUsernamePassword(plainTextRequest.getUsername(), plainTextRequest.getPassword());
+    }
 }

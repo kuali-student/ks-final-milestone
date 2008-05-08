@@ -5,7 +5,9 @@ import java.io.IOException;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
+
 import org.apache.ws.security.WSPasswordCallback;
+import org.kuali.student.poc.common.ws.security.AuthenticationService;
 
 public class SimpleServerPasswordCallback implements CallbackHandler {
 
@@ -13,7 +15,7 @@ public class SimpleServerPasswordCallback implements CallbackHandler {
 			UnsupportedCallbackException {
 		WSPasswordCallback pc = (WSPasswordCallback) callbacks[0];
 		    
-		//All this does sets password to be same as username
-		pc.setPassword(pc.getIdentifer());
+		//Set the expected password for this user
+		pc.setPassword(AuthenticationService.getPasswordForUsername(pc.getIdentifer()));
 	}
 }
