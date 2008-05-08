@@ -1,3 +1,10 @@
+/*
+ * Copyright 2007 The Kuali Foundation Licensed under the Educational Community License, Version 1.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
 package org.kuali.student.rules.BRMSCore.entity;
 
 import java.util.ArrayList;
@@ -22,7 +29,7 @@ import javax.persistence.UniqueConstraint;
  * Elements, this class is associated with one or more RuleElement instances. The class also contains BusinessRuleEvaluation
  * and RuleMetaData instances.
  * 
- * @author Zdenek Zraly (zdenek.zraly@ubc.ca)
+ * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
@@ -69,15 +76,15 @@ public class FunctionalBusinessRule {
      * @param id
      * @param name
      * @param description
-     * @param ruleSetIdentified
+     * @param ruleIdentified
      * @param ruleMetaData
      */
-    public FunctionalBusinessRule(String name, String description, String successMessage, String failureMessage, String ruleSetIdentified, String compileRuleID, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
+    public FunctionalBusinessRule(String name, String description, String successMessage, String failureMessage, String ruleIdentified, String compileRuleID, RuleMetaData ruleMetaData, BusinessRuleEvaluation businessRuleEvaluation) {
         this.name = name;
         this.description = description;
         this.successMessage = successMessage;
         this.failureMessage = failureMessage;
-        this.ruleIdentifier = ruleSetIdentified;
+        this.ruleIdentifier = ruleIdentified;
         this.compiledRuleID = compileRuleID;
         this.ruleMetaData = ruleMetaData;
         this.businessRuleEvaluation = businessRuleEvaluation;
@@ -172,21 +179,6 @@ public class FunctionalBusinessRule {
     }
 
     /**
-     * @return the ruleSetIdentifier
-     */
-    public final String getRuleSetIdentifier() {
-        return ruleIdentifier;
-    }
-
-    /**
-     * @param ruleSetIdentifier
-     *            the ruleSetIdentifier to set
-     */
-    public final void setRuleSetIdentifier(String ruleSetIdentifier) {
-        ruleIdentifier = ruleSetIdentifier;
-    }
-
-    /**
      * @return the ruleElements
      */
     public final Collection<RuleElement> getRuleElements() {
@@ -254,7 +246,8 @@ public class FunctionalBusinessRule {
     }
 
     /**
-     * @param compiledRuleID the compiledRuleID to set
+     * @param compiledRuleID
+     *            the compiledRuleID to set
      */
     public void setCompiledRuleID(String compiledRuleID) {
         this.compiledRuleID = compiledRuleID;

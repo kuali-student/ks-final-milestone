@@ -1,3 +1,10 @@
+/*
+ * Copyright 2007 The Kuali Foundation Licensed under the Educational Community License, Version 1.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
 package org.kuali.student.rules.BRMSCore;
 
 import java.util.ArrayList;
@@ -27,11 +34,16 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This is a <code>FunctionalBusinessRuleDAOImpl</code> test class.
+ * 
+ * @author Kuali Student Team (zdenek.kuali@google.com)
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
-public class TestBRMSMetaData extends AbstractJpaTests {
+public class FunctionalBusinessRuleDAOImplTest extends AbstractJpaTests {
 
     public static final String FACT_CONTAINER = "AcademicRecord";
 
@@ -78,7 +90,7 @@ public class TestBRMSMetaData extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", null, metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", "51", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -129,7 +141,7 @@ public class TestBRMSMetaData extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", "52", metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
         facts = new ArrayList<String>();
@@ -153,7 +165,7 @@ public class TestBRMSMetaData extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", "53", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -236,7 +248,7 @@ public class TestBRMSMetaData extends AbstractJpaTests {
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", "54", metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -312,18 +324,22 @@ public class TestBRMSMetaData extends AbstractJpaTests {
 
         BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
 
-        FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 200", "enrollment prerequisites for Chemistry 200", "Success Message", "Failure Message", "1", null, metaData, businessRuleEvaluation);
+        FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 200", "enrollment prerequisites for Chemistry 200", "Success Message", "Failure Message", "33", "55", metaData, businessRuleEvaluation);
 
         businessRuleDAO.createBusinessRule(rule);
-
+        em.flush();
         FunctionalBusinessRule newRule = em.find(FunctionalBusinessRule.class, rule.getId());
         assertEquals(newRule.getId(), rule.getId());
+        assertEquals(newRule.getRuleIdentifier(), rule.getRuleIdentifier());
+        assertEquals(newRule.getName(), rule.getName());
+        assertEquals(newRule.getDescription(), rule.getDescription());
+        assertEquals(newRule.getSuccessMessage(), rule.getSuccessMessage());
+
     }
 
     @Test
     public void testUpdateRule() {
         FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRule(ruleId);
-        // FunctionalBusinessRule ruleSet = functionalBusinessRuleDAO.lookupBusinessRuleID("PR 40244");
 
         rule.setName("New Rule Name");
 
@@ -340,38 +356,42 @@ public class TestBRMSMetaData extends AbstractJpaTests {
         assertNull(businessRuleDAO.lookupBusinessRule(ruleId));
     }
 
+    @Test
+    public void testLookupBusinessRule() {
+        RuleMetaData metaData = new RuleMetaData("James", new Date(), "", new Date(), new Date(), new Date(), "v1.1", "active");
+
+        BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
+
+        FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 300", "enrollment prerequisites for Chemistry 300", "Success Message", "Failure Message", "22", "56", metaData, businessRuleEvaluation);
+
+        businessRuleDAO.createBusinessRule(rule);
+
+        FunctionalBusinessRule newRule = businessRuleDAO.lookupBusinessRule(rule.getId());
+        assertEquals(newRule.getId(), rule.getId());
+        assertEquals(newRule.getRuleIdentifier(), rule.getRuleIdentifier());
+        assertEquals(newRule.getName(), rule.getName());
+        assertEquals(newRule.getDescription(), rule.getDescription());
+        assertEquals(newRule.getSuccessMessage(), rule.getSuccessMessage());
+    }
+
+    @Test
+    public void testLookupBusinessRuleID() {
+        em.flush();
+        RuleMetaData metaData = new RuleMetaData("Eric1", new Date(), "", new Date(), new Date(), new Date(), "v1.1", "active");
+        System.out.println("Test1");
+        BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
+        FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 1001", "enrollment prerequisites for Chemistry 1001", "Success Message1", "Failure Message1", "1101", "57", metaData, businessRuleEvaluation);
+        businessRuleDAO.createBusinessRule(rule);
+        FunctionalBusinessRule newRule = businessRuleDAO.lookupBusinessRuleID(rule.getRuleIdentifier());
+        // assertEquals(newRule.getId(), rule.getId());
+        // assertEquals(newRule.getRuleIdentifier(), rule.getRuleIdentifier());
+        assertEquals(newRule.getName(), rule.getName());
+        // assertEquals(newRule.getDescription(), rule.getDescription());
+        // assertEquals(newRule.getSuccessMessage(), rule.getSuccessMessage());
+    }
+
     @Override
     protected boolean shouldUseShadowLoader() {
         return false;
-    }
-
-    /**
-     * @return the businessRuleDAO
-     */
-    public final FunctionalBusinessRuleDAO getBusinessRuleDAO() {
-        return businessRuleDAO;
-    }
-
-    /**
-     * @param businessRuleDAO
-     *            the businessRuleDAO to set
-     */
-    public final void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
-        this.businessRuleDAO = businessRuleDAO;
-    }
-
-    /**
-     * @return the em
-     */
-    public final EntityManager getEm() {
-        return em;
-    }
-
-    /**
-     * @param em
-     *            the em to set
-     */
-    public final void setEm(EntityManager em) {
-        this.em = em;
     }
 }
