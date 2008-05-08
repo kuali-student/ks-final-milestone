@@ -69,16 +69,4 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
         repo.shutdownRepository();
     }    
 
-    @Test
-    public void testStartupShutdownRepository() throws Exception {
-        // repository.xml configuration file is not needed
-        DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository();
-        repo.clearAll();
-        repo.startupRepository();
-        assertLogin( repo );
-        assertNotNull( repo.getRepository().listStates() );
-        repo.shutdownRepository();
-        assertFalse( repo.getRepository().getSession().isLive() );
-    }    
-
 }

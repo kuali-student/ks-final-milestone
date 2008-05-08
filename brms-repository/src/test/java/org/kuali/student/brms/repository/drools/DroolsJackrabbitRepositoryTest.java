@@ -21,6 +21,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.net.URL;
+
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.junit.After;
@@ -37,7 +39,8 @@ public class DroolsJackrabbitRepositoryTest {
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
-        repo = new DroolsJackrabbitRepository();
+        URL url = DroolsJackrabbitRepositoryTest.class.getResource("/repository");
+        repo = new DroolsJackrabbitRepository(url);
         repo.clearAll();
         repo.startupRepository();
     }
