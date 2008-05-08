@@ -48,6 +48,7 @@ public class DroolsJackrabbitRepositoryTest {
     @AfterClass
     public static void tearDownOnce() throws Exception {
         repo.shutdownRepository();
+        repo.clearAll();
     }
 
     @Before

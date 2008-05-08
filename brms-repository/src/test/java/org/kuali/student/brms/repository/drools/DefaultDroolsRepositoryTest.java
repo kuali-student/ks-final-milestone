@@ -30,5 +30,6 @@ public class DefaultDroolsRepositoryTest {
         DefaultDroolsRepository repo = new DefaultDroolsRepository( path );
         assertNotNull( repo.getRepository().listStates() );
         repo.shutdownRepository();
+        repo.clearAll();
     }    
 }

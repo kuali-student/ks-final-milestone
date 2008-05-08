@@ -93,6 +93,7 @@ public class RuleEngineRepositoryTest {
     @AfterClass
     public static void tearDownOnce() throws Exception {
         jackrabbitRepository.shutdownRepository();
+        jackrabbitRepository.clearAll();
     }
 
     @Before

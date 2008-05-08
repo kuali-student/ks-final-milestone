@@ -67,6 +67,7 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
         assertLogin( repo );
         assertNotNull( repo.getRepository().listStates() );
         repo.shutdownRepository();
+        repo.clearAll();
     }    
 
 }
