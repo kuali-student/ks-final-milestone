@@ -18,14 +18,13 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      * </ol>
      * A default <code>repository.xml</code> will be created in the current directory.
      */
-    public DefaultDroolsRepository() {
-        super();
+    /*public DefaultDroolsRepository() {
         try {
             initialize();
         } catch( RepositoryLoginException e ) {
             throw new RuleEngineRepositoryException( e );
         }
-    }
+    }*/
 
     /**
      * Constructs a default repository and initialize it:

@@ -16,6 +16,7 @@
 package org.kuali.student.brms.repository.drools;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -109,31 +110,31 @@ public class DroolsJackrabbitRepository {
     private final static String REPOSITORY_CONFIG_FILE = "repository.xml";
     /** Location of the Jackrabbit repository */
     private URL url;
-    /** Location of the Jackrabbit repository */
-    private String path;
     /** Current repository credentials */
     private Credentials credentials;
     /** Jackrabbit repository */
     private Repository repository; 
     /** Jackrabbit repository configuration */
-    private JCRRepositoryConfigurator repoConfig;
+    private RuleEngineRepositoryConfigurator repoConfig;
     /** Current Jackrabbit repository session for a logged in user */
     private Session repositorySession;
 
     /**
      * Constructs a new default Jackrabbit repository.
      */
-    public DroolsJackrabbitRepository() {
-    }
+    //public DroolsJackrabbitRepository() {
+    //}
 
     /**
      * Constructs a new Drools Jackrabbit repository.
      * 
      * @param url Location of <code>repository.xml</code> configuration file
      */
-    public DroolsJackrabbitRepository(URL url) {
+    public DroolsJackrabbitRepository(final URL url) {
+        if ( url == null ) {
+            throw new IllegalArgumentException( "Repository configuration URL cannot be null" );
+        }
         this.url = url;
-        setRepositoryPath();
     }
 
     /**
@@ -141,19 +142,22 @@ public class DroolsJackrabbitRepository {
      * 
      * @param url Location of <code>repository.xml</code> configuration file
      */
-    public DroolsJackrabbitRepository(String url) {
-       this.url =  DroolsJackrabbitRepository.class.getResource(url) ;
-       setRepositoryPath();
-    }
-    
-    private void setRepositoryPath() {
-        this.path = getPath( this.url );
+    public DroolsJackrabbitRepository(final String repoConfigLocation) {
+        if ( repoConfigLocation == null ) {
+            throw new IllegalArgumentException( "Repository configuration path cannot be null" );
+        }
+        this.url = DroolsJackrabbitRepository.class.getResource(repoConfigLocation) ;
+System.out.println("\n\n**************************************************");
+System.out.println("* DroolsJackrabbitRepository String url = "+url);
+System.out.println("* DroolsJackrabbitRepository URL url    = "+this.url);
+System.out.println("**************************************************\n\n");
     }
     
     private String getPath( URL url ) {
         if (url == null) {
             return null;
         }
+        // Workaround for Jackrabbit
         if (url.getProtocol().equalsIgnoreCase("file")) {
             try {
                 File file = new File(url.toURI());
@@ -170,9 +174,18 @@ public class DroolsJackrabbitRepository {
      * Starts up the repository.
      */
     public void startupRepository() {
-        logger.info( "Repository: " + this.path );
-        this.repoConfig = new JackrabbitRepositoryConfigurator();
-        this.repository = repoConfig.getJCRRepository(this.path);
+        //this.repoConfig = new JackrabbitRepositoryConfigurator();
+        //this.repository = repoConfig.getJCRRepository(this.path);
+        this.repoConfig = new RuleEngineRepositoryConfiguratorImpl();
+        try {
+            URL configFile = new URL( 
+                    this.url + "/" + 
+                    RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
+            this.repository = repoConfig.getJCRRepository( configFile, this.url );
+            //this.repository = repoConfig.getJCRRepository( this.url );
+        } catch( MalformedURLException e ) {
+            throw new RuleEngineRepositoryException("Invalid repository configuration." + e);
+        }
     }
 
     /**
@@ -202,12 +215,15 @@ public class DroolsJackrabbitRepository {
                 repoDir = new File("repository");
             } else {
                 repoDir = new File(this.url.toURI());
-                File config = new File(this.path + "/" + REPOSITORY_CONFIG_FILE);
+                File config = new File( getPath( this.url ) + "/" + 
+                        RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
                 exclude = new File[]{repoDir, config};
             }
             logger.info( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
+System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
             boolean b = deleteDir(exclude, repoDir);
             logger.info( "Repository deleted: " + b );
+System.out.println( "Repository deleted: " + b );
         } catch (URISyntaxException e) {
             throw new RuleEngineRepositoryException(e);
         }
