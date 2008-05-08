@@ -112,6 +112,8 @@ public class DroolsJackrabbitRepository {
     private final static String REPOSITORY_CONFIG_DIR = "repository";
     /** Location of the Jackrabbit repository */
     private URL url;
+    /** Location of Jackrabbit repository configuration */
+    private String repoConfigLocation;
     /** Current repository credentials */
     private Credentials credentials;
     /** Jackrabbit repository */
@@ -148,8 +150,10 @@ public class DroolsJackrabbitRepository {
         if ( repoConfigLocation == null ) {
             throw new IllegalArgumentException( "Repository configuration path cannot be null" );
         }
+        this.repoConfigLocation = repoConfigLocation;
         this.url = DroolsJackrabbitRepository.class.getResource(repoConfigLocation) ;
 System.out.println("\n\n**************************************************");
+System.out.println("* DroolsJackrabbitRepository String repoConfigLocation = "+this.repoConfigLocation);
 System.out.println("* DroolsJackrabbitRepository String url = "+url);
 System.out.println("* DroolsJackrabbitRepository URL url    = "+this.url);
 System.out.println("**************************************************\n\n");
@@ -160,16 +164,26 @@ System.out.println("**************************************************\n\n");
             return null;
         }
         // Workaround for Jackrabbit
-        if (url.getProtocol().equalsIgnoreCase("file")) {
+        if ( isFile( url ) ) {
             try {
                 File file = new File(url.toURI());
                 return file.getAbsolutePath();
             } catch (URISyntaxException e) {
                 throw new RuleEngineRepositoryException(e);
             }
+        } else if ( isJar( url ) ) {
+            return System.getProperty("user.dir") + this.repoConfigLocation;
         } else {
             return url.getPath();
         }
+    }
+    
+    private boolean isFile( URL url ) {
+        return url.getProtocol().equalsIgnoreCase("file");
+    }
+    
+    private boolean isJar( URL url ) {
+        return url.getProtocol().equalsIgnoreCase("jar");
     }
 
     /**
@@ -210,25 +224,27 @@ System.out.println("**************************************************\n\n");
      * </pre>
      */
     public void clearAll() {
-        try {
+        //try {
             File repoDir = null;
             File[] exclude = null;
-            if ( url == null ) {
+            if ( this.url == null ) {
                 repoDir = new File(REPOSITORY_CONFIG_DIR);
             } else {
-                repoDir = new File(this.url.toURI());
+                repoDir = new File( getPath( this.url ) );
                 File config = new File( getPath( this.url ) + "/" + 
                         RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
-                exclude = new File[]{repoDir, config};
+                if ( !isJar( this.url ) ) {
+                    exclude = new File[]{repoDir, config};
+                }
             }
             logger.info( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
 System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
             boolean b = deleteDir(exclude, repoDir);
             logger.info( "Repository deleted: " + b );
 System.out.println( "Repository deleted: " + b );
-        } catch (URISyntaxException e) {
+        /*} catch (URISyntaxException e) {
             throw new RuleEngineRepositoryException(e);
-        }
+        }*/
     }
 
     /**
