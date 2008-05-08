@@ -17,15 +17,16 @@ import org.apache.jackrabbit.core.config.RepositoryConfig;
 import org.drools.repository.JackrabbitRepositoryConfigurator;
 import org.drools.repository.RulesRepositoryException;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RuleEngineRepositoryConfiguratorImpl 
     extends JackrabbitRepositoryConfigurator
     implements RuleEngineRepositoryConfigurator {
 
-    /** Logging framework */
-    private static org.apache.log4j.Logger logger =
-        org.apache.log4j.Logger.getLogger( RuleEngineRepositoryConfiguratorImpl.class );
-
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(RuleEngineRepositoryConfiguratorImpl.class);
+    
     /**
      * Resource path of the default repository configuration file.
      */
@@ -56,12 +57,12 @@ public class RuleEngineRepositoryConfiguratorImpl
      * 
      * @see org.kuali.student.brms.repository.drools.RuleEngineRepositoryConfigurator#getJCRRepository(java.net.URL, java.net.URL)
      */
-    public Repository getJCRRepository( final URL repoConfigLocation, final URL repoLocation ) {
+    public Repository getJCRRepository( final URL repoConfigFile, final URL repoLocation ) {
         try {
-            if (repoConfigLocation == null || repoConfigLocation == null ) {
+            if (repoConfigFile == null || repoConfigFile == null ) {
                 return new TransientRepository();
             } else { 
-                return new PrivateTransientRepository(repoConfigLocation, repoLocation);
+                return new PrivateTransientRepository(repoConfigFile, repoLocation);
             }
         } catch ( IOException e ) {
             throw new RulesRepositoryException("Unable to create a Repository instance.", e);
@@ -83,8 +84,8 @@ public class RuleEngineRepositoryConfiguratorImpl
          * 
          * @throws IOException
          */
-        public PrivateTransientRepository( URL configLocationDir, URL repositoryLocationDir ) throws IOException {
-            super( new PrivateRepositoryFactory( configLocationDir, repositoryLocationDir ) );
+        public PrivateTransientRepository( URL configFile, URL repositoryLocationDir ) throws IOException {
+            super( new PrivateRepositoryFactory( configFile, repositoryLocationDir ) );
         }
 
     }
@@ -94,7 +95,7 @@ public class RuleEngineRepositoryConfiguratorImpl
         /**
          * Configuration location for <code>repository.xml</code>.
          */
-        private URL configLocation;
+        private URL configFile;
         
         /**
          * Repository location
@@ -106,8 +107,8 @@ public class RuleEngineRepositoryConfiguratorImpl
          * 
          * @param configLocationDir
          */
-        public PrivateRepositoryFactory( final URL configLocationDir, final URL repositoryLocationDir ) {
-            this.configLocation = configLocationDir;
+        public PrivateRepositoryFactory( final URL configFile, final URL repositoryLocationDir ) {
+            this.configFile = configFile;
             this.repositoryLocation = repositoryLocationDir;
         }
 
@@ -134,31 +135,31 @@ public class RuleEngineRepositoryConfiguratorImpl
         public RepositoryImpl getRepository() {
             final String repoHome = getLocation( this.repositoryLocation );
             //final String repoConfigFile = this.configLocation + "/" + DEFAULT_REPOSITORY_XML;
-            final String repoConfigFile = this.configLocation.toString();
+            final String repoConfigFile = this.configFile.toString();
             
-            System.out.println("\n**************************************************");
-            System.out.println("* configLocation     = "+this.configLocation);
-            System.out.println("* repositoryLocation = "+this.repositoryLocation);
-            System.out.println("* repoHome           = "+repoHome);
-            System.out.println("* repoConfigFile     = "+repoConfigFile);
-            System.out.println("**************************************************\n");
+            logger.info("**********************************************************************");
+            logger.info("* configLocation     = "+this.configFile);
+            logger.info("* repositoryLocation = "+this.repositoryLocation);
+            logger.info("* repoHome           = "+repoHome);
+            logger.info("* repoConfigFile     = "+repoConfigFile);
+            logger.info("**********************************************************************");
             
             try {
                 // Make sure that the repository configuration file exists
-                if ( this.configLocation.getProtocol().equalsIgnoreCase("file") ) {
-                    String configHome = getLocation( this.configLocation );
+                if ( this.configFile.getProtocol().equalsIgnoreCase("file") ) {
+                    String configHome = getLocation( this.configFile );
                     File configFile = new File( configHome );
                     if (!configFile.exists()) {
                         throw new RuleEngineRepositoryException( 
                                 "Repository configuration directory does not exist: " + 
-                                this.configLocation );
+                                this.configFile );
                     }
                 }
 
                 // Make sure that the repository home directory exists
                 File homeDir = new File( repoHome );
                 if (!homeDir.exists()) {
-System.out.println("Creating repository home directory " + this.repositoryLocation);
+                    logger.info("Creating repository home directory: " + this.repositoryLocation);
                     homeDir.mkdirs();
                 }
                 URL configFile = new URL( repoConfigFile ); 
@@ -167,16 +168,16 @@ System.out.println("Creating repository home directory " + this.repositoryLocati
                 return RepositoryImpl.create(rc);
             } catch (MalformedURLException e) {
                 throw new RuleEngineRepositoryException(
-                        "Invalid repository configuration: " + this.configLocation, e);
+                        "Invalid repository configuration: " + this.configFile, e);
             } catch (URISyntaxException e) {
                 throw new RuleEngineRepositoryException(
-                        "Invalid repository configuration: " + this.configLocation, e);
+                        "Invalid repository configuration: " + this.configFile, e);
             } catch (ConfigurationException e) {
                 throw new RuleEngineRepositoryException(
-                        "Invalid repository configuration: " + this.configLocation, e);
+                        "Invalid repository configuration: " + this.configFile, e);
             } catch (RepositoryException e) {
                 throw new RuleEngineRepositoryException( 
-                        "Creating repository failed: " + this.configLocation, e);
+                        "Creating repository failed: " + this.configFile, e);
             }
         }
     }

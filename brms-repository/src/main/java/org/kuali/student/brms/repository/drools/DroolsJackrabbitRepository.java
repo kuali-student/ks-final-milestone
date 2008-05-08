@@ -33,6 +33,8 @@ import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryAdministrator;
 import org.kuali.student.brms.repository.exceptions.RepositoryLoginException;
 import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the <a href="http://www.jboss.org/drools/">Drools</a> and 
@@ -102,9 +104,8 @@ import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryExceptio
  */
 public class DroolsJackrabbitRepository {
     
-    /** Logging framework */
-    private static org.apache.log4j.Logger logger =
-        org.apache.log4j.Logger.getLogger( DroolsJackrabbitRepository.class );
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(DroolsJackrabbitRepository.class);
     
     /** Jackrabbit repository configuration file */
     private final static String REPOSITORY_CONFIG_FILE = "repository.xml";
@@ -122,12 +123,6 @@ public class DroolsJackrabbitRepository {
     private RuleEngineRepositoryConfigurator repoConfig;
     /** Current Jackrabbit repository session for a logged in user */
     private Session repositorySession;
-
-    /**
-     * Constructs a new default Jackrabbit repository.
-     */
-    //public DroolsJackrabbitRepository() {
-    //}
 
     /**
      * Constructs a new Drools Jackrabbit repository.
@@ -152,11 +147,11 @@ public class DroolsJackrabbitRepository {
         }
         this.repoConfigLocation = repoConfigLocation;
         this.url = DroolsJackrabbitRepository.class.getResource(repoConfigLocation) ;
-System.out.println("\n\n**************************************************");
-System.out.println("* DroolsJackrabbitRepository String repoConfigLocation = "+this.repoConfigLocation);
-System.out.println("* DroolsJackrabbitRepository String url = "+url);
-System.out.println("* DroolsJackrabbitRepository URL url    = "+this.url);
-System.out.println("**************************************************\n\n");
+        logger.info("**********************************************************************");
+        logger.info("* repoConfigLocation = " + this.repoConfigLocation);
+        logger.info("* String url         = " + url);
+        logger.info("* URL url            = " + this.url);
+        logger.info("**********************************************************************");
     }
     
     private String getPath( URL url ) {
@@ -178,10 +173,22 @@ System.out.println("**************************************************\n\n");
         }
     }
     
+    /**
+     * Determines whether a URL is a file.
+     * 
+     * @param url A URL
+     * @return Returns true if <code>url</code> is a file
+     */
     private boolean isFile( URL url ) {
         return url.getProtocol().equalsIgnoreCase("file");
     }
-    
+
+    /**
+     * Determines whether a URL is a jar file.
+     * 
+     * @param url A URL
+     * @return Returns true if <code>url</code> is a jar file
+     */
     private boolean isJar( URL url ) {
         return url.getProtocol().equalsIgnoreCase("jar");
     }
@@ -190,18 +197,17 @@ System.out.println("**************************************************\n\n");
      * Starts up the repository.
      */
     public void startupRepository() {
-        //this.repoConfig = new JackrabbitRepositoryConfigurator();
-        //this.repository = repoConfig.getJCRRepository(this.path);
+        logger.info( "Starting repository..." );
         this.repoConfig = new RuleEngineRepositoryConfiguratorImpl();
         try {
             URL configFile = new URL( 
                     this.url + "/" + 
                     RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
             this.repository = repoConfig.getJCRRepository( configFile, this.url );
-            //this.repository = repoConfig.getJCRRepository( this.url );
         } catch( MalformedURLException e ) {
             throw new RuleEngineRepositoryException("Invalid repository configuration." + e);
         }
+        logger.info( "Repository started" );
     }
 
     /**
@@ -224,6 +230,7 @@ System.out.println("**************************************************\n\n");
      * </pre>
      */
     public void clearAll() {
+        logger.info( "Deleting repository..." );
         if ( this.repositorySession != null && this.repositorySession.isLive() ) {
             throw new RuleEngineRepositoryException("Repository must be shut down before clearing all repository database files.");
         }
@@ -241,10 +248,8 @@ System.out.println("**************************************************\n\n");
             }
         }
         logger.info( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
-System.out.println( "DELETE repository sub-directories: " + repoDir.getAbsolutePath());
         boolean b = deleteDir(exclude, repoDir);
-        logger.info( "Repository deleted: " + b );
-System.out.println( "Repository deleted: " + b );
+        logger.info( "Repository DELETED: " + b );
     }
 
     /**
@@ -297,6 +302,7 @@ System.out.println( "Repository deleted: " + b );
         
         repoAdmin.clearRulesRepository();
         this.repoConfig.setupRulesRepository(this.repositorySession);
+        logger.info( "Repository has cleared all data" );
     }
 
     /**
@@ -313,11 +319,13 @@ System.out.println( "Repository deleted: " + b );
      * Shuts down the repository.
      */
     public void shutdownRepository() {
+        logger.info( "Shutting down repository..." );
         if (this.repositorySession != null) {
             this.repositorySession.logout();
         }
         JackrabbitRepository repo = (JackrabbitRepository) this.repository;
         repo.shutdown();
+        logger.info( "Repository has shut down" );
     }
 
     /**

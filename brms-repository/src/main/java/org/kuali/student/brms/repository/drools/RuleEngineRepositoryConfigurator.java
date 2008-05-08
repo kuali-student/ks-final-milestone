@@ -11,11 +11,17 @@ public interface RuleEngineRepositoryConfigurator extends JCRRepositoryConfigura
     /**
      * Gets a JCR (Java Content Repository) repository.
      * 
-     * @param repoRootDir Root location of the repository's directories and files
-     * @param repoConfigLocation Location of the <code>repository.xml</code> file
-     * @return
+     * @param repoConfigLocation Location of the default <code>repository.xml</code> repository configuration file
+     * @return A repository
      */
     public Repository getJCRRepository( URL repoConfigLocation );
 
-    public Repository getJCRRepository( URL repoConfigLocation, URL repoLocation );
+    /**
+     * Gets a JCR (Java Content Repository) repository.
+     * 
+     * @param repoConfigFile Repository configuration file
+     * @param repoLocation Root location of the repository's directories and files
+     * @return A repository
+     */
+    public Repository getJCRRepository( URL repoConfigFile, URL repoLocation );
 }
