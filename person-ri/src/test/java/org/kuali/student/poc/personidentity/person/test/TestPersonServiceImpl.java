@@ -367,7 +367,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personType1.getAttributeSets().add(attributeSet1);
 
         // Make a call with valid username/pwd
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("dummy", "dummy"));
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("kuali-admin", "admin"));
 
         String personTypeId = clientSecure.createPersonTypeInfo(personType1);
 
@@ -380,7 +380,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
 
         // Make a call with valid username/pwd
         SecurityContextHolder.clearContext();
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("dummy", "nodummy"));
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("kuali-admin", "badpwd"));
        
         try {
             clientSecure.createPersonTypeInfo(personType1);
@@ -389,7 +389,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
             //This is the soap fault message thrown by CXF
             assertEquals("Security processing failed.", sfe.getMessage());
         } catch (WebServiceException wse){
-            //This is a wrong, because Metro should be throwing SoapFaultException, but is 
+            //FIXME: This is a wrong, because Metro should be throwing SoapFaultException, but is 
             //throwing "javax.xml.ws.WebServiceException: No Content-type in the header!"
             assertEquals("No Content-type in the header!", wse.getMessage());
         }
