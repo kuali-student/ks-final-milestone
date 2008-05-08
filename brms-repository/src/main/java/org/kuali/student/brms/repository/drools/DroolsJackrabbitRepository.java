@@ -224,7 +224,7 @@ System.out.println("**************************************************\n\n");
      * </pre>
      */
     public void clearAll() {
-        if (this.repositorySession.isLive()) {
+        if ( this.repositorySession == null && this.repositorySession.isLive() ) {
             throw new RuleEngineRepositoryException("Repository must be shut down before clearing all repository database files.");
         }
         
