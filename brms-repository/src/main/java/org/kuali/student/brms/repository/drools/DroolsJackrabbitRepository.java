@@ -108,6 +108,8 @@ public class DroolsJackrabbitRepository {
     
     /** Jackrabbit repository configuration file */
     private final static String REPOSITORY_CONFIG_FILE = "repository.xml";
+    /** Jackrabbit repository configuration file */
+    private final static String REPOSITORY_CONFIG_DIR = "repository";
     /** Location of the Jackrabbit repository */
     private URL url;
     /** Current repository credentials */
@@ -212,7 +214,7 @@ System.out.println("**************************************************\n\n");
             File repoDir = null;
             File[] exclude = null;
             if ( url == null ) {
-                repoDir = new File("repository");
+                repoDir = new File(REPOSITORY_CONFIG_DIR);
             } else {
                 repoDir = new File(this.url.toURI());
                 File config = new File( getPath( this.url ) + "/" + 
