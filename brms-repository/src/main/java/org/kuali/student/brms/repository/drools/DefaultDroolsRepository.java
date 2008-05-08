@@ -17,41 +17,6 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      * <li>Login as 'superuser' with password 'superuser'</li>
      * </ol>
      * A default <code>repository.xml</code> will be created in the current directory.
-     */
-    /*public DefaultDroolsRepository() {
-        try {
-            initialize();
-        } catch( RepositoryLoginException e ) {
-            throw new RuleEngineRepositoryException( e );
-        }
-    }*/
-
-    /**
-     * Constructs a default repository and initialize it:
-     * <ol>
-     * <li>Startup repository</li>
-     * <li>Login as 'superuser' with password 'superuser'</li>
-     * </ol>
-     * A default <code>repository.xml</code> will be created in the current directory.
-     * 
-     * @param url Location of the Jackrabbit <code>repository.xml</code> configuration file
-     */
-//    public DefaultDroolsRepository( URL url ) {
-//        super( url );
-//        try {
-//            initialize();
-//        } catch( RepositoryLoginException e ) {
-//            throw new RuleEngineRepositoryException( e );
-//        }
-//    }
-
-    /**
-     * Constructs a default repository and initialize it:
-     * <ol>
-     * <li>Startup repository</li>
-     * <li>Login as 'superuser' with password 'superuser'</li>
-     * </ol>
-     * A default <code>repository.xml</code> will be created in the current directory.
      * 
      * @param url Location of the Jackrabbit <code>repository.xml</code> configuration file
      */
