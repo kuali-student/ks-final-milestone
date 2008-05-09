@@ -105,13 +105,21 @@ public class RuleEngineRepositoryConfiguratorImpl
         /**
          * Constructor.
          * 
-         * @param configLocationDir
+         * @param configFile Repository configuration file
+         * @param repositoryLocationDir Location of the repository files
          */
         public PrivateRepositoryFactory( final URL configFile, final URL repositoryLocationDir ) {
             this.configFile = configFile;
             this.repositoryLocation = repositoryLocationDir;
         }
 
+        /**
+         * Get the repository path. 
+         * If it is a jar file then return the <code>user.dir</code>
+         * 
+         * @param url Repository location URL
+         * @return Repository path
+         */
         private String getLocation( URL url ) {
             if (url.getProtocol().equalsIgnoreCase("file")) {
                 try {

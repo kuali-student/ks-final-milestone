@@ -154,6 +154,13 @@ public class DroolsJackrabbitRepository {
         logger.info("**********************************************************************");
     }
     
+    /**
+     * Get the repository path.
+     * If it is a jar file then return the <code>user.dir</code>
+     * 
+     * @param url Repository location URL
+     * @return Repository path
+     */
     private String getPath( URL url ) {
         if (url == null) {
             return null;
