@@ -25,7 +25,7 @@ public abstract class PrincipalWrapper implements Principal{
     }
     
     public String getPersonId(){
-        return AuthenticationService.getPersonIdForUsername(principal.getName());
+        return AuthenticationService.getPersonIdForUsername(getName());
     }
 
     public Principal getPrincipal() {

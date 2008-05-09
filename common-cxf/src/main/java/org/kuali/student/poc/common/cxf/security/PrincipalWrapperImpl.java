@@ -20,18 +20,27 @@ import org.kuali.student.poc.common.ws.security.PrincipalWrapper;
 public class PrincipalWrapperImpl extends PrincipalWrapper {
 
     @Override
-    public void setPrincipal(WebServiceContext wsContext) {
-        MessageContext context = wsContext.getMessageContext();
-        Vector result = (Vector)context.get(WSHandlerConstants.RECV_RESULTS);
-        
-        for (int i = 0; i < result.size(); i++) { 
-            WSHandlerResult res = (WSHandlerResult) result.get(i); 
-            for (int j = 0; j < res.getResults().size(); j++) { 
-                WSSecurityEngineResult secRes = (WSSecurityEngineResult) res.getResults().get(j);
-                //WSSecurityEngineResult secRes =  WSSecurityUtil.fetchActionResult(result, WSConstants.UT);
-                principal = (WSUsernameTokenPrincipal)secRes.get("principal");                 
+    public void setPrincipal(WebServiceContext wsContext) {        
+        if (wsContext != null){
+            MessageContext context = wsContext.getMessageContext();
+            
+            if (context != null){
+                Vector result = (Vector)context.get(WSHandlerConstants.RECV_RESULTS);
+                
+                if (result != null){
+                    for (int i = 0; i < result.size(); i++) { 
+                        WSHandlerResult res = (WSHandlerResult) result.get(i); 
+                        for (int j = 0; j < res.getResults().size(); j++) { 
+                            WSSecurityEngineResult secRes = (WSSecurityEngineResult) res.getResults().get(j);
+                            //WSSecurityEngineResult secRes =  WSSecurityUtil.fetchActionResult(result, WSConstants.UT);
+                            principal = (WSUsernameTokenPrincipal)secRes.get("principal");                 
+                        }
+                    }
+                }
             }
-        }       
+        } else {
+            System.err.println("Web service context is null.");
+        }
     }
     
 }

@@ -12,17 +12,15 @@ public class PrincipalAccessor {
         Class<?> principalWrapperImpl = null;
         PrincipalWrapper principal = null;
                 
-        System.err.print("Getting principal.");
         try {
             principalWrapperImpl =  
                 (Class.forName("org.kuali.student.poc.common.cxf.security.PrincipalWrapperImpl"));
         } catch (ClassNotFoundException cnfe){
-            System.err.print("CXF Principal failed.");
             try{
                 principalWrapperImpl = 
                     Class.forName("org.kuali.student.poc.common.metro.security.PrincipalWrapperImpl");
             } catch (ClassNotFoundException cnfe2){
-                System.err.print("PrincpalWraper impl could not be obtained.");
+                System.err.println("PrincpalWraper implementaion could not be found.");
             }
         } 
         
