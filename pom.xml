@@ -15,7 +15,8 @@
 	</parent>
 	
 	<properties>
-		<drools.version>4.0.4</drools.version>
+		<drools.version>4.0.7</drools.version>
+        <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
 	</properties>
 
 	<modules>
