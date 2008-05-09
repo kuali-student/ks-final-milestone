@@ -371,6 +371,27 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
 
         String personTypeId = clientSecure.createPersonTypeInfo(personType1);
 
+        PersonCreateInfo person = new PersonCreateInfo();
+        person.setBirthDate(new Date());
+        person.setGender('M');
+        person.setAttribute("Attr3", "123-23-3456");
+
+        PersonNameInfo name = new PersonNameInfo();
+        name.setGivenName("Billy Bob");
+        name.setSurname("Bob");
+        name.setNameType("Official");
+        person.getName().add(name);
+
+        List<String> personTypeInfoList = new ArrayList<String>();
+        personTypeInfoList.add(personTypeId);
+
+        String personId = clientSecure.createPerson(person, personTypeInfoList);
+        
+        PersonInfo personInfo = client.fetchFullPersonInfo(personId);
+        
+        //FIXME: Metro fails to inject web service, so the update user id is never set 
+        //assertEquals("1234-344", personInfo.getCreateUserId());        
+
         // Now find all the types
         PersonTypeInfo personTypeInfo = clientSecure.fetchPersonType(personTypeId);
 

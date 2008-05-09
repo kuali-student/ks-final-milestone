@@ -1,11 +1,14 @@
 package org.kuali.student.poc.personidentity.person.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.jws.WebService;
+import javax.xml.ws.WebServiceContext;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.CircularReferenceException;
@@ -16,6 +19,8 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
+import org.kuali.student.poc.common.ws.security.PrincipalAccessor;
+import org.kuali.student.poc.common.ws.security.PrincipalWrapper;
 import org.kuali.student.poc.personidentity.person.dao.Person;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
 import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
@@ -56,6 +61,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonServiceImpl implements PersonService {
 
+    @Resource
+    private WebServiceContext wsContext;
+    
     private PersonDAO personDAO;
 
 	/**
@@ -116,10 +124,13 @@ public class PersonServiceImpl implements PersonService {
 			List<String> personTypeKeys) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+	    
+        //Get principal
+        PrincipalWrapper principal = PrincipalAccessor.getPrincipalFromWebServiceContext(wsContext);
+	           
 		//create a JPA entity
 		Person person = new Person();
-		
+
 		// First look up the personTypes
 		Set<PersonType> personTypeSet = new HashSet<PersonType>();
 		Set<PersonAttributeType> attributeTypeSet = new HashSet<PersonAttributeType>();
@@ -165,7 +176,14 @@ public class PersonServiceImpl implements PersonService {
 		personalInformation.setGender(personCreateInfo.getGender());
 		personalInformation.setDateOfBirth(personCreateInfo.getBirthDate());
 		personalInformation.setPerson(person);
-		person.setPersonalInformation(personalInformation);
+
+		personalInformation.setUpdateDate(new Date());
+        if (principal != null){
+             personalInformation.setUpdateUserId(principal.getPersonId());
+        }
+
+        person.setPersonalInformation(personalInformation);		
+
 		
 		PersonCitizenshipInfo citizenshipInfo = personCreateInfo.getCitizenship();
 		if(citizenshipInfo!=null){
@@ -174,6 +192,9 @@ public class PersonServiceImpl implements PersonService {
 			citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
 			citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
 			citizenship.setPerson(person);
+			if (principal != null){
+			    citizenship.setUpdateUserId(principal.getPersonId());
+			}
 			Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
 			personCitizenship.add(citizenship);
 			person.setPersonCitizenships(personCitizenship);
@@ -189,6 +210,9 @@ public class PersonServiceImpl implements PersonService {
 			personName.setSuffix(nameInfo.getSuffix());
 			personName.setSurname(nameInfo.getSurname());
 			personName.setTitle(nameInfo.getPersonTitle());
+            if (principal != null){
+                personName.setUpdateUserId(principal.getPersonId());
+            }
 			personName.setPerson(person);
 			person.getPersonNames().add(personName);
 		}
@@ -200,9 +224,13 @@ public class PersonServiceImpl implements PersonService {
 			personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
 			personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
 			personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
-			personReferenceId.setPerson(person);
+            if (principal != null){
+                personReferenceId.setUpdateUserId(principal.getPersonId());
+            }
+            personReferenceId.setPerson(person);
 			person.getPersonReferenceIds().add(personReferenceId);
 		}
+
 		//Create the person
 		Person created = personDAO.createPerson(person);
 
@@ -234,7 +262,6 @@ public class PersonServiceImpl implements PersonService {
 		PersonType personType = toPersonType(personTypeInfo,false);
 		PersonType created = personDAO.createPersonType(personType);
 		return created.getId();
-
 	}
 
 	/* (non-Javadoc)
@@ -529,7 +556,11 @@ public class PersonServiceImpl implements PersonService {
 			InvalidParameterException, MissingParameterException,
 			ReadOnlyException, OperationFailedException,
 			PermissionDeniedException {
-        // Find the JPA entity
+	    
+	    //Get principal
+	    PrincipalWrapper principal = PrincipalAccessor.getPrincipalFromWebServiceContext(wsContext);
+	    
+	    // Find the JPA entity
         Person personJPA = personDAO.lookupPerson(personId);     
        
         // First look up the personTypes
@@ -577,7 +608,12 @@ public class PersonServiceImpl implements PersonService {
         //Copy the standard person fields
         PersonalInformation personalInformation = personJPA.getPersonalInformation();
         personalInformation.setGender(personUpdateInfo.getGender());
-        personalInformation.setDateOfBirth(personUpdateInfo.getBirthDate());
+        personalInformation.setDateOfBirth(personUpdateInfo.getBirthDate());     
+        personalInformation.setUpdateDate(new Date());
+        if (principal != null){
+            personalInformation.setUpdateUserId(principal.getPersonId());
+        }
+        
         
         //TODO: Need to handle multiple citizenship in DTO 
         PersonCitizenshipInfo citizenshipInfo = personUpdateInfo.getCitizenship();
@@ -586,6 +622,12 @@ public class PersonServiceImpl implements PersonService {
             citizenship.setCountryOfCitizenship(citizenshipInfo.getCountryOfCitizenshipCode());
             citizenship.setEffectiveStartDate(citizenshipInfo.getEffectiveStartDate());
             citizenship.setEffectiveEndDate(citizenshipInfo.getEffectiveEndDate());
+            
+            citizenship.setUpdateTime(new Date());
+            if (principal != null){
+                citizenship.setUpdateUserId(principal.getPersonId());                
+            }
+            
             citizenship.setPerson(personJPA);
             Set<PersonCitizenship> personCitizenship = new HashSet<PersonCitizenship>();
             personCitizenship.add(citizenship);
@@ -623,6 +665,10 @@ public class PersonServiceImpl implements PersonService {
                 name.setSuffix(personNameInfo.getSuffix());
                 name.setSurname(personNameInfo.getSurname());
                 name.setTitle(personNameInfo.getPersonTitle());
+                name.setUpdateTime(new Date());
+                if (principal != null){
+                    name.setUpdateUserId(principal.getPersonId());
+                }
             }            
         }
         
@@ -637,6 +683,10 @@ public class PersonServiceImpl implements PersonService {
             personReferenceId.setUpdateTime(personReferenceIdInfo.getUpdateTime());
             personReferenceId.setUpdateUserComment(personReferenceIdInfo.getUpdateUserComment());
             personReferenceId.setUpdateUserId(personReferenceIdInfo.getUpdateUserId());
+            personReferenceId.setUpdateTime(new Date());
+            if (principal != null){
+                personReferenceId.setUpdateUserId(principal.getPersonId());
+            }
             personReferenceId.setPerson(personJPA);
             personJPA.getPersonReferenceIds().add(personReferenceId);
         }
@@ -891,6 +941,12 @@ public class PersonServiceImpl implements PersonService {
 		if(person.getPersonalInformation() != null){
 			personInfo.setBirthDate(person.getPersonalInformation().getDateOfBirth());
 			personInfo.setGender(person.getPersonalInformation().getGender());
+			personInfo.setCreateTime(person.getPersonalInformation().getUpdateDate());
+			personInfo.setCreateUserComment(person.getPersonalInformation().getUpdateComment());
+			personInfo.setCreateUserId(person.getPersonalInformation().getUpdateUserId());
+			personInfo.setUpdateUserComment(person.getPersonalInformation().getUpdateComment());
+			personInfo.setUpdateTime(person.getPersonalInformation().getUpdateDate());
+			personInfo.setUpdateUserId(person.getPersonalInformation().getUpdateUserId());
 		}
 
 		personInfo.getName();
@@ -964,6 +1020,9 @@ public class PersonServiceImpl implements PersonService {
         personNameInfo.setSuffix(personName.getSuffix());
         personNameInfo.setSurname(personName.getSurname());
         personNameInfo.setPersonTitle(personName.getTitle());
+        personNameInfo.setUpdateTime(personName.getUpdateTime());
+        personNameInfo.setUpdateUserId(personNameInfo.getUpdateUserId());
+        personNameInfo.setUpdateUserComment(personName.getUpdateUserComment());
         
         return personNameInfo;
 	}
@@ -1108,6 +1167,4 @@ public class PersonServiceImpl implements PersonService {
 		throw new UnsupportedOperationException();
 
 	}
-
-	
 }

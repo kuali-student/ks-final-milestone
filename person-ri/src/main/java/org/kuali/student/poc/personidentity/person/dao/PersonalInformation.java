@@ -46,9 +46,7 @@ public class PersonalInformation {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 
-	@ManyToOne
-	@JoinColumn(name = "update_person_id")
-	private Person updatePerson;
+	private String updateUserId;
 
 	private String updateComment;
 
@@ -148,14 +146,6 @@ public class PersonalInformation {
 		this.updateDate = updateDate;
 	}
 
-	public Person getUpdatePerson() {
-		return updatePerson;
-	}
-
-	public void setUpdatePerson(Person updatePerson) {
-		this.updatePerson = updatePerson;
-	}
-
 	public String getUpdateComment() {
 		return updateComment;
 	}
@@ -163,5 +153,13 @@ public class PersonalInformation {
 	public void setUpdateComment(String updateComment) {
 		this.updateComment = updateComment;
 	}
+
+    public String getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(String updateUserId) {
+        this.updateUserId = updateUserId;
+    }
 
 }
