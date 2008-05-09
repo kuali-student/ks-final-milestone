@@ -1,3 +1,10 @@
+/*
+ * Copyright 2007 The Kuali Foundation Licensed under the Educational Community License, Version 1.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and limitations under the License.
+ */
 package org.kuali.student.rules.BRMSCore;
 
 import java.util.ArrayList;
@@ -22,6 +29,7 @@ import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
 import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.brms.parser.GenerateRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -31,11 +39,16 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This is a <code>FunctionalBusinessRuleManagementService</code> test class.
+ * 
+ * @author Kuali Student Team (zdenek.kuali@google.com)
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
-public class TestEndToEnd extends AbstractJpaTests {
+public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTests {
 
     public static final String FACT_CONTAINER = "AcademicRecord";
 
@@ -43,13 +56,13 @@ public class TestEndToEnd extends AbstractJpaTests {
     private FunctionalBusinessRuleDAO businessRuleDAO;
 
     @Autowired
-    FunctionalBusinessRuleManagementService metadata;
+    FunctionalBusinessRuleManagementService brmsService;
 
     @PersistenceContext
     private EntityManager em;
 
     @Test
-    public void testPOCRules() throws Exception {
+    public void testCreateRuleFunctionString() throws Exception {
         assertEquals("(A OR B)", retrieveFunctionString("1"));
         assertEquals("A", retrieveFunctionString("2"));
         assertEquals("(A) OR (B AND C)", retrieveFunctionString("3"));
@@ -57,25 +70,32 @@ public class TestEndToEnd extends AbstractJpaTests {
     }
 
     @Test
-    public void testAdjustedPOCRules() throws Exception {
+    public void testCreateAdjustedRuleFunctionString() throws Exception {
         assertEquals("(A + B)", retrieveAdjustedFunctionString("1"));
         assertEquals("A", retrieveAdjustedFunctionString("2"));
         assertEquals("(A) + (B * C)", retrieveAdjustedFunctionString("3"));
         assertEquals("(A + B) * C", retrieveAdjustedFunctionString("4"));
     }
 
-    private String retrieveFunctionString(String ruleID) throws Exception {
+    @Test
+    public void testBuildRuleSet() throws Exception {
+        FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
+        GenerateRuleSet ruleSet1 = brmsService.buildRuleSet(rule1);
+        assertEquals("org.kuali.student.rules.enrollment1", ruleSet1.getRuleSet().getName());
+    }
+
+    public String retrieveFunctionString(String ruleID) throws Exception {
 
         FunctionalBusinessRule rule = null;
 
         try {
-            rule = metadata.getFunctionalBusinessRule(ruleID);
+            rule = brmsService.getFunctionalBusinessRule(ruleID);
         } catch (DataAccessException dae) {
             System.out.println("Could not load rule " + ruleID + " from database:" + dae.getStackTrace());
             return null;
         }
 
-        return metadata.createRuleFunctionString(rule);
+        return brmsService.createRuleFunctionString(rule);
     }
 
     private String retrieveAdjustedFunctionString(String ruleID) throws Exception {
@@ -83,21 +103,13 @@ public class TestEndToEnd extends AbstractJpaTests {
         FunctionalBusinessRule rule = null;
 
         try {
-            rule = metadata.getFunctionalBusinessRule(ruleID);
+            rule = brmsService.getFunctionalBusinessRule(ruleID);
         } catch (DataAccessException dae) {
             System.out.println("Could not load rule " + ruleID + " from database.");
             return null;
         }
 
-        return metadata.createAdjustedRuleFunctionString(rule);
-    }
-
-    @After
-    @Override
-    public void onTearDownAfterTransaction() throws Exception {
-        super.onTearDownInTransaction();
-        setDirty();
-        deleteRules();
+        return brmsService.createAdjustedRuleFunctionString(rule);
     }
 
     /*
@@ -356,6 +368,14 @@ public class TestEndToEnd extends AbstractJpaTests {
         em.persist(busRule);
     }
 
+    @After
+    @Override
+    public void onTearDownAfterTransaction() throws Exception {
+        super.onTearDownInTransaction();
+        setDirty();
+        deleteRules();
+    }
+
     public void deleteRules() {
         try {
             FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("1");
@@ -387,50 +407,4 @@ public class TestEndToEnd extends AbstractJpaTests {
 
         em.flush();
     }
-
-    /**
-     * @return the businessRuleDAO
-     */
-    public final FunctionalBusinessRuleDAO getBusinessRuleDAO() {
-        return businessRuleDAO;
-    }
-
-    /**
-     * @param businessRuleDAO
-     *            the businessRuleDAO to set
-     */
-    public final void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
-        this.businessRuleDAO = businessRuleDAO;
-    }
-
-    /**
-     * @return the em
-     */
-    public final EntityManager getEm() {
-        return em;
-    }
-
-    /**
-     * @param em
-     *            the em to set
-     */
-    public final void setEm(EntityManager em) {
-        this.em = em;
-    }
-
-    /**
-     * @return the metadata
-     */
-    public final FunctionalBusinessRuleManagementService getMetadata() {
-        return metadata;
-    }
-
-    /**
-     * @param metadata
-     *            the metadata to set
-     */
-    public final void setMetadata(FunctionalBusinessRuleManagementService metadata) {
-        this.metadata = metadata;
-    }
-
 }
