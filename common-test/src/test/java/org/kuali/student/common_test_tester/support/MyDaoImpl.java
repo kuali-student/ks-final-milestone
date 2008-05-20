@@ -40,5 +40,13 @@ public class MyDaoImpl implements MyDao {
 		}
 		return null;
 	}
+
+	@Override
+	public boolean updateValue(String id, String value) {
+		Value v = entityManager.find(Value.class, id);
+		v.setValue(value);
+		entityManager.merge(v);
+		return true;
+	}
 	
 }

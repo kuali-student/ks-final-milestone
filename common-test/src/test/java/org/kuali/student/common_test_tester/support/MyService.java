@@ -11,5 +11,8 @@ public interface MyService {
 	public String saveString(String value);
 	
 	@WebMethod
-	public String findStringId(String value);
+	public String findStringId(String id);
+	
+	@WebMethod
+	public boolean updateValue(String id, String value);
 }

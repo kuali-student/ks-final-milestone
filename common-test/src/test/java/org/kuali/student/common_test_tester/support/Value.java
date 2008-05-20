@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 
+import org.kuali.student.poc.common.test.spring.Idable;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-public class Value {
+public class Value implements Idable{
 	@Id
 	private String id;
 

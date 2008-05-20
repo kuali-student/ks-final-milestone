@@ -53,12 +53,13 @@ public class MyServiceImpl implements MyService {
 	}
 
 	@Override
-	public String findStringId(String value) {
-		Value v = this.dao0.findValueFromValue(value);
-		if (v != null) {
-			return v.getId();
-		}
-		return null;
+	public String findStringId(String id) {
+		return this.dao0.findValue(id);
+	}
+
+	@Override
+	public boolean updateValue(String id, String value) {
+		return this.dao0.updateValue(id,value);
 	}
 
 }

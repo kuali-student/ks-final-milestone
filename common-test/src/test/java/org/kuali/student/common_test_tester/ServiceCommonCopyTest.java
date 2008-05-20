@@ -27,6 +27,7 @@ public class ServiceCommonCopyTest extends AbstractServiceTest {
 	
 	@Test
 	public void test2() {
-		assertNotNull(client.findStringId("Value Number One"));
+		String id = client.saveString("Value Number One");
+		assertNotNull(client.findStringId(id));
 	}
 }
