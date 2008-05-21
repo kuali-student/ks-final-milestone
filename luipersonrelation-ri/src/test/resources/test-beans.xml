@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="persistList"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<ref bean="lpr1" />
+				<ref bean="lpr2" />
+				<ref bean="lpr3" />
+				<ref bean="lpr4" />
+				<ref bean="lpr5" />
+			</list>
+		</property>
+	</bean>
+	<bean id="lpr1"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000001" />
+		<property name="personId" value="Person 1" />
+		<property name="luiId" value="Lui 1" />
+		<property name="relationState" value="add"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+	<bean id="lpr2"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000002" />
+		<property name="personId" value="Person 1" />
+		<property name="luiId" value="Lui 2" />
+		<property name="relationState" value="add"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+	<bean id="lpr3"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000003" />
+		<property name="personId" value="Person 2" />
+		<property name="luiId" value="Lui 1" />
+		<property name="relationState" value="add"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+	<bean id="lpr4"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000004" />
+		<property name="personId" value="Person 3" />
+		<property name="luiId" value="Lui 1" />
+		<property name="relationState" value="add"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+	<bean id="lpr5"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000005" />
+		<property name="personId" value="Person 2" />
+		<property name="luiId" value="Lui 2" />
+		<property name="relationState" value="add"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+	
+	
+</beans>
