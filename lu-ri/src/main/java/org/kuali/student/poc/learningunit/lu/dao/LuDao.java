@@ -11,6 +11,7 @@ import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiCriteria;
 
 public interface LuDao {
 	public Clu createClu(Clu clu);
@@ -81,5 +82,7 @@ public interface LuDao {
 			String luRelationTypeId);
 
 	public List<Clu> findClusForLuType(String luTypeId);
+
+	public List<Lui> searchForLuis(LuiCriteria luiCriteria);
 
 }

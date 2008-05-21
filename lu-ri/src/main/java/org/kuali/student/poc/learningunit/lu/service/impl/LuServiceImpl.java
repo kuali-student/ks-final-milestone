@@ -778,8 +778,11 @@ public class LuServiceImpl implements LuService {
 	public List<LuiDisplay> searchForLuis(LuiCriteria luiCriteria)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<LuiDisplay> results = new ArrayList<LuiDisplay>();
+		for(Lui lui:dao.searchForLuis(luiCriteria)){
+			results.add(Assembler.createLuiDisplay(lui));
+		}
+		return results;
 	}
 
 	@Override

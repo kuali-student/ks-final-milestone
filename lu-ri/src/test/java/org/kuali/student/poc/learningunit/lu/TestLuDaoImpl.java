@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
@@ -23,6 +24,7 @@ import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
 import org.kuali.student.poc.learningunit.lu.entity.SearchKeyValue;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiCriteria;
 
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
@@ -371,5 +373,14 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		assertNotNull(cluRelation);
 		assertEquals(luRelationType1_id,cluRelation.getLuRelationType().getId());
 		assertEquals(cluRelation1_id,cluRelation.getId());
+	}
+	
+	@Test
+	public void testSearchForLuis(){
+		LuiCriteria luiCriteria = new LuiCriteria();
+		luiCriteria.setDescription("%CLU%");
+		luiCriteria.setLuTypeKey(luType1_id);
+		List<Lui> results = dao.searchForLuis(luiCriteria);
+		assertEquals(2,results.size());
 	}
 }

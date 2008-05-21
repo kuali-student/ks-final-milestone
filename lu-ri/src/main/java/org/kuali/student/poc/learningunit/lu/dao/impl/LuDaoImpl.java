@@ -16,6 +16,7 @@ import org.kuali.student.poc.learningunit.lu.entity.LuRelationType;
 import org.kuali.student.poc.learningunit.lu.entity.LuType;
 import org.kuali.student.poc.learningunit.lu.entity.Lui;
 import org.kuali.student.poc.learningunit.lu.entity.LuiRelation;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiCriteria;
 
 public class LuDaoImpl implements LuDao {
 	@PersistenceContext(unitName="Lu")
@@ -256,6 +257,29 @@ public class LuDaoImpl implements LuDao {
 		Query q = em.createQuery("SELECT c FROM Clu c "
 				+ "WHERE c.luType.luTypeId=:luTypeId ");
 		q.setParameter("luTypeId", luTypeId);
+		return q.getResultList();
+	}
+
+	@Override
+	public List<Lui> searchForLuis(LuiCriteria luiCriteria) {
+		String query="SELECT l FROM Lui l WHERE ";
+		if(luiCriteria.getDescription()!=null){
+			query+="l.clu.description LIKE :description ";
+		}
+		if(luiCriteria.getDescription()!=null &&luiCriteria.getLuTypeKey()!=null){
+			query+="AND ";
+		}
+		if(luiCriteria.getLuTypeKey()!=null){
+			query+="l.clu.luType.luTypeId = :luTypeId ";
+			
+		}
+		Query q = em.createQuery(query);
+		if(luiCriteria.getDescription()!=null){
+			q.setParameter("description",luiCriteria.getDescription());
+		}
+		if(luiCriteria.getLuTypeKey()!=null){
+			q.setParameter("luTypeId",luiCriteria.getLuTypeKey());			
+		}
 		return q.getResultList();
 	}
 

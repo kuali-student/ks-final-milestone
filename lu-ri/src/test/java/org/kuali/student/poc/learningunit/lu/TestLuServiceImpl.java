@@ -26,6 +26,7 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.CluCreateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.CluUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuTypeInfo;
+import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiCriteria;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
 
 @Daos( { @Dao(value = "org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl", testDataFile = "classpath:test-beans.xml") })
@@ -148,5 +149,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testIsCluInCluSet() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		assertTrue(client.isCluInCluSet(clu1_id, cluSet1_id));
+	}
+	
+	@Test
+	public void testSearchForLuis() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		LuiCriteria luiCriteria = new LuiCriteria();
+		luiCriteria.setDescription("%CLU%");
+		luiCriteria.setLuTypeKey(luType1_id);
+		List<LuiDisplay> results = client.searchForLuis(luiCriteria);
+		assertEquals(2,results.size());
 	}
 }
