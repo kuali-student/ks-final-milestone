@@ -27,7 +27,7 @@ public class LoadDataBean {
 			ApplicationContext ac = new FileSystemXmlApplicationContext(
 					contextLocation);
 			for (Object bean : (List<?>) ac.getBean("persistList")) {
-				em.persist(bean);
+				em.merge(bean);
 			}
 
 		} catch (Exception e) {
