@@ -9,16 +9,32 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiPersonRelationTypeInfo implements Serializable {
 
-    private static final long serialVersionUID = -6835826348507818548L;
-    @XmlElement
-    private String name;
+	private static final long serialVersionUID = -6835826348507818548L;
+	@XmlElement
+	private String name;
 
-    public String getName() {
-        return name;
-    }
+	/**
+	 * 
+	 */
+	public LuiPersonRelationTypeInfo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    
+	/**
+	 * @param name
+	 */
+	public LuiPersonRelationTypeInfo(String name) {
+		super();
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }
