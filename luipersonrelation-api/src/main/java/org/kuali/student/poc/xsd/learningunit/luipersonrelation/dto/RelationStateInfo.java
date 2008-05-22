@@ -9,17 +9,33 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RelationStateInfo implements Serializable {
 
-    private static final long serialVersionUID = 8217516385088217534L;
-    
-    @XmlElement
-    private String state;
+	/**
+	 * 
+	 */
+	public RelationStateInfo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-    public String getState() {
-        return state;
-    }
+	private static final long serialVersionUID = 8217516385088217534L;
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	@XmlElement
+	private String state;
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	/**
+	 * @param state
+	 */
+	public RelationStateInfo(String state) {
+		super();
+		this.state = state;
+	}
 
 }
