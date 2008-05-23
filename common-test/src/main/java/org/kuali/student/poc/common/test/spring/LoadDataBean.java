@@ -32,7 +32,9 @@ public class LoadDataBean {
 					ApplicationContext ac = new FileSystemXmlApplicationContext(
 							testDataFile);
 					for (Object bean : (List<?>) ac.getBean("persistList")) {
-						em.merge(bean);
+						if(!em.contains(bean)){
+							em.persist(bean);
+						}
 					}
 				}
 			} catch (Exception e) {
