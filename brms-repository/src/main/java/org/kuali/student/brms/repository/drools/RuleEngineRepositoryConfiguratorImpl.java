@@ -44,7 +44,11 @@ public class RuleEngineRepositoryConfiguratorImpl
                         "Unable to create a Repository instance. " +
                 		"Repository configuration location is null." );
             } else { 
-                URL configFile = new URL( repoConfigLocation + "/" + DEFAULT_REPOSITORY_XML );
+                String config = repoConfigLocation + DEFAULT_REPOSITORY_XML;
+                if ( !repoConfigLocation.toString().endsWith( "/" ) ) {
+                    config = repoConfigLocation + "/" + DEFAULT_REPOSITORY_XML;
+                }
+                URL configFile = new URL( config );
                 return new PrivateTransientRepository(configFile, repoConfigLocation);
             }
         } catch ( IOException e ) {

@@ -208,7 +208,7 @@ public class DroolsJackrabbitRepository {
         this.repoConfig = new RuleEngineRepositoryConfiguratorImpl();
         try {
             URL configFile = new URL( 
-                    this.url + "/" + 
+                    this.url + ( !this.url.toString().endsWith( "/" ) ? "/" : "" ) + 
                     RuleEngineRepositoryConfiguratorImpl.DEFAULT_REPOSITORY_XML );
             this.repository = repoConfig.getJCRRepository( configFile, this.url );
         } catch( MalformedURLException e ) {
