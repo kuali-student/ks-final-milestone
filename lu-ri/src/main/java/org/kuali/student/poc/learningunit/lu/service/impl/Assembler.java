@@ -776,6 +776,7 @@ public class Assembler {
 		luiInfo.setAtpDisplay(createAtpDisplay(lui.getAtp()));
 		luiInfo.setCluDisplay(createCluDisplay(lui.getClu()));
 		luiInfo.setLuTypeKey(lui.getClu().getLuType().getLuTypeId());
+		luiInfo.getAttributes();
 		// FIXME copy attributes when they are added
 		return luiInfo;
 	}

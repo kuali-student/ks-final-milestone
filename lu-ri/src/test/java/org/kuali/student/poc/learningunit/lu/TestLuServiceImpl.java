@@ -159,4 +159,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		List<LuiDisplay> results = client.searchForLuis(luiCriteria);
 		assertEquals(2,results.size());
 	}
+	
+	@Test
+	public void testFetchLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		client.fetchLui(lui1_id);
+	}
 }
