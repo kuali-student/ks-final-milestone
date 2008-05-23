@@ -595,6 +595,16 @@ public interface RuleEngineRepository {
     public Object loadCompiledRuleSet(String ruleSetUuid);
 
     /**
+     * Loads a compiled rule set as an array of bytes.
+     * 
+     * @param ruleSetUUID
+     *            Rule set uuid
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID);
+    
+    /**
      * Loads a compiled rule set snapshot.
      * 
      * @param ruleSetName
@@ -606,6 +616,18 @@ public interface RuleEngineRepository {
      */
     public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName);
 
+    /**
+     * Loads a compiled rule set snapshot as an array of bytes.
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @return Compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName);
+    
     /**
      * Loads a rule set snapshot.
      * 

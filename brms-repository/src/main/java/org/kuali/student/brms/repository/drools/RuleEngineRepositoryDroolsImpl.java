@@ -985,9 +985,25 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
         }
 
+        return droolsUtil.getPackage(loadCompiledRuleSetAsBytes(ruleSetUUID));
+    }
+
+    /**
+     * Loads a compiled rule set as an array of bytes.
+     * 
+     * @param ruleSetUUID
+     *            Rule set uuid
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID) {
+        if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
+        }
+
         try {
             PackageItem pkg = this.repository.loadPackageByUUID(ruleSetUUID);
-            return droolsUtil.getPackage(pkg.getCompiledPackageBytes());
+            return pkg.getCompiledPackageBytes();
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetUuid=" + ruleSetUUID, e);
         } catch (Exception e) {
@@ -1012,9 +1028,29 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("snapshotName cannot be null or empty");
         }
 
+        return droolsUtil.getPackage(loadCompiledRuleSetSnapshotAsBytes(ruleSetName, snapshotName));
+    }
+
+    /**
+     * Loads a compiled rule set snapshot as an array of bytes.
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @return Compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
+            throw new IllegalArgumentException("snapshotName cannot be null or empty");
+        }
+
         try {
             PackageItem pkg = this.repository.loadPackageSnapshot(ruleSetName, snapshotName);
-            return droolsUtil.getPackage(pkg.getCompiledPackageBytes());
+            return pkg.getCompiledPackageBytes();
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading compiled rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
         } catch (Exception e) {
