@@ -1,27 +1,19 @@
 /*
- * Copyright 2007 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2007 The Kuali Foundation Licensed under the Educational Community License, Version 1.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package org.kuali.student.rules.BRMSCore.entity;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
  * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, operator and right
@@ -31,12 +23,10 @@ import javax.persistence.TableGenerator;
  */
 @Entity
 @Table(name = "RuleProposition_T")
-@TableGenerator(name = "idGen")
 public class RuleProposition {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-    private Long id;
+    private String id;
     private String name;
     private String description;
     private String failureMessage;
@@ -154,9 +144,17 @@ public class RuleProposition {
     }
 
     /**
+     * AutoGenerate the Id
+     */
+    @PrePersist
+    public void prePersist() {
+        this.id = UUIDHelper.genStringUUID();
+    }
+
+    /**
      * @return the id
      */
-    public final Long getId() {
+    public final String getId() {
         return id;
     }
 
@@ -164,7 +162,7 @@ public class RuleProposition {
      * @param id
      *            the id to set
      */
-    public final void setId(Long id) {
+    public final void setId(String id) {
         this.id = id;
     }
 

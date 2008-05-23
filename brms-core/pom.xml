@@ -14,22 +14,17 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   
-  <dependencyManagement>
-    <dependencies>
+  <dependencies>
 	  <dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
 	  </dependency>    
-      <dependency>
+    <dependency>
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity</artifactId>
         <version>1.5</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  
-  <dependencies>
+    </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>persistence-api</artifactId>

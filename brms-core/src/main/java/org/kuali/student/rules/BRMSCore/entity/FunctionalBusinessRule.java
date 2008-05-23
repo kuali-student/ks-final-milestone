@@ -14,15 +14,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.UniqueConstraint;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
@@ -33,13 +32,11 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
-@TableGenerator(name = "idGen", uniqueConstraints = {@UniqueConstraint(columnNames = {"ruleIdentifier"})})
 @NamedQueries({@NamedQuery(name = "FunctionalBusinessRule.findByRuleID", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = :ruleID")})
 public class FunctionalBusinessRule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "idGen")
-    private Long id;
+    private String id;
 
     private String name;
     private String description;
@@ -104,9 +101,17 @@ public class FunctionalBusinessRule {
     }
 
     /**
+     * AutoGenerate the Id
+     */
+    @PrePersist
+    public void prePersist() {
+        this.id = UUIDHelper.genStringUUID();
+    }
+
+    /**
      * @return the id
      */
-    public final Long getId() {
+    public final String getId() {
         return id;
     }
 
@@ -114,7 +119,7 @@ public class FunctionalBusinessRule {
      * @param id
      *            the id to set
      */
-    public final void setId(Long id) {
+    public final void setId(String id) {
         this.id = id;
     }
 

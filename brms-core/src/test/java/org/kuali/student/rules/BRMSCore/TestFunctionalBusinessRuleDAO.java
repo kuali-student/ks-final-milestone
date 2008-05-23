@@ -16,6 +16,7 @@ import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
@@ -47,10 +48,13 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
 
     public static final String FACT_CONTAINER = "AcademicRecord";
 
-    private long ruleId;
+    private String ruleId;
 
     @Before
     public void onSetUpInTransaction() throws Exception {
+
+        UUIDHelper.genStringUUID();
+
         int ordinalPosition = 1;
         RuleElement ruleElement = null;
         RuleProposition ruleProp = null;
@@ -178,7 +182,6 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
     @Test
     public void testLookupBusinessRuleID() {
         RuleMetaData metaData = new RuleMetaData("Eric1", new Date(), "", new Date(), new Date(), new Date(), "v1.1", "active");
-        System.out.println("Test1");
         BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
         FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 1001", "enrollment prerequisites for Chemistry 1001", "Success Message1", "Failure Message1", "4", null, metaData, businessRuleEvaluation);
         functionalBusinessRuleDAO.createBusinessRule(rule);
