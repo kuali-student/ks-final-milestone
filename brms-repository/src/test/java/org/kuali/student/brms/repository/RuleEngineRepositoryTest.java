@@ -889,6 +889,21 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
+    public void testRemoveRuleSet() throws Exception {
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        String ruleSetUUID = ruleSet.getUUID();
+        
+        brmsRepository.removeRuleSet(ruleSetUUID);
+
+        try {
+            brmsRepository.loadRuleSet(ruleSetUUID);
+            fail("Rule set should not exist: UUID="+ruleSetUUID);
+        } catch (RuleEngineRepositoryException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     public void testArchiveRuleSet() throws Exception {
         RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
         brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), "A new rule");
