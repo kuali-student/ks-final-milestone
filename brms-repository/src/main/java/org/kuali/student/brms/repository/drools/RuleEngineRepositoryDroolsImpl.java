@@ -25,6 +25,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.jcr.ItemExistsException;
+import javax.jcr.ItemNotFoundException;
+import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.UnsupportedRepositoryOperationException;
@@ -267,6 +269,28 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             this.repository.save();
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Removing rule failed: uuid=" + uuid, e);
+        }
+    }
+
+    /**
+     * Deletes a rule set by uuid.
+     * 
+     * @param uuid Rule set uuid
+     * @throws RuleEngineRepositoryException
+     */
+    public void removeRuleSet(String uuid) {
+        if (uuid == null || uuid.trim().isEmpty()) {
+            throw new IllegalArgumentException("uuid cannot be null or empty");
+        }
+
+        try {
+            Node rulePackageNode = this.repository.getSession().getNodeByUUID(uuid);
+            rulePackageNode.remove();
+            this.repository.save();
+        } catch (ItemNotFoundException e) {
+            throw new RuleEngineRepositoryException("Rule set not found: uuid=" + uuid, e);
+        } catch (RepositoryException e) {
+            throw new RuleEngineRepositoryException("Removing rule set failed: uuid=" + uuid, e);
         }
     }
 

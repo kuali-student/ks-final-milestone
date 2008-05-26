@@ -334,6 +334,14 @@ public interface RuleEngineRepository {
     public void removeRule(String uuid);
 
     /**
+     * Deletes a rule set by uuid.
+     * 
+     * @param uuid Rule set uuid
+     * @throws RuleEngineRepositoryException
+     */
+    public void removeRuleSet(String uuid);
+
+    /**
      * Loads a rule's history.
      * 
      * @param uuid
