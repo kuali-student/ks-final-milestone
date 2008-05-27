@@ -15,8 +15,6 @@
  */
 package org.kuali.student.rules.BRMSCore.entity;
 
-import java.util.ArrayList;
-
 import javax.persistence.Embeddable;
 
 /**
@@ -30,7 +28,7 @@ public class RightHandSide {
 
     String businessEntityRight;
     String criterionType;
-    ArrayList<String> criterionValues;
+    String criterionValue;
 
     /**
      * Sets up an empty instance.
@@ -38,7 +36,7 @@ public class RightHandSide {
     public RightHandSide() {
         businessEntityRight = null;
         criterionType = null;
-        criterionValues = null;
+        criterionValue = null;
     }
 
     /**
@@ -48,10 +46,10 @@ public class RightHandSide {
      * @param facts
      * @param className
      */
-    public RightHandSide(String businessEntity, String criterionType, ArrayList<String> criterionValues) {
+    public RightHandSide(String businessEntity, String criterionType, String criterionValue) {
         businessEntityRight = businessEntity;
         this.criterionType = criterionType;
-        this.criterionValues = criterionValues;
+        this.criterionValue = criterionValue;
     }
 
     /**
@@ -87,15 +85,15 @@ public class RightHandSide {
     /**
      * @return the criterionValues
      */
-    public final ArrayList<String> getCriterionValues() {
-        return criterionValues;
+    public final String getCriterionValues() {
+        return criterionValue;
     }
 
     /**
      * @param criterionValues
      *            the criterionValues to set
      */
-    public final void setCriterionValues(ArrayList<String> criterionValues) {
-        this.criterionValues = criterionValues;
+    public final void setCriterionValues(String criterionValues) {
+        this.criterionValue = criterionValues;
     }
 }

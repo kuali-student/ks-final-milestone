@@ -11,18 +11,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
+import org.kuali.student.rules.BRMSCore.entity.ComputationAssistant;
+import org.kuali.student.rules.BRMSCore.entity.ComputationMethodType;
 import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
 import org.kuali.student.rules.BRMSCore.entity.Operator;
@@ -31,6 +32,7 @@ import org.kuali.student.rules.BRMSCore.entity.RuleElement;
 import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
+import org.kuali.student.rules.BRMSCore.entity.YieldValueFunctionType;
 
 /**
  * This is a <code>FunctionalBusinessRuleDAOImpl</code> test class.
@@ -61,8 +63,7 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
         LeftHandSide leftSide = null;
         RightHandSide rightSide = null;
         Operator operator = null;
-        ArrayList<String> criteria = null;
-        ArrayList<String> facts = null;
+        ComputationAssistant compAssistant = null;
 
         // setup business rule meta data (for now common to all rules)
         RuleMetaData metaData = new RuleMetaData("Tom Smith", new Date(), "", null, new Date(), new Date(), "1.1", "active");
@@ -83,13 +84,10 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 101
-        facts = new ArrayList<String>();
-        facts.add("CPR 101");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("1");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -101,13 +99,10 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001
-        facts = new ArrayList<String>();
-        facts.add("FA 001");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("1");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);

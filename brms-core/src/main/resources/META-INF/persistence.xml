@@ -14,5 +14,6 @@
       <class>org.kuali.student.rules.BRMSCore.entity.RuleElementType</class>
       <class>org.kuali.student.rules.BRMSCore.entity.RuleMetaData</class>
       <class>org.kuali.student.rules.BRMSCore.entity.RuleProposition</class>                                    
+      <class>org.kuali.student.rules.BRMSCore.entity.ComputationAssistant</class> 
     </persistence-unit>
 </persistence>

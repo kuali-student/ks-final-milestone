@@ -26,6 +26,10 @@
     <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
 
+  <bean id="computationAssistantDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.ComputationAssistantDAOImpl">
+    <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
+  </bean>
+
   <bean id="FunctionalBusinessRuleManagementService"  class="org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>

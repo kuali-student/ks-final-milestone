@@ -15,9 +15,9 @@
  */
 package org.kuali.student.rules.BRMSCore.entity;
 
-import java.util.ArrayList;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.OneToOne;
 
 /**
  * Contains meta data about the left hand side of a Rule Proposition. For example, in "completed any 2 of (MATH101, MATH102,
@@ -28,19 +28,22 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class LeftHandSide {
 
-    String businessEntityLeft;
-    String factContainer;
-    String factContainerMethod;
-    ArrayList<String> methodParameters;
+    /* unused */String businessEntityLeft;
+
+    @OneToOne(optional = true, cascade = CascadeType.ALL, targetEntity = ComputationAssistant.class)
+    private ComputationAssistant compAssistant;
+
+    String courseList;
+    String academicRecordID;
 
     /**
      * Sets up an empty instance.
      */
     public LeftHandSide() {
         businessEntityLeft = null;
-        factContainer = null;
-        factContainerMethod = null;
-        methodParameters = null;
+        courseList = null;
+        academicRecordID = null;
+        compAssistant = null;
     }
 
     /**
@@ -51,11 +54,11 @@ public class LeftHandSide {
      * @param factContainerMethod
      * @param methodParameters
      */
-    public LeftHandSide(String businessEntityLeft, String factContainer, String factContainerMethod, ArrayList<String> methodParameters) {
+    public LeftHandSide(String businessEntityLeft, String courseList, String academicRecordID, ComputationAssistant compAssistant) {
         this.businessEntityLeft = businessEntityLeft;
-        this.factContainer = factContainer;
-        this.factContainerMethod = factContainerMethod;
-        this.methodParameters = methodParameters;
+        this.courseList = courseList;
+        this.academicRecordID = academicRecordID;
+        this.compAssistant = compAssistant;
     }
 
     /**
@@ -77,7 +80,7 @@ public class LeftHandSide {
      * @return the factContainer
      */
     public final String getFactContainer() {
-        return factContainer;
+        return courseList;
     }
 
     /**
@@ -85,14 +88,14 @@ public class LeftHandSide {
      *            the factContainer to set
      */
     public final void setFactContainer(String factContainer) {
-        this.factContainer = factContainer;
+        this.courseList = factContainer;
     }
 
     /**
      * @return the factContainerMethod
      */
     public final String getFactContainerMethod() {
-        return factContainerMethod;
+        return academicRecordID;
     }
 
     /**
@@ -100,21 +103,21 @@ public class LeftHandSide {
      *            the factContainerMethod to set
      */
     public final void setFactContainerMethod(String factContainerMethod) {
-        this.factContainerMethod = factContainerMethod;
+        this.academicRecordID = factContainerMethod;
     }
 
     /**
-     * @return the methodParameters
+     * @return the compAssistant
      */
-    public final ArrayList<String> getMethodParameters() {
-        return methodParameters;
+    public final ComputationAssistant getCompAssistant() {
+        return compAssistant;
     }
 
     /**
-     * @param methodParameters
-     *            the methodParameters to set
+     * @param compAssistant
+     *            the compAssistant to set
      */
-    public final void setMethodParameters(ArrayList<String> methodParameters) {
-        this.methodParameters = methodParameters;
+    public final void setCompAssistant(ComputationAssistant compAssistant) {
+        this.compAssistant = compAssistant;
     }
 }

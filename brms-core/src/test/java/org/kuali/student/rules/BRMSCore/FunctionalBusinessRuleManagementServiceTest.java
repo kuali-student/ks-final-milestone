@@ -7,7 +7,6 @@
  */
 package org.kuali.student.rules.BRMSCore;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -20,6 +19,8 @@ import org.junit.runner.RunWith;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
+import org.kuali.student.rules.BRMSCore.entity.ComputationAssistant;
+import org.kuali.student.rules.BRMSCore.entity.ComputationMethodType;
 import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
 import org.kuali.student.rules.BRMSCore.entity.Operator;
@@ -28,6 +29,7 @@ import org.kuali.student.rules.BRMSCore.entity.RuleElement;
 import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
+import org.kuali.student.rules.BRMSCore.entity.YieldValueFunctionType;
 import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.brms.parser.GenerateRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,8 +129,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         LeftHandSide leftSide = null;
         RightHandSide rightSide = null;
         Operator operator = null;
-        ArrayList<String> criteria = null;
-        ArrayList<String> facts = null;
+        ComputationAssistant compAssistant = null;
 
         // setup business rule meta data (for now common to all rules)
         RuleMetaData metaData = new RuleMetaData("Tom Smith", new Date(), "", null, new Date(), new Date(), "1.1", "active");
@@ -141,7 +142,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
          *******************************************************************************************************************/
 
         // create basic rule structure
-        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Success Message", "Failure Message", "1", null, metaData, businessRuleEvaluation);
+        FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR", "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message", "Rule 1 Failure Message", "1", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -149,13 +150,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 101
-        facts = new ArrayList<String>();
-        facts.add("CPR 101");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("1");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -167,13 +165,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001
-        facts = new ArrayList<String>();
-        facts.add("FA 001");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("1");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -192,17 +187,13 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Success Message", "Failure Message", "2", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Rule 2 Success Message", "Rule 2 Failure Message", "2", null, metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
-        facts = new ArrayList<String>();
-        facts.add("CPR 101");
-        facts.add("CPR 201");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 201", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("2");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -216,7 +207,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Success Message", "Failure Message", "3", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("EMS Certificate Program", "enrollment co-requisites for Certificate Program EMS 1001", "Rule 3 Success Message", "Rule 3 Failure Message", "3", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -224,16 +215,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
-        facts = new ArrayList<String>();
-        facts.add("CPR 101");
-        facts.add("CPR 105");
-        facts.add("CPR 201");
-        facts.add("CPR 301");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUCredits", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("12");
-        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -255,13 +240,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 4005
-        facts = new ArrayList<String>();
-        facts.add("CPR 4005");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("1");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -273,14 +255,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001, WS 001
-        facts = new ArrayList<String>();
-        facts.add("FA 001");
-        facts.add("WS 001");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("2");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -299,7 +277,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
          *******************************************************************************************************************/
 
         // create basic rule structure
-        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Success Message", "Failure Message", "4", null, metaData, businessRuleEvaluation);
+        busRule = new FunctionalBusinessRule("LPN Certificate Program", "enrollment co-requisites for Certificate Program LPN 1001", "Rule 4 Success Message", "Rule 4 Failure Message", "4", null, metaData, businessRuleEvaluation);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -307,16 +285,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
-        facts = new ArrayList<String>();
-        facts.add("CPR 101");
-        facts.add("CPR 105");
-        facts.add("CPR 201");
-        facts.add("CPR 301");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUCredits", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("12");
-        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -328,13 +300,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 4005
-        facts = new ArrayList<String>();
-        facts.add("CPR 4005");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("1");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
@@ -351,14 +320,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001, WS 001
-        facts = new ArrayList<String>();
-        facts.add("FA 001");
-        facts.add("WS 001");
-        leftSide = new LeftHandSide("Student.LearningResults", FACT_CONTAINER, "countCLUMatches", facts);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
-        criteria = new ArrayList<String>();
-        criteria.add("2");
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", criteria);
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         ruleElement.setFunctionalBusinessRule(busRule);
