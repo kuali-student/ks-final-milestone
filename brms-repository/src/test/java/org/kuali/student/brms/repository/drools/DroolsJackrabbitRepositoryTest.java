@@ -41,14 +41,14 @@ public class DroolsJackrabbitRepositoryTest {
     public static void setUpOnce() throws Exception {
         URL url = DroolsJackrabbitRepositoryTest.class.getResource("/repository");
         repo = new DroolsJackrabbitRepository(url);
-        repo.clearAll();
+        //repo.clearAll();
         repo.startupRepository();
     }
 
     @AfterClass
     public static void tearDownOnce() throws Exception {
         repo.shutdownRepository();
-        repo.clearAll();
+        //repo.clearAll();
     }
 
     @Before

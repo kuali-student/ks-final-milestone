@@ -85,7 +85,7 @@ public class RuleEngineRepositoryTest {
     public static void setUpOnce() throws Exception {
         URL url = RuleEngineRepositoryTest.class.getResource("/repository");
         jackrabbitRepository = new DroolsJackrabbitRepository(url);
-        jackrabbitRepository.clearAll();
+        //jackrabbitRepository.clearAll();
         jackrabbitRepository.startupRepository();
         jackrabbitRepository.login( droolsTestUtil.getSuperUserCredentials() );
     }
@@ -93,7 +93,7 @@ public class RuleEngineRepositoryTest {
     @AfterClass
     public static void tearDownOnce() throws Exception {
         jackrabbitRepository.shutdownRepository();
-        jackrabbitRepository.clearAll();
+        //jackrabbitRepository.clearAll();
     }
 
     @Before
