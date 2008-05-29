@@ -43,9 +43,9 @@ public enum ComparisonOperatorType {
     }
 
     /**
-     * @return the validateTypeId
+     * @return the id
      */
-    public String getRuleElementTypeId() {
+    public String getId() {
         return id;
     }
 }

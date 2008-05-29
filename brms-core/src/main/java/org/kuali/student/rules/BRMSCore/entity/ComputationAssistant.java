@@ -20,15 +20,13 @@ public class ComputationAssistant {
     @Id
     private String id;
     YieldValueFunctionType yieldValueFunction; // intersection, subset etc.
-    ComputationMethodType computationMethodName; // intersectionConstraint, subsetConstraint etc.
 
     /**
+     * @param id
      * @param yieldValueFunction
-     * @param computationMethodName
      */
-    public ComputationAssistant(YieldValueFunctionType yieldValueFunction, ComputationMethodType computationMethodName) {
+    public ComputationAssistant(YieldValueFunctionType yieldValueFunction) {
         this.yieldValueFunction = yieldValueFunction;
-        this.computationMethodName = computationMethodName;
     }
 
     /**
@@ -37,7 +35,6 @@ public class ComputationAssistant {
     public ComputationAssistant() {
         this.id = null;
         this.yieldValueFunction = null;
-        this.computationMethodName = null;
     }
 
     /**
@@ -68,20 +65,5 @@ public class ComputationAssistant {
      */
     public final void setYieldValueFunction(YieldValueFunctionType yieldValueFunction) {
         this.yieldValueFunction = yieldValueFunction;
-    }
-
-    /**
-     * @return the computationMethodName
-     */
-    public final ComputationMethodType getComputationMethodName() {
-        return computationMethodName;
-    }
-
-    /**
-     * @param computationMethodName
-     *            the computationMethodName to set
-     */
-    public final void setComputationMethodName(ComputationMethodType computationMethodName) {
-        this.computationMethodName = computationMethodName;
     }
 }

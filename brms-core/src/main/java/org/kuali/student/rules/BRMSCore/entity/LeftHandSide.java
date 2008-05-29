@@ -35,6 +35,7 @@ public class LeftHandSide {
 
     String courseList;
     String academicRecordID;
+    ValueType valueType; // String, Number, Boolean
 
     /**
      * Sets up an empty instance.
@@ -44,6 +45,7 @@ public class LeftHandSide {
         courseList = null;
         academicRecordID = null;
         compAssistant = null;
+        valueType = null;
     }
 
     /**
@@ -54,11 +56,27 @@ public class LeftHandSide {
      * @param factContainerMethod
      * @param methodParameters
      */
-    public LeftHandSide(String businessEntityLeft, String courseList, String academicRecordID, ComputationAssistant compAssistant) {
+    public LeftHandSide(String businessEntityLeft, String courseList, String academicRecordID, ComputationAssistant compAssistant, ValueType valueType) {
         this.businessEntityLeft = businessEntityLeft;
         this.courseList = courseList;
         this.academicRecordID = academicRecordID;
         this.compAssistant = compAssistant;
+        this.valueType = valueType;
+    }
+
+    /**
+     * @return the valueType
+     */
+    public final ValueType getValueType() {
+        return valueType;
+    }
+
+    /**
+     * @param valueType
+     *            the valueType to set
+     */
+    public final void setValueType(ValueType valueType) {
+        this.valueType = valueType;
     }
 
     /**

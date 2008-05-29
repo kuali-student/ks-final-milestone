@@ -20,7 +20,6 @@ import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
 import org.kuali.student.rules.BRMSCore.entity.ComputationAssistant;
-import org.kuali.student.rules.BRMSCore.entity.ComputationMethodType;
 import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
 import org.kuali.student.rules.BRMSCore.entity.Operator;
@@ -29,6 +28,7 @@ import org.kuali.student.rules.BRMSCore.entity.RuleElement;
 import org.kuali.student.rules.BRMSCore.entity.RuleElementType;
 import org.kuali.student.rules.BRMSCore.entity.RuleMetaData;
 import org.kuali.student.rules.BRMSCore.entity.RuleProposition;
+import org.kuali.student.rules.BRMSCore.entity.ValueType;
 import org.kuali.student.rules.BRMSCore.entity.YieldValueFunctionType;
 import org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.brms.parser.GenerateRuleSet;
@@ -150,8 +150,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 101
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
@@ -165,8 +165,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
@@ -190,8 +190,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301", "Rule 2 Success Message", "Rule 2 Failure Message", "2", null, metaData, businessRuleEvaluation);
 
         // 2 of CPR 101 and CPR 201
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 201", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 201", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
@@ -215,8 +215,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", "prop error message", leftSide, operator, rightSide);
@@ -240,8 +240,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 4005
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
@@ -255,8 +255,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001, WS 001
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
@@ -285,8 +285,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits", "prop error message", leftSide, operator, rightSide);
@@ -300,8 +300,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 4005
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
@@ -320,8 +320,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractJpaTest
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001, WS 001
-        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE, ComputationMethodType.INTERSECTION_TYPE);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant);
+        compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
         operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
