@@ -1,5 +1,6 @@
 package org.kuali.student.brms.agenda.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Agenda
@@ -8,7 +9,7 @@ public class Agenda
 	
 	private AgendaType agendaType;
 	
-	private Collection<BusinessRule> businessRules;
+	private Collection<BusinessRule> businessRules = new ArrayList<BusinessRule>();
 
     public Agenda(String name, AgendaType agendaType) {
         super();
@@ -30,5 +31,9 @@ public class Agenda
     
     public Collection<BusinessRule> getBusinessRules() {
         return businessRules;
+    }
+    
+    public String toString() {
+        return "Agenda[name=" + this.name + ", type=" + agendaType.getType() + "]";
     }
 }

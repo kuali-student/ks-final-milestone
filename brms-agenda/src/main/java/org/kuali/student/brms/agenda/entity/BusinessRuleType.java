@@ -10,6 +10,11 @@ public class BusinessRuleType
 	
     private Collection<AnchorType> anchorTypes;
 
+    public BusinessRuleType(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
@@ -22,5 +27,8 @@ public class BusinessRuleType
         return anchorTypes;
     }
     
+    public String toString() {
+        return "BusinessRuleType[name=" + this.name + ", type=" + type + "]";
+    }
 	
 }
