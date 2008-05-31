@@ -66,15 +66,20 @@ public class AgendaDiscovery {
         return null;
     }*/
 
-    public static void main(String[] args) throws Exception {
+    public Agenda getAgenda( AgendaRequest request, Anchor anchor ) {
         InputStream is = AgendaDiscovery.class.getResourceAsStream("/agenda.drl");
-        RuleBase ruleBase = loadRuleBase( new InputStreamReader( is ) );
+        StatelessSessionResult result = null;
         
-        AgendaRequest request = new AgendaRequest( "student", "course", "offered", "enrolled" );
+        try {
+            RuleBase ruleBase = loadRuleBase( new InputStreamReader( is ) );
+            
+            // Get the agenda type
+            result = executeRule( ruleBase, request );
+        } catch( Exception e ) {
+            throw new RuntimeException( "Loading rule base or executing rules failed", e );
+        }
 
-        // Get the agenda type
-        StatelessSessionResult result = executeRule( ruleBase, request );
-
+        // Retrieve agenda type from rule set
         Iterator it = result.iterateObjects();
         AgendaType agendaType = null;
         while( it != null && it.hasNext() ) {
@@ -82,22 +87,23 @@ public class AgendaDiscovery {
             //System.out.println( obj.getClass() + " = " + obj );
             if ( obj instanceof AgendaType ) {
                 agendaType = (AgendaType) obj;
-                //break;
+                break;
             }
         }
-        System.out.println( "AgendaType = " + agendaType );
-        System.out.println( "AgendaType RuleTypes = " + agendaType.getBusinessRuleTypes() );
-
         // Create actual agenda with actual rules
         Agenda agenda = new Agenda( agendaType.getName(), agendaType );
-        for( BusinessRuleType type : agendaType.getBusinessRuleTypes() ) {
-            agenda.addBusinessRule( new BusinessRule( ""+type.hashCode(), type ) );
-        }
-        System.out.println( "Agenda = " + agenda );
-        System.out.println( "Agenda Rules = " + agenda.getBusinessRules() );
+        retrieveRulesFromDatabase( agenda );
+
+        return agenda;
     }
     
-    private static RuleBase loadRuleBase( Reader drl ) throws Exception
+    private void retrieveRulesFromDatabase( Agenda agenda ) {
+        for( BusinessRuleType type : agenda.getAgendaType().getBusinessRuleTypes() ) {
+            agenda.addBusinessRule( new BusinessRule( ""+type.hashCode(), type ) );
+        }
+    }
+    
+    private RuleBase loadRuleBase( Reader drl ) throws Exception
     {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
@@ -107,17 +113,10 @@ public class AgendaDiscovery {
         {
             currentThread.setContextClassLoader( newClassLoader );
         
-            //PackageBuilderConfiguration cfg = setConfiguration( currentThread );
-            //PackageBuilder builder = new PackageBuilder(cfg);
             PackageBuilder builder = new PackageBuilder();
-
-            
-            //PackageBuilder builder = new PackageBuilder();
             builder.addPackageFromDrl(drl);
-      
             //Get the compiled package (which is serializable)
             Package pkg = builder.getPackage();
-      
             //Add the package to a rulebase (deploy the rule package).
             RuleBase ruleBase = RuleBaseFactory.newRuleBase();
             ruleBase.addPackage(pkg);
@@ -130,14 +129,7 @@ public class AgendaDiscovery {
         }
     }
 
-    /**
-     * Executes a Drools package (rule set).
-     * 
-     * @param pkg Drools package (rule set)
-     * @param fact Facts to assert
-     * @throws Exception
-     */
-    private static StatelessSessionResult executeRule( RuleBase ruleBase, Object fact )
+    private StatelessSessionResult executeRule( RuleBase ruleBase, Object fact )
         throws Exception
     {
         StatelessSession session = ruleBase.newStatelessSession();

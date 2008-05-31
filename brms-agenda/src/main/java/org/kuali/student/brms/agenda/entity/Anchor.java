@@ -2,7 +2,9 @@ package org.kuali.student.brms.agenda.entity;
 
 public class Anchor
 {
-	private String name;
+	private String id;
+	
+    private String name;
 	
 	private AnchorType anchorType;
 
@@ -10,6 +12,10 @@ public class Anchor
         super();
         this.name = name;
         this.anchorType = anchorType;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
