@@ -35,7 +35,7 @@ rule "Student Plans Course"
 		                          relationState == "planned" )
         $ruleTypeMap : Map()
 	then 
-        AgendaType agendaType = new AgendaType( "Student Enrolls in Course", "student.planning.course" );
+        AgendaType agendaType = new AgendaType( "Student Plans Course", "student.planning.course" );
         agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course-pre-req" ) );
         agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course-co-req" ) );
         insert( agendaType );
