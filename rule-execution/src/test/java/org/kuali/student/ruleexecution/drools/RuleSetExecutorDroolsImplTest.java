@@ -13,15 +13,12 @@ import org.kuali.student.brms.agenda.entity.AgendaType;
 import org.kuali.student.brms.agenda.entity.BusinessRule;
 import org.kuali.student.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
-import org.kuali.student.ruleexecution.cache.RuleSetCache;
-import org.kuali.student.ruleexecution.cache.RuleSetCacheImpl;
 import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
 
 public class RuleSetExecutorDroolsImplTest {
 
     @Test
     public void testExecute() throws Exception {
-        RuleSetCache cache = new RuleSetCacheImpl();
         String ruleUUID = "uuid-123";
         Package pkg = (Package) RuleEngineRepositoryMock.getInstance().loadCompiledRuleSet( ruleUUID );
 
@@ -31,13 +28,10 @@ public class RuleSetExecutorDroolsImplTest {
         BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
         agenda.addBusinessRule( new BusinessRule( ruleUUID, ruleType ) );
         
-        // Cache Drools package (rule set)
-        cache.addObject( ruleUUID, pkg );
-
         // Create the rule set executor
-        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( cache );
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
         // Iterator through any returned rule engine objects
-        Iterator it = (Iterator) executor.execute( agenda, Calendar.getInstance() );
+        Iterator it = (Iterator) executor.execute( agenda, pkg, Calendar.getInstance() );
         
         assertNotNull( it );
 

@@ -13,8 +13,6 @@ import org.kuali.student.brms.agenda.AgendaRequest;
 import org.kuali.student.brms.agenda.entity.Agenda;
 import org.kuali.student.brms.agenda.entity.Anchor;
 import org.kuali.student.brms.agenda.entity.AnchorType;
-import org.kuali.student.ruleexecution.cache.RuleSetCache;
-import org.kuali.student.ruleexecution.cache.RuleSetCacheImpl;
 import org.kuali.student.ruleexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
 
@@ -32,16 +30,11 @@ public class AgendaRuleExectionTest {
         // Load compiled rule set (Drools Package) from the repository 
         Package pkg = (Package) RuleEngineRepositoryMock.getInstance().loadCompiledRuleSet( anchorID );
         
-        RuleSetCache cache = new RuleSetCacheImpl();
-
-        // Cache Drools Package (rule set)
-        cache.addObject( anchorID, pkg );
-
         // Create the rule set executor (use Spring IoC)
-        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( cache );
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
         // Iterate through returned rule engine objects
         // This should not be done in production
-        Iterator it = (Iterator) executor.execute( agenda, Calendar.getInstance() );
+        Iterator it = (Iterator) executor.execute( agenda, pkg, Calendar.getInstance() );
         
         assertNotNull( it );
 
