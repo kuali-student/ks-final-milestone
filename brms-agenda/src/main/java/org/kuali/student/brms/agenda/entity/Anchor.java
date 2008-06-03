@@ -8,8 +8,8 @@ public class Anchor
 	
 	private AnchorType anchorType;
 
-    public Anchor(String name, AnchorType anchorType) {
-        super();
+    public Anchor(String id, String name, AnchorType anchorType) {
+        this.id = id;
         this.name = name;
         this.anchorType = anchorType;
     }
