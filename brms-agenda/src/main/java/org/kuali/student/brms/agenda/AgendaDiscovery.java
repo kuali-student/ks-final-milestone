@@ -80,6 +80,8 @@ public class AgendaDiscovery {
         }
 
         // Retrieve agenda type from rule set
+        // Iterate through returned rule engine objects
+        // This should not be done in production
         Iterator it = result.iterateObjects();
         AgendaType agendaType = null;
         while( it != null && it.hasNext() ) {
@@ -92,14 +94,26 @@ public class AgendaDiscovery {
         }
         // Create actual agenda with actual rules
         Agenda agenda = new Agenda( agendaType.getName(), agendaType );
-        retrieveRulesFromDatabase( agenda );
+        retrieveRulesFromDatabase( agenda, anchor );
 
         return agenda;
     }
     
-    private void retrieveRulesFromDatabase( Agenda agenda ) {
+    /**
+     * This simulates getting a Drools rule set uuid from the BRMS
+     * The BRMS has a cross-reference table of business rule IDs and 
+     * Drools rule set UUIDs. 
+     * 
+     * @param agenda The agenda to add business rules to
+     * @param anchor The anchor of the business rule
+     */
+    private void retrieveRulesFromDatabase( Agenda agenda, Anchor anchor ) {
         for( BusinessRuleType type : agenda.getAgendaType().getBusinessRuleTypes() ) {
-            agenda.addBusinessRule( new BusinessRule( ""+type.hashCode(), type ) );
+            // Simulate getting the rule set uuid (Drools rule set uuid) 
+            String uuid = anchor.getId();
+            BusinessRule businessRule = new BusinessRule( uuid, type ) ;
+            businessRule.setAnchor( anchor );
+            agenda.addBusinessRule( businessRule );
         }
     }
     

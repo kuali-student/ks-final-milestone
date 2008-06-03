@@ -33,6 +33,15 @@ public class Agenda
         return businessRules;
     }
     
+    public BusinessRule getBusinessRule( String id ) {
+        for( BusinessRule rule : getBusinessRules() ) {
+            if ( id.equals( rule.getId() ) ) {
+                return rule;
+            }
+        }
+        return null;
+    }
+    
     public String toString() {
         return "Agenda[name=" + this.name + ", type=" + agendaType.getType() + "]";
     }
