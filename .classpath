@@ -5,6 +5,10 @@
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="rule-repository/src/test/resources"/>
+	<classpathentry kind="src" path="rule-repository/src/test/java"/>
+	<classpathentry kind="src" path="rule-repository/src/main/java"/>
+	<classpathentry kind="src" path="rule-repository/src/main/resources"/>
 	<classpathentry kind="src" path="rule-execution/src/main/resources"/>
 	<classpathentry kind="src" output="brms-agenda/target/test-classes" path="brms-agenda/src/test/resources"/>
 	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/java"/>
