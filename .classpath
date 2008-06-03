@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="brms-agenda/target/classes" path="brms-agenda/src/main/java"/>
 	<classpathentry kind="src" output="brms-agenda/target/test-classes" path="brms-agenda/src/test/java">
 		<attributes>
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="rule-execution/src/main/resources"/>
 	<classpathentry kind="src" output="brms-agenda/target/test-classes" path="brms-agenda/src/test/resources"/>
 	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/java"/>
+	<classpathentry kind="src" path="rule-execution/src/test/resources"/>
+	<classpathentry kind="src" path="rule-execution/src/main/java"/>
+	<classpathentry kind="src" path="rule-execution/src/test/java"/>
+	<classpathentry kind="src" path="brms-agenda/src/main/java"/>
 	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/java">
 		<attributes>
 			<attribute name="maven.type" value="test"/>
@@ -29,7 +33,7 @@
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="brms-repository/target/classes" path="brms-repository/src/main/resources"/>
+	<classpathentry excluding="cxf/" kind="src" output="brms-repository/target/classes" path="brms-repository/src/main/resources"/>
 	<classpathentry kind="src" output="brms-repository/target/test-classes" path="brms-repository/src/test/resources"/>
 	<classpathentry kind="src" output="generate-rule/target/classes" path="generate-rule/src/main/java"/>
 	<classpathentry kind="src" output="generate-rule/target/test-classes" path="generate-rule/src/test/java">
