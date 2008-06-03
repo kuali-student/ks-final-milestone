@@ -10,29 +10,25 @@ import org.drools.StatelessSessionResult;
 import org.drools.rule.Package;
 import org.kuali.student.brms.agenda.AgendaDiscovery;
 import org.kuali.student.brms.agenda.entity.Agenda;
-import org.kuali.student.brms.agenda.entity.BusinessRule;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
-import org.kuali.student.ruleexecution.cache.RuleSetCache;
 
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
 
-    private RuleSetCache ruleSetCache;
-    
-    public RuleSetExecutorDroolsImpl( RuleSetCache ruleSetCache ) {
-        this.ruleSetCache = ruleSetCache;
+    public RuleSetExecutorDroolsImpl() {
     }
     
-    public Object execute( Agenda agenda, Object fact ) {
+    public Object execute( Agenda agenda, Object ruleSet, Object fact ) {
         RuleBase ruleBase = null;
         try {
             List<Package> packageList = new ArrayList<Package>();
-            for( BusinessRule rule : agenda.getBusinessRules() ) {
+            packageList.add( (Package) ruleSet );
+            /*for( BusinessRule rule : agenda.getBusinessRules() ) {
                 Package pkg = (Package) ruleSetCache.getObject( rule.getId() );
                 if ( pkg == null ) {
                     throw new RuntimeException( "org.drools.rule.Package not found" );
                 }
                 packageList.add( pkg );
-            }
+            }*/
     
             ruleBase = getRuleBase( packageList );
         } catch( Exception e ) {
