@@ -88,7 +88,7 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
         this.name = name;
         this.description = description;
         this.format = format;
-        this.versionNumber = 0L;
+        this.versionNumber = -1L;
     }
 
     /**
