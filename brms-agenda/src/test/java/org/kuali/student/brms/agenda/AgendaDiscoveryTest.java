@@ -14,7 +14,7 @@ public class AgendaDiscoveryTest {
         AgendaDiscovery agendaDiscovery = new AgendaDiscovery();
         AgendaRequest request = new AgendaRequest( "student", "course", "offered", "planned" );
         AnchorType type = new AnchorType( "course", "clu.type.course" );
-        Anchor anchor = new Anchor( "math301", type );
+        Anchor anchor = new Anchor( "math301", "Math-301", type );
         
         Agenda agenda = agendaDiscovery.getAgenda( request, anchor );
         assertNotNull( agenda );
@@ -33,7 +33,7 @@ public class AgendaDiscoveryTest {
         AgendaDiscovery agendaDiscovery = new AgendaDiscovery();
         AgendaRequest request = new AgendaRequest( "student", "course", "offered", "enrolled" );
         AnchorType type = new AnchorType( "course", "clu.type.course" );
-        Anchor anchor = new Anchor( "math301", type );
+        Anchor anchor = new Anchor( "math301", "Math-301", type );
         
         Agenda agenda = agendaDiscovery.getAgenda( request, anchor );
         assertNotNull( agenda );
