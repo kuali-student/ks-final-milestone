@@ -25,6 +25,7 @@
         <module>brms-repository</module>
         <module>generate-rule</module>
         <module>validate-rule</module>
+        <module>brms-agenda</module>
 	</modules>
 
 	<scm>

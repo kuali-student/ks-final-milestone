@@ -6,7 +6,7 @@
     <persistence-unit name="BRMS" transaction-type="JTA">
       <class>org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule</class>
       <class>org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType</class>
+      <class>org.kuali.student.rules.BRMSCore.entity.ComparisonOperator</class>
       <class>org.kuali.student.rules.BRMSCore.entity.LeftHandSide</class>
       <class>org.kuali.student.rules.BRMSCore.entity.Operator</class>
       <class>org.kuali.student.rules.BRMSCore.entity.RightHandSide</class>

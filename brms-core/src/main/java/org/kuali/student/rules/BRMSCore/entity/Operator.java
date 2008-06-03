@@ -26,7 +26,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Operator {
 
-    ComparisonOperatorType value;
+    ComparisonOperator value;
 
     /**
      * Sets up an empty instance.
@@ -42,14 +42,14 @@ public class Operator {
      * @param facts
      * @param className
      */
-    public Operator(ComparisonOperatorType value) {
+    public Operator(ComparisonOperator value) {
         this.value = value;
     }
 
     /**
      * @return the value
      */
-    public final ComparisonOperatorType getValue() {
+    public final ComparisonOperator getValue() {
         return value;
     }
 
@@ -57,7 +57,7 @@ public class Operator {
      * @param value
      *            the value to set
      */
-    public final void setValue(ComparisonOperatorType value) {
+    public final void setValue(ComparisonOperator value) {
         this.value = value;
     }
 }

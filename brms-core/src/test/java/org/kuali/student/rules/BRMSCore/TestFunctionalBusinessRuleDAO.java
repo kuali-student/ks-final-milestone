@@ -21,7 +21,7 @@ import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.BRMSCore.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation;
-import org.kuali.student.rules.BRMSCore.entity.ComparisonOperatorType;
+import org.kuali.student.rules.BRMSCore.entity.ComparisonOperator;
 import org.kuali.student.rules.BRMSCore.entity.ComputationAssistant;
 import org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.BRMSCore.entity.LeftHandSide;
@@ -86,7 +86,7 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
         // 1 of CPR 101
         compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
         leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
-        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        operator = new Operator(ComparisonOperator.EQUAL_TO);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -101,7 +101,7 @@ public class TestFunctionalBusinessRuleDAO extends AbstractTransactionalDaoTest 
         // 1 of FA 001
         compAssistant = new ComputationAssistant(YieldValueFunctionType.INTERSECTION_TYPE);
         leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER_TYPE);
-        operator = new Operator(ComparisonOperatorType.EQUAL_TO_TYPE);
+        operator = new Operator(ComparisonOperator.EQUAL_TO);
         rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses", "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
