@@ -42,13 +42,13 @@ public class DroolsRuleSetImpl
     private static final long serialVersionUID = 1L;
     
     /** List of rules in this rule set */
-    private Map<String,Rule> rules = new LinkedHashMap<String,Rule>();
+    private final Map<String,Rule> rules = new LinkedHashMap<String,Rule>();
     /** Compiled rule set bye array */
     private byte[] compiledRuleSet;
     /** Compiled rule set object */
     private Serializable compiledRuleSetObject;
     /** List of header items */
-    private List<String> header = new ArrayList<String>();
+    private final List<String> header = new ArrayList<String>();
     /** true if this rule set is a snapshot, otherwise false */
     private boolean snapshot = false;
     /** snapshot name */
@@ -178,15 +178,6 @@ public class DroolsRuleSetImpl
             sb.append(" ");
         }
         return sb.toString();
-    }
-
-    /**
-     * Sets a list of rule set headers.
-     * 
-     * @param header Rule set header
-     */
-    public void setHeaderList(final List<String> header) {
-        this.header = header;
     }
 
     /**

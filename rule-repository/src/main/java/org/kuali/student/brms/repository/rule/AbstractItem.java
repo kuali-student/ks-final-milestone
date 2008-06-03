@@ -31,15 +31,15 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
     private static final long serialVersionUID = 1L;
     
     /** Item UUID */
-    private String uuid;
+    private final String uuid;
     /** Item name */
-    private String name;
+    private final String name;
     /** Item description */
     private String description;
     /** Item format */
     private String format;
     /** Item version number */
-    private long versionNumber;
+    private final long versionNumber;
     /** Item status */
     private String status;
 
@@ -62,6 +62,7 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
      * Private constructor.
      */
     private AbstractItem() {
+        throw new IllegalAccessError();
     }
 
     /**
@@ -83,9 +84,11 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
         else if (format == null || format.trim().isEmpty()) {
             throw new IllegalArgumentException("format cannot be null or empty");
         }
+        this.uuid = null;
         this.name = name;
         this.description = description;
         this.format = format;
+        this.versionNumber = 0L;
     }
 
     /**
