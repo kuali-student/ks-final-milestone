@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.kuali.student.spring.interceptors.cache.util.CacheKeyGeneratorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springmodules.cache.key.HashCodeCacheKeyGenerator;
