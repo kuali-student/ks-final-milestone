@@ -6,8 +6,6 @@ package org.kuali.student.rules.statement;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.student.rules.BRMSCore.entity.ComparisonOperator;
-
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
  * 

@@ -1,7 +1,5 @@
 package org.kuali.student.rules.statement;
 
-import org.kuali.student.rules.BRMSCore.entity.ComparisonOperator;
-
 
 /**
  * Abstract superclass that implements common proposition.

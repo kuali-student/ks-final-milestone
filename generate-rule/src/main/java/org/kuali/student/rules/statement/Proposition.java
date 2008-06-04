@@ -3,7 +3,6 @@
  */
 package org.kuali.student.rules.statement;
 
-import org.kuali.student.rules.BRMSCore.entity.ComparisonOperator;
 
 /**
  * Apply a logical constraint.
