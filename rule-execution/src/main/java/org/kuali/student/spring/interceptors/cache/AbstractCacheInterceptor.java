@@ -1,0 +1,64 @@
+package org.kuali.student.spring.interceptors.cache;
+
+import java.io.Serializable;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.kuali.student.spring.interceptors.cache.util.CacheKeyGeneratorUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+public abstract class AbstractCacheInterceptor 
+    implements MethodInterceptor
+{
+    /** SLF4J logging framework */
+    private final static Logger logger = LoggerFactory.getLogger(MemoryCacheInterceptor.class);
+    
+
+    public Object invoke( MethodInvocation methodInvocation )
+        throws Throwable
+    {
+        try
+        {
+            Serializable key = CacheKeyGeneratorUtil.generateHashCodeMethodKey( methodInvocation );           
+
+            Object result = getCacheObject( key );
+            
+            if ( result == null ) 
+            {
+                logger.info( "*** AbstractCacheInterceptor - Invoking method to get data " + methodInvocation.getMethod().getDeclaringClass().getName() 
+                        + "::" + methodInvocation.getMethod().getName());
+                result = methodInvocation.proceed();
+                addToCache( key, result );
+            } 
+            else 
+            {
+                 logger.info( "*** AbstractCacheInterceptor - Returning cached data for key: " + key );
+            }
+            
+            return result;
+        }
+        catch( Exception e )
+        {
+            throw new RuntimeException( e.getMessage(), e );
+        }
+    }
+
+     /**
+     * Gets a cached object by key from the cache.
+     * If no object exists then return null.
+     * 
+     * @param key A cache key to look up cache object for
+     * @return A cache object if it exists otherwise null
+     */
+    protected abstract Object getCacheObject( Object key );
+
+    /**
+     * Adds an object to the cache by key.
+     * 
+     * @param key Cached object key
+     * @param obj Cached object
+     */
+    protected abstract void addToCache( Object key, Object obj );
+}
