@@ -7,6 +7,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.kuali.student.spring.interceptors.cache.util.CacheKeyGeneratorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springmodules.cache.key.HashCodeCacheKeyGenerator;
 
 
 public abstract class AbstractCacheInterceptor 
@@ -21,7 +22,7 @@ public abstract class AbstractCacheInterceptor
     {
         try
         {
-            Serializable key = CacheKeyGeneratorUtil.generateHashCodeMethodKey( methodInvocation );           
+            Serializable key = generateHashCodeMethodKey( methodInvocation );           
 
             Object result = getCacheObject( key );
             
@@ -61,4 +62,18 @@ public abstract class AbstractCacheInterceptor
      * @param obj Cached object
      */
     protected abstract void addToCache( Object key, Object obj );
+    
+    /**
+     * Creates a hash code cache key for a method.
+     * 
+     * @param methodInvocation Method to create a key for
+     * @return Serializable cache key
+     */
+    private Serializable generateHashCodeMethodKey( MethodInvocation methodInvocation )
+    {
+        HashCodeCacheKeyGenerator keyGenerator = new HashCodeCacheKeyGenerator();
+        keyGenerator.setGenerateArgumentHashCode( true );
+        return keyGenerator.generateKey( methodInvocation );
+    }
+    
 }
