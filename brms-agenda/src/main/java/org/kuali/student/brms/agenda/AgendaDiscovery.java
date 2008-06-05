@@ -3,7 +3,7 @@ package org.kuali.student.brms.agenda;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -18,6 +18,8 @@ import org.kuali.student.brms.agenda.entity.AgendaType;
 import org.kuali.student.brms.agenda.entity.Anchor;
 import org.kuali.student.brms.agenda.entity.BusinessRule;
 import org.kuali.student.brms.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 
 public class AgendaDiscovery {
 
@@ -66,87 +68,92 @@ public class AgendaDiscovery {
         return null;
     }*/
 
-    public Agenda getAgenda( AgendaRequest request, Anchor anchor ) {
+    public Agenda getAgenda(AgendaRequest request, Anchor anchor) {
         InputStream is = AgendaDiscovery.class.getResourceAsStream("/agenda.drl");
         StatelessSessionResult result = null;
-        
+
         try {
-            RuleBase ruleBase = loadRuleBase( new InputStreamReader( is ) );
-            
+            RuleBase ruleBase = loadRuleBase(new InputStreamReader(is));
+
             // Get the agenda type
-            result = executeRule( ruleBase, request );
-        } catch( Exception e ) {
-            throw new RuntimeException( "Loading rule base or executing rules failed", e );
+            result = executeRule(ruleBase, request);
+        } catch (Exception e) {
+            throw new RuntimeException("Loading rule base or executing rules failed", e);
         }
 
-        // Retrieve agenda type from rule set
+        // Retrieve agenda type from rule set based on AgendaRequest
         // Iterate through returned rule engine objects
         // This should not be done in production
+        Collection<String> ruleTypes = new ArrayList<String>();
         Iterator it = result.iterateObjects();
         AgendaType agendaType = null;
-        while( it != null && it.hasNext() ) {
+        while (it != null && it.hasNext()) {
             Object obj = it.next();
-            //System.out.println( obj.getClass() + " = " + obj );
-            if ( obj instanceof AgendaType ) {
+            // System.out.println( obj.getClass() + " = " + obj );
+            if (obj instanceof AgendaType) {
                 agendaType = (AgendaType) obj;
                 break;
             }
         }
         // Create actual agenda with actual rules
-        Agenda agenda = new Agenda( agendaType.getName(), agendaType );
-        retrieveRulesFromDatabase( agenda, anchor );
+        Agenda agenda = new Agenda(agendaType.getName(), agendaType);
+        // retrieveRulesFromDatabase( agenda, anchor );
+        FunctionalBusinessRuleManagementService ruleMgmtService = new FunctionalBusinessRuleManagementService();
+        Collection<FunctionalBusinessRule> businessRules = ruleMgmtService.retrieveFunctionalBusinessRules(agenda
+                .getAgendaType().getName(), ruleTypes, anchor.getAnchorType().getName(), anchor.getName());
+
+        for (Iterator<FunctionalBusinessRule> iter = businessRules.iterator(); iter.hasNext();) {
+            FunctionalBusinessRule businessRule = iter.next();
+            agenda.addBusinessRule(new BusinessRule(businessRule.getCompiledRuleID(), new BusinessRuleType(businessRule
+                    .getBusinessRuleType(), businessRule.getBusinessRuleType())));
+        }
 
         return agenda;
     }
-    
+
     /**
-     * This simulates getting a Drools rule set uuid from the BRMS
-     * The BRMS has a cross-reference table of business rule IDs and 
-     * Drools rule set UUIDs. 
+     * This simulates getting a Drools rule set uuid from the BRMS The BRMS has a cross-reference table of business rule IDs
+     * and Drools rule set UUIDs.
      * 
-     * @param agenda The agenda to add business rules to
-     * @param anchor The anchor of the business rule
+     * @param agenda
+     *            The agenda to add business rules to
+     * @param anchor
+     *            The anchor of the business rule
      */
-    private void retrieveRulesFromDatabase( Agenda agenda, Anchor anchor ) {
-        for( BusinessRuleType type : agenda.getAgendaType().getBusinessRuleTypes() ) {
-            // Simulate getting the rule set uuid (Drools rule set uuid) 
+    private void retrieveRulesFromDatabase(Agenda agenda, Anchor anchor) {
+        for (BusinessRuleType type : agenda.getAgendaType().getBusinessRuleTypes()) {
+            // Simulate getting the rule set uuid (Drools rule set uuid)
             String uuid = anchor.getId();
-            BusinessRule businessRule = new BusinessRule( uuid, type ) ;
-            businessRule.setAnchor( anchor );
-            agenda.addBusinessRule( businessRule );
+            BusinessRule businessRule = new BusinessRule(uuid, type);
+            businessRule.setAnchor(anchor);
+            agenda.addBusinessRule(businessRule);
         }
     }
-    
-    private RuleBase loadRuleBase( Reader drl ) throws Exception
-    {
+
+    private RuleBase loadRuleBase(Reader drl) throws Exception {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
         ClassLoader newClassLoader = AgendaDiscovery.class.getClassLoader();
 
-        try
-        {
-            currentThread.setContextClassLoader( newClassLoader );
-        
+        try {
+            currentThread.setContextClassLoader(newClassLoader);
+
             PackageBuilder builder = new PackageBuilder();
             builder.addPackageFromDrl(drl);
-            //Get the compiled package (which is serializable)
+            // Get the compiled package (which is serializable)
             Package pkg = builder.getPackage();
-            //Add the package to a rulebase (deploy the rule package).
+            // Add the package to a rulebase (deploy the rule package).
             RuleBase ruleBase = RuleBaseFactory.newRuleBase();
             ruleBase.addPackage(pkg);
-      
+
             return ruleBase;
-        }
-        finally
-        {
-            currentThread.setContextClassLoader( oldClassLoader );
+        } finally {
+            currentThread.setContextClassLoader(oldClassLoader);
         }
     }
 
-    private StatelessSessionResult executeRule( RuleBase ruleBase, Object fact )
-        throws Exception
-    {
+    private StatelessSessionResult executeRule(RuleBase ruleBase, Object fact) throws Exception {
         StatelessSession session = ruleBase.newStatelessSession();
-        return session.executeWithResults( fact );
+        return session.executeWithResults(fact);
     }
 }

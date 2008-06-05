@@ -19,6 +19,11 @@
 	</parent>
 
 	<dependencies>
+	  <dependency>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>brms-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+	  </dependency>  	
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-compiler</artifactId>
