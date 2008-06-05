@@ -69,7 +69,7 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
 
         // TODO: Use the operator to compute exact message
         Set<E> unMet = andNot();
-        int needed = (Integer) expectedValue - count;
+        int needed = expectedValue - count;
         String advice = String.format(format, needed, unMet.toString());
         report.setFailureMessage(advice);
     }
