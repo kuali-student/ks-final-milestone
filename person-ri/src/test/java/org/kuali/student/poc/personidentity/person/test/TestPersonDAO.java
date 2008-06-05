@@ -359,7 +359,7 @@ public class TestPersonDAO extends AbstractTransactionalDaoTest{
         criteria.setLastName("%");
         people = personDAO.findPeopleWithPersonType(personTypes.get(0).getId(), criteria);
         assertEquals(2,people.size());
-        criteria.setLastName("Christmas");
+        criteria.setLastName("ChRiStMas");
         people = personDAO.findPeopleWithPersonType(personTypes.get(0).getId(), criteria);
         assertEquals(1,people.size());
     }

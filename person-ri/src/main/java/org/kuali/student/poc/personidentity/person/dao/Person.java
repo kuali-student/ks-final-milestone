@@ -23,11 +23,11 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 @NamedQueries(
     {
         @NamedQuery( name = "Person.findByName",
-            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName"),
+            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName)"),
         @NamedQuery( name = "Person.findByAttributeSetTypeAndCriteria",
-            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt JOIN pt.personAttributeSetTypes past WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName AND past.id = :personAttributeSetTypeId"),
+            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt JOIN pt.personAttributeSetTypes past WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName) AND past.id = :personAttributeSetTypeId"),
         @NamedQuery( name = "Person.findByPersonTypeAndCriteria",
-            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt WHERE n.givenName LIKE :firstName AND n.surname LIKE :lastName AND pt.id = :personTypeId")
+            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName) AND pt.id = :personTypeId")
     }
 )
 public class Person {
