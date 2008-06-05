@@ -25,10 +25,11 @@ import java.util.Map;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public class PropositionContainer<T extends Comparable<? super T>> {
+public class PropositionContainer<T> {
 
-    private String functionalRuleString;
-    private Map<String,Proposition<T>> propositionMap = new HashMap<String, Proposition<T>>();
+    protected String functionalRuleString;
+    protected Map<String,Proposition<T>> propositionMap = new HashMap<String, Proposition<T>>();
+    protected Boolean ruleResult = false;
     
     /**
      * @return the functionalRuleString
@@ -54,12 +55,37 @@ public class PropositionContainer<T extends Comparable<? super T>> {
     public void setPropositionMap(Map<String, Proposition<T>> propositionMap) {
         this.propositionMap = propositionMap;
     }
-    
+    /**
+     * 
+     * This method stores the proposition in the container
+     * 
+     * @param propositionName
+     * @param proposition
+     */
     public void setProposition(String propositionName, Proposition<T> proposition) {
         propositionMap.put(propositionName, proposition);
     }
-    
+    /**
+     * 
+     * This method retrieves a proposition from the container based on the proposition name
+     * 
+     * @param propositionName
+     * @return
+     */
     public Proposition<T> getProposition(String propositionName) {
         return propositionMap.get(propositionName);
     }
+    /**
+     * @return the result
+     */
+    public Boolean getRuleResult() {
+        return ruleResult;
+    }
+    /**
+     * @param result the result to set
+     */
+    public void setRuleResult(Boolean result) {
+        this.ruleResult = result;
+    }
+
 }

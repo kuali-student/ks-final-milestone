@@ -13,7 +13,7 @@ import java.util.Set;
  *            the type of elements being constrained
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
-public class SubsetProposition<T extends Integer, E> extends AbstractProposition<T> {
+public class SubsetProposition<T extends Comparable<? super T>, E> extends AbstractProposition<T> {
 
     // ~ Instance fields --------------------------------------------------------
 
@@ -39,6 +39,11 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
     @SuppressWarnings("unchecked")
     @Override
     public Boolean apply(ComparisonOperator operator, T expectedValue) {
+
+        if(!(expectedValue instanceof Integer)) {
+            throw new IllegalArgumentException("Excpected value should be of type java.lang.Integer");
+        }
+        
         super.apply(operator, expectedValue);
  
         Set<E> met = and();
@@ -47,8 +52,6 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
         result = checkTruthValue((T)count);
         
         cacheReport("%d of %s is still required", count);
-
-
 
         return result;
     }
@@ -70,7 +73,7 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
 
         // TODO: Use the operator to compute exact message
         Set<E> unMet = andNot();
-        int needed = expectedValue - count;
+        int needed = (Integer) expectedValue - count;
         String advice = String.format(format, needed, unMet.toString());
         report.setFailureMessage(advice);
     }

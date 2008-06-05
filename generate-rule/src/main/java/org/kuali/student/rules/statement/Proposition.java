@@ -3,14 +3,13 @@
  */
 package org.kuali.student.rules.statement;
 
-
 /**
  * Apply a logical constraint.
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public interface Proposition<T extends Comparable<? super T>> {
+public interface Proposition<T> {
 	
 	
 	

@@ -31,9 +31,10 @@ public abstract class AbstractProposition<T extends Comparable<? super T>> imple
         this.propositionName = propositionName;        
     }
 
+    @SuppressWarnings("unchecked")
     public Boolean apply(ComparisonOperator operator, T expectedValue) {
         this.operator = operator;
-        this.expectedValue = expectedValue;
+        this.expectedValue = (T)expectedValue;
         
         return result;
     }
