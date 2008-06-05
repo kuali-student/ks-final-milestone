@@ -55,4 +55,11 @@ public class PropositionContainer<T extends Comparable<? super T>> {
         this.propositionMap = propositionMap;
     }
     
+    public void setProposition(String propositionName, Proposition<T> proposition) {
+        propositionMap.put(propositionName, proposition);
+    }
+    
+    public Proposition<T> getProposition(String propositionName) {
+        return propositionMap.get(propositionName);
+    }
 }
