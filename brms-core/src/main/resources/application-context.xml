@@ -15,22 +15,22 @@
 
   <context:annotation-config/>
   
-  <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.FunctionalBusinessRuleDAOImpl">
+  <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
   </bean>
 
-  <bean id="ruleElementDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.RuleElementDAOImpl">
+  <bean id="ruleElementDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RuleElementDAOImpl">
    	<property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
   
-  <bean id="rulePropositionDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.RulePropositionDAOImpl">
+  <bean id="rulePropositionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RulePropositionDAOImpl">
     <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
 
-  <bean id="computationAssistantDAO"  class="org.kuali.student.rules.BRMSCore.dao.impl.ComputationAssistantDAOImpl">
+  <bean id="computationAssistantDAO"  class="org.kuali.student.rules.brms.core.dao.impl.ComputationAssistantDAOImpl">
     <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
 
-  <bean id="FunctionalBusinessRuleManagementService"  class="org.kuali.student.rules.BRMSCore.service.FunctionalBusinessRuleManagementService">
+  <bean id="FunctionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
 	

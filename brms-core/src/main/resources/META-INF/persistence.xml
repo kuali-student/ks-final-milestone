@@ -4,16 +4,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
     <persistence-unit name="BRMS" transaction-type="JTA">
-      <class>org.kuali.student.rules.BRMSCore.entity.FunctionalBusinessRule</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.BusinessRuleEvaluation</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.ComparisonOperator</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.LeftHandSide</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.Operator</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.RightHandSide</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.RuleElement</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.RuleElementType</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.RuleMetaData</class>
-      <class>org.kuali.student.rules.BRMSCore.entity.RuleProposition</class>                                    
-      <class>org.kuali.student.rules.BRMSCore.entity.ComputationAssistant</class> 
+      <class>org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule</class>
+      <class>org.kuali.student.rules.brms.core.entity.BusinessRuleEvaluation</class>
+      <class>org.kuali.student.rules.brms.core.entity.ComparisonOperator</class>
+      <class>org.kuali.student.rules.brms.core.entity.LeftHandSide</class>
+      <class>org.kuali.student.rules.brms.core.entity.Operator</class>
+      <class>org.kuali.student.rules.brms.core.entity.RightHandSide</class>
+      <class>org.kuali.student.rules.brms.core.entity.RuleElement</class>
+      <class>org.kuali.student.rules.brms.core.entity.RuleElementType</class>
+      <class>org.kuali.student.rules.brms.core.entity.RuleMetaData</class>
+      <class>org.kuali.student.rules.brms.core.entity.RuleProposition</class>                                    
+      <class>org.kuali.student.rules.brms.core.entity.ComputationAssistant</class> 
     </persistence-unit>
 </persistence>
