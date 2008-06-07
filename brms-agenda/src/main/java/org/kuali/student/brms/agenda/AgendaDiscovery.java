@@ -23,51 +23,6 @@ import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagemen
 
 public class AgendaDiscovery {
 
-    /*public Agenda getAgenda( AgendaType agendaType, 
-                             BusinessRuleType businessRuleType, 
-                             Anchor anchor ) {
-        // This is for demo purposes only
-        // A decision table rule - should be using a rules engine to do this
-        if ( agendaType.getType().equals( "Student Enrolment" ) &&
-             businessRuleType.getType().equals( "Pre-Requisite" ) &&
-             anchor.getAnchorType().equals( "CLU.course" ) ) {
-            
-            BusinessRule rule = new BusinessRule("uuid-123-456-789", businessRuleType);
-            rule.setAnchor( anchor );
-            Agenda agenda = new Agenda( "Student Enrolment Agenda", agendaType );
-            agenda.addBusinessRule( rule );
-            return agenda;
-        }
-        return null;
-    }
-
-    public Agenda getAgenda2( AgendaType agendaType, 
-                              Anchor anchor ) {
-        // This is for demo purposes only
-        // A decision table rule - should be using a rules engine to do this
-        if ( agendaType.getType().equals( "Student Enrolment" ) &&
-             agendaType.getBusinessRuleTypes().contains( "Pre-Requisite" ) &&
-             anchor.getAnchorType().equals( "CLU.course" ) ) {
-            
-            BusinessRuleType ruleType = getPreReqType( agendaType.getBusinessRuleTypes() );
-            BusinessRule rule = new BusinessRule("uuid-123-456-789", ruleType);
-            rule.setAnchor( anchor );
-            Agenda agenda = new Agenda( "Student Enrolment Agenda", agendaType );
-            agenda.addBusinessRule( rule );
-            return agenda;
-        }
-        return null;
-    }
-    
-    private BusinessRuleType getPreReqType( Collection<BusinessRuleType> col ) {
-        for( BusinessRuleType type : col ) {
-            if ( type.equals( "Pre-Requisite" ) ) {
-                return type;
-            }
-        }
-        return null;
-    }*/
-
     public Agenda getAgenda(AgendaRequest request, Anchor anchor) {
         InputStream is = AgendaDiscovery.class.getResourceAsStream("/agenda.drl");
         StatelessSessionResult result = null;
@@ -109,25 +64,6 @@ public class AgendaDiscovery {
         }
 
         return agenda;
-    }
-
-    /**
-     * This simulates getting a Drools rule set uuid from the BRMS The BRMS has a cross-reference table of business rule IDs
-     * and Drools rule set UUIDs.
-     * 
-     * @param agenda
-     *            The agenda to add business rules to
-     * @param anchor
-     *            The anchor of the business rule
-     */
-    private void retrieveRulesFromDatabase(Agenda agenda, Anchor anchor) {
-        for (BusinessRuleType type : agenda.getAgendaType().getBusinessRuleTypes()) {
-            // Simulate getting the rule set uuid (Drools rule set uuid)
-            String uuid = anchor.getId();
-            BusinessRule businessRule = new BusinessRule(uuid, type);
-            businessRule.setAnchor(anchor);
-            agenda.addBusinessRule(businessRule);
-        }
     }
 
     private RuleBase loadRuleBase(Reader drl) throws Exception {
