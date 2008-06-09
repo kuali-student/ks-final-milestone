@@ -1,5 +1,7 @@
 package org.kuali.student.rules.statement;
 
+import java.util.Comparator;
+
 
 /**
  * Abstract superclass that implements common proposition.
@@ -9,15 +11,15 @@ package org.kuali.student.rules.statement;
  * @param <T>
  *
  */
-public abstract class AbstractProposition<T extends Comparable<? super T>> implements Proposition<T> {
+public abstract class AbstractProposition<T> implements Proposition {
 
     //~ Instance fields --------------------------------------------------------
     protected Boolean result = false;
     protected String propositionName;
     protected PropositionReport report = new PropositionReport();
     protected ComparisonOperator operator;
-    T expectedValue;
-    
+    String expectedValueAsString;
+      
     //~ Constructors -----------------------------------------------------------
     public AbstractProposition() {
         super();
@@ -27,21 +29,22 @@ public abstract class AbstractProposition<T extends Comparable<? super T>> imple
      * Construct from fields.
      * @param propositionName
      */
-    public AbstractProposition(String propositionName) {
+    public AbstractProposition(String propositionName, ComparisonOperator operator, String expectedValue) {
         this.propositionName = propositionName;        
+        this.operator = operator;
+        this.expectedValueAsString = expectedValue;
     }
 
-    @SuppressWarnings("unchecked")
-    public Boolean apply(ComparisonOperator operator, T expectedValue) {
-        this.operator = operator;
-        this.expectedValue = (T)expectedValue;
-        
-        return result;
-    }
     
-    protected Boolean checkTruthValue(T computedValue) {
+    @SuppressWarnings("unchecked")
+    protected Boolean checkTruthValue(T computedValue, T expectedValue) {
+        
+        if(!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable) ) {
+            throw new IllegalArgumentException("Both computed value and expected values have to implement Comparable.");
+        }
+                        
         Boolean truthValue = false;
-        int compareValue = computedValue.compareTo(expectedValue);
+        int compareValue = ((Comparable<T>)computedValue).compareTo(expectedValue);
         
         switch(operator) {
             
@@ -67,6 +70,39 @@ public abstract class AbstractProposition<T extends Comparable<? super T>> imple
         
         return truthValue;
     }
+    
+    
+    protected Boolean checkTruthValue(Comparator<T> comparator, T computedValue, T expectedValue) {
+        Boolean truthValue = false;
+        int compareValue = comparator.compare(computedValue, expectedValue);
+        
+        switch(operator) {
+            
+            case EQUAL_TO:
+                truthValue = (compareValue == 0);
+                break;                
+            case LESS_THAN:
+                truthValue = (compareValue == -1);   
+                break;
+            case LESS_THAN_OR_EQUAL_TO:
+                truthValue = (compareValue == 0 || compareValue == -1);
+                break;
+            case GREATER_THAN:
+                truthValue = (compareValue == 1);                   
+                break;
+            case GREATER_THAN_OR_EQUAL_TO:
+                truthValue = (compareValue == 0 || compareValue == 1);                
+                break;
+            case NOT_EQUAL_TO:
+                truthValue = (compareValue != 0);                   
+                break;                
+        }
+        
+        return truthValue;
+        
+    }
+    
+    public abstract Boolean apply();
     
     protected abstract void cacheReport(String format, Object... args);
     /**
@@ -128,14 +164,14 @@ public abstract class AbstractProposition<T extends Comparable<? super T>> imple
     /**
      * @return the expectedValue
      */
-    public T getExpectedValue() {
-        return expectedValue;
+    public String getExpectedValueAsString() {
+        return expectedValueAsString;
     }
 
     /**
      * @param expectedValue the expectedValue to set
      */
-    public void setExpectedValue(T expectedValue) {
-        this.expectedValue = expectedValue;
+    public void setExpectedValue(String expectedValue) {
+        this.expectedValueAsString = expectedValue;
     }
 }

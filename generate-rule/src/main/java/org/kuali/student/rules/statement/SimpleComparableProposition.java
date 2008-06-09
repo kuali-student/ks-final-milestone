@@ -14,7 +14,7 @@ package org.kuali.student.rules.statement;
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  *
  */
-public class SimpleComparableProposition<T extends Comparable<? super T>>
+public class SimpleComparableProposition<T>
     extends AbstractProposition<T> {
 
     //~ Instance fields --------------------------------------------------------
@@ -28,9 +28,9 @@ public class SimpleComparableProposition<T extends Comparable<? super T>>
         // TODO Auto-generated constructor stub
     }
 
-    public SimpleComparableProposition(String propositionName,
-        T fact) {
-        super(propositionName);
+    public SimpleComparableProposition(String propositionName, ComparisonOperator operator,
+        String expectedValue, T fact) {
+        super(propositionName, operator, expectedValue);
 
         this.fact = fact;
     }
@@ -40,11 +40,13 @@ public class SimpleComparableProposition<T extends Comparable<? super T>>
     /* (non-Javadoc)
     * @see org.kuali.rules.constraint.Constraint#apply()
     */
-    public Boolean apply(ComparisonOperator operator, T exptectedValue) {
-        super.apply(operator, expectedValue);
+    public Boolean apply() {
         sanityCheck();
 
-        result = checkTruthValue(fact);
+        //TODO: Type unsafe. Should be changed to a conversion based on the type value of LHS
+        T expectedValue = (T) expectedValueAsString;
+        
+        result = checkTruthValue(fact, expectedValue);
 
         cacheReport("%s NOT %s %s");
 
@@ -59,7 +61,7 @@ public class SimpleComparableProposition<T extends Comparable<? super T>>
         if (result) {
             report.setSuccessMessage("comparison met");
         } else {
-            String rpt = String.format(format, fact, operator, expectedValue);
+            String rpt = String.format(format, fact, operator, expectedValueAsString);
             report.setFailureMessage(rpt);
         }
 

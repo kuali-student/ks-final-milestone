@@ -9,15 +9,13 @@ package org.kuali.student.rules.statement;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public interface Proposition<T> {
-	
-	
-	
+public interface Proposition {
+		
 	/**
 	 * Evaluates the proposition to a truth value
 	 * @return <code>true</code> if the constraint is met.
 	 */
-	public Boolean apply(ComparisonOperator operator, T expectedValue);
+	public Boolean apply();
 	
 	/**
 	 * Returns the cached value of apply method's result

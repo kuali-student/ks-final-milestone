@@ -13,7 +13,7 @@ import java.util.Set;
  *            the type of elements being constrained
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
-public class SubsetProposition<T extends Integer, E> extends AbstractProposition<T> {
+public class SubsetProposition<T, E> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
 
@@ -26,8 +26,8 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
         super();
     }
 
-    public SubsetProposition(String propositionName, Set<E> criteriaSet, Set<E> factSet) {
-        super(propositionName);
+    public SubsetProposition(String propositionName, ComparisonOperator operator, String expectedValue, Set<E> criteriaSet, Set<E> factSet) {
+        super(propositionName, operator, expectedValue);
         this.criteriaSet = criteriaSet;
         this.factSet = factSet;
     }
@@ -36,18 +36,17 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
     // ~ Methods ----------------------------------------------------------------    
 
     
-    @SuppressWarnings("unchecked")
     @Override
-    public Boolean apply(ComparisonOperator operator, T expectedValue) {
+    public Boolean apply() {
         
-        super.apply(operator, expectedValue);
- 
+        Integer expectedValue = Integer.valueOf(expectedValueAsString);
+        
         Set<E> met = and();
         Integer count = met.size();
 
-        result = checkTruthValue((T)count);
+        result = checkTruthValue(count, expectedValue);
         
-        cacheReport("%d of %s is still required", count);
+        cacheReport("%d of %s is still required", count, expectedValue);
 
         return result;
     }
@@ -61,7 +60,7 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
     @Override
     protected void cacheReport(String format, Object... args) {
         Integer count = (Integer) args[0];
-
+        Integer expectedValue = (Integer) args[1];
         if (result) {
             report.setSuccessMessage("subset constraint fulfilled");
             return;
@@ -116,7 +115,7 @@ public class SubsetProposition<T extends Integer, E> extends AbstractProposition
     /**
      * @return the factSet
      */
-    public Set<?> getFactSet() {
+    public Set<E> getFactSet() {
         return factSet;
     }
 

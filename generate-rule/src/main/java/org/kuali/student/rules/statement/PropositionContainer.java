@@ -25,10 +25,10 @@ import java.util.Map;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public class PropositionContainer<T> {
+public class PropositionContainer {
 
     protected String functionalRuleString;
-    protected Map<String,Proposition<T>> propositionMap = new HashMap<String, Proposition<T>>();
+    protected Map<String,Proposition> propositionMap = new HashMap<String, Proposition>();
     protected Boolean ruleResult = false;
     
     /**
@@ -46,13 +46,13 @@ public class PropositionContainer<T> {
     /**
      * @return the propositionMap
      */
-    public Map<String, Proposition<T>> getPropositionMap() {
+    public Map<String, Proposition> getPropositionMap() {
         return propositionMap;
     }
     /**
      * @param propositionMap the propositionMap to set
      */
-    public void setPropositionMap(Map<String, Proposition<T>> propositionMap) {
+    public void setPropositionMap(Map<String, Proposition> propositionMap) {
         this.propositionMap = propositionMap;
     }
     /**
@@ -62,7 +62,7 @@ public class PropositionContainer<T> {
      * @param propositionName
      * @param proposition
      */
-    public void setProposition(String propositionName, Proposition<T> proposition) {
+    public void setProposition(String propositionName, Proposition proposition) {
         propositionMap.put(propositionName, proposition);
     }
     /**
@@ -72,7 +72,7 @@ public class PropositionContainer<T> {
      * @param propositionName
      * @return
      */
-    public Proposition<T> getProposition(String propositionName) {
+    public Proposition getProposition(String propositionName) {
         return propositionMap.get(propositionName);
     }
     /**
