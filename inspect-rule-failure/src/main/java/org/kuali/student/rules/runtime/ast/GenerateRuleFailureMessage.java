@@ -10,6 +10,9 @@ import org.drools.WorkingMemory;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 
+import org.kuali.student.rules.statement.*;
+import org.kuali.student.rules.util.Function;
+
 /**
  * This is a sample file to launch a rule package from a rule source file.
  */
@@ -19,18 +22,16 @@ public class GenerateRuleFailureMessage {
 	static HashMap<String, String> nodeFailureMessageMap;
 	static String functionString;
 	
-    public static final void main(String[] args) {
-    	setRuleParams();
-    	// if there are Sets, pre-process rule messages
-    	//preProcessRuleFailureMessages();
-    	executeRule(functionString, nodeValueMap, nodeFailureMessageMap);
-    }
-    public static String executeRule(String functionString, HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
+    //public static String executeRule(String functionString, HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
+    public static String executeRule(PropositionContainer propContainer) {
     	BinaryTree ASTtree = null;
     	try {
         	//load up the rulebase
             RuleBase ruleBase = readRule();
             WorkingMemory workingMemory = ruleBase.newStatefulSession();
+            
+            // set the functionString and Maps from the proposition container
+            fillStringAndMap(propContainer);
             
             // go parse function in buildTree
             ASTtree = new BinaryTree(nodeValueMap, nodeFailureMessageMap);
@@ -54,22 +55,23 @@ public class GenerateRuleFailureMessage {
         return ASTtree.getRoot().getRuleFailureMessage();
     }
     
-    private static void setRuleParams (){
-		
-    	functionString = "A*B*C*D";
-    	
-    	nodeValueMap = new HashMap<String, Boolean>();
-		nodeValueMap.put("A", false);
-		nodeValueMap.put("B", true);
-		nodeValueMap.put("C", true);
-		nodeValueMap.put("D", true);
-		
-		nodeFailureMessageMap = new HashMap<String, String>();
-		nodeFailureMessageMap.put("A", "Need MATH 200");
-		nodeFailureMessageMap.put("B", "Need MATH 110");
-		nodeFailureMessageMap.put("C", "Need 15 credits or more of 1st year science");
-		nodeFailureMessageMap.put("D", "Need English 6000");
-	}
+    private static void fillStringAndMap(PropositionContainer propContainer){
+        nodeValueMap = new HashMap<String, Boolean>();
+        nodeFailureMessageMap = new HashMap<String, String>();
+        functionString = propContainer.getFunctionalRuleString();
+        
+        Function func = new Function(functionString);
+        List<String> funcVars = func.getVariables();
+        
+        for (String var : funcVars) {
+            Boolean value = propContainer.getProposition(var).getResult();
+            nodeValueMap.put(var, value);
+            
+            PropositionReport report = propContainer.getProposition(var).getReport();
+            String message = report.getFailureMessage();
+            nodeFailureMessageMap.put(var, message);
+        }
+    }
     
 
     /**
