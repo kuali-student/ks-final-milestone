@@ -22,20 +22,17 @@ public abstract class AbstractCacheInterceptor
         try
         {
             Serializable key = generateHashCodeMethodKey( methodInvocation );           
+            logger.info( "Returning cached data for key: " + key );
 
             Object result = getCacheObject( key );
             
             if ( result == null ) 
             {
-                logger.info( "*** AbstractCacheInterceptor - Invoking method to get data " + methodInvocation.getMethod().getDeclaringClass().getName() 
+                logger.info( "Invoking method to get data: " + methodInvocation.getMethod().getDeclaringClass().getName() 
                         + "::" + methodInvocation.getMethod().getName());
                 result = methodInvocation.proceed();
                 addToCache( key, result );
             } 
-            else 
-            {
-                 logger.info( "*** AbstractCacheInterceptor - Returning cached data for key: " + key );
-            }
             
             return result;
         }
