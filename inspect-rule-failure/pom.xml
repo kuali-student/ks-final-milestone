@@ -23,7 +23,13 @@
 			<artifactId>booleanfunctionparser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.kuali.student.poc.brms</groupId>
+			<artifactId>rules-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
