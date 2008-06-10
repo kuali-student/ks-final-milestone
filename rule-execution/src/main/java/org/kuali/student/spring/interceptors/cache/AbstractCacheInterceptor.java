@@ -16,6 +16,12 @@ public abstract class AbstractCacheInterceptor
     private final static Logger logger = LoggerFactory.getLogger(MemoryCacheInterceptor.class);
     
 
+    /**
+     * 
+     * This method returns cached data. 
+     * 
+     * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
+     */
     public Object invoke( MethodInvocation methodInvocation )
         throws Throwable
     {
