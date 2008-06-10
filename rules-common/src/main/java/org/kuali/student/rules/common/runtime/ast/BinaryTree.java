@@ -1,4 +1,4 @@
-package org.kuali.student.rules.runtime.ast;
+package org.kuali.student.rules.common.runtime.ast;
 
 import java.util.*;
 
