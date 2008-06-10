@@ -11,7 +11,7 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 
 import org.kuali.student.rules.statement.*;
-import org.kuali.student.rules.util.Function;
+import org.kuali.student.rules.common.util.Function;
 import org.kuali.student.rules.common.runtime.ast.*;
 
 /**
