@@ -53,12 +53,14 @@ public class AgendaDiscovery {
         // Create actual agenda with actual rules
         Agenda agenda = new Agenda(agendaType.getName(), agendaType);
         // retrieveRulesFromDatabase( agenda, anchor );
-        FunctionalBusinessRuleManagementService ruleMgmtService = new FunctionalBusinessRuleManagementService();
+        FunctionalBusinessRuleManagementService ruleMgmtService = FunctionalBusinessRuleManagementService.getInstance();
         Collection<FunctionalBusinessRule> businessRules = ruleMgmtService.retrieveFunctionalBusinessRules(agenda
                 .getAgendaType().getName(), ruleTypes, anchor.getAnchorType().getName(), anchor.getName());
 
         for (Iterator<FunctionalBusinessRule> iter = businessRules.iterator(); iter.hasNext();) {
             FunctionalBusinessRule businessRule = iter.next();
+            // for now, we have BusinessRuleType in Agenda object in case we need BusinessRuleType to determine
+            // rules execution sequence when executing rules
             agenda.addBusinessRule(new BusinessRule(businessRule.getCompiledRuleID(), new BusinessRuleType(businessRule
                     .getBusinessRuleType(), businessRule.getBusinessRuleType())));
         }

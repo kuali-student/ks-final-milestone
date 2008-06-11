@@ -35,6 +35,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FunctionalBusinessRuleManagementService {
 
+    protected static FunctionalBusinessRuleManagementService _instance = new FunctionalBusinessRuleManagementService();
+
+    protected FunctionalBusinessRuleManagementService() {}
+
+    public static synchronized FunctionalBusinessRuleManagementService getInstance() {
+        return _instance;
+    }
+
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
 
@@ -51,23 +59,24 @@ public class FunctionalBusinessRuleManagementService {
     // returns an empty collection if no business rule found
     public Collection<FunctionalBusinessRule> retrieveFunctionalBusinessRules(String agendaType,
             Collection<String> ruleTypes, String anchorType, String anchor) {
-        FunctionalBusinessRule businessRule = new FunctionalBusinessRule();
-        Collection<FunctionalBusinessRule> businessRules = new ArrayList<FunctionalBusinessRule>();
+        Collection<FunctionalBusinessRule> businessRulesOfSameType = new ArrayList<FunctionalBusinessRule>();
+        Collection<FunctionalBusinessRule> allBusinessRules = new ArrayList<FunctionalBusinessRule>();
 
         for (Iterator<String> iter = ruleTypes.iterator(); iter.hasNext();) {
             String ruleType = iter.next();
 
             try {
-                businessRule = businessRuleDAO.lookupCompiledRuleID(agendaType, ruleType, anchorType, anchor);
-                if (businessRule != null) {
-                    businessRules.add(businessRule);
+                businessRulesOfSameType = businessRuleDAO.lookupCompiledRuleIDs(agendaType, ruleType, anchorType,
+                                                                                anchor);
+                if (businessRulesOfSameType != null) {
+                    allBusinessRules.addAll(businessRulesOfSameType);
                 }
             } catch (EmptyResultDataAccessException emptySetException) {
                 System.out.println("No rules exist for rule type:" + ruleType);
                 // continue
             }
         }
-        return businessRules;
+        return allBusinessRules;
     }
 
     /**
