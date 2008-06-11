@@ -44,7 +44,7 @@ public class GenerateRuleSet {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, businessRule.getDescription());
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import org.kuali.student.rules.statement.*");
-        ruleSet.addHeader("import org.kuali.student.rules.validate.CourseEnrollmentRequest");
+        ruleSet.addHeader("import org.kuali.student.rules.common.util.CourseEnrollmentRequest");
 
         String ruleSource = "";
         
