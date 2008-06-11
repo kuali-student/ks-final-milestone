@@ -56,13 +56,6 @@ public class FunctionaBusinessRuleTest extends AbstractTransactionalDaoTest {
         assertEquals("(A + B) * C", retrieveAdjustedFunctionString("4"));
     }
 
-    @Test
-    public void testBuildRuleSet() throws Exception {
-        FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
-        GenerateRuleSet ruleSet1 = rule1.buildRuleSet();
-        assertEquals("org.kuali.student.rules.enrollment1", ruleSet1.getRuleSet().getName());
-    }
-
     public String retrieveFunctionString(String ruleID) throws Exception {
 
         FunctionalBusinessRule rule = null;
