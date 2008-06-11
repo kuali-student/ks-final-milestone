@@ -1,15 +1,57 @@
 ## A generic rule template
 
-rule "$RuleName"
-#foreach( $attr in $RuleAttributes )
-	$attr
-#end
-when
-#foreach( $ce in $LHS )
-	$ce
-#end
-then
-#foreach( $action in $RHS )
-	$action
-#end
-end
+rule "${ruleName} INIT"
+    salience 100	
+    no-loop true
+    lock-on-active true
+    when 
+    	prop: PropositionContainer(size == 0) 
+    	req: CourseEnrollmentRequest() 
+    then
+    	
+    	#set ($count = 0)
+    
+    	#foreach( $key in $propositionMap.keySet() ) 
+   		#set ( $proposition = $propositionMap.get($key) )
+   		#set ( $rhs = $proposition.RightHandSide.CriterionValue )
+##TODO: This should be changed to directly call the comparison operator inside the rule proposition    		   		
+   		#set ( $operator = $proposition.Operator.Value.toString() )
+##TODO: This should be changed to using a fact structure		
+		#set ( $courseList = $proposition.LeftHandSide.CourseList )   		
+   		#if ($proposition.LeftHandSide.CompAssistant.YieldValueFunction.toString() == "INTERSECTION" )
+
+		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split(","))),  req.getLuiIds() ); 
+		proposition${key}.apply();
+		prop.setProposition("$key",proposition${key});		
+		#set ($count = $count + 1)														
+   		#end
+   		#end
+    	
+    	update(prop);
+	end
+	
+rule "${ruleName} EVAL"
+	salience -100
+	when
+		prop : PropositionContainer(size == $count)
+   		eval (
+   			#foreach($symbol in $functionSymbols) 
+            #if ($symbol == "+" ) 
+                ||
+            #elseif ($symbol == "*")
+                &&
+            #elseif ($symbol == "(") 
+                (
+            #elseif ($symbol == ")") 
+                )
+            #else 
+                prop.getProposition("$symbol").getResult()   			
+   			#end
+   			#end   		   		
+		)
+	then
+   		prop.setRuleResult(true);
+	end	
+	
+	
+		
