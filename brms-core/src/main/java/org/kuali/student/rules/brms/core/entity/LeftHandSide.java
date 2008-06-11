@@ -138,4 +138,14 @@ public class LeftHandSide {
     public final void setCompAssistant(ComputationAssistant compAssistant) {
         this.compAssistant = compAssistant;
     }
+    
+    /**
+     * 
+     * This method is a temporary method to store the required course list
+     * 
+     * @return
+     */
+    public String getCourseList() {
+        return courseList;
+    }
 }

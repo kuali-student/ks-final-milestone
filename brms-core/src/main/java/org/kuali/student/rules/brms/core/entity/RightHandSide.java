@@ -85,7 +85,7 @@ public class RightHandSide {
     /**
      * @return the criterionValues
      */
-    public final String getCriterionValues() {
+    public final String getCriterionValue() {
         return criterionValue;
     }
 

@@ -167,41 +167,6 @@ public class FunctionalBusinessRule {
     }
 
     /**
-     * This method builds the drools rule set container associated with the functional business rule.
-     * 
-     * @param rule
-     * @return
-     * @throws Exception
-     */
-    public GenerateRuleSet buildRuleSet() throws Exception {
-        GenerateRuleSet grs = new GenerateRuleSet(createAdjustedRuleFunctionString());
-
-        grs.setRuleSetName(RULE_PACKAGE + this.getRuleIdentifier());
-        grs.setRuleSetDescription(RULESET_DESC);
-        grs.setRuleName(this.getRuleIdentifier());
-        grs.setRuleDescription(this.getDescription()); // Rule description cannot be empty
-        grs.setRuleCategory(null);
-        grs.setRuleAttributes(null);
-
-        Hashtable<String, String> funcConstraintsMap = new Hashtable<String, String>();
-
-        HashMap<String, RuleProposition> propositions = this.getRulePropositions();
-
-        Set<String> labels = propositions.keySet();
-
-        for (String label : labels) {
-            funcConstraintsMap.put(label, label);
-        }
-
-        grs.setLhsFuncConstraintMap(funcConstraintsMap);
-        grs.setRuleOutcome("Propositions.setProposition(\"" + VALIDATION_OUTCOME + "\",true);");
-
-        grs.parse();
-
-        return grs;
-    }
-
-    /**
      * Generates a HashMap of <unique alphabet character, proposition> pair from a functional business rule.
      * 
      * @param rule
