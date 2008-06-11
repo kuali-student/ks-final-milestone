@@ -7,6 +7,8 @@
  */
 package org.kuali.student.rules.brms.core.dao;
 
+import java.util.List;
+
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 
 /**
@@ -62,13 +64,14 @@ public interface FunctionalBusinessRuleDAO {
     public FunctionalBusinessRule lookupBusinessRuleID(String ruleIdentifier);
 
     /**
-     * Finds FunctionalBusinessRule in database.
+     * Finds one or more FunctionalBusinessRule in database based on given parameters.
      * 
      * @param agendaType
      * @param businessRuleType
      * @param anchorType
      * @param anchor
-     * @return found functional business rule or null if element not found.
+     * @return found functional business rules or null if element not found.
      */
-    public FunctionalBusinessRule lookupCompiledRuleID(String agendaType, String businessRuleType, String anchorType, String anchor);
+    public List<FunctionalBusinessRule> lookupCompiledRuleIDs(String agendaType, String businessRuleType,
+            String anchorType, String anchor);
 }

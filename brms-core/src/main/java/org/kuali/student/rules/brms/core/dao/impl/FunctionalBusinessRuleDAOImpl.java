@@ -7,6 +7,8 @@
  */
 package org.kuali.student.rules.brms.core.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -79,15 +81,20 @@ public class FunctionalBusinessRuleDAOImpl implements FunctionalBusinessRuleDAO 
         return functionalBusinessRule;
     }
 
+    /**
+     * Finds one or more FunctionalBusinessRule in database based on given parameters
+     * 
+     * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#lookupCompiledRuleIDs(String ruleIdentifier)
+     */
     @SuppressWarnings(value = {"unchecked"})
-    public FunctionalBusinessRule lookupCompiledRuleID(String agendaType, String businessRuleType, String anchorType,
-            String anchor) {
+    public List<FunctionalBusinessRule> lookupCompiledRuleIDs(String agendaType, String businessRuleType,
+            String anchorType, String anchor) {
         Query query = entityManager.createNamedQuery("FunctionalBusinessRule.findByAgendaType");
         query.setParameter("agendaType", agendaType);
         query.setParameter("businessRuleType", businessRuleType);
         query.setParameter("anchorType", anchorType);
         query.setParameter("anchor", anchor);
-        FunctionalBusinessRule functionalBusinessRule = (FunctionalBusinessRule) query.getSingleResult();
+        List<FunctionalBusinessRule> functionalBusinessRule = query.getResultList();
         return functionalBusinessRule;
     }
 

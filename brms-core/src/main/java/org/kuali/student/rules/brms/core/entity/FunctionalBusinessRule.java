@@ -26,15 +26,14 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
- * Elements, this class is associated with one or more RuleElement instances. The class also contains BusinessRuleEvaluation
- * and RuleMetaData instances.
+ * Elements, this class is associated with one or more RuleElement instances. The class also contains RuleMetaData instance.
  * 
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 @Entity
 @Table(name = "FunctionalBusinessRule_T")
 @NamedQueries({
-        @NamedQuery(name = "FunctionalBusinessRule.findByRuleID", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.ruleIdentifier = :ruleID"),
+        @NamedQuery(name = "FunctionalBusinessRule.findByRuleID", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.identifier = :ruleID"),
         @NamedQuery(name = "FunctionalBusinessRule.findByAgendaType", query = "SELECT c FROM FunctionalBusinessRule c WHERE c.agendaType = :agendaType AND c.businessRuleType = :businessRuleType AND c.anchorType = :anchorType AND c.anchor = :anchor")})
 public class FunctionalBusinessRule {
 
@@ -50,18 +49,14 @@ public class FunctionalBusinessRule {
     private String successMessage;
     private String failureMessage;
     @Column(unique = true, nullable = false)
-    private String ruleIdentifier;
-    private String compiledRuleID;
+    private String identifier;
+    private String compiledID;
     @Embedded
-    private RuleMetaData ruleMetaData;
-    @Embedded
-    private BusinessRuleEvaluation businessRuleEvaluation;
+    private RuleMetaData metaData;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "functionalBusinessRule")
     private Collection<RuleElement> ruleElements;
 
     public static final char INITIAL_PROPOSITION_PLACEHOLDER = 'A';
-    private static final String RULE_PACKAGE = "org.kuali.student.rules.enrollment";
-    private static final String RULESET_DESC = "Enrollment Rules";
     public static final String VALIDATION_OUTCOME = "validationResultOutcome";
 
     /**
@@ -73,10 +68,9 @@ public class FunctionalBusinessRule {
         description = null;
         successMessage = null;
         failureMessage = null;
-        ruleIdentifier = null;
-        compiledRuleID = null;
-        ruleMetaData = null;
-        businessRuleEvaluation = null;
+        identifier = null;
+        compiledID = null;
+        metaData = null;
         agendaType = null;
         businessRuleType = null;
         anchorType = null;
@@ -93,17 +87,15 @@ public class FunctionalBusinessRule {
      * @param ruleMetaData
      */
     public FunctionalBusinessRule(String name, String description, String successMessage, String failureMessage,
-            String ruleIdentified, String compileRuleID, RuleMetaData ruleMetaData,
-            BusinessRuleEvaluation businessRuleEvaluation, String agendaType, String businessRuleType,
-            String anchorType, String anchor) {
+            String ruleIdentified, String compileRuleID, RuleMetaData ruleMetaData, String agendaType,
+            String businessRuleType, String anchorType, String anchor) {
         this.name = name;
         this.description = description;
         this.successMessage = successMessage;
         this.failureMessage = failureMessage;
-        this.ruleIdentifier = ruleIdentified;
-        this.compiledRuleID = compileRuleID;
-        this.ruleMetaData = ruleMetaData;
-        this.businessRuleEvaluation = businessRuleEvaluation;
+        this.identifier = ruleIdentified;
+        this.compiledID = compileRuleID;
+        this.metaData = ruleMetaData;
         this.agendaType = agendaType;
         this.businessRuleType = businessRuleType;
         this.anchorType = anchorType;
@@ -255,7 +247,7 @@ public class FunctionalBusinessRule {
      * @return the ruleMetaData
      */
     public final RuleMetaData getRuleMetaData() {
-        return ruleMetaData;
+        return metaData;
     }
 
     /**
@@ -263,22 +255,7 @@ public class FunctionalBusinessRule {
      *            the ruleMetaData to set
      */
     public final void setRuleMetaData(RuleMetaData ruleMetaData) {
-        this.ruleMetaData = ruleMetaData;
-    }
-
-    /**
-     * @return the businessRuleEvaluation
-     */
-    public final BusinessRuleEvaluation getBusinessRuleEvaluation() {
-        return businessRuleEvaluation;
-    }
-
-    /**
-     * @param businessRuleEvaluation
-     *            the businessRuleEvaluation to set
-     */
-    public final void setBusinessRuleEvaluation(BusinessRuleEvaluation businessRuleEvaluation) {
-        this.businessRuleEvaluation = businessRuleEvaluation;
+        this.metaData = ruleMetaData;
     }
 
     /**
@@ -330,7 +307,7 @@ public class FunctionalBusinessRule {
      * @return the ruleIdentifier
      */
     public final String getRuleIdentifier() {
-        return ruleIdentifier;
+        return identifier;
     }
 
     /**
@@ -338,14 +315,14 @@ public class FunctionalBusinessRule {
      *            the ruleIdentifier to set
      */
     public final void setRuleIdentifier(String ruleIdentifier) {
-        this.ruleIdentifier = ruleIdentifier;
+        this.identifier = ruleIdentifier;
     }
 
     /**
      * @return the compiledRuleID
      */
     public String getCompiledRuleID() {
-        return compiledRuleID;
+        return compiledID;
     }
 
     /**
@@ -353,7 +330,7 @@ public class FunctionalBusinessRule {
      *            the compiledRuleID to set
      */
     public void setCompiledRuleID(String compiledRuleID) {
-        this.compiledRuleID = compiledRuleID;
+        this.compiledID = compiledRuleID;
     }
 
     /**

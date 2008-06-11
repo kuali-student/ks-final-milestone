@@ -21,7 +21,6 @@ import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
-import org.kuali.student.rules.brms.core.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.brms.core.entity.ComparisonOperator;
 import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
@@ -77,6 +76,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         Collection<FunctionalBusinessRule> functionalBusinessRules = brmsService
                 .retrieveFunctionalBusinessRules("Student Enrolls in Course", businessRuleTypes, "course", "EMS 1001");
 
+        assertEquals(functionalBusinessRules.size(), 1);
+
         for (Iterator<FunctionalBusinessRule> iter = functionalBusinessRules.iterator(); iter.hasNext();) {
             FunctionalBusinessRule businessRule = iter.next();
             assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
@@ -105,9 +106,6 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         RuleMetaData metaData = new RuleMetaData("Tom Smith", new Date(), "", null, new Date(), new Date(), "1.1",
                 "active");
 
-        // we keep this entity empty for now
-        BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
-
         /********************************************************************************************************************
          * insert "(1 of CPR 101) OR ( 1 of FA 001)"
          *******************************************************************************************************************/
@@ -115,8 +113,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         // create basic rule structure
         FunctionalBusinessRule busRule = new FunctionalBusinessRule("Intermediate CPR",
                 "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message",
-                "Rule 1 Failure Message", "1", "111", metaData, businessRuleEvaluation, "Student Enrolls in Course",
-                "course-co-req", "course", "CPR 201");
+                "Rule 1 Failure Message", "1", "111", metaData, "Student Enrolls in Course", "course-co-req", "course",
+                "CPR 201");
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -166,8 +164,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // create basic rule structure
         busRule = new FunctionalBusinessRule("Advanced CPR", "enrollment co-requisites for Advanced CPR 301",
-                "Rule 2 Success Message", "Rule 2 Failure Message", "2", "222", metaData, businessRuleEvaluation,
-                "Student Enrolls in Course", "course-co-req", "course", "CPR 301");
+                "Rule 2 Success Message", "Rule 2 Failure Message", "2", "222", metaData, "Student Enrolls in Course",
+                "course-co-req", "course", "CPR 301");
 
         // 2 of CPR 101 and CPR 201
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
@@ -191,8 +189,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         // create basic rule structure
         busRule = new FunctionalBusinessRule("EMS Certificate Program",
                 "enrollment co-requisites for Certificate Program EMS 1001", "Rule 3 Success Message",
-                "Rule 3 Failure Message", "3", "333", metaData, businessRuleEvaluation, "Student Enrolls in Course",
-                "course-co-req", "course", "EMS 1001");
+                "Rule 3 Failure Message", "3", "333", metaData, "Student Enrolls in Course", "course-co-req", "course",
+                "EMS 1001");
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -200,7 +198,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
-        compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
+        compAssistant = new ComputationAssistant(YieldValueFunction.SUM);
         leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER,
                 compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
@@ -270,8 +268,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         // create basic rule structure
         busRule = new FunctionalBusinessRule("LPN Certificate Program",
                 "enrollment co-requisites for Certificate Program LPN 1001", "Rule 4 Success Message",
-                "Rule 4 Failure Message", "4", "444", metaData, businessRuleEvaluation, "Student Enrolls in Course",
-                "course-co-req", "course", "LPN 1001");
+                "Rule 4 Failure Message", "4", "444", metaData, "Student Enrolls in Course", "course-co-req", "course",
+                "LPN 1001");
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);

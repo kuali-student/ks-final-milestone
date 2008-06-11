@@ -13,6 +13,5 @@ package org.kuali.student.rules.brms.core.entity;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 public enum YieldValueFunction {
-
-    INTERSECTION, SUBSET
+    INTERSECTION, SUBSET, SUM
 }
