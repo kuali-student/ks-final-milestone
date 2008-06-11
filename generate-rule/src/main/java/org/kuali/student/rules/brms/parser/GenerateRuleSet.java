@@ -4,15 +4,22 @@
 package org.kuali.student.rules.brms.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.cxf.bus.BusState;
 import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.brms.repository.rule.Rule;
 import org.kuali.student.brms.repository.rule.RuleSet;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.entity.RuleProposition;
+import org.kuali.student.rules.brms.core.entity.YieldValueFunction;
+import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.util.Function;
 
 
@@ -20,166 +27,77 @@ import org.kuali.student.rules.util.Function;
  * @author Rich Diaz
  */
 public class GenerateRuleSet {
-    String functionString;
-    ArrayList<String> ruleAttributes = new ArrayList<String>();
-    ArrayList<String> lhs = new ArrayList<String>();
-    ArrayList<String> rhs = new ArrayList<String>();
-
-    Hashtable<String, String> funcConstraintsMap;
-    String outcome;
-
-    RuleEngineRepository brmsRepository;
-    String rulesetUuid;
-    String ruleSetName;
-    String ruleSetDescription;
-    String ruleName;
-    String description;
-    String category;
-    RuleSet ruleSet;
-
-    public GenerateRuleSet(String functionString) {
-        this.functionString = functionString;
+    
+    private static final String VELOCITY_RULE_TEMPLATE = "RuleTemplate.vm";
+    
+    private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
+    
+    protected static GenerateRuleSet _instance = new GenerateRuleSet();
+    
+    protected GenerateRuleSet() {
     }
 
-    public void parse() throws Exception {
-        Function f = new Function(functionString);
-        List<String> funcVars = f.getVariables();
+    public static synchronized GenerateRuleSet getInstance() {
+        return _instance;
+    }
+    
+    
+    public RuleSet parse(FunctionalBusinessRule businessRule) {
 
-        RuleTemplate rt = new RuleTemplate();
+        String ruleName = cleanRuleName(businessRule.getName());
+        String packageName = PACKAGE_PREFIX + cleanRuleName(businessRule.getBusinessRuleType()) + "." + ruleName; 
+        
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, businessRule.getDescription());
+        ruleSet.addHeader("import java.util.*");
+        ruleSet.addHeader("import org.kuali.student.rules.statement.*");
+        ruleSet.addHeader("import org.kuali.student.rules.validate.CourseEnrollmentRequest");
 
-        ruleSet = RuleSetFactory.getInstance().createRuleSet(ruleSetName, ruleSetDescription);
-        ruleSet.addHeader("import org.kuali.student.rules.util.Propositions");
-        ruleSet.addHeader("import org.kuali.student.rules.util.Constraint");
+        String ruleSource = "";
+        
+        String functionString = businessRule.createAdjustedRuleFunctionString();        
+
+        Function f = new Function( functionString );
 
         // create the final composite rule for the function
         List<String> symbols = f.getSymbols();
+        
+        Map<String, RuleProposition> functionalPropositionMap = businessRule.getRulePropositions();
 
-        String extRuleName = ruleName + " " + "Func";
-        rt.setRuleName(extRuleName);
-        rt.setRuleAttributes(ruleAttributes);
+        Map<String, Object> velocityContextMap = new HashMap<String, Object>();
+        velocityContextMap.put("propositionMap", functionalPropositionMap);
+        velocityContextMap.put("functionSymbols", symbols);
+                
+        try {
 
-        // Left Hand Side
-        lhs.add("props : Propositions()");
-        lhs.add("eval(");
+            RuleTemplate velocityRuleTemplate = new RuleTemplate();
+            ruleSource = velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE, ruleName, velocityContextMap);
 
-        for (String symbol : symbols) {
-            if (symbol.equals("+")) {
-                lhs.add("||");
-            } else if (symbol.equals("*")) {
-                lhs.add("&&");
-            } else if (symbol.equals("(")) {
-                lhs.add("(");
-            } else if (symbol.equals(")")) {
-                lhs.add(")");
-            } else {
-                lhs.add("Propositions.getProposition(\"" + symbol + "\")");
-            }
+            saveRule(businessRule, ruleSet, ruleSource);        
 
-        }
-        lhs.add(")");
-        rt.setLHS(lhs);
-
-        // Right Hand Side
-        rhs.add(outcome);
-        rt.setRHS(rhs);
-
-        // Merge the template with the context set in lhs, rhs, etc ..
-        String ruleSourceCode = rt.process("RuleTemplate.vm");
-        saveRule(extRuleName, ruleSourceCode);
-
-        ruleAttributes.clear();
-        lhs.clear();
-        rhs.clear();
-
-        // create the proposition rule, one per function variable
-        for (String var : funcVars) {
-            // extRuleName = ruleName + " (" + var + ")";
-            extRuleName = ruleName + " " + var;
-            rt.setRuleName(extRuleName);
-            rt.setRuleAttributes(ruleAttributes);
-
-            // Left Hand Side
-            String dbConstraint = funcConstraintsMap.get(var);
-            lhs.add("constraint : Constraint(constraintID == \"" + dbConstraint + "\")");
-            lhs.add("Boolean(booleanValue == Boolean.TRUE) from constraint.apply(\"" + var + "\")");
-            lhs.add("props : Propositions()");
-            rt.setLHS(lhs);
-
-            // Right Hand Side
-            rhs.add("Propositions.setProposition(\"" + var + "\", true);");
-            rhs.add("retract(constraint);");
-            rhs.add("update(props);");
-            rt.setRHS(rhs);
-
-            // Merge the template with the context set in lhs, rhs, etc ..
-            ruleSourceCode = rt.process("RuleTemplate.vm");
-            saveRule(extRuleName, ruleSourceCode);
-
-            ruleAttributes.clear();
-            lhs.clear();
-            rhs.clear();
-        }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            ruleSet = null;
+        }                
+        
+        return ruleSet;
     }
 
+    
+    
     // Add rule to ruleset created in constructor
-    private void saveRule(String extRuleName, String ruleSourceCode) {
+    private void saveRule(FunctionalBusinessRule businessRule, RuleSet ruleSet, String ruleSourceCode) {
+        String category = null;
         Rule rule = RuleFactory.getInstance().createDroolsRule(
-                extRuleName, description, category, ruleSourceCode, 
+                businessRule.getName(), businessRule.getDescription(), category, ruleSourceCode, 
                 DroolsConstants.FORMAT_DRL);
         ruleSet.addRule(rule);
     }
 
-    public void setRuleEngineRepository(RuleEngineRepository brmsRepository) {
-        this.brmsRepository = brmsRepository;
+    
+    private String cleanRuleName(String name) {     
+        return name.trim().replaceAll("[\\s-]", "_");
     }
 
-    public void setRuleSetUuid(String rulesetUuid) {
-        this.rulesetUuid = rulesetUuid;
-    }
-
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
-    }
-
-    public void setRuleSetName(String ruleSetName) {
-        this.ruleSetName = ruleSetName;
-    }
-
-    public void setRuleSetDescription(String ruleSetDescription) {
-        this.ruleSetDescription = ruleSetDescription;
-    }
-
-    public void setRuleDescription(String description) {
-        this.description = description;
-    }
-
-    public void setRuleCategory(String category) {
-        this.category = category;
-    }
-
-    public void setRuleAttributes(ArrayList<String> ruleAttributes) {
-        if (ruleAttributes != null) {
-            this.ruleAttributes = ruleAttributes;
-        }
-    }
-
-    public void setLhs(ArrayList<String> lhs) {
-        this.lhs = lhs;
-    }
-
-    public void setRhs(ArrayList<String> rhs) {
-        this.rhs = rhs;
-    }
-
-    public RuleSet getRuleSet() {
-        return ruleSet;
-    }
-
-    public void setLhsFuncConstraintMap(Hashtable<String, String> funcConstraintsMap) {
-        this.funcConstraintsMap = funcConstraintsMap;
-    }
-
-    public void setRuleOutcome(String outcome) {
-        this.outcome = outcome;
-    }
 }
+
