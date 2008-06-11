@@ -57,42 +57,42 @@ public class GenerateRuleSetTest {
         repo.logout();
     }
 
-    @Test
-    public void testParse() throws Exception {
-        RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
-        String rulePackage = "org.kuali.student.rules.enrollment";
-        
-        GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
-        grs.setRuleSetName(rulePackage);
-        grs.setRuleSetDescription("A rule set description");
-        grs.setRuleName("Enrollment Physics");
-        grs.setRuleDescription("A rule description"); // Rule description cannot be empty
-        grs.setRuleCategory(null);
-        grs.setRuleAttributes(null);
-        
-        Hashtable<String, String> funcConstraintsMap = new Hashtable<String, String>();
-        funcConstraintsMap.put("A0", "A constraintID from DB");
-        funcConstraintsMap.put("B4", "A constraintID from DB");
-        funcConstraintsMap.put("C", "A constraintID from DB");
-        funcConstraintsMap.put("D", "A constraintID from DB");
-        grs.setLhsFuncConstraintMap(funcConstraintsMap);
-        grs.setRuleOutcome("System.out.println(\"I'm Enrolled\");");
-        
-        grs.parse();
-        
-        // Print rule set
-        System.out.println("***** Rule source before compilation *****");
-        System.out.println(grs.getRuleSet().getContent());
-        System.out.println("\n******************************************");
-        
-        // Create, compile and save a new rule set to the repository
-        String rulesetUuid = brmsRepository.createRuleSet(grs.getRuleSet());
-        
-        // Load rule set from repository and print it
-        System.out.println("***** Rule source after compilation *****");
-        RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
-        System.out.println(ruleset.getContent());
-        System.out.println("******************************************");
-    }
-
+//    @Test
+//    public void testParse() throws Exception {
+//        RuleEngineRepository brmsRepository = new RuleEngineRepositoryDroolsImpl( repo.getRepository() );
+//        String rulePackage = "org.kuali.student.rules.enrollment";
+//        
+//        GenerateRuleSet grs = new GenerateRuleSet("A0*B4+(C*D)");
+//        grs.setRuleSetName(rulePackage);
+//        grs.setRuleSetDescription("A rule set description");
+//        grs.setRuleName("Enrollment Physics");
+//        grs.setRuleDescription("A rule description"); // Rule description cannot be empty
+//        grs.setRuleCategory(null);
+//        grs.setRuleAttributes(null);
+//        
+//        Hashtable<String, String> funcConstraintsMap = new Hashtable<String, String>();
+//        funcConstraintsMap.put("A0", "A constraintID from DB");
+//        funcConstraintsMap.put("B4", "A constraintID from DB");
+//        funcConstraintsMap.put("C", "A constraintID from DB");
+//        funcConstraintsMap.put("D", "A constraintID from DB");
+//        grs.setLhsFuncConstraintMap(funcConstraintsMap);
+//        grs.setRuleOutcome("System.out.println(\"I'm Enrolled\");");
+//        
+//        grs.parse();
+//        
+//        // Print rule set
+//        System.out.println("***** Rule source before compilation *****");
+//        System.out.println(grs.getRuleSet().getContent());
+//        System.out.println("\n******************************************");
+//        
+//        // Create, compile and save a new rule set to the repository
+//        String rulesetUuid = brmsRepository.createRuleSet(grs.getRuleSet());
+//        
+//        // Load rule set from repository and print it
+//        System.out.println("***** Rule source after compilation *****");
+//        RuleSet ruleset = brmsRepository.loadRuleSet(rulesetUuid);
+//        System.out.println(ruleset.getContent());
+//        System.out.println("******************************************");
+//    }
+//
 }
