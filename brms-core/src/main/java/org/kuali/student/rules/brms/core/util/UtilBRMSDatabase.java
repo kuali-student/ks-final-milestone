@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.brms.repository.RuleEngineRepository;
+import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.BusinessRuleEvaluation;
 import org.kuali.student.rules.brms.core.entity.ComparisonOperator;
@@ -72,7 +73,7 @@ public class UtilBRMSDatabase {
         BusinessRuleEvaluation businessRuleEvaluation = new BusinessRuleEvaluation();
 
         /********************************************************************************************************************
-         * insert "(1 of CPR 101) OR ( 1 of FA 001)"
+         * insert "(1 of CPR 101) OR ( 2 of FA 001, FA 002)"
          *******************************************************************************************************************/
 
         // create basic rule structure
@@ -105,10 +106,10 @@ public class UtilBRMSDatabase {
 
         // 1 of FA 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant,
+        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, FA 002", FACT_CONTAINER, compAssistant,
                 ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -302,41 +303,43 @@ public class UtilBRMSDatabase {
      */
     public final void compileDroolsRule() throws Exception {
 
+        GenerateRuleSet grs = GenerateRuleSet.getInstance();
+        
         FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
-        GenerateRuleSet grs1 = rule1.buildRuleSet();
-        String rulesetUuid1 = droolsRepository.createRuleSet(grs1.getRuleSet());
+        RuleSet rs1 = grs.parse(rule1);
+        System.out.println("Rule set1:\n" + rs1.getContent());        
+        String rulesetUuid1 = droolsRepository.createRuleSet(rs1);
         rule1.setCompiledRuleID(rulesetUuid1);
         droolsRepository.loadRuleSet(rulesetUuid1);
         em.merge(rule1);
 
-        System.out.println("Rule set1:\n" + grs1.getRuleSet().getContent());
 
-        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
-        GenerateRuleSet grs2 = rule2.buildRuleSet();
-        String rulesetUuid2 = droolsRepository.createRuleSet(grs2.getRuleSet());
-        rule2.setCompiledRuleID(rulesetUuid2);
-        droolsRepository.loadRuleSet(rulesetUuid2);
-        em.merge(rule2);
-
-        System.out.println("Rule set2:\n" + grs2.getRuleSet().getContent());
-
-        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
-        GenerateRuleSet grs3 = rule3.buildRuleSet();
-        String rulesetUuid3 = droolsRepository.createRuleSet(grs3.getRuleSet());
-        rule3.setCompiledRuleID(rulesetUuid3);
-        droolsRepository.loadRuleSet(rulesetUuid3);
-        em.merge(rule3);
-
-        System.out.println("Rule set3:\n" + grs3.getRuleSet().getContent());
-
-        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
-        GenerateRuleSet grs4 = rule4.buildRuleSet();
-        String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
-        rule4.setCompiledRuleID(rulesetUuid4);
-        droolsRepository.loadRuleSet(rulesetUuid4);
-        em.merge(rule4);
-
-        System.out.println("Rule set4:\n" + grs4.getRuleSet().getContent());
+//        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
+//        GenerateRuleSet grs2 = rule2.buildRuleSet();
+//        String rulesetUuid2 = droolsRepository.createRuleSet(grs2.getRuleSet());
+//        rule2.setCompiledRuleID(rulesetUuid2);
+//        droolsRepository.loadRuleSet(rulesetUuid2);
+//        em.merge(rule2);
+//
+//        System.out.println("Rule set2:\n" + grs2.getRuleSet().getContent());
+//
+//        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
+//        GenerateRuleSet grs3 = rule3.buildRuleSet();
+//        String rulesetUuid3 = droolsRepository.createRuleSet(grs3.getRuleSet());
+//        rule3.setCompiledRuleID(rulesetUuid3);
+//        droolsRepository.loadRuleSet(rulesetUuid3);
+//        em.merge(rule3);
+//
+//        System.out.println("Rule set3:\n" + grs3.getRuleSet().getContent());
+//
+//        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
+//        GenerateRuleSet grs4 = rule4.buildRuleSet();
+//        String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
+//        rule4.setCompiledRuleID(rulesetUuid4);
+//        droolsRepository.loadRuleSet(rulesetUuid4);
+//        em.merge(rule4);
+//
+//        System.out.println("Rule set4:\n" + grs4.getRuleSet().getContent());
 
     }
 
