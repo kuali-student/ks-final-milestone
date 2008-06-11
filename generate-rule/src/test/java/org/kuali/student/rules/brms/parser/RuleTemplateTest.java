@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.rules.brms.drools.translator.RuleTemplate;
 
 public class RuleTemplateTest {
     RuleTemplate rt;

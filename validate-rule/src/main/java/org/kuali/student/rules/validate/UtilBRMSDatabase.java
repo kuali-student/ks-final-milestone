@@ -28,7 +28,7 @@ import org.kuali.student.rules.brms.core.entity.RuleMetaData;
 import org.kuali.student.rules.brms.core.entity.RuleProposition;
 import org.kuali.student.rules.brms.core.entity.ValueType;
 import org.kuali.student.rules.brms.core.entity.YieldValueFunction;
-import org.kuali.student.rules.brms.parser.GenerateRuleSet;
+import org.kuali.student.rules.brms.drools.translator.GenerateRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
