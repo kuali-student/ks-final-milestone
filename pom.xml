@@ -20,8 +20,8 @@
 	</properties>
 
 	<modules>
-		<module>brms-core</module>
 		<module>rules-common</module>
+		<module>brms-core</module>
 		<module>inspect-rule-failure</module>
         <module>rule-repository</module>
         <module>generate-rule</module>

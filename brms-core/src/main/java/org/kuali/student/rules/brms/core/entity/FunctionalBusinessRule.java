@@ -10,8 +10,6 @@ package org.kuali.student.rules.brms.core.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +23,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
-import org.kuali.student.rules.brms.parser.GenerateRuleSet;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
