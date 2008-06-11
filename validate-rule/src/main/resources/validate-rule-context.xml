@@ -19,7 +19,7 @@
     <property name="metadata" ref="FunctionalBusinessRuleManagementService"/>
   </bean>
 
-  <bean id="brmsDatabaseUtil" class="org.kuali.student.rules.brms.core.util.UtilBRMSDatabase">
+  <bean id="brmsDatabaseUtil" class="org.kuali.student.rules.validate.UtilBRMSDatabase">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>
   </bean>
   
