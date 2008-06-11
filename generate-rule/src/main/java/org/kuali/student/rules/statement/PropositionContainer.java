@@ -88,4 +88,7 @@ public class PropositionContainer {
         this.ruleResult = result;
     }
 
+    public Integer getSize() {
+        return propositionMap.size();
+    }
 }
