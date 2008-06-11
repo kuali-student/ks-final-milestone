@@ -3,8 +3,6 @@ package org.kuali.student.rules.validate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.brms.core.util.UtilBRMSDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
