@@ -1,0 +1,6 @@
+<module>
+ <inherits name='com.google.gwt.user.User'/>
+   <source path='xsd' />
+   <source path='wsdl' />
+   <source path='util' />
+</module>
