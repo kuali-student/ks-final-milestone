@@ -87,7 +87,7 @@ public class FunctionalBusinessRuleDAOImpl implements FunctionalBusinessRuleDAO 
      * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#lookupCompiledRuleIDs(String ruleIdentifier)
      */
     @SuppressWarnings(value = {"unchecked"})
-    public List<FunctionalBusinessRule> lookupCompiledRuleIDs(String agendaType, String businessRuleType,
+    public List<FunctionalBusinessRule> lookupCompiledIDs(String agendaType, String businessRuleType,
             String anchorType, String anchor) {
         Query query = entityManager.createNamedQuery("FunctionalBusinessRule.findByAgendaType");
         query.setParameter("agendaType", agendaType);

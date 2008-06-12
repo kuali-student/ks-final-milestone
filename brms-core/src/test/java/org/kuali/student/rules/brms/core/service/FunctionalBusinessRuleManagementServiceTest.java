@@ -11,9 +11,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -69,11 +69,11 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
     @Test
     public void testRetrieveFunctionalBusinessRules() throws Exception {
-        Collection<String> businessRuleTypes = new ArrayList<String>();
+        List<String> businessRuleTypes = new ArrayList<String>();
         businessRuleTypes.add("course-pre-req");
         businessRuleTypes.add("course-co-req");
         businessRuleTypes.add("course-anti-req");
-        Collection<FunctionalBusinessRule> functionalBusinessRules = brmsService
+        List<FunctionalBusinessRule> functionalBusinessRules = brmsService
                 .retrieveFunctionalBusinessRules("Student Enrolls in Course", businessRuleTypes, "course", "EMS 1001");
 
         assertEquals(functionalBusinessRules.size(), 1);

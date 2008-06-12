@@ -4,8 +4,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -39,12 +39,11 @@ public class AgendaDiscovery {
         // Retrieve agenda type from rule set based on AgendaRequest
         // Iterate through returned rule engine objects
         // This should not be done in production
-        Collection<String> ruleTypes = new ArrayList<String>();
+        List<String> ruleTypes = new ArrayList<String>();
         Iterator it = result.iterateObjects();
         AgendaType agendaType = null;
         while (it != null && it.hasNext()) {
             Object obj = it.next();
-            // System.out.println( obj.getClass() + " = " + obj );
             if (obj instanceof AgendaType) {
                 agendaType = (AgendaType) obj;
                 break;
@@ -54,7 +53,7 @@ public class AgendaDiscovery {
         Agenda agenda = new Agenda(agendaType.getName(), agendaType);
         // retrieveRulesFromDatabase( agenda, anchor );
         FunctionalBusinessRuleManagementService ruleMgmtService = FunctionalBusinessRuleManagementService.getInstance();
-        Collection<FunctionalBusinessRule> businessRules = ruleMgmtService.retrieveFunctionalBusinessRules(agenda
+        List<FunctionalBusinessRule> businessRules = ruleMgmtService.retrieveFunctionalBusinessRules(agenda
                 .getAgendaType().getName(), ruleTypes, anchor.getAnchorType().getName(), anchor.getName());
 
         for (Iterator<FunctionalBusinessRule> iter = businessRules.iterator(); iter.hasNext();) {

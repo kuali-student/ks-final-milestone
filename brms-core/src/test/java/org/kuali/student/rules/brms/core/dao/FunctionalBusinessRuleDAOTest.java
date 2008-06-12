@@ -202,7 +202,7 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
                 metaData, "Student Enrolls in Course", "course-co-req", "course", "PR CHEM 1001");
         functionalBusinessRuleDAO.createBusinessRule(rule);
         Collection<FunctionalBusinessRule> newRules = functionalBusinessRuleDAO
-                .lookupCompiledRuleIDs("Student Enrolls in Course", "course-co-req", "course", "PR CHEM 1001");
+                .lookupCompiledIDs("Student Enrolls in Course", "course-co-req", "course", "PR CHEM 1001");
 
         assertEquals(newRules.size(), 1);
 

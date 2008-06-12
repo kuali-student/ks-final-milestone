@@ -16,8 +16,8 @@
 package org.kuali.student.rules.brms.core.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
@@ -57,17 +57,16 @@ public class FunctionalBusinessRuleManagementService {
      } */
 
     // returns an empty collection if no business rule found
-    public Collection<FunctionalBusinessRule> retrieveFunctionalBusinessRules(String agendaType,
-            Collection<String> ruleTypes, String anchorType, String anchor) {
-        Collection<FunctionalBusinessRule> businessRulesOfSameType = new ArrayList<FunctionalBusinessRule>();
-        Collection<FunctionalBusinessRule> allBusinessRules = new ArrayList<FunctionalBusinessRule>();
+    public List<FunctionalBusinessRule> retrieveFunctionalBusinessRules(String agendaType, List<String> ruleTypes,
+            String anchorType, String anchor) {
+        List<FunctionalBusinessRule> businessRulesOfSameType = new ArrayList<FunctionalBusinessRule>();
+        List<FunctionalBusinessRule> allBusinessRules = new ArrayList<FunctionalBusinessRule>();
 
         for (Iterator<String> iter = ruleTypes.iterator(); iter.hasNext();) {
             String ruleType = iter.next();
 
             try {
-                businessRulesOfSameType = businessRuleDAO.lookupCompiledRuleIDs(agendaType, ruleType, anchorType,
-                                                                                anchor);
+                businessRulesOfSameType = businessRuleDAO.lookupCompiledIDs(agendaType, ruleType, anchorType, anchor);
                 if (businessRulesOfSameType != null) {
                     allBusinessRules.addAll(businessRulesOfSameType);
                 }

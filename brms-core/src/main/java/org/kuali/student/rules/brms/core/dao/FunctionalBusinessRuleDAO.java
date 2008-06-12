@@ -72,6 +72,6 @@ public interface FunctionalBusinessRuleDAO {
      * @param anchor
      * @return found functional business rules or null if element not found.
      */
-    public List<FunctionalBusinessRule> lookupCompiledRuleIDs(String agendaType, String businessRuleType,
+    public List<FunctionalBusinessRule> lookupCompiledIDs(String agendaType, String businessRuleType,
             String anchorType, String anchor);
 }
