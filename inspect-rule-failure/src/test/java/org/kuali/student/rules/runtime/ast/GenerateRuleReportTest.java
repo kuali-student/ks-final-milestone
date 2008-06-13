@@ -1,16 +1,15 @@
 package org.kuali.student.rules.runtime.ast;
 
-import java.util.HashMap;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.rules.runtime.ast.GenerateRuleFailureMessage;
-import org.kuali.student.rules.statement.*;
+import org.kuali.student.rules.statement.PropositionContainer;
+import org.kuali.student.rules.statement.PropositionReport;
+import org.kuali.student.rules.statement.SubsetProposition;
 
-import static org.junit.Assert.assertEquals;
-
-public class GenerateRuleFailureMessageTest {
+public class GenerateRuleReportTest {
 
 	private String functionalRuleString;
 	
@@ -35,6 +34,7 @@ public class GenerateRuleFailureMessageTest {
 	    
 	    PropositionContainer pc = new PropositionContainer();
 	    pc.setFunctionalRuleString(functionalRuleString);
+	    pc.setRuleResult(false);
 	    
 	    subsetPropA.setResult(false);
 	    subsetPropB.setResult(true);
@@ -57,7 +57,7 @@ public class GenerateRuleFailureMessageTest {
 	    pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
 	    
 	    String expected = "Need MATH 200";
-        String actual = GenerateRuleFailureMessage.executeRule(pc);
+        String actual = GenerateRuleReport.executeRule(pc);
 	    assertEquals(expected, actual);
 	    
 	}
@@ -70,6 +70,7 @@ public class GenerateRuleFailureMessageTest {
         
         PropositionContainer pc = new PropositionContainer();
         pc.setFunctionalRuleString(functionalRuleString);
+        pc.setRuleResult(false);
         
         // need to set proposition result and failure message for testing.
         subsetPropA.setResult(false);
@@ -93,27 +94,83 @@ public class GenerateRuleFailureMessageTest {
         pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
-        String actual = GenerateRuleFailureMessage.executeRule(pc);
+        String actual = GenerateRuleReport.executeRule(pc);
+        assertEquals(expected, actual);
+	}
+	
+	
+	
+	
+	/* @Test
+    public void testExecuteRuleSuccessMessage1()
+    {
+        functionalRuleString = "A*B*C*D";
+        
+        PropositionContainer pc = new PropositionContainer();
+        pc.setFunctionalRuleString(functionalRuleString);
+        pc.setRuleResult(true);
+        
+        subsetPropA.setResult(true);
+        subsetPropB.setResult(true);
+        subsetPropC.setResult(true);
+        subsetPropD.setResult(true);
+        
+        propositionReportA.setSuccessMessage("Have MATH 200");
+        propositionReportB.setSuccessMessage("Have MATH 110");
+        propositionReportC.setSuccessMessage("Have 15 credits or more of 1st year science");
+        propositionReportD.setSuccessMessage("Have English 6000");
+        
+        subsetPropA.setReport(propositionReportA);
+        subsetPropB.setReport(propositionReportB);
+        subsetPropC.setReport(propositionReportC);
+        subsetPropD.setReport(propositionReportD);
+        
+        pc.setProposition(subsetPropA.getPropositionName(), subsetPropA);
+        pc.setProposition(subsetPropB.getPropositionName(), subsetPropB);
+        pc.setProposition(subsetPropC.getPropositionName(), subsetPropC);
+        pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
+        
+        String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
+        String actual = GenerateRuleReport.executeRule(pc);
         assertEquals(expected, actual);
         
+    }*/
+    
+    @Test
+    public void testExecuteRuleSuccessMessage2()
+    {
+        // New code for PropositionContainer starts here
+        functionalRuleString = "A+(B*C)+D";
         
-/*	    functionalRuleString = "A+(B*C)+D";
-    	
-		nodeValueMap.put("A", false);
-		nodeValueMap.put("B", true);
-		nodeValueMap.put("C", false);
-		nodeValueMap.put("D", false);
-		
-		nodeFailureMessageMap.put("A", "Need MATH 200");
-		nodeFailureMessageMap.put("B", "Need MATH 110");
-		nodeFailureMessageMap.put("C", "Need 15 credits or more of 1st year science");
-		nodeFailureMessageMap.put("D", "Need English 6000");
-		
-		String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
-		String actual = GenerateRuleFailureMessage.executeRule(functionalRuleString, nodeValueMap, nodeFailureMessageMap);
-		
-		assertEquals(expected, actual);*/
-	}
+        PropositionContainer pc = new PropositionContainer();
+        pc.setFunctionalRuleString(functionalRuleString);
+        pc.setRuleResult(true);
+        
+        // need to set proposition result and failure message for testing.
+        subsetPropA.setResult(true);
+        subsetPropB.setResult(true);
+        subsetPropC.setResult(false);
+        subsetPropD.setResult(true);
+        
+        propositionReportA.setSuccessMessage("Have MATH 200");
+        propositionReportB.setSuccessMessage("Have MATH 110");
+        propositionReportC.setSuccessMessage("Have 15 credits or more of 1st year science");
+        propositionReportD.setSuccessMessage("Have English 6000");
+        
+        subsetPropA.setReport(propositionReportA);
+        subsetPropB.setReport(propositionReportB);
+        subsetPropC.setReport(propositionReportC);
+        subsetPropD.setReport(propositionReportD);
+        
+        pc.setProposition(subsetPropA.getPropositionName(), subsetPropA);
+        pc.setProposition(subsetPropB.getPropositionName(), subsetPropB);
+        pc.setProposition(subsetPropC.getPropositionName(), subsetPropC);
+        pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
+        
+        String expected = "Have MATH 200 OR Have English 6000";
+        String actual = GenerateRuleReport.executeRule(pc);
+        assertEquals(expected, actual);
+    }
 	
 	@After
 	public void tearDown() throws Exception {

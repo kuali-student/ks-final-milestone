@@ -17,48 +17,53 @@ import org.kuali.student.rules.common.runtime.ast.*;
 /**
  * This is a sample file to launch a rule package from a rule source file.
  */
-public class GenerateRuleFailureMessage {
+public class GenerateRuleReport {
 	
 	static HashMap<String, Boolean> nodeValueMap;
-	static HashMap<String, String> nodeFailureMessageMap;
+	static HashMap<String, String> nodeMessageMap;
+	static boolean ruleResult;
 	static String functionString;
 	
     //public static String executeRule(String functionString, HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
     public static String executeRule(PropositionContainer propContainer) {
     	BinaryTree ASTtree = null;
+    	ruleResult = propContainer.getRuleResult();
+    	
     	try {
         	//load up the rulebase
-            RuleBase ruleBase = readRule();
+            RuleBase ruleBase = readRule(ruleResult);
             WorkingMemory workingMemory = ruleBase.newStatefulSession();
             
             // set the functionString and Maps from the proposition container
-            fillStringAndMap(propContainer);
+            fillStringAndMap(propContainer, ruleResult);
             
             // go parse function in buildTree
-            ASTtree = new BinaryTree(nodeValueMap, nodeFailureMessageMap);
+            ASTtree = new BinaryTree(nodeValueMap, nodeMessageMap);
             BooleanNode root = ASTtree.buildTree( functionString );
             ASTtree.traverseTreePostOrder(root, null);
             
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
             // Iterate over List<Node> and insert in memory
             for (BooleanNode bnode : treeNodes) {
-            	//System.out.println(bnode.getLabel() + "   " + bnode.getValue() + "   " + bnode.getRuleFailureMessage());
+            	//System.out.println(bnode.getLabel() + "   " + bnode.getValue() + "   " + bnode.getNodeMessage());
             	workingMemory.insert( bnode );
             }
             //System.out.println("ABOUT TO FIRE ALL RULES");
             workingMemory.fireAllRules();
-            //System.out.println( ASTtree.getRoot().getRuleFailureMessage() + "   IM ROOT");
+            //System.out.println( ASTtree.getRoot().getNodeMessage() + "   IM ROOT");
             
             
         } catch (Throwable t) {
             t.printStackTrace();
         }
-        return ASTtree.getRoot().getRuleFailureMessage();
+        
+        // This is the final rule report message
+        return ASTtree.getRoot().getNodeMessage();
     }
     
-    private static void fillStringAndMap(PropositionContainer propContainer){
+    private static void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult){
         nodeValueMap = new HashMap<String, Boolean>();
-        nodeFailureMessageMap = new HashMap<String, String>();
+        nodeMessageMap = new HashMap<String, String>();
         functionString = propContainer.getFunctionalRuleString();
         
         Function func = new Function(functionString);
@@ -69,8 +74,14 @@ public class GenerateRuleFailureMessage {
             nodeValueMap.put(var, value);
             
             PropositionReport report = propContainer.getProposition(var).getReport();
-            String message = report.getFailureMessage();
-            nodeFailureMessageMap.put(var, message);
+            String message = "rule result undefined";
+            
+            if (ruleResult == true){
+                message = report.getSuccessMessage();
+            } else {
+                message = report.getFailureMessage();
+            }
+            nodeMessageMap.put(var, message);
         }
     }
     
@@ -78,10 +89,16 @@ public class GenerateRuleFailureMessage {
     /**
      * Please note that this is the "low level" rule assembly API.
      */
-	private static RuleBase readRule() throws Exception {
+	private static RuleBase readRule(boolean ruleResult) throws Exception {
 		//read in the source
-		Reader source = new InputStreamReader( GenerateRuleFailureMessage.class.getResourceAsStream( "/BoolBinaryTreeLogger.drl" ) );
-		
+	    Reader source = null;
+	    
+	    if (ruleResult == true){
+	        source = new InputStreamReader( GenerateRuleReport.class.getResourceAsStream( "/SuccessMessageLogger.drl" ) );
+	    } else {
+	        source = new InputStreamReader( GenerateRuleReport.class.getResourceAsStream( "/FailureMessageLogger.drl" ) );
+	    }
+	    
 		PackageBuilder builder = new PackageBuilder();
 
 		builder.addPackageFromDrl( source );
