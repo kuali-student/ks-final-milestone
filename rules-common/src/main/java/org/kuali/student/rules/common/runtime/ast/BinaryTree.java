@@ -12,7 +12,7 @@ public class BinaryTree {
 	private static ArrayList<BooleanNode> nodes;
 	
 	private HashMap<String, Boolean> nodeValueMap;
-	private HashMap<String, String> nodeFailureMessageMap;
+	private HashMap<String, String> nodeMessageMap;
 	
 	public BinaryTree() {
 		nodes = new ArrayList<BooleanNode>();
@@ -20,7 +20,7 @@ public class BinaryTree {
 	
 	public BinaryTree(HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
 		this.nodeValueMap = nodeValueMap;
-		this.nodeFailureMessageMap = nodeFailureMessageMap;
+		this.nodeMessageMap = nodeFailureMessageMap;
 		nodes = new ArrayList<BooleanNode>();
 	}
 	
@@ -99,8 +99,8 @@ public class BinaryTree {
 			Boolean value = nodeValueMap.get(bnode.getLabel());
 			bnode.setValue(value);
 			// set the message
-			String ruleFailureMessage = nodeFailureMessageMap.get(bnode.getLabel());
-			bnode.setRuleFailureMessage(ruleFailureMessage);
+			String ruleMessage = nodeMessageMap.get(bnode.getLabel());
+			bnode.setNodeMessage(ruleMessage);
 			//System.out.println("Setting node " + bnode.getLabel() );
 		}
 		else {
@@ -111,13 +111,13 @@ public class BinaryTree {
 			if ( bnode.getLabel().equalsIgnoreCase("+") ) {
 				Boolean newValue = child0.getValue() || child1.getValue();
 				bnode.setValue(newValue);
-				bnode.setRuleFailureMessage("null");
+				bnode.setNodeMessage("null");
 				//System.out.println("IM IN + ");
 			}
 			else if ( bnode.getLabel().equalsIgnoreCase("*") ) {
 				Boolean newValue = child0.getValue() && child1.getValue();
 				bnode.setValue(newValue);
-				bnode.setRuleFailureMessage("null");
+				bnode.setNodeMessage("null");
 				//System.out.println("IM IN * ");
 			}
 		}
