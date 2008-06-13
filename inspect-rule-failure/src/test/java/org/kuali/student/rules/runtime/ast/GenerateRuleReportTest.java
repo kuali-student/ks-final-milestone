@@ -58,7 +58,7 @@ public class GenerateRuleReportTest {
 	    
 	    String expected = "Need MATH 200";
 	    
-	    PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+	    PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
 	    PropositionReport ruleReport = propContainer.getRuleReport();
 	    String actual = ruleReport.getFailureMessage();
 	    
@@ -99,7 +99,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
         
-        PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+        PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
         PropositionReport ruleReport = propContainer.getRuleReport();
         String actual = ruleReport.getFailureMessage();
         
@@ -140,7 +140,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
         
-        PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+        PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
         PropositionReport ruleReport = propContainer.getRuleReport();
         String actual = ruleReport.getSuccessMessage();
         
@@ -181,7 +181,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Have MATH 200 OR Have English 6000";
         
-        PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+        PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
         PropositionReport ruleReport = propContainer.getRuleReport();
         String actual = ruleReport.getSuccessMessage();
         

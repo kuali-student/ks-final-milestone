@@ -19,13 +19,13 @@ import org.kuali.student.rules.common.runtime.ast.*;
  */
 public class GenerateRuleReport {
 	
-	static HashMap<String, Boolean> nodeValueMap;
-	static HashMap<String, String> nodeMessageMap;
-	static boolean ruleResult;
-	static String functionString;
+	private HashMap<String, Boolean> nodeValueMap;
+	private HashMap<String, String> nodeMessageMap;
+	private boolean ruleResult;
+	private String functionString;
 	
     //public static String executeRule(String functionString, HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
-    public static PropositionContainer executeRule(PropositionContainer propContainer) {
+    public PropositionContainer executeRule(PropositionContainer propContainer) {
     	BinaryTree ASTtree = null;
     	ruleResult = propContainer.getRuleResult();
     	
@@ -71,7 +71,7 @@ public class GenerateRuleReport {
         return propContainer;
     }
     
-    private static void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult){
+    private void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult){
         nodeValueMap = new HashMap<String, Boolean>();
         nodeMessageMap = new HashMap<String, String>();
         functionString = propContainer.getFunctionalRuleString();
@@ -99,7 +99,7 @@ public class GenerateRuleReport {
     /**
      * Please note that this is the "low level" rule assembly API.
      */
-	private static RuleBase readRule(boolean ruleResult) throws Exception {
+	private RuleBase readRule(boolean ruleResult) throws Exception {
 		//read in the source
 	    Reader source = null;
 	    
