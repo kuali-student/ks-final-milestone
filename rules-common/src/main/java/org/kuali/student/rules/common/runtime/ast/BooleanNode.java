@@ -8,7 +8,7 @@ public class BooleanNode extends CommonTree {
 	
 	private BooleanNode parent;
 	private boolean value;
-	private String ruleFailureMessage;
+	private String nodeMessage;
 	
 	public BooleanNode(Token payload) {
 		super(payload);
@@ -34,8 +34,8 @@ public class BooleanNode extends CommonTree {
 		 return value;
 	}
 	
-	public String getRuleFailureMessage(){
-		 return ruleFailureMessage;
+	public String getNodeMessage(){
+		 return nodeMessage;
 	}
 	
 	// Setters
@@ -50,8 +50,8 @@ public class BooleanNode extends CommonTree {
 		 this.value = value;
 	}
 	
-	public void setRuleFailureMessage(String ruleFailureMessage){
-		this.ruleFailureMessage = ruleFailureMessage;
+	public void setNodeMessage(String nodeMessage){
+		this.nodeMessage = nodeMessage;
 	}
 	
 }
