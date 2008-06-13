@@ -30,6 +30,7 @@ public class PropositionContainer {
     protected String functionalRuleString;
     protected Map<String,Proposition> propositionMap = new HashMap<String, Proposition>();
     protected Boolean ruleResult = false;
+    protected PropositionReport ruleReport = new PropositionReport();
     
     /**
      * @return the functionalRuleString
@@ -90,5 +91,19 @@ public class PropositionContainer {
 
     public Integer getSize() {
         return propositionMap.size();
+    }
+    
+    /**
+     * @return the report
+     */
+    public PropositionReport getRuleReport() {
+        return ruleReport;
+    }
+
+    /**
+     * @param report the report to set
+     */
+    public void setRuleReport(PropositionReport ruleReport) {
+        this.ruleReport = ruleReport;
     }
 }

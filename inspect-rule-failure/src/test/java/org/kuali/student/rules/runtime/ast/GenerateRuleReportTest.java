@@ -57,8 +57,12 @@ public class GenerateRuleReportTest {
 	    pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
 	    
 	    String expected = "Need MATH 200";
-        String actual = GenerateRuleReport.executeRule(pc);
-	    assertEquals(expected, actual);
+	    
+	    PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+	    PropositionReport ruleReport = propContainer.getRuleReport();
+	    String actual = ruleReport.getFailureMessage();
+	    
+        assertEquals(expected, actual);
 	    
 	}
 	
@@ -94,14 +98,18 @@ public class GenerateRuleReportTest {
         pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
-        String actual = GenerateRuleReport.executeRule(pc);
+        
+        PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+        PropositionReport ruleReport = propContainer.getRuleReport();
+        String actual = ruleReport.getFailureMessage();
+        
         assertEquals(expected, actual);
 	}
 	
 	
 	
 	
-	/* @Test
+	@Test
     public void testExecuteRuleSuccessMessage1()
     {
         functionalRuleString = "A*B*C*D";
@@ -131,10 +139,14 @@ public class GenerateRuleReportTest {
         pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
-        String actual = GenerateRuleReport.executeRule(pc);
+        
+        PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+        PropositionReport ruleReport = propContainer.getRuleReport();
+        String actual = ruleReport.getSuccessMessage();
+        
         assertEquals(expected, actual);
         
-    }*/
+    }
     
     @Test
     public void testExecuteRuleSuccessMessage2()
@@ -168,7 +180,11 @@ public class GenerateRuleReportTest {
         pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
         
         String expected = "Have MATH 200 OR Have English 6000";
-        String actual = GenerateRuleReport.executeRule(pc);
+        
+        PropositionContainer propContainer = GenerateRuleReport.executeRule(pc);
+        PropositionReport ruleReport = propContainer.getRuleReport();
+        String actual = ruleReport.getSuccessMessage();
+        
         assertEquals(expected, actual);
     }
 	

@@ -25,7 +25,7 @@ public class GenerateRuleReport {
 	static String functionString;
 	
     //public static String executeRule(String functionString, HashMap<String, Boolean> nodeValueMap, HashMap<String, String> nodeFailureMessageMap) {
-    public static String executeRule(PropositionContainer propContainer) {
+    public static PropositionContainer executeRule(PropositionContainer propContainer) {
     	BinaryTree ASTtree = null;
     	ruleResult = propContainer.getRuleResult();
     	
@@ -58,7 +58,17 @@ public class GenerateRuleReport {
         }
         
         // This is the final rule report message
-        return ASTtree.getRoot().getNodeMessage();
+        String message = ASTtree.getRoot().getNodeMessage();
+        PropositionReport ruleReport = propContainer.getRuleReport();
+        
+        if (ruleResult == true){
+            ruleReport.setSuccessMessage(message);
+        } else {
+            ruleReport.setFailureMessage(message);
+        }
+        
+        propContainer.setRuleReport(ruleReport);
+        return propContainer;
     }
     
     private static void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult){
