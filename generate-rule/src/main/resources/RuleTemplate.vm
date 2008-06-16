@@ -20,7 +20,14 @@ rule "${ruleName} INIT"
 		#set ( $courseList = $proposition.LeftHandSide.CourseList )   		
    		#if ($proposition.LeftHandSide.CompAssistant.YieldValueFunction.toString() == "INTERSECTION" )
 
-		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split(","))),  req.getLuiIds() ); 
+		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		proposition${key}.apply();
+		prop.setProposition("$key",proposition${key});		
+		#set ($count = $count + 1)														
+   		#end
+   		#if ($proposition.LeftHandSide.CompAssistant.YieldValueFunction.toString() == "SUM" )
+
+		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.computeLearningResults(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
 		proposition${key}.apply();
 		prop.setProposition("$key",proposition${key});		
 		#set ($count = $count + 1)														

@@ -13,7 +13,7 @@ import java.util.Set;
  *            the type of elements being constrained
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
-public class SubsetProposition<T, E> extends AbstractProposition<Integer> {
+public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
 

@@ -8,9 +8,9 @@ import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.drools.StatelessSessionResult;
 import org.drools.rule.Package;
-import org.kuali.student.brms.agenda.AgendaDiscovery;
-import org.kuali.student.brms.agenda.entity.Agenda;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
+import org.kuali.student.rules.brms.agenda.entity.Agenda;
 
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
 

@@ -19,7 +19,7 @@ public class PropositionTest{
     @Test
     public void testSubset1() throws Exception {               
         
-        SubsetProposition<Integer, String> subsetProp = new SubsetProposition<Integer, String>("A", ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, "1", set1, set2 );
+        SubsetProposition<String> subsetProp = new SubsetProposition<String>("A", ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, "1", set1, set2 );
         
         Boolean result = subsetProp.apply();
         
@@ -31,7 +31,7 @@ public class PropositionTest{
     @Test
     public void testSubset2() throws Exception {               
         
-        SubsetProposition<Integer, String> subsetProp = new SubsetProposition<Integer, String>("A", ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, "2", set1, set2 );
+        SubsetProposition<String> subsetProp = new SubsetProposition<String>("A", ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, "2", set1, set2 );
         
         Boolean result = subsetProp.apply();
         

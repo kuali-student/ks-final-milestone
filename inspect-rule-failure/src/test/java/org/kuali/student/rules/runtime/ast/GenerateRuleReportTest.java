@@ -13,10 +13,10 @@ public class GenerateRuleReportTest {
 
 	private String functionalRuleString;
 	
-	private SubsetProposition<Integer, String> subsetPropA = new SubsetProposition<Integer, String>("A", null, null, null, null );
-	private SubsetProposition<Integer, String> subsetPropB = new SubsetProposition<Integer, String>("B", null, null, null, null );
-	private SubsetProposition<Integer, String> subsetPropC = new SubsetProposition<Integer, String>("C", null, null, null, null );
-	private SubsetProposition<Integer, String> subsetPropD = new SubsetProposition<Integer, String>("D", null, null, null, null );
+	private SubsetProposition<String> subsetPropA = new SubsetProposition<String>("A", null, null, null, null );
+	private SubsetProposition<String> subsetPropB = new SubsetProposition<String>("B", null, null, null, null );
+	private SubsetProposition<String> subsetPropC = new SubsetProposition<String>("C", null, null, null, null );
+	private SubsetProposition<String> subsetPropD = new SubsetProposition<String>("D", null, null, null, null );
 	
 	private PropositionReport propositionReportA = new PropositionReport();
 	private PropositionReport propositionReportB = new PropositionReport();

@@ -16,12 +16,11 @@
   <context:annotation-config/>
   
   <bean id="enforceRule"  class="org.kuali.student.rules.validate.EnforceRule">
-    <property name="metadata" ref="FunctionalBusinessRuleManagementService"/>
   </bean>
 
   <bean id="brmsDatabaseUtil" class="org.kuali.student.rules.validate.UtilBRMSDatabase">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>
   </bean>
-  
+    
 </beans>	
 

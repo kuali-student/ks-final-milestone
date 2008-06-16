@@ -15,7 +15,11 @@
  */
 package org.kuali.student.rules.common.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -29,6 +33,22 @@ public class CourseEnrollmentRequest {
     private Set<String> luiIds;
 
     private List<Number> learningResults;
+   
+    private static Map<String, Double> learningResultMap = new HashMap<String, Double>();
+    
+    static {
+        
+        learningResultMap.put("CPR 101", 3.0);
+        learningResultMap.put("CPR 201", 3.0);
+        learningResultMap.put("CPR 301", 6.0);
+        learningResultMap.put("EMS 1001", 18.0);
+        learningResultMap.put("FA 001", 1.0);
+        learningResultMap.put("WS 001", 4.0);
+        learningResultMap.put("LPN 1001", 18.0);
+        learningResultMap.put("CPR 105", 6.0);
+        learningResultMap.put("CPR 4005", 21.0);
+    }
+    
     
     /**
      * @return the learningResults
@@ -60,4 +80,25 @@ public class CourseEnrollmentRequest {
     }
     
     
+    /**
+     * 
+     * This method finds the intersection of courses taken and courses for which credit has to be computed
+     * and then creates a list of credits
+     * 
+     * @param courseIDs
+     * @return
+     */
+    public List<Double> computeLearningResults(List<String> courseIDs) {
+        List<Double> learningResultList = new ArrayList<Double>();
+        
+        Set<String> courseIDSet = new HashSet<String>(courseIDs);
+        
+        courseIDSet.retainAll(luiIds);         
+        
+        for (String courseID : courseIDSet) {
+            learningResultList.add(learningResultMap.get(courseID.trim()));
+        }
+        
+        return learningResultList;
+    }
 }

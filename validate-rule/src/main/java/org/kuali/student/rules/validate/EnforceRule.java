@@ -3,6 +3,7 @@ package org.kuali.student.rules.validate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -10,12 +11,16 @@ import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.kuali.student.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
-import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
+import org.kuali.student.rules.brms.agenda.AgendaRequest;
+import org.kuali.student.rules.brms.agenda.entity.Agenda;
+import org.kuali.student.rules.brms.agenda.entity.Anchor;
+import org.kuali.student.rules.brms.agenda.entity.AnchorType;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.statement.PropositionContainer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 
 /**
  * This class is responsibile for extracting rule from the BRMS, Generating the required constraints and excecuting the rules
@@ -25,71 +30,76 @@ import org.springframework.dao.DataAccessException;
 public class EnforceRule {
 
     @Autowired
-    private FunctionalBusinessRuleManagementService metadata;
-
+    AgendaDiscovery agendaDiscovery;
+        
     @Autowired
     private RuleEngineRepository droolsRepository;
 
     public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
             String relationState) {
-
+        
+        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
         ValidationResult result = new ValidationResult();
 
-        /*
-         * Currently map relationType to ruleId (until further clarification from service team or
-         * implementation of agenda
-         */
-        String ruleID = luiPersonRelationType;
+        //1. Discover Agenda
+        AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationType, "course", "offered", relationState );
+        AnchorType type = new AnchorType( "course", "clu.type.course" );
+        Anchor anchor = new Anchor( luiID.replaceAll("\\s", "_"), luiID, type );
+        
+        Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
+        
+        Iterator<BusinessRule> itr = agenda.getBusinessRules().iterator();
+        
+        while(itr.hasNext()) {
+            BusinessRule rule = itr.next();
+            String ruleID = rule.getId();
+            
+            System.out.println("\n\n");
 
-        FunctionalBusinessRule rule = null;
+            // 2. Extract compiled rule from drools repository
+            org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
+            List<Object> factList = new ArrayList<Object>();
 
-        try {
-            rule = metadata.getFunctionalBusinessRule(ruleID);
-        } catch (DataAccessException dae) {
-            System.err.println("Functional rule: " + ruleID + " not present in the database!");
-            throw dae;
+            // 3. Inject facts
+            PropositionContainer props =  new PropositionContainer();
+            props.setFunctionalRuleString(rule.getFunctionalRuleString());
+            CourseEnrollmentRequest request = new CourseEnrollmentRequest();
+            request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
+
+            factList.add(props);
+            factList.add(request);
+
+
+            // 4. Execute the compiled rule
+            try {
+                RuleBase rb = RuleBaseFactory.newRuleBase();
+                rb.addPackage(binPkg);
+                StatelessSession sess = rb.newStatelessSession();
+                sess.execute(factList.toArray());
+
+            } catch (Exception e) {
+                System.out.println("Exception while executing rule:" + rule.getId());
+                e.printStackTrace(System.out);
+                // Eating exception here. BAD BAD Code!
+            }
+
+            ruleReportBuilder.executeRule(props);
+            
+            // 5. Process rule outcome
+            if (props.getRuleResult()) {
+                result.setSuccess(true);
+                result.setRuleMessage(props.getRuleReport().getSuccessMessage());
+                System.out.println(props.getRuleReport().getSuccessMessage());
+            } else {
+                result.setRuleMessage(props.getRuleReport().getFailureMessage());
+                System.out.println(props.getRuleReport().getFailureMessage());
+            }
+
+            
+            // In POC we only process one rule
+            break;
         }
-
-        System.out.println("\n\n");
-
-        // 2. get function string for a given business rule
-        String functionString = rule.createAdjustedRuleFunctionString();
-        System.out.println("Applying Business Rule:" + rule.getRuleIdentifier());
-
-        // 4. Extract compiled rule from drools repository
-        org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(rule
-                .getCompiledRuleID());
-        List<Object> factList = new ArrayList<Object>();
-
-        PropositionContainer props =  new PropositionContainer();
-        CourseEnrollmentRequest request = new CourseEnrollmentRequest();
-        request.setLuiIds(parseList("Math 100, Math 101, Math 102, Math 105, Art 55"));
-
-        factList.add(props);
-
-
-        // 5. Execute the compiled rule
-        try {
-            RuleBase rb = RuleBaseFactory.newRuleBase();
-            rb.addPackage(binPkg);
-            StatelessSession sess = rb.newStatelessSession();
-            sess.execute(factList.toArray());
-
-        } catch (Exception e) {
-            System.out.println("Exception while executing rule:" + rule.getRuleIdentifier());
-            e.printStackTrace(System.out);
-            // Eating exception here. BAD BAD Code!
-        }
-
-        // 6. Process rule outcome
-        if (props.getRuleResult()) {
-            result.setSuccess(true);
-            result.setRuleMessage(rule.getSuccessMessage());
-            System.out.println(rule.getSuccessMessage());
-        } else {
-            result.setRuleMessage(rule.getFailureMessage());
-            System.out.println(rule.getFailureMessage());
-        }
+        
 
         System.out.println("\n\n");
 
@@ -107,21 +117,6 @@ public class EnforceRule {
     }
 
     /**
-     * @return the metadata
-     */
-    public FunctionalBusinessRuleManagementService getMetadata() {
-        return metadata;
-    }
-
-    /**
-     * @param metadata
-     *            the metadata to set
-     */
-    public void setMetadata(FunctionalBusinessRuleManagementService metadata) {
-        this.metadata = metadata;
-    }
-
-    /**
      * @return the droolsRepository
      */
     public RuleEngineRepository getDroolsRepository() {
@@ -136,4 +131,18 @@ public class EnforceRule {
         this.droolsRepository = droolsRepository;
     }
 
-}
+    /**
+     * @return the agendaDiscovery
+     */
+    public AgendaDiscovery getAgendaDiscovery() {
+        return agendaDiscovery;
+    }
+
+    /**
+     * @param agendaDiscovery the agendaDiscovery to set
+     */
+    public void setAgendaDiscovery(AgendaDiscovery agendaDiscovery) {
+        this.agendaDiscovery = agendaDiscovery;
+    }
+
+ }

@@ -8,12 +8,12 @@ import java.util.Iterator;
 
 import org.drools.rule.Package;
 import org.junit.Test;
-import org.kuali.student.brms.agenda.entity.Agenda;
-import org.kuali.student.brms.agenda.entity.AgendaType;
-import org.kuali.student.brms.agenda.entity.BusinessRule;
-import org.kuali.student.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
 import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
+import org.kuali.student.rules.brms.agenda.entity.Agenda;
+import org.kuali.student.rules.brms.agenda.entity.AgendaType;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 
 public class RuleSetExecutorDroolsImplTest {
 
@@ -26,7 +26,7 @@ public class RuleSetExecutorDroolsImplTest {
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
         BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
-        agenda.addBusinessRule( new BusinessRule( ruleUUID, ruleType ) );
+        agenda.addBusinessRule( new BusinessRule( ruleUUID, ruleType, "" ) );
         
         // Create the rule set executor
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();

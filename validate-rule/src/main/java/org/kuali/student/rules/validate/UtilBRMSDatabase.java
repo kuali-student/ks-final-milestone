@@ -305,37 +305,35 @@ public class UtilBRMSDatabase {
         RuleSet rs1 = grs.parse(rule1);
         System.out.println("Rule set1:\n" + rs1.getContent());
         String rulesetUuid1 = droolsRepository.createRuleSet(rs1);
-        rule1.setCompiledRuleID(rulesetUuid1);
+        rule1.setCompiledID(rulesetUuid1);
         droolsRepository.loadRuleSet(rulesetUuid1);
         em.merge(rule1);
 
-        // FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
-        // GenerateRuleSet grs2 = rule2.buildRuleSet();
-        // String rulesetUuid2 = droolsRepository.createRuleSet(grs2.getRuleSet());
-        // rule2.setCompiledRuleID(rulesetUuid2);
-        // droolsRepository.loadRuleSet(rulesetUuid2);
-        // em.merge(rule2);
-        //
-        // System.out.println("Rule set2:\n" + grs2.getRuleSet().getContent());
-        //
-        // FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
-        // GenerateRuleSet grs3 = rule3.buildRuleSet();
-        // String rulesetUuid3 = droolsRepository.createRuleSet(grs3.getRuleSet());
-        // rule3.setCompiledRuleID(rulesetUuid3);
-        // droolsRepository.loadRuleSet(rulesetUuid3);
-        // em.merge(rule3);
-        //
-        // System.out.println("Rule set3:\n" + grs3.getRuleSet().getContent());
-        //
-        // FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
-        // GenerateRuleSet grs4 = rule4.buildRuleSet();
-        // String rulesetUuid4 = droolsRepository.createRuleSet(grs4.getRuleSet());
-        // rule4.setCompiledRuleID(rulesetUuid4);
-        // droolsRepository.loadRuleSet(rulesetUuid4);
-        // em.merge(rule4);
-        //
-        // System.out.println("Rule set4:\n" + grs4.getRuleSet().getContent());
+        
+        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
+        RuleSet rs2 = grs.parse(rule2);
+        System.out.println("Rule set2:\n" + rs2.getContent());
+        String rulesetUuid2 = droolsRepository.createRuleSet(rs2);
+        rule2.setCompiledID(rulesetUuid2);
+        droolsRepository.loadRuleSet(rulesetUuid2);
+        em.merge(rule2);
+        
 
+        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
+        RuleSet rs3 = grs.parse(rule3);
+        System.out.println("Rule set3:\n" + rs3.getContent());
+        String rulesetUuid3 = droolsRepository.createRuleSet(rs3);
+        rule3.setCompiledID(rulesetUuid3);
+        droolsRepository.loadRuleSet(rulesetUuid3);
+        em.merge(rule3);
+
+        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
+        RuleSet rs4 = grs.parse(rule4);
+        System.out.println("Rule set4:\n" + rs4.getContent());
+        String rulesetUuid4 = droolsRepository.createRuleSet(rs4);
+        rule4.setCompiledID(rulesetUuid4);
+        droolsRepository.loadRuleSet(rulesetUuid4);
+        em.merge(rule4);        
     }
 
     /**
