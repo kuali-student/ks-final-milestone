@@ -25,8 +25,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FunctionalBusinessRuleDAOImpl implements FunctionalBusinessRuleDAO {
 
-    @PersistenceContext
     private EntityManager entityManager;
+
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     /**
      * Persists FunctionalBusinessRule in database.
@@ -96,20 +100,5 @@ public class FunctionalBusinessRuleDAOImpl implements FunctionalBusinessRuleDAO 
         query.setParameter("anchor", anchor);
         List<FunctionalBusinessRule> functionalBusinessRule = query.getResultList();
         return functionalBusinessRule;
-    }
-
-    /**
-     * @return the entityManager
-     */
-    public EntityManager getEm() {
-        return entityManager;
-    }
-
-    /**
-     * @param em
-     *            the entityManager to set
-     */
-    public void setEm(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.RulePropositionDAO;
 import org.kuali.student.rules.brms.core.entity.RuleProposition;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,10 +20,14 @@ import org.springframework.stereotype.Repository;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 @Repository
-public class RulePropositionDAOImpl extends JpaDaoSupport implements RulePropositionDAO {
+public class RulePropositionDAOImpl implements RulePropositionDAO {
+
+    private EntityManager entityManager;
 
     @PersistenceContext
-    private EntityManager em;
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     /**
      * Persists RuleProposition.
@@ -32,7 +35,7 @@ public class RulePropositionDAOImpl extends JpaDaoSupport implements RuleProposi
      * @see org.kuali.student.rules.brms.core.dao.RulePropositionDAO#createRuleProposition(RuleProposition ruleProposition)
      */
     public RuleProposition createRuleProposition(RuleProposition ruleProposition) {
-        em.persist(ruleProposition);
+        entityManager.persist(ruleProposition);
         return ruleProposition;
     }
 
@@ -42,7 +45,7 @@ public class RulePropositionDAOImpl extends JpaDaoSupport implements RuleProposi
      * @see org.kuali.student.rules.brms.core.dao.RulePropositionDAO#updateRuleProposition(RuleProposition ruleProposition)
      */
     public RuleProposition updateRuleProposition(RuleProposition ruleProposition) {
-        em.merge(ruleProposition);
+        entityManager.merge(ruleProposition);
         return ruleProposition;
     }
 
@@ -52,7 +55,7 @@ public class RulePropositionDAOImpl extends JpaDaoSupport implements RuleProposi
      * @see org.kuali.student.rules.brms.core.dao.RulePropositionDAO#lookupRuleProposition(RuleProposition ruleProposition)
      */
     public RuleProposition lookupRuleProposition(String id) {
-        return em.find(RuleProposition.class, id);
+        return entityManager.find(RuleProposition.class, id);
     }
 
     /**
@@ -61,22 +64,7 @@ public class RulePropositionDAOImpl extends JpaDaoSupport implements RuleProposi
      * @see org.kuali.student.rules.brms.core.dao.RulePropositionDAO#deleteRuleProposition(RuleProposition ruleProposition)
      */
     public boolean deleteRuleProposition(RuleProposition ruleProposition) {
-        em.remove(ruleProposition);
+        entityManager.remove(ruleProposition);
         return true; // until I know better what needs to happen
-    }
-
-    /**
-     * @return the em
-     */
-    public EntityManager getEm() {
-        return em;
-    }
-
-    /**
-     * @param em
-     *            the em to set
-     */
-    public void setEm(EntityManager em) {
-        this.em = em;
     }
 }

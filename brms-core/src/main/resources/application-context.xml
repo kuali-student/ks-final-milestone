@@ -19,15 +19,12 @@
   </bean>
 
   <bean id="ruleElementDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RuleElementDAOImpl">
-   	<property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
   
   <bean id="rulePropositionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RulePropositionDAOImpl">
-    <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
 
   <bean id="computationAssistantDAO"  class="org.kuali.student.rules.brms.core.dao.impl.ComputationAssistantDAOImpl">
-    <property name="entityManagerFactory" ref="functionalBusinessRuleEntityManagerFactory"/>
   </bean>
 
   <bean id="FunctionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">

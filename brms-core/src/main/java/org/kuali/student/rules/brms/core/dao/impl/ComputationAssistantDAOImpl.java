@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.ComputationAssistantDAO;
 import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,10 +20,14 @@ import org.springframework.stereotype.Repository;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 @Repository
-public class ComputationAssistantDAOImpl extends JpaDaoSupport implements ComputationAssistantDAO {
+public class ComputationAssistantDAOImpl implements ComputationAssistantDAO {
+
+    private EntityManager entityManager;
 
     @PersistenceContext
-    private EntityManager em;
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     /**
      * Persists ComputationAssistant.
@@ -33,7 +36,7 @@ public class ComputationAssistantDAOImpl extends JpaDaoSupport implements Comput
      *      computationAssistant)
      */
     public ComputationAssistant createComputationAssistant(ComputationAssistant computationAssistant) {
-        em.persist(computationAssistant);
+        entityManager.persist(computationAssistant);
         return computationAssistant;
     }
 
@@ -44,7 +47,7 @@ public class ComputationAssistantDAOImpl extends JpaDaoSupport implements Comput
      *      computationAssistant)
      */
     public ComputationAssistant updateComputationAssistant(ComputationAssistant computationAssistant) {
-        em.merge(computationAssistant);
+        entityManager.merge(computationAssistant);
         return computationAssistant;
     }
 
@@ -55,7 +58,7 @@ public class ComputationAssistantDAOImpl extends JpaDaoSupport implements Comput
      *      computationAssistant)
      */
     public ComputationAssistant lookupComputationAssistant(String id) {
-        return em.find(ComputationAssistant.class, id);
+        return entityManager.find(ComputationAssistant.class, id);
     }
 
     /**
@@ -65,22 +68,7 @@ public class ComputationAssistantDAOImpl extends JpaDaoSupport implements Comput
      *      computationAssistant)
      */
     public boolean deleteComputationAssistant(ComputationAssistant computationAssistant) {
-        em.remove(computationAssistant);
+        entityManager.remove(computationAssistant);
         return true; // until I know better what needs to happen
-    }
-
-    /**
-     * @return the em
-     */
-    public EntityManager getEm() {
-        return em;
-    }
-
-    /**
-     * @param em
-     *            the em to set
-     */
-    public void setEm(EntityManager em) {
-        this.em = em;
     }
 }

@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.RuleElementDAO;
 import org.kuali.student.rules.brms.core.entity.RuleElement;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,10 +20,14 @@ import org.springframework.stereotype.Repository;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 @Repository
-public class RuleElementDAOImpl extends JpaDaoSupport implements RuleElementDAO {
+public class RuleElementDAOImpl implements RuleElementDAO {
+
+    private EntityManager entityManager;
 
     @PersistenceContext
-    private EntityManager em;
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     /**
      * Persists RuleElement in database.
@@ -32,7 +35,7 @@ public class RuleElementDAOImpl extends JpaDaoSupport implements RuleElementDAO 
      * @see org.kuali.student.rules.brms.core.dao.RuleElementDAO#createRuleElement(RuleElement ruleElement)
      */
     public RuleElement createRuleElement(RuleElement ruleElement) {
-        em.persist(ruleElement);
+        entityManager.persist(ruleElement);
         return ruleElement;
     }
 
@@ -42,7 +45,7 @@ public class RuleElementDAOImpl extends JpaDaoSupport implements RuleElementDAO 
      * @see org.kuali.student.rules.brms.core.dao.RuleElementDAO#updateRuleElement(RuleElement ruleElement)
      */
     public RuleElement updateRuleElement(RuleElement ruleElement) {
-        em.merge(ruleElement);
+        entityManager.merge(ruleElement);
         return ruleElement;
     }
 
@@ -52,7 +55,7 @@ public class RuleElementDAOImpl extends JpaDaoSupport implements RuleElementDAO 
      * @see org.kuali.student.rules.brms.core.dao.RuleElementDAO#lookupRuleElement(RuleElement ruleElement)
      */
     public RuleElement lookupRuleElement(String id) {
-        return em.find(RuleElement.class, id);
+        return entityManager.find(RuleElement.class, id);
     }
 
     /**
@@ -61,22 +64,7 @@ public class RuleElementDAOImpl extends JpaDaoSupport implements RuleElementDAO 
      * @see org.kuali.student.rules.brms.core.dao.RuleElementDAO#deleteRuleElement(RuleElement ruleElement)
      */
     public boolean deleteRuleElement(RuleElement ruleElement) {
-        em.remove(ruleElement);
+        entityManager.remove(ruleElement);
         return true; // until I know better what needs to happen
-    }
-
-    /**
-     * @return the em
-     */
-    public EntityManager getEm() {
-        return em;
-    }
-
-    /**
-     * @param em
-     *            the em to set
-     */
-    public void setEm(EntityManager em) {
-        this.em = em;
     }
 }
