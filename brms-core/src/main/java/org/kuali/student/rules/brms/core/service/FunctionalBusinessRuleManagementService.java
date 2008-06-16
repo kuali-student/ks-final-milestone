@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +36,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FunctionalBusinessRuleManagementService {
 
-    protected static FunctionalBusinessRuleManagementService _instance = new FunctionalBusinessRuleManagementService();
-
-    protected FunctionalBusinessRuleManagementService() {}
-
-    public static synchronized FunctionalBusinessRuleManagementService getInstance() {
-        return _instance;
-    }
-
     @Autowired
     private FunctionalBusinessRuleDAO businessRuleDAO;
+
 
     /* public void retrieveCompiledRuleIDs(Agenda agenda, Anchor anchor) {
          AgendaType agendaType = agenda.getAgendaType();
@@ -57,16 +51,16 @@ public class FunctionalBusinessRuleManagementService {
      } */
 
     // returns an empty collection if no business rule found
-    public List<FunctionalBusinessRule> retrieveFunctionalBusinessRules(String agendaType, List<String> ruleTypes,
+    public List<FunctionalBusinessRule> retrieveFunctionalBusinessRules(String agendaType, List<BusinessRuleType> ruleTypes,
             String anchorType, String anchor) {
         List<FunctionalBusinessRule> businessRulesOfSameType = new ArrayList<FunctionalBusinessRule>();
         List<FunctionalBusinessRule> allBusinessRules = new ArrayList<FunctionalBusinessRule>();
 
-        for (Iterator<String> iter = ruleTypes.iterator(); iter.hasNext();) {
-            String ruleType = iter.next();
+        for (Iterator<BusinessRuleType> iter = ruleTypes.iterator(); iter.hasNext();) {
+            BusinessRuleType ruleType = iter.next();
 
             try {
-                businessRulesOfSameType = businessRuleDAO.lookupCompiledIDs(agendaType, ruleType, anchorType, anchor);
+                businessRulesOfSameType = businessRuleDAO.lookupCompiledIDs(agendaType, ruleType.getName(), anchorType, anchor);
                 if (businessRulesOfSameType != null) {
                     allBusinessRules.addAll(businessRulesOfSameType);
                 }
