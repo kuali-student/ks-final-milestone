@@ -321,7 +321,7 @@ public class FunctionalBusinessRule {
     /**
      * @return the compiledRuleID
      */
-    public String getCompiledRuleID() {
+    public String getCompiledID() {
         return compiledID;
     }
 
@@ -329,7 +329,7 @@ public class FunctionalBusinessRule {
      * @param compiledRuleID
      *            the compiledRuleID to set
      */
-    public void setCompiledRuleID(String compiledRuleID) {
+    public void setCompiledID(String compiledRuleID) {
         this.compiledID = compiledRuleID;
     }
 
