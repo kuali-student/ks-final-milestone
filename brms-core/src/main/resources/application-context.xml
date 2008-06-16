@@ -33,7 +33,11 @@
   <bean id="FunctionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
-	
+
+  <bean id="agendaDiscovery" class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
+  	<property name="ruleMgmtService" ref="FunctionalBusinessRuleManagementService"/>
+  </bean>
+  
   <!-- JPA EntityManagerFactory -->
   <bean id="jpaConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
     <property name="location" value="classpath:jpa.properties" />
