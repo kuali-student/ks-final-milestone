@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.ComparisonOperator;
 import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
@@ -69,10 +70,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
     @Test
     public void testRetrieveFunctionalBusinessRules() throws Exception {
-        List<String> businessRuleTypes = new ArrayList<String>();
-        businessRuleTypes.add("course-pre-req");
-        businessRuleTypes.add("course-co-req");
-        businessRuleTypes.add("course-anti-req");
+        List<BusinessRuleType> businessRuleTypes = new ArrayList<BusinessRuleType>();
+        businessRuleTypes.add(new BusinessRuleType("course-pre-req","course-pre-req"));
+        businessRuleTypes.add(new BusinessRuleType("course-co-req","course-co-req"));
+        businessRuleTypes.add(new BusinessRuleType("course-anti-req","course-anti-req"));
         List<FunctionalBusinessRule> functionalBusinessRules = brmsService
                 .retrieveFunctionalBusinessRules("Student Enrolls in Course", businessRuleTypes, "course", "EMS 1001");
 
@@ -94,6 +95,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
      */
     @Before
     public void onSetUpInTransaction() throws Exception {
+        
         int ordinalPosition = 1;
         RuleElement ruleElement = null;
         RuleProposition ruleProp = null;
