@@ -54,26 +54,12 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
     @Dao("org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl")
     public FunctionalBusinessRuleDAO businessRuleDAO;
 
-    /*@Test
-    public void testRetrieveCompiledRuleIDs() {
-        AnchorType type = new AnchorType("course", "clu.type.course");
-        Anchor anchor = new Anchor("ems1001", "EMS 1001", type);
-        AgendaType agendaType = new AgendaType("Student Enrolls in Course", "student.enrollment.course");
-        agendaType.addBusinessRuleType(new BusinessRuleType("course-pre-req", "course.pre.req"));
-        agendaType.addBusinessRuleType(new BusinessRuleType("course-co-req", "course.co.req"));
-        agendaType.addBusinessRuleType(new BusinessRuleType("course-anti-req", "course.anti.req"));
-        Agenda testAgenda = new Agenda("Student Enrolls in Course", agendaType);
-        brmsService.retrieveCompiledRuleIDs(testAgenda, anchor);
-
-        assertNotNull(testAgenda.getBusinessRule("333"));
-    }*/
-
     @Test
     public void testRetrieveFunctionalBusinessRules() throws Exception {
         List<BusinessRuleType> businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course-pre-req","course-pre-req"));
-        businessRuleTypes.add(new BusinessRuleType("course-co-req","course-co-req"));
-        businessRuleTypes.add(new BusinessRuleType("course-anti-req","course-anti-req"));
+        businessRuleTypes.add(new BusinessRuleType("course-pre-req", "course-pre-req"));
+        businessRuleTypes.add(new BusinessRuleType("course-co-req", "course-co-req"));
+        businessRuleTypes.add(new BusinessRuleType("course-anti-req", "course-anti-req"));
         List<FunctionalBusinessRule> functionalBusinessRules = brmsService
                 .retrieveFunctionalBusinessRules("Student Enrolls in Course", businessRuleTypes, "course", "EMS 1001");
 
@@ -95,7 +81,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
      */
     @Before
     public void onSetUpInTransaction() throws Exception {
-        
+
         int ordinalPosition = 1;
         RuleElement ruleElement = null;
         RuleProposition ruleProp = null;
@@ -157,7 +143,6 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -181,7 +166,6 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -260,7 +244,6 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -329,7 +312,6 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
         ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
     }
 }
