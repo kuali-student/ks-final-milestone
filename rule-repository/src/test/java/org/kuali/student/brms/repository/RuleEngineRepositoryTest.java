@@ -83,7 +83,7 @@ public class RuleEngineRepositoryTest {
     
     @BeforeClass
     public static void setUpOnce() throws Exception {
-        URL url = RuleEngineRepositoryTest.class.getResource("/repository");
+        URL url = RuleEngineRepositoryTest.class.getResource("/drools-repository");
         jackrabbitRepository = new DroolsJackrabbitRepository(url);
         //jackrabbitRepository.clearAll();
         jackrabbitRepository.startupRepository();

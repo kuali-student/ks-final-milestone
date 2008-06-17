@@ -60,7 +60,7 @@ public class DroolsJackrabbitRepositoryStartupShutdownTest {
     @Test
     public void testStartupShutdownRepositoryWithUrlConfiguration() throws Exception {
         // Get repository.xml from /repository
-        URL url = DroolsJackrabbitRepositoryStartupShutdownTest.class.getResource("/repository");
+        URL url = DroolsJackrabbitRepositoryStartupShutdownTest.class.getResource("/drools-repository");
         DroolsJackrabbitRepository repo = new DroolsJackrabbitRepository( url );
         repo.clearAll();
         repo.startupRepository();

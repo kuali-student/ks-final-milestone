@@ -8,7 +8,7 @@ public class DefaultDroolsRepositoryTest {
 
     //@Test
     //public void testStartupShutdownRepository() throws Exception {
-    //    URL url = DefaultDroolsRepositoryTest.class.getResource("/repository");
+    //    URL url = DefaultDroolsRepositoryTest.class.getResource("/drools-repository");
     //    DefaultDroolsRepository repo = new DefaultDroolsRepository( url.toString() );
     //    assertNotNull( repo.getRepository().listStates() );
     //    repo.shutdownRepository();
@@ -17,7 +17,7 @@ public class DefaultDroolsRepositoryTest {
     //@Test
     //public void testStartupShutdownRepositoryWithUrlConfiguration() throws Exception {
         // Get repository.xml from /repository
-    //    URL url = DefaultDroolsRepositoryTest.class.getResource("/repository");
+    //    URL url = DefaultDroolsRepositoryTest.class.getResource("/drools-repository");
     //    DefaultDroolsRepository repo = new DefaultDroolsRepository( url );
     //    assertNotNull( repo.getRepository().listStates() );
     //    repo.shutdownRepository();
@@ -25,8 +25,8 @@ public class DefaultDroolsRepositoryTest {
 
     @Test
     public void testStartupShutdownRepositoryWithPathConfiguration() throws Exception {
-        // Get repository.xml from /repository
-        String path = "/repository";
+        // Get repository.xml from directory /drools-repository
+        String path = "/drools-repository";
         DefaultDroolsRepository repo = new DefaultDroolsRepository( path );
         assertNotNull( repo.getRepository().listStates() );
         repo.shutdownRepository();

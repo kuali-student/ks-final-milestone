@@ -40,7 +40,7 @@ import org.kuali.student.brms.repository.rule.RuleSet;
  * </p>
  * <pre>
  * // Location of the repository.xml file
- * URL url = RuleEngineRepository.class.getResource("/repository");
+ * URL url = RuleEngineRepository.class.getResource("/drools-repository");
  * 
  * // Setup repository
  * jackrabbitRepo = new DroolsJackrabbitRepository(url);

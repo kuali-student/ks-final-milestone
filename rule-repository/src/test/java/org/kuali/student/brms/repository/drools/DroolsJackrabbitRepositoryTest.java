@@ -39,7 +39,7 @@ public class DroolsJackrabbitRepositoryTest {
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
-        URL url = DroolsJackrabbitRepositoryTest.class.getResource("/repository");
+        URL url = DroolsJackrabbitRepositoryTest.class.getResource("/drools-repository");
         repo = new DroolsJackrabbitRepository(url);
         //repo.clearAll();
         repo.startupRepository();
