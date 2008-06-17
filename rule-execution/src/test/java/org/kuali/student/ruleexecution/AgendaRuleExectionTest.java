@@ -1,14 +1,29 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.ruleexecution;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.drools.rule.Package;
 import java.util.Calendar;
 import java.util.Iterator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.ruleexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
@@ -16,6 +31,8 @@ import org.kuali.student.rules.brms.agenda.AgendaRequest;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.AnchorType;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,14 +53,21 @@ public class AgendaRuleExectionTest {
         Anchor anchor = new Anchor( anchorID, "Math-301", anchorType );
         // Get the specific agenda for math301
         Agenda agenda = agendaDiscovery.getAgenda( request, anchor );
-        // Load compiled rule set (Drools Package) from the repository 
-        Package pkg = (Package) RuleEngineRepositoryMock.getInstance().loadCompiledRuleSet( anchorID );
+
+        // Add a business rule since the agenda returns none
+        BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
+        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", ruleType, "" ) );
         
+System.out.println( "\n\n\n************* agenda = " + agenda );
+System.out.println( "\n\n\n************* rules = " + agenda.getBusinessRules() + "\n\n\n");
+
+        // Create repository 
+        RuleEngineRepository ruleEngineRepository = new RuleEngineRepositoryMock();
         // Create the rule set executor (use Spring IoC)
-        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( ruleEngineRepository );
         // Iterate through returned rule engine objects
         // This should not be done in production
-        Iterator it = (Iterator) executor.execute( agenda, pkg, Calendar.getInstance() );
+        Iterator it = (Iterator) executor.execute( agenda, Calendar.getInstance() );
         
         assertNotNull( it );
 

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.ruleexecution.drools;
 
 import static org.junit.Assert.assertTrue;
@@ -6,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import org.drools.rule.Package;
 import org.junit.Test;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
 import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
@@ -19,19 +33,16 @@ public class RuleSetExecutorDroolsImplTest {
 
     @Test
     public void testExecute() throws Exception {
-        String ruleUUID = "uuid-123";
-        Package pkg = (Package) RuleEngineRepositoryMock.getInstance().loadCompiledRuleSet( ruleUUID );
-
         // Create the agenda
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
         BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
-        agenda.addBusinessRule( new BusinessRule( ruleUUID, ruleType, "" ) );
+        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", ruleType, "" ) );
         
         // Create the rule set executor
-        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock() );
         // Iterator through any returned rule engine objects
-        Iterator it = (Iterator) executor.execute( agenda, pkg, Calendar.getInstance() );
+        Iterator it = (Iterator) executor.execute( agenda, Calendar.getInstance() );
         
         assertNotNull( it );
 

@@ -1,17 +1,39 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.ruleexecution.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.Reader;
 import java.io.StringReader;
+import java.util.List;
 
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
+import org.kuali.student.brms.repository.RuleEngineRepository;
+import org.kuali.student.brms.repository.exceptions.CategoryExistsException;
+import org.kuali.student.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.brms.repository.exceptions.RuleExistsException;
+import org.kuali.student.brms.repository.exceptions.RuleSetExistsException;
+import org.kuali.student.brms.repository.rule.CompilerResultList;
+import org.kuali.student.brms.repository.rule.Rule;
+import org.kuali.student.brms.repository.rule.RuleSet;
 
-public class RuleEngineRepositoryMock {
+public class RuleEngineRepositoryMock implements RuleEngineRepository {
 
-    private RuleEngineRepositoryMock() {
-    }
-
-    public static RuleEngineRepositoryMock getInstance() {
-        return new RuleEngineRepositoryMock();
+    public RuleEngineRepositoryMock() {
     }
 
     /**
@@ -90,8 +112,202 @@ public class RuleEngineRepositoryMock {
      * @return A Drools Package
      * @throws Exception
      */
-    public Object loadCompiledRuleSet( String uuid ) throws Exception {
-        return buildPackage();
+    public Object loadCompiledRuleSet( String uuid ) {
+        try {
+            return buildPackage();
+        } catch( Exception e ) {
+            throw new RuleEngineRepositoryException( "Loading compiled rule set failed", e );
+        }
+    }
+
+    @Override
+    public void archiveRule(String uuid, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void archiveRuleSet(String uuid, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void changeRuleSetStatus(String uuid, String newState) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void changeRuleStatus(String uuid, String newState) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void checkinRule(String uuid, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void checkinRuleSet(String uuid, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public CompilerResultList compileRuleSet(String ruleSetUUID) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public String compileRuleSetSource(String ruleSetUUID) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public Object compileSource(Reader source) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public Boolean createCategory(String path, String name, String description) throws CategoryExistsException {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public String createStatus(String name) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public byte[] exportRulesRepositoryAsXml() {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public ByteArrayOutputStream exportRulesRepositoryAsZip(String filename) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void importRulesRepository(byte[] byteArray) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public List<Rule> loadArchivedRules() {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public List<RuleSet> loadArchivedRuleSets() {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public List<String> loadChildCategories(String categoryPath) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public Rule loadRule(String uuid) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public List<Rule> loadRuleHistory(String uuid) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public RuleSet loadRuleSet(String uuid) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public String[] loadStates() {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void rebuildAllSnapshots() {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void removeCategory(String categoryPath) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void removeRule(String uuid) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void removeRuleSet(String uuid) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public String renameRule(String uuid, String newName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public String renameRuleSet(String uuid, String newName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void restoreVersion(String versionUUID, String assetUUID, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void unArchiveRule(String uuid, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void unArchiveRuleSet(String uuid, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void updateRule(Rule rule) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void updateRuleSet(RuleSet ruleSet) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
     }
     
 }
