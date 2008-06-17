@@ -129,7 +129,7 @@
 
 	<bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.brms.repository.drools.DefaultDroolsRepository"
 		  destroy-method="shutdown">
-		<constructor-arg type="java.lang.String" value="/repository"/>
+		<constructor-arg type="java.lang.String" value="/drools-repository"/>
 	</bean>
 	
 	<bean id="rulesRepository"
