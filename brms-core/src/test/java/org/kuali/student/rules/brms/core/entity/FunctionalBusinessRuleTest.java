@@ -14,9 +14,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -35,9 +33,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 
     @Autowired
     FunctionalBusinessRuleManagementService brmsService;
-
-    @Dao("org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl")
-    public FunctionalBusinessRuleDAO businessRuleDAO;
 
     @Test
     public void testCreateRuleFunctionString() throws Exception {
@@ -110,7 +105,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 101
@@ -122,12 +116,10 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // OR
         ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001
@@ -139,15 +131,12 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // right bracket ')'
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -168,10 +157,8 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -186,7 +173,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
@@ -198,22 +184,18 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // right bracket ')'
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // OR
         ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 4005
@@ -225,12 +207,10 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // AND
         ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001, WS 001
@@ -242,15 +222,12 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // right bracket ')'
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
 
         /********************************************************************************************************************
@@ -265,7 +242,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 
         // left bracket '('
         ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
@@ -277,12 +253,10 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // OR
         ruleElement = new RuleElement(RuleElementType.OR_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 4005
@@ -294,17 +268,14 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // right bracket ')'
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // AND
         ruleElement = new RuleElement(RuleElementType.AND_TYPE, ordinalPosition++, "", "", null, null);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
         // 1 of FA 001, WS 001
@@ -316,10 +287,8 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        ruleElement.setFunctionalBusinessRule(busRule);
         busRule.addRuleElement(ruleElement);
 
-        // businessRuleDAO.createBusinessRule(busRule);
         em.persist(busRule);
     }
 }
