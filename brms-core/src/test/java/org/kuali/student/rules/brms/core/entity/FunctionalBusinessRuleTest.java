@@ -25,7 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
  * 
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
-@PersistenceFileLocation("classpath:META-INF/persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
 @ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
 public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 

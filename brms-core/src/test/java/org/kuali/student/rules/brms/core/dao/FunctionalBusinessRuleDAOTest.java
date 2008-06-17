@@ -38,7 +38,7 @@ import org.kuali.student.rules.brms.core.entity.YieldValueFunction;
  * 
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
-@PersistenceFileLocation("classpath:META-INF/persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
 public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest {
 
     @Dao("org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl")

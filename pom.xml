@@ -55,26 +55,4 @@
 		</repository>
 	</repositories>
 
-	<build>
-		<finalName>brms-database</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<configuration>
-						<filesets>
-							<fileset>
-								<directory>./</directory>
-								<includes>
-									<include>BRMSMetadataDB</include>
-								</includes>
-								<followSymlinks>false</followSymlinks>
-							</fileset>
-						</filesets>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>  
-
 </project>

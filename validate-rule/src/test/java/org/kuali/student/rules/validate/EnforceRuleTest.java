@@ -11,7 +11,7 @@ import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:validate-rule-context.xml","classpath:application-context.xml"})
+@ContextConfiguration(locations = {"classpath:validate-rule-context.xml","classpath:brms-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
 public class EnforceRuleTest extends AbstractJpaTests {
