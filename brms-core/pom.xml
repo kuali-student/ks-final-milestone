@@ -13,29 +13,7 @@
     <groupId>org.kuali.student.poc.brms</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  
-	<build>
-		<finalName>brms-database</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<configuration>
-						<filesets>
-							<fileset>
-								<directory>./</directory>
-								<includes>
-									<include>BRMSMetadataDB</include>
-								</includes>
-								<followSymlinks>false</followSymlinks>
-							</fileset>
-						</filesets>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>  
-  
+    
   <dependencies>
 	  <dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
