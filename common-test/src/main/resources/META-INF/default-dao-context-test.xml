@@ -45,16 +45,29 @@
 		</property>
 	</bean>
 
-	<bean id="dataSource" class="com.atomikos.jdbc.SimpleDataSourceBean"
-		init-method="init" destroy-method="close"
-		depends-on="systemPropertyConfigurer">
+	<bean id="dataSource"
+		class="org.kuali.student.poc.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
+		destroy-method="close" depends-on="systemPropertyConfigurer">
 		<property name="uniqueResourceName" value="dataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
-		<property name="xaDataSourceProperties"
-			value="${jdbc.xaDataSourceProperties}" />
-		<property name="exclusiveConnectionMode" value="true" />
-		<property name="connectionPoolSize" value="5" />
+		<property name="xaProperties">
+			<props>
+				<prop key="databaseName">
+					${jdbc.xaDataSourceProperties.databaseName}
+				</prop>
+				<prop key="user">
+					${jdbc.xaDataSourceProperties.user}
+				</prop>
+				<prop key="password">
+					${jdbc.xaDataSourceProperties.password}
+				</prop>
+				<prop key="createDatabase">
+					${jdbc.xaDataSourceProperties.createDatabase}
+				</prop>
+			</props>
+		</property>
+		<property name="maxPoolSize" value="20" />
 	</bean>
 	<!-- <bean id="dataSource"
 		class="com.atomikos.jdbc.nonxa.NonXADataSourceBean"
