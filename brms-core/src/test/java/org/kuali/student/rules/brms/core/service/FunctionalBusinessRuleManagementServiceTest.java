@@ -12,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
@@ -65,8 +64,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         assertEquals(functionalBusinessRules.size(), 1);
 
-        for (Iterator<FunctionalBusinessRule> iter = functionalBusinessRules.iterator(); iter.hasNext();) {
-            FunctionalBusinessRule businessRule = iter.next();
+        for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
             assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
             assertTrue((businessRule.getBusinessRuleType() == "course-pre-req")
                     || (businessRule.getBusinessRuleType() == "course-co-req")

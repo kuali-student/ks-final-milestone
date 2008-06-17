@@ -13,7 +13,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -201,8 +200,7 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
 
         assertEquals(newRules.size(), 1);
 
-        for (Iterator<FunctionalBusinessRule> iter = newRules.iterator(); iter.hasNext();) {
-            FunctionalBusinessRule newRule = iter.next();
+        for (FunctionalBusinessRule newRule : newRules) {
             assertEquals(newRule.getAgendaType(), rule.getAgendaType());
             assertEquals(newRule.getAnchor(), rule.getAnchor());
             assertEquals(newRule.getAnchorType(), rule.getAnchorType());
