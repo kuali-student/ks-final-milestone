@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.ruleexecution.drools;
 
 import java.util.ArrayList;
@@ -8,41 +23,46 @@ import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.drools.StatelessSessionResult;
 import org.drools.rule.Package;
+import org.kuali.student.brms.repository.RuleEngineRepository;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
 
-    public RuleSetExecutorDroolsImpl() {
+    private RuleEngineRepository ruleEngineRepository;
+
+    public RuleSetExecutorDroolsImpl( RuleEngineRepository ruleEngineRepository ) {
+        this.ruleEngineRepository = ruleEngineRepository;
     }
     
-    public Object execute( Agenda agenda, Object ruleSet, Object fact ) {
+    /**
+     * Executes an <code>agenda</code> with <code>fact</code>
+     * 
+     * @see org.kuali.student.ruleexecution.RuleSetExecutor#execute(org.kuali.student.rules.brms.agenda.entity.Agenda, java.lang.Object)
+     * @return {@link java.util.Iterator}
+     */
+    public Object execute( Agenda agenda, Object fact ) {
         RuleBase ruleBase = null;
-        try {
-            List<Package> packageList = new ArrayList<Package>();
-            packageList.add( (Package) ruleSet );
-            /*for( BusinessRule rule : agenda.getBusinessRules() ) {
-                Package pkg = (Package) ruleSetCache.getObject( rule.getId() );
-                if ( pkg == null ) {
-                    throw new RuntimeException( "org.drools.rule.Package not found" );
-                }
-                packageList.add( pkg );
-            }*/
-    
-            ruleBase = getRuleBase( packageList );
-        } catch( Exception e ) {
-            throw new RuntimeException( "Loading rule base failed", e );
-        }
+        List<Package> packageList = new ArrayList<Package>();
         
-        try {
-            return executeRule( ruleBase, fact ).iterateObjects();
-        } catch( Exception e ) {
-            throw new RuntimeException( "Executing rule failed", e );
+        for( BusinessRule businessRule : agenda.getBusinessRules() ) {
+            Package pkg = (Package) ruleEngineRepository.loadCompiledRuleSet( businessRule.getId() );
+            packageList.add( (Package) pkg );
         }
+        ruleBase = getRuleBase( packageList );
+        
+        return executeRule( ruleBase, fact ).iterateObjects();
     }
 
-    private RuleBase getRuleBase( List<Package> packages ) throws Exception {
+    /**
+     * Gets the Drools' rule base.
+     * 
+     * @param packages Packages to add to the rule base
+     * @return A rule base
+     */
+    private RuleBase getRuleBase( List<Package> packages ) {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
         ClassLoader newClassLoader = AgendaDiscovery.class.getClassLoader();
@@ -53,10 +73,13 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
         
             //Add the package to a rulebase (deploy the rule package).
             RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-            for( Package pkg : packages ) {
-                ruleBase.addPackage(pkg);
+            try {
+                for( Package pkg : packages ) {
+                    ruleBase.addPackage(pkg);
+                }
+            } catch( Exception e ) {
+                throw new RuntimeException( "Adding package to rule base failed", e );
             }
-      
             return ruleBase;
         }
         finally
@@ -65,8 +88,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
         }
     }
 
-    private StatelessSessionResult executeRule( RuleBase ruleBase, Object fact ) throws Exception {
+    /**
+     * Executes a <code>ruleBase</code> with a <code>fact</code>.
+     * 
+     * @param ruleBase List of rules
+     * @param fact Facts for the <code>ruleBase</code>
+     * @return
+     */
+    private StatelessSessionResult executeRule( RuleBase ruleBase, Object fact ) { 
         StatelessSession session = ruleBase.newStatelessSession();
         return session.executeWithResults( fact );
     }
+    
 }
