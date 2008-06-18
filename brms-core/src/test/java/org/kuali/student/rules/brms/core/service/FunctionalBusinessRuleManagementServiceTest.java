@@ -17,10 +17,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.ComparisonOperator;
 import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
@@ -49,9 +47,6 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
     @Autowired
     FunctionalBusinessRuleManagementService brmsService;
-
-    @Dao("org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl")
-    public FunctionalBusinessRuleDAO businessRuleDAO;
 
     @Test
     public void testRetrieveFunctionalBusinessRules() throws Exception {
