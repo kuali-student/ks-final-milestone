@@ -176,7 +176,12 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) {
+    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
