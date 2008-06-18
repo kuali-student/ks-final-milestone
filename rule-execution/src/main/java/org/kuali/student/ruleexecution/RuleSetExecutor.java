@@ -25,7 +25,7 @@ public interface RuleSetExecutor {
      * Executes an <code>agenda</code> with <code>fact</code>
      * 
      * @param agenda Agenda to execute
-     * @param fact Facts for the <code>agenda</code>
+     * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
     public Object execute( Agenda agenda, List<Object> facts );
