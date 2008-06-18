@@ -688,7 +688,47 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Creates a new rule set snapshot for deployment. Creates a copy of the rule set for deployment.
+     * Creates a new rule set snapshot for deployment. 
+     * Creates a copy of the rule set for deployment.
+     * If the rule set fails to compile, an exception will be thrown and
+     * a snapshot will not be created. 
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @param comment
+     *            Comments for creating the snapshot
+     * @throws RuleEngineRepositoryException 
+     *            If rule set fails to compile or any other errors occur
+     */
+    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
+        createRuleSetSnapshot(ruleSetName, snapshotName, false, comment);
+    }
+
+    /**
+     * Replaces an existing rule set snapshot. 
+     * If the rule set fails to compile, an exception will be thrown and
+     * a snapshot will not be created. 
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @param comment
+     *            Comments for creating the snapshot
+     * @throws RuleEngineRepositoryException 
+     *            If rule set fails to compile or any other errors occur
+     */
+    public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
+        createRuleSetSnapshot(ruleSetName, snapshotName, true, comment);
+    }
+    
+    /**
+     * Creates or replaces a rule set snapshot for deployment. 
+     * Creates a copy of the rule set for deployment.
+     * If the rule set fails to compile, an exception will be thrown and
+     * a snapshot will not be created. 
      * 
      * @param ruleSetName
      *            Rule set name
@@ -698,9 +738,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Replace existing snapshot
      * @param comment
      *            Comments for creating the snapshot
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException 
+     *            If rule set fails to compile or any other errors occur
      */
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) {
+    private void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
         } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
@@ -713,8 +754,23 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             }
 
             this.repository.createPackageSnapshot(ruleSetName, snapshotName);
-            PackageItem item = this.repository.loadPackageSnapshot(ruleSetName, snapshotName);
-            item.checkin(comment);
+            PackageItem pkg = this.repository.loadPackageSnapshot(ruleSetName, snapshotName);
+
+            try {
+                CompilerResultList result = droolsUtil.compile(pkg);
+    
+                if (result != null && !result.isEmpty()) {
+                    throw new RuleEngineRepositoryException("Compiling rule set failed: " + result);
+                }
+                org.drools.rule.Package compiledPkg = (org.drools.rule.Package) result.getObject();
+                pkg.updateCompiledPackage(droolsUtil.getBinaryPackage(compiledPkg));
+            } catch (IOException e) {
+                throw new RuleEngineRepositoryException("Compiling rule set failed", e);
+            } catch (DroolsParserException e) {
+                throw new RuleEngineRepositoryException("Compiling and parsing rule set failed", e);
+            }
+
+            pkg.checkin(comment);
             this.repository.save();
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Creating rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
@@ -950,7 +1006,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         try {
             CompilerResultList result = droolsUtil.compile(item);
 
-            if (result != null && result.size() > 0) {
+            if (result != null && !result.isEmpty()) {
                 return result;
             } else {
                 org.drools.rule.Package pkg = (org.drools.rule.Package) result.getObject();
