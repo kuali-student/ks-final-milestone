@@ -12,13 +12,6 @@
 	</classpathentry>
 	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/resources"/>
 	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/resources"/>
-	<classpathentry kind="src" output="brms-agenda/target/classes" path="brms-agenda/src/main/java"/>
-	<classpathentry kind="src" output="brms-agenda/target/test-classes" path="brms-agenda/src/test/java">
-		<attributes>
-			<attribute name="maven.type" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="brms-agenda/target/test-classes" path="brms-agenda/src/test/resources"/>
 	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/java"/>
 	<classpathentry kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/java"/>
 	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/resources"/>
