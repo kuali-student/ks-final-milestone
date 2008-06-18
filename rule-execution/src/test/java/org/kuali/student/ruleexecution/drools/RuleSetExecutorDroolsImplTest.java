@@ -18,8 +18,10 @@ package org.kuali.student.ruleexecution.drools;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.ruleexecution.RuleSetExecutor;
@@ -41,8 +43,11 @@ public class RuleSetExecutorDroolsImplTest {
         
         // Create the rule set executor
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock() );
+        // Add facts
+        List<Object> facts = new ArrayList<Object>();
+        facts.add( Calendar.getInstance() );
         // Iterator through any returned rule engine objects
-        Iterator it = (Iterator) executor.execute( agenda, Calendar.getInstance() );
+        Iterator it = (Iterator) executor.execute( agenda, facts );
         
         assertNotNull( it );
 

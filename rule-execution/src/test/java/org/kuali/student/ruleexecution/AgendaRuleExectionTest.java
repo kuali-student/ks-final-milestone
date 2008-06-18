@@ -18,8 +18,10 @@ package org.kuali.student.ruleexecution;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,9 +67,12 @@ System.out.println( "\n\n\n************* rules = " + agenda.getBusinessRules() +
         RuleEngineRepository ruleEngineRepository = new RuleEngineRepositoryMock();
         // Create the rule set executor (use Spring IoC)
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( ruleEngineRepository );
+        // Add facts
+        List<Object> facts = new ArrayList<Object>();
+        facts.add( Calendar.getInstance() );
         // Iterate through returned rule engine objects
         // This should not be done in production
-        Iterator it = (Iterator) executor.execute( agenda, Calendar.getInstance() );
+        Iterator it = (Iterator) executor.execute( agenda, facts );
         
         assertNotNull( it );
 

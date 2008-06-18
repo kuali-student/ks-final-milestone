@@ -43,7 +43,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
      * @see org.kuali.student.ruleexecution.RuleSetExecutor#execute(org.kuali.student.rules.brms.agenda.entity.Agenda, java.lang.Object)
      * @return {@link java.util.Iterator}
      */
-    public Object execute( Agenda agenda, Object fact ) {
+    public Object execute( Agenda agenda, List<Object> facts ) {
         RuleBase ruleBase = null;
         List<Package> packageList = new ArrayList<Package>();
         
@@ -53,7 +53,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
         }
         ruleBase = getRuleBase( packageList );
         
-        return executeRule( ruleBase, fact ).iterateObjects();
+        return executeRule( ruleBase, facts ).iterateObjects();
     }
 
     /**
@@ -95,7 +95,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
      * @param fact Facts for the <code>ruleBase</code>
      * @return
      */
-    private StatelessSessionResult executeRule( RuleBase ruleBase, Object fact ) { 
+    private StatelessSessionResult executeRule( RuleBase ruleBase, List<Object> fact ) { 
         StatelessSession session = ruleBase.newStatelessSession();
         return session.executeWithResults( fact );
     }

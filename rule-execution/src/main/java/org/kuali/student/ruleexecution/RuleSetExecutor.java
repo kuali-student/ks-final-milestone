@@ -15,6 +15,8 @@
  */
 package org.kuali.student.ruleexecution;
 
+import java.util.List;
+
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 
 public interface RuleSetExecutor {
@@ -26,5 +28,5 @@ public interface RuleSetExecutor {
      * @param fact Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object execute( Agenda agenda, Object fact );
+    public Object execute( Agenda agenda, List<Object> facts );
 }
