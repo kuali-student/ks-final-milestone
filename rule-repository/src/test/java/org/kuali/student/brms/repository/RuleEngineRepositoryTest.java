@@ -226,7 +226,7 @@ public class RuleEngineRepositoryTest {
         createSimpleRuleSet("MyRuleSet");
         
         brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
-                false, "Snapshot Version 1");
+                "Snapshot Version 1");
         
         org.drools.rule.Package binPkg = (org.drools.rule.Package) 
             brmsRepository.loadCompiledRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
@@ -240,13 +240,31 @@ public class RuleEngineRepositoryTest {
         RuleSet ruleSet1 = createSimpleRuleSet("MyRuleSet");
         
         brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
-                false, "Snapshot Version 1");
+                "Snapshot Version 1");
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
 
         assertNotNull(ruleSet2);
         assertFalse(ruleSet1.equals(ruleSet2));
     }
+    
+    @Test
+    public void testCreateInvalidRuleSetSnapshot_UpdateInvalidRule() throws Exception {
+        // Create a valid rule set
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        Rule rule = brmsRepository.loadRule(ruleSet.getRules().get(0).getUUID());
+        // Update with an invalid rule 
+        rule.setContent("Some invalid rule source code");
+        brmsRepository.updateRule(rule);
+        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), "Checkin invalid source");
+    
+        try {
+            brmsRepository.createRuleSetSnapshot("MyRuleSet", "SNAPSHOT-1", "Create invalid snapshot 1");
+            fail("Creating rule set snapshot should fail because of invalid rule: "+rule.getContent());
+        } catch (RuleEngineRepositoryException e) {
+            assertTrue(true);
+        }
+    }    
 
     @Test
     public void testCreateRuleSetSnapshotVersions() throws Exception {
@@ -254,9 +272,9 @@ public class RuleEngineRepositoryTest {
         
         String expectedCheckinComment = "Snapshot Version 1";
         brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
-                false, expectedCheckinComment);
+                expectedCheckinComment);
         brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot2", 
-                false, expectedCheckinComment);
+                expectedCheckinComment);
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
 
@@ -269,11 +287,11 @@ public class RuleEngineRepositoryTest {
         createSimpleRuleSet("MyRuleSet");
         
         brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
-                false, "Snapshot Version 1");
+                "Snapshot Version 1");
         // replace snapshot
         String expectedCheckinComment = "Snapshot Version 2";
-        brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
-                true, expectedCheckinComment);
+        brmsRepository.replaceRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+                expectedCheckinComment);
         
         RuleSet ruleSet = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
         assertEquals( 2, ruleSet.getVersionNumber() );
@@ -285,8 +303,8 @@ public class RuleEngineRepositoryTest {
         createSimpleRuleSet("MyRuleSet");
         
             try {
-            brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
-                    true, "Snapshot Version 1");
+            brmsRepository.replaceRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+                    "Snapshot Version 1");
             fail("Replacing non-existing snapshot should have failed");
         } catch (RuleEngineRepositoryException e) {
             assertTrue(true);
@@ -305,11 +323,6 @@ public class RuleEngineRepositoryTest {
         ruleSet.addRule(rule2);
         String rulesetUUID = brmsRepository.createRuleSet(ruleSet);
 
-        CompilerResultList results = brmsRepository.compileRuleSet(rulesetUUID);
-
-        // No errors
-        assertNull(ruleEngineUtil.getErrorMessage(results), results);
-
         org.drools.rule.Package binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSet(rulesetUUID);
 
         assertNotNull(binPkg);
@@ -317,7 +330,7 @@ public class RuleEngineRepositoryTest {
 
         droolsTestUtil.executeRule(binPkg, new Object[]{Calendar.getInstance()});
 
-        brmsRepository.createRuleSetSnapshot("MyPackage", "SNAPSHOT1", false, "A snapshot");
+        brmsRepository.createRuleSetSnapshot("MyPackage", "SNAPSHOT1", "A snapshot");
 
         binPkg = (org.drools.rule.Package) brmsRepository.loadCompiledRuleSetSnapshot("MyPackage", "SNAPSHOT1");
 
@@ -829,10 +842,6 @@ public class RuleEngineRepositoryTest {
     public void testCompileInvalidRuleSetSource() throws Exception {
         try {
             RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
-
-            //List<String> header = new ArrayList<String>();
-            //header.add("import jav.uti.Calend");
-            //ruleSet.setHeaderList(header);
             ruleSet.addHeader("import jav.uti.Calend");
             brmsRepository.updateRuleSet(ruleSet);
             
@@ -1059,7 +1068,7 @@ public class RuleEngineRepositoryTest {
     public void testRebuildAllSnapshots() throws Exception {
         RuleSet ruleSet = createSimpleRuleSet("testRebuildAllSnapshots");
         
-        brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1", false, "Build snapshot 1");
+        brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1", "Build snapshot 1");
 
         long snapshotTime1 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
 
@@ -1068,20 +1077,6 @@ public class RuleEngineRepositoryTest {
         long snapshotTime2 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
 
         assertTrue(snapshotTime2 > snapshotTime1);
-
-        Rule rule = brmsRepository.loadRule(ruleSet.getRules().get(0).getUUID());
-        rule.setContent("Some invalid source code");
-        brmsRepository.updateRule(rule);
-        brmsRepository.checkinRule(ruleSet.getRules().get(0).getUUID(), "Checkin invalid source");
-
-        brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-2", false, "Build invalid snapshot 2");
-
-        try {
-            brmsRepository.rebuildAllSnapshots();
-            fail("Rebuilding of shanpshots should fail because of invlaid rule: "+rule.getContent());
-        } catch (RuleEngineRepositoryException e) {
-            assertTrue(true);
-        }
     }
 
     @Test
