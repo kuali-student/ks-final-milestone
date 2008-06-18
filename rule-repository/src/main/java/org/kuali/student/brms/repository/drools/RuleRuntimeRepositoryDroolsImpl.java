@@ -296,7 +296,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * RuleSet ruleSet = repository.loadRuleSet(ruleSetUUID);
      * 
      * repository.createRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;,
-     *     false, &quot;Snapshot Version 1&quot;);
+     *     &quot;Snapshot Version 1&quot;);
      * 
      * org.drools.rule.Package pkg = (org.drools.rule.Package)
      *     repository.loadCompiledRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;);
@@ -307,14 +307,27 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      *            Rule set name
      * @param snapshotName
      *            Snapshot name
-     * @param replaceExisting
-     *            Replace existing snapshot
      * @param comment
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException
      */
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) {
-        super.createRuleSetSnapshot(ruleSetName, snapshotName, replaceExisting, comment);
+    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
+        super.createRuleSetSnapshot(ruleSetName, snapshotName, comment);
+    }
+
+    /**
+     * Replaces an existing rule set snapshot and stores it in the repository.
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @param comment
+     *            Comments for creating the snapshot
+     * @throws RuleEngineRepositoryException
+     */
+    public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
+        super.replaceRuleSetSnapshot(ruleSetName, snapshotName, comment);
     }
 
     /**

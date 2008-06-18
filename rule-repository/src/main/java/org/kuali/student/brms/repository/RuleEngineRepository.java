@@ -494,7 +494,39 @@ public interface RuleEngineRepository {
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException
      */
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment);
+    //public void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment);
+    /**
+     * Creates a new rule set snapshot for deployment. 
+     * Creates a copy of the rule set for deployment.
+     * If the rule set fails to compile, an exception will be thrown and
+     * a snapshot will not be created. 
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @param comment
+     *            Comments for creating the snapshot
+     * @throws RuleEngineRepositoryException 
+     *            If rule set fails to compile or any other errors occur
+     */
+    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+
+    /**
+     * Replaces an existing rule set snapshot. 
+     * If the rule set fails to compile, an exception will be thrown and
+     * a snapshot will not be created. 
+     * 
+     * @param ruleSetName
+     *            Rule set name
+     * @param snapshotName
+     *            Snapshot name
+     * @param comment
+     *            Comments for creating the snapshot
+     * @throws RuleEngineRepositoryException 
+     *            If rule set fails to compile or any other errors occur
+     */
+    public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
 
     /**
      * Removes a category.
