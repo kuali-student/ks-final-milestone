@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -286,9 +287,13 @@ public class DroolsUtil {
      */
     public InputStream getBinaryPackage(final org.drools.rule.Package pkg) throws IOException {
         ObjectOutputStream oos = null;
+        // ObjectOutput is used instead in Drools 5.0.0
+        //ObjectOutput oo = null;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             oos = new ObjectOutputStream(baos);
+            // DroolsObjectOutputStream is used instead in Drools 5.0.0
+            //oo = new DroolsObjectOutputStream(baos);
             oos.writeObject(pkg);
             return new ByteArrayInputStream(baos.toByteArray());
         } finally {
