@@ -1,4 +1,4 @@
-package org.kuali.student.spring.interceptors.cache;
+package org.kuali.student.rules.spring.interceptors.cache;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -79,7 +79,7 @@ public class MemoryCacheInterceptor extends AbstractCacheInterceptor
     /**
      * Gets an object from the cache.
      * 
-     * @see org.kuali.student.spring.interceptors.cache.AbstractCacheInterceptor#getCacheObject(java.lang.Object)
+     * @see org.kuali.student.rules.spring.interceptors.cache.AbstractCacheInterceptor#getCacheObject(java.lang.Object)
      */
     public Object getCacheObject( Object key )
     {
@@ -90,7 +90,7 @@ public class MemoryCacheInterceptor extends AbstractCacheInterceptor
      * Adds an object to the cache.
      * This overridden method ...
      * 
-     * @see org.kuali.student.spring.interceptors.cache.AbstractCacheInterceptor#addToCache(java.lang.Object, java.lang.Object)
+     * @see org.kuali.student.rules.spring.interceptors.cache.AbstractCacheInterceptor#addToCache(java.lang.Object, java.lang.Object)
      */
     public void addToCache( Object key, Object obj )
     {

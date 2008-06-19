@@ -1,4 +1,4 @@
-package org.kuali.student.spring.interceptors.cache;
+package org.kuali.student.rules.spring.interceptors.cache;
 
 import java.io.Serializable;
 
