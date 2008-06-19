@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.ruleexecution.drools;
+package org.kuali.student.rules.ruleexecution.drools;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
@@ -24,12 +24,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.ruleexecution.RuleSetExecutor;
-import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.AgendaType;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 
 public class RuleSetExecutorDroolsImplTest {
 

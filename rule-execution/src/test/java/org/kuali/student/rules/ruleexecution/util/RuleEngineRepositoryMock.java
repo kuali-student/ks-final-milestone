@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.ruleexecution.util;
+package org.kuali.student.rules.ruleexecution.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Reader;

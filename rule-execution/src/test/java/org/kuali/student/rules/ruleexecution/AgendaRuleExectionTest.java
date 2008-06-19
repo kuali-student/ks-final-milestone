@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.ruleexecution;
+package org.kuali.student.rules.ruleexecution;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -26,8 +26,6 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.brms.repository.RuleEngineRepository;
-import org.kuali.student.ruleexecution.drools.RuleSetExecutorDroolsImpl;
-import org.kuali.student.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
 import org.kuali.student.rules.brms.agenda.AgendaRequest;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
@@ -35,6 +33,9 @@ import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.AnchorType;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
