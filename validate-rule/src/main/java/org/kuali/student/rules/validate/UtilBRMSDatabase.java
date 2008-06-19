@@ -12,8 +12,6 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.kuali.student.brms.repository.RuleEngineRepository;
-import org.kuali.student.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.ComparisonOperator;
 import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
@@ -28,6 +26,8 @@ import org.kuali.student.rules.brms.core.entity.RuleProposition;
 import org.kuali.student.rules.brms.core.entity.ValueType;
 import org.kuali.student.rules.brms.core.entity.YieldValueFunction;
 import org.kuali.student.rules.brms.drools.translator.GenerateRuleSet;
+import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.repository.rule.RuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
