@@ -54,7 +54,7 @@ public class FunctionalBusinessRule {
     @Embedded
     private RuleMetaData metaData;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "functionalBusinessRule")
-    private Collection<RuleElement> ruleElements;
+    private Collection<RuleElement> elements;
 
     public static final char INITIAL_PROPOSITION_PLACEHOLDER = 'A';
     public static final String VALIDATION_OUTCOME = "validationResultOutcome";
@@ -184,10 +184,10 @@ public class FunctionalBusinessRule {
      *            a new Rule Element to add to this business rule object
      */
     public void addRuleElement(RuleElement ruleElement) {
-        if (ruleElements == null) {
-            ruleElements = new ArrayList<RuleElement>();
+        if (elements == null) {
+            elements = new ArrayList<RuleElement>();
         }
-        ruleElements.add(ruleElement);
+        elements.add(ruleElement);
     }
 
     /**
@@ -262,7 +262,7 @@ public class FunctionalBusinessRule {
      * @return the ruleElements
      */
     public final Collection<RuleElement> getRuleElements() {
-        return ruleElements;
+        return elements;
     }
 
     /**
@@ -270,7 +270,7 @@ public class FunctionalBusinessRule {
      *            the ruleElements to set
      */
     public final void setRuleElements(Collection<RuleElement> ruleElements) {
-        this.ruleElements = ruleElements;
+        this.elements = ruleElements;
     }
 
     /**

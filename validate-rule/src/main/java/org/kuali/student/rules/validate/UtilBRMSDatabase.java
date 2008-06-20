@@ -84,10 +84,9 @@ public class UtilBRMSDatabase {
 
         // 1 of CPR 101
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -99,10 +98,9 @@ public class UtilBRMSDatabase {
 
         // 1 of FA 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, FA 002", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001, FA 002", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -125,10 +123,9 @@ public class UtilBRMSDatabase {
 
         // 2 of CPR 101 and CPR 201
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 201", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101, CPR 201", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -152,10 +149,10 @@ public class UtilBRMSDatabase {
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
         compAssistant = new ComputationAssistant(YieldValueFunction.SUM);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER,
-                compAssistant, ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant,
+                ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
+        rightSide = new RightHandSide("java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -175,10 +172,9 @@ public class UtilBRMSDatabase {
 
         // 1 of CPR 4005
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 4005", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -190,14 +186,13 @@ public class UtilBRMSDatabase {
 
         // 1 of FA 001, WS 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001, WS 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-         busRule.addRuleElement(ruleElement);
+        busRule.addRuleElement(ruleElement);
 
         // right bracket ')'
         ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
@@ -221,10 +216,10 @@ public class UtilBRMSDatabase {
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER,
-                compAssistant, ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant,
+                ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
+        rightSide = new RightHandSide("java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -236,10 +231,9 @@ public class UtilBRMSDatabase {
 
         // 1 of CPR 4005
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 4005", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -255,10 +249,9 @@ public class UtilBRMSDatabase {
 
         // 1 of FA 001, WS 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001, WS 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -283,7 +276,6 @@ public class UtilBRMSDatabase {
         droolsRepository.loadRuleSet(rulesetUuid1);
         em.merge(rule1);
 
-        
         FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
         RuleSet rs2 = grs.parse(rule2);
         System.out.println("Rule set2:\n" + rs2.getContent());
@@ -291,7 +283,6 @@ public class UtilBRMSDatabase {
         rule2.setCompiledID(rulesetUuid2);
         droolsRepository.loadRuleSet(rulesetUuid2);
         em.merge(rule2);
-        
 
         FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
         RuleSet rs3 = grs.parse(rule3);
@@ -307,7 +298,7 @@ public class UtilBRMSDatabase {
         String rulesetUuid4 = droolsRepository.createRuleSet(rs4);
         rule4.setCompiledID(rulesetUuid4);
         droolsRepository.loadRuleSet(rulesetUuid4);
-        em.merge(rule4);        
+        em.merge(rule4);
     }
 
     /**

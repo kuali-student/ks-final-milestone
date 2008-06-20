@@ -103,10 +103,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 1 of CPR 101
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -118,10 +117,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 1 of FA 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -144,10 +142,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 2 of CPR 101 and CPR 201
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 201", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101, CPR 201", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -171,10 +168,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
         compAssistant = new ComputationAssistant(YieldValueFunction.SUM);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER,
-                compAssistant, ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant,
+                ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
+        rightSide = new RightHandSide("java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -194,10 +191,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 1 of CPR 4005
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 4005", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -209,10 +205,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 1 of FA 001, WS 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001, WS 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -240,10 +235,10 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
         compAssistant = new ComputationAssistant(YieldValueFunction.SUBSET);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER,
-                compAssistant, ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101, CPR 105, CPR 201, CPR 301", FACT_CONTAINER, compAssistant,
+                ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCredits", "java.lang.Integer", "12");
+        rightSide = new RightHandSide("java.lang.Integer", "12");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -255,10 +250,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 1 of CPR 4005
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 4005", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 4005", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -274,10 +268,9 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         // 1 of FA 001, WS 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001, WS 001", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001, WS 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "2");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);

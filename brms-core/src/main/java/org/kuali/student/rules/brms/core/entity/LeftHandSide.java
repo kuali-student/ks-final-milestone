@@ -28,12 +28,10 @@ import javax.persistence.OneToOne;
 @Embeddable
 public class LeftHandSide {
 
-    /* unused */String businessEntityLeft;
-
     @OneToOne(optional = true, cascade = CascadeType.ALL, targetEntity = ComputationAssistant.class)
     private ComputationAssistant compAssistant;
 
-    String courseList;
+    String criteria;
     String academicRecordID;
     ValueType valueType; // String, Number, Boolean
 
@@ -41,8 +39,7 @@ public class LeftHandSide {
      * Sets up an empty instance.
      */
     public LeftHandSide() {
-        businessEntityLeft = null;
-        courseList = null;
+        criteria = null;
         academicRecordID = null;
         compAssistant = null;
         valueType = null;
@@ -56,9 +53,9 @@ public class LeftHandSide {
      * @param factContainerMethod
      * @param methodParameters
      */
-    public LeftHandSide(String businessEntityLeft, String courseList, String academicRecordID, ComputationAssistant compAssistant, ValueType valueType) {
-        this.businessEntityLeft = businessEntityLeft;
-        this.courseList = courseList;
+    public LeftHandSide(String courseList, String academicRecordID, ComputationAssistant compAssistant,
+            ValueType valueType) {
+        this.criteria = courseList;
         this.academicRecordID = academicRecordID;
         this.compAssistant = compAssistant;
         this.valueType = valueType;
@@ -80,25 +77,10 @@ public class LeftHandSide {
     }
 
     /**
-     * @return the businessEntity
-     */
-    public final String getBusinessEntityLeft() {
-        return businessEntityLeft;
-    }
-
-    /**
-     * @param businessEntity
-     *            the businessEntity to set
-     */
-    public final void setBusinessEntityLeft(String businessEntityLeft) {
-        this.businessEntityLeft = businessEntityLeft;
-    }
-
-    /**
      * @return the factContainer
      */
     public final String getFactContainer() {
-        return courseList;
+        return criteria;
     }
 
     /**
@@ -106,7 +88,7 @@ public class LeftHandSide {
      *            the factContainer to set
      */
     public final void setFactContainer(String factContainer) {
-        this.courseList = factContainer;
+        this.criteria = factContainer;
     }
 
     /**
@@ -138,14 +120,13 @@ public class LeftHandSide {
     public final void setCompAssistant(ComputationAssistant compAssistant) {
         this.compAssistant = compAssistant;
     }
-    
+
     /**
-     * 
      * This method is a temporary method to store the required course list
      * 
      * @return
      */
     public String getCourseList() {
-        return courseList;
+        return criteria;
     }
 }

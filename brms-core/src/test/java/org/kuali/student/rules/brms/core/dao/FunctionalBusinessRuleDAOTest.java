@@ -80,10 +80,9 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
 
         // 1 of CPR 101
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "CPR 101", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("CPR 101", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
@@ -95,10 +94,9 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
 
         // 1 of FA 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("Student.LearningResults", "FA 001", FACT_CONTAINER, compAssistant,
-                ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("requiredCourses", "java.lang.Integer", "1");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);

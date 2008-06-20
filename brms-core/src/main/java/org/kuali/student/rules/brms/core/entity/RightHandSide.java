@@ -26,17 +26,15 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class RightHandSide {
 
-    String businessEntityRight;
-    String criterionType;
-    String criterionValue;
+    String expectedValueType;
+    String expectedValue;
 
     /**
      * Sets up an empty instance.
      */
     public RightHandSide() {
-        businessEntityRight = null;
-        criterionType = null;
-        criterionValue = null;
+        expectedValueType = null;
+        expectedValue = null;
     }
 
     /**
@@ -46,32 +44,16 @@ public class RightHandSide {
      * @param facts
      * @param className
      */
-    public RightHandSide(String businessEntity, String criterionType, String criterionValue) {
-        businessEntityRight = businessEntity;
-        this.criterionType = criterionType;
-        this.criterionValue = criterionValue;
-    }
-
-    /**
-     * @return the businessEntity
-     */
-    public final String getBusinessEntity() {
-        return businessEntityRight;
-    }
-
-    /**
-     * @param businessEntity
-     *            the businessEntity to set
-     */
-    public final void setBusinessEntity(String businessEntity) {
-        businessEntityRight = businessEntity;
+    public RightHandSide(String criterionType, String criterionValue) {
+        this.expectedValueType = criterionType;
+        this.expectedValue = criterionValue;
     }
 
     /**
      * @return the criterionType
      */
     public final String getCriterionType() {
-        return criterionType;
+        return expectedValueType;
     }
 
     /**
@@ -79,14 +61,14 @@ public class RightHandSide {
      *            the criterionType to set
      */
     public final void setCriterionType(String criterionType) {
-        this.criterionType = criterionType;
+        this.expectedValueType = criterionType;
     }
 
     /**
      * @return the criterionValues
      */
     public final String getCriterionValue() {
-        return criterionValue;
+        return expectedValue;
     }
 
     /**
@@ -94,6 +76,6 @@ public class RightHandSide {
      *            the criterionValues to set
      */
     public final void setCriterionValues(String criterionValues) {
-        this.criterionValue = criterionValues;
+        this.expectedValue = criterionValues;
     }
 }
