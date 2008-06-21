@@ -69,7 +69,7 @@ public class UtilBRMSDatabase {
                 "active");
 
         /********************************************************************************************************************
-         * insert "(1 of CPR 101) OR ( 2 of FA 001, FA 002)"
+         * insert "1 of CPR 101 OR 1 of FA 001"
          *******************************************************************************************************************/
 
         // create basic rule structure
@@ -77,10 +77,6 @@ public class UtilBRMSDatabase {
                 "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message",
                 "Rule 1 Failure Message", "1", null, metaData, "Student Enrolls in Course", "course-co-req", "course",
                 "CPR 201");
-
-        // left bracket '('
-        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 101
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
@@ -98,22 +94,18 @@ public class UtilBRMSDatabase {
 
         // 1 of FA 001
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
-        leftSide = new LeftHandSide("FA 001, FA 002", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
+        leftSide = new LeftHandSide("FA 001", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
-        rightSide = new RightHandSide("java.lang.Integer", "2");
+        rightSide = new RightHandSide("java.lang.Integer", "1");
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
         busRule.addRuleElement(ruleElement);
 
-        // right bracket ')'
-        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        busRule.addRuleElement(ruleElement);
-
         em.persist(busRule);
 
         /********************************************************************************************************************
-         * insert "2 of CPR 101 and CPR 201"
+         * insert "2 of CPR 101 AND CPR 201"
          *******************************************************************************************************************/
 
         // create basic rule structure
@@ -121,7 +113,7 @@ public class UtilBRMSDatabase {
                 "Rule 2 Success Message", "Rule 2 Failure Message", "2", null, metaData, "Student Enrolls in Course",
                 "course-co-req", "course", "CPR 301");
 
-        // 2 of CPR 101 and CPR 201
+        // 2 of CPR 101 AND CPR 201
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
         leftSide = new LeftHandSide("CPR 101, CPR 201", FACT_CONTAINER, compAssistant, ValueType.NUMBER);
         operator = new Operator(ComparisonOperator.EQUAL_TO);
@@ -134,7 +126,7 @@ public class UtilBRMSDatabase {
         em.persist(busRule);
 
         /********************************************************************************************************************
-         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301) OR (1 of CPR 4005 and 1 of FA 001, WS 001)"
+         * insert "12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR (1 of CPR 4005 AND 1 of FA 001, WS 001)"
          *******************************************************************************************************************/
 
         // create basic rule structure
@@ -142,10 +134,6 @@ public class UtilBRMSDatabase {
                 "enrollment co-requisites for Certificate Program EMS 1001", "Rule 3 Success Message",
                 "Rule 3 Failure Message", "3", null, metaData, "Student Enrolls in Course", "course-co-req", "course",
                 "EMS 1001");
-
-        // left bracket '('
-        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
         compAssistant = new ComputationAssistant(YieldValueFunction.SUM);
@@ -156,10 +144,6 @@ public class UtilBRMSDatabase {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        busRule.addRuleElement(ruleElement);
-
-        // right bracket ')'
-        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
         busRule.addRuleElement(ruleElement);
 
         // OR
@@ -201,7 +185,7 @@ public class UtilBRMSDatabase {
         em.persist(busRule);
 
         /********************************************************************************************************************
-         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR 1 of CPR 4005) and 1 of FA 001, WS 001"
+         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR 1 of CPR 4005) AND 1 of FA 001, WS 001"
          *******************************************************************************************************************/
 
         // create basic rule structure

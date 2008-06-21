@@ -36,17 +36,17 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 
     @Test
     public void testCreateRuleFunctionString() throws Exception {
-        assertEquals("(A OR B)", retrieveFunctionString("1"));
+        assertEquals("A OR B", retrieveFunctionString("1"));
         assertEquals("A", retrieveFunctionString("2"));
-        assertEquals("(A) OR (B AND C)", retrieveFunctionString("3"));
+        assertEquals("A OR (B AND C)", retrieveFunctionString("3"));
         assertEquals("(A OR B) AND C", retrieveFunctionString("4"));
     }
 
     @Test
     public void testCreateAdjustedRuleFunctionString() throws Exception {
-        assertEquals("(A + B)", retrieveAdjustedFunctionString("1"));
+        assertEquals("A + B", retrieveAdjustedFunctionString("1"));
         assertEquals("A", retrieveAdjustedFunctionString("2"));
-        assertEquals("(A) + (B * C)", retrieveAdjustedFunctionString("3"));
+        assertEquals("A + (B * C)", retrieveAdjustedFunctionString("3"));
         assertEquals("(A + B) * C", retrieveAdjustedFunctionString("4"));
     }
 
@@ -94,7 +94,7 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
                 "active");
 
         /********************************************************************************************************************
-         * insert "(1 of CPR 101) OR ( 1 of FA 001)"
+         * insert "1 of CPR 101 OR 1 of FA 001"
          *******************************************************************************************************************/
 
         // create basic rule structure
@@ -102,10 +102,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
                 "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message",
                 "Rule 1 Failure Message", "1", "111", metaData, "Student Enrolls in Course", "course-co-req", "course",
                 "CPR 201");
-
-        // left bracket '('
-        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        busRule.addRuleElement(ruleElement);
 
         // 1 of CPR 101
         compAssistant = new ComputationAssistant(YieldValueFunction.INTERSECTION);
@@ -129,10 +125,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        busRule.addRuleElement(ruleElement);
-
-        // right bracket ')'
-        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
         busRule.addRuleElement(ruleElement);
 
         em.persist(busRule);
@@ -159,7 +151,7 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         em.persist(busRule);
 
         /********************************************************************************************************************
-         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301) OR (1 of CPR 4005 and 1 of FA 001, WS 001)"
+         * insert "12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR (1 of CPR 4005 AND 1 of FA 001, WS 001)"
          *******************************************************************************************************************/
 
         // create basic rule structure
@@ -167,10 +159,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
                 "enrollment co-requisites for Certificate Program EMS 1001", "Rule 3 Success Message",
                 "Rule 3 Failure Message", "3", "333", metaData, "Student Enrolls in Course", "course-co-req", "course",
                 "EMS 1001");
-
-        // left bracket '('
-        ruleElement = new RuleElement(RuleElementType.LPAREN_TYPE, ordinalPosition++, "", "", null, null);
-        busRule.addRuleElement(ruleElement);
 
         // 12 credits from CPR 101, CPR 105, CPR 201, CPR 301
         compAssistant = new ComputationAssistant(YieldValueFunction.SUM);
@@ -181,10 +169,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite credits",
                 "prop error message", leftSide, operator, rightSide);
         ruleElement = new RuleElement(RuleElementType.PROPOSITION_TYPE, ordinalPosition++, "", "", null, ruleProp);
-        busRule.addRuleElement(ruleElement);
-
-        // right bracket ')'
-        ruleElement = new RuleElement(RuleElementType.RPAREN_TYPE, ordinalPosition++, "", "", null, null);
         busRule.addRuleElement(ruleElement);
 
         // OR
@@ -226,7 +210,7 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
         em.persist(busRule);
 
         /********************************************************************************************************************
-         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR 1 of CPR 4005) and 1 of FA 001, WS 001"
+         * insert "(12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR 1 of CPR 4005) AND 1 of FA 001, WS 001"
          *******************************************************************************************************************/
 
         // create basic rule structure
