@@ -136,8 +136,17 @@
       factory-bean="defaultDroolsRepositoryContainer"
       factory-method="getRepository"/>
      
-  <!-- Exception translation bean post processor -->
-  <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	<!-- Exception translation bean post processor -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
+<!--
+	<bean id="loadDataBean" class="org.kuali.student.rules.brms.core.util.LoadDataBean">
+		<property name="contextLocation"	value="classpath:test-beans.xml" />
+	</bean>
+
+	<bean id="loadBeanListener" class="org.kuali.student.rules.brms.core.util.LoadBeanListener">
+		<property name="ldb" ref="loadDataBean" />
+	</bean>
+-->
 </beans>	
 
