@@ -212,16 +212,25 @@
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-frontend-jaxws</artifactId>
 				</dependency>
+								
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http</artifactId>
 				</dependency>
+				
+				<!-- 
+				Need this? I swear we did to include some cxf spring context file.
+				Commenting out for now b/c it has dependency to geronimo-servlet_2.5_spec,
+				which Tomcat complains about.
+								
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>
 						cxf-rt-transports-http-jetty
 					</artifactId>
 				</dependency>
+				-->
+				
 				<dependency>
 					<groupId>cglib</groupId>
 					<artifactId>cglib-nodep</artifactId>
