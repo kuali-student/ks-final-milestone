@@ -35,9 +35,6 @@
 							<className>
 								org.kuali.student.poc.wsdl.learningunit.lu.LuService
 							</className>
-							<targetNamespace>
-								http://student.kuali.org/wsdl/...
-							</targetNamespace>
 							<genWsdl>true</genWsdl>
 							<genWrapperbean>true</genWrapperbean>
 							<verbose>true</verbose>

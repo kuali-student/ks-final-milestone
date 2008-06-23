@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="LuServiceService" targetNamespace="http://student.kuali.org/wsdl/..." xmlns:ns1="http://student.kuali.org/poc/wsdl/learningunit/lu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/..." xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="LuServiceService" targetNamespace="http://student.kuali.org/poc/wsdl/learningunit/lu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/poc/wsdl/learningunit/lu" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/poc/wsdl/learningunit/lu" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/poc/wsdl/learningunit/lu">
     <xs:element name="addCluSetToCluSet" type="tns:addCluSetToCluSet"/>
@@ -1242,1748 +1242,1748 @@
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="findLuiIdsByRelationResponse">
-    <wsdl:part name="parameters" element="ns1:findLuiIdsByRelationResponse">
+    <wsdl:part name="parameters" element="tns:findLuiIdsByRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimpleAntirequisites">
-    <wsdl:part name="parameters" element="ns1:findSimpleAntirequisites">
+    <wsdl:part name="parameters" element="tns:findSimpleAntirequisites">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="InvalidParameterException">
-    <wsdl:part name="InvalidParameterException" element="ns1:InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="assignCluRelation">
-    <wsdl:part name="parameters" element="ns1:assignCluRelation">
+    <wsdl:part name="parameters" element="tns:assignCluRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createLui">
-    <wsdl:part name="parameters" element="ns1:createLui">
+    <wsdl:part name="parameters" element="tns:createLui">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimpleCorequisite">
-    <wsdl:part name="parameters" element="ns1:addSimpleCorequisite">
+    <wsdl:part name="parameters" element="tns:addSimpleCorequisite">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchCluRelation">
-    <wsdl:part name="parameters" element="ns1:fetchCluRelation">
+    <wsdl:part name="parameters" element="tns:fetchCluRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeCluFromCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:removeCluFromCluSetResponse">
+    <wsdl:part name="parameters" element="tns:removeCluFromCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findEnumeratedClusInCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:findEnumeratedClusInCluSetResponse">
+    <wsdl:part name="parameters" element="tns:findEnumeratedClusInCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateCluResponse">
-    <wsdl:part name="parameters" element="ns1:updateCluResponse">
+    <wsdl:part name="parameters" element="tns:updateCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createEnumeratedCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:createEnumeratedCluSetResponse">
+    <wsdl:part name="parameters" element="tns:createEnumeratedCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuRelationTypesResponse">
-    <wsdl:part name="parameters" element="ns1:findLuRelationTypesResponse">
+    <wsdl:part name="parameters" element="tns:findLuRelationTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimpleAntirequisitesResponse">
-    <wsdl:part name="parameters" element="ns1:findSimpleAntirequisitesResponse">
+    <wsdl:part name="parameters" element="tns:findSimpleAntirequisitesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteLui">
-    <wsdl:part name="parameters" element="ns1:deleteLui">
+    <wsdl:part name="parameters" element="tns:deleteLui">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findEquivalenciesForDisplay">
-    <wsdl:part name="parameters" element="ns1:findEquivalenciesForDisplay">
+    <wsdl:part name="parameters" element="tns:findEquivalenciesForDisplay">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimpleCorequisite">
-    <wsdl:part name="parameters" element="ns1:removeSimpleCorequisite">
+    <wsdl:part name="parameters" element="tns:removeSimpleCorequisite">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findEnumeratedCluIdsInCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:findEnumeratedCluIdsInCluSetResponse">
+    <wsdl:part name="parameters" element="tns:findEnumeratedCluIdsInCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluIdsFromCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:findCluIdsFromCluSetResponse">
+    <wsdl:part name="parameters" element="tns:findCluIdsFromCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimplePrerequisites">
-    <wsdl:part name="parameters" element="ns1:findSimplePrerequisites">
+    <wsdl:part name="parameters" element="tns:findSimplePrerequisites">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimpleCorequisitesResponse">
-    <wsdl:part name="parameters" element="ns1:findSimpleCorequisitesResponse">
+    <wsdl:part name="parameters" element="tns:findSimpleCorequisitesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="CircularReferenceException">
-    <wsdl:part name="CircularReferenceException" element="ns1:CircularReferenceException">
+    <wsdl:part name="CircularReferenceException" element="tns:CircularReferenceException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchClu">
-    <wsdl:part name="parameters" element="ns1:fetchClu">
+    <wsdl:part name="parameters" element="tns:fetchClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="MissingParameterException">
-    <wsdl:part name="MissingParameterException" element="ns1:MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluSetIdsFromCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:findCluSetIdsFromCluSetResponse">
+    <wsdl:part name="parameters" element="tns:findCluSetIdsFromCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedClusForCluIdResponse">
-    <wsdl:part name="parameters" element="ns1:findRelatedClusForCluIdResponse">
+    <wsdl:part name="parameters" element="tns:findRelatedClusForCluIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:updateCluSetResponse">
+    <wsdl:part name="parameters" element="tns:updateCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForCluRelations">
-    <wsdl:part name="parameters" element="ns1:searchForCluRelations">
+    <wsdl:part name="parameters" element="tns:searchForCluRelations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuiRelationsResponse">
-    <wsdl:part name="parameters" element="ns1:findLuiRelationsResponse">
+    <wsdl:part name="parameters" element="tns:findLuiRelationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluRelations">
-    <wsdl:part name="parameters" element="ns1:findCluRelations">
+    <wsdl:part name="parameters" element="tns:findCluRelations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimpleEquivalencies">
-    <wsdl:part name="parameters" element="ns1:findSimpleEquivalencies">
+    <wsdl:part name="parameters" element="tns:findSimpleEquivalencies">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedLuisForLuiIdResponse">
-    <wsdl:part name="parameters" element="ns1:findRelatedLuisForLuiIdResponse">
+    <wsdl:part name="parameters" element="tns:findRelatedLuisForLuiIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateLuiRelation">
-    <wsdl:part name="parameters" element="ns1:updateLuiRelation">
+    <wsdl:part name="parameters" element="tns:updateLuiRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateClu">
-    <wsdl:part name="parameters" element="ns1:updateClu">
+    <wsdl:part name="parameters" element="tns:updateClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimpleAntirequisiteResponse">
-    <wsdl:part name="parameters" element="ns1:removeSimpleAntirequisiteResponse">
+    <wsdl:part name="parameters" element="tns:removeSimpleAntirequisiteResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluIdsByRelation">
-    <wsdl:part name="parameters" element="ns1:findCluIdsByRelation">
+    <wsdl:part name="parameters" element="tns:findCluIdsByRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuisForClu">
-    <wsdl:part name="parameters" element="ns1:findLuisForClu">
+    <wsdl:part name="parameters" element="tns:findLuisForClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluIdsFromCluSet">
-    <wsdl:part name="parameters" element="ns1:findCluIdsFromCluSet">
+    <wsdl:part name="parameters" element="tns:findCluIdsFromCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAllowedLuRelationTypesForLuiResponse">
-    <wsdl:part name="parameters" element="ns1:findAllowedLuRelationTypesForLuiResponse">
+    <wsdl:part name="parameters" element="tns:findAllowedLuRelationTypesForLuiResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuiRelations">
-    <wsdl:part name="parameters" element="ns1:findLuiRelations">
+    <wsdl:part name="parameters" element="tns:findLuiRelations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimpleAntirequisite">
-    <wsdl:part name="parameters" element="ns1:addSimpleAntirequisite">
+    <wsdl:part name="parameters" element="tns:addSimpleAntirequisite">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimpleCorequisiteResponse">
-    <wsdl:part name="parameters" element="ns1:removeSimpleCorequisiteResponse">
+    <wsdl:part name="parameters" element="tns:removeSimpleCorequisiteResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimplePrerequisiteResponse">
-    <wsdl:part name="parameters" element="ns1:removeSimplePrerequisiteResponse">
+    <wsdl:part name="parameters" element="tns:removeSimplePrerequisiteResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeCluSetFromCluSet">
-    <wsdl:part name="parameters" element="ns1:removeCluSetFromCluSet">
+    <wsdl:part name="parameters" element="tns:removeCluSetFromCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeCluFromCluSet">
-    <wsdl:part name="parameters" element="ns1:removeCluFromCluSet">
+    <wsdl:part name="parameters" element="tns:removeCluFromCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimpleEquivalencyResponse">
-    <wsdl:part name="parameters" element="ns1:addSimpleEquivalencyResponse">
+    <wsdl:part name="parameters" element="tns:addSimpleEquivalencyResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimpleAntirequisiteResponse">
-    <wsdl:part name="parameters" element="ns1:addSimpleAntirequisiteResponse">
+    <wsdl:part name="parameters" element="tns:addSimpleAntirequisiteResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluIdsForLuTypeResponse">
-    <wsdl:part name="parameters" element="ns1:findCluIdsForLuTypeResponse">
+    <wsdl:part name="parameters" element="tns:findCluIdsForLuTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteLuiRelationResponse">
-    <wsdl:part name="parameters" element="ns1:deleteLuiRelationResponse">
+    <wsdl:part name="parameters" element="tns:deleteLuiRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimplePrerequisite">
-    <wsdl:part name="parameters" element="ns1:removeSimplePrerequisite">
+    <wsdl:part name="parameters" element="tns:removeSimplePrerequisite">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluIdsForLuType">
-    <wsdl:part name="parameters" element="ns1:findCluIdsForLuType">
+    <wsdl:part name="parameters" element="tns:findCluIdsForLuType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForLuisResponse">
-    <wsdl:part name="parameters" element="ns1:searchForLuisResponse">
+    <wsdl:part name="parameters" element="tns:searchForLuisResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="assignLuiRelationResponse">
-    <wsdl:part name="parameters" element="ns1:assignLuiRelationResponse">
+    <wsdl:part name="parameters" element="tns:assignLuiRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findClusForLuTypeResponse">
-    <wsdl:part name="parameters" element="ns1:findClusForLuTypeResponse">
+    <wsdl:part name="parameters" element="tns:findClusForLuTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuiDisplay">
-    <wsdl:part name="parameters" element="ns1:fetchLuiDisplay">
+    <wsdl:part name="parameters" element="tns:fetchLuiDisplay">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCorequisitesForDisplay">
-    <wsdl:part name="parameters" element="ns1:findCorequisitesForDisplay">
+    <wsdl:part name="parameters" element="tns:findCorequisitesForDisplay">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuisByRelation">
-    <wsdl:part name="parameters" element="ns1:findLuisByRelation">
+    <wsdl:part name="parameters" element="tns:findLuisByRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createEnumeratedCluSet">
-    <wsdl:part name="parameters" element="ns1:createEnumeratedCluSet">
+    <wsdl:part name="parameters" element="tns:createEnumeratedCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimpleAntirequisite">
-    <wsdl:part name="parameters" element="ns1:removeSimpleAntirequisite">
+    <wsdl:part name="parameters" element="tns:removeSimpleAntirequisite">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimpleEquivalency">
-    <wsdl:part name="parameters" element="ns1:addSimpleEquivalency">
+    <wsdl:part name="parameters" element="tns:addSimpleEquivalency">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="DependentObjectsExistException">
-    <wsdl:part name="DependentObjectsExistException" element="ns1:DependentObjectsExistException">
+    <wsdl:part name="DependentObjectsExistException" element="tns:DependentObjectsExistException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuisByRelationResponse">
-    <wsdl:part name="parameters" element="ns1:findLuisByRelationResponse">
+    <wsdl:part name="parameters" element="tns:findLuisByRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedLuiIdsForLuiId">
-    <wsdl:part name="parameters" element="ns1:findRelatedLuiIdsForLuiId">
+    <wsdl:part name="parameters" element="tns:findRelatedLuiIdsForLuiId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuTypesResponse">
-    <wsdl:part name="parameters" element="ns1:findLuTypesResponse">
+    <wsdl:part name="parameters" element="tns:findLuTypesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAllowedLuRelationTypesForLui">
-    <wsdl:part name="parameters" element="ns1:findAllowedLuRelationTypesForLui">
+    <wsdl:part name="parameters" element="tns:findAllowedLuRelationTypesForLui">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createLuiResponse">
-    <wsdl:part name="parameters" element="ns1:createLuiResponse">
+    <wsdl:part name="parameters" element="tns:createLuiResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addCluToCluSet">
-    <wsdl:part name="parameters" element="ns1:addCluToCluSet">
+    <wsdl:part name="parameters" element="tns:addCluToCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForCluIdsResponse">
-    <wsdl:part name="parameters" element="ns1:searchForCluIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForCluIdsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeCluSetFromCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:removeCluSetFromCluSetResponse">
+    <wsdl:part name="parameters" element="tns:removeCluSetFromCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForLuis">
-    <wsdl:part name="parameters" element="ns1:searchForLuis">
+    <wsdl:part name="parameters" element="tns:searchForLuis">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForLuiRelations">
-    <wsdl:part name="parameters" element="ns1:searchForLuiRelations">
+    <wsdl:part name="parameters" element="tns:searchForLuiRelations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimpleEquivalencyResponse">
-    <wsdl:part name="parameters" element="ns1:removeSimpleEquivalencyResponse">
+    <wsdl:part name="parameters" element="tns:removeSimpleEquivalencyResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCluSet">
-    <wsdl:part name="parameters" element="ns1:deleteCluSet">
+    <wsdl:part name="parameters" element="tns:deleteCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteLuiResponse">
-    <wsdl:part name="parameters" element="ns1:deleteLuiResponse">
+    <wsdl:part name="parameters" element="tns:deleteLuiResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="PermissionDeniedException">
-    <wsdl:part name="PermissionDeniedException" element="ns1:PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addCluSetToCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:addCluSetToCluSetResponse">
+    <wsdl:part name="parameters" element="tns:addCluSetToCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteLuiRelation">
-    <wsdl:part name="parameters" element="ns1:deleteLuiRelation">
+    <wsdl:part name="parameters" element="tns:deleteLuiRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForLuiIds">
-    <wsdl:part name="parameters" element="ns1:searchForLuiIds">
+    <wsdl:part name="parameters" element="tns:searchForLuiIds">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAllowedLuLuRelationTypesForLuTypeResponse">
-    <wsdl:part name="parameters" element="ns1:findAllowedLuLuRelationTypesForLuTypeResponse">
+    <wsdl:part name="parameters" element="tns:findAllowedLuLuRelationTypesForLuTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuTypes">
-    <wsdl:part name="parameters" element="ns1:findLuTypes">
+    <wsdl:part name="parameters" element="tns:findLuTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findClusFromCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:findClusFromCluSetResponse">
+    <wsdl:part name="parameters" element="tns:findClusFromCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimplePrerequisitesResponse">
-    <wsdl:part name="parameters" element="ns1:findSimplePrerequisitesResponse">
+    <wsdl:part name="parameters" element="tns:findSimplePrerequisitesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForClusResponse">
-    <wsdl:part name="parameters" element="ns1:searchForClusResponse">
+    <wsdl:part name="parameters" element="tns:searchForClusResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuType">
-    <wsdl:part name="parameters" element="ns1:fetchLuType">
+    <wsdl:part name="parameters" element="tns:fetchLuType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchCluRelationResponse">
-    <wsdl:part name="parameters" element="ns1:fetchCluRelationResponse">
+    <wsdl:part name="parameters" element="tns:fetchCluRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchCluSetInfoResponse">
-    <wsdl:part name="parameters" element="ns1:fetchCluSetInfoResponse">
+    <wsdl:part name="parameters" element="tns:fetchCluSetInfoResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="isCluInCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:isCluInCluSetResponse">
+    <wsdl:part name="parameters" element="tns:isCluInCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findEnumeratedClusInCluSet">
-    <wsdl:part name="parameters" element="ns1:findEnumeratedClusInCluSet">
+    <wsdl:part name="parameters" element="tns:findEnumeratedClusInCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateCluRelation">
-    <wsdl:part name="parameters" element="ns1:updateCluRelation">
+    <wsdl:part name="parameters" element="tns:updateCluRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateLuiResponse">
-    <wsdl:part name="parameters" element="ns1:updateLuiResponse">
+    <wsdl:part name="parameters" element="tns:updateLuiResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForCluIds">
-    <wsdl:part name="parameters" element="ns1:searchForCluIds">
+    <wsdl:part name="parameters" element="tns:searchForCluIds">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteClu">
-    <wsdl:part name="parameters" element="ns1:deleteClu">
+    <wsdl:part name="parameters" element="tns:deleteClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createCluResponse">
-    <wsdl:part name="parameters" element="ns1:createCluResponse">
+    <wsdl:part name="parameters" element="tns:createCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuiRelation">
-    <wsdl:part name="parameters" element="ns1:fetchLuiRelation">
+    <wsdl:part name="parameters" element="tns:fetchLuiRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchCluSetInfo">
-    <wsdl:part name="parameters" element="ns1:fetchCluSetInfo">
+    <wsdl:part name="parameters" element="tns:fetchCluSetInfo">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedLuiIdsForLuiIdResponse">
-    <wsdl:part name="parameters" element="ns1:findRelatedLuiIdsForLuiIdResponse">
+    <wsdl:part name="parameters" element="tns:findRelatedLuiIdsForLuiIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="isCluInCluSet">
-    <wsdl:part name="parameters" element="ns1:isCluInCluSet">
+    <wsdl:part name="parameters" element="tns:isCluInCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findClusFromCluSet">
-    <wsdl:part name="parameters" element="ns1:findClusFromCluSet">
+    <wsdl:part name="parameters" element="tns:findClusFromCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuisForCluResponse">
-    <wsdl:part name="parameters" element="ns1:findLuisForCluResponse">
+    <wsdl:part name="parameters" element="tns:findLuisForCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuiIdsByRelation">
-    <wsdl:part name="parameters" element="ns1:findLuiIdsByRelation">
+    <wsdl:part name="parameters" element="tns:findLuiIdsByRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:deleteCluSetResponse">
+    <wsdl:part name="parameters" element="tns:deleteCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAllowedLuRelationTypesForCluResponse">
-    <wsdl:part name="parameters" element="ns1:findAllowedLuRelationTypesForCluResponse">
+    <wsdl:part name="parameters" element="tns:findAllowedLuRelationTypesForCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForLuiRelationsResponse">
-    <wsdl:part name="parameters" element="ns1:searchForLuiRelationsResponse">
+    <wsdl:part name="parameters" element="tns:searchForLuiRelationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedCluIdsForCluId">
-    <wsdl:part name="parameters" element="ns1:findRelatedCluIdsForCluId">
+    <wsdl:part name="parameters" element="tns:findRelatedCluIdsForCluId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuiIdsForCluResponse">
-    <wsdl:part name="parameters" element="ns1:findLuiIdsForCluResponse">
+    <wsdl:part name="parameters" element="tns:findLuiIdsForCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuTypeResponse">
-    <wsdl:part name="parameters" element="ns1:fetchLuTypeResponse">
+    <wsdl:part name="parameters" element="tns:fetchLuTypeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateCluRelationResponse">
-    <wsdl:part name="parameters" element="ns1:updateCluRelationResponse">
+    <wsdl:part name="parameters" element="tns:updateCluRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createDynamicCluSet">
-    <wsdl:part name="parameters" element="ns1:createDynamicCluSet">
+    <wsdl:part name="parameters" element="tns:createDynamicCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAllowedLuLuRelationTypesForLuType">
-    <wsdl:part name="parameters" element="ns1:findAllowedLuLuRelationTypesForLuType">
+    <wsdl:part name="parameters" element="tns:findAllowedLuLuRelationTypesForLuType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findClusForLuType">
-    <wsdl:part name="parameters" element="ns1:findClusForLuType">
+    <wsdl:part name="parameters" element="tns:findClusForLuType">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLui">
-    <wsdl:part name="parameters" element="ns1:fetchLui">
+    <wsdl:part name="parameters" element="tns:fetchLui">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findPrerequisitesForDisplayResponse">
-    <wsdl:part name="parameters" element="ns1:findPrerequisitesForDisplayResponse">
+    <wsdl:part name="parameters" element="tns:findPrerequisitesForDisplayResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForLuiIdsResponse">
-    <wsdl:part name="parameters" element="ns1:searchForLuiIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForLuiIdsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addCluSetToCluSet">
-    <wsdl:part name="parameters" element="ns1:addCluSetToCluSet">
+    <wsdl:part name="parameters" element="tns:addCluSetToCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedCluIdsForCluIdResponse">
-    <wsdl:part name="parameters" element="ns1:findRelatedCluIdsForCluIdResponse">
+    <wsdl:part name="parameters" element="tns:findRelatedCluIdsForCluIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="DoesNotExistException">
-    <wsdl:part name="DoesNotExistException" element="ns1:DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimpleCorequisiteResponse">
-    <wsdl:part name="parameters" element="ns1:addSimpleCorequisiteResponse">
+    <wsdl:part name="parameters" element="tns:addSimpleCorequisiteResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCluRelation">
-    <wsdl:part name="parameters" element="ns1:deleteCluRelation">
+    <wsdl:part name="parameters" element="tns:deleteCluRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluSetIdsFromCluSet">
-    <wsdl:part name="parameters" element="ns1:findCluSetIdsFromCluSet">
+    <wsdl:part name="parameters" element="tns:findCluSetIdsFromCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateLuiRelationResponse">
-    <wsdl:part name="parameters" element="ns1:updateLuiRelationResponse">
+    <wsdl:part name="parameters" element="tns:updateLuiRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateLui">
-    <wsdl:part name="parameters" element="ns1:updateLui">
+    <wsdl:part name="parameters" element="tns:updateLui">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="assignLuiRelation">
-    <wsdl:part name="parameters" element="ns1:assignLuiRelation">
+    <wsdl:part name="parameters" element="tns:assignLuiRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuiRelationResponse">
-    <wsdl:part name="parameters" element="ns1:fetchLuiRelationResponse">
+    <wsdl:part name="parameters" element="tns:fetchLuiRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedClusForCluId">
-    <wsdl:part name="parameters" element="ns1:findRelatedClusForCluId">
+    <wsdl:part name="parameters" element="tns:findRelatedClusForCluId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimplePrerequisiteResponse">
-    <wsdl:part name="parameters" element="ns1:addSimplePrerequisiteResponse">
+    <wsdl:part name="parameters" element="tns:addSimplePrerequisiteResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchCluResponse">
-    <wsdl:part name="parameters" element="ns1:fetchCluResponse">
+    <wsdl:part name="parameters" element="tns:fetchCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuRelationTypes">
-    <wsdl:part name="parameters" element="ns1:findLuRelationTypes">
+    <wsdl:part name="parameters" element="tns:findLuRelationTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimpleEquivalenciesResponse">
-    <wsdl:part name="parameters" element="ns1:findSimpleEquivalenciesResponse">
+    <wsdl:part name="parameters" element="tns:findSimpleEquivalenciesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAntirequisitesForDisplayResponse">
-    <wsdl:part name="parameters" element="ns1:findAntirequisitesForDisplayResponse">
+    <wsdl:part name="parameters" element="tns:findAntirequisitesForDisplayResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForClus">
-    <wsdl:part name="parameters" element="ns1:searchForClus">
+    <wsdl:part name="parameters" element="tns:searchForClus">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="assignCluRelationResponse">
-    <wsdl:part name="parameters" element="ns1:assignCluRelationResponse">
+    <wsdl:part name="parameters" element="tns:assignCluRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuiResponse">
-    <wsdl:part name="parameters" element="ns1:fetchLuiResponse">
+    <wsdl:part name="parameters" element="tns:fetchLuiResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findClusByRelation">
-    <wsdl:part name="parameters" element="ns1:findClusByRelation">
+    <wsdl:part name="parameters" element="tns:findClusByRelation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addCluToCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:addCluToCluSetResponse">
+    <wsdl:part name="parameters" element="tns:addCluToCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluIdsByRelationResponse">
-    <wsdl:part name="parameters" element="ns1:findCluIdsByRelationResponse">
+    <wsdl:part name="parameters" element="tns:findCluIdsByRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findEnumeratedCluIdsInCluSet">
-    <wsdl:part name="parameters" element="ns1:findEnumeratedCluIdsInCluSet">
+    <wsdl:part name="parameters" element="tns:findEnumeratedCluIdsInCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="searchForCluRelationsResponse">
-    <wsdl:part name="parameters" element="ns1:searchForCluRelationsResponse">
+    <wsdl:part name="parameters" element="tns:searchForCluRelationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCluRelationResponse">
-    <wsdl:part name="parameters" element="ns1:deleteCluRelationResponse">
+    <wsdl:part name="parameters" element="tns:deleteCluRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findRelatedLuisForLuiId">
-    <wsdl:part name="parameters" element="ns1:findRelatedLuisForLuiId">
+    <wsdl:part name="parameters" element="tns:findRelatedLuisForLuiId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findEquivalenciesForDisplayResponse">
-    <wsdl:part name="parameters" element="ns1:findEquivalenciesForDisplayResponse">
+    <wsdl:part name="parameters" element="tns:findEquivalenciesForDisplayResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCorequisitesForDisplayResponse">
-    <wsdl:part name="parameters" element="ns1:findCorequisitesForDisplayResponse">
+    <wsdl:part name="parameters" element="tns:findCorequisitesForDisplayResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAntirequisitesForDisplay">
-    <wsdl:part name="parameters" element="ns1:findAntirequisitesForDisplay">
+    <wsdl:part name="parameters" element="tns:findAntirequisitesForDisplay">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchLuiDisplayResponse">
-    <wsdl:part name="parameters" element="ns1:fetchLuiDisplayResponse">
+    <wsdl:part name="parameters" element="tns:fetchLuiDisplayResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createDynamicCluSetResponse">
-    <wsdl:part name="parameters" element="ns1:createDynamicCluSetResponse">
+    <wsdl:part name="parameters" element="tns:createDynamicCluSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCluResponse">
-    <wsdl:part name="parameters" element="ns1:deleteCluResponse">
+    <wsdl:part name="parameters" element="tns:deleteCluResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findSimpleCorequisites">
-    <wsdl:part name="parameters" element="ns1:findSimpleCorequisites">
+    <wsdl:part name="parameters" element="tns:findSimpleCorequisites">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findPrerequisitesForDisplay">
-    <wsdl:part name="parameters" element="ns1:findPrerequisitesForDisplay">
+    <wsdl:part name="parameters" element="tns:findPrerequisitesForDisplay">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findClusByRelationResponse">
-    <wsdl:part name="parameters" element="ns1:findClusByRelationResponse">
+    <wsdl:part name="parameters" element="tns:findClusByRelationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="UnsupportedActionException">
-    <wsdl:part name="UnsupportedActionException" element="ns1:UnsupportedActionException">
+    <wsdl:part name="UnsupportedActionException" element="tns:UnsupportedActionException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findLuiIdsForClu">
-    <wsdl:part name="parameters" element="ns1:findLuiIdsForClu">
+    <wsdl:part name="parameters" element="tns:findLuiIdsForClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateCluSet">
-    <wsdl:part name="parameters" element="ns1:updateCluSet">
+    <wsdl:part name="parameters" element="tns:updateCluSet">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createClu">
-    <wsdl:part name="parameters" element="ns1:createClu">
+    <wsdl:part name="parameters" element="tns:createClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addSimplePrerequisite">
-    <wsdl:part name="parameters" element="ns1:addSimplePrerequisite">
+    <wsdl:part name="parameters" element="tns:addSimplePrerequisite">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findAllowedLuRelationTypesForClu">
-    <wsdl:part name="parameters" element="ns1:findAllowedLuRelationTypesForClu">
+    <wsdl:part name="parameters" element="tns:findAllowedLuRelationTypesForClu">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="findCluRelationsResponse">
-    <wsdl:part name="parameters" element="ns1:findCluRelationsResponse">
+    <wsdl:part name="parameters" element="tns:findCluRelationsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="OperationFailedException">
-    <wsdl:part name="OperationFailedException" element="ns1:OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="AlreadyExistsException">
-    <wsdl:part name="AlreadyExistsException" element="ns1:AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeSimpleEquivalency">
-    <wsdl:part name="parameters" element="ns1:removeSimpleEquivalency">
+    <wsdl:part name="parameters" element="tns:removeSimpleEquivalency">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="LuService">
     <wsdl:operation name="removeSimplePrerequisite">
-      <wsdl:input name="removeSimplePrerequisite" message="ns1:removeSimplePrerequisite">
+      <wsdl:input name="removeSimplePrerequisite" message="tns:removeSimplePrerequisite">
     </wsdl:input>
-      <wsdl:output name="removeSimplePrerequisiteResponse" message="ns1:removeSimplePrerequisiteResponse">
+      <wsdl:output name="removeSimplePrerequisiteResponse" message="tns:removeSimplePrerequisiteResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findRelatedLuiIdsForLuiId">
-      <wsdl:input name="findRelatedLuiIdsForLuiId" message="ns1:findRelatedLuiIdsForLuiId">
+      <wsdl:input name="findRelatedLuiIdsForLuiId" message="tns:findRelatedLuiIdsForLuiId">
     </wsdl:input>
-      <wsdl:output name="findRelatedLuiIdsForLuiIdResponse" message="ns1:findRelatedLuiIdsForLuiIdResponse">
+      <wsdl:output name="findRelatedLuiIdsForLuiIdResponse" message="tns:findRelatedLuiIdsForLuiIdResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForCluRelations">
-      <wsdl:input name="searchForCluRelations" message="ns1:searchForCluRelations">
+      <wsdl:input name="searchForCluRelations" message="tns:searchForCluRelations">
     </wsdl:input>
-      <wsdl:output name="searchForCluRelationsResponse" message="ns1:searchForCluRelationsResponse">
+      <wsdl:output name="searchForCluRelationsResponse" message="tns:searchForCluRelationsResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="addSimpleCorequisite">
-      <wsdl:input name="addSimpleCorequisite" message="ns1:addSimpleCorequisite">
+      <wsdl:input name="addSimpleCorequisite" message="tns:addSimpleCorequisite">
     </wsdl:input>
-      <wsdl:output name="addSimpleCorequisiteResponse" message="ns1:addSimpleCorequisiteResponse">
+      <wsdl:output name="addSimpleCorequisiteResponse" message="tns:addSimpleCorequisiteResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findRelatedLuisForLuiId">
-      <wsdl:input name="findRelatedLuisForLuiId" message="ns1:findRelatedLuisForLuiId">
+      <wsdl:input name="findRelatedLuisForLuiId" message="tns:findRelatedLuisForLuiId">
     </wsdl:input>
-      <wsdl:output name="findRelatedLuisForLuiIdResponse" message="ns1:findRelatedLuisForLuiIdResponse">
+      <wsdl:output name="findRelatedLuisForLuiIdResponse" message="tns:findRelatedLuisForLuiIdResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createDynamicCluSet">
-      <wsdl:input name="createDynamicCluSet" message="ns1:createDynamicCluSet">
+      <wsdl:input name="createDynamicCluSet" message="tns:createDynamicCluSet">
     </wsdl:input>
-      <wsdl:output name="createDynamicCluSetResponse" message="ns1:createDynamicCluSetResponse">
+      <wsdl:output name="createDynamicCluSetResponse" message="tns:createDynamicCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findRelatedClusForCluId">
-      <wsdl:input name="findRelatedClusForCluId" message="ns1:findRelatedClusForCluId">
+      <wsdl:input name="findRelatedClusForCluId" message="tns:findRelatedClusForCluId">
     </wsdl:input>
-      <wsdl:output name="findRelatedClusForCluIdResponse" message="ns1:findRelatedClusForCluIdResponse">
+      <wsdl:output name="findRelatedClusForCluIdResponse" message="tns:findRelatedClusForCluIdResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateCluRelation">
-      <wsdl:input name="updateCluRelation" message="ns1:updateCluRelation">
+      <wsdl:input name="updateCluRelation" message="tns:updateCluRelation">
     </wsdl:input>
-      <wsdl:output name="updateCluRelationResponse" message="ns1:updateCluRelationResponse">
+      <wsdl:output name="updateCluRelationResponse" message="tns:updateCluRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findCluIdsForLuType">
-      <wsdl:input name="findCluIdsForLuType" message="ns1:findCluIdsForLuType">
+      <wsdl:input name="findCluIdsForLuType" message="tns:findCluIdsForLuType">
     </wsdl:input>
-      <wsdl:output name="findCluIdsForLuTypeResponse" message="ns1:findCluIdsForLuTypeResponse">
+      <wsdl:output name="findCluIdsForLuTypeResponse" message="tns:findCluIdsForLuTypeResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createLui">
-      <wsdl:input name="createLui" message="ns1:createLui">
+      <wsdl:input name="createLui" message="tns:createLui">
     </wsdl:input>
-      <wsdl:output name="createLuiResponse" message="ns1:createLuiResponse">
+      <wsdl:output name="createLuiResponse" message="tns:createLuiResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findCluSetIdsFromCluSet">
-      <wsdl:input name="findCluSetIdsFromCluSet" message="ns1:findCluSetIdsFromCluSet">
+      <wsdl:input name="findCluSetIdsFromCluSet" message="tns:findCluSetIdsFromCluSet">
     </wsdl:input>
-      <wsdl:output name="findCluSetIdsFromCluSetResponse" message="ns1:findCluSetIdsFromCluSetResponse">
+      <wsdl:output name="findCluSetIdsFromCluSetResponse" message="tns:findCluSetIdsFromCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuiIdsForClu">
-      <wsdl:input name="findLuiIdsForClu" message="ns1:findLuiIdsForClu">
+      <wsdl:input name="findLuiIdsForClu" message="tns:findLuiIdsForClu">
     </wsdl:input>
-      <wsdl:output name="findLuiIdsForCluResponse" message="ns1:findLuiIdsForCluResponse">
+      <wsdl:output name="findLuiIdsForCluResponse" message="tns:findLuiIdsForCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuTypes">
-      <wsdl:input name="findLuTypes" message="ns1:findLuTypes">
+      <wsdl:input name="findLuTypes" message="tns:findLuTypes">
     </wsdl:input>
-      <wsdl:output name="findLuTypesResponse" message="ns1:findLuTypesResponse">
+      <wsdl:output name="findLuTypesResponse" message="tns:findLuTypesResponse">
     </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findAllowedLuRelationTypesForLui">
-      <wsdl:input name="findAllowedLuRelationTypesForLui" message="ns1:findAllowedLuRelationTypesForLui">
+      <wsdl:input name="findAllowedLuRelationTypesForLui" message="tns:findAllowedLuRelationTypesForLui">
     </wsdl:input>
-      <wsdl:output name="findAllowedLuRelationTypesForLuiResponse" message="ns1:findAllowedLuRelationTypesForLuiResponse">
+      <wsdl:output name="findAllowedLuRelationTypesForLuiResponse" message="tns:findAllowedLuRelationTypesForLuiResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createClu">
-      <wsdl:input name="createClu" message="ns1:createClu">
+      <wsdl:input name="createClu" message="tns:createClu">
     </wsdl:input>
-      <wsdl:output name="createCluResponse" message="ns1:createCluResponse">
+      <wsdl:output name="createCluResponse" message="tns:createCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForLuiRelations">
-      <wsdl:input name="searchForLuiRelations" message="ns1:searchForLuiRelations">
+      <wsdl:input name="searchForLuiRelations" message="tns:searchForLuiRelations">
     </wsdl:input>
-      <wsdl:output name="searchForLuiRelationsResponse" message="ns1:searchForLuiRelationsResponse">
+      <wsdl:output name="searchForLuiRelationsResponse" message="tns:searchForLuiRelationsResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchLuiRelation">
-      <wsdl:input name="fetchLuiRelation" message="ns1:fetchLuiRelation">
+      <wsdl:input name="fetchLuiRelation" message="tns:fetchLuiRelation">
     </wsdl:input>
-      <wsdl:output name="fetchLuiRelationResponse" message="ns1:fetchLuiRelationResponse">
+      <wsdl:output name="fetchLuiRelationResponse" message="tns:fetchLuiRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findSimpleAntirequisites">
-      <wsdl:input name="findSimpleAntirequisites" message="ns1:findSimpleAntirequisites">
+      <wsdl:input name="findSimpleAntirequisites" message="tns:findSimpleAntirequisites">
     </wsdl:input>
-      <wsdl:output name="findSimpleAntirequisitesResponse" message="ns1:findSimpleAntirequisitesResponse">
+      <wsdl:output name="findSimpleAntirequisitesResponse" message="tns:findSimpleAntirequisitesResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findCluRelations">
-      <wsdl:input name="findCluRelations" message="ns1:findCluRelations">
+      <wsdl:input name="findCluRelations" message="tns:findCluRelations">
     </wsdl:input>
-      <wsdl:output name="findCluRelationsResponse" message="ns1:findCluRelationsResponse">
+      <wsdl:output name="findCluRelationsResponse" message="tns:findCluRelationsResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findAllowedLuRelationTypesForClu">
-      <wsdl:input name="findAllowedLuRelationTypesForClu" message="ns1:findAllowedLuRelationTypesForClu">
+      <wsdl:input name="findAllowedLuRelationTypesForClu" message="tns:findAllowedLuRelationTypesForClu">
     </wsdl:input>
-      <wsdl:output name="findAllowedLuRelationTypesForCluResponse" message="ns1:findAllowedLuRelationTypesForCluResponse">
+      <wsdl:output name="findAllowedLuRelationTypesForCluResponse" message="tns:findAllowedLuRelationTypesForCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuisByRelation">
-      <wsdl:input name="findLuisByRelation" message="ns1:findLuisByRelation">
+      <wsdl:input name="findLuisByRelation" message="tns:findLuisByRelation">
     </wsdl:input>
-      <wsdl:output name="findLuisByRelationResponse" message="ns1:findLuisByRelationResponse">
+      <wsdl:output name="findLuisByRelationResponse" message="tns:findLuisByRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findCluIdsByRelation">
-      <wsdl:input name="findCluIdsByRelation" message="ns1:findCluIdsByRelation">
+      <wsdl:input name="findCluIdsByRelation" message="tns:findCluIdsByRelation">
     </wsdl:input>
-      <wsdl:output name="findCluIdsByRelationResponse" message="ns1:findCluIdsByRelationResponse">
+      <wsdl:output name="findCluIdsByRelationResponse" message="tns:findCluIdsByRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findSimpleEquivalencies">
-      <wsdl:input name="findSimpleEquivalencies" message="ns1:findSimpleEquivalencies">
+      <wsdl:input name="findSimpleEquivalencies" message="tns:findSimpleEquivalencies">
     </wsdl:input>
-      <wsdl:output name="findSimpleEquivalenciesResponse" message="ns1:findSimpleEquivalenciesResponse">
+      <wsdl:output name="findSimpleEquivalenciesResponse" message="tns:findSimpleEquivalenciesResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findSimpleCorequisites">
-      <wsdl:input name="findSimpleCorequisites" message="ns1:findSimpleCorequisites">
+      <wsdl:input name="findSimpleCorequisites" message="tns:findSimpleCorequisites">
     </wsdl:input>
-      <wsdl:output name="findSimpleCorequisitesResponse" message="ns1:findSimpleCorequisitesResponse">
+      <wsdl:output name="findSimpleCorequisitesResponse" message="tns:findSimpleCorequisitesResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateLuiRelation">
-      <wsdl:input name="updateLuiRelation" message="ns1:updateLuiRelation">
+      <wsdl:input name="updateLuiRelation" message="tns:updateLuiRelation">
     </wsdl:input>
-      <wsdl:output name="updateLuiRelationResponse" message="ns1:updateLuiRelationResponse">
+      <wsdl:output name="updateLuiRelationResponse" message="tns:updateLuiRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findEquivalenciesForDisplay">
-      <wsdl:input name="findEquivalenciesForDisplay" message="ns1:findEquivalenciesForDisplay">
+      <wsdl:input name="findEquivalenciesForDisplay" message="tns:findEquivalenciesForDisplay">
     </wsdl:input>
-      <wsdl:output name="findEquivalenciesForDisplayResponse" message="ns1:findEquivalenciesForDisplayResponse">
+      <wsdl:output name="findEquivalenciesForDisplayResponse" message="tns:findEquivalenciesForDisplayResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteCluSet">
-      <wsdl:input name="deleteCluSet" message="ns1:deleteCluSet">
+      <wsdl:input name="deleteCluSet" message="tns:deleteCluSet">
     </wsdl:input>
-      <wsdl:output name="deleteCluSetResponse" message="ns1:deleteCluSetResponse">
+      <wsdl:output name="deleteCluSetResponse" message="tns:deleteCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateCluSet">
-      <wsdl:input name="updateCluSet" message="ns1:updateCluSet">
+      <wsdl:input name="updateCluSet" message="tns:updateCluSet">
     </wsdl:input>
-      <wsdl:output name="updateCluSetResponse" message="ns1:updateCluSetResponse">
+      <wsdl:output name="updateCluSetResponse" message="tns:updateCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForLuiIds">
-      <wsdl:input name="searchForLuiIds" message="ns1:searchForLuiIds">
+      <wsdl:input name="searchForLuiIds" message="tns:searchForLuiIds">
     </wsdl:input>
-      <wsdl:output name="searchForLuiIdsResponse" message="ns1:searchForLuiIdsResponse">
+      <wsdl:output name="searchForLuiIdsResponse" message="tns:searchForLuiIdsResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findCorequisitesForDisplay">
-      <wsdl:input name="findCorequisitesForDisplay" message="ns1:findCorequisitesForDisplay">
+      <wsdl:input name="findCorequisitesForDisplay" message="tns:findCorequisitesForDisplay">
     </wsdl:input>
-      <wsdl:output name="findCorequisitesForDisplayResponse" message="ns1:findCorequisitesForDisplayResponse">
+      <wsdl:output name="findCorequisitesForDisplayResponse" message="tns:findCorequisitesForDisplayResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findAntirequisitesForDisplay">
-      <wsdl:input name="findAntirequisitesForDisplay" message="ns1:findAntirequisitesForDisplay">
+      <wsdl:input name="findAntirequisitesForDisplay" message="tns:findAntirequisitesForDisplay">
     </wsdl:input>
-      <wsdl:output name="findAntirequisitesForDisplayResponse" message="ns1:findAntirequisitesForDisplayResponse">
+      <wsdl:output name="findAntirequisitesForDisplayResponse" message="tns:findAntirequisitesForDisplayResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeSimpleCorequisite">
-      <wsdl:input name="removeSimpleCorequisite" message="ns1:removeSimpleCorequisite">
+      <wsdl:input name="removeSimpleCorequisite" message="tns:removeSimpleCorequisite">
     </wsdl:input>
-      <wsdl:output name="removeSimpleCorequisiteResponse" message="ns1:removeSimpleCorequisiteResponse">
+      <wsdl:output name="removeSimpleCorequisiteResponse" message="tns:removeSimpleCorequisiteResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeCluFromCluSet">
-      <wsdl:input name="removeCluFromCluSet" message="ns1:removeCluFromCluSet">
+      <wsdl:input name="removeCluFromCluSet" message="tns:removeCluFromCluSet">
     </wsdl:input>
-      <wsdl:output name="removeCluFromCluSetResponse" message="ns1:removeCluFromCluSetResponse">
+      <wsdl:output name="removeCluFromCluSetResponse" message="tns:removeCluFromCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="UnsupportedActionException" message="ns1:UnsupportedActionException">
+      <wsdl:fault name="UnsupportedActionException" message="tns:UnsupportedActionException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findClusForLuType">
-      <wsdl:input name="findClusForLuType" message="ns1:findClusForLuType">
+      <wsdl:input name="findClusForLuType" message="tns:findClusForLuType">
     </wsdl:input>
-      <wsdl:output name="findClusForLuTypeResponse" message="ns1:findClusForLuTypeResponse">
+      <wsdl:output name="findClusForLuTypeResponse" message="tns:findClusForLuTypeResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteCluRelation">
-      <wsdl:input name="deleteCluRelation" message="ns1:deleteCluRelation">
+      <wsdl:input name="deleteCluRelation" message="tns:deleteCluRelation">
     </wsdl:input>
-      <wsdl:output name="deleteCluRelationResponse" message="ns1:deleteCluRelationResponse">
+      <wsdl:output name="deleteCluRelationResponse" message="tns:deleteCluRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuisForClu">
-      <wsdl:input name="findLuisForClu" message="ns1:findLuisForClu">
+      <wsdl:input name="findLuisForClu" message="tns:findLuisForClu">
     </wsdl:input>
-      <wsdl:output name="findLuisForCluResponse" message="ns1:findLuisForCluResponse">
+      <wsdl:output name="findLuisForCluResponse" message="tns:findLuisForCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findEnumeratedClusInCluSet">
-      <wsdl:input name="findEnumeratedClusInCluSet" message="ns1:findEnumeratedClusInCluSet">
+      <wsdl:input name="findEnumeratedClusInCluSet" message="tns:findEnumeratedClusInCluSet">
     </wsdl:input>
-      <wsdl:output name="findEnumeratedClusInCluSetResponse" message="ns1:findEnumeratedClusInCluSetResponse">
+      <wsdl:output name="findEnumeratedClusInCluSetResponse" message="tns:findEnumeratedClusInCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="addCluSetToCluSet">
-      <wsdl:input name="addCluSetToCluSet" message="ns1:addCluSetToCluSet">
+      <wsdl:input name="addCluSetToCluSet" message="tns:addCluSetToCluSet">
     </wsdl:input>
-      <wsdl:output name="addCluSetToCluSetResponse" message="ns1:addCluSetToCluSetResponse">
+      <wsdl:output name="addCluSetToCluSetResponse" message="tns:addCluSetToCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateClu">
-      <wsdl:input name="updateClu" message="ns1:updateClu">
+      <wsdl:input name="updateClu" message="tns:updateClu">
     </wsdl:input>
-      <wsdl:output name="updateCluResponse" message="ns1:updateCluResponse">
+      <wsdl:output name="updateCluResponse" message="tns:updateCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchCluSetInfo">
-      <wsdl:input name="fetchCluSetInfo" message="ns1:fetchCluSetInfo">
+      <wsdl:input name="fetchCluSetInfo" message="tns:fetchCluSetInfo">
     </wsdl:input>
-      <wsdl:output name="fetchCluSetInfoResponse" message="ns1:fetchCluSetInfoResponse">
+      <wsdl:output name="fetchCluSetInfoResponse" message="tns:fetchCluSetInfoResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="addSimpleEquivalency">
-      <wsdl:input name="addSimpleEquivalency" message="ns1:addSimpleEquivalency">
+      <wsdl:input name="addSimpleEquivalency" message="tns:addSimpleEquivalency">
     </wsdl:input>
-      <wsdl:output name="addSimpleEquivalencyResponse" message="ns1:addSimpleEquivalencyResponse">
+      <wsdl:output name="addSimpleEquivalencyResponse" message="tns:addSimpleEquivalencyResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateLui">
-      <wsdl:input name="updateLui" message="ns1:updateLui">
+      <wsdl:input name="updateLui" message="tns:updateLui">
     </wsdl:input>
-      <wsdl:output name="updateLuiResponse" message="ns1:updateLuiResponse">
+      <wsdl:output name="updateLuiResponse" message="tns:updateLuiResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeSimpleEquivalency">
-      <wsdl:input name="removeSimpleEquivalency" message="ns1:removeSimpleEquivalency">
+      <wsdl:input name="removeSimpleEquivalency" message="tns:removeSimpleEquivalency">
     </wsdl:input>
-      <wsdl:output name="removeSimpleEquivalencyResponse" message="ns1:removeSimpleEquivalencyResponse">
+      <wsdl:output name="removeSimpleEquivalencyResponse" message="tns:removeSimpleEquivalencyResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeSimpleAntirequisite">
-      <wsdl:input name="removeSimpleAntirequisite" message="ns1:removeSimpleAntirequisite">
+      <wsdl:input name="removeSimpleAntirequisite" message="tns:removeSimpleAntirequisite">
     </wsdl:input>
-      <wsdl:output name="removeSimpleAntirequisiteResponse" message="ns1:removeSimpleAntirequisiteResponse">
+      <wsdl:output name="removeSimpleAntirequisiteResponse" message="tns:removeSimpleAntirequisiteResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuiRelations">
-      <wsdl:input name="findLuiRelations" message="ns1:findLuiRelations">
+      <wsdl:input name="findLuiRelations" message="tns:findLuiRelations">
     </wsdl:input>
-      <wsdl:output name="findLuiRelationsResponse" message="ns1:findLuiRelationsResponse">
+      <wsdl:output name="findLuiRelationsResponse" message="tns:findLuiRelationsResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="isCluInCluSet">
-      <wsdl:input name="isCluInCluSet" message="ns1:isCluInCluSet">
+      <wsdl:input name="isCluInCluSet" message="tns:isCluInCluSet">
     </wsdl:input>
-      <wsdl:output name="isCluInCluSetResponse" message="ns1:isCluInCluSetResponse">
+      <wsdl:output name="isCluInCluSetResponse" message="tns:isCluInCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="assignLuiRelation">
-      <wsdl:input name="assignLuiRelation" message="ns1:assignLuiRelation">
+      <wsdl:input name="assignLuiRelation" message="tns:assignLuiRelation">
     </wsdl:input>
-      <wsdl:output name="assignLuiRelationResponse" message="ns1:assignLuiRelationResponse">
+      <wsdl:output name="assignLuiRelationResponse" message="tns:assignLuiRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuiIdsByRelation">
-      <wsdl:input name="findLuiIdsByRelation" message="ns1:findLuiIdsByRelation">
+      <wsdl:input name="findLuiIdsByRelation" message="tns:findLuiIdsByRelation">
     </wsdl:input>
-      <wsdl:output name="findLuiIdsByRelationResponse" message="ns1:findLuiIdsByRelationResponse">
+      <wsdl:output name="findLuiIdsByRelationResponse" message="tns:findLuiIdsByRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchCluRelation">
-      <wsdl:input name="fetchCluRelation" message="ns1:fetchCluRelation">
+      <wsdl:input name="fetchCluRelation" message="tns:fetchCluRelation">
     </wsdl:input>
-      <wsdl:output name="fetchCluRelationResponse" message="ns1:fetchCluRelationResponse">
+      <wsdl:output name="fetchCluRelationResponse" message="tns:fetchCluRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteLuiRelation">
-      <wsdl:input name="deleteLuiRelation" message="ns1:deleteLuiRelation">
+      <wsdl:input name="deleteLuiRelation" message="tns:deleteLuiRelation">
     </wsdl:input>
-      <wsdl:output name="deleteLuiRelationResponse" message="ns1:deleteLuiRelationResponse">
+      <wsdl:output name="deleteLuiRelationResponse" message="tns:deleteLuiRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeCluSetFromCluSet">
-      <wsdl:input name="removeCluSetFromCluSet" message="ns1:removeCluSetFromCluSet">
+      <wsdl:input name="removeCluSetFromCluSet" message="tns:removeCluSetFromCluSet">
     </wsdl:input>
-      <wsdl:output name="removeCluSetFromCluSetResponse" message="ns1:removeCluSetFromCluSetResponse">
+      <wsdl:output name="removeCluSetFromCluSetResponse" message="tns:removeCluSetFromCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findLuRelationTypes">
-      <wsdl:input name="findLuRelationTypes" message="ns1:findLuRelationTypes">
+      <wsdl:input name="findLuRelationTypes" message="tns:findLuRelationTypes">
     </wsdl:input>
-      <wsdl:output name="findLuRelationTypesResponse" message="ns1:findLuRelationTypesResponse">
+      <wsdl:output name="findLuRelationTypesResponse" message="tns:findLuRelationTypesResponse">
     </wsdl:output>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findSimplePrerequisites">
-      <wsdl:input name="findSimplePrerequisites" message="ns1:findSimplePrerequisites">
+      <wsdl:input name="findSimplePrerequisites" message="tns:findSimplePrerequisites">
     </wsdl:input>
-      <wsdl:output name="findSimplePrerequisitesResponse" message="ns1:findSimplePrerequisitesResponse">
+      <wsdl:output name="findSimplePrerequisitesResponse" message="tns:findSimplePrerequisitesResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createEnumeratedCluSet">
-      <wsdl:input name="createEnumeratedCluSet" message="ns1:createEnumeratedCluSet">
+      <wsdl:input name="createEnumeratedCluSet" message="tns:createEnumeratedCluSet">
     </wsdl:input>
-      <wsdl:output name="createEnumeratedCluSetResponse" message="ns1:createEnumeratedCluSetResponse">
+      <wsdl:output name="createEnumeratedCluSetResponse" message="tns:createEnumeratedCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteLui">
-      <wsdl:input name="deleteLui" message="ns1:deleteLui">
+      <wsdl:input name="deleteLui" message="tns:deleteLui">
     </wsdl:input>
-      <wsdl:output name="deleteLuiResponse" message="ns1:deleteLuiResponse">
+      <wsdl:output name="deleteLuiResponse" message="tns:deleteLuiResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DependentObjectsExistException" message="ns1:DependentObjectsExistException">
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchLuiDisplay">
-      <wsdl:input name="fetchLuiDisplay" message="ns1:fetchLuiDisplay">
+      <wsdl:input name="fetchLuiDisplay" message="tns:fetchLuiDisplay">
     </wsdl:input>
-      <wsdl:output name="fetchLuiDisplayResponse" message="ns1:fetchLuiDisplayResponse">
+      <wsdl:output name="fetchLuiDisplayResponse" message="tns:fetchLuiDisplayResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findAllowedLuLuRelationTypesForLuType">
-      <wsdl:input name="findAllowedLuLuRelationTypesForLuType" message="ns1:findAllowedLuLuRelationTypesForLuType">
+      <wsdl:input name="findAllowedLuLuRelationTypesForLuType" message="tns:findAllowedLuLuRelationTypesForLuType">
     </wsdl:input>
-      <wsdl:output name="findAllowedLuLuRelationTypesForLuTypeResponse" message="ns1:findAllowedLuLuRelationTypesForLuTypeResponse">
+      <wsdl:output name="findAllowedLuLuRelationTypesForLuTypeResponse" message="tns:findAllowedLuLuRelationTypesForLuTypeResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchClu">
-      <wsdl:input name="fetchClu" message="ns1:fetchClu">
+      <wsdl:input name="fetchClu" message="tns:fetchClu">
     </wsdl:input>
-      <wsdl:output name="fetchCluResponse" message="ns1:fetchCluResponse">
+      <wsdl:output name="fetchCluResponse" message="tns:fetchCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="assignCluRelation">
-      <wsdl:input name="assignCluRelation" message="ns1:assignCluRelation">
+      <wsdl:input name="assignCluRelation" message="tns:assignCluRelation">
     </wsdl:input>
-      <wsdl:output name="assignCluRelationResponse" message="ns1:assignCluRelationResponse">
+      <wsdl:output name="assignCluRelationResponse" message="tns:assignCluRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="addCluToCluSet">
-      <wsdl:input name="addCluToCluSet" message="ns1:addCluToCluSet">
+      <wsdl:input name="addCluToCluSet" message="tns:addCluToCluSet">
     </wsdl:input>
-      <wsdl:output name="addCluToCluSetResponse" message="ns1:addCluToCluSetResponse">
+      <wsdl:output name="addCluToCluSetResponse" message="tns:addCluToCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="UnsupportedActionException" message="ns1:UnsupportedActionException">
+      <wsdl:fault name="UnsupportedActionException" message="tns:UnsupportedActionException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForCluIds">
-      <wsdl:input name="searchForCluIds" message="ns1:searchForCluIds">
+      <wsdl:input name="searchForCluIds" message="tns:searchForCluIds">
     </wsdl:input>
-      <wsdl:output name="searchForCluIdsResponse" message="ns1:searchForCluIdsResponse">
+      <wsdl:output name="searchForCluIdsResponse" message="tns:searchForCluIdsResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findClusFromCluSet">
-      <wsdl:input name="findClusFromCluSet" message="ns1:findClusFromCluSet">
+      <wsdl:input name="findClusFromCluSet" message="tns:findClusFromCluSet">
     </wsdl:input>
-      <wsdl:output name="findClusFromCluSetResponse" message="ns1:findClusFromCluSetResponse">
+      <wsdl:output name="findClusFromCluSetResponse" message="tns:findClusFromCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="addSimpleAntirequisite">
-      <wsdl:input name="addSimpleAntirequisite" message="ns1:addSimpleAntirequisite">
+      <wsdl:input name="addSimpleAntirequisite" message="tns:addSimpleAntirequisite">
     </wsdl:input>
-      <wsdl:output name="addSimpleAntirequisiteResponse" message="ns1:addSimpleAntirequisiteResponse">
+      <wsdl:output name="addSimpleAntirequisiteResponse" message="tns:addSimpleAntirequisiteResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findClusByRelation">
-      <wsdl:input name="findClusByRelation" message="ns1:findClusByRelation">
+      <wsdl:input name="findClusByRelation" message="tns:findClusByRelation">
     </wsdl:input>
-      <wsdl:output name="findClusByRelationResponse" message="ns1:findClusByRelationResponse">
+      <wsdl:output name="findClusByRelationResponse" message="tns:findClusByRelationResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findCluIdsFromCluSet">
-      <wsdl:input name="findCluIdsFromCluSet" message="ns1:findCluIdsFromCluSet">
+      <wsdl:input name="findCluIdsFromCluSet" message="tns:findCluIdsFromCluSet">
     </wsdl:input>
-      <wsdl:output name="findCluIdsFromCluSetResponse" message="ns1:findCluIdsFromCluSetResponse">
+      <wsdl:output name="findCluIdsFromCluSetResponse" message="tns:findCluIdsFromCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchLuType">
-      <wsdl:input name="fetchLuType" message="ns1:fetchLuType">
+      <wsdl:input name="fetchLuType" message="tns:fetchLuType">
     </wsdl:input>
-      <wsdl:output name="fetchLuTypeResponse" message="ns1:fetchLuTypeResponse">
+      <wsdl:output name="fetchLuTypeResponse" message="tns:fetchLuTypeResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findEnumeratedCluIdsInCluSet">
-      <wsdl:input name="findEnumeratedCluIdsInCluSet" message="ns1:findEnumeratedCluIdsInCluSet">
+      <wsdl:input name="findEnumeratedCluIdsInCluSet" message="tns:findEnumeratedCluIdsInCluSet">
     </wsdl:input>
-      <wsdl:output name="findEnumeratedCluIdsInCluSetResponse" message="ns1:findEnumeratedCluIdsInCluSetResponse">
+      <wsdl:output name="findEnumeratedCluIdsInCluSetResponse" message="tns:findEnumeratedCluIdsInCluSetResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForLuis">
-      <wsdl:input name="searchForLuis" message="ns1:searchForLuis">
+      <wsdl:input name="searchForLuis" message="tns:searchForLuis">
     </wsdl:input>
-      <wsdl:output name="searchForLuisResponse" message="ns1:searchForLuisResponse">
+      <wsdl:output name="searchForLuisResponse" message="tns:searchForLuisResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteClu">
-      <wsdl:input name="deleteClu" message="ns1:deleteClu">
+      <wsdl:input name="deleteClu" message="tns:deleteClu">
     </wsdl:input>
-      <wsdl:output name="deleteCluResponse" message="ns1:deleteCluResponse">
+      <wsdl:output name="deleteCluResponse" message="tns:deleteCluResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DependentObjectsExistException" message="ns1:DependentObjectsExistException">
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findRelatedCluIdsForCluId">
-      <wsdl:input name="findRelatedCluIdsForCluId" message="ns1:findRelatedCluIdsForCluId">
+      <wsdl:input name="findRelatedCluIdsForCluId" message="tns:findRelatedCluIdsForCluId">
     </wsdl:input>
-      <wsdl:output name="findRelatedCluIdsForCluIdResponse" message="ns1:findRelatedCluIdsForCluIdResponse">
+      <wsdl:output name="findRelatedCluIdsForCluIdResponse" message="tns:findRelatedCluIdsForCluIdResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="addSimplePrerequisite">
-      <wsdl:input name="addSimplePrerequisite" message="ns1:addSimplePrerequisite">
+      <wsdl:input name="addSimplePrerequisite" message="tns:addSimplePrerequisite">
     </wsdl:input>
-      <wsdl:output name="addSimplePrerequisiteResponse" message="ns1:addSimplePrerequisiteResponse">
+      <wsdl:output name="addSimplePrerequisiteResponse" message="tns:addSimplePrerequisiteResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="AlreadyExistsException" message="ns1:AlreadyExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
     </wsdl:fault>
-      <wsdl:fault name="CircularReferenceException" message="ns1:CircularReferenceException">
+      <wsdl:fault name="CircularReferenceException" message="tns:CircularReferenceException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="PermissionDeniedException" message="ns1:PermissionDeniedException">
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchForClus">
-      <wsdl:input name="searchForClus" message="ns1:searchForClus">
+      <wsdl:input name="searchForClus" message="tns:searchForClus">
     </wsdl:input>
-      <wsdl:output name="searchForClusResponse" message="ns1:searchForClusResponse">
+      <wsdl:output name="searchForClusResponse" message="tns:searchForClusResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchLui">
-      <wsdl:input name="fetchLui" message="ns1:fetchLui">
+      <wsdl:input name="fetchLui" message="tns:fetchLui">
     </wsdl:input>
-      <wsdl:output name="fetchLuiResponse" message="ns1:fetchLuiResponse">
+      <wsdl:output name="fetchLuiResponse" message="tns:fetchLuiResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="findPrerequisitesForDisplay">
-      <wsdl:input name="findPrerequisitesForDisplay" message="ns1:findPrerequisitesForDisplay">
+      <wsdl:input name="findPrerequisitesForDisplay" message="tns:findPrerequisitesForDisplay">
     </wsdl:input>
-      <wsdl:output name="findPrerequisitesForDisplayResponse" message="ns1:findPrerequisitesForDisplayResponse">
+      <wsdl:output name="findPrerequisitesForDisplayResponse" message="tns:findPrerequisitesForDisplayResponse">
     </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="ns1:InvalidParameterException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="ns1:MissingParameterException">
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
     </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="ns1:DoesNotExistException">
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
     </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="ns1:OperationFailedException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="LuServiceServiceSoapBinding" type="ns1:LuService">
+  <wsdl:binding name="LuServiceServiceSoapBinding" type="tns:LuService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="findRelatedLuiIdsForLuiId">
       <soap:operation soapAction="" style="document"/>
@@ -4655,7 +4655,7 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="LuServiceService">
-    <wsdl:port name="LuServicePort" binding="ns1:LuServiceServiceSoapBinding">
+    <wsdl:port name="LuServicePort" binding="tns:LuServiceServiceSoapBinding">
       <soap:address location="http://localhost:9090/LuServicePort"/>
     </wsdl:port>
   </wsdl:service>
