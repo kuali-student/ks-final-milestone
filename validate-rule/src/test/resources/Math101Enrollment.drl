@@ -21,7 +21,7 @@ rule "Intermediate_CPR INIT"
         prop.setProposition("B",propositionB);
 
         update(prop);
-    end
+end
 
 rule "Intermediate_CPR EVAL"
     //salience -100
@@ -38,4 +38,4 @@ rule "Intermediate_CPR EVAL"
         )
     then
         prop.setRuleResult(true);
-    end
+end
