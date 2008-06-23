@@ -11,12 +11,12 @@ import javax.persistence.Query;
 
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 
-//@Transactional
+
 public class PersonDAOImpl implements PersonDAO {
 
 	private EntityManager entityManager;
 
-	@PersistenceContext
+	@PersistenceContext(unitName="Person")
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
