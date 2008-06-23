@@ -1,42 +1,41 @@
 package org.kuali.student.rules.course_co_req.Intermediate_CPR
 import java.util.*;
 import org.kuali.student.rules.statement.*;
-import org.kuali.student.rules.validate.CourseEnrollmentRequest;
+import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 
 rule "Intermediate_CPR INIT"
-    salience 100	
+    salience 999999999
     no-loop true
     lock-on-active true
-    when 
-    	prop: PropositionContainer(size == 0) 
-    	req: CourseEnrollmentRequest() 
+    when
+        //prop: PropositionContainer(size == 0)
+        prop : PropositionContainer()
+        req: CourseEnrollmentRequest()
     then
-    	
-    	    
-    	   		
-		SubsetProposition propositionA = new SubsetProposition<Integer, String>("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR 101".split(","))),  req.getLuiIds() ); 
-		propositionA.apply();
-		prop.setProposition("A",propositionA);		
-		   		   		   		
-		SubsetProposition propositionB = new SubsetProposition<Integer, String>("B", ComparisonOperator.LESS_THAN_OR_EQUAL_TO, "2", new HashSet(Arrays.asList("FA 001, FA 002".split(","))),  req.getLuiIds() ); 
-		propositionB.apply();
-		prop.setProposition("B",propositionB);		
-		   		   		    	
-    	update(prop);
-	end
-	
+        SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))),  req.getLuiIds() );
+        propositionA.apply();
+        prop.setProposition("A",propositionA);
+
+        SubsetProposition propositionB = new SubsetProposition("B", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FA001".split("\\s*,\\s*"))),  req.getLuiIds() );
+        propositionB.apply();
+        prop.setProposition("B",propositionB);
+
+        update(prop);
+    end
+
 rule "Intermediate_CPR EVAL"
-	salience -100
-	when
-		prop : PropositionContainer(size == 2)
-   		eval (
-   			                            (
-               			                            prop.getProposition("A").getResult()   			
-   			   			                            ||
-               			                            prop.getProposition("B").getResult()   			
-   			   			                            )
-               					)
-	then
-		System.out.println("evaluate true");
-   		prop.setRuleResult(true);
-	end	
+    //salience -100
+    when
+        //prop : PropositionContainer()
+        prop : PropositionContainer(size == 2)
+        
+        eval (
+            ( //prop.getProposition("A") != null &&
+            prop.getProposition("A").getResult() )
+            ||
+            ( //prop.getProposition("B") != null &&
+            prop.getProposition("B").getResult() )
+        )
+    then
+        prop.setRuleResult(true);
+    end
