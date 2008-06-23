@@ -6,51 +6,32 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.WorkingMemory;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
-import org.junit.Test;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.statement.PropositionContainer;
 
-
 public class AllInOneDRLTest {
 
-    /**
-     * This method ...
-     * 
-     * @param args
-     */
     @Test
-    public void fireRule() {
-        
+    public void testFireRule() throws Exception {
         CourseEnrollmentRequest req = new CourseEnrollmentRequest();
         Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
         req.setLuiIds(luiIds);
+        PropositionContainer prop = new PropositionContainer();
 
-        System.out.println("\nStarting rules");
-        try {
-            RuleBase ruleBase = readRule();
-            WorkingMemory workingMemory = ruleBase.newStatefulSession();
-            
-            PropositionContainer prop = new PropositionContainer();
-            workingMemory.insert(req);
-            workingMemory.insert(prop);
-            
-            System.out.println("\ninserted constraint in rules and gona fire");
-            workingMemory.fireAllRules();
-
-
-
-            
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
-
-        System.out.println("End Test 1");        
-        
+        WorkingMemory workingMemory = readRule().newStatefulSession();
+        workingMemory.insert(req);
+        workingMemory.insert(prop);
+        workingMemory.fireAllRules();
+        assertTrue( prop.getRuleResult() );
     }
     
     private static RuleBase readRule() throws Exception {
@@ -68,6 +49,4 @@ public class AllInOneDRLTest {
         ruleBase.addPackage( pkg );
         return ruleBase;
     }
-
-
 }
