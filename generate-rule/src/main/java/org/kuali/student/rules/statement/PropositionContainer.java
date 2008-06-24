@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.statement;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +51,16 @@ public class PropositionContainer {
     public Map<String, Proposition> getPropositionMap() {
         return propositionMap;
     }
+    
+    /**
+     * Gets a collection of {@link Proposition}s
+     * 
+     * @return Collection of <code>Proposition</code>
+     */
+    public Collection<Proposition> getPropositions() {
+        return this.propositionMap.values();
+    }
+    
     /**
      * @param propositionMap the propositionMap to set
      */
@@ -60,11 +71,10 @@ public class PropositionContainer {
      * 
      * This method stores the proposition in the container
      * 
-     * @param propositionName
-     * @param proposition
+     * @param proposition A proposition
      */
-    public void setProposition(String propositionName, Proposition proposition) {
-        propositionMap.put(propositionName, proposition);
+    public void addProposition(Proposition proposition) {
+        propositionMap.put(proposition.getPropositionName(), proposition);
     }
     /**
      * 
