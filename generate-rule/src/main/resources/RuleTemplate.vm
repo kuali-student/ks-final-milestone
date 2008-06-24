@@ -1,11 +1,13 @@
 ## A generic rule template
 
-rule "${ruleName} INIT"
-    salience 100	
+rule "${ruleName}_INIT"
+    ## Set salience to max Integer value (java.lang.Integer.MAX)
+    salience 2147483647	
     no-loop true
     lock-on-active true
     when 
-    	prop: PropositionContainer(size == 0) 
+    	##prop: PropositionContainer(size == 0) 
+        prop: PropositionContainer() 
     	req: CourseEnrollmentRequest() 
     then
     	
@@ -22,14 +24,16 @@ rule "${ruleName} INIT"
 
 		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split("\\s*,\\s*"))),  req.getLuiIds() ); 
 		proposition${key}.apply();
-		prop.setProposition("$key",proposition${key});		
+		##prop.setProposition("$key",proposition${key});		
+        prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
    		#if ($proposition.LeftHandSide.CompAssistant.YieldValueFunction.toString() == "SUM" )
 
 		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.computeLearningResults(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
 		proposition${key}.apply();
-		prop.setProposition("$key",proposition${key});		
+		##prop.setProposition("$key",proposition${key});		
+        prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
    		#end
@@ -37,25 +41,40 @@ rule "${ruleName} INIT"
     	update(prop);
 	end
 	
-rule "${ruleName} EVAL"
-	salience -100
+##rule "${ruleName} EVAL"
+rule "${ruleName}"
+	##salience -100
 	when
 		prop : PropositionContainer(size == $count)
-   		eval (
-   			#foreach($symbol in $functionSymbols) 
-            #if ($symbol == "+" ) 
-                ||
-            #elseif ($symbol == "*")
-                &&
-            #elseif ($symbol == "(") 
-                (
-            #elseif ($symbol == ")") 
-                )
-            #else 
-                prop.getProposition("$symbol").getResult()   			
-   			#end
-   			#end   		   		
-		)
+##   		eval (
+##   			#foreach($symbol in $functionSymbols) 
+##            #if ($symbol == "+" ) 
+##                ||
+##            #elseif ($symbol == "*")
+##                &&
+##            #elseif ($symbol == "(") 
+##                (
+##            #elseif ($symbol == ")") 
+##                )
+##            #else 
+##                prop.getProposition("$symbol").getResult()   			
+##   			#end
+##   			#end   		   		
+##		)
+
+        ArrayList( size > 0 ) 
+            from collect( 
+                Proposition( 
+    #foreach($symbol in $functionSymbols) 
+        #if ($symbol == "+" ) ||
+        #elseif ($symbol == "*") &&
+        #elseif ($symbol == "(") (
+        #elseif ($symbol == ")") )
+        #else propositionName == "$symbol"              
+        #end
+    #end                
+    , result == true ) 
+            from prop.propositions )
 	then
    		prop.setRuleResult(true);
 	end	
