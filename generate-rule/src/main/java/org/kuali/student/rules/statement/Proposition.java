@@ -29,5 +29,10 @@ public interface Proposition {
 	 * @return the advice
 	 */
 	public PropositionReport getReport();
-	
+
+	/**
+	 * Returns the proposition name
+	 * @return Proposition name
+	 */
+	public String getPropositionName();
 }
