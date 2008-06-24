@@ -3,8 +3,8 @@ import java.util.*;
 import org.kuali.student.rules.statement.*;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 
-rule "Intermediate_CPR INIT"
-    salience 999999999
+rule "Intermediate_CPR_INIT"
+    salience 2147483647
     no-loop true
     lock-on-active true
     when
@@ -14,28 +14,31 @@ rule "Intermediate_CPR INIT"
     then
         SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionA.apply();
-        prop.setProposition("A",propositionA);
+        prop.addProposition(propositionA);
 
         SubsetProposition propositionB = new SubsetProposition("B", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FA001".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionB.apply();
-        prop.setProposition("B",propositionB);
+        prop.addProposition(propositionB);
 
         update(prop);
 end
 
-rule "Intermediate_CPR EVAL"
+rule "Intermediate_CPR"
     //salience -100
     when
-        //prop : PropositionContainer()
         prop : PropositionContainer(size == 2)
-        
-        eval (
-            ( //prop.getProposition("A") != null &&
-            prop.getProposition("A").getResult() )
-            ||
-            ( //prop.getProposition("B") != null &&
-            prop.getProposition("B").getResult() )
-        )
+        ArrayList( size > 0 ) 
+            from collect( 
+                Proposition( propositionName == "A" || propositionName == "B", result == true ) 
+            from prop.propositions )
+
+        //eval (
+        //    ( //prop.getProposition("A") != null &&
+        //    prop.getProposition("A").getResult() )
+        //    ||
+        //    ( //prop.getProposition("B") != null &&
+        //    prop.getProposition("B").getResult() )
+        //)
     then
         prop.setRuleResult(true);
 end
