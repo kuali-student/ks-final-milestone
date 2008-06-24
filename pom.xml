@@ -194,6 +194,13 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
+			
+			<dependency>
+				<artifactId>servlet-api</artifactId>
+				<groupId>javax.servlet</groupId>
+				<version>2.5</version>
+				<scope>provided</scope>
+			</dependency>							
 
 			<!--  Hibernate -->
 			<dependency>
@@ -224,12 +231,6 @@
 				<artifactId>jetty</artifactId>
 				<version>${jetty.version}</version>
 				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>servlet-api</artifactId>
-						<groupId>javax.servlet</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 
@@ -286,11 +287,6 @@
 				<artifactId>jaxws-spring</artifactId>
 				<version>1.7</version>
 				<exclusions>
-					<exclusion>
-						<artifactId>servlet-api</artifactId>
-						<groupId>javax.servlet</groupId>
-					</exclusion>
-
 					<exclusion>
 						<groupId>org.springframework</groupId>
 						<artifactId>spring</artifactId>
