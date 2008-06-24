@@ -35,6 +35,7 @@
 							<className>
 								org.kuali.student.poc.wsdl.learningunit.lu.LuService
 							</className>
+							<serviceName>LuService</serviceName>
 							<genWsdl>true</genWsdl>
 							<genWrapperbean>true</genWrapperbean>
 							<verbose>true</verbose>

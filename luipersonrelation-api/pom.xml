@@ -49,6 +49,7 @@
 							<className>
 								org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService
 							</className>
+							<serviceName>LuiPersonRelationService</serviceName>
 							<genWsdl>true</genWsdl>
 							<genWrapperbean>true</genWrapperbean>
 							<verbose>true</verbose>
