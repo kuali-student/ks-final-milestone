@@ -1,35 +1,60 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.common</groupId>
-	<artifactId>common-pom</artifactId>
-	<version>0.0.1-alpha</version>
-	<packaging>pom</packaging>
+
+	<groupId>org.kuali.student.poc</groupId>
+	<artifactId>ks-poc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name />
 	<description />
 
-	<parent>
-		<groupId>org.kuali.student.poc</groupId>
-		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.1-alpha</version>
-	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.personidentity</groupId>
+			<artifactId>person-ri</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>lu-ri</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>luipersonrelation-ri</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.3.2.1</version>
+		</dependency>
+	</dependencies>
 
-	<modules>
-		<module>common-test</module>
-		<module>common-util</module>
-		<module>common-ws</module>
-	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate</artifactId>
+				<version>3.2.6.ga</version>
+				<exclusions>
+					<exclusion>
+						<groupId>asm</groupId>
+						<artifactId>asm-attrs</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>cglib</groupId>
+						<artifactId>cglib</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	
-	<scm>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/common/tags/common-0.0.1-alpha</developerConnection>
-	</scm>
-
 	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 		<repository>
 			<id>kuali.snapshot</id>
 			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
@@ -38,40 +63,5 @@
 			</releases>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 </project>
