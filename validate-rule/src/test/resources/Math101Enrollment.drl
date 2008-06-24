@@ -16,7 +16,7 @@ rule "Intermediate_CPR_INIT"
         propositionA.apply();
         prop.addProposition(propositionA);
 
-        SubsetProposition propositionB = new SubsetProposition("B", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FA001".split("\\s*,\\s*"))),  req.getLuiIds() );
+        SubsetProposition propositionB = new SubsetProposition("B", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CHEM101".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionB.apply();
         prop.addProposition(propositionB);
 
@@ -27,10 +27,10 @@ rule "Intermediate_CPR"
     //salience -100
     when
         prop : PropositionContainer(size == 2)
-        ArrayList( size > 0 ) 
-            from collect( 
-                Proposition( propositionName == "A" || propositionName == "B", result == true ) 
-            from prop.propositions )
+        
+        Proposition( propositionName == "A" && result == true ) from prop.propositions
+        or
+        Proposition( propositionName == "B" && result == true ) from prop.propositions
 
         //eval (
         //    ( //prop.getProposition("A") != null &&
@@ -40,5 +40,9 @@ rule "Intermediate_CPR"
         //    prop.getProposition("B").getResult() )
         //)
     then
+        //System.out.println( "list=" + list );
+        //for( int i=0; i<list.size(); i++ ) {
+            //System.out.println( "list=" + list.get( i ).getPropositionName() ); 
+        //}
         prop.setRuleResult(true);
 end

@@ -62,19 +62,15 @@ rule "${ruleName}"
 ##   			#end   		   		
 ##		)
 
-        ArrayList( size > 0 ) 
-            from collect( 
-                Proposition( 
     #foreach($symbol in $functionSymbols) 
-        #if ($symbol == "+" ) ||
-        #elseif ($symbol == "*") &&
+        #if ($symbol == "+" ) or
+        #elseif ($symbol == "*") and
         #elseif ($symbol == "(") (
         #elseif ($symbol == ")") )
-        #else propositionName == "$symbol"              
+        #else Proposition( propositionName == "$symbol" && result == true ) from prop.propositions
+             
         #end
     #end                
-    , result == true ) 
-            from prop.propositions )
 	then
    		prop.setRuleResult(true);
 	end	

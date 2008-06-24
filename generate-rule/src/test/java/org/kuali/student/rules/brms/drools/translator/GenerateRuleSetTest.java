@@ -101,7 +101,7 @@ public class GenerateRuleSetTest {
 
         // Rule set source code
         String source = ruleSet.getContent();
-
+System.out.println( "************\n\n"+source);
         // Execute Drools rule set source code
         WorkingMemory workingMemory = getRuleBase( source ).newStatefulSession();
         workingMemory.insert( getRequest() );
