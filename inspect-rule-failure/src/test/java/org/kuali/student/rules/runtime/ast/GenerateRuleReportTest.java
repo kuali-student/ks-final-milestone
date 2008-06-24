@@ -51,10 +51,10 @@ public class GenerateRuleReportTest {
 	    subsetPropC.setReport(propositionReportC);
 	    subsetPropD.setReport(propositionReportD);
 	    
-	    pc.setProposition(subsetPropA.getPropositionName(), subsetPropA);
-	    pc.setProposition(subsetPropB.getPropositionName(), subsetPropB);
-	    pc.setProposition(subsetPropC.getPropositionName(), subsetPropC);
-	    pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
+	    pc.addProposition(subsetPropA);
+	    pc.addProposition(subsetPropB);
+	    pc.addProposition(subsetPropC);
+	    pc.addProposition(subsetPropD);
 	    
 	    String expected = "Need MATH 200";
 	    
@@ -92,10 +92,10 @@ public class GenerateRuleReportTest {
         subsetPropC.setReport(propositionReportC);
         subsetPropD.setReport(propositionReportD);
         
-        pc.setProposition(subsetPropA.getPropositionName(), subsetPropA);
-        pc.setProposition(subsetPropB.getPropositionName(), subsetPropB);
-        pc.setProposition(subsetPropC.getPropositionName(), subsetPropC);
-        pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
+        pc.addProposition(subsetPropA);
+        pc.addProposition(subsetPropB);
+        pc.addProposition(subsetPropC);
+        pc.addProposition(subsetPropD);
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
         
@@ -133,10 +133,10 @@ public class GenerateRuleReportTest {
         subsetPropC.setReport(propositionReportC);
         subsetPropD.setReport(propositionReportD);
         
-        pc.setProposition(subsetPropA.getPropositionName(), subsetPropA);
-        pc.setProposition(subsetPropB.getPropositionName(), subsetPropB);
-        pc.setProposition(subsetPropC.getPropositionName(), subsetPropC);
-        pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
+        pc.addProposition(subsetPropA);
+        pc.addProposition(subsetPropB);
+        pc.addProposition(subsetPropC);
+        pc.addProposition(subsetPropD);
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
         
@@ -174,10 +174,10 @@ public class GenerateRuleReportTest {
         subsetPropC.setReport(propositionReportC);
         subsetPropD.setReport(propositionReportD);
         
-        pc.setProposition(subsetPropA.getPropositionName(), subsetPropA);
-        pc.setProposition(subsetPropB.getPropositionName(), subsetPropB);
-        pc.setProposition(subsetPropC.getPropositionName(), subsetPropC);
-        pc.setProposition(subsetPropD.getPropositionName(), subsetPropD);
+        pc.addProposition(subsetPropA);
+        pc.addProposition(subsetPropB);
+        pc.addProposition(subsetPropC);
+        pc.addProposition(subsetPropD);
         
         String expected = "Have MATH 200 OR Have English 6000";
         
