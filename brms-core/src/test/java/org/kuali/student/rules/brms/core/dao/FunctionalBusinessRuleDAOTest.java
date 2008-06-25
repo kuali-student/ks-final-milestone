@@ -85,7 +85,7 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
     public void testLookupBusinessRuleUsingRuleId() {
         FunctionalBusinessRule rule = functionalBusinessRuleDAO.lookupBusinessRuleUsingRuleId("3");
         assertEquals("course-co-req", rule.getBusinessRuleType());
-        assertEquals("Advanced CPR", rule.getName());
+        assertEquals("EMS Certificate Program", rule.getName());
         assertEquals(7, rule.getElements().size());
     }
 
