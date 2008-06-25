@@ -46,13 +46,22 @@ public interface FunctionalBusinessRuleDAO {
     public boolean deleteBusinessRule(FunctionalBusinessRule rule);
 
     /**
+     * Delete FunctionalBusinessRule from database.
+     * 
+     * @param id
+     *            ID of a business rule to delete from database.
+     * @return true on success
+     */
+    public boolean deleteBusinessRule(String id);
+
+    /**
      * Finds FunctionalBusinessRule in database.
      * 
      * @param id
      *            ID of a business rule to locate in database
      * @return found functional business rule or null if element not found.
      */
-    public FunctionalBusinessRule lookupBusinessRule(String id);
+    public FunctionalBusinessRule lookupBusinessRuleUsingId(String id);
 
     /**
      * Finds FunctionalBusinessRule in database.
@@ -61,7 +70,7 @@ public interface FunctionalBusinessRuleDAO {
      *            ID of a business rule to locate in database.
      * @return found functional business rule or null if element not found.
      */
-    public FunctionalBusinessRule lookupBusinessRuleID(String ruleIdentifier);
+    public FunctionalBusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier);
 
     /**
      * Finds one or more FunctionalBusinessRule in database based on given parameters.

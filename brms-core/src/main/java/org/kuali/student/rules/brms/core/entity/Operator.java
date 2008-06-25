@@ -54,10 +54,17 @@ public class Operator {
     }
 
     /**
-     * @param value
-     *            the value to set
+     * @return the operator
      */
-    public final void setValue(ComparisonOperator value) {
-        this.operator = value;
+    public final ComparisonOperator getOperator() {
+        return operator;
+    }
+
+    /**
+     * @param operator
+     *            the operator to set
+     */
+    public final void setOperator(ComparisonOperator operator) {
+        this.operator = operator;
     }
 }

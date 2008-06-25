@@ -63,21 +63,31 @@ public class FunctionalBusinessRuleDAOImpl implements FunctionalBusinessRuleDAO 
     }
 
     /**
+     * Deletes FunctionalBusinessRule from database.
+     * 
+     * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#deleteBusinessRule(FunctionalBusinessRule rule)
+     */
+    public boolean deleteBusinessRule(String id) {
+        entityManager.remove(lookupBusinessRuleUsingId(id));
+        return true;
+    }
+
+    /**
      * Finds FunctionalBusinessRule in database.
      * 
-     * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#lookupBusinessRule(String id)
+     * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#lookupBusinessRuleUsingId(String id)
      */
-    public FunctionalBusinessRule lookupBusinessRule(String id) {
+    public FunctionalBusinessRule lookupBusinessRuleUsingId(String id) {
         return entityManager.find(FunctionalBusinessRule.class, id);
     }
 
     /**
      * Finds FunctionalBusinessRule in database.
      * 
-     * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#lookupBusinessRule(String ruleIdentifier)
+     * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#lookupBusinessRuleUsingId(String ruleIdentifier)
      */
     @SuppressWarnings(value = {"unchecked"})
-    public FunctionalBusinessRule lookupBusinessRuleID(String ruleIdentifier) {
+    public FunctionalBusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier) {
 
         Query query = entityManager.createNamedQuery("FunctionalBusinessRule.findByRuleID");
         query.setParameter("ruleID", ruleIdentifier);

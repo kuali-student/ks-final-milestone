@@ -22,7 +22,8 @@ package org.kuali.student.rules.brms.core.entity;
  */
 public enum RuleElementType {
 
-    AND_TYPE("AND", "1"), OR_TYPE("OR", "2"), XOR_TYPE("XOR", "3"), NOT_TYPE("NOT", "4"), LPAREN_TYPE("(", "5"), RPAREN_TYPE(")", "6"), PROPOSITION_TYPE("PROPOSITION", "7");
+    AND_TYPE("AND", "1"), OR_TYPE("OR", "2"), XOR_TYPE("XOR", "3"), NOT_TYPE("NOT", "4"), LPAREN_TYPE("(", "5"), RPAREN_TYPE(
+            ")", "6"), PROPOSITION_TYPE("PROPOSITION", "7");
 
     private String name;
     private String id;

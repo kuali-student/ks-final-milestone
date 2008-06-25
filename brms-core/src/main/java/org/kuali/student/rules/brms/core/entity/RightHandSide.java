@@ -44,38 +44,38 @@ public class RightHandSide {
      * @param facts
      * @param className
      */
-    public RightHandSide(String criterionType, String criterionValue) {
-        this.expectedValueType = criterionType;
-        this.expectedValue = criterionValue;
+    public RightHandSide(String expectedValueType, String expectedValue) {
+        this.expectedValueType = expectedValueType;
+        this.expectedValue = expectedValue;
     }
 
     /**
-     * @return the criterionType
+     * @return the expectedValueType
      */
-    public final String getCriterionType() {
+    public final String getExpectedValueType() {
         return expectedValueType;
     }
 
     /**
-     * @param criterionType
-     *            the criterionType to set
+     * @param expectedValueType
+     *            the expectedValueType to set
      */
-    public final void setCriterionType(String criterionType) {
-        this.expectedValueType = criterionType;
+    public final void setExpectedValueType(String expectedValueType) {
+        this.expectedValueType = expectedValueType;
     }
 
     /**
-     * @return the criterionValues
+     * @return the expectedValue
      */
-    public final String getCriterionValue() {
+    public final String getExpectedValue() {
         return expectedValue;
     }
 
     /**
-     * @param criterionValues
-     *            the criterionValues to set
+     * @param expectedValue
+     *            the expectedValue to set
      */
-    public final void setCriterionValues(String criterionValues) {
-        this.expectedValue = criterionValues;
+    public final void setExpectedValue(String expectedValue) {
+        this.expectedValue = expectedValue;
     }
 }

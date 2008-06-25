@@ -53,9 +53,9 @@ public class LeftHandSide {
      * @param factContainerMethod
      * @param methodParameters
      */
-    public LeftHandSide(String courseList, String academicRecordID, ComputationAssistant compAssistant,
+    public LeftHandSide(String criteria, String academicRecordID, ComputationAssistant compAssistant,
             ValueType valueType) {
-        this.criteria = courseList;
+        this.criteria = criteria;
         this.academicRecordID = academicRecordID;
         this.compAssistant = compAssistant;
         this.valueType = valueType;
@@ -77,33 +77,33 @@ public class LeftHandSide {
     }
 
     /**
-     * @return the factContainer
+     * @return the criteria
      */
-    public final String getFactContainer() {
+    public final String getCriteria() {
         return criteria;
     }
 
     /**
-     * @param factContainer
-     *            the factContainer to set
+     * @param criteria
+     *            the criteria to set
      */
-    public final void setFactContainer(String factContainer) {
-        this.criteria = factContainer;
+    public final void setCriteria(String criteria) {
+        this.criteria = criteria;
     }
 
     /**
-     * @return the factContainerMethod
+     * @return the academicRecordID
      */
-    public final String getFactContainerMethod() {
+    public final String getAcademicRecordID() {
         return academicRecordID;
     }
 
     /**
-     * @param factContainerMethod
-     *            the factContainerMethod to set
+     * @param academicRecordID
+     *            the academicRecordID to set
      */
-    public final void setFactContainerMethod(String factContainerMethod) {
-        this.academicRecordID = factContainerMethod;
+    public final void setAcademicRecordID(String academicRecordID) {
+        this.academicRecordID = academicRecordID;
     }
 
     /**
@@ -119,14 +119,5 @@ public class LeftHandSide {
      */
     public final void setCompAssistant(ComputationAssistant compAssistant) {
         this.compAssistant = compAssistant;
-    }
-
-    /**
-     * This method is a temporary method to store the required course list
-     * 
-     * @return
-     */
-    public String getCourseList() {
-        return criteria;
     }
 }

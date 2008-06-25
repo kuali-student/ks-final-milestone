@@ -11,32 +11,31 @@ import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:validate-rule-context.xml","classpath:brms-context.xml"})
+@ContextConfiguration(locations = {"classpath:validate-rule-context.xml", "classpath:brms-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
 public class EnforceRuleTest extends AbstractJpaTests {
 
     @Autowired
     private EnforceRule enforceRule;
-    
+
     @Autowired
     private UtilBRMSDatabase brmsDatabaseUtil;
-        
-    
+
     @Test
     public void testValidation() throws Exception {
         // Only thing that matters is the 3rd argument which maps to the functional rule Id
-        ValidationResult result1= enforceRule.validateLuiPersonRelation("John", "EMS 1001", "student", "enrolled");
+        ValidationResult result1 = enforceRule.validateLuiPersonRelation("John", "EMS 1001", "student", "enrolled");
         assertEquals(result1.isSuccess(), false);
-//        
-//        ValidationResult result2 = enforceRule.validateLuiPersonRelation("John", "Math 101", "2", null);
-//        assertEquals(result2.isSuccess(), false);
-    }   
+        //        
+        // ValidationResult result2 = enforceRule.validateLuiPersonRelation("John", "Math 101", "2", null);
+        // assertEquals(result2.isSuccess(), false);
+    }
 
     @Override
     @Before
     public void onSetUpInTransaction() throws Exception {
-        brmsDatabaseUtil.populateDatabase();
+        // brmsDatabaseUtil.populateDatabase();
         brmsDatabaseUtil.compileDroolsRule();
     }
 
@@ -44,7 +43,7 @@ public class EnforceRuleTest extends AbstractJpaTests {
     // @After
     public void onTearDownAfterTransaction() throws Exception {
         brmsDatabaseUtil.deleteRules();
-        
+
         super.onTearDownInTransaction();
     }
 
@@ -56,11 +55,13 @@ public class EnforceRuleTest extends AbstractJpaTests {
     }
 
     /**
-     * @param enforceRule the enforceRule to set
+     * @param enforceRule
+     *            the enforceRule to set
      */
     public void setEnforceRule(EnforceRule enforceRule) {
         this.enforceRule = enforceRule;
     }
+
     /**
      * @return the brmsDatabase
      */
@@ -69,11 +70,11 @@ public class EnforceRuleTest extends AbstractJpaTests {
     }
 
     /**
-     * @param brmsDatabase the brmsDatabase to set
+     * @param brmsDatabase
+     *            the brmsDatabase to set
      */
     public void setBrmsDatabaseUtils(UtilBRMSDatabase brmsDatabase) {
         this.brmsDatabaseUtil = brmsDatabase;
     }
 
-    
 }

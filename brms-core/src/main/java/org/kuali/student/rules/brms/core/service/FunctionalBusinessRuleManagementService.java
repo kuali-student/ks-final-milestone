@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
@@ -67,12 +68,37 @@ public class FunctionalBusinessRuleManagementService {
      *            Functional business rule ID.
      * @return Returns functional business rule with Rule ID
      */
-    public FunctionalBusinessRule getFunctionalBusinessRule(String ruleID) {
+    public FunctionalBusinessRule getBusinessRuleUsingRuleId(String ruleID) throws DoesNotExistException {
 
-        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID(ruleID);
+        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(ruleID);
+
+        if (rule == null) {
+            throw new DoesNotExistException();
+        }
 
         // force Hibernate to load the RuleElements collection as well
-        rule.getRuleElements().size();
+        rule.getElements().size();
+
+        return rule;
+    }
+
+    /**
+     * Retrieves a functional business rule from database using ID.
+     * 
+     * @param ID
+     *            Functional business rule ID.
+     * @return Returns functional business rule
+     */
+    public FunctionalBusinessRule getBusinessRuleUsingId(String id) throws DoesNotExistException {
+
+        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingId(id);
+
+        if (rule == null) {
+            throw new DoesNotExistException();
+        }
+
+        // force Hibernate to load the RuleElements collection as well
+        rule.getElements().size();
 
         return rule;
     }

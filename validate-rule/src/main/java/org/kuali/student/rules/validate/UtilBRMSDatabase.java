@@ -252,7 +252,7 @@ public class UtilBRMSDatabase {
 
         GenerateRuleSet grs = GenerateRuleSet.getInstance();
 
-        FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleID("1");
+        FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleUsingRuleId("1");
         RuleSet rs1 = grs.parse(rule1);
         System.out.println("Rule set1:\n" + rs1.getContent());
         String rulesetUuid1 = droolsRepository.createRuleSet(rs1);
@@ -260,7 +260,7 @@ public class UtilBRMSDatabase {
         droolsRepository.loadRuleSet(rulesetUuid1);
         em.merge(rule1);
 
-        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleID("2");
+        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleUsingRuleId("2");
         RuleSet rs2 = grs.parse(rule2);
         System.out.println("Rule set2:\n" + rs2.getContent());
         String rulesetUuid2 = droolsRepository.createRuleSet(rs2);
@@ -268,7 +268,7 @@ public class UtilBRMSDatabase {
         droolsRepository.loadRuleSet(rulesetUuid2);
         em.merge(rule2);
 
-        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleID("3");
+        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleUsingRuleId("3");
         RuleSet rs3 = grs.parse(rule3);
         System.out.println("Rule set3:\n" + rs3.getContent());
         String rulesetUuid3 = droolsRepository.createRuleSet(rs3);
@@ -276,7 +276,7 @@ public class UtilBRMSDatabase {
         droolsRepository.loadRuleSet(rulesetUuid3);
         em.merge(rule3);
 
-        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleID("4");
+        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleUsingRuleId("4");
         RuleSet rs4 = grs.parse(rule4);
         System.out.println("Rule set4:\n" + rs4.getContent());
         String rulesetUuid4 = droolsRepository.createRuleSet(rs4);
@@ -290,28 +290,28 @@ public class UtilBRMSDatabase {
      */
     public void deleteRules() {
         try {
-            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("1");
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId("1");
             businessRuleDAO.deleteBusinessRule(rule);
         } catch (EmptyResultDataAccessException e) {
             System.out.println(e.toString());
         }
 
         try {
-            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("2");
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId("2");
             businessRuleDAO.deleteBusinessRule(rule);
         } catch (EmptyResultDataAccessException e) {
             System.out.println(e.toString());
         }
 
         try {
-            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("3");
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId("3");
             businessRuleDAO.deleteBusinessRule(rule);
         } catch (EmptyResultDataAccessException e) {
             System.out.println(e.toString());
         }
 
         try {
-            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleID("4");
+            FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId("4");
             businessRuleDAO.deleteBusinessRule(rule);
         } catch (EmptyResultDataAccessException e) {
             System.out.println(e.toString());

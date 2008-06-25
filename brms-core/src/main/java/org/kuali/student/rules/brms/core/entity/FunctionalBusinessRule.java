@@ -111,7 +111,7 @@ public class FunctionalBusinessRule {
      */
     public String createRuleFunctionString() {
 
-        Collection<RuleElement> ruleElements = this.getRuleElements();
+        Collection<RuleElement> ruleElements = this.getElements();
 
         StringBuilder functionString = new StringBuilder();
         char proposition = INITIAL_PROPOSITION_PLACEHOLDER; // each proposition is represented as a letter
@@ -165,7 +165,7 @@ public class FunctionalBusinessRule {
     public HashMap<String, RuleProposition> getRulePropositions() {
 
         HashMap<String, RuleProposition> propositions = new HashMap<String, RuleProposition>();
-        Collection<RuleElement> ruleElements = this.getRuleElements();
+        Collection<RuleElement> ruleElements = this.getElements();
 
         char key = INITIAL_PROPOSITION_PLACEHOLDER;
         for (RuleElement ruleElement : ruleElements) {
@@ -244,36 +244,6 @@ public class FunctionalBusinessRule {
     }
 
     /**
-     * @return the ruleMetaData
-     */
-    public final RuleMetaData getRuleMetaData() {
-        return metaData;
-    }
-
-    /**
-     * @param ruleMetaData
-     *            the ruleMetaData to set
-     */
-    public final void setRuleMetaData(RuleMetaData ruleMetaData) {
-        this.metaData = ruleMetaData;
-    }
-
-    /**
-     * @return the ruleElements
-     */
-    public final Collection<RuleElement> getRuleElements() {
-        return elements;
-    }
-
-    /**
-     * @param ruleElements
-     *            the ruleElements to set
-     */
-    public final void setRuleElements(Collection<RuleElement> ruleElements) {
-        this.elements = ruleElements;
-    }
-
-    /**
      * @return the successMessage
      */
     public final String getSuccessMessage() {
@@ -301,21 +271,6 @@ public class FunctionalBusinessRule {
      */
     public final void setFailureMessage(String failureMessage) {
         this.failureMessage = failureMessage;
-    }
-
-    /**
-     * @return the ruleIdentifier
-     */
-    public final String getRuleIdentifier() {
-        return identifier;
-    }
-
-    /**
-     * @param ruleIdentifier
-     *            the ruleIdentifier to set
-     */
-    public final void setRuleIdentifier(String ruleIdentifier) {
-        this.identifier = ruleIdentifier;
     }
 
     /**
@@ -391,6 +346,51 @@ public class FunctionalBusinessRule {
      */
     public final void setAnchor(String anchor) {
         this.anchor = anchor;
+    }
+
+    /**
+     * @return the identifier
+     */
+    public final String getIdentifier() {
+        return identifier;
+    }
+
+    /**
+     * @param identifier
+     *            the identifier to set
+     */
+    public final void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    /**
+     * @return the metaData
+     */
+    public final RuleMetaData getMetaData() {
+        return metaData;
+    }
+
+    /**
+     * @param metaData
+     *            the metaData to set
+     */
+    public final void setMetaData(RuleMetaData metaData) {
+        this.metaData = metaData;
+    }
+
+    /**
+     * @return the elements
+     */
+    public final Collection<RuleElement> getElements() {
+        return elements;
+    }
+
+    /**
+     * @param elements
+     *            the elements to set
+     */
+    public final void setElements(Collection<RuleElement> elements) {
+        this.elements = elements;
     }
 
 }

@@ -53,6 +53,14 @@ public class ComputationAssistant {
     }
 
     /**
+     * @param id
+     *            the id to set
+     */
+    public final void setId(String id) {
+        this.id = id;
+    }
+
+    /**
      * @return the yieldValueFunction
      */
     public final YieldValueFunction getYieldValueFunction() {
