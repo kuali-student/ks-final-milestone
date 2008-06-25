@@ -41,7 +41,6 @@ import org.drools.repository.AssetItem;
 import org.drools.repository.PackageItem;
 import org.drools.repository.VersionableItem;
 import org.drools.util.ChainedProperties;
-import org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleFactory;
@@ -348,7 +347,7 @@ public class DroolsUtil {
      */
     public PackageBuilder createPackageBuilder() {
         ClassLoader parentClassLoader = Thread.currentThread().getContextClassLoader();
-        ChainedProperties chainedProperties = new ChainedProperties(RuleEngineRepositoryDroolsImpl.class.getClassLoader(), 
+        ChainedProperties chainedProperties = new ChainedProperties(DroolsUtil.class.getClassLoader(), 
                 "packagebuilder.conf", false); // false means it ignores any default values
         Properties properties = new Properties();
         // The default compiler. This is nominally JANINO 
