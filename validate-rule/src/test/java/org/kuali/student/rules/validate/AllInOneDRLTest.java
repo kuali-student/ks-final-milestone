@@ -32,7 +32,6 @@ public class AllInOneDRLTest {
         workingMemory.insert(prop);
         workingMemory.fireAllRules();
         assertTrue( prop.getRuleResult() );
-        System.out.println( "Integer.MAX="+Integer.MAX_VALUE );
     }
     
     private static RuleBase readRule() throws Exception {
