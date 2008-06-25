@@ -15,11 +15,11 @@ rule "${ruleName}_INIT"
     
     	#foreach( $key in $propositionMap.keySet() ) 
    		#set ( $proposition = $propositionMap.get($key) )
-   		#set ( $rhs = $proposition.RightHandSide.CriterionValue )
+   		#set ( $rhs = $proposition.RightHandSide.ExpectedValue )
 ##TODO: This should be changed to directly call the comparison operator inside the rule proposition    		   		
    		#set ( $operator = $proposition.Operator.Value.toString() )
 ##TODO: This should be changed to using a fact structure		
-		#set ( $courseList = $proposition.LeftHandSide.CourseList )   		
+		#set ( $courseList = $proposition.LeftHandSide.Criteria )   		
    		#if ($proposition.LeftHandSide.CompAssistant.YieldValueFunction.toString() == "INTERSECTION" )
 
 		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split("\\s*,\\s*"))),  req.getLuiIds() ); 
