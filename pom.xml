@@ -50,12 +50,12 @@
 							<className>
 								org.kuali.student.poc.wsdl.personidentity.person.PersonService
 							</className>
-							<targetNamespace>
-								http://student.kuali.org/wsdl/...
-							</targetNamespace>
 							<genWsdl>true</genWsdl>
 							<genWrapperbean>true</genWrapperbean>
 							<verbose>true</verbose>
+                  			<argline>
+                  				-s ${project.build.directory}/generated
+                  			</argline>
 						</configuration>
 						<goals>
 							<goal>java2ws</goal>
