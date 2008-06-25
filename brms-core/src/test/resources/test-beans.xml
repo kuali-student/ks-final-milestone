@@ -181,7 +181,7 @@
 	<!-- 12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR (1 of CPR 4005 AND 1 of FA 001, WS 001) -->
 	<bean id="funcBusRule3" class="org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule">
 		<property name="id"	value="11223344-1122-1122-1111-100000000031" />
-		<property name="name" value="Advanced CPR" />		
+		<property name="name" value="EMS Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program EMS 1001" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
 		<property name="businessRuleType" value="course-co-req" />	
