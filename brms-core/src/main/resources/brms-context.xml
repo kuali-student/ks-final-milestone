@@ -114,8 +114,7 @@
 	</bean>
   
 	<bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
-		<constructor-arg type="org.drools.repository.RulesRepository" 
-					ref="rulesRepository"/>
+		<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
 	</bean>
 
 	<bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"

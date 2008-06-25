@@ -10,18 +10,21 @@ package org.kuali.student.rules.brms.core.entity;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * This is a <code>FunctionalBusinessRuleDAOImpl</code> test class.
  * 
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
 @ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
 public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
@@ -56,7 +59,6 @@ public class FunctionalBusinessRuleTest extends AbstractTransactionalDaoTest {
 
         try {
             rule = brmsService.getBusinessRuleUsingRuleId(ruleID);
-            System.out.println("ID: " + rule.getId());
         } catch (DataAccessException dae) {
             System.out.println("Could not load rule " + ruleID + " from database: " + dae.getMessage());
             return null;

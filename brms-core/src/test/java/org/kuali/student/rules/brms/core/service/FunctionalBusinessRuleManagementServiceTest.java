@@ -14,18 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * This is a <code>FunctionalBusinessRuleManagementService</code> test class.
  * 
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
 @ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
 public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransactionalDaoTest {

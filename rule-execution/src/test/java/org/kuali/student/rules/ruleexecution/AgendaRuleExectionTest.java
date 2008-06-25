@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
 import org.kuali.student.rules.brms.agenda.AgendaRequest;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
@@ -33,7 +35,6 @@ import org.kuali.student.rules.brms.agenda.entity.AnchorType;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,54 +42,55 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:brms-context.xml"})
-public class AgendaRuleExectionTest {
+@PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
+@ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
+public class AgendaRuleExectionTest extends AbstractTransactionalDaoTest {
 
     @Autowired
     AgendaDiscovery agendaDiscovery;
-    
+
     @Test
     public void testExecuteAgenda() throws Exception {
 
-        AgendaRequest request = new AgendaRequest( "student", "course", "offered", "planned" );
-        AnchorType anchorType = new AnchorType( "course", "clu.type.course" );
+        AgendaRequest request = new AgendaRequest("student", "course", "offered", "planned");
+        AnchorType anchorType = new AnchorType("course", "clu.type.course");
         String anchorID = "math301";
-        Anchor anchor = new Anchor( anchorID, "Math-301", anchorType );
+        Anchor anchor = new Anchor(anchorID, "Math-301", anchorType);
         // Get the specific agenda for math301
-        Agenda agenda = agendaDiscovery.getAgenda( request, anchor );
+        Agenda agenda = agendaDiscovery.getAgenda(request, anchor);
 
         // Add a business rule since the agenda returns none
-        BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
-        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", ruleType, "" ) );
-        
-System.out.println( "\n\n\n************* agenda = " + agenda );
-System.out.println( "\n\n\n************* rules = " + agenda.getBusinessRules() + "\n\n\n");
+        BusinessRuleType ruleType = new BusinessRuleType("name", "type");
+        agenda.addBusinessRule(new BusinessRule("ruleId=uuid-123", ruleType, ""));
 
-        // Create repository 
+        System.out.println("\n\n\n************* agenda = " + agenda);
+        System.out.println("\n\n\n************* rules = " + agenda.getBusinessRules() + "\n\n\n");
+
+        // Create repository
         RuleEngineRepository ruleEngineRepository = new RuleEngineRepositoryMock();
         // Create the rule set executor (use Spring IoC)
-        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( ruleEngineRepository );
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl(ruleEngineRepository);
         // Add facts
         List<Object> facts = new ArrayList<Object>();
-        facts.add( Calendar.getInstance() );
+        facts.add(Calendar.getInstance());
         // Iterate through returned rule engine objects
         // This should not be done in production
-        Iterator it = (Iterator) executor.execute( agenda, facts );
-        
-        assertNotNull( it );
+        Iterator it = (Iterator) executor.execute(agenda, facts);
+
+        assertNotNull(it);
 
         String time = null;
-        while( it != null && it.hasNext() ) {
+        while (it != null && it.hasNext()) {
             Object obj = it.next();
-            //System.out.println( obj.getClass() + " = " + obj );
-            if ( obj instanceof String ) {
+            // System.out.println( obj.getClass() + " = " + obj );
+            if (obj instanceof String) {
                 time = (String) obj;
                 break;
             }
         }
-        
-        System.out.println( "testExecute: " + time );
-        assertNotNull( time );
-        assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+
+        System.out.println("testExecute: " + time);
+        assertNotNull(time);
+        assertTrue(time.startsWith("Minute is even:") || time.startsWith("Minute is odd:"));
     }
 }

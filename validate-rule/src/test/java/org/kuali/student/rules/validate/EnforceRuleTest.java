@@ -1,20 +1,24 @@
 package org.kuali.student.rules.validate;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.test.jpa.AbstractJpaTests;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:validate-rule-context.xml", "classpath:brms-context.xml"})
+@PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
+@ContextConfiguration(locations = {"classpath:validate-rule-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
-public class EnforceRuleTest extends AbstractJpaTests {
+public class EnforceRuleTest extends AbstractTransactionalDaoTest {
 
     @Autowired
     private EnforceRule enforceRule;
@@ -32,19 +36,9 @@ public class EnforceRuleTest extends AbstractJpaTests {
         // assertEquals(result2.isSuccess(), false);
     }
 
-    @Override
     @Before
     public void onSetUpInTransaction() throws Exception {
-        // brmsDatabaseUtil.populateDatabase();
         brmsDatabaseUtil.compileDroolsRule();
-    }
-
-    @Override
-    // @After
-    public void onTearDownAfterTransaction() throws Exception {
-        brmsDatabaseUtil.deleteRules();
-
-        super.onTearDownInTransaction();
     }
 
     /**

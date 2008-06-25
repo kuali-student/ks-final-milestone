@@ -13,24 +13,28 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.NoResultException;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.brms.core.entity.RuleMetaData;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * This is a <code>FunctionalBusinessRuleDAOImpl</code> test class.
  * 
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
+@ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
 public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest {
 
-    @Dao(value = "org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl", testDataFile = "classpath:test-beans.xml")
+    @Dao(value = "org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl")
     public FunctionalBusinessRuleDAO functionalBusinessRuleDAO;
 
     public static final String funcBusRule1 = "1";
@@ -74,7 +78,7 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
         boolean noResult = false;
         try {
             functionalBusinessRuleDAO.lookupBusinessRuleUsingRuleId(funcBusRule1);
-        } catch (NoResultException noresex) {
+        } catch (EmptyResultDataAccessException noresex) {
             noResult = true;
         }
 
