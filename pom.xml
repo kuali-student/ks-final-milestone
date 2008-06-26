@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.learningunit</groupId>
 	<artifactId>lum-ri</artifactId>
-	<name />
+	<name>Learning Unit Management</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
 		Learning Unit Management Reference Implementation
@@ -25,19 +25,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>lu-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
