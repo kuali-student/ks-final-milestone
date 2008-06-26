@@ -29,6 +29,12 @@
 			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 
+		<!-- 
+			Note: common-test can't be included as a dependency here. The common-test 
+			pom inherits from this pom and would result in circular dependency, 
+			therefore it must be added as dependencies in each child pom.  
+		-->
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
