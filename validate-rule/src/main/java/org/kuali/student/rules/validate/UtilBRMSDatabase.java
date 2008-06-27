@@ -7,11 +7,15 @@
  */
 package org.kuali.student.rules.validate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
 import org.kuali.student.rules.brms.drools.translator.GenerateRuleSet;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
@@ -38,7 +42,7 @@ public class UtilBRMSDatabase {
     /**
      * Compiles 4 demo business rules and inserts them into Drools repository.
      */
-    public final void compileDroolsRule() throws Exception {
+    /*public final void compileDroolsRule() throws Exception {
 
         GenerateRuleSet grs = GenerateRuleSet.getInstance();
 
@@ -72,6 +76,41 @@ public class UtilBRMSDatabase {
         String rulesetUuid4 = droolsRepository.createRuleSet(rs4);
         rule4.setCompiledID(rulesetUuid4);
         droolsRepository.loadRuleSet(rulesetUuid4);
+        em.merge(rule4);
+    }*/
+
+    public final void compileDroolsRule() throws Exception {
+
+        GenerateRuleSet grs = GenerateRuleSet.getInstance();
+
+        FunctionalBusinessRuleContainer container = new FunctionalBusinessRuleContainer("course.co.req", "Cource Co-Requisites");
+        FunctionalBusinessRule rule1 = businessRuleDAO.lookupBusinessRuleUsingRuleId("1");
+        FunctionalBusinessRule rule2 = businessRuleDAO.lookupBusinessRuleUsingRuleId("2");
+        FunctionalBusinessRule rule3 = businessRuleDAO.lookupBusinessRuleUsingRuleId("3");
+        FunctionalBusinessRule rule4 = businessRuleDAO.lookupBusinessRuleUsingRuleId("4");
+        
+        container.addFunctionalBusinessRule(rule1);
+        container.addFunctionalBusinessRule(rule2);
+        container.addFunctionalBusinessRule(rule3);
+        container.addFunctionalBusinessRule(rule4);
+        
+        RuleSet ruleSet = grs.parse(container);
+
+        System.out.println("Rule set1:\n" + ruleSet.getContent());
+
+        String rulesetUuid = droolsRepository.createRuleSet(ruleSet);
+        droolsRepository.loadRuleSet(rulesetUuid);
+        
+        rule1.setCompiledID(rulesetUuid);
+        em.merge(rule1);
+
+        rule2.setCompiledID(rulesetUuid);
+        em.merge(rule2);
+
+        rule3.setCompiledID(rulesetUuid);
+        em.merge(rule3);
+
+        rule4.setCompiledID(rulesetUuid);
         em.merge(rule4);
     }
 
