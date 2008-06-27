@@ -29,7 +29,7 @@
 		<property name="name" value="Intermediate CPR" />		
 		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="CPR 201" />	
 		<property name="successMessage" value="Rule 1 Success Message" />	
@@ -129,7 +129,7 @@
 		<property name="name" value="Advanced CPR" />		
 		<property name="description" value="enrollment co-requisites for Advanced CPR 301" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="CPR 301" />	
 		<property name="successMessage" value="Rule 2 Success Message" />	
@@ -184,7 +184,7 @@
 		<property name="name" value="EMS Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program EMS 1001" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="EMS 1001" />	
 		<property name="successMessage" value="Rule 3 Success Message" />	
@@ -347,7 +347,7 @@
 		<property name="name" value="LPN Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program LPN 1001" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="LPN 1001" />	
 		<property name="successMessage" value="Rule 4 Success Message" />	
