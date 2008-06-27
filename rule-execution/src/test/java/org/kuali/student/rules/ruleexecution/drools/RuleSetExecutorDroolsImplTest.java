@@ -40,7 +40,7 @@ public class RuleSetExecutorDroolsImplTest {
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
         BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
-        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", ruleType, "" ) );
+        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", "", ruleType, "" ) );
         
         // Create the rule set executor
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock() );

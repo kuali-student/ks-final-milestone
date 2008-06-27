@@ -61,7 +61,7 @@ public class AgendaRuleExectionTest extends AbstractTransactionalDaoTest {
 
         // Add a business rule since the agenda returns none
         BusinessRuleType ruleType = new BusinessRuleType("name", "type");
-        agenda.addBusinessRule(new BusinessRule("ruleId=uuid-123", ruleType, ""));
+        agenda.addBusinessRule(new BusinessRule("ruleId=uuid-123", "", ruleType, ""));
 
         System.out.println("\n\n\n************* agenda = " + agenda);
         System.out.println("\n\n\n************* rules = " + agenda.getBusinessRules() + "\n\n\n");
