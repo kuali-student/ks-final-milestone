@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.ClassPathResource;
 
@@ -36,10 +35,6 @@ import org.springframework.core.io.ClassPathResource;
 public class PropertiesFilterFactoryBean implements FactoryBean {
 
 	private static final String CLASSPATH_PREFIX = "classpath:";
-
-	private static final String placeholderPrefix = "${";
-
-	private static final String placeholderSuffix = "}";
 
 	private String propertyFile;
 	private String prefix;
@@ -118,71 +113,37 @@ public class PropertiesFilterFactoryBean implements FactoryBean {
 		this.prefix = prefix + ".";
 	}
 
-	//Pilfered from PropertyPlaceholderConfigurer
 	/**
 	 * Parse the given String value recursively, to be able to resolve nested
 	 * placeholders (when resolved property values in turn contain placeholders
 	 * again).
-	 * 
 	 * @param strVal
-	 *            the String value to parse
 	 * @param props
-	 *            the Properties to resolve placeholders against
 	 * @param visitedPlaceholders
-	 *            the placeholders that have already been visited during the
-	 *            current resolution attempt (used to detect circular references
-	 *            between placeholders). Only non-null if we're parsing a nested
-	 *            placeholder.
-	 * @throws BeanDefinitionStoreException
-	 *             if invalid values are encountered
-	 * @see #resolvePlaceholder(String, java.util.Properties, int)
+	 * @return the resolved String
 	 */
 	protected String parseStringValue(String strVal, Properties props,
-			Set<String> visitedPlaceholders) throws BeanDefinitionStoreException {
+			Set<String> visitedPlaceholders) {
 
-		StringBuffer buf = new StringBuffer(strVal);
-
-		int startIndex = strVal.indexOf(PropertiesFilterFactoryBean.placeholderPrefix);
-		while (startIndex != -1) {
-			int endIndex = buf.indexOf(PropertiesFilterFactoryBean.placeholderSuffix, startIndex
-					+ PropertiesFilterFactoryBean.placeholderPrefix.length());
-			if (endIndex != -1) {
-				String placeholder = buf.substring(startIndex
-						+ PropertiesFilterFactoryBean.placeholderPrefix.length(), endIndex);
-				if (!visitedPlaceholders.add(placeholder)) {
-					throw new BeanDefinitionStoreException(
-							"Circular placeholder reference '" + placeholder
-									+ "' in property definitions");
-				}
-				String propVal = resolvePlaceholder(placeholder, props);
-				if (propVal != null) {
-					// Recursive invocation, parsing placeholders contained in
-					// the
-					// previously resolved placeholder value.
-					propVal = parseStringValue(propVal, props,
-							visitedPlaceholders);
-					buf.replace(startIndex, endIndex
-							+ PropertiesFilterFactoryBean.placeholderSuffix.length(), propVal);
-					startIndex = buf.indexOf(PropertiesFilterFactoryBean.placeholderPrefix, startIndex
-							+ propVal.length());
-				} else {
-					// Proceed with unprocessed value.
-					startIndex = buf.indexOf(PropertiesFilterFactoryBean.placeholderPrefix, endIndex
-							+ PropertiesFilterFactoryBean.placeholderSuffix.length());
-
-				}
-				visitedPlaceholders.remove(placeholder);
-			} else {
-				startIndex = -1;
+		if(strVal!=null&&strVal.indexOf("${")>-1){
+			
+			String begin = strVal.substring(0, strVal.indexOf("${"));
+			String resolveString = strVal.substring(strVal.indexOf("${")+2,strVal.indexOf("}"));
+			String end = strVal.substring(strVal.indexOf("}")+1);
+			if(!visitedPlaceholders.add(resolveString)){
+				return "";
 			}
+			String propVal = resolvePlaceholder(resolveString, props);
+			String parsedString = parseStringValue(begin+propVal+end, props,
+					visitedPlaceholders);
+			visitedPlaceholders.add(resolveString);
+			return parsedString;
 		}
-
-		return buf.toString();
+		return strVal;
 	}
 
-	//Pilfered from PropertyPlaceholderConfigurer
 	/**
-	 * Resolve the given key as JVM system property, and optionally also as
+	 * Resolve the given key as a Property, JVM system property, and optionally also as
 	 * system environment variable if no matching system property has been
 	 * found.
 	 * 
