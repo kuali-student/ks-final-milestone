@@ -1,0 +1,32 @@
+package org.kuali.student.rules.course_co_req.Intermediate_CPR
+
+import java.util.*;
+import org.kuali.student.rules.statement.*;
+import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.util.FactContainer;
+
+rule "Intermediate_CPR_INIT_Cpr101"
+    salience 2147483647
+    no-loop true
+    lock-on-active true
+    when
+        cont : FactContainer( id == "Cpr101", prop : propositionContainer, req : request )
+    then
+        System.out.println("Cpr101-init");
+        SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("MATH102".split("\\s*,\\s*"))),  req.getLuiIds() );
+        propositionA.apply();
+        prop.addProposition(propositionA);
+
+        update(cont);
+end
+
+rule "Intermediate_CPR_Cpr101"
+    no-loop true
+    when
+        FactContainer( id == "Cpr101", prop : propositionContainer, req : request )
+        Proposition( propositionName == "A" && result == true ) from prop.propositions
+    then
+        System.out.println("Cpr101-enrolment");
+        System.out.println("A="+prop.getProposition("A").getResult() );
+        prop.setRuleResult(true);
+end

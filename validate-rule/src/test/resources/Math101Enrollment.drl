@@ -1,17 +1,20 @@
 package org.kuali.student.rules.course_co_req.Intermediate_CPR
+
 import java.util.*;
 import org.kuali.student.rules.statement.*;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.util.FactContainer;
 
 rule "Intermediate_CPR_INIT"
     salience 2147483647
     no-loop true
     lock-on-active true
     when
-        //prop: PropositionContainer(size == 0)
-        prop : PropositionContainer()
-        req: CourseEnrollmentRequest()
+        cont : FactContainer( id == "Math101", prop : propositionContainer, req : request )
+        //prop : PropositionContainer()
+        //req: CourseEnrollmentRequest()
     then
+        System.out.println("Math101-init");
         SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionA.apply();
         prop.addProposition(propositionA);
@@ -20,29 +23,36 @@ rule "Intermediate_CPR_INIT"
         propositionB.apply();
         prop.addProposition(propositionB);
 
-        update(prop);
+        SubsetProposition propositionC = new SubsetProposition("C", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("MATH102".split("\\s*,\\s*"))),  req.getLuiIds() );
+        propositionC.apply();
+        prop.addProposition(propositionC);
+
+        update(cont);
 end
 
 rule "Intermediate_CPR"
-    //salience -100
+    no-loop true
     when
-        prop : PropositionContainer(size == 2)
+        FactContainer( id == "Math101", prop : propositionContainer, req : request )
+        //prop : PropositionContainer( size == 3 )
         
-        Proposition( propositionName == "A" && result == true ) from prop.propositions
-        or
-        Proposition( propositionName == "B" && result == true ) from prop.propositions
+        ( Proposition( propositionName == "A" && result == true ) from prop.propositions
+        and
+        Proposition( propositionName == "B" && result == true ) from prop.propositions )
+        and
+        Proposition( propositionName == "C" && result == true ) from prop.propositions 
 
         //eval (
-        //    ( //prop.getProposition("A") != null &&
-        //    prop.getProposition("A").getResult() )
+        //    ( ( prop.getProposition("A") != null && prop.getProposition("A").getResult() )
         //    ||
-        //    ( //prop.getProposition("B") != null &&
-        //    prop.getProposition("B").getResult() )
+        //    ( prop.getProposition("B") != null && prop.getProposition("B").getResult() ) )
+        //    &&
+        //    ( prop.getProposition("C") != null && prop.getProposition("C").getResult() )
         //)
     then
-        //System.out.println( "list=" + list );
-        //for( int i=0; i<list.size(); i++ ) {
-            //System.out.println( "list=" + list.get( i ).getPropositionName() ); 
-        //}
+        System.out.println("Math101-enrolment");
+        System.out.println("A="+prop.getProposition("A").getResult() );
+        System.out.println("B="+prop.getProposition("B").getResult() );
+        System.out.println("C="+prop.getProposition("C").getResult() );
         prop.setRuleResult(true);
 end
