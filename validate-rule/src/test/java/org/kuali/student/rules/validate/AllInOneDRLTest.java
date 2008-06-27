@@ -19,16 +19,21 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
-import org.drools.WorkingMemory;
+import org.drools.StatefulSession;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
@@ -36,40 +41,65 @@ import org.kuali.student.rules.statement.PropositionContainer;
 import org.kuali.student.rules.util.FactContainer;
 
 public class AllInOneDRLTest {
+    private static StatefulSession workingMemory;
+    private static RuleBase ruleBase;
+    
+    @BeforeClass
+    public static void setUpOnce() throws Exception {
+        ruleBase = readRuleBase();
+    }
+
+    @AfterClass
+    public static void tearDownOnce() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        workingMemory = ruleBase.newStatefulSession();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        workingMemory.dispose();
+        workingMemory = null;
+    }
 
     @Test
-    public void testFireRule() throws Exception {
-        CourseEnrollmentRequest req = new CourseEnrollmentRequest();
+    public void testFireRules_Math_Chem_Cpr() throws Exception {
+        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest();
         CourseEnrollmentRequest req2 = new CourseEnrollmentRequest();
         Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
-        req.setLuiIds(luiIds);
+        req1.setLuiIds(luiIds);
         Set<String> luiIds2 = new HashSet<String>(Arrays.asList("ENGL101,ENGL102,HIST101,HIST102".split(",")));
         req2.setLuiIds(luiIds2);
-        //PropositionContainer prop = new PropositionContainer();
 
-        FactContainer ruleSetContainer1 = new FactContainer( "Math101" );
-        ruleSetContainer1.setPropositionContainer(new PropositionContainer());
-        ruleSetContainer1.setRequest(req);
-        FactContainer ruleSetContainer2 = new FactContainer( "Chem201" );
-        ruleSetContainer2.setPropositionContainer(new PropositionContainer());
-        ruleSetContainer2.setRequest(req2);
-        FactContainer ruleSetContainer3 = new FactContainer( "Cpr101" );
-        ruleSetContainer3.setPropositionContainer(new PropositionContainer());
-        ruleSetContainer3.setRequest(req);
+        FactContainer factContainer1 = new FactContainer( "Math101" );
+        factContainer1.setPropositionContainer(new PropositionContainer());
+        factContainer1.setRequest(req1);
+        FactContainer factContainer2 = new FactContainer( "Chem201" );
+        factContainer2.setPropositionContainer(new PropositionContainer());
+        factContainer2.setRequest(req2);
+        FactContainer factContainer3 = new FactContainer( "Cpr101" );
+        factContainer3.setPropositionContainer(new PropositionContainer());
+        factContainer3.setRequest(req1);
 
-        WorkingMemory workingMemory = readRule().newStatefulSession();
-        workingMemory.insert(ruleSetContainer1);
-        workingMemory.insert(ruleSetContainer2);
-        workingMemory.insert(ruleSetContainer3);
-        //workingMemory.insert(req);
-        //workingMemory.insert(prop);
-        workingMemory.fireAllRules();
-        assertTrue( ruleSetContainer1.getPropositionContainer().getRuleResult() );
-        assertFalse( ruleSetContainer2.getPropositionContainer().getRuleResult() );
-        assertTrue( ruleSetContainer3.getPropositionContainer().getRuleResult() );
+        List<FactContainer> factList = Arrays.asList( factContainer1, factContainer2, factContainer3 );
+        
+        executeRules(factList);
+        
+        assertTrue( factContainer1.getPropositionContainer().getRuleResult() );
+        assertFalse( factContainer2.getPropositionContainer().getRuleResult() );
+        assertTrue( factContainer3.getPropositionContainer().getRuleResult() );
     }
     
-    private static RuleBase readRule() throws Exception {
+    private void executeRules(List<FactContainer> factList) throws Exception {
+        for( FactContainer fact : factList ) {
+            workingMemory.insert(fact);
+        }
+        workingMemory.fireAllRules();
+    }
+    
+    private static RuleBase readRuleBase() throws Exception {
         //read in the source
         Reader source1 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/Math101Enrollment.drl" ) );
         Reader source2 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/Chem201Enrollment.drl" ) );
