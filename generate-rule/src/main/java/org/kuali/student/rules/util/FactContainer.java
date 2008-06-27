@@ -23,8 +23,6 @@ public class FactContainer {
     private PropositionContainer propositionContainer;
     private CourseEnrollmentRequest request;
     
-    public FactContainer() { }
-
     public FactContainer(String id) {
         this.id = id;
     }
