@@ -6,20 +6,27 @@ public class BusinessRule
 {
 	private String id;
 	
+	private String businessRuleName;
+	
 	private Anchor anchor;
 	
 	private BusinessRuleType businessRuleType;
 
 	private String functionalRuleString;
 	
-    public BusinessRule(String id, BusinessRuleType businessRuleType, String functionalRuleString ) {
+    public BusinessRule(String id, String businessRuleName, BusinessRuleType businessRuleType, String functionalRuleString ) {
         this.id = id;
+        this.businessRuleName = businessRuleName;
         this.businessRuleType = businessRuleType;
         this.functionalRuleString = functionalRuleString;
     }
 
     public String getId() {
         return id;
+    }
+
+    public String getBusinessRuleName() {
+        return businessRuleName;
     }
 
     public Anchor getAnchor() {
@@ -60,4 +67,5 @@ public class BusinessRule
         sb.append( "]" );
         return sb.toString();
     }
+
 }
