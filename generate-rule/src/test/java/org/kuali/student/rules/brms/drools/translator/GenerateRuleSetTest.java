@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +39,7 @@ import org.junit.Test;
 import org.kuali.student.rules.brms.core.entity.ComparisonOperator;
 import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
 import org.kuali.student.rules.brms.core.entity.LeftHandSide;
 import org.kuali.student.rules.brms.core.entity.Operator;
 import org.kuali.student.rules.brms.core.entity.RightHandSide;
@@ -50,6 +52,7 @@ import org.kuali.student.rules.brms.core.entity.YieldValueFunction;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.statement.PropositionContainer;
+import org.kuali.student.rules.util.FactContainer;
 
 
 public class GenerateRuleSetTest {
@@ -71,9 +74,9 @@ public class GenerateRuleSetTest {
         RuleMetaData metaData = new RuleMetaData("Tom Smith", new Date(), "", null, new Date(), new Date(), "1.1",
         "active");
         // create basic rule structure
-        FunctionalBusinessRule businessRule = new FunctionalBusinessRule("Intermediate CPR",
+        FunctionalBusinessRule businessRule = new FunctionalBusinessRule("Intermediate_CPR",
                 "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message",
-                "Rule 1 Failure Message", "1", null, metaData, "Student Enrolls in Course", "course-co-req", "course",
+                "Rule 1 Failure Message", "1", null, metaData, "Student Enrolls in Course", "course_co_req", "course",
                 "CPR 201");
 
         // 1 of CPR 101
@@ -116,27 +119,42 @@ public class GenerateRuleSetTest {
         return request;
     }
 
-    private void executeRule( String source, CourseEnrollmentRequest request, PropositionContainer prop ) throws Exception {
+    //private void executeRule( String source, CourseEnrollmentRequest request, PropositionContainer prop ) throws Exception {
+    private void executeRule( String source, FactContainer facts ) throws Exception {
         // Execute Drools rule set source code
         WorkingMemory workingMemory = getRuleBase( source ).newStatefulSession();
-        workingMemory.insert( request );
-        workingMemory.insert( prop );
+        //workingMemory.insert( request );
+        //workingMemory.insert( prop );
+        workingMemory.insert( facts );
         workingMemory.fireAllRules();
     }
     
     @Test
     public void testParseFunctionalBusinessRule() throws Exception {
         // Generate Drools rule set source code
-        RuleSet ruleSet = this.generateRuleSet.parse( getFunctionalBusinessRule());
+        FunctionalBusinessRuleContainer container = new FunctionalBusinessRuleContainer("course.co.req", "Cource Co-Requisites");
+        FunctionalBusinessRule businessRule = getFunctionalBusinessRule();
+        container.addFunctionalBusinessRule(businessRule);
+
+        RuleSet ruleSet = this.generateRuleSet.parse(container);
         assertNotNull( ruleSet );
+
         // Collection of Propositions
         PropositionContainer prop = new PropositionContainer();
+
         // Rule set source code
         String source = ruleSet.getContent();
-        //System.out.println( "\n\n"+source + "\n\n");
+        System.out.println( "\n\n"+source + "\n\n");
+
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102");
+        FactContainer facts = new FactContainer( businessRule.getName() );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
         // Execute rule
-        executeRule( source, getCourseEnrollmentRequest("CPR101,MATH102"), prop);
-        assertTrue( prop.getRuleResult() );
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
     }
 
     @Test
@@ -150,7 +168,13 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "A", propositionMap);
         System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule( ruleSet.getContent(), getCourseEnrollmentRequest("CPR101,MATH102"), prop );
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue( prop.getRuleResult() );
     }
 
@@ -167,7 +191,13 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "A*B", propositionMap);
         //System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule( ruleSet.getContent(), getCourseEnrollmentRequest("CPR101,MATH102,CHEM101"), prop );
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue( prop.getRuleResult() );
     }
 
@@ -184,7 +214,13 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "A+B", propositionMap);
         //System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule( ruleSet.getContent(), getCourseEnrollmentRequest("CPR101,MATH102,CHEM101"), prop );
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue( prop.getRuleResult() );
     }
 
@@ -203,7 +239,13 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "(A*B)+C", propositionMap);
         //System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule(ruleSet.getContent(),getCourseEnrollmentRequest("CPR101,MATH102,CHEM101"), prop);
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
     }
 
@@ -226,7 +268,13 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "(A+B)*C", propositionMap);
         //System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule(ruleSet.getContent(),getCourseEnrollmentRequest("CPR101,MATH102,CHEM101"), prop);
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
     }
 
@@ -247,7 +295,13 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "(A+B)*(C+D)", propositionMap);
         //System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule(ruleSet.getContent(),getCourseEnrollmentRequest("CPR101,MATH102,CHEM101,CHEM102"), prop);
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101,CHEM102");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
     }
 
@@ -264,11 +318,17 @@ public class GenerateRuleSetTest {
         propositionMap.put("C", getRuleProposition("CHEM101"));
         // 1 of CHEM102
         propositionMap.put("D", getRuleProposition("CHEM102"));
-        
+
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName", "(A*B)+(C*D)", propositionMap);
         System.out.println( "\n\n"+ruleSet.getContent() + "\n\n");
 
-        executeRule(ruleSet.getContent(),getCourseEnrollmentRequest("CPR101,MATH102,CHEM101,CHEM102"), prop);
+        // Get facts
+        CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101,CHEM102");
+        FactContainer facts = new FactContainer( "TestRuleName" );
+        facts.setPropositionContainer(prop);
+        facts.setRequest(request);
+
+        executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
     }
 }
