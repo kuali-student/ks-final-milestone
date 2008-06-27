@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
 import org.kuali.student.rules.brms.core.entity.RuleProposition;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleFactory;
@@ -46,25 +47,29 @@ public class GenerateRuleSet {
     public static synchronized GenerateRuleSet getInstance() {
         return _instance;
     }
-    
-    public RuleSet parse(FunctionalBusinessRule businessRule) {
-        String ruleName = cleanRuleName(businessRule.getName());
-        String packageName = PACKAGE_PREFIX + cleanRuleName(businessRule.getBusinessRuleType()) + "." + ruleName; 
-        
-        String functionString = businessRule.createAdjustedRuleFunctionString();        
 
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, businessRule.getDescription());
+    public RuleSet parse(FunctionalBusinessRuleContainer container) {
+        String packageName = PACKAGE_PREFIX + container.getNamespace(); 
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, container.getDescription());
         addHeader(ruleSet);
-        
-        String ruleSource = generateSourceCode( businessRule.getName(), functionString, businessRule.getRulePropositions() );
-        addRule(businessRule.getName(), businessRule.getDescription(), ruleSet, ruleSource);        
-        
+        for(FunctionalBusinessRule businessRule : container.getFunctionalBusinessRules()) {
+            parseRule(ruleSet,businessRule);
+        }
         return ruleSet;
     }
     
+    private void parseRule(RuleSet ruleSet, FunctionalBusinessRule businessRule) {
+        checkName(businessRule.getBusinessRuleType());
+        
+        String functionString = businessRule.createAdjustedRuleFunctionString();        
+
+        String ruleSource = generateSourceCode( businessRule.getName(), functionString, businessRule.getRulePropositions() );
+        addRule(businessRule.getName(), businessRule.getDescription(), ruleSet, ruleSource);        
+    }
+    
     private String generateSourceCode(String ruleName, String functionString, Map<String, RuleProposition> functionalPropositionMap) {
-        ruleName = cleanRuleName(ruleName);
-        Function f = new Function( functionString );
+        checkName(ruleName);
+        Function f = new Function(functionString);
 
         // Create the final composite rule for the function
         List<String> symbols = f.getSymbols();
@@ -88,6 +93,7 @@ public class GenerateRuleSet {
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import org.kuali.student.rules.statement.*");
         ruleSet.addHeader("import org.kuali.student.rules.common.util.CourseEnrollmentRequest");
+        ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
     }
     
     /**
@@ -106,13 +112,16 @@ public class GenerateRuleSet {
     }
 
     /**
-     * Cleans a rule name
+     * Checks that a name cannot contain any hyphens.
      * 
      * @param name Rule name
      * @return A clean rule name
      */
-    private static String cleanRuleName(String name) {     
-        return name.trim().replaceAll("[\\s-]", "_");
+    private static void checkName(String name) {     
+        //return name.trim().replaceAll("[\\s-]", "_");
+        if (name.trim().indexOf("-") > -1) {
+            throw new RuntimeException("Name cannot contain hyphens");
+        }
     }
 
 }
