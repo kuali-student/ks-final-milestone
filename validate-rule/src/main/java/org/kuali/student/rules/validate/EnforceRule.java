@@ -20,6 +20,7 @@ import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.statement.PropositionContainer;
+import org.kuali.student.rules.util.FactContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -58,7 +59,7 @@ public class EnforceRule {
 
             // 2. Extract compiled rule from drools repository
             org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
-            List<Object> factList = new ArrayList<Object>();
+            //List<Object> factList = new ArrayList<Object>();
 
             // 3. Inject facts
             PropositionContainer props =  new PropositionContainer();
@@ -66,16 +67,19 @@ public class EnforceRule {
             CourseEnrollmentRequest request = new CourseEnrollmentRequest();
             request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
 
-            factList.add(props);
-            factList.add(request);
-
+            //factList.add(props);
+            //factList.add(request);
+            FactContainer factContainer = new FactContainer( rule.getBusinessRuleName() );
+            factContainer.setPropositionContainer(props);
+            factContainer.setRequest(request);
 
             // 4. Execute the compiled rule
             try {
                 RuleBase rb = RuleBaseFactory.newRuleBase();
                 rb.addPackage(binPkg);
                 StatelessSession sess = rb.newStatelessSession();
-                sess.execute(factList.toArray());
+                //sess.execute(factList.toArray());
+                sess.execute(factContainer);
 
             } catch (Exception e) {
                 System.out.println("Exception while executing rule:" + rule.getId());
