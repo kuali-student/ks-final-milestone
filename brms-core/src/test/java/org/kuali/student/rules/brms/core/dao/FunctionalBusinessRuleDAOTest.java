@@ -46,7 +46,7 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
 
         FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 200",
                 "enrollment prerequisites for Chemistry 200", "Success Message", "Failure Message", "2", null,
-                metaData, "Student Enrolls in Course", "course-co-req", "course", "PR CHEM 200");
+                metaData, "Student Enrolls in Course", "course.co.req", "course", "PR CHEM 200");
 
         functionalBusinessRuleDAO.createBusinessRule(rule);
 
@@ -88,7 +88,7 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
     @Test
     public void testLookupBusinessRuleUsingRuleId() {
         FunctionalBusinessRule rule = functionalBusinessRuleDAO.lookupBusinessRuleUsingRuleId("3");
-        assertEquals("course-co-req", rule.getBusinessRuleType());
+        assertEquals("course.co.req", rule.getBusinessRuleType());
         assertEquals("EMS Certificate Program", rule.getName());
         assertEquals(7, rule.getElements().size());
     }
@@ -97,11 +97,11 @@ public class FunctionalBusinessRuleDAOTest extends AbstractTransactionalDaoTest 
     public void testLookupCompiledRuleID() {
         FunctionalBusinessRule rule = new FunctionalBusinessRule("PR CHEM 2000",
                 "enrollment co-requisites for Chemistry 2000", "Success Message1", "Failure Message1", "5", null, null,
-                "Student Enrolls in Course", "course-co-req", "course", "PR CHEM 1001");
+                "Student Enrolls in Course", "course.co.req", "course", "PR CHEM 1001");
         functionalBusinessRuleDAO.createBusinessRule(rule);
 
         Collection<FunctionalBusinessRule> newRules = functionalBusinessRuleDAO
-                .lookupCompiledIDs("Student Enrolls in Course", "course-co-req", "course", "PR CHEM 1001");
+                .lookupCompiledIDs("Student Enrolls in Course", "course.co.req", "course", "PR CHEM 1001");
 
         assertEquals(newRules.size(), 1);
 

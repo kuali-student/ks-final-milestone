@@ -41,7 +41,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
     @Test
     public void testRetrieveFunctionalBusinessRules() throws Exception {
         List<BusinessRuleType> businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course-co-req", "course-co-req"));
+        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
         List<FunctionalBusinessRule> functionalBusinessRules = brmsService
                 .retrieveFunctionalBusinessRules("Student Enrolls in Course", businessRuleTypes, "course", "CPR 201");
 
@@ -49,13 +49,13 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
             assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
-            assertTrue(businessRule.getBusinessRuleType().equals("course-co-req"));
+            assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
             assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("CPR 201", businessRule.getAnchor());
         }
 
         businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course-co-req", "course-co-req"));
+        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
         functionalBusinessRules = brmsService.retrieveFunctionalBusinessRules("Student Enrolls in Course",
                                                                               businessRuleTypes, "course", "CPR 301");
 
@@ -63,13 +63,13 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
             assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
-            assertTrue(businessRule.getBusinessRuleType().equals("course-co-req"));
+            assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
             assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("CPR 301", businessRule.getAnchor());
         }
 
         businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course-co-req", "course-co-req"));
+        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
         functionalBusinessRules = brmsService.retrieveFunctionalBusinessRules("Student Enrolls in Course",
                                                                               businessRuleTypes, "course", "EMS 1001");
 
@@ -77,13 +77,13 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
             assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
-            assertTrue(businessRule.getBusinessRuleType().equals("course-co-req"));
+            assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
             assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("EMS 1001", businessRule.getAnchor());
         }
 
         businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course-co-req", "course-co-req"));
+        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
         functionalBusinessRules = brmsService.retrieveFunctionalBusinessRules("Student Enrolls in Course",
                                                                               businessRuleTypes, "course", "LPN 1001");
 
@@ -91,7 +91,7 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
         for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
             assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
-            assertTrue(businessRule.getBusinessRuleType().equals("course-co-req"));
+            assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
             assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("LPN 1001", businessRule.getAnchor());
         }
