@@ -1,18 +1,17 @@
 ## A generic rule template
 
 rule "${ruleName}_INIT"
-    ## Set salience to max Integer value (java.lang.Integer.MAX)
+## Set salience to max Integer value (java.lang.Integer.MAX)
     salience 2147483647	
     no-loop true
     lock-on-active true
     when 
-    	##prop: PropositionContainer(size == 0) 
-        prop: PropositionContainer() 
-    	req: CourseEnrollmentRequest() 
+##prop: PropositionContainer(size == 0) 
+##prop: PropositionContainer() 
+##req: CourseEnrollmentRequest() 
+        cont : FactContainer( id == "${ruleName}", prop : propositionContainer, req : request )
     then
-    	
     	#set ($count = 0)
-    
     	#foreach( $key in $propositionMap.keySet() ) 
    		#set ( $proposition = $propositionMap.get($key) )
    		#set ( $rhs = $proposition.RightHandSide.ExpectedValue )
@@ -24,7 +23,7 @@ rule "${ruleName}_INIT"
 
 		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split("\\s*,\\s*"))),  req.getLuiIds() ); 
 		proposition${key}.apply();
-		##prop.setProposition("$key",proposition${key});		
+##prop.setProposition("$key",proposition${key});		
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
@@ -32,20 +31,22 @@ rule "${ruleName}_INIT"
 
 		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.computeLearningResults(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
 		proposition${key}.apply();
-		##prop.setProposition("$key",proposition${key});		
+##prop.setProposition("$key",proposition${key});		
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
    		#end
     	
-    	update(prop);
+    	##update(prop);
+        update(cont);
 	end
 	
 ##rule "${ruleName} EVAL"
 rule "${ruleName}"
-	##salience -100
+##salience -100
 	when
-		prop : PropositionContainer(size == $count)
+##prop : PropositionContainer(size == $count)
+        FactContainer( id == "${ruleName}", prop : propositionContainer)
 ##   		eval (
 ##   			#foreach($symbol in $functionSymbols) 
 ##            #if ($symbol == "+" ) 
@@ -68,7 +69,6 @@ rule "${ruleName}"
         #elseif ($symbol == "(") (
         #elseif ($symbol == ")") )
         #else Proposition( propositionName == "$symbol" && result == true ) from prop.propositions
-             
         #end
     #end                
 	then
