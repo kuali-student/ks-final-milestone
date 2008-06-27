@@ -14,16 +14,26 @@ import org.apache.velocity.app.Velocity;
 public class RuleTemplate {
     VelocityContext context;
 
-    public RuleTemplate() throws Exception {
+    /**
+     * Constructs and initializes a Velocity rule template
+     *
+     * @throws RuntimeException If Velocity rule template initialization fails
+     */
+    public RuleTemplate() {
         Properties p = new Properties();
         // Line below to disables logging, remove to enable
         p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
         p.setProperty("resource.loader", "class");
         p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        Velocity.init(p);
+
+        try {
+            Velocity.init(p);
+        } catch( Exception e ) {
+            throw new RuntimeException( "Initializing Velocity rule template failed", e );
+        }
     }
 
-    public String process(String templateFile, String ruleName, Map<String, Object> propMap)  throws Exception {
+    public String process(String templateFile, String ruleName, Map<String, Object> propMap) {
         Template template = null;
         StringWriter writer = new StringWriter();
 
@@ -31,13 +41,16 @@ public class RuleTemplate {
         context = new VelocityContext(propMap);
         context.put("ruleName", ruleName);
         
-        template = Velocity.getTemplate(templateFile);
+        try {
+            template = Velocity.getTemplate(templateFile);
 
-        if (template != null) {
-            template.merge(context, writer);
+            if (template != null) {
+                template.merge(context, writer);
+            }
+        } catch ( Exception e ) {
+            throw new RuntimeException( "Processing Velocity template failed", e );
         }
 
-        //System.out.println(writer);
         return writer.toString();
     }
 }
