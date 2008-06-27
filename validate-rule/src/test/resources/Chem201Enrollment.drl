@@ -42,7 +42,7 @@ end
 rule "Intermediate_CPR_Chem201"
     no-loop true
     when
-        FactContainer( id == "Chem201", prop : propositionContainer, req : request )
+        FactContainer( id == "Chem201", prop : propositionContainer )
         Proposition( propositionName == "A" && result == true ) from prop.propositions
         Proposition( propositionName == "B" && result == true ) from prop.propositions 
     then

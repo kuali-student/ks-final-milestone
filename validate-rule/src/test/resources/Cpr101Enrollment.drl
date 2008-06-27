@@ -38,7 +38,7 @@ end
 rule "Intermediate_CPR_Cpr101"
     no-loop true
     when
-        FactContainer( id == "Cpr101", prop : propositionContainer, req : request )
+        FactContainer( id == "Cpr101", prop : propositionContainer )
         Proposition( propositionName == "A" && result == true ) from prop.propositions
     then
         System.out.println("Cpr101-enrolment");
