@@ -63,8 +63,10 @@ public class AgendaDiscovery {
             FunctionalBusinessRule businessRule = iter.next();
             // for now, we have BusinessRuleType in Agenda object in case we need BusinessRuleType to determine
             // rules execution sequence when executing rules
-            agenda.addBusinessRule(new BusinessRule(businessRule.getCompiledID(), new BusinessRuleType(businessRule
-                    .getBusinessRuleType(), businessRule.getBusinessRuleType()), businessRule.createAdjustedRuleFunctionString()));
+            agenda.addBusinessRule(new BusinessRule(
+                    businessRule.getCompiledID(), businessRule.getName(), new BusinessRuleType(businessRule
+                    .getBusinessRuleType(), businessRule.getBusinessRuleType()), 
+                    businessRule.createAdjustedRuleFunctionString()));
         }
 
         return agenda;
