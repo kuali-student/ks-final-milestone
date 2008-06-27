@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="com.google.gwt.i18n.I18N" />
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point
+		class="org.kuali.student.commons.ui.messages.client.MessagesEntryPoint" />
+
+	<servlet
+		class="org.kuali.student.common.ui.messages.server.gwt.MessagesServiceImplGWT"
+		path="/MessagesService" />
+	
+	<source path="messages/client" />
+</module>

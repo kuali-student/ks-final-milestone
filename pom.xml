@@ -1,42 +1,105 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.learningunit</groupId>
-	<artifactId>lum-api</artifactId>
-	<packaging>pom</packaging>
+	<groupId>org.kuali.student.commons</groupId>
+	<artifactId>ks-commons-ui</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Kuali Student LearningUnit API</name>
-
-	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-api-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
-	</parent>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-ws</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-	
-	<modules>
-		<module>lu-api</module>
-		<module>luipersonrelation-api</module>
-	</modules>
+	<name>ks-commons-ui</name>
+	<url>http://maven.apache.org</url>
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-api/branches/lum-api-dev
+			scm:svn:https://test.kuali.org/student/commons/ks-commons-ui/ks-commons-ui-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-api/branches/lum-api-dev
+			scm:svn:https://test.kuali.org/student/commons/ks-commons-ui/ks-commons-ui-dev
 		</developerConnection>
 	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>1.5.0-rc1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>1.5-RC1</version>
+			<scope>provided</scope>
+			<classifier>linux</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>1.5.0-rc1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>junit</artifactId>
+					<groupId>com.google.gwt</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.3.2.1</version>
+		</dependency>
+
+
+	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>ks.ui.external.repositories</id>
+			<activation>
+				<property>
+					<name>!ks.use.proxy</name>
+				</property>
+			</activation>
+
+			<repositories>
+				<repository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</repository>
+				<repository>
+					<id>kuali.external-free</id>
+					<url>
+						http://kuali.umd.edu/archiva/repository/external-free
+					</url>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+
+			<pluginRepositories>
+				<pluginRepository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<repository>
@@ -54,6 +117,5 @@
 			</releases>
 		</repository>
 	</repositories>
-
 
 </project>
