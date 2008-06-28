@@ -23,26 +23,20 @@ public class FactContainer {
     private PropositionContainer propositionContainer;
     private CourseEnrollmentRequest request;
     
-    public FactContainer(String id) {
+    public FactContainer(String id, CourseEnrollmentRequest request, PropositionContainer propositionContainer ) {
         this.id = id;
+        this.request = request;
+        this.propositionContainer = propositionContainer;
     }
     
     public String getId() {
         return this.id;
     }
     
-    public void setRequest(CourseEnrollmentRequest request) {
-        this.request = request;
-    }
-
     public CourseEnrollmentRequest getRequest() {
         return request;
     }
     
-    public void setPropositionContainer(PropositionContainer propositionContainer) {
-        this.propositionContainer = propositionContainer;
-    }
-
     public PropositionContainer getPropositionContainer() {
         return propositionContainer;
     }

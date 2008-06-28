@@ -148,9 +148,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102");
-        FactContainer facts = new FactContainer( businessRule.getName() );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer(businessRule.getName(), request, prop);
 
         // Execute rule
         executeRule(source, facts);
@@ -170,9 +168,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue( prop.getRuleResult() );
@@ -193,9 +189,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue( prop.getRuleResult() );
@@ -216,9 +210,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue( prop.getRuleResult() );
@@ -241,9 +233,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
@@ -270,9 +260,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
@@ -297,9 +285,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101,CHEM102");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());
@@ -324,9 +310,7 @@ public class GenerateRuleSetTest {
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest("CPR101,MATH102,CHEM101,CHEM102");
-        FactContainer facts = new FactContainer( "TestRuleName" );
-        facts.setPropositionContainer(prop);
-        facts.setRequest(request);
+        FactContainer facts = new FactContainer( "TestRuleName", request, prop );
 
         executeRule( ruleSet.getContent(), facts );
         assertTrue(prop.getRuleResult());

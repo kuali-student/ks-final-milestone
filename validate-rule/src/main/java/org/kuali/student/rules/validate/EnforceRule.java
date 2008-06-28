@@ -69,9 +69,7 @@ public class EnforceRule {
 
             //factList.add(props);
             //factList.add(request);
-            FactContainer factContainer = new FactContainer( rule.getBusinessRuleName() );
-            factContainer.setPropositionContainer(props);
-            factContainer.setRequest(request);
+            FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
 
             // 4. Execute the compiled rule
             try {
