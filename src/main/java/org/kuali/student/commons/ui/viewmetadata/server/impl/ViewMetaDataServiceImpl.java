@@ -15,7 +15,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import org.kuali.student.commons.ui.messages.server.IMessageFactory;
+import org.kuali.student.commons.ui.messages.client.MessagesService;
 import org.kuali.student.commons.ui.messages.server.impl.MessagesServiceImpl;
 import org.kuali.student.commons.ui.validators.client.ValidatorDefinition;
 import org.kuali.student.commons.ui.validators.client.ValidatorService;
@@ -25,7 +25,7 @@ import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService;
 
 public class ViewMetaDataServiceImpl implements ViewMetaDataService {
-	IMessageFactory messages = new MessagesServiceImpl();
+	MessagesService messages = new MessagesServiceImpl();
 	ValidatorService validators = new ValidatorServiceImpl();
 	
 	@Override

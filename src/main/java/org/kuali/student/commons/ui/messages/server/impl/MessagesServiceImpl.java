@@ -17,12 +17,17 @@ import java.util.ResourceBundle;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.messages.client.MessagesService;
-import org.kuali.student.commons.ui.messages.server.IMessageFactory;
 
 
 
-
-public class MessagesServiceImpl implements MessagesService, IMessageFactory {
+/**
+ * Internationalization messages service implementation, to be replaced by actual messages service.
+ *
+ */
+public class MessagesServiceImpl implements MessagesService {
+	/**
+	 * @see org.kuali.student.commons.ui.messages.client.MessagesService
+	 */
 	@Override
 	public org.kuali.student.commons.ui.messages.client.Messages getMessages(String locale, String groupName) {
 		Messages result = null;
@@ -55,6 +60,9 @@ public class MessagesServiceImpl implements MessagesService, IMessageFactory {
 		return result;
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.messages.client.MessagesService
+	 */
 	@Override
 	public Map<String, Messages> getMessages(String locale, List<String> groupNames) {
 		Map<String, Messages> result = new HashMap<String, Messages>();
@@ -64,6 +72,9 @@ public class MessagesServiceImpl implements MessagesService, IMessageFactory {
 		return result;
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.messages.client.MessagesService
+	 */
 	@Override
 	public List<String> getGroupNames(String locale) {
 		List<String> result = new ArrayList<String>();
@@ -91,6 +102,9 @@ public class MessagesServiceImpl implements MessagesService, IMessageFactory {
 		}
 		return result;	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.messages.client.MessagesService
+	 */
 	@Override
 	public List<String> getLocales() {
 		List<String> result = new ArrayList<String>();
