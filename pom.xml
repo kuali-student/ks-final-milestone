@@ -3,51 +3,95 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.learningunit</groupId>
-	<artifactId>lum-ri</artifactId>
-	<name>Learning Unit Management</name>
+
+	<groupId>org.kuali.student.poc</groupId>
+	<artifactId>ks-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>
-		Learning Unit Management Reference Implementation
-	</description>
-	<packaging>pom</packaging>
-	<modules>
-		<module>lu-ri</module>
-		<module>luipersonrelation-ri</module>
-		<module>learningunit</module>
-	</modules>
-
-	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
-	</parent>
-
+	<packaging>war</packaging>
+	<name />
+	<description />
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<!-- no default value -->
+					<dependentWarExcludes>
+						WEB-INF/lib/cxf**
+					</dependentWarExcludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-test</artifactId>
+			<groupId>org.kuali.student.poc.personidentity-app</groupId>
+			<artifactId>personidentity-app</artifactId>
+			<version>0.0.1-RC2</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.student.poc.personidentity</groupId>
+			<artifactId>person-ri</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
-			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>lu-ri</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>luipersonrelation-ri</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
 		</dependency>
 	</dependencies>
 
-	<scm>
-		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev
-		</connection>
-		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev
-		</developerConnection>
-	</scm>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate</artifactId>
+				<version>3.2.6.ga</version>
+				<exclusions>
+					<exclusion>
+						<groupId>asm</groupId>
+						<artifactId>asm-attrs</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>cglib</groupId>
+						<artifactId>cglib</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
 			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</repository>
 		<repository>
 			<id>kuali.snapshot</id>
@@ -57,4 +101,5 @@
 			</releases>
 		</repository>
 	</repositories>
+
 </project>
