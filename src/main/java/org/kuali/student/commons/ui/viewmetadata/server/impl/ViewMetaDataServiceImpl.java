@@ -17,12 +17,16 @@ import java.util.Set;
 
 import org.kuali.student.commons.ui.messages.server.IMessageFactory;
 import org.kuali.student.commons.ui.messages.server.impl.MessagesServiceImpl;
+import org.kuali.student.commons.ui.validators.client.ValidatorDefinition;
+import org.kuali.student.commons.ui.validators.client.ValidatorService;
+import org.kuali.student.commons.ui.validators.server.impl.ValidatorServiceImpl;
 import org.kuali.student.commons.ui.viewmetadata.client.FieldMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService;
 
 public class ViewMetaDataServiceImpl implements ViewMetaDataService {
-	private IMessageFactory messages = new MessagesServiceImpl();
+	IMessageFactory messages = new MessagesServiceImpl();
+	ValidatorService validators = new ValidatorServiceImpl();
 	
 	@Override
 	public ViewMetaData getViewMetaData(String locale, String viewName) {
@@ -49,6 +53,12 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
 					result.addField(field);
 				}
 				field.getAttributes().put(key, value);
+				if (key.equals("validatorId")) {
+					ValidatorDefinition validator = validators.getValidatorDefinition(value);
+					if (validator != null) {
+						field.getAttributes().put("validatorScript", validator.getScript());
+					}
+				}
 			}
 			rs.close();
 			stmt.close();
@@ -121,7 +131,7 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
 		if (requiresBootstrap(conn, viewName)) {
 			System.out.println("Bootstrapping " + viewName);
 			try {
-				ResourceBundle bundle = ResourceBundle.getBundle(viewName + ".fields");
+				ResourceBundle bundle = ResourceBundle.getBundle("views." + viewName + ".fields");
 				Enumeration<String> keys = bundle.getKeys();
 				if (keys.hasMoreElements()) {
 					Set<String> inserted = new HashSet<String>();

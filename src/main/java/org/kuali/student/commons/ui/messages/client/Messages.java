@@ -40,8 +40,13 @@ public class Messages implements Serializable {
 	}
 	
 	public String get(String key, Map<String, String> data) {
+		System.out.println("calling messages.get(String, Map) for key: " + key);
+		System.out.println("messages content: " + messages.toString());
+		System.out.println("data content: " + data.toString());
 		String result = messages.get(key);
-		return interpolate(result, data);
+		result = interpolate(result, data);
+		System.out.println("returning: " + result);
+		return result;
 	}
 	
 	public String get(String key, Map<String, String> data1, String... data2) {

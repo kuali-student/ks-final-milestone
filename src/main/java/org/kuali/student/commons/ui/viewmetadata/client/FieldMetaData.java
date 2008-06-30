@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.commons.ui.validators.client.ClientValidatorFactory;
+import org.kuali.student.commons.ui.validators.client.ClientValidator;
 import org.kuali.student.commons.ui.validators.client.Validator;
 
 public class FieldMetaData implements Serializable {
@@ -54,18 +54,14 @@ public class FieldMetaData implements Serializable {
 		}
 		return result;
 	}
-	public String getValidatorClassName() {
-		return attributes.get("validatorClassName");
+	public String getValidatorScript() {
+		return attributes.get("validatorScript");
 	}
 	
 	public Validator getValidatorInstance() {
-		Validator result = null;
-		String className = attributes.get("validatorClassName");
-		result = ClientValidatorFactory.getValidator(className);
-		if (result != null) {
-			result.setAttributes(attributes);
-			result.setMessages(parentView.getMessages());
-		}
+		String script = getValidatorScript();
+		Validator result = new ClientValidator(script, attributes);
+		result.setMessages(parentView.getMessages());
 		return result;
 	}
 	

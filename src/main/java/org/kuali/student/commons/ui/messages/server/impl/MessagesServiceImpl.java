@@ -156,7 +156,7 @@ public class MessagesServiceImpl implements MessagesService, IMessageFactory {
 		if (requiresBootstrap(conn, locale, groupName)) {
 			System.out.println("Bootstrapping " + locale + " " + groupName);
 			try {
-				ResourceBundle bundle = ResourceBundle.getBundle(groupName + ".messages", new Locale(locale));
+				ResourceBundle bundle = ResourceBundle.getBundle("views." + groupName + ".messages", new Locale(locale));
 				Enumeration<String> keys = bundle.getKeys();
 				if (keys.hasMoreElements()) {
 					PreparedStatement stmt = conn.prepareStatement("insert into messages (locale, groupName, messageId, message) values (?, ?, ?, ?)");
