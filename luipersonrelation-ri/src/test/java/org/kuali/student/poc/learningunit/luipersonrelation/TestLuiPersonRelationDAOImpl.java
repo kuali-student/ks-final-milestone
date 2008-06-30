@@ -18,7 +18,7 @@ import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRela
 
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")
 public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:test-beans.xml")
+    @Dao(value = "org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")
     public LuiPersonRelationDAO dao;
 
     public static final String person_id1 = "Person 1";

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationCreateInfo;
@@ -25,12 +23,10 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRel
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
-import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 import org.kuali.student.rules.validate.UtilBRMSDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:test-beans.xml")})
+@Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")   
 public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
 
