@@ -16,10 +16,16 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
+/**
+ * Called by the GWT compiler to generate an implementation for any class implementing HasMetadata
+ */
 public class MetadataGenerator extends Generator {
 
 
 	// inherited generator method
+	/**
+	 * Generates the implementation class, which extends the class implementing HasMetadata
+	 */
 	public String generate(TreeLogger logger, GeneratorContext context,
 			String typeName) throws UnableToCompleteException {
 		logger.log(Type.DEBUG, "Generating " + typeName);

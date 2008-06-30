@@ -3,6 +3,10 @@ package org.kuali.student.commons.ui.mvc.client;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Mock security context object.
+ * TODO implement real security context object once authentication/authorization framework is determined
+ */
 public class SecurityContext {
 	String userId;
 	String password;
