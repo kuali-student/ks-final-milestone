@@ -1,6 +1,9 @@
 package org.kuali.student.poc.learningunit.luipersonrelation.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -30,6 +33,16 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRel
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
+import org.kuali.student.rules.brms.agenda.AgendaRequest;
+import org.kuali.student.rules.brms.agenda.entity.Agenda;
+import org.kuali.student.rules.brms.agenda.entity.Anchor;
+import org.kuali.student.rules.brms.agenda.entity.AnchorType;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
+import org.kuali.student.rules.statement.PropositionContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/poc/wsdl/learningunit/luipersonrelation")
@@ -39,7 +52,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 	private LuiPersonRelationDAO dao;
 	private PersonService personClient;
 	private LuService luClient;
-
+	
+	// Rules member variables
+	private RuleSetExecutor ruleExecutor;
+	private AgendaDiscovery agendaDiscovery;
+	
 	public LuiPersonRelationDAO getDao() {
 		return dao;
 	}
@@ -64,7 +81,24 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 		this.luClient = luClient;
 	}
 
-	@Override
+	
+	public RuleSetExecutor getRuleExecutor() {
+        return ruleExecutor;
+    }
+
+    public void setRuleExecutor(RuleSetExecutor ruleExecutor) {
+        this.ruleExecutor = ruleExecutor;
+    }
+    
+    public AgendaDiscovery getAgendaDiscovery() {
+        return agendaDiscovery;
+    }
+
+    public void setAgendaDiscovery(AgendaDiscovery agendaDiscovery) {
+        this.agendaDiscovery = agendaDiscovery;
+    }
+
+    @Override
 	public List<String> createBulkRelationshipsForLui(String luiId,
 			List<String> personIdList, RelationStateInfo relationStateInfo,
 			LuiPersonRelationTypeInfo luiPersonRelationTypeInfo,
@@ -521,10 +555,54 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			DisabledIdentifierException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Use "rules" for validation (eg. prereq checks).
 
 		ValidationResult validationResult = new ValidationResult();
-		validationResult.setSuccess(true);
+        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
+
+        // 1. Discover Agenda
+        
+        AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationTypeInfo.getName(), "course", "offered", relationStateInfo.getState() );
+        AnchorType type = new AnchorType( "course", "clu.type.course" );
+        Anchor anchor = new Anchor( luiId.replaceAll("\\s", "_"), luiId, type );
+        
+        Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
+        
+        Iterator<BusinessRule> itr = agenda.getBusinessRules().iterator();
+        
+        
+        while(itr.hasNext()) {
+            BusinessRule rule = itr.next();
+            String ruleID = rule.getId();
+            
+            PropositionContainer props =  new PropositionContainer();
+            props.setFunctionalRuleString(rule.getFunctionalRuleString());
+            CourseEnrollmentRequest request = new CourseEnrollmentRequest();
+            //request.setLuiIds( new HashSet<String>( findLuiIdsRelatedToPerson(personId, luiPersonRelationTypeInfo, relationStateInfo) ) );
+            request.setLuiIds(new HashSet<String> (Arrays.asList("CPR 106,CPR 110,CPR 201,Math 105,Art 55".split(","))));
+            
+            List<Object> factList = new ArrayList<Object>();
+            factList.add(props);
+            factList.add(request);
+            
+            ruleExecutor.execute(agenda, factList);
+
+            // 5. Process rule outcome
+            ruleReportBuilder.executeRule(props);
+            
+            if (props.getRuleResult()) {
+                validationResult.setSuccess(true);
+                validationResult.setRuleMessage(props.getRuleReport().getSuccessMessage());
+            } else {
+                validationResult.setRuleMessage(props.getRuleReport().getFailureMessage());
+            }
+
+            
+            // Dirty hack. In POC we only process one rule
+            break;
+        }
+        
+
+        System.out.println("\n\n");
 
 		return validationResult;
 	}
