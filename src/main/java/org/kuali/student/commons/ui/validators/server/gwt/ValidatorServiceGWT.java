@@ -10,7 +10,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * GWT remote service servlet provides a wrapper for the Validator service
- * @author wilj
  *
  */
 public class ValidatorServiceGWT extends RemoteServiceServlet implements ValidatorService {

@@ -24,10 +24,17 @@ import org.kuali.student.commons.ui.viewmetadata.client.FieldMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService;
 
+/**
+ * ViewMetaData service implementation.
+ * TODO replace with actual service, or use to proxy calls to dictionary service
+ */
 public class ViewMetaDataServiceImpl implements ViewMetaDataService {
 	MessagesService messages = new MessagesServiceImpl();
 	ValidatorService validators = new ValidatorServiceImpl();
 	
+	/**
+	 * @see org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService#getViewMetaData(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public ViewMetaData getViewMetaData(String locale, String viewName) {
 		ViewMetaData result = new ViewMetaData(viewName);
@@ -78,6 +85,9 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
 		return result;
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService#getViewMetaDataMap(java.lang.String, java.util.List)
+	 */
 	@Override
 	public Map<String, ViewMetaData> getViewMetaDataMap(String locale, List<String> viewNames) {
 		Map<String, ViewMetaData> result = new HashMap<String, ViewMetaData>();
