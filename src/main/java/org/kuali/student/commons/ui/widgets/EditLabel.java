@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author Garey
+ * @author Kuali Student Team
  *         </p>
  *         This class is used when you want to have a widget that
  */

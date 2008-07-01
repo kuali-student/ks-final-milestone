@@ -3,8 +3,9 @@ package org.kuali.student.commons.ui.widgets;
 import com.google.gwt.user.client.ui.TabPanel;
 
 /**
- * @author Garey This class is used to set a different look for sub tab panels.
+ * @author Kuali Student Team
  *         </p>
+ *         This class is used to set a different look for sub tab panels.
  *         <h3>CSS Style Examples</h3>
  * 
  * <pre>

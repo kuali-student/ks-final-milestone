@@ -3,7 +3,7 @@ package org.kuali.student.commons.ui.widgets;
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
- * @author Garey
+ * @author Kuali Student Team
  *         </p>
  *         The standard gwt ListBox with a couple extra methods I commonly use.
  */
