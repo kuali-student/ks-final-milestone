@@ -19,6 +19,11 @@ import org.kuali.student.commons.ui.validators.client.ValidatorDefinition;
 import org.kuali.student.commons.ui.validators.client.ValidatorService;
 import org.kuali.student.commons.ui.validators.server.ServerValidator;
 
+/**
+ * Just used to test server validator.
+ * TODO move into a JUnit test
+ *
+ */
 public class ValidatorTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ValidatorService impl = new ValidatorServiceImpl();

@@ -17,14 +17,21 @@ import java.util.TreeMap;
 import org.kuali.student.commons.ui.validators.client.ValidatorDefinition;
 import org.kuali.student.commons.ui.validators.client.ValidatorService;
 
+/**
+ * Validator service implementation.
+ * TODO replace with actual service
+ */
 public class ValidatorServiceImpl implements ValidatorService {
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.ValidatorService#createValidator(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Boolean createValidator(String id, String type, String script) {
 		return createValidator(id, type, new ByteArrayInputStream(script.getBytes()));
 	}
 	
-	public Boolean createValidator(String id, String type, InputStream script) {
+	private Boolean createValidator(String id, String type, InputStream script) {
 		boolean result = false;
 		Connection conn = null;
 		try {
@@ -57,8 +64,11 @@ public class ValidatorServiceImpl implements ValidatorService {
 	}
 	
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.ValidatorService#deleteValidator(java.lang.String)
+	 */
 	@Override
-	public Boolean deleteValidator(String id, String type, String script) {
+	public Boolean deleteValidator(String id) {
 		boolean result = false;
 		Connection conn = null;
 		try {
@@ -82,6 +92,9 @@ public class ValidatorServiceImpl implements ValidatorService {
 		return result;
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.ValidatorService#updateValidator(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Boolean updateValidator(String id, String type, String script) {
 		boolean result = false;
@@ -109,7 +122,9 @@ public class ValidatorServiceImpl implements ValidatorService {
 		return result;
 	}
 
-	
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.ValidatorService#getValidatorDefinition(java.lang.String)
+	 */
 	@Override
 	public ValidatorDefinition getValidatorDefinition(String id) {
 		System.out.println("retrieving validator " + id);
@@ -143,6 +158,9 @@ public class ValidatorServiceImpl implements ValidatorService {
 
 
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.ValidatorService#getValidatorDefinitions(java.lang.String)
+	 */
 	@Override
 	public Map<String, ValidatorDefinition> getValidatorDefinitions(String type) {
 		Map<String, ValidatorDefinition> result = new TreeMap<String, ValidatorDefinition>();

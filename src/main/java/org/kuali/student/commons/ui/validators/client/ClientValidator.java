@@ -4,30 +4,50 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
-
+/**
+ * Client-side implementation of the Validator interface.  Uses JSNI to evaluate the validator script locally.
+ *
+ */
 public class ClientValidator implements Validator {
 	String script;
 	Map<String, String> attributes;
 	Messages messages;
 
+	/**
+	 * Creates a new validator with the specified javascript and validator attributes
+	 * @param script the script to used when performing the validation
+	 * @param attributes the attributes to be used when performing the validation
+	 */
 	public ClientValidator(String script, Map<String, String> attributes) {
 		this.script = script;
 		this.attributes = attributes;
 	}
 
+	/**
+	 * Sets the internationalization messages to be used when performing the validation
+	 */
 	public void setMessages(Messages messages) {
 		this.messages = messages;
 	}
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object)
+	 */
 	public ValidationResult validate(Object value) {
 		return validate(value, (Map<String, String>) null);
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object, java.lang.String)
+	 */
 	public ValidationResult validate(Object value, String valueName) {
 		Map<String, String> m = new HashMap<String, String>();
 		m.put("valueName", valueName);
 		return validate(value, m);
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object, java.lang.String, java.util.Map)
+	 */
 	public ValidationResult validate(Object value, String valueName,
 			Map<String, String> attributes) {
 		Map<String, String> m = new HashMap<String, String>();
@@ -36,6 +56,9 @@ public class ClientValidator implements Validator {
 		return validate(value, m);
 	}
 
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object, java.util.Map)
+	 */
 	public ValidationResult validate(Object value,
 			Map<String, String> additionalAttributes) {
 		

@@ -4,8 +4,7 @@
 package org.kuali.student.commons.ui.propertychangesupport;
 
 /**
- * @author Garey
- *
+ * Base class providing property change support implementation.
  */
 public class BasePropertyChange {
 
@@ -13,7 +12,7 @@ public class BasePropertyChange {
 			this);
 	
 
-	public PropertyChangeSupport getPropertyChangeSuppor(){
+	public PropertyChangeSupport getPropertyChangeSupport(){
 		return this.changes;
 	}
 	

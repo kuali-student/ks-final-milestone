@@ -12,8 +12,14 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-
+/**
+ * Server implementation of the Validator interface.  Uses the Rhino JS engine to execute the validator javascript.
+ *
+ */
 public class ServerValidator implements Validator {
+	/**
+	 * Used to construct the adapter required to write javascript that can be executed both by Rhino and GWT 
+	 */
 	public static final String SERVER_VALIDATOR_ADAPTER_HEADER = "function validate(value, result, attributes, messages) {\n" + 
 	"	validateImpl(\n" + 
 	"		function getMessage(message) {\n" + 
@@ -115,7 +121,9 @@ public class ServerValidator implements Validator {
 	"	getAttributeString, getAttributeNumber, getAttributeBoolean, getAttributeDate,\n" + 
 	"	getValueString, getValueNumber, getValueBoolean, getValueDate, trim) {\n";
 
-
+	/**
+	 * Used to construct the adapter required to write javascript that can be executed both by Rhino and GWT 
+	 */
 	public static final String SERVER_VALIDATOR_ADAPTER_FOOTER = "}"; 
 
 
@@ -126,28 +134,42 @@ public class ServerValidator implements Validator {
 	ScriptableObject topScope;
 	Function function;
 	
-	
+	/**
+	 * Creates a new validator with the specified script and validator attributes
+	 * @param script the validator script
+	 * @param attributes the validator attributes
+	 */
 	public ServerValidator(String script, Map<String, String> attributes) {
 		this.script = script;
 		this.attributes = attributes;
 	}
 	
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#setMessages(org.kuali.student.commons.ui.messages.client.Messages)
+	 */
 	@Override
 	public void setMessages(Messages messages) {
 		this.messages = messages;
 	}
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object)
+	 */
 	@Override
 	public ValidationResult validate(Object value) {
 		return validate(value, (Map<String, String>) null);
 	}
-	
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object, java.lang.String)
+	 */
 	@Override
 	public ValidationResult validate(Object value, String valueName) {
 		Map<String, String> m = new HashMap<String, String>();
 		m.put("valueName", valueName);
 		return validate(value, m);
 	}
-	
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object, java.lang.String, java.util.Map)
+	 */
 	@Override
 	public ValidationResult validate(Object value, String valueName, Map<String, String> attributes) {
 		Map<String, String> m = new HashMap<String, String>();
@@ -155,7 +177,9 @@ public class ServerValidator implements Validator {
 		m.putAll(attributes);
 		return validate(value, m);
 	}
-	
+	/**
+	 * @see org.kuali.student.commons.ui.validators.client.Validator#validate(java.lang.Object, java.util.Map)
+	 */
 	@Override
 	public ValidationResult validate(Object value, Map<String, String> additionalAttributes) {
 		ValidationResult result = new ValidationResult();
