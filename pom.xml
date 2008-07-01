@@ -19,10 +19,10 @@
 	
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/student/commons/ks-commons-ui/ks-commons-ui-dev
+			scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/student/commons/ks-commons-ui/ks-commons-ui-dev
+			scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev
 		</developerConnection>
 	</scm>
 
