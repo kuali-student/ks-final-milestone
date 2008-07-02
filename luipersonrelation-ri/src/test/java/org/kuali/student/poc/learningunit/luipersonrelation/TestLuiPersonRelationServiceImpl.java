@@ -5,10 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.drools.repository.RulesRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
@@ -16,6 +18,7 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationCreateInfo;
@@ -23,8 +26,13 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRel
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
+import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.util.POC2ADroolsLoader;
 import org.kuali.student.rules.validate.UtilBRMSDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")   
@@ -47,8 +55,42 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     public LuiPersonRelationTypeInfo lprTypeInfo;
     public RelationStateInfo relationStateInfo;
     
-    private UtilBRMSDatabase brmsDatabaseUtil;
+    private FunctionalBusinessRuleManagementService brmsService;
+    private RuleEngineRepository droolsRepository;
     
+    
+    /**
+     * @return the brmsService
+     */
+    public FunctionalBusinessRuleManagementService getBrmsService() {
+        return brmsService;
+    }
+
+
+    /**
+     * @param brmsService the brmsService to set
+     */
+    public void setBrmsService(FunctionalBusinessRuleManagementService brmsService) {
+        this.brmsService = brmsService;
+    }
+
+
+    /**
+     * @return the droolsRepository
+     */
+    public RuleEngineRepository getDroolsRepository() {
+        return droolsRepository;
+    }
+
+
+    /**
+     * @param droolsRepository the droolsRepository to set
+     */
+    public void setDroolsRepository(RuleEngineRepository droolsRepository) {
+        this.droolsRepository = droolsRepository;
+    }
+
+
     @Before
     public void setup(){
         lprTypeInfo = new LuiPersonRelationTypeInfo();
@@ -196,12 +238,14 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     
 
     @Test 
-    public void testValidateLuiPersonRelation() throws Exception {                                              
-        try {
-            brmsDatabaseUtil.compileDroolsRule();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testValidateLuiPersonRelation() throws Exception {             
+        
+        POC2ADroolsLoader droolsLoader = new POC2ADroolsLoader();
+        droolsLoader.setBrmsService(brmsService);
+        droolsLoader.setDroolsRepository(droolsRepository);
+        
+        droolsLoader.init();
+        
      //   ValidationResult result1= client.validateLuiPersonRelation(person_id1, lui_id1, lprTypeInfo, relationStateInfo);
      //   assertEquals(result1.isSuccess(), false);
     }
