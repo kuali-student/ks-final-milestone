@@ -57,8 +57,8 @@ public class SubTabPanel extends TabPanel {
      */
     public SubTabPanel() {
         super();
-        this.addStyleName("KS-SubTabPanel");
-        this.getTabBar().addStyleName("KS-SubTabBar");
+        addStyleName("KS-SubTabPanel");
+        getTabBar().addStyleName("KS-SubTabBar");
 
     }
 

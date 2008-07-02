@@ -5,9 +5,5 @@
 	<inherits name="com.google.gwt.user.User"/>
 	
   	<source path="utilities" />
-  	
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.commons.ui.utilities.UtilitiesEntryPoint"/>
-  
 
 </module>

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -36,6 +37,7 @@ public class EditLabel extends Composite {
     };
 
     FocusListener focusLstnr = new FocusListenerAdapter() {
+        @Override
         public void onLostFocus(Widget sender) {
             if (bClickEdit) {
                 changeToLabel();
@@ -44,14 +46,14 @@ public class EditLabel extends Composite {
     };
 
     public EditLabel() {
-        this.isEditable = false;
-        this.bClickEdit = true;
+        isEditable = false;
+        bClickEdit = true;
         setup();
     }
 
     public EditLabel(boolean isClickEditable) {
-        this.isEditable = false;
-        this.bClickEdit = isClickEditable;
+        isEditable = false;
+        bClickEdit = isClickEditable;
         setup();
     }
 
@@ -93,6 +95,7 @@ public class EditLabel extends Composite {
         root.add(fPanel);
         root.addClickListener(clickEdit);
         root.addFocusListener(new FocusListenerAdapter() {
+            @Override
             public void onFocus(Widget sender) {
                 if (isEditable) {
                     tBox.setFocus(true);
@@ -101,12 +104,13 @@ public class EditLabel extends Composite {
             }
         });
         root.addKeyboardListener(new KeyboardListenerAdapter() {
+            @Override
             public void onKeyPress(Widget sender, char keyCode, int modifiers) {
                 switch (keyCode) {
-                    case KeyboardListenerAdapter.KEY_ENTER: // return key
+                    case KeyboardListener.KEY_ENTER: // return key
                         changeToTextBox();
                         break;
-                    case KeyboardListenerAdapter.KEY_ESCAPE: // escape
+                    case KeyboardListener.KEY_ESCAPE: // escape
                         changeToLabel();
                         break;
                 }
@@ -124,14 +128,15 @@ public class EditLabel extends Composite {
     }
 
     public boolean getIsEditable() {
-        return this.isEditable;
+        return isEditable;
     }
 
     public void setIsEditable(boolean isEdit) {
-        if (isEdit)
-            this.changeToTextBox();
-        else
-            this.changeToLabel();
+        if (isEdit) {
+            changeToTextBox();
+        } else {
+            changeToLabel();
+        }
     }
 
     public void setText(String text) {
@@ -151,16 +156,17 @@ public class EditLabel extends Composite {
         tBox.addStyleName(style);
     }
 
+    @Override
     public void addStyleName(String style) {
         root.addStyleName(style);
     }
 
     public boolean isClickEditable() {
-        return this.bClickEdit;
+        return bClickEdit;
     }
 
     public void setClickEditable(boolean clickEditable) {
-        this.bClickEdit = clickEditable;
+        bClickEdit = clickEditable;
     }
 
 }

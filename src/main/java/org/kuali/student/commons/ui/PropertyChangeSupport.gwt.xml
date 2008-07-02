@@ -6,7 +6,5 @@
 
   	<source path="propertychangesupport" />
   	
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.commons.ui.propertychangesupport.PropertyChangeSupportEntryPoint"/>
-
+	
 </module>

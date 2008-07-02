@@ -11,10 +11,11 @@ public class SearchListBox extends ListBox {
 
     public int findIndex(String value) {
         int iRet = -1;
-        if (value == null)
+        if (value == null) {
             return iRet;
-        for (int i = 0; i < this.getItemCount(); i++) {
-            if (value.equals(this.getValue(i))) {
+        }
+        for (int i = 0; i < getItemCount(); i++) {
+            if (value.equals(getValue(i))) {
                 iRet = i;
             }
         }
@@ -22,17 +23,18 @@ public class SearchListBox extends ListBox {
     }
 
     public void setItemSelected(String value, boolean selected) throws java.lang.IndexOutOfBoundsException {
-        int index = this.findIndex(value);
-        if (index >= 0)
+        int index = findIndex(value);
+        if (index >= 0) {
             this.setItemSelected(index, selected);
+        }
     }
 
     public String getSelectedValue() {
-        return this.getValue(this.getSelectedIndex());
+        return getValue(getSelectedIndex());
     }
 
     public String getSelectedText() {
-        return this.getItemText(this.getSelectedIndex());
+        return getItemText(getSelectedIndex());
     }
 
 }

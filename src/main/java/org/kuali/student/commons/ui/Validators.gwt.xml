@@ -5,9 +5,6 @@
 	<inherits name="org.kuali.student.commons.ui.Messages"/>
 	<inherits name="org.kuali.student.commons.ui.Utilities"/>
 
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.commons.ui.validators.client.ValidatorsEntryPoint"/>
-  	
   	<source path="validators/client" />
   	<servlet class="org.kuali.student.commons.ui.validators.server.gwt.ValidatorServiceGWT" path="/ValidatorService" />
   	<servlet class="org.kuali.student.commons.ui.validators.server.impl.ValidatorTestServlet" path="/ValidatorTestServlet" />

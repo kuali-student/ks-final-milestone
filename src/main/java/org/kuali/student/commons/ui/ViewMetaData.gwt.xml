@@ -7,9 +7,6 @@
   	<inherits name="org.kuali.student.commons.ui.Validators"/>
   	
   	<source path="viewmetadata/client" />
-  	
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataEntryPoint"/>
   
   	<servlet class="org.kuali.student.commons.ui.viewmetadata.server.gwt.ViewMetaDataServiceGWTImpl" path="/ViewMetaDataService"/>
   

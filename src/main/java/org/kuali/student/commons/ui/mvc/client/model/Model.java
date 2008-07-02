@@ -11,122 +11,132 @@ import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+
 /**
- * Model implementation. Models are stored by ModelObject type.  Direct references from view to model
- * layer should be avoided.
- *
- * @param <T> the type of ModelObject to be contained
+ * Model implementation. Models are stored by ModelObject type. Direct references from view to model layer should be avoided.
+ * 
+ * @param <T>
+ *            the type of ModelObject to be contained
  */
 public class Model<T extends ModelObject> {
-	private final Map<String, T> data = new HashMap<String, T>();
-	
-	private final Set<ListenerMapping> listeners = new HashSet<ListenerMapping>();
-	
-	
-	/**
-	 * Adds a ModelChangeEvent listener for the specified change event type
-	 * @see org.kuali.student.commons.ui.mvc.client.model.ModelChangeEvent
-	 * @param eventType the type of operation for which to listen
-	 * @param listener the event listener to fire
-	 */
-	public void addListener(ModelChangeEvent eventType, final MVCEventListener listener) {
-		ListenerMapping lm = new ListenerMapping();
-		lm.eventType = eventType;
-		lm.listener = listener;
-		listeners.add(lm);
-	}
-	/**
-	 * Removes the specified listener
-	 * @param eventType the event type to which the listener was bound
-	 * @param listener the listener to remove
-	 */
-	public void removeListener(ModelChangeEvent eventType, final MVCEventListener listener) {
-		List<ListenerMapping> toRemove = new ArrayList<ListenerMapping>();
-		for (ListenerMapping lm : listeners) {
-			if (eventType.equals(lm.eventType) && listener.equals(lm.listener)) {
-				toRemove.add(lm);
-			}
-		}
-		listeners.removeAll(toRemove);
-	}
-	
+    private final Map<String, T> data = new HashMap<String, T>();
 
-	private void fireChangeEvent(final ModelChangeEvent event, final T data) {
-		DeferredCommand.addCommand(new Command() {
-			public void execute() {
-				for (ListenerMapping lm : listeners) {
-					if (event.isAssignableTo(lm.eventType)) {
-						lm.listener.onEvent(event, data);
-					}
-				}
-			}
-		});
-	}
-	
-	private static class ListenerMapping {
-		public ModelChangeEvent eventType;
-		public MVCEventListener listener;
-	}
-	
+    private final Set<ListenerMapping> listeners = new HashSet<ListenerMapping>();
 
-	/**
-	 * Adds an object to the model and fires ModelChangeEvent.ADD
-	 * @param object the object to add
-	 */
-	public void add(T object) {
-		data.put(object.getUniqueId(), object);
-		fireChangeEvent(ModelChangeEvent.ADD, object);
-	}
-	/**
-	 * Updates an object in the model, adding it to the model if it does not already exist.
-	 * Fires ModelChangeEvent.ADD if added, ModelChangeEvent.UPDATE if updated
-	 * @param object the object to update
-	 */
-	public void update(T object) {
-		boolean added = false;
-		String key = object.getUniqueId();
-		if (!data.containsKey(key)) {
-			added = true;
-		}
-		data.put(object.getUniqueId(), object);
-		if (added) {
-			fireChangeEvent(ModelChangeEvent.ADD, object);
-		} else {
-			fireChangeEvent(ModelChangeEvent.UPDATE, object);
-		}
-	}
-	/**
-	 * Removes an object from the model and fires ModelChangeEvent.REMOVE
-	 * @param object the object to remove
-	 */
-	public void remove(T object) {
-		data.remove(object.getUniqueId());
-		fireChangeEvent(ModelChangeEvent.REMOVE, object);
-	}
-	
-	/**
-	 * Returns an object from the model based on its unique id
-	 * @see org.kuali.student.commons.ui.mvc.client.model.ModelObject.getUniqueId()
-	 * @param uniqueId the unique id of the object to retrieve
-	 * @return the requested object, or null if not found
-	 */
-	public T get(String uniqueId) {
-		return data.get(uniqueId);
-	}
-	
-	/**
-	 * Returns the underlying model as a List.
-	 * Clones the values collection into a new collection to prevent direct manipulation of model
-	 * @return the underlying model as a List
-	 */
-	public List<T> items() {
-		return new ArrayList<T>(data.values());
-	}
-	
-	
+    /**
+     * Adds a ModelChangeEvent listener for the specified change event type
+     * 
+     * @see org.kuali.student.commons.ui.mvc.client.model.ModelChangeEvent
+     * @param eventType
+     *            the type of operation for which to listen
+     * @param listener
+     *            the event listener to fire
+     */
+    public void addListener(ModelChangeEvent eventType, final MVCEventListener listener) {
+        ListenerMapping lm = new ListenerMapping();
+        lm.eventType = eventType;
+        lm.listener = listener;
+        listeners.add(lm);
+    }
 
-	
+    /**
+     * Removes the specified listener
+     * 
+     * @param eventType
+     *            the event type to which the listener was bound
+     * @param listener
+     *            the listener to remove
+     */
+    public void removeListener(ModelChangeEvent eventType, final MVCEventListener listener) {
+        List<ListenerMapping> toRemove = new ArrayList<ListenerMapping>();
+        for (ListenerMapping lm : listeners) {
+            if (eventType.equals(lm.eventType) && listener.equals(lm.listener)) {
+                toRemove.add(lm);
+            }
+        }
+        listeners.removeAll(toRemove);
+    }
 
-	
-	
+    private void fireChangeEvent(final ModelChangeEvent event, final T data) {
+        DeferredCommand.addCommand(new Command() {
+            public void execute() {
+                for (ListenerMapping lm : listeners) {
+                    if (event.isAssignableTo(lm.eventType)) {
+                        lm.listener.onEvent(event, data);
+                    }
+                }
+            }
+        });
+    }
+
+    private static class ListenerMapping {
+        public ModelChangeEvent eventType;
+        public MVCEventListener listener;
+    }
+
+    /**
+     * Adds an object to the model and fires ModelChangeEvent.ADD
+     * 
+     * @param object
+     *            the object to add
+     */
+    public void add(T object) {
+        data.put(object.getUniqueId(), object);
+        fireChangeEvent(ModelChangeEvent.ADD, object);
+    }
+
+    /**
+     * Updates an object in the model, adding it to the model if it does not already exist. Fires ModelChangeEvent.ADD if
+     * added, ModelChangeEvent.UPDATE if updated
+     * 
+     * @param object
+     *            the object to update
+     */
+    public void update(T object) {
+        boolean added = false;
+        String key = object.getUniqueId();
+        if (!data.containsKey(key)) {
+            added = true;
+        }
+        data.put(object.getUniqueId(), object);
+        if (added) {
+            fireChangeEvent(ModelChangeEvent.ADD, object);
+        } else {
+            fireChangeEvent(ModelChangeEvent.UPDATE, object);
+        }
+    }
+
+    /**
+     * Removes an object from the model and fires ModelChangeEvent.REMOVE
+     * 
+     * @param object
+     *            the object to remove
+     */
+    public void remove(T object) {
+        data.remove(object.getUniqueId());
+        fireChangeEvent(ModelChangeEvent.REMOVE, object);
+    }
+
+    /**
+     * Returns an object from the model based on its unique id
+     * 
+     * @see org.kuali.student.commons.ui.mvc.client.model.ModelObject.getUniqueId()
+     * @param uniqueId
+     *            the unique id of the object to retrieve
+     * @return the requested object, or null if not found
+     */
+    public T get(String uniqueId) {
+        return data.get(uniqueId);
+    }
+
+    /**
+     * Returns the underlying model as a List. Clones the values collection into a new collection to prevent direct
+     * manipulation of model
+     * 
+     * @return the underlying model as a List
+     */
+    public List<T> items() {
+        return new ArrayList<T>(data.values());
+    }
+
 }
