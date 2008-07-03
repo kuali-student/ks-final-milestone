@@ -33,9 +33,11 @@ import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.util.POC2ADroolsLoader;
 import org.kuali.student.rules.validate.UtilBRMSDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 @Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")})
-@PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")   
+@PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")
+@ContextConfiguration(locations = {"classpath:lui-mock-context.xml"})
 public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
 
     @Client(value="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl", port="9191")
@@ -55,41 +57,6 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     public LuiPersonRelationTypeInfo lprTypeInfo;
     public RelationStateInfo relationStateInfo;
     
-    private FunctionalBusinessRuleManagementService brmsService;
-    private RuleEngineRepository droolsRepository;
-    
-    
-    /**
-     * @return the brmsService
-     */
-    public FunctionalBusinessRuleManagementService getBrmsService() {
-        return brmsService;
-    }
-
-
-    /**
-     * @param brmsService the brmsService to set
-     */
-    public void setBrmsService(FunctionalBusinessRuleManagementService brmsService) {
-        this.brmsService = brmsService;
-    }
-
-
-    /**
-     * @return the droolsRepository
-     */
-    public RuleEngineRepository getDroolsRepository() {
-        return droolsRepository;
-    }
-
-
-    /**
-     * @param droolsRepository the droolsRepository to set
-     */
-    public void setDroolsRepository(RuleEngineRepository droolsRepository) {
-        this.droolsRepository = droolsRepository;
-    }
-
 
     @Before
     public void setup(){
@@ -239,13 +206,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
 
     @Test 
     public void testValidateLuiPersonRelation() throws Exception {             
-        
-        POC2ADroolsLoader droolsLoader = new POC2ADroolsLoader();
-        droolsLoader.setBrmsService(brmsService);
-        droolsLoader.setDroolsRepository(droolsRepository);
-        
-        droolsLoader.init();
-        
+                
      //   ValidationResult result1= client.validateLuiPersonRelation(person_id1, lui_id1, lprTypeInfo, relationStateInfo);
      //   assertEquals(result1.isSuccess(), false);
     }
