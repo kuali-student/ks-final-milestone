@@ -131,21 +131,20 @@
 
 	<!--  ********************************************************************** -->
 	<!--  Rule Engine Beans -->
+  
   <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
   </bean>
 
-  <bean id="functionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
+  <bean id="brmsService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
     <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
   </bean>
 
+
   <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
-    <property name="ruleMgmtService" ref="functionalBusinessRuleManagementService"/>    
+    <property name="ruleMgmtService" ref="brmsService"/>    
   </bean>  
-  
-  <bean id="brmsDatabaseUtil" class="org.kuali.student.rules.validate.UtilBRMSDatabase">
-    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>
-  </bean>
-                	
+
+                  	
   <bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
 	<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
   </bean>
@@ -158,5 +157,21 @@
 	<bean id="rulesRepository"
       factory-bean="defaultDroolsRepositoryContainer"
       factory-method="getRepository"/>    	
+
+  <bean id="loadDataBean" class="org.kuali.student.rules.brms.core.util.LoadDataBean">
+    <property name="daoAnnotations"
+			value="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl" />
+    <property name="contextLocation"	value="classpath:test-beans.xml" />
+  </bean>
+
+  <bean id="loadBeanListener" class="org.kuali.student.rules.brms.core.util.LoadBeanListener">
+    <property name="ldb" ref="loadDataBean" />
+  </bean>    
+
+  <bean id="droolsCompiler" class="org.kuali.student.rules.brms.util.POC2ADroolsLoader"
+  	init-method="init">
+  	<property name="brmsService" ref="brmsService"/>
+  	<property name="droolsRepository" ref="droolsRepository"/>  	
+  </bean>
 
 </beans>
