@@ -3,6 +3,7 @@ package org.kuali.student.rules.brms.util;
 import java.util.List;
 
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.brms.drools.translator.GenerateRuleSet;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
@@ -45,7 +46,38 @@ public class POC2ADroolsLoader {
     public void init() throws Exception {
         GenerateRuleSet grs = GenerateRuleSet.getInstance();
 
+        FunctionalBusinessRuleContainer container = new FunctionalBusinessRuleContainer("course.co.req", "Cource Co-Requisites");
         FunctionalBusinessRule rule1 = brmsService.getBusinessRuleUsingId("1");
+        FunctionalBusinessRule rule2 = brmsService.getBusinessRuleUsingId("2");
+        FunctionalBusinessRule rule3 = brmsService.getBusinessRuleUsingId("3");
+        FunctionalBusinessRule rule4 = brmsService.getBusinessRuleUsingId("4");
+
+        container.addFunctionalBusinessRule(rule1);
+        container.addFunctionalBusinessRule(rule2);
+        container.addFunctionalBusinessRule(rule3);
+        container.addFunctionalBusinessRule(rule4);
+
+        RuleSet ruleSet = grs.parse(container);
+
+        System.out.println("Rule set1:\n" + ruleSet.getContent());
+
+        String rulesetUuid = droolsRepository.createRuleSet(ruleSet);
+        droolsRepository.loadRuleSet(rulesetUuid);
+        
+        rule1.setCompiledID(rulesetUuid);
+        brmsService.getBusinessRuleDAO().updateBusinessRule(rule1);            
+
+        rule2.setCompiledID(rulesetUuid);
+        brmsService.getBusinessRuleDAO().updateBusinessRule(rule2);            
+
+        rule3.setCompiledID(rulesetUuid);
+        brmsService.getBusinessRuleDAO().updateBusinessRule(rule3);            
+
+        rule4.setCompiledID(rulesetUuid);
+        brmsService.getBusinessRuleDAO().updateBusinessRule(rule4);            
+
+        
+        /*FunctionalBusinessRule rule1 = brmsService.getBusinessRuleUsingId("1");
         RuleSet rs1 = grs.parse(rule1);
         System.out.println("Rule set1:\n" + rs1.getContent());
         String rulesetUuid1 = droolsRepository.createRuleSet(rs1);
@@ -75,6 +107,6 @@ public class POC2ADroolsLoader {
         String rulesetUuid4 = droolsRepository.createRuleSet(rs4);
         rule4.setCompiledID(rulesetUuid4);
         droolsRepository.loadRuleSet(rulesetUuid4);
-        brmsService.getBusinessRuleDAO().updateBusinessRule(rule4);
+        brmsService.getBusinessRuleDAO().updateBusinessRule(rule4);*/
     }    
 }
