@@ -34,7 +34,7 @@
 			pom inherits from this pom and would result in circular dependency, 
 			therefore it must be added as dependencies in each child pom.  
 		-->
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -163,7 +163,7 @@
 					<groupId>atomikos</groupId>
 					<artifactId>transactions-hibernate3</artifactId>
 					<version>${atomikos.version}</version>
-				</dependency>			
+				</dependency>
 				<dependency>
 					<groupId>cglib</groupId>
 					<artifactId>cglib-nodep</artifactId>
@@ -196,25 +196,25 @@
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-frontend-jaxws</artifactId>
 				</dependency>
-								
+
 				<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>cxf-rt-transports-http</artifactId>
 				</dependency>
-				
+
 				<!-- 
-				Need this? I swear we did to include some cxf spring context file.
-				Commenting out for now b/c it has dependency to geronimo-servlet_2.5_spec,
-				which Tomcat complains about.
-								
-				<dependency>
+					Need this? I swear we did to include some cxf spring context file.
+					Commenting out for now b/c it has dependency to geronimo-servlet_2.5_spec,
+					which Tomcat complains about.
+					
+					<dependency>
 					<groupId>org.apache.cxf</groupId>
 					<artifactId>
-						cxf-rt-transports-http-jetty
+					cxf-rt-transports-http-jetty
 					</artifactId>
-				</dependency>
+					</dependency>
 				-->
-				
+
 				<dependency>
 					<groupId>cglib</groupId>
 					<artifactId>cglib-nodep</artifactId>
@@ -253,6 +253,23 @@
 					<artifactId>jaxws-spring</artifactId>
 				</dependency>
 			</dependencies>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<systemProperties>
+								<property>
+									<name>ks.use.proxy</name>
+									<value>true</value>
+								</property>
+							</systemProperties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
