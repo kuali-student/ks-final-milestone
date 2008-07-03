@@ -1,3 +1,19 @@
+##
+## Copyright 2007 The Kuali Foundation
+##
+## Licensed under the Educational Community License, Version 1.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+## http://www.opensource.org/licenses/ecl1.php
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+
 ## A generic rule template
 
 rule "${ruleName}_INIT"
@@ -6,9 +22,6 @@ rule "${ruleName}_INIT"
     no-loop true
     lock-on-active true
     when 
-##prop: PropositionContainer(size == 0) 
-##prop: PropositionContainer() 
-##req: CourseEnrollmentRequest() 
         cont : FactContainer( id == "${ruleName}", prop : propositionContainer, req : request )
     then
     	#set ($count = 0)
@@ -23,7 +36,6 @@ rule "${ruleName}_INIT"
 
 		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split("\\s*,\\s*"))),  req.getLuiIds() ); 
 		proposition${key}.apply();
-##prop.setProposition("$key",proposition${key});		
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
@@ -31,7 +43,6 @@ rule "${ruleName}_INIT"
 
 		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.computeLearningResults(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
 		proposition${key}.apply();
-##prop.setProposition("$key",proposition${key});		
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
@@ -41,11 +52,8 @@ rule "${ruleName}_INIT"
         update(cont);
 	end
 	
-##rule "${ruleName} EVAL"
 rule "${ruleName}"
-##salience -100
 	when
-##prop : PropositionContainer(size == $count)
         FactContainer( id == "${ruleName}", prop : propositionContainer)
 ##   		eval (
 ##   			#foreach($symbol in $functionSymbols) 
@@ -73,7 +81,4 @@ rule "${ruleName}"
     #end                
 	then
    		prop.setRuleResult(true);
-	end	
-	
-	
-		
+	end		
