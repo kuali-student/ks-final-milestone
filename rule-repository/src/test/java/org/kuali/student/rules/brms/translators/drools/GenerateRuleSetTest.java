@@ -51,8 +51,8 @@ import org.kuali.student.rules.common.entity.RuleMetaData;
 import org.kuali.student.rules.common.entity.RuleProposition;
 import org.kuali.student.rules.common.entity.ValueType;
 import org.kuali.student.rules.common.entity.YieldValueFunction;
+import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
-import org.kuali.student.rules.statement.PropositionContainer;
 import org.kuali.student.rules.util.FactContainer;
 
 

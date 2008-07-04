@@ -12,9 +12,9 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.common.runtime.ast.BinaryTree;
 import org.kuali.student.rules.common.runtime.ast.BooleanNode;
+import org.kuali.student.rules.common.statement.PropositionContainer;
+import org.kuali.student.rules.common.statement.PropositionReport;
 import org.kuali.student.rules.common.util.Function;
-import org.kuali.student.rules.statement.PropositionContainer;
-import org.kuali.student.rules.statement.PropositionReport;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.

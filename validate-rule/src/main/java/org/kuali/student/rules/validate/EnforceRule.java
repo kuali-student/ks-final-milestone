@@ -17,9 +17,9 @@ import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.AnchorType;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
-import org.kuali.student.rules.statement.PropositionContainer;
 import org.kuali.student.rules.util.FactContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 

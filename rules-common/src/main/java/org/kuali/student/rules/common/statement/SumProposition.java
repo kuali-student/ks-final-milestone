@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.kuali.student.rules.statement;
+package org.kuali.student.rules.common.statement;
 
 import java.math.BigDecimal;
 import java.util.List;

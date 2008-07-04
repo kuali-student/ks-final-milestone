@@ -6,7 +6,8 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.rules.statement.SubsetProposition;
+import org.kuali.student.rules.common.statement.ComparisonOperator;
+import org.kuali.student.rules.common.statement.SubsetProposition;
 
 
 public class PropositionTest{

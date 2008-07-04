@@ -91,7 +91,7 @@ public class GenerateRuleSet {
 
     private void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
-        ruleSet.addHeader("import org.kuali.student.rules.statement.*");
+        ruleSet.addHeader("import org.kuali.student.rules.common.statement.*");
         ruleSet.addHeader("import org.kuali.student.rules.common.util.CourseEnrollmentRequest");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
     }

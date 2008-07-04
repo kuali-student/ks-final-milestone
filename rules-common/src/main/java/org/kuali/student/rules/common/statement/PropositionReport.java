@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.statement;
+package org.kuali.student.rules.common.statement;
 
 /**
  * Proposition report stores the success message and/or failure message after a proposition is applied 

@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.rules.statement.PropositionContainer;
-import org.kuali.student.rules.statement.PropositionReport;
-import org.kuali.student.rules.statement.SubsetProposition;
+import org.kuali.student.rules.common.statement.PropositionContainer;
+import org.kuali.student.rules.common.statement.PropositionReport;
+import org.kuali.student.rules.common.statement.SubsetProposition;
 
 public class GenerateRuleReportTest {
 
