@@ -19,14 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
-import org.kuali.student.rules.brms.core.entity.RuleProposition;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.rule.Rule;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRuleContainer;
+import org.kuali.student.rules.common.entity.RuleProposition;
 import org.kuali.student.rules.common.util.Function;
 
 
