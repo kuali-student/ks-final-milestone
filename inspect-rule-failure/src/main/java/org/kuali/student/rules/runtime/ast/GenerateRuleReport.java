@@ -26,8 +26,6 @@ public class GenerateRuleReport {
     private boolean ruleResult;
     private String functionString;
 
-    // public static String executeRule(String functionString, HashMap<String, Boolean> nodeValueMap, HashMap<String, String>
-    // nodeFailureMessageMap) {
     public PropositionContainer executeRule(PropositionContainer propContainer) {
         BinaryTree ASTtree = null;
         ruleResult = propContainer.getRuleResult();
