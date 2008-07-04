@@ -14,11 +14,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.brms.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRuleContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

@@ -13,7 +13,7 @@
 		</property>
 	</bean>
 	<bean id="currentTime" class="java.util.Date" />
-	<bean id="ruleMetaData"	class="org.kuali.student.rules.brms.core.entity.RuleMetaData">
+	<bean id="ruleMetaData"	class="org.kuali.student.rules.common.entity.RuleMetaData">
 		<property name="createdBy" value="Tom Smith" />	
 		<property name="createDate" ref="currentTime" />
 		<property name="updateBy" value="Tom Smith" />	
@@ -24,7 +24,7 @@
 		<property name="statusEnum" value="active" />														
 	</bean>	
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
-	<bean id="funcBusRule1" class="org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule">
+	<bean id="funcBusRule1" class="org.kuali.student.rules.common.entity.FunctionalBusinessRule">
 		<property name="id"	value="11223344-1122-1122-1111-100000000001" />
 		<property name="name" value="Intermediate CPR" />		
 		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />	
@@ -39,7 +39,7 @@
 		<property name="metaData" ref="ruleMetaData" />
 		<property name="elements">
 			<set>
-				<bean id="ruleElement1" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement1" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000002" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="1" />	
@@ -49,7 +49,7 @@
 					<property name="functionalBusinessRule" ref="funcBusRule1" />	
 					<property name="ruleProposition" ref="ruleProposition1" />					
 				</bean>	
-				<bean id="ruleElement2" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement2" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000003" />
 					<property name="operation" value="OR_TYPE" />	
 					<property name="ordinalPosition" value="2" />	
@@ -58,7 +58,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule1" />				
 				</bean>	
-				<bean id="ruleElement3" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement3" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000004" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="3" />	
@@ -71,7 +71,7 @@
 			</set>
 		</property>						
 	</bean>	
-	<bean id="ruleProposition1"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition1"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000005" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -80,24 +80,24 @@
 		<property name="operator" ref="operator1" />				
 		<property name="rightHandSide" ref="rightHandSide1" />	
 	</bean>	
-	<bean id="leftHandSide1"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide1"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant1" />	
 		<property name="criteria" value="CPR 101" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant1"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant1"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000006" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator1"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator1"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide1"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide1"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="1" />		
 	</bean>
-	<bean id="ruleProposition3"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition3"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000007" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -106,25 +106,25 @@
 		<property name="operator" ref="operator3" />				
 		<property name="rightHandSide" ref="rightHandSide3" />	
 	</bean>	
-	<bean id="leftHandSide3"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide3"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant3" />	
 		<property name="criteria" value="FA 001" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant3"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant3"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000008" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator3"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator3"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide3"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide3"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="1" />		
 	</bean>		
 	<!-- 2 of CPR 101 AND CPR 201 -->
-	<bean id="funcBusRule2" class="org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule">
+	<bean id="funcBusRule2" class="org.kuali.student.rules.common.entity.FunctionalBusinessRule">
 		<property name="id"	value="11223344-1122-1122-1111-100000000021" />
 		<property name="name" value="Advanced CPR" />		
 		<property name="description" value="enrollment co-requisites for Advanced CPR 301" />	
@@ -139,7 +139,7 @@
 		<property name="metaData" ref="ruleMetaData" />
 		<property name="elements">
 			<set>
-				<bean id="ruleElement21" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement21" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000022" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="1" />	
@@ -152,7 +152,7 @@
 			</set>
 		</property>						
 	</bean>	
-	<bean id="ruleProposition21"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition21"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000023" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -161,25 +161,25 @@
 		<property name="operator" ref="operator21" />				
 		<property name="rightHandSide" ref="rightHandSide21" />	
 	</bean>	
-	<bean id="leftHandSide21"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide21"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant21" />	
 		<property name="criteria" value="CPR 101, CPR 201" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant21"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant21"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000024" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator21"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator21"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide21"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide21"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="2" />		
 	</bean>
 	<!-- 12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR (1 of CPR 4005 AND 1 of FA 001, WS 001) -->
-	<bean id="funcBusRule3" class="org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule">
+	<bean id="funcBusRule3" class="org.kuali.student.rules.common.entity.FunctionalBusinessRule">
 		<property name="id"	value="11223344-1122-1122-1111-100000000031" />
 		<property name="name" value="EMS Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program EMS 1001" />	
@@ -194,7 +194,7 @@
 		<property name="metaData" ref="ruleMetaData" />
 		<property name="elements">
 			<set>
-				<bean id="ruleElement31" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement31" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000032" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="1" />	
@@ -204,7 +204,7 @@
 					<property name="functionalBusinessRule" ref="funcBusRule3" />	
 					<property name="ruleProposition" ref="ruleProposition31" />					
 				</bean>	
-				<bean id="ruleElement32" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement32" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000035" />
 					<property name="operation" value="OR_TYPE" />	
 					<property name="ordinalPosition" value="2" />	
@@ -213,7 +213,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule3" />				
 				</bean>					
-				<bean id="ruleElement33" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement33" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000036" />
 					<property name="operation" value="LPAREN_TYPE" />	
 					<property name="ordinalPosition" value="3" />	
@@ -222,7 +222,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule3" />				
 				</bean>	
-				<bean id="ruleElement34" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement34" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000037" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="4" />	
@@ -232,7 +232,7 @@
 					<property name="functionalBusinessRule" ref="funcBusRule3" />	
 					<property name="ruleProposition" ref="ruleProposition34" />					
 				</bean>	
-				<bean id="ruleElement35" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement35" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000040" />
 					<property name="operation" value="AND_TYPE" />	
 					<property name="ordinalPosition" value="5" />	
@@ -241,7 +241,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule3" />				
 				</bean>							
-				<bean id="ruleElement36" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement36" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000041" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="6" />	
@@ -251,7 +251,7 @@
 					<property name="functionalBusinessRule" ref="funcBusRule3" />	
 					<property name="ruleProposition" ref="ruleProposition36" />					
 				</bean>	
-				<bean id="ruleElement37" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement37" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000044" />
 					<property name="operation" value="RPAREN_TYPE" />	
 					<property name="ordinalPosition" value="7" />	
@@ -263,7 +263,7 @@
 			</set>
 		</property>						
 	</bean>	
-	<bean id="ruleProposition31"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition31"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000033" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -272,24 +272,24 @@
 		<property name="operator" ref="operator31" />				
 		<property name="rightHandSide" ref="rightHandSide31" />	
 	</bean>	
-	<bean id="leftHandSide31"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide31"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant31" />	
 		<property name="criteria" value="CPR 101, CPR 105, CPR 201, CPR 301" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant31"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant31"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000034" />	
 		<property name="yieldValueFunction" value="SUM" />	
 	</bean>
-	<bean id="operator31"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator31"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide31"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide31"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="12" />		
 	</bean>	
-	<bean id="ruleProposition34"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition34"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000038" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -298,24 +298,24 @@
 		<property name="operator" ref="operator34" />				
 		<property name="rightHandSide" ref="rightHandSide34" />	
 	</bean>	
-	<bean id="leftHandSide34"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide34"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant34" />	
 		<property name="criteria" value="CPR 4005" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant34"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant34"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000039" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator34"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator34"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide34"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide34"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="1" />		
 	</bean>		
-	<bean id="ruleProposition36"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition36"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000042" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -324,25 +324,25 @@
 		<property name="operator" ref="operator36" />				
 		<property name="rightHandSide" ref="rightHandSide36" />	
 	</bean>	
-	<bean id="leftHandSide36"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide36"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant36" />	
 		<property name="criteria" value="FA 001, WS 001" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant36"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant36"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000043" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator36"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator36"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide36"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide36"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="2" />		
 	</bean>		
 	<!-- 12 credits from CPR 101, CPR 105, CPR 201, CPR 301 OR (1 of CPR 4005 AND 1 of FA 001, WS 001) -->
-	<bean id="funcBusRule4" class="org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule">
+	<bean id="funcBusRule4" class="org.kuali.student.rules.common.entity.FunctionalBusinessRule">
 		<property name="id"	value="11223344-1122-1122-1111-100000000050" />
 		<property name="name" value="LPN Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program LPN 1001" />	
@@ -357,7 +357,7 @@
 		<property name="metaData" ref="ruleMetaData" />
 		<property name="elements">
 			<set>
-				<bean id="ruleElement41" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement41" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000051" />
 					<property name="operation" value="LPAREN_TYPE" />	
 					<property name="ordinalPosition" value="1" />	
@@ -366,7 +366,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule4" />				
 				</bean>			
-				<bean id="ruleElement42" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement42" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000052" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="2" />	
@@ -376,7 +376,7 @@
 					<property name="functionalBusinessRule" ref="funcBusRule4" />	
 					<property name="ruleProposition" ref="ruleProposition42" />					
 				</bean>	
-				<bean id="ruleElement43" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement43" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000053" />
 					<property name="operation" value="OR_TYPE" />	
 					<property name="ordinalPosition" value="3" />	
@@ -385,7 +385,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule4" />				
 				</bean>					
-				<bean id="ruleElement44" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement44" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000054" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="4" />	
@@ -395,7 +395,7 @@
 					<property name="functionalBusinessRule" ref="funcBusRule4" />	
 					<property name="ruleProposition" ref="ruleProposition44" />					
 				</bean>	
-				<bean id="ruleElement45" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement45" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000055" />
 					<property name="operation" value="RPAREN_TYPE" />	
 					<property name="ordinalPosition" value="5" />	
@@ -404,7 +404,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule4" />				
 				</bean>					
-				<bean id="ruleElement46" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement46" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000056" />
 					<property name="operation" value="AND_TYPE" />	
 					<property name="ordinalPosition" value="6" />	
@@ -413,7 +413,7 @@
 					<property name="ruleMetaData" ref="ruleMetaData" />
 					<property name="functionalBusinessRule" ref="funcBusRule4" />				
 				</bean>							
-				<bean id="ruleElement47" class="org.kuali.student.rules.brms.core.entity.RuleElement">
+				<bean id="ruleElement47" class="org.kuali.student.rules.common.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1111-100000000057" />
 					<property name="operation" value="PROPOSITION_TYPE" />	
 					<property name="ordinalPosition" value="7" />	
@@ -426,7 +426,7 @@
 			</set>
 		</property>						
 	</bean>	
-	<bean id="ruleProposition42"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition42"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000058" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -435,24 +435,24 @@
 		<property name="operator" ref="operator42" />				
 		<property name="rightHandSide" ref="rightHandSide42" />	
 	</bean>	
-	<bean id="leftHandSide42"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide42"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant42" />	
 		<property name="criteria" value="CPR 101, CPR 105, CPR 201, CPR 301" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant42"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant42"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000059" />	
 		<property name="yieldValueFunction" value="SUM" />	
 	</bean>
-	<bean id="operator42"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator42"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide42"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide42"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="12" />		
 	</bean>	
-	<bean id="ruleProposition44"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition44"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000060" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -461,24 +461,24 @@
 		<property name="operator" ref="operator44" />				
 		<property name="rightHandSide" ref="rightHandSide44" />	
 	</bean>	
-	<bean id="leftHandSide44"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide44"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant44" />	
 		<property name="criteria" value="CPR 4005" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant44"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant44"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000061" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator44"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator44"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide44"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide44"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="1" />		
 	</bean>		
-	<bean id="ruleProposition47"	class="org.kuali.student.rules.brms.core.entity.RuleProposition">
+	<bean id="ruleProposition47"	class="org.kuali.student.rules.common.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1111-100000000062" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -487,20 +487,20 @@
 		<property name="operator" ref="operator47" />				
 		<property name="rightHandSide" ref="rightHandSide47" />	
 	</bean>	
-	<bean id="leftHandSide47"	class="org.kuali.student.rules.brms.core.entity.LeftHandSide">
+	<bean id="leftHandSide47"	class="org.kuali.student.rules.common.entity.LeftHandSide">
 		<property name="compAssistant" ref="compAssistant47" />	
 		<property name="criteria" value="FA 001, WS 001" />	
 		<property name="academicRecordID" value="AcademicRecord" />	
 		<property name="valueType" value="NUMBER" />		
 	</bean>
-	<bean id="compAssistant47"	class="org.kuali.student.rules.brms.core.entity.ComputationAssistant">
+	<bean id="compAssistant47"	class="org.kuali.student.rules.common.entity.ComputationAssistant">
 		<property name="id"	value="11223344-1122-1122-1111-100000000063" />	
 		<property name="yieldValueFunction" value="INTERSECTION" />	
 	</bean>
-	<bean id="operator47"	class="org.kuali.student.rules.brms.core.entity.Operator">
+	<bean id="operator47"	class="org.kuali.student.rules.common.entity.Operator">
 		<property name="operator" value="EQUAL_TO" />	
 	</bean>
-	<bean id="rightHandSide47"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
+	<bean id="rightHandSide47"	class="org.kuali.student.rules.common.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="2" />		
 	</bean>		
