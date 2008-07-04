@@ -6,11 +6,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
 	<artifactId>rules-common</artifactId>
-	<name>Kuali Student BRMS - rules common</name>
+	<name>Kuali Student BRMS - Rules Common</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>
-		Rules common library
-	</description>
+	<description>Rules common library</description>
 
 	<parent>
 		<groupId>org.kuali.student.poc.brms</groupId>
@@ -18,11 +16,29 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>antlr3-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>antlr</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.brms-ri</groupId>
-			<artifactId>booleanfunctionparser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 	</dependencies>
 </project>

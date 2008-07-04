@@ -5,9 +5,9 @@ import java.util.List;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRuleContainer;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
-import org.kuali.student.rules.brms.drools.translator.GenerateRuleSet;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
+import org.kuali.student.rules.brms.translators.drools.GenerateRuleSet;
 
 public class POC2ADroolsLoader {
 

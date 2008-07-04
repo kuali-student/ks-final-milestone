@@ -1,10 +1,18 @@
 package org.kuali.student.rules.common.runtime.ast;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import org.kuali.student.rules.parsers.*;
-import org.antlr.runtime.*;
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.TreeAdaptor;
+
+import org.kuali.student.rules.parsers.BooleanFunctionLexer;
+import org.kuali.student.rules.parsers.BooleanFunctionParser;
 
 public class BinaryTree {
 

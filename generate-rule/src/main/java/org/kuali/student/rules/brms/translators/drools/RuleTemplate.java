@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.rules.brms.drools.translator;
+package org.kuali.student.rules.brms.translators.drools;
 
 import java.io.StringWriter;
 import java.util.Map;

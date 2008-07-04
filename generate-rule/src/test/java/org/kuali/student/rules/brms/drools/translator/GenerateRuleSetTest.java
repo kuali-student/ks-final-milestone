@@ -50,6 +50,7 @@ import org.kuali.student.rules.brms.core.entity.RuleProposition;
 import org.kuali.student.rules.brms.core.entity.ValueType;
 import org.kuali.student.rules.brms.core.entity.YieldValueFunction;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
+import org.kuali.student.rules.brms.translators.drools.GenerateRuleSet;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.statement.PropositionContainer;
 import org.kuali.student.rules.util.FactContainer;

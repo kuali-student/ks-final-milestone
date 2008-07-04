@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.brms.drools.translator;
+package org.kuali.student.rules.brms.translators.drools;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +35,7 @@ import org.kuali.student.rules.common.util.Function;
  */
 public class GenerateRuleSet {
     
-    private static final String VELOCITY_RULE_TEMPLATE = "RuleTemplate.vm";
+    private static final String VELOCITY_RULE_TEMPLATE = "velocity-templates/org/kuali/student/rules/brms/drools/translator/RuleTemplate.vm";
     
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
     

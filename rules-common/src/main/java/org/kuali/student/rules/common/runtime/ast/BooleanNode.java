@@ -1,8 +1,7 @@
 package org.kuali.student.rules.common.runtime.ast;
 
-import org.antlr.runtime.*;
-import org.antlr.runtime.tree.*;
-
+import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.CommonTree;
 
 public class BooleanNode extends CommonTree {
 	
@@ -37,8 +36,6 @@ public class BooleanNode extends CommonTree {
 	public String getNodeMessage(){
 		 return nodeMessage;
 	}
-	
-	// Setters
 	
 	// org.antlr.runtime.tree.CommonTree getParent() is not implemented
 	// you have to set the parent yourself, see BinaryTree.java
