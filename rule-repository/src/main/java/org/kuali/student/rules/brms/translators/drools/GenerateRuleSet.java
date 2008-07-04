@@ -35,7 +35,7 @@ import org.kuali.student.rules.common.util.Function;
  */
 public class GenerateRuleSet {
     
-    private static final String VELOCITY_RULE_TEMPLATE = "velocity-templates/org/kuali/student/rules/brms/drools/translator/RuleTemplate.vm";
+    private static final String VELOCITY_RULE_TEMPLATE = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate.vm";
     
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
     
