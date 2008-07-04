@@ -9,7 +9,7 @@ package org.kuali.student.rules.brms.core.dao;
 
 import java.util.List;
 
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 
 /**
  * Defines DAO operations for Functional Business Rule

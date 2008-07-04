@@ -1,6 +1,6 @@
 package org.kuali.student.rules.brms.agenda.entity;
 
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 
 public class BusinessRule
 {

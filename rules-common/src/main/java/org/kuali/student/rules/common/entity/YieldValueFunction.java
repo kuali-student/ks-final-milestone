@@ -5,13 +5,13 @@
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
-package org.kuali.student.rules.brms.core.entity;
+package org.kuali.student.rules.common.entity;
 
 /**
- * Defines types of a value e.g. String, Boolean and Number
+ * Defines comparison operator types.
  * 
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
-public enum ValueType {
-    STRING, BOOLEAN, NUMBER
+public enum YieldValueFunction {
+    INTERSECTION, SUBSET, SUM
 }

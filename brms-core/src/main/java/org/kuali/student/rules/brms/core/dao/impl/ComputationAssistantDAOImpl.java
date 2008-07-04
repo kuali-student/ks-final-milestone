@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.ComputationAssistantDAO;
-import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
+import org.kuali.student.rules.common.entity.ComputationAssistant;
 import org.springframework.stereotype.Repository;
 
 /**

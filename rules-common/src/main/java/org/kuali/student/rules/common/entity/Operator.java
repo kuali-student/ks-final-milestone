@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.brms.core.entity;
+package org.kuali.student.rules.common.entity;
 
 import javax.persistence.Embeddable;
+
 
 /**
  * Contains meta data about the operator of a Rule Proposition. For example, in "completed any 2 of (MATH101, MATH102,

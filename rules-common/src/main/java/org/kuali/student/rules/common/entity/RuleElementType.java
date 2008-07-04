@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.brms.core.entity;
+package org.kuali.student.rules.common.entity;
 
 /**
  * Defines possible types of Rule Element

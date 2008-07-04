@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.rules.brms.core.entity;
+package org.kuali.student.rules.common.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -19,8 +19,8 @@ import org.kuali.student.rules.brms.agenda.entity.AgendaType;
 import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 
 public class AgendaDiscovery {
 
