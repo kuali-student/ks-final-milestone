@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.brms</groupId>
+	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>validate-rule</artifactId>
 	<name>Kuali Student BRMS - validate-rule</name>
 	<version>0.0.1-SNAPSHOT</version>
@@ -13,19 +13,19 @@
 	</description>
 
 	<parent>
-		<groupId>org.kuali.student.poc.brms</groupId>
+		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>brms-ri</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rules-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>	
 		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>brms-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

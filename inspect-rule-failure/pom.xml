@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.brms</groupId>
+	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>inspect-rule-failure</artifactId>
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
@@ -12,14 +12,14 @@
 	</description>
 
 	<parent>
-		<groupId>org.kuali.student.poc.brms</groupId>
+		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>brms-ri</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rules-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

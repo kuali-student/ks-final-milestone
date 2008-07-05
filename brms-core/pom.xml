@@ -2,7 +2,7 @@
 <project>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.kuali.student.poc.brms</groupId>
+  <groupId>org.kuali.student.brms</groupId>
   <artifactId>brms-core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Kuali Student BRMS - brms-core</name>
@@ -10,7 +10,7 @@
 
   <parent>
     <artifactId>brms-ri</artifactId>
-    <groupId>org.kuali.student.poc.brms</groupId>
+    <groupId>org.kuali.student.brms</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
     
@@ -31,7 +31,7 @@
 			<version>10.3.2.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-repository</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
