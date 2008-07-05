@@ -1,6 +1,6 @@
 package org.kuali.student.rules.brms.agenda.entity;
 
-public class BusinessRule
+public class BusinessRuleSet
 {
 	private String id;
 	
@@ -12,7 +12,7 @@ public class BusinessRule
 
 	private String functionalRuleString;
 	
-    public BusinessRule(String id, String businessRuleName, BusinessRuleType businessRuleType, String functionalRuleString ) {
+    public BusinessRuleSet(String id, String businessRuleName, BusinessRuleType businessRuleType, String functionalRuleString ) {
         this.id = id;
         this.businessRuleName = businessRuleName;
         this.businessRuleType = businessRuleType;
@@ -56,7 +56,7 @@ public class BusinessRule
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append( "BusinessRule[id=" ); 
+        sb.append( "BusinessRuleSet[id=" ); 
         sb.append( id );
         sb.append( ", type=" );
         sb.append( businessRuleType.getType() );

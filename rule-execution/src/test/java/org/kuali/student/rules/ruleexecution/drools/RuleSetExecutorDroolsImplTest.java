@@ -26,7 +26,7 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.AgendaType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
@@ -40,7 +40,7 @@ public class RuleSetExecutorDroolsImplTest {
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
         BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
-        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", "", ruleType, "" ) );
+        agenda.addBusinessRule( new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "" ) );
         
         // Create the rule set executor
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock() );

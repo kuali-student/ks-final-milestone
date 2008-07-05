@@ -9,7 +9,7 @@ public class Agenda
 	
 	private AgendaType agendaType;
 	
-	private Collection<BusinessRule> businessRules = new ArrayList<BusinessRule>();
+	private Collection<BusinessRuleSet> businessRules = new ArrayList<BusinessRuleSet>();
 
     public Agenda(String name, AgendaType agendaType) {
         super();
@@ -25,16 +25,16 @@ public class Agenda
         return agendaType;
     }
 
-    public boolean addBusinessRule(BusinessRule rule) {
+    public boolean addBusinessRule(BusinessRuleSet rule) {
         return businessRules.add(rule);
     }
     
-    public Collection<BusinessRule> getBusinessRules() {
+    public Collection<BusinessRuleSet> getBusinessRules() {
         return businessRules;
     }
     
-    public BusinessRule getBusinessRule( String id ) {
-        for( BusinessRule rule : getBusinessRules() ) {
+    public BusinessRuleSet getBusinessRule( String id ) {
+        for( BusinessRuleSet rule : getBusinessRules() ) {
             if ( id.equals( rule.getId() ) ) {
                 return rule;
             }

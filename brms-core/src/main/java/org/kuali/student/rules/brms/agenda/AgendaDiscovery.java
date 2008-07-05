@@ -17,7 +17,7 @@ import org.drools.rule.Package;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.AgendaType;
 import org.kuali.student.rules.brms.agenda.entity.Anchor;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
@@ -63,7 +63,7 @@ public class AgendaDiscovery {
             FunctionalBusinessRule businessRule = iter.next();
             // for now, we have BusinessRuleType in Agenda object in case we need BusinessRuleType to determine
             // rules execution sequence when executing rules
-            agenda.addBusinessRule(new BusinessRule(
+            agenda.addBusinessRule(new BusinessRuleSet(
                     businessRule.getCompiledID(), businessRule.getName(), new BusinessRuleType(businessRule
                     .getBusinessRuleType(), businessRule.getBusinessRuleType()), 
                     businessRule.createAdjustedRuleFunctionString()));

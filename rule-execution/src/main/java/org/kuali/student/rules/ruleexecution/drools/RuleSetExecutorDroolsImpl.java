@@ -25,7 +25,7 @@ import org.drools.StatelessSessionResult;
 import org.drools.rule.Package;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 
@@ -47,7 +47,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
         RuleBase ruleBase = null;
         List<Package> packageList = new ArrayList<Package>();
         
-        for( BusinessRule businessRule : agenda.getBusinessRules() ) {
+        for( BusinessRuleSet businessRule : agenda.getBusinessRules() ) {
             Package pkg = (Package) ruleEngineRepository.loadCompiledRuleSet( businessRule.getId() );
             packageList.add( (Package) pkg );
         }

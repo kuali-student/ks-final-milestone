@@ -7,7 +7,7 @@ import java.util.HashMap
 import org.kuali.student.rules.brms.agenda.AgendaRequest
 import org.kuali.student.rules.brms.agenda.entity.Agenda
 import org.kuali.student.rules.brms.agenda.entity.AgendaType
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType
 
 rule "init"

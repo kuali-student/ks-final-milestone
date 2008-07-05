@@ -13,7 +13,7 @@ import org.kuali.student.rules.brms.agenda.AgendaRequest;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.AnchorType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
@@ -47,10 +47,10 @@ public class EnforceRule {
         
         Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
         
-        Iterator<BusinessRule> itr = agenda.getBusinessRules().iterator();
+        Iterator<BusinessRuleSet> itr = agenda.getBusinessRules().iterator();
         
         while(itr.hasNext()) {
-            BusinessRule rule = itr.next();
+            BusinessRuleSet rule = itr.next();
             String ruleID = rule.getId();
             
             System.out.println("\n\n");

@@ -32,7 +32,7 @@ import org.kuali.student.rules.brms.agenda.AgendaRequest;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.AnchorType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
@@ -61,7 +61,7 @@ public class AgendaRuleExectionTest extends AbstractTransactionalDaoTest {
 
         // Add a business rule since the agenda returns none
         BusinessRuleType ruleType = new BusinessRuleType("name", "type");
-        agenda.addBusinessRule(new BusinessRule("ruleId=uuid-123", "", ruleType, ""));
+        agenda.addBusinessRule(new BusinessRuleSet("ruleId=uuid-123", "", ruleType, ""));
 
         System.out.println("\n\n\n************* agenda = " + agenda);
         System.out.println("\n\n\n************* rules = " + agenda.getBusinessRules() + "\n\n\n");
