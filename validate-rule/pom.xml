@@ -30,19 +30,14 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>inspect-rule-failure</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-repository</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.brms</groupId>
-			<artifactId>generate-rule</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>		
 	 </dependencies>
 </project>
