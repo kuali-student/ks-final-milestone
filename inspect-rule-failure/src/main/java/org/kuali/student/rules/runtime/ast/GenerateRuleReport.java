@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
-import org.drools.WorkingMemory;
+import org.drools.StatelessSession;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.common.runtime.ast.BinaryTree;
@@ -33,7 +33,7 @@ public class GenerateRuleReport {
         try {
             // load up the rulebase
             RuleBase ruleBase = readRule(ruleResult);
-            WorkingMemory workingMemory = ruleBase.newStatefulSession();
+            StatelessSession session = ruleBase.newStatelessSession();
 
             // set the functionString and Maps from the proposition container
             fillStringAndMap(propContainer, ruleResult);
@@ -44,17 +44,10 @@ public class GenerateRuleReport {
             ASTtree.traverseTreePostOrder(root, null);
 
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
-            // Iterate over List<Node> and insert in memory
-            for (BooleanNode bnode : treeNodes) {
-                // System.out.println(bnode.getLabel() + " " + bnode.getValue() + " " + bnode.getNodeMessage());
-                workingMemory.insert(bnode);
-            }
-            // System.out.println("ABOUT TO FIRE ALL RULES");
-            workingMemory.fireAllRules();
-            // System.out.println( ASTtree.getRoot().getNodeMessage() + " IM ROOT");
+            session.execute(treeNodes);
 
         } catch (Throwable t) {
-            t.printStackTrace();
+            throw new RuntimeException( "Generating rule report failed", t );
         }
 
         // This is the final rule report message
