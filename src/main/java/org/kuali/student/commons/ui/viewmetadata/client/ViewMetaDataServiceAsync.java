@@ -17,7 +17,7 @@ public interface ViewMetaDataServiceAsync {
      * @param callback
      *            the callback to invoke when response is received
      */
-    public void getViewMetaData(String locale, String viewName, AsyncCallback<ViewMetaData> callback);
+    public void getViewMetaData(String locale, String viewName, AsyncCallback<Map<String, ViewMetaData>> callback);
 
     /**
      * Retrieves the ViewMetaData for the specified viewNames, and internationalization for those views associated with the

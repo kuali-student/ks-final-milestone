@@ -12,17 +12,18 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  */
 public interface ViewMetaDataService extends RemoteService {
     /**
-     * Returns the ViewMetaData for the specified viewName, and internationalization for that view associated with the
-     * specified locale
+     * Returns a Map<String, ViewMetaData> containing the ViewMetaData for the specified viewName, 
+     * and internationalization messages associated with the specified locale, as well as the view metadata 
+     * for any views on which the specified view depends.  
      * 
      * @param locale
      *            the locale to use when retrieving internationalization messages
      * @param viewName
      *            the view for which to retrieve metadata
-     * @return the ViewMetaData for the specified viewName, and internationalization for that view associated with the
+     * @return Map<String, ViewMetaData> containing the ViewMetaData for the specified viewName, and internationalization for that view associated with the
      *         specified locale
      */
-    public ViewMetaData getViewMetaData(String locale, String viewName);
+    public Map<String, ViewMetaData> getViewMetaData(String locale, String viewName);
 
     /**
      * Returns the ViewMetaData for the specified viewNames, and internationalization for those views associated with the

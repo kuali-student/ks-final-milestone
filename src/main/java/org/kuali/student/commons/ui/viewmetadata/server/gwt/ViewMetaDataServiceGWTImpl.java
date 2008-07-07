@@ -24,7 +24,7 @@ public class ViewMetaDataServiceGWTImpl extends RemoteServiceServlet implements 
      *      java.lang.String)
      */
     @Override
-    public ViewMetaData getViewMetaData(String locale, String viewName) {
+    public Map<String, ViewMetaData> getViewMetaData(String locale, String viewName) {
         return impl.getViewMetaData(locale, viewName);
     }
 

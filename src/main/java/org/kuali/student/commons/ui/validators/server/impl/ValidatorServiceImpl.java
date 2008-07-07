@@ -127,7 +127,6 @@ public class ValidatorServiceImpl implements ValidatorService {
      */
     @Override
     public ValidatorDefinition getValidatorDefinition(String id) {
-        System.out.println("retrieving validator " + id);
         ValidatorDefinition result = null;
         Connection conn = null;
         try {
@@ -196,7 +195,6 @@ public class ValidatorServiceImpl implements ValidatorService {
             result.append(line);
             result.append("\n");
         }
-        System.out.println("Validator content: " + result.toString());
         return result.toString();
     }
 
@@ -227,7 +225,6 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
 
     private void bootstrap(Connection conn, String id) throws SQLException {
-        System.out.println("Checking bootstrap for validator id " + id);
         if (requiresBootstrap(conn, id)) {
             System.out.println("Bootstrapping validator " + id);
             InputStream stream = this.getClass().getClassLoader().getResourceAsStream("validators/" + id + ".js");

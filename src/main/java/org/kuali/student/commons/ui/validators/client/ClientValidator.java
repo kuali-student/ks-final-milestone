@@ -74,12 +74,13 @@ public class ClientValidator implements Validator {
             m.putAll(additionalAttributes);
         }
 
+        System.out.println("DUMPING MESSAGES:\n" + messages.toString());
         doValidate(script, value, result, m, messages);
 
         return result;
     }
 
-    private final native void doValidate(String script, Object value, ValidationResult result, Map<String, String> attributes, Messages messages) /*-{
+    private final native void doValidate(String script, Object value, ValidationResult validationResult, Map<String, String> attributes, Messages messages) /*-{
        	var adapter = new Array();
        	
        	// getMessage
@@ -89,27 +90,28 @@ public class ClientValidator implements Validator {
        	
        	// addWarning
        	adapter[1] = function(message) {
-       		result.@org.kuali.student.commons.ui.validators.client.ValidationResult::addWarning(Ljava/lang/String;)(message);
+       	    validationResult.@org.kuali.student.commons.ui.validators.client.ValidationResult::addWarning(Ljava/lang/String;)(message);
        	};
        	
        	// addError
        	adapter[2] = function(message) {
-       		result.@org.kuali.student.commons.ui.validators.client.ValidationResult::addError(Ljava/lang/String;)(message);
+       	    //$wnd.document.write(typeof(validationResult));
+            validationResult.@org.kuali.student.commons.ui.validators.client.ValidationResult::addError(Ljava/lang/String;)(message);
        	};
        	
        	// isOk
        	adapter[3] = function() {
-       		return result.@org.kuali.student.commons.ui.validators.client.ValidationResult::isOk()();
+       		return validationResult.@org.kuali.student.commons.ui.validators.client.ValidationResult::isOk()();
        	};
        	
        	// isWarn
        	adapter[4] = function() {
-       		return result.@org.kuali.student.commons.ui.validators.client.ValidationResult::isWarn()();
+       		return validationResult.@org.kuali.student.commons.ui.validators.client.ValidationResult::isWarn()();
        	};
        	
        	// isError
        	adapter[5] = function() {
-       		return result.@org.kuali.student.commons.ui.validators.client.ValidationResult::isError()();
+       		return validationResult.@org.kuali.student.commons.ui.validators.client.ValidationResult::isError()();
        	};
        	
        	// getAttributeString

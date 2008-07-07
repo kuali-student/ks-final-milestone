@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataServiceAsync;

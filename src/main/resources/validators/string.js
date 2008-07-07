@@ -20,3 +20,25 @@ if (value.length > maxLength) {
 if (failedMinLengthCheck == false && getAttributeBoolean("required", false) && value == "") {
     addError(getMessage("isRequired"));
 }
+
+var validCharacters = getAttributeString("validCharacters", "");
+if (validCharacters != "") {
+	for (var i=0; i<value.length; i++) {
+		if (validCharacters.indexOf(value.charAt(i)) == -1) {
+			addError(getMessage("failedValidCharacters"));
+			break;
+		}
+	}
+}
+
+var invalidCharacters = getAttributeString("invalidCharacters", "");
+if (invalidCharacters != "") {
+	for (var i=0; i<value.length; i++) {
+		if (invalidCharacters.indexOf(value.charAt(i)) != -1) {
+			addError(getMessage("failedInvalidCharacters"));
+			break;
+		}
+	}
+}
+
+

@@ -13,11 +13,12 @@ public class Messages implements Serializable {
     private static final long serialVersionUID = 1L;
     private String groupName = null;
     private Map<String, String> messages = new HashMap<String, String>();
+    private Set<Messages> inheritedMessages = new HashSet<Messages>();
+
 
     public Messages() {
         super();
     }
-
     /**
      * Creates a Messages object containing a Map of messages
      * 
@@ -52,6 +53,18 @@ public class Messages implements Serializable {
     }
 
     /**
+     * 
+     * Returns a Set<Messages> of Messages objects inherited at the ViewMetaData level,
+     * defined using the "depends" property in the view configuration
+     * 
+     * @return Set<Messages> of Messages objects
+     */
+    public Set<Messages> getInheritedMessages() {
+        return inheritedMessages;
+    }
+
+
+    /**
      * Returns the keySet of the underlying Map of messages
      * 
      * @return the keySet of the underlying Map of messages
@@ -62,18 +75,28 @@ public class Messages implements Serializable {
 
     /**
      * Directly retrieves a message from the messages Map. Performs no interpolation of values.
+     * Searches inherited messages if they are loaded.
      * 
      * @param key
      *            the id of the message to retrieve
      * @return the raw message value, not interpolated
      */
     public String get(String key) {
-        return messages.get(key);
+        String result = messages.get(key);
+        if (result == null) {
+            for (Messages m : inheritedMessages) {
+                if ((result = m.get(key)) != null) {
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     /**
      * Retrieves a message from the messages Map. Performs interpolation based on parameter index, assuming message is
      * formatted using a ${0}..${n} syntax
+     * Searches inherited messages if they are loaded.
      * 
      * @param key
      *            the id of the message to retrieve
@@ -82,13 +105,14 @@ public class Messages implements Serializable {
      * @return the interpolated message
      */
     public String get(String key, String... data) {
-        String result = messages.get(key);
+        String result = get(key);
         return interpolate(result, data);
     }
 
     /**
      * Retrieves a message from the messages Map. Performs interpolation based on values contained in the data map, assuming
      * message is formatted using a ${key} syntax.
+     * Searches inherited messages if they are loaded.
      * 
      * @param key
      *            the id of the message to retrieve
@@ -97,7 +121,7 @@ public class Messages implements Serializable {
      * @return the interpolated message
      */
     public String get(String key, Map<String, String> data) {
-        String result = messages.get(key);
+        String result = get(key);
         result = interpolate(result, data);
         return result;
     }
@@ -105,6 +129,7 @@ public class Messages implements Serializable {
     /**
      * Retrieves a message from the messages Map. Performs interpolation based on both values contained in the data map, as
      * well as varargs based on index. Allows message format to use both ${key} and ${0}..${n} syntax.
+     * Searches inherited messages if they are loaded.
      * 
      * @param key
      *            the id of the message to retrieve
@@ -115,7 +140,7 @@ public class Messages implements Serializable {
      * @return the interpolated message
      */
     public String get(String key, Map<String, String> data1, String... data2) {
-        String result = messages.get(key);
+        String result = get(key);
         return interpolate(interpolate(result, data2), data1);
     }
 
@@ -140,7 +165,7 @@ public class Messages implements Serializable {
     public String interpolate(String message, String... data) {
         if (message != null) {
             for (int i = 0; i < data.length; i++) {
-                message = message.replaceAll("\\$\\{" + i + "\\}", "" + data[i]);
+                message = message.replaceAll("\\$\\{" + i + "\\}", "" + escape(data[i]));
             }
         }
         return message;
@@ -159,12 +184,19 @@ public class Messages implements Serializable {
         if (message != null) {
             Set<String> fields = findFields(message);
             for (String s : fields) {
-                message = message.replaceAll("\\$\\{" + s + "\\}", "" + data.get(s));
+                message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s)));
             }
         }
         return message;
     }
 
+    private String escape(String input) {
+        char[] toEscape = {'\\', '$', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}'};
+        for (char c : toEscape) {
+            input = input.replaceAll("\\" + c, "\\\\\\" + c);
+        }
+        return input;
+    }
     /**
      * Returns a Set<String> of all interpolation targets (fields) within a String.
      * 
@@ -183,4 +215,14 @@ public class Messages implements Serializable {
         return result;
     }
 
+    public String toString() {
+        String result = "Immediate messages: \n";
+        for (String key : messages.keySet()) {
+            result += key + " = " + messages.get(key) + "\n";
+        }
+        for (Messages m : inheritedMessages) {
+            result += "Inherited from " + m.getGroupName() + ":\n" + m.toString();
+        }
+        return result;
+    }
 }

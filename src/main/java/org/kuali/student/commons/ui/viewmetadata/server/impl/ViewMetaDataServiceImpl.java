@@ -15,6 +15,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.messages.client.MessagesService;
 import org.kuali.student.commons.ui.messages.server.impl.MessagesServiceImpl;
 import org.kuali.student.commons.ui.validators.client.ValidatorDefinition;
@@ -36,7 +37,26 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
      *      java.lang.String)
      */
     @Override
-    public ViewMetaData getViewMetaData(String locale, String viewName) {
+    public Map<String, ViewMetaData> getViewMetaData(String locale, String viewName) {
+        Map<String, ViewMetaData> result = new HashMap<String, ViewMetaData>();
+        loadViewMetadata(locale, viewName, result, null);
+        return result;
+    }
+
+    /**
+     * @see org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService#getViewMetaDataMap(java.lang.String,
+     *      java.util.List)
+     */
+    @Override
+    public Map<String, ViewMetaData> getViewMetaDataMap(String locale, List<String> viewNames) {
+        Map<String, ViewMetaData> result = new HashMap<String, ViewMetaData>();
+        for (String s : viewNames) {
+            result.putAll(getViewMetaData(locale, s)); 
+        }
+        return result;
+    }
+
+    private void loadViewMetadata(String locale, String viewName, Map<String, ViewMetaData> views, Messages rootLevelMessages) {
         ViewMetaData result = new ViewMetaData(viewName);
 
         Connection conn = null;
@@ -67,6 +87,17 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
             }
             rs.close();
             stmt.close();
+            
+            // get view configuration
+            Map<String, String> config = new HashMap<String, String>();
+            stmt = conn.prepareStatement("select attribute_key, attribute_value from view_configuration where view_name = ?");
+            stmt.setString(1, viewName);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                config.put(rs.getString(1), rs.getString(2));
+            }
+            result.setConfiguration(config);
+            
         } catch (Exception e) {
             throw new RuntimeException("Unable to retrieve view metadata", e);
         } finally {
@@ -80,21 +111,24 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
         }
 
         result.setMessages(messages.getMessages(locale, viewName));
-        return result;
+        if (rootLevelMessages == null) {
+            rootLevelMessages = result.getMessages();
+        } else {
+            rootLevelMessages.getInheritedMessages().add(result.getMessages());
+        }
+        views.put(viewName, result);
+        
+        // traverse dependencies
+        Set<String> depends = result.getInheritedViews();
+        for (String s : depends) {
+            System.out.println("LOADING MESSAGES BASED ON DEPENDENCY: " + s);
+            if (!views.containsKey(s)) {
+                loadViewMetadata(locale, s, views, rootLevelMessages);
+            }
+        }
     }
 
-    /**
-     * @see org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService#getViewMetaDataMap(java.lang.String,
-     *      java.util.List)
-     */
-    @Override
-    public Map<String, ViewMetaData> getViewMetaDataMap(String locale, List<String> viewNames) {
-        Map<String, ViewMetaData> result = new HashMap<String, ViewMetaData>();
-        for (String s : viewNames) {
-            result.put(s, getViewMetaData(locale, s));
-        }
-        return result;
-    }
+
 
     private Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         // System.setProperty("derby.system.home", System.getProperty("java.io.tmpdir") + "/derby");
@@ -118,6 +152,8 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
             stmt.execute("create table view_fields (" + " view_name varchar(50) not null," + " field_name varchar(50) not null " + ")");
 
             stmt.execute("create table field_attributes (" + " field_name varchar(50) not null," + " attribute_key varchar(50) not null," + " attribute_value varchar(250) not null " + ")");
+
+            stmt.execute("create table view_configuration (view_name varchar(50) not null, attribute_key varchar(50) not null, attribute_value varchar(250) not null)");
 
             stmt.close();
             conn.commit();
@@ -162,6 +198,24 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
                 }
             } catch (MissingResourceException mre) {
                 System.out.println("No bootstrap field metadata file found for " + viewName);
+            }
+            try {
+                ResourceBundle bundle = ResourceBundle.getBundle("views." + viewName + ".configuration");
+                Enumeration<String> keys = bundle.getKeys();
+                if (keys.hasMoreElements()) {
+                    PreparedStatement stmt = conn.prepareStatement("insert into view_configuration (view_name, attribute_key, attribute_value) values (?, ?, ?)");
+                    while(keys.hasMoreElements()) {
+                        String key = keys.nextElement();
+                        stmt.setString(1, viewName);
+                        stmt.setString(2, key);
+                        stmt.setString(3, bundle.getString(key));
+                        stmt.execute();
+                    }
+                    conn.commit();
+                }
+                
+            } catch (MissingResourceException mre) {
+                System.out.println("No bootstrap view configuration file found for " + viewName);
             }
         }
     }

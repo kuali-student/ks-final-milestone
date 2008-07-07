@@ -26,7 +26,7 @@ public class MessagesServiceImpl implements MessagesService {
      * @see org.kuali.student.commons.ui.messages.client.MessagesService
      */
     @Override
-    public org.kuali.student.commons.ui.messages.client.Messages getMessages(String locale, String groupName) {
+    public Messages getMessages(String locale, String groupName) {
         Messages result = null;
         Connection conn = null;
         try {
