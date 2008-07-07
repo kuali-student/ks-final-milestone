@@ -549,7 +549,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Loads all rule set (and rules) for a specific uuid.
+     * Loads a rule set (and rules) for a specific uuid.
      * 
      * @param uuid
      *            Rule set uuid
@@ -567,6 +567,27 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             return ruleSet;
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Loading rule set failed: uuid=" + uuid, e);
+        }
+    }
+
+    /**
+     * 
+     * Loads a rule set (and rules) for a specific rule set name.
+     * 
+     * @param ruleSetName rule set name
+     * @return A rule set
+     */
+    public RuleSet loadRuleSetByName(String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        }
+
+        try {
+            PackageItem pkg = this.repository.loadPackage(ruleSetName);
+            RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
+            return ruleSet;
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: ruleSetName=" + ruleSetName, e);
         }
     }
 
@@ -1069,6 +1090,22 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
+     * Loads a compiled rule set.
+     * 
+     * @param ruleSetUUID
+     *            Rule set uuid
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public Object loadCompiledRuleSetByName(String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        }
+
+        return droolsUtil.getPackage(loadCompiledRuleSetAsBytesByName(ruleSetName));
+    }
+
+    /**
      * Loads a compiled rule set as an array of bytes.
      * 
      * @param ruleSetUUID
@@ -1088,6 +1125,28 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetUuid=" + ruleSetUUID, e);
         } catch (Exception e) {
             throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetUuid=" + ruleSetUUID, e);
+        }
+    }
+
+    /**
+     * Loads a compiled rule set by rule set name as an array of bytes.
+     * 
+     * @param ruleSetName Rule set name
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
+        }
+
+        try {
+            PackageItem pkg = this.repository.loadPackage(ruleSetName);
+            return pkg.getCompiledPackageBytes();
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetName=" + ruleSetName, e);
+        } catch (Exception e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetName=" + ruleSetName, e);
         }
     }
 

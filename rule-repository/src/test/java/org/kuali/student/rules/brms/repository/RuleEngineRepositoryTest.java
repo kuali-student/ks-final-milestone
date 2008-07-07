@@ -568,6 +568,34 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
+    public void testCreateAndLoadRuleSetByName() throws Exception {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSet ruleSet = createRuleSet("MyRuleSet", "My new rule set", header);
+
+        String ruleCategory = null; //"MyCategory";
+        
+        Rule rule1 = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
+                droolsTestUtil.getSimpleRule1());
+        ruleSet.addRule(rule1);
+
+        Rule rule2 = createRuleDRL("MyRule2", "My new rule 2", ruleCategory, 
+                droolsTestUtil.getSimpleRule2());
+        ruleSet.addRule(rule2);
+
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet);
+        assertTrue( ruleSetUUID != null && !ruleSetUUID.isEmpty() );
+        
+        RuleSet ruleSet2 = brmsRepository.loadRuleSetByName(ruleSet.getName());
+        // Rule Set 
+        assertRuleSet(ruleSet, ruleSet2);
+        // Rule 1 
+        assertRule(ruleSet.getRules().get(0), ruleSet2.getRules().get(0));
+        // Rule 2 
+        assertRule(ruleSet.getRules().get(1), ruleSet2.getRules().get(1));
+    }
+
+    @Test
     public void testCheckinRuleSet() throws Exception {
         RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
         
@@ -605,9 +633,6 @@ public class RuleEngineRepositoryTest {
     
     @Test
     public void testLoadCompiledRuleSet() throws Exception {
-        String ruleCategory = "MyCategory";
-        brmsRepository.createCategory("/", ruleCategory, "My new rule category");
-
         String ruleSetUUID = createSimpleRuleSet("MyRuleSet").getUUID();
         
         org.drools.rule.Package binPkg = (org.drools.rule.Package) 
@@ -615,6 +640,33 @@ public class RuleEngineRepositoryTest {
 
         assertNotNull(binPkg);
         assertTrue(binPkg.isValid());
+    }
+    
+    @Test
+    public void testLoadCompiledRuleSetAsBytes() throws Exception {
+        String ruleSetUUID = createSimpleRuleSet("MyRuleSet").getUUID();
+        
+        byte[] bytes = brmsRepository.loadCompiledRuleSetAsBytes(ruleSetUUID);
+        assertNotNull(bytes);
+    }
+    
+    @Test
+    public void testLoadCompiledRuleSetByName() throws Exception {
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        
+        org.drools.rule.Package binPkg = (org.drools.rule.Package) 
+            brmsRepository.loadCompiledRuleSetByName(ruleSet.getName());
+
+        assertNotNull(binPkg);
+        assertTrue(binPkg.isValid());
+    }
+    
+    @Test
+    public void testLoadCompiledRuleSetAsBytesByName() throws Exception {
+        RuleSet ruleSet = createSimpleRuleSet("MyRuleSet");
+        
+        byte[] bytes = brmsRepository.loadCompiledRuleSetAsBytesByName(ruleSet.getName());
+        assertNotNull(bytes);
     }
     
     @Test
