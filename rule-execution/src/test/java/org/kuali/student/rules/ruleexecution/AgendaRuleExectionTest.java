@@ -24,47 +24,28 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
-import org.kuali.student.rules.brms.agenda.AgendaRequest;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.Anchor;
-import org.kuali.student.rules.brms.agenda.entity.AnchorType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.common.agenda.entity.Agenda;
+import org.kuali.student.rules.common.agenda.entity.AgendaType;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
+import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
-@ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
-public class AgendaRuleExectionTest extends AbstractTransactionalDaoTest {
-
-    @Autowired
-    AgendaDiscovery agendaDiscovery;
-
+public class AgendaRuleExectionTest { 
     @Test
     public void testExecuteAgenda() throws Exception {
+        // Create an agenda
+        AgendaType agendaType = new AgendaType( "Student Plans Course", "student.planning.course" );
+        Agenda agenda = new Agenda("TestAgenda", agendaType);
 
-        AgendaRequest request = new AgendaRequest("student", "course", "offered", "planned");
-        AnchorType anchorType = new AnchorType("course", "clu.type.course");
-        String anchorID = "math301";
-        Anchor anchor = new Anchor(anchorID, "Math-301", anchorType);
-        // Get the specific agenda for math301
-        Agenda agenda = agendaDiscovery.getAgenda(request, anchor);
-
-        // Add a business rule since the agenda returns none
+        // Add a business rule
         BusinessRuleType ruleType = new BusinessRuleType("name", "type");
         agenda.addBusinessRule(new BusinessRuleSet("ruleId=uuid-123", "", ruleType, ""));
 
-        System.out.println("\n\n\n************* agenda = " + agenda);
-        System.out.println("\n\n\n************* rules = " + agenda.getBusinessRules() + "\n\n\n");
+        System.out.println("\nagenda = " + agenda);
+        System.out.println("rules = " + agenda.getBusinessRules() + "\n");
 
         // Create repository
         RuleEngineRepository ruleEngineRepository = new RuleEngineRepositoryMock();

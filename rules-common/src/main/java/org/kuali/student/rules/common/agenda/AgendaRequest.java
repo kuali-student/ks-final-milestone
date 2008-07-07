@@ -1,4 +1,4 @@
-package org.kuali.student.rules.brms.agenda;
+package org.kuali.student.rules.common.agenda;
 
 public class AgendaRequest {
         private String luiPersonRelationType;

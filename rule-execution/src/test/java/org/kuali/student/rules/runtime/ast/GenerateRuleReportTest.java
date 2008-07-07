@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.statement.PropositionReport;
 import org.kuali.student.rules.common.statement.SubsetProposition;
+import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 
 public class GenerateRuleReportTest {
 

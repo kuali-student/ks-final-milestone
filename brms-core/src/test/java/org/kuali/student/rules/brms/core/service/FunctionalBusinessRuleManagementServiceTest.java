@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
