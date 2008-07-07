@@ -24,6 +24,14 @@
 	<classpathentry kind="src" output="validate-rule/target/classes" path="validate-rule/src/main/resources"/>
 	<classpathentry kind="src" output="validate-rule/target/test-classes" path="validate-rule/src/test/java"/>
 	<classpathentry kind="src" output="validate-rule/target/test-classes" path="validate-rule/src/test/resources"/>
+    <classpathentry kind="src" output="facts/target/classes" path="facts/src/main/java"/>
+    <classpathentry kind="src" output="facts/target/test-classes" path="facts/src/test/java">
+        <attributes>
+            <attribute name="maven.type" value="test"/>
+        </attributes>
+    </classpathentry>
+    <classpathentry kind="src" output="facts/target/classes" path="facts/src/main/resources"/>
+    <classpathentry kind="src" output="facts/target/test-classes" path="facts/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
 	<classpathentry kind="output" path="bin"/>

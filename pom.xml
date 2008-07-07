@@ -25,6 +25,7 @@
 		<module>rule-repository</module>
 		<module>validate-rule</module>
 		<module>rule-execution</module>
+        <module>facts</module>
 	</modules>
 
 	<scm>
