@@ -7,7 +7,7 @@
  */
 package org.kuali.student.rules.brms.core.dao;
 
-import org.kuali.student.rules.brms.core.entity.ComputationAssistant;
+import org.kuali.student.rules.common.entity.ComputationAssistant;
 
 /**
  * Defines DAO operations for Computation Assistant

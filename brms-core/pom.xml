@@ -2,7 +2,7 @@
 <project>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.kuali.student.poc.brms</groupId>
+  <groupId>org.kuali.student.brms</groupId>
   <artifactId>brms-core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Kuali Student BRMS - brms-core</name>
@@ -10,46 +10,46 @@
 
   <parent>
     <artifactId>brms-ri</artifactId>
-    <groupId>org.kuali.student.poc.brms</groupId>
+    <groupId>org.kuali.student.brms</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
     
-  <dependencies>
-	  <dependency>
+	<dependencies>
+		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
-	  </dependency>    
-    <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>persistence-api</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derbyclient</artifactId>
-      <version>10.3.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.student.poc.brms</groupId>
-      <artifactId>rule-repository</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-         <groupId>org.drools</groupId>
-         <artifactId>drools-compiler</artifactId>
-         <version>${drools.version}</version>
-         <exclusions>
-             <exclusion>
-                 <groupId>xerces</groupId>
-                 <artifactId>xercesImpl</artifactId>
-             </exclusion>
-         </exclusions>
-     </dependency>
-     <dependency>
-         <groupId>org.drools</groupId>
-         <artifactId>drools-core</artifactId>
-         <version>${drools.version}</version>
-     </dependency>
-  </dependencies>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<version>10.3.2.1</version>
+		</dependency>
+        <dependency>
+            <groupId>org.kuali.student.brms</groupId>
+            <artifactId>rules-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<version>${drools.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+	</dependencies>
 </project>

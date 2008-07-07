@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;

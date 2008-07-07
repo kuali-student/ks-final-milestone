@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.brms</groupId>
+	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>brms-ri</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-    <name>Kuali Student BRMS RI</name>
+	<name>Kuali Student BRMS RI</name>
 	<description></description>
 
 	<parent>
@@ -22,19 +22,18 @@
 	<modules>
 		<module>rules-common</module>
 		<module>brms-core</module>
-		<module>inspect-rule-failure</module>
-        <module>rule-repository</module>
-        <module>generate-rule</module>
-        <module>validate-rule</module>
-        <module>rule-execution</module>
+		<module>rule-repository</module>
+		<module>validate-rule</module>
+		<module>rule-execution</module>
+        <module>facts</module>
 	</modules>
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev2
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev2
 		</developerConnection>
 	</scm>
 

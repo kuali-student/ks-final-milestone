@@ -1,25 +1,23 @@
 package org.kuali.student.rules.validate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
-import org.kuali.student.rules.brms.agenda.AgendaRequest;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.Anchor;
-import org.kuali.student.rules.brms.agenda.entity.AnchorType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.common.agenda.AgendaRequest;
+import org.kuali.student.rules.common.agenda.entity.Agenda;
+import org.kuali.student.rules.common.agenda.entity.Anchor;
+import org.kuali.student.rules.common.agenda.entity.AnchorType;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
-import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
-import org.kuali.student.rules.statement.PropositionContainer;
+import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.util.FactContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,10 +47,10 @@ public class EnforceRule {
         
         Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
         
-        Iterator<BusinessRule> itr = agenda.getBusinessRules().iterator();
+        Iterator<BusinessRuleSet> itr = agenda.getBusinessRules().iterator();
         
         while(itr.hasNext()) {
-            BusinessRule rule = itr.next();
+            BusinessRuleSet rule = itr.next();
             String ruleID = rule.getId();
             
             System.out.println("\n\n");
