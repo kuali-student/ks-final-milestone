@@ -201,7 +201,7 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public void importRulesRepository(byte[] byteArray) {
+    public void importRulesRepositoryAsXml(byte[] byteArray) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
@@ -315,4 +315,19 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
     
+    @Override
+    public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public Object loadCompiledRuleSetByName(String ruleSetName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public RuleSet loadRuleSetByName(String ruleSetName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
 }
