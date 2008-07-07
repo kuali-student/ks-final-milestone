@@ -536,7 +536,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Byte array (XML file) - E.g. an repository_export.xml
      * @throws RuleEngineRepositoryException
      */
-    public void importRulesRepository(byte[] byteArray) {
+    public void importRulesRepositoryAsXml(byte[] byteArray) {
         if (byteArray == null || byteArray.length == 0) {
             throw new IllegalArgumentException("byteArray cannot be null or empty");
         }
@@ -1386,5 +1386,5 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                         "ruleName=" + rule.getName(), e);
             }
         }
-    }    
+    }
 }

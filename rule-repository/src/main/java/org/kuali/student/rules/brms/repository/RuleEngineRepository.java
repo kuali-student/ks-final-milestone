@@ -407,7 +407,7 @@ public interface RuleEngineRepository {
      *            Byte array (XML file) - E.g. an repository_export.xml
      * @throws RuleEngineRepositoryException
      */
-    public void importRulesRepository(byte[] byteArray);
+    public void importRulesRepositoryAsXml(byte[] byteArray);
 
     /**
      * Creates and compiles a rule set.

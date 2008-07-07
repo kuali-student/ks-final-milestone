@@ -1140,7 +1140,7 @@ public class RuleEngineRepositoryTest {
             // Export repository
             byte[] export = brmsRepository.exportRulesRepositoryAsXml();
             brmsRepository.removeRule(ruleSet.getRules().get(0).getUUID());
-            brmsRepository.importRulesRepository(export);
+            brmsRepository.importRulesRepositoryAsXml(export);
             assertTrue(true);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
@@ -1163,7 +1163,7 @@ public class RuleEngineRepositoryTest {
             assertNotNull(byteExport);
 
             brmsRepository.removeRule(ruleSet.getRules().get(0).getUUID());
-            brmsRepository.importRulesRepository(byteExport);
+            brmsRepository.importRulesRepositoryAsXml(byteExport);
             assertTrue(true);
         } catch (RuleEngineRepositoryException e) {
             fail(e.getMessage());
