@@ -262,7 +262,7 @@
 						<configuration>
 							<systemProperties>
 								<property>
-									<name>ks.use.proxy</name>
+									<name>ks.use.jaxws</name>
 									<value>true</value>
 								</property>
 							</systemProperties>
