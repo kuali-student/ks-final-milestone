@@ -1,0 +1,6 @@
+<module>
+	<inherits name='com.google.gwt.user.User' />
+	<source path='logging/client' />
+	<servlet class="org.kuali.student.commons.ui.logging.server.LogServiceImpl" path="/LogService"/>
+  
+</module>
