@@ -17,7 +17,7 @@ package org.kuali.student.rules.ruleexecution;
 
 import java.util.List;
 
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
+import org.kuali.student.rules.common.agenda.entity.Agenda;
 
 public interface RuleSetExecutor {
 

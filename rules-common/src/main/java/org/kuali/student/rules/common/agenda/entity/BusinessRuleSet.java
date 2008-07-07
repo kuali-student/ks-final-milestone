@@ -1,4 +1,4 @@
-package org.kuali.student.rules.brms.agenda.entity;
+package org.kuali.student.rules.common.agenda.entity;
 
 public class BusinessRuleSet
 {

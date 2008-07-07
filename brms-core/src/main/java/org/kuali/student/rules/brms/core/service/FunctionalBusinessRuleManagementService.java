@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;

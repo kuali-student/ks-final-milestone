@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,12 +13,13 @@ import org.drools.StatelessSession;
 import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.AgendaType;
-import org.kuali.student.rules.brms.agenda.entity.Anchor;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.common.agenda.AgendaRequest;
+import org.kuali.student.rules.common.agenda.entity.Agenda;
+import org.kuali.student.rules.common.agenda.entity.AgendaType;
+import org.kuali.student.rules.common.agenda.entity.Anchor;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.common.entity.FunctionalBusinessRule;
 
 public class AgendaDiscovery {

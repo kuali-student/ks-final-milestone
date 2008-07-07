@@ -24,10 +24,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.AgendaType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.common.agenda.entity.Agenda;
+import org.kuali.student.rules.common.agenda.entity.AgendaType;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;

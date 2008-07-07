@@ -23,10 +23,9 @@ import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.drools.StatelessSessionResult;
 import org.drools.rule.Package;
-import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.common.agenda.entity.Agenda;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
@@ -40,7 +39,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
     /**
      * Executes an <code>agenda</code> with <code>fact</code>
      * 
-     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutor#execute(org.kuali.student.rules.brms.agenda.entity.Agenda, java.lang.Object)
+     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutor#execute(org.kuali.student.rules.common.agenda.entity.Agenda, java.lang.Object)
      * @return {@link java.util.Iterator}
      */
     public Object execute( Agenda agenda, List<Object> facts ) {
@@ -65,7 +64,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor{
     private RuleBase getRuleBase( List<Package> packages ) {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
-        ClassLoader newClassLoader = AgendaDiscovery.class.getClassLoader();
+        ClassLoader newClassLoader = RuleSetExecutorDroolsImpl.class.getClassLoader();
 
         try
         {
