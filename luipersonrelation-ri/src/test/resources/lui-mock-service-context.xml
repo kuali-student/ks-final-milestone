@@ -170,11 +170,10 @@
 		class="org.kuali.student.poc.common.test.spring.LoadBeanListener">
 		<property name="ldb" ref="loadDataBean" />
 	</bean>
--->
   <bean id="droolsCompiler" class="org.kuali.student.rules.brms.util.POC2ADroolsLoader"
   	init-method="init">
   	<property name="brmsService" ref="brmsService"/>
   	<property name="droolsRepository" ref="droolsRepository"/>  	
   </bean>
-
+-->
 </beans>
