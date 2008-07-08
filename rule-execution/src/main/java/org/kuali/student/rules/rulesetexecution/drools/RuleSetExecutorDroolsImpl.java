@@ -18,6 +18,7 @@ package org.kuali.student.rules.rulesetexecution.drools;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +31,13 @@ import org.drools.rule.Package;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.common.agenda.entity.Agenda;
 import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.common.statement.PropositionContainer;
+import org.kuali.student.rules.common.util.Request;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
+import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
+import org.kuali.student.rules.util.FactContainer;
 
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecutorInternal {
 
@@ -56,12 +61,43 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         List<Package> packageList = new ArrayList<Package>();
         
         for( BusinessRuleSet businessRule : agenda.getBusinessRules() ) {
-            Package pkg = (Package) ruleEngineRepository.loadCompiledRuleSet( businessRule.getId() );
+            Package pkg = (Package) this.ruleEngineRepository.loadCompiledRuleSet( businessRule.getId() );
             packageList.add((Package) pkg);
         }
         RuleBase ruleBase = getRuleBase(packageList);
-        
-        return executeRule(ruleBase, facts).iterateObjects();
+
+        Iterator iterator = executeRule(ruleBase, facts).iterateObjects();
+        generateReport(facts);
+        return iterator;
+    }
+    
+    /*private FactContainer getFactContainer(BusinessRuleSet businessRule, List facts) {
+        String anchorId = businessRule.getAnchor().getId();
+        Request req = null;
+        for(int i=0; i<facts.size(); i++) {
+            Object obj = facts.get(i);
+            if (obj instanceof Request) {
+                req = (Request) obj;
+                if (req.getId().equals(anchorId)) {
+                    break;
+                }
+           }
+        }
+
+        PropositionContainer pc = new PropositionContainer();
+        pc.setFunctionalRuleString(businessRule.getFunctionalRuleString());
+        return new FactContainer( anchorId, req, pc );
+    }*/
+    
+    private void generateReport(List facts) {
+        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(this);
+        for(int i=0; i<facts.size(); i++) {
+            Object obj = facts.get(i);
+            if (obj instanceof FactContainer) {
+                FactContainer fc = (FactContainer) obj;
+                ruleReportBuilder.execute(fc.getPropositionContainer());
+           }
+        }
     }
 
     /**
