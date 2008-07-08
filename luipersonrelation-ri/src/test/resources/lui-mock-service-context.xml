@@ -133,7 +133,6 @@
 	<!--  Rule Engine Beans -->
   
   <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
-
   </bean>
 
   <bean id="brmsService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
@@ -158,22 +157,18 @@
 	<bean id="rulesRepository"
       factory-bean="defaultDroolsRepositoryContainer"
       factory-method="getRepository"/>    	
+
 <!-- 
 	<bean id="loadDataBean"
 		class="org.kuali.student.poc.common.test.spring.LoadDataBean">
 		<property name="daoAnnotations"
 			value="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl" />
-		<property name="contextLocation"	value="classpath:test-beans.xml" />			
+		<property name="contextLocation"	value="classpath:lpr-test-beans.xml" />			
 	</bean>
 
 	<bean id="loadBeanListener"
 		class="org.kuali.student.poc.common.test.spring.LoadBeanListener">
 		<property name="ldb" ref="loadDataBean" />
 	</bean>
-  <bean id="droolsCompiler" class="org.kuali.student.rules.brms.util.POC2ADroolsLoader"
-  	init-method="init">
-  	<property name="brmsService" ref="brmsService"/>
-  	<property name="droolsRepository" ref="droolsRepository"/>  	
-  </bean>
 -->
 </beans>
