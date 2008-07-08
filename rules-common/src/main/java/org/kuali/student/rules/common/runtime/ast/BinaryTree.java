@@ -11,8 +11,8 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.TreeAdaptor;
 
-import org.kuali.student.rules.parsers.BooleanFunctionLexer;
-import org.kuali.student.rules.parsers.BooleanFunctionParser;
+import org.kuali.student.rules.common.parsers.BooleanFunctionLexer;
+import org.kuali.student.rules.common.parsers.BooleanFunctionParser;
 
 public class BinaryTree {
 

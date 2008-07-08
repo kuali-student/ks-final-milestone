@@ -24,7 +24,7 @@
                 <version>1.0</version>
                 <configuration>
                     <outputDirectory>
-                        src/main/java/org/kuali/student/rules/parsers
+                        src/main/java/org/kuali/student/rules/common/parsers
                     </outputDirectory>
                 </configuration>
                 <executions>
