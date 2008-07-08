@@ -5,37 +5,43 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.StatelessSession;
-import org.drools.compiler.PackageBuilder;
-import org.drools.rule.Package;
 import org.kuali.student.rules.common.runtime.ast.BinaryTree;
 import org.kuali.student.rules.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.statement.PropositionReport;
 import org.kuali.student.rules.common.util.Function;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.
  */
 public class GenerateRuleReport {
-
+    private RuleSetExecutorInternal ruleSetExecutor;
     private HashMap<String, Boolean> nodeValueMap;
     private HashMap<String, String> nodeMessageMap;
     private boolean ruleResult;
     private String functionString;
+    
+    private final String SUCCESS_FAILURE_MESSAGE_LOGGER = "SuccessFailureMessageLogger";
 
-    public PropositionContainer executeRule(PropositionContainer propContainer) {
+    public GenerateRuleReport(RuleSetExecutorInternal ruleSetExecutor) {
+        this.ruleSetExecutor = ruleSetExecutor;
+        // Add default rulesets/packages
+        addRuleSets();
+    }
+
+    /**
+     * Creates proposition result report.
+     * 
+     * @param propContainer Contains a list of propositions
+     * @return The proposition container <code>propContainer</code> with a report
+     */
+    public PropositionContainer execute(PropositionContainer propContainer) {
         BinaryTree ASTtree = null;
         ruleResult = propContainer.getRuleResult();
 
         try {
-            // load up the rulebase
-            RuleBase ruleBase = readRule(ruleResult);
-            StatelessSession session = ruleBase.newStatelessSession();
-
             // set the functionString and Maps from the proposition container
             fillStringAndMap(propContainer, ruleResult);
 
@@ -45,7 +51,7 @@ public class GenerateRuleReport {
             ASTtree.traverseTreePostOrder(root, null);
 
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
-            session.execute(treeNodes);
+            this.ruleSetExecutor.execute(SUCCESS_FAILURE_MESSAGE_LOGGER, treeNodes);
 
         } catch (Throwable t) {
             throw new RuleSetExecutionException( "Generating rule report failed", t );
@@ -74,7 +80,6 @@ public class GenerateRuleReport {
         List<String> funcVars = func.getVariables();
 
         for (String var : funcVars) {
-
             Boolean value = propContainer.getProposition(var).getResult();
             nodeValueMap.put(var, value);
 
@@ -91,28 +96,12 @@ public class GenerateRuleReport {
     }
 
     /**
-     * Please note that this is the "low level" rule assembly API.
+     * Add default rule sets
      */
-    private RuleBase readRule(boolean ruleResult) throws Exception {
-        // read in the source
-        Reader source = null;
-
-        if (ruleResult == true) {
-            source = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/SuccessMessageLogger.drl"));
-        } else {
-            source = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/FailureMessageLogger.drl"));
-        }
-
-        PackageBuilder builder = new PackageBuilder();
-
-        builder.addPackageFromDrl(source);
-
-        Package pkg = builder.getPackage();
-
-        // add the package to a rulebase (deploy the rule package).
-        RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-        ruleBase.addPackage(pkg);
-        return ruleBase;
+    private void addRuleSets() {
+        Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/SuccessMessageLogger.drl"));
+        this.ruleSetExecutor.add(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
+        Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/FailureMessageLogger.drl"));
+        this.ruleSetExecutor.add(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
     }
-
 }

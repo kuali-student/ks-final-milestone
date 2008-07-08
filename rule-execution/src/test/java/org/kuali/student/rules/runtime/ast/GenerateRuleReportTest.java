@@ -5,27 +5,38 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.statement.PropositionReport;
 import org.kuali.student.rules.common.statement.SubsetProposition;
+import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
+import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 
 public class GenerateRuleReportTest {
 
 	private String functionalRuleString;
-	
+
 	private SubsetProposition<String> subsetPropA = new SubsetProposition<String>("A", null, null, null, null );
 	private SubsetProposition<String> subsetPropB = new SubsetProposition<String>("B", null, null, null, null );
 	private SubsetProposition<String> subsetPropC = new SubsetProposition<String>("C", null, null, null, null );
 	private SubsetProposition<String> subsetPropD = new SubsetProposition<String>("D", null, null, null, null );
-	
+
 	private PropositionReport propositionReportA = new PropositionReport();
 	private PropositionReport propositionReportB = new PropositionReport();
 	private PropositionReport propositionReportC = new PropositionReport();
 	private PropositionReport propositionReportD = new PropositionReport();
-    
+
+	private GenerateRuleReport generateRuleReport;
+
 	@Before
 	public void setUp() throws Exception {
+        // Create repository
+        RuleEngineRepository ruleEngineRepository = new RuleEngineRepositoryMock();
+        // Create the rule set executor (use Spring IoC)
+        RuleSetExecutorInternal executor = new RuleSetExecutorDroolsImpl(ruleEngineRepository);
+	    this.generateRuleReport = new GenerateRuleReport(executor);
 	}
 	
 	@Test
@@ -59,7 +70,7 @@ public class GenerateRuleReportTest {
 	    
 	    String expected = "Need MATH 200";
 	    
-	    PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
+	    PropositionContainer propContainer = this.generateRuleReport.execute(pc);
 	    PropositionReport ruleReport = propContainer.getRuleReport();
 	    String actual = ruleReport.getFailureMessage();
 	    
@@ -100,7 +111,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
         
-        PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
+        PropositionContainer propContainer = this.generateRuleReport.execute(pc);
         PropositionReport ruleReport = propContainer.getRuleReport();
         String actual = ruleReport.getFailureMessage();
         
@@ -141,7 +152,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
         
-        PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
+        PropositionContainer propContainer = this.generateRuleReport.execute(pc);
         PropositionReport ruleReport = propContainer.getRuleReport();
         String actual = ruleReport.getSuccessMessage();
         
@@ -182,7 +193,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Have MATH 200 OR Have English 6000";
         
-        PropositionContainer propContainer = new GenerateRuleReport().executeRule(pc);
+        PropositionContainer propContainer = this.generateRuleReport.execute(pc);
         PropositionReport ruleReport = propContainer.getRuleReport();
         String actual = ruleReport.getSuccessMessage();
         

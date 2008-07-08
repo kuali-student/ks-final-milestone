@@ -83,7 +83,7 @@ public class EnforceRule {
                 // Eating exception here. BAD BAD Code!
             }
 
-            ruleReportBuilder.executeRule(props);
+            ruleReportBuilder.execute(props);
             
             // 5. Process rule outcome
             if (props.getRuleResult()) {

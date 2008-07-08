@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.student.rules.common.agenda.entity.Agenda;
 
-public interface RuleSetExecutor {
+public interface RuleSetExecutor extends RuleSetExecutorInternal {
 
     /**
      * Executes an <code>agenda</code> with <code>fact</code>
@@ -28,5 +28,5 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object execute( Agenda agenda, List<Object> facts );
+    public Object execute(Agenda agenda, List facts);
 }
