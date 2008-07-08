@@ -66,16 +66,18 @@ public class AllInOneDRLTest {
 
     @Test
     public void testFireRules_Math_Chem_Cpr() throws Exception {
-        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest();
-        CourseEnrollmentRequest req2 = new CourseEnrollmentRequest();
+        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest("Math101");
+        CourseEnrollmentRequest req2 = new CourseEnrollmentRequest("Chem201");
+        CourseEnrollmentRequest req3 = new CourseEnrollmentRequest("Cpr101");
         Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
         req1.setLuiIds(luiIds);
+        req3.setLuiIds(luiIds);
         Set<String> luiIds2 = new HashSet<String>(Arrays.asList("ENGL101,ENGL102,HIST101,HIST102".split(",")));
         req2.setLuiIds(luiIds2);
 
-        FactContainer factContainer1 = new FactContainer( "Math101", req1, new PropositionContainer() );
-        FactContainer factContainer2 = new FactContainer( "Chem201", req2, new PropositionContainer() );
-        FactContainer factContainer3 = new FactContainer( "Cpr101", req1, new PropositionContainer() );
+        FactContainer factContainer1 = new FactContainer("Math101", req1, new PropositionContainer());
+        FactContainer factContainer2 = new FactContainer("Chem201", req2, new PropositionContainer());
+        FactContainer factContainer3 = new FactContainer("Cpr101", req3, new PropositionContainer());
 
         List<FactContainer> factList = Arrays.asList( factContainer1, factContainer2, factContainer3 );
         

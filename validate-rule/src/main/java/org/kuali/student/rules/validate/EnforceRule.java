@@ -1,8 +1,24 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.validate;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.drools.RuleBase;
@@ -17,6 +33,7 @@ import org.kuali.student.rules.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
@@ -65,7 +82,7 @@ public class EnforceRule {
             // 3. Inject facts
             PropositionContainer props =  new PropositionContainer();
             props.setFunctionalRuleString(rule.getFunctionalRuleString());
-            CourseEnrollmentRequest request = new CourseEnrollmentRequest();
+            CourseEnrollmentRequest request = new CourseEnrollmentRequest(rule.getBusinessRuleName());
             request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
 
             //factList.add(props);
@@ -108,6 +125,31 @@ public class EnforceRule {
 
         return result;
     }
+
+    /*public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
+            String relationState) {
+        luiID = luiID.replaceAll("\\s", "_");
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+        ValidationResult result = new ValidationResult();
+
+        //1. Discover Agenda
+        AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationType, "course", "offered", relationState );
+        AnchorType type = new AnchorType( "course", "clu.type.course" );
+        Anchor anchor = new Anchor( luiID, luiID, type );
+        
+        Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
+        
+        //PropositionContainer props =  new PropositionContainer();
+        //props.setFunctionalRuleString(rule.getFunctionalRuleString());
+        CourseEnrollmentRequest request = new CourseEnrollmentRequest(anchor.getId());
+        request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
+
+        //FactContainer factContainer = new FactContainer(anchor.getId(), request, props);
+        List facts = Arrays.asList(request);
+        executor.execute(agenda, facts);
+        
+        return result;
+    }*/
 
     /**
      * This method generates a Set of String from a comma separated list of string elements
