@@ -39,6 +39,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     private RuleEngineRepository ruleEngineRepository;
     private Map<String, List<Package>> ruleSetMap = new HashMap<String, List<Package>>();
 
+    public RuleSetExecutorDroolsImpl() {
+    }
+    
     public RuleSetExecutorDroolsImpl( RuleEngineRepository ruleEngineRepository ) {
         this.ruleEngineRepository = ruleEngineRepository;
     }
