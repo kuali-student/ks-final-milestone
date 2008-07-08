@@ -22,6 +22,11 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>antlr3-maven-plugin</artifactId>
                 <version>1.0</version>
+                <configuration>
+                    <outputDirectory>
+                        src/main/java/org/kuali/student/rules/parsers
+                    </outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
