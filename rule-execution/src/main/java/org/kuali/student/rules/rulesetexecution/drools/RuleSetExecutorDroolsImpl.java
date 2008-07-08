@@ -57,9 +57,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         
         for( BusinessRuleSet businessRule : agenda.getBusinessRules() ) {
             Package pkg = (Package) ruleEngineRepository.loadCompiledRuleSet( businessRule.getId() );
-            packageList.add( (Package) pkg );
+            packageList.add((Package) pkg);
         }
-        RuleBase ruleBase = getRuleBase( packageList );
+        RuleBase ruleBase = getRuleBase(packageList);
         
         return executeRule(ruleBase, facts).iterateObjects();
     }
@@ -148,11 +148,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * 
      * @param ruleBase List of rules
      * @param fact Facts for the <code>ruleBase</code>
-     * @return
+     * @return A stateless session result
      */
     private StatelessSessionResult executeRule( RuleBase ruleBase, List<Object> fact ) { 
         StatelessSession session = ruleBase.newStatelessSession();
         return session.executeWithResults( fact );
     }
-    
+
 }
