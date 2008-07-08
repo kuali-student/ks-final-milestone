@@ -39,10 +39,12 @@ import org.kuali.student.rules.brms.agenda.entity.Agenda;
 import org.kuali.student.rules.brms.agenda.entity.Anchor;
 import org.kuali.student.rules.brms.agenda.entity.AnchorType;
 import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.statement.PropositionContainer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/poc/wsdl/learningunit/luipersonrelation")
@@ -54,7 +56,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 	private LuService luClient;
 	
 	// Rules member variables
+	@Autowired
 	private RuleSetExecutor ruleExecutor;
+	@Autowired
 	private AgendaDiscovery agendaDiscovery;
 	
 	public LuiPersonRelationDAO getDao() {
@@ -556,6 +560,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
+	    FunctionalBusinessRule rule1 = agendaDiscovery.getRuleMgmtService().getBusinessRuleDAO().lookupBusinessRuleUsingRuleId("1");
+	    System.out.println("RULE STRING: " + rule1.createAdjustedRuleFunctionString());
+	    
 		ValidationResult validationResult = new ValidationResult();
         GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
 
