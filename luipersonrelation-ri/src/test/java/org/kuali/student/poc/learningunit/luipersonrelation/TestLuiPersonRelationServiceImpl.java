@@ -56,6 +56,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
 
     public LuiPersonRelationTypeInfo lprTypeInfo;
     public RelationStateInfo relationStateInfo;
+
     
 
     @Before
@@ -207,7 +208,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     @Test 
     public void testValidateLuiPersonRelation() throws Exception {             
                 
-     //   ValidationResult result1= client.validateLuiPersonRelation(person_id1, lui_id1, lprTypeInfo, relationStateInfo);
-     //   assertEquals(result1.isSuccess(), false);
+       ValidationResult result1= client.validateLuiPersonRelation(person_id1, lui_id1, lprTypeInfo, relationStateInfo);
+        assertEquals(result1.isSuccess(), false);
     }
 }
