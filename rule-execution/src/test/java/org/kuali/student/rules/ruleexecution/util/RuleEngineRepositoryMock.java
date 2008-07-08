@@ -33,9 +33,16 @@ import org.kuali.student.rules.brms.repository.rule.RuleSet;
 
 public class RuleEngineRepositoryMock implements RuleEngineRepository {
 
+    private Package pkg;
+    
     public RuleEngineRepositoryMock() {
+        this.pkg = buildPackage(getSimplePackage());
     }
 
+    public RuleEngineRepositoryMock(Reader source) {
+        this.pkg = buildPackage(source);
+    }
+    
     /**
      * Gets a simple rule. 
      * First rule determines whether the minutes of the hour is even.
@@ -79,8 +86,8 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
      * @param packageName Drools package name (ruleset)
      * @return Drools DRL
      */
-    private String getSimplePackage() {
-        return 
+    private Reader getSimplePackage() {
+        return new StringReader(
             "package testpackage" +
             "\n" +
             "import java.util.Calendar; " +
@@ -88,7 +95,7 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
             getSimpleRule1() +
             "\n" +
             getSimpleRule2() +
-            "\n";
+            "\n");
     }
 
     /**
@@ -97,11 +104,14 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
      * @return A drools package
      * @throws Exception Any errors building package
      */
-    private Package buildPackage() throws Exception {
-        PackageBuilder builder = new PackageBuilder();
-        StringReader drl = new StringReader( getSimplePackage() );
-        builder.addPackageFromDrl( drl );
-        return builder.getPackage();
+    private Package buildPackage(Reader source) {
+        try {
+            PackageBuilder builder = new PackageBuilder();
+            builder.addPackageFromDrl( source );
+            return builder.getPackage();
+        } catch( Exception e ) {
+            throw new RuleEngineRepositoryException( "Building rule set failed", e );
+        }
     }
     
     /**
@@ -113,11 +123,7 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
      * @throws Exception
      */
     public Object loadCompiledRuleSet( String uuid ) {
-        try {
-            return buildPackage();
-        } catch( Exception e ) {
-            throw new RuleEngineRepositoryException( "Loading compiled rule set failed", e );
-        }
+        return this.pkg;
     }
 
     @Override
