@@ -17,6 +17,8 @@ import org.kuali.student.rules.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.common.statement.PropositionContainer;
 import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
+import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.util.FactContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,8 @@ public class EnforceRule {
     public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
             String relationState) {
         
-        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
+        RuleSetExecutorInternal executor = new RuleSetExecutorDroolsImpl();
+        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(executor);
         ValidationResult result = new ValidationResult();
 
         //1. Discover Agenda
