@@ -16,14 +16,14 @@
 package org.kuali.student.rules.util;
 
 import org.kuali.student.rules.common.statement.PropositionContainer;
-import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.common.util.Request;
 
 public class FactContainer {
     private String id;
     private PropositionContainer propositionContainer;
-    private CourseEnrollmentRequest request;
+    private Request request;
     
-    public FactContainer(String id, CourseEnrollmentRequest request, PropositionContainer propositionContainer ) {
+    public FactContainer(String id, Request request, PropositionContainer propositionContainer ) {
         this.id = id;
         this.request = request;
         this.propositionContainer = propositionContainer;
@@ -33,7 +33,7 @@ public class FactContainer {
         return this.id;
     }
     
-    public CourseEnrollmentRequest getRequest() {
+    public Request getRequest() {
         return request;
     }
     

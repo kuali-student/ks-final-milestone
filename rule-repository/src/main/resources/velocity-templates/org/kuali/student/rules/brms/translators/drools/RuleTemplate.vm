@@ -41,7 +41,7 @@ rule "${ruleName}_INIT"
    		#end
    		#if ($proposition.LeftHandSide.CompAssistant.YieldValueFunction.toString() == "SUM" )
 
-		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.computeLearningResults(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
+		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.compute(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
 		proposition${key}.apply();
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
