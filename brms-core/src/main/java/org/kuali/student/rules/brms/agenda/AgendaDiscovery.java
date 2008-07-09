@@ -14,13 +14,13 @@ import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
-import org.kuali.student.rules.common.agenda.AgendaRequest;
-import org.kuali.student.rules.common.agenda.entity.Agenda;
-import org.kuali.student.rules.common.agenda.entity.AgendaType;
-import org.kuali.student.rules.common.agenda.entity.Anchor;
-import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
+import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
+import org.kuali.student.rules.internal.common.agenda.entity.AgendaType;
+import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
 
 public class AgendaDiscovery {
 

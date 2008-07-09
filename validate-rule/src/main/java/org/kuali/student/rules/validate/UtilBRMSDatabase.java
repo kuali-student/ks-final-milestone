@@ -14,8 +14,8 @@ import org.kuali.student.rules.brms.core.dao.BusinessRuleDAO;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.brms.translators.drools.GenerateRuleSet;
-import org.kuali.student.rules.common.entity.BusinessRule;
-import org.kuali.student.rules.common.entity.BusinessRuleContainer;
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

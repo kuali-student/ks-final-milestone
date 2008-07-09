@@ -20,11 +20,11 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.student.rules.common.runtime.ast.BinaryTree;
-import org.kuali.student.rules.common.runtime.ast.BooleanNode;
-import org.kuali.student.rules.common.statement.PropositionContainer;
-import org.kuali.student.rules.common.statement.PropositionReport;
-import org.kuali.student.rules.common.util.Function;
+import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.statement.PropositionReport;
+import org.kuali.student.rules.internal.common.util.Function;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
 

@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.rules.brms.core.dao.BusinessRuleDAO;
-import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

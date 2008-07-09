@@ -29,10 +29,10 @@ import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.common.agenda.entity.Agenda;
-import org.kuali.student.rules.common.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.common.statement.PropositionContainer;
-import org.kuali.student.rules.common.util.Request;
+import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.util.Request;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
@@ -54,7 +54,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     /**
      * Executes an <code>agenda</code> with <code>fact</code>
      * 
-     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.common.agenda.entity.Agenda, java.lang.Object)
+     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.lang.Object)
      * @return {@link java.util.Iterator}
      */
     public Object execute(Agenda agenda, List facts) {

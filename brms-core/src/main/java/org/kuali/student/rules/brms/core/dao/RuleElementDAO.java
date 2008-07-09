@@ -7,7 +7,7 @@
  */
 package org.kuali.student.rules.brms.core.dao;
 
-import org.kuali.student.rules.common.entity.RuleElement;
+import org.kuali.student.rules.internal.common.entity.RuleElement;
 
 /**
  * Defines DAO operations for RuleRule Element

@@ -15,8 +15,8 @@
  */
 package org.kuali.student.rules.util;
 
-import org.kuali.student.rules.common.statement.PropositionContainer;
-import org.kuali.student.rules.common.util.Request;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.util.Request;
 
 public class FactContainer {
     private String id;

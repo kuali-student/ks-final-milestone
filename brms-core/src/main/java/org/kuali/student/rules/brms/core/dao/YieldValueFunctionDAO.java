@@ -7,7 +7,7 @@
  */
 package org.kuali.student.rules.brms.core.dao;
 
-import org.kuali.student.rules.common.entity.YieldValueFunction;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunction;
 
 /**
  * Defines DAO operations for YieldValueFunction

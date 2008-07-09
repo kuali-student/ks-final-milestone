@@ -24,10 +24,10 @@ import org.kuali.student.rules.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.rule.Rule;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
-import org.kuali.student.rules.common.entity.BusinessRule;
-import org.kuali.student.rules.common.entity.BusinessRuleContainer;
-import org.kuali.student.rules.common.entity.RuleProposition;
-import org.kuali.student.rules.common.util.Function;
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
+import org.kuali.student.rules.internal.common.entity.RuleProposition;
+import org.kuali.student.rules.internal.common.util.Function;
 
 /**
  * @author Rich Diaz
@@ -92,9 +92,9 @@ public class GenerateRuleSet {
 
     private void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
-        ruleSet.addHeader("import org.kuali.student.rules.common.entity.ComparisonOperator");
-        ruleSet.addHeader("import org.kuali.student.rules.common.statement.*");
-        ruleSet.addHeader("import org.kuali.student.rules.common.util.CourseEnrollmentRequest");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.ComparisonOperator");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
     }
 

@@ -16,9 +16,9 @@
 package org.kuali.student.rules.course_co_req
 
 import java.util.*;
-import org.kuali.student.rules.common.entity.ComparisonOperator;
-import org.kuali.student.rules.common.statement.*;
-import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.*;
+import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
 
 rule "Intermediate_CPR_INIT_Cpr101"

@@ -9,7 +9,7 @@ package org.kuali.student.rules.brms.core.dao;
 
 import java.util.List;
 
-import org.kuali.student.rules.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
 
 /**
  * Defines DAO operations for Business Rule

@@ -36,8 +36,8 @@ import org.drools.RuleBaseFactory;
 import org.drools.StatefulSession;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
-import org.kuali.student.rules.common.statement.PropositionContainer;
-import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
 
 public class AllInOneDRLTest {

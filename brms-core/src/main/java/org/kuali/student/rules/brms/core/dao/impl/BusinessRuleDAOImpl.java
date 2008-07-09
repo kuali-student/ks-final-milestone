@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.rules.brms.core.dao.BusinessRuleDAO;
-import org.kuali.student.rules.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
 import org.springframework.stereotype.Repository;
 
 /**

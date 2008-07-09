@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.YieldValueFunctionDAO;
-import org.kuali.student.rules.common.entity.YieldValueFunction;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunction;
 import org.springframework.stereotype.Repository;
 
 /**

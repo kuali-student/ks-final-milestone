@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.kuali.student.rules.brms.core.dao.RulePropositionDAO;
-import org.kuali.student.rules.common.entity.RuleProposition;
+import org.kuali.student.rules.internal.common.entity.RuleProposition;
 import org.springframework.stereotype.Repository;
 
 /**

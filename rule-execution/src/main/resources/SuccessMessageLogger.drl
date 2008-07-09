@@ -1,7 +1,7 @@
 package org.kuali.student.rules.runtime.ast
  
-import org.kuali.student.rules.common.runtime.ast.BooleanNode;
-import org.kuali.student.rules.common.runtime.ast.BinaryTree;
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;
  
 rule "AND"
 	#salience 1
