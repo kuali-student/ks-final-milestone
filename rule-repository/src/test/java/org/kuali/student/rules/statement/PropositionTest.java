@@ -23,7 +23,7 @@ public class PropositionTest {
 
         Boolean result = subsetProp.apply();
 
-        System.out.println("Test1 - Report Success:" + subsetProp.getReport().getSuccessMessage());
+        //System.out.println("Test1 - Report Success:" + subsetProp.getReport().getSuccessMessage());
         Assert.assertEquals(result, true);
     }
 
@@ -35,7 +35,7 @@ public class PropositionTest {
 
         Boolean result = subsetProp.apply();
 
-        System.out.println("\nTest2 - Report Failure:" + subsetProp.getReport().getFailureMessage());
+        //System.out.println("\nTest2 - Report Failure:" + subsetProp.getReport().getFailureMessage());
         Assert.assertEquals(result, false);
     }
 

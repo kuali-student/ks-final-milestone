@@ -139,7 +139,7 @@ public class GenerateRuleSetTest {
 
         // Rule set source code
         String source = ruleSet.getContent();
-        System.out.println("\n\n" + source + "\n\n");
+        //System.out.println("\n\n" + source + "\n\n");
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(businessRule.getName(), "CPR101,MATH102");
@@ -160,7 +160,7 @@ public class GenerateRuleSetTest {
 
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName",
                                                                       "A", propositionMap);
-        System.out.println("\n\n" + ruleSet.getContent() + "\n\n");
+        //System.out.println("\n\n" + ruleSet.getContent() + "\n\n");
 
         // Get facts
         String id = "TestRuleName";
@@ -314,7 +314,7 @@ public class GenerateRuleSetTest {
 
         RuleSet ruleSet = GenerateRuleSet.getInstance().createRuleSet("TestPackageName", "A package", "TestRuleName",
                                                                       "(A*B)+(C*D)", propositionMap);
-        System.out.println("\n\n" + ruleSet.getContent() + "\n\n");
+        //System.out.println("\n\n" + ruleSet.getContent() + "\n\n");
 
         // Get facts
         String id = "TestRuleName";

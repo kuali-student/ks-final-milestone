@@ -192,7 +192,7 @@ public class DroolsTestUtil
 	        {
                 drl.append(str);
 	        }
-            System.out.println( drl );
+            //System.out.println( drl );
 		}
 		finally
 		{
