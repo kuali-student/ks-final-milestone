@@ -76,8 +76,8 @@ public class TestClass
 			//Let the rule engine do its stuff!!
 			workingMemory.fireAllRules();
 	
-			System.out.println( "message = " + message.getMessage() );
-			System.out.println( "average = " + email.getAverage() );
+			//System.out.println( "message = " + message.getMessage() );
+			//System.out.println( "average = " + email.getAverage() );
 			workingMemory.dispose();
 		}
 	}
@@ -87,7 +87,7 @@ public class TestClass
 		InputStream drl = TestClass.class.getResourceAsStream( "/hello-email.dslr" );
 		InputStream dsl = TestClass.class.getResourceAsStream( "/hello-drools.dsl" );
 		// read in the source
-		System.out.println("rules file: " + drl);
+		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
 		Reader sourceDsl = new InputStreamReader(dsl);
 		PackageBuilder builder = new PackageBuilder();
@@ -131,7 +131,7 @@ public class TestClass
 	{
 		InputStream drl = TestClass.class.getResourceAsStream( "/test.drl" );
 		// read in the source
-		System.out.println("rules file: " + drl);
+		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
 		PackageBuilder builder = new PackageBuilder();
 
@@ -161,7 +161,7 @@ public class TestClass
 		sourceDrl = packageName + "\n" + packageImports + "\n" + sourceDrl;
 		
 		// read in the source
-		System.out.println( "rules file:\n\n" + sourceDrl );
+		//System.out.println( "rules file:\n\n" + sourceDrl );
 		PackageBuilder builder = new PackageBuilder();
 		Reader drl = new StringReader( sourceDrl );
 
@@ -177,7 +177,7 @@ public class TestClass
 	private static String loadRule( String file ) throws Exception
 	{
         String filename = RuleEngineRepositoryTest.class.getResource( file ).getFile();
-        System.out.println( "*****  filename = " +filename );
+        //System.out.println( "*****  filename = " +filename );
 
         String str = "";
         StringBuilder drl = new StringBuilder();
@@ -189,7 +189,7 @@ public class TestClass
 	        {
 	            drl.append(str);
 	        }
-            System.out.println( drl );
+            //System.out.println( drl );
 		}
 		finally
 		{
