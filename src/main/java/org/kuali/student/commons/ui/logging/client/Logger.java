@@ -92,7 +92,13 @@ public class Logger {
 		buffer = new LogBuffer(maxBufferSize);
 	}
 	
-	public static void sendLogs() {
+	
+	
+	public static Map<String, String> getClientContextInfo() {
+        return clientContextInfo;
+    }
+
+    public static void sendLogs() {
 		final List<LogMessage> messages = buffer.getLogMessages();
 		reset();
 		DeferredCommand.addCommand(new Command() {

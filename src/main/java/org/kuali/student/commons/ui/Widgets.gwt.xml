@@ -1,4 +1,5 @@
 <module>
-	<inherits name='com.google.gwt.user.User' />
-	<source path='widgets' />
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="org.kuali.student.commons.ui.MVC"/>
+	<source path="widgets" />
 </module>
