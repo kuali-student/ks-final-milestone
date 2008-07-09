@@ -93,7 +93,7 @@
 
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	
 	
-	<bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+	<bean id="businessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.BusinessRuleDAOImpl">
 	</bean>
 	
 	<bean id="ruleElementDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RuleElementDAOImpl">
@@ -102,11 +102,11 @@
 	<bean id="rulePropositionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RulePropositionDAOImpl">
 	</bean>
 	
-	<bean id="computationAssistantDAO"  class="org.kuali.student.rules.brms.core.dao.impl.ComputationAssistantDAOImpl">
+	<bean id="yieldValueFunctionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.YieldValueFunctionDAOImpl">
 	</bean>
 	
 	<bean id="functionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
-	<property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
+	<property name="businessRuleDAO" ref="businessRuleDAO"/>    
 	</bean>
 	
 	<bean id="agendaDiscovery" class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">

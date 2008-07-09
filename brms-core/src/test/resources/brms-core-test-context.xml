@@ -15,11 +15,11 @@
 
   <context:annotation-config/>
   
-  <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+  <bean id="businessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.BusinessRuleDAOImpl">
   </bean>
 
    <bean id="functionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
-    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
+    <property name="businessRuleDAO" ref="businessRuleDAO"/>    
   </bean>
 
   <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">

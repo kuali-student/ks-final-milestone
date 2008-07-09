@@ -407,7 +407,7 @@ public interface RuleEngineRepository {
      *            Byte array (XML file) - E.g. an repository_export.xml
      * @throws RuleEngineRepositoryException
      */
-    public void importRulesRepository(byte[] byteArray);
+    public void importRulesRepositoryAsXml(byte[] byteArray);
 
     /**
      * Creates and compiles a rule set.
@@ -422,7 +422,7 @@ public interface RuleEngineRepository {
     public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
 
     /**
-     * Loads all rule set (and rules) for a specific uuid.
+     * Loads a rule set (and rules) for a specific uuid.
      * 
      * @param uuid
      *            Rule set uuid
@@ -431,6 +431,15 @@ public interface RuleEngineRepository {
      */
     public RuleSet loadRuleSet(String uuid);
 
+    /**
+     * 
+     * Loads a rule set (and rules) for a specific rule set name.
+     * 
+     * @param ruleSetName rule set name
+     * @return A rule set
+     */
+    public RuleSet loadRuleSetByName(String ruleSetName);
+    
     /**
      * Loads a rule by uuid.
      * 
@@ -635,6 +644,16 @@ public interface RuleEngineRepository {
     public Object loadCompiledRuleSet(String ruleSetUuid);
 
     /**
+     * Loads a compiled rule set.
+     * 
+     * @param ruleSetUUID
+     *            Rule set uuid
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public Object loadCompiledRuleSetByName(String ruleSetName);
+
+    /**
      * Loads a compiled rule set as an array of bytes.
      * 
      * @param ruleSetUUID
@@ -644,6 +663,15 @@ public interface RuleEngineRepository {
      */
     public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID);
     
+    /**
+     * Loads a compiled rule set by rule set name as an array of bytes.
+     * 
+     * @param ruleSetName Rule set name
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException
+     */
+    public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName);
+
     /**
      * Loads a compiled rule set snapshot.
      * 

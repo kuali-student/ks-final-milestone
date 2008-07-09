@@ -17,8 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.common.entity.BusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -39,60 +39,48 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
     FunctionalBusinessRuleManagementService brmsService;
 
     @Test
-    public void testRetrieveFunctionalBusinessRules() throws Exception {
+    public void testRetrieveBusinessRules() throws Exception {
         List<BusinessRuleType> businessRuleTypes = new ArrayList<BusinessRuleType>();
         businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
-        List<FunctionalBusinessRule> functionalBusinessRules = brmsService
-                .retrieveFunctionalBusinessRules("Student Enrolls in Course", businessRuleTypes, "course", "CPR 201");
+        List<BusinessRule> businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "CPR 201");
 
-        assertEquals(1, functionalBusinessRules.size());
+        assertEquals(1, businessRules.size());
 
-        for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
-            assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
+        for (BusinessRule businessRule : businessRules) {
             assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
-            assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("CPR 201", businessRule.getAnchor());
         }
 
         businessRuleTypes = new ArrayList<BusinessRuleType>();
         businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
-        functionalBusinessRules = brmsService.retrieveFunctionalBusinessRules("Student Enrolls in Course",
-                                                                              businessRuleTypes, "course", "CPR 301");
+        businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "CPR 301");
 
-        assertEquals(1, functionalBusinessRules.size());
+        assertEquals(1, businessRules.size());
 
-        for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
-            assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
+        for (BusinessRule businessRule : businessRules) {
             assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
-            assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("CPR 301", businessRule.getAnchor());
         }
 
         businessRuleTypes = new ArrayList<BusinessRuleType>();
         businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
-        functionalBusinessRules = brmsService.retrieveFunctionalBusinessRules("Student Enrolls in Course",
-                                                                              businessRuleTypes, "course", "EMS 1001");
+        businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "EMS 1001");
 
-        assertEquals(1, functionalBusinessRules.size());
+        assertEquals(1, businessRules.size());
 
-        for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
-            assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
+        for (BusinessRule businessRule : businessRules) {
             assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
-            assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("EMS 1001", businessRule.getAnchor());
         }
 
         businessRuleTypes = new ArrayList<BusinessRuleType>();
         businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
-        functionalBusinessRules = brmsService.retrieveFunctionalBusinessRules("Student Enrolls in Course",
-                                                                              businessRuleTypes, "course", "LPN 1001");
+        businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "LPN 1001");
 
-        assertEquals(1, functionalBusinessRules.size());
+        assertEquals(1, businessRules.size());
 
-        for (FunctionalBusinessRule businessRule : functionalBusinessRules) {
-            assertEquals(businessRule.getAgendaType(), "Student Enrolls in Course");
+        for (BusinessRule businessRule : businessRules) {
             assertTrue(businessRule.getBusinessRuleType().equals("course.co.req"));
-            assertEquals(businessRule.getAnchorType(), "course");
             assertEquals("LPN 1001", businessRule.getAnchor());
         }
     }

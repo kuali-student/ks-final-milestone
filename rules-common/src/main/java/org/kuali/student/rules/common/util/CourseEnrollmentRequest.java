@@ -28,8 +28,10 @@ import java.util.Set;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public class CourseEnrollmentRequest {
+public class CourseEnrollmentRequest implements Request {
 
+    private String id;
+    
     private Set<String> luiIds;
 
     private List<Number> learningResults;
@@ -49,9 +51,14 @@ public class CourseEnrollmentRequest {
         learningResultMap.put("CPR 4005", 21.0);
     }
     
-    
+    public CourseEnrollmentRequest(String id) {
+        this.id = id;
+    }
+
     /**
-     * @return the learningResults
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.rules.common.util.Request#getLearningResults()
      */
     public List<Number> getLearningResults() {
         return learningResults;
@@ -65,7 +72,9 @@ public class CourseEnrollmentRequest {
     }
 
     /**
-     * @return the luiIds
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.rules.common.util.Request#getLuiIds()
      */
     public Set<String> getLuiIds() {
         System.out.println("Getting luids: " + luiIds);
@@ -88,7 +97,7 @@ public class CourseEnrollmentRequest {
      * @param courseIDs
      * @return
      */
-    public List<Double> computeLearningResults(List<String> courseIDs) {
+    public List<Double> compute(List<String> courseIDs) {
         List<Double> learningResultList = new ArrayList<Double>();
         
         Set<String> courseIDSet = new HashSet<String>(courseIDs);
@@ -100,5 +109,9 @@ public class CourseEnrollmentRequest {
         }
         
         return learningResultList;
+    }
+
+    public String getId() {
+        return id;
     }
 }

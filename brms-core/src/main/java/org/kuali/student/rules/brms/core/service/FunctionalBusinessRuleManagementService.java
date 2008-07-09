@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
-import org.kuali.student.rules.brms.core.entity.FunctionalBusinessRule;
+import org.kuali.student.rules.brms.core.dao.BusinessRuleDAO;
+import org.kuali.student.rules.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.common.entity.BusinessRule;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,41 +36,38 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FunctionalBusinessRuleManagementService {
 
-    private FunctionalBusinessRuleDAO businessRuleDAO;
+    private BusinessRuleDAO businessRuleDAO;
 
     // returns an empty collection if no business rule found
-    public List<FunctionalBusinessRule> retrieveFunctionalBusinessRules(String agendaType,
-            List<BusinessRuleType> ruleTypes, String anchorType, String anchor) {
-        List<FunctionalBusinessRule> businessRulesOfSameType = new ArrayList<FunctionalBusinessRule>();
-        List<FunctionalBusinessRule> allBusinessRules = new ArrayList<FunctionalBusinessRule>();
+    public List<BusinessRule> retrieveBusinessRules(List<BusinessRuleType> ruleTypes, String anchor) {
+        List<BusinessRule> businessRulesOfSameType = new ArrayList<BusinessRule>();
+        List<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 
         for (Iterator<BusinessRuleType> iter = ruleTypes.iterator(); iter.hasNext();) {
             BusinessRuleType ruleType = iter.next();
 
             try {
-                businessRulesOfSameType = businessRuleDAO.lookupCompiledIDs(agendaType, ruleType.getName(), anchorType,
-                                                                            anchor);
+                businessRulesOfSameType = businessRuleDAO.lookupCompiledIDs(ruleType.getName(), anchor);
                 if (businessRulesOfSameType != null) {
                     allBusinessRules.addAll(businessRulesOfSameType);
                 }
             } catch (EmptyResultDataAccessException emptySetException) {
                 System.out.println("No rules exist for rule type:" + ruleType);
-                // continue
             }
         }
         return allBusinessRules;
     }
 
     /**
-     * Retrieves a functional business rule from database based on Rule ID.
+     * Retrieves a business rule from database based on Rule ID.
      * 
      * @param ruleID
-     *            Functional business rule ID.
-     * @return Returns functional business rule with Rule ID
+     *            Business rule ID.
+     * @return Returns business rule with Rule ID
      */
-    public FunctionalBusinessRule getBusinessRuleUsingRuleId(String ruleID) throws DoesNotExistException {
+    public BusinessRule getBusinessRuleUsingRuleId(String ruleID) throws DoesNotExistException {
 
-        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(ruleID);
+        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(ruleID);
 
         if (rule == null) {
             throw new DoesNotExistException();
@@ -83,15 +80,15 @@ public class FunctionalBusinessRuleManagementService {
     }
 
     /**
-     * Retrieves a functional business rule from database using ID.
+     * Retrieves a business rule from database using ID.
      * 
      * @param ID
-     *            Functional business rule ID.
-     * @return Returns functional business rule
+     *            Business rule ID.
+     * @return Returns business rule
      */
-    public FunctionalBusinessRule getBusinessRuleUsingId(String id) throws DoesNotExistException {
+    public BusinessRule getBusinessRuleUsingId(String id) throws DoesNotExistException {
 
-        FunctionalBusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingId(id);
+        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingId(id);
 
         if (rule == null) {
             throw new DoesNotExistException();
@@ -106,7 +103,7 @@ public class FunctionalBusinessRuleManagementService {
     /**
      * @return the businessRuleDAO
      */
-    public final FunctionalBusinessRuleDAO getBusinessRuleDAO() {
+    public final BusinessRuleDAO getBusinessRuleDAO() {
         return businessRuleDAO;
     }
 
@@ -114,7 +111,7 @@ public class FunctionalBusinessRuleManagementService {
      * @param businessRuleDAO
      *            the businessRuleDAO to set
      */
-    public final void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
+    public final void setBusinessRuleDAO(BusinessRuleDAO businessRuleDAO) {
         this.businessRuleDAO = businessRuleDAO;
     }
 }
