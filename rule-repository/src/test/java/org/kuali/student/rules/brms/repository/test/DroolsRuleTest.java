@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
@@ -42,15 +41,10 @@ import org.drools.event.DebugWorkingMemoryEventListener;
 import org.junit.Test;
 import org.kuali.student.rules.brms.repository.RuleEngineRepositoryTest;
 
-public class TestClass 
+public class DroolsRuleTest 
 {
-	@Test
-	public void testMain() throws Exception
-	{
-		main(null);
-	}
-	
-	public static void main(String[] args ) throws Exception
+    @Test
+	public void testSerializeDeserializeDroolsPackage() throws Exception
 	{
 		RuleBase[] businessRules = new RuleBase[2];
 		
@@ -64,7 +58,7 @@ public class TestClass
 	
 			workingMemory.addEventListener( new DebugWorkingMemoryEventListener() );
 	
-			Email email = new Email( "len@ubc.ca" );
+			Email email = new Email( "tom@ubc.ca" );
 	        Message message = new Message( false, "Invalid email" );
 	        //Message message = test.new Message();
 	
@@ -84,8 +78,8 @@ public class TestClass
 	
 	private static RuleBase getRules1() throws Exception
 	{
-		InputStream drl = TestClass.class.getResourceAsStream( "/hello-email.dslr" );
-		InputStream dsl = TestClass.class.getResourceAsStream( "/hello-drools.dsl" );
+		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/hello-email.dslr" );
+		InputStream dsl = DroolsRuleTest.class.getResourceAsStream( "/hello-drools.dsl" );
 		// read in the source
 		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
@@ -129,7 +123,7 @@ public class TestClass
 	
 	private static RuleBase getRules2() throws Exception
 	{
-		InputStream drl = TestClass.class.getResourceAsStream( "/test.drl" );
+		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/test.drl" );
 		// read in the source
 		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
