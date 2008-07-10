@@ -8,6 +8,7 @@
 package org.kuali.student.rules.brms.core.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,15 +55,15 @@ public class BusinessRuleTest extends AbstractTransactionalDaoTest {
         assertEquals("(A + B) * C", retrieveAdjustedFunctionString(funcBusRule4));
     }
 
-    public String retrieveFunctionString(String ruleID) throws Exception {
+    private String retrieveFunctionString(String ruleID) throws Exception {
 
         BusinessRule rule = null;
 
         try {
             rule = brmsService.getBusinessRuleUsingRuleId(ruleID);
         } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database: " + dae.getMessage());
-            return null;
+            fail("Could not load rule " + ruleID + " from database: " + dae.getMessage());
+            throw dae;
         }
 
         return rule.createRuleFunctionString();
@@ -75,8 +76,8 @@ public class BusinessRuleTest extends AbstractTransactionalDaoTest {
         try {
             rule = brmsService.getBusinessRuleUsingRuleId(ruleID);
         } catch (DataAccessException dae) {
-            System.out.println("Could not load rule " + ruleID + " from database: " + dae.getMessage());
-            return null;
+            fail("Could not load rule " + ruleID + " from database: " + dae.getMessage());
+            throw dae;
         }
 
         return rule.createAdjustedRuleFunctionString();
