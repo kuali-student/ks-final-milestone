@@ -13,10 +13,15 @@ import org.antlr.runtime.tree.TreeAdaptor;
 
 import org.kuali.student.rules.internal.common.parsers.BooleanFunctionLexer;
 import org.kuali.student.rules.internal.common.parsers.BooleanFunctionParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BinaryTree {
 
-	private static BooleanNode root;
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(BinaryTree.class);
+
+    private static BooleanNode root;
 	private static ArrayList<BooleanNode> nodes;
 	
 	private HashMap<String, Boolean> nodeValueMap;
@@ -61,13 +66,13 @@ public class BinaryTree {
 		if ( bnode != null ) {
 			for ( int i = 0; i < bnode.getChildCount(); i++ ) {
 				traverseTreePostOrderDontSetNode( (BooleanNode)bnode.getChild(i), bnode );
-				//System.out.println(bnode.getChild(i).toString());
+				logger.debug(bnode.getChild(i).toString());
 			}
 		if ( parent != null ) {
-			//System.out.println(bnode.getLabel() + "'s parent is " + parent.getLabel());
+		    logger.debug(bnode.getLabel() + "'s parent is " + parent.getLabel());
 			bnode.setParent(parent);
 		}
-			//System.out.println(bnode.getText());
+		    logger.debug(bnode.getText());
 			nodes.add(bnode);
 		}
 	}
@@ -83,14 +88,14 @@ public class BinaryTree {
 		if ( bnode != null ) {
 			for ( int i = 0; i < bnode.getChildCount(); i++ ) {
 				traverseTreePostOrder( (BooleanNode)bnode.getChild(i), bnode );
-				//System.out.println(bnode.getChild(i).toString());
+				logger.debug(bnode.getChild(i).toString());
 			}
 			setNode( bnode );
 		if ( parent != null ) {
-			//System.out.println(bnode.getLabel() + "'s parent is " + parent.getLabel());
+		    logger.debug(bnode.getLabel() + "'s parent is " + parent.getLabel());
 			bnode.setParent(parent);
 		}
-			//System.out.println(bnode.getText());
+		    logger.debug(bnode.getText());
 			nodes.add(bnode);
 		}
 	}
@@ -109,7 +114,7 @@ public class BinaryTree {
 			// set the message
 			String ruleMessage = nodeMessageMap.get(bnode.getLabel());
 			bnode.setNodeMessage(ruleMessage);
-			//System.out.println("Setting node " + bnode.getLabel() );
+			logger.debug("Setting node " + bnode.getLabel() );
 		}
 		else {
 			// node is intermediate, compute value and set it
@@ -120,13 +125,13 @@ public class BinaryTree {
 				Boolean newValue = child0.getValue() || child1.getValue();
 				bnode.setValue(newValue);
 				bnode.setNodeMessage("null");
-				//System.out.println("IM IN + ");
+				logger.debug("OR = + ");
 			}
 			else if ( bnode.getLabel().equalsIgnoreCase("*") ) {
 				Boolean newValue = child0.getValue() && child1.getValue();
 				bnode.setValue(newValue);
 				bnode.setNodeMessage("null");
-				//System.out.println("IM IN * ");
+				logger.debug("AND = * ");
 			}
 		}
 	}

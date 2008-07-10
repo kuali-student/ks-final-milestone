@@ -101,7 +101,6 @@ public class MockCourseEnrollmentRequest  {
 	}
 
 	public void setEnrollable(Boolean enrollable) {
-		//System.out.println("mutating enrollable...");
 		this.enrollable = enrollable;
 	}
 

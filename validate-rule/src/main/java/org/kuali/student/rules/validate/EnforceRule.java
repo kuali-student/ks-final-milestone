@@ -73,8 +73,6 @@ public class EnforceRule {
             BusinessRuleSet rule = itr.next();
             String ruleID = rule.getId();
             
-            System.out.println("\n\n");
-
             // 2. Extract compiled rule from drools repository
             org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
             //List<Object> factList = new ArrayList<Object>();

@@ -77,7 +77,6 @@ public class CourseEnrollmentRequest implements Request {
      * @see org.kuali.student.rules.internal.common.util.Request#getLuiIds()
      */
     public Set<String> getLuiIds() {
-        //System.out.println("Getting luids: " + luiIds);
         return luiIds;
     }
 

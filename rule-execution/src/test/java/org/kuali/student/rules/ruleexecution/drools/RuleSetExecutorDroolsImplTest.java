@@ -66,7 +66,6 @@ public class RuleSetExecutorDroolsImplTest {
         String time = null;
         while( it != null && it.hasNext() ) {
             Object obj = it.next();
-            //System.out.println( obj.getClass() + " = " + obj );
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;

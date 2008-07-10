@@ -93,7 +93,7 @@ public class UtilBRMSDatabase {
 
         RuleSet ruleSet = grs.parse(container);
 
-        System.out.println("Rule set1:\n" + ruleSet.getContent());
+        //System.out.println("Rule set1:\n" + ruleSet.getContent());
 
         String rulesetUuid = droolsRepository.createRuleSet(ruleSet);
         droolsRepository.loadRuleSet(rulesetUuid);
@@ -135,7 +135,6 @@ public class UtilBRMSDatabase {
      *            the em to set
      */
     public final void setEm(EntityManager em) {
-        System.out.println("Setting EM");
         this.em = em;
     }
 
@@ -151,7 +150,6 @@ public class UtilBRMSDatabase {
      *            the droolsRepository to set
      */
     public void setDroolsRepository(RuleEngineRepository droolsRepository) {
-        System.out.println("Setting DRepo");
         this.droolsRepository = droolsRepository;
     }
 }
