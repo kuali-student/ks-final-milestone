@@ -10,6 +10,8 @@ import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
 import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,6 +20,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
 @ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
 public class AgendaDiscoveryTest extends AbstractTransactionalDaoTest {
+
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(AgendaDiscoveryTest.class);
 
     @Autowired
     AgendaDiscovery agendaDiscovery;
@@ -32,13 +37,13 @@ public class AgendaDiscoveryTest extends AbstractTransactionalDaoTest {
         Agenda agenda = agendaDiscovery.getAgenda(request, anchor);
         assertNotNull(agenda);
 
-        System.out.println("**************************************************");
-        System.out.println("AgendaType = " + agenda.getAgendaType());
-        System.out.println("AgendaType RuleTypes = " + agenda.getAgendaType().getBusinessRuleTypes());
+        logger.info("**************************************************");
+        logger.info("AgendaType = " + agenda.getAgendaType());
+        logger.info("AgendaType RuleTypes = " + agenda.getAgendaType().getBusinessRuleTypes());
 
-        System.out.println("Agenda = " + agenda);
-        System.out.println("Agenda Rules = " + agenda.getBusinessRules());
-        System.out.println("**************************************************");
+        logger.info("Agenda = " + agenda);
+        logger.info("Agenda Rules = " + agenda.getBusinessRules());
+        logger.info("**************************************************");
     }
 
     @Test
@@ -51,13 +56,13 @@ public class AgendaDiscoveryTest extends AbstractTransactionalDaoTest {
         Agenda agenda = agendaDiscovery.getAgenda(request, anchor);
         assertNotNull(agenda);
 
-        System.out.println("**************************************************");
-        System.out.println("AgendaType = " + agenda.getAgendaType());
-        System.out.println("AgendaType RuleTypes = " + agenda.getAgendaType().getBusinessRuleTypes());
+        logger.info("**************************************************");
+        logger.info("AgendaType = " + agenda.getAgendaType());
+        logger.info("AgendaType RuleTypes = " + agenda.getAgendaType().getBusinessRuleTypes());
 
-        System.out.println("Agenda = " + agenda);
-        System.out.println("Agenda Rules = " + agenda.getBusinessRules());
-        System.out.println("**************************************************");
+        logger.info("Agenda = " + agenda);
+        logger.info("Agenda Rules = " + agenda.getBusinessRules());
+        logger.info("**************************************************");
     }
 
     /**
