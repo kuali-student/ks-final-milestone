@@ -35,7 +35,7 @@ import org.kuali.student.rules.internal.common.agenda.entity.AgendaType;
 import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
 import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
@@ -50,7 +50,7 @@ public class RuleSetExecutorDroolsImplTest {
         // Create the agenda
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
-        BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
+        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
         agenda.addBusinessRule( new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "" ) );
         
         // Create the rule set executor
@@ -82,7 +82,7 @@ public class RuleSetExecutorDroolsImplTest {
         // Create the agenda
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
-        BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
+        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
         BusinessRuleSet businessRule = new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "A*B*C" );
         agenda.addBusinessRule( businessRule );
         AnchorType anchorType = new AnchorType( "course", "clu.type.course" );

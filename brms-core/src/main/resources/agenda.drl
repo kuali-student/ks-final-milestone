@@ -8,21 +8,21 @@ import org.kuali.student.rules.internal.common.agenda.AgendaRequest
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda
 import org.kuali.student.rules.internal.common.agenda.entity.AgendaType
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet
-import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType
 
 rule "init"
     salience 999999999
     when
     then
-        Map<String,BusinessRuleType> ruleTypeMap = new HashMap<String,BusinessRuleType>();
+        Map<String,BusinessRuleSetType> ruleTypeMap = new HashMap<String,BusinessRuleSetType>();
 
-        BusinessRuleType ruleType1 = new BusinessRuleType( "course.pre.req", "course.pre.req" );
+        BusinessRuleSetType ruleType1 = new BusinessRuleSetType( "course.pre.req", "course.pre.req" );
         ruleTypeMap.put( ruleType1.getName(), ruleType1 ); 
 
-        BusinessRuleType ruleType2 = new BusinessRuleType( "course.co.req", "course.co.req" );
+        BusinessRuleSetType ruleType2 = new BusinessRuleSetType( "course.co.req", "course.co.req" );
         ruleTypeMap.put( ruleType2.getName(), ruleType2 ); 
 
-        BusinessRuleType ruleType3 = new BusinessRuleType( "course.anti.req", "course.anti.req" );
+        BusinessRuleSetType ruleType3 = new BusinessRuleSetType( "course.anti.req", "course.anti.req" );
         ruleTypeMap.put( ruleType3.getName(), ruleType3 ); 
         insert( ruleTypeMap );
 end
@@ -36,8 +36,8 @@ rule "Student Plans Course"
         $ruleTypeMap : Map()
 	then 
         AgendaType agendaType = new AgendaType( "Student Plans Course", "student.planning.course" );
-        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.pre.req" ) );
-        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.co.req" ) );
+        agendaType.addBusinessRuleType( (BusinessRuleSetType) $ruleTypeMap.get( "course.pre.req" ) );
+        agendaType.addBusinessRuleType( (BusinessRuleSetType) $ruleTypeMap.get( "course.co.req" ) );
         insert( agendaType );
 end
 
@@ -50,8 +50,8 @@ rule "Student Enrolls in Course"
         $ruleTypeMap : Map()
     then 
         AgendaType agendaType = new AgendaType( "Student Enrolls in Course", "student.enrollment.course" );
-        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.pre.req" ) );
-        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.co.req" ) );
-        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.anti.req" ) );
+        agendaType.addBusinessRuleType( (BusinessRuleSetType) $ruleTypeMap.get( "course.pre.req" ) );
+        agendaType.addBusinessRuleType( (BusinessRuleSetType) $ruleTypeMap.get( "course.co.req" ) );
+        agendaType.addBusinessRuleType( (BusinessRuleSetType) $ruleTypeMap.get( "course.anti.req" ) );
         insert( agendaType );
 end

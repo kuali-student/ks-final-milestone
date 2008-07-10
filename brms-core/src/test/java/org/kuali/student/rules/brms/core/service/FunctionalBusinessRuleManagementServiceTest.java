@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
 import org.kuali.student.rules.internal.common.entity.BusinessRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -40,8 +40,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
 
     @Test
     public void testRetrieveBusinessRules() throws Exception {
-        List<BusinessRuleType> businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
+        List<BusinessRuleSetType> businessRuleTypes = new ArrayList<BusinessRuleSetType>();
+        businessRuleTypes.add(new BusinessRuleSetType("course.co.req", "course.co.req"));
         List<BusinessRule> businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "CPR 201");
 
         assertEquals(1, businessRules.size());
@@ -51,8 +51,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
             assertEquals("CPR 201", businessRule.getAnchor());
         }
 
-        businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
+        businessRuleTypes = new ArrayList<BusinessRuleSetType>();
+        businessRuleTypes.add(new BusinessRuleSetType("course.co.req", "course.co.req"));
         businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "CPR 301");
 
         assertEquals(1, businessRules.size());
@@ -62,8 +62,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
             assertEquals("CPR 301", businessRule.getAnchor());
         }
 
-        businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
+        businessRuleTypes = new ArrayList<BusinessRuleSetType>();
+        businessRuleTypes.add(new BusinessRuleSetType("course.co.req", "course.co.req"));
         businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "EMS 1001");
 
         assertEquals(1, businessRules.size());
@@ -73,8 +73,8 @@ public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransac
             assertEquals("EMS 1001", businessRule.getAnchor());
         }
 
-        businessRuleTypes = new ArrayList<BusinessRuleType>();
-        businessRuleTypes.add(new BusinessRuleType("course.co.req", "course.co.req"));
+        businessRuleTypes = new ArrayList<BusinessRuleSetType>();
+        businessRuleTypes.add(new BusinessRuleSetType("course.co.req", "course.co.req"));
         businessRules = brmsService.retrieveBusinessRules(businessRuleTypes, "LPN 1001");
 
         assertEquals(1, businessRules.size());

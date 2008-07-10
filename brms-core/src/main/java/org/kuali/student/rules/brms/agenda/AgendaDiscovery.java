@@ -19,7 +19,7 @@ import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 import org.kuali.student.rules.internal.common.agenda.entity.AgendaType;
 import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
-import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
 import org.kuali.student.rules.internal.common.entity.BusinessRule;
 
 public class AgendaDiscovery {
@@ -42,7 +42,7 @@ public class AgendaDiscovery {
         // Retrieve agenda type from rule set based on AgendaRequest
         // Iterate through returned rule engine objects
         // This should not be done in production
-        List<BusinessRuleType> ruleTypes = new ArrayList<BusinessRuleType>();
+        List<BusinessRuleSetType> ruleTypes = new ArrayList<BusinessRuleSetType>();
         Iterator it = result.iterateObjects();
         AgendaType agendaType = null;
         while (it != null && it.hasNext()) {
@@ -60,10 +60,10 @@ public class AgendaDiscovery {
 
         for (Iterator<BusinessRule> iter = businessRules.iterator(); iter.hasNext();) {
             BusinessRule businessRule = iter.next();
-            // for now, we have BusinessRuleType in Agenda object in case we need BusinessRuleType to determine
+            // for now, we have BusinessRuleSetType in Agenda object in case we need BusinessRuleSetType to determine
             // rules execution sequence when executing rules
             agenda.addBusinessRule(new BusinessRuleSet(businessRule.getCompiledID(), businessRule.getName(),
-                    new BusinessRuleType(businessRule.getBusinessRuleType(), businessRule.getBusinessRuleType()),
+                    new BusinessRuleSetType(businessRule.getBusinessRuleType(), businessRule.getBusinessRuleType()),
                     businessRule.createAdjustedRuleFunctionString()));
         }
 

@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.rules.brms.core.dao.BusinessRuleDAO;
-import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleType;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
 import org.kuali.student.rules.internal.common.entity.BusinessRule;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -39,12 +39,12 @@ public class FunctionalBusinessRuleManagementService {
     private BusinessRuleDAO businessRuleDAO;
 
     // returns an empty collection if no business rule found
-    public List<BusinessRule> retrieveBusinessRules(List<BusinessRuleType> ruleTypes, String anchor) {
+    public List<BusinessRule> retrieveBusinessRules(List<BusinessRuleSetType> ruleTypes, String anchor) {
         List<BusinessRule> businessRulesOfSameType = new ArrayList<BusinessRule>();
         List<BusinessRule> allBusinessRules = new ArrayList<BusinessRule>();
 
-        for (Iterator<BusinessRuleType> iter = ruleTypes.iterator(); iter.hasNext();) {
-            BusinessRuleType ruleType = iter.next();
+        for (Iterator<BusinessRuleSetType> iter = ruleTypes.iterator(); iter.hasNext();) {
+            BusinessRuleSetType ruleType = iter.next();
 
             try {
                 businessRulesOfSameType = businessRuleDAO.lookupCompiledIDs(ruleType.getName(), anchor);

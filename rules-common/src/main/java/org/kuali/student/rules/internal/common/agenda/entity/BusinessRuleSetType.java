@@ -2,7 +2,7 @@ package org.kuali.student.rules.internal.common.agenda.entity;
 
 import java.util.Collection;
 
-public class BusinessRuleType
+public class BusinessRuleSetType
 {
 	private String name;
 	
@@ -10,7 +10,7 @@ public class BusinessRuleType
 	
     private Collection<AnchorType> anchorTypes;
 
-    public BusinessRuleType(String name, String type) {
+    public BusinessRuleSetType(String name, String type) {
         this.name = name;
         this.type = type;
     }
@@ -28,7 +28,7 @@ public class BusinessRuleType
     }
     
     public String toString() {
-        return "BusinessRuleType[name=" + this.name + ", type=" + type + "]";
+        return "BusinessRuleSetType[name=" + this.name + ", type=" + type + "]";
     }
 	
 }

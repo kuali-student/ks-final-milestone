@@ -8,11 +8,11 @@ public class BusinessRuleSet
 	
 	private Anchor anchor;
 	
-	private BusinessRuleType businessRuleType;
+	private BusinessRuleSetType businessRuleType;
 
 	private String functionalRuleString;
 	
-    public BusinessRuleSet(String id, String businessRuleName, BusinessRuleType businessRuleType, String functionalRuleString ) {
+    public BusinessRuleSet(String id, String businessRuleName, BusinessRuleSetType businessRuleType, String functionalRuleString ) {
         this.id = id;
         this.businessRuleName = businessRuleName;
         this.businessRuleType = businessRuleType;
@@ -35,7 +35,7 @@ public class BusinessRuleSet
         this.anchor = anchor;
     }
 
-    public BusinessRuleType getBusinessRuleType() {
+    public BusinessRuleSetType getBusinessRuleType() {
         return businessRuleType;
     }
 

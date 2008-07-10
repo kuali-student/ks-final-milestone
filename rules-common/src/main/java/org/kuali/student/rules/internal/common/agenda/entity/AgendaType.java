@@ -8,7 +8,7 @@ public class AgendaType
 	private String name;
 	private String type;
 	
-	private List<BusinessRuleType> businessRuleTypes = new ArrayList<BusinessRuleType>();
+	private List<BusinessRuleSetType> businessRuleTypes = new ArrayList<BusinessRuleSetType>();
 
     public AgendaType(String name, String type) {
         super();
@@ -24,16 +24,16 @@ public class AgendaType
         return type;
     }
     
-    public boolean addBusinessRuleType(BusinessRuleType rule) {
+    public boolean addBusinessRuleType(BusinessRuleSetType rule) {
         return businessRuleTypes.add(rule);
     }
     
-    public List<BusinessRuleType> getBusinessRuleTypes() {
+    public List<BusinessRuleSetType> getBusinessRuleTypes() {
         return businessRuleTypes;
     }
     
-    public BusinessRuleType getBusinessRuleType( String key ) {
-        for( BusinessRuleType ruleType : businessRuleTypes ) {
+    public BusinessRuleSetType getBusinessRuleType( String key ) {
+        for( BusinessRuleSetType ruleType : businessRuleTypes ) {
             if ( ruleType.getType().equals( key ) ) {
                 return ruleType;
             }
