@@ -6,16 +6,35 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="systemPropertiesMode">
+			<util:constant static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+		</property>
+		<property name="properties">
+	     <value>application.properties.file=classpath:application.properties</value>
+	  </property>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="locations">
+	        <list>
+	        	<value>${application.properties.file}</value>
+	        </list>
+	    </property>
+			<property name="ignoreResourceNotFound" value="false"/>
+	</bean>
 
 
-	<context:property-placeholder
-		location="classpath:application.properties" />
 
 	<!-- web service clients  -->
 
@@ -86,7 +105,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${application.properties.file}" />
 				<property name="prefix"
 					value="jdbc.xaDataSourceProperties" />
 			</bean>
@@ -110,7 +129,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${application.properties.file}" />
 				<property name="prefix" value="jpa.person" />
 			</bean>
 		</property>
@@ -126,7 +145,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${application.properties.file}" />
 				<property name="prefix" value="jpa.lu" />
 			</bean>
 		</property>
@@ -142,7 +161,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${application.properties.file}" />
 				<property name="prefix" value="jpa.lupr" />
 			</bean>
 		</property>
