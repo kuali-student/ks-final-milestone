@@ -1,5 +1,6 @@
 package org.kuali.student.commons.ui.logging.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,11 +100,12 @@ public class Logger {
     }
 
     public static void sendLogs() {
-		final List<LogMessage> messages = buffer.getLogMessages();
+		final List<LogMessage> messages = new ArrayList<LogMessage>(buffer.getLogMessages());
+		final Map<String, String> context = new HashMap<String, String>(clientContextInfo);
 		reset();
 		DeferredCommand.addCommand(new Command() {
 			public void execute() {
-				LogService.Util.getInstance().log(clientContextInfo, messages, new AsyncCallback<Boolean>() {
+				LogService.Util.getInstance().log(context, messages, new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
 						throw new LogFailedException(caught);
 					}

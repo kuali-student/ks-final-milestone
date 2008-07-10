@@ -101,7 +101,7 @@ public class ApplicationContext {
             }
 
             public void onSuccess(Map<String, ViewMetaData> result) {
-                for (String key : viewNames) {
+                for (String key : result.keySet()) {
                     ViewMetaData vmd = result.get(key);
                     views.put(key, vmd);
                     callback.onLoad(key, vmd);

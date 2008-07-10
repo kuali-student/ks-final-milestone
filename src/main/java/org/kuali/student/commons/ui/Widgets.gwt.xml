@@ -2,4 +2,5 @@
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="org.kuali.student.commons.ui.MVC"/>
 	<source path="widgets" />
+	<stylesheet src="KS-Widgets.css"/>
 </module>

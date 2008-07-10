@@ -8,6 +8,8 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -64,9 +66,10 @@ public class ErrorDialog {
     public void show(final Throwable error) {
         final ShadePanel shade = new ShadePanel();
         final VerticalPanel panel = new VerticalPanel();
+        panel.addStyleName(ExposedStyles.ERROR_DIALOG.toString());
         
         final Label title = new Label(messages.get(MessagesRequired.DIALOG_TITLE.toString()));
-        title.addStyleName(ExposedStyles.ERROR_DIALOG.toString());
+        title.addStyleName(ExposedStyles.ERROR_DIALOG_TITLE.toString());
         
         final Label descriptionLabel = new Label(messages.get(MessagesRequired.ERROR_DESCRIPTION.toString()));
         descriptionLabel.addStyleName(ExposedStyles.ERROR_DIALOG_LABEL.toString());
@@ -81,15 +84,19 @@ public class ErrorDialog {
         final TextArea actionDescription = new TextArea();
         actionDescription.addStyleName(ExposedStyles.ERROR_DIALOG_TEXTAREA.toString());
         
-        final Button sendButton = new Button(MessagesRequired.SEND_REPORT.toString(), new ClickListener() {
+        final Button sendButton = new Button(messages.get(MessagesRequired.SEND_REPORT.toString()), new ClickListener() {
             public void onClick(Widget sender) {
-                sendReport(error, actionDescription.getText());
-                shade.hide();
+            	DeferredCommand.addCommand(new Command() {
+        			public void execute() {
+                        sendReport(error, actionDescription.getText());
+                        shade.hide();
+        			}
+            	});
             }
             
         });
         
-        final Button cancelButton = new Button(MessagesRequired.CANCEL.toString(), new ClickListener() {
+        final Button cancelButton = new Button(messages.get(MessagesRequired.CANCEL.toString()), new ClickListener() {
             public void onClick(Widget sender) {
                 shade.hide();
             }
@@ -116,7 +123,7 @@ public class ErrorDialog {
         // TODO maybe retrieve more error info
         return error.toString();
     }
-    private void sendReport(Throwable error, String actionDescription) {
+    private void sendReport(final Throwable error, final String actionDescription) {
         // TODO actually gather client context info, such as browser version, user id, etc
         Logger.getClientContextInfo().put("logType", "clientError");
         Logger.getClientContextInfo().put("actionDescription", actionDescription);
