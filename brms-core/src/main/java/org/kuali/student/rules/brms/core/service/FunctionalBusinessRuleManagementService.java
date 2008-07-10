@@ -52,7 +52,7 @@ public class FunctionalBusinessRuleManagementService {
                     allBusinessRules.addAll(businessRulesOfSameType);
                 }
             } catch (EmptyResultDataAccessException emptySetException) {
-                System.out.println("No rules exist for rule type:" + ruleType);
+                throw new RuntimeException("No rules exist for rule type:" + ruleType);
             }
         }
         return allBusinessRules;
