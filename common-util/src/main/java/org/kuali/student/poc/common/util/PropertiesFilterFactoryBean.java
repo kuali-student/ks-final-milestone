@@ -3,6 +3,7 @@ package org.kuali.student.poc.common.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -36,6 +37,8 @@ public class PropertiesFilterFactoryBean implements FactoryBean {
 
 	private static final String CLASSPATH_PREFIX = "classpath:";
 
+	private static final String FILEURL_PREFIX = "file:";
+
 	private String propertyFile;
 	private String prefix;
 
@@ -48,7 +51,10 @@ public class PropertiesFilterFactoryBean implements FactoryBean {
 			ClassPathResource resource = new ClassPathResource(propertyFile
 					.substring(CLASSPATH_PREFIX.length()));
 			stream = resource.getInputStream();
-		} else {
+		} else if(propertyFile.toLowerCase().startsWith(FILEURL_PREFIX)){
+			URL url = new URL(propertyFile);
+			stream = url.openConnection().getInputStream();
+	    } else {
 			stream = new FileInputStream(propertyFile);
 		}
 
