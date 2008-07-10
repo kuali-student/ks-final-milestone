@@ -15,23 +15,31 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="systemPropertiesMode">
-			<util:constant static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+			<util:constant
+				static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		</property>
 		<property name="properties">
-	     <value>application.properties.file=classpath:application.properties</value>
-	  </property>
+			<props>
+				<prop key="application.properties.file">
+					classpath:application.properties
+				</prop>
+			</props>
+		</property>
 	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="locations">
-	        <list>
-	        	<value>${application.properties.file}</value>
-	        </list>
-	    </property>
-			<property name="ignoreResourceNotFound" value="false"/>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+				<value>${application.properties.file}</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
 
@@ -113,7 +121,8 @@
 		<property name="maxPoolSize" value="10" />
 	</bean>
 
-	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="databasePlatform" value="${jpa.platform}" />
 		<property name="showSql" value="${jpa.showSql}" />
 		<property name="generateDdl" value="${jpa.generateDdl}" />
