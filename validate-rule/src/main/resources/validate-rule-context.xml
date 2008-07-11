@@ -22,8 +22,12 @@
     <property name="businessRuleDAO" ref="businessRuleDAO"/>    
   </bean>
 
+  <bean id="ruleEngine"  class="org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl">
+  </bean>
+
   <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
     <property name="ruleMgmtService" ref="functionalBusinessRuleManagementService"/>    
+    <property name="ruleSetExecutor" ref="ruleEngine"/>    
   </bean>  
   
   <bean id="enforceRule"  class="org.kuali.student.rules.validate.EnforceRule">
