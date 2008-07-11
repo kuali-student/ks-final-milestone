@@ -1,18 +1,28 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.brms.agenda;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.StatelessSession;
-import org.drools.StatelessSessionResult;
-import org.drools.compiler.PackageBuilder;
-import org.drools.rule.Package;
 import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
 import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
@@ -21,29 +31,29 @@ import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
 import org.kuali.student.rules.internal.common.entity.BusinessRule;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 
 public class AgendaDiscovery {
 
-    FunctionalBusinessRuleManagementService ruleMgmtService;
+    private final static String AGENDA_RULE_ID = "AgendaRuleSetId";
+    private final static String AGENDA_FILE = "/agenda.drl";
 
+    private FunctionalBusinessRuleManagementService ruleMgmtService;
+    private RuleSetExecutorInternal ruleSetExecutor;
+
+    /**
+     * Gets an agenda.
+     * 
+     * @param request An agenda request
+     * @param anchor An anchor
+     * @return An agenda
+     */
     public Agenda getAgenda(AgendaRequest request, Anchor anchor) {
-        InputStream is = AgendaDiscovery.class.getResourceAsStream("/agenda.drl");
-        StatelessSessionResult result = null;
-
-        try {
-            RuleBase ruleBase = loadRuleBase(new InputStreamReader(is));
-
-            // Get the agenda type
-            result = executeRule(ruleBase, request);
-        } catch (Exception e) {
-            throw new RuntimeException("Loading rule base or executing rules failed", e);
-        }
-
+        Iterator it = executeRule(request);
         // Retrieve agenda type from rule set based on AgendaRequest
         // Iterate through returned rule engine objects
         // This should not be done in production
         List<BusinessRuleSetType> ruleTypes = new ArrayList<BusinessRuleSetType>();
-        Iterator it = result.iterateObjects();
         AgendaType agendaType = null;
         while (it != null && it.hasNext()) {
             Object obj = it.next();
@@ -70,33 +80,27 @@ public class AgendaDiscovery {
         return agenda;
     }
 
-    private RuleBase loadRuleBase(Reader drl) throws Exception {
-        Thread currentThread = Thread.currentThread();
-        ClassLoader oldClassLoader = currentThread.getContextClassLoader();
-        ClassLoader newClassLoader = AgendaDiscovery.class.getClassLoader();
-
-        try {
-            currentThread.setContextClassLoader(newClassLoader);
-
-            PackageBuilder builder = new PackageBuilder();
-            builder.addPackageFromDrl(drl);
-            // Get the compiled package (which is serializable)
-            Package pkg = builder.getPackage();
-            // Add the package to a rulebase (deploy the rule package).
-            RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-            ruleBase.addPackage(pkg);
-
-            return ruleBase;
-        } finally {
-            currentThread.setContextClassLoader(oldClassLoader);
-        }
+    /**
+     * Executes the agenda rules with <code>fact</code>.
+     * 
+     * @param fact A fact to execute agenda rules with
+     * @return An iterator of evaluated facts
+     */
+    private Iterator executeRule(Object fact) { 
+        this.ruleSetExecutor.add(AGENDA_RULE_ID, loadAgenda());
+        return (Iterator) this.ruleSetExecutor.execute(AGENDA_RULE_ID, Arrays.asList(fact));
     }
-
-    private StatelessSessionResult executeRule(RuleBase ruleBase, Object fact) throws Exception {
-        StatelessSession session = ruleBase.newStatelessSession();
-        return session.executeWithResults(fact);
+    
+    /**
+     * Loads the agenda rule set source file.
+     * 
+     * @return An agenda source
+     */
+    private Reader loadAgenda() {
+        InputStream is = AgendaDiscovery.class.getResourceAsStream(AGENDA_FILE);
+        return new InputStreamReader(is);
     }
-
+    
     /**
      * @return the ruleMgmtService
      */
@@ -110,6 +114,24 @@ public class AgendaDiscovery {
      */
     public void setRuleMgmtService(FunctionalBusinessRuleManagementService ruleMgmtService) {
         this.ruleMgmtService = ruleMgmtService;
+    }
+
+    /**
+     * Gets the rule execution engine.
+     * 
+     * @return A rule set executor
+     */
+    public RuleSetExecutorInternal getRuleSetExecutor() {
+        return this.ruleSetExecutor;
+    }
+
+    /**
+     * Sets the rule execution engine.
+     * 
+     * @param ruleSetExecutor The rule execution engine
+     */
+    public void setRuleSetExecutor(RuleSetExecutorInternal ruleSetExecutor) {
+        this.ruleSetExecutor = ruleSetExecutor;
     }
 
 }
