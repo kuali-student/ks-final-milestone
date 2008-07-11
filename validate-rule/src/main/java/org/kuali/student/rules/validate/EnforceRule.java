@@ -15,15 +15,12 @@
  */
 package org.kuali.student.rules.validate;
 
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.StatelessSession;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
@@ -33,7 +30,6 @@ import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
-import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
@@ -74,8 +70,8 @@ public class EnforceRule {
             String ruleID = rule.getId();
             
             // 2. Extract compiled rule from drools repository
-            org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
-            //List<Object> factList = new ArrayList<Object>();
+            //org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
+            String ruleSetSource = droolsRepository.loadRuleSet(ruleID).getContent();
 
             // 3. Inject facts
             PropositionContainer props =  new PropositionContainer();
@@ -83,12 +79,10 @@ public class EnforceRule {
             CourseEnrollmentRequest request = new CourseEnrollmentRequest(rule.getBusinessRuleName());
             request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
 
-            //factList.add(props);
-            //factList.add(request);
             FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
 
             // 4. Execute the compiled rule
-            try {
+            /*try {
                 RuleBase rb = RuleBaseFactory.newRuleBase();
                 rb.addPackage(binPkg);
                 StatelessSession sess = rb.newStatelessSession();
@@ -99,7 +93,9 @@ public class EnforceRule {
                 System.out.println("Exception while executing rule:" + rule.getId());
                 e.printStackTrace(System.out);
                 // Eating exception here. BAD BAD Code!
-            }
+            }*/
+            executor.addRuleSet("validateLuiPersonRelation", new StringReader(ruleSetSource));
+            executor.execute("validateLuiPersonRelation", Arrays.asList(factContainer));
 
             ruleReportBuilder.execute(props);
             
@@ -107,19 +103,15 @@ public class EnforceRule {
             if (props.getRuleResult()) {
                 result.setSuccess(true);
                 result.setRuleMessage(props.getRuleReport().getSuccessMessage());
-                System.out.println(props.getRuleReport().getSuccessMessage());
+                System.out.println("Rule Report: "+props.getRuleReport().getSuccessMessage());
             } else {
                 result.setRuleMessage(props.getRuleReport().getFailureMessage());
-                System.out.println(props.getRuleReport().getFailureMessage());
+                System.out.println("Rule Report: "+props.getRuleReport().getFailureMessage());
             }
-
             
             // In POC we only process one rule
             break;
         }
-        
-
-        System.out.println("\n\n");
 
         return result;
     }
