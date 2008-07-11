@@ -87,7 +87,7 @@ public class AgendaDiscovery {
      * @return An iterator of evaluated facts
      */
     private Iterator executeRule(Object fact) { 
-        this.ruleSetExecutor.add(AGENDA_RULE_ID, loadAgenda());
+        this.ruleSetExecutor.addRuleSet(AGENDA_RULE_ID, loadAgenda());
         return (Iterator) this.ruleSetExecutor.execute(AGENDA_RULE_ID, Arrays.asList(fact));
     }
     

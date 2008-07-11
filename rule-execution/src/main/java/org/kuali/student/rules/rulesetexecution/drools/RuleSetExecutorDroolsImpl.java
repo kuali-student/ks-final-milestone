@@ -17,10 +17,10 @@ package org.kuali.student.rules.rulesetexecution.drools;
 
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -40,7 +40,7 @@ import org.kuali.student.rules.util.FactContainer;
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecutorInternal {
 
     private RuleEngineRepository ruleEngineRepository;
-    private Map<String, List<Package>> ruleSetMap = new HashMap<String, List<Package>>();
+    private ConcurrentMap<String, List<Package>> ruleSetMap = new ConcurrentHashMap<String, List<Package>>();
 
     public RuleSetExecutorDroolsImpl() {
     }
@@ -116,7 +116,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param ruleSetId Rule set cache id
      * @param source Rule set source code
      */
-    public void add(String ruleSetId, Reader source) {
+    public void addRuleSet(String ruleSetId, Reader source) {
         try {
             if (this.ruleSetMap.containsKey(ruleSetId)) {
                 this.ruleSetMap.get(ruleSetId).add(buildPackage(source));
@@ -131,6 +131,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         }
     }
     
+    public boolean removeRuleSet(String ruleSetId) {
+        this.ruleSetMap.remove(ruleSetId);
+        return !this.ruleSetMap.containsKey(ruleSetId);
+    }
+
     /**
      * Builds a Drools package from <code>source</code>
      * 

@@ -20,6 +20,13 @@ public interface RuleSetExecutorInternal {
      * @param ruleSetId Rule set cache id
      * @param source Rule set source code
      */
-    public void add(String ruleSetId, Reader source);
+    public void addRuleSet(String ruleSetId, Reader source);
 
+    /**
+     * Removes a cache rule set's source code.
+     * 
+     * @param ruleSetId Rule set cache id
+     * @return True if rule set was removed otherwise false 
+     */
+    public boolean removeRuleSet(String ruleSetId);
 }

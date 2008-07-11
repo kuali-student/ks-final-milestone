@@ -115,8 +115,8 @@ public class GenerateRuleReport {
      */
     private void addRuleSets() {
         Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/SuccessMessageLogger.drl"));
-        this.ruleSetExecutor.add(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
+        this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
         Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/FailureMessageLogger.drl"));
-        this.ruleSetExecutor.add(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
+        this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
     }
 }
