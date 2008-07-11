@@ -1,4 +1,6 @@
-package org.kuali.student.commons.ui.mvc.client.widgets;
+package org.kuali.student.commons.ui.widgets;
+
+import java.util.Comparator;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 
@@ -24,4 +26,15 @@ public abstract class ModelTableColumn<T extends ModelObject> {
      * @return the text value for the specified ModelObject
      */
     public abstract String getColumnValue(T modelObject);
+    
+    /**
+     * 
+     * Returns a comparator used to sort the column.
+     * Example usage are date columns, which may be displayed in a format that
+     * does not work well with sorting.
+     * 
+     * 
+     * @return a comparator used to sort the column
+     */
+    public abstract Comparator<T> getColumnSortComparator();
 }

@@ -1,11 +1,14 @@
-package org.kuali.student.commons.ui.mvc.client.widgets;
+package org.kuali.student.commons.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
+import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
@@ -18,33 +21,104 @@ import com.google.gwt.user.client.ui.TableListener;
  *            the type of ModelObject
  */
 public class ModelTable<T extends ModelObject> extends FlexTable implements ModelWidget<T> {
+
+    public enum ExposedStyles {
+        MODELTABLE("KS-ModelTable"),
+        MODELTABLE_COLUMN_HEADER("KS-ModelTable-Column-Header"),
+        MODELTABLE_ROW("KS-ModelTable-Row"),
+        MODELTABLE_ROW_ALTERNATE("KS-ModelTable-Row-Alternate");
+        
+        private String styleName;
+        private ExposedStyles(String styleName) {
+            this.styleName = styleName;
+        }
+        public String toString() {
+            return this.styleName;
+        }
+    }
+    
     private List<T> index = new ArrayList<T>();
     private List<ModelTableColumn<T>> columns = new ArrayList<ModelTableColumn<T>>();
+    private List<ModelTableHeaderLabel> headers = new ArrayList<ModelTableHeaderLabel>();
     private Set<ModelTableSelectionListener<T>> listeners = new HashSet<ModelTableSelectionListener<T>>();
     private T selection = null;
     boolean loaded = false;
 
+    private int sortColumn = 0;
+    private boolean sortAscending = true;
+    
     /**
      * Called by the container to initialize the table. Do not call directly.
      */
-    @Override
     public void onLoad() {
         if (!loaded) {
             loaded = true;
+            super.addStyleName(ExposedStyles.MODELTABLE.toString());
             super.addTableListener(new TableListener() {
                 public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-                    if (row > 0) {
+                    if (row == 0) {
+                        if (cell == sortColumn) {
+                            setSortColumn(cell, !sortAscending);
+                        } else {
+                            setSortColumn(cell, true);
+                        }
+                        
+                    } else {
                         selection = index.get(row - 1);
                         fireSelection(selection);
                     }
                 }
             });
             for (int col = 0; col < columns.size(); col++) {
-                super.setText(0, col, columns.get(col).getColumnHeader());
+                ModelTableHeaderLabel label = new ModelTableHeaderLabel(columns.get(col).getColumnHeader());
+                headers.add(label);
+                super.setWidget(0, col, label);
             }
+            super.getRowFormatter().addStyleName(0, ExposedStyles.MODELTABLE_COLUMN_HEADER.toString());
         }
     }
 
+    /**
+     * Sets the column on which to sort.
+     * 
+     * @param sortColumn
+     * @param sortAscending boolean indicating whether the sort should be ascending or descending
+     */
+    public void setSortColumn(final int sortColumn, final boolean sortAscending) {
+        this.sortColumn = sortColumn;
+        this.sortAscending = sortAscending;
+        Comparator<T> c = columns.get(sortColumn).getColumnSortComparator();
+        Collections.sort(index, c);
+        if (sortAscending == false) {
+            Collections.reverse(index);
+        }
+        for (int i=0; i<headers.size(); i++) {
+            ModelTableHeaderLabel label = headers.get(i);
+            if (i == sortColumn) {
+                label.setSorted(sortAscending);
+            } else {
+                label.clearSorted();
+            }
+        }
+        redraw();
+    }
+    /**
+     * 
+     * Returns the index of the column that the table is sorted on
+     * 
+     * @return the index of the column that the table is sorted on
+     */
+    public int getSortColumn() {
+        return this.sortColumn;
+    }
+    /**
+     * Returns true if the table is sorted in ascending order based on the sort column
+     * 
+     * @return true if the table is sorted in ascending order based on the sort column
+     */
+    public boolean isSortAscending() {
+        return this.sortAscending;
+    }
     /**
      * Adds a ModelTableSelectionListener to be fired when the selected item changes
      * 
@@ -85,6 +159,16 @@ public class ModelTable<T extends ModelObject> extends FlexTable implements Mode
     }
 
     /**
+     * 
+     * Forces the table to redraw completely.
+     *
+     */
+    public void redraw() {
+        for (T t : index) {
+            render(t);
+        }
+    }
+    /**
      * Directs the table to render/re-render the specified ModelObject
      * 
      * @param modelObject
@@ -94,10 +178,12 @@ public class ModelTable<T extends ModelObject> extends FlexTable implements Mode
         // note, a bug in GWT-1.5-RC1 prevents redraw in hosted mode until another subsequent browser event fires
         // bug is fixed in nightly builds of GWT
         int row = index.indexOf(modelObject) + 1;
+        ExposedStyles style = (row % 2 == 0) ? ExposedStyles.MODELTABLE_ROW_ALTERNATE : ExposedStyles.MODELTABLE_ROW;
         for (int col = 0; col < columns.size(); col++) {
             ModelTableColumn<T> c = columns.get(col);
             super.setText(row, col, c.getColumnValue(modelObject));
         }
+        super.getRowFormatter().setStyleName(row, style.toString());
     }
 
     /**

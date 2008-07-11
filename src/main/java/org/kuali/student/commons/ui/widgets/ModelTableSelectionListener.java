@@ -1,4 +1,4 @@
-package org.kuali.student.commons.ui.mvc.client.widgets;
+package org.kuali.student.commons.ui.widgets;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 

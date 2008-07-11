@@ -1,0 +1,19 @@
+.KS-ModelTable {
+    border-style: solid;
+    padding: 2px;
+}
+
+.KS-ModelTable-Column-Header {
+    background-color: gray;
+    font-weight: bold;
+}
+
+.KS-ModelTable-Row {
+	background-color: white;
+}
+.KS-ModelTable-Row-Alternate {
+	background-color: lavender;
+}
+
+
+

@@ -1,9 +1,10 @@
-package org.kuali.student.commons.ui.mvc.client.widgets;
+package org.kuali.student.commons.ui.widgets;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
+import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
 
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -85,7 +86,6 @@ public abstract class ModelListBox<T extends ModelObject> extends ListBox implem
     /**
      * Called by the ModelBinding to signal a reset. Clears the ListBox and any underlying index information.
      */
-    @Override
     public void clear() {
         index.clear();
         super.clear();
