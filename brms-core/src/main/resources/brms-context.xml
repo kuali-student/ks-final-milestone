@@ -113,7 +113,7 @@
 	<property name="ruleMgmtService" ref="functionalBusinessRuleManagementService"/>
 	</bean>
   
-	<bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+	<!--bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
 		<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
 	</bean>
 
@@ -124,7 +124,7 @@
 	
 	<bean id="rulesRepository"
       factory-bean="defaultDroolsRepositoryContainer"
-      factory-method="getRepository"/>
+      factory-method="getRepository"/-->
      
 	<!-- Exception translation bean post processor -->
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
