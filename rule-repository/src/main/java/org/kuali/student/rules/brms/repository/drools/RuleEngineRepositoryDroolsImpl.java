@@ -169,12 +169,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Updates a rule and save it to the repository.
+     * Updates a rule set in the repository and returns an updated rule set.
      *  
      * @param ruleSet A rule set to update
+     * @return An updated rule set
      * @throws RuleEngineRepositoryException
      */
-    public void updateRuleSet(RuleSet ruleSet) {
+    public RuleSet updateRuleSet(RuleSet ruleSet) {
         if (ruleSet == null) {
             throw new IllegalArgumentException("ruleSet cannot be null or empty");
         } else if (ruleSet.getDescription() == null || ruleSet.getDescription().isEmpty()) {
@@ -184,12 +185,14 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
         
         try {
-            PackageItem item = this.repository.loadPackageByUUID(ruleSet.getUUID());
-            item.updateDescription(ruleSet.getDescription());
-            item.updateFormat(ruleSet.getFormat());
-            item.updateHeader(ruleSet.getHeader());
-            item.updateState(ruleSet.getStatus());
+            PackageItem pkg = this.repository.loadPackageByUUID(ruleSet.getUUID());
+            pkg.updateDescription(ruleSet.getDescription());
+            pkg.updateFormat(ruleSet.getFormat());
+            pkg.updateHeader(ruleSet.getHeader());
+            pkg.updateState(ruleSet.getStatus());
+            createOrUpdateRule(pkg, ruleSet);
             this.repository.save();
+            return droolsUtil.buildRuleSet(pkg);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Checkin rule set failed: uuid=" + ruleSet.getUUID(), e);
         }
@@ -222,12 +225,12 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Updates a rule and saves it to the repository.
+     * Updates a rule in the repository and returns an updated rule.
      * 
      * @param rule A rule to update
      * @throws RuleEngineRepositoryException
      */
-    public void updateRule(Rule rule) {
+    public Rule updateRule(Rule rule) {
         if (rule.getUUID() == null || rule.getUUID().trim().isEmpty()) {
             throw new IllegalArgumentException("uuid cannot be null or empty");
         } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
@@ -236,8 +239,19 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("Rule format cannot be null or empty");
         }
 
+        AssetItem item = this.repository.loadAssetByUUID(rule.getUUID());
+        return updateRule(item, rule);
+    }
+    
+    /**
+     * Updates a <code>rule</code> as an <code>item</code> in the repository.
+     * 
+     * @param item Item to be updated
+     * @param rule Rule to update item with
+     * @return An updated rule
+     */
+    private Rule updateRule(AssetItem item, Rule rule) {
         try {
-            AssetItem item = this.repository.loadAssetByUUID(rule.getUUID());
             item.updateContent(rule.getContent());
             item.updateDescription(rule.getDescription());
             item.updateFormat(rule.getFormat());
@@ -246,8 +260,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             item.updateDateEffective(rule.getEffectiveDate());
             item.updateDateExpired(rule.getExpiryDate());
             this.repository.save();
+            return droolsUtil.buildRule(item);
         } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Checkin rule failed: uuid=" + rule.getUUID(), e);
+            throw new RuleEngineRepositoryException("Update rule failed: name=" + 
+                    rule.getName() + ", uuid=" + rule.getUUID(), e);
         }
     }
 
@@ -1302,12 +1318,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("Rule set name cannot be null or empty");
         }
 
-        final List<Rule> rules = ruleSet.getRules();
         PackageItem pkg = createPackage(ruleSet);
-
-        for(int i=0; i<rules.size(); i++) {
-            createRule( pkg, rules.get(i) );
-        }
+        createRule(pkg, ruleSet);
 
         try {
             CompilerResultList result = droolsUtil.compile(pkg);
@@ -1326,7 +1338,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         this.repository.save();
         return pkg.getUUID();
     }
-    
+
     /**
      * Creates a drools repository <code>PackageItem</code>
      * 
@@ -1355,35 +1367,83 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
     
     /**
-     * Creates a rule from a <code>PackageItem</code> and a <code>Rule</code>.
+     * Creates a <code>Rule</code> in a <code>PackageItem</code> 
+     * if it does not already exist.
      * 
      * @param pkg A Drools package item
      * @param rule A kuali rule
      * @throws RuleEngineRepositoryException
      */
-    private void createRule(PackageItem pkg, Rule rule) 
+    private void createRule(PackageItem pkg, RuleSet ruleSet) 
         throws RuleExistsException
     {
-        if (rule.getName() == null || rule.getName().isEmpty()) {
-            throw new IllegalArgumentException("Rule name cannot be null or empty");
-        } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
-            throw new IllegalArgumentException("Rule description cannot be null or empty");
-        } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
-            throw new IllegalArgumentException("Rule format cannot be null or empty");
-        }
+        final List<Rule> rules = ruleSet.getRules();
 
-        try {
-            AssetItem asset = pkg.addAsset(rule.getName(), 
-                    rule.getDescription(), rule.getCategory(), rule.getFormat());
-            asset.updateContent(rule.getContent());
-            asset.updateDescription(rule.getDescription());
-        } catch (RulesRepositoryException e) {
-            if (e.getCause() instanceof ItemExistsException) {
-                throw new RuleExistsException("Creating new rule failed - " + 
-                        "Rule already exists: ruleName=" + rule.getName(), e);
-            } else {
-                throw new RuleEngineRepositoryException("Creating new rule failed: " + 
-                        "ruleName=" + rule.getName(), e);
+        for(Rule rule : rules) {
+            if (rule.getName() == null || rule.getName().isEmpty()) {
+                throw new IllegalArgumentException("Rule name cannot be null or empty");
+            } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
+                throw new IllegalArgumentException("Rule description cannot be null or empty");
+            } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
+                throw new IllegalArgumentException("Rule format cannot be null or empty");
+            }
+    
+            try {
+                AssetItem asset = pkg.addAsset(rule.getName(), 
+                        rule.getDescription(), rule.getCategory(), rule.getFormat());
+                asset.updateContent(rule.getContent());
+                asset.updateDescription(rule.getDescription());
+            } catch (RulesRepositoryException e) {
+                if (e.getCause() instanceof ItemExistsException) {
+                    throw new RuleExistsException("Creating new rule failed - " + 
+                            "Rule already exists: ruleName=" + rule.getName(), e);
+                } else {
+                    throw new RuleEngineRepositoryException("Creating new rule failed: " + 
+                            "ruleName=" + rule.getName(), e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates rules in a PackageItem.
+     * 
+     * @param pkg Package to update rules in
+     * @param ruleSet Ruleset container the rules to be updated
+     * @throws RuleExistsException
+     */
+    private void createOrUpdateRule(PackageItem pkg, RuleSet ruleSet) 
+        throws RuleExistsException
+    {
+        final List<Rule> rules = ruleSet.getRules();
+    
+        for(Rule rule : rules) {
+            if (rule.getName() == null || rule.getName().isEmpty()) {
+                throw new IllegalArgumentException("Rule name cannot be null or empty");
+            } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
+                throw new IllegalArgumentException("Rule description cannot be null or empty");
+            } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
+                throw new IllegalArgumentException("Rule format cannot be null or empty");
+            }
+
+            try {
+                if (rule.getUUID() != null && pkg.containsAsset(rule.getName())) {
+                    AssetItem item = pkg.loadAsset(rule.getName());
+                    updateRule(item,rule);
+                } else {
+                    AssetItem asset = pkg.addAsset(rule.getName(), 
+                            rule.getDescription(), rule.getCategory(), rule.getFormat());
+                    asset.updateContent(rule.getContent());
+                    asset.updateDescription(rule.getDescription());
+                }
+            } catch (RulesRepositoryException e) {
+                if (e.getCause() instanceof ItemExistsException) {
+                    throw new RuleExistsException("Creating new rule failed - " + 
+                            "Rule already exists: ruleName=" + rule.getName(), e);
+                } else {
+                    throw new RuleEngineRepositoryException("Creating or updating rule failed: " + 
+                            "ruleName=" + rule.getName(), e);
+                }
             }
         }
     }

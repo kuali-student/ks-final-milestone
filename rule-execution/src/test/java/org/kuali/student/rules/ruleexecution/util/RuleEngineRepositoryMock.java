@@ -312,12 +312,12 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public void updateRule(Rule rule) {
+    public Rule updateRule(Rule rule) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
     @Override
-    public void updateRuleSet(RuleSet ruleSet) {
+    public RuleSet updateRuleSet(RuleSet ruleSet) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
     

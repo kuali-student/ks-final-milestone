@@ -298,12 +298,13 @@ public interface RuleEngineRepository {
     public void checkinRuleSet(String uuid, String comment);
 
     /**
-     * Updates a rule and save it to the repository.
+     * Updates a rule set in the repository and returns an updated rule set.
      *  
      * @param ruleSet A rule set to update
+     * @return An updated rule set
      * @throws RuleEngineRepositoryException
      */
-    public void updateRuleSet(RuleSet ruleSet);
+    public RuleSet updateRuleSet(RuleSet ruleSet);
     
     /**
      * Checkin a rule into the repository.
@@ -317,12 +318,13 @@ public interface RuleEngineRepository {
     public void checkinRule(String uuid, String comment);
 
     /**
-     * Updates a rule and saves it to the repository.
+     * Updates a rule in the repository and returns an updated rule.
      * 
      * @param rule A rule to update
+     * @return An updated rule
      * @throws RuleEngineRepositoryException
      */
-    public void updateRule(Rule rule);
+    public Rule updateRule(Rule rule);
     
     /**
      * Deletes a rule by uuid.

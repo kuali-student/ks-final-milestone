@@ -61,7 +61,7 @@ public interface RuleRuntimeRepository {
 
     /**
      * <p>
-     * Updates and saves a rule to the repository.
+     * Updates a rule in the repository and returns an updated rule.
      * </p>
      * Example: Update a rule with new source code content.
      * 
@@ -81,7 +81,7 @@ public interface RuleRuntimeRepository {
      *            A rule to update
      * @throws RuleEngineRepositoryException
      */
-    public void updateRule(Rule rule) throws RuleEngineRepositoryException;
+    public Rule updateRule(Rule rule) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -159,7 +159,7 @@ public interface RuleRuntimeRepository {
 
     /**
      * <p>
-     * Updates and saves a rule to the repository.
+     * Updates a rule set in the repository and returns a new rule set.
      * </p>
      * Example: Load a rule set and update its header.
      * 
@@ -180,7 +180,7 @@ public interface RuleRuntimeRepository {
      *            A rule set to update
      * @throws RuleEngineRepositoryException
      */
-    public void updateRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException;
+    public RuleSet updateRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException;
 
     /**
      * <p>
