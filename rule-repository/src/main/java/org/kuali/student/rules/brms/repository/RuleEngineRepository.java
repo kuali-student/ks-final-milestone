@@ -421,7 +421,7 @@ public interface RuleEngineRepository {
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
+    public RuleSet createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
 
     /**
      * Loads a rule set (and rules) for a specific uuid.

@@ -1309,7 +1309,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public String createRuleSet(RuleSet ruleSet) 
+    public RuleSet createRuleSet(RuleSet ruleSet) 
         throws RuleSetExistsException, RuleExistsException
     {
         if (ruleSet == null) {
@@ -1336,7 +1336,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
 
         this.repository.save();
-        return pkg.getUUID();
+        return droolsUtil.buildRuleSet(pkg);
     }
 
     /**

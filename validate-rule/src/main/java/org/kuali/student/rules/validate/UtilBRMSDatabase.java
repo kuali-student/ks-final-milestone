@@ -95,7 +95,7 @@ public class UtilBRMSDatabase {
 
         //System.out.println("Rule set1:\n" + ruleSet.getContent());
 
-        String rulesetUuid = droolsRepository.createRuleSet(ruleSet);
+        String rulesetUuid = droolsRepository.createRuleSet(ruleSet).getUUID();
         droolsRepository.loadRuleSet(rulesetUuid);
 
         rule1.setCompiledID(rulesetUuid);

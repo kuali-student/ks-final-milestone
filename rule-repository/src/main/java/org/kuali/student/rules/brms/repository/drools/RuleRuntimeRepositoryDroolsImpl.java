@@ -171,7 +171,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public String createRuleSet(RuleSet ruleSet) 
+    public RuleSet createRuleSet(RuleSet ruleSet) 
         throws RuleSetExistsException, RuleExistsException {
         return super.createRuleSet(ruleSet);
     }

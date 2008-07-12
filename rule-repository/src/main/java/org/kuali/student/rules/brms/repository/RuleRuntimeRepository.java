@@ -155,7 +155,7 @@ public interface RuleRuntimeRepository {
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
+    public RuleSet createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
 
     /**
      * <p>

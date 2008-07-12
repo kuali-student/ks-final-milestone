@@ -177,7 +177,7 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public String createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException {
+    public RuleSet createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
