@@ -19,7 +19,12 @@
 				<configuration>
 					<!-- no default value -->
 					<dependentWarExcludes>
-						WEB-INF/lib/cxf**
+						WEB-INF/lib/cxf**,
+						WEB-INF/lib/common-ws-**,
+						WEB-INF/lib/lu-api-**,
+						WEB-INF/lib/luipersonrelation-api-**,
+						WEB-INF/lib/personidentity-api-**,
+						WEB-INF/lib/org.kuali.student.**
 					</dependentWarExcludes>
 				</configuration>
 			</plugin>

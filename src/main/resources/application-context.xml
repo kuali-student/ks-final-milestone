@@ -24,7 +24,7 @@
 		</property>
 		<property name="properties">
 			<props>
-				<prop key="application.properties.file">
+				<prop key="ks.application.properties">
 					classpath:application.properties
 				</prop>
 			</props>
@@ -33,13 +33,7 @@
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:application.properties</value>
-				<value>${application.properties.file}</value>
-			</list>
-		</property>
-		<property name="ignoreResourceNotFound" value="true" />
+		<property name="location" value="${ks.application.properties}" />
 	</bean>
 
 
@@ -113,7 +107,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${application.properties.file}" />
+					value="${ks.application.properties}" />
 				<property name="prefix"
 					value="jdbc.xaDataSourceProperties" />
 			</bean>
@@ -138,7 +132,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${application.properties.file}" />
+					value="${ks.application.properties}" />
 				<property name="prefix" value="jpa.person" />
 			</bean>
 		</property>
@@ -154,7 +148,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${application.properties.file}" />
+					value="${ks.application.properties}" />
 				<property name="prefix" value="jpa.lu" />
 			</bean>
 		</property>
@@ -170,7 +164,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${application.properties.file}" />
+					value="${ks.application.properties}" />
 				<property name="prefix" value="jpa.lupr" />
 			</bean>
 		</property>
