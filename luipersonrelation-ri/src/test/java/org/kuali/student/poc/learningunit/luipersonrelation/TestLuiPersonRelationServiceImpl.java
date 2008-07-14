@@ -35,14 +35,14 @@ import org.kuali.student.rules.validate.UtilBRMSDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-@Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")})
+@Daos({@Dao(value = "org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")
 @ContextConfiguration(locations = {"classpath:lui-mock-context.xml"})
-public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
+public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
-    @Client(value="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl", port="9191")
+    @Client(value = "org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl", port = "9191")
     public LuiPersonRelationService client;
-       
+
     public static final String person_id1 = "Person 1";
     public static final String person_id2 = "Person 2";
     public static final String person_id3 = "Person 3";
@@ -54,98 +54,99 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     public static final String lpr_id4 = "11223344-1122-1122-1111-000000000004";
     public static final String lpr_id5 = "11223344-1122-1122-1111-000000000005";
 
+    public static final String rulePerson_id1 = "Rules Person 1";
+    public static final String ruleLui_id1 = "CPR 106";
+    public static final String ruleLui_id2 = "CPR 110";
+    public static final String ruleLui_id3 = "MATH 105";
+    public static final String ruleLui_id4 = "ART 55";
+    
+    public static final String ruleLuiAnchor_id = "CPR 201";
+
     public LuiPersonRelationTypeInfo lprTypeInfo;
     public RelationStateInfo relationStateInfo;
 
-    
-
     @Before
-    public void setup(){
+    public void setup() {
         lprTypeInfo = new LuiPersonRelationTypeInfo();
         lprTypeInfo.setName("student");
-        
+
         relationStateInfo = new RelationStateInfo();
-        relationStateInfo.setState("add");            
+        relationStateInfo.setState("enrolled");
     }
-    
-    
+
     @Test
-    public void testIsValidLuiPersonRelation() throws Exception{
-        
+    public void testIsValidLuiPersonRelation() throws Exception {
+
         assertTrue(client.isValidLuiPersonRelation(person_id3, lui_id2, lprTypeInfo, relationStateInfo));
-       
-        assertFalse(client.isValidLuiPersonRelation(person_id3, lui_id1, lprTypeInfo, relationStateInfo));     
+
+        assertFalse(client.isValidLuiPersonRelation(person_id3, lui_id1, lprTypeInfo, relationStateInfo));
     }
 
+    // @Test (expected=DoesNotExistException.class)
+    public void testCreateDeleteUpdateLuiPersonRelation() throws Exception {
 
-//    @Test (expected=DoesNotExistException.class)
-    public void testCreateDeleteUpdateLuiPersonRelation() throws Exception{
-       
         LuiPersonRelationCreateInfo lprCreateInfo = new LuiPersonRelationCreateInfo();
         lprCreateInfo.setEffectiveStartDate(new Date());
-        lprCreateInfo.setEffectiveEndDate(new Date());        
-        
-        //Create relation
+        lprCreateInfo.setEffectiveEndDate(new Date());
+
+        // Create relation
         String lpr_id = client.createLuiPersonRelation(person_id3, lui_id2, relationStateInfo, lprTypeInfo, lprCreateInfo);
-        
+
         LuiPersonRelationInfo lprInfo = client.fetchLUIPersonRelation(lpr_id);
-        assertEquals(lpr_id, lprInfo.getLuiPersonRelationId()); 
-        
-        //TODO: Test update function
-        
-        //Remove relation
+        assertEquals(lpr_id, lprInfo.getLuiPersonRelationId());
+
+        // TODO: Test update function
+
+        // Remove relation
         Status status = client.deleteLuiPersonRelation(lprInfo.getLuiPersonRelationId());
         assertTrue(status.isSuccess());
-        
-        //should throw dne exception
+
+        // should throw dne exception
         client.fetchLUIPersonRelation(lprInfo.getLuiPersonRelationId());
     }
-    
-    
+
     @Test
-    public void testCreateBulkRelationships(){
-        //TODO: Add this test
+    public void testCreateBulkRelationships() {
+    // TODO: Add this test
     }
-    
+
     @Test
-    public void testFindValidPeopleForLui() throws Exception{
-          List<String> personIds = client.findAllValidPersonIdsForLui(lui_id1, lprTypeInfo, relationStateInfo);
+    public void testFindValidPeopleForLui() throws Exception {
+        List<String> personIds = client.findAllValidPersonIdsForLui(lui_id1, lprTypeInfo, relationStateInfo);
         assertTrue(personIds.size() == 3);
         assertTrue(personIds.contains(person_id1));
         assertTrue(personIds.contains(person_id2));
         assertTrue(personIds.contains(person_id3));
-        
 
         personIds = client.findAllValidPersonIdsForLui(lui_id2, lprTypeInfo, relationStateInfo);
         assertTrue(personIds.size() == 2);
         assertTrue(personIds.contains(person_id1));
-        assertTrue(personIds.contains(person_id2));       
-        
-        
-        //TODO: Fix since this is a bad test, mock person service can't return "valid" list of people
+        assertTrue(personIds.contains(person_id2));
+
+        // TODO: Fix since this is a bad test, mock person service can't return "valid" list of people
         List<PersonDisplay> personDisp = client.findAllValidPeopleForLui(lui_id1, lprTypeInfo, relationStateInfo);
         assertNotNull(personDisp);
     }
-    
-    @Test 
-    public void testFindValidLuisForPerson() throws Exception{
+
+    @Test
+    public void testFindValidLuisForPerson() throws Exception {
         List<String> luiIds = client.findLuiIdsRelatedToPerson(person_id1, lprTypeInfo, relationStateInfo);
-        assertTrue(luiIds.size()== 2);
+        assertTrue(luiIds.size() == 2);
         assertTrue(luiIds.contains(lui_id1));
         assertTrue(luiIds.contains(lui_id2));
     }
 
     @Test
-    public void testFindLuiPersonRelationDisplay() throws Exception{
+    public void testFindLuiPersonRelationDisplay() throws Exception {
         List<LuiPersonRelationDisplay> lprDispList;
         List<String> idList;
-        
+
         lprDispList = client.findLuiPersonRelations(person_id2, lui_id2);
         assertTrue(lprDispList.size() == 1);
         assertEquals(lpr_id5, lprDispList.get(0).getLuiPersonRelationId());
-        
-        lprDispList = client.findLuiPersonRelationsForLui(lui_id2);        
-        assertTrue(lprDispList.size() == 2);                 
+
+        lprDispList = client.findLuiPersonRelationsForLui(lui_id2);
+        assertTrue(lprDispList.size() == 2);
         idList = new ArrayList<String>();
         idList.add(lprDispList.get(0).getLuiPersonRelationId());
         idList.add(lprDispList.get(1).getLuiPersonRelationId());
@@ -157,58 +158,56 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
         lprDispList = client.findLuiPersonRelationsForPerson(person_id3);
         assertTrue(lprDispList.size() == 1);
         assertEquals(lpr_id4, lprDispList.get(0).getLuiPersonRelationId());
-        
+
     }
 
     @Test
-    public void testFindLuiPersonRelationids() throws Exception{
+    public void testFindLuiPersonRelationids() throws Exception {
         List<String> idList;
-        
+
         idList = client.findLuiPersonRelationIds(person_id1, lui_id1);
         assertTrue(idList.size() == 1);
-        assertTrue(idList.contains(lpr_id1));        
-       
+        assertTrue(idList.contains(lpr_id1));
+
         idList = client.findLuiPersonRelationIdsForLui(lui_id1);
         assertTrue(idList.size() == 3);
         assertTrue(idList.contains(lpr_id1));
         assertTrue(idList.contains(lpr_id3));
         assertTrue(idList.contains(lpr_id4));
-        
+
         idList = client.findLuiPersonRelationIdsForPerson(person_id3);
         assertTrue(idList.size() == 1);
         assertTrue(idList.contains(lpr_id4));
-        
+
         idList = client.findPersonIdsRelatedToLui(lui_id2, lprTypeInfo, relationStateInfo);
         assertTrue(idList.size() == 2);
         assertTrue(idList.contains(person_id1));
         assertTrue(idList.contains(person_id2));
-        
-        //Sneak in test for isRelated operation
+
+        // Sneak in test for isRelated operation
         assertTrue(client.isRelated(person_id1, lui_id1, lprTypeInfo, relationStateInfo));
-        
+
         RelationStateInfo relationStateInfo2 = new RelationStateInfo();
-        relationStateInfo2.setState("drop");        
+        relationStateInfo2.setState("drop");
         assertFalse(client.isRelated(person_id1, lui_id1, lprTypeInfo, relationStateInfo2));
     }
 
     @Test
-    public void testRelationStates() throws Exception{
+    public void testRelationStates() throws Exception {
         assertTrue(client.findRelationStates().size() == 2);
 
-        //TODO: Add test for ordered relation state
-        //TODO: Add test for valid relation states
+        // TODO: Add test for ordered relation state
+        // TODO: Add test for valid relation states
     }
-    
-    @Test
-    public void testLuiPersonRelationSearch(){
-        //TODO: Add test for search
-    }
-    
 
-    @Test 
-    public void testValidateLuiPersonRelation() throws Exception {             
-                
-       ValidationResult result1= client.validateLuiPersonRelation(person_id1, lui_id1, lprTypeInfo, relationStateInfo);
-        assertEquals(result1.isSuccess(), false);
+    @Test
+    public void testLuiPersonRelationSearch() {
+    // TODO: Add test for search
+    }
+
+    @Test
+    public void testValidateLuiPersonRelation() throws Exception {
+        ValidationResult result1 = client.validateLuiPersonRelation(rulePerson_id1, ruleLuiAnchor_id, lprTypeInfo, relationStateInfo);
+        assertEquals(result1.isSuccess(), true);                        
     }
 }
