@@ -252,6 +252,11 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
+    public List<RuleSet> loadRuleSetHistory( String uuid ) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+    
+    @Override
     public RuleSet loadRuleSet(String uuid) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
