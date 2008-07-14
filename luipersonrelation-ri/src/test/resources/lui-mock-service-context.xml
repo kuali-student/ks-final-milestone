@@ -26,6 +26,7 @@
 		</property>
 	</bean>
 
+
 	<bean id="luClient"
 		class="org.kuali.student.poc.common.test.mock.MockProxyFactoryBean">
 		<property name="interfaceClass"
@@ -42,7 +43,7 @@
 					<key>
 						<value>fetchLuiDisplay</value>
 					</key>
-					<ref bean="fetchLuiDisplayReturn"/>
+					<ref bean="fetchLuiDisplayReturn" />
 				</entry>
 			</map>
 		</property>
@@ -78,7 +79,7 @@
 	<bean id="fetchValidPeopleList" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<ref bean="personDisplay1"/>
+				<ref bean="personDisplay1" />
 			</list>
 		</constructor-arg>
 	</bean>
@@ -127,4 +128,29 @@
 		class="org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay">
 		<property name="luiId" value="Lui 2" />
 	</bean>
+
+	<!--  ********************************************************************** -->
+	<!--  Rule Engine Beans -->
+
+	<bean id="businessRuleDAO"
+		class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+	</bean>
+
+	<bean id="droolsRepository"
+		class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+		<constructor-arg type="org.drools.repository.RulesRepository"
+			ref="rulesRepository" />
+	</bean>
+
+	<bean id="defaultDroolsRepositoryContainer"
+		class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"
+		destroy-method="shutdown">
+		<constructor-arg type="java.lang.String"
+			value="/drools-repository" />
+	</bean>
+
+	<bean id="rulesRepository"
+		factory-bean="defaultDroolsRepositoryContainer"
+		factory-method="getRepository" />
+
 </beans>
