@@ -7,27 +7,44 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.commons.ui.client.UICommonsConstants;
+import org.kuali.student.commons.ui.messages.client.Messages;
+import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
+import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Table class that binds directly to a Model
+ * Paging table class that binds directly to a Model
  * 
  * @param <T>
  *            the type of ModelObject
  */
-public class ModelTable<T extends ModelObject> extends Composite implements ModelWidget<T> {
-
+public class PagingModelTable<T extends ModelObject> extends Composite implements ModelWidget<T> {
+    public static final int DEFAULT_ROWS_PER_PAGE = 50;
+    
     public enum ExposedStyles {
         MODELTABLE("KS-ModelTable"),
         MODELTABLE_COLUMN_HEADER("KS-ModelTable-Column-Header"),
         MODELTABLE_ROW("KS-ModelTable-Row"),
-        MODELTABLE_ROW_ALTERNATE("KS-ModelTable-Row-Alternate");
+        MODELTABLE_ROW_ALTERNATE("KS-ModelTable-Row-Alternate"),
+        MODELTABLE_SORTIMAGE("KS-ModelTable-SortImage"),
+        MODELTABLE_PAGE_BAR("KS-ModelTable-PageBar"),
+        MODELTABLE_PAGE_BAR_NEXT("KS-ModelTable-PageBar-Next"),
+        MODELTABLE_PAGE_BAR_PREVIOUS("KS-ModelTable-PageBar-Previous"),
+        MODELTABLE_PAGE_BAR_PAGE_COUNT("KS-ModelTable-PageBar-Count");
         
         private String styleName;
         private ExposedStyles(String styleName) {
@@ -37,6 +54,16 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
             return this.styleName;
         }
     }
+    
+    ViewMetaData metadata = ApplicationContext.getViews().get(UICommonsConstants.BASE_VIEW_NAME);
+    Messages messages = metadata.getMessages();
+    
+    private final VerticalPanel panel = new VerticalPanel();
+    
+    private final HorizontalPanel pageBar = new HorizontalPanel();
+    private final Image previous = new Image("images/left-arrow.png");
+    private final Image next = new Image("images/right-arrow.png");
+    private final Label pageCount = new Label();
     
     private final FlexTable table = new FlexTable();
     
@@ -50,9 +77,19 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
     private int sortColumn = 0;
     private boolean sortAscending = true;
     
-    public ModelTable() {
-        super.initWidget(table);
+    private int rowsPerPage = DEFAULT_ROWS_PER_PAGE;
+    private int currentPage = 0;
+    int lastPageCount = -1;
+    
+    public PagingModelTable() {
+        panel.add(pageBar);
+        pageBar.add(previous);
+        pageBar.add(pageCount);
+        pageBar.add(next);
+        panel.add(table);
+        super.initWidget(panel);
     }
+    
     /**
      * Called by the container to initialize the table. Do not call directly.
      */
@@ -70,7 +107,7 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
                         }
                         
                     } else {
-                        selection = index.get(row - 1);
+                        selection = index.get((currentPage * rowsPerPage) + row - 1);
                         fireSelection(selection);
                     }
                 }
@@ -81,6 +118,30 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
                 table.setWidget(0, col, label);
             }
             table.getRowFormatter().addStyleName(0, ExposedStyles.MODELTABLE_COLUMN_HEADER.toString());
+            previous.setTitle(messages.get("previous"));
+            previous.addClickListener(new ClickListener() {
+                public void onClick(Widget sender) {
+                    if (getCurrentPage() > 0) {
+                        setCurrentPage(getCurrentPage()-1);
+                    }
+                }
+            });
+            next.setTitle(messages.get("next"));
+            next.addClickListener(new ClickListener() {
+                public void onClick(Widget sender) {
+                    int i = (getCurrentPage()+1) * rowsPerPage;
+                    if (i < index.size()) {
+                        setCurrentPage(getCurrentPage()+1);
+                    }
+                }
+            });
+            
+            pageBar.addStyleName(ExposedStyles.MODELTABLE_PAGE_BAR.toString());
+            previous.addStyleName(ExposedStyles.MODELTABLE_PAGE_BAR_PREVIOUS.toString());
+            next.addStyleName(ExposedStyles.MODELTABLE_PAGE_BAR_NEXT.toString());
+            pageCount.addStyleName(ExposedStyles.MODELTABLE_PAGE_BAR_PAGE_COUNT.toString());
+            
+            recalcPageCountLabel();
         }
     }
 
@@ -171,8 +232,11 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
      */
     public void redraw() {
         clearTable();
-        for (T t : index) {
-            render(t);
+        recalcPageCountLabel();
+
+        int offset = currentPage * rowsPerPage;
+        for (int i=offset; i<offset+rowsPerPage && i<index.size(); i++) {
+            render(index.get(i));
         }
     }
     /**
@@ -184,13 +248,15 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
     protected void render(T modelObject) {
         // note, a bug in GWT-1.5-RC1 prevents redraw in hosted mode until another subsequent browser event fires
         // bug is fixed in nightly builds of GWT
-        int row = index.indexOf(modelObject) + 1;
-        ExposedStyles style = (row % 2 == 0) ? ExposedStyles.MODELTABLE_ROW_ALTERNATE : ExposedStyles.MODELTABLE_ROW;
-        for (int col = 0; col < columns.size(); col++) {
-            ModelTableColumn<T> c = columns.get(col);
-            table.setText(row, col, c.getColumnValue(modelObject));
+        if (isObjectVisible(modelObject)) {
+            int row = (index.indexOf(modelObject) % rowsPerPage) + 1;
+            ExposedStyles style = (row % 2 == 0) ? ExposedStyles.MODELTABLE_ROW_ALTERNATE : ExposedStyles.MODELTABLE_ROW;
+            for (int col = 0; col < columns.size(); col++) {
+                ModelTableColumn<T> c = columns.get(col);
+                table.setText(row, col, c.getColumnValue(modelObject));
+            }
+            table.getRowFormatter().setStyleName(row, style.toString());
         }
-        table.getRowFormatter().setStyleName(row, style.toString());
     }
 
     /**
@@ -199,6 +265,7 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
     public void add(T modelObject) {
         index.add(modelObject);
         render(modelObject);
+        recalcPageCountLabel();
     }
 
     /**
@@ -219,10 +286,19 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
      * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#remove(org.kuali.student.commons.ui.mvc.client.model.ModelObject)
      */
     public void remove(T modelObject) {
-        int row = index.indexOf(modelObject) + 1;
-        table.removeRow(row);
+        if (isObjectVisible(modelObject)) {
+            int row = (index.indexOf(modelObject) % rowsPerPage) + 1;
+            table.removeRow(row);
+        }
+        recalcPageCountLabel();
     }
 
+    public boolean isObjectVisible(T modelObject) {
+        int row = index.indexOf(modelObject);
+        int offset = currentPage * rowsPerPage;
+        return (row >= offset && row < (offset + rowsPerPage));
+    }
+    
     /**
      * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#select(org.kuali.student.commons.ui.mvc.client.model.ModelObject)
      */
@@ -246,7 +322,7 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
        this.index.clear();
        clearTable();
     }
-    
+     
     private void clearTable() {
         while (table.getRowCount() > 1) {
             table.removeRow(table.getRowCount()-1);
@@ -262,6 +338,40 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
     protected void fireSelection(T modelObject) {
         for (ModelTableSelectionListener<T> listener : listeners) {
             listener.onSelect(modelObject);
+        }
+    }
+
+    public int getRowsPerPage() {
+        return rowsPerPage;
+    }
+
+    public void setRowsPerPage(int rowsPerPage) {
+        this.rowsPerPage = rowsPerPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+        redraw();
+    }
+    
+    private int calculateNumberOfPages() {
+        return (int) Math.ceil((double)index.size() / (double) rowsPerPage);
+    }
+    private String getPageCountText() {
+        String x = "" + (currentPage + 1);
+        String y = "" + calculateNumberOfPages();
+        return messages.get("pageXofY", x, y);
+    }
+    
+    private void recalcPageCountLabel() {
+        int count = calculateNumberOfPages();
+        if (count != lastPageCount) {
+            lastPageCount = count;
+            pageCount.setText(getPageCountText());
         }
     }
 }

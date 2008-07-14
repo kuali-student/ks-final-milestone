@@ -1,5 +1,7 @@
 package org.kuali.student.commons.ui.widgets;
 
+import org.kuali.student.commons.ui.widgets.PagingModelTable.ExposedStyles;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -37,6 +39,9 @@ public class ModelTableHeaderLabel extends Composite implements HasText {
         panel.add(label);
         panel.add(sortedAscending);
         panel.add(sortedDescending);
+        sortedAscending.addStyleName(ExposedStyles.MODELTABLE_SORTIMAGE.toString());
+        sortedDescending.addStyleName(ExposedStyles.MODELTABLE_SORTIMAGE.toString());
+        panel.setWidth("100%");
         clearSorted();
         super.initWidget(panel);
     }

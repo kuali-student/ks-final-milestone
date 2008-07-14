@@ -8,12 +8,35 @@
     font-weight: bold;
 }
 
+.KS-ModelTable-SortImage {
+	float: right;
+	vertical-align: middle;
+}	
+
 .KS-ModelTable-Row {
 	background-color: white;
 }
 .KS-ModelTable-Row-Alternate {
 	background-color: lavender;
 }
+.KS-ModelTable-PageBar {
+	width: 100%;
+}
+
+.KS-ModelTable-PageBar-Next {
+	float: right;
+	vertical-align: middle;
+}	
+
+.KS-ModelTable-PageBar-Previous {
+	float: left;
+	vertical-align: middle;
+}	
+
+.KS-ModelTable-PageBar-Count {
+	text-align: center;
+}	
+
 
 
 
