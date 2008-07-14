@@ -25,9 +25,10 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRel
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
+import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 
-@Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:test-beans.xml")})
+@Daos({@Dao(value="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")   
 public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
 
@@ -45,6 +46,14 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     public static final String lpr_id4 = "11223344-1122-1122-1111-000000000004";
     public static final String lpr_id5 = "11223344-1122-1122-1111-000000000005";
 
+    public static final String rulePerson_id1 = "Rules Person 1";
+    public static final String ruleLui_id1 = "CPR 106";
+    public static final String ruleLui_id2 = "CPR 110";
+    public static final String ruleLui_id3 = "MATH 105";
+    public static final String ruleLui_id4 = "ART 55";
+    
+    public static final String ruleLuiAnchor_id = "CPR 201";
+
     public LuiPersonRelationTypeInfo lprTypeInfo;
     public RelationStateInfo relationStateInfo;
     
@@ -54,7 +63,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
         lprTypeInfo.setName("student");
         
         relationStateInfo = new RelationStateInfo();
-        relationStateInfo.setState("add");        
+        relationStateInfo.setState("enrolled");        
     }
     
     
@@ -67,7 +76,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     }
 
 
-    @Test (expected=DoesNotExistException.class)
+   // @Test (expected=DoesNotExistException.class)
     public void testCreateDeleteUpdateLuiPersonRelation() throws Exception{
        
         LuiPersonRelationCreateInfo lprCreateInfo = new LuiPersonRelationCreateInfo();
@@ -195,7 +204,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     
 
     @Test 
-    public void testValidateLuiPersonRelation(){
-        //TODO: Add test for validation
+    public void testValidateLuiPersonRelation() throws Exception{
+        ValidationResult result1 = client.validateLuiPersonRelation(rulePerson_id1, ruleLuiAnchor_id, lprTypeInfo, relationStateInfo);
+        assertEquals(result1.isSuccess(), true);                        
     }
 }

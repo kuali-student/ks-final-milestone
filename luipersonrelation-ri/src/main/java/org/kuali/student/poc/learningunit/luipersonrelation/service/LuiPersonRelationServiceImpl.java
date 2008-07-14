@@ -1,6 +1,8 @@
 package org.kuali.student.poc.learningunit.luipersonrelation.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -30,15 +32,37 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRel
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
+import org.kuali.student.rules.brms.agenda.AgendaRequest;
+import org.kuali.student.rules.brms.agenda.entity.Agenda;
+import org.kuali.student.rules.brms.agenda.entity.Anchor;
+import org.kuali.student.rules.brms.agenda.entity.AnchorType;
+import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
+import org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO;
+import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.util.POC2ADroolsLoader;
+import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
+import org.kuali.student.rules.statement.PropositionContainer;
+import org.kuali.student.rules.util.FactContainer;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/poc/wsdl/learningunit/luipersonrelation")
 @Transactional
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
+    // POC Hack, drools initialization will happen in BRMS in actual implementation
+    private static Boolean DROOLS_INIT = false;
+
 	private LuiPersonRelationDAO dao;
 	private PersonService personClient;
 	private LuService luClient;
+
+    private FunctionalBusinessRuleDAO businessRuleDAO;
+    private RuleEngineRepository droolsRepository;
 
 	public LuiPersonRelationDAO getDao() {
 		return dao;
@@ -64,7 +88,23 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 		this.luClient = luClient;
 	}
 
-	@Override
+    public RuleEngineRepository getDroolsRepository() {
+        return droolsRepository;
+    }
+
+    public void setDroolsRepository(RuleEngineRepository droolsRepository) {
+        this.droolsRepository = droolsRepository;
+    }
+
+    public FunctionalBusinessRuleDAO getBusinessRuleDAO() {
+        return businessRuleDAO;
+    }
+
+    public void setBusinessRuleDAO(FunctionalBusinessRuleDAO businessRuleDAO) {
+        this.businessRuleDAO = businessRuleDAO;
+    }
+
+    @Override
 	public List<String> createBulkRelationshipsForLui(String luiId,
 			List<String> personIdList, RelationStateInfo relationStateInfo,
 			LuiPersonRelationTypeInfo luiPersonRelationTypeInfo,
@@ -523,10 +563,76 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 			PermissionDeniedException {
 		// TODO Use "rules" for validation (eg. prereq checks).
 
-		ValidationResult validationResult = new ValidationResult();
-		validationResult.setSuccess(true);
+        FunctionalBusinessRuleManagementService brmsService = new FunctionalBusinessRuleManagementService();
+        brmsService.setBusinessRuleDAO(businessRuleDAO);
 
-		return validationResult;
+        AgendaDiscovery agendaDiscovery = new AgendaDiscovery();
+        agendaDiscovery.setRuleMgmtService(brmsService);
+
+        RuleSetExecutor rulesExecutor = new RuleSetExecutorDroolsImpl(droolsRepository);
+
+        synchronized (DROOLS_INIT) {
+            if (!DROOLS_INIT) {
+                POC2ADroolsLoader droolsLoader = new POC2ADroolsLoader();
+                droolsLoader.setBrmsService(brmsService);
+                droolsLoader.setDroolsRepository(droolsRepository);
+                try {
+                    droolsLoader.init();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new OperationFailedException("Could not initialize drools repository!");
+                }
+
+                DROOLS_INIT = true;
+            }
+        }
+
+        ValidationResult validationResult = new ValidationResult();
+        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
+
+        // 1. Discover Agenda
+
+        AgendaRequest agendaRequest = new AgendaRequest(luiPersonRelationTypeInfo.getName(), "course", "offered", relationStateInfo.getState());
+        AnchorType type = new AnchorType("course", "clu.type.course");
+        Anchor anchor = new Anchor(luiId.replaceAll("\\s", "_"), "CPR 201", type);
+
+        Agenda agenda = agendaDiscovery.getAgenda(agendaRequest, anchor);
+
+        Iterator<BusinessRule> itr = agenda.getBusinessRules().iterator();
+
+        while (itr.hasNext()) {
+            BusinessRule rule = itr.next();
+
+            PropositionContainer props = new PropositionContainer();
+            props.setFunctionalRuleString(rule.getFunctionalRuleString());
+            CourseEnrollmentRequest request = new CourseEnrollmentRequest();
+            FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
+            
+            request.setLuiIds( new HashSet<String>( findLuiIdsRelatedToPerson(personId, luiPersonRelationTypeInfo,
+             relationStateInfo) ) );
+
+            List<Object> factList = new ArrayList<Object>();
+            factList.add(props);
+            factList.add(request);
+            factList.add(factContainer);
+
+            rulesExecutor.execute(agenda, factList);
+
+            // 5. Process rule outcome
+            ruleReportBuilder.executeRule(props);
+
+            if (props.getRuleResult()) {
+                validationResult.setSuccess(true);
+                validationResult.setRuleMessage(props.getRuleReport().getSuccessMessage());
+            } else {
+                validationResult.setRuleMessage(props.getRuleReport().getFailureMessage());
+            }
+
+            // Dirty hack. In POC we only process one rule
+            break;
+        }
+
+        return validationResult;
 	}
 
 	private LuiPersonRelationInfo toLuiPersonRelationInfo(
