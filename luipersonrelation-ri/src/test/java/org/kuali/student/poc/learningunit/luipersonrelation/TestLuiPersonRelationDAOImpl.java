@@ -18,7 +18,7 @@ import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRela
 
 @PersistenceFileLocation("classpath:META-INF/luipersonrelation-persistence.xml")
 public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:test-beans.xml")
+    @Dao(value = "org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl", testDataFile = "classpath:lpr-test-beans.xml")
     public LuiPersonRelationDAO dao;
 
     public static final String person_id1 = "Person 1";
@@ -58,17 +58,17 @@ public class TestLuiPersonRelationDAOImpl extends AbstractTransactionalDaoTest {
        List<String> idList = new ArrayList<String>();
        List<LuiPersonRelation> lprList;
        
-       lprList = dao.findLuiPersonRelations(person_id1, lui_id1, "student", "add");       
+       lprList = dao.findLuiPersonRelations(person_id1, lui_id1, "student", "enrolled");       
        assertEquals(lpr_id1, ((LuiPersonRelation)lprList.get(0)).getId());
        
-       lprList = dao.findLuiPersonRelationsByLui(lui_id2, "student", "add");
+       lprList = dao.findLuiPersonRelationsByLui(lui_id2, "student", "enrolled");
        assertTrue(lprList.size()==2);
        idList.add(((LuiPersonRelation)lprList.get(0)).getPersonId());
        idList.add(((LuiPersonRelation)lprList.get(1)).getPersonId());
        assertTrue(idList.contains(person_id1));
        assertTrue(idList.contains(person_id2));
        
-       lprList = dao.findLuiPersonRelationsByPerson(person_id1, "student", "add");
+       lprList = dao.findLuiPersonRelationsByPerson(person_id1, "student", "enrolled");
        assertTrue(lprList.size()==2);
        idList.add(((LuiPersonRelation)lprList.get(0)).getLuiId());
        idList.add(((LuiPersonRelation)lprList.get(1)).getLuiId());
