@@ -11,6 +11,11 @@
 				<ref bean="lpr3" />
 				<ref bean="lpr4" />
 				<ref bean="lpr5" />
+				<ref bean="lpr1" />
+				<ref bean="rulelpr1" />
+				<ref bean="rulelpr2" />
+				<ref bean="rulelpr3" />
+				<ref bean="rulelpr4" />
 				<ref bean="funcBusRule1" />
 				<ref bean="funcBusRule2" />
 				<ref bean="funcBusRule3" />
@@ -24,7 +29,7 @@
 			value="11223344-1122-1122-1111-000000000001" />
 		<property name="personId" value="Person 1" />
 		<property name="luiId" value="Lui 1" />
-		<property name="relationState" value="add"/>
+		<property name="relationState" value="enrolled"/>
 		<property name="luiPersonRelationType" value="student"/>
 	</bean>
 	<bean id="lpr2"
@@ -33,7 +38,7 @@
 			value="11223344-1122-1122-1111-000000000002" />
 		<property name="personId" value="Person 1" />
 		<property name="luiId" value="Lui 2" />
-		<property name="relationState" value="add"/>
+		<property name="relationState" value="enrolled"/>
 		<property name="luiPersonRelationType" value="student"/>
 	</bean>
 	<bean id="lpr3"
@@ -42,7 +47,7 @@
 			value="11223344-1122-1122-1111-000000000003" />
 		<property name="personId" value="Person 2" />
 		<property name="luiId" value="Lui 1" />
-		<property name="relationState" value="add"/>
+		<property name="relationState" value="enrolled"/>
 		<property name="luiPersonRelationType" value="student"/>
 	</bean>
 	<bean id="lpr4"
@@ -51,7 +56,7 @@
 			value="11223344-1122-1122-1111-000000000004" />
 		<property name="personId" value="Person 3" />
 		<property name="luiId" value="Lui 1" />
-		<property name="relationState" value="add"/>
+		<property name="relationState" value="enrolled"/>
 		<property name="luiPersonRelationType" value="student"/>
 	</bean>
 	<bean id="lpr5"
@@ -60,9 +65,50 @@
 			value="11223344-1122-1122-1111-000000000005" />
 		<property name="personId" value="Person 2" />
 		<property name="luiId" value="Lui 2" />
-		<property name="relationState" value="add"/>
+		<property name="relationState" value="enrolled"/>
 		<property name="luiPersonRelationType" value="student"/>
 	</bean>
+
+	<bean id="rulelpr1"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000006" />
+		<property name="personId" value="Rules Person 1" />
+		<property name="luiId" value="CPR 101" />
+		<property name="relationState" value="enrolled"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+
+	<bean id="rulelpr2"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000007" />
+		<property name="personId" value="Rules Person 1" />
+		<property name="luiId" value="CPR 301" />
+		<property name="relationState" value="enrolled"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+
+	<bean id="rulelpr3"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000008" />
+		<property name="personId" value="Rules Person 1" />
+		<property name="luiId" value="MATH 105" />
+		<property name="relationState" value="enrolled"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+
+	<bean id="rulelpr4"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
+		<property name="id"
+			value="11223344-1122-1122-1111-000000000009" />
+		<property name="personId" value="Rules Person 1" />
+		<property name="luiId" value="ART 55" />
+		<property name="relationState" value="enrolled"/>
+		<property name="luiPersonRelationType" value="student"/>
+	</bean>
+	
 	<bean id="currentTime" class="java.util.Date" />
 	<bean id="ruleMetaData"	class="org.kuali.student.rules.brms.core.entity.RuleMetaData">
 		<property name="createdBy" value="Tom Smith" />	
@@ -80,7 +126,7 @@
 		<property name="name" value="Intermediate CPR" />		
 		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="CPR 201" />	
 		<property name="successMessage" value="Rule 1 Success Message" />	
@@ -180,7 +226,7 @@
 		<property name="name" value="Advanced CPR" />		
 		<property name="description" value="enrollment co-requisites for Advanced CPR 301" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="CPR 301" />	
 		<property name="successMessage" value="Rule 2 Success Message" />	
@@ -235,7 +281,7 @@
 		<property name="name" value="EMS Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program EMS 1001" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="EMS 1001" />	
 		<property name="successMessage" value="Rule 3 Success Message" />	
@@ -398,7 +444,7 @@
 		<property name="name" value="LPN Certificate Program" />		
 		<property name="description" value="enrollment co-requisites for Certificate Program LPN 1001" />	
 		<property name="agendaType" value="Student Enrolls in Course" />	
-		<property name="businessRuleType" value="course-co-req" />	
+		<property name="businessRuleType" value="course.co.req" />	
 		<property name="anchorType" value="course" />	
 		<property name="anchor" value="LPN 1001" />	
 		<property name="successMessage" value="Rule 4 Success Message" />	
@@ -554,5 +600,5 @@
 	<bean id="rightHandSide47"	class="org.kuali.student.rules.brms.core.entity.RightHandSide">
 		<property name="expectedValueType" value="java.lang.Integer" />	
 		<property name="expectedValue" value="2" />		
-	</bean>	
+	</bean>				
 </beans>

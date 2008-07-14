@@ -131,44 +131,26 @@
 
 	<!--  ********************************************************************** -->
 	<!--  Rule Engine Beans -->
-  
-  <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
-  </bean>
 
-  <bean id="brmsService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
-    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
-  </bean>
+	<bean id="businessRuleDAO"
+		class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+	</bean>
 
+	<bean id="droolsRepository"
+		class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+		<constructor-arg type="org.drools.repository.RulesRepository"
+			ref="rulesRepository" />
+	</bean>
 
-  <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
-    <property name="ruleMgmtService" ref="brmsService"/>    
-  </bean>  
+	<bean id="defaultDroolsRepositoryContainer"
+		class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"
+		destroy-method="shutdown">
+		<constructor-arg type="java.lang.String"
+			value="/drools-repository" />
+	</bean>
 
-                  	
-  <bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
-	<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
-  </bean>
-
-   <bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"
-		  destroy-method="shutdown">
-		<constructor-arg type="java.lang.String" value="/drools-repository"/>
-   </bean>
-	
 	<bean id="rulesRepository"
-      factory-bean="defaultDroolsRepositoryContainer"
-      factory-method="getRepository"/>    	
+		factory-bean="defaultDroolsRepositoryContainer"
+		factory-method="getRepository" />
 
-<!-- 
-	<bean id="loadDataBean"
-		class="org.kuali.student.poc.common.test.spring.LoadDataBean">
-		<property name="daoAnnotations"
-			value="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl" />
-		<property name="contextLocation"	value="classpath:lpr-test-beans.xml" />			
-	</bean>
-
-	<bean id="loadBeanListener"
-		class="org.kuali.student.poc.common.test.spring.LoadBeanListener">
-		<property name="ldb" ref="loadDataBean" />
-	</bean>
--->
 </beans>
