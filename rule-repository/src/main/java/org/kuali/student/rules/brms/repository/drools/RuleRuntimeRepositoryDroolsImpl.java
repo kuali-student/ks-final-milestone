@@ -16,6 +16,7 @@
 package org.kuali.student.rules.brms.repository.drools;
 
 import org.drools.repository.RulesRepository;
+import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.repository.RuleRuntimeRepository;
 import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
@@ -29,15 +30,17 @@ import org.kuali.student.rules.brms.repository.rule.RuleSet;
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  */
-public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsImpl implements RuleRuntimeRepository {
-
+public class RuleRuntimeRepositoryDroolsImpl implements RuleRuntimeRepository {
+    /** Drools rule repository */
+    private RuleEngineRepository rulesRepository;
+    
     /**
      * Constructor
      * 
      * @param repository Drools rules repository
      */
     public RuleRuntimeRepositoryDroolsImpl(RulesRepository repository) {
-        super(repository);
+        this.rulesRepository = new RuleEngineRepositoryDroolsImpl(repository);
     }
 
     /**
@@ -68,7 +71,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      */
     public Boolean createCategory(String path, String name, String description) 
         throws CategoryExistsException {
-        return super.createCategory(path, name, description);
+        return this.rulesRepository.createCategory(path, name, description);
     }
 
     /**
@@ -94,7 +97,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public Rule updateRule(Rule rule) {
-        return super.updateRule(rule);
+        return this.rulesRepository.updateRule(rule);
     }
 
     /**
@@ -133,7 +136,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public void checkinRule(String uuid, String comment) {
-        super.checkinRule(uuid, comment);
+        this.rulesRepository.checkinRule(uuid, comment);
     }
 
     /**
@@ -173,7 +176,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      */
     public RuleSet createRuleSet(RuleSet ruleSet) 
         throws RuleSetExistsException, RuleExistsException {
-        return super.createRuleSet(ruleSet);
+        return this.rulesRepository.createRuleSet(ruleSet);
     }
 
     /**
@@ -201,7 +204,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public RuleSet updateRuleSet(RuleSet ruleSet) {
-        return super.updateRuleSet(ruleSet);
+        return this.rulesRepository.updateRuleSet(ruleSet);
     }
 
     /**
@@ -230,7 +233,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public void checkinRuleSet(String uuid, String comment) {
-        super.checkinRuleSet(uuid, comment);
+        this.rulesRepository.checkinRuleSet(uuid, comment);
     }
 
     /**
@@ -262,7 +265,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public RuleSet loadRuleSet(String uuid) {
-        return super.loadRuleSet(uuid);
+        return this.rulesRepository.loadRuleSet(uuid);
     }
 
     /**
@@ -283,7 +286,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public Object loadCompiledRuleSet(String ruleSetUUID) {
-        return super.loadCompiledRuleSet(ruleSetUUID);
+        return this.rulesRepository.loadCompiledRuleSet(ruleSetUUID);
     }
 
     /**
@@ -313,7 +316,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
-        super.createRuleSetSnapshot(ruleSetName, snapshotName, comment);
+        this.rulesRepository.createRuleSetSnapshot(ruleSetName, snapshotName, comment);
     }
 
     /**
@@ -328,7 +331,7 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
-        super.replaceRuleSetSnapshot(ruleSetName, snapshotName, comment);
+        this.rulesRepository.replaceRuleSetSnapshot(ruleSetName, snapshotName, comment);
     }
 
     /**
@@ -362,6 +365,6 @@ public class RuleRuntimeRepositoryDroolsImpl extends RuleEngineRepositoryDroolsI
      * @throws RuleEngineRepositoryException
      */
     public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) {
-        return super.loadCompiledRuleSetSnapshot(ruleSetName, snapshotName);
+        return this.rulesRepository.loadCompiledRuleSetSnapshot(ruleSetName, snapshotName);
     }
 }
