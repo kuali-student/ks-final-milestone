@@ -29,6 +29,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -1151,18 +1152,28 @@ public class RuleEngineRepositoryTest {
         assertTrue(version1 != version2);
     }
 
-    /*
-     * @Test public void testLoadRuleSetHistory() throws Exception { String ruleSetUUID = createRuleSet(
-     * "testLoadRuleSetHistory", "import java.util.Calendar", false ); //String ruleUUID = createRule( ruleSetUUID,
-     * "testLoadRuleSetHistory", false ); // Version 1 RuleSet ruleset1 = brmsRepository.loadRuleSet( ruleSetUUID );
-     * brmsRepository.checkinRuleSet( ruleset1.getUUID(), "Checkin version 1" ); // Version 2 RuleSet ruleset2 =
-     * brmsRepository.loadRuleSet( ruleSetUUID ); brmsRepository.checkinRuleSet( ruleset2.getUUID(), "Checkin version 2" ); //
-     * Version 3 RuleSet ruleset3Head = brmsRepository.loadRuleSet( ruleSetUUID ); brmsRepository.checkinRuleSet(
-     * ruleset3Head.getUUID(), "Checkin version 3 - HEAD version" ); List<RuleSet> rulesetHistory =
-     * brmsRepository.loadRuleSetHistory( ruleSetUUID ); assertEquals( 2, rulesetHistory.size() ); long version1 =
-     * rulesetHistory.get( 0 ).getVersionNumber(); long version2 = rulesetHistory.get( 1 ).getVersionNumber(); assertTrue(
-     * version1 != version2 ); }
-     */
+    
+    @Ignore // Implementation of loadRuleSetHistory has a bug
+    @Test 
+    public void testLoadRuleSetHistory() throws Exception { 
+        String ruleSetUUID = createRuleSet("testLoadRuleSetHistory", "My new rule set",
+                Arrays.asList("import java.util.Calendar")).getUUID();
+        // String ruleUUID = createRule( ruleSetUUID, "testLoadRuleSetHistory", false );
+        // Version 1 
+        RuleSet ruleset1 = brmsRepository.loadRuleSet( ruleSetUUID );
+        brmsRepository.checkinRuleSet(ruleset1.getUUID(), "Checkin version 1");
+        // Version 2 
+        RuleSet ruleset2 = brmsRepository.loadRuleSet( ruleSetUUID );
+        brmsRepository.checkinRuleSet(ruleset2.getUUID(), "Checkin version 2");
+        // Version 3 
+        RuleSet ruleset3Head = brmsRepository.loadRuleSet( ruleSetUUID );
+        brmsRepository.checkinRuleSet(ruleset3Head.getUUID(), "Checkin version 3 - HEAD version");
+        List<RuleSet> rulesetHistory = brmsRepository.loadRuleSetHistory(ruleSetUUID);
+        assertEquals(2, rulesetHistory.size());
+        long version1 = rulesetHistory.get(0).getVersionNumber();
+        long version2 = rulesetHistory.get(1).getVersionNumber();
+        assertTrue(version1 != version2);
+    }
 
     @Test
     public void testLoadRuleHistoryAndRestore() throws Exception {
