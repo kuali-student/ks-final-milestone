@@ -29,6 +29,7 @@ import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
@@ -36,56 +37,88 @@ import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.util.FactContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecutorInternal {
-
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
+            
     private RuleEngineRepository ruleEngineRepository;
     private ConcurrentMap<String, List<Package>> ruleSetMap = new ConcurrentHashMap<String, List<Package>>();
 
+    /**
+     * Constructs a new rule set executor without a repository.
+     */
     public RuleSetExecutorDroolsImpl() {
     }
-    
+
+    /**
+     * Constructs a new rule set executor with a specific repository.
+     * 
+     * @param ruleEngineRepository Repository to load rule sets from
+     */
     public RuleSetExecutorDroolsImpl( RuleEngineRepository ruleEngineRepository ) {
         this.ruleEngineRepository = ruleEngineRepository;
     }
-    
+
     /**
-     * Executes an <code>agenda</code> with <code>fact</code>
+     * Executes an <code>agenda</code> with <code>facts</code>.
      * 
-     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.lang.Object)
-     * @return {@link java.util.Iterator}
+     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
     public Object execute(Agenda agenda, List facts) {
         List<Package> packageList = new ArrayList<Package>();
         
-        for( BusinessRuleSet businessRule : agenda.getBusinessRules() ) {
-            Package pkg = (Package) this.ruleEngineRepository.loadCompiledRuleSet( businessRule.getId() );
+        logger.info("Executing agenda: name="+agenda.getName());
+        for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
+            logger.info("Loading compiled rule set: businessRuleSet.id="+businessRuleSet.getId());
+            Package pkg = (Package) loadCompiledRuleSet(businessRuleSet.getId());
             packageList.add((Package) pkg);
+            if (logger.isDebugEnabled()) {
+                RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRuleSet.getId());
+                logger.info("\n\n***********************************************");
+                logger.info("uuid="+rs.getUUID());
+                logger.info("name="+rs.getName());
+                logger.info("\n\n"+rs.getContent());
+                logger.info("\n\n***********************************************");
+            }
         }
         RuleBase ruleBase = getRuleBase(packageList);
-
         Iterator iterator = executeRule(ruleBase, facts).iterateObjects();
         generateReport(facts);
         return iterator;
     }
-    
-    /*private FactContainer getFactContainer(BusinessRuleSet businessRule, List facts) {
-        String anchorId = businessRule.getAnchor().getId();
-        Request req = null;
-        for(int i=0; i<facts.size(); i++) {
-            Object obj = facts.get(i);
-            if (obj instanceof Request) {
-                req = (Request) obj;
-                if (req.getId().equals(anchorId)) {
-                    break;
-                }
-           }
-        }
 
-        PropositionContainer pc = new PropositionContainer();
-        pc.setFunctionalRuleString(businessRule.getFunctionalRuleString());
-        return new FactContainer( anchorId, req, pc );
-    }*/
+    /**
+     * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
+     * 
+     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#executeSnapshot(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
+     */
+    public Object executeSnapshot(Agenda agenda, List facts) {
+        throw new RuleSetExecutionException("Method not yet implemented");
+    }
+
+    /**
+     * Loads a compiled rule set by <code>uuid</code>
+     * 
+     * @param uuid Rule set UUID 
+     * @return A Drools package
+     */
+    private Package loadCompiledRuleSet(String uuid) {
+        return (Package) this.ruleEngineRepository.loadCompiledRuleSet(uuid);
+    }
+
+    /**
+     * Loads a compiled rule set snapshot by <code>uuid</code>
+     * 
+     * @param ruleSetName Rule set name
+     * @param snapshotName Rule set's snapshot name
+     * @return A Drools package
+     */
+    private Package loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) {
+        return (Package) this.ruleEngineRepository.loadCompiledRuleSetSnapshot(ruleSetName, snapshotName);
+    }
     
     private void generateReport(List facts) {
         GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(this);
@@ -111,7 +144,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     }
 
     /**
-     * Caches a rule set's source code.
+     * Caches a rule set's source code by <code>ruleSetId</code>.
      * 
      * @param ruleSetId Rule set cache id
      * @param source Rule set source code
@@ -130,7 +163,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             throw new RuleSetExecutionException("Building Drools Package failed",e);
         }
     }
-    
+
+    /**
+     * Removes a rule set form the cache by <code>ruleSetId</code>.
+     * 
+     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal#removeRuleSet(java.lang.String)
+     */
     public boolean removeRuleSet(String ruleSetId) {
         this.ruleSetMap.remove(ruleSetId);
         return !this.ruleSetMap.containsKey(ruleSetId);

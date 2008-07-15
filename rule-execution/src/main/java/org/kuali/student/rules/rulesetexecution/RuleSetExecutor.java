@@ -22,11 +22,20 @@ import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 public interface RuleSetExecutor extends RuleSetExecutorInternal {
 
     /**
-     * Executes an <code>agenda</code> with <code>fact</code>
+     * Executes an <code>agenda</code> with <code>facts</code>.
      * 
      * @param agenda Agenda to execute
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
     public Object execute(Agenda agenda, List facts);
+
+    /**
+     * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
+     * 
+     * @param agenda Agenda to execute
+     * @param facts List of Facts for the <code>agenda</code>
+     * @return Result of executing the <code>agenda</code>
+     */
+    public Object executeSnapshot(Agenda agenda, List facts);
 }
