@@ -1,6 +1,7 @@
 package org.kuali.student.commons.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -79,7 +80,6 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
     
     private int rowsPerPage = DEFAULT_ROWS_PER_PAGE;
     private int currentPage = 0;
-    int lastPageCount = -1;
     
     public PagingModelTable() {
         panel.add(pageBar);
@@ -267,8 +267,16 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
         render(modelObject);
         recalcPageCountLabel();
     }
-
+    
     /**
+     * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#addBulk(java.util.Collection)
+     */
+    public void addBulk(Collection<T> collection) {
+		index.addAll(collection);
+		redraw();
+	}
+
+	/**
      * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#getItems()
      */
     public List<T> getItems() {
@@ -313,6 +321,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
     public void update(T modelObject) {
         render(modelObject);
     }
+    
     
     /**
      * 
@@ -368,10 +377,6 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
     }
     
     private void recalcPageCountLabel() {
-        int count = calculateNumberOfPages();
-        if (count != lastPageCount) {
-            lastPageCount = count;
-            pageCount.setText(getPageCountText());
-        }
+        pageCount.setText(getPageCountText());
     }
 }

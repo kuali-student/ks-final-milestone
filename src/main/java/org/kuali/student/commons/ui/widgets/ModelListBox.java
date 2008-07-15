@@ -1,6 +1,7 @@
 package org.kuali.student.commons.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
@@ -97,5 +98,11 @@ public abstract class ModelListBox<T extends ModelObject> extends ListBox implem
     public T getSelection() {
         return index.get(super.getSelectedIndex());
     }
+
+	public void addBulk(Collection<T> collection) {
+		for (T t : collection) {
+			add(t);
+		}
+	}
 
 }

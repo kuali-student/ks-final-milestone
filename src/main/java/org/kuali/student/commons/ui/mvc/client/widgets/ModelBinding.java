@@ -41,6 +41,7 @@ public class ModelBinding<T extends ModelObject> {
             }
         };
         model.addListener(ModelChangeEvent.MODEL_CHANGE_EVENT, listener);
+        widget.addBulk(model.items());
     }
 
     /**

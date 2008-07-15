@@ -1,6 +1,7 @@
 package org.kuali.student.commons.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -200,7 +201,13 @@ public class ModelTable<T extends ModelObject> extends Composite implements Mode
         index.add(modelObject);
         render(modelObject);
     }
-
+    /**
+     * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#addBulk(java.util.Collection)
+     */
+    public void addBulk(Collection<T> collection) {
+		index.addAll(collection);
+		redraw();
+	}
     /**
      * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#getItems()
      */

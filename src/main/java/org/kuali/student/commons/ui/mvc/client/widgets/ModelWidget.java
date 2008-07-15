@@ -1,5 +1,6 @@
 package org.kuali.student.commons.ui.mvc.client.widgets;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
@@ -61,4 +62,13 @@ public interface ModelWidget<T extends ModelObject> {
      * @return the currently selected ModelObject
      */
     public T getSelection();
+    
+    /**
+     * Called by the ModelBinding when the widget is first linked to the model.
+     * If the model is already populated, the contents will be added to the widget
+     * via a bulk operation.
+     *  
+     * @param collection the items to add to the widget
+     */
+    public void addBulk(Collection<T> collection);
 }
