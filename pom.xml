@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.brms</groupId>
-	<artifactId>brms-ri</artifactId>
+	<groupId>org.kuali.student.poc.learningunit</groupId>
+	<artifactId>lum-ri</artifactId>
+	<name>Learning Unit Management</name>
 	<version>0.0.1-SNAPSHOT</version>
+	<description>
+		Learning Unit Management Reference Implementation
+	</description>
 	<packaging>pom</packaging>
-    <name>Kuali Student BRMS RI</name>
-	<description></description>
+	<modules>
+		<module>lu-ri</module>
+		<module>luipersonrelation-ri</module>
+		<module>learningunit</module>
+	</modules>
 
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-pom</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
 	</parent>
-	
-	<properties>
-		<drools.version>4.0.7</drools.version>
-        <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
-	</properties>
 
-	<modules>
-		<module>rules-common</module>
-		<module>brms-core</module>
-		<module>inspect-rule-failure</module>
-        <module>rule-repository</module>
-        <module>generate-rule</module>
-        <module>validate-rule</module>
-        <module>rule-execution</module>
-	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-test</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev
 		</developerConnection>
 	</scm>
 
@@ -54,5 +57,4 @@
 			</releases>
 		</repository>
 	</repositories>
-
 </project>

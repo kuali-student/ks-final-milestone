@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:serviceLocations.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="luDataSource"
+		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+		destroy-method="close">
+		<property name="uniqueResourceName" value="luDataSource" />
+		<property name="xaDataSourceClassName"
+			value="${jdbc.xaDataSourceClassName}" />
+		<property name="xaProperties">
+			<props>
+				<prop key="databaseName">
+					${jdbc.lu.xaDataSourceProperties.databaseName}
+				</prop>
+				<prop key="user">
+					${jdbc.lu.xaDataSourceProperties.user}
+				</prop>
+				<prop key="password">
+					${jdbc.lu.xaDataSourceProperties.password}
+				</prop>
+				<prop key="createDatabase">
+					${jdbc.lu.xaDataSourceProperties.createDatabase}
+				</prop>
+			</props>
+		</property>
+		<property name="maxPoolSize" value="20" />
+	</bean>
+
+	<bean id="lprDataSource"
+		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+		destroy-method="close">
+		<property name="uniqueResourceName" value="lprDataSource" />
+		<property name="xaDataSourceClassName"
+			value="${jdbc.xaDataSourceClassName}" />
+		<property name="xaProperties">
+			<props>
+				<prop key="databaseName">
+					${jdbc.lpr.xaDataSourceProperties.databaseName}
+				</prop>
+				<prop key="user">
+					${jdbc.lpr.xaDataSourceProperties.user}
+				</prop>
+				<prop key="password">
+					${jdbc.lpr.xaDataSourceProperties.password}
+				</prop>
+				<prop key="createDatabase">
+					${jdbc.lpr.xaDataSourceProperties.createDatabase}
+				</prop>
+			</props>
+		</property>
+		<property name="maxPoolSize" value="20" />
+	</bean>
+
+	<!-- JPA EntityManagerFactory -->
+	<bean id="jpaConfig"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:jpa.properties" />
+	</bean>
+
+	<bean id="luEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter">
+			<bean class="${jpa.adapter}">
+				<property name="databasePlatform"
+					value="${jpa.platform}" />
+				<property name="showSql" value="${jpa.showSql}" />
+				<property name="generateDdl" value="${jpa.generateDdl}" />
+			</bean>
+		</property>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/lu-persistence.xml" />
+		<property name="dataSource" ref="luDataSource" />
+		<property name="jpaPropertyMap" ref="jpaConfig" />
+	</bean>
+
+	<bean id="lprEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter">
+			<bean class="${jpa.adapter}">
+				<property name="databasePlatform"
+					value="${jpa.platform}" />
+				<property name="showSql" value="${jpa.showSql}" />
+				<property name="generateDdl" value="${jpa.generateDdl}" />
+			</bean>
+		</property>
+		<property name="persistenceXmlLocation"
+			value="classpath:META-INF/luipersonrelation-persistence.xml" />
+		<property name="dataSource" ref="luDataSource" />
+		<property name="jpaPropertyMap" ref="jpaConfig" />
+	</bean>
+
+	<bean id="AtomikosTxMgr"
+		class="com.atomikos.icatch.jta.UserTransactionManager"
+		init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true" />
+		<property name="startupTransactionService" value="true" />
+		<property name="transactionTimeout" value="60" />
+	</bean>
+
+	<bean id="AtomikosUsrTx"
+		class="com.atomikos.icatch.jta.UserTransactionImp" />
+
+	<bean id="JtaTxManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager" ref="AtomikosTxMgr" />
+		<property name="userTransaction" ref="AtomikosUsrTx" />
+		<property name="transactionSynchronizationName"
+			value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+	</bean>
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<tx:annotation-driven transaction-manager="JtaTxManager" />
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="dao"
+		class="org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl">
+	</bean>
+
+	<bean id="luServiceImpl"
+		class="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+	
+	<bean id="lprDao"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl">
+	</bean>
+	
+	<bean id="lprServiceImpl"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl">
+		<property name="dao" ref="lprDao" />
+		<property name="luClient" ref="luServiceImpl"/>
+		<property name="personClient" ref="personClient"/>
+	</bean>
+	
+	<bean id="personClient"
+		class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:wsdl/PersonService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.poc.wsdl.personidentity.person.PersonService" />
+		<property name="serviceQNameString"
+			value="{http://student.kuali.org/poc/wsdl/personidentity/person}PersonService" />
+		<property name="address"
+			value="${ks.servicelocation.PersonService}" />
+	</bean>
+
+	<bean id="loadDataBean"
+		class="org.kuali.student.poc.learningunit.lu.LoadDataBean">
+		<property name="contextLocation"
+			value="classpath:test-beans.xml" />
+	</bean>
+
+	<bean id="loadBeanListener"
+		class="org.kuali.student.poc.learningunit.lu.LoadBeanListener">
+		<property name="ldb" ref="loadDataBean" />
+	</bean>
+</beans>
