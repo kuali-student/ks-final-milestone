@@ -27,7 +27,7 @@ import org.kuali.student.rules.brms.repository.rule.RuleSet;
 import org.kuali.student.rules.internal.common.entity.BusinessRule;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
 import org.kuali.student.rules.internal.common.entity.RuleProposition;
-import org.kuali.student.rules.internal.common.util.Function;
+import org.kuali.student.rules.internal.common.runtime.ast.Function;
 
 /**
  * @author Rich Diaz

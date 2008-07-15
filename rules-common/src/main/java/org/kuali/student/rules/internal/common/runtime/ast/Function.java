@@ -1,13 +1,11 @@
 /**
  * 
  */
-package org.kuali.student.rules.internal.common.util;
+package org.kuali.student.rules.internal.common.runtime.ast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 
 public class Function {
     private String functionString;
