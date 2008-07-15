@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService;
+import org.kuali.student.rules.brms.core.service.BusinessRuleManagementService;
 import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 import org.kuali.student.rules.internal.common.agenda.entity.AgendaType;
@@ -38,7 +38,7 @@ public class AgendaDiscovery {
     private final static String AGENDA_RULE_ID = "AgendaRuleSetId";
     private final static String AGENDA_FILE = "/agenda.drl";
 
-    private FunctionalBusinessRuleManagementService ruleMgmtService;
+    private BusinessRuleManagementService ruleMgmtService;
     private RuleSetExecutorInternal ruleSetExecutor;
 
     /**
@@ -104,7 +104,7 @@ public class AgendaDiscovery {
     /**
      * @return the ruleMgmtService
      */
-    public FunctionalBusinessRuleManagementService getRuleMgmtService() {
+    public BusinessRuleManagementService getRuleMgmtService() {
         return ruleMgmtService;
     }
 
@@ -112,7 +112,7 @@ public class AgendaDiscovery {
      * @param ruleMgmtService
      *            the ruleMgmtService to set
      */
-    public void setRuleMgmtService(FunctionalBusinessRuleManagementService ruleMgmtService) {
+    public void setRuleMgmtService(BusinessRuleManagementService ruleMgmtService) {
         this.ruleMgmtService = ruleMgmtService;
     }
 

@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class FunctionalBusinessRuleManagementService {
+public class BusinessRuleManagementService {
 
     private BusinessRuleDAO businessRuleDAO;
 
@@ -70,7 +70,7 @@ public class FunctionalBusinessRuleManagementService {
         BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(ruleID);
 
         if (rule == null) {
-            throw new DoesNotExistException();
+            throw new DoesNotExistException("Functional business rule not found: id=" + ruleID);
         }
 
         // force Hibernate to load the RuleElements collection as well

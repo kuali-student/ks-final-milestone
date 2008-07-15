@@ -24,19 +24,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * This is a <code>FunctionalBusinessRuleManagementService</code> test class.
+ * This is a <code>BusinessRuleManagementService</code> test class.
  * 
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @PersistenceFileLocation("classpath:META-INF/brms-persistence.xml")
 @ContextConfiguration(locations = {"classpath:brms-core-test-context.xml"})
-public class FunctionalBusinessRuleManagementServiceTest extends AbstractTransactionalDaoTest {
+public class BusinessRuleManagementServiceTest extends AbstractTransactionalDaoTest {
 
     public static final String FACT_CONTAINER = "AcademicRecord";
 
     @Autowired
-    FunctionalBusinessRuleManagementService brmsService;
+    BusinessRuleManagementService brmsService;
 
     @Test
     public void testRetrieveBusinessRules() throws Exception {

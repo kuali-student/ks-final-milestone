@@ -105,12 +105,12 @@
 	<bean id="yieldValueFunctionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.YieldValueFunctionDAOImpl">
 	</bean>
 	
-	<bean id="functionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
+	<bean id="businessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.BusinessRuleManagementService">
 	<property name="businessRuleDAO" ref="businessRuleDAO"/>    
 	</bean>
 	
 	<bean id="agendaDiscovery" class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
-	<property name="ruleMgmtService" ref="functionalBusinessRuleManagementService"/>
+	<property name="ruleMgmtService" ref="businessRuleManagementService"/>
 	</bean>
   
 	<!--bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
