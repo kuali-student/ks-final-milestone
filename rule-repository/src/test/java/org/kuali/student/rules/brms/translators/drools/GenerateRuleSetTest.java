@@ -49,8 +49,8 @@ import org.kuali.student.rules.internal.common.entity.RuleProposition;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunction;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleInfo.Status;
+import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
 
 public class GenerateRuleSetTest {

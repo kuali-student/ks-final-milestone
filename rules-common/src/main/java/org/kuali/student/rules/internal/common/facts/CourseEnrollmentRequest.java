@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.internal.common.util;
+package org.kuali.student.rules.internal.common.facts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +58,7 @@ public class CourseEnrollmentRequest implements FactRequest {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.rules.internal.common.util.FactRequest#getLearningResults()
+     * @see org.kuali.student.rules.internal.common.facts.FactRequest#getLearningResults()
      */
     public List<Number> getLearningResults() {
         return learningResults;
@@ -74,7 +74,7 @@ public class CourseEnrollmentRequest implements FactRequest {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.rules.internal.common.util.FactRequest#getLuiIds()
+     * @see org.kuali.student.rules.internal.common.facts.FactRequest#getLuiIds()
      */
     public Set<String> getLuiIds() {
         return luiIds;

@@ -96,7 +96,7 @@ public class GenerateRuleSet {
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.ComparisonOperator");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.facts.FactRequest");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
     }
 

@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.util;
+package org.kuali.student.rules.internal.common.facts;
 
 import java.util.List;
 import java.util.Set;
