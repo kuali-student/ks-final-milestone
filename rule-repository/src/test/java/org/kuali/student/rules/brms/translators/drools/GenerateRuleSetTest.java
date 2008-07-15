@@ -69,7 +69,7 @@ public class GenerateRuleSetTest {
         BusinessRuleInfo ruleInfo = new BusinessRuleInfo("Tom Smith", new Date(), "", null, new Date(), new Date(),
                 "1.1", Status.PUBLISHED);
         // create basic rule structure
-        BusinessRule businessRule = new BusinessRule("Intermediate_CPR",
+        BusinessRule businessRule = new BusinessRule("CPR 201",
                 "enrollment co-requisites for Intermediate CPR 201", "Rule 1 Success Message",
                 "Rule 1 Failure Message", "1", null, ruleInfo, "course_co_req", "CPR 201");
 
@@ -134,15 +134,15 @@ public class GenerateRuleSetTest {
         RuleSet ruleSet = this.generateRuleSet.parse(container);
         assertNotNull(ruleSet);
 
-        // Collection of Propositions
-        PropositionContainer prop = new PropositionContainer();
-
         // Rule set source code
         String source = ruleSet.getContent();
 
         // Get facts
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(businessRule.getName(), "CPR101,MATH102");
-        FactContainer facts = new FactContainer(businessRule.getName(), request, prop);
+        FactContainer facts = new FactContainer(businessRule.getName(), request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         // Execute rule
         executeRule(source, facts);
@@ -151,8 +151,6 @@ public class GenerateRuleSetTest {
 
     @Test
     public void testParseRuleSet_OneProposition() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR 101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -162,7 +160,10 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
@@ -170,8 +171,6 @@ public class GenerateRuleSetTest {
 
     @Test
     public void testParseRuleSet_TwoProposition_AandB() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR 101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -183,7 +182,10 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
@@ -191,8 +193,6 @@ public class GenerateRuleSetTest {
 
     @Test
     public void testParseRuleSet_TwoProposition_AorB() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR 101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -204,16 +204,17 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
 
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+        
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
     }
 
     @Test
     public void testParseRuleSet_ThreeProposition_AandBorC() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -227,7 +228,10 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
@@ -239,8 +243,6 @@ public class GenerateRuleSetTest {
     @Test
     @Ignore
     public void testParseRuleSet_ThreeProposition_AorBandC() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -254,7 +256,10 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
@@ -262,8 +267,6 @@ public class GenerateRuleSetTest {
 
     @Test
     public void testParseRuleSet_FourProposition_AorBandCorD() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -279,7 +282,10 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101,CHEM102");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
@@ -287,8 +293,6 @@ public class GenerateRuleSetTest {
 
     @Test
     public void testParseRuleSet_FourProposition_AandBorCandD() throws Exception {
-        PropositionContainer prop = new PropositionContainer();
-
         Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
         // 1 of CPR101
         propositionMap.put("A", getRuleProposition("CPR101"));
@@ -304,7 +308,10 @@ public class GenerateRuleSetTest {
         // Get facts
         String id = "TestRuleName";
         CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101,CHEM102");
-        FactContainer facts = new FactContainer(id, request, prop);
+        FactContainer facts = new FactContainer(id, request);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
 
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());

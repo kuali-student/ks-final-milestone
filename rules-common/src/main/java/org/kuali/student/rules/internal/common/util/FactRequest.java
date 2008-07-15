@@ -3,7 +3,7 @@ package org.kuali.student.rules.internal.common.util;
 import java.util.List;
 import java.util.Set;
 
-public interface Request {
+public interface FactRequest {
 
     /**
      * @return the learningResults

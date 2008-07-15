@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -36,7 +35,6 @@ import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
 import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
-import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
@@ -92,9 +90,7 @@ public class RuleSetExecutorDroolsImplTest {
         Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
         req1.setLuiIds(luiIds);
         
-        PropositionContainer pc = new PropositionContainer();
-        pc.setFunctionalRuleString("A*B*C");
-        FactContainer factContainer1 = new FactContainer( "Math101", req1, pc );
+        FactContainer factContainer1 = new FactContainer( "Math101", req1 );
 
         List<FactContainer> factList = Arrays.asList(factContainer1);
         

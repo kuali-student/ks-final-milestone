@@ -24,6 +24,7 @@ rule "${ruleName}_INIT"
     when 
         cont : FactContainer( id == "${ruleName}", prop : propositionContainer, req : request )
     then
+    	prop.setFunctionalRuleString("$functionString");
     	#set ($count = 0)
     	#foreach( $key in $propositionMap.keySet() ) 
    		#set ( $proposition = $propositionMap.get($key) )

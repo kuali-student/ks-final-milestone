@@ -16,24 +16,23 @@
 package org.kuali.student.rules.util;
 
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.util.Request;
+import org.kuali.student.rules.internal.common.util.FactRequest;
 
 public class FactContainer {
     private String id;
-    private PropositionContainer propositionContainer;
-    private Request request;
+    private PropositionContainer propositionContainer = new PropositionContainer();
+    private FactRequest request;
     
-    public FactContainer(String id, Request request, PropositionContainer propositionContainer ) {
+    public FactContainer(String id, FactRequest request) {
         this.id = id;
         this.request = request;
-        this.propositionContainer = propositionContainer;
     }
     
     public String getId() {
         return this.id;
     }
     
-    public Request getRequest() {
+    public FactRequest getRequest() {
         return request;
     }
     

@@ -31,6 +31,7 @@ rule "Intermediate_CPR_INIT"
         //req: CourseEnrollmentRequest()
     then
         System.out.println("Math101-init");
+        prop.setFunctionalRuleString("A*B*C");
         SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionA.apply();
         prop.addProposition(propositionA);

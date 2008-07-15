@@ -61,7 +61,8 @@ public class GenerateRuleSet {
 
         String functionString = businessRule.createAdjustedRuleFunctionString();
 
-        String ruleSource = generateSourceCode(businessRule.getName(), functionString, businessRule
+        //String ruleSource = generateSourceCode(businessRule.getName(), functionString, businessRule
+        String ruleSource = generateSourceCode(businessRule.getAnchor(), functionString, businessRule
                 .getRulePropositions());
         addRule(businessRule.getName(), businessRule.getDescription(), ruleSet, ruleSource);
     }
@@ -76,6 +77,7 @@ public class GenerateRuleSet {
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
+        velocityContextMap.put("functionString", functionString);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE, ruleName, velocityContextMap);

@@ -28,7 +28,7 @@ import java.util.Set;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  *
  */
-public class CourseEnrollmentRequest implements Request {
+public class CourseEnrollmentRequest implements FactRequest {
 
     private String id;
     
@@ -58,7 +58,7 @@ public class CourseEnrollmentRequest implements Request {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.rules.internal.common.util.Request#getLearningResults()
+     * @see org.kuali.student.rules.internal.common.util.FactRequest#getLearningResults()
      */
     public List<Number> getLearningResults() {
         return learningResults;
@@ -74,7 +74,7 @@ public class CourseEnrollmentRequest implements Request {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.rules.internal.common.util.Request#getLuiIds()
+     * @see org.kuali.student.rules.internal.common.util.FactRequest#getLuiIds()
      */
     public Set<String> getLuiIds() {
         return luiIds;

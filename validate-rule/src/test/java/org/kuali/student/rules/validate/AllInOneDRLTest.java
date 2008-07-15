@@ -75,9 +75,9 @@ public class AllInOneDRLTest {
         Set<String> luiIds2 = new HashSet<String>(Arrays.asList("ENGL101,ENGL102,HIST101,HIST102".split(",")));
         req2.setLuiIds(luiIds2);
 
-        FactContainer factContainer1 = new FactContainer("Math101", req1, new PropositionContainer());
-        FactContainer factContainer2 = new FactContainer("Chem201", req2, new PropositionContainer());
-        FactContainer factContainer3 = new FactContainer("Cpr101", req3, new PropositionContainer());
+        FactContainer factContainer1 = new FactContainer("Math101", req1);
+        FactContainer factContainer2 = new FactContainer("Chem201", req2);
+        FactContainer factContainer3 = new FactContainer("Cpr101", req3);
 
         List<FactContainer> factList = Arrays.asList( factContainer1, factContainer2, factContainer3 );
         

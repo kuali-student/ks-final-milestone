@@ -19,6 +19,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
@@ -30,6 +31,7 @@ import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.util.CourseEnrollmentRequest;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
@@ -49,7 +51,7 @@ public class EnforceRule {
     @Autowired
     private RuleEngineRepository droolsRepository;
 
-    public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
+    /*public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
             String relationState) {
         
         RuleSetExecutorInternal executor = new RuleSetExecutorDroolsImpl();
@@ -59,7 +61,8 @@ public class EnforceRule {
         //1. Discover Agenda
         AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationType, "course", "offered", relationState );
         AnchorType type = new AnchorType( "course", "clu.type.course" );
-        Anchor anchor = new Anchor( luiID.replaceAll("\\s", "_"), luiID, type );
+        //Anchor anchor = new Anchor( luiID.replaceAll("\\s", "_"), luiID, type );
+        Anchor anchor = new Anchor( luiID, luiID, type );
         
         Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
         
@@ -75,11 +78,12 @@ public class EnforceRule {
 
             // 3. Inject facts
             PropositionContainer props =  new PropositionContainer();
-            props.setFunctionalRuleString(rule.getFunctionalRuleString());
+            //props.setFunctionalRuleString(rule.getFunctionalRuleString());
             CourseEnrollmentRequest request = new CourseEnrollmentRequest(rule.getBusinessRuleName());
             request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
 
-            FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
+            //FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
+            FactContainer factContainer = new FactContainer(anchor.getId(), request, props);
 
             // 4. Execute the compiled rule
             /*try {
@@ -94,7 +98,7 @@ public class EnforceRule {
                 e.printStackTrace(System.out);
                 // Eating exception here. BAD BAD Code!
             }*/
-            executor.addRuleSet("validateLuiPersonRelation", new StringReader(ruleSetSource));
+            /*executor.addRuleSet("validateLuiPersonRelation", new StringReader(ruleSetSource));
             executor.execute("validateLuiPersonRelation", Arrays.asList(factContainer));
 
             ruleReportBuilder.execute(props);
@@ -114,32 +118,41 @@ public class EnforceRule {
         }
 
         return result;
-    }
+    }*/
 
-    /*public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
-            String relationState) {
-        luiID = luiID.replaceAll("\\s", "_");
-        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+    public ValidationResult validateLuiPersonRelation(String personID,
+            String luiID, String luiPersonRelationType, String relationState) {
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl(this.droolsRepository);
         ValidationResult result = new ValidationResult();
 
         //1. Discover Agenda
         AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationType, "course", "offered", relationState );
         AnchorType type = new AnchorType( "course", "clu.type.course" );
         Anchor anchor = new Anchor( luiID, luiID, type );
-        
         Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
         
-        //PropositionContainer props =  new PropositionContainer();
-        //props.setFunctionalRuleString(rule.getFunctionalRuleString());
+        //2. Setup facts
         CourseEnrollmentRequest request = new CourseEnrollmentRequest(anchor.getId());
         request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
+        FactContainer factContainer = new FactContainer(anchor.getId(), request);
 
-        //FactContainer factContainer = new FactContainer(anchor.getId(), request, props);
-        List facts = Arrays.asList(request);
-        executor.execute(agenda, facts);
+        // 3. Execute Agenda with facts
+        executor.execute(agenda, Arrays.asList(factContainer));
         
+        PropositionContainer props = factContainer.getPropositionContainer();
+
+        // 4. Process rule outcome
+        if (props.getRuleResult()) {
+            result.setSuccess(true);
+            result.setRuleMessage(props.getRuleReport().getSuccessMessage());
+            System.out.println("Rule Report: "+props.getRuleReport().getSuccessMessage());
+        } else {
+            result.setRuleMessage(props.getRuleReport().getFailureMessage());
+            System.out.println("Rule Report: "+props.getRuleReport().getFailureMessage());
+        }
+
         return result;
-    }*/
+    }
 
     /**
      * This method generates a Set of String from a comma separated list of string elements
