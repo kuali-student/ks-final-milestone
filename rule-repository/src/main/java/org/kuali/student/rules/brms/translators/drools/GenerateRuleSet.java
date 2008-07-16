@@ -25,6 +25,7 @@ import org.kuali.student.rules.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.rule.Rule;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
+import org.kuali.student.rules.brms.translators.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.internal.common.entity.BusinessRule;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
 import org.kuali.student.rules.internal.common.entity.RuleProposition;
@@ -54,9 +55,10 @@ public class GenerateRuleSet {
      * Parses and generates a rule set from a functional business rule.
      * 
      * @param container List of business rule
+     * @throws GenerateRuleSetException Any errors verifying a rule set
      * @return A rule set
      */
-    public RuleSet parse(BusinessRuleContainer container) {
+    public RuleSet parse(BusinessRuleContainer container) throws GenerateRuleSetException {
         String packageName = PACKAGE_PREFIX + container.getNamespace();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, container.getDescription());
         addHeader(ruleSet);
@@ -67,7 +69,7 @@ public class GenerateRuleSet {
         return ruleSet;
     }
     
-    private void verifyRule(RuleSet ruleSet) {
+    private void verifyRule(RuleSet ruleSet) throws GenerateRuleSetException {
         ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
     }
 

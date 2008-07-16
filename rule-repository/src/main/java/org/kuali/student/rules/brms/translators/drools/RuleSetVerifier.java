@@ -27,9 +27,10 @@ public class RuleSetVerifier {
      * Verify that a rule package is valid.
      * 
      * @param source
-     * @return
+     * @throws GenerateRuleSetException Any errors verifying a rule set
+     * @return True if rule set was successfully verified otherwise false
      */
-    public boolean verify(Reader source) {
+    public boolean verify(Reader source) throws GenerateRuleSetException {
         DrlParser p = new DrlParser();
         PackageDescr pkg;
         
