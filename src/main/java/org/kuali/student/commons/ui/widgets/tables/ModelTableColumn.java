@@ -1,4 +1,4 @@
-package org.kuali.student.commons.ui.widgets;
+package org.kuali.student.commons.ui.widgets.tables;
 
 import java.util.Comparator;
 

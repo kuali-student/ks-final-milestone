@@ -1,6 +1,6 @@
-package org.kuali.student.commons.ui.widgets;
+package org.kuali.student.commons.ui.widgets.tables;
 
-import org.kuali.student.commons.ui.widgets.PagingModelTable.ExposedStyles;
+import org.kuali.student.commons.ui.widgets.tables.PagingModelTable.ExposedStyles;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
