@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.brms.translators.drools;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,14 +39,23 @@ public class GenerateRuleSet {
 
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
 
-    protected static GenerateRuleSet _instance = new GenerateRuleSet();
+    private static GenerateRuleSet _instance = new GenerateRuleSet();
 
-    protected GenerateRuleSet() {}
+    private RuleSetVerifier ruleSetVerifier = new RuleSetVerifier();
+    
+    private GenerateRuleSet() {
+    }
 
     public static synchronized GenerateRuleSet getInstance() {
         return _instance;
     }
 
+    /**
+     * Parses and generates a rule set from a functional business rule.
+     * 
+     * @param container List of business rule
+     * @return A rule set
+     */
     public RuleSet parse(BusinessRuleContainer container) {
         String packageName = PACKAGE_PREFIX + container.getNamespace();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, container.getDescription());
@@ -53,7 +63,12 @@ public class GenerateRuleSet {
         for (BusinessRule businessRule : container.getBusinessRules()) {
             parseRule(ruleSet, businessRule);
         }
+        verifyRule(ruleSet);
         return ruleSet;
+    }
+    
+    private void verifyRule(RuleSet ruleSet) {
+        ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
     }
 
     private void parseRule(RuleSet ruleSet, BusinessRule businessRule) {
