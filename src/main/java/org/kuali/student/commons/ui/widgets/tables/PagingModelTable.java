@@ -297,6 +297,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
             int row = (index.indexOf(modelObject) % rowsPerPage) + 1;
             table.removeRow(row);
         }
+        index.remove(modelObject);
         recalcPageCountLabel();
     }
 
