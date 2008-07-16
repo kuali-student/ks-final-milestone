@@ -47,10 +47,10 @@ public class POC2ADroolsLoader {
         GenerateRuleSet grs = GenerateRuleSet.getInstance();
 
         FunctionalBusinessRuleContainer container = new FunctionalBusinessRuleContainer("course.co.req", "Cource Co-Requisites");
-        FunctionalBusinessRule rule1 = brmsService.getBusinessRuleUsingId("1");
-        FunctionalBusinessRule rule2 = brmsService.getBusinessRuleUsingId("2");
-        FunctionalBusinessRule rule3 = brmsService.getBusinessRuleUsingId("3");
-        FunctionalBusinessRule rule4 = brmsService.getBusinessRuleUsingId("4");
+        FunctionalBusinessRule rule1 = brmsService.getBusinessRuleUsingRuleId("1");
+        FunctionalBusinessRule rule2 = brmsService.getBusinessRuleUsingRuleId("2");
+        FunctionalBusinessRule rule3 = brmsService.getBusinessRuleUsingRuleId("3");
+        FunctionalBusinessRule rule4 = brmsService.getBusinessRuleUsingRuleId("4");
 
         container.addFunctionalBusinessRule(rule1);
         container.addFunctionalBusinessRule(rule2);
@@ -58,7 +58,7 @@ public class POC2ADroolsLoader {
         container.addFunctionalBusinessRule(rule4);
 
         RuleSet ruleSet = grs.parse(container);
-
+       
         System.out.println("Rule set1:\n" + ruleSet.getContent());
 
         String rulesetUuid = droolsRepository.createRuleSet(ruleSet);
