@@ -36,7 +36,7 @@ import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 public class AgendaDiscovery {
 
     private final static String AGENDA_RULE_ID = "AgendaRuleSetId";
-    private final static String AGENDA_FILE = "/agenda.drl";
+    private final static String AGENDA_FILE = "/drools/drls/org/kuali/student/rules/brms/agenda/agenda.drl";
 
     private BusinessRuleManagementService ruleMgmtService;
     private RuleSetExecutorInternal ruleSetExecutor;
@@ -65,7 +65,6 @@ public class AgendaDiscovery {
         // Create actual agenda with actual rules
         Agenda agenda = new Agenda(agendaType.getName(), agendaType);
         ruleTypes = agendaType.getBusinessRuleTypes();
-        // retrieveRulesFromDatabase( agenda, anchor );
         List<BusinessRule> businessRules = ruleMgmtService.retrieveBusinessRules(ruleTypes, anchor.getName());
 
         for (Iterator<BusinessRule> iter = businessRules.iterator(); iter.hasNext();) {
