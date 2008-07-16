@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataServiceAsync;
 
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -20,6 +20,15 @@ public class ApplicationContext {
     static SecurityContext securityContext;
     static Map<String, ViewMetaData> views = new HashMap<String, ViewMetaData>();
     static EventDispatcher globalEventDispatcher = new EventDispatcher();
+    static Map<String, String> settings = new HashMap<String, String>();
+
+    static {
+        Dictionary dict = Dictionary.getDictionary("kualiStudentSettings");
+        for (String key : dict.keySet()) {
+            settings.put(key, dict.get(key));
+        }
+        locale = settings.get("locale");
+    }
 
     /**
      * Returns the current locale code
