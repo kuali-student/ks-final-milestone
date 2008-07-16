@@ -114,9 +114,9 @@ public class GenerateRuleReport {
      * Add default rule sets
      */
     private void addRuleSets() {
-        Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/SuccessMessageLogger.drl"));
+        Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl"));
         this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
-        Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/FailureMessageLogger.drl"));
+        Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl"));
         this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
     }
 }
