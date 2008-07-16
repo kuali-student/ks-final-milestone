@@ -67,7 +67,7 @@ public class RuleSetVerifier {
      * 
      * @return
      */
-    public List<String> getMessage() {
+    public List<String> getMessages() {
         return errorMessages;
     }
 }
