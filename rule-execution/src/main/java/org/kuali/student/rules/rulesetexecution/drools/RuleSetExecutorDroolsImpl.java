@@ -73,7 +73,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         logger.info("Executing agenda: name="+agenda.getName());
         for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
             logger.info("Loading compiled rule set: businessRuleSet.id="+businessRuleSet.getId());
-            Package pkg = (Package) loadCompiledRuleSet(businessRuleSet.getId());
+            Package pkg = loadCompiledRuleSet(businessRuleSet.getId());
             packageList.add((Package) pkg);
             if (logger.isDebugEnabled()) {
                 RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRuleSet.getId());
@@ -190,7 +190,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     }
     
     /**
-     * Gets the Drools' rule base.
+     * Gets the Drools rule base.
      * 
      * @param packages Packages to add to the rule base
      * @return A rule base
@@ -205,7 +205,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         {
             currentThread.setContextClassLoader( newClassLoader );
         
-            //Add the package to a rulebase (deploy the rule package).
+            //Add package to rulebase (deploy the rule package).
             RuleBase ruleBase = RuleBaseFactory.newRuleBase();
             try {
                 for( Package pkg : packages ) {
