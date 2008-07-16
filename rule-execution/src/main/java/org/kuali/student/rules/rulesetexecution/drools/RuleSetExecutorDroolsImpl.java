@@ -77,11 +77,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             packageList.add((Package) pkg);
             if (logger.isDebugEnabled()) {
                 RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRuleSet.getId());
-                logger.info("\n\n***********************************************");
+                logger.info("\n\n**************************************************");
                 logger.info("uuid="+rs.getUUID());
                 logger.info("name="+rs.getName());
+                logger.info("\n\n-------------------------");
                 logger.info("\n\n"+rs.getContent());
-                logger.info("\n\n***********************************************");
+                logger.info("\n\n**************************************************");
             }
         }
         RuleBase ruleBase = getRuleBase(packageList);
@@ -193,6 +194,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * 
      * @param packages Packages to add to the rule base
      * @return A rule base
+     * @throws RuleSetExecutionException If adding a package to the Drools rule base fails
      */
     private RuleBase getRuleBase( List<Package> packages ) {
         Thread currentThread = Thread.currentThread();
@@ -210,7 +212,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
                     ruleBase.addPackage(pkg);
                 }
             } catch( Exception e ) {
-                throw new RuntimeException( "Adding package to rule base failed", e );
+                throw new RuleSetExecutionException( "Adding package to rule base failed", e );
             }
             return ruleBase;
         }
