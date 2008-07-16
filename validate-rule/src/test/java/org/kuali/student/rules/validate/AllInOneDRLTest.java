@@ -97,9 +97,9 @@ public class AllInOneDRLTest {
     
     private static RuleBase readRuleBase() throws Exception {
         //read in the source
-        Reader source1 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/Math101Enrollment.drl" ) );
-        Reader source2 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/Chem201Enrollment.drl" ) );
-        Reader source3 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/Cpr101Enrollment.drl" ) );
+        Reader source1 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/validate/Math101Enrollment.drl" ) );
+        Reader source2 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/validate/Chem201Enrollment.drl" ) );
+        Reader source3 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/validate/Cpr101Enrollment.drl" ) );
         
         PackageBuilder builder = new PackageBuilder();
 
