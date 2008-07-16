@@ -95,7 +95,7 @@ public class RuleSetExecutorDroolsImplTest {
         List<FactContainer> factList = Arrays.asList(factContainer1);
         
         // Create the rule set executor
-        Reader source1 = new InputStreamReader( RuleSetExecutorDroolsImplTest.class.getResourceAsStream( "/Math101PreReqRules.drl" ) );
+        Reader source1 = new InputStreamReader( RuleSetExecutorDroolsImplTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/ruleexecution/drools/Math101PreReqRules.drl" ) );
 
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock(source1) );
         // Iterator through any returned rule engine objects
