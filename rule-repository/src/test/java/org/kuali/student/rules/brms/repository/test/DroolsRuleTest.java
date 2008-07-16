@@ -78,8 +78,8 @@ public class DroolsRuleTest
 	
 	private static RuleBase getRules1() throws Exception
 	{
-		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/hello-email.dslr" );
-		InputStream dsl = DroolsRuleTest.class.getResourceAsStream( "/hello-drools.dsl" );
+		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-email.dslr" );
+		InputStream dsl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-drools.dsl" );
 		// read in the source
 		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
@@ -123,7 +123,7 @@ public class DroolsRuleTest
 	
 	private static RuleBase getRules2() throws Exception
 	{
-		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/test.drl" );
+		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/test.drl" );
 		// read in the source
 		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
@@ -141,7 +141,7 @@ public class DroolsRuleTest
 	private static RuleBase getRules3() throws Exception
 	{
 		String packageName = "package org.kuali.student.test\n";
-		String brl = loadRule( "/hello-drools.brl" );
+		String brl = loadRule( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-drools.brl" );
 		String packageImports = 
 			"import java.util.regex.Pattern;\n" + 
 			"import org.kuali.student.rules.brms.repository.test.Email;\n" +
