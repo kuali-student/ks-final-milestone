@@ -116,6 +116,18 @@ public class Model<T extends ModelObject> {
         data.remove(object.getUniqueId());
         fireChangeEvent(ModelChangeEvent.REMOVE, object);
     }
+    
+    /**
+     * 
+     * Removes all of the objects in the model, change events are fired.
+     *
+     */
+    public void clear() {
+        List<T> tmp = items();
+        for (T t : tmp) {
+            remove(t);
+        }
+    }
 
     /**
      * Returns an object from the model based on its unique id

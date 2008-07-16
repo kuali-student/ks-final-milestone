@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.commons.ui.logging.client.Logger;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataService;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaDataServiceAsync;
@@ -23,11 +24,15 @@ public class ApplicationContext {
     static Map<String, String> settings = new HashMap<String, String>();
 
     static {
-        Dictionary dict = Dictionary.getDictionary("kualiStudentSettings");
-        for (String key : dict.keySet()) {
-            settings.put(key, dict.get(key));
+        try {
+            Dictionary dict = Dictionary.getDictionary("kualiStudentSettings");
+            for (String key : dict.keySet()) {
+                settings.put(key, dict.get(key));
+            }
+            locale = settings.get("locale");
+        } catch (Exception e) {
+            Logger.warn("No settings dictionary defined.", e);
         }
-        locale = settings.get("locale");
     }
 
     /**

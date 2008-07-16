@@ -41,7 +41,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
             im.key = root;
             im.item = item;
             index.put(root, im);
-            //sortRootChildren();
+            sortRootChildren();
         }
         // recursively add branches
         if (itr.hasNext()) {
