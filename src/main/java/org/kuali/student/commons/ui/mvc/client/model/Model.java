@@ -119,6 +119,17 @@ public class Model<T extends ModelObject> {
     
     /**
      * 
+     * Returns true if the model contains the object
+     * 
+     * @param object the object to look for
+     * @return true if the model contains the object
+     */
+    public boolean contains(T object) {
+        return object != null && data.containsKey(object.getUniqueId());
+    }
+    
+    /**
+     * 
      * Removes all of the objects in the model, change events are fired.
      *
      */

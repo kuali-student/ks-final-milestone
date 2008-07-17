@@ -40,6 +40,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
         MODELTABLE_COLUMN_HEADER("KS-ModelTable-Column-Header"),
         MODELTABLE_ROW("KS-ModelTable-Row"),
         MODELTABLE_ROW_ALTERNATE("KS-ModelTable-Row-Alternate"),
+        MODELTABLE_ROW_SELECTED("KS-ModelTable-Row-Selected"),
         MODELTABLE_SORTIMAGE("KS-ModelTable-SortImage"),
         MODELTABLE_PAGE_BAR("KS-ModelTable-PageBar"),
         MODELTABLE_PAGE_BAR_NEXT("KS-ModelTable-PageBar-Next"),
@@ -107,8 +108,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
                             }
                         }
                     } else {
-                        selection = index.get((currentPage * rowsPerPage) + row - 1);
-                        fireSelection(selection);
+                        select(index.get((currentPage * rowsPerPage) + row - 1));
                     }
                 }
             });
@@ -255,8 +255,15 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
         // note, a bug in GWT-1.5-RC1 prevents redraw in hosted mode until another subsequent browser event fires
         // bug is fixed in nightly builds of GWT
         if (isObjectVisible(modelObject)) {
-            int row = (index.indexOf(modelObject) % rowsPerPage) + 1;
-            ExposedStyles style = (row % 2 == 0) ? ExposedStyles.MODELTABLE_ROW_ALTERNATE : ExposedStyles.MODELTABLE_ROW;
+            int row = getSelectionRow(modelObject);
+            ExposedStyles style;
+            if (selection != null && modelObject.getUniqueId().equals(selection.getUniqueId())) {
+                style = ExposedStyles.MODELTABLE_ROW_SELECTED;
+            } else if (row % 2 == 0) {
+                style = ExposedStyles.MODELTABLE_ROW_ALTERNATE;
+            } else {
+                style= ExposedStyles.MODELTABLE_ROW;
+            }
             for (int col = 0; col < columns.size(); col++) {
                 ModelTableColumn<T> c = columns.get(col);
                 Widget w = c.getColumnWidget(modelObject);
@@ -309,7 +316,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
      */
     public void remove(T modelObject) {
         if (isObjectVisible(modelObject)) {
-            int row = (index.indexOf(modelObject) % rowsPerPage) + 1;
+            int row = getSelectionRow(modelObject);
             table.removeRow(row);
         }
         index.remove(modelObject);
@@ -327,6 +334,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
      */
     public void select(T modelObject) {
         selection = modelObject;
+        redraw();
         fireSelection(modelObject);
     }
 
@@ -352,6 +360,14 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
         while (table.getRowCount() > 1) {
             table.removeRow(table.getRowCount()-1);
         } 
+    }
+    
+    private int getSelectionRow(T modelObject) {
+        if (isObjectVisible(modelObject)) { 
+            return (index.indexOf(modelObject) % rowsPerPage) + 1;
+        } else {
+            return -1;
+        }
     }
 
     /**

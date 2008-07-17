@@ -19,6 +19,12 @@
 .KS-ModelTable-Row-Alternate {
 	background-color: lavender;
 }
+.KS-ModelTable-Row-Selected {
+	font-weight: bold;
+	color: white;
+	background-color: darkblue;
+}
+
 .KS-ModelTable-PageBar {
 	width: 100%;
 }
