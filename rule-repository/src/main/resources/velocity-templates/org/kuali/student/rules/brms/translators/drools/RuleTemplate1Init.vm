@@ -14,14 +14,14 @@
 ## limitations under the License.
 ##
 
-## A generic rule template
+## A generic initialization rule template
 
-rule "${ruleName}_INIT"
+rule "${ruleName}"
 ## Set salience to max Integer value (java.lang.Integer.MAX)
     no-loop true
     lock-on-active true
     when 
-        cont : FactContainer( id == "${ruleName}", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+        cont : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
     then
     	prop.setFunctionalRuleString("$functionString");
     	#set ($count = 0)
@@ -52,34 +52,3 @@ rule "${ruleName}_INIT"
         
         update(cont);
 	end
-	
-rule "${ruleName}"
-	when
-        FactContainer( id == "${ruleName}", state == FactContainer.State.DONE, prop : propositionContainer)
-##   		eval (
-##   			#foreach($symbol in $functionSymbols) 
-##            #if ($symbol == "+" ) 
-##                ||
-##            #elseif ($symbol == "*")
-##                &&
-##            #elseif ($symbol == "(") 
-##                (
-##            #elseif ($symbol == ")") 
-##                )
-##            #else 
-##                prop.getProposition("$symbol").getResult()   			
-##   			#end
-##   			#end   		   		
-##		)
-
-    #foreach($symbol in $functionSymbols) 
-        #if ($symbol == "+" ) or
-        #elseif ($symbol == "*") and
-        #elseif ($symbol == "(") (
-        #elseif ($symbol == ")") )
-        #else Proposition( propositionName == "$symbol" && result == true ) from prop.propositions
-        #end
-    #end                
-	then
-   		prop.setRuleResult(true);
-	end		

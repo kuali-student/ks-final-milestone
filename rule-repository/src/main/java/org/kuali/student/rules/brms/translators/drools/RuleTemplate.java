@@ -33,12 +33,13 @@ public class RuleTemplate {
         }
     }
 
-    public String process(String templateFile, String ruleName, Map<String, Object> propMap) {
+    public String process(String templateFile, String anchor, String ruleName, Map<String, Object> propMap) {
         Template template = null;
         StringWriter writer = new StringWriter();
 
         // should check that the name, lhs and rhs are set before continuing
         context = new VelocityContext(propMap);
+        context.put("anchor", anchor);
         context.put("ruleName", ruleName);
         
         try {

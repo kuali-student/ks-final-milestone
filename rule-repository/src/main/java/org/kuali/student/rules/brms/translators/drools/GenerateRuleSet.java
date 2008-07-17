@@ -36,7 +36,8 @@ import org.kuali.student.rules.internal.common.runtime.ast.Function;
  */
 public class GenerateRuleSet {
 
-    private static final String VELOCITY_RULE_TEMPLATE = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate.vm";
+    private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init.vm";
+    private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2.vm";
 
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
 
@@ -76,17 +77,27 @@ public class GenerateRuleSet {
     private void parseRule(RuleSet ruleSet, BusinessRule businessRule) {
         checkName(businessRule.getBusinessRuleType());
 
+        String anchor = businessRule.getAnchor();
+        String ruleName = businessRule.getName();
+        String ruleDescription = businessRule.getDescription();
         String functionString = businessRule.createAdjustedRuleFunctionString();
-
-        //String ruleSource = generateSourceCode(businessRule.getName(), functionString, businessRule
-        String ruleSource = generateSourceCode(businessRule.getAnchor(), functionString, businessRule
-                .getRulePropositions());
-        addRule(businessRule.getName(), businessRule.getDescription(), ruleSet, ruleSource);
+        Map propositionMap = businessRule.getRulePropositions();
+        generateRules(anchor, ruleName, ruleDescription, functionString, propositionMap,ruleSet);
     }
 
-    private String generateSourceCode(String ruleName, String functionString,
+    private void generateRules(String anchor, String ruleName, String ruleDescription, String functionString,
+            Map<String, RuleProposition> functionalPropositionMap, RuleSet ruleSet ) {
+        String initRuleName = ruleName+"_INIT";
+        String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, functionString, functionalPropositionMap);
+        addRule(initRuleName, ruleDescription, ruleSet, rule1Source);
+
+        String rule2Source = generateRule2SourceCode(anchor, ruleName, functionString, functionalPropositionMap);
+        addRule(ruleName, ruleDescription, ruleSet, rule2Source);
+    }
+
+    private String generateRule1InitSourceCode(String anchor, String ruleName, String functionString,
             Map<String, RuleProposition> functionalPropositionMap) {
-        checkName(ruleName);
+        checkName(anchor);
         Function f = new Function(functionString);
 
         // Create the final composite rule for the function
@@ -97,15 +108,30 @@ public class GenerateRuleSet {
         velocityContextMap.put("functionString", functionString);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
-        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE, ruleName, velocityContextMap);
+        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, anchor, ruleName, velocityContextMap);
+    }
+
+    private String generateRule2SourceCode(String anchor, String ruleName, String functionString,
+            Map<String, RuleProposition> functionalPropositionMap) {
+        checkName(anchor);
+        Function f = new Function(functionString);
+
+        // Create the final composite rule for the function
+        List<String> symbols = f.getSymbols();
+        Map<String, Object> velocityContextMap = new HashMap<String, Object>();
+        velocityContextMap.put("propositionMap", functionalPropositionMap);
+        velocityContextMap.put("functionSymbols", symbols);
+        velocityContextMap.put("functionString", functionString);
+
+        RuleTemplate velocityRuleTemplate = new RuleTemplate();
+        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, anchor, ruleName, velocityContextMap);
     }
 
     public RuleSet createRuleSet(String packageName, String description, String ruleName, String functionString,
             Map<String, RuleProposition> functionalPropositionMap) {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, description);
         addHeader(ruleSet);
-        String source = generateSourceCode(ruleName, functionString, functionalPropositionMap);
-        addRule(ruleName, "A description", ruleSet, source);
+        generateRules(ruleName, ruleName, "A rule description", functionString, functionalPropositionMap, ruleSet);
         return ruleSet;
     }
 
@@ -145,7 +171,7 @@ public class GenerateRuleSet {
     private static void checkName(String name) {
         // return name.trim().replaceAll("[\\s-]", "_");
         if (name.trim().indexOf("-") > -1) {
-            throw new RuntimeException("Name cannot contain hyphens");
+            throw new GenerateRuleSetException("Name cannot contain hyphens");
         }
     }
 
