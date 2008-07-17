@@ -18,10 +18,11 @@ import com.google.gwt.user.client.ui.TableListener;
 
 /**
  * Table class that binds directly to a Model
- * 
+ * Should use PagingModelTable instead
  * @param <T>
  *            the type of ModelObject
  */
+@Deprecated
 public class ModelTable<T extends ModelObject> extends Composite implements ModelWidget<T> {
 
     public enum ExposedStyles {

@@ -24,12 +24,12 @@ public class MVC implements EntryPoint {
      *            widget for which to find the controller
      * @return the controller for the widget, or null if no controller exists in the widget hierarchy
      */
-    public static ControllerComposite findParentController(Widget widget) {
-        ControllerComposite result = null;
+    public static Controller findParentController(Widget widget) {
+        Controller result = null;
         while ((result == null) && (widget.getParent() != null)) {
             widget = widget.getParent();
-            if (widget instanceof ControllerComposite) {
-                result = (ControllerComposite) widget;
+            if (widget instanceof Controller) {
+                result = (Controller) widget;
             }
         }
         return result;

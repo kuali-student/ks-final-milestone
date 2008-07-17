@@ -1,28 +1,50 @@
 package org.kuali.student.commons.ui.mvc.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 
+import com.google.gwt.user.client.ui.Composite;
+
 /**
- * Interface defining basic operations required to implement controller layer of MVC framework. Most implementations will
- * extend ControllerComposite, which is the default implementation.
+ * Default implementation of the Controller interface.
  */
-public interface Controller {
+public abstract class Controller extends Composite  {
+    private final EventDispatcher dispatcher = new EventDispatcher();
+    private final Map<Class<? extends ModelObject>, Model<? extends ModelObject>> models = new HashMap<Class<? extends ModelObject>, Model<? extends ModelObject>>();
+
     /**
      * Returns the event dispatcher associated with this controller.
      * 
      * @return the event dispatcher associated with this controller.
      */
-    public EventDispatcher getEventDispatcher();
+    public EventDispatcher getEventDispatcher() {
+        return dispatcher;
+    }
 
     /**
-     * Returns the Model associated with the specified class.
+     * Returns the Model associated with the specified class. If the Model is not found locally, parent controllers are
+     * searched recursively to find an appropriate Model.
      * 
      * @param modelObjectType
      *            the Class of the ModelObject type for which to retrieve a Model
-     * @return Model for the specified ModelObject type, or null if not initialized.
+     * @return Model for the specified ModelObject type, or null if not initialized at any level
      */
-    public Model<? extends ModelObject> getModel(final Class<? extends ModelObject> modelObjectType);
+    public Model<? extends ModelObject> getModel(final Class<? extends ModelObject> modelObjectType) {
+
+        Model<? extends ModelObject> result = models.get(modelObjectType);
+
+        if (result == null) {
+            // not found locally, so ask parent
+            Controller c = MVC.findParentController(this);
+            if (c != null) {
+                result = c.getModel(modelObjectType);
+            }
+        }
+        return result;
+    }
 
     /**
      * Associates a Model with this controller
@@ -32,5 +54,10 @@ public interface Controller {
      * @param model
      *            the Model to add
      */
-    public void initializeModel(final Class<? extends ModelObject> modelObjectType, final Model<? extends ModelObject> model);
+    protected void initializeModel(final Class<? extends ModelObject> modelObjectType, final Model<? extends ModelObject> model) {
+        if (!models.containsKey(modelObjectType)) {
+            models.put(modelObjectType, model);
+        }
+    }
+
 }

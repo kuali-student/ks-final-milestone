@@ -74,7 +74,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
     private T selection = null;
     boolean loaded = false;
 
-    private int sortColumn = 0;
+    private int sortColumn = -1;
     private boolean sortAscending = true;
     
     private int rowsPerPage = DEFAULT_ROWS_PER_PAGE;
@@ -99,12 +99,13 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
             table.addTableListener(new TableListener() {
                 public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
                     if (row == 0) {
-                        if (cell == sortColumn) {
-                            setSortColumn(cell, !sortAscending);
-                        } else {
-                            setSortColumn(cell, true);
+                        if (columns.get(cell).getColumnSortComparator() != null) {
+                            if (cell == sortColumn) {
+                                setSortColumn(cell, !sortAscending);
+                            } else {
+                                setSortColumn(cell, true);
+                            }
                         }
-                        
                     } else {
                         selection = index.get((currentPage * rowsPerPage) + row - 1);
                         fireSelection(selection);
@@ -153,20 +154,26 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
     public void setSortColumn(final int sortColumn, final boolean sortAscending) {
         this.sortColumn = sortColumn;
         this.sortAscending = sortAscending;
-        Comparator<T> c = columns.get(sortColumn).getColumnSortComparator();
-        Collections.sort(index, c);
-        if (sortAscending == false) {
-            Collections.reverse(index);
-        }
-        for (int i=0; i<headers.size(); i++) {
-            ModelTableHeaderLabel label = headers.get(i);
-            if (i == sortColumn) {
-                label.setSorted(sortAscending);
-            } else {
-                label.clearSorted();
+        reSort();
+    }
+    
+    protected void reSort() {
+        if (sortColumn != -1) {
+            Comparator<T> c = columns.get(sortColumn).getColumnSortComparator();
+            Collections.sort(index, c);
+            if (sortAscending == false) {
+                Collections.reverse(index);
             }
+            for (int i=0; i<headers.size(); i++) {
+                ModelTableHeaderLabel label = headers.get(i);
+                if (i == sortColumn) {
+                    label.setSorted(sortAscending);
+                } else {
+                    label.clearSorted();
+                }
+            }
+            redraw();
         }
-        redraw();
     }
     /**
      * 
@@ -252,7 +259,13 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
             ExposedStyles style = (row % 2 == 0) ? ExposedStyles.MODELTABLE_ROW_ALTERNATE : ExposedStyles.MODELTABLE_ROW;
             for (int col = 0; col < columns.size(); col++) {
                 ModelTableColumn<T> c = columns.get(col);
-                table.setText(row, col, c.getColumnValue(modelObject));
+                Widget w = c.getColumnWidget(modelObject);
+                if (w == null) {
+                    table.setText(row, col, c.getColumnValue(modelObject)); 
+                } else {
+                    table.setWidget(row, col, w);
+                }
+                
             }
             table.getRowFormatter().setStyleName(row, style.toString());
         }
@@ -263,6 +276,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
      */
     public void add(T modelObject) {
         index.add(modelObject);
+        reSort();
         render(modelObject);
         recalcPageCountLabel();
     }
@@ -272,6 +286,7 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
      */
     public void addBulk(Collection<T> collection) {
 		index.addAll(collection);
+		reSort();
 		redraw();
 	}
 
@@ -319,7 +334,8 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
      * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#update(org.kuali.student.commons.ui.mvc.client.model.ModelObject)
      */
     public void update(T modelObject) {
-        render(modelObject);
+        reSort();
+        redraw();
     }
     
     

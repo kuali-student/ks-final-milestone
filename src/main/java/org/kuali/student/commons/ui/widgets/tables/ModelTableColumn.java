@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * Interface defining a column in a ModelTable
  * 
@@ -29,9 +31,24 @@ public abstract class ModelTableColumn<T extends ModelObject> {
     
     /**
      * 
+     * Returns a Widget populated with the column value, if the column
+     * should use a specific widget, otherwise returns null.
+     * 
+     * If this method returns null, then the table will use the text value
+     * returned by getColumnValue
+     * 
+     * @param modelObject the object from which to populate the widget
+     * @return Widget populated with the column value, if the column should use a specific widget, otherwise returns null
+     */
+    public abstract Widget getColumnWidget(T modelObject);
+    
+    /**
+     * 
      * Returns a comparator used to sort the column.
      * Example usage are date columns, which may be displayed in a format that
      * does not work well with sorting.
+     * 
+     * Return null if the column is not sortable (e.g. images, etc)
      * 
      * 
      * @return a comparator used to sort the column
