@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.course_co_req
+package org.kuali.student.rules.drools.drls.course_co_req_math
 
 import java.util.*;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.*;
 import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
+import org.kuali.student.rules.util.FactContainer.State;
 
-rule "Intermediate_CPR_INIT"
-    salience 2147483647
+rule "Math101_INIT"
     no-loop true
     lock-on-active true
     when
-        cont : FactContainer( id == "Math101", prop : propositionContainer, req : request )
-        //prop : PropositionContainer()
-        //req: CourseEnrollmentRequest()
+        cont : FactContainer( id == "Math101", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
     then
-        System.out.println("Math101-init");
+        System.out.println("Rule name: "+drools.getRule().getName());
         SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionA.apply();
         prop.addProposition(propositionA);
@@ -43,13 +41,15 @@ rule "Intermediate_CPR_INIT"
         propositionC.apply();
         prop.addProposition(propositionC);
 
+        cont.setState(FactContainer.State.DONE);
+
         update(cont);
 end
 
-rule "Intermediate_CPR"
+rule "Math101"
     no-loop true
     when
-        FactContainer( id == "Math101", prop : propositionContainer )
+        FactContainer( id == "Math101", state == FactContainer.State.DONE, prop : propositionContainer )
         //prop : PropositionContainer( size == 3 )
         
         ( Proposition( propositionName == "A" && result == true ) from prop.propositions
@@ -66,7 +66,7 @@ rule "Intermediate_CPR"
         //    ( prop.getProposition("C") != null && prop.getProposition("C").getResult() )
         //)
     then
-        System.out.println("Math101-enrolment");
+        System.out.println("Rule name: "+drools.getRule().getName());
         System.out.println("A="+prop.getProposition("A").getResult() );
         System.out.println("B="+prop.getProposition("B").getResult() );
         System.out.println("C="+prop.getProposition("C").getResult() );

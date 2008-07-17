@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.course_co_req
+package org.kuali.student.rules.drools.drls.course_co_req_chem
 
 import java.util.*;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.*;
 import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
+import org.kuali.student.rules.util.FactContainer.State;
 
-rule "Intermediate_CPR_INIT_Chem201"
-    salience 2147483647
+rule "Chem201_INIT"
     no-loop true
     lock-on-active true
     when
-        cont : FactContainer( id == "Chem201", prop : propositionContainer, req : request )
+        cont : FactContainer( id == "Chem201", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
     then
-        System.out.println("Chem201-init");
+        System.out.println("Rule name: "+drools.getRule().getName());
         SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CHEM101".split("\\s*,\\s*"))),  req.getLuiIds() );
         propositionA.apply();
         prop.addProposition(propositionA);
@@ -37,17 +37,19 @@ rule "Intermediate_CPR_INIT_Chem201"
         propositionB.apply();
         prop.addProposition(propositionB);
 
+        cont.setState(FactContainer.State.DONE);
+
         update(cont);
 end
 
-rule "Intermediate_CPR_Chem201"
+rule "Chem201"
     no-loop true
     when
-        FactContainer( id == "Chem201", prop : propositionContainer )
+        FactContainer( id == "Chem201", state == FactContainer.State.DONE, prop : propositionContainer )
         Proposition( propositionName == "A" && result == true ) from prop.propositions
         Proposition( propositionName == "B" && result == true ) from prop.propositions 
     then
-        System.out.println("Chem201-enrolment");
+        System.out.println("Rule name: "+drools.getRule().getName());
         System.out.println("A="+prop.getProposition("A").getResult() );
         System.out.println("B="+prop.getProposition("B").getResult() );
         prop.setRuleResult(true);

@@ -18,11 +18,15 @@ package org.kuali.student.rules.util;
 import org.kuali.student.rules.internal.common.facts.FactRequest;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 
+
 public class FactContainer {
     private String id;
     private PropositionContainer propositionContainer = new PropositionContainer();
     private FactRequest request;
+    private State state = State.INIT;
     
+    public enum State {INIT,DONE};
+
     public FactContainer(String id, FactRequest request) {
         this.id = id;
         this.request = request;
@@ -38,5 +42,13 @@ public class FactContainer {
     
     public PropositionContainer getPropositionContainer() {
         return propositionContainer;
+    }
+    
+    public State getState() {
+        return this.state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

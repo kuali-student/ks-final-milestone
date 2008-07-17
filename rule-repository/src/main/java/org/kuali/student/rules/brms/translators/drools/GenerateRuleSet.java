@@ -115,6 +115,7 @@ public class GenerateRuleSet {
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.facts.FactRequest");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
+        ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
     }
 
     /**

@@ -101,17 +101,23 @@ public class AllInOneDRLTest {
         Reader source2 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/validate/Chem201Enrollment.drl" ) );
         Reader source3 = new InputStreamReader( AllInOneDRLTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/validate/Cpr101Enrollment.drl" ) );
         
-        PackageBuilder builder = new PackageBuilder();
+        PackageBuilder builder1 = new PackageBuilder();
+        PackageBuilder builder2 = new PackageBuilder();
+        PackageBuilder builder3 = new PackageBuilder();
 
-        builder.addPackageFromDrl( source1 );
-        builder.addPackageFromDrl( source2 );
-        builder.addPackageFromDrl( source3 );
+        builder1.addPackageFromDrl(source1);
+        builder2.addPackageFromDrl(source2);
+        builder3.addPackageFromDrl(source3);
 
-        Package pkg = builder.getPackage();
+        Package pkg1 = builder1.getPackage();
+        Package pkg2 = builder2.getPackage();
+        Package pkg3 = builder3.getPackage();
         
         //add the package to a rulebase (deploy the rule package).
         RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-        ruleBase.addPackage( pkg );
+        ruleBase.addPackage(pkg1);
+        ruleBase.addPackage(pkg2);
+        ruleBase.addPackage(pkg3);
         return ruleBase;
     }
 }

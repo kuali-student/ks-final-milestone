@@ -18,11 +18,10 @@
 
 rule "${ruleName}_INIT"
 ## Set salience to max Integer value (java.lang.Integer.MAX)
-    salience 2147483647	
     no-loop true
     lock-on-active true
     when 
-        cont : FactContainer( id == "${ruleName}", prop : propositionContainer, req : request )
+        cont : FactContainer( id == "${ruleName}", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
     then
     	prop.setFunctionalRuleString("$functionString");
     	#set ($count = 0)
@@ -49,13 +48,14 @@ rule "${ruleName}_INIT"
    		#end
    		#end
     	
-    	##update(prop);
+        cont.setState(FactContainer.State.DONE);
+        
         update(cont);
 	end
 	
 rule "${ruleName}"
 	when
-        FactContainer( id == "${ruleName}", prop : propositionContainer)
+        FactContainer( id == "${ruleName}", state == FactContainer.State.DONE, prop : propositionContainer)
 ##   		eval (
 ##   			#foreach($symbol in $functionSymbols) 
 ##            #if ($symbol == "+" ) 
