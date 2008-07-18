@@ -10,7 +10,7 @@
 	<packaging>war</packaging>
 	<name />
 	<description />
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -20,8 +20,7 @@
 				<configuration>
 					<!-- no default value -->
 					<dependentWarExcludes>
-						WEB-INF/lib/cxf**,
-						WEB-INF/lib/common-ws-**,
+						WEB-INF/lib/cxf**, WEB-INF/lib/common-ws-**,
 						WEB-INF/lib/lu-api-**,
 						WEB-INF/lib/luipersonrelation-api-**,
 						WEB-INF/lib/personidentity-api-**,
@@ -35,8 +34,16 @@
 				<version>6.1.7</version>
 				<configuration>
 					<webAppConfig>
-						<contextPath>/${project.artifactId}-${project.version}</contextPath>
+						<contextPath>
+							/${project.artifactId}-${project.version}
+						</contextPath>
 					</webAppConfig>
+					<systemProperties>
+						<systemProperty>
+							<name>catalina.base</name>
+							<value>target</value>
+						</systemProperty>
+					</systemProperties>
 				</configuration>
 			</plugin>
 		</plugins>
