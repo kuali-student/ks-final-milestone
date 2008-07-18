@@ -70,7 +70,7 @@ public interface BusinessRuleDAO {
      *            ID of a business rule to locate in database.
      * @return found business rule or null if element not found.
      */
-    public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier);
+    public BusinessRule lookupBusinessRuleUsingIdentifier(String ruleIdentifier);
 
     /**
      * Finds one or more BusinessRule in database based on given parameters.

@@ -87,10 +87,10 @@ public class BusinessRuleDAOImpl implements BusinessRuleDAO {
      * @see org.kuali.student.rules.brms.core.dao.BusinessRuleDAO#lookupBusinessRuleUsingId(String ruleIdentifier)
      */
     @SuppressWarnings(value = {"unchecked"})
-    public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier) {
+    public BusinessRule lookupBusinessRuleUsingIdentifier(String ruleIdentifier) {
 
-        Query query = entityManager.createNamedQuery("BusinessRule.findByRuleID");
-        query.setParameter("ruleID", ruleIdentifier);
+        Query query = entityManager.createNamedQuery("BusinessRule.findByIdentifier");
+        query.setParameter("ruleIdentifier", ruleIdentifier);
         BusinessRule businessRule = (BusinessRule) query.getSingleResult();
         return businessRule;
     }

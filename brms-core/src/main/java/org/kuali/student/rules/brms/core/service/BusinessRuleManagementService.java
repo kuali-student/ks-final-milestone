@@ -67,10 +67,10 @@ public class BusinessRuleManagementService {
      */
     public BusinessRule getBusinessRuleUsingRuleId(String ruleID) throws DoesNotExistException {
 
-        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(ruleID);
+        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingIdentifier(ruleID);
 
         if (rule == null) {
-            throw new DoesNotExistException("Functional business rule not found: id=" + ruleID);
+            throw new DoesNotExistException("Functional business rule not found: ruleID=" + ruleID);
         }
 
         // force Hibernate to load the RuleElements collection as well

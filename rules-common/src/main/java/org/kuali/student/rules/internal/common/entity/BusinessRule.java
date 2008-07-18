@@ -32,9 +32,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
  */
 @Entity
 @Table(name = "BusinessRule_T")
-@NamedQueries({
-        @NamedQuery(name = "BusinessRule.findByRuleID", query = "SELECT c FROM BusinessRule c WHERE c.identifier = :ruleID"),
-        @NamedQuery(name = "BusinessRule.findByAgendaType", query = "SELECT c FROM BusinessRule c WHERE c.businessRuleType = :businessRuleType AND c.anchor = :anchor")})
+@NamedQueries({@NamedQuery(name = "BusinessRule.findByIdentifier", query = "SELECT c FROM BusinessRule c WHERE c.identifier = :ruleIdentifier"), @NamedQuery(name = "BusinessRule.findByAgendaType", query = "SELECT c FROM BusinessRule c WHERE c.businessRuleType = :businessRuleType AND c.anchor = :anchor")})
 public class BusinessRule {
 
     @Id
@@ -82,9 +80,7 @@ public class BusinessRule {
      * @param ruleIdentifier
      * @param businessRuleInfo
      */
-    public BusinessRule(String name, String description, String successMessage, String failureMessage,
-            String ruleIdentifier, String compileRuleID, BusinessRuleInfo businessRuleInfo, String businessRuleType,
-            String anchor) {
+    public BusinessRule(String name, String description, String successMessage, String failureMessage, String ruleIdentifier, String compileRuleID, BusinessRuleInfo businessRuleInfo, String businessRuleType, String anchor) {
         this.name = name;
         this.description = description;
         this.successMessage = successMessage;

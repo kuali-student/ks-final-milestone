@@ -42,11 +42,9 @@ public class BusinessRuleDAOTest extends AbstractTransactionalDaoTest {
 
     @Test
     public void testCreateRule() {
-        BusinessRuleInfo businessRuleInfo = new BusinessRuleInfo("Tom", new Date(), "", new Date(), new Date(),
-                new Date(), "v1.1", Status.PUBLISHED);
+        BusinessRuleInfo businessRuleInfo = new BusinessRuleInfo("Tom", new Date(), "", new Date(), new Date(), new Date(), "v1.1", Status.PUBLISHED);
 
-        BusinessRule rule = new BusinessRule("PR CHEM 200", "enrollment prerequisites for Chemistry 200",
-                "Success Message", "Failure Message", "2", null, businessRuleInfo, "course.co.req", "PR CHEM 200");
+        BusinessRule rule = new BusinessRule("PR CHEM 200", "enrollment prerequisites for Chemistry 200", "Success Message", "Failure Message", "2", null, businessRuleInfo, "course.co.req", "PR CHEM 200");
 
         businessRuleDAO.createBusinessRule(rule);
 
@@ -60,7 +58,7 @@ public class BusinessRuleDAOTest extends AbstractTransactionalDaoTest {
 
     @Test
     public void testUpdateRule() {
-        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(busRule1);
+        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingIdentifier(busRule1);
 
         rule.setName("New Rule Name");
 
@@ -72,12 +70,12 @@ public class BusinessRuleDAOTest extends AbstractTransactionalDaoTest {
 
     @Test
     public void testDeleteRule() {
-        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId(busRule1);
+        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingIdentifier(busRule1);
         assertTrue(businessRuleDAO.deleteBusinessRule(rule));
 
         boolean noResult = false;
         try {
-            businessRuleDAO.lookupBusinessRuleUsingRuleId(busRule1);
+            businessRuleDAO.lookupBusinessRuleUsingIdentifier(busRule1);
         } catch (EmptyResultDataAccessException noresex) {
             noResult = true;
         }
@@ -86,8 +84,8 @@ public class BusinessRuleDAOTest extends AbstractTransactionalDaoTest {
     }
 
     @Test
-    public void testLookupBusinessRuleUsingRuleId() {
-        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingRuleId("3");
+    public void testLookupBusinessRuleUsingIdentifier() {
+        BusinessRule rule = businessRuleDAO.lookupBusinessRuleUsingIdentifier("3");
         assertEquals("course.co.req", rule.getBusinessRuleType());
         assertEquals("EMS Certificate Program", rule.getName());
         assertEquals(7, rule.getElements().size());
@@ -95,8 +93,7 @@ public class BusinessRuleDAOTest extends AbstractTransactionalDaoTest {
 
     @Test
     public void testLookupCompiledRuleID() {
-        BusinessRule rule = new BusinessRule("PR CHEM 2000", "enrollment co-requisites for Chemistry 2000",
-                "Success Message1", "Failure Message1", "5", null, null, "course.co.req", "PR CHEM 1001");
+        BusinessRule rule = new BusinessRule("PR CHEM 2000", "enrollment co-requisites for Chemistry 2000", "Success Message1", "Failure Message1", "5", null, null, "course.co.req", "PR CHEM 1001");
         businessRuleDAO.createBusinessRule(rule);
 
         Collection<BusinessRule> newRules = businessRuleDAO.lookupCompiledIDs("course.co.req", "PR CHEM 1001");
