@@ -1439,7 +1439,7 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
-    public void testLoadRuleSetsByCategory() throws Exception {
+    public void testLoadRuleSetByCategory() throws Exception {
         String category = "TestCategory";
         String path = "/";
         brmsRepository.createCategory(path, category, "A test category");
