@@ -115,6 +115,12 @@ public class DroolsUtil {
         return rule;
     }
     
+    /**
+     * Sets <code>categories</code> to a Drools <code>rule</code>.
+     * 
+     * @param rule Rule to add <code>categories</code> to
+     * @param categories Categories to add to <code>rule</code>
+     */
     private void setCategories(DroolsRuleImpl rule, List<CategoryItem> categories) {
         List<Category> categoryList = new ArrayList<Category>();
         List<String> categoryNameList = new ArrayList<String>();
