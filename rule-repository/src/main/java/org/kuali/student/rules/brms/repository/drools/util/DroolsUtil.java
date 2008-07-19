@@ -245,6 +245,12 @@ public class DroolsUtil {
         return ruleSet;
     }
 
+    /**
+     * Adds a header to the rule set if it does not exists.
+     * 
+     * @param ruleSet Rule set to add <code>header</code> to
+     * @param header Header to add to <code>ruleSet</code>
+     */
     public void addRuleSetHeader(RuleSet ruleSet, String header ) {
         for(String headerLine : header.split(";")) {
             headerLine = headerLine.trim();
