@@ -1461,26 +1461,21 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Loads all rules in a specific category.
+     * <p>Loads all rules in a specific category.</p>
+     * <p>This is a dynamic rule set which is not stored in the repository
+     * and therefore has no UUID or version. The rule set's name is the same 
+     * as the <code>category</name> name.</p> 
      * 
-     * @param category Category rule belong to
+     * @param category Category rule belongs to
      * @return A dynamic rule set
      */
     public RuleSet loadRuleSetByCategory(String category) {
-        //List<RuleSet> ruleSetList = new ArrayList<RuleSet>();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
                 category, "A dynamic rule set", DroolsConstants.FORMAT_DRL);
         // Load all rules in a specific category
         List<AssetItem> items = this.repository.findAssetsByCategory(category);
-        //String ruleSetUUID = "";
         for(AssetItem item : items) {
             Rule rule = droolsUtil.buildRule(item);
-            /*if (!ruleSetUUID.equals(rule.getRuleSetUUID()))
-            {
-                ruleSetUUID = rule.getRuleSetUUID();
-                RuleSet ruleSet = this.loadRuleSet(ruleSetUUID);
-                ruleSetList.add(ruleSet);
-            }*/
             String header = item.getPackage().getHeader();
             droolsUtil.addRuleSetHeader(ruleSet,header);
             ruleSet.addRule(rule);

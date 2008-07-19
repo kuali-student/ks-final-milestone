@@ -723,9 +723,12 @@ public interface RuleEngineRepository {
     public Object compileSource(Reader source);
 
     /**
-     * Loads all rules in a specific category.
+     * <p>Loads all rules in a specific category.</p>
+     * <p>This is a dynamic rule set which is not stored in the repository
+     * and therefore has no UUID or version. The rule set's name is the same 
+     * as the <code>category</name> name.</p> 
      * 
-     * @param category Category rule belong to
+     * @param category Category rule belongs to
      * @return A dynamic rule set
      */
     public RuleSet loadRuleSetByCategory(String category);
