@@ -342,7 +342,7 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public List<RuleSet> loadRuleSetsByCategory(String category) {
+    public RuleSet loadRuleSetByCategory(String category) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }    
 }

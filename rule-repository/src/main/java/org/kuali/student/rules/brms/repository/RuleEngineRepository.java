@@ -723,10 +723,10 @@ public interface RuleEngineRepository {
     public Object compileSource(Reader source);
 
     /**
-     * Loads all rule sets in a specific category.
+     * Loads all rules in a specific category.
      * 
-     * @param category Category rule sets belong to
-     * @return
+     * @param category Category rule belong to
+     * @return A dynamic rule set
      */
-    public List<RuleSet> loadRuleSetsByCategory(String category);
+    public RuleSet loadRuleSetByCategory(String category);
 }

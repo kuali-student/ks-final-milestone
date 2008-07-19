@@ -224,12 +224,7 @@ public class DroolsUtil {
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
         ruleSet.setSnapshotName(pkg.getSnapshotName());
-        String[] headerLine = pkg.getHeader().split(";");
-        for(int i=0; i<headerLine.length; i++) {
-            if ( headerLine[i] != null && !headerLine[i].trim().isEmpty()) {
-                ruleSet.addHeader(headerLine[i].trim());
-            }
-        }
+        addRuleSetHeader(ruleSet, pkg.getHeader());
 
         ruleSet.setCompiledRuleSet(pkg.getCompiledPackageBytes());
         org.drools.rule.Package p = getPackage(pkg.getCompiledPackageBytes());
@@ -248,6 +243,15 @@ public class DroolsUtil {
         }
 
         return ruleSet;
+    }
+
+    public void addRuleSetHeader(RuleSet ruleSet, String header ) {
+        for(String headerLine : header.split(";")) {
+            headerLine = headerLine.trim();
+            if ( !headerLine.isEmpty() && !ruleSet.getHeaderList().contains(headerLine+";")) {
+                ruleSet.addHeader(headerLine);
+            }
+        }
     }
     
     /**

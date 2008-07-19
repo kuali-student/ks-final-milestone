@@ -141,7 +141,7 @@ public class DroolsRuleSetImpl
      * @see org.kuali.student.rules.brms.repository.rule.RuleSet#addHeader(java.lang.String)
      */
     public void addHeader(final String header) {
-        if ( header == null ) {
+        if ( header == null || header.trim().isEmpty()) {
             return;
         }
         this.header.add(getProperHeader(header));

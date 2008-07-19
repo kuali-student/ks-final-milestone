@@ -45,7 +45,9 @@ import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleImpl;
+import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
@@ -1459,25 +1461,30 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Loads all rule sets in a specific category.
+     * Loads all rules in a specific category.
      * 
-     * @param category Category rule sets belong to
-     * @return List of rule sets
+     * @param category Category rule belong to
+     * @return A dynamic rule set
      */
-    public List<RuleSet> loadRuleSetsByCategory(String category) {
-        List<RuleSet> ruleSetList = new ArrayList<RuleSet>();
+    public RuleSet loadRuleSetByCategory(String category) {
+        //List<RuleSet> ruleSetList = new ArrayList<RuleSet>();
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
+                category, "A dynamic rule set", DroolsConstants.FORMAT_DRL);
         // Load all rules in a specific category
         List<AssetItem> items = this.repository.findAssetsByCategory(category);
-        String ruleSetUUID = "";
+        //String ruleSetUUID = "";
         for(AssetItem item : items) {
             Rule rule = droolsUtil.buildRule(item);
-            if (!ruleSetUUID.equals(rule.getRuleSetUUID()))
+            /*if (!ruleSetUUID.equals(rule.getRuleSetUUID()))
             {
                 ruleSetUUID = rule.getRuleSetUUID();
                 RuleSet ruleSet = this.loadRuleSet(ruleSetUUID);
                 ruleSetList.add(ruleSet);
-            }
+            }*/
+            String header = item.getPackage().getHeader();
+            droolsUtil.addRuleSetHeader(ruleSet,header);
+            ruleSet.addRule(rule);
         }
-        return ruleSetList;
+        return ruleSet;
     }
 }
