@@ -53,8 +53,8 @@ public class RuleFactory {
      * @param content Rule source code content
      * @return A new rule
      */
-    public Rule createDroolsRule( final String name, final String description, final String content ) {
-        return new DroolsRuleImpl( name, description, content );
+    public Rule createDroolsRule(final String name, final String description, final String content) {
+        return new DroolsRuleImpl(name, description, content);
     }
 
     /**
@@ -67,8 +67,8 @@ public class RuleFactory {
      * @param format Rule source code format
      * @return A new rule
      */
-    public Rule createDroolsRule( final String name, final String description, final String category, final String content, final String format ) {
-        return new DroolsRuleImpl( name, description, category, content, format );
+    public Rule createDroolsRule(final String name, final String description, final String category, final String content, final String format) {
+        return new DroolsRuleImpl(name, description, category, content, format);
     }
 
     /**
@@ -83,7 +83,8 @@ public class RuleFactory {
      * @param version Rule version number - Set by the repository implementation
      * @return A new rule
      */
-    public DroolsRuleImpl createDroolsRule( final String uuid, final String name, long version ) {
-        return new DroolsRuleImpl( uuid, name, version );
+    public DroolsRuleImpl createDroolsRule(final String uuid, final String name, 
+            final long version, final String ruleSetUUID, final String ruleSetName) {
+        return new DroolsRuleImpl(uuid, name, version, ruleSetUUID, ruleSetName );
     }
 }

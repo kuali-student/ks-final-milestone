@@ -721,4 +721,12 @@ public interface RuleEngineRepository {
      *             Thrown if compilation fails
      */
     public Object compileSource(Reader source);
+
+    /**
+     * Loads all rule sets in a specific category.
+     * 
+     * @param category Category rule sets belong to
+     * @return
+     */
+    public List<RuleSet> loadRuleSetsByCategory(String category);
 }

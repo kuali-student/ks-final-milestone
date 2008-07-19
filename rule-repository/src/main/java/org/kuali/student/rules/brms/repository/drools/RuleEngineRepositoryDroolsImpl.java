@@ -45,6 +45,7 @@ import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.rules.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
@@ -1394,9 +1395,11 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     
             try {
                 AssetItem asset = pkg.addAsset(rule.getName(), 
-                        rule.getDescription(), rule.getCategory(), rule.getFormat());
+                        rule.getDescription(), null, rule.getFormat());
                 asset.updateContent(rule.getContent());
                 asset.updateDescription(rule.getDescription());
+                String categories[] = rule.getCategoryNames().toArray(new String[]{});
+                asset.updateCategoryList(categories);
             } catch (RulesRepositoryException e) {
                 if (e.getCause() instanceof ItemExistsException) {
                     throw new RuleExistsException("Creating new rule failed - " + 
@@ -1434,12 +1437,14 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             try {
                 if (rule.getUUID() != null && pkg.containsAsset(rule.getName())) {
                     AssetItem item = pkg.loadAsset(rule.getName());
-                    updateRule(item,rule);
+                    updateRule(item, rule);
                 } else {
                     AssetItem asset = pkg.addAsset(rule.getName(), 
-                            rule.getDescription(), rule.getCategory(), rule.getFormat());
+                            rule.getDescription(), null, rule.getFormat());
                     asset.updateContent(rule.getContent());
                     asset.updateDescription(rule.getDescription());
+                    String categories[] = rule.getCategoryNames().toArray(new String[]{});
+                    asset.updateCategoryList(categories);
                 }
             } catch (RulesRepositoryException e) {
                 if (e.getCause() instanceof ItemExistsException) {
@@ -1451,5 +1456,28 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                 }
             }
         }
+    }
+
+    /**
+     * Loads all rule sets in a specific category.
+     * 
+     * @param category Category rule sets belong to
+     * @return List of rule sets
+     */
+    public List<RuleSet> loadRuleSetsByCategory(String category) {
+        List<RuleSet> ruleSetList = new ArrayList<RuleSet>();
+        // Load all rules in a specific category
+        List<AssetItem> items = this.repository.findAssetsByCategory(category);
+        String ruleSetUUID = "";
+        for(AssetItem item : items) {
+            Rule rule = droolsUtil.buildRule(item);
+            if (!ruleSetUUID.equals(rule.getRuleSetUUID()))
+            {
+                ruleSetUUID = rule.getRuleSetUUID();
+                RuleSet ruleSet = this.loadRuleSet(ruleSetUUID);
+                ruleSetList.add(ruleSet);
+            }
+        }
+        return ruleSetList;
     }
 }

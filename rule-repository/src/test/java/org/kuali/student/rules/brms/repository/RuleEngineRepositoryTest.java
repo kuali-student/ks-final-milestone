@@ -61,6 +61,7 @@ import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsExceptio
 import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.brms.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.brms.repository.exceptions.RuleSetExistsException;
+import org.kuali.student.rules.brms.repository.rule.Category;
 import org.kuali.student.rules.brms.repository.rule.CompilerResultList;
 import org.kuali.student.rules.brms.repository.rule.Rule;
 import org.kuali.student.rules.brms.repository.rule.RuleSet;
@@ -145,6 +146,19 @@ public class RuleEngineRepositoryTest {
         return brmsRepository.createRuleSet(ruleSet);
     }
     
+    private RuleSet createSimpleRuleSet(String ruleSetName, String[] categories, int rules) {
+        RuleSet ruleSet = createRuleSet(ruleSetName, "A rule set", null);
+        for(int i=0; i<rules; i++) {
+            Rule rule = createRuleDRL("rule_" + i, "My new rule 1", null,
+                    "rule \"rule_" + i + "\" \n when \n then \nend");
+            for(String name : categories) {
+                rule.addCategoryName(name);
+            }
+            ruleSet.addRule(rule);
+        }
+        return ruleSet;
+    }
+
     private void assertRule( Rule rule1, Rule rule2) throws Exception {
         assertEquals( rule1.getName(), rule2.getName() );
         assertEquals( rule1.getContent(), rule2.getContent() );
@@ -539,6 +553,40 @@ public class RuleEngineRepositoryTest {
         assertEquals(header.get(2), ruleSet2.getHeaderList().get(2));
     }
 
+    @Test
+    public void testCreateRuleSet_OneRuleCategory() throws Exception {
+        String category = "TestCategory1";
+        String path = "/";
+        brmsRepository.createCategory("/", category, "A test category 1");
+        
+        RuleSet ruleSet = createSimpleRuleSet("RuleSet1", new String[] {category}, 2);
+        ruleSet = brmsRepository.createRuleSet(ruleSet);
+        
+        assertNotNull(ruleSet);
+        String expected = ruleSet.getRules().get(0).getCategoryNames().get(0);
+        assertEquals(category, expected);
+        expected = ruleSet.getRules().get(0).getCategories().get(0).getName();
+        String expectedPath = ruleSet.getRules().get(0).getCategories().get(0).getPath();
+        assertEquals(category, expectedPath);
+    }
+    
+    @Test
+    public void testCreateRuleSet_TwoRuleCategory() throws Exception {
+        String category1 = "TestCategory1";
+        brmsRepository.createCategory("/", category1, "A test category 1");
+        String category2 = "TestCategory2";
+        brmsRepository.createCategory("/", category2, "A test category 2");
+        
+        RuleSet ruleSet = createSimpleRuleSet("RuleSet1", new String[] {category1,category2}, 2);
+        ruleSet = brmsRepository.createRuleSet(ruleSet);
+
+        assertNotNull(ruleSet);
+        List<String> expected = ruleSet.getRules().get(0).getCategoryNames();
+        assertTrue(expected.contains(category1));
+        expected = ruleSet.getRules().get(0).getCategoryNames();
+        assertTrue(expected.contains(category2));
+    }
+    
     @Test
     public void testCreateAndLoadRuleSet() throws Exception {
         List<String> header = new ArrayList<String>();
@@ -1381,4 +1429,50 @@ public class RuleEngineRepositoryTest {
         }
     }
 
+    private boolean containsCategory(List<Category> categories, String categoryName, String path) {
+        for(Category category : categories) {
+            if(categoryName.equals(category.getName()) && path.equals(category.getPath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Test
+    public void testLoadRuleSetsByCategory() throws Exception {
+        String category = "TestCategory";
+        String path = "/";
+        brmsRepository.createCategory(path, category, "A test category");
+        
+        RuleSet ruleSet1 = createSimpleRuleSet("RuleSet1", new String[] {category}, 2);
+        ruleSet1 = brmsRepository.createRuleSet(ruleSet1);
+        RuleSet ruleSet2 = createSimpleRuleSet("RuleSet2", new String[] {category}, 2);
+        ruleSet2 = brmsRepository.createRuleSet(ruleSet2);
+        RuleSet ruleSet3 = createSimpleRuleSet("RuleSet3", new String[] {category}, 2);
+        ruleSet3 = brmsRepository.createRuleSet(ruleSet3);
+        
+        List<RuleSet> ruleSets = brmsRepository.loadRuleSetsByCategory(category);
+        
+        assertEquals(3, ruleSets.size());
+        assertEquals(ruleSet1.getUUID(), ruleSets.get(0).getUUID());
+        assertEquals(ruleSet2.getUUID(), ruleSets.get(1).getUUID());
+        assertEquals(ruleSet3.getUUID(), ruleSets.get(2).getUUID());
+
+        assertEquals(2, ruleSets.get(0).getRules().size());
+        assertEquals(2, ruleSets.get(1).getRules().size());
+        assertEquals(2, ruleSets.get(2).getRules().size());
+
+        List<Category> rule1Category = ruleSets.get(0).getRules().get(0).getCategories();
+        List<Category> rule2Category = ruleSets.get(0).getRules().get(1).getCategories();
+
+        assertTrue(containsCategory(rule1Category,category,category));
+        assertTrue(containsCategory(rule2Category,category,category));
+        
+        assertTrue( ruleSets.get(0).getRules().get(0).getCategoryNames().contains(category) );
+        assertTrue( ruleSets.get(0).getRules().get(1).getCategoryNames().contains(category) );
+        assertTrue( ruleSets.get(1).getRules().get(0).getCategoryNames().contains(category) );
+        assertTrue( ruleSets.get(1).getRules().get(1).getCategoryNames().contains(category) );
+        assertTrue( ruleSets.get(2).getRules().get(0).getCategoryNames().contains(category) );
+        assertTrue( ruleSets.get(2).getRules().get(1).getCategoryNames().contains(category) );
+    }
 }

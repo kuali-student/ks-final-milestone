@@ -16,6 +16,7 @@
 package org.kuali.student.rules.brms.repository.rule;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * This is the <code>Rule</code> interface. 
@@ -47,11 +48,26 @@ public interface Rule extends Item {
     public void setContent(String content);
 
     /**
+     * Adds a category to the rule.
+     * 
+     * @param name Category name
+     * @param path Category path
+     */
+    public void addCategoryName(String name);
+
+    /**
      * Gets the category the rule belongs to.
      * 
-     * @return Rule category
+     * @return
      */
-    public String getCategory();
+    public List<String> getCategoryNames();
+
+    /**
+     * Gets the categories the rule belongs to.
+     * 
+     * @return List of categories
+     */
+    public List<Category> getCategories();
     
     /**
      * Return the date the rule becomes effective.
@@ -66,4 +82,18 @@ public interface Rule extends Item {
      * @return Date the rule expires
      */
     public Calendar getExpiryDate();
+    
+    /**
+     * Returns the parent rule set's uuid;
+     * 
+     * @return Rule set UUID
+     */
+    public String getRuleSetUUID();
+
+    /**
+     * Returns the parent rule set's name;
+     * 
+     * @return Rule set name
+     */
+    public String getRuleSetName();
 }

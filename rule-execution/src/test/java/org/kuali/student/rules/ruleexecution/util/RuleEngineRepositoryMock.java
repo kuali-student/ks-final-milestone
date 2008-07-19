@@ -341,4 +341,8 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
+    @Override
+    public List<RuleSet> loadRuleSetsByCategory(String category) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }    
 }
