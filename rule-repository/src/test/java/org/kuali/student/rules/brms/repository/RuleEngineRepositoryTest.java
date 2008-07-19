@@ -1456,15 +1456,9 @@ public class RuleEngineRepositoryTest {
         
         RuleSet ruleSet = brmsRepository.loadRuleSetByCategory(category);
         
-        //assertEquals(ruleSet1.getUUID(), ruleSets.get(0).getUUID());
-        //assertEquals(ruleSet2.getUUID(), ruleSets.get(1).getUUID());
-        //assertEquals(ruleSet3.getUUID(), ruleSets.get(2).getUUID());
-
-        //assertEquals(2, ruleSets.get(0).getRules().size());
-        //assertEquals(2, ruleSets.get(1).getRules().size());
-        //assertEquals(2, ruleSets.get(2).getRules().size());
         assertEquals(6, ruleSet.getRules().size());
 
+        assertEquals(1, ruleSet.getHeaderList().size());
         assertEquals(header, ruleSet.getHeaderList());
         
         List<Category> rule1Category = ruleSet.getRules().get(0).getCategories();
