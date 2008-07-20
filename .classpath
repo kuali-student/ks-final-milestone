@@ -20,26 +20,18 @@
 	<classpathentry kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/java"/>
 	<classpathentry kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/resources"/>
 	<classpathentry kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/resources"/>
-	<classpathentry kind="src" output="inspect-rule-failure/target/classes" path="inspect-rule-failure/src/main/java"/>
-	<classpathentry kind="src" output="inspect-rule-failure/target/test-classes" path="inspect-rule-failure/src/test/java">
-		<attributes>
-			<attribute name="maven.type" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="inspect-rule-failure/target/classes" path="inspect-rule-failure/src/main/resources"/>
-	<classpathentry kind="src" output="inspect-rule-failure/target/test-classes" path="inspect-rule-failure/src/test/resources"/>
-	<classpathentry kind="src" output="generate-rule/target/classes" path="generate-rule/src/main/java"/>
-	<classpathentry kind="src" output="generate-rule/target/test-classes" path="generate-rule/src/test/java">
-		<attributes>
-			<attribute name="maven.type" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="generate-rule/target/classes" path="generate-rule/src/main/resources"/>
-	<classpathentry kind="src" output="generate-rule/target/test-classes" path="generate-rule/src/test/resources"/>
 	<classpathentry kind="src" output="validate-rule/target/classes" path="validate-rule/src/main/java"/>
 	<classpathentry kind="src" output="validate-rule/target/classes" path="validate-rule/src/main/resources"/>
 	<classpathentry kind="src" output="validate-rule/target/test-classes" path="validate-rule/src/test/java"/>
 	<classpathentry kind="src" output="validate-rule/target/test-classes" path="validate-rule/src/test/resources"/>
+	<classpathentry kind="src" output="facts/target/classes" path="facts/src/main/java"/>
+	<classpathentry kind="src" output="facts/target/test-classes" path="facts/src/test/java">
+		<attributes>
+		    <attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="facts/target/classes" path="facts/src/main/resources"/>
+	<classpathentry kind="src" output="facts/target/test-classes" path="facts/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
 	<classpathentry kind="output" path="bin"/>

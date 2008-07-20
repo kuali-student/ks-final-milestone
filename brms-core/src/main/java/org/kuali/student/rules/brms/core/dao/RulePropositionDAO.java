@@ -7,7 +7,7 @@
  */
 package org.kuali.student.rules.brms.core.dao;
 
-import org.kuali.student.rules.brms.core.entity.RuleProposition;
+import org.kuali.student.rules.internal.common.entity.RuleProposition;
 
 /**
  * Defines DAO operations for Rule Proposition

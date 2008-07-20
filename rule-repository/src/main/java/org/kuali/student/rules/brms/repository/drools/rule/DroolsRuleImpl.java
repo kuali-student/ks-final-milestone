@@ -15,9 +15,12 @@
  */
 package org.kuali.student.rules.brms.repository.drools.rule;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.kuali.student.rules.brms.repository.rule.AbstractItem;
+import org.kuali.student.rules.brms.repository.rule.Category;
 import org.kuali.student.rules.brms.repository.rule.Rule;
 import org.kuali.student.rules.brms.repository.util.ObjectUtil;
 
@@ -38,12 +41,18 @@ public class DroolsRuleImpl
     private byte[] binaryContent;
     /** Source code content of this rule */
     private String content;
-    /** Category this rule belongs to */
-    private String category;
+    /** List of category names */
+    private List<String> categoryNameList = new ArrayList<String>();
+    /** List of categories */
+    private List<Category> categoryList = new ArrayList<Category>();
     /** Date this rule becomes effective */
     private Calendar effectiveDate;
     /** Date this rule expires */
     private Calendar expiryDate;
+    /** Rule's parent rule set's uuid */
+    private String ruleSetUUID;
+    /** Rule's parent rule set's name */
+    private String ruleSetName;
     /** Object utility class */
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
     
@@ -69,11 +78,13 @@ public class DroolsRuleImpl
      */
     public DroolsRuleImpl(final String name, 
                           final String description, 
-                          final String category, 
+                          final String initialCategory, 
                           final String content, 
                           final String format) {
         super(name, description, format);
-        this.category = category;
+        if(initialCategory != null) {
+            this.categoryNameList.add(initialCategory);
+        }
         this.content = content;
     }
 
@@ -84,9 +95,13 @@ public class DroolsRuleImpl
      * @param uuid Rule UUID
      * @param name Rule name
      * @param versionNumber Rule version number
+     * @param ruleSetUUID Parent rule set's uuid
+     * @param ruleSetName Parent's rule set's name
      */
-    DroolsRuleImpl(final String uuid, final String name, final long versionNumber) {
+    DroolsRuleImpl(final String uuid, final String name, final long versionNumber, String ruleSetUUID, String ruleSetName) {
         super(uuid, name, versionNumber);
+        this.ruleSetUUID = ruleSetUUID;
+        this.ruleSetName = ruleSetName;
     }
 
     /**
@@ -154,19 +169,51 @@ public class DroolsRuleImpl
     }
 
     /**
-     * Sets the category the rule belongs to.
+     * Adds a category to the rule.
      * 
-     * @param category Rule category
+     * @param name Category name
+     * @param path Category path
      */
-    public void setCategory(String category) {
-        this.category = category;
+    public void addCategoryName(String name) {
+        if (name != null ) {
+            this.categoryNameList.add(name);
+        }
     }
-    
+
     /**
-     * @see org.kuali.student.rules.brms.repository.rule.Rule#getCategory()
+     * Sets a list of category names.
+     * 
+     * @param categories A list of categories
      */
-    public String getCategory() {
-        return this.category;
+    public void setCategoryNames(List<String> categoryNames) {
+        this.categoryNameList = categoryNames;
+    }
+
+    /**
+     * Gets the category the rule belongs to.
+     * 
+     * @return
+     */
+    public List<String> getCategoryNames() {
+        return this.categoryNameList;
+    }
+
+    /**
+     * Sets a list of categories.
+     * 
+     * @param categories A list of categories
+     */
+    public void setCategories(List<Category> categories) {
+        this.categoryList = categories;
+    }
+
+    /**
+     * Gets a list of categories.
+     * 
+     * @see org.kuali.student.rules.brms.repository.rule.Rule#getCategories()
+     */
+    public List<Category> getCategories() {
+        return this.categoryList;
     }
     
     /**
@@ -199,6 +246,20 @@ public class DroolsRuleImpl
      */
     public Calendar getExpiryDate() {
         return this.expiryDate;
+    }
+
+    /**
+     * @see org.kuali.student.rules.brms.repository.rule.Rule#getRuleSetUUID()
+     */
+    public String getRuleSetUUID() {
+        return this.ruleSetUUID;
+    }
+
+    /**
+     * @see org.kuali.student.rules.brms.repository.rule.Rule#getRuleSetName()
+     */
+    public String getRuleSetName() {
+        return this.ruleSetName;
     }
 
     public String toString() {

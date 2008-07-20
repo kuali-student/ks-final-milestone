@@ -45,6 +45,8 @@ import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
+import org.kuali.student.rules.brms.repository.drools.rule.DroolsConstants;
+import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
@@ -83,7 +85,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param categoryPath
      *            Category path
      * @return List of child category names
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading child categories fails
      */
     public List<String> loadChildCategories(String categoryPath) {
         if (categoryPath == null || categoryPath.trim().isEmpty()) {
@@ -115,7 +117,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Category description
      * @return True if category successfully created, otherwise false
      * @throws CategoryExistsException Thrown if rule set already exists
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if creating category fails
      */
     public Boolean createCategory(String path, String name, String description) 
         throws CategoryExistsException {
@@ -150,7 +152,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule set uuid
      * @param comment
      *            Checkin comments
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if checkin rule set fails
      */
     public void checkinRuleSet(String uuid, String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -169,12 +171,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Updates a rule and save it to the repository.
+     * Updates a rule set in the repository and returns an updated rule set.
      *  
      * @param ruleSet A rule set to update
-     * @throws RuleEngineRepositoryException
+     * @return An updated rule set
+     * @throws RuleEngineRepositoryException Thrown if updating rule set fails
      */
-    public void updateRuleSet(RuleSet ruleSet) {
+    public RuleSet updateRuleSet(RuleSet ruleSet) {
         if (ruleSet == null) {
             throw new IllegalArgumentException("ruleSet cannot be null or empty");
         } else if (ruleSet.getDescription() == null || ruleSet.getDescription().isEmpty()) {
@@ -184,12 +187,14 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
         
         try {
-            PackageItem item = this.repository.loadPackageByUUID(ruleSet.getUUID());
-            item.updateDescription(ruleSet.getDescription());
-            item.updateFormat(ruleSet.getFormat());
-            item.updateHeader(ruleSet.getHeader());
-            item.updateState(ruleSet.getStatus());
+            PackageItem pkg = this.repository.loadPackageByUUID(ruleSet.getUUID());
+            pkg.updateDescription(ruleSet.getDescription());
+            pkg.updateFormat(ruleSet.getFormat());
+            pkg.updateHeader(ruleSet.getHeader());
+            pkg.updateState(ruleSet.getStatus());
+            createOrUpdateRule(pkg, ruleSet);
             this.repository.save();
+            return droolsUtil.buildRuleSet(pkg);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Checkin rule set failed: uuid=" + ruleSet.getUUID(), e);
         }
@@ -202,7 +207,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule uuid
      * @param comment
      *            Checkin comments
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if checkin rule fails
      */
     public void checkinRule(String uuid, String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -222,12 +227,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Updates a rule and saves it to the repository.
+     * Updates a rule in the repository and returns an updated rule.
      * 
      * @param rule A rule to update
-     * @throws RuleEngineRepositoryException
+     * @return An updated rule
+     * @throws RuleEngineRepositoryException Thrown if updating rule fails
      */
-    public void updateRule(Rule rule) {
+    public Rule updateRule(Rule rule) {
         if (rule.getUUID() == null || rule.getUUID().trim().isEmpty()) {
             throw new IllegalArgumentException("uuid cannot be null or empty");
         } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
@@ -236,8 +242,20 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("Rule format cannot be null or empty");
         }
 
+        AssetItem item = this.repository.loadAssetByUUID(rule.getUUID());
+        return updateRule(item, rule);
+    }
+    
+    /**
+     * Updates a <code>rule</code> as an <code>item</code> in the repository.
+     * 
+     * @param item Item to be updated
+     * @param rule Rule to update item with
+     * @return An updated rule
+     * @throws RuleEngineRepositoryException Thrown if updating rule fails
+     */
+    private Rule updateRule(AssetItem item, Rule rule) {
         try {
-            AssetItem item = this.repository.loadAssetByUUID(rule.getUUID());
             item.updateContent(rule.getContent());
             item.updateDescription(rule.getDescription());
             item.updateFormat(rule.getFormat());
@@ -246,8 +264,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             item.updateDateEffective(rule.getEffectiveDate());
             item.updateDateExpired(rule.getExpiryDate());
             this.repository.save();
+            return droolsUtil.buildRule(item);
         } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Checkin rule failed: uuid=" + rule.getUUID(), e);
+            throw new RuleEngineRepositoryException("Update rule failed: name=" + 
+                    rule.getName() + ", uuid=" + rule.getUUID(), e);
         }
     }
 
@@ -256,7 +276,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param uuid
      *            Rule uuid
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if removing rule fails
      */
     public void removeRule(String uuid) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -276,7 +296,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * Deletes a rule set by uuid.
      * 
      * @param uuid Rule set uuid
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if removing rule set fails
      */
     public void removeRuleSet(String uuid) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -300,7 +320,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param uuid
      *            Rule uuid
      * @return List of history rules
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading rule history fails
      */
     public List<Rule> loadRuleHistory(String uuid) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -330,7 +350,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param uuid Rule set uuid
      * @return A list of <code>RuleSet</code>s
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown because method is not yet implemented due to a Drools bug
      */
     public List<RuleSet> loadRuleSetHistory(String uuid) {
         throw new RuleEngineRepositoryException("Not implemented - Drools repository bug? - Cannot load rule sets history");
@@ -366,7 +386,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * Loads all archived rule sets.
      * 
      * @return List of archived rules
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown because method is not yet implemented due to a Drools bug
      */
     public List<RuleSet> loadArchivedRuleSets() {
         throw new RuleEngineRepositoryException("Not implemented - Drools repository bug - Cannot load archived rule sets");
@@ -393,6 +413,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * Finds archived packages. XXX This method doesn't find archived packages for some reason.
      * 
      * @return An iterator of PackageItem
+     * @throws RuleEngineRepositoryException Thrown if archived packages (rule sets) fails
      */
     private Iterator<PackageItem> findArchivedPackages() {
         try {
@@ -416,7 +437,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * Loads all archived rules.
      * 
      * @return List of archived rules
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading archived rules fails
      */
     public List<Rule> loadArchivedRules() {
         try {
@@ -443,7 +464,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            New version UUID
      * @param comment
      *            Comments of why a version was restored
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if restoring version fails
      */
     public void restoreVersion(String oldVersionUUID, String newVersionUUID, String comment) {
         if (oldVersionUUID == null || oldVersionUUID.trim().isEmpty()) {
@@ -470,7 +491,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param filename
      *            E.g. repository_export.xml.zip
      * @return A zip file
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if exporting rules repository fails
      */
     public ByteArrayOutputStream exportRulesRepositoryAsZip(String filename) {
         if (filename == null || filename.trim().isEmpty()) {
@@ -515,7 +536,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * Exports the rules repository as XML.
      * 
      * @return XML content as a byte array
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if exporting rules repository fails
      */
     public byte[] exportRulesRepositoryAsXml() {
         try {
@@ -534,9 +555,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param byteArray
      *            Byte array (XML file) - E.g. an repository_export.xml
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if importing rules repository fails
      */
-    public void importRulesRepository(byte[] byteArray) {
+    public void importRulesRepositoryAsXml(byte[] byteArray) {
         if (byteArray == null || byteArray.length == 0) {
             throw new IllegalArgumentException("byteArray cannot be null or empty");
         }
@@ -549,12 +570,12 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Loads all rule set (and rules) for a specific uuid.
+     * Loads a rule set (and rules) for a specific uuid.
      * 
      * @param uuid
      *            Rule set uuid
      * @return A rule set
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading rule set fails
      */
     public RuleSet loadRuleSet(String uuid) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -571,12 +592,34 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
+     * 
+     * Loads a rule set (and rules) for a specific rule set name.
+     * 
+     * @param ruleSetName rule set name
+     * @return A rule set
+     * @throws RuleEngineRepositoryException Thrown if loading rule fails
+     */
+    public RuleSet loadRuleSetByName(String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        }
+
+        try {
+            PackageItem pkg = this.repository.loadPackage(ruleSetName);
+            RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
+            return ruleSet;
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: ruleSetName=" + ruleSetName, e);
+        }
+    }
+
+    /**
      * Loads a rule by uuid.
      * 
      * @param uuid
      *            Rule uuid
      * @return A rule
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading rule fails
      */
     public Rule loadRule(String uuid) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -598,7 +641,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param name Status name
      * @return New status uuid
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if creating status fails
      */
     public String createStatus(String name) {
         if (name == null || name.trim().isEmpty()) {
@@ -619,10 +662,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Loads all states (statuses).
+     * Loads all states.
      * 
      * @return Array of all states (statuses)
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading states fails
      */
     public String[] loadStates() {
         try {
@@ -644,7 +687,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule uuid
      * @param newState
      *            New rule status
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if changing rule status fails
      */
     public void changeRuleStatus(String uuid, String newState) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -669,7 +712,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule set uuid
      * @param newState
      *            New rule set status
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if changing rule set status fails
      */
     public void changeRuleSetStatus(String uuid, String newState) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -700,7 +743,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param comment
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException 
-     *            If rule set fails to compile or any other errors occur
+     *            Thrown if rule set fails to compile or any other errors occur
      */
     public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
         createRuleSetSnapshot(ruleSetName, snapshotName, false, comment);
@@ -718,7 +761,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param comment
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException 
-     *            If rule set fails to compile or any other errors occur
+     *            Thrown if rule set fails to compile or any other errors occur
      */
     public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment) {
         createRuleSetSnapshot(ruleSetName, snapshotName, true, comment);
@@ -739,7 +782,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param comment
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException 
-     *            If rule set fails to compile or any other errors occur
+     *            Thrown if rule set fails to compile or any other errors occur
      */
     private void createRuleSetSnapshot(String ruleSetName, String snapshotName, boolean replaceExisting, String comment) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
@@ -782,7 +825,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param categoryPath
      *            Category path
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if removing a category fails
      */
     public void removeCategory(String categoryPath) {
         if (categoryPath == null || categoryPath.trim().isEmpty()) {
@@ -805,7 +848,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param newName
      *            New rule name
      * @return New uuid of the rule
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if renaming a rule fails
      */
     public String renameRule(String uuid, String newName) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -828,7 +871,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule uuid
      * @param comment
      *            Rule comment
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if archiving a rule fails
      */
     public void archiveRule(String uuid, String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -847,7 +890,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule uuid
      * @param comment
      *            Rule comment
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if unarchiving a rule fails
      */
     public void unArchiveRule(String uuid, String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -860,7 +903,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Archives an rule.
+     * Archives a rule.
      * 
      * @param uuid
      *            Rule uuid
@@ -868,7 +911,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule comment
      * @param archive
      *            If true archive rule, otherwise unarchive rule
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if archiving a rule fails
      */
     private void archiveRule(String uuid, String comment, boolean archive) {
         try {
@@ -888,13 +931,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Archives an rule set.
+     * Archives a rule set.
      * 
      * @param uuid
      *            Rule uuid
      * @param comment
      *            Rule comment
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if archiving a rule set fails
      */
     public void archiveRuleSet(String uuid, String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -907,13 +950,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Unarchives an rule set.
+     * Unarchives a rule set.
      * 
      * @param uuid
      *            Rule set uuid
      * @param comment
      *            Rule set comment
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if unarchiving a rule set fails
      */
     public void unArchiveRuleSet(String uuid, String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -926,7 +969,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
-     * Archives an rule set.
+     * Archives a rule set.
      * 
      * @param uuid
      *            Rule set uuid
@@ -934,7 +977,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule set comment
      * @param archive
      *            If true archive rule set, otherwise unarchive rule set
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if archiving a rule set fails
      */
     private void archiveRuleSet(String uuid, String comment, boolean archive) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -966,7 +1009,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param newName
      *            New rule set name
      * @return uuid of new rule set
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if renaming a rule set fails
      */
     public String renameRuleSet(String uuid, String newName) {
         if (uuid == null || uuid.trim().isEmpty()) {
@@ -987,8 +1030,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param ruleSetUUID
      *            Rule set uuid
-     * @return Any rule set building errors otherwise null
-     * @throws RuleEngineRepositoryException
+     * @return Any rule set compilation errors otherwise null
+     * @throws RuleEngineRepositoryException Thrown if compiling a rule set fails
      */
     public CompilerResultList compileRuleSet(String ruleSetUUID) {
         if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
@@ -1027,7 +1070,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param ruleSetUUID
      *            Rule set uuid
      * @return Rule set source (Drools DRL)
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if compiling a rule set fails
      */
     public String compileRuleSetSource(String ruleSetUUID) {
         if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
@@ -1046,19 +1089,19 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         } catch (IOException e) {
             throw new RuleEngineRepositoryException("Compiling rule set failed: ", e);
         } catch (DroolsParserException e) {
-            throw new RuleEngineRepositoryException("Compiling rule set failed", e);
+            throw new RuleEngineRepositoryException("Compiling and parsing rule set failed", e);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Compiling rule set failed: " + "ruleSetUUID=" + ruleSetUUID, e);
         }
     }
 
     /**
-     * Loads a compiled rule set.
+     * Loads a compiled rule set by uuid.
      * 
      * @param ruleSetUUID
      *            Rule set uuid
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
     public Object loadCompiledRuleSet(String ruleSetUUID) {
         if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
@@ -1069,12 +1112,28 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
+     * Loads a compiled rule set by rule set name.
+     * 
+     * @param ruleSetUUID
+     *            Rule set uuid
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
+     */
+    public Object loadCompiledRuleSetByName(String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        }
+
+        return droolsUtil.getPackage(loadCompiledRuleSetAsBytesByName(ruleSetName));
+    }
+
+    /**
      * Loads a compiled rule set as an array of bytes.
      * 
      * @param ruleSetUUID
      *            Rule set uuid
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
     public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID) {
         if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
@@ -1092,6 +1151,28 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
+     * Loads a compiled rule set by rule set name as an array of bytes.
+     * 
+     * @param ruleSetName Rule set name
+     * @return A compiled rule set (<code>org.drools.rule.Package</code>)
+     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
+     */
+    public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
+        }
+
+        try {
+            PackageItem pkg = this.repository.loadPackage(ruleSetName);
+            return pkg.getCompiledPackageBytes();
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetName=" + ruleSetName, e);
+        } catch (Exception e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: " + "ruleSetName=" + ruleSetName, e);
+        }
+    }
+
+    /**
      * Loads a compiled rule set snapshot.
      * 
      * @param ruleSetName
@@ -1099,7 +1180,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param snapshotName
      *            Snapshot name
      * @return Compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
      */
     public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
@@ -1119,7 +1200,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param snapshotName
      *            Snapshot name
      * @return Compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
      */
     public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
@@ -1146,7 +1227,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param snapshotName
      *            Rule set's snapshot name
      * @return A rule set snapshot
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if loading a snapshot fails
      */
     public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
@@ -1167,7 +1248,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /**
      * Rebuilds all snapshots in the repository.
      * 
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if rebuilding snapshots fails
      */
     public void rebuildAllSnapshots() {
         try {
@@ -1229,13 +1310,12 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * 
      * @param ruleSet
      *            Rule set to create
-     * @return Rule set uuid
+     * @return A new rule set (containing a uuid)
      * @throws RuleExistsException Thrown if a rule within the rule set already exists
      * @throws RuleSetExistsException Thrown if rule set already exists
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Throws if compiling a rule set fails
      */
-    public String createRuleSet(RuleSet ruleSet) 
-        throws RuleSetExistsException, RuleExistsException
+    public RuleSet createRuleSet(RuleSet ruleSet) 
     {
         if (ruleSet == null) {
             throw new IllegalArgumentException("ruleSet");
@@ -1243,12 +1323,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new IllegalArgumentException("Rule set name cannot be null or empty");
         }
 
-        final List<Rule> rules = ruleSet.getRules();
         PackageItem pkg = createPackage(ruleSet);
-
-        for(int i=0; i<rules.size(); i++) {
-            createRule( pkg, rules.get(i) );
-        }
+        createRule(pkg, ruleSet);
 
         try {
             CompilerResultList result = droolsUtil.compile(pkg);
@@ -1265,16 +1341,16 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
 
         this.repository.save();
-        return pkg.getUUID();
+        return droolsUtil.buildRuleSet(pkg);
     }
-    
+
     /**
      * Creates a drools repository <code>PackageItem</code>
      * 
      * @param ruleSet A rule set
      * @return A Drools package item
      * @throws RuleSetExistsException Thrown if rule set already exists
-     * @throws RuleEngineRepositoryException
+     * @throws RuleEngineRepositoryException Thrown if creating a rule set fails
      */
     private PackageItem createPackage(RuleSet ruleSet) 
         throws RuleSetExistsException
@@ -1296,36 +1372,113 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
     
     /**
-     * Creates a rule from a <code>PackageItem</code> and a <code>Rule</code>.
+     * Creates a <code>Rule</code> in a <code>PackageItem</code> 
+     * if it does not already exist.
      * 
      * @param pkg A Drools package item
      * @param rule A kuali rule
-     * @throws RuleEngineRepositoryException
+     * @throws RuleExistsException Throws if a rule already exists
+     * @throws RuleEngineRepositoryException Thrown if creating a rule fails
      */
-    private void createRule(PackageItem pkg, Rule rule) 
+    private void createRule(PackageItem pkg, RuleSet ruleSet) 
         throws RuleExistsException
     {
-        if (rule.getName() == null || rule.getName().isEmpty()) {
-            throw new IllegalArgumentException("Rule name cannot be null or empty");
-        } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
-            throw new IllegalArgumentException("Rule description cannot be null or empty");
-        } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
-            throw new IllegalArgumentException("Rule format cannot be null or empty");
-        }
+        final List<Rule> rules = ruleSet.getRules();
 
-        try {
-            AssetItem asset = pkg.addAsset(rule.getName(), 
-                    rule.getDescription(), rule.getCategory(), rule.getFormat());
-            asset.updateContent(rule.getContent());
-            asset.updateDescription(rule.getDescription());
-        } catch (RulesRepositoryException e) {
-            if (e.getCause() instanceof ItemExistsException) {
-                throw new RuleExistsException("Creating new rule failed - " + 
-                        "Rule already exists: ruleName=" + rule.getName(), e);
-            } else {
-                throw new RuleEngineRepositoryException("Creating new rule failed: " + 
-                        "ruleName=" + rule.getName(), e);
+        for(Rule rule : rules) {
+            if (rule.getName() == null || rule.getName().isEmpty()) {
+                throw new IllegalArgumentException("Rule name cannot be null or empty");
+            } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
+                throw new IllegalArgumentException("Rule description cannot be null or empty");
+            } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
+                throw new IllegalArgumentException("Rule format cannot be null or empty");
+            }
+    
+            try {
+                AssetItem asset = pkg.addAsset(rule.getName(), 
+                        rule.getDescription(), null, rule.getFormat());
+                asset.updateContent(rule.getContent());
+                asset.updateDescription(rule.getDescription());
+                String categories[] = rule.getCategoryNames().toArray(new String[]{});
+                asset.updateCategoryList(categories);
+            } catch (RulesRepositoryException e) {
+                if (e.getCause() instanceof ItemExistsException) {
+                    throw new RuleExistsException("Creating new rule failed - " + 
+                            "Rule already exists: ruleName=" + rule.getName(), e);
+                } else {
+                    throw new RuleEngineRepositoryException("Creating new rule failed: " + 
+                            "ruleName=" + rule.getName(), e);
+                }
             }
         }
-    }    
+    }
+
+    /**
+     * Updates rules in a PackageItem.
+     * 
+     * @param pkg Package to update rules in
+     * @param ruleSet Ruleset container the rules to be updated
+     * @throws RuleExistsException Throws if a rule already exists
+     * @throws RuleEngineRepositoryException Thrown if creating or updating a rule fails
+     */
+    private void createOrUpdateRule(PackageItem pkg, RuleSet ruleSet) 
+        throws RuleExistsException
+    {
+        final List<Rule> rules = ruleSet.getRules();
+    
+        for(Rule rule : rules) {
+            if (rule.getName() == null || rule.getName().isEmpty()) {
+                throw new IllegalArgumentException("Rule name cannot be null or empty");
+            } else if (rule.getDescription() == null || rule.getDescription().isEmpty()) {
+                throw new IllegalArgumentException("Rule description cannot be null or empty");
+            } else if (rule.getFormat() == null || rule.getFormat().isEmpty()) {
+                throw new IllegalArgumentException("Rule format cannot be null or empty");
+            }
+
+            try {
+                if (rule.getUUID() != null && pkg.containsAsset(rule.getName())) {
+                    AssetItem item = pkg.loadAsset(rule.getName());
+                    updateRule(item, rule);
+                } else {
+                    AssetItem asset = pkg.addAsset(rule.getName(), 
+                            rule.getDescription(), null, rule.getFormat());
+                    asset.updateContent(rule.getContent());
+                    asset.updateDescription(rule.getDescription());
+                    String categories[] = rule.getCategoryNames().toArray(new String[]{});
+                    asset.updateCategoryList(categories);
+                }
+            } catch (RulesRepositoryException e) {
+                if (e.getCause() instanceof ItemExistsException) {
+                    throw new RuleExistsException("Creating new rule failed - " + 
+                            "Rule already exists: ruleName=" + rule.getName(), e);
+                } else {
+                    throw new RuleEngineRepositoryException("Creating or updating rule failed: " + 
+                            "ruleName=" + rule.getName(), e);
+                }
+            }
+        }
+    }
+
+    /**
+     * <p>Loads all rules in a specific category.</p>
+     * <p>This is a dynamic rule set which is not stored in the repository
+     * and therefore has no UUID or version. The rule set's name is the same 
+     * as the <code>category</name> name.</p> 
+     * 
+     * @param category Category rules belong to
+     * @return A dynamic rule set
+     */
+    public RuleSet loadRuleSetByCategory(String category) {
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
+                category, "A dynamic rule set", DroolsConstants.FORMAT_DRL);
+        // Load all rules in a specific category
+        List<AssetItem> items = this.repository.findAssetsByCategory(category);
+        for(AssetItem item : items) {
+            Rule rule = droolsUtil.buildRule(item);
+            String header = item.getPackage().getHeader();
+            droolsUtil.addRuleSetHeader(ruleSet,header);
+            ruleSet.addRule(rule);
+        }
+        return ruleSet;
+    }
 }

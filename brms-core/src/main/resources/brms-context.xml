@@ -93,7 +93,7 @@
 
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	
 	
-	<bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+	<bean id="businessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.BusinessRuleDAOImpl">
 	</bean>
 	
 	<bean id="ruleElementDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RuleElementDAOImpl">
@@ -102,18 +102,18 @@
 	<bean id="rulePropositionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.RulePropositionDAOImpl">
 	</bean>
 	
-	<bean id="computationAssistantDAO"  class="org.kuali.student.rules.brms.core.dao.impl.ComputationAssistantDAOImpl">
+	<bean id="yieldValueFunctionDAO"  class="org.kuali.student.rules.brms.core.dao.impl.YieldValueFunctionDAOImpl">
 	</bean>
 	
-	<bean id="functionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
-	<property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
+	<bean id="businessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.BusinessRuleManagementService">
+	<property name="businessRuleDAO" ref="businessRuleDAO"/>    
 	</bean>
 	
 	<bean id="agendaDiscovery" class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
-	<property name="ruleMgmtService" ref="functionalBusinessRuleManagementService"/>
+	<property name="ruleMgmtService" ref="businessRuleManagementService"/>
 	</bean>
   
-	<bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+	<!--bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
 		<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
 	</bean>
 
@@ -124,7 +124,7 @@
 	
 	<bean id="rulesRepository"
       factory-bean="defaultDroolsRepositoryContainer"
-      factory-method="getRepository"/>
+      factory-method="getRepository"/-->
      
 	<!-- Exception translation bean post processor -->
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>

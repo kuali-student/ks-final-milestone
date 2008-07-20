@@ -18,19 +18,28 @@ package org.kuali.student.rules.ruleexecution.drools;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.AgendaType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRuleType;
-import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
-import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
+import org.kuali.student.rules.internal.common.agenda.entity.AgendaType;
+import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
+import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
+import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
+import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.util.FactContainer;
 
 public class RuleSetExecutorDroolsImplTest {
 
@@ -39,8 +48,8 @@ public class RuleSetExecutorDroolsImplTest {
         // Create the agenda
         AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
         Agenda agenda = new Agenda( "agenda", agendaType );
-        BusinessRuleType ruleType = new BusinessRuleType( "name", "type" );
-        agenda.addBusinessRule( new BusinessRule( "ruleId=uuid-123", "", ruleType, "" ) );
+        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
+        agenda.addBusinessRule( new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "" ) );
         
         // Create the rule set executor
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock() );
@@ -55,15 +64,44 @@ public class RuleSetExecutorDroolsImplTest {
         String time = null;
         while( it != null && it.hasNext() ) {
             Object obj = it.next();
-            //System.out.println( obj.getClass() + " = " + obj );
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;
             }
         }
         
-        System.out.println( "testExecute: " + time );
         assertNotNull( time );
         assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
     }
+
+    @Test
+    public void testExecute2() throws Exception {
+        // Create the agenda
+        AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
+        Agenda agenda = new Agenda( "agenda", agendaType );
+        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
+        BusinessRuleSet businessRule = new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "A*B*C" );
+        agenda.addBusinessRule( businessRule );
+        AnchorType anchorType = new AnchorType( "course", "clu.type.course" );
+        Anchor anchor = new Anchor( "Math101", "Math101", anchorType );
+        businessRule.setAnchor(anchor);
+
+        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest(anchor.getId());
+        Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
+        req1.setLuiIds(luiIds);
+        
+        FactContainer factContainer1 = new FactContainer( "Math101", req1 );
+
+        List<FactContainer> factList = Arrays.asList(factContainer1);
+        
+        // Create the rule set executor
+        Reader source1 = new InputStreamReader( RuleSetExecutorDroolsImplTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/ruleexecution/drools/Math101PreReqRules.drl" ) );
+
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock(source1) );
+        // Iterator through any returned rule engine objects
+        Iterator it = (Iterator) executor.execute( agenda, factList );
+        assertNotNull(it);
+        assertTrue(factContainer1.getPropositionContainer().getRuleResult());
+    }
+    
 }

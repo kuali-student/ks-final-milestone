@@ -54,8 +54,9 @@ public class RuleUtil {
      * @param version Rule version
      * @return A new rule
      */
-    public static Rule createRule( final String uuid, final String name, long version ) {
-        Rule rule = RuleFactory.getInstance().createDroolsRule( uuid, name, version );
+    public static Rule createRule( final String uuid, final String name, 
+            final long version, final String ruleSetUUID, final String ruleSetName) {
+        Rule rule = RuleFactory.getInstance().createDroolsRule(uuid, name, version, ruleSetUUID, ruleSetName);
         rule.setContent(getSimpleRule(name));
         return rule;
     }
@@ -66,8 +67,8 @@ public class RuleUtil {
      * @param name Rule set name
      * @return A new rule set
      */
-    public static RuleSet createRuleSet( final String name ) {
-        return RuleSetFactory.getInstance().createRuleSet( name, "A new rule set", DroolsConstants.FORMAT_DRL );
+    public static RuleSet createRuleSet(final String name) {
+        return RuleSetFactory.getInstance().createRuleSet(name, "A new rule set", DroolsConstants.FORMAT_DRL);
     }   
 
     /**
@@ -78,7 +79,7 @@ public class RuleUtil {
      * @param version Rule set version
      * @return A new rule set
      */
-    public static RuleSet createRuleSet( final String uuid, final String name, final long version ) {
+    public static RuleSet createRuleSet(final String uuid, final String name, final long version) {
         return RuleSetFactory.getInstance().createRuleSet( uuid, name, version );
     }    
 

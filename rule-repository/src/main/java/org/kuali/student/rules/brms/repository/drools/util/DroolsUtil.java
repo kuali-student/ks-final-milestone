@@ -38,14 +38,17 @@ import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.compiler.PackageBuilderErrors;
 import org.drools.lang.descr.PackageDescr;
 import org.drools.repository.AssetItem;
+import org.drools.repository.CategoryItem;
 import org.drools.repository.PackageItem;
 import org.drools.repository.VersionableItem;
 import org.drools.util.ChainedProperties;
+import org.kuali.student.rules.brms.repository.drools.rule.CategoryFactory;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.rules.brms.repository.rule.Category;
 import org.kuali.student.rules.brms.repository.rule.CompilerResult;
 import org.kuali.student.rules.brms.repository.rule.CompilerResultList;
 import org.kuali.student.rules.brms.repository.rule.Rule;
@@ -84,7 +87,9 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public Rule buildRule(final AssetItem item) throws RuleEngineRepositoryException {
-        DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
+        DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(
+                item.getUUID(), item.getName(), item.getVersionNumber(), 
+                item.getPackage().getUUID(), item.getPackageName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
         rule.setFormat(item.getFormat());
@@ -96,7 +101,8 @@ public class DroolsUtil {
         rule.setCreatedDate(item.getCreatedDate());
         rule.setLastModifiedDate(item.getLastModified());
         rule.setArchived(item.isArchived());
-
+        setCategories(rule, item.getCategories());
+        
         try {
             rule.setHistorical(item.isHistoricalVersion());
             if (item.isHistoricalVersion()) {
@@ -107,6 +113,26 @@ public class DroolsUtil {
         }
 
         return rule;
+    }
+    
+    /**
+     * Sets <code>categories</code> to a Drools <code>rule</code>.
+     * 
+     * @param rule Rule to add <code>categories</code> to
+     * @param categories Categories to add to <code>rule</code>
+     */
+    private void setCategories(DroolsRuleImpl rule, List<CategoryItem> categories) {
+        List<Category> categoryList = new ArrayList<Category>();
+        List<String> categoryNameList = new ArrayList<String>();
+        for(CategoryItem category : categories) {
+            String name = category.getName();
+            String path = category.getFullPath();
+            Category cat = CategoryFactory.getInstance().createDroolsCategory(name, path);
+            categoryList.add(cat);
+            categoryNameList.add(name);
+        }
+        rule.setCategories(categoryList);
+        rule.setCategoryNames(categoryNameList);
     }
 
     /**
@@ -119,7 +145,19 @@ public class DroolsUtil {
      * @throws RuleEngineRepositoryException
      */
     public Rule buildHistoricalRule(final AssetItem item) throws RuleEngineRepositoryException {
-        DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(item.getUUID(), item.getName(), item.getVersionNumber());
+        boolean isHistorical = false;
+
+        try {
+            isHistorical = item.isHistoricalVersion();
+        } catch (RepositoryException e) {
+            throw new RuleEngineRepositoryException("Unable to set rule historical version", e);
+        }
+
+        String packageUUID = (isHistorical ? null : item.getPackage().getUUID());
+        
+        DroolsRuleImpl rule = RuleFactory.getInstance().createDroolsRule(
+                item.getUUID(), item.getName(), item.getVersionNumber(),
+                packageUUID, item.getPackageName());
         rule.setContent(item.getContent());
         rule.setBinaryContent(item.getBinaryContentAsBytes());
         // item.getFormat() throws exception when creating from history
@@ -135,6 +173,7 @@ public class DroolsUtil {
         // item.isArchived() throws exception when creating from history
         rule.setArchived(false);
         rule.setVersionSnapshotUUID(item.getVersionSnapshotUUID());
+        setCategories(rule, item.getCategories());
 
         try {
             rule.setHistorical(item.isHistoricalVersion());
@@ -191,12 +230,7 @@ public class DroolsUtil {
         ruleSet.setArchived(pkg.isArchived());
         ruleSet.setSnapshot(pkg.isSnapshot());
         ruleSet.setSnapshotName(pkg.getSnapshotName());
-        String[] headerLine = pkg.getHeader().split(";");
-        for(int i=0; i<headerLine.length; i++) {
-            if ( headerLine[i] != null && !headerLine[i].trim().isEmpty()) {
-                ruleSet.addHeader(headerLine[i].trim());
-            }
-        }
+        addRuleSetHeader(ruleSet, pkg.getHeader());
 
         ruleSet.setCompiledRuleSet(pkg.getCompiledPackageBytes());
         org.drools.rule.Package p = getPackage(pkg.getCompiledPackageBytes());
@@ -215,6 +249,21 @@ public class DroolsUtil {
         }
 
         return ruleSet;
+    }
+
+    /**
+     * Adds a header to the rule set if it does not exists.
+     * 
+     * @param ruleSet Rule set to add <code>header</code> to
+     * @param header Header to add to <code>ruleSet</code>
+     */
+    public void addRuleSetHeader(RuleSet ruleSet, String header ) {
+        for(String headerLine : header.split(";")) {
+            headerLine = headerLine.trim();
+            if ( !headerLine.isEmpty() && !ruleSet.getHeaderList().contains(headerLine+";")) {
+                ruleSet.addHeader(headerLine);
+            }
+        }
     }
     
     /**

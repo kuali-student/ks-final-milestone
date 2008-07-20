@@ -15,15 +15,19 @@
 
   <context:annotation-config/>
   
-  <bean id="functionalBusinessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+  <bean id="businessRuleDAO"  class="org.kuali.student.rules.brms.core.dao.impl.BusinessRuleDAOImpl">
   </bean>
 
-   <bean id="functionalBusinessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.FunctionalBusinessRuleManagementService">
-    <property name="businessRuleDAO" ref="functionalBusinessRuleDAO"/>    
+   <bean id="businessRuleManagementService"  class="org.kuali.student.rules.brms.core.service.BusinessRuleManagementService">
+    <property name="businessRuleDAO" ref="businessRuleDAO"/>    
+  </bean>
+
+  <bean id="ruleEngine"  class="org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl">
   </bean>
 
   <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">
-    <property name="ruleMgmtService" ref="functionalBusinessRuleManagementService"/>    
+    <property name="ruleMgmtService" ref="businessRuleManagementService"/>    
+    <property name="ruleSetExecutor" ref="ruleEngine"/>    
   </bean>
 
   <bean id="loadDataBean" class="org.kuali.student.rules.brms.core.util.LoadDataBean">

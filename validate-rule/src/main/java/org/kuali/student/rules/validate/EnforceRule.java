@@ -1,25 +1,40 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.validate;
 
-import java.util.ArrayList;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
-import org.drools.StatelessSession;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
-import org.kuali.student.rules.brms.agenda.AgendaRequest;
-import org.kuali.student.rules.brms.agenda.entity.Agenda;
-import org.kuali.student.rules.brms.agenda.entity.Anchor;
-import org.kuali.student.rules.brms.agenda.entity.AnchorType;
-import org.kuali.student.rules.brms.agenda.entity.BusinessRule;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.common.util.CourseEnrollmentRequest;
-import org.kuali.student.rules.runtime.ast.GenerateRuleReport;
-import org.kuali.student.rules.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
+import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
+import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
+import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
+import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
+import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
+import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
+import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.util.FactContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,43 +51,42 @@ public class EnforceRule {
     @Autowired
     private RuleEngineRepository droolsRepository;
 
-    public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
+    /*public ValidationResult validateLuiPersonRelation(String personID, String luiID, String luiPersonRelationType,
             String relationState) {
         
-        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
+        RuleSetExecutorInternal executor = new RuleSetExecutorDroolsImpl();
+        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(executor);
         ValidationResult result = new ValidationResult();
 
         //1. Discover Agenda
         AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationType, "course", "offered", relationState );
         AnchorType type = new AnchorType( "course", "clu.type.course" );
-        Anchor anchor = new Anchor( luiID.replaceAll("\\s", "_"), luiID, type );
+        //Anchor anchor = new Anchor( luiID.replaceAll("\\s", "_"), luiID, type );
+        Anchor anchor = new Anchor( luiID, luiID, type );
         
         Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
         
-        Iterator<BusinessRule> itr = agenda.getBusinessRules().iterator();
+        Iterator<BusinessRuleSet> itr = agenda.getBusinessRules().iterator();
         
         while(itr.hasNext()) {
-            BusinessRule rule = itr.next();
+            BusinessRuleSet rule = itr.next();
             String ruleID = rule.getId();
             
-            System.out.println("\n\n");
-
             // 2. Extract compiled rule from drools repository
-            org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
-            //List<Object> factList = new ArrayList<Object>();
+            //org.drools.rule.Package binPkg = (org.drools.rule.Package) droolsRepository.loadCompiledRuleSet(ruleID);
+            String ruleSetSource = droolsRepository.loadRuleSet(ruleID).getContent();
 
             // 3. Inject facts
             PropositionContainer props =  new PropositionContainer();
-            props.setFunctionalRuleString(rule.getFunctionalRuleString());
-            CourseEnrollmentRequest request = new CourseEnrollmentRequest();
+            //props.setFunctionalRuleString(rule.getFunctionalRuleString());
+            CourseEnrollmentRequest request = new CourseEnrollmentRequest(rule.getBusinessRuleName());
             request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
 
-            //factList.add(props);
-            //factList.add(request);
-            FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
+            //FactContainer factContainer = new FactContainer(rule.getBusinessRuleName(), request, props);
+            FactContainer factContainer = new FactContainer(anchor.getId(), request, props);
 
             // 4. Execute the compiled rule
-            try {
+            /*try {
                 RuleBase rb = RuleBaseFactory.newRuleBase();
                 rb.addPackage(binPkg);
                 StatelessSession sess = rb.newStatelessSession();
@@ -83,27 +97,59 @@ public class EnforceRule {
                 System.out.println("Exception while executing rule:" + rule.getId());
                 e.printStackTrace(System.out);
                 // Eating exception here. BAD BAD Code!
-            }
+            }*/
+            /*executor.addRuleSet("validateLuiPersonRelation", new StringReader(ruleSetSource));
+            executor.execute("validateLuiPersonRelation", Arrays.asList(factContainer));
 
-            ruleReportBuilder.executeRule(props);
+            ruleReportBuilder.execute(props);
             
             // 5. Process rule outcome
             if (props.getRuleResult()) {
                 result.setSuccess(true);
                 result.setRuleMessage(props.getRuleReport().getSuccessMessage());
-                System.out.println(props.getRuleReport().getSuccessMessage());
+                System.out.println("Rule Report: "+props.getRuleReport().getSuccessMessage());
             } else {
                 result.setRuleMessage(props.getRuleReport().getFailureMessage());
-                System.out.println(props.getRuleReport().getFailureMessage());
+                System.out.println("Rule Report: "+props.getRuleReport().getFailureMessage());
             }
-
             
             // In POC we only process one rule
             break;
         }
-        
 
-        System.out.println("\n\n");
+        return result;
+    }*/
+
+    public ValidationResult validateLuiPersonRelation(String personID,
+            String luiID, String luiPersonRelationType, String relationState) {
+        RuleSetExecutor executor = new RuleSetExecutorDroolsImpl(this.droolsRepository);
+        ValidationResult result = new ValidationResult();
+
+        //1. Discover Agenda
+        AgendaRequest agendaRequest = new AgendaRequest( luiPersonRelationType, "course", "offered", relationState );
+        AnchorType type = new AnchorType( "course", "clu.type.course" );
+        Anchor anchor = new Anchor( luiID, luiID, type );
+        Agenda agenda = agendaDiscovery.getAgenda( agendaRequest, anchor );
+        
+        //2. Setup facts
+        CourseEnrollmentRequest request = new CourseEnrollmentRequest(anchor.getId());
+        request.setLuiIds(parseList("CPR 106,CPR 110,CPR 201,Math 105,Art 55"));
+        FactContainer factContainer = new FactContainer(anchor.getId(), request);
+
+        // 3. Execute Agenda with facts
+        executor.execute(agenda, Arrays.asList(factContainer));
+        
+        PropositionContainer props = factContainer.getPropositionContainer();
+
+        // 4. Process rule outcome
+        if (props.getRuleResult()) {
+            result.setSuccess(true);
+            result.setRuleMessage(props.getRuleReport().getSuccessMessage());
+            System.out.println("Rule Report: "+props.getRuleReport().getSuccessMessage());
+        } else {
+            result.setRuleMessage(props.getRuleReport().getFailureMessage());
+            System.out.println("Rule Report: "+props.getRuleReport().getFailureMessage());
+        }
 
         return result;
     }
