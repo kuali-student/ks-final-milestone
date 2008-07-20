@@ -1465,7 +1465,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * and therefore has no UUID or version. The rule set's name is the same 
      * as the <code>category</name> name.</p> 
      * 
-     * @param category Category rule belongs to
+     * @param category Category rules belong to
      * @return A dynamic rule set
      */
     public RuleSet loadRuleSetByCategory(String category) {
