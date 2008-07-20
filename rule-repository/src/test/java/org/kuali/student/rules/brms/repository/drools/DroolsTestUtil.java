@@ -46,11 +46,24 @@ public class DroolsTestUtil
 	 * First rule determines whether the minutes of the hour is even.
 	 * Rule takes <code>java.util.Calendar</code> as fact (package import).
 	 *  
-	 * @return a Drools' rule
+	 * @return a Drools rule
 	 */
-	public String getSimpleRule1() {
-		return 
-			"rule \"HelloDroolsEven\"" +
+    public String getSimpleRule1() {
+        return getSimpleRule1(null);
+    }
+
+    /**
+     * Gets a simple rule. 
+     * First rule determines whether the minutes of the hour is even.
+     * Rule takes <code>java.util.Calendar</code> as fact (package import).
+     * 
+     * @param ruleName Rule name
+     * @return a Drools rule
+     */
+    public String getSimpleRule1(String ruleName) {
+        ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
+        return 
+			"rule \"" + ruleName + "\"" +
 			"     when" +
 			"          now: Calendar()" +
 			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )" +
@@ -66,9 +79,14 @@ public class DroolsTestUtil
 	 *  
 	 * @return a Drools' rule
 	 */
-	public String getSimpleRule2() {
+    public String getSimpleRule2() {
+        return getSimpleRule2(null);
+    }
+
+	public String getSimpleRule2(String ruleName) {
+        ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
 		return 
-			"rule \"HelloDroolsOdd\"" +
+            "rule \"" + ruleName + "\"" +
 			"     when" +
 			"          now: Calendar()" +
 			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )" +
@@ -84,11 +102,26 @@ public class DroolsTestUtil
 	 * <code>org.kuali.student.rules.brms.repository.test.Message</code> 
 	 * as fact (package import).
 	 * 
-	 * @return a Drools' rule
+	 * @return a Drools rule
 	 */
-	public String getSimpleRule3() {
+    public String getSimpleRule3() {
+        return getSimpleRule3(null);
+    }
+
+    /**
+     * Gets a simple rule. 
+     * Rule determines whether the minutes of the hour is even.
+     * Rule takes <code>java.util.Calendar</code> and 
+     * <code>org.kuali.student.rules.brms.repository.test.Message</code> 
+     * as fact (package import).
+     * 
+     * @param ruleName Rule name
+     * @return a Drools rule
+     */
+	public String getSimpleRule3(String ruleName) {
+        ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
 		return 
-			"rule \"HelloDroolsEven\"" +
+            "rule \"" + ruleName + "\"" +
 			"     when" +
 			"          msg: Message()" +
 			"          now: Calendar()" +
@@ -105,11 +138,26 @@ public class DroolsTestUtil
 	 * <code>org.kuali.student.rules.brms.repository.test.Message</code> 
 	 * as fact (package import).
 	 * 
-	 * @return a Drools' rule
+	 * @return a Drools rule
 	 */
-	public String getSimpleRule4() {
+    public String getSimpleRule4() {
+        return getSimpleRule4(null);
+    }
+
+    /**
+     * Gets a simple rule. 
+     * rule determines whether the minutes of the hour is odd.
+     * Rule takes <code>java.util.Calendar</code> and 
+     * <code>org.kuali.student.rules.brms.repository.test.Message</code> 
+     * as fact (package import).
+     * 
+     * @param ruleName Rule name
+     * @return a Drools rule
+     */
+	public String getSimpleRule4(String ruleName) {
+        ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
 		return 
-			"rule \"HelloDroolsOdd\"" +
+        "rule \"" + ruleName + "\"" +
 			"     when" +
 			"          msg: Message()" +
 			"          now: Calendar()" +

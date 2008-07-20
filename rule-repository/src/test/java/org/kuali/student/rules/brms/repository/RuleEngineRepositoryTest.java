@@ -1470,4 +1470,64 @@ public class RuleEngineRepositoryTest {
         assertTrue( ruleSet.getRules().get(0).getCategoryNames().contains(category) );
         assertTrue( ruleSet.getRules().get(1).getCategoryNames().contains(category) );
     }
+
+    @Test
+    public void testLoadRuleSetByCategoryAndExecute() throws Exception {
+        // Create category for dynamic rule set
+        String category = "TestCategory";
+        String path = "/";
+        brmsRepository.createCategory(path, category, "A test category");
+        
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar;");
+        header.add("import org.kuali.student.rules.brms.repository.test.Message");
+
+        Rule rule1 = createRuleDRL("rule_1", "My new rule 1", category, 
+                droolsTestUtil.getSimpleRule3("rule_1"));
+        Rule rule2 = createRuleDRL("rule_2", "My new rule 2", category, 
+                droolsTestUtil.getSimpleRule4("rule_2"));
+        Rule rule3 = createRuleDRL("rule_3", "My new rule 3", category, 
+                droolsTestUtil.getSimpleRule3("rule_3"));
+        Rule rule4 = createRuleDRL("rule_4", "My new rule 4", category, 
+                droolsTestUtil.getSimpleRule4("rule_4"));
+        Rule rule5 = createRuleDRL("rule_5", "My new rule 5", category, 
+                droolsTestUtil.getSimpleRule3("rule_5"));
+        Rule rule6 = createRuleDRL("rule_6", "My new rule 6", category, 
+                droolsTestUtil.getSimpleRule4("rule_6"));
+
+        // Create rule set 1
+        RuleSet ruleSet1 = createRuleSet("RuleSet1", "Rule set 1", header);
+        ruleSet1.addRule(rule1);
+        ruleSet1.addRule(rule2);
+        ruleSet1 = brmsRepository.createRuleSet(ruleSet1);
+
+        // Create rule set 2
+        RuleSet ruleSet2 = createRuleSet("RuleSet2", "Rule set 2", header);
+        ruleSet2.addRule(rule3);
+        ruleSet2.addRule(rule4);
+        ruleSet2 = brmsRepository.createRuleSet(ruleSet2);
+
+        // Create rule set 3
+        RuleSet ruleSet3 = createRuleSet("RuleSet3", "Rule set 3", header);
+        ruleSet3.addRule(rule5);
+        ruleSet3.addRule(rule6);
+        ruleSet3 = brmsRepository.createRuleSet(ruleSet3);
+
+        // Load the dynamic rule set
+        RuleSet ruleSet = brmsRepository.loadRuleSetByCategory(category);
+        
+        assertEquals(6, ruleSet.getRules().size());
+
+        assertEquals(2, ruleSet.getHeaderList().size());
+        
+        org.drools.rule.Package pkg = (org.drools.rule.Package) brmsRepository.compileSource(new StringReader(ruleSet.getContent()));
+
+        assertNotNull(pkg);
+        assertTrue(pkg.isValid());
+
+        Message message = new Message();
+        Calendar calendar = Calendar.getInstance();
+        droolsTestUtil.executeRule(pkg, new Object[]{message, calendar});
+        assertTrue(message.getMessage().startsWith("Minute is "));
+    }
 }
