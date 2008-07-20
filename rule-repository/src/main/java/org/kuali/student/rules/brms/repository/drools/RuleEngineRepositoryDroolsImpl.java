@@ -46,7 +46,6 @@ import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
 import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.brms.repository.drools.rule.DroolsConstants;
-import org.kuali.student.rules.brms.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.rules.brms.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.brms.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsException;
