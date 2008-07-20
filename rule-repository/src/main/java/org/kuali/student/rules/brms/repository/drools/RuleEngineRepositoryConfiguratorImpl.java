@@ -73,7 +73,7 @@ public class RuleEngineRepositoryConfiguratorImpl
         }
     }
 
-    private class PrivateTransientRepository extends TransientRepository {
+    private static class PrivateTransientRepository extends TransientRepository {
         /**
          * Constructor.
          * 
@@ -94,7 +94,7 @@ public class RuleEngineRepositoryConfiguratorImpl
 
     }
     
-    private class PrivateRepositoryFactory implements RepositoryFactory {
+    private static class PrivateRepositoryFactory implements RepositoryFactory {
 
         /**
          * Configuration location for <code>repository.xml</code>.
