@@ -20,12 +20,11 @@
 	</parent>
 
 	<dependencies>
-	<!--
 		<dependency>
-			<groupId>org.apache.velocity</groupId>
+			<groupId>velocity</groupId>
 			<artifactId>velocity</artifactId>
-			<version>1.5</version>
 		</dependency>
+	<!--
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>inspect-rule-failure</artifactId>
