@@ -447,6 +447,13 @@
 				<version>2.7.7</version>
 			</dependency>
 
+			<!-- Velocity (used by cxf & brms) -->
+			<dependency>
+				<groupId>velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>1.4</version>			
+			</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 
