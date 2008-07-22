@@ -6,8 +6,11 @@ var minValue = getAttributeNumber("minValue", defaultMinValue);
 var maxValue = getAttributeNumber("maxValue", defaultMaxValue);
 
 var value = getValueString();
+
 if (typeof(value) == "undefined" || value == null || trim(value).length == 0) {
-    if (getAttributeBoolean("isRequired", false)) {
+	// hack to work around bug in getAttributeBoolean
+	// TODO fix getAttributeBoolean
+    if (getAttributeString("required") == "true") {
         addError(getMessage("isRequired"));
     }
 } else {

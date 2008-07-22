@@ -105,7 +105,8 @@ public class Logger {
 		reset();
 		DeferredCommand.addCommand(new Command() {
 			public void execute() {
-				LogService.Util.getInstance().log(context, messages, new AsyncCallback<Boolean>() {
+			    String log = formatLog(messages);
+				LogService.Util.getInstance().sendLog(context, log, new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
 						throw new LogFailedException(caught);
 					}
@@ -118,4 +119,27 @@ public class Logger {
 		});
 	}
 	
+    private static String formatLog(List<LogMessage> messages) {
+        StringBuilder s = new StringBuilder();
+        for (LogMessage lm : messages) {
+            s.append(lm.getLogLevel().toString());
+            s.append(":\t");
+            s.append(lm.getMessage());
+            Throwable t = lm.getError();
+            if (t != null) {
+                appendStackTrace(t, s);
+            }
+        }
+        return s.toString();
+    }
+    
+    private static void appendStackTrace(Throwable t, StringBuilder s) {
+        s.append(t.toString());
+        s.append(": at\n");
+        StackTraceElement[] stack = t.getStackTrace();
+        for (StackTraceElement frame : stack) {
+            s.append(frame.toString());
+            s.append("\n");
+        }
+    }
 }

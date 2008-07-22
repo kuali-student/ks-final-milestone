@@ -149,6 +149,7 @@ public class ClientValidator implements Validator {
        		if (typeof(defaultValue) == 'undefined') {
        			defaultValue = null;
        		}
+       		var result;
        		var v = attributes.@java.util.Map::get(Ljava/lang/Object;)(key);
        		if (typeof(v) == 'undefined' || v == null) {
        			result = defaultValue;

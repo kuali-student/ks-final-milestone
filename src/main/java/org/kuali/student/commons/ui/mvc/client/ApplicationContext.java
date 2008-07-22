@@ -17,7 +17,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * Global object to be used for configuration information, etc, that is shared by all controllers in a given page.
  */
 public class ApplicationContext {
-    static String locale;
+    // default locale of "en"
+    static String locale = "en";
     static SecurityContext securityContext;
     static Map<String, ViewMetaData> views = new HashMap<String, ViewMetaData>();
     static EventDispatcher globalEventDispatcher = new EventDispatcher();

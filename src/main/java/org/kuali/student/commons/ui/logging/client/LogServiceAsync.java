@@ -12,5 +12,5 @@ public interface LogServiceAsync {
      * @param messages the messages to log
      * @param callback callback to be invoked on response
      */
-    public void log(Map<String, String> clientContextInfo, List<LogMessage> messages, AsyncCallback<Boolean> callback);
+    public void sendLog(Map<String, String> clientContextInfo, String log, AsyncCallback<Boolean> callback);
 }

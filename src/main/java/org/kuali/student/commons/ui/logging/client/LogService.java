@@ -39,5 +39,5 @@ public interface LogService extends RemoteService {
      * @param clientContextInfo any configuration or runtime information about the client
      * @param messages the messages to log
      */
-    public Boolean log(Map<String, String> clientContextInfo, List<LogMessage> messages);
+    public Boolean sendLog(Map<String, String> clientContextInfo, String log);
 }
