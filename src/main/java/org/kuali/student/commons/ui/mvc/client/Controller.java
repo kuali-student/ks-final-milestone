@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public abstract class Controller extends Composite  {
     private final EventDispatcher dispatcher = new EventDispatcher();
-    private final Map<Class<? extends ModelObject>, Model<? extends ModelObject>> models = new HashMap<Class<? extends ModelObject>, Model<? extends ModelObject>>();
+    private final Map<Class<?>, Model<? extends ModelObject>> models = new HashMap<Class<?>, Model<? extends ModelObject>>();
 
     /**
      * Returns the event dispatcher associated with this controller.
@@ -32,7 +32,7 @@ public abstract class Controller extends Composite  {
      *            the Class of the ModelObject type for which to retrieve a Model
      * @return Model for the specified ModelObject type, or null if not initialized at any level
      */
-    public Model<? extends ModelObject> getModel(final Class<? extends ModelObject> modelObjectType) {
+    public Model<? extends ModelObject> getModel(final Class<?> modelObjectType) {
 
         Model<? extends ModelObject> result = models.get(modelObjectType);
 
@@ -54,7 +54,7 @@ public abstract class Controller extends Composite  {
      * @param model
      *            the Model to add
      */
-    protected void initializeModel(final Class<? extends ModelObject> modelObjectType, final Model<? extends ModelObject> model) {
+    protected void initializeModel(final Class<?> modelObjectType, final Model<? extends ModelObject> model) {
         if (!models.containsKey(modelObjectType)) {
             models.put(modelObjectType, model);
         }
