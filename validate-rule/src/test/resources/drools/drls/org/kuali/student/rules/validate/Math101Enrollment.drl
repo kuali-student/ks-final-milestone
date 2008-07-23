@@ -22,7 +22,7 @@ import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
 import org.kuali.student.rules.util.FactContainer.State;
 
-rule "Math101_INIT"
+rule "Math101_INIT" //ruleflow-group "Math101"
     no-loop true
     lock-on-active true
     when
@@ -46,7 +46,7 @@ rule "Math101_INIT"
         update(cont);
 end
 
-rule "Math101"
+rule "Math101" //ruleflow-group "Math101"
     no-loop true
     when
         FactContainer( id == "Math101", state == FactContainer.State.DONE, prop : propositionContainer )

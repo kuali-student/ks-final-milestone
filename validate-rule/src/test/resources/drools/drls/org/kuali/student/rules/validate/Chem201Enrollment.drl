@@ -22,7 +22,7 @@ import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.util.FactContainer;
 import org.kuali.student.rules.util.FactContainer.State;
 
-rule "Chem201_INIT"
+rule "Chem201_INIT" //ruleflow-group "Chem201"
     no-loop true
     lock-on-active true
     when
@@ -42,7 +42,7 @@ rule "Chem201_INIT"
         update(cont);
 end
 
-rule "Chem201"
+rule "Chem201" //ruleflow-group "Chem201"
     no-loop true
     when
         FactContainer( id == "Chem201", state == FactContainer.State.DONE, prop : propositionContainer )
