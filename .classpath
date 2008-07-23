@@ -12,14 +12,14 @@
 	</classpathentry>
 	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/resources"/>
 	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/resources"/>
-	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/java"/>
-	<classpathentry kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/java"/>
-	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/resources"/>
-	<classpathentry kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/resources"/>
-	<classpathentry kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/java"/>
-	<classpathentry kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/java"/>
-	<classpathentry kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/resources"/>
-	<classpathentry kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/resources"/>
+	<classpathentry kind="src" output="rules-execution/target/classes" path="rules-execution/src/main/java"/>
+	<classpathentry kind="src" output="rules-execution/target/test-classes" path="rules-execution/src/test/java"/>
+	<classpathentry kind="src" output="rules-execution/target/classes" path="rules-execution/src/main/resources"/>
+	<classpathentry kind="src" output="rules-execution/target/test-classes" path="rules-execution/src/test/resources"/>
+	<classpathentry kind="src" output="rules-repository/target/classes" path="rules-repository/src/main/java"/>
+	<classpathentry kind="src" output="rules-repository/target/test-classes" path="rules-repository/src/test/java"/>
+	<classpathentry kind="src" output="rules-repository/target/classes" path="rules-repository/src/main/resources"/>
+	<classpathentry kind="src" output="rules-repository/target/test-classes" path="rules-repository/src/test/resources"/>
 	<classpathentry kind="src" output="validate-rule/target/classes" path="validate-rule/src/main/java"/>
 	<classpathentry kind="src" output="validate-rule/target/classes" path="validate-rule/src/main/resources"/>
 	<classpathentry kind="src" output="validate-rule/target/test-classes" path="validate-rule/src/test/java"/>
