@@ -3,8 +3,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>rule-execution</artifactId>
-	<name>Kuali Student BRMS - rule-execution</name>
+	<artifactId>rules-execution</artifactId>
+	<name>Kuali Student BRMS - rules-execution</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
 		Rule execution

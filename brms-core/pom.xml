@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
-            <artifactId>rule-execution</artifactId>
+            <artifactId>rules-execution</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 	</dependencies>
