@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
-import org.kuali.student.rules.brms.repository.RuleEngineRepository;
 import org.kuali.student.rules.internal.common.agenda.AgendaRequest;
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
@@ -31,6 +30,7 @@ import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl;

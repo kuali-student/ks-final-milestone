@@ -45,11 +45,11 @@
     <property name="ldb" ref="loadDataBean" />
   </bean>    
     	
-	<bean id="droolsRepository" class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+	<bean id="droolsRepository" class="org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl">
 		<constructor-arg type="org.drools.repository.RulesRepository" ref="rulesRepository"/>
 	</bean>
 
-	<bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"
+	<bean id="defaultDroolsRepositoryContainer" class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
 		  destroy-method="shutdown">
 		<constructor-arg type="java.lang.String" value="/drools-repository"/>
 	</bean>

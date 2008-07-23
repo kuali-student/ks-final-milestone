@@ -22,14 +22,14 @@ import java.util.List;
 
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
-import org.kuali.student.rules.brms.repository.RuleEngineRepository;
-import org.kuali.student.rules.brms.repository.exceptions.CategoryExistsException;
-import org.kuali.student.rules.brms.repository.exceptions.RuleEngineRepositoryException;
-import org.kuali.student.rules.brms.repository.exceptions.RuleExistsException;
-import org.kuali.student.rules.brms.repository.exceptions.RuleSetExistsException;
-import org.kuali.student.rules.brms.repository.rule.CompilerResultList;
-import org.kuali.student.rules.brms.repository.rule.Rule;
-import org.kuali.student.rules.brms.repository.rule.RuleSet;
+import org.kuali.student.rules.repository.RuleEngineRepository;
+import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
+import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
+import org.kuali.student.rules.repository.exceptions.RuleExistsException;
+import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
+import org.kuali.student.rules.repository.rule.CompilerResultList;
+import org.kuali.student.rules.repository.rule.Rule;
+import org.kuali.student.rules.repository.rule.RuleSet;
 
 public class RuleEngineRepositoryMock implements RuleEngineRepository {
 
