@@ -8,5 +8,5 @@
 	<inherits name="org.kuali.student.commons.ui.Validators"/>
 	<inherits name="org.kuali.student.commons.ui.ViewMetaData"/>
 	<inherits name="org.kuali.student.commons.ui.Widgets"/>
-	<stylesheet src="GWT-default.css" />
+	<!-- <stylesheet src="GWT-default.css" />  -->
 </module>
