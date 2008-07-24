@@ -2,143 +2,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>brms-impl-pom</artifactId>
+		<groupId>org.kuali.student.brms</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>org.kuali.student.poc</groupId>
-	<artifactId>ks-poc</artifactId>
+	<groupId>org.kuali.student.brms</groupId>
+	<artifactId>brms-web-pom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 	<name />
 	<description />
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.0</version>
-				<configuration>
-					<!-- no default value -->
-					<dependentWarExcludes>
-						WEB-INF/lib/cxf**, WEB-INF/lib/common-ws-**,
-						WEB-INF/lib/lu-api-**,
-						WEB-INF/lib/luipersonrelation-api-**,
-						WEB-INF/lib/personidentity-api-**,
-						WEB-INF/lib/org.kuali.student.**,
-						WEB-INF/lib/spring-**,
-					</dependentWarExcludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.7</version>
-				<configuration>
-					<webAppConfig>
-						<contextPath>
-							/${project.artifactId}-${project.version}
-						</contextPath>
-					</webAppConfig>
-					<systemProperties>
-						<systemProperty>
-							<name>catalina.base</name>
-							<value>target</value>
-						</systemProperty>
-					</systemProperties>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
-				<configuration>
-					<path>
-						/${project.artifactId}-${project.version}
-					</path>
-					<warDirectory>
-						${project.build.directory}/${project.build.finalName}
-					</warDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.personidentity-app</groupId>
-			<artifactId>personidentity-app</artifactId>
-			<version>0.0.1-RC2</version>
-			<type>war</type>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.student.poc.personidentity</groupId>
-			<artifactId>person-ri</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.personidentity</groupId>
-			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>lu-ri</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>luipersonrelation-ri</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<version>10.3.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.3.0</version>
-		</dependency>
-	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate</artifactId>
-				<version>3.2.6.ga</version>
-				<exclusions>
-					<exclusion>
-						<groupId>asm</groupId>
-						<artifactId>asm-attrs</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>cglib</groupId>
-						<artifactId>cglib</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring</artifactId>
-				<version>2.5.4</version>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<modules>
+		<module>rule-management-web</module>
+	</modules>
 
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
 			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>kuali.snapshot</id>
@@ -148,5 +35,4 @@
 			</releases>
 		</repository>
 	</repositories>
-
 </project>
