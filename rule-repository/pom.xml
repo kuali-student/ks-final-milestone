@@ -11,7 +11,7 @@
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>rule-repository</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name />
 	<description />
 </project>
