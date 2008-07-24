@@ -46,13 +46,13 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest{
     public static final String lpr_id4 = "11223344-1122-1122-1111-000000000004";
     public static final String lpr_id5 = "11223344-1122-1122-1111-000000000005";
 
-    public static final String rulePerson_id1 = "Rules Person 1";
+    public static final String rulePerson_id1 = "Rules Person 2";
     public static final String ruleLui_id1 = "CPR 106";
     public static final String ruleLui_id2 = "CPR 110";
     public static final String ruleLui_id3 = "MATH 105";
     public static final String ruleLui_id4 = "ART 55";
     
-    public static final String ruleLuiAnchor_id = "CPR 201";
+    public static final String ruleLuiAnchor_id = "CPR 2012";
 
     public LuiPersonRelationTypeInfo lprTypeInfo;
     public RelationStateInfo relationStateInfo;
