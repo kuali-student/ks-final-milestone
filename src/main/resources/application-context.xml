@@ -33,10 +33,35 @@
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="${ks.application.properties}" />
+		<property name="location" value="classpath:application.properties" />
 	</bean>
 
+	<!--  rules beans -->
+	<bean id="lprEntityManager"
+		factory-bean="luprEntityManagerFactory"
+		factory-method="createEntityManager"/>
+	
+	<bean id="businessRuleDAO"
+		class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
+		<property name="entityManager" ref="lprEntityManager"/>
+	</bean>
 
+	<bean id="droolsRepository"
+		class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
+		<constructor-arg type="org.drools.repository.RulesRepository"
+			ref="rulesRepository" />
+	</bean>
+
+	<bean id="defaultDroolsRepositoryContainer"
+		class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"
+		destroy-method="shutdown">
+		<constructor-arg type="java.lang.String"
+			value="/drools-repository" />
+	</bean>
+
+	<bean id="rulesRepository"
+		factory-bean="defaultDroolsRepositoryContainer"
+		factory-method="getRepository" />
 
 	<!-- web service clients  -->
 
@@ -93,6 +118,8 @@
 		</property>
 		<property name="luClient" ref="luClient" />
 		<property name="personClient" ref="personClient" />
+		<property name="businessRuleDAO" ref="businessRuleDAO"/>
+		<property name="droolsRepository" ref="droolsRepository"/>
 	</bean>
 
 	<!-- jpa / jta -->
@@ -107,7 +134,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${ks.application.properties}" />
+					value="classpath:application.properties" />
 				<property name="prefix"
 					value="jdbc.xaDataSourceProperties" />
 			</bean>
@@ -132,7 +159,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${ks.application.properties}" />
+					value="classpath:application.properties" />
 				<property name="prefix" value="jpa.person" />
 			</bean>
 		</property>
@@ -148,7 +175,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${ks.application.properties}" />
+					value="classpath:application.properties" />
 				<property name="prefix" value="jpa.lu" />
 			</bean>
 		</property>
@@ -164,7 +191,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="${ks.application.properties}" />
+					value="classpath:application.properties" />
 				<property name="prefix" value="jpa.lupr" />
 			</bean>
 		</property>
@@ -238,6 +265,9 @@
 				</entry>
 				<entry key="Person">
 					<ref bean="personBeanPreloadList" />
+				</entry>
+				<entry key="LuiPersonRelation">
+					<ref bean="persistRulesList" />
 				</entry>
 			</map>
 		</property>
