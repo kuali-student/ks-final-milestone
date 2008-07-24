@@ -131,6 +131,7 @@ public class RuleSetTest {
         assertEquals( header, ruleSet.getHeaderList().get(0) );
     }
 
+    @Test
     public void testRuleSetWithDuplicateHeader() {
         RuleSet ruleSet = RuleUtil.createRuleSet( "ruleSet1" );
         String header = "import java.util.Calendar;";
