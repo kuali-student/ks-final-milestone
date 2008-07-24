@@ -16,6 +16,9 @@
 	<description />
 	
 	<modules>
+		<module>fact-finder</module>
+		<module>rule-execution</module>
+		<module>rule-management</module>
 		<module>rule-repository</module>
 	</modules>
 	
