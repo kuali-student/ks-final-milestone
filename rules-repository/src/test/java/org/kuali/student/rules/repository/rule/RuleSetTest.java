@@ -131,6 +131,17 @@ public class RuleSetTest {
         assertEquals( header, ruleSet.getHeaderList().get(0) );
     }
 
+    public void testRuleSetWithDuplicateHeader() {
+        RuleSet ruleSet = RuleUtil.createRuleSet( "ruleSet1" );
+        String header = "import java.util.Calendar;";
+        String duplicateHeader = "import java.util.Calendar;";
+        ruleSet.addHeader(header);
+        ruleSet.addHeader(duplicateHeader);
+
+        assertEquals( 1, ruleSet.getHeaderList().size() );
+        assertEquals( header, ruleSet.getHeaderList().get(0) );
+    }
+
     public void testRuleSetAddHeader_WithMissingSimicolon() {
         RuleSet ruleSet = RuleUtil.createRuleSet( "ruleSet1" );
         String header = "import java.util.Calendar";
