@@ -587,14 +587,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             }
         }
 
+        /* Current Hack is to return true unless the rule explicitly says no */
         ValidationResult validationResult = new ValidationResult();
+        validationResult.setSuccess(true);
+        
         GenerateRuleReport ruleReportBuilder = new GenerateRuleReport();
 
         // 1. Discover Agenda
 
         AgendaRequest agendaRequest = new AgendaRequest(luiPersonRelationTypeInfo.getName(), "course", "offered", relationStateInfo.getState());
         AnchorType type = new AnchorType("course", "clu.type.course");
-        Anchor anchor = new Anchor(luiId.replaceAll("\\s", "_"), "CPR 201", type);
+        Anchor anchor = new Anchor(luiId.replaceAll("\\s", "_"), luiId, type);
 
         Agenda agenda = agendaDiscovery.getAgenda(agendaRequest, anchor);
 
