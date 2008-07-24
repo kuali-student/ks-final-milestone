@@ -1,3 +1,7 @@
+.KS-RoundedComposite {
+	cell-spacing: 0;
+}
+
 .KS-RoundedComposite-TopMiddle {
     background: transparent url(images/rounded-panel-topmiddle.gif) repeat-x;
 }
@@ -12,4 +16,7 @@
 
 .KS-RoundedComposite-BottomMiddle {
     background: transparent url(images/rounded-panel-bottommiddle.gif) repeat-x;
+}
+.KS-RoundedComposite-Center {
+	background: #d5cbcb;
 }

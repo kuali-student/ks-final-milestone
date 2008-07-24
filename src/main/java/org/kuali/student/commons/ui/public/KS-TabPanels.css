@@ -1,0 +1,99 @@
+.gwt-TabBar {
+	background: #d5cbcb;
+	padding: 0px;
+}
+
+.gwt-TabBar .gwt-TabBarFirst {
+	padding: 0px;
+}
+
+.gwt-TabBar .gwt-TabBarRest {
+	padding: 0px;
+	
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+	height: 30px;
+	width: 120px;
+	padding: 0px;
+	font-size: 9pt;
+	font-color: black;
+	font-weight: normal;
+	background: #d5cbcb url(images/ks-tab-unselected.gif) no-repeat left top;
+	text-align: center;
+	vertical-align: center;
+	cursor: pointer;
+}
+
+.gwt-TabBar .gwt-TabBarItem-wrapper {
+	padding: 0px;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected {
+	height: 30px;
+	width: 120px;
+	padding: 0px;
+	font-size: 9pt;
+	font-color: #a25353;
+	font-weight: bold;
+	background: #d5cbcb url(images/ks-tab-selected.gif) no-repeat left top;
+	text-align: center;
+	vertical-align: center;
+	cursor: default;
+}
+
+.gwt-TabBar .gwt-TabBarItem-wrapper-selected {
+	padding: 0px;
+}
+
+.gwt-TabPanel {
+	padding: 0px;	
+}
+
+
+
+.gwt-TabBar-Nested {
+	background: #d5cbcb;
+	vertical-align: top;
+}
+
+.gwt-TabBar-Nested .gwt-TabBarFirst {
+	padding: 0px;
+}
+
+.gwt-TabBar-Nested .gwt-TabBarRest {
+	padding: 0px;
+}
+
+.gwt-TabBar-Nested .gwt-TabBarItem {
+	height: 18px;
+	width: 120px;
+	padding: 0px;
+	font-size: 9pt;
+	color: #FFFFFF;
+	font-weight: normal;
+	background: #7c1d3a;
+	text-align: center;
+	vertical-align: center;
+	cursor: pointer;
+}
+
+.gwt-TabBar-Nested .gwt-TabBarItem-wrapper {
+}
+
+.gwt-TabBar-Nested .gwt-TabBarItem-selected {
+	height: 18px;
+	width: 120px;
+	padding: 0px;
+	font-size: 9pt;
+	color: #FFFFFF;
+	font-weight: bold;
+	background: ##7c1d3a;
+	text-align: center;
+	vertical-align: center;
+	cursor: default;
+}
+
+.gwt-TabBar-Nested .gwt-TabBarItem-wrapper-selected {
+}
+
