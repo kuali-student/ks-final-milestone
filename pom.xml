@@ -72,6 +72,12 @@
 		    <artifactId>js</artifactId>
 		    <version>1.7R1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-incubator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 
 	</dependencies>
 
