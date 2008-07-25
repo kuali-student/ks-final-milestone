@@ -33,6 +33,17 @@ public class RoundedComposite extends Composite {
         panel.setCellPadding(0);
         panel.setCellSpacing(0);
         
+        panel.getCellFormatter().setHeight(0, 0, "16px");
+        panel.getCellFormatter().setHeight(0, 2, "16px");
+        panel.getCellFormatter().setHeight(2, 0, "19px");
+        panel.getCellFormatter().setHeight(2, 2, "19px");
+        
+        
+        panel.getCellFormatter().setWidth(0, 0, "17px");
+        panel.getCellFormatter().setWidth(0, 2, "17px");
+        panel.getCellFormatter().setWidth(2, 0, "17px");
+        panel.getCellFormatter().setWidth(2, 2, "17px");
+        
         super.initWidget(panel);
     }
 

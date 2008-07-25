@@ -41,6 +41,7 @@ public class ModelTableHeaderLabel extends Composite implements HasText {
         panel.add(sortedDescending);
         sortedAscending.addStyleName(ExposedStyles.MODELTABLE_SORTIMAGE.toString());
         sortedDescending.addStyleName(ExposedStyles.MODELTABLE_SORTIMAGE.toString());
+        label.setStyleName(ExposedStyles.MODELTABLE_COLUMN_HEADER.toString());
         panel.setWidth("100%");
         clearSorted();
         super.initWidget(panel);
