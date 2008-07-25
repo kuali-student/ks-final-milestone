@@ -67,6 +67,7 @@ import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.test.Email;
 import org.kuali.student.rules.repository.test.Message;
+import org.kuali.student.rules.util.RuleSetUtil;
 
 /**
  * This is a Drools rules engine repository test class. 
@@ -83,6 +84,8 @@ public class RuleEngineRepositoryTest {
     private static DroolsTestUtil droolsTestUtil = DroolsTestUtil.getInstance();
     /** Rule engine utility class */
     private RuleEngineUtil ruleEngineUtil = RuleEngineUtil.getInstance();
+    /** Rule set utility class */
+    private final RuleSetUtil ruleSetUtil = RuleSetUtil.getInstance();
     
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -159,15 +162,9 @@ public class RuleEngineRepositoryTest {
         return ruleSet;
     }
 
-    private void assertRule( Rule rule1, Rule rule2) throws Exception {
+    private void assertRuleEquals( Rule rule1, Rule rule2) throws Exception {
         assertEquals( rule1.getName(), rule2.getName() );
         assertEquals( rule1.getContent(), rule2.getContent() );
-    }
-
-    private void assertRuleSet( RuleSet ruleSet1 , RuleSet ruleSet2) throws Exception {
-        assertEquals( ruleSet1.getName(), ruleSet2.getName() );
-        assertEquals( ruleSet1.getDescription(), ruleSet2.getDescription() );
-        assertEquals( ruleSet1.getHeader(), ruleSet2.getHeader() );
     }
 
     @Test
@@ -261,6 +258,28 @@ public class RuleEngineRepositoryTest {
 
         assertNotNull(ruleSet2);
         assertFalse(ruleSet1.equals(ruleSet2));
+    }
+    
+    @Test
+    public void testRemoveRuleSetSnapshot() throws Exception {
+        RuleSet ruleSet1 = createSimpleRuleSet("MyRuleSet");
+        // Create snapshot
+        brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+                "Snapshot Version 1");
+        // Load snapshot
+        RuleSet actualRuleSet = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
+
+        assertNotNull(actualRuleSet);
+        assertFalse(ruleSet1.equals(actualRuleSet));
+        // Remove snapshot
+        brmsRepository.removeRuleSetSnapshot(actualRuleSet.getName(), actualRuleSet.getSnapshotName());
+        // Load snapshot
+        try {
+            actualRuleSet = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
+            fail("Loading snapshot should fail since it should not exist");
+        } catch (RuleEngineRepositoryException e) {
+            assertTrue(true);
+        }
     }
     
     @Test
@@ -610,11 +629,11 @@ public class RuleEngineRepositoryTest {
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
         // Rule Set 
-        assertRuleSet(ruleSet1, ruleSet2);
+        ruleSetUtil.assertRuleSetEquals(ruleSet1, ruleSet2);
         // Rule 1 
-        assertRule(ruleSet1.getRules().get(0), ruleSet2.getRules().get(0));
+        assertRuleEquals(ruleSet1.getRules().get(0), ruleSet2.getRules().get(0));
         // Rule 2 
-        assertRule(ruleSet1.getRules().get(1), ruleSet2.getRules().get(1));
+        assertRuleEquals(ruleSet1.getRules().get(1), ruleSet2.getRules().get(1));
     }
 
     @Test
@@ -638,11 +657,11 @@ public class RuleEngineRepositoryTest {
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSetByName(ruleSet.getName());
         // Rule Set 
-        assertRuleSet(ruleSet, ruleSet2);
+        ruleSetUtil.assertRuleSetEquals(ruleSet, ruleSet2);
         // Rule 1 
-        assertRule(ruleSet.getRules().get(0), ruleSet2.getRules().get(0));
+        assertRuleEquals(ruleSet.getRules().get(0), ruleSet2.getRules().get(0));
         // Rule 2 
-        assertRule(ruleSet.getRules().get(1), ruleSet2.getRules().get(1));
+        assertRuleEquals(ruleSet.getRules().get(1), ruleSet2.getRules().get(1));
     }
 
     @Test
