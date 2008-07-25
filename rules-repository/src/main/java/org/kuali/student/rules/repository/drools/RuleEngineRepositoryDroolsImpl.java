@@ -825,6 +825,31 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
+     * 
+     * Removes a rule set snapshot. 
+     * 
+     * @param ruleSetName Rule set name
+     * @param snapshotName Snapshot name
+     * @throws RuleEngineRepositoryException Thrown if snapshot fails to be removed or any other errors occur
+     */
+    public void removeRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
+            throw new IllegalArgumentException("snapshotName cannot be null or empty");
+        }
+
+        try {
+            this.repository.removePackageSnapshot(ruleSetName, snapshotName);
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException(
+                    "Removing rule set snapshot failed: " + "ruleSetName="
+                            + ruleSetName + ", snapshotName=" + snapshotName, e);
+        }
+        this.repository.save();
+    }
+
+    /**
      * Removes a category.
      * 
      * @param categoryPath

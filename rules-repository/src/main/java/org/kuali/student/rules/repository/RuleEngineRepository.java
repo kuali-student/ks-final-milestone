@@ -533,6 +533,16 @@ public interface RuleEngineRepository {
     public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
 
     /**
+     * 
+     * Removes a rule set snapshot. 
+     * 
+     * @param ruleSetName Rule set name
+     * @param snapshotName Snapshot name
+     * @throws RuleEngineRepositoryException Thrown if snapshot fails to be removed or any other errors occur
+     */
+    public void removeRuleSetSnapshot(final String ruleSetName, final String snapshotName);
+
+    /**
      * Removes a category.
      * 
      * @param categoryPath
