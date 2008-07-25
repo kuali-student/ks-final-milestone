@@ -191,6 +191,10 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
+    public void removeRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
     @Override
     public String createStatus(String name) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
