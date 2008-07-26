@@ -67,7 +67,6 @@ import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.test.Email;
 import org.kuali.student.rules.repository.test.Message;
-import org.kuali.student.rules.util.RuleSetUtil;
 
 /**
  * This is a Drools rules engine repository test class. 
@@ -84,8 +83,6 @@ public class RuleEngineRepositoryTest {
     private static DroolsTestUtil droolsTestUtil = DroolsTestUtil.getInstance();
     /** Rule engine utility class */
     private RuleEngineUtil ruleEngineUtil = RuleEngineUtil.getInstance();
-    /** Rule set utility class */
-    private final RuleSetUtil ruleSetUtil = RuleSetUtil.getInstance();
     
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -162,6 +159,12 @@ public class RuleEngineRepositoryTest {
         return ruleSet;
     }
 
+    private void assertRuleSetEquals( RuleSet ruleSet1 , RuleSet ruleSet2) {
+        assertEquals( ruleSet1.getName(), ruleSet2.getName() );
+        assertEquals( ruleSet1.getDescription(), ruleSet2.getDescription() );
+        assertEquals( ruleSet1.getHeader(), ruleSet2.getHeader() );
+    }
+    
     private void assertRuleEquals( Rule rule1, Rule rule2) throws Exception {
         assertEquals( rule1.getName(), rule2.getName() );
         assertEquals( rule1.getContent(), rule2.getContent() );
@@ -629,7 +632,7 @@ public class RuleEngineRepositoryTest {
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
         // Rule Set 
-        ruleSetUtil.assertRuleSetEquals(ruleSet1, ruleSet2);
+        assertRuleSetEquals(ruleSet1, ruleSet2);
         // Rule 1 
         assertRuleEquals(ruleSet1.getRules().get(0), ruleSet2.getRules().get(0));
         // Rule 2 
@@ -657,7 +660,7 @@ public class RuleEngineRepositoryTest {
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSetByName(ruleSet.getName());
         // Rule Set 
-        ruleSetUtil.assertRuleSetEquals(ruleSet, ruleSet2);
+        assertRuleSetEquals(ruleSet, ruleSet2);
         // Rule 1 
         assertRuleEquals(ruleSet.getRules().get(0), ruleSet2.getRules().get(0));
         // Rule 2 
