@@ -25,7 +25,7 @@
 		<module>rules-repository</module>
 		<module>rules-execution</module>
         <module>facts</module>
-        <module>validate-rule</module>
+        <!--module>integration-tests</module-->
 	</modules>
 
 	<scm>

@@ -5,8 +5,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>validate-rule</artifactId>
-	<name>Kuali Student BRMS - validate-rule</name>
+	<artifactId>integration-tests</artifactId>
+	<name>Kuali Student BRMS - integration-tests</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
 		Bridges various components of the Kuali Rule System
@@ -17,6 +17,66 @@
 		<artifactId>brms-ri</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
+    <build>
+        <finalName>rules-repository</finalName>
+        <pluginManagement>
+            <plugins>
+                <!--plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+	                    <argLine>-Xmx1024m -Xms1024m -XX:PermSize=128m -XX:MaxPermSize=384m</argLine>
+                    </configuration>
+                </plugin-->
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>installation</id>
+                            <phase>install</phase>
+                            <configuration>
+                                <skip>false</skip>
+                                <excludes>
+                                    <exclude>org/kuali/student/rules/performance/**</exclude>
+                                </excludes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>unit-tests</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <skip>false</skip>
+                                <excludes>
+                                    <exclude>org/kuali/student/rules/performance/**</exclude>
+                                </excludes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>integration-tests</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <argLine>-Xmx1024m -Xms1024m -XX:PermSize=128m -XX:MaxPermSize=384m</argLine>
+                                <skip>false</skip>
+                                <includes>
+                                    <include>org/kuali/student/rules/performance/**</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 	<dependencies>
 		<dependency>
