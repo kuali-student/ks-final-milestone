@@ -50,22 +50,35 @@ public class Function {
      * validated in the constructor Function() Function example A0*B4+(C*D)
      */
     public List<String> getSymbols() {
+        String workString = null;
         // remove spaces
         functionString = functionString.replaceAll("\\s+", "");
+        
+        workString = functionString;
 
-        for (int i = 0; i < functionString.length(); i++) {
-
-            if (i + 2 <= functionString.length()) {
-                String aSubStr = functionString.substring(i, i + 2);
-                if (aSubStr.matches("[A-Z][0-9]")) {
-                    symbols.add(functionString.substring(i, i + 2));
-                    i++;
-                } else {
-                    symbols.add(functionString.substring(i, i + 1));
-                }
+        while (workString != null && workString.length() > 0) {
+          String propositionKeyPattern = "^[A-Z][0-9]*";
+          String restOfFunctionString = null;
+          String theSymbol = null;
+          int restOfFunctionStringStartIndex = 0;
+          if (workString.matches(propositionKeyPattern + ".*")) {
+            restOfFunctionString = workString.replaceFirst(
+                propositionKeyPattern,"");
+            restOfFunctionStringStartIndex = workString.indexOf(
+                restOfFunctionString);
+            if (restOfFunctionStringStartIndex <= 0) {
+              theSymbol = workString;
+              workString = "";
             } else {
-                symbols.add(functionString.substring(i, i + 1));
+              theSymbol = workString.substring(0,
+                  restOfFunctionStringStartIndex);
+              workString = restOfFunctionString;
             }
+          } else {
+            theSymbol = workString.substring(0,1);
+            workString = workString.substring(1,workString.length());
+          }
+          symbols.add(theSymbol);
         }
         return symbols;
     }

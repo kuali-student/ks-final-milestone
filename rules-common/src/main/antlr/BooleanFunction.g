@@ -46,7 +46,7 @@ atom 	:	ALPHA | (LP! orterm RP!);
 
 ALPHA	: UPPERCASE | (UPPERCASE NUMBER) ;
 
-NUMBER  : ('0'..'9') ;
+NUMBER  : ('0'..'9')+ ;
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ 	{ $channel = HIDDEN; } ;
 

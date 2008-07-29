@@ -14,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.statement.SubsetProposition;
 
 /**
  * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, operator and right
@@ -197,5 +198,25 @@ public class RuleProposition {
      */
     public final void setComparisonDataType(ValueType comparisonDataType) {
         this.comparisonDataType = comparisonDataType;
+    }
+    
+    public String toString() {
+      StringBuffer sbResult = new StringBuffer(179);
+      sbResult.append("");
+      String rhs = getRightHandSide().getExpectedValue();
+      String operator = getOperator().getValue()
+          .toString();
+      sbResult.append(rhs).append(" ");
+      sbResult.append(operator).append(" ");
+      if (getLeftHandSide().getYieldValueFunction().getType().equals(
+          YieldValueFunctionType.INTERSECTION)) {
+        YieldValueFunction yvf = getLeftHandSide().getYieldValueFunction();
+        sbResult.append(yvf.getType()).append(" ");
+        sbResult.append(getLeftHandSide().getCriteria());
+        
+//        String luiids = getLeftHandSide().getYieldValueFunction();
+//        sbResult.append(ruleProposition);
+      }
+      return sbResult.toString();
     }
 }
