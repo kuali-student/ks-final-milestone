@@ -85,7 +85,7 @@ public class GenerateRuleSet {
         generateRules(anchor, ruleName, ruleDescription, functionString, propositionMap,ruleSet);
     }
 
-    private void generateRules(String anchor, String ruleName, String ruleDescription, String functionString,
+    public void generateRules(String anchor, String ruleName, String ruleDescription, String functionString,
             Map<String, RuleProposition> functionalPropositionMap, RuleSet ruleSet ) {
         String initRuleName = ruleName+"_INIT";
         String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, functionString, functionalPropositionMap);
@@ -126,7 +126,7 @@ public class GenerateRuleSet {
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, anchor, ruleName, velocityContextMap);
     }
-
+    
     public RuleSet createRuleSet(String packageName, String description, String ruleName, String functionString,
             Map<String, RuleProposition> functionalPropositionMap) {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, description);
@@ -135,7 +135,7 @@ public class GenerateRuleSet {
         return ruleSet;
     }
 
-    private void addHeader(RuleSet ruleSet) {
+    public void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.ComparisonOperator");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
