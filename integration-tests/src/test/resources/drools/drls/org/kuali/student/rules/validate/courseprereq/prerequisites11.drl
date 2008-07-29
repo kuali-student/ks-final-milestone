@@ -1,0 +1,2913 @@
+package prerequisiterules
+import java.util.*;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.*;
+import org.kuali.student.rules.internal.common.facts.FactRequest;
+import org.kuali.student.rules.util.FactContainer;
+import org.kuali.student.rules.util.FactContainer.State;
+
+
+rule "ZOOL414_1970W_1988S_23182_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL414_1970W_1988S_23182", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("ZOOL205,ZOOL301,ZOOL305".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL414_1970W_1988S_23182"
+	when
+        FactContainer( id == "ZOOL414_1970W_1988S_23182", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL415_1970W_1988S_23183_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL415_1970W_1988S_23183", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("ZOOL306".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL415_1970W_1988S_23183"
+	when
+        FactContainer( id == "ZOOL415_1970W_1988S_23183", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL416_1970W_1988S_23184_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL416_1970W_1988S_23184", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("ZOOL203".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL416_1970W_1988S_23184"
+	when
+        FactContainer( id == "ZOOL416_1970W_1988S_23184", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL420_1970W_1988S_23188_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL420_1970W_1988S_23188", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL315".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL420_1970W_1988S_23188"
+	when
+        FactContainer( id == "ZOOL420_1970W_1988S_23188", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL421_1970W_1988S_23189_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL421_1970W_1988S_23189", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL300".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL421_1970W_1988S_23189"
+	when
+        FactContainer( id == "ZOOL421_1970W_1988S_23189", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL423_1970W_1988S_23191_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL423_1970W_1988S_23191", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("ZOOL323".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL423_1970W_1988S_23191"
+	when
+        FactContainer( id == "ZOOL423_1970W_1988S_23191", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL424_1970W_1988S_23192_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL424_1970W_1988S_23192", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL101,BIOL102".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL424_1970W_1988S_23192"
+	when
+        FactContainer( id == "ZOOL424_1970W_1988S_23192", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL429_1970W_1988S_23196_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL429_1970W_1988S_23196", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("ZOOL303,PHYL301,PSYC360,BIOL330".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL429_1970W_1988S_23196"
+	when
+        FactContainer( id == "ZOOL429_1970W_1988S_23196", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL430_1977W_1988S_23197_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL430_1977W_1988S_23197", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0*P1");
+    	    	   		
+		SubsetProposition propositionP1 = new SubsetProposition("P1", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL322,BIOL323".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP1.apply();
+        prop.addProposition(propositionP1);      
+		   		   		   		   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("BIOL321,BIOL300".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL430_1977W_1988S_23197"
+	when
+        FactContainer( id == "ZOOL430_1977W_1988S_23197", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+                     and
+                     Proposition( propositionName == "P1" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL509_1970W_1990W_23219_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL509_1970W_1990W_23219", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL510,PLNT510,ANSC414,BIOL434".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL509_1970W_1990W_23219"
+	when
+        FactContainer( id == "ZOOL509_1970W_1990W_23219", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL509_1991S_1995S_23219_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL509_1991S_1995S_23219", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL510,PLNT510,ANSC414,BIOL434".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL509_1991S_1995S_23219"
+	when
+        FactContainer( id == "ZOOL509_1991S_1995S_23219", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL412_1973W_1988S_23180_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL412_1973W_1988S_23180", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL101,BIOL102".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL412_1973W_1988S_23180"
+	when
+        FactContainer( id == "ZOOL412_1973W_1988S_23180", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL205_1970W_1988S_23147_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL205_1970W_1988S_23147", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL101,BIOL102".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL205_1970W_1988S_23147"
+	when
+        FactContainer( id == "ZOOL205_1970W_1988S_23147", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL206_1976W_1988S_23148_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL206_1976W_1988S_23148", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL101,BIOL102".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL206_1976W_1988S_23148"
+	when
+        FactContainer( id == "ZOOL206_1976W_1988S_23148", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL311_1970W_1988S_23160_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL311_1970W_1988S_23160", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL101,BIOL102".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL311_1970W_1988S_23160"
+	when
+        FactContainer( id == "ZOOL311_1970W_1988S_23160", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL325_1980W_1988S_23164_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL325_1980W_1988S_23164", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL334".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL325_1980W_1988S_23164"
+	when
+        FactContainer( id == "ZOOL325_1980W_1988S_23164", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL404_1973W_1988S_23172_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL404_1973W_1988S_23172", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("BIOL321,BIOL322,BIOL300".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL404_1973W_1988S_23172"
+	when
+        FactContainer( id == "ZOOL404_1973W_1988S_23172", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL409_1973W_1988S_23177_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL409_1973W_1988S_23177", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("BIOL302".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL409_1973W_1988S_23177"
+	when
+        FactContainer( id == "ZOOL409_1973W_1988S_23177", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "ZOOL411_1975W_1988S_23179_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "ZOOL411_1975W_1988S_23179", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("ZOOL306".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "ZOOL411_1975W_1988S_23179"
+	when
+        FactContainer( id == "ZOOL411_1975W_1988S_23179", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD440_1998S_2005S_23091_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD440_1998S_2005S_23091", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD330".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD440_1998S_2005S_23091"
+	when
+        FactContainer( id == "WOOD440_1998S_2005S_23091", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD461_1985W_1989W_23097_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD461_1985W_1989W_23097", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("ECON100,WOOD475".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD461_1985W_1989W_23097"
+	when
+        FactContainer( id == "WOOD461_1985W_1989W_23097", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD461_1990S_1990W_23097_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD461_1990S_1990W_23097", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("ECON100,COMM396".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD461_1990S_1990W_23097"
+	when
+        FactContainer( id == "WOOD461_1990S_1990W_23097", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD461_1998S_2004S_23097_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD461_1998S_2004S_23097", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD243".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD461_1998S_2004S_23097"
+	when
+        FactContainer( id == "WOOD461_1998S_2004S_23097", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD470_1985W_1990W_23104_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD470_1985W_1990W_23104", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD280,WOOD475".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD470_1985W_1990W_23104"
+	when
+        FactContainer( id == "WOOD470_1985W_1990W_23104", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD473_1985W_1990W_23106_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD473_1985W_1990W_23106", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CHEM253,CHEM230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD473_1985W_1990W_23106"
+	when
+        FactContainer( id == "WOOD473_1985W_1990W_23106", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD475_1986W_1990W_23109_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD475_1986W_1990W_23109", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FRST111".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD475_1986W_1990W_23109"
+	when
+        FactContainer( id == "WOOD475_1986W_1990W_23109", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD476_1986W_1990W_23113_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD476_1986W_1990W_23113", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD376,CIVL230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD476_1986W_1990W_23113"
+	when
+        FactContainer( id == "WOOD476_1986W_1990W_23113", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD476_1991S_1999S_23113_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD476_1991S_1999S_23113", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD376,CIVL230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD476_1991S_1999S_23113"
+	when
+        FactContainer( id == "WOOD476_1991S_1999S_23113", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD484_1985W_1990W_23122_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD484_1985W_1990W_23122", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("WOOD372,WOOD376".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD484_1985W_1990W_23122"
+	when
+        FactContainer( id == "WOOD484_1985W_1990W_23122", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD487_1985W_1990W_23126_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD487_1985W_1990W_23126", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("WOOD280,WOOD372".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD487_1985W_1990W_23126"
+	when
+        FactContainer( id == "WOOD487_1985W_1990W_23126", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD487_1991S_1997W_23126_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD487_1991S_1997W_23126", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("WOOD280,WOOD372".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD487_1991S_1997W_23126"
+	when
+        FactContainer( id == "WOOD487_1991S_1997W_23126", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD280_1991S_1995S_23040_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD280_1991S_1995S_23040", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FRST111".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD280_1991S_1995S_23040"
+	when
+        FactContainer( id == "WOOD280_1991S_1995S_23040", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD330_1998S_2005S_23058_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD330_1998S_2005S_23058", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("WOOD242,WOOD243".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD330_1998S_2005S_23058"
+	when
+        FactContainer( id == "WOOD330_1998S_2005S_23058", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD335_1985W_1990W_23062_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD335_1985W_1990W_23062", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FRST130,MATH205,STAT205,STAT251".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD335_1985W_1990W_23062"
+	when
+        FactContainer( id == "WOOD335_1985W_1990W_23062", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD371_1985W_1990W_23066_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD371_1985W_1990W_23066", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("WOOD280,WOOD372".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD371_1985W_1990W_23066"
+	when
+        FactContainer( id == "WOOD371_1985W_1990W_23066", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD372_1991S_1999W_23068_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD372_1991S_1999W_23068", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD280".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD372_1991S_1999W_23068"
+	when
+        FactContainer( id == "WOOD372_1991S_1999W_23068", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD376_1991S_1995S_23075_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD376_1991S_1995S_23075", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("PHYS170,WOOD372".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD376_1991S_1995S_23075"
+	when
+        FactContainer( id == "WOOD376_1991S_1995S_23075", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD400_1997S_1999S_23083_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD400_1997S_1999S_23083", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WOOD3*2".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD400_1997S_1999S_23083"
+	when
+        FactContainer( id == "WOOD400_1997S_1999S_23083", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD280_1986W_1990W_23040_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD280_1986W_1990W_23040", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("FRST111".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD280_1986W_1990W_23040"
+	when
+        FactContainer( id == "WOOD280_1986W_1990W_23040", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "URDU401_1989W_1990W_22961_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "URDU401_1989W_1990W_22961", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("HIND400 (1970W),HIND310 (1970W),HIND200 (1989W),HIND110 (1989W)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "URDU401_1989W_1990W_22961"
+	when
+        FactContainer( id == "URDU401_1989W_1990W_22961", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "URDU401_1991S_1999W_22961_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "URDU401_1991S_1999W_22961", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("HIND200,HIND110".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "URDU401_1991S_1999W_22961"
+	when
+        FactContainer( id == "URDU401_1991S_1999W_22961", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WMST322_1991S_1995S_22999_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WMST322_1991S_1995S_22999", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("WMST222".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WMST322_1991S_1995S_22999"
+	when
+        FactContainer( id == "WMST322_1991S_1995S_22999", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WMST422_1996W_1999S_23006_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WMST422_1996W_1999S_23006", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("WMST100,WMST322".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WMST422_1996W_1999S_23006"
+	when
+        FactContainer( id == "WMST422_1996W_1999S_23006", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "WOOD271_1995S_1996W_23033_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "WOOD271_1995S_1996W_23033", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CHEM103,CHEM110,CHEM122,CHEM151".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "WOOD271_1995S_1996W_23033"
+	when
+        FactContainer( id == "WOOD271_1995S_1996W_23033", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR521_1971W_1990W_22903_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR521_1971W_1990W_22903", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR520".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR521_1971W_1990W_22903"
+	when
+        FactContainer( id == "THTR521_1971W_1990W_22903", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "TRNS002_1998W_1998W_22932_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "TRNS002_1998W_1998W_22932", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("TRNS001".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "TRNS002_1998W_1998W_22932"
+	when
+        FactContainer( id == "TRNS002_1998W_1998W_22932", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "TRSC002_1998W_2002W_22934_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "TRSC002_1998W_2002W_22934", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("TRSC001".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "TRSC002_1998W_2002W_22934"
+	when
+        FactContainer( id == "TRSC002_1998W_2002W_22934", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "TSED416_1993S_1996S_22942_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "TSED416_1993S_1996S_22942", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("TSED314".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "TSED416_1993S_1996S_22942"
+	when
+        FactContainer( id == "TSED416_1993S_1996S_22942", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "UKRN425_1972W_1990W_22958_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "UKRN425_1972W_1990W_22958", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("UKRN325".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "UKRN425_1972W_1990W_22958"
+	when
+        FactContainer( id == "UKRN425_1972W_1990W_22958", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR450_1970W_1989S_22848_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR450_1970W_1989S_22848", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR350".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR450_1970W_1989S_22848"
+	when
+        FactContainer( id == "THTR450_1970W_1989S_22848", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR450_1989W_1990W_22848_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR450_1989W_1990W_22848", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR305 (1989S),THTR350".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR450_1989W_1990W_22848"
+	when
+        FactContainer( id == "THTR450_1989W_1990W_22848", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR451_1989S_1990W_22851_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR451_1989S_1990W_22851", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR305 (1989S),THTR351 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR451_1989S_1990W_22851"
+	when
+        FactContainer( id == "THTR451_1989S_1990W_22851", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR452_1989S_1990W_22854_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR452_1989S_1990W_22854", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR305 (1989S),THTR352 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR452_1989S_1990W_22854"
+	when
+        FactContainer( id == "THTR452_1989S_1990W_22854", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR453_1989S_1990W_22857_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR453_1989S_1990W_22857", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR305 (1989S),THTR353 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR453_1989S_1990W_22857"
+	when
+        FactContainer( id == "THTR453_1989S_1990W_22857", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR455_1971W_1989S_22861_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR455_1971W_1989S_22861", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR350".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR455_1971W_1989S_22861"
+	when
+        FactContainer( id == "THTR455_1971W_1989S_22861", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR460_1988W_1990W_22866_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR460_1988W_1990W_22866", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR360 (1988W)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR460_1988W_1990W_22866"
+	when
+        FactContainer( id == "THTR460_1988W_1990W_22866", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR462_1970W_1988S_22873_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR462_1970W_1988S_22873", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("THTR361,THTR362,THTR370".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR462_1970W_1988S_22873"
+	when
+        FactContainer( id == "THTR462_1970W_1988S_22873", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR462_1988W_1990W_22873_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR462_1988W_1990W_22873", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("THTR361,THTR362,THTR370".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR462_1988W_1990W_22873"
+	when
+        FactContainer( id == "THTR462_1988W_1990W_22873", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR470_1990S_1990W_22877_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR470_1990S_1990W_22877", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("THTR360,THTR362,THTR370".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR470_1990S_1990W_22877"
+	when
+        FactContainer( id == "THTR470_1990S_1990W_22877", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR434_1989W_1990W_22840_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR434_1989W_1990W_22840", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR434_1989W_1990W_22840"
+	when
+        FactContainer( id == "THTR434_1989W_1990W_22840", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR360_1991S_1996S_22799_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR360_1991S_1996S_22799", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR260 (1988W)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR360_1991S_1996S_22799"
+	when
+        FactContainer( id == "THTR360_1991S_1996S_22799", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR360_1996W_2005S_22799_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR360_1996W_2005S_22799", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR260".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR360_1996W_2005S_22799"
+	when
+        FactContainer( id == "THTR360_1996W_2005S_22799", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR361_1988W_1990W_22802_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR361_1988W_1990W_22802", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR261,THTR262".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR361_1988W_1990W_22802"
+	when
+        FactContainer( id == "THTR361_1988W_1990W_22802", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR362_1970W_1988S_22806_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR362_1970W_1988S_22806", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR261,THTR262".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR362_1970W_1988S_22806"
+	when
+        FactContainer( id == "THTR362_1970W_1988S_22806", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR362_1988W_1990W_22806_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR362_1988W_1990W_22806", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR261,THTR262".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR362_1988W_1990W_22806"
+	when
+        FactContainer( id == "THTR362_1988W_1990W_22806", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR363_1984W_1990W_22808_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR363_1984W_1990W_22808", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR120,THTR200".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR363_1984W_1990W_22808"
+	when
+        FactContainer( id == "THTR363_1984W_1990W_22808", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR363_1991S_1992W_22808_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR363_1991S_1992W_22808", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR120,THTR200".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR363_1991S_1992W_22808"
+	when
+        FactContainer( id == "THTR363_1991S_1992W_22808", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR371_1979W_1989S_22813_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR371_1979W_1989S_22813", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("THTR250,THTR251".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR371_1979W_1989S_22813"
+	when
+        FactContainer( id == "THTR371_1979W_1989S_22813", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR400_1970W_1990W_22817_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR400_1970W_1990W_22817", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR200".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR400_1970W_1990W_22817"
+	when
+        FactContainer( id == "THTR400_1970W_1990W_22817", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR405_1989W_1990W_22822_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR405_1989W_1990W_22822", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR305 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR405_1989W_1990W_22822"
+	when
+        FactContainer( id == "THTR405_1989W_1990W_22822", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR405_1991S_1996S_22822_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR405_1991S_1996S_22822", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR305 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR405_1991S_1996S_22822"
+	when
+        FactContainer( id == "THTR405_1991S_1996S_22822", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR433_1971W_1988S_22838_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR433_1971W_1988S_22838", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR333".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR433_1971W_1988S_22838"
+	when
+        FactContainer( id == "THTR433_1971W_1988S_22838", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR433_1988W_1990W_22838_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR433_1988W_1990W_22838", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR333".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR433_1988W_1990W_22838"
+	when
+        FactContainer( id == "THTR433_1988W_1990W_22838", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR250_1989W_1990W_22737_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR250_1989W_1990W_22737", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR150 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR250_1989W_1990W_22737"
+	when
+        FactContainer( id == "THTR250_1989W_1990W_22737", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR250_1991S_1996S_22737_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR250_1991S_1996S_22737", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR150 (1989S)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR250_1991S_1996S_22737"
+	when
+        FactContainer( id == "THTR250_1991S_1996S_22737", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR251_1991S_2001S_22740_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR251_1991S_2001S_22740", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR150".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR251_1991S_2001S_22740"
+	when
+        FactContainer( id == "THTR251_1991S_2001S_22740", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR260_1991S_1996S_22744_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR260_1991S_1996S_22744", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR160 (1988W)".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR260_1991S_1996S_22744"
+	when
+        FactContainer( id == "THTR260_1991S_1996S_22744", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR261_1977W_1988S_22747_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR261_1977W_1988S_22747", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR200".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR261_1977W_1988S_22747"
+	when
+        FactContainer( id == "THTR261_1977W_1988S_22747", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR333_1970W_1988S_22770_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR333_1970W_1988S_22770", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR333_1970W_1988S_22770"
+	when
+        FactContainer( id == "THTR333_1970W_1988S_22770", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR333_1988W_1990W_22770_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR333_1988W_1990W_22770", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR333_1988W_1990W_22770"
+	when
+        FactContainer( id == "THTR333_1988W_1990W_22770", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR334_1971W_1990W_22771_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR334_1971W_1990W_22771", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR230".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR334_1971W_1990W_22771"
+	when
+        FactContainer( id == "THTR334_1971W_1990W_22771", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "SURG508_1970W_1974S_22674_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "SURG508_1970W_1974S_22674", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("EDUC500".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "SURG508_1970W_1974S_22674"
+	when
+        FactContainer( id == "SURG508_1970W_1974S_22674", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "THTR199_1996W_1996W_22724_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "THTR199_1996W_1996W_22724", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("THTR150".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "THTR199_1996W_1996W_22724"
+	when
+        FactContainer( id == "THTR199_1996W_1996W_22724", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT541_1991S_1991W_22595_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT541_1991S_1991W_22595", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "2", new HashSet(Arrays.asList("MATH307,STAT404".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT541_1991S_1991W_22595"
+	when
+        FactContainer( id == "STAT541_1991S_1991W_22595", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT542_1983W_1990W_22599_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT542_1983W_1990W_22599", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT404".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT542_1983W_1990W_22599"
+	when
+        FactContainer( id == "STAT542_1983W_1990W_22599", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT545_1991S_1991W_22610_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT545_1991S_1991W_22610", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT404".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT545_1991S_1991W_22610"
+	when
+        FactContainer( id == "STAT545_1991S_1991W_22610", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT546_1983W_1990W_22613_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT546_1983W_1990W_22613", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT406".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT546_1983W_1990W_22613"
+	when
+        FactContainer( id == "STAT546_1983W_1990W_22613", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT546_1991S_1999W_22613_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT546_1991S_1999W_22613", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT461".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT546_1991S_1999W_22613"
+	when
+        FactContainer( id == "STAT546_1991S_1999W_22613", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT550_1985W_1990W_22627_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT550_1985W_1990W_22627", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT405".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT550_1985W_1990W_22627"
+	when
+        FactContainer( id == "STAT550_1985W_1990W_22627", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT551_1985W_1990W_22630_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT551_1985W_1990W_22630", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT550".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT551_1985W_1990W_22630"
+	when
+        FactContainer( id == "STAT551_1985W_1990W_22630", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT551_1991S_1991W_22630_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT551_1991S_1991W_22630", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT550".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT551_1991S_1991W_22630"
+	when
+        FactContainer( id == "STAT551_1991S_1991W_22630", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT447_1991S_null_22535_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT447_1991S_null_22535", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT305".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT447_1991S_null_22535"
+	when
+        FactContainer( id == "STAT447_1991S_null_22535", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT498_1994W_1997S_22541_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT498_1994W_1997S_22541", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT399".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT498_1994W_1997S_22541"
+	when
+        FactContainer( id == "STAT498_1994W_1997S_22541", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT519_1983W_1990W_22549_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT519_1983W_1990W_22549", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("MATH418,MATH420,STAT406".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT519_1983W_1990W_22549"
+	when
+        FactContainer( id == "STAT519_1983W_1990W_22549", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT519_1991S_1991W_22549_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT519_1991S_1991W_22549", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("MATH418,MATH420,STAT406".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT519_1991S_1991W_22549"
+	when
+        FactContainer( id == "STAT519_1991S_1991W_22549", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT519_1992S_1993W_22549_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT519_1992S_1993W_22549", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "3", new HashSet(Arrays.asList("MATH418,MATH420,STAT406".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT519_1992S_1993W_22549"
+	when
+        FactContainer( id == "STAT519_1992S_1993W_22549", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT520_1991S_1993W_22553_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT520_1991S_1993W_22553", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT519".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT520_1991S_1993W_22553"
+	when
+        FactContainer( id == "STAT520_1991S_1993W_22553", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT521_1984W_1990W_22557_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT521_1984W_1990W_22557", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT519".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT521_1984W_1990W_22557"
+	when
+        FactContainer( id == "STAT521_1984W_1990W_22557", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT521_1991S_1993W_22557_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT521_1991S_1993W_22557", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT519".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT521_1991S_1993W_22557"
+	when
+        FactContainer( id == "STAT521_1991S_1993W_22557", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
+
+
+rule "STAT522_1984W_1990W_22561_INIT"
+    no-loop true
+    lock-on-active true
+    when 
+        cont : FactContainer( id == "STAT522_1984W_1990W_22561", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+    then
+    	prop.setFunctionalRuleString("P0");
+    	    	   		
+		SubsetProposition propositionP0 = new SubsetProposition("P0", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("STAT519".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+		propositionP0.apply();
+        prop.addProposition(propositionP0);      
+		   		   		   		    	
+        cont.setState(FactContainer.State.DONE);
+        
+        update(cont);
+	end
+
+
+
+rule "STAT522_1984W_1990W_22561"
+	when
+        FactContainer( id == "STAT522_1984W_1990W_22561", state == FactContainer.State.DONE, prop : propositionContainer)
+
+             Proposition( propositionName == "P0" && result == true ) from prop.propositions
+            	then
+   		prop.setRuleResult(true);
+	end		
