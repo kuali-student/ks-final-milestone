@@ -41,6 +41,15 @@ import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.util.FactContainer;
 
+/**
+ * This test requires substantial memory if run in full. (see note
+ * in method "readRuleBase")
+ * To increase the size of memory allocation.  
+ * Add the following Java VM environment settings
+ * -Xms1024m -Xmx1024m -XX:PermSize=648m -XX:MaxPermSize=256m 
+ * @author stse
+ *
+ */
 public class CoursePrereqDRLTest {
     private static StatefulSession workingMemory;
     private static RuleBase ruleBase;
@@ -66,7 +75,7 @@ public class CoursePrereqDRLTest {
     }
 
     @Test
-    public void testFireRules_Math_Chem_Cpr() throws Exception {
+    public void testFireRules() throws Exception {
         CourseEnrollmentRequest req1 = new CourseEnrollmentRequest("ANAT391");
         Set<String> luiIds = new HashSet<String>(Arrays.asList("ANAT390".split(",")));
         req1.setLuiIds(luiIds);
@@ -99,6 +108,8 @@ public class CoursePrereqDRLTest {
         ruleBase = RuleBaseFactory.newRuleBase();
         PackageBuilder builder = new PackageBuilder();
 
+        // for a full test remove the second loop condition "fileIndex < 10"
+        // to load all DRL files
         while (moreFiles && fileIndex < 10) {
           try {
             resourceName = 
