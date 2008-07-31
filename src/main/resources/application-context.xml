@@ -280,9 +280,9 @@
 	</bean>
 	
 	<!-- GWT Service Aliases -->
-	<alias name="lprServiceImpl" alias="gwtLprService"/>
-	<alias name="luServiceImpl" alias="gwtLuService"/>
-	<alias name="personServiceImpl" alias="gwtpersonService"/>
+	<alias alias="gwtLprService" name="lprServiceImpl" />
+	<alias alias="gwtLuService" name="luServiceImpl" />
+	<alias alias="gwtpersonService" name="personServiceImpl" />
 
 </beans>
 
