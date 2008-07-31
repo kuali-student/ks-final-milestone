@@ -278,6 +278,11 @@
 			</map>
 		</property>
 	</bean>
+	
+	<!-- GWT Service Aliases -->
+	<alias name="lprServiceImpl" alias="gwtLprService"/>
+	<alias name="luServiceImpl" alias="gwtLuService"/>
+	<alias name="personServiceImpl" alias="gwtpersonService"/>
 
 </beans>
 
