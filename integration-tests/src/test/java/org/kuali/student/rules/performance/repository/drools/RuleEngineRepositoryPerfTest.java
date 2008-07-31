@@ -20,6 +20,23 @@ import org.kuali.student.rules.util.RuleSetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * <p>This class tests the time it takes to create and load 
+ * 1, 10, 100, 200 etc. rules.</p>
+ *
+ * <p>Please note that when creating and  loading more than 1000 rules the 
+ * following Java VM settings must be set:</p>
+ * 
+ * <pre>
+ * -Xmx1024m
+ * -Xms1024m
+ * -XX:PermSize=128m
+ * -XX:MaxPermSize=384m
+ * </pre>
+ * 
+ * @author Kuali Student Team (len.kuali@googlegroups.com)
+ *
+ */
 public class RuleEngineRepositoryPerfTest {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleEngineRepositoryPerfTest.class);
@@ -69,6 +86,7 @@ public class RuleEngineRepositoryPerfTest {
             RuleSet actualRuleSet = ruleSetUtil.createRuleSet(ruleCount);
             logger.info(c+": 1-Creating ruleset: Rule count=" + droolsRuleCount);
         
+            // Create rule set
             long start = System.currentTimeMillis();
             RuleSet expectedRuleSet = brmsRepository.createRuleSet(actualRuleSet);
             long now = System.currentTimeMillis();
@@ -76,11 +94,13 @@ public class RuleEngineRepositoryPerfTest {
             assertNotNull(expectedRuleSet);
             assertEquals(expectedRuleSet.getRules().size(), actualRuleSet.getRules().size());
 
+            // Load rule set
             start = System.currentTimeMillis();
             expectedRuleSet = brmsRepository.loadRuleSet(expectedRuleSet.getUUID());
             now = System.currentTimeMillis();
             logger.info(c+": 3-Loading rule set: Time=" + ((now - start) / 1000d) + " secs");
 
+            // Assert rule set
             assertNotNull(expectedRuleSet);
             ruleSetUtil.assertRuleSetEquals(actualRuleSet, expectedRuleSet);
             // Remove the rule set
@@ -101,6 +121,7 @@ public class RuleEngineRepositoryPerfTest {
             RuleSet actualRuleSet = ruleSetUtil.createRuleSet(ruleCount);
             logger.info(c+": 1-Creating ruleset: Rule count=" + droolsRuleCount);
         
+            // Create rule set
             long start = System.currentTimeMillis();
             RuleSet expectedRuleSet = brmsRepository.createRuleSet(actualRuleSet);
             long now = System.currentTimeMillis();
@@ -108,22 +129,25 @@ public class RuleEngineRepositoryPerfTest {
             assertNotNull(expectedRuleSet);
             assertEquals(expectedRuleSet.getRules().size(), actualRuleSet.getRules().size());
 
+            // Create rule set snapshot
             String snapshotName = "SNAPSHOT-1";
             start = System.currentTimeMillis();
             brmsRepository.createRuleSetSnapshot(actualRuleSet.getName(), snapshotName, "Rule set Snapshot");
             now = System.currentTimeMillis();
             logger.info(c+": 3-Creating rule set snapshot: Time=" + ((now - start) / 1000d) + " secs");
             
+            // Load rule set snapshot
             start = System.currentTimeMillis();
             RuleSet expectedRuleSetSnapshot = brmsRepository.loadRuleSetSnapshot(expectedRuleSet.getName(), snapshotName);
             now = System.currentTimeMillis();
             logger.info(c+": 4-Loading rule set snapshot: Time=" + ((now - start) / 1000d) + " secs");
 
+            // Assert rule set snapshot
             assertNotNull(expectedRuleSetSnapshot);
             ruleSetUtil.assertRuleSetEquals(actualRuleSet, expectedRuleSetSnapshot);
-            // Remove the rule set snapshot
+            // Remove rule set snapshot
             brmsRepository.removeRuleSetSnapshot(expectedRuleSetSnapshot.getName(), expectedRuleSetSnapshot.getSnapshotName());
-            // Remove the rule set
+            // Remove rule set
             brmsRepository.removeRuleSet(expectedRuleSet.getUUID());
             logger.info(c+": 5-Rule set and snapshot removed");
         }
