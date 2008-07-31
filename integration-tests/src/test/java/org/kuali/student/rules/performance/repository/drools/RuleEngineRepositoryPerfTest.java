@@ -21,10 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>This class tests the time it takes to create and load 
- * 1, 10, 100, 200 etc. rules.</p>
+ * <p>This class tests the time it takes to create and load rules.</p>
  *
- * <p>Please note that when creating and  loading more than 1000 rules the 
+ * <p>Please note that when creating and loading more than 1000 rules the 
  * following Java VM settings must be set:</p>
  * 
  * <pre>
@@ -34,6 +33,31 @@ import org.slf4j.LoggerFactory;
  * -XX:MaxPermSize=384m
  * </pre>
  * 
+ * <p>Some run times on an Intel Core2 Quad 2.40 GHz CPU with 3 GB RAM:</p>
+ * 
+ * <p>Creating and loading rule sets and snapshots:</p>
+ *
+ * 2 Rules</br>
+ * Creating rule set: Time=0.141 secs</br>
+ * Creating rule set snapshot: Time=0.125 secs</br>
+ * Loading rule set snapshot: Time=0.031 secs</br>
+ * </br>
+ * 20 Rules</br>
+ * Creating rule set: Time=0.891 secs</br>
+ * Creating rule set snapshot: Time=0.968 secs</br>
+ * Loading rule set snapshot: Time=0.079 secs</br>
+ * </br>
+ * 100 Rules</br>
+ * Creating rule set: Time=5.422 secs</br>
+ * Creating rule set snapshot: Time=4.844 secs</br>
+ * Loading rule set snapshot: Time=0.406 secs</br>
+ * </br>
+ * 200 Rules</br>
+ * Creating rule set: Rule count=200</br>
+ * Creating rule set: Time=9.923 secs</br>
+ * Creating rule set snapshot: Time=9.61 secs</br>
+ * Loading rule set snapshot: Time=0.797 secs
+ * </br></br>
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
@@ -84,13 +108,13 @@ public class RuleEngineRepositoryPerfTest {
             c++;
             int droolsRuleCount = ruleCount * 2;
             RuleSet actualRuleSet = ruleSetUtil.createRuleSet(ruleCount);
-            logger.info(c+": 1-Creating ruleset: Rule count=" + droolsRuleCount);
+            logger.info(c+": 1-Creating rule set: Rule count=" + droolsRuleCount);
         
             // Create rule set
             long start = System.currentTimeMillis();
             RuleSet expectedRuleSet = brmsRepository.createRuleSet(actualRuleSet);
             long now = System.currentTimeMillis();
-            logger.info(c+": 2-Creating ruleset: Time=" + ((now - start) / 1000d) + " secs");
+            logger.info(c+": 2-Creating rule set: Time=" + ((now - start) / 1000d) + " secs");
             assertNotNull(expectedRuleSet);
             assertEquals(expectedRuleSet.getRules().size(), actualRuleSet.getRules().size());
 
@@ -119,13 +143,13 @@ public class RuleEngineRepositoryPerfTest {
             c++;
             int droolsRuleCount = ruleCount * 2;
             RuleSet actualRuleSet = ruleSetUtil.createRuleSet(ruleCount);
-            logger.info(c+": 1-Creating ruleset: Rule count=" + droolsRuleCount);
+            logger.info(c+": 1-Creating rule set: Rule count=" + droolsRuleCount);
         
             // Create rule set
             long start = System.currentTimeMillis();
             RuleSet expectedRuleSet = brmsRepository.createRuleSet(actualRuleSet);
             long now = System.currentTimeMillis();
-            logger.info(c+": 2-Creating ruleset: Time=" + ((now - start) / 1000d) + " secs");
+            logger.info(c+": 2-Creating rule set: Time=" + ((now - start) / 1000d) + " secs");
             assertNotNull(expectedRuleSet);
             assertEquals(expectedRuleSet.getRules().size(), actualRuleSet.getRules().size());
 
