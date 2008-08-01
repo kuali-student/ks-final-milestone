@@ -10,6 +10,7 @@ public class MyServiceImpl implements MyService {
 
 	private MyDao dao0;
 	private OtherDao otherDao;
+	private Base base;
 
 	/**
 	 * @return the dao
@@ -41,7 +42,6 @@ public class MyServiceImpl implements MyService {
 		this.otherDao = otherDao;
 	}
 
-	@Override
 	public String saveString(String value) {
 		System.out.println("######==" + dao0);
 		if (dao0 == null) {
@@ -52,14 +52,19 @@ public class MyServiceImpl implements MyService {
 		return id;
 	}
 
-	@Override
 	public String findStringId(String id) {
 		return this.dao0.findValue(id);
 	}
 
-	@Override
 	public boolean updateValue(String id, String value) {
 		return this.dao0.updateValue(id,value);
 	}
-
+	
+	public void setBase(Base base) {
+		this.base = base;
+	}
+	
+	public Base getBase(){
+		return this.base;
+	}
 }

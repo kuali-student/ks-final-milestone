@@ -7,7 +7,6 @@ public class MyBusinessClassImpl implements MyBusinessClass{
 	private MyDao myDao;
 	private OtherDao otherDao;
 	
-	@Override
 	public int doBusinessThing(){
 		myDao.createValue(new Value("lalala"));
 		otherDao.foo();
