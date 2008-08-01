@@ -28,13 +28,13 @@ rule "init"
 end
 
 rule "Student Plans Course"
-	when
-		$request : AgendaRequest( luiPersonRelationType == "student", 
-		                          luType == "course",
-		                          luiStatus == "offered",
-		                          relationState == "planned" )
+    when
+        $request : AgendaRequest( luiPersonRelationType == "kuali.student", 
+                                  luType == "course",
+                                  luiStatus == "offered",
+                                  relationState == "planned" )
         $ruleTypeMap : Map()
-	then 
+    then 
         AgendaType agendaType = new AgendaType( "Student Plans Course", "student.planning.course" );
         agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.pre.req" ) );
         agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.co.req" ) );
@@ -43,7 +43,7 @@ end
 
 rule "Student Enrolls in Course"
     when
-        $request : AgendaRequest( luiPersonRelationType == "student", 
+        $request : AgendaRequest( luiPersonRelationType == "kuali.student", 
                                   luType == "course",
                                   luiStatus == "offered",
                                   relationState == "enrolled" )
@@ -55,3 +55,18 @@ rule "Student Enrolls in Course"
         agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.anti.req" ) );
         insert( agendaType );
 end
+
+rule "Student Completes Course"
+    when
+        $request : AgendaRequest( luiPersonRelationType == "kuali.student", 
+                                  luType == "course",
+                                  luiStatus == "offered",
+                                  relationState == "complete" )
+        $ruleTypeMap : Map()
+    then 
+        AgendaType agendaType = new AgendaType( "Student Completes Course", "student.complete.course" );
+        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.pre.req" ) );
+        agendaType.addBusinessRuleType( (BusinessRuleType) $ruleTypeMap.get( "course.co.req" ) );
+        insert( agendaType );
+end
+

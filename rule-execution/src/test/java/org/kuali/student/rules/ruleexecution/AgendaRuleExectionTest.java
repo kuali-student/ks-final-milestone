@@ -52,7 +52,7 @@ public class AgendaRuleExectionTest extends AbstractTransactionalDaoTest {
     @Test
     public void testExecuteAgenda() throws Exception {
 
-        AgendaRequest request = new AgendaRequest("student", "course", "offered", "planned");
+        AgendaRequest request = new AgendaRequest("kuali.student", "course", "offered", "planned");
         AnchorType anchorType = new AnchorType("course", "clu.type.course");
         String anchorID = "math301";
         Anchor anchor = new Anchor(anchorID, "Math-301", anchorType);

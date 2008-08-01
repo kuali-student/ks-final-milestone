@@ -29,7 +29,7 @@ public class EnforceRuleTest extends AbstractTransactionalDaoTest {
     @Test
     public void testValidation() throws Exception {
         // Only thing that matters is the 3rd argument which maps to the functional rule Id
-        ValidationResult result1 = enforceRule.validateLuiPersonRelation("John", "EMS 1001", "student", "enrolled");
+        ValidationResult result1 = enforceRule.validateLuiPersonRelation("John", "EMS 1001", "kuali.student", "enrolled");
         assertEquals(result1.isSuccess(), false);
         //        
         // ValidationResult result2 = enforceRule.validateLuiPersonRelation("John", "Math 101", "2", null);

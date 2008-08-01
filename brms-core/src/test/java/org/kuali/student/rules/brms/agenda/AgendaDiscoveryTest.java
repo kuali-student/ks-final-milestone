@@ -24,7 +24,7 @@ public class AgendaDiscoveryTest extends AbstractTransactionalDaoTest {
     @Test
     public void testGetAgenda_StudentPlansCourse() {
 
-        AgendaRequest request = new AgendaRequest("student", "course", "offered", "planned");
+        AgendaRequest request = new AgendaRequest("kuali.student", "course", "offered", "planned");
         AnchorType type = new AnchorType("course", "clu.type.course");
         Anchor anchor = new Anchor("math301", "Math-301", type);
 
@@ -43,7 +43,7 @@ public class AgendaDiscoveryTest extends AbstractTransactionalDaoTest {
     @Test
     public void testGetAgenda_StudentEnrollsInOfferedCourse() {
 
-        AgendaRequest request = new AgendaRequest("student", "course", "offered", "enrolled");
+        AgendaRequest request = new AgendaRequest("kuali.student", "course", "offered", "enrolled");
         AnchorType type = new AnchorType("course", "clu.type.course");
         Anchor anchor = new Anchor("math301", "Math-301", type);
 
