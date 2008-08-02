@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="rules-common/target/classes" path="rules-common/src/main/java"/>
-	<classpathentry kind="src" output="rules-common/target/classes" path="rules-common/src/main/resources"/>
-	<classpathentry kind="src" output="rules-common/target/test-classes" path="rules-common/src/test/resources"/>
-	<classpathentry kind="src" output="rules-common/target/test-classes" path="rules-common/src/test/java"/>
-	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/java"/>
-	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/java">
-		<attributes>
-			<attribute name="maven.type" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="brms-core/target/classes" path="brms-core/src/main/resources"/>
-	<classpathentry kind="src" output="brms-core/target/test-classes" path="brms-core/src/test/resources"/>
-	<classpathentry kind="src" output="rules-execution/target/classes" path="rules-execution/src/main/java"/>
-	<classpathentry kind="src" output="rules-execution/target/test-classes" path="rules-execution/src/test/java"/>
-	<classpathentry kind="src" output="rules-execution/target/classes" path="rules-execution/src/main/resources"/>
-	<classpathentry kind="src" output="rules-execution/target/test-classes" path="rules-execution/src/test/resources"/>
-	<classpathentry kind="src" output="rules-repository/target/classes" path="rules-repository/src/main/java"/>
-	<classpathentry kind="src" output="rules-repository/target/test-classes" path="rules-repository/src/test/java"/>
-	<classpathentry kind="src" output="rules-repository/target/classes" path="rules-repository/src/main/resources"/>
-	<classpathentry kind="src" output="rules-repository/target/test-classes" path="rules-repository/src/test/resources"/>
-	<classpathentry kind="src" output="integration-tests/target/classes" path="integration-tests/src/main/java"/>
-	<classpathentry kind="src" output="integration-tests/target/classes" path="integration-tests/src/main/resources"/>
-	<classpathentry kind="src" output="integration-tests/target/test-classes" path="integration-tests/src/test/java"/>
-	<classpathentry kind="src" output="integration-tests/target/test-classes" path="integration-tests/src/test/resources"/>
-	<classpathentry kind="src" output="facts/target/classes" path="facts/src/main/java"/>
-	<classpathentry kind="src" output="facts/target/test-classes" path="facts/src/test/java">
-		<attributes>
-		    <attribute name="maven.type" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="facts/target/classes" path="facts/src/main/resources"/>
-	<classpathentry kind="src" output="facts/target/test-classes" path="facts/src/test/resources"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/resources"/>
+	<classpathentry kind="src" output="fact-finder/target/classes" path="fact-finder/src/main/java"/>
+	<classpathentry kind="src" output="fact-finder/target/test-classes" path="fact-finder/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="fact-finder/target/classes" path="fact-finder/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="fact-finder/target/test-classes" path="fact-finder/src/test/resources"/>
+	<classpathentry kind="src" output="rule-common/target/classes" path="rule-common/src/main/java"/>
+	<classpathentry kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-common/target/classes" path="rule-common/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/resources"/>
+	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/java"/>
+	<classpathentry kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/resources"/>
+	<classpathentry kind="src" output="rule-management/target/classes" path="rule-management/src/main/java"/>
+	<classpathentry kind="src" output="rule-management/target/test-classes" path="rule-management/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-management/target/classes" path="rule-management/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-management/target/test-classes" path="rule-management/src/test/resources"/>
+	<classpathentry kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/java"/>
+	<classpathentry kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
