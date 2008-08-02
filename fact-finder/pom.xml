@@ -12,6 +12,8 @@
 	<artifactId>fact-finder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name />
-	<description />
+	<name>Kuali Student BRMS - fact-finder</name>
+	<description>
+		Fact finder module
+	</description>
 </project>
