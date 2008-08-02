@@ -28,9 +28,9 @@
 
 	<modules>
 		<module>rule-common</module>
-		<module>rule-execution</module>
 		<module>rule-management</module>
 		<module>rule-repository</module>
+		<module>rule-execution</module>
 		<module>fact-finder</module>
 		<module>brms-ws</module>
         <!--module>integration-tests</module-->
