@@ -12,7 +12,7 @@
 	<artifactId>rule-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Kuali Student BRMS - brms-core</name>
+	<name>Kuali Student BRMS - rule-management</name>
 	<description>
 		An interface to BRMS meta data structures stored in a database
 	</description>

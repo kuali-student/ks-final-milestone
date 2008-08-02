@@ -12,6 +12,6 @@
 	<artifactId>brms-ws</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name />
-	<description />
+	<name>Kuali Student BRMS - brms-ws</name>
+	<description>Web services</description>
 </project>
