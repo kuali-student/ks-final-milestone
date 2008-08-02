@@ -18,6 +18,7 @@
 	<modules>
 		<module>brms-ws</module>
 		<module>fact-finder</module>
+		<module>rule-common</module>
 		<module>rule-execution</module>
 		<module>rule-management</module>
 		<module>rule-repository</module>

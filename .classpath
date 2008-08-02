@@ -10,6 +10,10 @@
 	<classpathentry kind="src" output="fact-finder/target/test-classes" path="fact-finder/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="fact-finder/target/classes" path="fact-finder/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="fact-finder/target/test-classes" path="fact-finder/src/test/resources"/>
+	<classpathentry kind="src" output="rule-common/target/classes" path="rule-common/src/main/java"/>
+	<classpathentry kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-common/target/classes" path="rule-common/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/resources"/>
 	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/java"/>
 	<classpathentry kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/resources"/>
