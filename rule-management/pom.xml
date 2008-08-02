@@ -12,6 +12,36 @@
 	<artifactId>rule-management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name />
-	<description />
+	<name>Kuali Student BRMS - brms-core</name>
+	<description>
+		An interface to BRMS meta data structures stored in a database
+	</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-test</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<version>10.3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rules-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rules-execution</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>

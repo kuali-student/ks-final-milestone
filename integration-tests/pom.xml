@@ -2,24 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+	<parent>
+		<groupId>org.kuali.student.brms</groupId>
+		<artifactId>brms-impl-pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>integration-tests</artifactId>
-	<name>Kuali Student BRMS - integration-tests</name>
+	<name>Kuali Student - integration-tests</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
 		Bridges various components of the Kuali Rule System
 	</description>
 
-	<parent>
-		<groupId>org.kuali.student.brms</groupId>
-		<artifactId>brms-ri</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
 
     <build>
-        <finalName>rules-repository</finalName>
+        <finalName>integration-tests</finalName>
         <pluginManagement>
             <plugins>
                 <!--plugin>
