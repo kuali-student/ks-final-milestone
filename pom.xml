@@ -1,41 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>brms-parent-pom</artifactId>
+		<groupId>org.kuali.student.brms</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>brms-ri</artifactId>
+	<artifactId>brms-impl-pom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Kuali Student BRMS RI</name>
-	<description></description>
-
-	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
-	</parent>
+	<name />
+	<description />
 	
-	<properties>
-		<drools.version>4.0.7</drools.version>
-        <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
-	</properties>
-
 	<modules>
-		<module>rules-common</module>
-		<module>brms-core</module>
-		<module>rules-repository</module>
-		<module>rules-execution</module>
-        <module>facts</module>
-        <!--module>integration-tests</module-->
+		<module>brms-ws</module>
+		<module>fact-finder</module>
+		<module>rule-common</module>
+		<module>rule-execution</module>
+		<module>rule-management</module>
+		<module>rule-repository</module>
 	</modules>
-
-	<scm>
-		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev2
-		</connection>
-		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev2
-		</developerConnection>
-	</scm>
 
 	<repositories>
 		<repository>
@@ -53,5 +40,4 @@
 			</releases>
 		</repository>
 	</repositories>
-
 </project>
