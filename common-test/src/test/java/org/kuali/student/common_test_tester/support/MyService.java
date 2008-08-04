@@ -15,10 +15,4 @@ public interface MyService {
 	
 	@WebMethod
 	public boolean updateValue(String id, String value);
-	
-	@WebMethod
-	public void setBase(Base base);
-	
-	@WebMethod
-	public Base getBase();
 }
