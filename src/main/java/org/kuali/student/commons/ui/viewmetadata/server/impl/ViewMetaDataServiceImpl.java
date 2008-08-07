@@ -142,21 +142,46 @@ public class ViewMetaDataServiceImpl implements ViewMetaDataService {
     }
 
     private void initializeDatabase(Connection conn) throws SQLException {
-        ResultSet rs = conn.getMetaData().getTables(null, null, "VIEW_FIELDS", null);
+        ResultSet rs = conn.getMetaData().getTables(null, null, "VIEW_CONFIGURATION", null);
         boolean exists = rs.next();
         rs.close();
 
         if (!exists) {
+            System.out.println("tables do not exist");
             Statement stmt = conn.createStatement();
 
-            stmt.execute("create table view_fields (" + " view_name varchar(50) not null," + " field_name varchar(50) not null " + ")");
-
-            stmt.execute("create table field_attributes (" + " field_name varchar(50) not null," + " attribute_key varchar(50) not null," + " attribute_value varchar(250) not null " + ")");
-
-            stmt.execute("create table view_configuration (view_name varchar(50) not null, attribute_key varchar(50) not null, attribute_value varchar(250) not null)");
-
+            try{
+                stmt.execute("create table view_fields (" + " view_name varchar(50) not null," + " field_name varchar(50) not null " + ")");
+                conn.commit();
+                System.out.println("created view_fields table");
+            }catch(SQLException ex){
+                System.out.println("unable to create view_fields table");
+                ex.printStackTrace();
+                conn.rollback();
+            }
+            try{
+                stmt.execute("create table field_attributes (" + " field_name varchar(50) not null," + " attribute_key varchar(50) not null," + " attribute_value varchar(250) not null " + ")");
+                conn.commit();
+                System.out.println("created field_attributes table");
+            }catch(SQLException ex){
+                System.out.println("unable to create field_attributes table");
+                ex.printStackTrace();
+                conn.rollback();
+            }
+            try{
+                stmt.execute("create table view_configuration ( view_name varchar(50) not null, attribute_key varchar(50) not null, attribute_value varchar(250) not null )");
+                conn.commit();
+                System.out.println("created view_configuration table");
+            }catch(SQLException ex){
+                System.out.println("unable to create view_configuration table");
+                ex.printStackTrace();
+                conn.rollback();
+            }
+            
             stmt.close();
             conn.commit();
+        }else {
+            System.out.println("tables exist");
         }
     }
 
