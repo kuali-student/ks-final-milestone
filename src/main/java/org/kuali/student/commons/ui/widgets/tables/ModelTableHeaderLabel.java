@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.Label;
 public class ModelTableHeaderLabel extends Composite implements HasText {
     final HorizontalPanel panel = new HorizontalPanel();
     final Label label = new Label();
-    final Image sortedAscending = new Image("images/sort-arrow-ascending.gif");
-    final Image sortedDescending = new Image("images/sort-arrow-descending.gif");
+    final Image sortedAscending = new Image("images/sort-arrow-ascending.png");
+    final Image sortedDescending = new Image("images/sort-arrow-descending.png");
     
     /**
      * Creates an empty header label
