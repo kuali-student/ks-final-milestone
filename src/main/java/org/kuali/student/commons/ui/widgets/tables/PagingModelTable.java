@@ -342,6 +342,15 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
      * @see org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget#update(org.kuali.student.commons.ui.mvc.client.model.ModelObject)
      */
     public void update(T modelObject) {
+        // trying a hack to work around a new instance coming back from server with the same unique id
+        // if this works, then need to readdress how indices are updated inside modelwidgets
+        for (T t : index) {
+            if (t.getUniqueId().equals(modelObject.getUniqueId())) {
+                index.remove(t);
+                index.add(modelObject);
+                break;
+            }
+        }
         reSort();
         redraw();
     }
