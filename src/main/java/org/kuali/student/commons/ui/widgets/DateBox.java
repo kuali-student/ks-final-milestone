@@ -36,15 +36,41 @@ public class DateBox extends Composite implements HasText, HasFocus {
 		FlowPanel p = new FlowPanel();
 		p.add(box);
 		initWidget(p);
+		
 		popup.add(picker);
 		box.addClickListener(new ClickListener() {
 			public void onClick(Widget sender) {
 				showDatePicker();
 			}
 		});
+		box.addKeyboardListener(new KeyboardListener(){
+
+            public void onKeyDown(Widget sender, char keyCode, int modifiers) {
+            }
+
+            public void onKeyPress(Widget sender, char keyCode, int modifiers) {
+            }
+            public void onKeyUp(Widget sender, char keyCode, int modifiers) {
+                if(keyCode == KeyboardListener.KEY_ENTER){
+                    String dateString = box.getText();
+                    try{
+                    Date dateInput = formatter.parse(dateString);
+                    picker.setFullDate(dateInput);
+                    }catch(Exception e) {}
+                    return;
+                }
+                String dateString = box.getText();
+                try{
+                Date dateInput = formatter.parse(dateString);
+                picker.setFullDate(dateInput);
+                }catch(Exception e) {}
+
+            }
+		    
+		});
 		popup.addPopupListener(new PopupListener() {
 			public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
-                setText(formatter.format(picker.selectedDate()));
+                //setText(formatter.format(picker.selectedDate()));
                 hideDatePicker();			
             }
 		});
@@ -76,7 +102,9 @@ public class DateBox extends Composite implements HasText, HasFocus {
 				//Log.info("cannot parse as date: " + value);
 			}
 		}
-
+        if(current != null){
+            picker.setFullDate(current);
+        }
 		if (current == null) {
 			current = new Date();
 		}
