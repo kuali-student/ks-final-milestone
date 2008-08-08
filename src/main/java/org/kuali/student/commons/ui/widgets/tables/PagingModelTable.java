@@ -319,7 +319,19 @@ public class PagingModelTable<T extends ModelObject> extends Composite implement
             int row = getSelectionRow(modelObject);
             table.removeRow(row);
         }
-        index.remove(modelObject);
+        // trying a hack to work around a new instance coming back from server with the same unique id
+        // if this works, then need to readdress how indices are updated inside modelwidgets
+        for (T t : index) {
+            if (t.getUniqueId().equals(modelObject.getUniqueId())) {
+                index.remove(t);
+                break;
+            }
+        }
+        if (selection != null && selection.getUniqueId().equals(modelObject.getUniqueId())) {
+            select(null);
+        }
+        reSort();
+        redraw();
         recalcPageCountLabel();
     }
 
