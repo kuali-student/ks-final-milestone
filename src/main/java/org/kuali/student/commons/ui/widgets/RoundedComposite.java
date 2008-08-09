@@ -2,11 +2,13 @@ package org.kuali.student.commons.ui.widgets;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RoundedComposite extends Composite {
+public class RoundedComposite extends Composite implements HasHorizontalAlignment, HasVerticalAlignment {
     final FlexTable panel = new FlexTable();
     final Image topLeft = new Image("images/rounded-panel-topleft.gif");
     final Image topRight = new Image("images/rounded-panel-topright.gif");
@@ -15,6 +17,9 @@ public class RoundedComposite extends Composite {
     
     final SimplePanel content = new SimplePanel();
     Widget widget;
+    
+    HorizontalAlignmentConstant horizontalAlignment = HasHorizontalAlignment.ALIGN_LEFT;
+    VerticalAlignmentConstant verticalAlignment = HasVerticalAlignment.ALIGN_TOP;
     
     public RoundedComposite() {
         panel.setWidget(0, 0, topLeft);
@@ -54,9 +59,45 @@ public class RoundedComposite extends Composite {
     public void setWidget(Widget widget) {
         this.widget = widget;
         content.setWidget(widget);
+        if (widget instanceof HasHorizontalAlignment) {
+            ((HasHorizontalAlignment)widget).setHorizontalAlignment(horizontalAlignment);
+        }
+        if (widget instanceof HasVerticalAlignment) {
+            ((HasVerticalAlignment)widget).setVerticalAlignment(verticalAlignment);
+        }
     }
     
     public void remove(Widget widget) {
         content.remove(widget);
+    }
+
+    public HorizontalAlignmentConstant getHorizontalAlignment() {
+        return this.horizontalAlignment;
+    }
+
+    public void setHorizontalAlignment(HorizontalAlignmentConstant align) {
+        this.horizontalAlignment = align;
+        panel.getCellFormatter().setHorizontalAlignment(1, 1, align);
+        if (content instanceof HasHorizontalAlignment) {
+            ((HasHorizontalAlignment)content).setHorizontalAlignment(align);
+        }
+        if (content.getWidget() != null && content.getWidget() instanceof HasHorizontalAlignment) {
+            ((HasHorizontalAlignment)content.getWidget()).setHorizontalAlignment(align);
+        }
+    }
+
+    public VerticalAlignmentConstant getVerticalAlignment() {
+        return this.verticalAlignment;
+    }
+
+    public void setVerticalAlignment(VerticalAlignmentConstant align) {
+        this.verticalAlignment = align;
+        panel.getCellFormatter().setVerticalAlignment(1, 1, align);
+        if (content instanceof HasVerticalAlignment) {
+            ((HasVerticalAlignment)content).setVerticalAlignment(align);
+        }
+        if (content.getWidget() != null && content.getWidget() instanceof HasVerticalAlignment) {
+            ((HasVerticalAlignment)content.getWidget()).setVerticalAlignment(align);
+        }
     }
 }
