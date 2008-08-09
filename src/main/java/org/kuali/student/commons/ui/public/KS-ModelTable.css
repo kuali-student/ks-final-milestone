@@ -24,12 +24,14 @@
 	color: #000000;
     font-size: 10px;
     font-style: arial;
+    cursor: pointer;
 }
 .KS-ModelTable-Row-Alternate {
 	background-color: #E4E4E4;
     color: #000000;
     font-size: 10px;
     font-style: arial;
+    cursor: pointer;
 }
 .KS-ModelTable-Row-Selected {
 	font-weight: bold;
