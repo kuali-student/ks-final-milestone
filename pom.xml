@@ -1,14 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.commons</groupId>
-	<artifactId>ks-commons-ui</artifactId>
+	<groupId>ks-ui-kitchen-sink</groupId>
+	<artifactId>ks-ui-kitchen-sink</artifactId>
+	<packaging>war</packaging>
+	<name>KS UI Kitchen Sink</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>ks-commons-ui</name>
-	<url>http://maven.apache.org</url>
+	<description>
+		Demonstrates preferred KS usage of GWT components, including
+		components found in ks-commons-ui
+	</description>
+
+	<properties>
+		<google.webtoolkit.extrajvmargs>
+			-Xmx512m
+		</google.webtoolkit.extrajvmargs>
+	</properties>
 
 	<parent>
 		<!--  TODO point to official parent pom, whenever we make one -->
@@ -16,15 +25,56 @@
 		<artifactId>ks-parent-pom</artifactId>
 		<version>0.0.2</version>
 	</parent>
-	
-	<scm>
-		<connection>
-			scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev
-		</connection>
-		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev
-		</developerConnection>
-	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.totsp.gwt</groupId>
+				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+				<version>2.0-beta20</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>setup</goal>
+							<goal>extractGwt</goal>
+							<goal>mergewebxml</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<gwtVersion>1.5.0-rc1</gwtVersion>
+					<logLevel>INFO</logLevel>
+					<!-- defines which page should be launched when run in hosted mode -->
+					<runTarget>
+						org.kuali.student.ui.kitchensink.KitchenSink/KitchenSink.html
+					</runTarget>
+
+					<!-- define which GWT modules get compiled during the build process -->
+					<compileTargets>
+						<param>
+							org.kuali.student.ui.kitchensink.KitchenSink
+						</param>
+						<!-- add any other GWT modules in your project that are required -->
+					</compileTargets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<webXml>target/web.xml</webXml>
+					<!-- 
+					<webResources>
+						<resource>
+							<directory>src/main/java</directory>
+						</resource>
+					</webResources>
+					 -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -37,7 +87,7 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>1.5.0-RC1</version>
+			<version>1.5.0-rc1</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -45,14 +95,14 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<version>1.5-RC1</version>
-			<classifier>${ks.os.classifier}</classifier>
 			<scope>provided</scope>
+			<classifier>${ks.os.classifier}</classifier>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>1.5.0-RC1</version>
+			<version>1.5.0-rc1</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>junit</artifactId>
@@ -62,21 +112,18 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>org.apache.derby</groupId>
-		    <artifactId>derby</artifactId>
-		    <version>10.4.1.3</version>
+			<groupId>org.kuali.student.commons</groupId>
+			<artifactId>ks-commons-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>rhino</groupId>
-		    <artifactId>js</artifactId>
-		    <version>1.7R1</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-incubator</artifactId>
-			<version>1.4.0</version>
+			<groupId>org.kuali.student.commons</groupId>
+			<artifactId>ks-commons-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>
@@ -118,8 +165,8 @@
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
-		
-				<profile>
+
+		<profile>
 			<id>ks.os.linux</id>
 			<activation>
 				<os>
