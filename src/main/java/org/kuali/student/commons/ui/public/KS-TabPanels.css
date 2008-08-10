@@ -9,15 +9,16 @@
 
 .gwt-TabBar .gwt-TabBarRest {
 	padding: 0px;
+	color: #FFFFFF;
 	
 }
 
 .gwt-TabBar .gwt-TabBarItem {
-	height: 20px;
-	width: 120px;
+	height: 22px;
+	width: 140px;
 	padding: 0px;
 	font-size: 9pt;
-	font-color: black;
+	font-color: #;
 	font-weight: normal;
 	background: #d5cbcb url(images/ks-tab-unselected.gif) no-repeat left top;
 	text-align: center;
@@ -30,8 +31,8 @@
 }
 
 .gwt-TabBar .gwt-TabBarItem-selected {
-	height: 20px;
-	width: 120px;
+	height: 22px;
+	width: 140px;
 	padding: 0px;
 	font-size: 9pt;
 	font-color: #a25353;
@@ -56,24 +57,26 @@
 	background: #d5cbcb;
 	vertical-align: top;
 	border: 0;
+	height: 22px;
 }
 
 .gwt-TabBar-Nested .gwt-TabBarFirst {
 	padding: 0px;
 	border: 0;
+	height: 22px;
 }
 
 .gwt-TabBar-Nested .gwt-TabBarRest {
 	padding: 0px;
 	border: 0;
 	background: #7c1d3a;
-	height: 14px;
+	height: 22px;
 	
 }
 
 .gwt-TabBar-Nested .gwt-TabBarItem {
-	height: 18px;
-	width: 120px;
+	height: 22px;
+	width: 180px;
 	padding: 0px;
 	font-size: 9pt;
 	color: #FFFFFF;
@@ -83,6 +86,7 @@
 	vertical-align: center;
 	cursor: pointer;
 	border: 0;
+
 }
 
 .gwt-TabBar-Nested .gwt-TabBarItem-wrapper {
@@ -90,8 +94,8 @@
 }
 
 .gwt-TabBar-Nested .gwt-TabBarItem-selected {
-	height: 18px;
-	width: 120px;
+	height: 22px;
+	width: 180px;
 	padding: 0px;
 	font-size: 9pt;
 	color: #FFFFFF;
@@ -101,6 +105,7 @@
 	vertical-align: center;
 	cursor: default;
 	border: 0;
+
 }
 
 .gwt-TabBarRest .gwt-TabBar-Nested-Label {
@@ -108,6 +113,7 @@
 	color: #FFFFFF;
 	font-weight: normal;
 	text-align: center;
+	height: 22px;
 }
 
 .gwt-TabBarItem-selected .gwt-TabBar-Nested-Label {
@@ -115,9 +121,14 @@
 	color: #FFFFFF;
 	font-weight: bold;
 	text-align: center;
+	height: 22px;
 }
 
 .gwt-TabBar-Nested .gwt-TabBarItem-wrapper-selected {
 	border: 0;
+	color: #FFFFFF;
+	height: 22px;
 }
+
+
 
