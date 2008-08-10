@@ -1,44 +1,299 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.poc.personidentity</groupId>
-	<artifactId>personidentity-api</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
-	<name>Kuali Student PersonIdentity API</name>
-	<description />
+	<groupId>org.kuali.student.poc.ks-poc-ui</groupId>
+	<artifactId>ks-poc-ui</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.2-SNAPSHOT</version>
+	<name>Kuali Student Proof of Concept</name>
+	<description></description>
+	<properties>
+		<google.webtoolkit.extrajvmargs>
+			-Xmx512m
+		</google.webtoolkit.extrajvmargs>
+	</properties>
 
 	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-api-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<groupId>org.kuali.student.poc</groupId>
+		<artifactId>ks-parent-pom</artifactId>
+		<version>0.0.2</version>
 	</parent>
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev
+			scm:svn:https://kualidev.oti.fsu.edu/svn/team1/ui/poc/POC/trunk
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev
+			scm:svn:https://kualidev.oti.fsu.edu/svn/team1/ui/poc/POC/trunk
 		</developerConnection>
 	</scm>
 
-	<properties>
-		<ks.service.package>
-			org.kuali.student.poc.wsdl.personidentity.person
-		</ks.service.package>
-		<ks.service.className>PersonService</ks.service.className>
-	</properties>
-	
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-java2ws-plugin</artifactId>
+				<groupId>com.totsp.gwt</groupId>
+				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+				<version>2.0-beta20</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>setup</goal>
+							<goal>extractGwt</goal>
+							
+							<goal>mergewebxml</goal>
+							 
+							<goal>compile</goal>
+
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<gwtVersion>1.5.0-rc1</gwtVersion>
+					<logLevel>INFO</logLevel>
+					<runTarget>
+						org.kuali.student.poc.POC/POC.jsp
+					</runTarget>
+					<compileTargets>
+						<param>org.kuali.student.poc.POC</param>
+						<param>
+							org.kuali.student.ui.personidentity.PersonIdentity
+						</param>
+						<!--  dependencies 
+						<param>
+							org.kuali.student.commons.ui.Logging
+						</param>
+						<param>
+							org.kuali.student.commons.ui.Messages
+						</param>
+						<param>
+							org.kuali.student.commons.ui.MVC
+						</param>
+						<param>
+							org.kuali.student.commons.ui.PropertyChangeSupport
+						</param>
+						<param>
+							org.kuali.student.commons.ui.UICommons
+						</param>
+						<param>
+							org.kuali.student.commons.ui.Utilities
+						</param>
+						<param>
+							org.kuali.student.commons.ui.Validators
+						</param>
+						<param>
+							org.kuali.student.commons.ui.ViewMetaData
+						</param>
+						<param>
+							org.kuali.student.commons.ui.Widgets
+						</param>
+						-->
+					</compileTargets>
+				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				  
+				<configuration>
+					<webXml>target/web.xml</webXml>
+				</configuration>
+				 
+			</plugin>
+
 		</plugins>
 	</build>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-incubator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.personidentity</groupId>
+			<artifactId>personidentity-api</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.personidentity</groupId>
+			<artifactId>personidentity-api</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-ws</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>1.5.0-rc1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>1.5-RC1</version>
+			<classifier>${ks.os.classifier}</classifier>
+			<scope>provided</scope>
+		</dependency>	
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>1.5.0-rc1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>junit</artifactId>
+					<groupId>com.google.gwt</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derby</artifactId>
+		    <version>10.4.1.3</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.kuali.student.commons</groupId>
+			<artifactId>ks-commons-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.commons</groupId>
+			<artifactId>ks-commons-ui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+			<scope>compile</scope>
+		</dependency>
+		
+		
+		
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>lu-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>luipersonrelation-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>		
+
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>lu-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>luipersonrelation-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.1</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>2.5.4</version>
+		</dependency>
+
+	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>ks.ui.external.repositories</id>
+			<activation>
+				<property>
+					<name>!ks.use.proxy</name>
+				</property>
+			</activation>
+
+			<repositories>
+				<repository>
+					<id>com.gwtext</id>
+					<url>http://www.gwt-ext.com/maven2/</url>
+				</repository>
+
+				<repository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</repository>
+				<repository>
+					<id>kuali.external-free</id>
+					<url>
+						http://kuali.umd.edu/archiva/repository/external-free
+					</url>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+
+			<pluginRepositories>
+				<pluginRepository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+		<profile>
+			<id>ks.os.linux</id>
+			<activation>
+				<os>
+					<name>linux</name>
+				</os>
+			</activation>
+			<properties>
+				<ks.os.classifier>linux</ks.os.classifier>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>ks.os.windows</id>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<ks.os.classifier>windows</ks.os.classifier>
+			</properties>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<repository>
@@ -55,23 +310,16 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+		<!-- 
+		<repository>
+			<id>kuali.archiva11-public</id>
+			<url>http://kuali.umd.edu/archiva11/repository/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		 -->
 	</repositories>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>
