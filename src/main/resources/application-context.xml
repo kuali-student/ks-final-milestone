@@ -43,13 +43,12 @@
 	</bean>
 
 	<!--  rules beans -->
-	<bean id="lprEntityManager"
-		factory-bean="luprEntityManagerFactory"
-		factory-method="createEntityManager"/>
-	
+	<bean id="lprEntityManager" factory-bean="luprEntityManagerFactory"
+		factory-method="createEntityManager" />
+
 	<bean id="businessRuleDAO"
 		class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
-		<property name="entityManager" ref="lprEntityManager"/>
+		<property name="entityManager" ref="lprEntityManager" />
 	</bean>
 
 	<bean id="droolsRepository"
@@ -124,8 +123,8 @@
 		</property>
 		<property name="luClient" ref="luClient" />
 		<property name="personClient" ref="personClient" />
-		<property name="businessRuleDAO" ref="businessRuleDAO"/>
-		<property name="droolsRepository" ref="droolsRepository"/>
+		<property name="businessRuleDAO" ref="businessRuleDAO" />
+		<property name="droolsRepository" ref="droolsRepository" />
 	</bean>
 
 	<!-- jpa / jta -->
@@ -251,6 +250,12 @@
 			<aop:after-throwing
 				pointcut="execution(* org.kuali.student.poc.personidentity.person.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.poc.learningunit.luipersonrelation.service..*.*(..))"
+				method="afterThrowing" throwing="ex" />
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.poc.learningunit.lu.service.*.*(..))"
+				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
 
@@ -278,7 +283,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<!-- GWT Service Aliases -->
 	<alias alias="gwtLprService" name="lprServiceImpl" />
 	<alias alias="gwtLuService" name="luServiceImpl" />
