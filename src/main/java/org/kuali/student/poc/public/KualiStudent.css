@@ -61,6 +61,8 @@ BODY
 }
 
 .KS-Error {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
 	font: bold;
 	color: red;
 }
