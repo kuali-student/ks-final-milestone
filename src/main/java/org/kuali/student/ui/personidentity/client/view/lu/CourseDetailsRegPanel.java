@@ -107,21 +107,23 @@ public class CourseDetailsRegPanel extends VerticalPanel {
 		register.setEnabled(true);
 		addToBasket.setEnabled(true);
 		cDetails.showNotification(false, null);
-		
-		for(GwtLuiPersonRelationDisplay info: courses)
-		{
-			//if they are registered for or have this course in their cart
-			if(LuModelState.getInstance().getCurrLui().getLuiId().equals( info.getLuiDisplay().getLuiId() ))
+		if(courses != null){
+			for(GwtLuiPersonRelationDisplay info: courses)
 			{
-				register.setEnabled(false);
-				addToBasket.setEnabled(false);
-				if(info.getRelationState().getState().equals(RegistrationService.STATE_BASKET.getState()))
+				//if they are registered for or have this course in their cart
+				GwtLuiInfo currentLui = LuModelState.getInstance().getCurrLui();
+				if(currentLui != null && currentLui.getLuiId().equals( info.getLuiDisplay().getLuiId() ))
 				{
-					cDetails.showNotification(true, CourseDetails.IN_BASKET);
-				}
-				else if(info.getRelationState().getState().equals(RegistrationService.STATE_COMPLETE.getState()))
-				{
-					cDetails.showNotification(true, CourseDetails.REGISTERED);
+					register.setEnabled(false);
+					addToBasket.setEnabled(false);
+					if(info.getRelationState().getState().equals(RegistrationService.STATE_BASKET.getState()))
+					{
+						cDetails.showNotification(true, CourseDetails.IN_BASKET);
+					}
+					else if(info.getRelationState().getState().equals(RegistrationService.STATE_COMPLETE.getState()))
+					{
+						cDetails.showNotification(true, CourseDetails.REGISTERED);
+					}
 				}
 			}
 		}

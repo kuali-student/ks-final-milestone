@@ -62,7 +62,7 @@ public class PersonSearchResultPanel extends Composite {
 		lSearchText.addStyleName("KS-Label");
 		lSearchText.addStyleName("KS-Search-Message");
 		
-		//panel.add(lSearchText);
+		panel.add(lSearchText);
 		panel.add(table);
 		table.setVisible(false);
 		

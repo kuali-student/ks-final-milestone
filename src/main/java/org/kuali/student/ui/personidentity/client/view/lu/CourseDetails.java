@@ -36,7 +36,7 @@ public class CourseDetails extends Composite {
 	Label	lDescription= new Label();
 	Label 	lLocation= new Label();
 	Label	lInstructor= new Label();
-	Label	lNotifyMessage= new Label();
+	Label	lNotifyMessage= new Label(" ");
 	
 	public static final String BASKET_ADD = "basketAdd";
 	public static final String IN_BASKET = "inBasket";
@@ -57,8 +57,7 @@ public class CourseDetails extends Composite {
             panel.add(table);
             panel.add(lNotifyMessage);
             
-            
-            lNotifyMessage.addStyleName("KS-Error");
+            lNotifyMessage.addStyleName("info-content");
             lNotifyMessage.setVisible(false);
             
         }
@@ -70,7 +69,7 @@ public class CourseDetails extends Composite {
 	}
 	
 	
-	private void populateBase() {
+	private void populateBase(boolean popFull) {
 	    while (table.getRowCount() > 0) {
 	        table.removeRow(0);
 	    }
@@ -79,21 +78,28 @@ public class CourseDetails extends Composite {
 	    
 	    table.setText(0, 0, messages.get("title"));
         table.setWidget(0, 1, lTitle);
+        if(popFull)
+        {
+        	table.setText(1, 0, messages.get("meetingDays"));
+        	table.setWidget(1, 1, lMeetingDays);
         
-        table.setText(1, 0, messages.get("meetingDays"));
-        table.setWidget(1, 1, lMeetingDays);
-        
-        table.setText(2, 0, messages.get("meetingTimes"));
-        table.setWidget(2, 1, lMeetingTimes);
-        
-        table.setText(3, 0, messages.get("description"));
-        table.setWidget(3, 1, lDescription);
-        
-        table.setText(4, 0, messages.get("location"));
-        table.setWidget(4, 1, lLocation);
-        
-        table.setText(5, 0, messages.get("instructor"));
-        table.setWidget(5, 1, lInstructor);
+        	table.setText(2, 0, messages.get("meetingTimes"));
+        	table.setWidget(2, 1, lMeetingTimes);
+        	
+        	 table.setText(3, 0, messages.get("description"));
+             table.setWidget(3, 1, lDescription);
+             
+             table.setText(4, 0, messages.get("location"));
+             table.setWidget(4, 1, lLocation);
+             
+             table.setText(5, 0, messages.get("instructor"));
+             table.setWidget(5, 1, lInstructor);
+        }
+        else
+        {
+        	 table.setText(1, 0, messages.get("description"));
+             table.setWidget(1, 1, lDescription);
+        }
         
 	}
 	
@@ -115,7 +121,7 @@ public class CourseDetails extends Composite {
 	}
 	public void populate(GwtCluInfo in){				
 		if(in != null){
-		    populateBase();
+		    populateBase(false);
 			this.lTitle.setText(in.getCluShortName());
 			
 		//	this.lMeetingDays.setText(in.getEffectiveStartCycle() + " - " + in.getEffectiveEndCycle());
@@ -133,11 +139,11 @@ public class CourseDetails extends Composite {
 	}
 	public void populate(GwtLuiInfo in){				
 		if(in != null){
-		    populateBase();
+		    populateBase(true);
 			this.lTitle.setText(in.getCluInfo().getCluShortName());
 		//	this.lMeetingDays.setText(in.getEffectiveStartCycle() + " - " + in.getEffectiveEndCycle());
 			this.lDescription.setText(in.getCluInfo().getDescription());
-	        populateAttributes(in.getAttributes());
+	        populateAttributes(in.getCluInfo().getAttributes());
 
 		}
 	}
