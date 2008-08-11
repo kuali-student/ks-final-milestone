@@ -30,7 +30,7 @@
 		<property name="personId" value="Person 1" />
 		<property name="luiId" value="Lui 1" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 	<bean id="lpr2"
 		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
@@ -39,7 +39,7 @@
 		<property name="personId" value="Person 1" />
 		<property name="luiId" value="Lui 2" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 	<bean id="lpr3"
 		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
@@ -48,7 +48,7 @@
 		<property name="personId" value="Person 2" />
 		<property name="luiId" value="Lui 1" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 	<bean id="lpr4"
 		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
@@ -57,7 +57,7 @@
 		<property name="personId" value="Person 3" />
 		<property name="luiId" value="Lui 1" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 	<bean id="lpr5"
 		class="org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation">
@@ -66,7 +66,7 @@
 		<property name="personId" value="Person 2" />
 		<property name="luiId" value="Lui 2" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 
 	<bean id="rulelpr1"
@@ -76,7 +76,7 @@
 		<property name="personId" value="Rules Person 1" />
 		<property name="luiId" value="CPR 101" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 
 	<bean id="rulelpr2"
@@ -86,7 +86,7 @@
 		<property name="personId" value="Rules Person 1" />
 		<property name="luiId" value="CPR 301" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 
 	<bean id="rulelpr3"
@@ -96,7 +96,7 @@
 		<property name="personId" value="Rules Person 1" />
 		<property name="luiId" value="MATH 105" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 
 	<bean id="rulelpr4"
@@ -106,7 +106,7 @@
 		<property name="personId" value="Rules Person 1" />
 		<property name="luiId" value="ART 55" />
 		<property name="relationState" value="enrolled"/>
-		<property name="luiPersonRelationType" value="student"/>
+		<property name="luiPersonRelationType" value="kuali.student"/>
 	</bean>
 	
 	<bean id="currentTime" class="java.util.Date" />
