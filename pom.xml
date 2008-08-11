@@ -74,12 +74,12 @@
 				<configuration>
 					<webXml>target/web.xml</webXml>
 					<!-- 
-					<webResources>
+						<webResources>
 						<resource>
-							<directory>src/main/java</directory>
+						<directory>src/main/java</directory>
 						</resource>
-					</webResources>
-					 -->
+						</webResources>
+					-->
 				</configuration>
 			</plugin>
 		</plugins>
@@ -124,17 +124,9 @@
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<classifier>sources</classifier>
 			<scope>compile</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.student.commons</groupId>
-			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-
+		
 	</dependencies>
 
 
