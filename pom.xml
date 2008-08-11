@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.commons</groupId>
 	<artifactId>ks-commons-ui</artifactId>
@@ -16,7 +16,7 @@
 		<artifactId>ks-parent-pom</artifactId>
 		<version>0.0.2</version>
 	</parent>
-	
+
 	<scm>
 		<connection>
 			scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev
@@ -25,6 +25,20 @@
 			scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev
 		</developerConnection>
 	</scm>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
 
 	<dependencies>
 		<dependency>
@@ -62,22 +76,25 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>org.apache.derby</groupId>
-		    <artifactId>derby</artifactId>
-		    <version>10.4.1.3</version>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.4.1.3</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>rhino</groupId>
-		    <artifactId>js</artifactId>
-		    <version>1.7R1</version>
+			<groupId>rhino</groupId>
+			<artifactId>js</artifactId>
+			<version>1.7R1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-incubator</artifactId>
 			<version>1.4.0</version>
+			
 		</dependency>
+		
+
 
 	</dependencies>
 
@@ -118,8 +135,8 @@
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
-		
-				<profile>
+
+		<profile>
 			<id>ks.os.linux</id>
 			<activation>
 				<os>
