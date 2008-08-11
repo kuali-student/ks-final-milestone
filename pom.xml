@@ -21,10 +21,10 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://kualidev.oti.fsu.edu/svn/team1/ui/poc/POC/trunk
+			scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/branches/ks-poc-ui-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://kualidev.oti.fsu.edu/svn/team1/ui/poc/POC/trunk
+			scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/branches/ks-poc-ui-dev
 		</developerConnection>
 	</scm>
 
