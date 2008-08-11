@@ -26,6 +26,15 @@
 		<version>0.0.2</version>
 	</parent>
 
+	<scm>
+		<connection>
+			scm:svn:https://test.kuali.org/svn/student/examples/ui/ks-ui-kitchensink/branches/ks-ui-kitchensink-dev
+		</connection>
+		<developerConnection>
+			scm:svn:https://test.kuali.org/svn/student/examples/ui/ks-ui-kitchensink/branches/ks-ui-kitchensink-dev
+		</developerConnection>
+	</scm>
+
 	<build>
 		<plugins>
 			<plugin>
