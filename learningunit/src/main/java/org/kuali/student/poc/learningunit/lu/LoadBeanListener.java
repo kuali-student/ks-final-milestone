@@ -7,7 +7,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 public class LoadBeanListener implements ApplicationListener {
 	private LoadDataBean ldb;
 
-	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ContextRefreshedEvent) {
 			ldb.loadData();
