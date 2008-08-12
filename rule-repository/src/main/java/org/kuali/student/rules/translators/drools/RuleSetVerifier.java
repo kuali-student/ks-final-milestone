@@ -41,6 +41,8 @@ public class RuleSetVerifier {
         }
 
         if (p.hasErrors()) {
+        	// Drools 4 does not use generics so we have to suppress warning
+        	@SuppressWarnings("unchecked") 
             List<ParserError> errors = p.getErrors();
             for(ParserError error : errors) {
                 errorMessages.add(error.toString());

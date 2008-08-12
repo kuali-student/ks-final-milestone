@@ -428,7 +428,9 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
             QueryResult res = q.execute();
 
-            return new PackageIterator(this.repository, res.getNodes());
+            // Drools 4 does not use generics so we have to suppress warning
+            @SuppressWarnings("unchecked") Iterator<PackageItem> it = new PackageIterator(this.repository, res.getNodes());
+            return it;
         } catch (RepositoryException e) {
             throw new RulesRepositoryException("Finding archived rule sets failed", e);
         }
@@ -1281,7 +1283,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      */
     public void rebuildAllSnapshots() {
         try {
-            Iterator<PackageItem> it = repository.listPackages();
+        	// Drools 4 does not used generics
+        	@SuppressWarnings("unchecked") Iterator<PackageItem> it = repository.listPackages();
             while (it.hasNext()) {
                 PackageItem pkg = it.next();
                 String[] snapshots = this.repository.listPackageSnapshots(pkg.getName());
@@ -1501,7 +1504,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
                 category, "A dynamic rule set", DroolsConstants.FORMAT_DRL);
         // Load all rules in a specific category
-        List<AssetItem> items = this.repository.findAssetsByCategory(category);
+    	// Drools 4 does not used generics
+    	@SuppressWarnings("unchecked") List<AssetItem> items = this.repository.findAssetsByCategory(category);
         for(AssetItem item : items) {
             Rule rule = droolsUtil.buildRule(item);
             String header = item.getPackage().getHeader();

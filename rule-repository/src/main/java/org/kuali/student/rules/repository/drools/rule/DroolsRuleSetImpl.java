@@ -117,7 +117,10 @@ public class DroolsRuleSetImpl
      */
     public List<Rule> getRules() {
         try {
-            return (List<Rule>) objectUtil.deepCopy(this.createList());
+        	// Drools 4 does not use generics so we have to suppress warning
+        	@SuppressWarnings("unchecked") 
+        	List<Rule> list = (List<Rule>) objectUtil.deepCopy(this.createList());
+        	return list;
         } catch( Exception e ) {
             throw new RuntimeException( e );
         }

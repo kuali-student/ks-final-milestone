@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -101,7 +100,11 @@ public class DroolsUtil {
         rule.setCreatedDate(item.getCreatedDate());
         rule.setLastModifiedDate(item.getLastModified());
         rule.setArchived(item.isArchived());
-        setCategories(rule, item.getCategories());
+        
+        // Drools 4 does not use generics so we have to suppress warning
+        @SuppressWarnings("unchecked")
+        List<CategoryItem> categories = item.getCategories();
+        setCategories(rule, categories);
         
         try {
             rule.setHistorical(item.isHistoricalVersion());
@@ -173,7 +176,11 @@ public class DroolsUtil {
         // item.isArchived() throws exception when creating from history
         rule.setArchived(false);
         rule.setVersionSnapshotUUID(item.getVersionSnapshotUUID());
-        setCategories(rule, item.getCategories());
+        
+        // Drools 4 does not use generics so we have to suppress warning
+        @SuppressWarnings("unchecked") 
+        List<CategoryItem> categories = item.getCategories();
+        setCategories(rule, categories);
 
         try {
             rule.setHistorical(item.isHistoricalVersion());
@@ -242,7 +249,8 @@ public class DroolsUtil {
             throw new RuleEngineRepositoryException("Unable to set rule set historical version", e);
         }
 
-        for (Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
+        // Drools 4 does not use generics so we have to suppress warning
+        for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             AssetItem item = it.next();
             Rule rule = buildRule(item);
             ruleSet.addRule(rule);
@@ -250,7 +258,7 @@ public class DroolsUtil {
 
         return ruleSet;
     }
-
+    
     /**
      * Adds a header to the rule set if it does not exists.
      * 
@@ -376,7 +384,8 @@ public class DroolsUtil {
             errors.addAll(l);
         }
 
-        for (Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
+        // Drools 4 does not use generics so we have to suppress warning
+        for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             AssetItem item = it.next();
             builder.addPackageFromDrl(new StringReader(item.getContent()));
             if (builder.hasErrors()) {
@@ -424,7 +433,8 @@ public class DroolsUtil {
         sb.append(pkg.getHeader());
         sb.append("\n\n");
 
-        for (Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
+        // Drools 4 does not use generics so we have to suppress warning
+        for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             sb.append(it.next().getContent());
             sb.append("\n");
         }
