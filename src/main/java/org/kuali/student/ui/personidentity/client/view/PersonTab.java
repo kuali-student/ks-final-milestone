@@ -80,6 +80,14 @@ public class PersonTab extends TabPanel {
                     me.selectTab(0);
                 }
             });
+            
+            c.getEventDispatcher().addListener(PersonSearchResultPanel.PERSON_SELECTED, new MVCEventListener() {
+                public void onEvent(MVCEvent event, Object data) {
+                    if(data == null) {
+                        me.selectTab(0);
+                    }
+                }
+            });
         }
     }
     
