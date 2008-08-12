@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CourseTab extends TabPanel {
+public class CourseTab extends SelectedTabPanel {
 
     final CourseSearchPanel courseSearchPanel = new CourseSearchPanel();
     final CourseDetailsPanel cDetails = new CourseDetailsPanel();

@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RegistrationTab extends TabPanel {
+public class RegistrationTab extends SelectedTabPanel {
    EnrollmentSummaryPanel enrollmentSummaryPanel = new EnrollmentSummaryPanel();
    
 	TabListener queryCourseList = new TabListener(){
