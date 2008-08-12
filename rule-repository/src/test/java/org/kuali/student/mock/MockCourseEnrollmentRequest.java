@@ -70,7 +70,7 @@ public class MockCourseEnrollmentRequest  {
     	return met.size();	
     }
     private Set<String> and(Set<String> theSet, Set<String> thatSet) {
-    	Set rval = new HashSet<String>(theSet);
+    	Set<String> rval = new HashSet<String>(theSet);
     	 rval.retainAll(new HashSet<String>(thatSet));
     	 return rval;
     }
