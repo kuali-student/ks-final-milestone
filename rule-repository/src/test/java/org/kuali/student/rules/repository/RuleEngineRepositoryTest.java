@@ -428,7 +428,7 @@ public class RuleEngineRepositoryTest {
         assertNotNull(ruleset);
         assertNotNull(ruleset.getCompiledRuleSet());
         assertNotNull(ruleset.getCompiledRuleSetObject());
-        Class c = ruleset.getCompiledRuleSetObject().getClass();
+        Class<?> c = ruleset.getCompiledRuleSetObject().getClass();
         assertEquals("org.drools.rule.Package", c.getName());
     }
 
