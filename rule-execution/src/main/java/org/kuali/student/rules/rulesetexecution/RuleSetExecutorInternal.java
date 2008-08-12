@@ -12,7 +12,7 @@ public interface RuleSetExecutorInternal {
      * @param facts List of facts
      * @return
      */
-    public Object execute(String ruleSetId, List facts);
+    public Object execute(String ruleSetId, List<?> facts);
 
     /**
      * Caches a rule set's source code.

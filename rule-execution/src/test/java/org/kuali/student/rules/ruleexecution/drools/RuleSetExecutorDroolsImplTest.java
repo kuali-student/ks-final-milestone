@@ -57,7 +57,7 @@ public class RuleSetExecutorDroolsImplTest {
         List<Object> facts = new ArrayList<Object>();
         facts.add( Calendar.getInstance() );
         // Iterator through any returned rule engine objects
-        Iterator it = (Iterator) executor.execute( agenda, facts );
+        Iterator<?> it = (Iterator<?>) executor.execute( agenda, facts );
         
         assertNotNull( it );
 
@@ -99,7 +99,7 @@ public class RuleSetExecutorDroolsImplTest {
 
         RuleSetExecutor executor = new RuleSetExecutorDroolsImpl( new RuleEngineRepositoryMock(source1) );
         // Iterator through any returned rule engine objects
-        Iterator it = (Iterator) executor.execute( agenda, factList );
+        Iterator<?> it = (Iterator<?>) executor.execute( agenda, factList );
         assertNotNull(it);
         assertTrue(factContainer1.getPropositionContainer().getRuleResult());
     }

@@ -67,7 +67,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * 
      * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
-    public Object execute(Agenda agenda, List facts) {
+    public Object execute(Agenda agenda, List<?> facts) {
         List<Package> packageList = new ArrayList<Package>();
         
         logger.info("Executing agenda: name="+agenda.getName());
@@ -86,7 +86,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             }
         }
         RuleBase ruleBase = getRuleBase(packageList);
-        Iterator iterator = executeRule(ruleBase, facts).iterateObjects();
+        Iterator<?> iterator = executeRule(ruleBase, facts).iterateObjects();
         generateReport(facts);
         return iterator;
     }
@@ -96,7 +96,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * 
      * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#executeSnapshot(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
-    public Object executeSnapshot(Agenda agenda, List facts) {
+    public Object executeSnapshot(Agenda agenda, List<?> facts) {
         throw new RuleSetExecutionException("Method not yet implemented");
     }
 
@@ -121,7 +121,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         return (Package) this.ruleEngineRepository.loadCompiledRuleSetSnapshot(ruleSetName, snapshotName);
     }
     
-    private void generateReport(List facts) {
+    private void generateReport(List<?> facts) {
         GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(this);
         for(int i=0; i<facts.size(); i++) {
             Object obj = facts.get(i);
@@ -139,7 +139,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param facts List of facts
      * @return
      */
-    public Object execute(String ruleSetId, List facts) {
+    public Object execute(String ruleSetId, List<?> facts) {
         RuleBase ruleBase = getRuleBase(this.ruleSetMap.get(ruleSetId));
         return executeRule(ruleBase, facts).iterateObjects();
     }
@@ -229,7 +229,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param fact Facts for the <code>ruleBase</code>
      * @return A stateless session result
      */
-    private StatelessSessionResult executeRule( RuleBase ruleBase, List<Object> fact ) { 
+    private StatelessSessionResult executeRule( RuleBase ruleBase, List<?> fact ) { 
         StatelessSession session = ruleBase.newStatelessSession();
         return session.executeWithResults( fact );
     }

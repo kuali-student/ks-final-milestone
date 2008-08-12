@@ -28,7 +28,7 @@ public interface RuleSetExecutor extends RuleSetExecutorInternal {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object execute(Agenda agenda, List facts);
+    public Object execute(Agenda agenda, List<?> facts);
 
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
@@ -37,5 +37,5 @@ public interface RuleSetExecutor extends RuleSetExecutorInternal {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object executeSnapshot(Agenda agenda, List facts);
+    public Object executeSnapshot(Agenda agenda, List<?> facts);
 }
