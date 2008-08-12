@@ -9,6 +9,7 @@ import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.ui.personidentity.client.controller.PersonIdentityController;
 import org.kuali.student.ui.personidentity.client.model.GwtPersonInfo;
 import org.kuali.student.ui.personidentity.client.model.GwtPersonNameInfo;
 
@@ -54,34 +55,29 @@ public class AdminStudentTabWrapper extends Composite {
 			this.setWidth("100%");
 			
 			final Controller c = MVC.findParentController(this);
-			if (c != null) 
-			{
-				c.getEventDispatcher().addListener(PersonSearchResultPanel.PERSON_SELECTED, new MVCEventListener() 
-				{
-					public void onEvent(MVCEvent event, Object data) 
-					{
-						if(data != null)
-						{
-							List<GwtPersonNameInfo> nameInfoList = ((GwtPersonInfo)data).getName();
-						
-							GwtPersonNameInfo defaultInfo = nameInfoList.get(0);
-							String name = messages.get("currentSelection") + ": " + defaultInfo.getSurname() + ", " + defaultInfo.getGivenName() + " " + defaultInfo.getMiddleName();
-							for(GwtPersonNameInfo info: nameInfoList)
-							{
-								if(info.getPreferredName())
-								{
-									name = info.getSurname() + ", " + info.getGivenName() + " " + info.getMiddleName();
-									
-								}
-							}
-							currentlySelectedLabel.setText(name);
-						}
-						else
-						{
-							currentlySelectedLabel.setText(messages.get("noUserSelected"));
-						}
-					}
-				});
+			if (c != null) {
+			    MVCEventListener listener = new MVCEventListener() {
+                    public void onEvent(MVCEvent event, Object data) {
+                        if(data != null) {
+                            List<GwtPersonNameInfo> nameInfoList = ((GwtPersonInfo)data).getName();
+                        
+                            GwtPersonNameInfo defaultInfo = nameInfoList.get(0);
+                            String name = messages.get("currentSelection") + ": " + defaultInfo.getSurname() + ", " + defaultInfo.getGivenName() + " " + defaultInfo.getMiddleName();
+                            for(GwtPersonNameInfo info: nameInfoList) {
+                                if(info.getPreferredName()) {
+                                    name = info.getSurname() + ", " + info.getGivenName() + " " + info.getMiddleName();
+                                }
+                            }
+                            currentlySelectedLabel.setText(name);
+                        } else {
+                            currentlySelectedLabel.setText(messages.get("noUserSelected"));
+                        }
+                    }
+                };
+                
+				c.getEventDispatcher().addListener(PersonSearchResultPanel.PERSON_SELECTED, listener);
+				c.getEventDispatcher().addListener(PersonIdentityController.PERSON_UPDATED_EVENT, listener);
+				
 			}
 		}
     }

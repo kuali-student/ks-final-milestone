@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.validators.client.ValidationResult;
 import org.kuali.student.ui.personidentity.client.ModelState;
@@ -17,12 +18,15 @@ import org.kuali.student.ui.personidentity.client.view.AdminEditPanel;
 import org.kuali.student.ui.personidentity.client.view.AdminStudentTab;
 import org.kuali.student.ui.personidentity.client.view.PersonSearchResultPanel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PersonIdentityController {
-
+    public static abstract class PersonUpdatedEvent extends MVCEvent {}
+    public static final PersonUpdatedEvent PERSON_UPDATED_EVENT = GWT.create(PersonUpdatedEvent.class);
+    
     static Controller  pController = null;
     static Model<GwtPersonInfo> model = null;
     static AdminStudentTab adminStudentTab;
@@ -215,6 +219,7 @@ public class PersonIdentityController {
             
             public void onSuccess(Object result) {
                 model.update(pInfo);
+                pController.getEventDispatcher().fireEvent(PERSON_UPDATED_EVENT, pInfo);
                 ModelState.getInstance().setCurrPerson(pInfo);
                 List<GwtPersonInfo> l = new Vector<GwtPersonInfo>();
                 
