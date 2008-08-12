@@ -98,6 +98,12 @@ public class AdminStudentTab extends TabPanel{
 							me.removeRegistrationTab();
 					}
 				});
+				c.getEventDispatcher().addListener(SearchWidget.PERSON_SEARCH, new MVCEventListener() {
+				    public void onEvent(MVCEvent event, Object data) {
+				        // select the person tab when people are searched for
+				        me.selectTab(0);
+                    }
+				});
 			}
 		}
 	}

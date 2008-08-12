@@ -4,6 +4,10 @@
 package org.kuali.student.ui.personidentity.client.view;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
+import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.MVC;
+import org.kuali.student.commons.ui.mvc.client.MVCEvent;
+import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.ui.personidentity.client.ModelState;
 
 import com.google.gwt.user.client.ui.Label;
@@ -21,6 +25,10 @@ public class PersonTab extends TabPanel {
     CreatePersonWidget pCreate = null;
     PersonSearchPanel pSearch = null;
 
+    boolean loaded = false;
+    
+    final PersonTab me = this;
+    
     // final AbsolutePanel blankPanel = new AbsolutePanel();
 
     /**
@@ -62,6 +70,19 @@ public class PersonTab extends TabPanel {
         
     }
 
+    protected void onLoad() {
+        if (!loaded) {
+            loaded = true;
+            Controller c = MVC.findParentController(this);
+            c.getEventDispatcher().addListener(SearchWidget.PERSON_SEARCH, new MVCEventListener() {
+                public void onEvent(MVCEvent event, Object data) {
+                    // select the search results tab
+                    me.selectTab(0);
+                }
+            });
+        }
+    }
+    
     public void displaySearchResultsTab() {
         this.selectTab(this.getWidgetIndex(pSearch));
     }
