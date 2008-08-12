@@ -12,6 +12,7 @@
 	<stylesheet src="GWT-default.css"/>
 	<stylesheet src="KitchenSink.css"/>
 	<stylesheet src="examplecss/MyExampleWidget.css"/>
+	<stylesheet src="examplecss/CSSLayoutExample.css"/>
 	
 	<script src="js/shCore.js"/>
 	<script src="js/shBrushJava.js"/>

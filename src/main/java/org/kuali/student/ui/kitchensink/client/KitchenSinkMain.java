@@ -1,6 +1,7 @@
 package org.kuali.student.ui.kitchensink.client;
 
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.busywidgetshade.BusyWidgetShadeExampleDescriptor;
 
@@ -51,6 +52,7 @@ public class KitchenSinkMain extends Controller {
     private void initExamples() {
         VerticalPanel gwtExamples = initGroup("GWT Examples");
         initExample(gwtExamples, new TestExample());
+        initExample(gwtExamples, new LayoutExampleDescriptor());
         
         VerticalPanel ksCommons = initGroup("KS Common Widgets");
         initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
