@@ -46,7 +46,8 @@ public class CourseDetailsPanel extends HorizontalPanel {
 		public void onTreeItemSelected(TreeItem item) {
 			
 			if(item instanceof LuiTreeItem){
-				final LuiTreeItem tItem = (LuiTreeItem)item;				
+				final LuiTreeItem tItem = (LuiTreeItem)item;		
+				tItem.addStyleName("KS-Label");
 				LearningUnitController.setCurrentLui(tItem.getLuiDisplay().getLuiId());							
 			}			
 			if(item instanceof CluDisplayItem){
@@ -91,6 +92,7 @@ public class CourseDetailsPanel extends HorizontalPanel {
 	    cDetails.setStyleName("CourseDetailsRegPanel");
 	    hPanel.setWidth("160px");
 	    luTree.setWidth("160px");
+	    luTree.addStyleName("LuCourseTree");
 	    super.setCellWidth(hPanel, "160px");
 	}
 
