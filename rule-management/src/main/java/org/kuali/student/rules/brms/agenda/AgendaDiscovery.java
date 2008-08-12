@@ -50,7 +50,7 @@ public class AgendaDiscovery {
      * @return An agenda
      */
     public Agenda getAgenda(AgendaRequest request, Anchor anchor) {
-        Iterator it = executeRule(request);
+        Iterator<?> it = executeRule(request);
         // Retrieve agenda type from rule set based on AgendaRequest
         // Iterate through returned rule engine objects
         // This should not be done in production
@@ -89,9 +89,9 @@ public class AgendaDiscovery {
      * @param fact A fact to execute agenda rules with
      * @return An iterator of evaluated facts
      */
-    private Iterator executeRule(Object fact) { 
+    private Iterator<?> executeRule(Object fact) { 
         this.ruleSetExecutor.addRuleSet(AGENDA_RULE_ID, loadAgenda());
-        return (Iterator) this.ruleSetExecutor.execute(AGENDA_RULE_ID, Arrays.asList(fact));
+        return (Iterator<?>) this.ruleSetExecutor.execute(AGENDA_RULE_ID, Arrays.asList(fact));
     }
     
     /**
