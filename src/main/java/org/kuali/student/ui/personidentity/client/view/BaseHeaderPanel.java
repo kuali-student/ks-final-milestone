@@ -44,7 +44,7 @@ public class BaseHeaderPanel extends Composite {
     final VerticalPanel root = new VerticalPanel();
     final HorizontalPanel topRow = new HorizontalPanel();
     final HorizontalPanel topLeft = new HorizontalPanel();
-    final HorizontalPanel topRight = new HorizontalPanel();
+//    final HorizontalPanel topRight = new HorizontalPanel();
     final HorizontalPanel bottomRow = new HorizontalPanel();
     final HorizontalPanel linkPanel = new HorizontalPanel();
     
@@ -186,7 +186,7 @@ public class BaseHeaderPanel extends Composite {
         root.addStyleName("KS-Header");
         topRow.addStyleName("KS-Header-TopRow");
         bottomRow.addStyleName("KS-Header-BarText");
-        topRight.addStyleName("KS-Header-TopRight");
+  //      topRight.addStyleName("KS-Header-TopRight");
         
         topLeft.addStyleName("KS-Header-TopLeft");
         
@@ -212,10 +212,10 @@ public class BaseHeaderPanel extends Composite {
         root.add(bottomRow);
         
         topRow.add(topLeft);
-        topRow.add(topRight);
+        topRow.add(search);
         
         topLeft.add(logo);
-        topRight.add(search);
+//        topRight.add();
 
 
         admin.setText(ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("admin"));
