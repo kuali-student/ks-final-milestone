@@ -21,35 +21,29 @@ public class PersonDAOImpl implements PersonDAO {
 		this.entityManager = entityManager;
 	}
 
-	@Override
 	public Person createPerson(Person person) {
 		entityManager.persist(person);
 		return person;
 	}
 
-	@Override
 	public PersonType createPersonType(PersonType personType) {
 		entityManager.persist(personType);
 		return personType;
 	}
 
-	@Override
 	public PersonType fetchPersonType(String id) {
 		return entityManager.find(PersonType.class, id);
 	}
 	
-    @Override
     public boolean deletePersonType(PersonType personType) {
         entityManager.remove(personType);
         return true;
     }
 
-	@Override
 	public PersonType updatePersonType(PersonType personType) {
 		return entityManager.merge(personType);
 	}
 
-	@Override
 	public PersonAttributeSetType createPersonAttributeSetType(
 			PersonAttributeSetType personAttributeSetType) {
 
@@ -57,26 +51,22 @@ public class PersonDAOImpl implements PersonDAO {
 		return personAttributeSetType;
 	}
 
-	@Override
 	public PersonAttribute createPersonAttribute(PersonAttribute personAttribute) {
 
 		entityManager.persist(personAttribute);
 		return personAttribute;
 	}
 
-	@Override
 	public Person updatePerson(Person person) {
 		return entityManager.merge(person);
 	}
 
-	@Override
 	public Person lookupPerson(String id) {
 		return entityManager.find(Person.class, id);
 	}
 
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch){
 	    Query query = entityManager.createNamedQuery("PersonAttributeSetType.findByName");
 	    query.setParameter("nameMatch", nameMatch);
@@ -85,7 +75,6 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<PersonType> findPersonTypes(String nameMatch) {
 		Query query = entityManager.createNamedQuery("PersonType.findByName");
 		query.setParameter("nameMatch", nameMatch);
@@ -93,8 +82,7 @@ public class PersonDAOImpl implements PersonDAO {
 		return personTypes;
 	}
 
-	@Override
-    public List<Person> findPeople(PersonCriteria criteria) {
+	public List<Person> findPeople(PersonCriteria criteria) {
 	    Query query = entityManager.createNamedQuery("Person.findByName");
 	    query.setParameter("firstName", criteria.getFirstName());
 	    query.setParameter("lastName", criteria.getLastName());
@@ -103,7 +91,6 @@ public class PersonDAOImpl implements PersonDAO {
         return people;
     }
 
-	@Override
 	public List<Person> findPeople(List<String> personIdList){
     
 	    StringBuffer personIdSb = new StringBuffer();
@@ -124,7 +111,6 @@ public class PersonDAOImpl implements PersonDAO {
 	    return people;
 	}
 	
-    @Override
     public List<Person> findPeopleWithAttributeSetType(String personAttributeSetTypeId, PersonCriteria criteria) {
         Query query = entityManager.createNamedQuery("Person.findByAttributeSetTypeAndCriteria");
         query.setParameter("firstName", criteria.getFirstName());
@@ -135,7 +121,6 @@ public class PersonDAOImpl implements PersonDAO {
         return people;
     }
 
-    @Override
     public List<Person> findPeopleWithPersonType(String personTypeId, PersonCriteria criteria) {
         Query query = entityManager.createNamedQuery("Person.findByPersonTypeAndCriteria");
         query.setParameter("firstName", criteria.getFirstName());
@@ -146,48 +131,40 @@ public class PersonDAOImpl implements PersonDAO {
         return people;
     }
 
-    @Override
-	public boolean deletePerson(Person person) {
+    public boolean deletePerson(Person person) {
 		entityManager.remove(person);
 		return true; // until I know better what needs to happen
 	}
 
-	@Override
 	public PersonAttributeType createPersonAttributeType(
 			PersonAttributeType personAttributeType) {
 		entityManager.persist(personAttributeType);
 		return personAttributeType;
 	}
 
-	@Override
 	public PersonAttributeSetType fetchPersonAttributeSetType(String id) {
 		return entityManager.find(PersonAttributeSetType.class, id);
 	}
 
-	@Override
 	public PersonAttributeType fetchPersonAttributeType(String id) {
 		return entityManager.find(PersonAttributeType.class, id);
 	}
 
-	@Override
 	public boolean deletePersonAttribute(PersonAttribute personAttribute) {
 		entityManager.remove(personAttribute);
 		return true; // error if it fails, right?
 	}
 
-	@Override
 	public PersonName createPersonName(PersonName personName) {
 		entityManager.persist(personName);
 		return personName;
 	}
 
-	@Override
 	public boolean deletePersonName(PersonName personName) {
 		entityManager.remove(personName);
 		return true;
 	}
 
-	@Override
 	public List<PersonAttributeType> findPersonAttributeTypesFromPersonTypeIds(
 			List<String> personTypeIds) {
 		Set<PersonAttributeType> personAttributeTypes = new HashSet<PersonAttributeType>();
@@ -203,7 +180,6 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public Set<PersonAttribute> fetchAttributesByPersonAttributeSetType(
 			String personId, List<String> personAttributeSetTypeKeyList) {
 		Set<PersonAttribute> attributeSet = new HashSet<PersonAttribute>(); 
@@ -221,7 +197,6 @@ public class PersonDAOImpl implements PersonDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public Set<PersonAttribute> fetchAttributesByPersonType(String personId,
 			String personTypeKey) {
 		Query q = entityManager.createQuery("SELECT attributes FROM PersonAttribute attributes " +
