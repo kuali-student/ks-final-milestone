@@ -1,0 +1,13 @@
+<module>
+  <!-- Inherit the core Web Toolkit stuff.                  -->
+  <inherits name="com.google.gwt.user.User"/>
+
+  <!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
+  <inherits name="org.kuali.student.commons.ui.UICommons"/>
+
+  <!-- Specify the app entry point class.                   -->
+  <entry-point class="org.kuali.student.rules.devgui.client.DevelopersGuiEntryPoint"/>
+  
+	<!-- Add servlet mapping for development gui service -->
+	<servlet class="org.kuali.student.rules.devgui.server.devguiservice.DevGuiServiceServlet" path="/DevGuiService"/>  
+</module>
