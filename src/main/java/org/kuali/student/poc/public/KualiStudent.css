@@ -820,3 +820,16 @@ a,a:visited,a:hover {
 	margin-left: 10px;
 	horizontal-align: left;
 }
+
+.LuCourseTree {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 11;
+	COLOR: #000000;
+	background: #ffffff;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;
+	height: 280px;
+	width: 160px;
+	margin:0px 0px 0px 0px ;
+	padding:0px 0px 0px 0px ; 
+}
