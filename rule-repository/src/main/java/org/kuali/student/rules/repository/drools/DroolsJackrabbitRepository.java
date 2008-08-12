@@ -27,8 +27,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.jackrabbit.api.JackrabbitRepository;
-import org.drools.repository.JCRRepositoryConfigurator;
-import org.drools.repository.JackrabbitRepositoryConfigurator;
 import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryAdministrator;
 import org.kuali.student.rules.repository.exceptions.RepositoryLoginException;
