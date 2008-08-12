@@ -5,24 +5,15 @@ package org.kuali.student.ui.personidentity.server.impl;
 
 import static org.junit.Assert.fail;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import org.junit.Test;
+import org.kuali.student.core.spring.BeanFactory;
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
-import org.kuali.student.ui.personidentity.client.model.GwtPersonCriteria;
-import org.kuali.student.ui.personidentity.client.model.GwtPersonInfo;
-import org.kuali.student.ui.personidentity.server.convert.PersonServiceConverter;
 
 /**
  * @author Garey
@@ -30,6 +21,8 @@ import org.kuali.student.ui.personidentity.server.convert.PersonServiceConverter
  */
 public class PersonIdentityServiceImplTest {
 
+    private static PersonService pService = null;
+    
 	/**
 	 * Test method for {@link org.kuali.student.ui.personidentity.server.impl.PersonIdentityServiceImpl#getTime()}.
 	 */
@@ -56,77 +49,88 @@ public class PersonIdentityServiceImplTest {
 //		assert(true);
 //	}
 //	
-//	@Test
-//	public void testCreatePersonTypeInfo(){
-//		PersonIdentityServiceImpl pi = new PersonIdentityServiceImpl();
-//		PersonTypeInfo pio = new PersonTypeInfo();
-//		
-//		// gets an immutable list that you can add to
-//		List<PersonAttributeSetTypeInfo> setTypeInfoList = pio.getAttributeSets();
-//		
-//		// the set object we add the dynamic attributes to
-//		PersonAttributeSetTypeInfo setTypeInfo = new PersonAttributeSetTypeInfo();
-//		
-//		setTypeInfo.setName("demographic"); // set the set name
-//		List<PersonAttributeTypeInfo> aTypes = setTypeInfo.getAttributeTypes();
-//		
-//		PersonAttributeTypeInfo p1 = new PersonAttributeTypeInfo();		
-//		p1.setName("eye_color");
-//		p1.setLabel("Eye Color");
-//		p1.setType("String");
-//		
-//		PersonAttributeTypeInfo p2 = new PersonAttributeTypeInfo();		
-//		p2.setName("race");
-//		p2.setLabel("Race");
-//		p2.setType("String");
-//		
-//		aTypes.add(p1);
-//		aTypes.add(p2);		
-//		pio.setName("Administrator");
-//		
-//		setTypeInfoList.add(setTypeInfo);
-//		
-//		try
-//		{
-//			pi.createPersonTypeInfo(pio);						
-//							
-//		}catch(AlreadyExistsException ex){
-//			// this is fine.
-//		}catch(Exception ex){
-//			// the exception aren't mapped properly 
-//			if(ex.getMessage().indexOf("ConstraintViolationException") == 0)
-//				fail(ex.getMessage());
-//		}
-//		
-//		pio.setName("Student");
-//		
-//		
-//		try
-//		{
-//			pi.createPersonTypeInfo(pio);						
-//							
-//		}catch(AlreadyExistsException ex){
-//			// this is fine.
-//		}catch(Exception ex){
-//			// the exception aren't mapped properly 
-//			if(ex.getMessage().indexOf("ConstraintViolationException") == 0)
-//				fail(ex.getMessage());
-//		}
-//		
-//		pio.setName("Faculty");
-//		
-//		try
-//		{
-//			pi.createPersonTypeInfo(pio);						
-//							
-//		}catch(AlreadyExistsException ex){
-//			// this is fine.
-//		}catch(Exception ex){
-//			// the exception aren't mapped properly 
-//			if(ex.getMessage().indexOf("ConstraintViolationException") == 0)
-//				fail(ex.getMessage());
-//		}
-//	}
+	
+/*	protected static PersonService getPersonService(){
+	    if(pService == null){
+	        pService = (PersonService) BeanFactory.getInstance().getBean("personClient");
+	    }
+	    return pService;
+	}
+	
+	@Test
+	public void testCreatePersonTypeInfo(){
+		PersonIdentityServiceImpl pi = new PersonIdentityServiceImpl();
+		pi.setPersonService(getPersonService());
+		PersonTypeInfo pio = new PersonTypeInfo();
+		
+		// gets an immutable list that you can add to
+		List<PersonAttributeSetTypeInfo> setTypeInfoList = pio.getAttributeSets();
+		
+		// the set object we add the dynamic attributes to
+		PersonAttributeSetTypeInfo setTypeInfo = new PersonAttributeSetTypeInfo();
+		
+		setTypeInfo.setName("demographic"); // set the set name
+		List<PersonAttributeTypeInfo> aTypes = setTypeInfo.getAttributeTypes();
+		
+		PersonAttributeTypeInfo p1 = new PersonAttributeTypeInfo();		
+		p1.setName("eye_color");
+		p1.setLabel("Eye Color");
+		p1.setType("String");
+		
+		PersonAttributeTypeInfo p2 = new PersonAttributeTypeInfo();		
+		p2.setName("race");
+		p2.setLabel("Race");
+		p2.setType("String");
+		
+		aTypes.add(p1);
+		aTypes.add(p2);		
+		pio.setName("Administrator");
+		
+		setTypeInfoList.add(setTypeInfo);
+		
+		try
+		{
+			pi.createPersonTypeInfo(pio);						
+							
+		}catch(AlreadyExistsException ex){
+			// this is fine.
+		}catch(Exception ex){
+		    
+		    ex.printStackTrace();
+			// the exception aren't mapped properly 
+			if(ex.getMessage().indexOf("ConstraintViolationException") == 0)
+				fail(ex.getMessage());
+		}
+		
+		pio.setName("Student");
+		
+		
+		try
+		{
+			pi.createPersonTypeInfo(pio);						
+							
+		}catch(AlreadyExistsException ex){
+			// this is fine.
+		}catch(Exception ex){
+			// the exception aren't mapped properly 
+			if(ex.getMessage().indexOf("ConstraintViolationException") == 0)
+				fail(ex.getMessage());
+		}
+		
+		pio.setName("Faculty");
+		
+		try
+		{
+			pi.createPersonTypeInfo(pio);						
+							
+		}catch(AlreadyExistsException ex){
+			// this is fine.
+		}catch(Exception ex){
+			// the exception aren't mapped properly 
+			if(ex.getMessage().indexOf("ConstraintViolationException") == 0)
+				fail(ex.getMessage());
+		}
+	}*/
 //	
 //	@Test
 //	public void testFindPersonAttributeSetTypes(){
