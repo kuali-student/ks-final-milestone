@@ -81,7 +81,7 @@ public class GenerateRuleSet {
         String ruleName = businessRule.getName();
         String ruleDescription = businessRule.getDescription();
         String functionString = businessRule.createAdjustedRuleFunctionString();
-        Map propositionMap = businessRule.getRulePropositions();
+        Map<String, RuleProposition> propositionMap = businessRule.getRulePropositions();
         generateRules(anchor, ruleName, ruleDescription, functionString, propositionMap,ruleSet);
     }
 
