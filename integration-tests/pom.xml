@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>integration-tests</artifactId>
-	<name>Kuali Student - integration-tests</name>
+	<name>Kuali Student BRMS - integration-tests</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>
 		Bridges various components of the Kuali Rule System
