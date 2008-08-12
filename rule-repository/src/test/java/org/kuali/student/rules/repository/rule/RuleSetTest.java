@@ -22,8 +22,6 @@ import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.student.rules.repository.drools.rule.DroolsRuleSetImpl;
 import org.kuali.student.rules.repository.rule.Rule;
