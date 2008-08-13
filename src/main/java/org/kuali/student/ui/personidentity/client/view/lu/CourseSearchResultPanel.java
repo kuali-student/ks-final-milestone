@@ -57,8 +57,12 @@ public class CourseSearchResultPanel extends Composite{
             
             table.addSelectionListener(new ModelTableSelectionListener<GwtLuiInfo>() {
                 public void onSelect(GwtLuiInfo modelObject) {
-                    LuModelState.getInstance().setCurrLui(modelObject);      
-                    LearningUnitController.displayCourseDetails();
+                    LuModelState.getInstance().setCurrLui(modelObject);
+                    if (modelObject == null) {
+                        LearningUnitController.displayCourseSearchResults();
+                    } else {
+                        LearningUnitController.displayCourseDetails();
+                    }
                 }
             });
         }

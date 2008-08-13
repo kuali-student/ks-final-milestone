@@ -127,8 +127,12 @@ public class LearningUnitController {
 	}
 	
 	public static void displayCourseDetails(){								
-				adminStudentTab.selectTab(1);
-				adminStudentTab.getCourseTab().displayCourseDetailsTab();						
+		adminStudentTab.selectTab(1);
+		adminStudentTab.getCourseTab().displayCourseDetailsTab();						
+	}
+	public static void displayCourseSearchResults(){                              
+           adminStudentTab.selectTab(1);
+           adminStudentTab.getCourseTab().displaySearchResultsTab();                       
 	}
 	
 	public static void setCurrentLui(String luiId){
