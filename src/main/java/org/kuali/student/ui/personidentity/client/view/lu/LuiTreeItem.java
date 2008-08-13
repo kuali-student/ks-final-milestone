@@ -16,7 +16,7 @@ public class LuiTreeItem extends TreeItem {
 	
 	public LuiTreeItem(GwtLuiDisplay disp){
 		this.disp = disp;
-		this.setText(disp.getCluDisplay().getCluShortName());
+		this.setText(disp.getCluDisplay().getCluShortName() + "-" + disp.getLuiCode());
 		
 	}
 	

@@ -31,6 +31,7 @@ public class CourseDetails extends Composite {
    
     
 	Label	lTitle= new Label();
+	Label   lCode= new Label();
 	Label	lMeetingDays= new Label();
 	Label	lMeetingTimes= new Label();
 	Label	lDescription= new Label();
@@ -80,20 +81,23 @@ public class CourseDetails extends Composite {
         table.setWidget(0, 1, lTitle);
         if(popFull)
         {
-        	table.setText(1, 0, messages.get("meetingDays"));
-        	table.setWidget(1, 1, lMeetingDays);
+            table.setText(1, 0, messages.get("luiCode"));
+            table.setWidget(1, 1, lCode);
+            
+        	table.setText(2, 0, messages.get("meetingDays"));
+        	table.setWidget(2, 1, lMeetingDays);
         
-        	table.setText(2, 0, messages.get("meetingTimes"));
-        	table.setWidget(2, 1, lMeetingTimes);
+        	table.setText(3, 0, messages.get("meetingTimes"));
+        	table.setWidget(3, 1, lMeetingTimes);
         	
-        	 table.setText(3, 0, messages.get("description"));
-             table.setWidget(3, 1, lDescription);
+        	 table.setText(4, 0, messages.get("description"));
+             table.setWidget(4, 1, lDescription);
              
-             table.setText(4, 0, messages.get("location"));
-             table.setWidget(4, 1, lLocation);
+             table.setText(5, 0, messages.get("location"));
+             table.setWidget(5, 1, lLocation);
              
-             table.setText(5, 0, messages.get("instructor"));
-             table.setWidget(5, 1, lInstructor);
+             table.setText(6, 0, messages.get("instructor"));
+             table.setWidget(6, 1, lInstructor);
         }
         else
         {
@@ -141,6 +145,7 @@ public class CourseDetails extends Composite {
 		if(in != null){
 		    populateBase(true);
 			this.lTitle.setText(in.getCluInfo().getCluShortName());
+			this.lCode.setText(in.getLuiCode());
 		//	this.lMeetingDays.setText(in.getEffectiveStartCycle() + " - " + in.getEffectiveEndCycle());
 			this.lDescription.setText(in.getCluInfo().getDescription());
 	        populateAttributes(in.getCluInfo().getAttributes());
