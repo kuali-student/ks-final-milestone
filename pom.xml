@@ -16,8 +16,8 @@
 	</parent>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/tags/ks-commons-ui-0.0.1</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/tags/ks-commons-ui-0.0.1</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev</developerConnection>
 	</scm>
 
 
