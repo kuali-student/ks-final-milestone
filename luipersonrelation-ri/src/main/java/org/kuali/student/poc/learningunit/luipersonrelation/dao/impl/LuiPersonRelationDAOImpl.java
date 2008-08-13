@@ -26,25 +26,25 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
         this.em = em;
     }
 
-    @Override
+
     public LuiPersonRelation createLuiPersonRelation(LuiPersonRelation luiPersonRelation) {
         em.persist(luiPersonRelation);
         return luiPersonRelation;
     }
 
-    @Override
+
     public boolean deleteLuiPersonRelation(String luiPersonRelationId) {
         em.remove(lookupLuiPersonRelation(luiPersonRelationId));
         return true;
     }
 
-    @Override
+
     public LuiPersonRelation lookupLuiPersonRelation(String luiPersonRelationId) {
         return em.find(LuiPersonRelation.class, luiPersonRelationId);
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+
     public List<LuiPersonRelation> findLuiPersonRelationsByPerson(String personId, String luiRelationType, String relationState) {
         Query query = em.createNamedQuery("LuiPersonRelation.findByPerson");
         query.setParameter("personId", personId);
@@ -57,7 +57,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+
     public List<LuiPersonRelation> findLuiPersonRelationsByLui(String luiId, String luiRelationType, String relationState) {
         Query query = em.createNamedQuery("LuiPersonRelation.findByLui");
         query.setParameter("luiId", luiId);
@@ -70,7 +70,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+
     public List<LuiPersonRelation> findLuiPersonRelations(String personId, String luiId, String luiRelationType, String relationState) {
         Query query = em.createQuery(
              "SELECT lpr FROM LuiPersonRelation lpr WHERE lpr.personId = :personId AND lpr.luiId = :luiId " +
@@ -86,12 +86,12 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
         return luiPersonRelations;
     }
 
-    @Override
+
     public LuiPersonRelation updateLuiPersonRelation(LuiPersonRelation luiPersonRelation) {
         return em.merge(luiPersonRelation);
     }
 
-    @Override
+
     public List<String> searchForLuiPersonRelationIds(String luiId, String personId, String luiPersonRelationType, String relationState, Date effectiveStartDate, Date effectiveEndDate) {
         //There has *got* to be a better way to do this
         String queryString = "SELECT id FROM LuiPersonRelation lpr WHERE ";
@@ -128,7 +128,7 @@ public class LuiPersonRelationDAOImpl implements LuiPersonRelationDAO {
         return query.getResultList();
     }
 
-    @Override
+
     public List<LuiPersonRelation> searchForLuiPersonRelations(String luiId, String personId, String luiPersonRelationType, String relationState, Date effectiveStartDate, Date effectiveEndDate) {
         //There has *got* to be a better way to do this
         String queryString = "SELECT lpr FROM LuiPersonRelation lpr WHERE ";
