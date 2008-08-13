@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
 
 public interface PersonDAO {
 
@@ -19,6 +20,7 @@ public interface PersonDAO {
 	public List<Person> findPeople(List<String> personIdList);
 	public List<Person> findPeopleWithAttributeSetType(String personAttributeSetTypeId, PersonCriteria criteria);
 	public List<Person> findPeopleWithPersonType(String personTypeId, PersonCriteria criteria);
+	public List<PersonDisplayDTO> findPersonDisplayDTO(PersonCriteria criteria);
 	public PersonType updatePersonType(PersonType personType);
 	public PersonAttributeSetType createPersonAttributeSetType(PersonAttributeSetType personAttributeSetType);
 	public Person createPerson(Person person);

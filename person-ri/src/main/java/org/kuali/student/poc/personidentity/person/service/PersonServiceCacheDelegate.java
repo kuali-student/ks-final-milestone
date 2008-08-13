@@ -24,6 +24,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeIn
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria;
@@ -760,6 +761,21 @@ public class PersonServiceCacheDelegate implements PersonService {
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		return target.searchForPersonRelations(personRelationCriteria);
+	}
+
+	/**
+	 * @param personCriteria
+	 * @return
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	public List<PersonDisplayDTO> searchForPersonDisplayDTOs (
+			PersonCriteria personCriteria) throws InvalidParameterException,
+	MissingParameterException, OperationFailedException,
+	PermissionDeniedException {
+		return target.searchForPersonDisplayDTOs(personCriteria);
 	}
 
 	/**

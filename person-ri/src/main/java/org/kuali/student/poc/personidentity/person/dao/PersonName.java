@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,6 +18,13 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "Person_Name_T")
+@NamedQueries(
+    {
+        @NamedQuery( name = "PersonName.findPersonDisplayDTOByCriteria",
+        	query = "SELECT NEW org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO(n.person.id, n.givenName, n.middleNames, n.surname) FROM PersonName n WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName)")
+    }
+)
+
 public class PersonName {
 
 	@Id

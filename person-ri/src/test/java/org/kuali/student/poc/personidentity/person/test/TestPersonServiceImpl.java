@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.acegisecurity.context.SecurityContextHolder;
@@ -27,6 +29,7 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
+import org.kuali.student.poc.common.ws.handler.DebugHandler;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
@@ -35,6 +38,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonReferenceIdInfo;
@@ -44,16 +48,16 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
 @Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonServiceImpl extends AbstractServiceTest{
-	
+
     @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl", port="9191")
     public PersonService client;
-   
+
     @Client(value = "org.kuali.student.poc.personidentity.person.service.PersonServiceSecure", port = "9191", secure=true)
     public PersonService clientSecure;
 
     @Test
     public void testCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
-        
+
     	PersonAttributeTypeInfo attributeType1 = new PersonAttributeTypeInfo();
         attributeType1.setLabel("Attribute 1 Label");
         attributeType1.setName("Attr1");
@@ -83,7 +87,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         assertEquals(personTypeId, personTypeInfo.getId());
 
     }
-    
+
     @Test
     public void testCreatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException {
         PersonAttributeTypeInfo attributeType3 = new PersonAttributeTypeInfo();
@@ -128,10 +132,10 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         List<String> personIds = client.findPersonIdsForPersonType(personTypeId, null);
         assertEquals(1, personIds.size());
         assertEquals(resultId, personIds.get(0));
-        
+
         // TODO test invalid (or unrelated) personTypes and attributeTypes
     }
-    
+
 	@Test
 	public void testAssignPersonType() throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
@@ -190,27 +194,27 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
 
         assertEquals(2, personTypes.size());
         assertTrue((personTypes.get(0).equals(personType3Id) && personTypes.get(1).equals(personType4Id)) || (personTypes.get(0).equals(personType4Id) && personTypes.get(1).equals(personType3Id)));
-        
+
         //Testing searchForPeopleByPersonAttributeSetType
         person = new PersonCreateInfo();
         person.setBirthDate(new Date());
         person.setGender('F');
         person.setAttribute("Attr4", "Check the briefcase");
-        
+
         name = new PersonNameInfo();
         name.setGivenName("Mary");
         name.setSurname("Swanson");
         name.setNameType("Official");
         person.getName().add(name);
-        
+
         name = new PersonNameInfo();
         name.setGivenName("Mary");
         name.setSurname("Samsonite");
         name.setNameType("Briefcase");
         person.getName().add(name);
-        
+
         String personId2 = client.createPerson(person, personTypeInfoList);
-        
+
         PersonCriteria criteria = new PersonCriteria();
         criteria.setFirstName("%");
         criteria.setLastName("%");
@@ -223,30 +227,30 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         assertEquals(1,people.size());
 
         //Testing find people by person ids
-        
+
         List<String> personIdList = new ArrayList<String>();
         personIdList.add(personId);
         personIdList.add(personId2);
-        
-        List<PersonDisplay> personDisplay = client.findPeopleDisplayByPersonIds(personIdList);        
+
+        List<PersonDisplay> personDisplay = client.findPeopleDisplayByPersonIds(personIdList);
         assertTrue(personDisplay.size()==2);
         List<String> personNames = new ArrayList<String>();
         personNames.add(((PersonDisplay)personDisplay.get(0)).getName().getGivenName());
         personNames.add(((PersonDisplay)personDisplay.get(1)).getName().getGivenName());
         assertTrue(personNames.contains("Foggy Bottom"));
         assertTrue(personNames.contains("Mary"));
-        
+
         //Testing removePersonType
         assertTrue(client.removePersonType(personId, personType3Id));
-        
+
         personTypes = client.findPersonTypesForPerson(personId);
-        
+
         assertEquals(1, personTypes.size());
         assertTrue(personTypes.get(0).equals(personType4Id));
 	}
 
 	/*
-	 * 
+	 *
 	 * @Test public void testFetchPersonByPeronType() throws
 	 * DoesNotExistException, DisabledIdentifierException,
 	 * InvalidParameterException, MissingParameterException,
@@ -264,7 +268,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
 	 * assertEquals(1,foundPerson.getPersonTypes().size()); }
 	 */
 
-    
+
     @Test
     public void testUpdatePerson() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException {
         PersonAttributeTypeInfo attributeType6 = new PersonAttributeTypeInfo();
@@ -287,7 +291,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         PersonCreateInfo person = new PersonCreateInfo();
         person.setBirthDate(new Date());
         person.setAttribute("Attr6", "none");
-        
+
         PersonNameInfo name = new PersonNameInfo();
         name.setGivenName("John Smith");
         name.setNameType("Official");
@@ -297,16 +301,16 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personTypeInfoList.add(personTypeId);
 
         String resultId = client.createPerson(person, personTypeInfoList);
-               
+
         PersonInfo personInfo = client.fetchFullPersonInfo(resultId);
         PersonUpdateInfo personUpdateInfo = new PersonUpdateInfo(personInfo);
-        
+
         //Update existing name
         List<PersonNameInfo> personNameList = personUpdateInfo.getName();
-        name = personNameList.get(0);               
+        name = personNameList.get(0);
         name.setGivenName("John");
         name.setSurname("Smith");
-        
+
         //Add new name
         name = new PersonNameInfo();
         name.setGivenName("John");
@@ -314,35 +318,35 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         name.setSuffix("III");
         name.setNameType("Diploma");
         personNameList.add(name);
-         
+
         personUpdateInfo.getAttributes().clear();
         personUpdateInfo.setAttribute("Attr6", "Thunder Clap");
-        
+
         personUpdateInfo.setGender('F');
-        
+
         PersonCitizenshipInfo citizenship = new PersonCitizenshipInfo();
         citizenship.setCountryOfCitizenshipCode("US");
         personUpdateInfo.setCitizenship(citizenship);
-        
+
         PersonReferenceIdInfo personReferenceIdInfo = new PersonReferenceIdInfo();
         personReferenceIdInfo.setReferenceId("123-56-7766");
         personReferenceIdInfo.setOrganizationReferenceId("SSA");
         List<PersonReferenceIdInfo> personReferenceIdList = new ArrayList<PersonReferenceIdInfo>();
         personReferenceIdList.add(personReferenceIdInfo);
         personUpdateInfo.setReferenceId(personReferenceIdList);
-        
+
         personUpdateInfo.setUpdateUserComment("Testing update");
-        
+
         client.updatePerson(personInfo.getPersonId(), personUpdateInfo);
-        
+
         PersonInfo personUpdated = client.fetchFullPersonInfo(personInfo.getPersonId());
-        
+
         assertEquals(2, personUpdated.getName().size());
         assertEquals(personUpdateInfo.getGender(),personUpdated.getGender());
         assertEquals(1, personUpdated.getReferenceId().size());
         assertEquals(personUpdateInfo.getCitizenship().getCountryOfCitizenshipCode(),personUpdated.getCitizenship().getCountryOfCitizenshipCode());
         assertEquals(personUpdateInfo.getAttribute("Attr6"), personUpdated.getAttribute("Attr6"));
-        
+
         //testing searchForPeople
         PersonCriteria personCriteria = new PersonCriteria();
         personCriteria.setFirstName("John");
@@ -355,7 +359,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         assertEquals(resultId,personIds.get(0));
     }
 
-   
+
     @Test
     public void testSecureCreatePersonInfoType() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, Exception {
 
@@ -386,11 +390,11 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         personTypeInfoList.add(personTypeId);
 
         String personId = clientSecure.createPerson(person, personTypeInfoList);
-        
+
         PersonInfo personInfo = client.fetchFullPersonInfo(personId);
-        
-        //FIXME: Metro fails to inject web service, so the update user id is never set 
-        //assertEquals("1234-344", personInfo.getCreateUserId());        
+
+        //FIXME: Metro fails to inject web service, so the update user id is never set
+        //assertEquals("1234-344", personInfo.getCreateUserId());
 
         // Now find all the types
         PersonTypeInfo personTypeInfo = clientSecure.fetchPersonType(personTypeId);
@@ -402,7 +406,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
         // Make a call with valid username/pwd
         SecurityContextHolder.clearContext();
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("kuali-admin", "badpwd"));
-       
+
         try {
             clientSecure.createPersonTypeInfo(personType1);
             throw new Exception("Security not processed");
@@ -410,11 +414,24 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
             //This is the soap fault message thrown by CXF
             assertEquals("Security processing failed.", sfe.getMessage());
         } catch (WebServiceException wse){
-            //FIXME: This is a wrong, because Metro should be throwing SoapFaultException, but is 
+            //FIXME: This is a wrong, because Metro should be throwing SoapFaultException, but is
             //throwing "javax.xml.ws.WebServiceException: No Content-type in the header!"
             assertEquals("No Content-type in the header!", wse.getMessage());
         }
     }
-  
-    
+
+    @Test
+    public void testPersonDisplayDTO() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DisabledIdentifierException, Exception {
+    	final PersonCriteria criteria = new PersonCriteria();
+    	List<PersonDisplayDTO> persons = client.searchForPersonDisplayDTOs(criteria);
+    	assertNotNull("Should not have null pointer as result", persons);
+    	assertEquals("Wrong number of person names", 7, persons.size());
+    	PersonDisplayDTO dto = persons.get(0);
+    	assertEquals("Wrong Person name", "Harold Horkins Sea Bass", dto.getName());
+    	assertNotNull("No person id", dto.getPersonId());
+
+    	criteria.setFirstName("Darth");
+    	List<PersonDisplayDTO> persons2 = client.searchForPersonDisplayDTOs(criteria);
+       	assertTrue("Should have null pointer as result", persons2 == null);
+    }
 }

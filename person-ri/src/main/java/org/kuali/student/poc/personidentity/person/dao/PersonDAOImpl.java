@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
 
 
 public class PersonDAOImpl implements PersonDAO {
@@ -34,7 +35,7 @@ public class PersonDAOImpl implements PersonDAO {
 	public PersonType fetchPersonType(String id) {
 		return entityManager.find(PersonType.class, id);
 	}
-	
+
     public boolean deletePersonType(PersonType personType) {
         entityManager.remove(personType);
         return true;
@@ -65,7 +66,7 @@ public class PersonDAOImpl implements PersonDAO {
 		return entityManager.find(Person.class, id);
 	}
 
-	
+
 	@SuppressWarnings("unchecked")
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch){
 	    Query query = entityManager.createNamedQuery("PersonAttributeSetType.findByName");
@@ -73,7 +74,7 @@ public class PersonDAOImpl implements PersonDAO {
 	    List<PersonAttributeSetType> personAttributeSetTypes = query.getResultList();
 	    return personAttributeSetTypes;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<PersonType> findPersonTypes(String nameMatch) {
 		Query query = entityManager.createNamedQuery("PersonType.findByName");
@@ -92,25 +93,25 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
 	public List<Person> findPeople(List<String> personIdList){
-    
+
 	    StringBuffer personIdSb = new StringBuffer();
 	    for (String str:personIdList){
 	        personIdSb.append((personIdSb.length()>0 ? ",":"("));
 	        personIdSb.append("'" + str + "'");
 	    }
 	    personIdSb.append(")");
-	    
+
 	    System.out.println("QUERY STRING: " + personIdSb);
 
         Query query = entityManager.createQuery(
         "SELECT p FROM Person p where p.id IN " + personIdSb.toString());
-	    
+
 	    @SuppressWarnings("unchecked")
 	    List<Person> people = query.getResultList();
-	    
+
 	    return people;
 	}
-	
+
     public List<Person> findPeopleWithAttributeSetType(String personAttributeSetTypeId, PersonCriteria criteria) {
         Query query = entityManager.createNamedQuery("Person.findByAttributeSetTypeAndCriteria");
         query.setParameter("firstName", criteria.getFirstName());
@@ -131,7 +132,16 @@ public class PersonDAOImpl implements PersonDAO {
         return people;
     }
 
-    public boolean deletePerson(Person person) {
+    public List<PersonDisplayDTO> findPersonDisplayDTO(PersonCriteria criteria) {
+    	final Query query = entityManager.createNamedQuery("PersonName.findPersonDisplayDTOByCriteria");
+        query.setParameter("firstName", criteria.getFirstName());
+        query.setParameter("lastName", criteria.getLastName());
+        @SuppressWarnings("unchecked")
+        List<PersonDisplayDTO> persons = query.getResultList();
+        return persons;
+    }
+
+	public boolean deletePerson(Person person) {
 		entityManager.remove(person);
 		return true; // until I know better what needs to happen
 	}
@@ -182,7 +192,7 @@ public class PersonDAOImpl implements PersonDAO {
 	@SuppressWarnings("unchecked")
 	public Set<PersonAttribute> fetchAttributesByPersonAttributeSetType(
 			String personId, List<String> personAttributeSetTypeKeyList) {
-		Set<PersonAttribute> attributeSet = new HashSet<PersonAttribute>(); 
+		Set<PersonAttribute> attributeSet = new HashSet<PersonAttribute>();
 		for(String personAttributeSetTypeKey:personAttributeSetTypeKeyList){
 			Query q = entityManager.createQuery("SELECT attributes FROM PersonAttribute attributes " +
 					//"JOIN attributes.person per " +
