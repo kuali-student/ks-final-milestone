@@ -22,6 +22,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeIn
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria;
@@ -41,7 +42,7 @@ public interface PersonService {
 	// Setup Operations
 	/**
 	 * Retrieves the list of person types known by this service.
-	 * 
+	 *
 	 * @return list of person types
 	 * @throws OperationFailedException
 	 */
@@ -51,7 +52,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves the list of person types which can be created by this service.
-	 * 
+	 *
 	 * @return list of person types
 	 * @throws OperationFailedException
 	 */
@@ -61,7 +62,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves the list of person attribute set types
-	 * 
+	 *
 	 * @return list of person attribute set types
 	 * @throws OperationFailedException
 	 */
@@ -72,7 +73,7 @@ public interface PersonService {
 	/**
 	 * Retrieves the list of person attribute sets for the specified person type
 	 * key
-	 * 
+	 *
 	 * @param personTypeKey
 	 * @return list of person attribute set types
 	 * @throws DoesNotExistException
@@ -90,9 +91,9 @@ public interface PersonService {
 
     /**
      * Retrieves a list of person display for the people specified in the person id list.
-     * 
+     *
      * NOTE: This operation not included in original service description.
-     * 
+     *
      * @param personIdList
      * @return list of PersonDisplay
      * @throws DoesNotExistException
@@ -106,12 +107,12 @@ public interface PersonService {
 	throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException;
-	
+
     /**
      * Retrieves a list of person info for the people specified in the person id list.
-     * 
+     *
      * NOTE: This operation not included in original service description.
-     * 
+     *
      * @param personIdList
      * @return a list of person info
      * @throws DoesNotExistException
@@ -128,7 +129,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves the metadata about the specified person type
-	 * 
+	 *
 	 * @param personTypeKey
 	 * @return information about a personType
 	 * @throws DoesNotExistException
@@ -144,7 +145,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves the metadata about the specified person attribute set type
-	 * 
+	 *
 	 * @param personAttributeSetTypeKey
 	 * @return information about a personAttributeSetType
 	 * @throws DoesNotExistException
@@ -162,7 +163,7 @@ public interface PersonService {
 	/**
 	 * Retrieves the list of person to person relationship type known by this
 	 * service
-	 * 
+	 *
 	 * @return list of person person relation types
 	 * @throws OperationFailedException
 	 */
@@ -172,7 +173,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves all available information about a person.
-	 * 
+	 *
 	 * @param personId
 	 *            identifier of the person to be retrieved
 	 * @return all information available through the person service
@@ -191,7 +192,7 @@ public interface PersonService {
 
     /**
      * Retrieves person display information about a person.
-     * 
+     *
      * @param personId
      *            identifier of the person to be retrieved
      * @return person display info
@@ -213,7 +214,7 @@ public interface PersonService {
 	 * associated with the specified personType. May be converted to return the
 	 * person display list instead (limiting the variable returns to searches
 	 * only)
-	 * 
+	 *
 	 * @param personId
 	 * @param personTypeKey
 	 * @return information about a person, limited to information associated
@@ -237,7 +238,7 @@ public interface PersonService {
 	 * Retrieves information about a person through a list of person attribute
 	 * sets May be converted to return the person display list instead (limiting
 	 * the variable returns to searches only)
-	 * 
+	 *
 	 * @param personId
 	 * @param personAttributeSetTypeKeyList
 	 * @return information about a person, limited to information associated
@@ -261,7 +262,7 @@ public interface PersonService {
 	/**
 	 * Retrieves a list of which person attribute sets should be available for a
 	 * given person
-	 * 
+	 *
 	 * @param personId
 	 * @return list of person attribute set type keys
 	 * @throws DoesNotExistException
@@ -281,7 +282,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves a list of person type keys for a given person
-	 * 
+	 *
 	 * @param personId
 	 * @return list of person type keys
 	 * @throws DoesNotExistException
@@ -299,7 +300,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves a list of person ids for a given person type key
-	 * 
+	 *
 	 * @param personTypeKey
 	 * @param personFilter
 	 *            additional criteria used to narrow the list of results
@@ -320,7 +321,7 @@ public interface PersonService {
 
 	/**
 	 * Checks if a person is of a specified type
-	 * 
+	 *
 	 * @param personId
 	 * @param personTypeKey
 	 * @return true if the person specified is of the specified type
@@ -343,7 +344,7 @@ public interface PersonService {
 	 * Validates if the information collected for a person is complete and valid
 	 * for the specified personType (usually called before attempting to assign
 	 * a new personType)
-	 * 
+	 *
 	 * @param personId
 	 * @param personTypeKey
 	 * @return results of the specified validations (general status, lists of
@@ -366,7 +367,7 @@ public interface PersonService {
 	/**
 	 * Retrieves the replacement identifier for a person using the old person
 	 * identifier specified.
-	 * 
+	 *
 	 * @param personId
 	 * @return current identifier for the specified person
 	 * @throws DoesNotExistException
@@ -384,7 +385,7 @@ public interface PersonService {
 	/**
 	 * Retrieves all relations of the specified type where the specified person
 	 * is involved in either side of the relation
-	 * 
+	 *
 	 * @param personId
 	 * @param personRelationTypeKey
 	 * @return list of relationships matching the specified type where the
@@ -406,7 +407,7 @@ public interface PersonService {
 	/**
 	 * Retrieves all identifiers for relations of the specified type where the
 	 * specified person is involved in either side of the relation
-	 * 
+	 *
 	 * @param personId
 	 * @param personRelationTypeKey
 	 * @return list of identifiers for people with relationships matching the
@@ -426,7 +427,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves the specified relation
-	 * 
+	 *
 	 * @param personRelationId
 	 * @return the specified person person relationship
 	 * @throws DoesNotExistException
@@ -446,7 +447,7 @@ public interface PersonService {
 
 	/**
 	 * Retrieves identifiers of existing people matching the specified criteria.
-	 * 
+	 *
 	 * @param personCriteria
 	 *            criteria to be used for retrieval of multiple people, e.g. by
 	 *            personType, by name, by birthdate
@@ -465,7 +466,7 @@ public interface PersonService {
 	/**
 	 * Retrieves basic attribute set for existing people matching the specified
 	 * criteria. *What is in the basic attribute set?
-	 * 
+	 *
 	 * @param personCriteria
 	 *            criteria to be used for retrieval of multiple people, e.g. by
 	 *            name, by birthdate
@@ -483,11 +484,30 @@ public interface PersonService {
 			PermissionDeniedException;
 
 	/**
+	 * Retrieves Person DTOs of existing people matching the specified criteria.
+	 *
+	 * @param personCriteria
+	 *            criteria to be used for retrieval of multiple people, e.g. by
+	 *            personType, by name, by birthdate
+	 * @return List of person DTO that match the supplied criteria
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 */
+	@WebMethod
+	public List<PersonDisplayDTO> searchForPersonDisplayDTOs(@WebParam(name = "personCriteria")
+	PersonCriteria personCriteria) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+
+	/**
 	 * Retrieves appropriate Attribute Set(s) for existing people of the
 	 * specified Person Type and matching other criteria. The information
 	 * returned is determined by the Attribute Set(s) associated with the
 	 * specified Person Type
-	 * 
+	 *
 	 * @param personTypeKey
 	 *            key for the person type used as both constraint and output
 	 *            modifier
@@ -514,7 +534,7 @@ public interface PersonService {
 	 * Retrieves information from the selected Attribute Set for existing people
 	 * with information in the specified Attribute Set Type and matching other
 	 * criteria.
-	 * 
+	 *
 	 * @param personAttributeSetTypeKey
 	 *            key for the person attribute set type used as both a
 	 *            constraint and output modifier
@@ -540,7 +560,7 @@ public interface PersonService {
 	/**
 	 * Retrieves a list of person person relations meeting the specified
 	 * criteria
-	 * 
+	 *
 	 * @param personRelationCriteria
 	 *            criteria to be used for finding relationships
 	 * @return List of Person Person Relationships with data that match the
@@ -560,7 +580,7 @@ public interface PersonService {
 	/**
 	 * Retrieves a list of people with relationships meeting the specified
 	 * criteria
-	 * 
+	 *
 	 * @param personRelationCriteria
 	 *            criteria to be used for finding relationships
 	 * @return List of people with relationships that match the supplied
@@ -580,7 +600,7 @@ public interface PersonService {
 	/**
 	 * Retrieves a list of identifiers of people with relationships meeting the
 	 * specified criteria
-	 * 
+	 *
 	 * @param personRelationCriteria
 	 *            criteria to be used for finding relationships
 	 * @return List of identifiers of people with relationships that match the
@@ -600,7 +620,7 @@ public interface PersonService {
 	// Maintenance /////////////////////////////////////////////////////////////
 	/**
 	 * Creates a person record
-	 * 
+	 *
 	 * @param personCreateInfo
 	 *            type of person being created
 	 * @param personTypeKeys
@@ -622,7 +642,7 @@ public interface PersonService {
 
 	/**
 	 * Updates a person record
-	 * 
+	 *
 	 * @param personUpdateInfo
 	 *            information needed to update a person record
 	 * @param personId
@@ -645,7 +665,7 @@ public interface PersonService {
 
 	/**
 	 * Deletes a person record.
-	 * 
+	 *
 	 * @param personId
 	 *            identifier for person to be deleted
 	 * @return status of the operation (success or failure)
@@ -664,7 +684,7 @@ public interface PersonService {
 
 	/**
 	 * Assigns a personType to a person record
-	 * 
+	 *
 	 * @param personId
 	 *            identifier for person having a personType assigned
 	 * @param personTypeKey
@@ -689,7 +709,7 @@ public interface PersonService {
 
 	/**
 	 * Disassociates a personType from a person record
-	 * 
+	 *
 	 * @param personId
 	 *            identifier for person having a personType removed
 	 * @param personTypeKey
@@ -712,7 +732,7 @@ public interface PersonService {
 
 	/**
 	 * Creates a person to person relationship
-	 * 
+	 *
 	 * @param personId
 	 * @param relatedPersonId
 	 * @param personRelationTypeKey
@@ -739,7 +759,7 @@ public interface PersonService {
 
 	/**
 	 * Updates a person to person relationship
-	 * 
+	 *
 	 * @param personRelationId
 	 *            identifier for person relationship to be updated
 	 * @param personRelationUpdateInfo
@@ -762,7 +782,7 @@ public interface PersonService {
 
 	/**
 	 * Deletes a person relationship.
-	 * 
+	 *
 	 * @param personRelationId
 	 *            identifier for person relationship to be deleted
 	 * @return status of the operation (success or failure)
@@ -800,5 +820,4 @@ public interface PersonService {
 			throws AlreadyExistsException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
-
 }
