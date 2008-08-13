@@ -77,7 +77,7 @@ public class SearchWidget extends Composite {
 			}
 			if("people".equals(lValue) ){
 			    BusyWidgetShade.shade(btnSearch);				
-				PersonIdentityController.serachForPeople(suggestBox.getText(), new AsyncCallback(){
+				PersonIdentityController.serachForPeople(suggestBox.getText() + "%", new AsyncCallback(){
 
     
                     public void onFailure(Throwable caught) {
