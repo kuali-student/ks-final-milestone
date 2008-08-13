@@ -19,6 +19,7 @@
 
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.poc.common.util.ExceptionMappingAdvice">
+		<property name="defaultException" value="org.kuali.student.poc.common.ws.exceptions.OperationFailedException"/>
 		<property name="exceptionMapping">
 			<map>
 				<entry key="javax.persistence.EntityExistsException"
