@@ -13,7 +13,8 @@ public class BusinessRule implements ModelObject {
     private String failureMessage;
     private String compiledID;
     private String anchor;
-    private String businessRuleType;
+    private String anchorTypeKey;
+    private String businessRuleTypeKey;
 
     public String getUniqueId() {
         return id;
@@ -140,24 +141,39 @@ public class BusinessRule implements ModelObject {
     }
 
     /**
-     * @return the businessRuleType
-     */
-    public final String getBusinessRuleType() {
-        return businessRuleType;
-    }
-
-    /**
-     * @param businessRuleType
-     *            the businessRuleType to set
-     */
-    public final void setBusinessRuleType(String businessRuleType) {
-        this.businessRuleType = businessRuleType;
-    }
-
-    /**
      * @return the serialVersionUID
      */
     public static final long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    /**
+     * @return the anchorTypeKey
+     */
+    public final String getAnchorTypeKey() {
+        return anchorTypeKey;
+    }
+
+    /**
+     * @param anchorTypeKey
+     *            the anchorTypeKey to set
+     */
+    public final void setAnchorTypeKey(String anchorTypeKey) {
+        this.anchorTypeKey = anchorTypeKey;
+    }
+
+    /**
+     * @return the businessRuleTypeKey
+     */
+    public final String getBusinessRuleTypeKey() {
+        return businessRuleTypeKey;
+    }
+
+    /**
+     * @param businessRuleTypeKey
+     *            the businessRuleTypeKey to set
+     */
+    public final void setBusinessRuleTypeKey(String businessRuleTypeKey) {
+        this.businessRuleTypeKey = businessRuleTypeKey;
     }
 }

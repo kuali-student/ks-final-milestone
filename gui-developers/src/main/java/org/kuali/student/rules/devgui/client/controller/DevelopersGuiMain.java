@@ -104,7 +104,7 @@ public class DevelopersGuiMain extends Controller {
         businessRule.addListener(ModelChangeEvent.ADD, new MVCEventListener() {
             public void onEvent(MVCEvent event, Object data) {
                 System.out.println("TEST: " + ((BusinessRule) data).getName());
-                businessRuleComposite.testForm(((BusinessRule) data).getName());
+                // businessRuleComposite.testForm(((BusinessRule) data).getName());
             }
         });
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="lib" path="C:/KUALI/SVN_R1/commons/ks-commons-ui/branches/ks-commons-ui-dev/target/ks-commons-ui-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/KUALI/SVN_R1/commons/ks-commons-ui/branches/ks-commons-ui-dev/target/ks-commons-ui-0.0.1-SNAPSHOT.jar" sourcepath="/ks-commons-ui"/>
 	<classpathentry exported="true" kind="lib" path="C:/KUALI/SVN_R1/commons/ks-commons-ui/branches/ks-commons-ui-dev/target/ks-commons-ui-0.0.1-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/resources"/>

@@ -8,6 +8,7 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
+import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
@@ -31,7 +32,6 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
-import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -68,15 +68,20 @@ public class RulesComposite extends Composite {
     ModelBinding<BusinessRule> binding;
 
     // widgets used for Rules forms.....
-    final Tree rulesTree = new Tree(); // used to browse Rules
+    final BusinessRulesTree rulesTree = new BusinessRulesTree(); // used to browse Rules
     final ScrollPanel rulesBrowserScrollPanel = new ScrollPanel();
     final HorizontalSplitPanel rulesHorizontalSplitPanel = new HorizontalSplitPanel();
     final ScrollPanel rulesScrollPanel = new ScrollPanel();
     final VerticalSplitPanel rulesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
 
-    //
+    // rules Main tab
     final TextBox nameTextBox = new TextBox();
+    final TextArea descriptionTextArea = new TextArea();
+    final TextArea successMessageTextArea = new TextArea();
+    final TextArea failureMessageTextArea = new TextArea();
+    final ListBox businessRuleTypeListBox = new ListBox();
+    final TextBox anchorTextBox = new TextBox();
 
     boolean loaded = false;
 
@@ -97,8 +102,8 @@ public class RulesComposite extends Composite {
             messages = metadata.getMessages();
 
             // bind the list to the parent controller's Model of BusinessRule objects
-            // Model<BusinessRule> model = (Model<BusinessRule>) controller.getModel(BusinessRule.class);
-            // TODO binding = new ModelBinding<BusinessRule>(model, table);
+            Model<BusinessRule> model = (Model<BusinessRule>) controller.getModel(BusinessRule.class);
+            binding = new ModelBinding<BusinessRule>(model, rulesTree);
 
             // create tree-like rules browser
             rulesTree.setSize("100%", "100%");
@@ -107,7 +112,7 @@ public class RulesComposite extends Composite {
             // create panel with a tree on left and a form on the right
             rulesHorizontalSplitPanel.setLeftWidget(rulesTree);
             rulesTree.setStyleName("gwt-Tree-rules");
-            rulesHorizontalSplitPanel.setRightWidget(getRulesForm());
+            rulesHorizontalSplitPanel.setRightWidget(addRulesForm());
             rulesHorizontalSplitPanel.setSize("100%", "100%");
             rulesHorizontalSplitPanel.setSplitPosition("30%");
 
@@ -121,6 +126,23 @@ public class RulesComposite extends Composite {
             rulesVerticalSplitPanel.setSplitPosition("80%");
             // simplePanel.setSize("100%", "100%");
             simplePanel.add(rulesVerticalSplitPanel);
+
+            // add selection event listener to rulesTree widget
+            /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
+             * checked in to ks-commons-ui-dev module
+             */
+            /*
+            rulesTree.addSelectionListener(new ModelTableSelectionListener<BusinessRule>() {
+                public void onSelect(BusinessRule modelObject) {
+                    if (modelObject == null) {
+                        // selection was cleared
+                        clearRulesMainTab(modelObject);
+                    } else {
+                        // populate fields from new selection
+                        populateRulesMainTab(modelObject);
+                    }
+                }
+            }); */
         }
     }
 
@@ -131,14 +153,29 @@ public class RulesComposite extends Composite {
         binding.unlink();
     }
 
-    public void testForm(String text) {
-        nameTextBox.setText(text);
+    public void populateRulesMainTab(BusinessRule rule) {
+        nameTextBox.setText(rule.getName());
+        descriptionTextArea.setText(rule.getDescription());
+        successMessageTextArea.setText(rule.getSuccessMessage());
+        failureMessageTextArea.setText(rule.getFailureMessage());
+        businessRuleTypeListBox.setValue(0, rule.getBusinessRuleTypeKey());
+        // businessRuleTypeListBox.setItemSelected(0, true);
+        anchorTextBox.setText(rule.getAnchor());
     }
 
-    private Widget getRulesForm() {
+    public void clearRulesMainTab(BusinessRule rule) {
+        nameTextBox.setText("");
+        descriptionTextArea.setText("");
+        successMessageTextArea.setText("");
+        failureMessageTextArea.setText("");
+        businessRuleTypeListBox.setItemSelected(0, true);
+        anchorTextBox.setText("");
+    }
+
+    private Widget addRulesForm() {
         TabPanel rulesFormTabs = new TabPanel();
-        rulesFormTabs.add(getRulesFormMainPage(), "Main");
-        rulesFormTabs.add(getRulesFormPropositionPage(), "Propositions");
+        rulesFormTabs.add(addRulesMainPage(), "Main");
+        rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(new Label("To Do"), "Authoring");
         rulesFormTabs.setSize("90%", "500px");
 
@@ -164,7 +201,7 @@ public class RulesComposite extends Composite {
         return rulesFormVerticalPanel;
     }
 
-    private Widget getRulesFormMainPage() {
+    private Widget addRulesMainPage() {
 
         // **********************************************************
         // set rules form margins
@@ -227,7 +264,6 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(2, 0, FORM_ROW_HEIGHT);
         flexFormTable.getCellFormatter().setWidth(2, 0, "200px");
 
-        final TextArea descriptionTextArea = new TextArea();
         flexFormTable.setWidget(2, 1, descriptionTextArea);
         flexFormTable.getCellFormatter().setWordWrap(2, 1, true);
         flexFormTable.getCellFormatter().setVerticalAlignment(2, 1, HasVerticalAlignment.ALIGN_TOP);
@@ -241,7 +277,6 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
         flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
 
-        final TextArea successMessageTextArea = new TextArea();
         flexFormTable.setWidget(3, 1, successMessageTextArea);
         successMessageTextArea.setTextAlignment(TextBoxBase.ALIGN_LEFT);
         flexFormTable.getCellFormatter().setVerticalAlignment(3, 1, HasVerticalAlignment.ALIGN_TOP);
@@ -255,7 +290,6 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(4, 0, FORM_ROW_HEIGHT);
         flexFormTable.getCellFormatter().setWidth(4, 0, "200px");
 
-        final TextArea failureMessageTextArea = new TextArea();
         flexFormTable.setWidget(4, 1, failureMessageTextArea);
         failureMessageTextArea.setSize("75%", "100%");
         flexFormTable.getCellFormatter().setHeight(4, 1, "93px");
@@ -265,8 +299,8 @@ public class RulesComposite extends Composite {
         flexFormTable.setWidget(5, 0, businessRuleTypeLabel);
         flexFormTable.getCellFormatter().setHeight(5, 0, FORM_ROW_HEIGHT);
 
-        final ListBox businessRuleTypeListBox = new ListBox();
         flexFormTable.setWidget(5, 1, businessRuleTypeListBox);
+        flexFormTable.getCellFormatter().setHeight(5, 1, FORM_ROW_HEIGHT);
         businessRuleTypeListBox.addItem("Test1");
         businessRuleTypeListBox.addItem("Test2");
         businessRuleTypeListBox.addItem("Test3");
@@ -279,7 +313,6 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setWidth(6, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
 
-        final TextBox anchorTextBox = new TextBox();
         flexFormTable.setWidget(6, 1, anchorTextBox);
         anchorTextBox.setWidth("50%");
 
@@ -294,7 +327,7 @@ public class RulesComposite extends Composite {
         return rulesFlexTable;
     }
 
-    private Widget getRulesFormPropositionPage() {
+    private Widget addRulesPropositionPage() {
 
         // **********************************************************
         // set rules form margins
