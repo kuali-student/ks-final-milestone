@@ -12,6 +12,7 @@ import org.kuali.student.rules.devgui.client.model.BusinessRule;
 public class DevGuiServiceImpl implements DevGuiService {
 
     public BusinessRule getBusinessRule(String identifier) {
+
         BusinessRule rule = new BusinessRule();
         System.out.println("ID:" + identifier);
         rule.setId(identifier);

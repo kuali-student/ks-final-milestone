@@ -11,6 +11,7 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
 import org.kuali.student.rules.devgui.client.model.BusinessRule;
 
@@ -82,6 +83,7 @@ public class RulesComposite extends Composite {
     final TextArea failureMessageTextArea = new TextArea();
     final ListBox businessRuleTypeListBox = new ListBox();
     final TextBox anchorTextBox = new TextBox();
+    final Label anchorTypeReadOnly = new Label("");
 
     boolean loaded = false;
 
@@ -160,6 +162,7 @@ public class RulesComposite extends Composite {
         failureMessageTextArea.setText(rule.getFailureMessage());
         businessRuleTypeListBox.setValue(0, rule.getBusinessRuleTypeKey());
         // businessRuleTypeListBox.setItemSelected(0, true);
+        anchorTypeReadOnly.setText(rule.getAnchorTypeKey());
         anchorTextBox.setText(rule.getAnchor());
     }
 
@@ -169,6 +172,7 @@ public class RulesComposite extends Composite {
         successMessageTextArea.setText("");
         failureMessageTextArea.setText("");
         businessRuleTypeListBox.setItemSelected(0, true);
+        anchorTypeReadOnly.setText("");
         anchorTextBox.setText("");
     }
 
@@ -304,25 +308,29 @@ public class RulesComposite extends Composite {
         businessRuleTypeListBox.addItem("Test1");
         businessRuleTypeListBox.addItem("Test2");
         businessRuleTypeListBox.addItem("Test3");
-        businessRuleTypeListBox.setSize("75%", "100%");
-        businessRuleTypeListBox.setVisibleItemCount(5);
+
+        // Anchor Type
+        final Label anchorTypeLabel = new Label("Anchor Type:");
+        flexFormTable.setWidget(6, 0, anchorTypeLabel);
+        flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
+        flexFormTable.setWidget(6, 1, anchorTypeReadOnly);
 
         // Anchor
         final Label anchorLabel = new Label("Anchor");
-        flexFormTable.setWidget(6, 0, anchorLabel);
-        flexFormTable.getCellFormatter().setWidth(6, 0, "200px");
-        flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
+        flexFormTable.setWidget(7, 0, anchorLabel);
+        flexFormTable.getCellFormatter().setWidth(7, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(7, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(6, 1, anchorTextBox);
+        flexFormTable.setWidget(7, 1, anchorTextBox);
         anchorTextBox.setWidth("50%");
 
         // filler
         final SimplePanel filler = new SimplePanel();
-        flexFormTable.setWidget(7, 0, filler);
-        flexFormTable.getFlexCellFormatter().setColSpan(7, 0, 2);
-
-        flexFormTable.getCellFormatter().setHorizontalAlignment(8, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        flexFormTable.setWidget(8, 0, filler);
         flexFormTable.getFlexCellFormatter().setColSpan(8, 0, 2);
+
+        flexFormTable.getCellFormatter().setHorizontalAlignment(9, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        flexFormTable.getFlexCellFormatter().setColSpan(9, 0, 2);
 
         return rulesFlexTable;
     }
