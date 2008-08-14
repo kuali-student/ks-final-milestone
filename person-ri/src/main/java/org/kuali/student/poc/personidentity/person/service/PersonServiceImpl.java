@@ -1125,10 +1125,7 @@ public class PersonServiceImpl implements PersonService {
 	MissingParameterException, OperationFailedException,
 	PermissionDeniedException {
 		List<PersonDisplayDTO> persons = personDAO.findPersonDisplayDTO(personCriteria);
-        if (persons == null) {
-        	persons = new ArrayList<PersonDisplayDTO>(0);
-        }
-
+        
 		return persons;
 	}
 

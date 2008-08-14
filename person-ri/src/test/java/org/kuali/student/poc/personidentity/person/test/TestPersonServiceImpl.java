@@ -432,6 +432,6 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
 
     	criteria.setFirstName("Darth");
     	List<PersonDisplayDTO> persons2 = client.searchForPersonDisplayDTOs(criteria);
-       	assertTrue("Should have null pointer as result", persons2 == null);
+       	assertTrue("Should have null pointer/size 0 as result", (persons2 == null || persons2.size() == 0));
     }
 }
