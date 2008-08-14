@@ -63,6 +63,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         this.ruleEngineRepository = ruleEngineRepository;
     }
     
+    /**
+     * Gets the rule engine repository.
+     * 
+     * @return Rule engine repository
+     */
     public RuleEngineRepository getRuleEngineRepository() {
     	return this.ruleEngineRepository;
     }
