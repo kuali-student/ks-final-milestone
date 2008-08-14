@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	xsi:schemaLocation="          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd ">
 
 
 	<bean id="personClient"
@@ -128,8 +131,28 @@
 		class="org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay">
 		<property name="luiId" value="Lui 2" />
 	</bean>
+	
+    <bean id="mapExceptionAdvisor"
+        class="org.kuali.student.poc.common.util.ExceptionMappingAdvice">
+        <property name="defaultException" value="org.kuali.student.poc.common.ws.exceptions.OperationFailedException"/>
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                    value="org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException" />
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="mapExceptionAdvisor">
 
-	<!--  ********************************************************************** -->
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.poc.learningunit.luipersonrelation.service..*.*(..))"
+                method="afterThrowing" throwing="ex" />
+        </aop:aspect>
+   </aop:config>
+    
+<!--  ********************************************************************** -->
 	<!--  Rule Engine Beans -->
 
 	<bean id="businessRuleDAO"
