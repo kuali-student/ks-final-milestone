@@ -69,6 +69,21 @@ public class GwtPersonInfo extends GwtPersonCreateInfo implements Serializable, 
     public String getUniqueId() {       
         return this.personId;
     }
+    
+    public boolean equals(Object o)
+    {
+    	boolean isEqual = false;
+    	if(o instanceof GwtPersonInfo)
+    	{
+    		System.out.println("is an Instance of GwtPersonInfo");
+    		isEqual = this.getPersonId().equals(((GwtPersonInfo)o).getPersonId());
+    	}
+    	else
+    	{
+    		isEqual = super.equals(o);
+    	}
+    	return isEqual;
+    }
 
 	
 }

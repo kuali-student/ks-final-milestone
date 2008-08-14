@@ -80,7 +80,7 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
         List<GwtPersonInfo> lRet = new Vector<GwtPersonInfo>();
         StringTokenizer st = new StringTokenizer(searchString);
         Vector<String> tokens = new Vector<String>();
-
+        System.out.println("Got here " + searchString);
         while (st.hasMoreTokens()) {
             tokens.add(st.nextToken());
         }
@@ -102,8 +102,15 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
             pc.setLastName(tokens.get(0));
             tmp = this.searchForPeople(pc);
             if (tmp != null) {
-                lRet.addAll(tmp);
+            	//check for duplicate results
+            	for(GwtPersonInfo info: tmp){
+            		if(!lRet.contains(info)){
+            			lRet.add(info);
+            		}
+            	}
+                //lRet.addAll(tmp);
             }
+            
         } else if (tokens.size() > 1) {
             GwtPersonCriteria pc = new GwtPersonCriteria();
             pc.setFirstName(tokens.get(0));
@@ -118,8 +125,14 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
             pc.setFirstName(tokens.get(1));
             tmp = this.searchForPeople(pc);
             if (tmp != null) {
-                lRet.addAll(tmp);
+            	for(GwtPersonInfo info: tmp){
+            		if(!lRet.contains(info)){
+            			lRet.add(info);
+            		}
+            	}
+                //lRet.addAll(tmp);
             }
+
         }
 
         // if(lRet.isEmpty()) lRet = null;

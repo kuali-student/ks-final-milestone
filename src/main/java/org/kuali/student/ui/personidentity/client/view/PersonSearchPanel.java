@@ -14,21 +14,19 @@ public class PersonSearchPanel extends HorizontalPanel {
 
 	//PersonSearchResultPanel srPanel = new PersonSearchResultPanel();
 	//PersonAdvancedSearchPanel	advPanel = new PersonAdvancedSearchPanel(); 
-	PersonAdvancedSearchPanel	advPanel;
-	PersonSearchResultPanel srPanel;
+	PersonAdvancedSearchPanel	advPanel = new PersonAdvancedSearchPanel();
+	PersonSearchResultPanel srPanel = new PersonSearchResultPanel();
 	
 	/**
 	 * 
 	 */
 	public PersonSearchPanel() {		
-		advPanel = new PersonAdvancedSearchPanel();
-		srPanel = new PersonSearchResultPanel();
 		/*
 		 * I want to use this grid result once the incubator code becomes more stable
 		 */
 		//GridResult srGrid = new GridResult();
-		advPanel.setWidth("60%");
-		srPanel.setWidth("40%");
+		//advPanel.setWidth("60%");
+		//srPanel.setWidth("40%");
 		
 		this.add(advPanel);
 		this.add(srPanel);
