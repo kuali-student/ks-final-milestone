@@ -80,7 +80,6 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
         List<GwtPersonInfo> lRet = new Vector<GwtPersonInfo>();
         StringTokenizer st = new StringTokenizer(searchString);
         Vector<String> tokens = new Vector<String>();
-        System.out.println("Got here " + searchString);
         while (st.hasMoreTokens()) {
             tokens.add(st.nextToken());
         }

@@ -75,7 +75,6 @@ public class GwtPersonInfo extends GwtPersonCreateInfo implements Serializable, 
     	boolean isEqual = false;
     	if(o instanceof GwtPersonInfo)
     	{
-    		System.out.println("is an Instance of GwtPersonInfo");
     		isEqual = this.getPersonId().equals(((GwtPersonInfo)o).getPersonId());
     	}
     	else
