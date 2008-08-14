@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 
 import com.google.gwt.user.client.Command;
@@ -19,6 +20,13 @@ import com.google.gwt.user.client.DeferredCommand;
  *            the type of ModelObject to be contained
  */
 public class Model<T extends ModelObject> {
+    // force initialization of the event types we're aware of
+    static {
+        new ModelChangeEvent();
+        new ModelChangeEvent.AddEvent();
+        new ModelChangeEvent.RemoveEvent();
+        new ModelChangeEvent.UpdateEvent();
+    }
     private final Map<String, T> data = new HashMap<String, T>();
 
     private final Set<ListenerMapping> listeners = new HashSet<ListenerMapping>();
@@ -32,7 +40,7 @@ public class Model<T extends ModelObject> {
      * @param listener
      *            the event listener to fire
      */
-    public void addListener(ModelChangeEvent eventType, final MVCEventListener listener) {
+    public void addListener(final Class<? extends ModelChangeEvent> eventType, final MVCEventListener listener) {
         ListenerMapping lm = new ListenerMapping();
         lm.eventType = eventType;
         lm.listener = listener;
@@ -47,7 +55,7 @@ public class Model<T extends ModelObject> {
      * @param listener
      *            the listener to remove
      */
-    public void removeListener(ModelChangeEvent eventType, final MVCEventListener listener) {
+    public void removeListener(final Class<? extends ModelChangeEvent> eventType, final MVCEventListener listener) {
         List<ListenerMapping> toRemove = new ArrayList<ListenerMapping>();
         for (ListenerMapping lm : listeners) {
             if (eventType.equals(lm.eventType) && listener.equals(lm.listener)) {
@@ -57,11 +65,11 @@ public class Model<T extends ModelObject> {
         listeners.removeAll(toRemove);
     }
 
-    private void fireChangeEvent(final ModelChangeEvent event, final T data) {
+    private void fireChangeEvent(final Class<? extends ModelChangeEvent> event, final T data) {
         DeferredCommand.addCommand(new Command() {
             public void execute() {
                 for (ListenerMapping lm : listeners) {
-                    if (event.isAssignableTo(lm.eventType)) {
+                    if (EventTypeRegistry.isSubClass(lm.eventType, event)) {
                         lm.listener.onEvent(event, data);
                     }
                 }
@@ -70,7 +78,7 @@ public class Model<T extends ModelObject> {
     }
 
     private static class ListenerMapping {
-        public ModelChangeEvent eventType;
+        public Class<? extends ModelChangeEvent> eventType;
         public MVCEventListener listener;
     }
 
@@ -82,7 +90,7 @@ public class Model<T extends ModelObject> {
      */
     public void add(T object) {
         data.put(object.getUniqueId(), object);
-        fireChangeEvent(ModelChangeEvent.ADD, object);
+        fireChangeEvent(ModelChangeEvent.AddEvent.class, object);
     }
 
     /**
@@ -100,9 +108,9 @@ public class Model<T extends ModelObject> {
         }
         data.put(object.getUniqueId(), object);
         if (added) {
-            fireChangeEvent(ModelChangeEvent.ADD, object);
+            fireChangeEvent(ModelChangeEvent.AddEvent.class, object);
         } else {
-            fireChangeEvent(ModelChangeEvent.UPDATE, object);
+            fireChangeEvent(ModelChangeEvent.UpdateEvent.class, object);
         }
     }
 
@@ -114,7 +122,7 @@ public class Model<T extends ModelObject> {
      */
     public void remove(T object) {
         data.remove(object.getUniqueId());
-        fireChangeEvent(ModelChangeEvent.REMOVE, object);
+        fireChangeEvent(ModelChangeEvent.RemoveEvent.class, object);
     }
     
     /**

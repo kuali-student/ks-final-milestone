@@ -27,20 +27,22 @@ public class ModelBinding<T extends ModelObject> {
     public ModelBinding(final Model<T> model, final ModelWidget<T> widget) {
         this.model = model;
         listener = new MVCEventListener() {
-            public void onEvent(final MVCEvent event, final Object data) {
+            public void onEvent(final Class<? extends MVCEvent> event, final Object data) {
                 @SuppressWarnings("unchecked")
                 T object = (T) data;
 
-                if (event.equals(ModelChangeEvent.ADD)) {
+                if (event.equals(ModelChangeEvent.AddEvent.class)) {
                     widget.add(object);
-                } else if (event.equals(ModelChangeEvent.UPDATE)) {
+                } else if (event.equals(ModelChangeEvent.UpdateEvent.class)) {
                     widget.update(object);
-                } else if (event.equals(ModelChangeEvent.REMOVE)) {
+                } else if (event.equals(ModelChangeEvent.RemoveEvent.class)) {
                     widget.remove(object);
                 }
             }
+
+            
         };
-        model.addListener(ModelChangeEvent.MODEL_CHANGE_EVENT, listener);
+        model.addListener(ModelChangeEvent.class, listener);
         widget.addBulk(model.items());
     }
 
@@ -48,6 +50,6 @@ public class ModelBinding<T extends ModelObject> {
      * Destroys the link between the model and the widget. Should be called in the widget's onUnload event
      */
     public void unlink() {
-        model.removeListener(ModelChangeEvent.MODEL_CHANGE_EVENT, listener);
+        model.removeListener(ModelChangeEvent.class, listener);
     }
 }
