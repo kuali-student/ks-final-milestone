@@ -48,8 +48,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:rule-execution-context.xml"})
 public class RuleSetExecutorDroolsImplTest {
-	@Resource
 	/** Rule set executor interface */
+	@Resource
 	private RuleSetExecutor executor;
 	
 	@Test
