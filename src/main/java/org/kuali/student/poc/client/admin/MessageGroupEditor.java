@@ -6,11 +6,12 @@ import java.util.List;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -23,11 +24,27 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MessageGroupEditor extends Composite {
-	public static abstract class Save extends MVCEvent {}
-	public static abstract class Cancel extends MVCEvent {}
+	public static class Save extends MVCEvent {
+        static {
+            EventTypeRegistry.register(Save.class, new Save().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(Save.class);
+        }
+    }
+	public static class Cancel extends MVCEvent {
+        static {
+            EventTypeRegistry.register(Cancel.class, new Cancel().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(Cancel.class);
+        }
+    }
 	
-	public static final Save SAVE = GWT.create(Save.class);
-	public static final Cancel CANCEL = GWT.create(Cancel.class);
+	static {
+	    new Save();
+	    new Cancel();
+	}
 	
 	final ViewMetaData metadata = ApplicationContext.getViews().get(AdminPanel.VIEW_NAME);
 	final Messages messages = metadata.getMessages(); 
@@ -77,7 +94,7 @@ public class MessageGroupEditor extends Composite {
 						for (int i=0; i<data.size(); i++) {
 							data.get(i).setMessage(textBoxes.get(i).getText());
 						}
-						c.getEventDispatcher().fireEvent(SAVE, data);
+						c.getEventDispatcher().fireEvent(Save.class, data);
 					}
 				}
 			});
