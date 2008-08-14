@@ -42,7 +42,11 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     public RuleEngineRepositoryMock(Reader source) {
         this.pkg = buildPackage(source);
     }
-    
+
+    public void setSource(Reader source) {
+        this.pkg = buildPackage(source);
+    }
+
     /**
      * Gets a simple rule. 
      * First rule determines whether the minutes of the hour is even.
