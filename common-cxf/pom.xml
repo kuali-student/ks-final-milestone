@@ -3,21 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.common</groupId>
 	<artifactId>common-cxf</artifactId>
-	<version>0.0.3</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>KS POC Common CXF</name>
 	<description>Kuali Student PC Common CXF</description>
 	
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.3</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-ws</artifactId>
-			<version>0.0.3</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
