@@ -794,7 +794,12 @@ a,a:visited,a:hover {
 	border-bottom: 1px solid #ae1c27;
 	border-top: 1px solid #ae1c27;
 }
-
+.enrollHidable{
+   float: left;
+}
+.enrollCenter{
+	float: left;
+}
 .CourseDetailsRegPanel {
 	position: relative;
 	margin-top: 5px;

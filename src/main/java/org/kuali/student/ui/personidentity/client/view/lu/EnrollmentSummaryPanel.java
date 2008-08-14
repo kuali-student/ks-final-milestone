@@ -19,13 +19,13 @@ import org.kuali.student.ui.personidentity.client.view.SearchResultElementWidget
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EnrollmentSummaryPanel extends DockPanel {
+public class EnrollmentSummaryPanel extends FlowPanel {
 	
 	VerticalPanel vpBasketCourses = null;
 	VerticalPanel registeredCourses = null;
@@ -143,8 +143,11 @@ public class EnrollmentSummaryPanel extends DockPanel {
 		ModelState.getInstance().addPropertyChangeListener(currUserListener);
 						
 		RegistrationModelState.getInstance().addPropertyChangeListener(currUserCoursesListener);
-		add(getLeftPanel(), DockPanel.WEST);
-		add(getCenterPanel(),DockPanel.CENTER);
+		//add(getLeftPanel(), DockPanel.WEST);
+		//add(getCenterPanel(),DockPanel.CENTER);
+        add(getLeftPanel());
+        add(getCenterPanel());
+		
 		initStyles();
 	}
 
@@ -152,6 +155,8 @@ public class EnrollmentSummaryPanel extends DockPanel {
         lblRegisteredCourses.addStyleName("KS-Label");
         btnRegister.addStyleName("KS-Button");
         btnDrop.addStyleName("KS-Button");
+        
+
     }
 	private Panel getCenterPanel() {
 	
@@ -161,6 +166,7 @@ public class EnrollmentSummaryPanel extends DockPanel {
 		center.add(registeredCourses);
 		center.add(btnDrop);
 		
+		center.addStyleName("enrollCenter");
 		return center;
 	}
 
@@ -174,7 +180,7 @@ public class EnrollmentSummaryPanel extends DockPanel {
 		p.setTitle(ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("enrollmentCart"));
 		p.setCenterWidget(centerPanel);
 		
-		
+		p.addStyleName("enrollHidable");
 				
 		return p;
 	}
