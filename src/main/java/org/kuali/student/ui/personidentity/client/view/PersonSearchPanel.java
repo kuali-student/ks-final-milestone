@@ -3,14 +3,13 @@
  */
 package org.kuali.student.ui.personidentity.client.view;
 
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * @author Garey
  *
  */
-public class PersonSearchPanel extends HorizontalPanel {
+public class PersonSearchPanel extends FlowPanel {
 
 	//PersonSearchResultPanel srPanel = new PersonSearchResultPanel();
 	//PersonAdvancedSearchPanel	advPanel = new PersonAdvancedSearchPanel(); 
@@ -38,7 +37,9 @@ public class PersonSearchPanel extends HorizontalPanel {
 	}
 	
 	public void onLoad() {
-	    super.setCellWidth(advPanel, "160px");
-	    srPanel.addStyleName("PersonAdvancedSearchPanel");
+	    //super.setCellWidth(advPanel, "160px");
+	    this.addStyleName("PersonSearchPanel");
+	    advPanel.addStyleName("PersonAdvancedSearchPanel");
+	    srPanel.addStyleName("PersonSearchResultPanel");
 	}
 }

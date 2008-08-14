@@ -820,10 +820,15 @@ a,a:visited,a:hover {
 }
 
 .PersonAdvancedSearchPanel  {
+	float: left;
+}
+
+.PersonSearchResultPanel  {
 	position: relative;
 	margin-top: 5px;
 	margin-left: 10px;
 	horizontal-align: left;
+	float: left;
 }
 
 .LuCourseTree {
@@ -838,3 +843,4 @@ a,a:visited,a:hover {
 	margin:0px 0px 0px 0px ;
 	padding:0px 0px 0px 0px ; 
 }
+
