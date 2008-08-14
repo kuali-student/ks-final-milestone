@@ -29,6 +29,7 @@ import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
+import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
 import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.rule.RuleSet;
@@ -46,7 +47,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             
     private RuleEngineRepository ruleEngineRepository;
     private ConcurrentMap<String, List<Package>> ruleSetMap = new ConcurrentHashMap<String, List<Package>>();
-
+    
     /**
      * Constructs a new rule set executor without a repository.
      */
@@ -61,14 +62,18 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     public RuleSetExecutorDroolsImpl( RuleEngineRepository ruleEngineRepository ) {
         this.ruleEngineRepository = ruleEngineRepository;
     }
+    
+    public RuleEngineRepository getRuleEngineRepository() {
+    	return this.ruleEngineRepository;
+    }
 
     /**
      * Executes an <code>agenda</code> with <code>facts</code>.
      * 
      * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
-    public Object execute(Agenda agenda, List<?> facts) {
-        List<Package> packageList = new ArrayList<Package>();
+    public synchronized Object execute(Agenda agenda, List<?> facts) {
+    	List<Package> packageList = new ArrayList<Package>();
         
         logger.info("Executing agenda: name="+agenda.getName());
         for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
@@ -77,12 +82,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             packageList.add((Package) pkg);
             if (logger.isDebugEnabled()) {
                 RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRuleSet.getId());
-                logger.info("\n\n**************************************************");
-                logger.info("uuid="+rs.getUUID());
-                logger.info("name="+rs.getName());
-                logger.info("\n\n-------------------------");
-                logger.info("\n\n"+rs.getContent());
-                logger.info("\n\n**************************************************");
+                logger.debug("\n\n**************************************************");
+                logger.debug("uuid="+rs.getUUID());
+                logger.debug("name="+rs.getName());
+                logger.debug("\n\n-------------------------");
+                logger.debug("\n\n"+rs.getContent());
+                logger.debug("\n\n**************************************************");
             }
         }
         RuleBase ruleBase = getRuleBase(packageList);
@@ -96,7 +101,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * 
      * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#executeSnapshot(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
-    public Object executeSnapshot(Agenda agenda, List<?> facts) {
+    public synchronized Object executeSnapshot(Agenda agenda, List<?> facts) {
         throw new RuleSetExecutionException("Method not yet implemented");
     }
 
@@ -139,7 +144,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param facts List of facts
      * @return
      */
-    public Object execute(String ruleSetId, List<?> facts) {
+    public synchronized Object execute(String ruleSetId, List<?> facts) {
         RuleBase ruleBase = getRuleBase(this.ruleSetMap.get(ruleSetId));
         return executeRule(ruleBase, facts).iterateObjects();
     }
