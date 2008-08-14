@@ -146,7 +146,7 @@ public class SearchWidget extends Composite {
 			        
 			        
 			        		        		        
-			        if("course".equals(lValue)){
+			        if("course".equals(lValue) && false){
 						GwtLuiCriteria cCriteria = new GwtLuiCriteria();
 						cCriteria.setDescription("%" +query+ "%");
 		        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
