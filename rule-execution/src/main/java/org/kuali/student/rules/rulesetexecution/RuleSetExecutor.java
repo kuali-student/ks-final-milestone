@@ -18,8 +18,9 @@ package org.kuali.student.rules.rulesetexecution;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
+import org.kuali.student.rules.repository.RuleEngineRepository;
 
-public interface RuleSetExecutor extends RuleSetExecutorInternal {
+public interface RuleSetExecutor {
 
     /**
      * Executes an <code>agenda</code> with <code>facts</code>.
@@ -38,4 +39,11 @@ public interface RuleSetExecutor extends RuleSetExecutorInternal {
      * @return Result of executing the <code>agenda</code>
      */
     public Object executeSnapshot(Agenda agenda, List<?> facts);
+    
+    /**
+     * Gets the rule engine repository.
+     * 
+     * @return Rule engine repository
+     */
+    public RuleEngineRepository getRuleEngineRepository();
 }
