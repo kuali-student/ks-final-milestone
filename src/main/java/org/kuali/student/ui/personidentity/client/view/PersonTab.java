@@ -74,15 +74,15 @@ public class PersonTab extends TabPanel {
         if (!loaded) {
             loaded = true;
             Controller c = MVC.findParentController(this);
-            c.getEventDispatcher().addListener(SearchWidget.PERSON_SEARCH, new MVCEventListener() {
-                public void onEvent(MVCEvent event, Object data) {
+            c.getEventDispatcher().addListener(SearchWidget.PersonSearchEvent.class, new MVCEventListener() {
+                public void onEvent(Class<? extends MVCEvent> event, Object data) {
                     // select the search results tab
                     me.selectTab(0);
                 }
             });
             
-            c.getEventDispatcher().addListener(PersonSearchResultPanel.PERSON_SELECTED, new MVCEventListener() {
-                public void onEvent(MVCEvent event, Object data) {
+            c.getEventDispatcher().addListener(PersonSearchResultPanel.SelectPersonEvent.class, new MVCEventListener() {
+                public void onEvent(Class<? extends MVCEvent> event, Object data) {
                     if(data == null) {
                         me.selectTab(0);
                     }

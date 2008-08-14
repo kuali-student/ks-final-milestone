@@ -3,8 +3,11 @@ package org.kuali.student.poc.client.login;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
+import org.kuali.student.commons.ui.mvc.client.model.ModelChangeEvent.AddEvent;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.BusyIndicator;
 import org.kuali.student.commons.ui.widgets.RoundedComposite;
@@ -29,30 +32,66 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LoginComposite extends Composite {
-    public static abstract class LoginRelatedEvent extends MVCEvent {}
-
-    public static abstract class LoginSuccessfulEvent extends LoginRelatedEvent {}
-
-    public static abstract class LoginFailedEvent extends LoginRelatedEvent {}
-
-    public static abstract class LoginAbortedEvent extends LoginFailedEvent {}
-
     /**
      * Generic catch-all login related events
      */
-    public static final LoginRelatedEvent LOGIN_RELATED_EVENT = GWT.create(LoginRelatedEvent.class);
+    public static class LoginRelatedEvent extends MVCEvent {
+        static {
+            EventTypeRegistry.register(LoginRelatedEvent.class, new LoginRelatedEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(LoginRelatedEvent.class);
+        }
+    }
+
     /**
      * Fired when successfully logged in. Event data is the login credentials object.
      */
-    public static final LoginSuccessfulEvent LOGIN_SUCCESSFUL = GWT.create(LoginSuccessfulEvent.class);
-    /**
-     * Fired when login attempt is aborted.
-     */
-    public static final LoginAbortedEvent LOGIN_ABORTED = GWT.create(LoginAbortedEvent.class);
+    public static class LoginSuccessfulEvent extends LoginRelatedEvent {
+        static {
+            EventTypeRegistry.register(LoginSuccessfulEvent.class, new LoginSuccessfulEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(LoginSuccessfulEvent.class);
+        }
+    }
+
     /**
      * Fired when login fails due to max attempts, or any other reason, but the user did not cancel
      */
-    public static final LoginFailedEvent LOGIN_FAILED = GWT.create(LoginFailedEvent.class);
+    public static class LoginFailedEvent extends LoginRelatedEvent {
+        static {
+            EventTypeRegistry.register(LoginFailedEvent.class, new LoginFailedEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(LoginFailedEvent.class);
+        }
+    }
+
+    /**
+     * Fired when login attempt is aborted.
+     */
+    public static class LoginAbortedEvent extends LoginFailedEvent {
+        static {
+            EventTypeRegistry.register(LoginAbortedEvent.class, new LoginAbortedEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(LoginAbortedEvent.class);
+        }
+    }
+    
+    static {
+        new LoginRelatedEvent();
+        new LoginSuccessfulEvent();
+        new LoginFailedEvent();
+        new LoginAbortedEvent();
+    }
+
+    
+    
+
+    
+
 
     final ViewMetaData metadata = ApplicationContext.getViews().get(POCMain.VIEW_NAME);
     final Messages messages = metadata.getMessages();
@@ -168,7 +207,7 @@ public class LoginComposite extends Composite {
     }
 
     private void doLogin() {
-        ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+        ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 
         final LoginCredentials credentials = new LoginCredentials();
         credentials.setUserId(userId.getText());
@@ -177,18 +216,18 @@ public class LoginComposite extends Composite {
 
         LoginService.Util.getInstance().login(credentials, new AsyncCallback<Boolean>() {
             public void onFailure(Throwable caught) {
-                controller.getEventDispatcher().fireEvent(LOGIN_FAILED);
-                ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+                controller.getEventDispatcher().fireEvent(LoginFailedEvent.class);
+                ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
             }
 
          
             public void onSuccess(Boolean result) {
                 if (result) {
-                    controller.getEventDispatcher().fireEvent(LOGIN_SUCCESSFUL, credentials);
+                    controller.getEventDispatcher().fireEvent(LoginSuccessfulEvent.class, credentials);
                 } else {
                     failedMessage.setVisible(true);
                 }
-                ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+                ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
             }
 
         });

@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
@@ -107,21 +108,21 @@ public class OldHeaderPanel extends Composite {
 	protected ClickListener adminListener = new ClickListener() {
 		public void onClick(Widget sender) {
 			Controller c = MVC.findParentController(me);
-			c.getEventDispatcher().fireEvent(AdminPanel.SHOW_ADMIN_PANEL);
+			c.getEventDispatcher().fireEvent(AdminPanel.ShowAdminPanel.class);
 		}
 	};
 	
 	protected ClickListener studentSystemListener = new ClickListener() {
 		public void onClick(Widget sender) {
 			Controller c = MVC.findParentController(me);
-			c.getEventDispatcher().fireEvent(AdminStudentTab.SHOW_ADMIN_STUDENT_TAB);
+			c.getEventDispatcher().fireEvent(AdminStudentTab.ShowAdminStudentTab.class);
 		}
 	};
 	
 	protected ClickListener logoutClickListener = new ClickListener() {
 	    public void onClick(Widget sender) {
             Controller c = MVC.findParentController(me);
-            c.getEventDispatcher().fireEvent(POCMain.REQUEST_LOGOUT);
+            c.getEventDispatcher().fireEvent(POCMain.RequestLogout.class);
         }  
 	};
 	
@@ -246,8 +247,8 @@ public class OldHeaderPanel extends Composite {
 			studentSystem.setVisible(false);
 			final Controller c = MVC.findParentController(this);
 			if (c != null) {
-				c.getEventDispatcher().addListener(LoginComposite.LOGIN_SUCCESSFUL, new MVCEventListener() {
-					public void onEvent(MVCEvent event, Object data) {
+				c.getEventDispatcher().addListener(LoginComposite.LoginSuccessfulEvent.class, new MVCEventListener() {
+					public void onEvent(Class<? extends MVCEvent> event, Object data) {
 						sWidget.setVisible(true);
 						admin.setVisible(true);
 						studentSystem.setVisible(true);
@@ -255,16 +256,16 @@ public class OldHeaderPanel extends Composite {
 						final MVCEventListener me = this;
 						DeferredCommand.addCommand(new Command() {
 							public void execute() {
-								c.getEventDispatcher().removeListener(LoginComposite.LOGIN_SUCCESSFUL, me);
+								c.getEventDispatcher().removeListener(LoginComposite.LoginSuccessfulEvent.class, me);
 							}
 						});
 						
 					}
 				});
 				
-				c.getEventDispatcher().addListener(BaseEvents.SHOW_VIEW, new MVCEventListener() {
-					public void onEvent(MVCEvent event, Object data) {
-						boolean b = event.isAssignableFrom(AdminStudentTab.SHOW_ADMIN_STUDENT_TAB);
+				c.getEventDispatcher().addListener(BaseEvents.ShowView.class, new MVCEventListener() {
+					public void onEvent(Class<? extends MVCEvent> event, Object data) {
+						boolean b = EventTypeRegistry.isSubClass(AdminStudentTab.ShowAdminStudentTab.class, event);
 						sWidget.setVisible(b);
 						textLabel.setVisible(b);
 						currSelection.setVisible(b);

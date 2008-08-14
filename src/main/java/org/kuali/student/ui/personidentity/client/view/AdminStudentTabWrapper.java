@@ -57,7 +57,7 @@ public class AdminStudentTabWrapper extends Composite {
 			final Controller c = MVC.findParentController(this);
 			if (c != null) {
 			    MVCEventListener listener = new MVCEventListener() {
-                    public void onEvent(MVCEvent event, Object data) {
+                    public void onEvent(Class<? extends MVCEvent> event, Object data) {
                         if(data != null) {
                             List<GwtPersonNameInfo> nameInfoList = ((GwtPersonInfo)data).getName();
                         
@@ -75,8 +75,8 @@ public class AdminStudentTabWrapper extends Composite {
                     }
                 };
                 
-				c.getEventDispatcher().addListener(PersonSearchResultPanel.PERSON_SELECTED, listener);
-				c.getEventDispatcher().addListener(PersonIdentityController.PERSON_UPDATED_EVENT, listener);
+				c.getEventDispatcher().addListener(PersonSearchResultPanel.SelectPersonEvent.class, listener);
+				c.getEventDispatcher().addListener(PersonIdentityController.PersonUpdatedEvent.class, listener);
 				
 			}
 		}

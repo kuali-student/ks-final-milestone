@@ -106,8 +106,8 @@ public class PersonAdvancedSearchPanel extends HidablePanel{
 			loaded = true;
 			final Controller c = MVC.findParentController(this);
 			if (c != null) {
-				c.getEventDispatcher().addListener(SearchWidget.PERSON_SEARCH, new MVCEventListener() {
-					public void onEvent(MVCEvent event, Object data) {
+				c.getEventDispatcher().addListener(SearchWidget.PersonSearchEvent.class, new MVCEventListener() {
+					public void onEvent(Class<? extends MVCEvent> event, Object data) {
 						givenName.setText("");
 						surName.setText("");
 					}

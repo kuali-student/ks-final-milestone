@@ -11,18 +11,18 @@ import java.util.List;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.widgets.BusyIndicator;
 import org.kuali.student.commons.ui.widgets.BusyWidgetShade;
 import org.kuali.student.ui.personidentity.client.controller.LearningUnitController;
 import org.kuali.student.ui.personidentity.client.controller.PersonIdentityController;
-import org.kuali.student.ui.personidentity.client.model.GwtPersonCriteria;
 import org.kuali.student.ui.personidentity.client.model.GwtPersonInfo;
 import org.kuali.student.ui.personidentity.client.model.lu.GwtLuiCriteria;
 import org.kuali.student.ui.personidentity.client.model.lu.GwtLuiInfo;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -40,11 +40,37 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SearchWidget extends Composite {
 
-	public static abstract class SearchWidgetSearch extends MVCEvent {}
-	public static abstract class CourseSearchEvent extends SearchWidgetSearch {}
-	public static abstract class PersonSearchEvent extends SearchWidgetSearch {}
-    public static final CourseSearchEvent COURSE_SEARCH = GWT.create(CourseSearchEvent.class);
-    public static final PersonSearchEvent PERSON_SEARCH = GWT.create(PersonSearchEvent.class);
+	public static class SearchWidgetSearch extends MVCEvent {
+        static {
+            EventTypeRegistry.register(SearchWidgetSearch.class, new SearchWidgetSearch().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(SearchWidgetSearch.class);
+        }
+    }
+	public static class CourseSearchEvent extends SearchWidgetSearch {
+        static {
+            EventTypeRegistry.register(CourseSearchEvent.class, new CourseSearchEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(CourseSearchEvent.class);
+        }
+    }
+	public static class PersonSearchEvent extends SearchWidgetSearch {
+        static {
+            EventTypeRegistry.register(PersonSearchEvent.class, new PersonSearchEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(PersonSearchEvent.class);
+        }
+    }
+	
+	static {
+	    new SearchWidgetSearch();
+	    new CourseSearchEvent();
+	    new PersonSearchEvent();
+	}
+	
     final SearchWidget me = this;
     
 	HorizontalPanel	root		= null;
@@ -72,7 +98,7 @@ public class SearchWidget extends Composite {
                         LearningUnitController.updateSearchResults(suggestBox.getText(), (List<GwtLuiInfo>)result);
                         BusyWidgetShade.unshade(btnSearch);
                         Controller c = MVC.findParentController(me);
-                        c.getEventDispatcher().fireEvent(COURSE_SEARCH);
+                        c.getEventDispatcher().fireEvent(CourseSearchEvent.class);
                     }});
 			}
 			if("people".equals(lValue) ){
@@ -89,7 +115,7 @@ public class SearchWidget extends Composite {
                         PersonIdentityController.updateSearchResults(suggestBox.getText(), (List<GwtPersonInfo>)result);
                         BusyWidgetShade.unshade(btnSearch);
                         Controller c = MVC.findParentController(me);
-                        c.getEventDispatcher().fireEvent(PERSON_SEARCH);
+                        c.getEventDispatcher().fireEvent(PersonSearchEvent.class);
                     }});	
 			}			
 		}		
@@ -123,11 +149,11 @@ public class SearchWidget extends Composite {
 			        if("course".equals(lValue)){
 						GwtLuiCriteria cCriteria = new GwtLuiCriteria();
 						cCriteria.setDescription("%" +query+ "%");
-		        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+		        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 						LearningUnitController.searchForLuis(cCriteria, new AsyncCallback() {
 				        	
 				        	public void onFailure(Throwable caught) {
-				        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 				        		Window.alert(caught.getMessage());
 								
 							}
@@ -152,7 +178,7 @@ public class SearchWidget extends Composite {
 							        });
 								}
 								callback.onSuggestionsReady(request, new Response(suggestions));
-				        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 							}		        		  		           		           
 				          });
 					}
@@ -160,11 +186,11 @@ public class SearchWidget extends Composite {
 						if(query != null && query.length() > 0){
 				        	query += "%";
 				        }
-					ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+					ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 			        PersonIdentityController.serachForPeople(query, new AsyncCallback() {
 			        			        			        			        	
 			        	public void onFailure(Throwable caught) {
-			        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+			        		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			        		Window.alert(caught.getMessage());
 							
 						}
@@ -193,7 +219,7 @@ public class SearchWidget extends Composite {
 						        });
 							}
 							callback.onSuggestionsReady(request, new Response(suggestions));
-				        	ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				        	ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 						}		        		  		           		           
 			          });		     
 					}

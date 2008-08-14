@@ -65,8 +65,8 @@ public class CourseAdvancedSearchPanel extends HidablePanel {
             this.loadLuTypes();
 			final Controller c = MVC.findParentController(this);
 			if (c != null) {
-				c.getEventDispatcher().addListener(SearchWidget.COURSE_SEARCH, new MVCEventListener() {
-					public void onEvent(MVCEvent event, Object data) {
+				c.getEventDispatcher().addListener(SearchWidget.CourseSearchEvent.class, new MVCEventListener() {
+					public void onEvent(Class<? extends MVCEvent> event, Object data) {
 						description.setText("");
 					}
 				});

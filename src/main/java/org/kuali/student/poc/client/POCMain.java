@@ -4,6 +4,8 @@ import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.EventDispatcher;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
@@ -14,6 +16,7 @@ import org.kuali.student.poc.client.admin.AdminPanel;
 import org.kuali.student.poc.client.login.LoginComposite;
 import org.kuali.student.poc.client.login.LoginCredentials;
 import org.kuali.student.poc.client.login.LoginService;
+import org.kuali.student.poc.client.login.LoginComposite.LoginRelatedEvent;
 import org.kuali.student.ui.personidentity.client.controller.LearningUnitController;
 import org.kuali.student.ui.personidentity.client.controller.PersonIdentityController;
 import org.kuali.student.ui.personidentity.client.model.GwtPersonInfo;
@@ -38,8 +41,17 @@ import com.google.gwt.user.client.ui.Widget;
 public class POCMain extends Controller {
 	public static final String VIEW_NAME = "org.kuali.student.base";
 	
-	public static abstract class RequestLogout extends MVCEvent {}
-	public static final RequestLogout REQUEST_LOGOUT = GWT.create(RequestLogout.class);
+	public static class RequestLogout extends MVCEvent {
+        static {
+            EventTypeRegistry.register(RequestLogout.class, new RequestLogout().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(RequestLogout.class);
+        }
+    }
+	static {
+	    new RequestLogout();
+	}
 	
 	
 	final POCMain me = this;
@@ -89,19 +101,19 @@ public class POCMain extends Controller {
 			PersonIdentityController.setController(this);
 			LearningUnitController.setController(this);
 			// check if we're already logged in
-			ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+			ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 			LoginService.Util.getInstance().getCurrentLogin(new AsyncCallback<LoginCredentials>() {
                 public void onFailure(Throwable caught) {
                     // should never happen unless network connection is lost
-                    ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+                    ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
                     Window.alert("Unable to check for current login state: " + caught.getMessage());
                 }
                 public void onSuccess(LoginCredentials result) {
-                    ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+                    ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
                     if (result != null) {
                         // TODO add credentials, etc, to the security context, etc
-                        me.getEventDispatcher().fireEvent(LoginComposite.LOGIN_SUCCESSFUL);
-                        me.getEventDispatcher().fireEvent(AdminStudentTab.SHOW_ADMIN_STUDENT_TAB);
+                        me.getEventDispatcher().fireEvent(LoginComposite.LoginSuccessfulEvent.class);
+                        me.getEventDispatcher().fireEvent(AdminStudentTab.ShowAdminStudentTab.class);
                     } else {
                         showLogin();
                     }
@@ -114,37 +126,37 @@ public class POCMain extends Controller {
 		LoginComposite login = new LoginComposite();
 		
 		final MVCEventListener successListener = new MVCEventListener() {
-			public void onEvent(MVCEvent event, Object data) {
+			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 			    LoginCredentials credentials = (LoginCredentials) data;
 			    if (!ApplicationContext.getLocale().equals(credentials.getLocale())) {
 			        Window.Location.reload();
 			    } else {
     				// TODO add credentials, etc, to the security context, etc
-    				me.getEventDispatcher().fireEvent(AdminStudentTab.SHOW_ADMIN_STUDENT_TAB);
+    				me.getEventDispatcher().fireEvent(AdminStudentTab.ShowAdminStudentTab.class);
     				final MVCEventListener m = this;
     				DeferredCommand.addCommand(new Command() {
     					public void execute() {
-    						me.getEventDispatcher().removeListener(LoginComposite.LOGIN_SUCCESSFUL, m);
+    						me.getEventDispatcher().removeListener(LoginComposite.LoginSuccessfulEvent.class, m);
     					}
     				});
 			    }
 			}
 		};
-		getEventDispatcher().addListener(LoginComposite.LOGIN_SUCCESSFUL, successListener);
+		getEventDispatcher().addListener(LoginComposite.LoginSuccessfulEvent.class, successListener);
 
 		final MVCEventListener failListener = new MVCEventListener() {
-			public void onEvent(MVCEvent event, Object data) {
+			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 				showWidget(new Label(messages.get("mustBeLoggedIn")));
 				final MVCEventListener m = this;
 				DeferredCommand.addCommand(new Command() {
 					public void execute() {
-						me.getEventDispatcher().removeListener(LoginComposite.LOGIN_FAILED, m);
+						me.getEventDispatcher().removeListener(LoginComposite.LoginFailedEvent.class, m);
 					}
 				});
 				
 			}
 		};
-		getEventDispatcher().addListener(LoginComposite.LOGIN_FAILED, failListener);
+		getEventDispatcher().addListener(LoginComposite.LoginFailedEvent.class, failListener);
 
 		content.setWidget(login);
 
@@ -158,8 +170,8 @@ public class POCMain extends Controller {
 	
 	private void initializeNavigationListeners() {
 		EventDispatcher e = getEventDispatcher();
-		e.addListener(AdminPanel.SHOW_ADMIN_PANEL, new MVCEventListener() {
-			public void onEvent(MVCEvent event, Object data) {
+		e.addListener(AdminPanel.ShowAdminPanel.class, new MVCEventListener() {
+			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 				DeferredCommand.addCommand(new Command() {
 					public void execute() {
 					    showWidget(adminPanel);
@@ -168,8 +180,8 @@ public class POCMain extends Controller {
 			}
 		});
 		
-		e.addListener(AdminStudentTab.SHOW_ADMIN_STUDENT_TAB, new MVCEventListener() {
-			public void onEvent(MVCEvent event, Object data) {
+		e.addListener(AdminStudentTab.ShowAdminStudentTab.class, new MVCEventListener() {
+			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 				DeferredCommand.addCommand(new Command() {
 					public void execute() {
 					    showWidget(studentTab);
@@ -178,18 +190,18 @@ public class POCMain extends Controller {
 			}
 		});
 		
-		e.addListener(POCMain.REQUEST_LOGOUT, new MVCEventListener() {
-            public void onEvent(MVCEvent event, Object data) {
-                ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+		e.addListener(POCMain.RequestLogout.class, new MVCEventListener() {
+            public void onEvent(Class<? extends MVCEvent> event, Object data) {
+                ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
                 LoginService.Util.getInstance().logout(new AsyncCallback<Boolean>() {
                     public void onFailure(Throwable caught) {
-                        ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+                        ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
                         // should never happen unless network connection is lost
                         Window.alert("Failed to log out: " + caught.getMessage());
                     }
 
                     public void onSuccess(Boolean result) {
-                        ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+                        ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
                         Window.Location.reload();
                     }
                     

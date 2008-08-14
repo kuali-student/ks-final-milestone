@@ -5,16 +5,16 @@ import java.util.Map;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.commons.ui.utilities.Callback;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.BusyIndicator;
 import org.kuali.student.poc.client.BaseEvents.ShowView;
-import org.kuali.student.ui.personidentity.client.view.AdminEditPanel;
 import org.kuali.student.ui.personidentity.client.view.Info;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
@@ -24,9 +24,18 @@ import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 public class AdminPanel extends Controller {
 	public static final String VIEW_NAME = "org.kuali.student.admin";
 	
-	public static abstract class ShowAdminPanel extends ShowView {}
-	public static final ShowAdminPanel SHOW_ADMIN_PANEL = GWT.create(ShowAdminPanel.class);
+	public static class ShowAdminPanel extends ShowView {
+        static {
+            EventTypeRegistry.register(ShowAdminPanel.class, new ShowAdminPanel().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(ShowAdminPanel.class);
+        }
+    }
 	
+	static {
+	    new ShowAdminPanel();
+	}
 	final ViewMetaData metadata = ApplicationContext.getViews().get(VIEW_NAME);
 	
 	final HorizontalSplitPanel panel = new HorizontalSplitPanel();
@@ -66,15 +75,15 @@ public class AdminPanel extends Controller {
 				}
 			});
 			
-			getEventDispatcher().addListener(MessageGroupEditor.SAVE, new MVCEventListener() {
+			getEventDispatcher().addListener(MessageGroupEditor.Save.class, new MVCEventListener() {
 				@SuppressWarnings("unchecked")
-				public void onEvent(MVCEvent event, Object data) {
+				public void onEvent(Class<? extends MVCEvent> event, Object data) {
 					saveMessages((List<MessageModelObject>) data);
 				}
 			});
 			
-			getEventDispatcher().addListener(MessageGroupEditor.CANCEL, new MVCEventListener() {
-				public void onEvent(MVCEvent event, Object data) {
+			getEventDispatcher().addListener(MessageGroupEditor.Cancel.class, new MVCEventListener() {
+				public void onEvent(Class<? extends MVCEvent> event, Object data) {
 					//panel.remove(panel.getRightWidget());
 				}
 			});
@@ -82,27 +91,27 @@ public class AdminPanel extends Controller {
 	}
 	
 	protected void showMessageEditor(String locale, String groupName) {
-		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 		MessagesAdminService.Util.getInstance().getMessages(locale, groupName, new AsyncCallback<List<MessageModelObject>>() {
 			public void onFailure(Throwable caught) {
 				Window.alert(caught.getMessage());
-				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			}
 			public void onSuccess(List<MessageModelObject> result) {
 				panel.remove(panel.getRightWidget());
 				panel.setRightWidget(new MessageGroupEditor(result));
-				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			}
 			
 		});
 	}
 	
 	protected void populateAdminTreeMenu() {
-		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 		MessagesAdminService.Util.getInstance().getMessageGroupTree(new AsyncCallback<Map<String,List<String>>>() {
 			public void onFailure(Throwable caught) {
 				Window.alert(caught.getMessage());
-				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			}
 			public void onSuccess(Map<String, List<String>> result) {
 				for (String locale : result.keySet()) {
@@ -110,7 +119,7 @@ public class AdminPanel extends Controller {
 						menu.addMessageGroup(locale, groupName);
 					}	
 				}
-				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			}
 		});
 	}
@@ -122,11 +131,11 @@ public class AdminPanel extends Controller {
 //			s += m.getMessage() + "\n";
 //		}
 //		Window.alert(s);
-		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BEGIN_TASK);
+		ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.BeginTask.class);
 		MessagesAdminService.Util.getInstance().update(messages, new AsyncCallback<Boolean>() {
 			public void onFailure(Throwable caught) {
 				Window.alert(metadata.getMessages().get("saveFailed") + ": " + caught.getMessage());
-				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			}
 			public void onSuccess(Boolean result) {
 				if (!result) {
@@ -138,7 +147,7 @@ public class AdminPanel extends Controller {
 							metadata.getMessages().get("saveSuccess"));
 							//ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("personCreated"));
 				}
-				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.END_TASK);
+				ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
 			}
 			
 		});

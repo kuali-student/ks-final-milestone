@@ -2,10 +2,13 @@ package org.kuali.student.ui.personidentity.client.view;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.poc.client.BaseEvents.ShowView;
+import org.kuali.student.poc.client.POCMain.RequestLogout;
 import org.kuali.student.poc.client.login.LoginComposite;
 import org.kuali.student.registration.client.controller.RegistrationController;
 import org.kuali.student.ui.personidentity.client.ModelState;
@@ -16,9 +19,19 @@ import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 
 public class AdminStudentTab extends SelectedTabPanel {
-    public static abstract class ShowAdminStudentTab extends ShowView {}
+    public static class ShowAdminStudentTab extends ShowView {
+        static {
+            EventTypeRegistry.register(ShowAdminStudentTab.class, new ShowAdminStudentTab().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(ShowAdminStudentTab.class);
+        }
+    }
 
-    public static final ShowAdminStudentTab SHOW_ADMIN_STUDENT_TAB = GWT.create(ShowAdminStudentTab.class);
+    static {
+        new ShowAdminStudentTab();
+    }
+    
     final AdminStudentTab me = this;
 
     PersonTab pTab = null;
@@ -87,16 +100,16 @@ public class AdminStudentTab extends SelectedTabPanel {
 
             final Controller c = MVC.findParentController(this);
             if (c != null) {
-                c.getEventDispatcher().addListener(PersonSearchResultPanel.PERSON_SELECTED, new MVCEventListener() {
-                    public void onEvent(MVCEvent event, Object data) {
+                c.getEventDispatcher().addListener(PersonSearchResultPanel.SelectPersonEvent.class, new MVCEventListener() {
+                    public void onEvent(Class<? extends MVCEvent> event, Object data) {
                         if (data != null)
                             me.addRegistrationTab();
                         else
                             me.removeRegistrationTab();
                     }
                 });
-                c.getEventDispatcher().addListener(SearchWidget.PERSON_SEARCH, new MVCEventListener() {
-                    public void onEvent(MVCEvent event, Object data) {
+                c.getEventDispatcher().addListener(SearchWidget.PersonSearchEvent.class, new MVCEventListener() {
+                    public void onEvent(Class<? extends MVCEvent> event, Object data) {
                         // select the person tab when people are searched for
                         me.selectTab(0);
                     }
