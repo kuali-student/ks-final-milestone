@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-ri</artifactId>
-	<version>0.0.3</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<description />
 	<packaging>pom</packaging>
 	<name>KS POC PersonIdentity RI</name>
@@ -20,8 +20,8 @@
 	</parent>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/tags/personidentity-ri-0.0.3</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/tags/personidentity-ri-0.0.3</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-ri/branches/personidentity-ri-dev</developerConnection>
 	</scm>
 
 	<dependencies>
