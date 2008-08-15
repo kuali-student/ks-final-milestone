@@ -20,14 +20,14 @@
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
