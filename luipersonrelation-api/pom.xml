@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 	</dependencies>
 
