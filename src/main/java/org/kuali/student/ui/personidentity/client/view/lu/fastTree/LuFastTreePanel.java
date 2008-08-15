@@ -28,7 +28,8 @@ public class LuFastTreePanel extends Composite {
         initWidget(panel);
     }
 
-    protected void init(){
+    protected void onLoad() {
+        super.onLoad();
         if(!loaded){
             loaded = true;
             LearningUnitController.findLuTypes(new AsyncCallback(){
