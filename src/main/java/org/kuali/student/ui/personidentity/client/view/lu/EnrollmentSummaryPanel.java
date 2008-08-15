@@ -222,7 +222,7 @@ public class EnrollmentSummaryPanel extends FlowPanel {
 		Label		lblCrs = null;
 		public BasketCourseWidget(GwtLuiPersonRelationDisplay crs){
 			this.crs = crs;
-			lblCrs = new Label(crs.getLuiDisplay().getCluDisplay().getCluShortName());
+			lblCrs = new Label(crs.getLuiDisplay().getCluDisplay().getCluShortName() + " - " + crs.getLuiDisplay().getLuiCode());
 			this.add(lblCrs);
 			
 		}
