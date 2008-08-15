@@ -16,7 +16,7 @@
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<scm>
@@ -28,13 +28,13 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
-			<version>0.0.3</version>
+			<version>0.1.0-SNAPSHOT</version>
 			<scope>test</scope>			
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>			
 	</dependencies>
 
