@@ -52,6 +52,10 @@ public class LearningUnitController {
 		getService().findClusForLuType(luTypeKey, callback);
 	}
 	
+	public static void fetchLui(String luiId, AsyncCallback callback){
+		getService().fetchLui(luiId, callback);
+	}
+	
 	public static void findLuTypes(AsyncCallback callback){
 		getService().findLuTypes(callback);		
 	}
