@@ -14,6 +14,7 @@ import org.kuali.student.registration.client.model.RegistrationModelState;
 import org.kuali.student.registration.client.service.RegistrationService;
 import org.kuali.student.registration.client.service.RegistrationServiceAsync;
 import org.kuali.student.ui.personidentity.client.ModelState;
+import org.kuali.student.ui.personidentity.client.model.lu.GwtLuiInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -160,6 +161,35 @@ public class RegistrationController {
                         BusyWidgetShade.unshade(shadeWidget);
                 }
             });
+/*
+        	getService().findLuiInfosRelatedToPerson(personId, RegistrationService.REL_STUDENT, RegistrationService.STATE_COMPLETE, new AsyncCallback() {
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    if(shadeWidget != null)
+                        BusyWidgetShade.unshade(shadeWidget);
+                }
+    
+                public void onSuccess(Object result) {
+                    RegistrationModelState.getInstance().setCurrUserCourses((List<GwtLuiInfo>) result);
+                    if(shadeWidget != null)
+                        BusyWidgetShade.unshade(shadeWidget);
+                }
+            });
+        	
+        	getService().findLuiInfosRelatedToPerson(personId, RegistrationService.REL_STUDENT, RegistrationService.STATE_BASKET, new AsyncCallback() {
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    if(shadeWidget != null)
+                        BusyWidgetShade.unshade(shadeWidget);
+                }
+    
+                public void onSuccess(Object result) {
+                    RegistrationModelState.getInstance().setCurrUserBasket((List<GwtLuiInfo>) result);
+                    if(shadeWidget != null)
+                        BusyWidgetShade.unshade(shadeWidget);
+                }
+            });
+            */
         }
     }
 
