@@ -844,3 +844,62 @@ a,a:visited,a:hover {
 	padding:0px 0px 0px 0px ; 
 }
 
+/* Users usually should override styles in gwt-Tree*/
+.gwt-FastTree {
+  
+}
+
+.gwt-FastTreeItem .open,.gwt-FastTreeItem .closed,.gwt-FastTreeItem .leaf {
+  padding: 3px;
+  padding-left: 18px;
+  padding-right: 5px;
+  white-space: nowrap;
+  cursor: default;
+  position: relative;
+  padding-left: 18px;
+}
+
+.gwt-FastTreeItem .open,.gwt-FastTreeItem .closed {
+  color: black;
+  font-size: 110%;
+}
+
+.gwt-FastTreeItem .leaf {
+  color: black;
+  font-size: 90%;
+}
+
+.gwt-FastTreeItem .children {
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.gwt-FastTreeItem .open {
+  background: url('images/treeOpen.gif') no-repeat center left;
+}
+
+.gwt-FastTreeItem .closed {
+  background: url('images/treeClosed.gif') no-repeat center left;
+}
+
+.gwt-FastTree {
+  position: relative;
+  background-color: white;
+}
+
+.gwt-FastTree .gwt-FastTreeItem {
+  
+}
+
+.gwt-FastTree .gwt-TreeItem-selected {
+  
+}
+
+.gwt-FastTree .selection-bar {
+  background: #e3e8f3 url('data:image/gif;base64,R0lGODlhAQBAAMQAAMPe+sHd+r7b+bva+bnY+LbW+LPV97HT967S9qvQ9qjO9abN9aPL9KDK9J7I85vG85jF8pbD8pPC8ZLB8f///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHABQALAAAAAABAEAAAAUXIAAIAkEYBoIoCsM4DgRJdG3feK7vUggAOw==') repeat-x;
+  border: 1px solid black;
+  font-size: 0;
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
