@@ -494,7 +494,7 @@ KS-CreatePerson-Sectionbar {
 	FONT-STYLE: Verdana;
 	FONT-SIZE: 11;
 	COLOR: #ffffff;
-	horizontal-align: left;
+	text-align: left;
 	FONT-WEIGHT: bold;
 	height: 24px;
 	margin:0px 0px 0px 0px ;
@@ -504,7 +504,8 @@ KS-CreatePerson-Sectionbar {
 	background: #7c1d3a;
 	height: 24px;
 	margin:0px 0px 0px 0px ;
-	padding:0px 0px 0px 0px ;	
+	padding:0px 0px 0px 0px ;
+	text-align: left;	
 }
 
 .KS-CitzInfo-Panel .header td{
