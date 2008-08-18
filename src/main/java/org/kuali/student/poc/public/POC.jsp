@@ -1,5 +1,21 @@
 <%@ page language="java" import="java.util.*, org.kuali.student.poc.server.login.gwt.*, org.kuali.student.poc.client.*" contentType="text/html" %>
 <%@page import="org.kuali.student.poc.client.login.LoginCredentials"%>
+<%
+	// horrible hack to work around spring initialization error
+	synchronized (this) {
+		Boolean b = (Boolean) super.getServletContext().getAttribute("FIRST_HIT_FLAG");
+		if (b != null && b.booleanValue()) {
+		    // do nothing, continue on
+		} else {
+		    super.getServletContext().setAttribute("FIRST_HIT_FLAG", Boolean.TRUE);
+		    try {
+		        Thread.sleep(5000);
+		    } catch (InterruptedException ie) {
+		        Thread.interrupted();
+		    }
+		}
+	}
+%>
 <html>
 	<head>
 	
