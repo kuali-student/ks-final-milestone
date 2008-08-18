@@ -3,8 +3,8 @@ package org.kuali.student.poc.personidentity.person.dao;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
+import org.kuali.student.poc.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO;
 
 public interface PersonDAO {
 

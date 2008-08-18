@@ -30,20 +30,20 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.common.ws.handler.DebugHandler;
-import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeDisplay;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCitizenshipInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCreateInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonNameInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonReferenceIdInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonUpdateInfo;
+import org.kuali.student.poc.personidentity.person.PersonService;
+import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeDisplay;
+import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonAttributeTypeInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonCitizenshipInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonCreateInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO;
+import org.kuali.student.poc.personidentity.person.dto.PersonInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonNameInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonReferenceIdInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
+import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
 
 @Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")

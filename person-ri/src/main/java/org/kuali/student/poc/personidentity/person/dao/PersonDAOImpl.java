@@ -9,9 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
-
+import org.kuali.student.poc.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO;
 
 public class PersonDAOImpl implements PersonDAO {
 

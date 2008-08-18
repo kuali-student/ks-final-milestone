@@ -22,8 +22,8 @@ import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
 import org.kuali.student.poc.personidentity.person.dao.PersonName;
 import org.kuali.student.poc.personidentity.person.dao.PersonType;
 import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
+import org.kuali.student.poc.personidentity.person.dto.PersonCriteria;
+import org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO;
 
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonDAO extends AbstractTransactionalDaoTest{
