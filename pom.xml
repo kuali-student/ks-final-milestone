@@ -20,7 +20,7 @@
 
 	<properties>
 		<ks.service.package>
-			org.kuali.student.poc.wsdl.personidentity.person
+			org.kuali.student.poc.personidentity.person
 		</ks.service.package>
 		<ks.service.className>PersonService</ks.service.className>
 	</properties>
