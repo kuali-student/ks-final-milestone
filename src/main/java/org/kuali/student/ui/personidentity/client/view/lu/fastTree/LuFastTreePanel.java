@@ -14,6 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.widgetideas.client.FastTree;
+import com.google.gwt.widgetideas.client.FastTreeItem;
 
 public class LuFastTreePanel extends Composite {
 
@@ -21,55 +22,75 @@ public class LuFastTreePanel extends Composite {
         static {
             EventTypeRegistry.register(LuFastTreePanelEvent.class, new SearchWidgetSearch().getHierarchy());
         }
+
         public EventTypeHierarchy getHierarchy() {
             return super.getHierarchy().add(LuFastTreePanelEvent.class);
         }
     }
-    
-    static{
+
+    static {
         new LuFastTreePanelEvent();
     }
-    
+
+    public class LuiRootFastTreeItem extends FastTreeItem {
+
+        public LuiRootFastTreeItem(){
+            super();
+            this.setText("Lu Types");
+        }
+        
+        protected void ensureChildren() {
+            
+            
+            LearningUnitController.findLuTypes(new AsyncCallback() {
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                }
+
+                public void onSuccess(Object result) {
+                    List<GwtLuTypeInfo> lTypes = (List<GwtLuTypeInfo>) result;
+                    if (lTypes != null) {
+                        populateTree(lTypes);
+                    }
+                }               
+            });
+        }        
+        public void populateTree(List<GwtLuTypeInfo> lTypes) {
+            if (lTypes != null) {
+                removeItems();
+                for (GwtLuTypeInfo luTypeInfo : lTypes) {
+                    LuTypeFastItem luItem = new LuTypeFastItem(luTypeInfo);
+                    addItem(luItem);
+                }
+            }
+
+        }
+
+    };
+
     VerticalPanel panel = new VerticalPanel();
-    FastTree        luTree = new FastTree();
-    
+    FastTree luTree = new FastTree();
+
     boolean loaded = false;
-    
-    public LuFastTreePanel() {       
+
+    public LuFastTreePanel() {
         super();
-        
+
         panel.add(luTree);
-        
+
         initWidget(panel);
     }
 
     protected void onLoad() {
         super.onLoad();
-        if(!loaded){
+        if (!loaded) {
             loaded = true;
-            LearningUnitController.findLuTypes(new AsyncCallback(){
-                public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage());                      
-                }
-                public void onSuccess(Object result) {
-                    List<GwtLuTypeInfo> lTypes = (List<GwtLuTypeInfo>)result;
-                    if(lTypes != null){
-                        populateTree(lTypes);
-                    }                       
-                }});
+            LuiRootFastTreeItem ftm = new LuiRootFastTreeItem();
+            ftm.addItem("");
+            ftm.becomeInteriorNode();
+            luTree.addItem(ftm);
 
         }
-    }
-
-    protected void populateTree(List<GwtLuTypeInfo> lTypes){
-        if(lTypes != null){
-            this.luTree.removeItems();            
-            for(GwtLuTypeInfo luTypeInfo: lTypes){              
-                LuTypeFastItem luItem = new LuTypeFastItem(luTypeInfo);
-                this.luTree.addItem(luItem);
-            }
-        }
-        
     }
 
 }
