@@ -18,6 +18,7 @@ import org.kuali.student.registration.client.model.GwtLuiPersonRelationTypeInfo;
 import org.kuali.student.registration.client.model.GwtRelationStateInfo;
 import org.kuali.student.registration.client.service.RegistrationService;
 import org.kuali.student.registration.server.convert.RegistrationConverter;
+import org.kuali.student.ui.personidentity.client.model.lu.GwtCluInfo;
 import org.kuali.student.ui.personidentity.client.model.lu.GwtLuiInfo;
 import org.kuali.student.ui.personidentity.server.convert.GwtException;
 import org.kuali.student.ui.personidentity.server.convert.lu.LearningUnitAppConverter;
@@ -247,7 +248,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 			if(lTmp != null){
 				lRet = new Vector<GwtLuiInfo>();
 				for(String luiId: lTmp){
-					lRet.add(LearningUnitAppConverter.convert(luService.fetchLui(luiId)));
+					GwtLuiInfo in = LearningUnitAppConverter.convert(luService.fetchLui(luiId));
+					GwtCluInfo cInfo = LearningUnitAppConverter.convert(luService.fetchClu(in.getCluDisplay().getCluId()));
+					in.setCluInfo(cInfo);
+					lRet.add(in);
 				}
 			}
 			

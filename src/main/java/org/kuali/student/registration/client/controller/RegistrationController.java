@@ -147,6 +147,7 @@ public class RegistrationController {
         
         if (personId == null) {
             RegistrationModelState.getInstance().setCurrUserRelations(null);
+            RegistrationModelState.getInstance().setCurrUserCourses(null);
         } else {
             getService().findLuiPersonRelationsForPerson(personId, new AsyncCallback() {
                 public void onFailure(Throwable caught) {
@@ -161,7 +162,7 @@ public class RegistrationController {
                         BusyWidgetShade.unshade(shadeWidget);
                 }
             });
-/*
+
         	getService().findLuiInfosRelatedToPerson(personId, RegistrationService.REL_STUDENT, RegistrationService.STATE_COMPLETE, new AsyncCallback() {
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -189,7 +190,7 @@ public class RegistrationController {
                         BusyWidgetShade.unshade(shadeWidget);
                 }
             });
-            */
+            
         }
     }
 
