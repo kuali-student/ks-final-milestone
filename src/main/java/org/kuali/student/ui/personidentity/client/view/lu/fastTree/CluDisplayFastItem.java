@@ -17,6 +17,7 @@ import com.google.gwt.widgetideas.client.FastTreeItem;
 
 public class CluDisplayFastItem extends FastTreeItem {
     GwtCluInfo cDisp = null;
+    boolean ensureChildren = true;
                    
     public static class CluDisplayFastItemSelect extends LuFastTreePanel.LuFastTreePanelEvent {
         static {
@@ -26,8 +27,17 @@ public class CluDisplayFastItem extends FastTreeItem {
             return super.getHierarchy().add(CluDisplayFastItemSelect.class);
         }
     }
+    public static class CluDisplayFastItemPopulated extends LuFastTreePanel.LuFastTreePanelEvent {
+        static {
+            EventTypeRegistry.register(CluDisplayFastItemPopulated.class, new CluDisplayFastItemPopulated().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(CluDisplayFastItemPopulated.class);
+        }
+    }
     static {
         new CluDisplayFastItemSelect(); 
+        new CluDisplayFastItemPopulated();
     }
 
     public CluDisplayFastItem(GwtCluInfo disp) {
@@ -39,7 +49,7 @@ public class CluDisplayFastItem extends FastTreeItem {
     }
     
     
-    protected void populateChildern(){
+    public void populateChildren(){
         LearningUnitController.findLuisForClu(cDisp.getCluId(),null, new AsyncCallback(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());                  
@@ -54,6 +64,8 @@ public class CluDisplayFastItem extends FastTreeItem {
                        addItem(new LuiFastTreeItem(gcd));                                
                     }
                 }
+                Controller c = MVC.findParentController(getTree());
+                c.getEventDispatcher().fireEvent(CluDisplayFastItemPopulated.class, cDisp);
             }});
     }
     
@@ -84,7 +96,16 @@ public class CluDisplayFastItem extends FastTreeItem {
      */
     @Override
     protected void ensureChildren() {
-        this.populateChildern();
+        if(this.ensureChildren)
+            this.populateChildren();
+    }
+
+
+    /**
+     * @param ensureChildren the ensureChildren to set
+     */
+    public void setEnsureChildren(boolean ensureChildren) {
+        this.ensureChildren = ensureChildren;
     }
 
     
