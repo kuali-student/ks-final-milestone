@@ -45,13 +45,13 @@ public class RulesComposite extends Composite {
     final String FORM_ROW_HEIGHT = "22px";
 
     // events to be fired to parent controller
-    public static abstract class RulesEvent extends MVCEvent {}
+    public static class RulesEvent extends MVCEvent {}
 
-    public static abstract class RulesAddEvent extends RulesEvent {}
+    public static class RulesAddEvent extends RulesEvent {}
 
-    public static abstract class RulesUpdateEvent extends RulesEvent {}
+    public static class RulesUpdateEvent extends RulesEvent {}
 
-    public static abstract class RulesTestEvent extends RulesEvent {}
+    public static class RulesTestEvent extends RulesEvent {}
 
     // singleton instances of the events
     public static final RulesEvent RULES_EVENT = GWT.create(RulesEvent.class);
