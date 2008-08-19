@@ -6,26 +6,26 @@
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/resources"/>
-	<classpathentry kind="src" output="fact-finder/target/classes" path="fact-finder/src/main/java"/>
-	<classpathentry kind="src" output="fact-finder/target/test-classes" path="fact-finder/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="fact-finder/target/classes" path="fact-finder/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="fact-finder/target/test-classes" path="fact-finder/src/test/resources"/>
+	<classpathentry kind="src" output="fact-finder-impl/target/classes" path="fact-finder-impl/src/main/java"/>
+	<classpathentry kind="src" output="fact-finder-impl/target/test-classes" path="fact-finder-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="fact-finder-impl/target/classes" path="fact-finder-impl/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="fact-finder-impl/target/test-classes" path="fact-finder-impl/src/test/resources"/>
 	<classpathentry kind="src" output="rule-common/target/classes" path="rule-common/src/main/java"/>
 	<classpathentry kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-common/target/classes" path="rule-common/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/resources"/>
-	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/java"/>
-	<classpathentry kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="rule-execution/target/classes" path="rule-execution/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="rule-execution/target/test-classes" path="rule-execution/src/test/resources"/>
-	<classpathentry kind="src" output="rule-management/target/classes" path="rule-management/src/main/java"/>
-	<classpathentry kind="src" output="rule-management/target/test-classes" path="rule-management/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="rule-management/target/classes" path="rule-management/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="rule-management/target/test-classes" path="rule-management/src/test/resources"/>
-	<classpathentry kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/java"/>
-	<classpathentry kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="rule-repository/target/classes" path="rule-repository/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="rule-repository/target/test-classes" path="rule-repository/src/test/resources"/>
+	<classpathentry kind="src" output="rule-execution/target/classes" path="rule-execution-impl/src/main/java"/>
+	<classpathentry kind="src" output="rule-execution-impl/target/test-classes" path="rule-execution-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-execution-impl/target/classes" path="rule-execution-impl/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-execution-impl/target/test-classes" path="rule-execution-impl/src/test/resources"/>
+	<classpathentry kind="src" output="rule-management/target/classes" path="rule-management-impl/src/main/java"/>
+	<classpathentry kind="src" output="rule-management-impl/target/test-classes" path="rule-management-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-management-impl/target/classes" path="rule-management-impl/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-management-impl/target/test-classes" path="rule-management-impl/src/test/resources"/>
+	<classpathentry kind="src" output="rule-repository/target/classes" path="rule-repository-impl/src/main/java"/>
+	<classpathentry kind="src" output="rule-repository-impl/target/test-classes" path="rule-repository-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-repository-impl/target/classes" path="rule-repository-impl/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-repository-impl/target/test-classes" path="rule-repository-impl/src/test/resources"/>
 	<!--
 	<classpathentry kind="src" output="gui-developers/target/classes" path="gui-developers/src/main/java"/>
 	<classpathentry kind="src" output="gui-developers/target/test-classes" path="gui-developers/src/test/java"/>
