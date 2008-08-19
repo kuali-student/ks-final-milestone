@@ -10,7 +10,7 @@
 	<bean id="personClient"
 		class="org.kuali.student.poc.common.test.mock.MockProxyFactoryBean">
 		<property name="interfaceClass"
-			value="org.kuali.student.poc.personidentity.person.PersonService" />
+			value="org.kuali.student.poc.wsdl.personidentity.person.PersonService" />
 		<property name="methodReturnMap">
 			<map>
 				<entry>

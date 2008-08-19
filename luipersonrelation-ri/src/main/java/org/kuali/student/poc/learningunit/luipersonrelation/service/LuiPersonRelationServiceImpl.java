@@ -19,7 +19,7 @@ import org.kuali.student.poc.learningunit.luipersonrelation.dao.LuiPersonRelatio
 import org.kuali.student.poc.learningunit.luipersonrelation.entity.LuiPersonRelation;
 import org.kuali.student.poc.wsdl.learningunit.lu.LuService;
 import org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService;
-import org.kuali.student.poc.personidentity.person.PersonService;
+import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiDisplay;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.LuiInfo;
 import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
