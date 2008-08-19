@@ -15,6 +15,22 @@ public class BusinessRule implements ModelObject {
     private String anchor;
     private String anchorTypeKey;
     private String businessRuleTypeKey;
+    private String agendaType;
+
+    /**
+     * @return the agendaType
+     */
+    public final String getAgendaType() {
+        return agendaType;
+    }
+
+    /**
+     * @param agendaType
+     *            the agendaType to set
+     */
+    public final void setAgendaType(String agendaType) {
+        this.agendaType = agendaType;
+    }
 
     public String getUniqueId() {
         return id;

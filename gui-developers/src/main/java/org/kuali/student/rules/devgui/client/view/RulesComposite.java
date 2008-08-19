@@ -76,7 +76,7 @@ public class RulesComposite extends Composite {
     final VerticalSplitPanel rulesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
 
-    // rules Main tab
+    // Main rules tab
     final TextBox nameTextBox = new TextBox();
     final TextArea descriptionTextArea = new TextArea();
     final TextArea successMessageTextArea = new TextArea();
@@ -84,6 +84,14 @@ public class RulesComposite extends Composite {
     final ListBox businessRuleTypeListBox = new ListBox();
     final TextBox anchorTextBox = new TextBox();
     final Label anchorTypeReadOnly = new Label("");
+
+    // Propositions rules tab
+    final ListBox yvfListBox = new ListBox();
+    final ListBox operatorsListBox = new ListBox();
+    final ListBox propositionsListBox = new ListBox();
+    final TextArea completeRuleTextArea = new TextArea();
+    final TextArea propCompositionTextArea = new TextArea();
+    final TextBox expectedValueTextBox = new TextBox();
 
     boolean loaded = false;
 
@@ -133,7 +141,7 @@ public class RulesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
-            /*
+
             rulesTree.addSelectionListener(new ModelTableSelectionListener<BusinessRule>() {
                 public void onSelect(BusinessRule modelObject) {
                     if (modelObject == null) {
@@ -144,7 +152,7 @@ public class RulesComposite extends Composite {
                         populateRulesMainTab(modelObject);
                     }
                 }
-            }); */
+            });
         }
     }
 
@@ -184,7 +192,7 @@ public class RulesComposite extends Composite {
         rulesFormTabs.setSize("90%", "500px");
 
         // tabs.setStyleName("rulesBorder");
-        rulesFormTabs.selectTab(0);
+        rulesFormTabs.selectTab(1);
 
         final Button saveButton = new Button("Save");
         final Button cancelButton = new Button("Cancel");
@@ -374,101 +382,94 @@ public class RulesComposite extends Composite {
         // List of Propositions
         final Label propositionsLabel = new Label("Propositions");
         flexFormTable.setWidget(1, 0, propositionsLabel);
-        flexFormTable.getCellFormatter().setWidth(1, 0, "200px");
+        flexFormTable.getCellFormatter().setWidth(1, 0, "30%");
         flexFormTable.getCellFormatter().setHeight(1, 0, FORM_ROW_HEIGHT);
 
-        final ListBox propositionsListBox = new ListBox();
-        flexFormTable.setWidget(5, 1, propositionsListBox);
+        flexFormTable.setWidget(2, 0, propositionsListBox);
         propositionsListBox.addItem("Proposition (P1)");
         propositionsListBox.addItem("Proposition (P2)");
         propositionsListBox.addItem("Proposition (P3)");
         propositionsListBox.setSize("75%", "100%");
         propositionsListBox.setVisibleItemCount(5);
-
-        final TextBox nameTextBox = new TextBox();
-        flexFormTable.setWidget(1, 1, nameTextBox);
-        nameTextBox.setWidth("50%");
-
-        final TextArea descriptionTextArea = new TextArea();
-        flexFormTable.setWidget(2, 0, descriptionTextArea);
-        flexFormTable.getCellFormatter().setWordWrap(2, 0, true);
-        flexFormTable.getCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
-        descriptionTextArea.setSize("75%", "100%");
         flexFormTable.getCellFormatter().setHeight(2, 0, "93px");
 
-        // Description
-        flexFormTable.getCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
-        flexFormTable.getCellFormatter().setHeight(2, 0, "150px");
-        flexFormTable.getCellFormatter().setWidth(2, 0, "200px");
+        // YVF
+        flexFormTable.getCellFormatter().setWidth(2, 1, "20%");
+        final VerticalPanel vp1 = new VerticalPanel();
+        final Label yvfLabel = new Label("YVF");
+        vp1.add(yvfLabel);
+        // flexFormTable.setWidget(1, 1, yvfLabel);
+        // flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
+        // flexFormTable.getCellFormatter().setHeight(1, 1, FORM_ROW_HEIGHT);
 
-        // Success Message
-        final Label successMessageLabel = new Label("Success Message");
-        flexFormTable.setWidget(4, 0, successMessageLabel);
-        flexFormTable.getCellFormatter().setVerticalAlignment(4, 0, HasVerticalAlignment.ALIGN_TOP);
-        flexFormTable.getCellFormatter().setHeight(4, 0, FORM_ROW_HEIGHT);
-        flexFormTable.getCellFormatter().setWidth(4, 0, "200px");
+        // flexFormTable.setWidget(2, 1, yvfListBox);
+        // flexFormTable.getCellFormatter().setHeight(2, 1, FORM_ROW_HEIGHT);
+        yvfListBox.addItem("Sum");
+        yvfListBox.addItem("Intersection");
+        yvfListBox.addItem("Count");
+        vp1.add(yvfListBox);
+        flexFormTable.setWidget(2, 1, vp1);
 
-        final TextArea successMessageTextArea = new TextArea();
-        flexFormTable.setWidget(10, 0, successMessageTextArea);
-        flexFormTable.getFlexCellFormatter().setColSpan(10, 0, 4);
-        successMessageTextArea.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-        flexFormTable.getCellFormatter().setVerticalAlignment(10, 0, HasVerticalAlignment.ALIGN_TOP);
-        successMessageTextArea.setSize("75%", "100%");
-        flexFormTable.getCellFormatter().setHeight(10, 0, "93px");
+        // Operator
+        flexFormTable.getCellFormatter().setWidth(2, 2, "20%");
+        final VerticalPanel vp2 = new VerticalPanel();
+        final Label operatorLabel = new Label("Operator");
+        vp2.add(operatorLabel);
+        // flexFormTable.setWidget(1, 2, operatorLabel);
+        // flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
+        // flexFormTable.getCellFormatter().setHeight(1, 2, FORM_ROW_HEIGHT);
 
-        // Failure Message
-        final Label failureMessageLabel = new Label("Failure Message");
-        flexFormTable.setWidget(5, 0, failureMessageLabel);
-        flexFormTable.getCellFormatter().setVerticalAlignment(5, 0, HasVerticalAlignment.ALIGN_TOP);
-        flexFormTable.getCellFormatter().setHeight(5, 0, FORM_ROW_HEIGHT);
-        flexFormTable.getCellFormatter().setWidth(5, 0, "200px");
+        // flexFormTable.setWidget(2, 2, operatorsListBox);
+        // flexFormTable.getCellFormatter().setHeight(2, 2, FORM_ROW_HEIGHT);
+        operatorsListBox.addItem(" == ");
+        operatorsListBox.addItem(" <> ");
+        operatorsListBox.addItem(" > ");
+        vp2.add(operatorsListBox);
+        flexFormTable.setWidget(2, 2, vp2);
 
-        final TextArea failureMessageTextArea = new TextArea();
-        flexFormTable.setWidget(12, 0, failureMessageTextArea);
-        flexFormTable.getFlexCellFormatter().setColSpan(12, 0, 4);
-        failureMessageTextArea.setSize("75%", "100%");
-        flexFormTable.getCellFormatter().setHeight(12, 0, "93px");
+        // Expected Value
+        flexFormTable.getCellFormatter().setWidth(2, 3, "20%");
+        final VerticalPanel vp3 = new VerticalPanel();
+        final Label expectedValueLabel = new Label("Expected Value");
+        vp3.add(expectedValueLabel);
+        // flexFormTable.setWidget(1, 3, expectedValueLabel);
+        // flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
+        // flexFormTable.getCellFormatter().setHeight(1, 3, FORM_ROW_HEIGHT);
 
-        // Business Rule Type
-        final Label businessRuleTypeLabel = new Label("Business Rule Type");
-        flexFormTable.setWidget(11, 0, businessRuleTypeLabel);
-        flexFormTable.getCellFormatter().setHeight(11, 0, FORM_ROW_HEIGHT);
+        // flexFormTable.setWidget(1, 3, expectedValueTextBox);
+        expectedValueTextBox.setWidth("80%");
+        vp3.add(expectedValueTextBox);
+        flexFormTable.setWidget(2, 3, vp3);
 
-        final ListBox businessRuleTypeListBox = new ListBox();
-        flexFormTable.setWidget(6, 1, businessRuleTypeListBox);
-        businessRuleTypeListBox.addItem("Test1");
-        businessRuleTypeListBox.addItem("Test2");
-        businessRuleTypeListBox.addItem("Test3");
-        businessRuleTypeListBox.setSize("75%", "100%");
-        // businessRuleTypeListBox.setVisibleItemCount(5);
+        // Propositions Composition
+        final Label propCompositionLabel = new Label("Propositions Composition");
+        flexFormTable.setWidget(15, 0, propCompositionLabel);
+        flexFormTable.getCellFormatter().setWidth(15, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(15, 0, FORM_ROW_HEIGHT);
 
-        // Anchor
-        final Label anchorLabel = new Label("Anchor");
-        flexFormTable.setWidget(9, 0, anchorLabel);
-        flexFormTable.getCellFormatter().setWidth(9, 0, "200px");
-        flexFormTable.getCellFormatter().setHeight(9, 0, FORM_ROW_HEIGHT);
+        propCompositionTextArea.setSize("100%", "100%");
+        flexFormTable.getCellFormatter().setHeight(16, 1, "63px");
+        flexFormTable.setWidget(16, 0, propCompositionTextArea);
+        flexFormTable.getFlexCellFormatter().setColSpan(16, 0, 3);
 
-        final TextBox anchorTextBox = new TextBox();
-        flexFormTable.setWidget(7, 1, anchorTextBox);
-        anchorTextBox.setWidth("50%");
+        // Complete Rule
+        final Label completeRuleLabel = new Label("Complete Rule");
+        flexFormTable.setWidget(18, 0, completeRuleLabel);
+        flexFormTable.getCellFormatter().setWidth(18, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(18, 0, FORM_ROW_HEIGHT);
+
+        completeRuleTextArea.setSize("100%", "100%");
+        flexFormTable.getCellFormatter().setHeight(19, 0, "93px");
+        flexFormTable.setWidget(19, 0, completeRuleTextArea);
+        flexFormTable.getFlexCellFormatter().setColSpan(19, 0, 3);
 
         // filler
         final SimplePanel filler = new SimplePanel();
-        flexFormTable.setWidget(8, 0, filler);
-        flexFormTable.getFlexCellFormatter().setColSpan(8, 0, 4);
+        flexFormTable.setWidget(20, 0, filler);
+        flexFormTable.getFlexCellFormatter().setColSpan(20, 0, 4);
 
-        flexFormTable.getCellFormatter().setHorizontalAlignment(13, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        flexFormTable.getFlexCellFormatter().setColSpan(13, 0, 2);
-
-        final Label label = new Label("YVF");
-        flexFormTable.setWidget(2, 1, label);
-
-        final ListBox listBox = new ListBox();
-        flexFormTable.setWidget(3, 1, listBox);
-        listBox.setVisibleItemCount(5);
-
-        final Label label_1 = new Label("New Label");
-        flexFormTable.setWidget(2, 2, label_1);
+        flexFormTable.getCellFormatter().setHorizontalAlignment(21, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        flexFormTable.getFlexCellFormatter().setColSpan(21, 0, 2);
 
         return propositionsFlexTable;
     }

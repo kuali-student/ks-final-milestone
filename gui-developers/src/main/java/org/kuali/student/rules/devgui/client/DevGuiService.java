@@ -3,6 +3,8 @@
  */
 package org.kuali.student.rules.devgui.client;
 
+import java.util.List;
+
 import org.kuali.student.rules.devgui.client.model.BusinessRule;
 
 import com.google.gwt.core.client.GWT;
@@ -35,5 +37,11 @@ public interface DevGuiService extends RemoteService {
         }
     }
 
-    public BusinessRule getBusinessRule(String identifier);
+    public List<String> findAgendaTypes();
+
+    public List<String> findDeterminationKeysByAgendaType(String businessRuleType);
+
+    public List<String> findBusinessRuleTypesByDeterminationKeySet(String determinationKeys);
+
+    public List<BusinessRule> findBusinessRules();
 }

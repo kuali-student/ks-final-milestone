@@ -3,6 +3,8 @@
  */
 package org.kuali.student.rules.devgui.client.controller;
 
+import java.util.List;
+
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
@@ -78,15 +80,18 @@ public class DevelopersGuiMain extends Controller {
     }
 
     private void loadModelsData() {
-        DevGuiService.Util.getInstance().getBusinessRule("123", new AsyncCallback<BusinessRule>() {
+        DevGuiService.Util.getInstance().findBusinessRules(new AsyncCallback<List<BusinessRule>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
                 throw new RuntimeException("Unable to load BusinessRule objects", caught);
             }
 
-            public void onSuccess(BusinessRule result) {
+            public void onSuccess(List<BusinessRule> rules) {
                 // add the results to the model
-                businessRule.add(result);
+                for (BusinessRule rule : rules) {
+                    businessRule.add(rule);
+                    System.out.println(rule.getIdentifier());
+                }
             }
         });
     }

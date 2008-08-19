@@ -21,7 +21,6 @@ public class BusinessRulesTree extends SimpleTree<BusinessRule> {
      */
     public BusinessRulesTree() {
         super();
-        System.out.println("BRT contructor......");
     }
 
     /**
@@ -32,16 +31,24 @@ public class BusinessRulesTree extends SimpleTree<BusinessRule> {
         super.onLoad();
         if (!loaded) {
             loaded = true;
-            System.out.println("Loaded business rule tree......");
         }
     }
 
     @Override
     public List<String> getPath(BusinessRule modelObject) {
         final List<String> items = new ArrayList<String>();
-        items.add(modelObject.getBusinessRuleTypeKey());
-        items.add(modelObject.getAnchorTypeKey());
+
+        // items.add(modelObject.getAgendaType());
+        // items.add(modelObject.getBusinessRuleTypeKey());
+        // items.add(modelObject.getAnchorTypeKey());
+        // items.add(modelObject.getAnchor());
+
+        items.add(modelObject.getAgendaType());
         items.add(modelObject.getAnchor());
+        items.add(modelObject.getBusinessRuleTypeKey());
+        items.add(modelObject.getName());
+
         return items;
     }
+
 }
