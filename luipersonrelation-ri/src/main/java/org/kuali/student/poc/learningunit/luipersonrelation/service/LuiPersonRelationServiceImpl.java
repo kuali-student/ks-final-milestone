@@ -31,7 +31,7 @@ import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRel
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationUpdateInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
-import org.kuali.student.poc.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
 import org.kuali.student.rules.brms.agenda.AgendaDiscovery;
 import org.kuali.student.rules.brms.agenda.AgendaRequest;
 import org.kuali.student.rules.brms.agenda.entity.Agenda;
