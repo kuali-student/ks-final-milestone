@@ -16,10 +16,10 @@
 	<description />
 	
 	<modules>
-		<module>fact-finder</module>
-		<module>rule-execution</module>
-		<module>rule-management</module>
-		<module>rule-repository</module>
+		<module>fact-finder-api</module>
+		<module>rule-execution-api</module>
+		<module>rule-management-api</module>
+		<module>rule-repository-api</module>
 	</modules>
 	
 	<repositories>
