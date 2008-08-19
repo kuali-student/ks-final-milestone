@@ -699,6 +699,8 @@ a,a:visited,a:hover {
 	width: 100%;
 	horizontal-align:right;
 	text-decoration: none;
+	text-align: left; 
+	cursor: pointer;
 }
 
 
