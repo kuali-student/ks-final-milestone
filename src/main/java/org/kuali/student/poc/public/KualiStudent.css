@@ -169,6 +169,9 @@ BODY
 
 }
 
+.KS-Column-Font-Color{
+	COLOR: white;
+}
 
 .KS-Header-CurrentSelection-Panel {
 	FONT-STYLE: Verdana;
