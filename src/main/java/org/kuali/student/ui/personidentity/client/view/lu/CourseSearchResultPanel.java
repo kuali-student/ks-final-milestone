@@ -13,13 +13,9 @@ import org.kuali.student.ui.personidentity.client.controller.LearningUnitControl
 import org.kuali.student.ui.personidentity.client.model.lu.GwtLuiInfo;
 import org.kuali.student.ui.personidentity.client.model.lu.LuModelState;
 import org.kuali.student.ui.personidentity.client.view.AdminEditPanel;
-import org.kuali.student.ui.personidentity.client.view.SearchWidget.SearchWidgetSearch;
-import org.kuali.student.ui.personidentity.client.view.lu.fastTree.LuFastTreePanel.LuFastTreePanelEvent;
-import org.kuali.student.ui.personidentity.client.view.lu.fastTree.LuiFastTreeItem.LuiFastTreeItemSelect;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CourseSearchResultPanel extends FlowPanel{
     //final VerticalPanel panel = new VerticalPanel();
