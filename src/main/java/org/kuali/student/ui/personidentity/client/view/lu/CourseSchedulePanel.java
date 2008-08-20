@@ -17,42 +17,24 @@ import org.kuali.student.commons.ui.widgets.tables.PagingModelTable.ExposedStyle
 import org.kuali.student.registration.client.controller.RegistrationController;
 import org.kuali.student.registration.client.model.RegistrationModelState;
 import org.kuali.student.ui.personidentity.client.ModelState;
+import org.kuali.student.ui.personidentity.client.controller.LearningUnitController;
 import org.kuali.student.ui.personidentity.client.controller.PersonIdentityController;
 import org.kuali.student.ui.personidentity.client.model.GwtPersonInfo;
 import org.kuali.student.ui.personidentity.client.model.lu.GwtLuiInfo;
+import org.kuali.student.ui.personidentity.client.model.lu.LuModelState;
 import org.kuali.student.ui.personidentity.client.view.AdminEditPanel;
 import org.kuali.student.ui.personidentity.client.view.PersonSearchResultPanel.SelectPersonEvent;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CourseSchedulePanel extends FlowPanel{
-	/*
-    public enum ExposedStyles {
-        MODELTABLE("KS-ModelTable"),
-        MODELTABLE_COLUMN_HEADER("KS-ModelTable-Column-Header"),
-        MODELTABLE_ROW("KS-ModelTable-Row"),
-        MODELTABLE_ROW_ALTERNATE("KS-ModelTable-Row-Alternate"),
-        MODELTABLE_ROW_SELECTED("KS-ModelTable-Row-Selected"),
-        MODELTABLE_SORTIMAGE("KS-ModelTable-SortImage"),
-        MODELTABLE_PAGE_BAR("KS-ModelTable-PageBar"),
-        MODELTABLE_PAGE_BAR_NEXT("KS-ModelTable-PageBar-Next"),
-        MODELTABLE_PAGE_BAR_PREVIOUS("KS-ModelTable-PageBar-Previous"),
-        MODELTABLE_PAGE_BAR_PAGE_COUNT("KS-ModelTable-PageBar-Count");
-        
-        private String styleName;
-        private ExposedStyles(String styleName) {
-            this.styleName = styleName;
-        }
-        public String toString() {
-            return this.styleName;
-        }
-    }
-    */
+
     
     final Model<GwtLuiInfo> scheduleModel = new Model<GwtLuiInfo>();
     ModelBinding<GwtLuiInfo> binding = null;
@@ -62,8 +44,10 @@ public class CourseSchedulePanel extends FlowPanel{
 	///FlexTable scheduleTable = new FlexTable();
 	CourseScheduleTable scheduleTable = new CourseScheduleTable();
 	
-    Messages messages = ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages();
 	
+    Messages messages = ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages();
+    Label scheduleLabel = new Label(messages.get("scheduleTitle"));
+    
 	private PropertyChangeListener currUserListener
 	= new PropertyChangeListenerProxy(
             "currPerson",
@@ -99,12 +83,15 @@ public class CourseSchedulePanel extends FlowPanel{
 
 		ModelState.getInstance().addPropertyChangeListener(currUserListener);
 		RegistrationModelState.getInstance().addPropertyChangeListener(currUserCoursesListener);
+		scheduleLabel.addStyleName("KS-Label");
+		scheduleLabel.addStyleName("KS-Search-Message");
 		
 		this.add(getMainPanel());
 	}
 	
 	public Panel getMainPanel()
 	{
+		mainPanel.add(scheduleLabel);
 		mainPanel.add(scheduleTable);
 		
 		return mainPanel;
@@ -115,6 +102,15 @@ public class CourseSchedulePanel extends FlowPanel{
 	        loaded = true;
 	        //Model<GwtLuiInfo> model = (Model<GwtLuiInfo>) MVC.findParentController(this).getModel(GwtLuiInfo.class);
 	        binding = new ModelBinding<GwtLuiInfo>(scheduleModel, scheduleTable);
+	        
+	        scheduleTable.addSelectionListener(new ModelTableSelectionListener<GwtLuiInfo>() {
+                public void onSelect(GwtLuiInfo modelObject) {
+                    LuModelState.getInstance().setCurrLui(modelObject);
+                    if (modelObject !=null){
+                        LearningUnitController.displayCourseDetails();
+                    }
+                }
+            });
 	        /*
 	        scheduleTable.addSelectionListener(new ModelTableSelectionListener<GwtPersonInfo>() {
                 public void onSelect(GwtPersonInfo modelObject) {

@@ -38,7 +38,8 @@ public class CourseScheduleTable extends PagingModelTable<GwtLuiInfo> {
             loaded = true;
             metadata = ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME);
             messages = metadata.getMessages();
-            super.showPageBar(false);
+            //super.showPageBar(false);
+            
             // Course Title
             super.addColumn(new ModelTableColumn<GwtLuiInfo>() {
                 Comparator<GwtLuiInfo> comparator = new Comparator<GwtLuiInfo>() {
@@ -208,7 +209,7 @@ public class CourseScheduleTable extends PagingModelTable<GwtLuiInfo> {
                 };
 
                 public String getColumnHeader() {
-                    return messages.get("EndDate");
+                    return messages.get("endDate");
                 }
 
                 public Comparator<GwtLuiInfo> getColumnSortComparator() {

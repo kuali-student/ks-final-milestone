@@ -31,7 +31,7 @@ public class RegistrationTab extends SelectedTabPanel {
 	   this.addTabListener(queryCourseList);
 	   //add(enrollmentSummaryPanel,"Enrollment Summary");
 	   addTab(enrollmentSummaryPanel,ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("enrollmentSummary"));
-	   addTab(schedulePanel, "Change");
+	   addTab(schedulePanel, ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("schedule"));
 	   super.setStyleName("gwt-TabBar-Nested");
    }
    
