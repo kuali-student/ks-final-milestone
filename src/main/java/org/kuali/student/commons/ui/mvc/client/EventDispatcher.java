@@ -22,7 +22,7 @@ public class EventDispatcher {
      * @param listener
      *            the listener to invoke when the event is fired
      */
-    public void addListener(final MVCEvent eventType, final MVCEventListener listener) {
+    public void addListener(final Class<? extends MVCEvent> eventType, final MVCEventListener listener) {
         ListenerMapping lm = new ListenerMapping();
         lm.eventType = eventType;
         lm.listener = listener;
@@ -37,7 +37,7 @@ public class EventDispatcher {
      * @param listener
      *            the listener to remove
      */
-    public void removeListener(final MVCEvent eventType, final MVCEventListener listener) {
+    public void removeListener(final Class<? extends MVCEvent> eventType, final MVCEventListener listener) {
         List<ListenerMapping> toRemove = new ArrayList<ListenerMapping>();
         for (ListenerMapping lm : listeners) {
             if (eventType.equals(lm.eventType) && listener.equals(lm.listener)) {
@@ -53,7 +53,7 @@ public class EventDispatcher {
      * @param event
      *            the event to fire
      */
-    public void fireEvent(final MVCEvent event) {
+    public void fireEvent(final Class<? extends MVCEvent> event) {
         fireEvent(event, null);
     }
 
@@ -65,11 +65,11 @@ public class EventDispatcher {
      * @param data
      *            Object associated with the event
      */
-    public void fireEvent(final MVCEvent event, final Object data) {
+    public void fireEvent(final Class<? extends MVCEvent> event, final Object data) {
         DeferredCommand.addCommand(new Command() {
             public void execute() {
                 for (ListenerMapping lm : listeners) {
-                    if (event.isAssignableTo(lm.eventType)) {
+                    if (EventTypeRegistry.isSubClass(lm.eventType, event)) {
                         lm.listener.onEvent(event, data);
                     }
                 }
@@ -78,7 +78,7 @@ public class EventDispatcher {
     }
 
     private static class ListenerMapping {
-        public MVCEvent eventType;
+        public Class<? extends MVCEvent> eventType;
         public MVCEventListener listener;
     }
 

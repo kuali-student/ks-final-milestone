@@ -12,5 +12,5 @@ public interface MVCEventListener {
      * @param data
      *            the Object associated with the event, or null if no data associated with the event
      */
-    public void onEvent(final MVCEvent event, final Object data);
+    public void onEvent(Class<? extends MVCEvent> event, final Object data);
 }

@@ -1,22 +1,48 @@
 package org.kuali.student.commons.ui.widgets;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
+import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
+import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class BusyIndicator extends Composite {
-	public static abstract class TaskEvent extends MVCEvent {}
-	public static abstract class BeginTask extends TaskEvent {}
-	public static abstract class EndTask extends TaskEvent {}
+	public static class TaskEvent extends MVCEvent {
+        static {
+            EventTypeRegistry.register(TaskEvent.class, new TaskEvent().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(TaskEvent.class);
+        }
+    }
+	public static class BeginTask extends TaskEvent {
+        static {
+            EventTypeRegistry.register(BeginTask.class, new BeginTask().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(BeginTask.class);
+        }
+    }
+	public static class EndTask extends TaskEvent {
+        static {
+            EventTypeRegistry.register(EndTask.class, new EndTask().getHierarchy());
+        }
+        public EventTypeHierarchy getHierarchy() {
+            return super.getHierarchy().add(EndTask.class);
+        }
+    }
 	
-	public static final TaskEvent TASK_EVENT = GWT.create(TaskEvent.class);
-	public static final TaskEvent BEGIN_TASK = GWT.create(BeginTask.class);
-	public static final TaskEvent END_TASK = GWT.create(EndTask.class);
+    // force initialization of the event types we're aware of
+    static {
+        new TaskEvent();
+        new BeginTask();
+        new EndTask();
+    }
+	
 	
 	final SimplePanel panel = new SimplePanel();
 	final Image indicator = new Image("images/busy.gif");
@@ -26,14 +52,14 @@ public class BusyIndicator extends Composite {
 		indicator.setVisible(false);
 		panel.add(indicator);
 		super.initWidget(panel);
-		ApplicationContext.getGlobalEventDispatcher().addListener(BEGIN_TASK, new MVCEventListener() {
-			public void onEvent(MVCEvent event, Object data) {
+		ApplicationContext.getGlobalEventDispatcher().addListener(BeginTask.class, new MVCEventListener() {
+			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 				taskCount++;
 				indicator.setVisible(true);
 			}
 		});
-		ApplicationContext.getGlobalEventDispatcher().addListener(END_TASK, new MVCEventListener() {
-			public void onEvent(MVCEvent event, Object data) {
+		ApplicationContext.getGlobalEventDispatcher().addListener(EndTask.class, new MVCEventListener() {
+			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 				taskCount--;
 				if (taskCount < 0) {
 					// should never happen, but selfcorrect if it does
