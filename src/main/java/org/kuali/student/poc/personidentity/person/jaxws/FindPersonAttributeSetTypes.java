@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 
-@XmlRootElement(name = "findPersonAttributeSetTypes", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlRootElement(name = "findPersonAttributeSetTypes", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "findPersonAttributeSetTypes", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlType(name = "findPersonAttributeSetTypes", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 
 public class FindPersonAttributeSetTypes {
 

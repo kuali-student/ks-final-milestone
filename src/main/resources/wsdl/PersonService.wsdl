@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="PersonService" targetNamespace="http://student.kuali.org/poc/wsdl/personidentity/person" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/poc/wsdl/personidentity/person" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="PersonService" targetNamespace="http://student.kuali.org/poc/wsdl/personidentity/person/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/poc/wsdl/personidentity/person/service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/poc/wsdl/personidentity/person" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/poc/wsdl/personidentity/person">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/poc/wsdl/personidentity/person/service" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/poc/wsdl/personidentity/person/service">
     <xs:element name="assignPersonType" type="tns:assignPersonType"/>
     <xs:element name="assignPersonTypeResponse" type="tns:assignPersonTypeResponse"/>
     <xs:element name="createAttributeDefinition" type="tns:createAttributeDefinition"/>

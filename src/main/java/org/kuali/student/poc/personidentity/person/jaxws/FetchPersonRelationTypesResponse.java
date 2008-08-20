@@ -16,9 +16,9 @@ import org.kuali.student.poc.personidentity.person.dto.PersonRelationTypeDisplay
  * 
  */
 
-@XmlRootElement(name = "fetchPersonRelationTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlRootElement(name = "fetchPersonRelationTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "fetchPersonRelationTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlType(name = "fetchPersonRelationTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 
 public class FetchPersonRelationTypesResponse {
 
