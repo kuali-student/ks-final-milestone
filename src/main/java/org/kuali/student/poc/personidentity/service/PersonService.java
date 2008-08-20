@@ -1,4 +1,4 @@
-package org.kuali.student.poc.personidentity.person;
+package org.kuali.student.poc.personidentity.person.service;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
 import org.kuali.student.poc.personidentity.person.dto.ValidationError;
 
-@WebService(name = "PersonService", targetNamespace = "http://student.kuali.org/poc/personidentity/person")
+@WebService(name = "PersonService", targetNamespace = "http://student.kuali.org/poc/personidentity/person/service")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface PersonService {
 

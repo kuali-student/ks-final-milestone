@@ -14,9 +14,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 
-@XmlRootElement(name = "fetchPersonInfoByPersonTypeResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlRootElement(name = "fetchPersonInfoByPersonTypeResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "fetchPersonInfoByPersonTypeResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlType(name = "fetchPersonInfoByPersonTypeResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 
 public class FetchPersonInfoByPersonTypeResponse {
 

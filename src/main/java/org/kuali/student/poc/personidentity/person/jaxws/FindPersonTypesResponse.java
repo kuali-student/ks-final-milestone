@@ -16,9 +16,9 @@ import org.kuali.student.poc.personidentity.person.dto.PersonTypeDisplay;
  * 
  */
 
-@XmlRootElement(name = "findPersonTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlRootElement(name = "findPersonTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "findPersonTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@XmlType(name = "findPersonTypesResponse", namespace = "http://student.kuali.org/poc/wsdl/personidentity/person/service")
 
 public class FindPersonTypesResponse {
 
