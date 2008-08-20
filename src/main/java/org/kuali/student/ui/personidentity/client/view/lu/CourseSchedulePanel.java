@@ -46,14 +46,15 @@ public class CourseSchedulePanel extends FlowPanel{
 	
 	
     Messages messages = ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages();
-    Label scheduleLabel = new Label(messages.get("scheduleTitle"));
-    
+    Label scheduleLabel = new Label();
+    /*
 	private PropertyChangeListener currUserListener
 	= new PropertyChangeListenerProxy(
             "currPerson",
             new PropertyChangeListener() {
                 public void propertyChange(
                     PropertyChangeEvent propertyChangeEvent) {
+                	System.out.println("User change");
                     //updateView( (List<GwtPersonInfo>)propertyChangeEvent.getNewValue());
                     if (ModelState.getInstance().getCurrPerson() == null) {
                         RegistrationController.getInstance().setCurrentUserLuiRelations(null);
@@ -64,7 +65,7 @@ public class CourseSchedulePanel extends FlowPanel{
                     }
                 }
             });
-
+	*/
 	private PropertyChangeListener currUserCoursesListener  
 	= new PropertyChangeListenerProxy(
             "currUserCourses",
@@ -81,7 +82,7 @@ public class CourseSchedulePanel extends FlowPanel{
 		//scheduleTable.setTitle("Schedule");
 		//scheduleTable.setStyleName("KS-ModelTable");
 
-		ModelState.getInstance().addPropertyChangeListener(currUserListener);
+		//ModelState.getInstance().addPropertyChangeListener(currUserListener);
 		RegistrationModelState.getInstance().addPropertyChangeListener(currUserCoursesListener);
 		scheduleLabel.addStyleName("KS-Label");
 		scheduleLabel.addStyleName("KS-Search-Message");
@@ -128,8 +129,33 @@ public class CourseSchedulePanel extends FlowPanel{
 	
 	public void updateSchedule(List<GwtLuiInfo> courses)
 	{
-		scheduleModel.clear();
-		
+		if(courses != null)
+		{
+			if(courses.size() == 0){
+				scheduleLabel.setText(messages.get("noSchedule"));
+				scheduleTable.setVisible(false);
+			}
+			else{
+				scheduleLabel.setText(messages.get("scheduleTitle"));
+				scheduleTable.setVisible(true);
+			}
+			
+			if ( !(scheduleModel.items().containsAll(courses) && courses.containsAll(scheduleModel.items())) ){	
+				scheduleModel.clear();			
+				if(courses != null)
+				{
+					for(GwtLuiInfo course: courses)
+					{
+						scheduleModel.add(course);
+					}
+				}	
+			}
+		}
+		else
+		{
+			scheduleLabel.setText(messages.get("noSchedule"));
+			scheduleTable.setVisible(false);
+		}
 		/*
 		int rows = scheduleTable.getRowCount();
 		for (int j=0; j < rows; j++)
@@ -137,16 +163,6 @@ public class CourseSchedulePanel extends FlowPanel{
 			scheduleTable.removeRow(0);
 		}
 		*/
-		if(courses != null)
-		{
-			for(GwtLuiInfo course: courses)
-			{
-				scheduleModel.add(course);
-			}
-		}	
-			//scheduleTable.addTableListener(new TableListener(){
-				
-			//});
 			/*
 			scheduleTable.setText(0, 0, messages.get("title"));
 			scheduleTable.setText(0, 1, messages.get("luiCode"));
