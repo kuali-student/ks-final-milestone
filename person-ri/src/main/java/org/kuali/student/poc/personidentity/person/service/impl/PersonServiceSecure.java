@@ -1,4 +1,4 @@
-package org.kuali.student.poc.personidentity.person.service;
+package org.kuali.student.poc.personidentity.person.service.impl;
 
 import javax.jws.WebService;
 

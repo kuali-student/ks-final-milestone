@@ -1,4 +1,4 @@
-package org.kuali.student.poc.personidentity.person.service;
+package org.kuali.student.poc.personidentity.person.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;

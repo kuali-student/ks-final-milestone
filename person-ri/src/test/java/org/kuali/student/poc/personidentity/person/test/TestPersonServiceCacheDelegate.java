@@ -32,18 +32,18 @@ import org.kuali.student.poc.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonReferenceIdInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
-import org.kuali.student.poc.personidentity.person.service.PersonServiceCacheDelegate;
+import org.kuali.student.poc.personidentity.person.service.impl.PersonServiceCacheDelegate;
 
-@Daos( { @Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl") })
+@Daos( { @Dao("org.kuali.student.poc.personidentity.person.dao.impl.PersonDAOImpl") })
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonServiceCacheDelegate extends AbstractServiceTest {
 
-	@Client(value = "org.kuali.student.poc.personidentity.person.service.PersonServiceCacheDelegate", port = "9191")
+	@Client(value = "org.kuali.student.poc.personidentity.person.service.impl.PersonServiceCacheDelegate", port = "9191")
 	public PersonService client;
 
 	public PersonService clientCacheDelegate;
 
-	@Client(value = "org.kuali.student.poc.personidentity.person.service.PersonServiceSecure", port = "9191", secure = true)
+	@Client(value = "org.kuali.student.poc.personidentity.person.service.impl.PersonServiceSecure", port = "9191", secure = true)
 	public PersonService clientSecure;
 
 	@Before
@@ -103,19 +103,19 @@ public class TestPersonServiceCacheDelegate extends AbstractServiceTest {
 		assertEquals(resultId, personIds.get(0));
 		// should only be in server cache here
 		clientCacheDelegate.findPeopleByPersonIds(personIds);
-		
-		
+
+
 		////////////////////////////////////////////////////////////////////
 		// invalidate the cache here
         PersonInfo personInfo = client.fetchFullPersonInfo(resultId);
         PersonUpdateInfo personUpdateInfo = new PersonUpdateInfo(personInfo);
-        
+
         //Update existing name
         List<PersonNameInfo> personNameList = personUpdateInfo.getName();
-        name = personNameList.get(0);               
+        name = personNameList.get(0);
         name.setGivenName("John");
         name.setSurname("Smith");
-        
+
         //Add new name
         name = new PersonNameInfo();
         name.setGivenName("John");
@@ -123,27 +123,27 @@ public class TestPersonServiceCacheDelegate extends AbstractServiceTest {
         name.setSuffix("III");
         name.setNameType("Diploma");
         personNameList.add(name);
-         
+
         personUpdateInfo.getAttributes().clear();
         personUpdateInfo.setAttribute("Attr6", "Thunder Clap");
-        
+
         personUpdateInfo.setGender('F');
-        
+
         PersonCitizenshipInfo citizenship = new PersonCitizenshipInfo();
         citizenship.setCountryOfCitizenshipCode("US");
         personUpdateInfo.setCitizenship(citizenship);
-        
+
         PersonReferenceIdInfo personReferenceIdInfo = new PersonReferenceIdInfo();
         personReferenceIdInfo.setReferenceId("123-56-7766");
         personReferenceIdInfo.setOrganizationReferenceId("SSA");
         List<PersonReferenceIdInfo> personReferenceIdList = new ArrayList<PersonReferenceIdInfo>();
         personReferenceIdList.add(personReferenceIdInfo);
         personUpdateInfo.setReferenceId(personReferenceIdList);
-        
+
         personUpdateInfo.setUpdateUserComment("Testing update");
-        
+
         client.updatePerson(personInfo.getPersonId(), personUpdateInfo);
-        
+
 		// should not be in cache now
 		clientCacheDelegate.findPeopleByPersonIds(personIds);
 		// TODO test invalid (or unrelated) personTypes and attributeTypes

@@ -1,4 +1,4 @@
-package org.kuali.student.poc.personidentity.person.dao;
+package org.kuali.student.poc.personidentity.person.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

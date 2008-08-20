@@ -89,11 +89,11 @@
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<bean id="personDAO"
-		class="org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl">
+		class="org.kuali.student.poc.personidentity.person.dao.impl.PersonDAOImpl">
 	</bean>
 
 	<bean id="personServiceImpl"
-		class="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl">
+		class="org.kuali.student.poc.personidentity.person.service.impl.PersonServiceImpl">
 		<property name="personDAO" ref="personDAO" />
 	</bean>
 	<bean id="mapExceptionAdvisor"

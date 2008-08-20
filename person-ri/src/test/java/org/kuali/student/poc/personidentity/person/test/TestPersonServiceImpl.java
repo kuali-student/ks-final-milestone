@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.acegisecurity.context.SecurityContextHolder;
@@ -29,7 +27,6 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
-import org.kuali.student.poc.common.ws.handler.DebugHandler;
 import org.kuali.student.poc.personidentity.person.PersonService;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo;
@@ -45,14 +42,14 @@ import org.kuali.student.poc.personidentity.person.dto.PersonReferenceIdInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
 
-@Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
+@Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.impl.PersonDAOImpl")})
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonServiceImpl extends AbstractServiceTest{
 
-    @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl", port="9191")
+    @Client(value="org.kuali.student.poc.personidentity.person.service.impl.PersonServiceImpl", port="9191")
     public PersonService client;
 
-    @Client(value = "org.kuali.student.poc.personidentity.person.service.PersonServiceSecure", port = "9191", secure=true)
+    @Client(value = "org.kuali.student.poc.personidentity.person.service.impl.PersonServiceSecure", port = "9191", secure=true)
     public PersonService clientSecure;
 
     @Test

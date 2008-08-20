@@ -1,7 +1,8 @@
-package org.kuali.student.poc.personidentity.person.dao;
+package org.kuali.student.poc.personidentity.person.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,8 +15,8 @@ import javax.persistence.TemporalType;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-@Table(name = "Person_Citizenship_T")
-public class PersonCitizenship {
+@Table(name = "PersonReferenceID_T")
+public class PersonReferenceId {
 
 	@Id
 	private String id;
@@ -24,18 +25,17 @@ public class PersonCitizenship {
 	@JoinColumn(name = "Person_ID", nullable = false)
 	private Person person;
 
-	private String countryOfCitizenship;
+	private String referenceId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date effectiveStartDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date effectiveEndDate;
+	@Column(nullable = false)
+	private String organizationReferenceId;
+	private boolean restrictedAccess;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateTime;
 
 	private String updateUserId;
+
 	private String updateUserComment;
 
 	/**
@@ -62,28 +62,28 @@ public class PersonCitizenship {
 		this.person = person;
 	}
 
-	public String getCountryOfCitizenship() {
-		return countryOfCitizenship;
+	public String getReferenceId() {
+		return referenceId;
 	}
 
-	public void setCountryOfCitizenship(String countryOfCitizenship) {
-		this.countryOfCitizenship = countryOfCitizenship;
+	public void setReferenceId(String referenceId) {
+		this.referenceId = referenceId;
 	}
 
-	public Date getEffectiveStartDate() {
-		return effectiveStartDate;
+	public String getOrganizationReferenceId() {
+		return organizationReferenceId;
 	}
 
-	public void setEffectiveStartDate(Date effectiveStartDate) {
-		this.effectiveStartDate = effectiveStartDate;
+	public void setOrganizationReferenceId(String organizationReferenceId) {
+		this.organizationReferenceId = organizationReferenceId;
 	}
 
-	public Date getEffectiveEndDate() {
-		return effectiveEndDate;
+	public boolean isRestrictedAccess() {
+		return restrictedAccess;
 	}
 
-	public void setEffectiveEndDate(Date effectiveEndDate) {
-		this.effectiveEndDate = effectiveEndDate;
+	public void setRestrictedAccess(boolean restrictedAccess) {
+		this.restrictedAccess = restrictedAccess;
 	}
 
 	public Date getUpdateTime() {

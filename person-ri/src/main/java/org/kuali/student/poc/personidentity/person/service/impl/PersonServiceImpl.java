@@ -1,4 +1,4 @@
-package org.kuali.student.poc.personidentity.person.service;
+package org.kuali.student.poc.personidentity.person.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,16 +22,7 @@ import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.poc.common.ws.security.PrincipalAccessor;
 import org.kuali.student.poc.common.ws.security.PrincipalWrapper;
 import org.kuali.student.poc.personidentity.person.PersonService;
-import org.kuali.student.poc.personidentity.person.dao.Person;
-import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
-import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
-import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
-import org.kuali.student.poc.personidentity.person.dao.PersonCitizenship;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
-import org.kuali.student.poc.personidentity.person.dao.PersonName;
-import org.kuali.student.poc.personidentity.person.dao.PersonReferenceId;
-import org.kuali.student.poc.personidentity.person.dao.PersonType;
-import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeTypeInfo;
@@ -53,6 +44,15 @@ import org.kuali.student.poc.personidentity.person.dto.PersonTypeDisplay;
 import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
 import org.kuali.student.poc.personidentity.person.dto.ValidationError;
+import org.kuali.student.poc.personidentity.person.entity.Person;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttribute;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttributeSetType;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttributeType;
+import org.kuali.student.poc.personidentity.person.entity.PersonCitizenship;
+import org.kuali.student.poc.personidentity.person.entity.PersonName;
+import org.kuali.student.poc.personidentity.person.entity.PersonReferenceId;
+import org.kuali.student.poc.personidentity.person.entity.PersonType;
+import org.kuali.student.poc.personidentity.person.entity.PersonalInformation;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface="org.kuali.student.poc.personidentity.person.PersonService",

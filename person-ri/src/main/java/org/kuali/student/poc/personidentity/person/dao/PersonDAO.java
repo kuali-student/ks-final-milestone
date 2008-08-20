@@ -5,6 +5,12 @@ import java.util.Set;
 
 import org.kuali.student.poc.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO;
+import org.kuali.student.poc.personidentity.person.entity.Person;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttribute;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttributeSetType;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttributeType;
+import org.kuali.student.poc.personidentity.person.entity.PersonName;
+import org.kuali.student.poc.personidentity.person.entity.PersonType;
 
 public interface PersonDAO {
 

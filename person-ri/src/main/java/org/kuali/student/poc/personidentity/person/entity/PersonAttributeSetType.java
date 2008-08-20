@@ -1,4 +1,4 @@
-package org.kuali.student.poc.personidentity.person.dao;
+package org.kuali.student.poc.personidentity.person.entity;
 
 import java.util.HashSet;
 import java.util.Set;

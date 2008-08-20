@@ -13,7 +13,7 @@
 	<import resource="classpath:personidentity-context.xml" />
 
 	<ws:service id="personService" bean="#personServiceImpl"
-		impl="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl" />
+		impl="org.kuali.student.poc.personidentity.person.service.impl.PersonServiceImpl" />
 
 	<wss:binding url="/PersonService" service="#personService" />
 

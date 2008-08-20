@@ -38,13 +38,13 @@ import org.kuali.student.poc.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
-import org.kuali.student.poc.personidentity.person.service.PersonServiceCacheDelegate;
+import org.kuali.student.poc.personidentity.person.service.impl.PersonServiceCacheDelegate;
 
-@Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")})
+@Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.impl.PersonDAOImpl")})
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonServiceCache extends AbstractServiceTest {
-	
-    @Client(value="org.kuali.student.poc.personidentity.person.service.PersonServiceCacheDelegate", port="9191")
+
+    @Client(value="org.kuali.student.poc.personidentity.person.service.impl.PersonServiceCacheDelegate", port="9191")
     public PersonService client;
 	public PersonService clientCacheDelegate;
 	private int numInstances = 5;
@@ -94,31 +94,31 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		}
 		*/
 	}
-	
+
 	@Test
-	public void cachPersonTypeInfo() throws AlreadyExistsException, DisabledIdentifierException, DoesNotExistException, 
-				InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, 
+	public void cachPersonTypeInfo() throws AlreadyExistsException, DisabledIdentifierException, DoesNotExistException,
+				InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
 																										ReadOnlyException {
 		assertNotNull("Client is null ", client);
 		List<PersonAttributeTypeInfo> personAttTypeInfos = createPersonAttTypeInfos() ;
 		assertEquals(personAttTypeInfos.size(), numInstances);
 		//List<Long> personAttributeTypeInfoIds = persistPersonAttributeTypeInfos(personAttTypeInfos);
 		//assertEquals(personAttributeTypeInfoIds.size(), numInstances);
-		
+
 		List<PersonAttributeSetTypeInfo>personAttributeSetTypeInfos = createPersonAttSetTypeInfos(personAttTypeInfos);
 		assertEquals(personAttributeSetTypeInfos.size(), numInstances);
 		List<String>personAttSetTypeInfoIds = persistPersonAttSetTypeInfos(personAttributeSetTypeInfos);
 		assertEquals(personAttSetTypeInfoIds.size(), numInstances);
-		personAttributeSetTypeInfos = findAllPersonAttributeSetTypeInfos(personAttSetTypeInfoIds); 
+		personAttributeSetTypeInfos = findAllPersonAttributeSetTypeInfos(personAttSetTypeInfoIds);
 		assertEquals(personAttributeSetTypeInfos.size(), numInstances);
-		
+
 		List<PersonTypeInfo> personTypeInfos = createPersonTypeInfos(personAttributeSetTypeInfos);
 		assertEquals(personTypeInfos.size(), numInstances);
 		List<String> personTypeInfoIds = persistPersonTypeInfos(personTypeInfos);
 		assertEquals(personTypeInfoIds.size(), numInstances);
 		personTypeInfos = findAllPersonTypeInfos(personTypeInfoIds);
 		assertEquals(personTypeInfos.size(), numInstances);
-		
+
 		List<PersonNameInfo>personNameInfos = createPersonNameInfos();
 		List<PersonCitizenshipInfo>personCitizenshipInfos = createPersonCitizenshipInfos();
 		List<PersonCreateInfo>personCreateInfos = createPersonInfos(personNameInfos,personCitizenshipInfos);
@@ -126,12 +126,12 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		assertEquals(personCreateInfoIds.size(), numInstances);
 		List<PersonInfo>personInfos = findAllPersonInfos(personCreateInfoIds);
 		assertEquals(personInfos.size(), numInstances);
-		
+
 		updatePersonInfos(personCreateInfoIds, personInfos);
 		personInfos = checkUpdateOfPersonInfos(personCreateInfoIds);
 		assertEquals(personInfos.size(), numInstances);
-		
-		deleteAllPersonInfos(personCreateInfoIds); 
+
+		deleteAllPersonInfos(personCreateInfoIds);
 		//personInfos = findAllPersonInfos(personCreateInfoIds);
 		//assertEquals(personInfos.size(), 0);
 	}
@@ -147,18 +147,18 @@ public class TestPersonServiceCache extends AbstractServiceTest {
     	}
 		return personTypeInfos;
 	}
-	
-	private List<String> persistPersonTypeInfos(List<PersonTypeInfo> personTypeInfos) throws AlreadyExistsException, InvalidParameterException, 
+
+	private List<String> persistPersonTypeInfos(List<PersonTypeInfo> personTypeInfos) throws AlreadyExistsException, InvalidParameterException,
 									MissingParameterException, OperationFailedException,PermissionDeniedException {
-		
-		
+
+
 		List<String>personTypeInfoIds = new ArrayList<String>();
 		for(PersonTypeInfo personTypeInfo : personTypeInfos) {
 			personTypeInfoIds.add(client.createPersonTypeInfo(personTypeInfo));
 		}
 		return personTypeInfoIds;
 	}
-		
+
 	private List<PersonTypeInfo>findAllPersonTypeInfos(List<String>personTypeInfoIds) throws DoesNotExistException,
 										InvalidParameterException, MissingParameterException, OperationFailedException {
 		List<PersonTypeInfo> personTypeInfos = new ArrayList<PersonTypeInfo>();
@@ -169,7 +169,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		}
 		return personTypeInfos;
 	}
-	
+
 	private List<PersonAttributeTypeInfo> createPersonAttTypeInfos() {
     	PersonAttributeTypeInfo attributeTypeInfo = null;
     	List<PersonAttributeTypeInfo> personAttTypeInfos = new ArrayList<PersonAttributeTypeInfo>();
@@ -183,7 +183,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
     	return personAttTypeInfos;
 	}
 
-	private List<String> persistPersonAttributeTypeInfos(List<PersonAttributeTypeInfo> personAttTypeInfos) throws AlreadyExistsException, InvalidParameterException, 
+	private List<String> persistPersonAttributeTypeInfos(List<PersonAttributeTypeInfo> personAttTypeInfos) throws AlreadyExistsException, InvalidParameterException,
 	MissingParameterException, OperationFailedException,PermissionDeniedException {
 
 		List<String>personAttributeTypeInfoIds = new ArrayList<String>();
@@ -206,10 +206,10 @@ public class TestPersonServiceCache extends AbstractServiceTest {
     	}
     	return personSetTypeInfos;
 	}
-	
-	private List<String> persistPersonAttSetTypeInfos(List<PersonAttributeSetTypeInfo>personAttributeSetTypeInfos ) throws AlreadyExistsException, InvalidParameterException, 
+
+	private List<String> persistPersonAttSetTypeInfos(List<PersonAttributeSetTypeInfo>personAttributeSetTypeInfos ) throws AlreadyExistsException, InvalidParameterException,
 									MissingParameterException, OperationFailedException,PermissionDeniedException {
-		
+
 		List<String>personAttributeSetTypeInfoIds = new ArrayList<String>();
 		for(PersonAttributeSetTypeInfo personAttributeSetTypeInfo : personAttributeSetTypeInfos) {
 			personAttributeSetTypeInfoIds.add(client.createPersonAttributeSetType(personAttributeSetTypeInfo));
@@ -217,7 +217,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		return personAttributeSetTypeInfoIds;
 	}
 
-	
+
 	private List<PersonAttributeSetTypeInfo>findAllPersonAttributeSetTypeInfos(List<String>personAttributeSetTypeInfoIds) throws DoesNotExistException,
 										InvalidParameterException, MissingParameterException, OperationFailedException {
 		List<PersonAttributeSetTypeInfo> personAttributeSetTypeInfos = new ArrayList<PersonAttributeSetTypeInfo>();
@@ -228,7 +228,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		}
 		return personAttributeSetTypeInfos;
 	}
-	
+
 	private List<PersonNameInfo> createPersonNameInfos() {
 		PersonNameInfo personNameInfo = null;
 		List<PersonNameInfo>personNameInfos = new ArrayList<PersonNameInfo>();
@@ -243,7 +243,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
     	}
     	return personNameInfos;
 	}
-	
+
 	private List<PersonCitizenshipInfo> createPersonCitizenshipInfos() {
 		PersonCitizenshipInfo personCitizenshipInfo = null;
 		List<PersonCitizenshipInfo>personCitizenshipInfos = new ArrayList<PersonCitizenshipInfo>();
@@ -265,15 +265,15 @@ public class TestPersonServiceCache extends AbstractServiceTest {
     		personCreateInfo.setGender('M');
     		personCreateInfo.getAttributes().clear();
     		personCreateInfo.setAttribute("key" + i, "value" + i); // persist NPE if no attribute
-    		personCreateInfo.getName().add(personNameInfos.get(i));    		
+    		personCreateInfo.getName().add(personNameInfos.get(i));
     		personCreateInfo.setCitizenship(personCitizenshipInfos.get(i));
 
     		personCreateInfos.add(personCreateInfo);
     	}
     	return personCreateInfos;
 	}
-	
-	private List<String> persistPersonCreateInfos(List<PersonCreateInfo> personCreateInfos,List<String> personTypeInfoIds) throws AlreadyExistsException, InvalidParameterException, 
+
+	private List<String> persistPersonCreateInfos(List<PersonCreateInfo> personCreateInfos,List<String> personTypeInfoIds) throws AlreadyExistsException, InvalidParameterException,
 	MissingParameterException, OperationFailedException,PermissionDeniedException {
 
 
@@ -284,7 +284,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		return personCreateInfoIds;
 	}
 
-	
+
 	private List<PersonInfo>findAllPersonInfos(List<String>personCreateInfoIds) throws DisabledIdentifierException, DoesNotExistException,
 						InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		List<PersonInfo> personInfos = new ArrayList<PersonInfo>();
@@ -295,7 +295,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		}
 		return personInfos;
 	}
-	
+
 	private void updatePersonInfos(List<String>personCreateInfoIds, List<PersonInfo> personInfos) throws DisabledIdentifierException,
 	DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
 	ReadOnlyException{
@@ -308,11 +308,11 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 			for(String personCreateInfoId : personCreateInfoIds) {
 				updated = client.updatePerson(personCreateInfoId,  personUpdateInfo);
 				assertEquals(true, updated);
-			}			
+			}
 		}
 	}
-	
-	
+
+
 	private List<PersonInfo>checkUpdateOfPersonInfos(List<String>personCreateInfoIds) throws DisabledIdentifierException, DoesNotExistException,
 						InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		List<PersonInfo> personInfos = new ArrayList<PersonInfo>();
@@ -324,7 +324,7 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 		}
 		return personInfos;
 	}
-	
+
 	private void deleteAllPersonInfos(List<String>personCreateInfoIds) throws DisabledIdentifierException, DoesNotExistException,
 						InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		boolean deleted = false;
@@ -349,22 +349,22 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 	 * Called before every @Test method
 	@BeforeTransaction
 	public verifyInitialDatabaseState() {
-		
+
 	}
 	*/
-	
+
 	/*
 	 * Methods with JUnit 4 @Before run when transaction has begun
 	 * * Called before every @Test method
 	@Before
 	public void setUpDataWithinTransaction() throws Exception {
-		
+
 	}
 	*/
-	
+
 
 /*
-	
+
 	@After
 	public void tearDownWithinTransaction() {
 
@@ -374,9 +374,9 @@ public class TestPersonServiceCache extends AbstractServiceTest {
 	 * can be used to ensure test data was deleted from database
 	 * Called after every @Test method
 	 *
-	@AfterTransaction 
+	@AfterTransaction
 	public void verifyFinalDatabaseState() {
 
-	}	
+	}
 */
 }

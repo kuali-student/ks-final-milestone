@@ -14,21 +14,21 @@ import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.poc.personidentity.person.dao.Person;
-import org.kuali.student.poc.personidentity.person.dao.PersonAttribute;
-import org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType;
-import org.kuali.student.poc.personidentity.person.dao.PersonAttributeType;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
-import org.kuali.student.poc.personidentity.person.dao.PersonName;
-import org.kuali.student.poc.personidentity.person.dao.PersonType;
-import org.kuali.student.poc.personidentity.person.dao.PersonalInformation;
 import org.kuali.student.poc.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO;
+import org.kuali.student.poc.personidentity.person.entity.Person;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttribute;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttributeSetType;
+import org.kuali.student.poc.personidentity.person.entity.PersonAttributeType;
+import org.kuali.student.poc.personidentity.person.entity.PersonName;
+import org.kuali.student.poc.personidentity.person.entity.PersonType;
+import org.kuali.student.poc.personidentity.person.entity.PersonalInformation;
 
 @PersistenceFileLocation("classpath:META-INF/person-persistence.xml")
 public class TestPersonDAO extends AbstractTransactionalDaoTest{
 
-	@Dao("org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl")
+	@Dao("org.kuali.student.poc.personidentity.person.dao.impl.PersonDAOImpl")
     public PersonDAO personDAO;
 
 	private String studentTypeId;
@@ -395,7 +395,7 @@ public class TestPersonDAO extends AbstractTransactionalDaoTest{
     	dto = persons.get(0);
     	assertEquals("Wrong Person name", "Joe Student", dto.getName());
     	assertNotNull("No person ID", dto.getPersonId());
-    	
+
     	final PersonCriteria patternMatch = new PersonCriteria();
        	criteria.setLastName("%Ude%");
     	persons = personDAO.findPersonDisplayDTO(patternMatch);
@@ -403,6 +403,6 @@ public class TestPersonDAO extends AbstractTransactionalDaoTest{
     	assertEquals("Did not find any person names", 1, persons.size());
     	dto = persons.get(0);
     	assertEquals("Wrong Person name", "Joe Student", dto.getName());
-    	assertNotNull("No person ID", dto.getPersonId());    	
+    	assertNotNull("No person ID", dto.getPersonId());
     }
 }

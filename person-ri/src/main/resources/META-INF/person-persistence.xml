@@ -6,14 +6,14 @@
 
 	<persistence-unit name="Person" transaction-type="JTA">
 		
-		<class>org.kuali.student.poc.personidentity.person.dao.Person</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonType</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonAttributeSetType</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonAttributeType</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonAttribute</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonCitizenship</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonName</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonReferenceId</class>
-		<class>org.kuali.student.poc.personidentity.person.dao.PersonalInformation</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.Person</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonType</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonAttributeSetType</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonAttributeType</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonAttribute</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonCitizenship</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonName</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonReferenceId</class>
+		<class>org.kuali.student.poc.personidentity.person.entity.PersonalInformation</class>
 	</persistence-unit>
 </persistence>

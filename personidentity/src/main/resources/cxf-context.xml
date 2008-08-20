@@ -11,11 +11,11 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:personidentity-context.xml" />
 
 	<jaxws:endpoint id="personService"
-		implementorClass="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl"
+		implementorClass="org.kuali.student.poc.personidentity.person.service.impl.PersonServiceImpl"
 		implementor="#personServiceImpl" address="/PersonService" />
 
 	<jaxws:endpoint id="personServiceSecure"
-		implementorClass="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl"
+		implementorClass="org.kuali.student.poc.personidentity.person.service.impl.PersonServiceImpl"
 		implementor="#personServiceImpl" address="/PersonServiceSecure">
 		<jaxws:inInterceptors>
 			<bean
