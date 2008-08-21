@@ -14,21 +14,24 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
     private QName serviceQName = null;
     private String serviceUrl = "";
     private static final String CLASSPATH_PREFIX = "classpath:";
-
+    private static Object client=null;
+    
     @Override
     public Object getObject() throws Exception {
-        URL url;
-        if (wsdlDocumentLocation.startsWith(CLASSPATH_PREFIX)) {
-            ClassPathResource cpr = new ClassPathResource(wsdlDocumentLocation.substring(CLASSPATH_PREFIX.length()));
-            url = cpr.getURL();
-        } else {
-            url = new URL(wsdlDocumentLocation);
-        }
-        Service service = Service.create(url, serviceQName);
-        Object client = service.getPort(serviceEndpointInterface);
-        // Override the service URL
-        if (this.serviceUrl != null && !"".equals(this.serviceUrl)) {
-            ((BindingProvider) client).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, this.serviceUrl);
+        if(client==null){
+	    	URL url;
+	        if (wsdlDocumentLocation.startsWith(CLASSPATH_PREFIX)) {
+	            ClassPathResource cpr = new ClassPathResource(wsdlDocumentLocation.substring(CLASSPATH_PREFIX.length()));
+	            url = cpr.getURL();
+	        } else {
+	            url = new URL(wsdlDocumentLocation);
+	        }
+	        Service service = Service.create(url, serviceQName);
+	        client = service.getPort(serviceEndpointInterface);
+	        // Override the service URL
+	        if (this.serviceUrl != null && !"".equals(this.serviceUrl)) {
+	            ((BindingProvider) client).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, this.serviceUrl);
+	        }
         }
 
         return client;
@@ -65,7 +68,7 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
 
     @Override
     public boolean isSingleton() {
-        return false;
+        return true;
     }
 
     /**
