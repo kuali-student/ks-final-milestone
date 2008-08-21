@@ -18,30 +18,6 @@ public class PersonDisplayDTO implements Serializable{
 	@XmlElement
 	private String name;
 
-	public PersonDisplayDTO() {
-	}
-
-	public PersonDisplayDTO(final String personId, final String firstName, final String surname, final String lastName) {
-		this.personId = personId;
-		
-		final StringBuilder name = new StringBuilder();
-		if (firstName != null && firstName.trim().length() > 0) {
-			name.append(firstName.trim());
-		}
-		if (surname != null && surname.trim().length() > 0) {
-			if (name.length() > 0) {
-				name.append(" ");
-			}
-			name.append(surname.trim());
-		}
-		if (lastName != null && lastName.trim().length() > 0) {
-			if (name.length() > 0) {
-				name.append(" ");
-			}
-			name.append(lastName.trim());
-		}
-		this.name = name.toString();
-	}
 	/**
 	 * @return the personId
 	 */
