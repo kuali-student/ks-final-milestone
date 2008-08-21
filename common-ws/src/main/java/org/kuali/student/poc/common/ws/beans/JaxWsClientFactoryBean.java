@@ -17,8 +17,8 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
     private static Object client;
     
     @Override
-    public Object getObject() throws Exception {
-        if(client==null){
+    public synchronized Object getObject() throws Exception {
+    	if(client==null){
 	    	URL url;
 	        if (wsdlDocumentLocation.startsWith(CLASSPATH_PREFIX)) {
 	            ClassPathResource cpr = new ClassPathResource(wsdlDocumentLocation.substring(CLASSPATH_PREFIX.length()));
