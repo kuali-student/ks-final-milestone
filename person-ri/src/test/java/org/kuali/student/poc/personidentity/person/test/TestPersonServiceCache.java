@@ -29,7 +29,6 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
-import org.kuali.student.poc.personidentity.person.PersonService;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonCitizenshipInfo;
@@ -38,6 +37,7 @@ import org.kuali.student.poc.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonNameInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
+import org.kuali.student.poc.personidentity.person.service.PersonService;
 import org.kuali.student.poc.personidentity.person.service.impl.PersonServiceCacheDelegate;
 
 @Daos({@Dao("org.kuali.student.poc.personidentity.person.dao.impl.PersonDAOImpl")})

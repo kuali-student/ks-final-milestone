@@ -16,7 +16,6 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
-import org.kuali.student.poc.personidentity.person.PersonService;
 import org.kuali.student.poc.personidentity.person.dao.PersonDAO;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeDisplay;
 import org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo;
@@ -36,9 +35,10 @@ import org.kuali.student.poc.personidentity.person.dto.PersonTypeDisplay;
 import org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo;
 import org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo;
 import org.kuali.student.poc.personidentity.person.dto.ValidationError;
+import org.kuali.student.poc.personidentity.person.service.PersonService;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.poc.personidentity.person.PersonService", serviceName = "PersonService", portName = "PersonService", targetNamespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
+@WebService(endpointInterface = "org.kuali.student.poc.personidentity.person.service.PersonService", serviceName = "PersonService", portName = "PersonService", targetNamespace = "http://student.kuali.org/poc/wsdl/personidentity/person")
 @Transactional
 public class PersonServiceCacheDelegate implements PersonService {
 	private PersonService target;
@@ -91,7 +91,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#assignPersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#assignPersonType(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public boolean assignPersonType(String personId, String personTypeKey)
@@ -109,7 +109,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#createAttributeDefinition(org.kuali.student.poc.personidentity.person.dto.PersonAttributeTypeInfo)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#createAttributeDefinition(org.kuali.student.poc.personidentity.person.dto.PersonAttributeTypeInfo)
 	 */
 	public String createAttributeDefinition(
 			PersonAttributeTypeInfo attributeDefinition)
@@ -128,7 +128,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#createPerson(org.kuali.student.poc.personidentity.person.dto.PersonCreateInfo,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#createPerson(org.kuali.student.poc.personidentity.person.dto.PersonCreateInfo,
 	 *      java.util.List)
 	 */
 	public String createPerson(PersonCreateInfo personCreateInfo,
@@ -146,7 +146,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#createPersonAttributeSetType(org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#createPersonAttributeSetType(org.kuali.student.poc.personidentity.person.dto.PersonAttributeSetTypeInfo)
 	 */
 	public String createPersonAttributeSetType(
 			PersonAttributeSetTypeInfo attributeSetDTO)
@@ -169,7 +169,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#createPersonRelation(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#createPersonRelation(java.lang.String,
 	 *      java.lang.String, java.lang.String,
 	 *      org.kuali.student.poc.personidentity.person.dto.PersonRelationCreateInfo)
 	 */
@@ -192,7 +192,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#createPersonTypeInfo(org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#createPersonTypeInfo(org.kuali.student.poc.personidentity.person.dto.PersonTypeInfo)
 	 */
 	public String createPersonTypeInfo(PersonTypeInfo personTypeInfo)
 			throws AlreadyExistsException, InvalidParameterException,
@@ -210,7 +210,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#deletePerson(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#deletePerson(java.lang.String)
 	 */
 	public boolean deletePerson(String personId) throws DoesNotExistException,
 			DisabledIdentifierException, InvalidParameterException,
@@ -229,7 +229,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#deletePersonRelation(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#deletePersonRelation(java.lang.String)
 	 */
 	public boolean deletePersonRelation(String personRelationId)
 			throws DoesNotExistException, InvalidParameterException,
@@ -247,7 +247,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchFullPersonInfo(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchFullPersonInfo(java.lang.String)
 	 */
 	public PersonInfo fetchFullPersonInfo(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
@@ -277,7 +277,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws InvalidParameterException
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonAttributeSetType(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonAttributeSetType(java.lang.String)
 	 */
 	public PersonAttributeSetTypeInfo fetchPersonAttributeSetType(
 			String personAttributeSetTypeKey) throws DoesNotExistException,
@@ -295,7 +295,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonDisplay(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonDisplay(java.lang.String)
 	 */
 	public PersonDisplay fetchPersonDisplay(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
@@ -314,7 +314,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonInfoByPersonAttributeSetTypes(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonInfoByPersonAttributeSetTypes(java.lang.String,
 	 *      java.util.List)
 	 */
 	public PersonInfo fetchPersonInfoByPersonAttributeSetTypes(String personId,
@@ -336,7 +336,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonInfoByPersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonInfoByPersonType(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public PersonInfo fetchPersonInfoByPersonType(String personId,
@@ -355,7 +355,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonRelation(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonRelation(java.lang.String)
 	 */
 	public PersonRelationInfo fetchPersonRelation(String personRelationId)
 			throws DoesNotExistException, InvalidParameterException,
@@ -367,7 +367,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	/**
 	 * @return
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonRelationTypes()
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonRelationTypes()
 	 */
 	public List<PersonRelationTypeDisplay> fetchPersonRelationTypes()
 			throws OperationFailedException {
@@ -381,7 +381,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws InvalidParameterException
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchPersonType(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchPersonType(java.lang.String)
 	 */
 	public PersonTypeInfo fetchPersonType(String personTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
@@ -397,7 +397,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#fetchReplacementPersonId(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#fetchReplacementPersonId(java.lang.String)
 	 */
 	public String fetchReplacementPersonId(String personId)
 			throws DoesNotExistException, InvalidParameterException,
@@ -409,7 +409,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	/**
 	 * @return
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findCreatablePersonTypes()
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findCreatablePersonTypes()
 	 */
 	public List<PersonTypeDisplay> findCreatablePersonTypes()
 			throws OperationFailedException {
@@ -423,7 +423,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws InvalidParameterException
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPeopleByPersonIds(java.util.List)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPeopleByPersonIds(java.util.List)
 	 */
 	public List<PersonInfo> findPeopleByPersonIds(List<String> personIdList)
 			throws DoesNotExistException, InvalidParameterException,
@@ -468,7 +468,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws InvalidParameterException
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPeopleDisplayByPersonIds(java.util.List)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPeopleDisplayByPersonIds(java.util.List)
 	 */
 	public List<PersonDisplay> findPeopleDisplayByPersonIds(
 			List<String> personIdList) throws DoesNotExistException,
@@ -480,7 +480,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	/**
 	 * @return
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonAttributeSetTypes()
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonAttributeSetTypes()
 	 */
 	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypes()
 			throws OperationFailedException {
@@ -496,7 +496,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonAttributeSetTypesForPerson(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonAttributeSetTypesForPerson(java.lang.String)
 	 */
 	public List<String> findPersonAttributeSetTypesForPerson(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
@@ -512,7 +512,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws InvalidParameterException
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonAttributeSetTypesForPersonType(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonAttributeSetTypesForPersonType(java.lang.String)
 	 */
 	public List<PersonAttributeSetTypeDisplay> findPersonAttributeSetTypesForPersonType(
 			String personTypeKey) throws DoesNotExistException,
@@ -530,7 +530,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonIdsForPersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonIdsForPersonType(java.lang.String,
 	 *      org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
 	 */
 	public List<String> findPersonIdsForPersonType(String personTypeKey,
@@ -549,7 +549,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonPersonRelationIds(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonPersonRelationIds(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public List<String> findPersonPersonRelationIds(String personId,
@@ -569,7 +569,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonRelations(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonRelations(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public List<PersonRelationDisplay> findPersonRelations(String personId,
@@ -582,7 +582,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	/**
 	 * @return
 	 * @throws OperationFailedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonTypes()
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonTypes()
 	 */
 	public List<PersonTypeDisplay> findPersonTypes()
 			throws OperationFailedException {
@@ -598,7 +598,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#findPersonTypesForPerson(java.lang.String)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#findPersonTypesForPerson(java.lang.String)
 	 */
 	public List<String> findPersonTypesForPerson(String personId)
 			throws DoesNotExistException, DisabledIdentifierException,
@@ -617,7 +617,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#isPersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#isPersonType(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public boolean isPersonType(String personId, String personTypeKey)
@@ -637,7 +637,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#removePersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#removePersonType(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public boolean removePersonType(String personId, String personTypeKey)
@@ -654,7 +654,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPeople(org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPeople(org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
 	 */
 	public List<PersonInfo> searchForPeople(PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
@@ -670,7 +670,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPeopleByPersonAttributeSetType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPeopleByPersonAttributeSetType(java.lang.String,
 	 *      org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
 	 */
 	public List<PersonInfo> searchForPeopleByPersonAttributeSetType(
@@ -689,7 +689,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPeopleByPersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPeopleByPersonType(java.lang.String,
 	 *      org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
 	 */
 	public List<PersonInfo> searchForPeopleByPersonType(String personTypeKey,
@@ -707,7 +707,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPeopleByRelation(org.kuali.student.poc.personidentity.person.dto.PersonRelationCriteria)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPeopleByRelation(org.kuali.student.poc.personidentity.person.dto.PersonRelationCriteria)
 	 */
 	public List<PersonDisplay> searchForPeopleByRelation(
 			PersonRelationCriteria personRelationCriteria)
@@ -723,7 +723,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPersonIds(org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPersonIds(org.kuali.student.poc.personidentity.person.dto.PersonCriteria)
 	 */
 	public List<String> searchForPersonIds(PersonCriteria personCriteria)
 			throws InvalidParameterException, MissingParameterException,
@@ -738,7 +738,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPersonIdsByRelation(org.kuali.student.poc.personidentity.person.dto.PersonRelationCriteria)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPersonIdsByRelation(org.kuali.student.poc.personidentity.person.dto.PersonRelationCriteria)
 	 */
 	public List<String> searchForPersonIdsByRelation(
 			PersonRelationCriteria personRelationCriteria)
@@ -754,7 +754,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#searchForPersonRelations(org.kuali.student.poc.personidentity.person.dto.PersonRelationCriteria)
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#searchForPersonRelations(org.kuali.student.poc.personidentity.person.dto.PersonRelationCriteria)
 	 */
 	public List<PersonRelationDisplay> searchForPersonRelations(
 			PersonRelationCriteria personRelationCriteria)
@@ -789,7 +789,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws ReadOnlyException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#updatePerson(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#updatePerson(java.lang.String,
 	 *      org.kuali.student.poc.personidentity.person.dto.PersonUpdateInfo)
 	 */
 	public boolean updatePerson(String personId,
@@ -818,7 +818,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws ReadOnlyException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#updatePersonRelation(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#updatePersonRelation(java.lang.String,
 	 *      org.kuali.student.poc.personidentity.person.dto.PersonRelationUpdateInfo)
 	 */
 	public boolean updatePersonRelation(String personRelationId,
@@ -840,7 +840,7 @@ public class PersonServiceCacheDelegate implements PersonService {
 	 * @throws MissingParameterException
 	 * @throws OperationFailedException
 	 * @throws PermissionDeniedException
-	 * @see org.kuali.student.poc.personidentity.person.PersonService#validatePersonInfoForPersonType(java.lang.String,
+	 * @see org.kuali.student.poc.personidentity.person.service.PersonService#validatePersonInfoForPersonType(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public ValidationError validatePersonInfoForPersonType(String personId,
