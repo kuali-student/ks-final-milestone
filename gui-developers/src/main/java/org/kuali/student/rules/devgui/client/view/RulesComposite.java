@@ -141,7 +141,7 @@ public class RulesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
-
+		/*
             rulesTree.addSelectionListener(new ModelTableSelectionListener<BusinessRule>() {
                 public void onSelect(BusinessRule modelObject) {
                     if (modelObject == null) {
@@ -152,7 +152,7 @@ public class RulesComposite extends Composite {
                         populateRulesMainTab(modelObject);
                     }
                 }
-            });
+            });  */
         }
     }
 
