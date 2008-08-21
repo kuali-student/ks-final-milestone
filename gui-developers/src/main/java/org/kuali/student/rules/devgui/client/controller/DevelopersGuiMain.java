@@ -8,14 +8,11 @@ import java.util.List;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
-import org.kuali.student.commons.ui.mvc.client.MVCEvent;
-import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
-import org.kuali.student.commons.ui.mvc.client.model.ModelChangeEvent;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.DevGuiService;
-import org.kuali.student.rules.devgui.client.model.BusinessRule;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleType;
+import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.view.RuleTypesComposite;
 import org.kuali.student.rules.devgui.client.view.RulesComposite;
 
@@ -29,8 +26,9 @@ public class DevelopersGuiMain extends Controller {
     public static final String VIEW_NAME = "org.kuali.student.rules.devgui";
     boolean loaded = false;
 
-    final Model<BusinessRule> businessRule = new Model<BusinessRule>();
+    // final Model<BusinessRuleInfo> businessRule = new Model<BusinessRuleInfo>();
     final Model<BusinessRuleType> businessRuleType = new Model<BusinessRuleType>();
+    final Model<RulesHierarchyInfo> rulesHierarchyInfo = new Model<RulesHierarchyInfo>();
 
     final TabPanel tabs = new TabPanel();
     final RulesComposite businessRuleComposite = new RulesComposite();
@@ -75,25 +73,41 @@ public class DevelopersGuiMain extends Controller {
     }
 
     private void setupModels() {
-        super.initializeModel(BusinessRule.class, businessRule);
+        // super.initializeModel(BusinessRuleInfo.class, businessRule);
         super.initializeModel(BusinessRuleType.class, businessRuleType);
+        super.initializeModel(RulesHierarchyInfo.class, rulesHierarchyInfo);
     }
 
     private void loadModelsData() {
-        DevGuiService.Util.getInstance().findBusinessRules(new AsyncCallback<List<BusinessRule>>() {
+        /*
+        DevGuiService.Util.getInstance().findBusinessRules(new AsyncCallback<List<BusinessRuleInfo>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
-                throw new RuntimeException("Unable to load BusinessRule objects", caught);
+                throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
             }
 
-            public void onSuccess(List<BusinessRule> rules) {
+            public void onSuccess(List<BusinessRuleInfo> rules) {
                 // add the results to the model
-                for (BusinessRule rule : rules) {
+                for (BusinessRuleInfo rule : rules) {
                     businessRule.add(rule);
-                    System.out.println(rule.getIdentifier());
+                }
+            }
+        });  */
+
+        DevGuiService.Util.getInstance().findRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
+            public void onFailure(Throwable caught) {
+                // just rethrow it and let the uncaught exception handler deal with it
+                throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+            }
+
+            public void onSuccess(List<RulesHierarchyInfo> rulesInfo) {
+                // add the results to the model
+                for (RulesHierarchyInfo ruleInfo : rulesInfo) {
+                    rulesHierarchyInfo.add(ruleInfo);
                 }
             }
         });
+
     }
 
     private void doLayout() {
@@ -105,12 +119,12 @@ public class DevelopersGuiMain extends Controller {
     }
 
     private void doEventListenerWiring() {
-        // when a business rule is added TODO
-        businessRule.addListener(ModelChangeEvent.AddEvent.class, new MVCEventListener() {
-            public void onEvent(Class<? extends MVCEvent> event, Object data) {
-                System.out.println("TEST: " + ((BusinessRule) data).getName());
-                // businessRuleComposite.testForm(((BusinessRule) data).getName());
-            }
-        });
+    // when a business rule is added TODO
+    /*
+    businessRule.addListener(ModelChangeEvent.AddEvent.class, new MVCEventListener() {
+        public void onEvent(Class<? extends MVCEvent> event, Object data) {
+        // businessRuleComposite.testForm(((BusinessRuleInfo) data).getName());
+        }
+    });  */
     }
 }

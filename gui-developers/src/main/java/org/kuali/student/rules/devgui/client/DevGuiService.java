@@ -5,7 +5,8 @@ package org.kuali.student.rules.devgui.client;
 
 import java.util.List;
 
-import org.kuali.student.rules.devgui.client.model.BusinessRule;
+import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
+import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -37,11 +38,15 @@ public interface DevGuiService extends RemoteService {
         }
     }
 
+    public List<RulesHierarchyInfo> findRulesHierarchyInfo();
+
+    public BusinessRuleInfo fetchDetailedBusinessRuleInfo(String ruleId);
+
     public List<String> findAgendaTypes();
 
     public List<String> findDeterminationKeysByAgendaType(String businessRuleType);
 
     public List<String> findBusinessRuleTypesByDeterminationKeySet(String determinationKeys);
 
-    public List<BusinessRule> findBusinessRules();
+    public List<BusinessRuleInfo> findBusinessRules();
 }

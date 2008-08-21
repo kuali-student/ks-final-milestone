@@ -11,9 +11,11 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
-import org.kuali.student.rules.devgui.client.model.BusinessRule;
+import org.kuali.student.rules.devgui.client.model.BusinessRuleElement;
+import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
+import org.kuali.student.rules.devgui.client.model.BusinessRuleProposition;
+import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
@@ -66,7 +68,7 @@ public class RulesComposite extends Composite {
 
     // class that binds a widget to a model, instantiation is deferred
     // until application state is guaranteed to be ready
-    ModelBinding<BusinessRule> binding;
+    ModelBinding<RulesHierarchyInfo> binding;
 
     // widgets used for Rules forms.....
     final BusinessRulesTree rulesTree = new BusinessRulesTree(); // used to browse Rules
@@ -81,7 +83,8 @@ public class RulesComposite extends Composite {
     final TextArea descriptionTextArea = new TextArea();
     final TextArea successMessageTextArea = new TextArea();
     final TextArea failureMessageTextArea = new TextArea();
-    final ListBox businessRuleTypeListBox = new ListBox();
+    final Label businessRuleTypeReadOnly = new Label("");
+    // final ListBox businessRuleTypeListBox = new ListBox();
     final TextBox anchorTextBox = new TextBox();
     final Label anchorTypeReadOnly = new Label("");
 
@@ -92,6 +95,15 @@ public class RulesComposite extends Composite {
     final TextArea completeRuleTextArea = new TextArea();
     final TextArea propCompositionTextArea = new TextArea();
     final TextBox expectedValueTextBox = new TextBox();
+
+    // Authoring tab
+    final TextBox statusTextBox = new TextBox();
+    final TextBox effectiveStartTimeTextBox = new TextBox();
+    final TextBox effectiveEndTimeTextBox = new TextBox();
+    final TextBox createTimeTextBox = new TextBox();
+    final TextBox createUserIdTextBox = new TextBox();
+    final TextBox updateTimeTextBox = new TextBox();
+    final TextBox updateUserIdTextBox = new TextBox();
 
     boolean loaded = false;
 
@@ -111,9 +123,9 @@ public class RulesComposite extends Composite {
             metadata = ApplicationContext.getViews().get(DevelopersGuiMain.VIEW_NAME);
             messages = metadata.getMessages();
 
-            // bind the list to the parent controller's Model of BusinessRule objects
-            Model<BusinessRule> model = (Model<BusinessRule>) controller.getModel(BusinessRule.class);
-            binding = new ModelBinding<BusinessRule>(model, rulesTree);
+            // bind the list to the parent controller's Model of BusinessRuleInfo objects
+            Model<RulesHierarchyInfo> model = (Model<RulesHierarchyInfo>) controller.getModel(RulesHierarchyInfo.class);
+            binding = new ModelBinding<RulesHierarchyInfo>(model, rulesTree);
 
             // create tree-like rules browser
             rulesTree.setSize("100%", "100%");
@@ -141,18 +153,30 @@ public class RulesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
-		/*
-            rulesTree.addSelectionListener(new ModelTableSelectionListener<BusinessRule>() {
-                public void onSelect(BusinessRule modelObject) {
-                    if (modelObject == null) {
-                        // selection was cleared
-                        clearRulesMainTab(modelObject);
-                    } else {
-                        // populate fields from new selection
-                        populateRulesMainTab(modelObject);
+            /*
+
+                rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
+                    public void onSelect(RulesHierarchyInfo modelObject) {
+                        String ruleId = modelObject.getBusinessRuleId();
+                        if (modelObject == null) {
+                            // selection was cleared
+                            clearRuleForms();
+                        } else {
+                            // populate fields from new selection
+                            DevGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfo>() {
+                                public void onFailure(Throwable caught) {
+                                    // just rethrow it and let the uncaught exception handler deal with it
+                                    Window.alert(caught.getMessage());
+                                    // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                                }
+
+                                public void onSuccess(BusinessRuleInfo ruleInfo) {
+                                    // add the results to the model
+                                    populateRuleForms(ruleInfo);
+                                }
+                        }
                     }
-                }
-            });  */
+                });  */
         }
     }
 
@@ -163,44 +187,94 @@ public class RulesComposite extends Composite {
         binding.unlink();
     }
 
-    public void populateRulesMainTab(BusinessRule rule) {
+    public void populateRuleForms(BusinessRuleInfo rule) {
+        // populate Main TAB
         nameTextBox.setText(rule.getName());
         descriptionTextArea.setText(rule.getDescription());
         successMessageTextArea.setText(rule.getSuccessMessage());
         failureMessageTextArea.setText(rule.getFailureMessage());
-        businessRuleTypeListBox.setValue(0, rule.getBusinessRuleTypeKey());
+        businessRuleTypeReadOnly.setText(rule.getBusinessRuleTypeKey());
+        // businessRuleTypeListBox.setValue(0, rule.getBusinessRuleTypeKey());
         // businessRuleTypeListBox.setItemSelected(0, true);
         anchorTypeReadOnly.setText(rule.getAnchorTypeKey());
-        anchorTextBox.setText(rule.getAnchor());
+        anchorTextBox.setText(rule.getAnchorValue());
+
+        // populate Propositions TAB
+        StringBuffer ruleComposition = new StringBuffer();
+        StringBuffer ruleCompleteText = new StringBuffer();
+        for (BusinessRuleElement elem : rule.getRuleElementList()) {
+
+            if (elem.getOperation().equals("PROPOSITION")) {
+                BusinessRuleProposition prop = elem.getRuleProposition();
+                propositionsListBox.addItem(prop.getName());
+                yvfListBox.setItemSelected(1, true); // TODO if..
+                operatorsListBox.setValue(0, "GREATER_THAN");
+                expectedValueTextBox.setText(prop.getRightHandSide());
+                ruleComposition.append("P1");
+                ruleCompleteText.append(prop.getLeftHandSide() + " " + prop.getComparisonOperatorType() + " " + prop.getRightHandSide());
+            }
+        }
+
+        propCompositionTextArea.setText(ruleComposition.toString());
+        completeRuleTextArea.setText(ruleCompleteText.toString());
+
+        // populate Authoring TAB
+        statusTextBox.setText(rule.getStatus());
+        effectiveStartTimeTextBox.setText(rule.getEffectiveStartTime());
+        effectiveEndTimeTextBox.setText(rule.getEffectiveEndTime());
+        createTimeTextBox.setText(rule.getCreateTime());
+        createUserIdTextBox.setText(rule.getCreateUserId());
+        updateTimeTextBox.setText(rule.getUpdateTime());
+        updateUserIdTextBox.setText(rule.getUpdateUserId());
     }
 
-    public void clearRulesMainTab(BusinessRule rule) {
+    // TODO: check if changes were made to any form field; if changes made, ask user if they
+    // want to abandon the changes
+    public void clearRuleForms() {
+        // clear Main TAB
         nameTextBox.setText("");
         descriptionTextArea.setText("");
         successMessageTextArea.setText("");
         failureMessageTextArea.setText("");
-        businessRuleTypeListBox.setItemSelected(0, true);
+        businessRuleTypeReadOnly.setText("");
         anchorTypeReadOnly.setText("");
         anchorTextBox.setText("");
+
+        // Clear Propositions TAB
+        // yvfListBox
+        // operatorsListBox
+        propositionsListBox.clear();
+        completeRuleTextArea.setText("");
+        propCompositionTextArea.setText("");
+        expectedValueTextBox.setText("");
+
+        // Clear Authoring TAB
+        statusTextBox.setText("");
+        effectiveStartTimeTextBox.setText("");
+        effectiveEndTimeTextBox.setText("");
+        createTimeTextBox.setText("");
+        createUserIdTextBox.setText("");
+        updateTimeTextBox.setText("");
+        updateUserIdTextBox.setText("");
     }
 
     private Widget addRulesForm() {
         TabPanel rulesFormTabs = new TabPanel();
         rulesFormTabs.add(addRulesMainPage(), "Main");
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
-        rulesFormTabs.add(new Label("To Do"), "Authoring");
+        rulesFormTabs.add(addRRulesAuthoringPage(), "Authoring");
         rulesFormTabs.setSize("90%", "500px");
 
         // tabs.setStyleName("rulesBorder");
         rulesFormTabs.selectTab(1);
 
-        final Button saveButton = new Button("Save");
-        final Button cancelButton = new Button("Cancel");
+        final Button updateButton = new Button("Update Rule");
+        final Button createButton = new Button("Create Rule");
         HorizontalPanel hp = new HorizontalPanel();
         hp.setSpacing(8);
-        hp.add(saveButton);
-        hp.add(cancelButton);
-        cancelButton.addClickListener(new ClickListener() {
+        hp.add(updateButton);
+        hp.add(createButton);
+        createButton.addClickListener(new ClickListener() {
             public void onClick(final Widget sender) {}
         });
 
@@ -311,11 +385,12 @@ public class RulesComposite extends Composite {
         flexFormTable.setWidget(5, 0, businessRuleTypeLabel);
         flexFormTable.getCellFormatter().setHeight(5, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(5, 1, businessRuleTypeListBox);
-        flexFormTable.getCellFormatter().setHeight(5, 1, FORM_ROW_HEIGHT);
-        businessRuleTypeListBox.addItem("Test1");
-        businessRuleTypeListBox.addItem("Test2");
-        businessRuleTypeListBox.addItem("Test3");
+        // flexFormTable.setWidget(5, 1, businessRuleTypeListBox);
+        flexFormTable.setWidget(5, 1, businessRuleTypeReadOnly);
+        // flexFormTable.getCellFormatter().setHeight(5, 1, FORM_ROW_HEIGHT);
+        // businessRuleTypeListBox.addItem("Test1");
+        // businessRuleTypeListBox.addItem("Test2");
+        // businessRuleTypeListBox.addItem("Test3");
 
         // Anchor Type
         final Label anchorTypeLabel = new Label("Anchor Type:");
@@ -386,9 +461,6 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(1, 0, FORM_ROW_HEIGHT);
 
         flexFormTable.setWidget(2, 0, propositionsListBox);
-        propositionsListBox.addItem("Proposition (P1)");
-        propositionsListBox.addItem("Proposition (P2)");
-        propositionsListBox.addItem("Proposition (P3)");
         propositionsListBox.setSize("75%", "100%");
         propositionsListBox.setVisibleItemCount(5);
         flexFormTable.getCellFormatter().setHeight(2, 0, "93px");
@@ -472,6 +544,116 @@ public class RulesComposite extends Composite {
         flexFormTable.getFlexCellFormatter().setColSpan(21, 0, 2);
 
         return propositionsFlexTable;
+    }
+
+    private Widget addRRulesAuthoringPage() {
+
+        // **********************************************************
+        // set rules form margins
+        // **********************************************************
+        final FlexTable rulesFlexTable = new FlexTable();
+        rulesFlexTable.setTitle("Rules");
+        rulesFlexTable.setSize("100%", "100%");
+
+        final SimplePanel topMargin = new SimplePanel();
+        rulesFlexTable.setWidget(0, 0, topMargin);
+        rulesFlexTable.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+        rulesFlexTable.getFlexCellFormatter().setColSpan(0, 0, 2);
+        rulesFlexTable.getCellFormatter().setHeight(0, 0, "5pix");
+
+        final SimplePanel leftMargin = new SimplePanel();
+        rulesFlexTable.setWidget(1, 0, leftMargin);
+        rulesFlexTable.getCellFormatter().setWidth(1, 0, "5pix");
+
+        // **********************************************************
+        // set rules form size
+        // **********************************************************
+        final FormPanel rulesFormPanel = new FormPanel();
+        rulesFlexTable.setWidget(1, 1, rulesFormPanel);
+        rulesFlexTable.getCellFormatter().setWidth(1, 1, "100%");
+        rulesFormPanel.setWidth("100%");
+        rulesFlexTable.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
+
+        final FlexTable flexFormTable = new FlexTable();
+        rulesFormPanel.add(flexFormTable);
+        flexFormTable.setSize("100%", "100%");
+
+        // **********************************************************
+        // rules form elements
+        // **********************************************************
+
+        // Status
+        final Label statusLabel = new Label("Status");
+        flexFormTable.setWidget(1, 0, statusLabel);
+        flexFormTable.getCellFormatter().setWidth(1, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(1, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(1, 1, statusTextBox);
+        statusTextBox.setWidth("30%");
+
+        // Effective Start Time
+        final Label effectiveStartTimeLabel = new Label("Effective Start Time");
+        flexFormTable.setWidget(2, 0, effectiveStartTimeLabel);
+        flexFormTable.getCellFormatter().setWidth(2, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(2, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(2, 1, effectiveStartTimeTextBox);
+        effectiveStartTimeTextBox.setWidth("30%");
+
+        // Effective End Time
+        final Label effectiveEndTimeLabel = new Label("Effective End Time");
+        flexFormTable.setWidget(3, 0, effectiveEndTimeLabel);
+        flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(3, 1, effectiveEndTimeTextBox);
+        effectiveEndTimeTextBox.setWidth("30%");
+
+        // Create Time
+        final Label createTimeLabel = new Label("Create Time");
+        flexFormTable.setWidget(4, 0, createTimeLabel);
+        flexFormTable.getCellFormatter().setWidth(4, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(4, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(4, 1, createTimeTextBox);
+        createTimeTextBox.setWidth("30%");
+
+        // Create User ID
+        final Label createUserIdLabel = new Label("Create Rule User Id");
+        flexFormTable.setWidget(5, 0, createUserIdLabel);
+        flexFormTable.getCellFormatter().setWidth(5, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(5, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(5, 1, createUserIdTextBox);
+        createUserIdTextBox.setWidth("30%");
+
+        // Update Time
+        final Label updateTimeLabel = new Label("Update Time");
+        flexFormTable.setWidget(6, 0, updateTimeLabel);
+        flexFormTable.getCellFormatter().setWidth(6, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(6, 1, updateTimeTextBox);
+        updateTimeTextBox.setWidth("30%");
+
+        // Update User ID
+        final Label updateUserIdLabel = new Label("Update Rule User Id");
+        flexFormTable.setWidget(7, 0, updateUserIdLabel);
+        flexFormTable.getCellFormatter().setWidth(7, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(7, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(7, 1, updateUserIdTextBox);
+        updateUserIdTextBox.setWidth("30%");
+
+        // filler
+        final SimplePanel filler = new SimplePanel();
+        flexFormTable.setWidget(8, 0, filler);
+        flexFormTable.getFlexCellFormatter().setColSpan(8, 0, 2);
+
+        flexFormTable.getCellFormatter().setHorizontalAlignment(9, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        flexFormTable.getFlexCellFormatter().setColSpan(9, 0, 2);
+
+        return rulesFlexTable;
     }
 
 }

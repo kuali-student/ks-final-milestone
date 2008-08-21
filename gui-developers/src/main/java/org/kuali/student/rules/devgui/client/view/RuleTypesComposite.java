@@ -12,7 +12,7 @@ import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
-import org.kuali.student.rules.devgui.client.model.BusinessRule;
+import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
@@ -61,7 +61,7 @@ public class RuleTypesComposite extends Composite {
 
     // class that binds a widget to a model, instantiation is deferred
     // until application state is guaranteed to be ready
-    ModelBinding<BusinessRule> binding;
+    ModelBinding<BusinessRuleInfo> binding;
 
     // widgets used for Rules forms.....
     final Tree ruleTypesTree = new Tree(); // used to browse Rule Types
@@ -90,8 +90,8 @@ public class RuleTypesComposite extends Composite {
             messages = metadata.getMessages();
 
             // bind the PeopleTable to the parent controller's Model of BusinesRule objects
-            Model<BusinessRule> model = (Model<BusinessRule>) controller.getModel(BusinessRule.class);
-            // TODO binding = new ModelBinding<BusinessRule>(model, table);
+            Model<BusinessRuleInfo> model = (Model<BusinessRuleInfo>) controller.getModel(BusinessRuleInfo.class);
+            // TODO binding = new ModelBinding<BusinessRuleInfo>(model, table);
 
             // create tree-like rules browser
             ruleTypesTree.setSize("100%", "100%");
