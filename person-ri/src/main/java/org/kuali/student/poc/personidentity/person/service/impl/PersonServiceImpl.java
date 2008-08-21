@@ -284,8 +284,8 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	public PersonDisplay fetchPersonDisplay(String personId) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Person person = personDAO.lookupPerson(personId);
-        return toPersonDisplay(person);
+        PersonName personName = personDAO.lookupPersonName(personId);
+        return toPersonDisplay(personName);
 	}
 
     /* (non-Javadoc)
@@ -478,11 +478,12 @@ public class PersonServiceImpl implements PersonService {
     public List<PersonDisplay> findPeopleDisplayByPersonIds(List<String> personIdList)
         throws DoesNotExistException, InvalidParameterException,
         MissingParameterException, OperationFailedException {
-        List<Person> people = personDAO.findPeople(personIdList);
+
+    	List<PersonName> names = personDAO.findPeopleNames(personIdList);
 
         List<PersonDisplay> personDispList = new ArrayList<PersonDisplay>();
-        for (Person person:people){
-            personDispList.add(toPersonDisplay(person));
+        for (PersonName name : names){
+            personDispList.add(toPersonDisplay(name));
         }
 
         return personDispList;
@@ -959,17 +960,11 @@ public class PersonServiceImpl implements PersonService {
 		return personInfo;
 	}
 
-	private PersonDisplay toPersonDisplay(Person person){
+	private PersonDisplay toPersonDisplay(PersonName name){
 	    PersonDisplay personDisplay = new PersonDisplay();
 
-	    personDisplay.setPersonId(person.getId());
-
-	    PersonNameInfo personNameInfo = null;
-	    if (person.getPersonNames().iterator().hasNext()){
-	        personNameInfo = toPersonNameInfo(person.getPersonNames().iterator().next());
-	    }
-
-	    personDisplay.setName(personNameInfo);
+	    personDisplay.setPersonId(name.getPerson().getId());
+	    personDisplay.setName(toPersonNameInfo(name));
 
 	    return personDisplay;
 	}
