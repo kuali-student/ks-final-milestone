@@ -24,6 +24,7 @@ public interface PersonDAO {
 	public List<PersonType> findPersonTypes(String nameMatch);
 	public List<Person> findPeople(PersonCriteria criteria);
 	public List<Person> findPeople(List<String> personIdList);
+	public List<PersonName> findPeopleNames(List<String> personIdList);
 	public List<Person> findPeopleWithAttributeSetType(String personAttributeSetTypeId, PersonCriteria criteria);
 	public List<Person> findPeopleWithPersonType(String personTypeId, PersonCriteria criteria);
 	public List<PersonDisplayDTO> findPersonDisplayDTO(PersonCriteria criteria);
@@ -32,6 +33,7 @@ public interface PersonDAO {
 	public Person createPerson(Person person);
 	public Person updatePerson(Person person);
 	public Person lookupPerson(String id);
+	public PersonName lookupPersonName(String id);
 	public boolean deletePerson(Person person);
 	public PersonAttributeSetType fetchPersonAttributeSetType(String id);
 	public PersonAttributeType fetchPersonAttributeType(String id);

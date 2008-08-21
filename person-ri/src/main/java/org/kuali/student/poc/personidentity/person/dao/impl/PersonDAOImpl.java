@@ -72,6 +72,13 @@ public class PersonDAOImpl implements PersonDAO {
 		return entityManager.find(Person.class, id);
 	}
 
+	public PersonName lookupPersonName(String id) {
+	    final Query query = entityManager.createNamedQuery("PersonName.findPersonNameById");
+	    query.setParameter("personIds", id);
+	    PersonName name = (PersonName)query.getSingleResult();
+	    return name;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	public List<PersonAttributeSetType> findPersonAttributeSetTypes(String nameMatch){
@@ -98,8 +105,16 @@ public class PersonDAOImpl implements PersonDAO {
         return people;
     }
 
-	public List<Person> findPeople(List<String> personIdList){
+	public List<PersonName> findPeopleNames(List<String> personIdList) {
+	    final Query query = entityManager.createNamedQuery("PersonName.findPersonNamesById");
+	    query.setParameter("personIds", personIdList);
+	    @SuppressWarnings("unchecked")
+	    List<PersonName> people = query.getResultList();
+	    return people;
 
+	}
+
+	public List<Person> findPeople(List<String> personIdList){
 	    final Query query = entityManager.createNamedQuery("Person.findById");
 	    query.setParameter("personIds", personIdList);
 	    @SuppressWarnings("unchecked")
