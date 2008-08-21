@@ -14,7 +14,7 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
     private QName serviceQName = null;
     private String serviceUrl = "";
     private static final String CLASSPATH_PREFIX = "classpath:";
-    private static Object client=null;
+    private static Object client;
     
     @Override
     public Object getObject() throws Exception {
