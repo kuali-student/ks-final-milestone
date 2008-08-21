@@ -1,8 +1,6 @@
 package org.kuali.student.poc.common.ws.beans;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -16,15 +14,11 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
     private QName serviceQName = null;
     private String serviceUrl = "";
     private static final String CLASSPATH_PREFIX = "classpath:";
-    private static Map<String,Object> clientMap;
+    private Object client;
     
     @Override
     public synchronized Object getObject() throws Exception {
-        if(clientMap==null){
-            clientMap=new HashMap<String,Object> ();
-        }
-        Object client = clientMap.get(serviceUrl);
-    	if(client==null){
+        if(client==null){
 	    	URL url;
 	        if (wsdlDocumentLocation.startsWith(CLASSPATH_PREFIX)) {
 	            ClassPathResource cpr = new ClassPathResource(wsdlDocumentLocation.substring(CLASSPATH_PREFIX.length()));
@@ -38,8 +32,7 @@ public class JaxWsClientFactoryBean implements JaxWsClientFactory {
 	        if (this.serviceUrl != null && !"".equals(this.serviceUrl)) {
 	            ((BindingProvider) client).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, this.serviceUrl);
 	        }
-	        clientMap.put(serviceUrl, client);
-        }
+	    }
 
         return client;
     }
