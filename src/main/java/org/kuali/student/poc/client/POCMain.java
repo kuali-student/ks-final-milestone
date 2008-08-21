@@ -8,6 +8,7 @@ import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
 import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
+import org.kuali.student.commons.ui.mvc.client.SecurityContext;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.BusyIndicator;
@@ -79,6 +80,10 @@ public class POCMain extends Controller {
 		super.onLoad();
 		if (!loaded) {
 			loaded = true;
+			
+			// hack, if this works, then we need to come up with new guidelines on where events are declared
+			new LoginComposite();
+			
 			rootPanel.setWidth("100%");
 			content.setWidth("100%");
 			content.setHeight("80%");
@@ -111,7 +116,10 @@ public class POCMain extends Controller {
                 public void onSuccess(LoginCredentials result) {
                     ApplicationContext.getGlobalEventDispatcher().fireEvent(BusyIndicator.EndTask.class);
                     if (result != null) {
-                        // TODO add credentials, etc, to the security context, etc
+                        SecurityContext sc = new SecurityContext();
+                        sc.setUserId(result.getUserId());
+                        sc.setPassword(result.getPassword());
+                        ApplicationContext.setSecurityContext(sc);
                         me.getEventDispatcher().fireEvent(LoginComposite.LoginSuccessfulEvent.class);
                         me.getEventDispatcher().fireEvent(AdminStudentTab.ShowAdminStudentTab.class);
                     } else {
@@ -129,7 +137,11 @@ public class POCMain extends Controller {
 			public void onEvent(Class<? extends MVCEvent> event, Object data) {
 			    LoginCredentials credentials = (LoginCredentials) data;
 			    if (!ApplicationContext.getLocale().equals(credentials.getLocale())) {
-			        Window.Location.reload();
+			        DeferredCommand.addCommand(new Command() {
+                        public void execute() {
+                            Window.Location.reload();
+                        }
+			        });
 			    } else {
     				// TODO add credentials, etc, to the security context, etc
     				me.getEventDispatcher().fireEvent(AdminStudentTab.ShowAdminStudentTab.class);

@@ -60,7 +60,7 @@ public class PersonAdvancedSearchPanel extends HidablePanel{
 		
 		
 		button.setStyleName("KS-Button");
-		button.addStyleName("KS-Advanced-Person-Search-Button");
+		//button.addStyleName("KS-Advanced-Person-Search-Button");
 		
 		button.addClickListener(new ClickListener(){
 			public void onClick(Widget sender) {

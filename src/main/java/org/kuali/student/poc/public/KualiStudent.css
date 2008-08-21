@@ -80,6 +80,7 @@ BODY
 	COLOR: #ffffff;
 	float: left;
 	FONT-WEIGHT: bold;
+	text-align: left;
     background #7c1d3a;
     height: 18px;
 	width: 100%;
@@ -169,9 +170,6 @@ BODY
 
 }
 
-.KS-Column-Font-Color{
-	COLOR: white;
-}
 
 .KS-Header-CurrentSelection-Panel {
 	FONT-STYLE: Verdana;
@@ -528,6 +526,18 @@ KS-CreatePerson-Sectionbar {
 	text-decoration: none;	
 }
 
+.KS-CitzInfo-Panel .header a:visited,a:hover {
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 10;
+	COLOR: #ffffff;
+	text-align: left;
+	FONT-WEIGHT: bold;
+	background: #7c1d3a;
+	height: 24px;
+	width: 100%;
+	horizontal-align:right;
+	text-decoration: none;
+}
 
 
 
@@ -695,13 +705,16 @@ a,a:visited,a:hover {
 	FONT-STYLE: Verdana;
 	FONT-SIZE: 10;
 	COLOR: #ffffff;
-	text-align: right;
+	text-align: left;
 	FONT-WEIGHT: bold;
 	background: #7c1d3a;
 	height: 24px;
 	width: 100%;
 	horizontal-align:right;
 	text-decoration: none;
+	text-align: left; 
+	cursor: pointer;
+	cursor: pointer;
 }
 
 
@@ -906,4 +919,13 @@ a,a:visited,a:hover {
   position: absolute;
   width: 100%;
   left: 0;
+}
+
+
+.KS-TabBarItem { 
+	FONT-STYLE: Verdana;
+	FONT-SIZE: 12;
+	COLOR: #FFFFFF;
+	horizontal-align: left;
+	FONT-WEIGHT: bold;	
 }
