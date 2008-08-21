@@ -100,21 +100,10 @@ public class PersonDAOImpl implements PersonDAO {
 
 	public List<Person> findPeople(List<String> personIdList){
 
-	    StringBuffer personIdSb = new StringBuffer();
-	    for (String str:personIdList){
-	        personIdSb.append((personIdSb.length()>0 ? ",":"("));
-	        personIdSb.append("'" + str + "'");
-	    }
-	    personIdSb.append(")");
-
-	    System.out.println("QUERY STRING: " + personIdSb);
-
-        Query query = entityManager.createQuery(
-        "SELECT p FROM Person p where p.id IN " + personIdSb.toString());
-
+	    final Query query = entityManager.createNamedQuery("Person.findById");
+	    query.setParameter("personIds", personIdList);
 	    @SuppressWarnings("unchecked")
 	    List<Person> people = query.getResultList();
-
 	    return people;
 	}
 

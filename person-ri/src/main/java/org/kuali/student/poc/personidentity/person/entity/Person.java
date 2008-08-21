@@ -27,7 +27,9 @@ import org.kuali.student.poc.common.util.UUIDHelper;
         @NamedQuery( name = "Person.findByAttributeSetTypeAndCriteria",
             query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt JOIN pt.personAttributeSetTypes past WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName) AND past.id = :personAttributeSetTypeId"),
         @NamedQuery( name = "Person.findByPersonTypeAndCriteria",
-            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName) AND pt.id = :personTypeId")
+            query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName) AND pt.id = :personTypeId"),
+        @NamedQuery( name = "Person.findById",
+            query = "SELECT DISTINCT p FROM Person p JOIN FETCH p.personNames n WHERE p.id IN (:personIds)"),
     }
 )
 public class Person {
@@ -37,7 +39,7 @@ public class Person {
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
 	private PersonalInformation personalInformation;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
 	private Set<PersonName> personNames;
 
@@ -53,14 +55,14 @@ public class Person {
 	@ManyToMany
 	@JoinTable(name = "Person_PersonType_J", joinColumns = @JoinColumn(name = "Person_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "PersonType_ID", referencedColumnName = "ID"))
 	protected Set<PersonType> personTypes;
-  
+
 	public Person() {
 		id = null;
 		attributes = null;
 		personTypes = null;
 		personNames= null;
 	}
-	
+
 	/**
 	 * AutoGenerate the Id
 	 */
@@ -68,11 +70,11 @@ public class Person {
 	public void prePersist() {
 		this.id = UUIDHelper.genStringUUID();
 	}
-	
+
 	//This needs to be removed
 	public Person(String firstName, String lastName) {
 		super();
-		
+
 	}
 
 	public String getId() {
@@ -83,7 +85,7 @@ public class Person {
 		this.id = id;
 	}
 
-	
+
 	public PersonalInformation getPersonalInformation() {
         return personalInformation;
     }
@@ -156,5 +158,5 @@ public class Person {
         this.personCitizenships = personCitizenships;
     }
 
-    
+
 }
