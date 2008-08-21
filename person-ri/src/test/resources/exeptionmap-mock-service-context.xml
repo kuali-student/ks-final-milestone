@@ -32,7 +32,7 @@
 			ref="mapExceptionAdvisor">
 
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.poc.personidentity.person.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.poc.personidentity.person.service..*.*(..))"
 				method="afterThrowing" throwing="ex" />
 
 		</aop:aspect>
