@@ -21,7 +21,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 @NamedQueries(
     {
         @NamedQuery( name = "PersonName.findPersonDisplayDTOByCriteria",
-        	query = "SELECT NEW org.kuali.student.poc.personidentity.person.dto.PersonDisplayDTO(n.person.id, n.givenName, n.middleNames, n.surname) FROM PersonName n WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName)")
+        	query = "SELECT NEW org.kuali.student.poc.personidentity.person.service.impl.PersonDisplayDTODAO(n.person.id, n.givenName, n.middleNames, n.surname) FROM PersonName n WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName)")
     }
 )
 
