@@ -29,7 +29,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
         @NamedQuery( name = "Person.findByPersonTypeAndCriteria",
             query = "SELECT DISTINCT p FROM Person p JOIN p.personNames n JOIN p.personTypes pt WHERE LOWER(n.givenName) LIKE LOWER(:firstName) AND LOWER(n.surname) LIKE LOWER(:lastName) AND pt.id = :personTypeId"),
         @NamedQuery( name = "Person.findById",
-            query = "SELECT DISTINCT p FROM Person p JOIN FETCH p.personNames n WHERE p.id IN (:personIds)"),
+            query = "SELECT DISTINCT p FROM Person p JOIN FETCH p.personNames n WHERE p.id IN (:personIds)")
     }
 )
 public class Person {
