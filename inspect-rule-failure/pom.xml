@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
 	<artifactId>inspect-rule-failure</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Kuali Student BRMS - inspect-rule-failure</name>
 
 	<description>
@@ -14,19 +14,19 @@
 	<parent>
 		<groupId>org.kuali.student.poc.brms</groupId>
 		<artifactId>brms-ri</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>rules-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>generate-rule</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		
 		<dependency>

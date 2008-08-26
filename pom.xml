@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
 	<artifactId>brms-ri</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
     <name>Kuali Student BRMS RI - PoC</name>
-	<description></description>
+	<description />
 
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
@@ -30,12 +29,8 @@
 	</modules>
 
 	<scm>
-		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
-		</connection>
-		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/branches/brms-ri-dev
-		</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/tags/brms-ri-0.0.1</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/brms/brms-ri/tags/brms-ri-0.0.1</developerConnection>
 	</scm>
 
 	<repositories>

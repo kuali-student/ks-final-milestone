@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
 	<artifactId>rule-execution</artifactId>
 	<name>Kuali Student BRMS - rule-execution</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<description>
 		Rule execution
 	</description>
@@ -13,14 +12,14 @@
 	<parent>
 		<groupId>org.kuali.student.poc.brms</groupId>
 		<artifactId>brms-ri</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 
 	<dependencies>
 	    <dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>brms-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 	    </dependency>
         <dependency>
             <groupId>org.drools</groupId>
