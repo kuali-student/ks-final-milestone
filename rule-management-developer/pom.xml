@@ -7,13 +7,11 @@
 			-Xmx512m
 		</google.webtoolkit.extrajvmargs>
 	</properties>
-	<!-- 
 	<parent>
-		<groupId>org.kuali.student.brms</groupId>
-		<artifactId>brms-web-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-parent-pom</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
-	 -->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>rule-management-developer</artifactId>
