@@ -23,7 +23,7 @@ public class ModPropertyPlaceholderConfigurer extends
 		
 		if(JPA_DATABASEPLATFORM.equals(placeholder)){
 			if(System.getProperties().containsKey("ks.use.eclipselink")){
-				return "org.eclipse.peristence.platform.database.DerbyPlatform";
+				return "org.eclipse.persistence.platform.database.DerbyPlatform";
 			}else{
 				return "org.hibernate.dialect.DerbyDialect";
 			}

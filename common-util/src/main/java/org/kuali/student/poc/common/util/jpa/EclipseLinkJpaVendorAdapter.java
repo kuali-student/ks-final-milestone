@@ -7,7 +7,9 @@ import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.spi.PersistenceProvider;
 
-import org.eclipse.persistence.jpa.config.PersistenceUnitProperties;
+//import org.eclipse.persistence.jpa.config.PersistenceUnitProperties;
+import org.eclipse.persistence.config.PersistenceUnitProperties;
+
 import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 

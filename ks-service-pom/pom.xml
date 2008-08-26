@@ -112,7 +112,7 @@
 					org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter
 				</jpa.vendorAdapter>
 				<jpa.databasePlatform>
-					org.eclipse.peristence.platform.database.DerbyPlatform
+					org.eclipse.persistence.platform.database.DerbyPlatform
 				</jpa.databasePlatform>
 			</properties>
 

@@ -214,7 +214,7 @@
 			<dependency>
 				<groupId>org.eclipse.persistence</groupId>
 				<artifactId>eclipselink</artifactId>
-				<version>1.0M4-Incubation</version>
+				<version>1.0</version>
 			</dependency>
 
 			<!--  Hibernate -->
