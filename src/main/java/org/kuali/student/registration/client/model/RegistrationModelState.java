@@ -65,7 +65,14 @@ public class RegistrationModelState extends BasePropertyChange {
 	public void setCurrUserCourses(List<GwtLuiInfo> currUserCourses) {		
 		List<GwtLuiInfo> old = this.currUserCourses;
 		this.currUserCourses = currUserCourses;
-		changes.firePropertyChange("currUserCourses", old, currUserCourses);
+		
+		if(currUserCourses != null)
+		{
+			if(old == null || !(old.containsAll(currUserCourses) && old.size() == currUserCourses.size()))
+			{
+				changes.firePropertyChange("currUserCourses", old, currUserCourses);
+			}
+		}
 	}
 
 	/**

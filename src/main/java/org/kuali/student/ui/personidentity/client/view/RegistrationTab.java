@@ -3,6 +3,7 @@ package org.kuali.student.ui.personidentity.client.view;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.registration.client.controller.RegistrationController;
 import org.kuali.student.ui.personidentity.client.ModelState;
+import org.kuali.student.ui.personidentity.client.view.lu.CourseSchedulePanel;
 import org.kuali.student.ui.personidentity.client.view.lu.EnrollmentSummaryPanel;
 
 import com.google.gwt.user.client.ui.Label;
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RegistrationTab extends SelectedTabPanel {
    EnrollmentSummaryPanel enrollmentSummaryPanel = new EnrollmentSummaryPanel();
+   CourseSchedulePanel schedulePanel = new CourseSchedulePanel();
    
 	TabListener queryCourseList = new TabListener(){
 		public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
@@ -29,6 +31,7 @@ public class RegistrationTab extends SelectedTabPanel {
 	   this.addTabListener(queryCourseList);
 	   //add(enrollmentSummaryPanel,"Enrollment Summary");
 	   addTab(enrollmentSummaryPanel,ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("enrollmentSummary"));
+	   addTab(schedulePanel, ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("schedule"));
 	   super.setStyleName("gwt-TabBar-Nested");
    }
    
