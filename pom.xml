@@ -10,9 +10,9 @@
 
 	<parent>
 		<!--  TODO point to official parent pom, whenever we make one -->
-		<groupId>org.kuali.student.poc</groupId>
+		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<scm>
