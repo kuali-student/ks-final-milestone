@@ -27,7 +27,6 @@
 	</properties>
 
 	<modules>
-	    <module>gui-developers</module>
 		<module>rule-common</module>
 		<module>rule-management-impl</module>
 		<module>rule-repository-impl</module>
