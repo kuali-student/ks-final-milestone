@@ -20,12 +20,12 @@
 	<dependencies>
 	    <dependency>
 			<groupId>org.kuali.student.brms</groupId>
-			<artifactId>rules-common</artifactId>
+			<artifactId>rule-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 	    </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
-            <artifactId>rules-repository</artifactId>
+            <artifactId>rule-repository-impl</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
