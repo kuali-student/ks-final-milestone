@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.commons</groupId>
 	<artifactId>ks-commons-ui</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>ks-commons-ui</name>
 	<url>http://maven.apache.org</url>
@@ -16,8 +16,8 @@
 	</parent>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/tags/ks-commons-ui-0.0.3</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/tags/ks-commons-ui-0.0.3</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/commons/ks-commons-ui/branches/ks-commons-ui-dev</developerConnection>
 	</scm>
 
 
