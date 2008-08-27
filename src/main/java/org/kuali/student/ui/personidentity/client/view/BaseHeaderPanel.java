@@ -236,11 +236,10 @@ public class BaseHeaderPanel extends Composite {
         linkPanel.add(help);
         linkPanel.add(logout);
 
-        boolean b = ApplicationContext.getSecurityContext() != null;
-        search.setVisible(b);
-        admin.setVisible(b);
-        studentSystem.setVisible(b);
-        logout.setVisible(b);
+        search.setVisible(false);
+        admin.setVisible(false);
+        studentSystem.setVisible(false);
+        logout.setVisible(false);
 
     }
 }
