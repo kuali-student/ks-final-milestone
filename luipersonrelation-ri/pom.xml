@@ -18,42 +18,42 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>rules-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>	
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>brms-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>inspect-rule-failure</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>rule-repository</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>generate-rule</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>rule-execution</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>validate-rule</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>		
 	</dependencies>
 </project>

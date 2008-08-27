@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>lu-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
