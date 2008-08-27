@@ -15,31 +15,41 @@
  */
 package org.kuali.student.rules.repository.drools;
 
+import javax.jws.WebService;
+
 import org.drools.repository.RulesRepository;
 import org.kuali.student.rules.repository.RuleEngineRepository;
-import org.kuali.student.rules.repository.RuleRuntimeRepository;
+import org.kuali.student.rules.repository.RuleRepositoryService;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is a convenience interface for the rules repository interface.
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  */
-public class RuleRuntimeRepositoryDroolsImpl implements RuleRuntimeRepository {
+@WebService(endpointInterface = "org.kuali.student.rules.repository.RuleRepositoryService", 
+			serviceName = "RuleRepositoryService", 
+			portName = "RuleRepositoryService", 
+			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
+@Transactional
+public class RuleRepositoryServiceDroolsImpl implements RuleRepositoryService {
     /** Drools rule repository */
     private RuleEngineRepository rulesRepository;
+    
+    public RuleRepositoryServiceDroolsImpl() {}
     
     /**
      * Constructor
      * 
      * @param repository Drools rules repository
      */
-    public RuleRuntimeRepositoryDroolsImpl(RulesRepository repository) {
+    public RuleRepositoryServiceDroolsImpl(RulesRepository repository) {
         this.rulesRepository = new RuleEngineRepositoryDroolsImpl(repository);
     }
 
@@ -264,8 +274,8 @@ public class RuleRuntimeRepositoryDroolsImpl implements RuleRuntimeRepository {
      * @return A rule set
      * @throws RuleEngineRepositoryException
      */
-    public RuleSet loadRuleSet(String uuid) {
-        return this.rulesRepository.loadRuleSet(uuid);
+    public RuleSet loadRuleSet(String ruleSetUUID) {
+        return this.rulesRepository.loadRuleSet(ruleSetUUID);
     }
 
     /**

@@ -18,12 +18,15 @@ package org.kuali.student.rules.repository.rule;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 /**
  * This is the <code>Rule</code> interface. 
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
+@XmlJavaTypeAdapter(org.kuali.student.rules.repository.drools.rule.DroolsRuleImpl.class)
 public interface Rule extends Item {
     /**
      * Returns the compiled binary content as a byte array.

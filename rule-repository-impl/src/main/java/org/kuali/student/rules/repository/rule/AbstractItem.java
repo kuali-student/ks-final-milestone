@@ -17,6 +17,8 @@ package org.kuali.student.rules.repository.rule;
 
 import java.util.Calendar;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 /**
  * This is the base class that 
  * <code>org.kuali.student.rules.repository.rule.DroolsRuleImpl</code> and 
@@ -25,7 +27,9 @@ import java.util.Calendar;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public abstract class AbstractItem implements java.io.Serializable, Item {
+public abstract class AbstractItem 
+	extends XmlAdapter<Object,Object> 
+	implements java.io.Serializable, Item {
     
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
@@ -65,6 +69,9 @@ public abstract class AbstractItem implements java.io.Serializable, Item {
         throw new IllegalAccessError();
     }
 
+    public Object unmarshal(Object v) {return v; }
+    public Object marshal(Object v) {return v; }
+    
     /**
      * Constructs a new item.
      * 

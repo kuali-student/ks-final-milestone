@@ -15,6 +15,11 @@
  */
 package org.kuali.student.rules.repository;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
@@ -28,7 +33,10 @@ import org.kuali.student.rules.repository.rule.RuleSet;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public interface RuleRuntimeRepository {
+@WebService(name = "RuleRepositoryService",
+			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+public interface RuleRepositoryService {
 
     /**
      * <p>
@@ -56,7 +64,8 @@ public interface RuleRuntimeRepository {
      * @throws CategoryExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public Boolean createCategory(String path, String name, String description) 
+    @WebMethod
+    public Boolean createCategory(@WebParam(name="path")String path, @WebParam(name="name")String name, @WebParam(name="description")String description) 
         throws CategoryExistsException;
 
     /**
@@ -81,7 +90,8 @@ public interface RuleRuntimeRepository {
      *            A rule to update
      * @throws RuleEngineRepositoryException
      */
-    public Rule updateRule(Rule rule) throws RuleEngineRepositoryException;
+    @WebMethod
+    public Rule updateRule(@WebParam(name="rule")Rule rule) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -118,7 +128,8 @@ public interface RuleRuntimeRepository {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    public void checkinRule(String uuid, String comment) throws RuleEngineRepositoryException;
+    @WebMethod
+    public void checkinRule(@WebParam(name="ruleUUID")String ruleUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -155,7 +166,8 @@ public interface RuleRuntimeRepository {
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException
      */
-    public RuleSet createRuleSet(RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
+    @WebMethod
+    public RuleSet createRuleSet(@WebParam(name="ruleSet")RuleSet ruleSet) throws RuleSetExistsException, RuleExistsException;
 
     /**
      * <p>
@@ -180,7 +192,8 @@ public interface RuleRuntimeRepository {
      *            A rule set to update
      * @throws RuleEngineRepositoryException
      */
-    public RuleSet updateRuleSet(RuleSet ruleSet) throws RuleEngineRepositoryException;
+    @WebMethod
+    public RuleSet updateRuleSet(@WebParam(name="ruleSet")RuleSet ruleSet) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -207,7 +220,8 @@ public interface RuleRuntimeRepository {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    public void checkinRuleSet(String uuid, String comment) throws RuleEngineRepositoryException;
+    @WebMethod
+    public void checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -237,7 +251,8 @@ public interface RuleRuntimeRepository {
      * @return A rule set
      * @throws RuleEngineRepositoryException
      */
-    public RuleSet loadRuleSet(String uuid) throws RuleEngineRepositoryException;
+    @WebMethod
+    public RuleSet loadRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -256,7 +271,8 @@ public interface RuleRuntimeRepository {
      * @return A compiled rule set (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */
-    public Object loadCompiledRuleSet(String ruleSetUUID) throws RuleEngineRepositoryException;
+    @WebMethod
+    public Object loadCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -284,7 +300,8 @@ public interface RuleRuntimeRepository {
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException
      */
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    @WebMethod
+    public void createRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName, @WebParam(name="comment")String comment);
 
     /**
      * Replaces an existing rule set snapshot and stores it in the repository.
@@ -297,7 +314,8 @@ public interface RuleRuntimeRepository {
      *            Comments for creating the snapshot
      * @throws RuleEngineRepositoryException
      */
-    public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    @WebMethod
+    public void replaceRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName, @WebParam(name="comment")String comment);
 
     /**
      * <p>
@@ -329,5 +347,6 @@ public interface RuleRuntimeRepository {
      * @return Compiled rule set (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */
-    public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) throws RuleEngineRepositoryException;
+    @WebMethod
+    public Object loadCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName) throws RuleEngineRepositoryException;
 }
