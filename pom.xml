@@ -3,7 +3,7 @@
 	<groupId>org.kuali.student.poc.learningunit</groupId>
 	<artifactId>lum-ri</artifactId>
 	<name>Learning Unit Management</name>
-	<version>0.0.1</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<description>
 		Learning Unit Management Reference Implementation
 	</description>
@@ -30,8 +30,8 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/tags/lum-ri-0.0.1</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/tags/lum-ri-0.0.1</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev</developerConnection>
 	</scm>
 
 	<repositories>
