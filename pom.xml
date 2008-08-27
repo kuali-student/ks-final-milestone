@@ -3,7 +3,7 @@
 	<groupId>org.kuali.student.poc.ks-poc-ui</groupId>
 	<artifactId>ks-poc-ui</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<name>Kuali Student Proof of Concept</name>
 	<description />
 	<properties>
@@ -19,8 +19,8 @@
 	</parent>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/branches/ks-poc-ui-dev</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/branches/ks-poc-ui-dev</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/tags/ks-poc-ui-0.0.3</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/tags/ks-poc-ui-0.0.3</developerConnection>
 	</scm>
 
 	<build>
