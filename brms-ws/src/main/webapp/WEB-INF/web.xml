@@ -13,7 +13,7 @@
 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:${ws.engine}-context.xml</param-value>
+		<param-value>classpath:cxf-context.xml</param-value>
 	</context-param>
 
 	<listener>
@@ -23,14 +23,14 @@
 	</listener>
 
 	<servlet>
-		<servlet-name>RuleRepositoryService</servlet-name>
-		<servlet-class>${ws.servlet}</servlet-class>
+        <servlet-name>CxfServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>RuleRepositoryService</servlet-name>
-		<url-pattern>/RuleRepositoryService/*</url-pattern>
+        <servlet-name>CxfServlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 
 	<session-config>
