@@ -7,7 +7,6 @@ import org.kuali.student.commons.ui.mvc.client.EventTypeHierarchy;
 import org.kuali.student.commons.ui.mvc.client.EventTypeRegistry;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
-import org.kuali.student.commons.ui.mvc.client.SecurityContext;
 import org.kuali.student.commons.ui.mvc.client.model.ModelChangeEvent.AddEvent;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.BusyIndicator;
@@ -224,10 +223,6 @@ public class LoginComposite extends Composite {
          
             public void onSuccess(Boolean result) {
                 if (result) {
-                    SecurityContext sc = new SecurityContext();
-                    sc.setUserId(credentials.getUserId());
-                    sc.setPassword(credentials.getPassword());
-                    ApplicationContext.setSecurityContext(sc);
                     controller.getEventDispatcher().fireEvent(LoginSuccessfulEvent.class, credentials);
                 } else {
                     failedMessage.setVisible(true);

@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.ks-poc-ui</groupId>
 	<artifactId>ks-poc-ui</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>Kuali Student Proof of Concept</name>
-	<description></description>
+	<description />
 	<properties>
 		<google.webtoolkit.extrajvmargs>
 			-Xmx512m
@@ -14,18 +13,14 @@
 	</properties>
 
 	<parent>
-		<groupId>org.kuali.student.poc</groupId>
+		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<scm>
-		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/branches/ks-poc-ui-dev
-		</connection>
-		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/branches/ks-poc-ui-dev
-		</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/tags/ks-poc-ui-0.0.2</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/ks-poc-ui/tags/ks-poc-ui-0.0.2</developerConnection>
 	</scm>
 
 	<build>
@@ -113,19 +108,19 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<classifier>sources</classifier>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-ws</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 
 		<dependency>
@@ -172,13 +167,13 @@
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<classifier>sources</classifier>
 			<scope>compile</scope>
 		</dependency>
@@ -188,24 +183,24 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>lu-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>		
 
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>lu-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 			<classifier>sources</classifier>
 		</dependency>
 
@@ -309,16 +304,7 @@
 			<releases>
 				<enabled>false</enabled>
 			</releases>
-		</repository>
-		<!-- 
-		<repository>
-			<id>kuali.archiva11-public</id>
-			<url>http://kuali.umd.edu/archiva11/repository/public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		 -->
+		</repository>	
 	</repositories>
 
 
