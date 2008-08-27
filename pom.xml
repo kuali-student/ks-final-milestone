@@ -2,39 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<!--parent>
-		<groupId>org.kuali.student.brms</groupId>
-		<artifactId>brms-parent-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent-->
 	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<artifactId>brms-impl-pom</artifactId>
+		<groupId>org.kuali.student.brms</groupId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>brms-impl-pom</artifactId>
+	<artifactId>brms-web-pom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Kuali Student BRMS - brms-impl-dev</name>
-	<description>Kuali Student BRMS implementation development</description>
-	
-	<properties>
-		<drools.version>4.0.7</drools.version>
-        <!--drools.version>5.0.0.SNAPSHOT</drools.version-->
-	</properties>
+	<name />
+	<description />
 
 	<modules>
-	    <module>gui-developers</module>
-		<module>rule-common</module>
-		<module>rule-management-impl</module>
-		<module>rule-repository-impl</module>
-		<module>rule-execution-impl</module>
-		<module>fact-finder-impl</module>
-		<module>brms-ws</module>
-        <!--module>integration-tests</module-->
+		<module>rule-management-developer</module>
 	</modules>
 
 	<repositories>
