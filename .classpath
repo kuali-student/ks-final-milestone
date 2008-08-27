@@ -4,8 +4,10 @@
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
-	<classpathentry kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/resources"/>
+    <classpathentry kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/java"/>
+    <classpathentry kind="src" output="brms-ws/target/test-classes" path="brms-ws/src/test/java"/>
+    <classpathentry excluding="**" kind="src" output="brms-ws/target/classes" path="brms-ws/src/main/resources"/>
+    <classpathentry excluding="**" kind="src" output="brms-ws/target/test-classes" path="brms-ws/src/test/resources"/>
 	<classpathentry kind="src" output="fact-finder-impl/target/classes" path="fact-finder-impl/src/main/java"/>
 	<classpathentry kind="src" output="fact-finder-impl/target/test-classes" path="fact-finder-impl/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="fact-finder-impl/target/classes" path="fact-finder-impl/src/main/resources"/>
