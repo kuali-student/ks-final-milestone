@@ -138,6 +138,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			Daos daos = testImplClass.getAnnotation(Daos.class);
 
 			String daoImpls = "";
+			System.setProperty("ks.test.daoImplClasses", daoImpls);
 			if (daos != null) {
 				int i = 1;
 				for (Dao dao : daos.value()) {
