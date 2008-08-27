@@ -14,9 +14,9 @@
 	</properties>
 
 	<parent>
-		<groupId>org.kuali.student.poc</groupId>
+		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-parent-pom</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<scm>
@@ -113,19 +113,19 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.personidentity</groupId>
 			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<classifier>sources</classifier>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-ws</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 
 		<dependency>
@@ -172,13 +172,13 @@
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<classifier>sources</classifier>
 			<scope>compile</scope>
 		</dependency>
@@ -188,24 +188,24 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>lu-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>		
 
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>lu-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
 			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 			<classifier>sources</classifier>
 		</dependency>
 
@@ -309,16 +309,7 @@
 			<releases>
 				<enabled>false</enabled>
 			</releases>
-		</repository>
-		<!-- 
-		<repository>
-			<id>kuali.archiva11-public</id>
-			<url>http://kuali.umd.edu/archiva11/repository/public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		 -->
+		</repository>	
 	</repositories>
 
 
