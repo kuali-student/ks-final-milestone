@@ -169,16 +169,7 @@
 			<artifactId>ks-commons-ui</artifactId>
 			<version>0.0.3</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.commons</groupId>
-			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.3</version>
-			<classifier>sources</classifier>
-			<scope>compile</scope>
-		</dependency>
-		
-		
+		</dependency>				
 		
 		<dependency>
 			<groupId>org.kuali.student.poc.learningunit</groupId>
