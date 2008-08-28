@@ -16,12 +16,15 @@
 	<classpathentry kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-common/target/classes" path="rule-common/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/resources"/>
+    <classpathentry kind="src" output="rule-execution-impl/target/classes" path="rule-execution-impl/src/main/java"/>
 	<classpathentry kind="src" output="rule-execution-impl/target/test-classes" path="rule-execution-impl/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-execution-impl/target/classes" path="rule-execution-impl/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="rule-execution-impl/target/test-classes" path="rule-execution-impl/src/test/resources"/>
+    <classpathentry kind="src" output="rule-management-impl/target/classes" path="rule-management-impl/src/main/java"/>
 	<classpathentry kind="src" output="rule-management-impl/target/test-classes" path="rule-management-impl/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-management-impl/target/classes" path="rule-management-impl/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="rule-management-impl/target/test-classes" path="rule-management-impl/src/test/resources"/>
+    <classpathentry kind="src" output="rule-repository-impl/target/classes" path="rule-repository-impl/src/main/java"/>
 	<classpathentry kind="src" output="rule-repository-impl/target/test-classes" path="rule-repository-impl/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-repository-impl/target/classes" path="rule-repository-impl/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="rule-repository-impl/target/test-classes" path="rule-repository-impl/src/test/resources"/>
