@@ -62,11 +62,46 @@ public class AdminStudentTabWrapper extends Composite {
                             List<GwtPersonNameInfo> nameInfoList = ((GwtPersonInfo)data).getName();
                         
                             GwtPersonNameInfo defaultInfo = nameInfoList.get(0);
-                            String name = messages.get("currentSelection") + ": " + defaultInfo.getSurname() + ", " + defaultInfo.getGivenName() + " " + defaultInfo.getMiddleName();
+                            String surName = "";
+                            String givenName = "";
+                            String middleName = "";
+                            String name = messages.get("currentSelection") + ": ";
+                            
+                            if(defaultInfo.getSurname() != null)
+                            	surName = defaultInfo.getSurname();
+                            if(defaultInfo.getGivenName() != null)
+                            	givenName = defaultInfo.getGivenName();
+                            if(defaultInfo.getMiddleName() != null)
+                            	middleName = defaultInfo.getMiddleName();
+                            
                             for(GwtPersonNameInfo info: nameInfoList) {
                                 if(info.getPreferredName()) {
-                                    name = info.getSurname() + ", " + info.getGivenName() + " " + info.getMiddleName();
+                                    if(info.getSurname() != null){
+                                    	surName = info.getSurname();
+                                    }
+                                    else{
+                                    	surName = "";
+                                    }
+                                    if(info.getGivenName() != null){
+                                    	givenName = info.getGivenName();
+                                    }
+                                    else{
+                                    	givenName = "";
+                                    }
+                                    if(info.getMiddleName() != null){
+                                    	middleName = info.getMiddleName();
+                                    }
+                                    else{
+                                    	middleName = "";
+                                    }
                                 }
+                            }
+                            
+                            if(surName.equals("")){
+                            	name = name + givenName + " " + middleName;
+                            }
+                            else{
+                            	name = name + surName + ", " + givenName + " " + middleName;
                             }
                             currentlySelectedLabel.setText(name);
                         } else {
