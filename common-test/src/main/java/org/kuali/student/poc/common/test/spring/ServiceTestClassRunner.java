@@ -82,6 +82,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 					clientFactory.setWsdlLocation(serviceWsdlLocation);
 					clientFactory.setAddress(serviceAddress);
 
+					f.setAccessible(true);
 					f.set(instance, clientFactory.getObject());
 				}
 			}
