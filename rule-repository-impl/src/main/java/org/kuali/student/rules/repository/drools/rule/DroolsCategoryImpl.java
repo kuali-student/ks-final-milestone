@@ -1,17 +1,26 @@
 package org.kuali.student.rules.repository.drools.rule;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
 import org.kuali.student.rules.repository.rule.Category;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DroolsCategoryImpl implements Category, java.io.Serializable {
 
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
     
     /** Category name */
+	@XmlAttribute
     private String name;
     /** Category path */
+	@XmlAttribute
     private String path;
 
+    public DroolsCategoryImpl() {}
+    
     /**
      * Constructs a new category.
      * 

@@ -56,6 +56,8 @@ public class DroolsRuleImpl
     /** Object utility class */
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
     
+    public DroolsRuleImpl() {}
+    
     /**
      * Constructs a new rule.
      * 

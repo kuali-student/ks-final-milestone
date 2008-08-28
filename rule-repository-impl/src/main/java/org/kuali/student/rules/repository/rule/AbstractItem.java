@@ -65,8 +65,13 @@ public abstract class AbstractItem
     /**
      * Private constructor.
      */
-    private AbstractItem() {
+    /*private AbstractItem() {
         throw new IllegalAccessError();
+    }*/
+    protected AbstractItem() {
+        this.uuid = null;
+        this.name = null;
+        this.versionNumber = -1L;
     }
 
     public Object unmarshal(Object v) {return v; }
