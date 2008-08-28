@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.repository.RuleRepositoryService;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
@@ -80,6 +81,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertTrue( true );
     }*/
 
+    @Ignore
     @Test
     public void testCreateAndLoadCategories() throws Exception {
         boolean b = service.createCategory("/", "EnrollmentRules", "A test category 1.0 description");
