@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.repository.drools;
 
+import java.util.List;
+
 import javax.jws.WebService;
 
 import org.drools.repository.RulesRepository;
@@ -84,6 +86,11 @@ public class RuleRepositoryServiceDroolsImpl implements RuleRepositoryService {
         return this.rulesRepository.createCategory(path, name, description);
     }
 
+    public List<String> loadChildCategories(String path) 
+	    throws CategoryExistsException {
+	    return this.rulesRepository.loadChildCategories(path);
+	}
+	
     /**
      * <p>
      * Updates a rule in the repository and returns an updated rule.

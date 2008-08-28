@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.repository;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -67,6 +69,9 @@ public interface RuleRepositoryService {
     @WebMethod
     public Boolean createCategory(@WebParam(name="path")String path, @WebParam(name="name")String name, @WebParam(name="description")String description) 
         throws CategoryExistsException;
+
+    public List<String> loadChildCategories(String path) 
+	    throws CategoryExistsException;
 
     /**
      * <p>
