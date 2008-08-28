@@ -14,18 +14,6 @@
 		<property name="urlMap">
 			<map>
 				<entry
-					key="/org.kuali.student.ui.personidentity.PersonIdentity/RegistrationService">
-					<ref bean="registrationController" />
-				</entry>
-				<entry
-					key="/org.kuali.student.ui.personidentity.PersonIdentity/PersonIdentityService">
-					<ref bean="personIdentityController" />
-				</entry>
-				<entry
-					key="/org.kuali.student.ui.personidentity.PersonIdentity/LearningUnitAppService">
-					<ref bean="learningUnitController" />
-				</entry>
-				<entry
 					key="/org.kuali.student.poc.POC/RegistrationService">
 					<ref bean="registrationController" />
 				</entry>

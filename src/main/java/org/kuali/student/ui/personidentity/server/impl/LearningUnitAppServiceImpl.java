@@ -163,7 +163,7 @@ public class LearningUnitAppServiceImpl implements LearningUnitAppService {
 	 * @return A list of LuTypeInfo. That would be "credit_course". You need
 	 *         this to search for courses.
 	 */
-	public  List<GwtLuTypeInfo> findLuTypes() {
+	public  synchronized List<GwtLuTypeInfo> findLuTypes() {
 		List<GwtLuTypeInfo> lRet = null;
 
 		try {
