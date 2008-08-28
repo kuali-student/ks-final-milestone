@@ -102,7 +102,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 
 			// Grab the client annotation and set the service implementation and
 			// port as system properties
-			for (Field f : testImplClass.getFields()) {
+			for (Field f : testImplClass.getDeclaredFields()) {
 				if (f.isAnnotationPresent(Client.class)) {
 					Client a = f.getAnnotation(Client.class);
 					if (a.secure()) {
