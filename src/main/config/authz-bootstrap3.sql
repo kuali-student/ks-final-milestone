@@ -2,7 +2,7 @@
 	update Permission set VER_NBR = 0;
 	update Principal set VER_NBR = 0;
 	update Qualifier set VER_NBR = 0;
-	update QualifierHierarchy set VER_NBR = 0;
+	update QLF_HIERARCHY set VER_NBR = 0;
 	update QualifierType set VER_NBR = 0;
 	update Role set VER_NBR = 0;
 	
@@ -18,7 +18,7 @@
 	alter table Qualifier
 		add primary key (id);
 	
-	alter table QualifierHierarchy
+	alter table QLF_HIERARCHY
 		add primary key (id);
 	
 	alter table QualifierType
@@ -60,14 +60,14 @@
     alter table Qualifier 
         add constraint FK2D10108A760E0172 
         foreign key (qualifierHierarchy_id) 
-        references QualifierHierarchy;
+        references QLF_HIERARCHY;
 
-    alter table QualifierHierarchy_QualifierType 
+    alter table QLF_HIERARCHY_QualifierType 
         add constraint FKDFB06E7051A2415 
         foreign key (qualifierHierarchys_id) 
-        references QualifierHierarchy;
+        references QLF_HIERARCHY;
 
-    alter table QualifierHierarchy_QualifierType 
+    alter table QLF_HIERARCHY_QualifierType 
         add constraint FKDFB06E7014F53597 
         foreign key (qualifierTypes_id) 
         references QualifierType;
@@ -85,7 +85,7 @@
     alter table Role 
         add constraint FK26F496760E0172 
         foreign key (qualifierHierarchy_id) 
-        references QualifierHierarchy;
+        references QLF_HIERARCHY;
 
     alter table Role_Permission 
         add constraint FKF8A569387FE5180B 

@@ -30,11 +30,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
+@Table(name="QLF_HIERARCHY")
 public class QualifierHierarchy {
     
     @Id

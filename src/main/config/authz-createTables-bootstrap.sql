@@ -36,14 +36,14 @@
         qualifierHierarchy_id varchar(255)
     );
 
-    create table QualifierHierarchy (
+    create table Qlf_Hierarchy (
         id varchar(255) not null,
         name varchar(255),
         OBJ_ID varchar(36),
         VER_NBR integer
     );
 
-    create table QualifierHierarchy_QualifierType (
+    create table Qlf_Hierarchy_QualifierType (
         qualifierHierarchys_id varchar(255) not null,
         qualifierTypes_id varchar(255) not null
     );
