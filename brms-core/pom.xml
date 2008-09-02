@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.brms</groupId>
 	<artifactId>brms-core</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Kuali Student BRMS - brms-core</name>
 	<description>
 		An interface to BRMS meta data structures stored in a database
@@ -13,7 +13,7 @@
 	<parent>
 		<artifactId>brms-ri</artifactId>
 		<groupId>org.kuali.student.poc.brms</groupId>
-		<version>0.0.1</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>org.kuali.student.poc.brms</groupId>
 			<artifactId>rule-repository</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
