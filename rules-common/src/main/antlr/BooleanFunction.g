@@ -11,8 +11,8 @@ tokens {
 	RP	= ')' ;
 }
 
-@header { package org.kuali.student.rules.parsers; }
-@lexer::header { package org.kuali.student.rules.parsers; }
+@header { package org.kuali.student.rules.common.parsers; }
+@lexer::header { package org.kuali.student.rules.common.parsers; }
 
 @members {
 public boolean isParen(String paren){
