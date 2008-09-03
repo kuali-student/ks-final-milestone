@@ -9,7 +9,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
-	<artifactId>rule-management</artifactId>
+	<artifactId>rule-management-impl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Kuali Student BRMS - rule-management</name>
@@ -17,30 +17,67 @@
 		An interface to BRMS meta data structures stored in a database
 	</description>
 
+	<properties>
+		<ks.service.package>
+			org.kuali.student.rules.rulesmanagement.service.impl
+		</ks.service.package>
+		<ks.service.className>
+			RulesManagementServiceImpl
+		</ks.service.className>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-wsdl</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>wsgen</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sei>
+						${ks.service.package}.${ks.service.className}
+					</sei>
+					<destDir>${project.build.outputDirectory}</destDir>
+					<sourceDestDir>
+						${project.build.directory}/generated/src/java
+					</sourceDestDir>
+					<resourceDestDir>
+						${project.build.directory}/generated/src/wsdl
+					</resourceDestDir>
+					<genWsdl>true</genWsdl>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.sun.xml.ws</groupId>
+						<artifactId>jaxws-tools</artifactId>
+						<version>${jaxws.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-ws</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbyclient</artifactId>
-			<version>10.3.2.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
-			<artifactId>rule-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.brms</groupId>
-			<artifactId>rule-execution</artifactId>
+			<artifactId>rule-management-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
