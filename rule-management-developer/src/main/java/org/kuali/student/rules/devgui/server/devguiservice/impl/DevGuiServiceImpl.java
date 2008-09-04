@@ -145,19 +145,76 @@ public class DevGuiServiceImpl implements DevGuiService {
         BusinessRuleProposition prop = new BusinessRuleProposition();
         prop.setName("Credit Check");
         prop.setDescription("Credit Intersection Check");
-        prop.setLeftHandSide("INTERSECTION(...)");
+        prop.setLeftHandSide("INTERSECTION");
         prop.setComparisonOperatorType("LESS_THAN");
         prop.setRightHandSide("12.0");
         prop.setComparisonDataType("kuali.number");
 
+        BusinessRuleProposition prop2 = new BusinessRuleProposition();
+        prop2.setName("Credit Check 2");
+        prop2.setDescription("Credit Intersection Check 2");
+        prop2.setLeftHandSide("SUBSET");
+        prop2.setComparisonOperatorType("EQUAL_TO");
+        prop2.setRightHandSide("6.0");
+        prop2.setComparisonDataType("kuali.number");
+
+        BusinessRuleProposition prop3 = new BusinessRuleProposition();
+        prop3.setName("Credit Check 3");
+        prop3.setDescription("Credit Intersection Check 3");
+        prop3.setLeftHandSide("SUM");
+        prop3.setComparisonOperatorType("GREATER_THAN");
+        prop3.setRightHandSide("3.0");
+        prop3.setComparisonDataType("kuali.number");
+
         BusinessRuleElement elem = new BusinessRuleElement();
-        elem.setName("Pre-req I");
-        elem.setDescription("Pre req check for Math 101");
-        elem.setOperation("PROPOSITION");
-        elem.setRuleProposition(prop);
+        elem.setName("left bracket");
+        elem.setOperation("(");
+        elem.setOrdinalPosition(0);
+
+        BusinessRuleElement elem0 = new BusinessRuleElement();
+        elem0.setName("Pre-req I");
+        elem0.setDescription("Pre req check for Math 101");
+        elem0.setOperation("PROPOSITION");
+        elem0.setOrdinalPosition(1);
+        elem0.setRuleProposition(prop);
+
+        BusinessRuleElement elem1 = new BusinessRuleElement();
+        elem1.setName("left bracket");
+        elem1.setOperation("AND");
+        elem1.setOrdinalPosition(2);
+
+        BusinessRuleElement elem2 = new BusinessRuleElement();
+        elem2.setName("Pre-req I");
+        elem2.setDescription("Pre req check for Math 101");
+        elem2.setOperation("PROPOSITION");
+        elem2.setOrdinalPosition(3);
+        elem2.setRuleProposition(prop2);
+
+        BusinessRuleElement elem3 = new BusinessRuleElement();
+        elem3.setName("left bracket");
+        elem3.setOperation(")");
+        elem3.setOrdinalPosition(4);
+
+        BusinessRuleElement elem4 = new BusinessRuleElement();
+        elem4.setName("left bracket");
+        elem4.setOperation("OR");
+        elem4.setOrdinalPosition(5);
+
+        BusinessRuleElement elem5 = new BusinessRuleElement();
+        elem5.setName("Pre-req I");
+        elem5.setDescription("Pre req check for Math 101");
+        elem5.setOperation("PROPOSITION");
+        elem5.setOrdinalPosition(6);
+        elem5.setRuleProposition(prop3);
 
         List<BusinessRuleElement> elemList = new ArrayList<BusinessRuleElement>();
         elemList.add(elem);
+        elemList.add(elem0);
+        elemList.add(elem1);
+        elemList.add(elem2);
+        elemList.add(elem3);
+        elemList.add(elem4);
+        elemList.add(elem5);
 
         BusinessRuleInfo ruleInfo = new BusinessRuleInfo();
         ruleInfo.setId("1");

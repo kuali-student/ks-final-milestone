@@ -27,6 +27,15 @@ public class BusinessRuleInfo implements ModelObject {
 
     // TODO: outputStateSet and displayOutputStructure
 
+    public BusinessRuleElement getBusinessRuleElement(Integer ordinalPosition) {
+        for (BusinessRuleElement elem : ruleElementList) {
+            if ((elem.getOperation().equals("PROPOSITION")) && (elem.getOrdinalPosition().equals(ordinalPosition)))
+                return elem;
+        }
+        System.out.println("NULL");
+        return null;
+    }
+
     public String getUniqueId() {
         return businessRuleId;
     }
