@@ -18,15 +18,12 @@ package org.kuali.student.rules.repository.rule;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 /**
  * This is the <code>Rule</code> interface. 
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-@XmlJavaTypeAdapter(org.kuali.student.rules.repository.drools.rule.DroolsRuleImpl.class)
 public interface Rule extends Item {
     /**
      * Returns the compiled binary content as a byte array.
@@ -59,6 +56,13 @@ public interface Rule extends Item {
     public void addCategoryName(String name);
 
     /**
+     * Sets a list of category names.
+     * 
+     * @param categories A list of categories
+     */
+    public void setCategoryNames(List<String> categoryNames);
+    
+    /**
      * Gets the category the rule belongs to.
      * 
      * @return
@@ -73,11 +77,25 @@ public interface Rule extends Item {
     public List<Category> getCategories();
     
     /**
+     * Sets the rule effective date.
+     * 
+     * @param effectiveDate Rule effective date
+     */
+    public void setEffectiveDate(Calendar effectiveDate);
+
+    /**
      * Return the date the rule becomes effective.
      * 
      * @return Date the rule becomes effective
      */
     public Calendar getEffectiveDate();
+
+    /**
+     * Sets the rule expiry date.
+     * 
+     * @param expiryDate Rule expiry date
+     */
+    public void setExpiryDate(Calendar expiryDate);
 
     /**
      * Returns the rule expiry date.

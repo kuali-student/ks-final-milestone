@@ -17,15 +17,12 @@ package org.kuali.student.rules.repository.rule;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 /**
  * This is the <code>RuleSet</code> interface. 
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-@XmlJavaTypeAdapter(org.kuali.student.rules.repository.drools.rule.DroolsRuleSetImpl.class)
 public interface RuleSet extends Item {
 
     /**
