@@ -21,10 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-
 import org.kuali.student.rules.repository.rule.AbstractItem;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
@@ -36,40 +32,30 @@ import org.kuali.student.rules.repository.util.ObjectUtil;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class DroolsRuleSetImpl 
     extends AbstractItem 
-    implements java.io.Serializable, RuleSet {
+    implements RuleSet, java.io.Serializable {
 
     private final static String SEMICOLON = ";";
 
     /** Class serial version uid */
-	@XmlAttribute
     private static final long serialVersionUID = 1L;
     
     /** List of rules in this rule set */
-	@XmlAttribute
     private final Map<String,Rule> rules = new LinkedHashMap<String,Rule>();
     /** Compiled rule set bye array */
-	@XmlAttribute
     private byte[] compiledRuleSet;
     /** Compiled rule set object */
-	@XmlAttribute
     private Serializable compiledRuleSetObject;
     /** List of header items */
-	@XmlAttribute
     private final List<String> header = new ArrayList<String>();
     /** true if this rule set is a snapshot, otherwise false */
-	@XmlAttribute
     private boolean snapshot = false;
     /** snapshot name */
-	@XmlAttribute
     private String snapshotName;
     /** Object utility class */
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
 
-    public DroolsRuleSetImpl() {}
-    
     /**
      * Constructs a new rule set.
      * 
@@ -379,5 +365,4 @@ public class DroolsRuleSetImpl
         
         return true;
     }
-
 }

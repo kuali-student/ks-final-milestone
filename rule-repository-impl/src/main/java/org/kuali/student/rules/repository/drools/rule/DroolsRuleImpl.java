@@ -32,7 +32,7 @@ import org.kuali.student.rules.repository.util.ObjectUtil;
  */
 public class DroolsRuleImpl 
     extends AbstractItem 
-    implements java.io.Serializable, Rule {
+    implements Rule, java.io.Serializable {
 
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
@@ -55,8 +55,6 @@ public class DroolsRuleImpl
     private String ruleSetName;
     /** Object utility class */
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
-    
-    public DroolsRuleImpl() {}
     
     /**
      * Constructs a new rule.
@@ -100,7 +98,11 @@ public class DroolsRuleImpl
      * @param ruleSetUUID Parent rule set's uuid
      * @param ruleSetName Parent's rule set's name
      */
-    DroolsRuleImpl(final String uuid, final String name, final long versionNumber, String ruleSetUUID, String ruleSetName) {
+    DroolsRuleImpl(final String uuid, 
+    			   final String name, 
+    			   final long versionNumber, 
+    			   final String ruleSetUUID, 
+    			   final String ruleSetName) {
         super(uuid, name, versionNumber);
         this.ruleSetUUID = ruleSetUUID;
         this.ruleSetName = ruleSetName;
@@ -324,5 +326,4 @@ public class DroolsRuleImpl
         
         return true;
     }
-
 }
