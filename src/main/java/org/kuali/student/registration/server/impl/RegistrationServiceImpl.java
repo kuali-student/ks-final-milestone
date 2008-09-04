@@ -12,6 +12,7 @@ import org.kuali.student.poc.xsd.learningunit.lu.dto.Status;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationDisplay;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.LuiPersonRelationTypeInfo;
 import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.RelationStateInfo;
+import org.kuali.student.poc.xsd.learningunit.luipersonrelation.dto.ValidationResult;
 import org.kuali.student.registration.client.model.GwtLuiPersonRelationDisplay;
 import org.kuali.student.registration.client.model.GwtLuiPersonRelationInfo;
 import org.kuali.student.registration.client.model.GwtLuiPersonRelationTypeInfo;
@@ -37,11 +38,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 		new LuiPersonRelationTypeInfo("kuali.instructor");
 	
 	public static final RelationStateInfo STATE_BASKET = 
-		new RelationStateInfo("basket");
-	public static final RelationStateInfo STATE_PENDING = 
-		new RelationStateInfo("pending");
+		new RelationStateInfo("planned");	
 	public static final RelationStateInfo STATE_COMPLETE = 
-		new RelationStateInfo("complete");
+		new RelationStateInfo("enrolled");
 	
 	
 	// NOTE: Not sure if this should be here
@@ -62,7 +61,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 		String ret = null;
 		try{
-		
+		    boolean bRet =         lprService.isValidLuiPersonRelation(personId, luiId, RegistrationConverter.convert(luiPersonRelationTypeInfo), RegistrationConverter.convert(relationStateInfo));
+		    ValidationResult vr = lprService.validateLuiPersonRelation(personId, luiId, RegistrationConverter.convert(luiPersonRelationTypeInfo), RegistrationConverter.convert(relationStateInfo));
+		    
 			ret = lprService.createLuiPersonRelation(personId, luiId, 
 				RegistrationConverter.convert(relationStateInfo), 
 				RegistrationConverter.convert(luiPersonRelationTypeInfo), 

@@ -23,11 +23,9 @@ public interface RegistrationService extends RemoteService {
 		new GwtLuiPersonRelationTypeInfo("kuali.instructor");
 	
 	public static final GwtRelationStateInfo STATE_BASKET = 
-		new GwtRelationStateInfo("basket");
-	public static final GwtRelationStateInfo STATE_PENDING = 
-		new GwtRelationStateInfo("pending");
+		new GwtRelationStateInfo("planned");	
 	public static final GwtRelationStateInfo STATE_COMPLETE = 
-		new GwtRelationStateInfo("complete");
+		new GwtRelationStateInfo("enrolled");
 	
 	
 	public String createLuiPersonRelation(String personId, String luiId,
