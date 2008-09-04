@@ -1,1 +1,1 @@
-<% response.sendRedirect("org.kuali.student.ui.personidentity.PersonIdentity/PersonIdentity.html"); %>
+<% response.sendRedirect("org.kuali.student.poc.POC/POC.jsp"); %>
