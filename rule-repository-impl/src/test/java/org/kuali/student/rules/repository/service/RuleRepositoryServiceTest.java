@@ -12,9 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.rules.repository.RuleRepositoryService;
-import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
-import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.repository.drools.util.DroolsUtil;
+import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 
@@ -23,7 +22,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     //private final static String businessRule = "A0";
     private final static String businessRule = "A0*B4+(C*D)";
     
-    @Client(value="org.kuali.student.rules.repository.drools.RuleRepositoryServiceDroolsImpl", port="8181")
+    @Client(value="org.kuali.student.rules.repository.service.RuleRepositoryServiceImpl", port="8181")
     public RuleRepositoryService service; 
     
     @BeforeClass
@@ -42,9 +41,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     public void tearDown() throws Exception {
     }
     
-    private RuleSet createRuleSet() {
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet("TestName", "Test description");
-        return ruleSet;
+    private RuleSetDTO createRuleSet() {
+    	RuleSetDTO dto = new RuleSetDTO("TestName", "Test description", "DRL");
+    	return dto;
     }
     
     /*private List<org.kuali.student.rules.util.Constraint> getConstraints() {
@@ -66,22 +65,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return c;
     }*/
     
-    /*@Test
-    public void testCreateRuleSet() throws Exception {
-        RuleSet ruleSet = service.createRuleSet( createRuleSet() );
-        assertNotNull( ruleSet );
-        //service.removeRuleSet( uuid );
-    }
-
-    @Test
-    public void testRemoveRuleSet() throws Exception {
-        String uuid = service.createRuleSet( createRuleSet() );
-        assertNotNull( uuid );
-        service.removeRuleSet( uuid );
-        assertTrue( true );
-    }*/
-
-    @Ignore
     @Test
     public void testCreateAndLoadCategories() throws Exception {
         boolean b = service.createCategory("/", "EnrollmentRules", "A test category 1.0 description");
@@ -109,21 +92,49 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertEquals("PreReq", category.get(0));
         assertEquals("CoReq", category.get(1));
     }
-    
-    /*@Test
-    public void testGetRuleSet() throws Exception {
-        String uuid = null;
-        try {
-        	RuleSet ruleSet1 = service.createRuleSet( createRuleSet() );
-            assertNotNull( ruleSet1 );
-            
-            RuleSet ruleSet2 = service.loadRuleSet(ruleSet1.getUUID());
-            assertNotNull( ruleSet2 );
-            System.out.println( "Rule Set: " + ruleSet2.toString());
-        } finally {
-            //service.removeRuleSet( uuid );
-        }
-    }*/
+
+    @Test
+    public void testCreateRuleSet() throws Exception {
+    	RuleSetDTO ruleSet = service.createRuleSet( createRuleSet() );
+        assertNotNull( ruleSet );
+        service.removeRuleSet( ruleSet.getUUID() );
+        assertTrue( true );
+    }
+
+    @Test
+    public void testRemoveRuleSet() throws Exception {
+    	RuleSetDTO ruleSet = service.createRuleSet( createRuleSet() );
+        assertNotNull( ruleSet.getUUID() );
+        service.removeRuleSet( ruleSet.getUUID() );
+        assertTrue( true );
+    }
+
+    @Test
+    public void testLoadRuleSet() throws Exception {
+    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
+        assertNotNull( ruleSet1 );
+        
+        RuleSetDTO ruleSet2 = service.loadRuleSet(ruleSet1.getUUID());
+        assertNotNull( ruleSet2 );
+        System.out.println( "Rule Set: " + ruleSet2.toString());
+
+        service.removeRuleSet( ruleSet1.getUUID() );
+    }
+
+    @Test
+    public void testLoadCompiledRuleSet() throws Exception {
+    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
+        assertNotNull( ruleSet1 );
+        
+        byte[] binPkg = service.loadCompiledRuleSet(ruleSet1.getUUID());
+        org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
+        System.out.println( "pkg: " + pkg);
+        assertNotNull(pkg);
+        assertTrue(pkg.isValid());
+        System.out.println( "Rule Set: " + pkg.getName());
+
+        service.removeRuleSet( ruleSet1.getUUID() );
+    }
 
     /*@Test
     public void testGetRuleSetAndExecute() throws Exception {
