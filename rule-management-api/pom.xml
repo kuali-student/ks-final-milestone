@@ -14,4 +14,19 @@
 	<packaging>jar</packaging>
 	<name />
 	<description />
+	
+    <properties>
+        <ks.service.package>org.kuali.student.rules.rulesmanagement.service</ks.service.package>
+        <ks.service.className>RulesManagementService</ks.service.className>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+		
 </project>
