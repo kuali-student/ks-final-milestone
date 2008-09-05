@@ -3,12 +3,68 @@
  */
 package org.kuali.student.rules.devgui.client;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * @author zzraly
  */
 public class GuiUtil {
+
+    public static String validateRuleComposition(String text, Set<Integer> identifiers) {
+
+        // we need at least one proposition
+        if (text.trim().isEmpty()) {
+            return "Enter at least one Proposition";
+        }
+
+        // validate rule composition
+        String message = "Composition is valid."; // validateProposition(text);
+
+        // check that all propositions are defined
+        String[] tokens = text.split(" ");
+        ArrayList<Integer> listedPropositionIds = new ArrayList<Integer>();
+        for (String token : tokens) {
+            token = token.trim();
+            if (!token.isEmpty() && ((token.charAt(0) == 'P') || (token.charAt(0) == 'p'))) {
+                if (token.length() == 1) {
+                    return "Found invalid Proposition 'P'";
+                }
+
+                Integer propID;
+                try {
+                    propID = new Integer(token.substring(1));
+                } catch (NumberFormatException e) {
+                    return "Invalid Proposition ID: '" + token + "'";
+                }
+
+                listedPropositionIds.add(propID);
+
+                if (!identifiers.contains(propID)) {
+                    return "Unknown Proposition: " + token;
+                }
+            }
+        }
+
+        // check that all defined propositions were used; if not, issue a warning
+        StringBuffer missingProps = new StringBuffer();
+        for (Integer id : identifiers) {
+            if (!listedPropositionIds.contains(id)) {
+                missingProps.append("P" + id + " ");
+            }
+        }
+
+        if (missingProps.length() > 0) {
+            return "Warning: Propositions defined but not used: " + missingProps;
+        }
+
+        // check that all elements are valid i.e. OR, AND etc.
+        // TODO
+
+        return message;
+    }
 
     public static int getListBoxIndexByName(ListBox listBox, String itemText) {
         for (int i = 0; i < listBox.getItemCount(); i++) {

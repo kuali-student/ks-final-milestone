@@ -27,13 +27,36 @@ public class BusinessRuleInfo implements ModelObject {
 
     // TODO: outputStateSet and displayOutputStructure
 
+    public int getMaxOrdinalPosition() {
+        int max = 0;
+        for (BusinessRuleElement elem : ruleElementList) {
+            if (elem.getOrdinalPosition() > max) {
+                max = elem.getOrdinalPosition();
+            }
+        }
+        return max;
+    }
+
     public BusinessRuleElement getBusinessRuleElement(Integer ordinalPosition) {
         for (BusinessRuleElement elem : ruleElementList) {
-            if ((elem.getOperation().equals("PROPOSITION")) && (elem.getOrdinalPosition().equals(ordinalPosition)))
+            if ((elem.getOperation().equals("PROPOSITION")) && (elem.getOrdinalPosition().equals(ordinalPosition))) {
                 return elem;
+            }
         }
-        System.out.println("NULL");
         return null;
+    }
+
+    public void addBusinessRuleElement(BusinessRuleElement newElem) {
+        ruleElementList.add(newElem);
+    }
+
+    public void removeBusinessRuleElement(Integer ordinalPosition) {
+        for (BusinessRuleElement elem : ruleElementList) {
+            if (elem.getOrdinalPosition().equals(ordinalPosition)) {
+                ruleElementList.remove(elem);
+                return;
+            }
+        }
     }
 
     public String getUniqueId() {
