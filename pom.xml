@@ -43,7 +43,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<gwtVersion>1.5.0-rc1</gwtVersion>
+					<gwtVersion>1.5.2</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<runTarget>
 						org.kuali.student.poc.POC/POC.jsp
@@ -126,14 +126,14 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>1.5.0-rc1</version>
+			<version>1.5.2</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>1.5-RC1</version>
+			<version>1.5.2</version>
 			<classifier>${ks.os.classifier}</classifier>
 			<scope>provided</scope>
 		</dependency>	
@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>1.5.0-rc1</version>
+			<version>1.5.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>junit</artifactId>
