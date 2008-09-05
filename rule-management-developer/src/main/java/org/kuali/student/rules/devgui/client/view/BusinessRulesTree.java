@@ -43,9 +43,9 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
         // items.add(modelObject.getAnchorTypeKey());
         // items.add(modelObject.getAnchor());
 
-        items.add(modelObject.getAgendaType());
-        items.add(modelObject.getAnchor());
-        items.add(modelObject.getBusinessRuleType());
+        // items.add(modelObject.getAgendaType());
+        // items.add(modelObject.getAnchor());
+        // items.add(modelObject.getBusinessRuleType());
         items.add(modelObject.getBusinessRuleName());
 
         return items;

@@ -185,28 +185,19 @@ public class RulesComposite extends Composite {
                                 // store selected business rule in temporary object
                                 activeRule = ruleInfo;
 
-                                // store individual propositions in temporary list
+                                // store individual propositions in temporary list & set Rule Composition text
                                 int propCount = 1;
-                                String propAbreviation;
                                 ruleComposition = new StringBuffer();
-                                ruleCompleteText = new StringBuffer();
                                 definedPropositions = new HashMap<Integer, BusinessRuleElement>();
 
                                 for (BusinessRuleElement elem : ruleInfo.getRuleElementList()) {
                                     if (elem.getOperation().equals("PROPOSITION")) {
                                         definedPropositions.put(propCount, elem);
-                                        propAbreviation = "P" + (propCount++);
-                                        BusinessRuleProposition prop = elem.getRuleProposition();
-                                        ruleComposition.append(propAbreviation + " ");
-                                        ruleCompleteText.append(prop.getLeftHandSide() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide() + " ");
+                                        ruleComposition.append("P" + (propCount++) + " ");
                                     } else {
                                         ruleComposition.append(elem.getOperation() + " ");
-                                        ruleCompleteText.append(elem.getOperation() + " ");
                                     }
                                 }
-
-                                propCompositionTextArea.setText(ruleComposition.toString());
-                                completeRuleTextArea.setText(ruleCompleteText.toString());
 
                                 // populate the proposition details according to first prop selected by default
                                 populateRuleFormTabs();
@@ -214,7 +205,7 @@ public class RulesComposite extends Composite {
                         });
                     }
                 }
-            }); */
+            });  */
         }
     }
 
@@ -238,7 +229,10 @@ public class RulesComposite extends Composite {
         anchorTextBox.setText(activeRule.getAnchorValue());
 
         // populate Propositions TAB
-        populatePropositionListBox(0);
+        populatePropositionListBoxAndDetails(0);
+
+        propCompositionTextArea.setText(ruleComposition.toString());
+        completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
 
         // populate Authoring TAB
         statusTextBox.setText(activeRule.getStatus());
@@ -250,7 +244,7 @@ public class RulesComposite extends Composite {
         updateUserIdTextBox.setText(activeRule.getUpdateUserId());
     }
 
-    private void populatePropositionListBox(int selectedPropIx) {
+    private void populatePropositionListBoxAndDetails(int selectedPropIx) {
         String propAbreviation;
 
         propositionsListBox.clear();
@@ -535,12 +529,12 @@ public class RulesComposite extends Composite {
         propositionsListBox.setWidth("150px");
 
         // List of Propositions table
-        final FlexTable flexPropositionsTable = new FlexTable();
+        final VerticalPanel propListPanel = new VerticalPanel();
         final Label propositionsLabel = new Label("Propositions");
-        flexPropositionsTable.setWidget(0, 0, propositionsLabel);
-        flexPropositionsTable.setWidget(1, 0, propositionsListBox);
+        propListPanel.add(propositionsLabel);
+        propListPanel.add(propositionsListBox);
 
-        horizontalPanel.add(flexPropositionsTable);
+        horizontalPanel.add(propListPanel);
 
         // proposition details table
         final SimplePanel propDetailsBorder = new SimplePanel();
@@ -656,7 +650,7 @@ public class RulesComposite extends Composite {
                     definedPropositions.remove(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
 
                     // refresh the form
-                    populatePropositionListBox(-1);
+                    populatePropositionListBoxAndDetails(-1);
                 }
             }
         });
@@ -704,7 +698,7 @@ public class RulesComposite extends Composite {
                 elem.setOrdinalPosition(max);
                 definedPropositions.put(max, elem);
 
-                populatePropositionListBox(propositionsListBox.getItemCount() - 1);
+                populatePropositionListBoxAndDetails(propositionsListBox.getItemCount() - 1);
             }
         });
 
@@ -718,8 +712,8 @@ public class RulesComposite extends Composite {
         flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(7, 1, 3);
 
         horizontalPanel.add(flexPropositionDetailsTable);
-        horizontalPanel.setCellHeight(flexPropositionsTable, "75%");
-        horizontalPanel.setCellWidth(flexPropositionsTable, "180px");
+        horizontalPanel.setCellHeight(propListPanel, "75%");
+        horizontalPanel.setCellWidth(propListPanel, "180px");
         verticalPanel.add(horizontalPanel);
 
         // Propositions Composition
@@ -746,7 +740,11 @@ public class RulesComposite extends Composite {
             }
 
             public void onLostFocus(final Widget sender) {
+                // check whether the current composition is valid
                 compositionStatuLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
+
+                // update Rule Overview text as well
+                completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
             }
         });
 
