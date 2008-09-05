@@ -106,5 +106,13 @@
             </plugin-->
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+		    <artifactId>rule-management-api</artifactId>
+            <groupId>org.kuali.student.brms</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 	
 </project>
