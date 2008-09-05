@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.rules.repository.jaxws.adapter.RuleMapAdapter;
+import org.kuali.student.rules.repository.service.jaxws.adapter.RuleMapAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable {
