@@ -27,9 +27,9 @@ import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
+import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.translators.exceptions.GenerateRuleSetException;
 
 /**
  * @author Rich Diaz
