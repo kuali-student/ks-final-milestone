@@ -33,7 +33,7 @@ public class MetaInfoDTO implements Serializable{
     private Date createTime;
 
     @XmlElement
-    private Date createID;
+    private String createID;
     
     @XmlElement
     private String createComment;
@@ -42,7 +42,7 @@ public class MetaInfoDTO implements Serializable{
     private Date updateTime;
     
     @XmlElement
-    private Date updateID;
+    private String updateID;
     
     @XmlElement
     private String updateComment;
@@ -64,14 +64,14 @@ public class MetaInfoDTO implements Serializable{
     /**
      * @return the createID
      */
-    public Date getCreateID() {
+    public String getCreateID() {
         return createID;
     }
 
     /**
      * @param createID the createID to set
      */
-    public void setCreateID(Date createID) {
+    public void setCreateID(String createID) {
         this.createID = createID;
     }
 
@@ -106,14 +106,14 @@ public class MetaInfoDTO implements Serializable{
     /**
      * @return the updateID
      */
-    public Date getUpdateID() {
+    public String getUpdateID() {
         return updateID;
     }
 
     /**
      * @param updateID the updateID to set
      */
-    public void setUpdateID(Date updateID) {
+    public void setUpdateID(String updateID) {
         this.updateID = updateID;
     }
 

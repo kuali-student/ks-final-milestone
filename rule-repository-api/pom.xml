@@ -16,13 +16,18 @@
 	<description />
 	
     <properties>
-        <ks.service.package>org.kuali.student.rules.repository.drools</ks.service.package>
-        <ks.service.className>RuleRepositoryServiceDroolsImpl</ks.service.className>
+        <ks.service.package>org.kuali.student.rules.repository.service</ks.service.package>
+        <ks.service.className>RuleRepositoryService</ks.service.className>
     </properties>
 
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+            </plugin>
+
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <executions>
@@ -48,7 +53,7 @@
                         <version>${jaxws.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin-->
 
 
             <!--plugin>
@@ -101,13 +106,5 @@
             </plugin-->
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.kuali.student.brms</groupId>
-            <artifactId>rule-repository-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 	
 </project>
