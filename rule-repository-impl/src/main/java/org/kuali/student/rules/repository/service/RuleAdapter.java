@@ -16,10 +16,16 @@
 package org.kuali.student.rules.repository.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.rules.internal.common.entity.BusinessRule;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleInfo;
+import org.kuali.student.rules.internal.common.entity.RuleElement;
+import org.kuali.student.rules.internal.common.entity.RuleProposition;
 import org.kuali.student.rules.repository.drools.rule.CategoryFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
@@ -29,6 +35,11 @@ import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.rule.Category;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleDTO;
+import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulesmanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulesmanagement.dto.RulePropositionDTO;
 
 public class RuleAdapter {
 
@@ -146,5 +157,79 @@ public class RuleAdapter {
 			dtoMap.put(rule.getName(), getRuleDTO(rule));
 		}
 		return dtoMap;
+	}
+	
+	private BusinessRuleInfo getBusinessRuleInfo(BusinessRuleInfoDTO bri) {
+		return null;
+	}
+
+	/**
+	 * TODO this needs fixing - DTO and rule-common/rule-management entity needs to be merged
+	 * 
+	 * @param ruleProposition
+	 * @return
+	 */
+	private RulePropositionDTO getRulePropositionDTO(RuleProposition ruleProposition) {
+		RulePropositionDTO dto = new RulePropositionDTO();
+		//dto.setComparisonDataType(comparisonDataType)
+		return null;
+	}
+
+	/**
+	 * TODO this needs fixing - DTO and rule-common/rule-management entity needs to be merged
+	 * 
+	 * @param collection
+	 * @return
+	 */
+	private Collection<RuleElement> getRuleElementCollection(Collection<RuleElementDTO> collection) {
+		List<RuleElement> list = new ArrayList<RuleElement>(collection.size());
+		for(RuleElementDTO dto : collection) {
+			RuleElement re = new RuleElement();
+//			re.setBusinessRule(dto.getbusinessRule)
+		}
+		//return list;
+		return null;
+	}
+
+	/**
+	 * TODO this needs fixing - DTO and rule-common/rule-management entity needs to be merged
+	 * 
+	 * @param collection
+	 * @return
+	 */
+	private Collection<BusinessRule> getBusinessRuleCollection(Collection<BusinessRuleDTO> collection) {
+		List<BusinessRule> list = new ArrayList<BusinessRule>(collection.size());
+		for(BusinessRuleDTO dto : collection) {
+			BusinessRule br = new BusinessRule();
+			br.setAnchor(dto.getAnchor());
+			BusinessRuleInfo bri = getBusinessRuleInfo(dto.getBusinessRuleInfo());
+			br.setBusinessRuleInfo(bri);
+			br.setBusinessRuleType(dto.getBusinessRuleType());
+			br.setCompiledID(dto.getCompiledID());
+			br.setDescription(dto.getDescription());
+//			br.setElements(dto.getElements());
+			br.setFailureMessage(dto.getFailureMessage());
+			br.setId(dto.getId());
+			br.setIdentifier(dto.getIdentifier());
+			br.setName(dto.getName());
+			br.setSuccessMessage(dto.getSuccessMessage());
+
+			list.add(br);
+		}		
+		//return list;
+		return null;
+	}
+
+	/**
+	 * TODO this needs fixing - DTO and rule-common/rule-management entity needs to be merged
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	public BusinessRuleContainer getBusinessRuleContainer(BusinessRuleContainerDTO dto) {
+		BusinessRuleContainer brc = new BusinessRuleContainer(dto.getNamespace(), dto.getDescription());
+		brc.getBusinessRules().addAll(getBusinessRuleCollection(dto.getBusinessRuleList()));
+		
+		return brc;
 	}
 }
