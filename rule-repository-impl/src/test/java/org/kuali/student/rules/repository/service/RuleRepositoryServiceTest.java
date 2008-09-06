@@ -21,10 +21,10 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     //private final static String businessRule = "A0";
     private final static String businessRule = "A0*B4+(C*D)";
-    
+
     @Client(value="org.kuali.student.rules.repository.service.RuleRepositoryServiceImpl", port="8181")
     public RuleRepositoryService service; 
-    
+
     @BeforeClass
     public static void setUpOnce() throws Exception {
     }
@@ -36,16 +36,16 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     @Before
     public void setUp() throws Exception {
     }
-    
+
     @After
     public void tearDown() throws Exception {
     }
-    
+
     private RuleSetDTO createRuleSet() {
     	RuleSetDTO dto = new RuleSetDTO("TestName", "Test description", "DRL");
     	return dto;
     }
-    
+
     /*private List<org.kuali.student.rules.util.Constraint> getConstraints() {
         List<org.kuali.student.rules.util.Constraint> list = new ArrayList<org.kuali.student.rules.util.Constraint>();
         
@@ -78,16 +78,16 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         b = service.createCategory("/EnrollmentRules/Math", "CoReq", "A CoReq category description");
         assertTrue(b);
 
-        List<String> category = service.loadChildCategories("/");
+        List<String> category = service.fetchChildCategories("/");
         // assertTrue( category.length == 1 );
         assertEquals("EnrollmentRules", category.get(0));
 
-        category = service.loadChildCategories("/EnrollmentRules");
+        category = service.fetchChildCategories("/EnrollmentRules");
         assertTrue(category.size() == 2);
         assertEquals("Math", category.get(0));
         assertEquals("English", category.get(1));
 
-        category = service.loadChildCategories("/EnrollmentRules/Math");
+        category = service.fetchChildCategories("/EnrollmentRules/Math");
         assertTrue(category.size() == 2);
         assertEquals("PreReq", category.get(0));
         assertEquals("CoReq", category.get(1));
@@ -114,7 +114,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
         assertNotNull( ruleSet1 );
         
-        RuleSetDTO ruleSet2 = service.loadRuleSet(ruleSet1.getUUID());
+        RuleSetDTO ruleSet2 = service.fetchRuleSet(ruleSet1.getUUID());
         assertNotNull( ruleSet2 );
         System.out.println( "Rule Set: " + ruleSet2.toString());
 
@@ -126,7 +126,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
         assertNotNull( ruleSet1 );
         
-        byte[] binPkg = service.loadCompiledRuleSet(ruleSet1.getUUID());
+        byte[] binPkg = service.fetchCompiledRuleSet(ruleSet1.getUUID());
         org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
         System.out.println( "pkg: " + pkg);
         assertNotNull(pkg);
