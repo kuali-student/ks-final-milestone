@@ -17,20 +17,25 @@ package org.kuali.student.rules.repository.service;
 
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.drools.repository.RulesRepository;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.DefaultDroolsRepository;
 import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
+import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.translators.drools.GenerateRuleSet;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -46,12 +51,14 @@ import org.springframework.transaction.annotation.Transactional;
 //@ContextConfiguration(locations = {"classpath:rule-repository-context.xml"})
 public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     
-	private static RuleAdapter ruleAdapter = RuleAdapter.getInstance();
+	private final static RuleAdapter ruleAdapter = RuleAdapter.getInstance();
 	
 	/** Drools rule repository */
     //@Resource
     private RuleEngineRepository ruleEngineRepository;
     
+    private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
+
     public RuleRepositoryServiceImpl() {
     	this(new DefaultDroolsRepository("/drools-repository").getRepository());
     }
@@ -96,7 +103,11 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         return this.ruleEngineRepository.createCategory(path, name, description);
     }
 
-    public List<String> loadChildCategories(final String path) 
+    public void removeCategory(final String path) {
+    	this.ruleEngineRepository.removeCategory(path);
+    }
+
+    public List<String> fetchChildCategories(final String path) 
 	    throws CategoryExistsException {
 	    return this.ruleEngineRepository.loadChildCategories(path);
 	}
@@ -301,7 +312,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A rule
      * @throws RuleEngineRepositoryException Thrown if loading rule fails
      */
-    public RuleDTO loadRule(final String uuid) {
+    public RuleDTO fetchRule(final String uuid) {
     	Rule rule = this.ruleEngineRepository.loadRule(uuid);
     	RuleDTO dto = ruleAdapter.getRuleDTO(rule);
     	return dto;
@@ -335,7 +346,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A rule set
      * @throws RuleEngineRepositoryException
      */
-    public RuleSetDTO loadRuleSet(final String ruleSetUUID) {
+    public RuleSetDTO fetchRuleSet(final String ruleSetUUID) {
         RuleSet ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSetUUID);
         RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
         return dto;
@@ -358,7 +369,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */
-    public byte[] loadCompiledRuleSet(final String ruleSetUUID) {
+    public byte[] fetchCompiledRuleSet(final String ruleSetUUID) {
         return this.ruleEngineRepository.loadCompiledRuleSetAsBytes(ruleSetUUID);
     }
 
@@ -437,7 +448,43 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return Compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException
      */
-    public byte[] loadCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
+    public byte[] fetchCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
         return this.ruleEngineRepository.loadCompiledRuleSetSnapshotAsBytes(ruleSetName, snapshotName);
+    }
+
+    public RuleSetDTO fetchRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
+        RuleSet ruleSet = this.ruleEngineRepository.loadRuleSetSnapshot(ruleSetName, snapshotName);
+        RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
+        return dto;
+    }
+
+    public String createState(final String name) {
+    	return this.ruleEngineRepository.createStatus(name);
+    }
+    
+    public String[] fetchStates() {
+    	return this.ruleEngineRepository.loadStates();
+    }
+
+    public void changeRuleSetState(final String ruleSetUUID, final String newState) {
+    	this.ruleEngineRepository.changeRuleSetStatus(ruleSetUUID, newState);
+    }
+    
+    public void changeRuleState(final String ruleUUID, final String newState) {
+    	this.ruleEngineRepository.changeRuleStatus(ruleUUID, newState);
+    }
+
+    /**
+     * TODO: Needs fixing and testing...
+     * 
+     * @param businessRuleContainerDTO
+     * @return
+     * @throws GenerateRuleSetException
+     */
+    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainerDTO) throws GenerateRuleSetException {
+    	BusinessRuleContainer brc = ruleAdapter.getBusinessRuleContainer(businessRuleContainerDTO);
+    	RuleSet ruleSet = this.generateRuleSet.parse(brc);
+    	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
+    	return dto;
     }
 }
