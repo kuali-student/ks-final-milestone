@@ -17,6 +17,7 @@ package org.kuali.student.rules.repository.service;
 
 import java.util.List;
 
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -25,9 +26,11 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
+import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
+import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
 
 /**
  * This is the rule engine runtime repository interface.
@@ -37,7 +40,9 @@ import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
  */
 @WebService(name = "RuleRepositoryService",
 			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, 
+			 use = SOAPBinding.Use.LITERAL, 
+			 parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface RuleRepositoryService {
 
     /**
@@ -70,7 +75,12 @@ public interface RuleRepositoryService {
     public Boolean createCategory(@WebParam(name="path")String path, @WebParam(name="name")String name, @WebParam(name="description")String description) 
         throws CategoryExistsException;
 
-    public List<String> loadChildCategories(@WebParam(name="path")String path) 
+    @WebMethod
+    @Oneway
+    public void removeCategory(@WebParam(name="path")String path);
+    
+    @WebMethod
+    public List<String> fetchChildCategories(@WebParam(name="path")String path) 
 	    throws CategoryExistsException;
 
     /**
@@ -134,6 +144,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
+    @Oneway
     public void checkinRule(@WebParam(name="ruleUUID")String ruleUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
 
     /**
@@ -181,6 +192,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException Thrown if removing rule set fails
      */
     @WebMethod
+    @Oneway
     public void removeRuleSet(@WebParam(name="uuid")String uuid);
 
     /**
@@ -191,6 +203,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException Thrown if snapshot fails to be deleted or any other errors occur
      */
     @WebMethod
+    @Oneway
     public void removeRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName);
 
     /**
@@ -245,6 +258,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
+    @Oneway
     public void checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
 
     /**
@@ -276,7 +290,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public RuleSetDTO loadRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
+    public RuleSetDTO fetchRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
 
     /**
      * Loads a rule by uuid.
@@ -287,7 +301,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException Thrown if loading rule fails
      */
     @WebMethod
-    public RuleDTO loadRule(@WebParam(name="uuid")String uuid);
+    public RuleDTO fetchRule(@WebParam(name="uuid")String uuid);
     
     /**
      * <p>
@@ -307,7 +321,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public byte[] loadCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
+    public byte[] fetchCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -336,6 +350,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
+    @Oneway
     public void createRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName, @WebParam(name="comment")String comment);
 
     /**
@@ -350,6 +365,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
+    @Oneway
     public void replaceRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName, @WebParam(name="comment")String comment);
 
     /**
@@ -383,5 +399,25 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public byte[] loadCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName) throws RuleEngineRepositoryException;
+    public byte[] fetchCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName) throws RuleEngineRepositoryException;
+
+    @WebMethod
+    public RuleSetDTO fetchRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName) throws RuleEngineRepositoryException;
+
+    @WebMethod
+    public String createState(@WebParam(name="name")String name);
+    
+    @WebMethod
+    public String[] fetchStates();
+
+    @WebMethod
+    @Oneway
+    public void changeRuleSetState(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="newState")String newState);
+    
+    @WebMethod
+    @Oneway
+    public void changeRuleState(@WebParam(name="ruleUUID")String ruleUUID, @WebParam(name="newState")String newState);
+
+    @WebMethod
+    public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) throws GenerateRuleSetException;
 }
