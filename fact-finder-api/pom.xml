@@ -12,6 +12,6 @@
 	<artifactId>fact-finder-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>fact Finder API</name>
+	<name>Fact Finder API</name>
 	<description />
 </project>
