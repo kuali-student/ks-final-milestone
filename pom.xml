@@ -13,7 +13,7 @@
 	<artifactId>brms-parent-pom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name />
+	<name>BRMS API</name>
 	<description />
 	
 	<modules>

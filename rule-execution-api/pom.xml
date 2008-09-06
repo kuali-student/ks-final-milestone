@@ -12,6 +12,6 @@
 	<artifactId>rule-execution-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name />
+	<name>Rule Execution API</name>
 	<description />
 </project>
