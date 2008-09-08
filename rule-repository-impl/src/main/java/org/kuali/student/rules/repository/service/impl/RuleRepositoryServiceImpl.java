@@ -483,9 +483,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws GenerateRuleSetException
      */
     public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainerDTO) throws GenerateRuleSetException {
-    	//BusinessRuleContainer brc = ruleAdapter.getBusinessRuleContainer(businessRuleContainerDTO);
+    	/*//BusinessRuleContainer brc = ruleAdapter.getBusinessRuleContainer(businessRuleContainerDTO);
     	RuleSet ruleSet = this.generateRuleSet.parse(businessRuleContainerDTO);
     	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
-    	return dto;
+    	return dto;*/
+    	return null;
     }
 }
