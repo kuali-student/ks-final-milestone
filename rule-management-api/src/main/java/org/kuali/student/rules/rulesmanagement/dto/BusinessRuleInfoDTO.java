@@ -60,6 +60,9 @@ public class BusinessRuleInfoDTO implements Serializable{
     @XmlElement
     private String status;
     
+    @XmlElement
+    private String compiledId;
+    
     @XmlElement(name = "ruleElement")
     @XmlElementWrapper(name = "ruleElementList")
     private List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
@@ -275,5 +278,22 @@ public class BusinessRuleInfoDTO implements Serializable{
     public void setMetaInfo(MetaInfoDTO metaInfo) {
         this.metaInfo = metaInfo;
     }
+
+
+    /**
+     * @return the compiledId
+     */
+    public String getCompiledId() {
+        return compiledId;
+    }
+
+
+    /**
+     * @param compiledId the compiledId to set
+     */
+    public void setCompiledId(String compiledId) {
+        this.compiledId = compiledId;
+    }
+
     
 }
