@@ -18,5 +18,9 @@ package org.kuali.student.rules.repository.service.jaxws.adapter;
 import java.util.List;
 
 public class RuleMapType {
-	List<RuleMapEntryType> entry;
+	private List<RuleMapEntryType> entry;
+	
+	public List<RuleMapEntryType> getEntry() {
+		return this.entry;
+	}
 }

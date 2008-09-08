@@ -22,13 +22,21 @@ import org.kuali.student.rules.repository.dto.RuleDTO;
 
 public class RuleMapEntryType {
 	@XmlAttribute
-	public String name;
+	private String name;
 	
 	@XmlValue
-	public RuleDTO rule;
+	private RuleDTO rule;
 	
 	public RuleMapEntryType(String name, RuleDTO rule) {
 		this.name = name;
 		this.rule = rule;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public RuleDTO getRule() {
+		return this.rule;
 	}
 }
