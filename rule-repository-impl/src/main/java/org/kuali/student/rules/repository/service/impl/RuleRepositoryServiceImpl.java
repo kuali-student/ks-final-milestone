@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.repository.service;
+package org.kuali.student.rules.repository.service.impl;
 
 import java.util.List;
 
@@ -34,10 +34,11 @@ import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.repository.service.RuleAdapter;
+import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.translators.drools.GenerateRuleSet;
 import org.springframework.transaction.annotation.Transactional;
-
 /**
  * This is a convenience interface for the rules repository interface.
  * 
