@@ -15,10 +15,6 @@
 	<name>Kuali Student BRMS - rule-repository</name>
 	<description>Rule repository.</description>
 
-    <properties>
-        <ks.test.serviceImplClass>org.kuali.student.rules.repository.drools.RuleRepositoryServiceDroolsImpl</ks.test.serviceImplClass>
-    </properties>
-
 	<build>
 		<finalName>rule-repository</finalName>
 		<pluginManagement>
