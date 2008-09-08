@@ -32,7 +32,7 @@ public class BusinessRuleContainerDTO {
     private String description;
 
     @XmlElement
-    private final List<BusinessRuleDTO> businessRuleList = new ArrayList<BusinessRuleDTO>();
+    private final List<BusinessRuleInfoDTO> businessRuleList = new ArrayList<BusinessRuleInfoDTO>();
 
     public BusinessRuleContainerDTO() {}
     
@@ -50,7 +50,7 @@ public class BusinessRuleContainerDTO {
 		return description;
 	}
 
-	public List<BusinessRuleDTO> getBusinessRuleList() {
+	public List<BusinessRuleInfoDTO> getBusinessRules() {
 		return businessRuleList;
 	}
 
