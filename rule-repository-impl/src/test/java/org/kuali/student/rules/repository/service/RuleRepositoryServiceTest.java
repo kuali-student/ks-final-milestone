@@ -22,7 +22,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     //private final static String businessRule = "A0";
     private final static String businessRule = "A0*B4+(C*D)";
 
-    @Client(value="org.kuali.student.rules.repository.service.RuleRepositoryServiceImpl", port="8181")
+    @Client(value="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
     public RuleRepositoryService service; 
 
     @BeforeClass
