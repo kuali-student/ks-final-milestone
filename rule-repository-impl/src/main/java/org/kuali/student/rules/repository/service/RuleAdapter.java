@@ -36,7 +36,6 @@ import org.kuali.student.rules.repository.rule.Category;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleDTO;
 import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulesmanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulesmanagement.dto.RulePropositionDTO;
@@ -159,7 +158,7 @@ public class RuleAdapter {
 		return dtoMap;
 	}
 	
-	private BusinessRuleInfo getBusinessRuleInfo(BusinessRuleInfoDTO bri) {
+	/*private BusinessRuleInfo getBusinessRuleInfo(BusinessRuleInfoDTO bri) {
 		return null;
 	}
 
@@ -169,7 +168,7 @@ public class RuleAdapter {
 	 * @param ruleProposition
 	 * @return
 	 */
-	private RulePropositionDTO getRulePropositionDTO(RuleProposition ruleProposition) {
+	/*private RulePropositionDTO getRulePropositionDTO(RuleProposition ruleProposition) {
 		RulePropositionDTO dto = new RulePropositionDTO();
 		//dto.setComparisonDataType(comparisonDataType)
 		return null;
@@ -181,7 +180,7 @@ public class RuleAdapter {
 	 * @param collection
 	 * @return
 	 */
-	private Collection<RuleElement> getRuleElementCollection(Collection<RuleElementDTO> collection) {
+	/*private Collection<RuleElement> getRuleElementCollection(Collection<RuleElementDTO> collection) {
 		List<RuleElement> list = new ArrayList<RuleElement>(collection.size());
 		for(RuleElementDTO dto : collection) {
 			RuleElement re = new RuleElement();
@@ -197,7 +196,7 @@ public class RuleAdapter {
 	 * @param collection
 	 * @return
 	 */
-	private Collection<BusinessRule> getBusinessRuleCollection(Collection<BusinessRuleDTO> collection) {
+	/*private Collection<BusinessRule> getBusinessRuleCollection(Collection<BusinessRuleDTO> collection) {
 		List<BusinessRule> list = new ArrayList<BusinessRule>(collection.size());
 		for(BusinessRuleDTO dto : collection) {
 			BusinessRule br = new BusinessRule();
@@ -226,10 +225,10 @@ public class RuleAdapter {
 	 * @param dto
 	 * @return
 	 */
-	public BusinessRuleContainer getBusinessRuleContainer(BusinessRuleContainerDTO dto) {
+	/*public BusinessRuleContainer getBusinessRuleContainer(BusinessRuleContainerDTO dto) {
 		BusinessRuleContainer brc = new BusinessRuleContainer(dto.getNamespace(), dto.getDescription());
 		brc.getBusinessRules().addAll(getBusinessRuleCollection(dto.getBusinessRuleList()));
 		
 		return brc;
-	}
+	}*/
 }
