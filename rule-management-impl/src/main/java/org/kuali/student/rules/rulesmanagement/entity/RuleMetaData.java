@@ -16,6 +16,7 @@
 package org.kuali.student.rules.rulesmanagement.entity;
 
 import java.util.Date;
+
 import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,44 +46,7 @@ public class RuleMetaData {
     Date effectiveDateEnd;
 
     String version;
-    String statusEnum;
-
-    /**
-     * Sets up a RuleMetaData instance.
-     * 
-     * @param createdBy
-     * @param createDate
-     * @param updateBy
-     * @param updateDate
-     * @param effectiveDateStart
-     * @param effectiveDateEnd
-     * @param version
-     * @param statusEnum
-     */
-    public RuleMetaData(String createdBy, Date createDate, String updateBy, Date updateDate, Date effectiveDateStart, Date effectiveDateEnd, String version, String statusEnum) {
-        this.createdBy = createdBy;
-        this.createDate = createDate;
-        this.updateBy = updateBy;
-        this.updateDate = updateDate;
-        this.effectiveDateStart = effectiveDateStart;
-        this.effectiveDateEnd = effectiveDateEnd;
-        this.version = version;
-        this.statusEnum = statusEnum;
-    }
-
-    /**
-     * Sets up an empty instance.
-     */
-    public RuleMetaData() {
-        createdBy = null;
-        createDate = null;
-        updateBy = null;
-        updateDate = null;
-        effectiveDateStart = null;
-        effectiveDateEnd = null;
-        version = null;
-        statusEnum = null;
-    }
+    String status;
 
     /**
      * @return the createdBy
@@ -190,17 +154,17 @@ public class RuleMetaData {
     }
 
     /**
-     * @return the statusEnum
+     * @return the status
      */
-    public final String getStatusEnum() {
-        return statusEnum;
+    public final String getStatus() {
+        return status;
     }
 
     /**
-     * @param statusEnum
+     * @param status
      *            the statusEnum to set
      */
-    public final void setStatusEnum(String statusEnum) {
-        this.statusEnum = statusEnum;
+    public final void setStatus(String status) {
+        this.status = status;
     }
 }

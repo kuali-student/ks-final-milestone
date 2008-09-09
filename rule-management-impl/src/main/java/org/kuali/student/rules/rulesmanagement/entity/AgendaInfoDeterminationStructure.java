@@ -15,18 +15,17 @@
  */
 package org.kuali.student.rules.rulesmanagement.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
- * Contains the key values that uniquely identifies agenda info
+ * Contains the structureKey values that uniquely identifies agenda info
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
@@ -37,12 +36,13 @@ public class AgendaInfoDeterminationStructure {
     @Id
     private String id;
     
-    private String key; 
+    private String structureKey; 
     
     private String value;
     
-    @ManyToOne  
-    private String agendaInfo;
+    @ManyToOne
+    @JoinColumn(name = "fkAgendaInfo")    
+    private AgendaInfo agendaInfo;
         
     /**
      * AutoGenerate the Id
@@ -67,17 +67,17 @@ public class AgendaInfoDeterminationStructure {
     }
 
     /**
-     * @return the key
+     * @return the structureKey
      */
-    public String getKey() {
-        return key;
+    public String getStructureKey() {
+        return structureKey;
     }
 
     /**
-     * @param key the key to set
+     * @param structureKey the structureKey to set
      */
-    public void setKey(String key) {
-        this.key = key;
+    public void setStructureKey(String key) {
+        this.structureKey = key;
     }
 
     /**
@@ -97,14 +97,14 @@ public class AgendaInfoDeterminationStructure {
     /**
      * @return the agendaInfo
      */
-    public String getAgendaInfo() {
+    public AgendaInfo getAgendaInfo() {
         return agendaInfo;
     }
 
     /**
      * @param agendaInfo the agendaInfo to set
      */
-    public void setAgendaInfo(String agendaInfo) {
+    public void setAgendaInfo(AgendaInfo agendaInfo) {
         this.agendaInfo = agendaInfo;
     }
 }

@@ -7,13 +7,18 @@
  */
 package org.kuali.student.rules.rulesmanagement.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 
 /**
  * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, operator and right
@@ -32,9 +37,12 @@ public class RuleProposition {
     private String failureMessage;
     private String comparisonDataType;
     
+    @OneToOne(cascade = {CascadeType.ALL} )
     private LeftHandSide leftHandSide;
-    @Embedded
+    
+    @Enumerated(EnumType.STRING)
     private ComparisonOperator operator;
+    
     @Embedded
     private RightHandSide rightHandSide;
 

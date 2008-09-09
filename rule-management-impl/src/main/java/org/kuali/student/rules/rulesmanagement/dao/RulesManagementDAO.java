@@ -16,7 +16,7 @@ import org.kuali.student.rules.rulesmanagement.entity.BusinessRule;
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
-public interface BusinessRuleDAO {
+public interface RulesManagementDAO {
 
     /**
      * Creates BusinessRule in database.

@@ -6,14 +6,16 @@ package org.kuali.student.rules.rulesmanagement.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 
 /**
  * @author zzraly
@@ -25,7 +27,7 @@ public class YieldValueFunction {
     @Id
     private String id;
     
-    @Embedded
+    @Enumerated(EnumType.STRING)
     YieldValueFunctionType yieldValueFunctionType; 
     
     @OneToMany(cascade = {CascadeType.ALL})
@@ -79,7 +81,5 @@ public class YieldValueFunction {
      */
     public void setFacts(List<FactStructure> facts) {
         this.facts = facts;
-    }
-
-    
+    }    
 }

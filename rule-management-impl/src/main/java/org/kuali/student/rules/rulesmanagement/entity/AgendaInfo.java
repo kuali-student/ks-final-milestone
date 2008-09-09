@@ -16,7 +16,6 @@
 package org.kuali.student.rules.rulesmanagement.entity;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -25,7 +24,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.rules.rulesmanagement.dto.AgendaInfoDeterminationStructureDTO;
+import org.kuali.student.rules.internal.common.entity.AgendaType;
 
 /**
  * Maps a set of Business Rule Types to form an AgendaInfo and a specif instance of Business Rules form 

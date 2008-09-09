@@ -26,6 +26,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 
 /**
  * Contains information about a business rule type 

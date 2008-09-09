@@ -13,7 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.rules.rulesmanagement.dao.BusinessRuleDAO;
+import org.kuali.student.rules.rulesmanagement.dao.RulesManagementDAO;
+import org.kuali.student.rules.rulesmanagement.entity.AgendaInfo;
 import org.kuali.student.rules.rulesmanagement.entity.BusinessRule;
 import org.springframework.stereotype.Repository;
 
@@ -23,15 +24,52 @@ import org.springframework.stereotype.Repository;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Repository
-public class BusinessRuleDAOImpl implements BusinessRuleDAO {
+public class RulesManagementDAOImpl implements RulesManagementDAO {
 
     private EntityManager entityManager;
 
-    @PersistenceContext
+    @PersistenceContext(name="RulesManagement")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+    
+    /**
+     * 
+     * This method persists AgendaInfo in database.
+     * 
+     * @param agenda
+     * @return
+     */
+    public AgendaInfo createAgendaInfo(AgendaInfo agenda) {
+        entityManager.persist(agenda);
+        return agenda;
+    }
 
+    
+    /**
+     * 
+     * This method updates AgendaInfo in database.
+     * 
+     * @param agenda
+     * @return
+     */
+    public AgendaInfo updateAgendaInfo(AgendaInfo agenda) {
+        entityManager.merge(agenda);
+        return agenda;
+    }
+    
+    /**
+     * 
+     * This method deletes AgendaInfo from database
+     * 
+     * @param agenda
+     * @return
+     */
+    public boolean deleteAgendaInfo(AgendaInfo agenda) {
+        entityManager.remove(agenda);
+        return true;
+    }
+    
     /**
      * Persists BusinessRule in database.
      * 
@@ -57,9 +95,9 @@ public class BusinessRuleDAOImpl implements BusinessRuleDAO {
      * 
      * @see org.kuali.student.rules.brms.core.dao.FunctionalBusinessRuleDAO#deleteBusinessRule(BusinessRule rule)
      */
-    public boolean deleteBusinessRule(BusinessRule ruleSet) {
-        entityManager.remove(ruleSet);
-        return true; // until I know better what needs to happen
+    public boolean deleteBusinessRule(BusinessRule rule) {
+        entityManager.remove(rule);
+        return true;
     }
 
     /**
@@ -88,7 +126,6 @@ public class BusinessRuleDAOImpl implements BusinessRuleDAO {
      */
     @SuppressWarnings(value = {"unchecked"})
     public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier) {
-
         Query query = entityManager.createNamedQuery("BusinessRule.findByRuleID");
         query.setParameter("ruleID", ruleIdentifier);
         BusinessRule functionalBusinessRule = (BusinessRule) query.getSingleResult();

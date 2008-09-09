@@ -18,6 +18,7 @@ package org.kuali.student.rules.rulesmanagement.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -26,7 +27,7 @@ import javax.persistence.Table;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
- * Contains the key values that uniquely identifies fact structure's execution or definition keys
+ * Contains the structureKey values that uniquely identifies fact structure's execution or definition keys
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
@@ -37,12 +38,13 @@ public class FactStructureVariable {
     @Id
     private String id;
     
-    private String key; 
+    private String structureKey; 
     
     private String value;
     
     @ManyToOne  
-    private String factStructure;
+    @JoinColumn(name = "fkFactStrcture")
+    private FactStructure factStructure;
         
     /**
      * AutoGenerate the Id
@@ -67,17 +69,17 @@ public class FactStructureVariable {
     }
 
     /**
-     * @return the key
+     * @return the structureKey
      */
-    public String getKey() {
-        return key;
+    public String getStructureKey() {
+        return structureKey;
     }
 
     /**
-     * @param key the key to set
+     * @param structureKey the structureKey to set
      */
-    public void setKey(String key) {
-        this.key = key;
+    public void setStructureKey(String key) {
+        this.structureKey = key;
     }
 
     /**
@@ -97,14 +99,14 @@ public class FactStructureVariable {
     /**
      * @return the factStructure
      */
-    public String getFactStructure() {
+    public FactStructure getFactStructure() {
         return factStructure;
     }
 
     /**
      * @param factStructure the factStructure to set
      */
-    public void setFactStructure(String factStructure) {
+    public void setFactStructure(FactStructure factStructure) {
         this.factStructure = factStructure;
     }
 }

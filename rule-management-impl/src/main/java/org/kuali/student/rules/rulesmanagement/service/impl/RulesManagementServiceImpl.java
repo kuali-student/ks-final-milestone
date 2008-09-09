@@ -13,6 +13,7 @@ import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.rules.rulesmanagement.dao.RulesManagementDAO;
 import org.kuali.student.rules.rulesmanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulesmanagement.dto.AgendaInfoDeterminationStructureDTO;
 import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleAnchorDTO;
@@ -31,6 +32,8 @@ import org.kuali.student.rules.rulesmanagement.service.RulesManagementService;
         targetNamespace = "http://student.kuali.org/wsdl/brms/RulesManagement")
 public class RulesManagementServiceImpl implements RulesManagementService {
 
+    RulesManagementDAO rulesManagementDao;
+    
     @Override
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
@@ -39,8 +42,9 @@ public class RulesManagementServiceImpl implements RulesManagementService {
 
     @Override
     public StatusDTO deleteBusinessRule(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        StatusDTO status = new StatusDTO();
+        status.setSuccess( rulesManagementDao.deleteBusinessRule(businessRuleId) );        
+        return status;
     }
 
     @Override
@@ -94,6 +98,10 @@ public class RulesManagementServiceImpl implements RulesManagementService {
         reDTO.setDescription("Pre req check for Math 101");
         reDTO.setOperation("PROPOSITION");
         reDTO.setRuleProposition(rulePropositionDTO);
+
+        
+        
+        
         
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
         brInfoDTO.setBusinessRuleId("1");
@@ -180,5 +188,21 @@ public class RulesManagementServiceImpl implements RulesManagementService {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
+    /**
+     * @return the rulesManagementDao
+     */
+    public RulesManagementDAO getRulesManagementDao() {
+        return rulesManagementDao;
+    }
+
+    /**
+     * @param rulesManagementDao the rulesManagementDao to set
+     */
+    public void setRulesManagementDao(RulesManagementDAO rulesManagementDao) {
+        this.rulesManagementDao = rulesManagementDao;
+    }
+    
+    
 
 }

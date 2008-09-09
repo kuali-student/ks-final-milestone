@@ -24,6 +24,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
@@ -32,10 +33,11 @@ import org.kuali.student.poc.common.util.UUIDHelper;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Entity
-@Table(name = "FunctionalBusinessRule_T")
-@NamedQueries({@NamedQuery(name = "BusinessRule.findByRuleID", query = "SELECT c FROM BusinessRule c WHERE c.ruleId = :ruleID"), @NamedQuery(name = "BusinessRule.findByAgendaType", query = "SELECT c FROM BusinessRule c WHERE c.agendaType = :agendaType AND c.businessRuleType = :businessRuleType AND c.anchorType = :anchorType AND c.anchor = :anchor")})
-public class BusinessRule {
-
+@Table(name = "BusinessRule_T")
+@NamedQueries({@NamedQuery(name = "BusinessRule.findByRuleID", query = "SELECT c FROM BusinessRule c WHERE c.ruleId = :ruleID"), 
+               @NamedQuery(name = "BusinessRule.findByBusinessRuleTypeAndAnchor", query = "SELECT c FROM BusinessRule c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchor = :anchor")})
+public class BusinessRule  {
+    
     public static final String PROPOSITION_LABEL_PREFIX = "P";
     public static final int INITIAL_PROPOSITION_PLACEHOLDER = 1;
     public static final String VALIDATION_OUTCOME = "validationResultOutcome";
@@ -60,60 +62,7 @@ public class BusinessRule {
     private RuleMetaData metaData;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "businessRule")
-    private List<RuleElement> elements = new ArrayList<RuleElement>();
-
-    /**
-     * Generates a function string from a functional business rule based on RuleElementType classification.
-     * 
-     * @param rule
-     *            Functional business rule used to create its function string representation
-     * @return Returns function string e.g. "(A OR B) AND C"
-     */
-    public String createRuleFunctionString() {
-
-        Collection<RuleElement> ruleElements = this.getElements();
-
-        StringBuilder functionString = new StringBuilder();
-        char proposition = INITIAL_PROPOSITION_PLACEHOLDER; // each proposition is represented as a letter
-
-        // step through rule elements and create a function string
-        for (RuleElement ruleElement : ruleElements) {
-            switch (ruleElement.getOperation()) {
-                case AND:
-                    functionString.append(" " + RuleElementType.AND.getName() + " ");
-                    break;
-                case LPAREN:
-                    functionString.append(RuleElementType.LPAREN.getName());
-                    break;
-                case NOT:
-                    functionString.append(RuleElementType.NOT.getName());
-                    break;
-                case OR:
-                    functionString.append(" " + RuleElementType.OR.getName() + " ");
-                    break;
-                case PROPOSITION:
-                    functionString.append(proposition);
-                    proposition++;
-                    break;
-                case RPAREN:
-                    functionString.append(RuleElementType.RPAREN.getName());
-                    break;
-                case XOR:
-                    functionString.append(RuleElementType.XOR.getName());
-                    break;
-                default:
-                    functionString.append("(unknown)");
-            }
-        }
-        return functionString.toString().trim();
-    }
-
-    public String createAdjustedRuleFunctionString() {
-        String functionString = createRuleFunctionString();
-        functionString = functionString.replace("AND", "*");
-        functionString = functionString.replace("OR", "+");
-        return functionString;
-    }
+    private List<RuleElement> ruleEmelemnts = new ArrayList<RuleElement>();
 
     /**
      * Generates a HashMap of <unique alphabet character, proposition> pair from a functional business rule.
@@ -127,7 +76,7 @@ public class BusinessRule {
         HashMap<String, RuleProposition> propositions = new HashMap<String, RuleProposition>();
 
         int key = INITIAL_PROPOSITION_PLACEHOLDER;
-        for (RuleElement ruleElement : elements) {
+        for (RuleElement ruleElement : ruleEmelemnts) {
             if (ruleElement.getOperation() == RuleElementType.PROPOSITION) {
                 propositions.put(PROPOSITION_LABEL_PREFIX + String.valueOf(key), ruleElement.getRuleProposition());
                 key++;
@@ -137,13 +86,13 @@ public class BusinessRule {
     }
 
     /**
-     * Adds a new RuleElement to the list of rule elements that the business rule is composed of
+     * Adds a new RuleElement to the list of rule ruleEmelemnts that the business rule is composed of
      * 
      * @param ruleElement
      *            a new Rule Element to add to this business rule object
      */
     public void addRuleElement(RuleElement ruleElement) {
-        elements.add(ruleElement);
+        ruleEmelemnts.add(ruleElement);
     }
 
     /**
@@ -305,17 +254,17 @@ public class BusinessRule {
     }
 
     /**
-     * @return the elements
+     * @return the ruleEmelemnts
      */
-    public final List<RuleElement> getElements() {
-        return elements;
+    public final List<RuleElement> getRuleElements() {
+        return ruleEmelemnts;
     }
 
     /**
-     * @param elements
-     *            the elements to set
+     * @param ruleEmelemnts
+     *            the ruleEmelemnts to set
      */
-    public final void setElements(List<RuleElement> elements) {
-        this.elements = elements;
+    public final void setRuleElements(List<RuleElement> elements) {
+        this.ruleEmelemnts = elements;
     }
 }
