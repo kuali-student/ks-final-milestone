@@ -48,9 +48,6 @@ public class BusinessRuleUtil {
                 case RPAREN:
                     functionString.append(RuleElementType.RPAREN.getName());
                     break;
-                case XOR:
-                    functionString.append(RuleElementType.XOR.getName());
-                    break;
                 default:
                     functionString.append("(unknown)");
             }
