@@ -7,11 +7,14 @@
  */
 package org.kuali.student.rules.internal.common.entity;
 
+import javax.persistence.Embeddable;
+
 /**
- * Defines types of a value e.g. String, Boolean and Number
+ * Defines comparison operator types.
  * 
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
-public enum ValueType {
-    STRING, BOOLEAN, NUMBER
+@Embeddable
+public enum AnchorTypeKey {
+    KUALI_COURSE, KUALI_PERSON;
 }
