@@ -27,7 +27,7 @@
 	</properties>
 
 	<modules>
-		<module>rule-common</module>
+		<module>rule-common-impl</module>
 		<module>rule-management-impl</module>
 		<module>rule-repository-impl</module>
 		<module>rule-execution-impl</module>
