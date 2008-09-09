@@ -12,10 +12,10 @@
 	<classpathentry kind="src" output="fact-finder-impl/target/test-classes" path="fact-finder-impl/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="fact-finder-impl/target/classes" path="fact-finder-impl/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="fact-finder-impl/target/test-classes" path="fact-finder-impl/src/test/resources"/>
-	<classpathentry kind="src" output="rule-common/target/classes" path="rule-common/src/main/java"/>
-	<classpathentry kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="rule-common/target/classes" path="rule-common/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="rule-common/target/test-classes" path="rule-common/src/test/resources"/>
+	<classpathentry kind="src" output="rule-common-impl/target/classes" path="rule-common/src/main/java"/>
+	<classpathentry kind="src" output="rule-common-impl/target/test-classes" path="rule-common/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="rule-common-impl/target/classes" path="rule-common/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="rule-common-impl/target/test-classes" path="rule-common/src/test/resources"/>
     <classpathentry kind="src" output="rule-execution-impl/target/classes" path="rule-execution-impl/src/main/java"/>
 	<classpathentry kind="src" output="rule-execution-impl/target/test-classes" path="rule-execution-impl/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-execution-impl/target/classes" path="rule-execution-impl/src/main/resources"/>
