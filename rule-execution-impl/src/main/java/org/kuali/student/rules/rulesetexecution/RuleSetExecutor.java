@@ -17,8 +17,8 @@ package org.kuali.student.rules.rulesetexecution;
 
 import java.util.List;
 
-import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
 import org.kuali.student.rules.repository.RuleEngineRepository;
+import org.kuali.student.rules.rulesmanagement.dto.AgendaInfoDTO;
 
 public interface RuleSetExecutor {
 
@@ -29,7 +29,7 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object execute(Agenda agenda, List<?> facts);
+    public Object execute(AgendaInfoDTO agenda, List<?> facts);
 
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
@@ -38,7 +38,7 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object executeSnapshot(Agenda agenda, List<?> facts);
+    public Object executeSnapshot(AgendaInfoDTO agenda, List<?> facts);
     
     /**
      * Gets the rule engine repository.
