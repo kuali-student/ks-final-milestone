@@ -17,7 +17,7 @@
 	<bean id="currentTime" class="java.util.Date" />
 
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
-	<bean id="funcBusRule1" class="org.kuali.student.rules.rulesmanagement.entity.BusinessRule">
+	<bean id="funcBusRule1" class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
 		<property name="id"	value="11223344-1122-1122-1112-100000000001" />
 		<property name="ruleId" value="1" />
 		<property name="name" value="Intermediate CPR" />		
@@ -30,7 +30,7 @@
 		<property name="metaData" ref="ruleMetaData" />
 		<property name="ruleElements">
 			<set>
-				<bean id="ruleElement1" class="org.kuali.student.rules.rulesmanagement.entity.RuleElement">
+				<bean id="ruleElement1" class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1112-100000000002" />
 					<property name="name" value="" />	
 					<property name="description" value="" />	
@@ -39,7 +39,7 @@
 					<property name="businessRule" ref="funcBusRule1" />	
 					<property name="ruleProposition" ref="ruleProposition1" />					
 				</bean>	
-				<bean id="ruleElement2" class="org.kuali.student.rules.rulesmanagement.entity.RuleElement">
+				<bean id="ruleElement2" class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1112-100000000003" />
 					<property name="name" value="" />	
 					<property name="description" value="" />					
@@ -47,7 +47,7 @@
 					<property name="ordinalPosition" value="2" />	
 					<property name="businessRule" ref="funcBusRule1" />				
 				</bean>	
-				<bean id="ruleElement3" class="org.kuali.student.rules.rulesmanagement.entity.RuleElement">
+				<bean id="ruleElement3" class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1112-100000000004" />
 					<property name="name" value="" />	
 					<property name="description" value="" />	
@@ -60,7 +60,7 @@
 		</property>						
 	</bean>	
 
-	<bean id="ruleMetaData"	class="org.kuali.student.rules.rulesmanagement.entity.RuleMetaData">
+	<bean id="ruleMetaData"	class="org.kuali.student.rules.rulemanagement.entity.RuleMetaData">
 		<property name="createdBy" value="Kamal" />	
 		<property name="createDate" ref="currentTime" />	
 		<property name="updateBy" value="Wil" />
@@ -71,7 +71,7 @@
 		<property name="status" value="ACTIVE" />	
 	</bean>	
 
-	<bean id="ruleProposition1"	class="org.kuali.student.rules.rulesmanagement.entity.RuleProposition">
+	<bean id="ruleProposition1"	class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1112-100000000005" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -82,7 +82,7 @@
 		<property name="rightHandSide" ref="rightHandSide1" />	
 	</bean>	
 
-	<bean id="ruleProposition3"	class="org.kuali.student.rules.rulesmanagement.entity.RuleProposition">
+	<bean id="ruleProposition3"	class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1112-100000000007" />	
 		<property name="name" value="co-requisites" />	
 		<property name="description" value="enumeration of required co-requisite courses" />	
@@ -93,29 +93,29 @@
 		<property name="rightHandSide" ref="rightHandSide3" />	
 	</bean>	
 	
-	<bean id="leftHandSide1"	class="org.kuali.student.rules.rulesmanagement.entity.LeftHandSide">
+	<bean id="leftHandSide1"	class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction1" />		
 	</bean>
 	
-	<bean id="leftHandSide3"	class="org.kuali.student.rules.rulesmanagement.entity.LeftHandSide">
+	<bean id="leftHandSide3"	class="org.kuali.student.rules.rulemanagement.entity.LeftHandSide">
 		<property name="yieldValueFunction" ref="yieldValueFunction3" />	
 	</bean>
 		
-	<bean id="yieldValueFunction1"	class="org.kuali.student.rules.rulesmanagement.entity.YieldValueFunction">
+	<bean id="yieldValueFunction1"	class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
 		<property name="id"	value="11223344-1122-1122-1112-100000000006" />		
 		<property name="yieldValueFunctionType" value="INTERSECTION" />	
 	</bean>
 
-	<bean id="yieldValueFunction3"	class="org.kuali.student.rules.rulesmanagement.entity.YieldValueFunction">
+	<bean id="yieldValueFunction3"	class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
 		<property name="id"	value="11223344-1122-1122-1112-100000000008" />	
 		<property name="yieldValueFunctionType" value="INTERSECTION" />	
 	</bean>
 		
-	<bean id="rightHandSide1"	class="org.kuali.student.rules.rulesmanagement.entity.RightHandSide">
+	<bean id="rightHandSide1"	class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />		
 	</bean>
 
-	<bean id="rightHandSide3"	class="org.kuali.student.rules.rulesmanagement.entity.RightHandSide">
+	<bean id="rightHandSide3"	class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />		
 	</bean>		
 	

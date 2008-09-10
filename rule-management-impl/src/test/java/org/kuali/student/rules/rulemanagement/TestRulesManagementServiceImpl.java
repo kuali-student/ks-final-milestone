@@ -1,4 +1,4 @@
-package org.kuali.student.rules.rulesmanagement;
+package org.kuali.student.rules.rulemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,11 +12,11 @@ import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.rules.rulesmanagement.service.RulesManagementService;
+import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
 public class TestRulesManagementServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.rules.rulesmanagement.service.impl.RulesManagementServiceImpl", port = "8181")
-	public RulesManagementService client;
+	@Client(value = "org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl", port = "8181")
+	public RuleManagementService client;
 
 
 	@Test

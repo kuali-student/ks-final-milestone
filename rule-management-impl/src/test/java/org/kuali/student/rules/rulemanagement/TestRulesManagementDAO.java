@@ -5,7 +5,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
-package org.kuali.student.rules.rulesmanagement;
+package org.kuali.student.rules.rulemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -23,14 +23,14 @@ import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.rulesmanagement.dao.impl.RulesManagementDAOImpl;
-import org.kuali.student.rules.rulesmanagement.entity.BusinessRule;
-import org.kuali.student.rules.rulesmanagement.entity.LeftHandSide;
-import org.kuali.student.rules.rulesmanagement.entity.RightHandSide;
-import org.kuali.student.rules.rulesmanagement.entity.RuleElement;
-import org.kuali.student.rules.rulesmanagement.entity.RuleMetaData;
-import org.kuali.student.rules.rulesmanagement.entity.RuleProposition;
-import org.kuali.student.rules.rulesmanagement.entity.YieldValueFunction;
+import org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl;
+import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
+import org.kuali.student.rules.rulemanagement.entity.LeftHandSide;
+import org.kuali.student.rules.rulemanagement.entity.RightHandSide;
+import org.kuali.student.rules.rulemanagement.entity.RuleElement;
+import org.kuali.student.rules.rulemanagement.entity.RuleMetaData;
+import org.kuali.student.rules.rulemanagement.entity.RuleProposition;
+import org.kuali.student.rules.rulemanagement.entity.YieldValueFunction;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
@@ -39,11 +39,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Kuali Student Team (zdenek.kuali@google.com)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@PersistenceFileLocation("classpath:META-INF/rulesmanagement-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
 public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
-    @Dao(value = "org.kuali.student.rules.rulesmanagement.dao.impl.RulesManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
-    public RulesManagementDAOImpl rulesManagementDAO;
+    @Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+    public RuleManagementDAOImpl rulesManagementDAO;
 
     public static final String ruleId_1 = "1";
 
