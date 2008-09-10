@@ -35,10 +35,10 @@ import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.rule.Category;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulesmanagement.dto.RuleElementDTO;
-import org.kuali.student.rules.rulesmanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class RuleAdapter {
 

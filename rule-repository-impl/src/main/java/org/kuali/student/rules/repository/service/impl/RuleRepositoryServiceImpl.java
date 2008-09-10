@@ -36,7 +36,7 @@ import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.service.RuleAdapter;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.translators.drools.GenerateRuleSet;
 import org.springframework.transaction.annotation.Transactional;
 /**
