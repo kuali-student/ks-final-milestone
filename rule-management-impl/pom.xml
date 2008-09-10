@@ -17,15 +17,6 @@
 		An interface to BRMS meta data structures stored in a database
 	</description>
 
-	<properties>
-		<ks.service.package>
-			org.kuali.student.rules.rulesmanagement.service.impl
-		</ks.service.package>
-		<ks.service.className>
-			RulesManagementServiceImpl
-		</ks.service.className>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
