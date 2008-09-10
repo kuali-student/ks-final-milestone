@@ -16,16 +16,10 @@
 package org.kuali.student.rules.repository.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.internal.common.entity.BusinessRule;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleInfo;
-import org.kuali.student.rules.internal.common.entity.RuleElement;
-import org.kuali.student.rules.internal.common.entity.RuleProposition;
 import org.kuali.student.rules.repository.drools.rule.CategoryFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
