@@ -35,6 +35,7 @@ import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.rulesmanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,13 +79,14 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     public synchronized Object execute(AgendaInfoDTO agenda, List<?> facts) {
     	List<Package> packageList = new ArrayList<Package>();
         
-        logger.info("Executing agenda: name="+agenda.getName());
-        for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
-            logger.info("Loading compiled rule set: businessRuleSet.id="+businessRuleSet.getId());
-            Package pkg = loadCompiledRuleSet(businessRuleSet.getId());
+        logger.info("Executing agenda: type="+agenda.getAgendaType());
+        //for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
+        for(BusinessRuleTypeDTO businessRuletype : agenda.getBusinessRuleTypeList()) {
+            logger.info("Loading compiled rule set: businessRuleSet.id="+businessRuletype.getCompiledId());
+            Package pkg = loadCompiledRuleSet(businessRuletype.getCompiledId());
             packageList.add((Package) pkg);
             if (logger.isDebugEnabled()) {
-                RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRuleSet.getId());
+                RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRuletype.getCompiledId());
                 logger.debug("\n\n**************************************************");
                 logger.debug("uuid="+rs.getUUID());
                 logger.debug("name="+rs.getName());
