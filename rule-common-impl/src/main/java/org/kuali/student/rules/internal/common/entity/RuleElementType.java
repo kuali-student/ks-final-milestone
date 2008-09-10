@@ -22,7 +22,7 @@ package org.kuali.student.rules.internal.common.entity;
  */
 public enum RuleElementType {
 
-    AND_TYPE("AND", "1"), OR_TYPE("OR", "2"), NOT_TYPE("NOT", "4"), LPAREN_TYPE("(", "5"), RPAREN_TYPE(")", "6"), PROPOSITION_TYPE(
+    AND("AND", "1"), OR("OR", "2"), NOT("NOT", "4"), LPAREN("(", "5"), RPAREN(")", "6"), PROPOSITION(
             "PROPOSITION", "7");
 
     private String name;
