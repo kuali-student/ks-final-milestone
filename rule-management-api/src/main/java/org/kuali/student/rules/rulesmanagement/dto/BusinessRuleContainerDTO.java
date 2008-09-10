@@ -50,6 +50,10 @@ public class BusinessRuleContainerDTO {
 		return description;
 	}
 
+    public void addBusinessRule(BusinessRuleInfoDTO businessRule) {
+        this.businessRuleList.add(businessRule);
+    }
+
 	public List<BusinessRuleInfoDTO> getBusinessRules() {
 		return businessRuleList;
 	}
