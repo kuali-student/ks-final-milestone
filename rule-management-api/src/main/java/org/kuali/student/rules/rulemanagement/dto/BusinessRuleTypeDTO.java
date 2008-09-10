@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.rulesmanagement.dto;
+package org.kuali.student.rules.rulemanagement.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -31,8 +31,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BusinessRuleTypeDTO implements Serializable{
 
-    @XmlElement
-    private String compiledId;
 
     @XmlElement
     private String bussinessRuleTypeKey;
@@ -85,20 +83,4 @@ public class BusinessRuleTypeDTO implements Serializable{
     public void setFactStructureList(List<FactStructureDTO> factStructureList) {
         this.factStructureList = factStructureList;
     }
-
-    /**
-     * @return the compiledId
-     */
-    public String getCompiledId() {
-        return compiledId;
-    }
-
-
-    /**
-     * @param compiledId the compiledId to set
-     */
-    public void setCompiledId(String compiledId) {
-        this.compiledId = compiledId;
-    }
-
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.rulesmanagement.dto;
+package org.kuali.student.rules.rulemanagement.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +49,6 @@ public class BusinessRuleContainerDTO {
 	public String getDescription() {
 		return description;
 	}
-
-    public void addBusinessRule(BusinessRuleInfoDTO businessRule) {
-        this.businessRuleList.add(businessRule);
-    }
 
 	public List<BusinessRuleInfoDTO> getBusinessRules() {
 		return businessRuleList;
