@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulesmanagement.dto.RuleElementDTO;
-import org.kuali.student.rules.rulesmanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class BusinessRuleUtil {
 
