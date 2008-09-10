@@ -45,18 +45,67 @@ import com.google.gwt.user.client.rpc.SerializableException;
 public class PersonIdentityServiceImpl implements PersonIdentityService {
 
     private PersonService personService;
+    public static int DEFAULT_SEARCH_PAGE_SIZE = 25;
+
+    private GwtPersonCriteria prevCriteria = null;
+    private List<String> searchResult = null;
+
+    public List<GwtPersonInfo> searchForPeople(GwtPersonCriteria criteria) throws SerializableException {
+        return this.searchForPeople(criteria, DEFAULT_SEARCH_PAGE_SIZE, 0);
+    }
+
+    protected List<GwtPersonInfo> getPage(int pageSize, int page) throws SerializableException {
+
+        List<GwtPersonInfo> lRet = null;
+        if (this.searchResult == null || this.searchResult.isEmpty()) {
+            lRet = null;
+        } else {
+            int rSize = this.searchResult.size();
+            int low = (page - 1) * pageSize;
+            if(page == 0) low = 0;
+            int high = low + (pageSize - 1);
+            if(high > rSize) high = rSize -1;
+
+            List<String> subSet = this.searchResult.subList(low, high);
+            try {
+                List<PersonInfo> pList = this.personService.findPeopleByPersonIds(subSet);
+                if (pList != null) {
+                    lRet = new Vector<GwtPersonInfo>();
+                    for (PersonInfo pCurr : pList) {
+                        lRet.add(PersonServiceConverter.convert(pCurr));
+                    }
+                }
+            } catch (Exception ex) {
+                throw GwtException.toGWT(ex);
+            }
+
+        }
+
+        return lRet;
+    }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.kuali.student.ui.personidentity.client.service.PersonIdentityService#searchForPeople(org.kuali.student.ui.personidentity.client.model.GwtPersonCriteria)
+     * @seeorg.kuali.student.ui.personidentity.client.service.PersonIdentityService#searchForPeople(org.kuali.student.ui.
+     * personidentity.client.model.GwtPersonCriteria)
      */
-    public List<GwtPersonInfo> searchForPeople(GwtPersonCriteria criteria) throws SerializableException {
+    public List<GwtPersonInfo> searchForPeople(GwtPersonCriteria criteria, int pageSize, int page) throws SerializableException {
         List<GwtPersonInfo> pRet = null;
         List<PersonInfo> pList = null;
 
         try {
 
+            if(this.prevCriteria != null && this.prevCriteria.equals(criteria) 
+                    && this.searchResult != null && !this.searchResult.isEmpty()){
+               pRet = this.getPage(pageSize, page); 
+            }else{
+                this.prevCriteria = criteria;
+                this.searchResult = personService.searchForPersonIds(PersonServiceConverter.convert(criteria));
+                pRet = this.getPage(pageSize, page);
+            }
+            
+            
+            /*
             pList = personService.searchForPeople(PersonServiceConverter.convert(criteria));
             if (pList != null) {
                 pRet = new Vector<GwtPersonInfo>();
@@ -64,6 +113,7 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
                     pRet.add(PersonServiceConverter.convert(pCurr));
                 }
             }
+            */
         } catch (Exception ex) {
             throw GwtException.toGWT(ex);
         }
@@ -101,15 +151,15 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
             pc.setLastName(tokens.get(0));
             tmp = this.searchForPeople(pc);
             if (tmp != null) {
-            	//check for duplicate results
-            	for(GwtPersonInfo info: tmp){
-            		if(!lRet.contains(info)){
-            			lRet.add(info);
-            		}
-            	}
-                //lRet.addAll(tmp);
+                // check for duplicate results
+                for (GwtPersonInfo info : tmp) {
+                    if (!lRet.contains(info)) {
+                        lRet.add(info);
+                    }
+                }
+                // lRet.addAll(tmp);
             }
-            
+
         } else if (tokens.size() > 1) {
             GwtPersonCriteria pc = new GwtPersonCriteria();
             pc.setFirstName(tokens.get(0));
@@ -124,12 +174,12 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
             pc.setFirstName(tokens.get(1));
             tmp = this.searchForPeople(pc);
             if (tmp != null) {
-            	for(GwtPersonInfo info: tmp){
-            		if(!lRet.contains(info)){
-            			lRet.add(info);
-            		}
-            	}
-                //lRet.addAll(tmp);
+                for (GwtPersonInfo info : tmp) {
+                    if (!lRet.contains(info)) {
+                        lRet.add(info);
+                    }
+                }
+                // lRet.addAll(tmp);
             }
 
         }
