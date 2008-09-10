@@ -41,8 +41,10 @@ import org.junit.runner.RunWith;
 import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
-import org.kuali.student.rules.rulesmanagement.dto.AgendaInfoDTO;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.util.FactContainer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -62,19 +64,18 @@ public class RuleSetExecutorDroolsImplTest {
 //        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
 //        agenda.addBusinessRule( new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "" ) );
         
-        AgendaInfoDTO agendaInfo = new AgendaInfoDTO();
-        agendaInfo.setAgendaType("kuali.student.course.enrolment");
-        List<BusinessRuleTypeDTO> list = new ArrayList<BusinessRuleTypeDTO>();
-        BusinessRuleTypeDTO brt = new BusinessRuleTypeDTO();
-        brt.setCompiledId("uuid-123");
-        list.add(brt);
-        agendaInfo.setBusinessRuleTypeList(list);
+		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
+        List<BusinessRuleInfoDTO> list = new ArrayList<BusinessRuleInfoDTO>();
+        BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
+        br.setCompiledId("uuid-123");
+        list.add(br);
+        agenda.setBusinessRules(list);
 
         // Add facts
         List<Object> facts = new ArrayList<Object>();
         facts.add( Calendar.getInstance() );
         // Iterator through any returned rule engine objects
-        Iterator<?> it = (Iterator<?>) executor.execute( agendaInfo, facts );
+        Iterator<?> it = (Iterator<?>) executor.execute( agenda, facts );
         
         assertNotNull( it );
 
@@ -92,7 +93,7 @@ public class RuleSetExecutorDroolsImplTest {
     }
 
     //TODO - lcarlsen - fixme
-	/*@Test
+	@Test
     public void testExecute2() throws Exception {
         // Create the agenda
 //        AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
@@ -104,16 +105,17 @@ public class RuleSetExecutorDroolsImplTest {
 //        businessRule.setAnchor(anchor);
 //        agenda.addBusinessRule( businessRule );
 
-        AgendaInfoDTO agendaInfo = new AgendaInfoDTO();
-        agendaInfo.setAgendaType("kuali.student.course.enrolment");
-        List<BusinessRuleTypeDTO> list = new ArrayList<BusinessRuleTypeDTO>();
-        BusinessRuleTypeDTO brt = new BusinessRuleTypeDTO();
-        brt.setCompiledId("uuid-123");
-        list.add(brt);
-        agendaInfo.setBusinessRuleTypeList(list);
+
+		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
+        List<BusinessRuleInfoDTO> list = new ArrayList<BusinessRuleInfoDTO>();
+        BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
+        br.setCompiledId("uuid-123");
+        br.setAnchorTypeKey("Math101");
+        list.add(br);
+        agenda.setBusinessRules(list);
     	
     	
-        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest(anchor.getId());
+        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest(br.getAnchorTypeKey());
         Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
         req1.setLuiIds(luiIds);
         
@@ -129,6 +131,6 @@ public class RuleSetExecutorDroolsImplTest {
         Iterator<?> it = (Iterator<?>) executor.execute( agenda, factList );
         assertNotNull(it);
         assertTrue(factContainer1.getPropositionContainer().getRuleResult());
-    }*/
+    }
 
 }
