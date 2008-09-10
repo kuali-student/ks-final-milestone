@@ -30,7 +30,7 @@ import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
-import org.kuali.student.rules.rulesmanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 
 /**
  * This is the rule engine runtime repository interface.
