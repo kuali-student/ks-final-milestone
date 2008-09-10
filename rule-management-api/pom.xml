@@ -16,8 +16,8 @@
 	<description />
 	
     <properties>
-        <ks.service.package>org.kuali.student.rules.rulesmanagement.service</ks.service.package>
-        <ks.service.className>RulesManagementService</ks.service.className>
+        <ks.service.package>org.kuali.student.rules.rulemanagement.service</ks.service.package>
+        <ks.service.className>RuleManagementService</ks.service.className>
     </properties>
 
     <build>
