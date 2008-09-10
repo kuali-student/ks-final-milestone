@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BusinessRuleTypeDTO implements Serializable{
 
+    @XmlElement
+    private String compiledId;
 
     @XmlElement
     private String bussinessRuleTypeKey;
@@ -83,4 +85,20 @@ public class BusinessRuleTypeDTO implements Serializable{
     public void setFactStructureList(List<FactStructureDTO> factStructureList) {
         this.factStructureList = factStructureList;
     }
+
+    /**
+     * @return the compiledId
+     */
+    public String getCompiledId() {
+        return compiledId;
+    }
+
+
+    /**
+     * @param compiledId the compiledId to set
+     */
+    public void setCompiledId(String compiledId) {
+        this.compiledId = compiledId;
+    }
+
 }
