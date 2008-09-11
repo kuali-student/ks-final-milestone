@@ -33,7 +33,7 @@ import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
         targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 public class RuleManagementServiceImpl implements RuleManagementService {
 
-    RuleManagementDAO rulesManagementDao;
+    RuleManagementDAO ruleManagementDAO;
     
     @Override
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -44,7 +44,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     @Override
     public StatusDTO deleteBusinessRule(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
         StatusDTO status = new StatusDTO();
-        status.setSuccess( rulesManagementDao.deleteBusinessRule(businessRuleId) );        
+        status.setSuccess( ruleManagementDAO.deleteBusinessRule(businessRuleId) );        
         return status;
     }
 
@@ -191,17 +191,17 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     /**
-     * @return the rulesManagementDao
+     * @return the ruleManagementDAO
      */
-    public RuleManagementDAO getRulesManagementDao() {
-        return rulesManagementDao;
+    public RuleManagementDAO getRuleManagementDao() {
+        return ruleManagementDAO;
     }
 
     /**
-     * @param rulesManagementDao the rulesManagementDao to set
+     * @param ruleManagementDAO the ruleManagementDAO to set
      */
-    public void setRulesManagementDao(RuleManagementDAO rulesManagementDao) {
-        this.rulesManagementDao = rulesManagementDao;
+    public void setRuleManagementDao(RuleManagementDAO ruleManagementDao) {
+        this.ruleManagementDAO = ruleManagementDao;
     }
     
     
