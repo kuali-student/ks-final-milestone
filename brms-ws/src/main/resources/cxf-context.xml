@@ -1,52 +1,50 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xsi:schemaLocation="
-            http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+			http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-    
-    <import resource="classpath:application-context.xml" />
 
-    <jaxws:endpoint id="ruleRepositoryService"
-        implementorClass="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl"
-        implementor="#ruleRepositoryServiceImpl" address="/RuleRepositoryService" />
+    <import resource="classpath:cxf-rulemanagement-context.xml" />
+    <import resource="classpath:cxf-rulerepository-context.xml" />
 
-<!--
-    <jaxws:endpoint id="ruleRepositoryServiceSecure"
-        implementorClass="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl"
-        implementor="#ruleRepositoryServiceImpl" address="/RuleRepositoryServiceSecure" />
-        <jaxws:inInterceptors>
-            <bean
-                class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
-            <ref bean="wss4jInConfiguration" />
-        </jaxws:inInterceptors>
-        <jaxws:features>
-            <bean class="org.apache.cxf.feature.LoggingFeature" />
-        </jaxws:features>
-    </jaxws:endpoint>
-
-    <bean id="wss4jInConfiguration"
-        class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+    <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="systemPropertiesMode">
+            <util:constant
+                static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        </property>
         <property name="properties">
-            <map>
-                <entry key="action" value="UsernameToken" />
-                <entry key="passwordType" value="PasswordDigest" />
-                <entry>
-                    <key>
-                        <value>passwordCallbackRef</value>
-                    </key>
-                    <ref bean="passwordCallback" />
-                </entry>
-            </map>
+            <props>
+                <prop key="ks.application-rulerepository.properties">
+                    classpath:application-rulerepository.properties
+                </prop>
+                <prop key="ks.application-rulemanagement.properties">
+                    classpath:application-rulemanagement.properties
+                </prop>
+            </props>
         </property>
     </bean>
 
-    <bean id="passwordCallback"
-        class="org.kuali.student.poc.common.cxf.security.SimpleServerPasswordCallback" />
--->
+    <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application-rulerepository.properties</value>
+                <value>${ks.application-rulerepository.properties}</value>
+                <value>classpath:application-rulemanagement.properties</value>
+                <value>${ks.application.properties}</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+
 </beans>
