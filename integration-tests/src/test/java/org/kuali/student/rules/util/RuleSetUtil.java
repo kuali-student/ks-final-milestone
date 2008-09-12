@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.entity.LeftHandSide;
-import org.kuali.student.rules.internal.common.entity.Operator;
-import org.kuali.student.rules.internal.common.entity.RightHandSide;
-import org.kuali.student.rules.internal.common.entity.RuleProposition;
-import org.kuali.student.rules.internal.common.entity.YieldValueFunction;
+import org.kuali.student.rules.rulemanagement.entity.LeftHandSide;
+import org.kuali.student.rules.rulemanagement.entity.Operator;
+import org.kuali.student.rules.rulemanagement.entity.RightHandSide;
+import org.kuali.student.rules.rulemanagement.entity.RuleProposition;
+import org.kuali.student.rules.rulemanagement.entity.YieldValueFunction;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
@@ -67,7 +67,7 @@ public class RuleSetUtil {
         //YieldValueFunction yieldValueFunction = new YieldValueFunction("1", YieldValueFunctionType.INTERSECTION);
         YieldValueFunction yieldValueFunction = new YieldValueFunction("1", functionType);
         LeftHandSide leftSide = new LeftHandSide(criteria, yieldValueFunction);
-        Operator operator = new Operator(ComparisonOperator.EQUAL_TO);
+        //Operator operator = new Operator(ComparisonOperator.EQUAL_TO);
         //RightHandSide rightSide = new RightHandSide("1");
         RightHandSide rightSide = new RightHandSide(expectedValue);
         RuleProposition ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",

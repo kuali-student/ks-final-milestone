@@ -17,7 +17,6 @@
 ## A generic initialization rule template
 
 rule "${ruleName}"
-## Set salience to max Integer value (java.lang.Integer.MAX)
     no-loop true
     lock-on-active true
     when 
@@ -27,21 +26,27 @@ rule "${ruleName}"
     	#set ($count = 0)
     	#foreach( $key in $propositionMap.keySet() ) 
    		#set ( $proposition = $propositionMap.get($key) )
+   		## Set rhs = rulePropositionDTO.getRightHandSide().getExpectedValue()
    		#set ( $rhs = $proposition.RightHandSide.ExpectedValue )
-##TODO: This should be changed to directly call the comparison operator inside the rule proposition    		   		
-   		#set ( $operator = $proposition.Operator.Value.toString() )
-##TODO: This should be changed to using a fact structure		
-		#set ( $courseList = $proposition.LeftHandSide.Criteria )   		
-   		#if ($proposition.LeftHandSide.YieldValueFunction.Type.toString() == "INTERSECTION" )
+   		## Set rulePropositionDTO.getComparisonOperatorType()
+   		#set ( $operator = $proposition.ComparisonOperatorType )
 
-		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$courseList".split("\\s*,\\s*"))),  req.getLuiIds() ); 
+##TODO: This should be changed to using a fact structure
+		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
+
+		##set ( $courseList = $proposition.LeftHandSide.YieldValueFunction )   		
+   		#if ($proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
+        #set( $criteria = $translatorUtil.getDefinitionVariableValue( $yvf, "kuali.student.criteria.intersection.id", "kuali.student.criteria.key" ) )
+
+		SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*"))), req.getLuiIds() ); 
 		proposition${key}.apply();
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														
    		#end
-   		#if ($proposition.LeftHandSide.YieldValueFunction.Type.toString() == "SUM" )
+   		#if ($proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
+        #set( $criteria = $translatorUtil.getDefinitionVariableValue( $yvf, "kuali.student.criteria.summation.id", "kuali.student.criteria.key" ) )
 
-		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.compute(Arrays.asList("$courseList".split("\\s*,\\s*"))) ); 
+		SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", req.compute(Arrays.asList("$criteria".split("\\s*,\\s*"))) ); 
 		proposition${key}.apply();
         prop.addProposition(proposition${key});      
 		#set ($count = $count + 1)														

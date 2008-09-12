@@ -20,19 +20,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.internal.common.entity.BusinessRule;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
-import org.kuali.student.rules.internal.common.entity.RuleProposition;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.translators.util.TranslatorUtil;
 
 /**
- * @author Rich Diaz
+ * This class generates Drools rules source code from functional business rules.
  */
 public class GenerateRuleSet {
 
@@ -41,15 +43,15 @@ public class GenerateRuleSet {
 
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
 
-    private static GenerateRuleSet _instance = new GenerateRuleSet();
+    private static GenerateRuleSet instance = new GenerateRuleSet();
 
     private RuleSetVerifier ruleSetVerifier = new RuleSetVerifier();
     
     private GenerateRuleSet() {
     }
 
-    public static synchronized GenerateRuleSet getInstance() {
-        return _instance;
+    public static GenerateRuleSet getInstance() {
+        return instance;
     }
 
     /**
@@ -59,13 +61,14 @@ public class GenerateRuleSet {
      * @throws GenerateRuleSetException Any errors verifying a rule set
      * @return A rule set
      */
-    public RuleSet parse(BusinessRuleContainer container) throws GenerateRuleSetException {
+    public RuleSet parse(BusinessRuleContainerDTO container) throws GenerateRuleSetException {
         String packageName = PACKAGE_PREFIX + container.getNamespace();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, container.getDescription());
         addHeader(ruleSet);
-        for (BusinessRule businessRule : container.getBusinessRules()) {
+        for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
             parseRule(ruleSet, businessRule);
         }
+System.out.println("\n\n"+ruleSet.getContent());
         verifyRule(ruleSet);
         return ruleSet;
     }
@@ -74,19 +77,22 @@ public class GenerateRuleSet {
         ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
     }
 
-    private void parseRule(RuleSet ruleSet, BusinessRule businessRule) {
-        checkName(businessRule.getBusinessRuleType());
+    private void parseRule(RuleSet ruleSet, BusinessRuleInfoDTO businessRule) {
+        checkName(businessRule.getBusinessRuleTypeKey());
 
-        String anchor = businessRule.getAnchor();
+        //String anchor = businessRule.getAnchor();
+        String anchor = businessRule.getAnchorValue();
         String ruleName = businessRule.getName();
         String ruleDescription = businessRule.getDescription();
-        String functionString = businessRule.createAdjustedRuleFunctionString();
-        Map<String, RuleProposition> propositionMap = businessRule.getRulePropositions();
-        generateRules(anchor, ruleName, ruleDescription, functionString, propositionMap,ruleSet);
+        //String functionString = businessRule.createAdjustedRuleFunctionString();
+        String functionString = BusinessRuleUtil.createAdjustedRuleFunctionString(businessRule);
+        //Map<String, RulePropositionDTO> propositionMap = businessRule.getRulePropositions();
+        Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        generateRules(anchor, ruleName, ruleDescription, functionString, propositionMap, ruleSet);
     }
 
     public void generateRules(String anchor, String ruleName, String ruleDescription, String functionString,
-            Map<String, RuleProposition> functionalPropositionMap, RuleSet ruleSet ) {
+            Map<String, RulePropositionDTO> functionalPropositionMap, RuleSet ruleSet ) {
         String initRuleName = ruleName+"_INIT";
         String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, functionString, functionalPropositionMap);
         addRule(initRuleName, ruleDescription, ruleSet, rule1Source);
@@ -96,7 +102,7 @@ public class GenerateRuleSet {
     }
 
     private String generateRule1InitSourceCode(String anchor, String ruleName, String functionString,
-            Map<String, RuleProposition> functionalPropositionMap) {
+            Map<String, RulePropositionDTO> functionalPropositionMap) {
         checkName(anchor);
         Function f = new Function(functionString);
 
@@ -106,13 +112,14 @@ public class GenerateRuleSet {
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
         velocityContextMap.put("functionString", functionString);
+        velocityContextMap.put("translatorUtil", TranslatorUtil.getInstance());
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, anchor, ruleName, velocityContextMap);
     }
 
     private String generateRule2SourceCode(String anchor, String ruleName, String functionString,
-            Map<String, RuleProposition> functionalPropositionMap) {
+            Map<String, RulePropositionDTO> functionalPropositionMap) {
         checkName(anchor);
         Function f = new Function(functionString);
 
@@ -128,7 +135,7 @@ public class GenerateRuleSet {
     }
     
     public RuleSet createRuleSet(String packageName, String description, String ruleName, String functionString,
-            Map<String, RuleProposition> functionalPropositionMap) {
+            Map<String, RulePropositionDTO> functionalPropositionMap) {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, description);
         addHeader(ruleSet);
         generateRules(ruleName, ruleName, "A rule description", functionString, functionalPropositionMap, ruleSet);
@@ -139,9 +146,11 @@ public class GenerateRuleSet {
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.ComparisonOperator");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
+        ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.facts.FactRequest");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
+        ruleSet.addHeader("import org.kuali.student.rules.translators.util.TranslatorUtil");
     }
 
     /**

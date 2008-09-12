@@ -17,11 +17,9 @@ package org.kuali.student.rules.repository.service.impl;
 
 import java.util.List;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.drools.repository.RulesRepository;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleContainer;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.DefaultDroolsRepository;
 import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
@@ -61,7 +59,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
 
     public RuleRepositoryServiceImpl() {
-    	this(new DefaultDroolsRepository("/drools-repository").getRepository());
+    	RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
+        this.ruleEngineRepository = new RuleEngineRepositoryDroolsImpl(repository);
     }
 
     /**
@@ -69,8 +68,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param repository Drools rules repository
      */
-    public RuleRepositoryServiceImpl(final RulesRepository repository) {
-        this.ruleEngineRepository = new RuleEngineRepositoryDroolsImpl(repository);
+    public RuleRepositoryServiceImpl(final RuleEngineRepository repository) {
+        this.ruleEngineRepository = repository;
     }
 
     /**
@@ -113,74 +112,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	    return this.ruleEngineRepository.loadChildCategories(path);
 	}
 	
-    /**
-     * <p>
-     * Updates a rule in the repository and returns an updated rule.
-     * </p>
-     * Example: Update a rule with new source code content.
-     * 
-     * <pre>
-     * // Load rule
-     * RuleSet ruleSet = repository.loadRuleSet(ruleSetUUID);
-     * Rule rule = ruleSet.getRules().get(0);
-     * 
-     * // Update Rule
-     * String newContent = &quot;rule \&quot;new_rule\&quot; when then end&quot;;
-     * rule.setContent(newContent);
-     * repository.updateRule(rule);
-     * ...
-     * </pre>
-     * 
-     * @param rule
-     *            A rule to update
-     * @throws RuleEngineRepositoryException
-     */
-    public RuleDTO updateRule(final RuleDTO ruleDTO) {
-        Rule rule = ruleAdapter.getRule(ruleDTO);
-        Rule updatedRule = this.ruleEngineRepository.updateRule(rule);
-        RuleDTO dto = ruleAdapter.getRuleDTO(updatedRule);
-    	return dto;
-    }
-
-    /**
-     * <p>
-     * Checks in a rule by UUID into the repository.
-     * </p>
-     * Example: Create a rule set and check in a rule into the repository.
-     * 
-     * <pre>
-     * // Create rule set
-     * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
-     * ...
-     * 
-     * // Create rule
-     * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
-     * ...
-     * ruleSet.addRule(rule);
-     * 
-     * // Create a category for the rules
-     * repository.createCategory(&quot;/&quot;, &quot;MyCategory&quot;, &quot;My new rule category&quot;);
-     * 
-     * // Create and store the rule set in the repository
-     * String ruleSetUUID = repository.createRuleSet(ruleSet);
-     * // Load rule set to get rule UUID
-     * RuleSet ruleSet2 = repository.loadRuleSet(ruleSetUUID);
-     * Rule rule2 = ruleSet2.getRules().get(0);
-     * 
-     * repository.checkinRule(rule2.getUUID(), &quot;Checkin Rule Version 1&quot;);
-     * ...
-     * </pre>
-     * 
-     * @param uuid
-     *            Rule uuid
-     * @param comment
-     *            Checkin comments
-     * @throws RuleEngineRepositoryException
-     */
-    public void checkinRule(final String uuid, final String comment) {
-        this.ruleEngineRepository.checkinRule(uuid, comment);
-    }
-
     /**
      * <p>
      * Creates, compiles and checks in a rule set into the repository.
@@ -471,10 +402,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	this.ruleEngineRepository.changeRuleSetStatus(ruleSetUUID, newState);
     }
     
-    public void changeRuleState(final String ruleUUID, final String newState) {
-    	this.ruleEngineRepository.changeRuleStatus(ruleUUID, newState);
-    }
-
     /**
      * TODO: Needs fixing and testing...
      * 
