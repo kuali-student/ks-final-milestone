@@ -85,70 +85,6 @@ public interface RuleRepositoryService {
 
     /**
      * <p>
-     * Updates a rule in the repository and returns an updated rule.
-     * </p>
-     * Example: Update a rule with new source code content.
-     * 
-     * <pre>
-     * // Load rule
-     * RuleSet ruleSet = rulesRepository.loadRuleSet(ruleSetUUID);
-     * Rule rule = ruleSet.getRules().get(0);
-     * 
-     * // Update Rule
-     * String newContent = &quot;rule \&quot;new_rule\&quot; when then end&quot;;
-     * rule.setContent(newContent);
-     * rulesRepository.updateRule(rule);
-     * ...
-     * </pre>
-     * 
-     * @param rule
-     *            A rule to update
-     * @throws RuleEngineRepositoryException
-     */
-    @WebMethod
-    public RuleDTO updateRule(@WebParam(name="rule")RuleDTO rule) throws RuleEngineRepositoryException;
-
-    /**
-     * <p>
-     * Checks in a rule by UUID into the repository.
-     * </p>
-     * Example: Create a rule set and check in a rule into the repository.
-     * 
-     * <pre>
-     * // Create rule set
-     * RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(&quot;MyNewRuleSet&quot;);
-     * ...
-     * 
-     * // Create rule
-     * Rule rule = RuleFactory.getInstance().createRule(&quot;MyNewRule&quot;);
-     * ...
-     * ruleSet.addRule(rule);
-     * 
-     * // Create a category for the rules
-     * rulesRepository.createCategory(&quot;/&quot;, &quot;MyCategory&quot;, &quot;My new rule category&quot;);
-     * 
-     * // Create and store the rule set in the repository
-     * String ruleSetUUID = rulesRepository.createRuleSet(ruleSet);
-     * // Load rule set to get rule UUID
-     * RuleSet ruleSet2 = rulesRepository.loadRuleSet(ruleSetUUID);
-     * Rule rule2 = ruleSet2.getRules().get(0);
-     * 
-     * rulesRepository.checkinRule(rule2.getUUID(), &quot;Checkin Rule Version 1&quot;);
-     * ...
-     * </pre>
-     * 
-     * @param uuid
-     *            Rule uuid
-     * @param comment
-     *            Checkin comments
-     * @throws RuleEngineRepositoryException
-     */
-    @WebMethod
-    @Oneway
-    public void checkinRule(@WebParam(name="ruleUUID")String ruleUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
-
-    /**
-     * <p>
      * Creates, compiles and checks in a rule set into the repository.
      * </p>
      * Example: Create a rule set and a rule and store it in the repository.
@@ -414,10 +350,6 @@ public interface RuleRepositoryService {
     @Oneway
     public void changeRuleSetState(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="newState")String newState);
     
-    @WebMethod
-    @Oneway
-    public void changeRuleState(@WebParam(name="ruleUUID")String ruleUUID, @WebParam(name="newState")String newState);
-
     @WebMethod
     public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) throws GenerateRuleSetException;
 }
