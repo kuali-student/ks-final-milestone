@@ -1,6 +1,7 @@
 package org.kuali.student.ui.personidentity.server.impl;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -22,6 +23,7 @@ import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTyp
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplayDTO;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCreateInfo;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonRelationCriteria;
@@ -64,11 +66,14 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
             int low = (page - 1) * pageSize;
             if(page == 0) low = 0;
             int high = low + (pageSize - 1);
-            if(high > rSize) high = rSize -1;
+            if(high > rSize) high = rSize;
 
             List<String> subSet = this.searchResult.subList(low, high);
+            
+            
+            
             try {
-                List<PersonInfo> pList = this.personService.findPeopleByPersonIds(subSet);
+                List<PersonInfo> pList = this.personService.findPeopleByPersonIds(subSet);                
                 if (pList != null) {
                     lRet = new Vector<GwtPersonInfo>();
                     for (PersonInfo pCurr : pList) {
@@ -100,7 +105,16 @@ public class PersonIdentityServiceImpl implements PersonIdentityService {
                pRet = this.getPage(pageSize, page); 
             }else{
                 this.prevCriteria = criteria;
-                this.searchResult = personService.searchForPersonIds(PersonServiceConverter.convert(criteria));
+                
+                List<PersonDisplayDTO> tList = personService.searchForPersonDisplayDTOs(PersonServiceConverter.convert(criteria));
+                
+                if(tList != null && !tList.isEmpty())
+                    this.searchResult = new ArrayList<String>(550);
+                
+                for(PersonDisplayDTO tDto: tList){
+                    this.searchResult.add(tDto.getPersonId());
+                }
+                //this.searchResult = personService.searchForPersonIds(PersonServiceConverter.convert(criteria));
                 pRet = this.getPage(pageSize, page);
             }
             

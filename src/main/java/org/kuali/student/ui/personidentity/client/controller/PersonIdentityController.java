@@ -163,13 +163,15 @@ public class PersonIdentityController {
     public static void updateSearchResults(String criteria, List<GwtPersonInfo> result){
         ModelState.getInstance().setSearchResult(result);
         model.clear();
-        for (GwtPersonInfo g : result) {
-            model.add(g);
+        if(result != null){
+            for (GwtPersonInfo g : result) {
+                model.add(g);
+            }
         }
         adminStudentTab.selectTab(0);
         adminStudentTab.getPersonTab().displaySearchResultsTab();
 
-        if(model.items().isEmpty())
+        if(result == null || model.items().isEmpty())
         {
         	adminStudentTab.getPersonTab().getPersonSearchWidget().getSearchResultPanel().setSearchLabel(
         			ApplicationContext.getViews().get(AdminEditPanel.VIEW_NAME).getMessages().get("noSearchResults") 
