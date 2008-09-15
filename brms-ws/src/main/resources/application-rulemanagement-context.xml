@@ -37,7 +37,7 @@
 
     <bean id="ruleManagementServiceImpl"
         class="org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl">
-		<property name="rulesManagementDao" ref="ruleManagementDAO">
+		<property name="ruleManagementDao" ref="ruleManagementDAO">
 		</property>
     </bean>
 
