@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<properties>
 		<google.webtoolkit.extrajvmargs>
 			-Xmx512m
 		</google.webtoolkit.extrajvmargs>
+    <jaxws-api.version>2.1</jaxws-api.version>		
 	</properties>
+
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-parent-pom</artifactId>
@@ -102,12 +101,33 @@
 		</dependency>
     -->
 		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rule-management-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rule-management-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.poc.common</groupId>
+			<artifactId>common-ws</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>1.5.0-rc1</version>
 			<scope>compile</scope>
 		</dependency>
-
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>1.5.0-rc1</version>
+      <scope>compile</scope>
+    </dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
@@ -115,7 +135,6 @@
 			<scope>compile</scope>
 			<classifier>${ks.os.classifier}</classifier>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
@@ -126,8 +145,8 @@
 					<groupId>com.google.gwt</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
+		</dependency>	
+    <dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<version>10.4.1.3</version>
@@ -136,17 +155,49 @@
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<classifier>sources</classifier>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>2.5.4</version>
+		</dependency>		
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>javax.xml.ws</groupId>
+		    <artifactId>jaxws-api</artifactId>
+		    <version>2.1</version>
+		</dependency>
+        <dependency>
+          <groupId>com.sun.xml.ws</groupId>
+          <artifactId>jaxws-rt</artifactId>
+          <version>2.1</version>
+          <exclusions>
+            <exclusion>
+              <artifactId>servlet-api</artifactId>
+              <groupId>javax.servlet</groupId>
+            </exclusion>
+          </exclusions>
+        </dependency>		        
+        <dependency>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+          <version>2.1.6</version>
+        </dependency>        
 	</dependencies> 	
+	
 	<profiles>
 		<profile>
 			<id>ks.ui.external.repositories</id>
@@ -155,7 +206,6 @@
 					<name>!ks.use.proxy</name>
 				</property>
 			</activation>
-
 			<repositories>
 				<repository>
 					<id>gwt-maven</id>
@@ -173,7 +223,6 @@
 					</snapshots>
 				</repository>
 			</repositories>
-
 			<pluginRepositories>
 				<pluginRepository>
 					<id>gwt-maven</id>
@@ -183,7 +232,6 @@
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
-
 		<profile>
 			<id>ks.os.linux</id>
 			<activation>
@@ -195,7 +243,6 @@
 				<ks.os.classifier>linux</ks.os.classifier>
 			</properties>
 		</profile>
-
 		<profile>
 			<id>ks.os.windows</id>
 			<activation>
@@ -208,6 +255,7 @@
 			</properties>
 		</profile>
 	</profiles>
+	
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
@@ -223,6 +271,24 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <url>http://download.java.net/maven/2</url>
+    </repository>
+    <repository>
+      <id>maven-repository.dev.java.net</id>
+      <url>http://download.java.net/maven/1</url>
+      <layout>legacy</layout>
+    </repository>		
+    <repository>
+      <id>todo</id>
+      <url>http://repo1.maven.org/maven-spring</url>
+    </repository>
+    <repository>
+      <id>todo</id>
+      <url>http://repo1.maven.org/maven-spring</url>
+      <layout>legacy</layout>
+    </repository>
 	</repositories>
 
 </project>
