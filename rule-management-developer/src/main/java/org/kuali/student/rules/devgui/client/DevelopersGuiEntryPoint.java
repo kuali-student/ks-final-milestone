@@ -4,7 +4,7 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.ViewMetadataLoadCallback;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.ErrorDialog;
-import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
+import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -16,10 +16,10 @@ public class DevelopersGuiEntryPoint implements EntryPoint {
 
     public void onModuleLoad() {
         ErrorDialog.bindUncaughtExceptionHandler();
-        ApplicationContext.loadViewMetadata(DevelopersGuiMain.VIEW_NAME, new ViewMetadataLoadCallback() {
+        ApplicationContext.loadViewMetadata(DevelopersGuiController.VIEW_NAME, new ViewMetadataLoadCallback() {
             public void onBulkLoadComplete() {
                 // now that the metadata is loaded, show the view
-                RootPanel.get().add(new DevelopersGuiMain());
+                RootPanel.get().add(new DevelopersGuiController());
             }
 
             public void onLoad(String viewName, ViewMetaData view) {

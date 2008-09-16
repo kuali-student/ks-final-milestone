@@ -11,7 +11,7 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
+import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -86,7 +86,7 @@ public class RuleTypesComposite extends Composite {
             controller = MVC.findParentController(this);
 
             // get a reference to our view metadata and internationalization messages
-            metadata = ApplicationContext.getViews().get(DevelopersGuiMain.VIEW_NAME);
+            metadata = ApplicationContext.getViews().get(DevelopersGuiController.VIEW_NAME);
             messages = metadata.getMessages();
 
             // bind the PeopleTable to the parent controller's Model of BusinesRule objects

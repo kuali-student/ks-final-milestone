@@ -8,6 +8,5 @@
   <!-- Specify the app entry point class.                   -->
   <entry-point class="org.kuali.student.rules.devgui.client.DevelopersGuiEntryPoint"/>
   
-	<!-- Add servlet mapping for development gui service -->
-	<servlet class="org.kuali.student.rules.devgui.server.devguiservice.DevGuiServiceServlet" path="/DevGuiService"/>  
+  <servlet class="org.kuali.student.rules.devgui.server.gwt.DevelopersGuiServiceImplGWT" path="/DevelopersGuiService"/>  
 </module>

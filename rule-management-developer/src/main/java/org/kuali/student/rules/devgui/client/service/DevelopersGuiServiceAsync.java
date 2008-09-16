@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.rules.devgui.client;
+package org.kuali.student.rules.devgui.client.service;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /**
  * @author zzraly
  */
-public interface DevGuiServiceAsync {
+public interface DevelopersGuiServiceAsync {
     public void findRulesHierarchyInfo(AsyncCallback<List<RulesHierarchyInfo>> callback);
 
     public void fetchDetailedBusinessRuleInfo(String ruleId, AsyncCallback<BusinessRuleInfo> callback);

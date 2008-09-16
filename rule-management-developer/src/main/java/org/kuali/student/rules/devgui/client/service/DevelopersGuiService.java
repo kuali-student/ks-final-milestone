@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.rules.devgui.client;
+package org.kuali.student.rules.devgui.client.service;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 /**
  * @author zzraly
  */
-public interface DevGuiService extends RemoteService {
+public interface DevelopersGuiService extends RemoteService {
     /**
      * URI for the log service servlet.
      */
-    public static final String SERVICE_URI = "/DevGuiService";
+    public static final String SERVICE_URI = "/DevelopersGuiService";
 
     /**
      * Utility class used to create instance of the asynchronous service interface.
@@ -30,8 +30,8 @@ public interface DevGuiService extends RemoteService {
          * 
          * @return instance of LogServiceAsync
          */
-        public static DevGuiServiceAsync getInstance() {
-            DevGuiServiceAsync instance = (DevGuiServiceAsync) GWT.create(DevGuiService.class);
+        public static DevelopersGuiServiceAsync getInstance() {
+            DevelopersGuiServiceAsync instance = (DevelopersGuiServiceAsync) GWT.create(DevelopersGuiService.class);
             ServiceDefTarget target = (ServiceDefTarget) instance;
             target.setServiceEntryPoint(GWT.getModuleBaseURL() + SERVICE_URI);
             return instance;

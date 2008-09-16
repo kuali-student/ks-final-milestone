@@ -3,6 +3,7 @@
  */
 package org.kuali.student.rules.devgui.client.view;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
@@ -13,14 +14,18 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
+import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.client.GuiUtil;
-import org.kuali.student.rules.devgui.client.controller.DevelopersGuiMain;
+import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleElement;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleProposition;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -132,7 +137,7 @@ public class RulesComposite extends Composite {
             controller = MVC.findParentController(this);
 
             // get a reference to our view metadata and internationalization messages
-            metadata = ApplicationContext.getViews().get(DevelopersGuiMain.VIEW_NAME);
+            metadata = ApplicationContext.getViews().get(DevelopersGuiController.VIEW_NAME);
             messages = metadata.getMessages();
 
             // bind the list to the parent controller's Model of BusinessRuleInfo objects
@@ -165,7 +170,6 @@ public class RulesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
-            /*
             rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
                 public void onSelect(RulesHierarchyInfo modelObject) {
                     String ruleId = modelObject.getBusinessRuleId();
@@ -174,7 +178,7 @@ public class RulesComposite extends Composite {
                         clearRuleForms();
                     } else {
                         // populate fields from new selection
-                        DevGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfo>() {
+                        DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfo>() {
                             public void onFailure(Throwable caught) {
                                 // just re-throw it and let the uncaught exception handler deal with it
                                 Window.alert(caught.getMessage());
@@ -205,7 +209,7 @@ public class RulesComposite extends Composite {
                         });
                     }
                 }
-            });  */
+            });
         }
     }
 

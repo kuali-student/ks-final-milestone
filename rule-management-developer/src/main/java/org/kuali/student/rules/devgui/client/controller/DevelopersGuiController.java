@@ -10,7 +10,7 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.rules.devgui.client.DevGuiService;
+import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleType;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.view.RuleTypesComposite;
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 /**
  * @author zzraly
  */
-public class DevelopersGuiMain extends Controller {
+public class DevelopersGuiController extends Controller {
     public static final String VIEW_NAME = "org.kuali.student.rules.devgui";
     boolean loaded = false;
 
@@ -37,7 +37,7 @@ public class DevelopersGuiMain extends Controller {
     ViewMetaData metadata;
     Messages messages;
 
-    public DevelopersGuiMain() {
+    public DevelopersGuiController() {
         super.initWidget(tabs);
     }
 
@@ -55,7 +55,7 @@ public class DevelopersGuiMain extends Controller {
             loaded = true;
 
             // get a reference to our view metadata and internationalization messages
-            metadata = ApplicationContext.getViews().get(DevelopersGuiMain.VIEW_NAME);
+            metadata = ApplicationContext.getViews().get(DevelopersGuiController.VIEW_NAME);
             messages = metadata.getMessages();
 
             // initialize our controller's models
@@ -80,7 +80,7 @@ public class DevelopersGuiMain extends Controller {
 
     private void loadModelsData() {
         /*
-        DevGuiService.Util.getInstance().findBusinessRules(new AsyncCallback<List<BusinessRuleInfo>>() {
+        DevelopersGuiService.Util.getInstance().findBusinessRules(new AsyncCallback<List<BusinessRuleInfo>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
                 throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
@@ -94,7 +94,7 @@ public class DevelopersGuiMain extends Controller {
             }
         });  */
 
-        DevGuiService.Util.getInstance().findRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
+        DevelopersGuiService.Util.getInstance().findRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
                 throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
