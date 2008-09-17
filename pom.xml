@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.learningunit</groupId>
 	<artifactId>lum-ri</artifactId>
 	<name>Learning Unit Management</name>
 	<version>0.0.2-SNAPSHOT</version>
-	<description>
-		Learning Unit Management Reference Implementation
+	<description> Learning Unit Management Reference Implementation 
 	</description>
 	<packaging>pom</packaging>
 	<modules>
@@ -16,13 +14,11 @@
 		<module>luipersonrelation-ri</module>
 		<module>learningunit</module>
 	</modules>
-
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-pom</artifactId>
 		<version>0.0.3</version>
 	</parent>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
@@ -31,16 +27,28 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-0.0.2
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-0.0.2 
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-0.0.2
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-0.0.2 
 		</developerConnection>
 	</scm>
-
+	
+	<distributionManagement>
+		<repository>
+			<id>kuali.release</id>
+			<name>Internal Release Repository</name>
+			<url> dav:http://archiva.kuali.umd.edu/repository/release </url>
+		</repository>
+		<snapshotRepository>
+			<id>kuali.snapshots</id>
+			<name>Internal Snapshot Repository</name>
+			<url> dav:http://archiva.kuali.umd.edu/repository/snapshot </url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<repositories>
 		<repository>
 			<id>kuali.release</id>
