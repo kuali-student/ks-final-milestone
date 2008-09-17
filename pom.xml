@@ -6,7 +6,7 @@
 	<groupId>org.kuali.student.poc.learningunit</groupId>
 	<artifactId>lum-ri</artifactId>
 	<name>Learning Unit Management</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<description>
 		Learning Unit Management Reference Implementation
 	</description>
@@ -20,14 +20,14 @@
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
