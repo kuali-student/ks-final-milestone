@@ -32,7 +32,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
             Set<E> criteriaSet, Set<E> factSet) {
         super(propositionName, operator, expectedValue);
         this.criteriaSet = criteriaSet;
-        this.factSet = factSet;
+        this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }
 
     // ~ Methods ----------------------------------------------------------------
@@ -46,6 +46,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         Integer count = met.size();
 
         result = checkTruthValue(count, expectedValue);
+        //System.out.println("SubsetProposition: count="+count);
 
         cacheReport("%d of %s is still required", count, expectedValue);
 
