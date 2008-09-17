@@ -42,31 +42,7 @@
 		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
-	<!--  rules beans -->
-	<bean id="lprEntityManager" factory-bean="luprEntityManagerFactory"
-		factory-method="createEntityManager" />
-
-	<bean id="businessRuleDAO"
-		class="org.kuali.student.rules.brms.core.dao.impl.FunctionalBusinessRuleDAOImpl">
-		<property name="entityManager" ref="lprEntityManager" />
-	</bean>
-
-	<bean id="droolsRepository"
-		class="org.kuali.student.rules.brms.repository.drools.RuleEngineRepositoryDroolsImpl">
-		<constructor-arg type="org.drools.repository.RulesRepository"
-			ref="rulesRepository" />
-	</bean>
-
-	<bean id="defaultDroolsRepositoryContainer"
-		class="org.kuali.student.rules.brms.repository.drools.DefaultDroolsRepository"
-		destroy-method="shutdown">
-		<constructor-arg type="java.lang.String"
-			value="/drools-repository" />
-	</bean>
-
-	<bean id="rulesRepository"
-		factory-bean="defaultDroolsRepositoryContainer"
-		factory-method="getRepository" />
+	
 
 	<!-- web service clients  -->
 
@@ -122,9 +98,7 @@
 			</bean>
 		</property>
 		<property name="luClient" ref="luClient" />
-		<property name="personClient" ref="personClient" />
-		<property name="businessRuleDAO" ref="businessRuleDAO" />
-		<property name="droolsRepository" ref="droolsRepository" />
+		<property name="personClient" ref="personClient" />		
 	</bean>
 
 	<!-- jpa / jta -->
@@ -277,9 +251,7 @@
 				<entry key="Person">
 					<ref bean="personBeanPreloadList" />
 				</entry>
-				<entry key="LuiPersonRelation">
-					<ref bean="persistRulesList" />
-				</entry>
+				
 			</map>
 		</property>
 	</bean>
