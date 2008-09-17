@@ -4,6 +4,7 @@
 package org.kuali.student.rules.internal.common.statement;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -29,7 +30,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
     public SumProposition(String propositionName, ComparisonOperator operator, String expectedValue, List<E> factSet) {
         super(propositionName, operator, expectedValue);
-        this.factSet = factSet;
+        this.factSet = (factSet == null ? new ArrayList<E>() : factSet);
     }
 
     // ~ Methods ----------------------------------------------------------------
@@ -40,6 +41,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         BigDecimal expectedValue = getDecimalValue(expectedValueAsString);
 
         BigDecimal sum = sum();
+        //System.out.println("SumProposition: sum="+sum);
 
         result = checkTruthValue(sum, expectedValue);
 
@@ -74,7 +76,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
      * 
      * @return
      */
-    private BigDecimal sum() {
+    protected BigDecimal sum() {
         BigDecimal sum = new BigDecimal("0.0");
 
         for (E element : factSet) {
@@ -128,4 +130,5 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     public void setFactSet(List<E> factSet) {
         this.factSet = factSet;
     }
+    
 }
