@@ -34,10 +34,10 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-0.0.2
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-dev
+			scm:svn:https://test.kuali.org/svn/student/poc/learningunitmanagement/lum-ri/branches/lum-ri-0.0.2
 		</developerConnection>
 	</scm>
 
