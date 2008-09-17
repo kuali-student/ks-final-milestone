@@ -15,13 +15,14 @@
  */
 package org.kuali.student.rules.translators.drools;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,9 +52,9 @@ import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.FactContainer;
 
 public class GenerateRuleSetTest {
@@ -67,45 +68,54 @@ public class GenerateRuleSetTest {
     @After
     public void tearDown() throws Exception {}
 
-    private BusinessRuleInfoDTO getBusinessRule() throws Exception {
+    private BusinessRuleInfoDTO getBusinessRule(String yieldValueFunctionType, 
+    		String criteria, String comparisonOperator, String expectedValue, 
+    		String factKey, String anchorValue) throws Exception {
         BusinessRuleInfoDTO businessRule = dtoFactory.createBusinessRuleInfoDTO(
-        		"XXXXX - CPR 101 - XXXXX", 
+        		"CPR 101", 
         		"1", 
         		"Rule 1 Success Message", 
         		"Rule 1 Failure Message", 
         		"kuali.businessrule.typekey.course.corequisites", 
-        		getRuleElementList("CPR101"), 
+        		getRuleElementList(yieldValueFunctionType, criteria, comparisonOperator, expectedValue, factKey), 
         		"kuali.anchor.typekey.course", 
-        		"CPR101");
+        		anchorValue);
         return businessRule;
     }
     
-    private List<RuleElementDTO> getRuleElementList(String criteria) {
+    private List<RuleElementDTO> getRuleElementList(String yieldValueFunctionType, 
+    		String criteria, String comparisonOperator, String expectedValue, String factKey) {
     	List<RuleElementDTO> list = new ArrayList<RuleElementDTO>();
         RuleElementDTO re1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
-        		new Integer(1), getRuleProposition(criteria));
+        		new Integer(1), getRuleProposition(yieldValueFunctionType, criteria, comparisonOperator, expectedValue, factKey));
         list.add(re1);
         return list;
     }
 
-    private RulePropositionDTO getRuleProposition(String criteria) {
+    private RulePropositionDTO getRuleProposition(String yieldValueFunctionType, 
+    		String criteria, String comparisonOperator, String expectedValue, String factKey) {
         // E.g. 1 of CPR 101
-    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, "INTERSECTION");
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
     	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
-    	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO("1");
+    	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
         RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
         		"co-requisites", java.lang.Integer.class.getName(), 
-        		ComparisonOperator.EQUAL_TO.toString(), leftSide, rightSide);
-        
+        		comparisonOperator, leftSide, rightSide);
+
         FactStructureDTO factStructure = new FactStructureDTO();
         factStructure.setDataType(java.util.Set.class.getName());
-        factStructure.setFactStructureId("kuali.student.criteria.intersection.id");
+        factStructure.setFactStructureId("kuali.student.criteria.id");
         factStructure.setAnchorFlag(false);
+
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
         definitionVariableMap.put("kuali.student.criteria.key", criteria);
         factStructure.setDefinitionVariableList(definitionVariableMap);
-        
+
+        Map<String,String> executionVariableMap = new HashMap<String,String>();
+        executionVariableMap.put("kuali.student.fact.key", factKey);
+        factStructure.setExecutionVariableList(executionVariableMap);
+
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
         factStructureList.add(factStructure);
         yieldValueFunction.setFactStructureList(factStructureList);
@@ -126,38 +136,64 @@ public class GenerateRuleSetTest {
         return ruleBase;
     }
 
-    private CourseEnrollmentRequest getCourseEnrollmentRequest(String anchorId, String luiIds) {
-        CourseEnrollmentRequest request = new CourseEnrollmentRequest(anchorId);
-        Set<String> luiIdSet = new HashSet<String>(Arrays.asList(luiIds.split(",")));
-        request.setLuiIds(luiIdSet);
-        return request;
-    }
-
     private void executeRule(String source, FactContainer facts) throws Exception {
         // Execute Drools rule set source code
         WorkingMemory workingMemory = getRuleBase(source).newStatefulSession();
-        // workingMemory.insert( request );
-        // workingMemory.insert( prop );
         workingMemory.insert(facts);
         workingMemory.fireAllRules();
     }
 
-    @Test
-    public void testParseBusinessRule() throws Exception {
+    private Set<String> createSet(String list) {
+        Set<String> set = new HashSet<String>();
+        for( String s : list.split(",") ) {
+        	set.add(s.trim());
+        }
+        return set;
+    }
+    
+    private List<BigDecimal> createList(String list) {
+    	List<BigDecimal> set = new ArrayList<BigDecimal>();
+        for( String s : list.split(",") ) {
+        	set.add(new BigDecimal(s.trim()));
+        }
+        return set;
+    }
+    
+    private String getRuleSourceCode(String yieldValueFunctionType,
+    		String criteria, String comparisonOperator, 
+    		String expectedValue, String anchorValue) throws Exception {
         // Generate Drools rule set source code
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        BusinessRuleInfoDTO businessRule = getBusinessRule();
+        BusinessRuleInfoDTO businessRule = getBusinessRule(
+        		yieldValueFunctionType, 
+        		criteria, 
+        		comparisonOperator,
+        		expectedValue, 
+        		"courseKey", 
+        		anchorValue);
         container.getBusinessRules().add(businessRule);
-
+        // Parse and generate rule set
         RuleSet ruleSet = this.generateRuleSet.parse(container);
-        assertNotNull(ruleSet);
-
         // Rule set source code
-        String source = ruleSet.getContent();
-//System.out.println("\n\n"+source+"\n\n");
+        return ruleSet.getContent();
+    }
+    
+    @Test
+    public void testParseBusinessRule_Intersection() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			anchorValue);
+
         // Get facts
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(businessRule.getAnchorValue(), "CPR101,MATH102");
-        FactContainer facts = new FactContainer(businessRule.getAnchorValue(), request);
+        Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
+        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
+        factMap.put("courseKey", courseSet);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
 
         // Collection of Propositions
         PropositionContainer prop = facts.getPropositionContainer();
@@ -168,178 +204,228 @@ public class GenerateRuleSetTest {
     }
 
     @Test
-    public void testParseRuleSet_OneProposition() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR 101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
+    public void testParseBusinessRule_Intersection_NullMap() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			anchorValue);
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             //"A", propositionMap);
-															 "P1", propositionMap);
-        // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102");
-        FactContainer facts = new FactContainer(id, request);
+        // Get facts - null fact
+        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
+        factMap.put("courseKey", null);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
 
         // Collection of Propositions
         PropositionContainer prop = facts.getPropositionContainer();
 
-        executeRule(ruleSet.getContent(), facts);
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_Intersection_EmptyMap() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			anchorValue);
+
+        // Get facts - empty fact
+        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
+        factMap.put("courseKey", new HashSet<String>());
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_Sum() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.SUM.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"12.0",
+    			anchorValue);
+
+        // Get facts
+        List<BigDecimal> courseSet = createList("3.0,6.0,3.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", courseSet);
+        FactContainer facts = new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
         assertTrue(prop.getRuleResult());
     }
 
     @Test
-    public void testParseRuleSet_TwoProposition_AandB() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR 101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
-        // 1 of CPR 101
-        propositionMap.put("P2", getRuleProposition("MATH102"));
+    public void testParseBusinessRule_Sum_NullMap() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.SUM.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"12.0",
+    			anchorValue);
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-											                 //"A*B", propositionMap);
-                                                             "P1*P2", propositionMap);
         // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request);
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", null);
+        FactContainer facts = new FactContainer(anchorValue, factMap);
 
         // Collection of Propositions
         PropositionContainer prop = facts.getPropositionContainer();
 
-        executeRule(ruleSet.getContent(), facts);
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_Sum_EmptyMap() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.SUM.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"12.0",
+    			anchorValue);
+
+        // Get facts
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", new ArrayList<BigDecimal>());
+        FactContainer facts = new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_Average() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
+
+        // Get facts
+//        Set<SumFact> courseSet = new HashSet<SumFact>(2);
+//        courseSet.add( new SumFact("CPR101", new BigDecimal(85.0d)));
+//        courseSet.add(new SumFact("MATH102", new BigDecimal(75.0d)));
+
+        List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", courseSet);
+        FactContainer facts = new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
         assertTrue(prop.getRuleResult());
     }
 
     @Test
-    public void testParseRuleSet_TwoProposition_AorB() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR 101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
-        // 1 of CPR 101
-        propositionMap.put("P2", getRuleProposition("MATH102"));
+    public void testParseBusinessRule_Average_NullMap() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "P1+P2", propositionMap);
         // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request);
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", null);
+        FactContainer facts = new FactContainer(anchorValue, factMap);
 
         // Collection of Propositions
         PropositionContainer prop = facts.getPropositionContainer();
-        
-        executeRule(ruleSet.getContent(), facts);
-        assertTrue(prop.getRuleResult());
+
+        // Execute rule
+        try {
+        	executeRule(source, facts);
+            fail("Executing rule should have throw an IllegalArgumentException since courseSet=null");
+        } catch(Exception e) {
+        	assertTrue(true);
+        }
     }
 
     @Test
-    public void testParseRuleSet_ThreeProposition_AandBorC() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
-        // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102"));
-        // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101"));
+    public void testParseBusinessRule_Average_EmptyMap() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1*P2)+P3", propositionMap);
         // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request);
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", new ArrayList<BigDecimal>());
+        FactContainer facts = new FactContainer(anchorValue, factMap);
 
         // Collection of Propositions
         PropositionContainer prop = facts.getPropositionContainer();
 
-        executeRule(ruleSet.getContent(), facts);
-        assertTrue(prop.getRuleResult());
+        // Execute rule
+        try {
+        	executeRule(source, facts);
+            fail("Executing rule should have throw an IllegalArgumentException since courseSet is empty");
+        } catch(Exception e) {
+        	assertTrue(true);
+        }
     }
 
-    /**
-     * TODO: Drools Bug - Test case will fail.
-     */
-    @Test
-    @Ignore
-    public void testParseRuleSet_ThreeProposition_AorBandC() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
-        // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102"));
-        // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101"));
-
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1+P2)*P3", propositionMap);
-        // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        FactContainer facts = new FactContainer(id, request);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        executeRule(ruleSet.getContent(), facts);
-        assertTrue(prop.getRuleResult());
+    private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
+        BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
+    	bri.setName("Rule-1");
+    	bri.setDescription("Some business rule");
+    	bri.setSuccessMessage("Success message");
+    	bri.setFailureMessage("Failure message");
+    	bri.setBusinessRuleId("1");
+    	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
+    	bri.setAnchorTypeKey("kuali.student.lui.course.id");
+    	bri.setAnchorValue("CPR101");
+    	bri.setRuleElementList(ruleElementList);
+    	return bri;
     }
 
-    @Test
-    public void testParseRuleSet_FourProposition_AorBandCorD() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
-        // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102"));
-        // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101"));
-        // 1 of CHEM102
-        propositionMap.put("P4", getRuleProposition("CHEM102"));
-
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1+P2)*(P3+P4)", propositionMap);
-        // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101,CHEM102");
-        FactContainer facts = new FactContainer(id, request);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        executeRule(ruleSet.getContent(), facts);
-        assertTrue(prop.getRuleResult());
-    }
-
-    @Test
-    public void testParseRuleSet_FourProposition_AandBorCandD() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101"));
-        // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102"));
-        // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101"));
-        // 1 of CHEM102
-        propositionMap.put("P4", getRuleProposition("CHEM102"));
-
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1*P2)+(P3*P4)", propositionMap);
-        // Get facts
-        String id = "TestRuleName";
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101,CHEM102");
-        FactContainer facts = new FactContainer(id, request);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        executeRule(ruleSet.getContent(), facts);
-        assertTrue(prop.getRuleResult());
-    }
-
-    private RuleElementDTO getRule1() {
+    private RuleElementDTO createRule1(YieldValueFunctionDTO yieldValueFunction) {
     	// Rule 1
-    	YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
+    	//YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
         yieldValueFunction.setYieldValueFunctionType("INTERSECTION");
         
         LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
@@ -357,7 +443,7 @@ public class GenerateRuleSetTest {
         ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
     	RuleElementDTO re = new RuleElementDTO();
-        re.setName("Course intersection - 1 of CPR 101");
+        re.setName("course.intersection.1.of.cpr101");
         re.setDescription("Must have 1 of CPR 101");
         re.setOperation("PROPOSITION");
         re.setRuleProposition(ruleProposition);
@@ -365,9 +451,8 @@ public class GenerateRuleSetTest {
         return re;
     }
     
-    private RuleElementDTO getRule2() {
+    private RuleElementDTO createRule2(YieldValueFunctionDTO yieldValueFunction) {
     	// Rule 1
-    	YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
         yieldValueFunction.setYieldValueFunctionType("SUM");
         
         LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
@@ -385,12 +470,53 @@ public class GenerateRuleSetTest {
         ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
     	RuleElementDTO re = new RuleElementDTO();
-        re.setName("Sum of credits");
+        re.setName("course.credits.sum");
         re.setDescription("Pre req check for CPR 101");
         re.setOperation("PROPOSITION");
         re.setRuleProposition(ruleProposition);
         
         return re;
+    }
+    
+    private void createFact1(YieldValueFunctionDTO yieldValueFunction1) {
+    	// Facts - Rule 1 - 1 of CPR101
+        FactStructureDTO fs1 = new FactStructureDTO();
+        fs1.setDataType(java.util.Set.class.getName());
+        fs1.setFactStructureId(Constants.FACT_STRUCTURE_ID);
+        fs1.setAnchorFlag(false);
+
+        Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
+        definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        fs1.setDefinitionVariableList(definitionVariableMap1);
+
+        Map<String,String> executionVariableMap1 = new HashMap<String,String>();
+        executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
+        fs1.setExecutionVariableList(executionVariableMap1);
+        
+        List<FactStructureDTO> factStructureList1 = new ArrayList<FactStructureDTO>();
+        factStructureList1.add(fs1);
+        yieldValueFunction1.setFactStructureList(factStructureList1);
+    }
+    
+    private void createFact2(YieldValueFunctionDTO yieldValueFunction2) {
+        // Facts - Rule 2 - Sum of credit > 10.0
+        FactStructureDTO fs2 = new FactStructureDTO();
+        fs2.setDataType(java.lang.Integer.class.getName());
+        fs2.setFactStructureId("kuali.student.criteria.id");
+        fs2.setAnchorFlag(false);
+
+        // Not need for summation or averages
+        //Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
+        //definitionVariableMap2.put("kuali.student.criteria.key", null);
+        //fs2.setDefinitionVariableList(definitionVariableMap2);
+
+        Map<String,String> executionVariableMap2 = new HashMap<String,String>();
+        executionVariableMap2.put("kuali.student.fact.key", "summation.courseSet");
+        fs2.setExecutionVariableList(executionVariableMap2);
+        
+        List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
+        factStructureList2.add(fs2);
+        yieldValueFunction2.setFactStructureList(factStructureList2);
     }
     
     private RuleElementDTO getAndOperator() {
@@ -402,65 +528,50 @@ public class GenerateRuleSetTest {
         return re;
     }
     
-    @Ignore
+    private Map<String,Object> getFacts() {
+		Map<String,Object> factMap = new HashMap<String,Object>();
+
+		Set<String> courseSet1 = createSet("CPR101,MATH102,CHEM100");
+		factMap.put("intersection.courseSet", courseSet1);
+
+        List<BigDecimal> courseSet2 = createList("3.0,6.0,3.0");
+        factMap.put("summation.courseSet", courseSet2);
+        return factMap;
+    }
+    
     @Test
     public void testComplexRule() throws Exception {
-        List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
-        ruleElementList.add(getRule1());
+    	// Yield value functions
+    	YieldValueFunctionDTO yieldValueFunction1 = new YieldValueFunctionDTO();
+    	YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
+
+        // Rule elements
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        ruleElementList.add(createRule1(yieldValueFunction1));
         ruleElementList.add(getAndOperator());
-        ruleElementList.add(getRule2());
+        ruleElementList.add(createRule2(yieldValueFunction2));
 
-        BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
-    	bri.setName("Rule-1");
-    	bri.setDescription("Some business rule");
-    	bri.setSuccessMessage("Success message");
-    	bri.setFailureMessage("Failure message");
-    	bri.setBusinessRuleId("1");
-    	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
-    	bri.setAnchorTypeKey("kuali.student.lui.course.id");
-    	bri.setAnchorValue("CPR101");
-    	bri.setRuleElementList(ruleElementList);
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
 
-        
-    	// Facts - 1 of CPR101
-        FactStructureDTO fs1 = new FactStructureDTO();
-        fs1.setDataType(java.util.Set.class.getName());
-        fs1.setFactStructureId("kuali.student.criteria.intersection.id");
-        fs1.setAnchorFlag(false);
-        Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        // 1 of CPR101
-        definitionVariableMap.put("kuali.student.criteria.key", "CPR101");
-        fs1.setDefinitionVariableList(definitionVariableMap);
-        
-        List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
-        factStructureList.add(fs1);
+    	// Facts - Rule 1 - 1 of CPR101
+    	createFact1(yieldValueFunction1);
 
-        
-        // Facts - Sum of credit > 10.0
-        FactStructureDTO fs2 = new FactStructureDTO();
-        fs2.setDataType(java.lang.Integer.class.getName());
-        fs2.setFactStructureId("kuali.student.criteria.summation.id");
-        fs2.setAnchorFlag(false);
-        Map<String,String> executionVariableMap = new HashMap<String,String>();
-        executionVariableMap.put("kuali.student.criteria.person.id", null);
-        fs2.setExecutionVariableList(executionVariableMap);
-        
-        factStructureList.add(fs2);
+        // Facts - Rule 2 - Sum of credit > 10.0
+    	createFact2(yieldValueFunction2);
 
-    
-        // Parse
+        // Parse and generate functional business rule into Drools rules
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(bri);
-
         RuleSet ruleSet = this.generateRuleSet.parse(container);
         assertNotNull(ruleSet);
 
         // Rule set source code
         String source = ruleSet.getContent();
-System.out.println("\n\n"+source+"\n\n");
-        // Get facts
-        CourseEnrollmentRequest request = getCourseEnrollmentRequest(bri.getAnchorValue(), "CPR101,MATH102");
-        FactContainer facts = new FactContainer(bri.getAnchorValue(), request);
+
+		// Get facts
+		Map<String,Object> factMap = getFacts();
+		FactContainer facts =  new FactContainer(bri.getAnchorValue(), factMap);
 
         // Collection of Propositions
         PropositionContainer prop = facts.getPropositionContainer();

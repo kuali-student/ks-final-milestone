@@ -15,29 +15,29 @@
  */
 package org.kuali.student.rules.util;
 
-import org.kuali.student.rules.internal.common.facts.FactRequest;
-import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import java.util.Map;
 
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 
 public class FactContainer {
     private String id;
     private PropositionContainer propositionContainer = new PropositionContainer();
-    private FactRequest request;
+    private Map<String, ?> factMap;
     private State state = State.INIT;
     
     public enum State {INIT,DONE};
 
-    public FactContainer(String id, FactRequest request) {
+    public FactContainer(String id, Map<String, ?> factMap) {
         this.id = id;
-        this.request = request;
+        this.factMap = factMap;
     }
     
     public String getId() {
         return this.id;
     }
     
-    public FactRequest getRequest() {
-        return request;
+    public Map<String, ?> getFactMap() {
+        return factMap;
     }
     
     public PropositionContainer getPropositionContainer() {

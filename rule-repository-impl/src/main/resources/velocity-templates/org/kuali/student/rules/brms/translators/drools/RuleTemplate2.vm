@@ -17,24 +17,20 @@
 ## A generic rule template
 
 rule "${ruleName}"
-	when
+    when
         FactContainer( id == "${anchor}", state == FactContainer.State.DONE, prop : propositionContainer)
 ##   		eval (
-##   			#foreach($symbol in $functionSymbols) 
-##            #if ($symbol == "+" ) 
-##                ||
-##            #elseif ($symbol == "*")
-##                &&
-##            #elseif ($symbol == "(") 
-##                (
-##            #elseif ($symbol == ")") 
-##                )
-##            #else 
-##                prop.getProposition("$symbol").getResult()   			
-##   			#end
-##   			#end   		   		
-##		)
+##            #foreach($symbol in $functionSymbols)
+##                #if ($symbol == "+" ) ||
+##                #elseif ($symbol == "*") &&
+##                #elseif ($symbol == "(") (
+##                #elseif ($symbol == ")") )
+##                #else prop.getProposition("$symbol").getResult()
+##            	#end
+##            #end   		   		
+##          )
 
+    ## Doesn't seem to work properly e.g. (P1+P2)*P3 <-> (P1 or P2) and P3
     #foreach($symbol in $functionSymbols) 
         #if ($symbol == "+" ) or
         #elseif ($symbol == "*") and
@@ -43,6 +39,7 @@ rule "${ruleName}"
         #else Proposition( propositionName == "$symbol" && result == true ) from prop.propositions
         #end
     #end                
-	then
-   		prop.setRuleResult(true);
-	end		
+
+    then
+        prop.setRuleResult(true);
+end		

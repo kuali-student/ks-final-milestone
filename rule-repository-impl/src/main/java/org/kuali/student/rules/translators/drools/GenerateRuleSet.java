@@ -31,12 +31,17 @@ import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.translators.util.TranslatorUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class generates Drools rules source code from functional business rules.
  */
 public class GenerateRuleSet {
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(GenerateRuleSet.class);
 
     private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init.vm";
     private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2.vm";
@@ -68,7 +73,11 @@ public class GenerateRuleSet {
         for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
             parseRule(ruleSet, businessRule);
         }
-System.out.println("\n\n"+ruleSet.getContent());
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Container namespace: "+container.getNamespace() 
+        			+ "\n" +
+        			ruleSet.getContent());
+        }
         verifyRule(ruleSet);
         return ruleSet;
     }
@@ -113,6 +122,9 @@ System.out.println("\n\n"+ruleSet.getContent());
         velocityContextMap.put("functionSymbols", symbols);
         velocityContextMap.put("functionString", functionString);
         velocityContextMap.put("translatorUtil", TranslatorUtil.getInstance());
+        velocityContextMap.put("FACT_STRUCTURE_ID", Constants.FACT_STRUCTURE_ID);
+        velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
+        velocityContextMap.put("EXE_FACT_KEY", Constants.EXE_FACT_KEY);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, anchor, ruleName, velocityContextMap);
@@ -147,7 +159,6 @@ System.out.println("\n\n"+ruleSet.getContent());
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.ComparisonOperator");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
         ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.facts.FactRequest");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
         ruleSet.addHeader("import org.kuali.student.rules.translators.util.TranslatorUtil");
