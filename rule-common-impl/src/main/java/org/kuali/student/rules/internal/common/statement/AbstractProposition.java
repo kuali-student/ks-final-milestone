@@ -179,4 +179,8 @@ public abstract class AbstractProposition<T> implements Proposition {
     public void setExpectedValue(String expectedValue) {
         this.expectedValueAsString = expectedValue;
     }
+
+    public String toString() {
+    	return "(propositionName=" + propositionName + ", result="+this.result + ")";
+    }
 }
