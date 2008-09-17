@@ -15,14 +15,12 @@
  */
 package org.kuali.student.rules.translators.drools;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,7 +39,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
@@ -50,6 +47,7 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
 public class GenerateRuleSetPropositionTest {
@@ -121,6 +119,7 @@ public class GenerateRuleSetPropositionTest {
     private void executeRule(String source, FactContainer fact) throws Exception {
         // Execute Drools rule set source code
         WorkingMemory workingMemory = getRuleBase(source).newStatefulSession();
+        workingMemory.insert(new CurrentDateTime());
     	workingMemory.insert(fact);
         workingMemory.fireAllRules();
     }
@@ -141,16 +140,34 @@ public class GenerateRuleSetPropositionTest {
         return set;
     }
     
+    private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(year, month-1, day, hourOfDay, minute);
+    	return cal.getTime();
+    }
+
+    private RuleSet createRuleSet(String anchor, String packageName, String description, 
+			 String ruleName, String functionString,
+			 Map<String, RulePropositionDTO> propositionMap) {
+    	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
+    	RuleSet ruleSet = this.generateRuleSet.createRuleSet(anchor, 
+        		"TestPackageName", "A package", "TestRuleName", "P1", propositionMap,
+        		effectiveStartTime, effectiveEndTime);
+
+    	return ruleSet;
+    }
+    
     @Test
     public void testParseRuleSet_OneProposition() throws Exception {
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR 101
         propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-															 "P1", propositionMap);
-        // Get facts
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1", propositionMap);
+        // Get facts
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
         factMap.put("courseKey", courseSet);
@@ -171,10 +188,10 @@ public class GenerateRuleSetPropositionTest {
         // 1 of CPR 101
         propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "P1*P2", propositionMap);
-        // Get facts
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1*P2", propositionMap);
+        // Get facts
         //CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
         //FactContainer facts = new FactContainer(id, request);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
@@ -197,10 +214,10 @@ public class GenerateRuleSetPropositionTest {
         // 1 of CPR 101
         propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "P1+P2", propositionMap);
-        // Get facts
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId,  "TestPackageName", 
+        		"A package", "TestRuleName", "P1+P2", propositionMap);
+        // Get facts
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
         factMap.put("courseKey", courseSet);
@@ -223,10 +240,10 @@ public class GenerateRuleSetPropositionTest {
         // 1 of CHEM101
         propositionMap.put("P3", getRuleProposition("CHEM101","courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1*P2)+P3", propositionMap);
-        // Get facts
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "(P1*P2)+P3", propositionMap);
+        // Get facts
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
         factMap.put("courseKey", courseSet);
@@ -253,10 +270,10 @@ public class GenerateRuleSetPropositionTest {
         // 1 of CHEM101
         propositionMap.put("P3", getRuleProposition("CHEM101","courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1+P2)*P3", propositionMap);
-        // Get facts
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "(P1+P2)*P3", propositionMap);
+        // Get facts
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
         factMap.put("courseKey", courseSet);
@@ -281,10 +298,9 @@ public class GenerateRuleSetPropositionTest {
         // 1 of CHEM102
         propositionMap.put("P4", getRuleProposition("CHEM999","courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1+P2)*(P3+P4)", propositionMap);
-        // Get facts
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", "A package", "TestRuleName", "(P1+P2)*(P3+P4)", propositionMap);
+        // Get facts
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
         factMap.put("courseKey", courseSet);
@@ -322,9 +338,9 @@ public class GenerateRuleSetPropositionTest {
         		null,
         		"average.courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "(P1*P2)+P3", propositionMap);
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "(P1*P2)+P3", propositionMap);
         Map<String,Object> factMap = new HashMap<String,Object>();
         
         // Get facts for intersection
@@ -396,9 +412,9 @@ public class GenerateRuleSetPropositionTest {
         		null,
         		"average.courseKey"));
 
-        RuleSet ruleSet = this.generateRuleSet.createRuleSet("TestPackageName", "A package", "TestRuleName",
-                                                             "P1*P2*P3*P4*P5*P6", propositionMap);
         String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1*P2*P3*P4*P5*P6", propositionMap);
         Map<String,Object> factMap = new HashMap<String,Object>();
         
         // Get facts for intersection

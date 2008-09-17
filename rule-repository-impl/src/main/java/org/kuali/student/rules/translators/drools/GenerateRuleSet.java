@@ -16,6 +16,8 @@
 package org.kuali.student.rules.translators.drools;
 
 import java.io.StringReader;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.translators.util.TranslatorUtil;
+import org.kuali.student.rules.util.CurrentDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +71,8 @@ public class GenerateRuleSet {
      */
     public RuleSet parse(BusinessRuleContainerDTO container) throws GenerateRuleSetException {
         String packageName = PACKAGE_PREFIX + container.getNamespace();
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, container.getDescription());
+        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
+        		packageName, container.getDescription());
         addHeader(ruleSet);
         for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
             parseRule(ruleSet, businessRule);
@@ -89,49 +93,67 @@ public class GenerateRuleSet {
     private void parseRule(RuleSet ruleSet, BusinessRuleInfoDTO businessRule) {
         checkName(businessRule.getBusinessRuleTypeKey());
 
-        //String anchor = businessRule.getAnchor();
         String anchor = businessRule.getAnchorValue();
         String ruleName = businessRule.getName();
         String ruleDescription = businessRule.getDescription();
-        //String functionString = businessRule.createAdjustedRuleFunctionString();
         String functionString = BusinessRuleUtil.createAdjustedRuleFunctionString(businessRule);
-        //Map<String, RulePropositionDTO> propositionMap = businessRule.getRulePropositions();
         Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        generateRules(anchor, ruleName, ruleDescription, functionString, propositionMap, ruleSet);
+		Date effectiveStartTime = businessRule.getEffectiveStartTime();
+		Date effectiveEndTime = businessRule.getEffectiveEndTime();
+        generateRules(anchor, ruleName, ruleDescription, functionString, 
+        		propositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
     }
 
-    public void generateRules(String anchor, String ruleName, String ruleDescription, String functionString,
-            Map<String, RulePropositionDTO> functionalPropositionMap, RuleSet ruleSet ) {
+    public void generateRules(String anchor, String ruleName, 
+    						  String ruleDescription, String functionString,
+    						  Map<String, RulePropositionDTO> functionalPropositionMap, 
+    						  RuleSet ruleSet,
+    						  Date effectiveStartTime,
+    						  Date effectiveEndTime) {
         String initRuleName = ruleName+"_INIT";
-        String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, functionString, functionalPropositionMap);
+        String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, 
+        		functionString, functionalPropositionMap, 
+        		effectiveStartTime, effectiveEndTime);
         addRule(initRuleName, ruleDescription, ruleSet, rule1Source);
 
-        String rule2Source = generateRule2SourceCode(anchor, ruleName, functionString, functionalPropositionMap);
+        String rule2Source = generateRule2SourceCode(anchor, ruleName, 
+        		functionString, functionalPropositionMap);
         addRule(ruleName, ruleDescription, ruleSet, rule2Source);
     }
 
-    private String generateRule1InitSourceCode(String anchor, String ruleName, String functionString,
-            Map<String, RulePropositionDTO> functionalPropositionMap) {
+    private String generateRule1InitSourceCode(String anchor, String ruleName, 
+    										   String functionString,
+    										   Map<String, RulePropositionDTO> functionalPropositionMap,
+    										   Date effectiveStartTime,
+    										   Date effectiveEndTime) {
         checkName(anchor);
         Function f = new Function(functionString);
 
+        CurrentDateTime date = new CurrentDateTime();
+        long effStartDate = date.getDateAsLong(effectiveStartTime);
+        long effEndDate = date.getDateAsLong(effectiveEndTime);
+        
         // Create the final composite rule for the function
         List<String> symbols = f.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
         velocityContextMap.put("functionString", functionString);
+        velocityContextMap.put("effectiveStartTime", effStartDate);
+        velocityContextMap.put("effectiveEndTime", effEndDate);
         velocityContextMap.put("translatorUtil", TranslatorUtil.getInstance());
         velocityContextMap.put("FACT_STRUCTURE_ID", Constants.FACT_STRUCTURE_ID);
         velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
         velocityContextMap.put("EXE_FACT_KEY", Constants.EXE_FACT_KEY);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
-        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, anchor, ruleName, velocityContextMap);
+        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, 
+        		anchor, ruleName, velocityContextMap);
     }
 
-    private String generateRule2SourceCode(String anchor, String ruleName, String functionString,
-            Map<String, RulePropositionDTO> functionalPropositionMap) {
+    private String generateRule2SourceCode(String anchor, String ruleName, 
+    									   String functionString,
+    									   Map<String, RulePropositionDTO> functionalPropositionMap) {
         checkName(anchor);
         Function f = new Function(functionString);
 
@@ -146,11 +168,14 @@ public class GenerateRuleSet {
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, anchor, ruleName, velocityContextMap);
     }
     
-    public RuleSet createRuleSet(String packageName, String description, String ruleName, String functionString,
-            Map<String, RulePropositionDTO> functionalPropositionMap) {
+    public RuleSet createRuleSet(String anchor, String packageName, String description, 
+    							 String ruleName, String functionString,
+    							 Map<String, RulePropositionDTO> functionalPropositionMap,
+    							 Date effectiveStartTime, Date effectiveEndTime) {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, description);
         addHeader(ruleSet);
-        generateRules(ruleName, ruleName, "A rule description", functionString, functionalPropositionMap, ruleSet);
+        generateRules(anchor, ruleName, "A rule description", functionString, 
+        		functionalPropositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
         return ruleSet;
     }
 
@@ -162,6 +187,7 @@ public class GenerateRuleSet {
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
         ruleSet.addHeader("import org.kuali.student.rules.translators.util.TranslatorUtil");
+        ruleSet.addHeader("import org.kuali.student.rules.util.CurrentDateTime");
     }
 
     /**

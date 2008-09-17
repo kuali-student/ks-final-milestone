@@ -21,12 +21,13 @@ rule "${ruleName}"
     lock-on-active true
     when 
         container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
+        CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
     	prop.setFunctionalRuleString("$functionString");
     	#foreach( $key in $propositionMap.keySet() ) 
-   		#set ( $proposition = $propositionMap.get($key) )
-   		#set ( $rhs = $proposition.RightHandSide.ExpectedValue )
-   		#set ( $operator = $proposition.ComparisonOperatorType )
+   		#set( $proposition = $propositionMap.get($key) )
+   		#set( $rhs = $proposition.RightHandSide.ExpectedValue )
+   		#set( $operator = $proposition.ComparisonOperatorType )
 
 ##TODO: This should be changed to using a fact structure
 		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )

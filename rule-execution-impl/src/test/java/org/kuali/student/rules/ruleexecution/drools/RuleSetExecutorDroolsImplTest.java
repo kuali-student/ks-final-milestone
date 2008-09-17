@@ -41,7 +41,6 @@ import org.junit.runner.RunWith;
 //import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
 //import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
 //import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
-import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;

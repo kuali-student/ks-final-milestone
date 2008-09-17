@@ -23,6 +23,8 @@ import static org.junit.Assert.fail;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,13 +38,9 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
-import org.kuali.student.rules.internal.common.statement.Proposition;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
@@ -55,6 +53,7 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.GenerateRuleSet;
 import org.kuali.student.rules.translators.util.Constants;
+import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
 public class GenerateRuleSetTest {
@@ -80,6 +79,11 @@ public class GenerateRuleSetTest {
         		getRuleElementList(yieldValueFunctionType, criteria, comparisonOperator, expectedValue, factKey), 
         		"kuali.anchor.typekey.course", 
         		anchorValue);
+    	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
+    	businessRule.setEffectiveStartTime(effectiveStartTime);
+    	businessRule.setEffectiveEndTime(effectiveEndTime);
+
         return businessRule;
     }
     
@@ -139,6 +143,7 @@ public class GenerateRuleSetTest {
     private void executeRule(String source, FactContainer facts) throws Exception {
         // Execute Drools rule set source code
         WorkingMemory workingMemory = getRuleBase(source).newStatefulSession();
+        workingMemory.insert(new CurrentDateTime());
         workingMemory.insert(facts);
         workingMemory.fireAllRules();
     }
@@ -159,11 +164,10 @@ public class GenerateRuleSetTest {
         return set;
     }
     
-    private String getRuleSourceCode(String yieldValueFunctionType,
+    private BusinessRuleInfoDTO getBusinessRule(String yieldValueFunctionType,
     		String criteria, String comparisonOperator, 
     		String expectedValue, String anchorValue) throws Exception {
         // Generate Drools rule set source code
-        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         BusinessRuleInfoDTO businessRule = getBusinessRule(
         		yieldValueFunctionType, 
         		criteria, 
@@ -171,6 +175,19 @@ public class GenerateRuleSetTest {
         		expectedValue, 
         		"courseKey", 
         		anchorValue);
+        return businessRule;
+    }
+
+    private String getRuleSourceCode(String yieldValueFunctionType,
+    		String criteria, String comparisonOperator, 
+    		String expectedValue, String anchorValue) throws Exception {
+    	BusinessRuleInfoDTO businessRule = getBusinessRule(
+        		yieldValueFunctionType, 
+        		criteria, 
+        		comparisonOperator,
+        		expectedValue, 
+        		anchorValue);
+    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
         RuleSet ruleSet = this.generateRuleSet.parse(container);
@@ -409,6 +426,49 @@ public class GenerateRuleSetTest {
         }
     }
 
+    private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(year, month-1, day, hourOfDay, minute);
+    	return cal.getTime();
+    }
+
+    @Test
+    public void testParseBusinessRule_Average_EffectiveExpiryDate() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	BusinessRuleInfoDTO businessRule = getBusinessRule(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
+    	
+    	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
+    	businessRule.setEffectiveStartTime(effectiveStartTime);
+    	businessRule.setEffectiveEndTime(effectiveEndTime);
+    	
+    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        container.getBusinessRules().add(businessRule);
+        // Parse and generate rule set
+        RuleSet ruleSet = this.generateRuleSet.parse(container);
+        // Rule set source code
+        String source = ruleSet.getContent();
+
+        // Get facts
+        List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        factMap.put("courseKey", courseSet);
+        FactContainer facts = new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+    }
+
     private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
     	bri.setName("Rule-1");
@@ -420,6 +480,10 @@ public class GenerateRuleSetTest {
     	bri.setAnchorTypeKey("kuali.student.lui.course.id");
     	bri.setAnchorValue("CPR101");
     	bri.setRuleElementList(ruleElementList);
+    	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
+    	bri.setEffectiveStartTime(effectiveStartTime);
+    	bri.setEffectiveEndTime(effectiveEndTime);
     	return bri;
     }
 
