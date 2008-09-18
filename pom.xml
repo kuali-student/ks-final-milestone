@@ -218,6 +218,20 @@
 			</properties>
 		</profile>
 	</profiles>
+	
+	<distributionManagement>
+		<repository>
+			<id>kuali.release</id>
+			<name>Internal Release Repository</name>
+			<url> dav:http://archiva.kuali.umd.edu/repository/release </url>
+		</repository>
+		<snapshotRepository>
+			<id>kuali.snapshots</id>
+			<name>Internal Snapshot Repository</name>
+			<url> dav:http://archiva.kuali.umd.edu/repository/snapshot </url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<repositories>
 		<repository>
 			<id>kuali.external-free</id>
