@@ -1,46 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>org.kuali.student.poc</groupId>
-	<artifactId>ks-poc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>ks-poc-rice-war</artifactId>
 	<packaging>war</packaging>
-	<name />
+	<name>KS POC Big War</name>
+	<version>0.0.1-SNAPSHOT</version>
 	<description />
+
+	<!-- Using ks-parent-pom to get all dependencyManagement stuff -->
+	<parent>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-parent-pom</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
+	</parent>
+
+<!-- 
+	<repositories>
+		<repository>
+			<id>Maven Snapshots</id>
+			<url>
+				http://people.apache.org/repo/m2-snapshot-repository/
+			</url>
+		</repository>
+	</repositories>
+-->
+
+	<!-- Override parent pom cxf version to use latest snapshot -->
+	<properties>
+		<cxf.version>2.1.3-SNAPSHOT</cxf.version>
+	</properties>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.0</version>
 				<configuration>
-					<!-- no default value -->
-					<dependentWarExcludes>
-						WEB-INF/lib/cxf**, WEB-INF/lib/common-ws-**,
-						WEB-INF/lib/lu-api-**,
-						WEB-INF/lib/luipersonrelation-api-**,
-						WEB-INF/lib/personidentity-api-**,
-						WEB-INF/lib/org.kuali.student.**,
-						WEB-INF/lib/spring-**,
-					</dependentWarExcludes>
+					<overlays>
+						<!-- Rice War -->
+						<overlay>
+							<groupId>org.kuali.rice</groupId>
+							<artifactId>rice-web</artifactId>
+							<excludes>
+								<!--  
+									Exlude all rice jars, instead get these by adding dependency to
+									rice web pom. This way depedencyManagement can resolve artifact 
+									conflicts. 
+								-->
+								<exclude>WEB-INF/lib/*.jar</exclude>
+							</excludes>
+							<skip>false</skip>
+						</overlay>
+
+						<!-- Workflow War -->
+						<overlay>
+							<groupId>org.kuali.student.poc</groupId>
+							<artifactId>ks-workflow</artifactId>
+							<excludes>
+								<exclude>WEB-INF/lib/*.jar</exclude>
+								<exclude>WEB-INF/classes/*.xml</exclude>
+								<exclude>
+									WEB-INF/classes/config/*.xml
+								</exclude>
+							</excludes>
+							<skip>false</skip>
+						</overlay>
+
+						<!-- GWT War -->
+						<overlay>
+							<groupId>
+								org.kuali.student.poc.ks-poc-ui
+							</groupId>
+							<artifactId>ks-poc-ui</artifactId>
+							<excludes>
+								<exclude>
+									WEB-INF/lib/cxf**,
+									WEB-INF/lib/common-ws-**
+								</exclude>
+								<exclude>WEB-INF/lib/lu-api-**</exclude>
+								<exclude>
+									WEB-INF/lib/luipersonrelation-api-**
+								</exclude>
+								<exclude>
+									WEB-INF/lib/personidentity-api-**
+								</exclude>
+								<exclude>
+									WEB-INF/lib/org.kuali.student.**
+								</exclude>
+								<exclude>WEB-INF/lib/spring-**</exclude>
+							</excludes>
+							<skip>false</skip>
+						</overlay>
+					</overlays>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.7</version>
+				<!-- 
+					These libraries are needed for rice. Jetty requires that these
+					be in container classpath, having them WEB-INF\lib doesn't work.
+				-->
+				<dependencies>
+					<dependency>
+						<groupId>taglibs</groupId>
+						<artifactId>standard</artifactId>
+						<version>1.1.2</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.servlet</groupId>
+						<artifactId>jstl</artifactId>
+						<version>1.1.2</version>
+					</dependency>
+				</dependencies>
 				<configuration>
+					<connectors>
+						<connector
+							implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>8181</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
 					<webAppConfig>
-						<contextPath>
-							/${project.artifactId}-${project.version}
-						</contextPath>
+						<!-- Appears contextPath only works for 6.1.7+ -->
+						<contextPath>/ks</contextPath>
 					</webAppConfig>
 					<systemProperties>
 						<systemProperty>
 							<name>catalina.base</name>
 							<value>target</value>
+						</systemProperty>
+						<systemProperty>
+							<name>kew.bootstrap.spring.file</name>
+							<value>ks-rice-beans.xml</value>
 						</systemProperty>
 					</systemProperties>
 				</configuration>
@@ -49,9 +144,8 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
-					<path>
-						/${project.artifactId}-${project.version}
-					</path>
+					<port>8181</port>
+					<path>/ks</path>
 					<warDirectory>
 						${project.build.directory}/${project.build.finalName}
 					</warDirectory>
@@ -59,54 +153,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.poc.ks-poc-ui</groupId>
-			<artifactId>ks-poc-ui</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
-			<type>war</type>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kuali.student.poc.personidentity</groupId>
-			<artifactId>person-ri</artifactId>
-			<version>0.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.personidentity</groupId>
-			<artifactId>personidentity-api</artifactId>
-			<version>0.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>lu-ri</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>luipersonrelation-ri</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.kuali.student.poc.learningunit</groupId>
-			<artifactId>luipersonrelation-api</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<version>10.4.1.3</version>
-		</dependency>
-
- 
-		<!-- 
-			<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.3.0</version>
-			</dependency>
-		-->
-	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
@@ -125,30 +171,145 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+
+			<dependency>
+				<groupId>asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>1.5.3</version>
+			</dependency>
+
+			<!-- Rice uses MultipartResolver (which isn't in 2.5.4 jar)  -->
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring</artifactId>
-				<version>2.5.4</version>
+				<artifactId>spring-web</artifactId>
+				<version>2.0.4</version>
+			</dependency>
+
+			<!--  Spring-jpa, used by rice, has been replaced with spring-orm 2.5.4-->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jpa</artifactId>
+				<version>2.0.4</version>
 				<scope>provided</scope>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
-	<repositories>
-		<repository>
-			<id>kuali.release</id>
-			<url>http://kuali.umd.edu/archiva/repository/release</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
+	<dependencies>
+		<!--  Rice -->
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-web</artifactId>
+			<version>0.9.4-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+
+		<!--  Workflow -->
+		<dependency>
+			<groupId>org.kuali.student.poc</groupId>
+			<artifactId>ks-workflow</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+
+		<!-- GWT UI -->
+		<dependency>
+			<groupId>org.kuali.student.poc.ks-poc-ui</groupId>
+			<artifactId>ks-poc-ui</artifactId>
+			<version>0.0.4-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+
+
+		<!-- Rice Dependencies -->
+		<dependency>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-web</artifactId>
+			<version>0.9.4-SNAPSHOT</version>
+			<type>pom</type>
+		</dependency>
+
+		<!-- Derby: override provided scope from parent pom -->
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.3.2.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!--  Echo Test Services -->
+		<!-- 
+		<dependency>
+			<groupId>org.kuali.student</groupId>
+			<artifactId>CXFEchoService</artifactId>
+			<version>0.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-rt-frontend-simple</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-rt-frontend-simple</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-rt-ws-security</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>
+						cxf-rt-transports-http-jetty
+					</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		-->
+
+		<!-- Person Service -->
+		<dependency>
+			<groupId>org.kuali.student.poc.personidentity</groupId>
+			<artifactId>person-ri</artifactId>
+			<version>0.0.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>common-cxf</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- LuService -->
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>lu-ri</artifactId>
+			<version>0.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>common-cxf</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- LprService -->
+		<dependency>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>luipersonrelation-ri</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>common-cxf</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
 
 </project>

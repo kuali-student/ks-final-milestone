@@ -18,15 +18,9 @@
 				<ref bean="luType_credit_course" />
 				<ref bean="clu_math100" />
 				<ref bean="clu_cmsc214" />
-				<ref bean="clu_cpr101" />
-				<ref bean="clu_cpr201" />
-				<ref bean="clu_fa001" />
 				<ref bean="clu_musc300" />
 				<ref bean="lui_math100_0101" />
 				<ref bean="lui_cmsc214_0101" />
-				<ref bean="lui_cpr101_0101" />
-				<ref bean="lui_cpr201_0101" />
-				<ref bean="lui_fa001_0101" />
 				<ref bean="lui_musc300_0101" />
 				<ref bean="lui_math100_0202" />
 			</list>
@@ -157,102 +151,6 @@
 			value="Course Description for CMSC214" />
 		<property name="luType" ref="luType_credit_course" />
 	</bean>
-	<bean id="clu_cpr101"
-		class="org.kuali.student.poc.learningunit.lu.entity.Clu">
-		<property name="cluId"
-			value="11223344-1122-1122-1111-000000000015" />
-		<property name="attributes">
-			<set>
-				<bean
-					class="org.kuali.student.poc.learningunit.lu.entity.LuAttribute">
-					<property name="luAttributeType"
-						ref="luAttrTyp_credits" />
-					<property name="value" value="4" />
-					<property name="clu" ref="clu_cpr101" />
-				</bean>
-				<bean
-					class="org.kuali.student.poc.learningunit.lu.entity.LuAttribute">
-					<property name="luAttributeType"
-						ref="luAttrTyp_grading_method" />
-					<property name="value" value="STANDARD" />
-					<property name="clu" ref="clu_cpr101" />
-				</bean>
-			</set>
-		</property>
-		<property name="effectiveStartCycle" ref="atpStart" />
-		<property name="effectiveEndCycle" ref="atpEnd" />
-		<property name="effectiveStartDate" ref="currentTime" />
-		<property name="effectiveEndDate" ref="currentTime" />
-		<property name="cluLongName" value="Basic CPR Training" />
-		<property name="cluShortName" value="CPR 101" />
-		<property name="description"
-			value="Course Description for CPR 101" />
-		<property name="luType" ref="luType_credit_course" />
-	</bean>
-	<bean id="clu_cpr201"
-		class="org.kuali.student.poc.learningunit.lu.entity.Clu">
-		<property name="cluId"
-			value="11223344-1122-1122-1111-000000000014" />
-		<property name="attributes">
-			<set>
-				<bean
-					class="org.kuali.student.poc.learningunit.lu.entity.LuAttribute">
-					<property name="luAttributeType"
-						ref="luAttrTyp_credits" />
-					<property name="value" value="4" />
-					<property name="clu" ref="clu_cpr201" />
-				</bean>
-				<bean
-					class="org.kuali.student.poc.learningunit.lu.entity.LuAttribute">
-					<property name="luAttributeType"
-						ref="luAttrTyp_grading_method" />
-					<property name="value" value="STANDARD" />
-					<property name="clu" ref="clu_cpr201" />
-				</bean>
-			</set>
-		</property>
-		<property name="effectiveStartCycle" ref="atpStart" />
-		<property name="effectiveEndCycle" ref="atpEnd" />
-		<property name="effectiveStartDate" ref="currentTime" />
-		<property name="effectiveEndDate" ref="currentTime" />
-		<property name="cluLongName" value="Advanced CPR Training" />
-		<property name="cluShortName" value="CPR 201" />
-		<property name="description"
-			value="Course Description for CPR 201" />
-		<property name="luType" ref="luType_credit_course" />
-	</bean>
-	<bean id="clu_fa001"
-		class="org.kuali.student.poc.learningunit.lu.entity.Clu">
-		<property name="cluId"
-			value="11223344-1122-1122-1111-000000000013" />
-		<property name="attributes">
-			<set>
-				<bean
-					class="org.kuali.student.poc.learningunit.lu.entity.LuAttribute">
-					<property name="luAttributeType"
-						ref="luAttrTyp_credits" />
-					<property name="value" value="4" />
-					<property name="clu" ref="clu_fa001" />
-				</bean>
-				<bean
-					class="org.kuali.student.poc.learningunit.lu.entity.LuAttribute">
-					<property name="luAttributeType"
-						ref="luAttrTyp_grading_method" />
-					<property name="value" value="STANDARD" />
-					<property name="clu" ref="clu_fa001" />
-				</bean>
-			</set>
-		</property>
-		<property name="effectiveStartCycle" ref="atpStart" />
-		<property name="effectiveEndCycle" ref="atpEnd" />
-		<property name="effectiveStartDate" ref="currentTime" />
-		<property name="effectiveEndDate" ref="currentTime" />
-		<property name="cluLongName" value="Farming and Agriculture 001" />
-		<property name="cluShortName" value="FA 001" />
-		<property name="description"
-			value="Course Description for FA 001" />
-		<property name="luType" ref="luType_credit_course" />
-	</bean>
 	<bean id="clu_musc300"
 		class="org.kuali.student.poc.learningunit.lu.entity.Clu">
 		<property name="cluId"
@@ -309,33 +207,6 @@
 			value="11223344-1122-1122-1111-000000000011" />
 		<property name="atp" ref="atp1" />
 		<property name="clu" ref="clu_cmsc214" />
-		<property name="luiCode" value="0101" />
-		<property name="maxSeats" value="20" />
-	</bean>
-	<bean id="lui_cpr101_0101"
-		class="org.kuali.student.poc.learningunit.lu.entity.Lui">
-		<property name="luiId"
-			value="11223344-1122-1122-1111-000000000016" />
-		<property name="atp" ref="atp1" />
-		<property name="clu" ref="clu_cpr101" />
-		<property name="luiCode" value="0101" />
-		<property name="maxSeats" value="20" />
-	</bean>
-	<bean id="lui_cpr201_0101"
-		class="org.kuali.student.poc.learningunit.lu.entity.Lui">
-		<property name="luiId"
-			value="11223344-1122-1122-1111-000000000017" />
-		<property name="atp" ref="atp1" />
-		<property name="clu" ref="clu_cpr201" />
-		<property name="luiCode" value="0101" />
-		<property name="maxSeats" value="20" />
-	</bean>
-	<bean id="lui_fa001_0101"
-		class="org.kuali.student.poc.learningunit.lu.entity.Lui">
-		<property name="luiId"
-			value="11223344-1122-1122-1111-000000000018" />
-		<property name="atp" ref="atp1" />
-		<property name="clu" ref="clu_fa001" />
 		<property name="luiCode" value="0101" />
 		<property name="maxSeats" value="20" />
 	</bean>
@@ -507,6 +378,5 @@
 			value="Display personAttributeType4" />
 		<property name="type" value="String" />
 	</bean>
-	
-	
+
 </beans>

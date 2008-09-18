@@ -1,48 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:simple="http://cxf.apache.org/simple"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="
-			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="systemPropertiesMode">
-			<util:constant
-				static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		</property>
-		<property name="properties">
-			<props>
-				<prop key="ks.application.properties">
-					classpath:application.properties
-				</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:application.properties</value>
-				<value>${ks.application.properties}</value>
-			</list>
-		</property>
-		<property name="ignoreResourceNotFound" value="true" />
-	</bean>
-
-	
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+						http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
+						http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd                           
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<!-- web service clients  -->
 
@@ -70,36 +38,6 @@
 			value="${ks.servicelocation.LuService}" />
 	</bean>
 
-	<!-- web service implementations -->
-
-	<bean id="personServiceImpl"
-		class="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl">
-		<property name="personDAO">
-			<bean id="personDAO"
-				class="org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl">
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="luServiceImpl"
-		class="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl">
-		<property name="dao">
-			<bean id="luDao"
-				class="org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl">
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="lprServiceImpl"
-		class="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl">
-		<property name="dao">
-			<bean id="lprDao"
-				class="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl">
-			</bean>
-		</property>
-		<property name="luClient" ref="luClient" />
-		<property name="personClient" ref="personClient" />		
-	</bean>
 
 	<!-- jpa / jta -->
 
@@ -113,7 +51,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${ks.application.properties}" />
 				<property name="prefix"
 					value="jdbc.xaDataSourceProperties" />
 			</bean>
@@ -138,7 +76,7 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${ks.application.properties}" />
 				<property name="prefix" value="jpa.person" />
 			</bean>
 		</property>
@@ -154,11 +92,12 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${ks.application.properties}" />
 				<property name="prefix" value="jpa.lu" />
 			</bean>
 		</property>
 	</bean>
+
 
 	<bean id="luprEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -170,11 +109,12 @@
 			<bean
 				class="org.kuali.student.poc.common.util.PropertiesFilterFactoryBean">
 				<property name="propertyFile"
-					value="classpath:application.properties" />
+					value="${ks.application.properties}" />
 				<property name="prefix" value="jpa.lupr" />
 			</bean>
 		</property>
 	</bean>
+
 
 	<bean id="AtomikosTxMgr"
 		class="com.atomikos.icatch.jta.UserTransactionManager"
@@ -201,6 +141,7 @@
 	<tx:annotation-driven transaction-manager="JtaTxManager" />
 
 	<!-- Exception mapping aop -->
+
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
@@ -233,7 +174,158 @@
 		</aop:aspect>
 	</aop:config>
 
-	<!-- Preloaded beans -->
+	<bean id="personServiceImpl"
+		class="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl">
+		<property name="personDAO">
+			<bean id="personDAO"
+				class="org.kuali.student.poc.personidentity.person.dao.PersonDAOImpl">
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="luServiceImpl"
+		class="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl">
+		<property name="dao">
+			<bean id="luDao"
+				class="org.kuali.student.poc.learningunit.lu.dao.impl.LuDaoImpl">
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="lprServiceImpl"
+		class="org.kuali.student.poc.learningunit.luipersonrelation.service.LuiPersonRelationServiceImpl">
+		<property name="dao">
+			<bean id="lprDao"
+				class="org.kuali.student.poc.learningunit.luipersonrelation.dao.impl.LuiPersonRelationDAOImpl">
+			</bean>
+		</property>
+		<property name="luClient" ref="luClient" />
+		<property name="personClient" ref="personClient" />
+	</bean>
+
+	<!-- 
+		<bean id="simpleEchoService"
+		class="org.kuali.student.service.pojo.PojoEchoServiceImpl" />
+		
+		<bean id="jaxwsEchoService"
+		class="org.kuali.student.impl.EchoServiceImpl" />
+	-->
+
+	<!-- Web service deployed using cxf -->
+	<!-- 
+		<simple:server id="echoservicesimple"
+		serviceClass="org.kuali.student.service.pojo.PojoEchoService"
+		address="/EchoService">
+		<simple:serviceBean>
+		<ref bean="simpleEchoService" />
+		</simple:serviceBean>
+		</simple:server>
+		
+		<jaxws:endpoint id="echoservicejaxws"
+		implementorClass="org.kuali.student.impl.EchoServiceImpl"
+		implementor="#jaxwsEchoService" address="/JaxWsEchoService" />
+	-->
+	<!-- 
+		<jaxws:endpoint id="personService"
+		implementorClass="org.kuali.student.poc.personidentity.person.service.PersonServiceImpl"
+		implementor="#personServiceImpl" address="/PersonService" />
+		
+		<jaxws:endpoint id="luService"
+		implementorClass="org.kuali.student.poc.learningunit.lu.service.impl.LuServiceImpl"
+		implementor="#luServiceImpl" address="/LuService" />
+	-->
+
+	<!-- Web service deployed using ksb -->
+
+	<bean id="KSWebService"
+		class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition"
+		abstract="true">
+		<property name="serviceNameSpaceURI" value="KualiStudent" />
+		<property name="priority" value="3" />
+		<property name="retryAttempts" value="0" />
+		<property name="busSecurity" value="false" />
+		<property name="jaxWsService" value="true" />
+	</bean>
+
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="KSWebService">
+				<property name="service" ref="personServiceImpl" />
+				<!-- <property name="serviceNameSpaceURI" value="http://student.kuali.org/poc/wsdl/personidentity/person" /> -->
+				<property name="localServiceName" value="PersonService" />
+				<property name="serviceInterface"
+					value="org.kuali.student.poc.wsdl.personidentity.person.PersonService" />
+
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="KSWebService">
+				<property name="service" ref="luServiceImpl" />
+				<!-- <property name="serviceNameSpaceURI" value="http://student.kuali.org/poc/wsdl/learningunit/lu" /> -->
+				<property name="localServiceName" value="LuService" />
+				<property name="serviceInterface"
+					value="org.kuali.student.poc.wsdl.learningunit.lu.LuService" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="KSWebService">
+				<property name="service" ref="lprServiceImpl" />
+				<property name="localServiceName" value="LprService" />
+				<property name="serviceInterface"
+					value="org.kuali.student.poc.wsdl.learningunit.luipersonrelation.LuiPersonRelationService" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- 
+		<bean id="simpleEchoSoapService"
+		class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition"
+		abstract="true">
+		<property name="serviceNameSpaceURI" value="KSSimpleEcho" />
+		<property name="priority" value="3" />
+		<property name="retryAttempts" value="0" />
+		<property name="busSecurity" value="false" />
+		</bean>
+		
+		<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+		<bean parent="simpleEchoSoapService">
+		<property name="service" ref="simpleEchoService" />
+		<property name="localServiceName"
+		value="simpleEchoSoapService" />
+		</bean>
+		</property>
+		</bean>
+		
+		
+		<bean id="jaxwsEchoSoapService"
+		class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition"
+		abstract="true">
+		<property name="serviceNameSpaceURI" value="KSJaxWsEcho" />
+		<property name="priority" value="3" />
+		<property name="retryAttempts" value="0" />
+		<property name="busSecurity" value="false" />
+		</bean>
+		
+		<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+		<bean parent="jaxwsEchoSoapService">
+		<property name="service" ref="jaxwsEchoService" />
+		<property name="localServiceName"
+		value="jaxwsEchoSoapService" />
+		<property name="jaxWsService" value="true" />
+		</bean>
+		</property>
+		</bean>
+	-->
+
 
 	<import resource="classpath:data-beans.xml" />
 
@@ -251,7 +343,6 @@
 				<entry key="Person">
 					<ref bean="personBeanPreloadList" />
 				</entry>
-				
 			</map>
 		</property>
 	</bean>
@@ -262,4 +353,3 @@
 	<alias alias="gwtpersonService" name="personServiceImpl" />
 
 </beans>
-

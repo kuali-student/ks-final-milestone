@@ -1,0 +1,59 @@
+<config>
+	<!-- KS Service parameters -->
+	<param name="ks.application.properties">classpath:application.properties</param>
+	<param name="jdbc.xaDataSourceClassName">org.apache.derby.jdbc.EmbeddedXADataSource</param>
+	<param name="jpa.platform">org.hibernate.dialect.DerbyDialect</param>
+	<param name="jpa.adapter">org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</param>
+	<param name="jpa.showSql">true</param>
+	<param name="jpa.generateDdl">true</param>
+	<param name="ks.servicelocation.PersonService">${application.url}/cxf/PersonService</param>
+	<param name="ks.servicelocation.LuService">${application.url}/cxf/LuService</param>
+	<param name="ks.servicelocation.LprService">${application.url}/cxf/LprService</param>
+	
+	<!-- Default parameter options -->
+	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+	<param name="module.name">KS-Rice-App</param>
+	<param name="message.entity">KS-Rice</param>
+
+	<!-- Please fill in a value for this parameter! -->
+	<param name="application.url">http://localhost:8181/ks</param>
+
+	<param name="serviceServletUrl">${application.url}/remoting/</param>
+	<param name="cxfServiceServletUrl">${application.url}/cxf/</param>
+	<param name="notification.basewebappurl">${application.url}/ken</param>
+	<param name="workflow.url">${application.url}/en</param>
+
+	<param name="plugin.dir">/usr/local/rice/plugins</param>
+
+	<!-- set some datasource defaults -->
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+	<param name="datasource.username">rice094br</param>
+	<param name="datasource.password">kuali</param>
+	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+	<param name="datasource.pool.minSize">2</param>
+	<param name="datasource.pool.maxSize">10</param>
+	<param name="datasource.pool.maxWait">10000</param>
+	<param name="datasource.pool.maxActive">2</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="notification.ojb.platform">Oracle</param>
+	<param name="datasource.pool.size">10</param>
+	
+	<param name="attachment.dir.location">/usr/local/rice/kew_attachments</param>
+
+	<!-- log4j settings -->
+	<param name="log4j.settings.path">/usr/local/rice/log4j.properties</param>
+	<param name="log4j.settings.reloadInterval">5</param>
+
+	<!-- Keystore Configuration -->
+	<param name="keystore.file">/usr/local/rice/rice.keystore</param>
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.password">r1c3pw</param>
+
+	<!-- Dummy Login Filter - use if you don't want to go through CAS -->
+	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+	<param name="filtermapping.login.1">/*</param>
+	
+
+</config>
