@@ -5,15 +5,9 @@ package org.kuali.student.ui.personidentity.server.impl;
 
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.kuali.student.core.spring.BeanFactory;
-import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeSetTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonAttributeTypeInfo;
-import org.kuali.student.poc.xsd.personidentity.person.dto.PersonTypeInfo;
+import org.kuali.student.poc.xsd.personidentity.person.dto.PersonCriteria;
 
 /**
  * @author Garey
@@ -37,6 +31,19 @@ public class PersonIdentityServiceImplTest {
 //		}
 	}
 
+	   @Test
+	    public void testSearchById() {
+	      /* 
+	      PersonIdentityServiceImpl pi = new PersonIdentityServiceImpl();
+	     
+	      try{
+	          PersonCriteria pc = new PersonCriteria();
+	          pc.setFirstName("%");
+	          pi.searchForPersonIds(pc);
+	      }catch(Exception e){
+	          fail(e.getMessage());
+	      }*/
+	    }
 	
 //
 //
