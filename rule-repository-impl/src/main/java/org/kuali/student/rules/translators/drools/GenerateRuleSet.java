@@ -183,6 +183,8 @@ public class GenerateRuleSet {
         // Create the final composite rule for the function
         List<String> symbols = f.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
+        velocityContextMap.put("anchor", anchor);
+        velocityContextMap.put("ruleName", ruleName);
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
         velocityContextMap.put("functionString", functionString);
@@ -194,8 +196,7 @@ public class GenerateRuleSet {
         velocityContextMap.put("EXE_FACT_KEY", Constants.EXE_FACT_KEY);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
-        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, 
-        		anchor, ruleName, velocityContextMap);
+        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, velocityContextMap);
     }
 
     private String generateRule2SourceCode(String anchor, String ruleName, 
@@ -207,12 +208,14 @@ public class GenerateRuleSet {
         // Create the final composite rule for the function
         List<String> symbols = f.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
+        velocityContextMap.put("anchor", anchor);
+        velocityContextMap.put("ruleName", ruleName);
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
         velocityContextMap.put("functionString", functionString);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
-        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, anchor, ruleName, velocityContextMap);
+        return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, velocityContextMap);
     }
     
     public RuleSet createRuleSet(String anchor, String packageName, String description, 

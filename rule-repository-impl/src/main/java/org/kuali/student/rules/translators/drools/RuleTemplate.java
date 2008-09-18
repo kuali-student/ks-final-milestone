@@ -66,15 +66,9 @@ public class RuleTemplate {
      * @return Source code
      * @throws IllegalArgumentException if templateFile, anchor, ruleName or propMap is null or empty
      */
-    public String process(String templateFile, String anchor, String ruleName, Map<String, Object> propMap) {
+    public String process(String templateFile, Map<String, Object> propMap) {
     	if ( templateFile == null || templateFile.trim().isEmpty()) {
     		throw new IllegalArgumentException("templateFile cannot be null");
-    	}
-    	else if ( anchor == null || anchor.trim().isEmpty()) {
-    		throw new IllegalArgumentException("anchor cannot be null");
-    	}
-    	else if ( ruleName == null || ruleName.trim().isEmpty()) {
-    		throw new IllegalArgumentException("ruleName cannot be null");
     	}
     	else if ( propMap == null || propMap.isEmpty()) {
     		throw new IllegalArgumentException("propMap cannot be null");
@@ -83,8 +77,6 @@ public class RuleTemplate {
         StringWriter writer = new StringWriter();
 
         context = new VelocityContext(propMap);
-        context.put("anchor", anchor);
-        context.put("ruleName", ruleName);
         
         try {
             Template template = Velocity.getTemplate(templateFile);
