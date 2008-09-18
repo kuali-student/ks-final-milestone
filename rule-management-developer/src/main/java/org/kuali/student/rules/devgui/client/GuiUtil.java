@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.rules.devgui.client.model.BusinessRuleElement;
-import org.kuali.student.rules.devgui.client.model.BusinessRuleProposition;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -17,22 +17,31 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class GuiUtil {
 
-    public static String assembleRuleFromComposition(String composition, Map<Integer, BusinessRuleElement> definedPropositions) {
-        BusinessRuleElement elem;
-        BusinessRuleProposition prop;
+    /*
+     * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
+     * 
+     * @param composition - business rule composition e.g. (P1 AND P2) OR P3
+     * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
+     * @return list of business rule types
+     * @throws OperationFailedException
+     * 
+     */
+    public static String assembleRuleFromComposition(String composition, Map<Integer, RuleElementDTO> definedPropositions) {
+        RuleElementDTO elem;
+        RulePropositionDTO prop;
         String token;
         StringBuffer completeRule = new StringBuffer();
         int counter = 0;
 
         while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
             counter++;
-            System.out.println("Comp Token read:" + token);
+            // System.out.println("Comp Token read:" + token);
             composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
             if (token.charAt(0) == 'P') {
                 elem = definedPropositions.get(new Integer(token.substring(1)));
                 if (elem != null) {
                     prop = elem.getRuleProposition();
-                    completeRule.append(prop.getLeftHandSide() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide() + " ");
+                    completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
                 }
             } else {
                 completeRule.append(token + " ");
@@ -42,6 +51,15 @@ public class GuiUtil {
         return completeRule.toString();
     }
 
+    /*
+     * Retrieves next token from rule composition e.g. Px, (, ), OR, AND
+     * 
+     * @param composition - business rule composition e.g. (P1 AND P2) OR P3
+     * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
+     * @return list of business rule types
+     * @throws OperationFailedException
+     * 
+     */
     private static String getNextTokenFromComposition(String partialComposition) {
         String nextToken = "?";
         // System.out.println("get next token:" + partialComposition);
@@ -80,10 +98,11 @@ public class GuiUtil {
 
         }
 
-        System.out.println("Next token:'" + nextToken + "'");
+        // System.out.println("Next token:'" + nextToken + "'");
         return nextToken;
     }
 
+    // TODO ? Replace with antler?
     public static String validateRuleComposition(String text, Set<Integer> identifiers) {
 
         String message;
@@ -215,6 +234,9 @@ public class GuiUtil {
         throw new Exception("Expected 'Px' or '(Px' but found nothing.");
     }
 
+    /*
+     * Retrieve up to first five characters of a String
+     */
     private static String firstFiveChars(String text) {
         if (text.isEmpty())
             return "";
@@ -269,7 +291,7 @@ public class GuiUtil {
     }
 
     public enum ComparisonOperator {
-        EQUAL_TO("="), NOT_EQUAL_TO("<>"), GREATER_THAN(">"), LESS_THAN("<"), GREATER_THAN_OR_EQUAL_TO(">="), LESS_THAN_OR_EQUAL_TO("<=");
+        EMPTY(" "), EQUAL_TO("="), NOT_EQUAL_TO("<>"), GREATER_THAN(">"), LESS_THAN("<"), GREATER_THAN_OR_EQUAL_TO(">="), LESS_THAN_OR_EQUAL_TO("<=");
 
         private final String symbol;
 
@@ -298,7 +320,7 @@ public class GuiUtil {
     }
 
     public enum YieldValueFunctionType {
-        INTERSECTION("Intersection (arg1, arg2)"), SUBSET("Subset (arg)"), SUM("Sum (arg)"), AVERAGE("Average (arg)");
+        EMPTY("   "), INTERSECTION("Intersection (arg1, arg2)"), SUBSET("Subset (arg)"), SUM("Sum (arg)"), AVERAGE("Average (arg)");
 
         private final String symbol;
 

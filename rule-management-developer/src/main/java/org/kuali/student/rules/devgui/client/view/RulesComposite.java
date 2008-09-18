@@ -15,15 +15,19 @@ import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
-import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
-import org.kuali.student.rules.devgui.client.model.BusinessRuleElement;
-import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
-import org.kuali.student.rules.devgui.client.model.BusinessRuleProposition;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
+import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -47,6 +51,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * @author Zdenek
@@ -123,10 +128,9 @@ public class RulesComposite extends Composite {
         super.initWidget(simplePanel);
     }
 
-    private BusinessRuleInfo activeRule; // keep copy of business rule so we can update all fields user can change
-    private Map<Integer, BusinessRuleElement> definedPropositions;
+    private BusinessRuleInfoDTO activeRule; // keep copy of business rule so we can update all fields user can change
+    private Map<Integer, RuleElementDTO> definedPropositions;
     private StringBuffer ruleComposition;
-    private StringBuffer ruleCompleteText;
 
     @Override
     protected void onLoad() {
@@ -178,23 +182,23 @@ public class RulesComposite extends Composite {
                         clearRuleForms();
                     } else {
                         // populate fields from new selection
-                        DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfo>() {
+                        DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfoDTO>() {
                             public void onFailure(Throwable caught) {
                                 // just re-throw it and let the uncaught exception handler deal with it
                                 Window.alert(caught.getMessage());
                                 // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                             }
 
-                            public void onSuccess(BusinessRuleInfo ruleInfo) {
+                            public void onSuccess(BusinessRuleInfoDTO ruleInfo) {
                                 // store selected business rule in temporary object
                                 activeRule = ruleInfo;
 
                                 // store individual propositions in temporary list & set Rule Composition text
                                 int propCount = 1;
                                 ruleComposition = new StringBuffer();
-                                definedPropositions = new HashMap<Integer, BusinessRuleElement>();
+                                definedPropositions = new HashMap<Integer, RuleElementDTO>();
 
-                                for (BusinessRuleElement elem : ruleInfo.getRuleElementList()) {
+                                for (RuleElementDTO elem : ruleInfo.getRuleElementList()) {
                                     if (elem.getOperation().equals("PROPOSITION")) {
                                         definedPropositions.put(propCount, elem);
                                         ruleComposition.append("P" + (propCount++) + " ");
@@ -221,6 +225,9 @@ public class RulesComposite extends Composite {
     }
 
     public void populateRuleFormTabs() {
+
+        final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
+
         // populate Main TAB
         nameTextBox.setText(activeRule.getName());
         descriptionTextArea.setText(activeRule.getDescription());
@@ -240,21 +247,21 @@ public class RulesComposite extends Composite {
 
         // populate Authoring TAB
         statusTextBox.setText(activeRule.getStatus());
-        effectiveStartTimeTextBox.setText(activeRule.getEffectiveStartTime());
-        effectiveEndTimeTextBox.setText(activeRule.getEffectiveEndTime());
-        createTimeTextBox.setText(activeRule.getCreateTime());
-        createUserIdTextBox.setText(activeRule.getCreateUserId());
-        updateTimeTextBox.setText(activeRule.getUpdateTime());
-        updateUserIdTextBox.setText(activeRule.getUpdateUserId());
+        effectiveStartTimeTextBox.setText(formatter.format(activeRule.getEffectiveStartTime()));
+        effectiveEndTimeTextBox.setText(formatter.format(activeRule.getEffectiveEndTime()));
+        createTimeTextBox.setText(formatter.format(activeRule.getMetaInfo().getCreateTime()));
+        createUserIdTextBox.setText(activeRule.getMetaInfo().getCreateID());
+        updateTimeTextBox.setText(formatter.format(activeRule.getMetaInfo().getUpdateTime()));
+        updateUserIdTextBox.setText(activeRule.getMetaInfo().getUpdateID());
     }
 
     private void populatePropositionListBoxAndDetails(int selectedPropIx) {
         String propAbreviation;
 
         propositionsListBox.clear();
-        for (Map.Entry<Integer, BusinessRuleElement> entry : definedPropositions.entrySet()) {
+        for (Map.Entry<Integer, RuleElementDTO> entry : definedPropositions.entrySet()) {
             propAbreviation = "P" + entry.getKey();
-            BusinessRuleProposition prop = entry.getValue().getRuleProposition();
+            RulePropositionDTO prop = entry.getValue().getRuleProposition();
             propositionsListBox.addItem(propAbreviation + ":  " + prop.getName(), entry.getKey().toString());
 
             if ((entry.getKey().intValue() - 1) == selectedPropIx) {
@@ -267,13 +274,13 @@ public class RulesComposite extends Composite {
         }
     }
 
-    private void populatePropositionDetails(BusinessRuleElement elem) {
-        BusinessRuleProposition prop = elem.getRuleProposition();
+    private void populatePropositionDetails(RuleElementDTO elem) {
+        RulePropositionDTO prop = elem.getRuleProposition();
         propNameTextBox.setText(prop.getName());
         propDescTextBox.setText(prop.getDescription());
-        yvfListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(yvfListBox, prop.getLeftHandSide()));
+        yvfListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(yvfListBox, prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType()));
         operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorType()));
-        expectedValueTextBox.setText(prop.getRightHandSide());
+        expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());
     }
 
     private void clearPropositionDetails() {
@@ -523,7 +530,7 @@ public class RulesComposite extends Composite {
         propositionsListBox.addClickListener(new ClickListener() {
             public void onClick(Widget sender) {
                 ListBox box = ((ListBox) sender);
-                BusinessRuleElement selectedRuleElement = definedPropositions.get(new Integer(box.getValue(box.getSelectedIndex())));
+                RuleElementDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(box.getSelectedIndex())));
                 if (selectedRuleElement == null) {
                     return;
                 }
@@ -632,14 +639,20 @@ public class RulesComposite extends Composite {
             public void onClick(final Widget sender) {
                 int selectedProp = propositionsListBox.getSelectedIndex();
                 if (selectedProp != -1) {
-                    BusinessRuleElement elem = definedPropositions.get(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
+                    RuleElementDTO elem = definedPropositions.get(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
                     elem.setOperation("PROPOSITION");
-                    BusinessRuleProposition prop = elem.getRuleProposition();
+                    RulePropositionDTO prop = elem.getRuleProposition();
                     prop.setName(propNameTextBox.getText());
                     prop.setDescription(propDescTextBox.getText());
-                    prop.setLeftHandSide(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+                    LeftHandSideDTO leftSide = new LeftHandSideDTO();
+                    YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+                    yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+                    leftSide.setYieldValueFunction(yvf);
+                    prop.setLeftHandSide(leftSide);
+                    RightHandSideDTO rightSide = new RightHandSideDTO();
+                    rightSide.setExpectedValue(expectedValueTextBox.getText());
                     prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
-                    prop.setRightHandSide(expectedValueTextBox.getText());
+                    prop.setRightHandSide(rightSide);
                     propositionsListBox.setSelectedIndex(-1);
                     clearPropositionDetails();
                 }
@@ -667,8 +680,8 @@ public class RulesComposite extends Composite {
 
         addPropButton.addClickListener(new ClickListener() {
             public void onClick(final Widget sender) {
-                BusinessRuleElement elem = new BusinessRuleElement();
-                BusinessRuleProposition prop = new BusinessRuleProposition();
+                RuleElementDTO elem = new RuleElementDTO();
+                RulePropositionDTO prop = new RulePropositionDTO();
 
                 if (yvfListBox.getSelectedIndex() == -1) {
                     // TODO error messages
@@ -685,9 +698,14 @@ public class RulesComposite extends Composite {
 
                 prop.setName(propNameTextBox.getText());
                 prop.setDescription(propDescTextBox.getText());
-                prop.setLeftHandSide(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+                LeftHandSideDTO leftSide = new LeftHandSideDTO();
+                YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+                yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+                leftSide.setYieldValueFunction(yvf);
+                prop.setLeftHandSide(leftSide);
+                RightHandSideDTO rightSide = new RightHandSideDTO();
+                rightSide.setExpectedValue(expectedValueTextBox.getText());
                 prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
-                prop.setRightHandSide(expectedValueTextBox.getText());
                 elem.setRuleProposition(prop);
                 elem.setOperation("PROPOSITION");
 

@@ -6,10 +6,10 @@ package org.kuali.student.rules.devgui.server.gwt;
 import java.util.List;
 
 import org.kuali.student.core.spring.BeanFactory;
-import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.server.impl.DevelopersGuiServiceImpl;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -28,7 +28,7 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
         return serviceImpl.findRulesHierarchyInfo();
     }
 
-    public BusinessRuleInfo fetchDetailedBusinessRuleInfo(String ruleId) {
+    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
         return serviceImpl.fetchDetailedBusinessRuleInfo(ruleId);
     }
 
@@ -58,9 +58,4 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
     public void setServiceImpl(DevelopersGuiServiceImpl serviceImpl) {
     // this.serviceImpl = serviceImpl;
     }
-
-    public List<BusinessRuleInfo> findBusinessRules() {
-        return serviceImpl.findBusinessRules();
-    }
-
 }

@@ -112,4 +112,8 @@ public class RulesHierarchyInfo implements ModelObject {
         this.anchor = anchor;
     }
 
+    @Override
+    public final String toString() {
+        return "agendaType: '" + agendaType + "', agendaDeterminationKeysSet: '" + agendaDeterminationKeysSet + "', businessRuleType: '" + businessRuleType + "', businessRuleId: '" + businessRuleId + "', anchor: '" + anchor + "', businessRuleName: '" + businessRuleName;
+    }
 }

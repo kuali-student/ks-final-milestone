@@ -8,11 +8,8 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
-import org.kuali.student.commons.ui.mvc.client.model.Model;
-import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
-import org.kuali.student.rules.devgui.client.model.BusinessRuleInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
@@ -61,7 +58,7 @@ public class RuleTypesComposite extends Composite {
 
     // class that binds a widget to a model, instantiation is deferred
     // until application state is guaranteed to be ready
-    ModelBinding<BusinessRuleInfo> binding;
+    // ModelBinding<BusinessRuleInfo> binding;
 
     // widgets used for Rules forms.....
     final Tree ruleTypesTree = new Tree(); // used to browse Rule Types
@@ -90,7 +87,7 @@ public class RuleTypesComposite extends Composite {
             messages = metadata.getMessages();
 
             // bind the PeopleTable to the parent controller's Model of BusinesRule objects
-            Model<BusinessRuleInfo> model = (Model<BusinessRuleInfo>) controller.getModel(BusinessRuleInfo.class);
+            // Model<BusinessRuleInfo> model = (Model<BusinessRuleInfo>) controller.getModel(BusinessRuleInfo.class);
             // TODO binding = new ModelBinding<BusinessRuleInfo>(model, table);
 
             // create tree-like rules browser
@@ -117,7 +114,7 @@ public class RuleTypesComposite extends Composite {
     protected void onUnload() {
         super.onUnload();
         // unlink the binding as it is no longer needed
-        binding.unlink();
+        // binding.unlink();
     }
 
     private Widget getBusinessRuleTypesForm() {
