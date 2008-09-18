@@ -51,7 +51,7 @@ import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
-public class GenerateRuleSetPropositionTest {
+public class RuleSetTranslatorPropositionTest {
 
     private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();

@@ -26,8 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
         org.kuali.student.rules.repository.util.ObjectUtilTest.class,
         org.kuali.student.rules.repository.rule.AllTests.class,
         org.kuali.student.rules.repository.drools.AllTests.class,
-        org.kuali.student.rules.translators.drools.GenerateRuleSetTest.class,
-        org.kuali.student.rules.translators.drools.GenerateRuleSetPropositionTest.class
+        org.kuali.student.rules.translators.drools.RuleSetTranslatorTest.class,
+        org.kuali.student.rules.translators.drools.RuleSetTranslatorPropositionTest.class
     } )
 public class AllTests {
 }
