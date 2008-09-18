@@ -10,6 +10,7 @@
 	<properties>
 		<google.webtoolkit.extrajvmargs> -Xmx512m 
 		</google.webtoolkit.extrajvmargs>
+		<gwtVersion>1.5.2</gwtVersion>
 	</properties>
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
@@ -25,38 +26,26 @@
 			<plugin>
 				<groupId>com.totsp.gwt</groupId>
 				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-				<version>2.0-beta20</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>setup</goal>
-							<goal>extractGwt</goal>
-							<goal>mergewebxml</goal>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
+				<version>2.0-beta23</version>				
 				<configuration>
-					<gwtVersion>1.5.2</gwtVersion>
+					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<runTarget> org.kuali.student.poc.POC/POC.jsp </runTarget>
 					<compileTargets>
 						<param>org.kuali.student.poc.POC</param>
-						<param> org.kuali.student.ui.personidentity.PersonIdentity 
-						</param>
-						<!--
-							dependencies <param> org.kuali.student.commons.ui.Logging
-							</param> <param> org.kuali.student.commons.ui.Messages </param>
-							<param> org.kuali.student.commons.ui.MVC </param> <param>
-							org.kuali.student.commons.ui.PropertyChangeSupport </param>
-							<param> org.kuali.student.commons.ui.UICommons </param> <param>
-							org.kuali.student.commons.ui.Utilities </param> <param>
-							org.kuali.student.commons.ui.Validators </param> <param>
-							org.kuali.student.commons.ui.ViewMetaData </param> <param>
-							org.kuali.student.commons.ui.Widgets </param>
-						-->
+						<param> org.kuali.student.ui.personidentity.PersonIdentity</param>						
 					</compileTargets>
+					<extraJvmArgs>-Xmx512m</extraJvmArgs>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>mergewebxml</goal>							
+							
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -64,6 +53,32 @@
 				<configuration>
 					<webXml>target/web.xml</webXml>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.google.gwt</groupId>
+									<artifactId>gwt-dev</artifactId>
+									<version>${gwtVersion}</version>
+									<classifier>${platform}-libs</classifier>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -92,20 +107,29 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>1.5.2</version>
+			<version>${gwtVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-dev</artifactId>
-			<version>1.5.2</version>
-			<classifier>${ks.os.classifier}</classifier>
-			<scope>provided</scope>
-		</dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwtVersion}</version>
+            <classifier>${platform}-libs</classifier>
+            <type>zip</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwtVersion}</version>
+            <classifier>${platform}</classifier>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>1.5.2</version>
+			<version>${gwtVersion}</version>
+			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>junit</artifactId>
@@ -186,7 +210,7 @@
 				<repository>
 					<id>gwt-maven</id>
 					<url> http://gwt-maven.googlecode.com/svn/trunk/mavenrepo </url>
-				</repository>				
+				</repository>
 			</repositories>
 			<pluginRepositories>
 				<pluginRepository>
@@ -196,29 +220,42 @@
 			</pluginRepositories>
 		</profile>
 		<profile>
-			<id>ks.os.linux</id>
-			<activation>
-				<os>
-					<name>linux</name>
-				</os>
-			</activation>
+			<id>gwt-dev-windows</id>
 			<properties>
-				<ks.os.classifier>linux</ks.os.classifier>
+				<platform>windows</platform>
 			</properties>
-		</profile>
-		<profile>
-			<id>ks.os.windows</id>
 			<activation>
+				<activeByDefault>true</activeByDefault>
 				<os>
 					<family>Windows</family>
 				</os>
 			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-mac</id>
 			<properties>
-				<ks.os.classifier>windows</ks.os.classifier>
+				<platform>mac</platform>
 			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-linux</id>
+			<properties>
+				<platform>linux</platform>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<name>Linux</name>
+				</os>
+			</activation>
 		</profile>
 	</profiles>
-	
 	<distributionManagement>
 		<repository>
 			<id>kuali.release</id>
@@ -231,7 +268,6 @@
 			<url> dav:http://archiva.kuali.umd.edu/repository/snapshot </url>
 		</snapshotRepository>
 	</distributionManagement>
-	
 	<repositories>
 		<repository>
 			<id>kuali.external-free</id>
