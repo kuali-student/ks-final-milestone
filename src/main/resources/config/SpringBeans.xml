@@ -1,0 +1,133 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+
+	<bean id="config" class="org.kuali.rice.core.config.spring.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:config/sample-embedded-client-config.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true" />
+		<property name="transactionTimeout" value="${transaction.timeout}" />
+	</bean>
+
+	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+		<property name="transactionTimeout" value="${transaction.timeout}" />
+	</bean>
+
+	<bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager" ref="atomikosTransactionManager"/>
+		<property name="userTransaction" ref="atomikosUserTransaction"/>
+	</bean>
+
+<!-- 
+	<bean id="jtaTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+	  <property name="forceShutdown" value="true"/>
+	  <property name="transactionTimeout" value="${transaction.timeout}"/>
+	</bean>
+
+    <bean id="jtaUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+      <property name="transactionTimeout" value="${transaction.timeout}"/>
+    </bean>
+-->    
+
+
+	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+		<property name="uniqueResourceName" value="clientDataSource" />
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="poolSize" value="${datasource.pool.size}" />
+		<property name="connectionTimeout" value="${datasource.pool.maxWait}" />
+		<property name="validatingQuery" value="${datasource.pool.validationQuery}" />
+		<property name="testOnBorrow" value="true" />
+		<property name="user" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+
+	<bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="maxActive" value="${datasource.pool.maxActive}" />
+		<property name="minIdle" value="${datasource.minIdle}" />
+		<property name="initialSize" value="${datasource.initialSize}" />
+		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+		<property name="accessToUnderlyingConnectionAllowed" value="${datasource.accessToUnderlyingConnectionAllowed}" />
+	</bean>
+
+	<bean id="standaloneDataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+		<property name="uniqueResourceName" value="standaloneDataSource" />
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="poolSize" value="${datasource.pool.size}" />
+		<property name="connectionTimeout" value="${datasource.pool.maxWait}" />
+		<property name="validatingQuery" value="${datasource.pool.validationQuery}" />
+		<property name="testOnBorrow" value="true" />
+		<property name="url" value="${datasource.url}" />
+		<property name="user" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+	
+	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+      <property name="dataSource" ref="dataSource"/>
+      <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource"/>
+      <property name="transactionManager" ref="jtaTransactionManager"/>
+      <property name="waitForJobsToCompleteOnShutdown" value="false"/>
+      <property name="quartzProperties">
+        <props>
+          <prop key="org.quartz.scheduler.instanceName">${ksb.org.quartz.scheduler.instanceName}</prop>
+          <prop key="org.quartz.scheduler.instanceId">${ksb.org.quartz.scheduler.instanceId}</prop>
+          <prop key="org.quartz.jobStore.tablePrefix">${ksb.org.quartz.jobStore.tablePrefix}</prop>
+          <prop key="org.quartz.jobStore.isClustered">${ksb.org.quartz.jobStore.isClustered}</prop>
+          <prop key="org.quartz.threadPool.threadCount">${ksb.org.quartz.threadPool.threadCount}</prop>
+        </props>
+      </property>
+    </bean>
+
+	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
+		
+		<property name="dataSource" ref="dataSource" />
+		<property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
+		<property name="transactionManager" ref="atomikosTransactionManager" />
+		<property name="userTransaction" ref="atomikosUserTransaction" />
+
+		
+		<!--
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="atomikosTransactionManager" />
+		<property name="userTransaction" ref="atomikosUserTransaction" />
+		-->
+		
+		<property name="messageEntity" value="EMBED" />
+		<property name="environment" value="dev" />
+		<property name="rootConfig" ref="config" />
+		<property name="modules">
+			<list>
+				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
+					<property name="serviceServletUrl" value="${serviceServletUrl}" />
+					<property name="exceptionMessagingScheduler" ref="quartzScheduler"/>
+					<property name="registryDataSource" ref="standaloneDataSource" />
+					<property name="messageDataSource" ref="dataSource" />
+				</bean>
+				<bean class="org.kuali.rice.kcb.config.KCBConfigurer"/>
+				<bean class="org.kuali.workflow.config.KEWConfigurer">
+					<property name="clientProtocol" value="local" />
+					<property name="dataSource" ref="standaloneDataSource" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

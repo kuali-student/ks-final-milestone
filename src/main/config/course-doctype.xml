@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>CourseDocument</name>
+			<description>Course workflow document</description>
+			<label>CourseDocument</label>
+			<postProcessorName>
+				org.kuali.student.embedded.workflow.CoursePostProcessor
+			</postProcessorName>
+			<docHandler>
+				http://localhost:8085/course-embedded/CourseClientServlet?load=true
+			</docHandler>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<routePaths>
+				<routePath>
+					<start name="Proposal" nextNode="CheckCourse" />
+					<simple name="CheckCourse" nextNode="CourseFeedback" />
+					<requests name="CourseFeedback" nextNode="DeptSplit" />
+					<split name="DeptSplit"
+						nextNode="CommitteeReview">
+						<branch name="NO_DEPT_BRANCH">
+							<requests name="NoDeptApproval"
+								nextNode="DeptJoin" />
+						</branch>
+						<branch name="CMSC_BRANCH">
+							<process name="DeptProcess"
+								nextNode="DeptJoin" />
+						</branch>
+						<branch name="MATH_BRANCH">
+							<requests name="MathCurriculumEvaluation"
+								nextNode="MathCourseEvaluation" />
+							<requests name="MathCourseEvaluation"
+								nextNode="MathDeanApproval" />
+							<requests name="MathDeanApproval"
+								nextNode="DeptJoin" />
+						</branch>
+						<branch name="BIOL_BRANCH">
+							<process name="DeptProcess"
+								nextNode="DeptJoin" />
+						</branch>
+						<join name="DeptJoin" />
+					</split>
+					<requests name="CommitteeReview" nextNode="CommitteeApproval"/>
+					<requests name="CommitteeApproval" />
+				</routePath>
+				<routePath processName="DeptProcess"
+					initialNode="DeptReview">
+					<requests name="DeptReview" nextNode="DeptApproval" />
+					<requests name="DeptApproval" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Proposal">
+					<activationType>P</activationType>
+				</start>
+				<simple name="CheckCourse">
+					<activationType>P</activationType>
+					<type>
+						org.kuali.student.embedded.workflow.CourseCheckNode
+					</type>
+				</simple>
+				<process name="DeptProcess" />
+				<split name="DeptSplit">
+					<type>
+						org.kuali.student.embedded.workflow.DeptSplit
+					</type>
+				</split>
+				<simple name="NoDeptApproval">
+					<activationType>P</activationType>
+					<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+				</simple>
+				<join name="DeptJoin" />
+				<requests name="CourseFeedback">
+					<activationType>P</activationType>
+					<ruleTemplate>CourseFeedbackTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathCurriculumEvaluation">
+					<activationType>P</activationType>
+					<ruleTemplate>MathCurriculumTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathCourseEvaluation">
+					<activationType>P</activationType>
+					<ruleTemplate>MathCourseTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathDeanApproval">
+					<activationType>P</activationType>
+					<ruleTemplate>CourseApproveTemplate</ruleTemplate>
+				</requests>
+				<requests name="DeptApproval">
+					<activationType>S</activationType>
+					<ruleTemplate>DeptApproveTemplate</ruleTemplate>
+				</requests>
+				<requests name="DeptReview">
+					<activationType>S</activationType>
+					<ruleTemplate>DeptReviewTemplate</ruleTemplate>
+				</requests>
+				<requests name="CommitteeReview">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+					<ruleName>ReviewProposalRule</ruleName>
+				</requests>
+				<requests name="CommitteeApproval">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+					<ruleName>ApproveProposalRule</ruleName>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+		<documentType>
+			<name>SimpleDocument</name>
+			<description>Simple Course workflow document</description>
+			<label>SimpleDocument</label>
+			<postProcessorName>
+				org.kuali.student.embedded.workflow.CoursePostProcessor
+			</postProcessorName>
+			<docHandler>
+				http://localhost:8085/course-embedded/CourseClientServlet?load=true
+			</docHandler>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<routePaths>
+				<routePath>
+					<start name="Proposal" nextNode="MathCurriculumEvaluation" />
+					<requests name="MathCurriculumEvaluation"
+						nextNode="MathCourseEvaluation" />
+					<requests name="MathCourseEvaluation"
+						nextNode="MathDeanApproval" />
+					<requests name="MathDeanApproval" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Proposal">
+					<activationType>P</activationType>
+				</start>
+				<requests name="MathCurriculumEvaluation">
+					<activationType>P</activationType>
+					<ruleTemplate>MathCurriculumTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathCourseEvaluation">
+					<activationType>P</activationType>
+					<ruleTemplate>MathCourseTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathDeanApproval">
+					<activationType>P</activationType>
+					<ruleTemplate>CourseApproveTemplate</ruleTemplate>
+				</requests>
+			</routeNodes>
+		</documentType>
+
+	</documentTypes>
+
+
+</data>

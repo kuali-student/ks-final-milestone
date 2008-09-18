@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+		<user>
+			<workflowId>wgomes</workflowId>
+			<emplId>wgomes</emplId>
+			<authenticationId>wgomes</authenticationId>
+			<uuId>wgomes</uuId>
+			<emailAddress>wgomes@umd.edu</emailAddress>
+			<displayName>Will Gomes</displayName>
+			<givenName>Will</givenName>
+			<lastName>Gomes</lastName>
+		</user>
+	</users>
+
+</data>

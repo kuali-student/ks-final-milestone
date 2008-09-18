@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+		<user>
+			<workflowId>csubmit</workflowId>
+			<emplId>submitter1</emplId>
+			<authenticationId>csubmit</authenticationId>
+			<uuId>csubmit</uuId>
+			<emailAddress>csubmit@umd.edu</emailAddress>
+			<displayName>Course Submitter</displayName>
+			<givenName>Course</givenName>
+			<lastName>Submitter</lastName>
+		</user>
+		<user>
+			<workflowId>cviewer</workflowId>
+			<emplId>reviewer1</emplId>
+			<authenticationId>cviewer</authenticationId>
+			<uuId>cviewer</uuId>
+			<emailAddress>cviewer@localhost.edu</emailAddress>
+			<displayName>CViewer Reviewer</displayName>
+			<givenName>Viewer</givenName>
+			<lastName>C</lastName>
+		</user>
+		<user>
+			<workflowId>crover</workflowId>
+			<emplId>approver1</emplId>
+			<authenticationId>crover</authenticationId>
+			<uuId>crover</uuId>
+			<emailAddress>crover@localhost.edu</emailAddress>
+			<displayName>Crover Submitter</displayName>
+			<givenName>Rover</givenName>
+			<lastName>Cou</lastName>
+		</user>
+	</users>
+
+	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
+		<workgroup allowOverwrite="true">
+			<workgroupName>CourseSubmitters</workgroupName>
+			<description>Employees who submit course propsals</description>
+			<members>
+				<authenticationId>csubmit</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup allowOverwrite="true">
+			<workgroupName>CourseApprovers</workgroupName>
+			<description>Users who can approve course validated course approvals</description>
+			<members>
+				<authenticationId>crover</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup allowOverwrite="true">
+			<workgroupName>CourseReviewers</workgroupName>
+			<description>Users who review courses</description>
+			<members>
+				<authenticationId>cviewer</authenticationId>
+			</members>
+		</workgroup>
+	</workgroups>
+
+</data>

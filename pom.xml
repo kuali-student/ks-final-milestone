@@ -3,62 +3,77 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.authz</groupId>
-	<artifactId>AuthZ</artifactId>
-	<packaging>jar</packaging>
-	<name>AuthZ</name>
+	<groupId>org.kuali.student.poc</groupId>
+	<artifactId>ks-workflow</artifactId>
+	<packaging>war</packaging>
+	<name />
 	<version>0.0.1-SNAPSHOT</version>
 	<description />
-	<parent>
-		<groupId>org.kuali.student.poc.common</groupId>
-		<artifactId>ks-service-pom</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
-	</parent>
-	<repositories>
 
-		<!-- Repository for poc lu service -->
+	<dependencyManagement>
+		<!-- This is here because archiva doesn't like version range -->
+		<dependencies>
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc14</artifactId>
+				<version>10.2.0.3.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<distributionManagement>
 		<repository>
-			<id>kuali.snapshot</id>
-			<url>http://kuali.umd.edu/archiva/repository/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
+			<id>kuali.snapshots</id>
+			<name>Internal Release Repository</name>
+			<url>dav:http://archiva.kuali.umd.edu/repository/snapshot/</url>
 		</repository>
-
-	</repositories>
-
-	<properties>
-		<ks.service.package>org.kuali.student.authz.service</ks.service.package>
-		<ks.service.className>
-			AuthorizationService
-		</ks.service.className>
-	</properties>
+	</distributionManagement>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>org.kuali.student.poc.common</groupId>
-			<artifactId>common-test</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<groupId>org.kuali.rice</groupId>
+			<artifactId>rice-impl</artifactId>
+			<version>0.9.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derby</artifactId>
-			<version>10.3.2.1</version>
+			<groupId>org.kuali.student.poc.learningunit</groupId>
+			<artifactId>lu-api</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.1.4</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>2.5.4</version>
-		</dependency>
-
 	</dependencies>
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.1</version>
+
+					<!--jar file that has the jdbc driver -->
+					<dependencies>
+						<dependency>
+							<groupId>com.oracle</groupId>
+							<artifactId>ojdbc14</artifactId>
+							<version>10.2.0.3.0</version>
+						</dependency>
+					</dependencies>
+
+					<configuration>
+						<driver>oracle.jdbc.driver.OracleDriver</driver>
+						<url>jdbc:oracle:thin:@127.0.0.1:1521:xe</url>
+						<username>rice094br</username>
+						<password>kuali</password>
+						<onError>continue</onError>
+					</configuration>
+
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -67,51 +82,54 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
-			<!-- Exclude some tests -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.7</version>
 				<configuration>
-					<excludes>
-						<exclude>**/TestCollegesData.java</exclude>
-					</excludes>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<connectors>
+						<connector
+							implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>8085</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
 				</configuration>
 			</plugin>
+
+			<!-- Adding this to clean quartz tables before startup, otherwise i get KSB errors -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<srcFiles>
+								<srcFile>src/main/config/sql/clean.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+
 	</build>
 
 	<profiles>
-		<!-- Use this profile to Create & Load QualfierType & Qualifier tables during the clean step-->
+		<!--  This profile uses sql plugin to rebuild the rice db -->
 		<profile>
 			<id>setup</id>
 			<build>
 				<plugins>
-
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>sql-maven-plugin</artifactId>
-						<version>1.1</version>
-
-						<!--jar file that has the jdbc driver -->
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.derby</groupId>
-								<artifactId>derby</artifactId>
-								<version>${derby.version}</version>
-							</dependency>
-						</dependencies>
-
-						<configuration>
-							<driver>
-								org.apache.derby.jdbc.EmbeddedDriver
-							</driver>
-							<url>
-								jdbc:derby:${project.build.directory}/serviceTestDB;create=true;shutdown=false;
-							</url>
-							<username>serviceTest</username>
-							<password>kuali</password>
-						</configuration>
 						<executions>
 							<execution>
 								<phase>clean</phase>
@@ -119,64 +137,9 @@
 									<goal>execute</goal>
 								</goals>
 								<configuration>
-									<srcFiles>
-										<srcFile>src/main/config/authz-createTables-bootstrap.sql</srcFile>
-										<srcFile>src/main/config/authz-bootstrap.sql</srcFile>
-                                         <!-- 
-                                        <srcFile>src/main/config/authz-bootstrap2.sql</srcFile>
-                                        <srcFile>src/main/config/authz-principal-bootstrap.sql</srcFile>
-                                        <srcFile>src/main/config/authz-authorizations-bootstrap.sql</srcFile>
-                                        -->
-                                        <srcFile>src/main/config/authz-bootstrap3.sql</srcFile>
-									</srcFiles>
+									<srcFiles>									
+									</srcFiles>									
 								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<!-- Use this profile to generate jaxws artifacts -->
-		<profile>
-			<id>java2ws</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-java2ws-plugin</artifactId>
-						<version>${cxf.version}</version>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.cxf</groupId>
-								<artifactId>cxf-rt-frontend-jaxws</artifactId>
-								<version>${cxf.version}</version>
-							</dependency>
-							<dependency>
-								<groupId>org.apache.cxf</groupId>
-								<artifactId>cxf-rt-frontend-simple</artifactId>
-								<version>${cxf.version}</version>
-							</dependency>
-						</dependencies>
-						<executions>
-							<execution>
-								<id>generate-wsdl</id>
-								<phase>process-classes</phase>
-								<configuration>
-									<className>
-										${ks.service.package}.${ks.service.className}
-									</className>
-									<serviceName>${ks.service.className}</serviceName>
-									<genWsdl>true</genWsdl>
-									<genWrapperbean>true</genWrapperbean>
-									<verbose>true</verbose>
-		                  			<argline>
-		                  				-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}
-		                  			</argline>							
-								</configuration>
-								<goals>
-									<goal>java2ws</goal>
-								</goals>
 							</execution>
 						</executions>
 					</plugin>

@@ -1,0 +1,64 @@
+<config>
+
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:xe</param>
+	<param name="datasource.username">rice094br</param>
+	<param name="datasource.password">kuali</param>
+	
+	<param name="standalone.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:xe</param>
+	<param name="standalone.datasource.username">rice094br</param>
+	<param name="standalone.datasource.password">kuali</param>
+	
+	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="datasource.pool.maxWait">30000</param>
+	<param name="datasource.pool.size">30</param>
+	<param name="datasource.pool.maxActive">50</param>
+    <param name="datasource.minIdle">7</param>
+    <param name="datasource.initialSize">7</param>
+    <param name="datasource.accessToUnderlyingConnectionAllowed">true</param>
+
+	<param name="log4j.reload.minutes">5</param>
+	<param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
+
+	<!--  Bus Configuration  -->
+	<param name="dev.mode">false</param>
+	<param name="message.entity">EMBED</param>
+	<param name="message.persistence">true</param>
+	<param name="message.delivery">async</param>
+	<param name="Routing.ImmediateExceptionRouting">true</param>
+	<param name="RouteQueue.timeIncrement">60000</param>
+	<param name="RouteQueue.maxRetryAttempts">6</param>
+
+	<!--  Quartz Configuration  -->
+
+	<param name="useQuartzDatabase">true</param>
+	<param name="ksb.org.quartz.scheduler.instanceName">Embedded KSB Scheduler</param>
+	<param name="ksb.org.quartz.scheduler.instanceId">AUTO</param>
+	<param name="ksb.org.quartz.jobStore.tablePrefix">KR_QRTZ_</param>
+	<param name="ksb.org.quartz.jobStore.isClustered">true</param>
+	<param name="ksb.org.quartz.threadPool.threadCount">5</param>
+
+	<!--  Workflow Upload Configuration (for stand-alone)  -->
+	<param name="data.xml.pollIntervalSecs">30</param>
+	<param name="initialDelaySecs">10</param>
+	<param name="simpleDocumentActionsService.security">true</param>
+	<param name="secure.workflowdocument.javaservice.endpoint">true</param>
+	<param name="secure.workflowutility.javaservice.endpoint">true</param>
+	<param name="keystore.file">security/rice.keystore</param>
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.password">r1c3pw</param>
+
+	<param name="transaction.timeout">600</param>
+	<param name="serviceServletUrl">http://localhost:8085/courseclient/remoting/</param>
+
+	<!-- XML ingester directories -->
+	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
+	<param name="data.xml.pending.location">${data.xml.root.location}pending</param>
+	<param name="data.xml.loaded.location">${data.xml.root.location}loaded</param>
+	<param name="data.xml.problem.location">${data.xml.root.location}problem</param>
+	<param name="attachment.dir.location">/opt/ears/</param>
+	
+	<param name="encryption.key">7IC64w6ksLU</param>	
+
+</config>

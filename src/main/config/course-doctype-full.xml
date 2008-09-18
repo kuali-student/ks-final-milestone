@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<!-- 
+		<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+		<name>InitiatorAttribute</name>
+		<className>
+		edu.iu.uis.eden.routetemplate.InitiatorRoleAttribute
+		</className>
+		<label>Initiator Role Attribute</label>
+		<description>Initiator Role Attribute</description>
+		<type>RuleAttribute</type>
+		</ruleAttribute>
+		</ruleAttributes>
+		
+		<ruleTemplates xmlns="ns:workflow/RuleTemplate"
+		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+		<name>InitiatorTemplate</name>
+		<description>Initiator Role Template</description>
+		<attributes>
+		<attribute>
+		<name>InitiatorAttribute</name>
+		<required>true</required>
+		</attribute>
+		</attributes>
+		</ruleTemplate>
+		</ruleTemplates>
+	-->
+
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate"
+		xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>DeptReviewTemplate</name>
+			<description>
+				Template for departmental review routing
+			</description>
+			<attributes>
+				<attribute>
+					<name>DeptReviewCode</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>DeptApproveTemplate</name>
+			<description>
+				Template for departmental approval routing
+			</description>
+			<attributes>
+				<attribute>
+					<name>DeptApprovalCode</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>CourseApproveTemplate</name>
+			<description>
+				Template for creating course approvers
+			</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>CourseFeedbackTemplate</name>
+			<description>
+				Template for creating users for course feedback
+			</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>MathCurriculumTemplate</name>
+			<description>
+				Template for the math curriculum node rules
+			</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>MathCourseTemplate</name>
+			<description>
+				Template for the math course node rules
+			</description>
+		</ruleTemplate>
+	</ruleTemplates>
+
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>CourseDocument</name>
+			<description>Course workflow document</description>
+			<label>CourseDocument</label>
+			<postProcessorName>
+				org.kuali.student.embedded.workflow.CoursePostProcessor
+			</postProcessorName>
+			<docHandler>
+				http://localhost:8085/course-embedded/CourseClientServlet?load=true
+			</docHandler>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<routePaths>
+				<routePath>
+					<start name="Proposal" nextNode="CheckCourse" />
+					<simple name="CheckCourse" nextNode="CourseFeedback" />
+					<requests name="CourseFeedback" nextNode="DeptSplit" />
+					<split name="DeptSplit"
+						nextNode="CommitteeReview">
+						<branch name="NO_DEPT_BRANCH">
+							<requests name="NoDeptApproval"
+								nextNode="DeptJoin" />
+						</branch>
+						<branch name="MATH_BRANCH">
+							<requests name="MathCurriculumEvaluation"
+								nextNode="MathCourseEvaluation" />
+							<requests name="MathCourseEvaluation"
+								nextNode="MathDeanApproval" />
+							<requests name="MathDeanApproval"
+								nextNode="DeptJoin" />
+						</branch>
+						<join name="DeptJoin" />
+					</split>
+					<requests name="CommitteeReview" nextNode="CommitteeApproval"/>
+					<requests name="CommitteeApproval" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Proposal">
+					<activationType>P</activationType>
+				</start>
+				<simple name="CheckCourse">
+					<activationType>P</activationType>
+					<type>
+						org.kuali.student.embedded.workflow.CourseCheckNode
+					</type>
+				</simple>
+				<split name="DeptSplit">
+					<type>
+						org.kuali.student.embedded.workflow.DeptSplit
+					</type>
+				</split>
+				<simple name="NoDeptApproval">
+					<activationType>P</activationType>
+					<type>edu.iu.uis.eden.engine.node.NoOpNode</type>
+				</simple>
+				<join name="DeptJoin" />
+				<requests name="CourseFeedback">
+					<activationType>P</activationType>
+					<ruleTemplate>CourseFeedbackTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathCurriculumEvaluation">
+					<activationType>P</activationType>
+					<ruleTemplate>MathCurriculumTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathCourseEvaluation">
+					<activationType>P</activationType>
+					<ruleTemplate>MathCourseTemplate</ruleTemplate>
+				</requests>
+				<requests name="MathDeanApproval">
+					<activationType>P</activationType>
+					<ruleTemplate>CourseApproveTemplate</ruleTemplate>
+				</requests>
+				<requests name="CommitteeReview">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+					<ruleName>ReviewProposalRule</ruleName>
+				</requests>
+				<requests name="CommitteeApproval">
+					<activationType>S</activationType>
+					<ruleSelector>Named</ruleSelector>
+					<ruleName>ApproveProposalRule</ruleName>
+				</requests>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+
+	<rules xmlns="ns:workflow/Rule"
+		xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+
+		<!--  Named Rules (Templateless)
+		|	Doesn't use templates and cannot be edited in workflow portal.
+		|	Why would one use this type of rule?
+		-->
+
+		<rule>
+			<name>ApproveProposalRule</name>
+			<documentType>CourseDocument</documentType>
+			<description>Approve new course rule</description>
+			<ignorePrevious>true</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<workgroup>CourseApprovers</workgroup>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+		<rule>
+			<name>ReviewProposalRule</name>
+			<documentType>CourseDocument</documentType>
+			<description>Review new course proposal rule</description>
+			<ignorePrevious>true</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<workgroup>CourseReviewers</workgroup>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- Template based rule with no attributes.
+		|	
+		-->
+		<rule>
+			<documentType>CourseDocument</documentType>
+			<ruleTemplate>CourseApproveTemplate</ruleTemplate>
+			<description>Rule for Math Dean Approver</description>
+			<ignorePrevious>false</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<user>idm1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<rule>
+			<documentType>CourseDocument</documentType>
+			<ruleTemplate>MathCurriculumTemplate</ruleTemplate>
+			<description>Rule for Math Curriculum</description>
+			<ignorePrevious>false</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<user>test1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<rule>
+			<documentType>CourseDocument</documentType>
+			<ruleTemplate>MathCourseTemplate</ruleTemplate>
+			<description>Rule for Math Course Approver</description>
+			<ignorePrevious>false</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<user>test2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<rule>
+			<documentType>CourseDocument</documentType>
+			<ruleTemplate>CourseFeedbackTemplate</ruleTemplate>
+			<description>Rule for Course Feedback Users</description>
+			<ignorePrevious>false</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<user>dev1</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- Template based with attributes.
+		|	Rule below was configured using Rule Quicklinks and exported as xml below.
+		| 
+		-->
+		<rule>
+			<documentType>CourseDocument</documentType>
+			<ruleTemplate>DeptReviewTemplate</ruleTemplate>
+			<description>First undergrad reviewer</description>
+			<ignorePrevious>false</ignorePrevious>
+			<ruleExtensions>
+				<ruleExtension>
+					<attribute>DeptReviewCode</attribute>
+					<ruleTemplate>DeptReviewTemplate</ruleTemplate>
+					<ruleExtensionValues>
+						<ruleExtensionValue>
+							<key>CourseLevel</key>
+							<value>UG</value>
+						</ruleExtensionValue>
+					</ruleExtensionValues>
+				</ruleExtension>
+			</ruleExtensions>
+			<responsibilities>
+				<responsibility>
+					<user>test2</user>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+
+		<!-- Template based rules with role attribute
+			<rule>
+			<documentType>CourseDocument</documentType>
+			<ruleTemplate>InitiatorTemplate</ruleTemplate>
+			<description>Course Exists</description>
+			<ignorePrevious>true</ignorePrevious>
+			<responsibilities>
+			<responsibility>
+			<role>
+			edu.iu.uis.eden.routetemplate.InitiatorRoleAttribute!INITIATOR
+			</role>
+			<approvePolicy>F</approvePolicy>
+			<actionRequested>A</actionRequested>
+			<priority>1</priority>
+			</responsibility>
+			</responsibilities>
+			</rule>
+		-->
+	</rules>
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+
+		<!-- RuleXMLAttribute (An xml based rule attribute) 
+		|
+		-->
+		<ruleAttribute>
+			<name>DeptReviewCode</name>
+			<className>
+				edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>Dept Review Code</label>
+			<description>
+				Attribute to determine the dept reviewer to route to
+				bases on course level.
+			</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="CourseLevel" title="Course Level"
+					workflowType="ALL">
+					<display>
+						<type>select</type>
+						<values title="Select...">Select</values>
+						<values title="Undergraduate">UG</values>
+						<values title="Graduate">GR</values>
+					</display>
+					<validation required="false">
+						<regex>^[A-Za-z0-9]+$</regex>
+						<message>Please select a Course Level</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>
+							//attribute[@type='Level']/@value =
+							wf:ruledata('CourseLevel')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+
+		<!-- RuleXMLAttribute (An xml based rule attribute) 
+		|
+		-->
+		<ruleAttribute>
+			<name>DeptApprovalCode</name>
+			<className>
+				edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute
+			</className>
+			<label>Department Approval Code</label>
+			<description>Approval Code</description>
+			<type>RuleXmlAttribute</type>
+			<routingConfig>
+				<fieldDef name="DeptApprovalCode"
+					title="Department Approval Code" workflowType="ALL">
+					<display>
+						<type>select</type>
+						<values title="Select...">Select</values>
+						<values title="Regular">R</values>
+						<values title="Audit">A</values>
+					</display>
+					<validation required="false">
+						<regex>^[A-Za-z0-9]+$</regex>
+						<message>Please select a approval code</message>
+					</validation>
+					<fieldEvaluation>
+						<xpathexpression>
+							//attribute[@type='Grading Method']/@value =
+							wf:ruledata('DeptApprovalCode')
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+			</routingConfig>
+		</ruleAttribute>
+
+
+		<!-- RuleAttribute (java based rule attribute)
+		|	One can implement the following interfaces: 
+		|		RoleAttribute, WorkflowAttribute(?)
+		|	Or extend the following 
+		|		AbstractWorkflowAttribute
+		| 
+			<ruleAttribute>
+			<name>DeptApprovalCode</name>
+			<className>org.kuali.student.DeptApprovalAttribute</className>
+			<label>Departmental Approval Routing</label>
+			<description>Departmental Approval Routing</description>
+			<type>RuleAttribute</type>
+			</ruleAttribute>
+		-->
+
+	</ruleAttributes>
+
+</data>
