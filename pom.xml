@@ -3,24 +3,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.poc.personidentity</groupId>
 	<artifactId>personidentity-api</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<name>Kuali Student PersonIdentity API</name>
 	<description />
 
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
 		<artifactId>ks-service-api-pom</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/branches/personidentity-api-dev</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/tags/personidentity-api-0.0.3</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/poc/personidentity/personidentity-api/tags/personidentity-api-0.0.3</developerConnection>
 	</scm>
- 
+
 	<properties>
 		<ks.service.package>
-			org.kuali.student.poc.personidentity.person.service
+			org.kuali.student.poc.wsdl.personidentity.person
 		</ks.service.package>
 		<ks.service.className>PersonService</ks.service.className>
 	</properties>
