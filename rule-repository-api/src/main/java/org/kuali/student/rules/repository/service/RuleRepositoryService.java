@@ -193,9 +193,9 @@ public interface RuleRepositoryService {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    @WebMethod
-    @Oneway
-    public void checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
+    //@WebMethod
+    //@Oneway
+    //public void checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
 
     /**
      * <p>
