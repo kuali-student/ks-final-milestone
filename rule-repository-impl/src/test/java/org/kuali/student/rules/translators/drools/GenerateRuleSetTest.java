@@ -53,14 +53,13 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
-import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
 public class GenerateRuleSetTest {
-
-    private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
+    private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
 
     @Before
@@ -88,7 +87,7 @@ public class GenerateRuleSetTest {
 
         return businessRule;
     }
-    
+
     private List<RuleElementDTO> getRuleElementList(String yieldValueFunctionType, 
     		String criteria, String comparisonOperator, String expectedValue, String factKey) {
     	List<RuleElementDTO> list = new ArrayList<RuleElementDTO>();
@@ -192,7 +191,7 @@ public class GenerateRuleSetTest {
     	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
-        RuleSet ruleSet = this.generateRuleSet.parse(container);
+        RuleSet ruleSet = this.generateRuleSet.translate(container);
         // Rule set source code
         return ruleSet.getContent();
     }
@@ -452,7 +451,7 @@ public class GenerateRuleSetTest {
     	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
-        RuleSet ruleSet = this.generateRuleSet.parse(container);
+        RuleSet ruleSet = this.generateRuleSet.translate(container);
         // Rule set source code
         String source = ruleSet.getContent();
 
@@ -490,7 +489,7 @@ public class GenerateRuleSetTest {
         // Parse and generate rule set
         RuleSet ruleSet;
 		try {
-			ruleSet = this.generateRuleSet.parse(container);
+			ruleSet = this.generateRuleSet.translate(container);
 			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
 		} catch (GenerateRuleSetException e) {
 			assertTrue(true);
@@ -521,7 +520,7 @@ public class GenerateRuleSetTest {
         container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
 		try {
-			this.generateRuleSet.parse(container);
+			this.generateRuleSet.translate(container);
 			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
 		} catch (GenerateRuleSetException e) {
 			assertTrue(true);
@@ -548,7 +547,7 @@ public class GenerateRuleSetTest {
         container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
 		try {
-			this.generateRuleSet.parse(container);
+			this.generateRuleSet.translate(container);
 			fail("Should have thrown a GenerateRuleSetException since rule contains no valid execution keys");
 		} catch (GenerateRuleSetException e) {
 			assertTrue(true);
@@ -575,7 +574,7 @@ public class GenerateRuleSetTest {
         // Parse and generate rule set
         RuleSet ruleSet;
 		try {
-			ruleSet = this.generateRuleSet.parse(container);
+			ruleSet = this.generateRuleSet.translate(container);
 			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
 		} catch (GenerateRuleSetException e) {
 			assertTrue(true);
@@ -740,7 +739,7 @@ public class GenerateRuleSetTest {
         // Parse and generate functional business rule into Drools rules
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(bri);
-        RuleSet ruleSet = this.generateRuleSet.parse(container);
+        RuleSet ruleSet = this.generateRuleSet.translate(container);
         assertNotNull(ruleSet);
 
         // Rule set source code

@@ -35,6 +35,7 @@ import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.translators.RuleSetTranslator;
 import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.translators.util.TranslatorUtil;
 import org.kuali.student.rules.util.CurrentDateTime;
@@ -44,24 +45,18 @@ import org.slf4j.LoggerFactory;
 /**
  * This class generates Drools rules source code from functional business rules.
  */
-public class GenerateRuleSet {
+public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(GenerateRuleSet.class);
+    final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
 
     private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init.vm";
     private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2.vm";
 
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
 
-    private static GenerateRuleSet instance = new GenerateRuleSet();
-
     private RuleSetVerifier ruleSetVerifier = new RuleSetVerifier();
     
-    private GenerateRuleSet() {
-    }
-
-    public static GenerateRuleSet getInstance() {
-        return instance;
+    public RuleSetTranslatorDroolsImpl() {
     }
 
     /**
@@ -71,7 +66,7 @@ public class GenerateRuleSet {
      * @throws GenerateRuleSetException Any errors verifying a rule set
      * @return A rule set
      */
-    public RuleSet parse(BusinessRuleContainerDTO container) throws GenerateRuleSetException {
+    public RuleSet translate(BusinessRuleContainerDTO container) throws GenerateRuleSetException {
     	//verifyKeys(container);
     	String packageName = PACKAGE_PREFIX + container.getNamespace();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(

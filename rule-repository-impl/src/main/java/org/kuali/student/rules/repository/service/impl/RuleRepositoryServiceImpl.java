@@ -35,7 +35,8 @@ import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.service.RuleAdapter;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
-import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.RuleSetTranslator;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * This is a convenience interface for the rules repository interface.
@@ -56,7 +57,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     //@Resource
     private RuleEngineRepository ruleEngineRepository;
     
-    private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
+    private RuleSetTranslator ruleSetTranslator;
 
     public RuleRepositoryServiceImpl() {
     	RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
@@ -73,6 +74,22 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
+     * 
+     * @return
+     */
+	public RuleSetTranslator getRuleSetTranslator() {
+		return ruleSetTranslator;
+	}
+
+	/**
+	 * 
+	 * @param ruleSetTranslator
+	 */
+	public void setRuleSetTranslator(RuleSetTranslator ruleSetTranslator) {
+		this.ruleSetTranslator = ruleSetTranslator;
+	}
+
+	/**
      * <p>
      * Creates a new category in the repository.
      * </p>
@@ -232,9 +249,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    public void checkinRuleSet(final String uuid, final String comment) {
-        this.ruleEngineRepository.checkinRuleSet(uuid, comment);
-    }
+    //public void checkinRuleSet(final String uuid, final String comment) {
+    //    this.ruleEngineRepository.checkinRuleSet(uuid, comment);
+    //}
 
     /**
      * Loads a rule by uuid.
@@ -409,11 +426,11 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return
      * @throws GenerateRuleSetException
      */
-    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainerDTO) throws GenerateRuleSetException {
-    	/*//BusinessRuleContainer brc = ruleAdapter.getBusinessRuleContainer(businessRuleContainerDTO);
-    	RuleSet ruleSet = this.generateRuleSet.parse(businessRuleContainerDTO);
+    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) throws GenerateRuleSetException {
+    	RuleSet ruleSet = ruleSetTranslator.translate(businessRuleContainer);
+    	ruleSet = this.ruleEngineRepository.createRuleSet(ruleSet);
     	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
-    	return dto;*/
-    	return null;
+    	return dto;
     }
+
 }

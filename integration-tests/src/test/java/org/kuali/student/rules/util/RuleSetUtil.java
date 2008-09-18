@@ -21,10 +21,10 @@ import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 
 public class RuleSetUtil {
-    private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
+    private final RuleSetTranslatorDroolsImpl generateRuleSet = RuleSetTranslatorDroolsImpl.getInstance();
 
     /**
      * Private constructor.

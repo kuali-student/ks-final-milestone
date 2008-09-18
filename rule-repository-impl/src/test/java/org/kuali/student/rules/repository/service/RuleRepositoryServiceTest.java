@@ -4,7 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,8 +20,18 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
+import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 
@@ -136,62 +154,195 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.removeRuleSet( ruleSet1.getUUID() );
     }
 
-    /*@Test
-    public void testGetRuleSetAndExecute() throws Exception {
-        String uuid = null;
-        try {
-            uuid = service.createRuleSet( createRuleSet() );
-            assertNotNull( uuid );
-            
-            BinaryRuleSetObject bin = service.getRuleSet(uuid);
-            assertNotNull( bin );
-            assertNotNull( bin.getObject() );
-            org.drools.rule.Package pkg = (org.drools.rule.Package) DroolsUtil.getInstance().getPackage( bin.getObject() );
-            assertNotNull( pkg );
-    
-            Propositions prop = new Propositions();
-            Propositions.init(businessRule);
-            Propositions.setProposition("xxx", false);
-            
-            //DroolsTestUtil.getInstance().executeRule(pkg, new Object[]{prop, getConstraints().toArray()});
-        } finally {
-            service.removeRuleSet( uuid );
-        }
+    private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(year, month-1, day, hourOfDay, minute);
+    	return cal.getTime();
     }
 
+    private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
+        BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
+    	bri.setName("Rule-1");
+    	bri.setDescription("Some business rule");
+    	bri.setSuccessMessage("Success message");
+    	bri.setFailureMessage("Failure message");
+    	bri.setBusinessRuleId("1");
+    	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
+    	bri.setAnchorTypeKey("kuali.student.lui.course.id");
+    	bri.setAnchorValue("CPR101");
+    	bri.setRuleElementList(ruleElementList);
+    	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
+    	bri.setEffectiveStartTime(effectiveStartTime);
+    	bri.setEffectiveEndTime(effectiveEndTime);
+    	return bri;
+    }
+
+    private RuleElementDTO createRule1(YieldValueFunctionDTO yieldValueFunction) {
+    	// Rule 1
+    	//YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
+        yieldValueFunction.setYieldValueFunctionType("INTERSECTION");
+        
+        LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
+        leftHandSide.setYieldValueFunction(yieldValueFunction);
+       
+        RightHandSideDTO rightHandSide = new RightHandSideDTO();
+        rightHandSide.setExpectedValue("1");
+        
+        RulePropositionDTO ruleProposition = new RulePropositionDTO();
+        ruleProposition.setName("Must have 1 of CPR 101");
+        ruleProposition.setDescription("Course intersection");
+        ruleProposition.setLeftHandSide(leftHandSide);
+        ruleProposition.setRightHandSide(rightHandSide);
+        ruleProposition.setComparisonDataType(java.lang.Integer.class.getName());
+        ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
+
+    	RuleElementDTO re = new RuleElementDTO();
+        re.setName("course.intersection.1.of.cpr101");
+        re.setDescription("Must have 1 of CPR 101");
+        re.setOperation("PROPOSITION");
+        re.setRuleProposition(ruleProposition);
+        
+        return re;
+    }
+    
+    private RuleElementDTO createRule2(YieldValueFunctionDTO yieldValueFunction) {
+    	// Rule 1
+        yieldValueFunction.setYieldValueFunctionType("SUM");
+        
+        LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
+        leftHandSide.setYieldValueFunction(yieldValueFunction);
+       
+        RightHandSideDTO rightHandSide = new RightHandSideDTO();
+        rightHandSide.setExpectedValue("10.0");
+        
+        RulePropositionDTO ruleProposition = new RulePropositionDTO();
+        ruleProposition.setName("Course credit summation");
+        ruleProposition.setDescription("Course credit summation");
+        ruleProposition.setLeftHandSide(leftHandSide);
+        ruleProposition.setRightHandSide(rightHandSide);
+        ruleProposition.setComparisonDataType(java.lang.Double.class.getName());
+        ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
+
+    	RuleElementDTO re = new RuleElementDTO();
+        re.setName("course.credits.sum");
+        re.setDescription("Pre req check for CPR 101");
+        re.setOperation("PROPOSITION");
+        re.setRuleProposition(ruleProposition);
+        
+        return re;
+    }
+    
+    private void createFact1(YieldValueFunctionDTO yieldValueFunction1) {
+    	// Facts - Rule 1 - 1 of CPR101
+        FactStructureDTO fs1 = new FactStructureDTO();
+        fs1.setDataType(java.util.Set.class.getName());
+        fs1.setFactStructureId(Constants.FACT_STRUCTURE_ID);
+        fs1.setAnchorFlag(false);
+
+        Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
+        definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        fs1.setDefinitionVariableList(definitionVariableMap1);
+
+        Map<String,String> executionVariableMap1 = new HashMap<String,String>();
+        executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
+        fs1.setExecutionVariableList(executionVariableMap1);
+        
+        List<FactStructureDTO> factStructureList1 = new ArrayList<FactStructureDTO>();
+        factStructureList1.add(fs1);
+        yieldValueFunction1.setFactStructureList(factStructureList1);
+    }
+    
+    private void createFact2(YieldValueFunctionDTO yieldValueFunction2) {
+        // Facts - Rule 2 - Sum of credit > 10.0
+        FactStructureDTO fs2 = new FactStructureDTO();
+        fs2.setDataType(java.math.BigDecimal.class.getName());
+        fs2.setFactStructureId(Constants.FACT_STRUCTURE_ID);
+        fs2.setAnchorFlag(false);
+
+        // Not need for summation or averages
+        Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
+        definitionVariableMap2.put(Constants.DEF_CRITERIA_KEY, null);
+        fs2.setDefinitionVariableList(definitionVariableMap2);
+
+        Map<String,String> executionVariableMap2 = new HashMap<String,String>();
+        executionVariableMap2.put(Constants.EXE_FACT_KEY, "summation.courseSet");
+        fs2.setExecutionVariableList(executionVariableMap2);
+        
+        List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
+        factStructureList2.add(fs2);
+        yieldValueFunction2.setFactStructureList(factStructureList2);
+    }
+    
+    private RuleElementDTO getAndOperator() {
+    	RuleElementDTO re = new RuleElementDTO();
+        re.setName("And");
+        re.setDescription("And");
+        re.setOperation("AND");
+        
+        return re;
+    }
+    
+    private Set<String> createSet(String list) {
+        Set<String> set = new HashSet<String>();
+        for( String s : list.split(",") ) {
+        	set.add(s.trim());
+        }
+        return set;
+    }
+    
+    private List<BigDecimal> createList(String list) {
+    	List<BigDecimal> set = new ArrayList<BigDecimal>();
+        for( String s : list.split(",") ) {
+        	set.add(new BigDecimal(s.trim()));
+        }
+        return set;
+    }
+    
+    private Map<String,Object> getFacts() {
+		Map<String,Object> factMap = new HashMap<String,Object>();
+
+		Set<String> courseSet1 = createSet("CPR101,MATH102,CHEM100");
+		factMap.put("intersection.courseSet", courseSet1);
+
+        List<BigDecimal> courseSet2 = createList("3.0,6.0,3.0");
+        factMap.put("summation.courseSet", courseSet2);
+        return factMap;
+    }
+    
+    private BusinessRuleContainerDTO getBusinessRuleContainer() {
+    	// Yield value functions
+    	YieldValueFunctionDTO yieldValueFunction1 = new YieldValueFunctionDTO();
+    	//YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
+
+        // Rule elements
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        ruleElementList.add(createRule1(yieldValueFunction1));
+        //ruleElementList.add(getAndOperator());
+        //ruleElementList.add(createRule2(yieldValueFunction2));
+
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
+
+    	// Facts - Rule 1 - 1 of CPR101
+    	createFact1(yieldValueFunction1);
+
+        // Facts - Rule 2 - Sum of credit > 10.0
+    	//createFact2(yieldValueFunction2);
+
+        // Parse and generate functional business rule into Drools rules
+        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        container.getBusinessRules().add(bri);
+        
+        return container;
+    }
+    
+    @Ignore
     @Test
-    public void testGetRuleSet_MultipleTimes() throws Exception {
-        String uuid = service.createRuleSet( createRuleSet() );
-        assertNotNull( uuid );
-        
-        final int INTERATIONS = 1000;
-        long beginTime = System.currentTimeMillis();
-        for( int i=0; i<INTERATIONS; i++ ) {
-            BinaryRuleSetObject bin = service.getRuleSet(uuid);
-            assertNotNull( bin );
-            assertNotNull( bin.getObject() );
-        }
-        long endTime = System.currentTimeMillis();
-        double exeTime = (double) ( endTime - beginTime ) / 1000;
-        System.out.println( "Execution Time: " + exeTime );
-
-        service.removeRuleSet( uuid );
+    public void testGenerateRuleSet() throws Exception {
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer();
+    	RuleSetDTO ruleSet = service.generateRuleSet(container);
+    	assertNotNull(ruleSet);
+    	assertNotNull(ruleSet.getUUID());
     }
-    
-    private class MockConstraint extends AbstractProposition<T> {
-        
-        @Override
-        protected void cacheAdvice(String format, Object... args) {
-            String propVar = (String) args[2];
-            Propositions.setFailureMessage(propVar, "Some good failure message!");
-            
-        }
-
-        @Override
-        public Boolean apply(String propVar) {
-            return ( getConstraintID().startsWith(propVar) ? true : false );
-            //return false;
-        }
-    }*/
-
 }

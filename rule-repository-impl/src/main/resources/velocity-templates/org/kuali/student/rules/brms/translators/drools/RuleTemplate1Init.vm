@@ -21,7 +21,7 @@ rule "${ruleName}"
     lock-on-active true
     when 
         container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
-        //Only run rule when: currentDate >= $effectiveStartTime && currentDate < $effectiveEndTime
+        //Only run rule when: currentDate >= effectiveStartTime && currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
     	prop.setFunctionalRuleString("$functionString");

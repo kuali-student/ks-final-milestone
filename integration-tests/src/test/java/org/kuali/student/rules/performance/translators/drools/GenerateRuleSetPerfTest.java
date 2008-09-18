@@ -46,7 +46,7 @@ import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +55,7 @@ public class GenerateRuleSetPerfTest {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(GenerateRuleSetPerfTest.class);
     
-    private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
+    private final RuleSetTranslatorDroolsImpl generateRuleSet = RuleSetTranslatorDroolsImpl.getInstance();
 
     @Before
     public void setUp() throws Exception {}

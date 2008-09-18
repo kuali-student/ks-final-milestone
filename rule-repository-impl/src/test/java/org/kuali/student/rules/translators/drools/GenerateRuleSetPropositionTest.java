@@ -46,14 +46,14 @@ import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
-import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
 public class GenerateRuleSetPropositionTest {
 
-    private final GenerateRuleSet generateRuleSet = GenerateRuleSet.getInstance();
+    private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
 
     @Before
