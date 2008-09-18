@@ -47,6 +47,7 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.GenerateRuleSet;
+import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
@@ -85,15 +86,15 @@ public class GenerateRuleSetPropositionTest {
         
         FactStructureDTO factStructure = new FactStructureDTO();
         factStructure.setDataType(java.util.Set.class.getName());
-        factStructure.setFactStructureId("kuali.student.criteria.id");
+        factStructure.setFactStructureId(Constants.FACT_STRUCTURE_ID);
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        definitionVariableMap.put("kuali.student.criteria.key", criteria);
+        definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
         factStructure.setDefinitionVariableList(definitionVariableMap);
         
         Map<String,String> executionVariableMap = new HashMap<String,String>();
-        executionVariableMap.put("kuali.student.fact.key", factKey);
+        executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
         factStructure.setExecutionVariableList(executionVariableMap);
 
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();

@@ -32,6 +32,8 @@ import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.translators.util.TranslatorUtil;
@@ -70,7 +72,8 @@ public class GenerateRuleSet {
      * @return A rule set
      */
     public RuleSet parse(BusinessRuleContainerDTO container) throws GenerateRuleSetException {
-        String packageName = PACKAGE_PREFIX + container.getNamespace();
+    	//verifyKeys(container);
+    	String packageName = PACKAGE_PREFIX + container.getNamespace();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
         		packageName, container.getDescription());
         addHeader(ruleSet);
@@ -84,6 +87,50 @@ public class GenerateRuleSet {
         }
         verifyRule(ruleSet);
         return ruleSet;
+    }
+    
+    private void verifyKeys(BusinessRuleContainerDTO container) {
+        for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
+        	for(RuleElementDTO element : businessRule.getRuleElementList()) {
+        		if (element.getRuleProposition() == null) {
+        			return;
+        		}
+        		List<FactStructureDTO> facts = element.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+        		for(FactStructureDTO fact : facts) {
+        			verifyDefinitionKeys(fact.getDefinitionVariableList());
+        			verifyExecutionKeys(fact.getExecutionVariableList());
+        		}
+        	}
+        }
+    }
+
+    private void verifyDefinitionKeys(Map<String,String> defMap) {
+    	if (defMap.isEmpty()) {
+    		throw new GenerateRuleSetException("Definition key map contains no keys");
+    	}
+    	boolean found = false;
+    	for(String key: Constants.getConstantValues()) {
+    		if (defMap.containsKey(key)) {
+    			found = true;
+    			break;
+	    	}
+    	}
+    	
+    	if (!found) {
+    		throw new GenerateRuleSetException("No valid definition keys found");
+    	}
+    }
+    
+    private void verifyExecutionKeys(Map<String,String> exeMap) {
+    	if (exeMap.isEmpty()) {
+    		throw new GenerateRuleSetException("Execution key map contains no keys");
+    	}
+    	for(String key: exeMap.keySet()) {
+	    	String value = exeMap.get(key);
+    		if (!Constants.containsConstantValue(key)) {
+	    		throw new GenerateRuleSetException("Invalid execution key value: " + key +"=" + value);
+	    	}
+    	}
     }
     
     private void verifyRule(RuleSet ruleSet) throws GenerateRuleSetException {

@@ -38,10 +38,12 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -109,15 +111,15 @@ public class GenerateRuleSetTest {
 
         FactStructureDTO factStructure = new FactStructureDTO();
         factStructure.setDataType(java.util.Set.class.getName());
-        factStructure.setFactStructureId("kuali.student.criteria.id");
+        factStructure.setFactStructureId(Constants.FACT_STRUCTURE_ID);
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        definitionVariableMap.put("kuali.student.criteria.key", criteria);
+        definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
         factStructure.setDefinitionVariableList(definitionVariableMap);
 
         Map<String,String> executionVariableMap = new HashMap<String,String>();
-        executionVariableMap.put("kuali.student.fact.key", factKey);
+        executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
         factStructure.setExecutionVariableList(executionVariableMap);
 
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
@@ -434,7 +436,6 @@ public class GenerateRuleSetTest {
 
     @Test
     public void testParseBusinessRule_Average_EffectiveExpiryDate() throws Exception {
-        // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	BusinessRuleInfoDTO businessRule = getBusinessRule(
     			YieldValueFunctionType.AVERAGE.toString(), 
@@ -467,6 +468,118 @@ public class GenerateRuleSetTest {
         // Execute rule
         executeRule(source, facts);
         assertTrue(prop.getRuleResult());
+    }
+
+    @Ignore
+    @Test
+    public void testParseBusinessRule_Average_NoDefinitionKeys() throws Exception {
+    	String anchorValue = "CPR101";
+    	BusinessRuleInfoDTO businessRule = getBusinessRule(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
+    	
+    	businessRule.getRuleElementList().get(0).getRuleProposition().
+    		getLeftHandSide().getYieldValueFunction().
+    		getFactStructureList().get(0).getDefinitionVariableList().clear();
+    	
+    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        container.getBusinessRules().add(businessRule);
+        // Parse and generate rule set
+        RuleSet ruleSet;
+		try {
+			ruleSet = this.generateRuleSet.parse(container);
+			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
+		} catch (GenerateRuleSetException e) {
+			assertTrue(true);
+		}
+    }
+
+    @Ignore
+    @Test
+    public void testParseBusinessRule_Average_InvalidDefinitionKeys() throws Exception {
+    	String anchorValue = "CPR101";
+    	BusinessRuleInfoDTO businessRule = getBusinessRule(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
+    	
+    	// Remove definition key
+    	businessRule.getRuleElementList().get(0).getRuleProposition().
+    		getLeftHandSide().getYieldValueFunction().
+    		getFactStructureList().get(0).getDefinitionVariableList().remove(Constants.DEF_CRITERIA_KEY);
+    	// Add invalid definition key
+    	businessRule.getRuleElementList().get(0).getRuleProposition().
+			getLeftHandSide().getYieldValueFunction().
+			getFactStructureList().get(0).getDefinitionVariableList().put("xxx","xyz");
+    	
+    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        container.getBusinessRules().add(businessRule);
+        // Parse and generate rule set
+		try {
+			this.generateRuleSet.parse(container);
+			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
+		} catch (GenerateRuleSetException e) {
+			assertTrue(true);
+		}
+    }
+
+    @Ignore
+    @Test
+    public void testParseBusinessRule_Average_InvalidExecutionKeys() throws Exception {
+    	String anchorValue = "CPR101";
+    	BusinessRuleInfoDTO businessRule = getBusinessRule(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
+
+    	// Add invalid execution key
+    	businessRule.getRuleElementList().get(0).getRuleProposition().
+			getLeftHandSide().getYieldValueFunction().
+			getFactStructureList().get(0).getExecutionVariableList().put("xxx","xyz");
+    	
+    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        container.getBusinessRules().add(businessRule);
+        // Parse and generate rule set
+		try {
+			this.generateRuleSet.parse(container);
+			fail("Should have thrown a GenerateRuleSetException since rule contains no valid execution keys");
+		} catch (GenerateRuleSetException e) {
+			assertTrue(true);
+		}
+    }
+
+    @Ignore
+    @Test
+    public void testParseBusinessRule_Average_NoExecutionKeys() throws Exception {
+    	String anchorValue = "CPR101";
+    	BusinessRuleInfoDTO businessRule = getBusinessRule(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"80.0",
+    			anchorValue);
+    	
+    	businessRule.getRuleElementList().get(0).getRuleProposition().
+    		getLeftHandSide().getYieldValueFunction().
+    		getFactStructureList().get(0).getExecutionVariableList().clear();
+    	
+    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        container.getBusinessRules().add(businessRule);
+        // Parse and generate rule set
+        RuleSet ruleSet;
+		try {
+			ruleSet = this.generateRuleSet.parse(container);
+			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
+		} catch (GenerateRuleSetException e) {
+			assertTrue(true);
+		}
     }
 
     private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
@@ -565,17 +678,17 @@ public class GenerateRuleSetTest {
     private void createFact2(YieldValueFunctionDTO yieldValueFunction2) {
         // Facts - Rule 2 - Sum of credit > 10.0
         FactStructureDTO fs2 = new FactStructureDTO();
-        fs2.setDataType(java.lang.Integer.class.getName());
-        fs2.setFactStructureId("kuali.student.criteria.id");
+        fs2.setDataType(java.math.BigDecimal.class.getName());
+        fs2.setFactStructureId(Constants.FACT_STRUCTURE_ID);
         fs2.setAnchorFlag(false);
 
         // Not need for summation or averages
         //Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
-        //definitionVariableMap2.put("kuali.student.criteria.key", null);
+        //definitionVariableMap2.put(Constants.DEF_CRITERIA_KEY, null);
         //fs2.setDefinitionVariableList(definitionVariableMap2);
 
         Map<String,String> executionVariableMap2 = new HashMap<String,String>();
-        executionVariableMap2.put("kuali.student.fact.key", "summation.courseSet");
+        executionVariableMap2.put(Constants.EXE_FACT_KEY, "summation.courseSet");
         fs2.setExecutionVariableList(executionVariableMap2);
         
         List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
