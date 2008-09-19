@@ -40,6 +40,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     //private final static String businessRule = "A0";
     private final static String businessRule = "A0*B4+(C*D)";
 
+	private final static String FACT_STRUCTURE_ID = "kuali.student.fact.id";
+    
     @Client(value="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
     public RuleRepositoryService service; 
 
@@ -237,7 +239,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	// Facts - Rule 1 - 1 of CPR101
         FactStructureDTO fs1 = new FactStructureDTO();
         fs1.setDataType(java.util.Set.class.getName());
-        fs1.setFactStructureId(Constants.FACT_STRUCTURE_ID);
+        fs1.setFactStructureId(FACT_STRUCTURE_ID);
         fs1.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
@@ -245,7 +247,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         fs1.setDefinitionVariableList(definitionVariableMap1);
 
         Map<String,String> executionVariableMap1 = new HashMap<String,String>();
-        executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
+        //executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
         fs1.setExecutionVariableList(executionVariableMap1);
         
         List<FactStructureDTO> factStructureList1 = new ArrayList<FactStructureDTO>();
@@ -257,7 +259,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         // Facts - Rule 2 - Sum of credit > 10.0
         FactStructureDTO fs2 = new FactStructureDTO();
         fs2.setDataType(java.math.BigDecimal.class.getName());
-        fs2.setFactStructureId(Constants.FACT_STRUCTURE_ID);
+        fs2.setFactStructureId(FACT_STRUCTURE_ID);
         fs2.setAnchorFlag(false);
 
         // Not need for summation or averages
@@ -266,7 +268,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         fs2.setDefinitionVariableList(definitionVariableMap2);
 
         Map<String,String> executionVariableMap2 = new HashMap<String,String>();
-        executionVariableMap2.put(Constants.EXE_FACT_KEY, "summation.courseSet");
+        //executionVariableMap2.put(Constants.EXE_FACT_KEY, "summation.courseSet");
         fs2.setExecutionVariableList(executionVariableMap2);
         
         List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
@@ -313,13 +315,13 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     private BusinessRuleContainerDTO getBusinessRuleContainer() {
     	// Yield value functions
     	YieldValueFunctionDTO yieldValueFunction1 = new YieldValueFunctionDTO();
-    	//YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
+    	YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
 
         // Rule elements
     	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
         ruleElementList.add(createRule1(yieldValueFunction1));
-        //ruleElementList.add(getAndOperator());
-        //ruleElementList.add(createRule2(yieldValueFunction2));
+        ruleElementList.add(getAndOperator());
+        ruleElementList.add(createRule2(yieldValueFunction2));
 
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
@@ -328,7 +330,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	createFact1(yieldValueFunction1);
 
         // Facts - Rule 2 - Sum of credit > 10.0
-    	//createFact2(yieldValueFunction2);
+    	createFact2(yieldValueFunction2);
 
         // Parse and generate functional business rule into Drools rules
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
