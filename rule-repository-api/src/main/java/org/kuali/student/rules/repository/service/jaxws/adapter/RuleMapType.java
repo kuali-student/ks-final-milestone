@@ -15,10 +15,11 @@
  */
 package org.kuali.student.rules.repository.service.jaxws.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RuleMapType {
-	private List<RuleMapEntryType> entry;
+	private final List<RuleMapEntryType> entry = new ArrayList<RuleMapEntryType>();
 	
 	public List<RuleMapEntryType> getEntry() {
 		return this.entry;
