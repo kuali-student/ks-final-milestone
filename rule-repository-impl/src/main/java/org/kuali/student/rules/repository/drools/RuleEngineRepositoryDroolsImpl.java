@@ -867,7 +867,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             this.repository.loadCategory(categoryPath).remove();
             this.repository.save();
         } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Removing category failed: " + "categoryPath" + categoryPath, e);
+            throw new RuleEngineRepositoryException("Removing category failed: " + "categoryPath=" + categoryPath, e);
         }
     }
 
@@ -891,7 +891,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         try {
             return this.repository.renameAsset(uuid, newName);
         } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Renaming rule failed: " + "uuid" + uuid, e);
+            throw new RuleEngineRepositoryException("Renaming rule failed: " + "uuid=" + uuid, e);
         }
     }
 
