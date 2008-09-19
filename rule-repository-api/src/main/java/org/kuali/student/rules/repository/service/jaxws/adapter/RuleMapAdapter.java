@@ -26,6 +26,7 @@ public class RuleMapAdapter extends XmlAdapter<RuleMapType, Map<String, RuleDTO>
 
 	@Override
 	public Map<String, RuleDTO> unmarshal(RuleMapType v) throws Exception {
+		if (v == null) return null;
 		Map<String, RuleDTO> map = new LinkedHashMap<String, RuleDTO>();
 		for(RuleMapEntryType type : v.getEntry() ) {
 			map.put(type.getName(), type.getRule());
@@ -35,6 +36,7 @@ public class RuleMapAdapter extends XmlAdapter<RuleMapType, Map<String, RuleDTO>
 
 	@Override
 	public RuleMapType marshal(Map<String, RuleDTO> v) throws Exception {
+		if (v == null) return null;
 		RuleMapType type = new RuleMapType();
 		for(Map.Entry<String, RuleDTO> e : v.entrySet()) {
 			type.getEntry().add(new RuleMapEntryType(e.getKey(), e.getValue()));
