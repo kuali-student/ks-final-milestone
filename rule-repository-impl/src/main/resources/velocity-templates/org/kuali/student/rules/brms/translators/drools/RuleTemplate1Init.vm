@@ -21,7 +21,7 @@ rule "${ruleName}"
     lock-on-active true
     when 
         container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
-        //Only run rule when: currentDate >= effectiveStartTime && currentDate < effectiveEndTime
+        //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
     	prop.setFunctionalRuleString("$functionString");
@@ -30,10 +30,10 @@ rule "${ruleName}"
        		#set( $rhs = $proposition.RightHandSide.ExpectedValue )
        		#set( $operator = $proposition.ComparisonOperatorType )
     		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
-    
-            #set( $criteria = $translatorUtil.getDefinitionVariableValue( $yvf, $FACT_STRUCTURE_ID, $DEF_CRITERIA_KEY ) )
-            #set( $factKey = $translatorUtil.getExecutionVariableValue( $yvf, $FACT_STRUCTURE_ID, $EXE_FACT_KEY ) )
-    
+
+            #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf, $DEF_CRITERIA_KEY ) )
+            #set( $factKey = $factUtil.getFactId( $yvf, $proposition.Name ) )
+
        		#if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
@@ -41,14 +41,14 @@ rule "${ruleName}"
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
             #end
-    
+
             #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
                 List factList${key} = (List) factMap.get( "$factKey" );
                 SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
        		#end
-    
+
             #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
                 List factList${key} = (List) factMap.get( "$factKey" );
                 AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 

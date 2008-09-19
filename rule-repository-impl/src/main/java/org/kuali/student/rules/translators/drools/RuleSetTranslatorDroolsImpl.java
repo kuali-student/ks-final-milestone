@@ -16,7 +16,6 @@
 package org.kuali.student.rules.translators.drools;
 
 import java.io.StringReader;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +23,11 @@ import java.util.Map;
 
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.repository.drools.rule.RuleFactory;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
-import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
+import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
@@ -37,7 +37,6 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.translators.RuleSetTranslator;
 import org.kuali.student.rules.translators.util.Constants;
-import org.kuali.student.rules.translators.util.TranslatorUtil;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,10 +62,10 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      * Parses and generates a rule set from a functional business rule.
      * 
      * @param container List of business rule
-     * @throws GenerateRuleSetException Any errors verifying a rule set
+     * @throws RuleSetTranslatorException Any errors verifying a rule set
      * @return A rule set
      */
-    public RuleSet translate(BusinessRuleContainerDTO container) throws GenerateRuleSetException {
+    public RuleSet translate(BusinessRuleContainerDTO container) throws RuleSetTranslatorException {
     	//verifyKeys(container);
     	String packageName = PACKAGE_PREFIX + container.getNamespace();
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
@@ -101,7 +100,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 
     private void verifyDefinitionKeys(Map<String,String> defMap) {
     	if (defMap.isEmpty()) {
-    		throw new GenerateRuleSetException("Definition key map contains no keys");
+    		throw new RuleSetTranslatorException("Definition key map contains no keys");
     	}
     	boolean found = false;
     	for(String key: Constants.getConstantValues()) {
@@ -112,23 +111,23 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     	}
     	
     	if (!found) {
-    		throw new GenerateRuleSetException("No valid definition keys found");
+    		throw new RuleSetTranslatorException("No valid definition keys found");
     	}
     }
     
     private void verifyExecutionKeys(Map<String,String> exeMap) {
     	if (exeMap.isEmpty()) {
-    		throw new GenerateRuleSetException("Execution key map contains no keys");
+    		throw new RuleSetTranslatorException("Execution key map contains no keys");
     	}
     	for(String key: exeMap.keySet()) {
 	    	String value = exeMap.get(key);
     		if (!Constants.containsConstantValue(key)) {
-	    		throw new GenerateRuleSetException("Invalid execution key value: " + key +"=" + value);
+	    		throw new RuleSetTranslatorException("Invalid execution key value: " + key +"=" + value);
 	    	}
     	}
     }
     
-    private void verifyRule(RuleSet ruleSet) throws GenerateRuleSetException {
+    private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {
         ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
     }
 
@@ -185,7 +184,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         velocityContextMap.put("functionString", functionString);
         velocityContextMap.put("effectiveStartTime", effStartDate);
         velocityContextMap.put("effectiveEndTime", effEndDate);
-        velocityContextMap.put("translatorUtil", TranslatorUtil.getInstance());
+        velocityContextMap.put("factUtil", new FactUtil());
         velocityContextMap.put("FACT_STRUCTURE_ID", Constants.FACT_STRUCTURE_ID);
         velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
         velocityContextMap.put("EXE_FACT_KEY", Constants.EXE_FACT_KEY);
@@ -226,12 +225,11 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 
     public void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.ComparisonOperator");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
         ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
-        ruleSet.addHeader("import org.kuali.student.rules.translators.util.TranslatorUtil");
         ruleSet.addHeader("import org.kuali.student.rules.util.CurrentDateTime");
     }
 
@@ -262,7 +260,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     private static void checkName(String name) {
         // return name.trim().replaceAll("[\\s-]", "_");
         if (name.trim().indexOf("-") > -1) {
-            throw new GenerateRuleSetException("Name cannot contain hyphens");
+            throw new RuleSetTranslatorException("Name cannot contain hyphens");
         }
     }
 

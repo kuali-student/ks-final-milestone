@@ -40,6 +40,7 @@ import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -56,19 +57,21 @@ public class RuleSetTranslatorPropositionTest {
     private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
 
+    private final static String PROPOSITION_NAME = "co-requisites";
+
     @Before
     public void setUp() throws Exception {}
 
     @After
     public void tearDown() throws Exception {}
 
-    private RulePropositionDTO getRuleProposition(String criteria, String factKey) {
+    private RulePropositionDTO getRuleProposition(String criteria, String factId) {
     	return getRuleProposition(
     			YieldValueFunctionType.INTERSECTION.toString(), 
     			"1", 
     			ComparisonOperator.EQUAL_TO.toString(), 
     			criteria, 
-    			factKey);
+    			factId);
     }
     
     private RulePropositionDTO getRuleProposition(
@@ -76,17 +79,17 @@ public class RuleSetTranslatorPropositionTest {
     		String expectedValue,
     		String comparisonOperator,
     		String criteria, 
-    		String factKey) {
+    		String factId) {
     	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
     	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
     	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
         RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
-        		"co-requisites", java.lang.Integer.class.getName(), 
+        		PROPOSITION_NAME, java.lang.Integer.class.getName(), 
         		comparisonOperator, leftSide, rightSide);
         
         FactStructureDTO factStructure = new FactStructureDTO();
         factStructure.setDataType(java.util.Set.class.getName());
-        factStructure.setFactStructureId(Constants.FACT_STRUCTURE_ID);
+        factStructure.setFactStructureId(factId);
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
@@ -94,7 +97,7 @@ public class RuleSetTranslatorPropositionTest {
         factStructure.setDefinitionVariableList(definitionVariableMap);
         
         Map<String,String> executionVariableMap = new HashMap<String,String>();
-        executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
+        //executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
         factStructure.setExecutionVariableList(executionVariableMap);
 
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
@@ -161,17 +164,19 @@ public class RuleSetTranslatorPropositionTest {
     
     @Test
     public void testParseRuleSet_OneProposition() throws Exception {
+    	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR 101
-        propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
+        propositionMap.put("P1", getRuleProposition("CPR101",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
         		"A package", "TestRuleName", "P1", propositionMap);
         // Get facts
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
+        factMap.put(factId1, courseSet);
         FactContainer facts =  new FactContainer(anchorId, factMap);
 
         // Collection of Propositions
@@ -183,21 +188,21 @@ public class RuleSetTranslatorPropositionTest {
 
     @Test
     public void testParseRuleSet_TwoProposition_AandB() throws Exception {
+    	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+    	// 1 of CPR 101
+        propositionMap.put("P1", getRuleProposition("CPR101",factId1));
         // 1 of CPR 101
-        propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
-        // 1 of CPR 101
-        propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
+        propositionMap.put("P2", getRuleProposition("MATH102",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
         		"A package", "TestRuleName", "P1*P2", propositionMap);
         // Get facts
-        //CourseEnrollmentRequest request = getCourseEnrollmentRequest(id, "CPR101,MATH102,CHEM101");
-        //FactContainer facts = new FactContainer(id, request);
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
+        factMap.put(factId1, courseSet);
         FactContainer facts =  new FactContainer(anchorId, factMap);
 
         // Collection of Propositions
@@ -209,19 +214,21 @@ public class RuleSetTranslatorPropositionTest {
 
     @Test
     public void testParseRuleSet_TwoProposition_AorB() throws Exception {
+    	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+    	// 1 of CPR 101
+        propositionMap.put("P1", getRuleProposition("CPR101",factId1));
         // 1 of CPR 101
-        propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
-        // 1 of CPR 101
-        propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
+        propositionMap.put("P2", getRuleProposition("MATH102",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId,  "TestPackageName", 
         		"A package", "TestRuleName", "P1+P2", propositionMap);
         // Get facts
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
+        factMap.put(factId1, courseSet);
         FactContainer facts =  new FactContainer(anchorId, factMap);
 
         // Collection of Propositions
@@ -233,21 +240,23 @@ public class RuleSetTranslatorPropositionTest {
 
     @Test
     public void testParseRuleSet_ThreeProposition_AandBorC() throws Exception {
+    	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
+        propositionMap.put("P1", getRuleProposition("CPR101",factId1));
         // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
+        propositionMap.put("P2", getRuleProposition("MATH102",factId1));
         // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101","courseKey"));
+        propositionMap.put("P3", getRuleProposition("CHEM101",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
         		"A package", "TestRuleName", "(P1*P2)+P3", propositionMap);
         // Get facts
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
+        factMap.put(factId1, courseSet);
         FactContainer facts =  new FactContainer(anchorId, factMap);
 
         // Collection of Propositions
@@ -263,21 +272,23 @@ public class RuleSetTranslatorPropositionTest {
     @Test
     @Ignore
     public void testParseRuleSet_ThreeProposition_AorBandC() throws Exception {
+    	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
+        propositionMap.put("P1", getRuleProposition("CPR101",factId1));
         // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
+        propositionMap.put("P2", getRuleProposition("MATH102",factId1));
         // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101","courseKey"));
+        propositionMap.put("P3", getRuleProposition("CHEM101",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
         		"A package", "TestRuleName", "(P1+P2)*P3", propositionMap);
         // Get facts
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
+        factMap.put(factId1, courseSet);
         FactContainer facts =  new FactContainer(anchorId, factMap);
 
         // Collection of Propositions
@@ -289,22 +300,24 @@ public class RuleSetTranslatorPropositionTest {
 
     @Test
     public void testParseRuleSet_FourProposition_AorBandCorD() throws Exception {
+    	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
-        propositionMap.put("P1", getRuleProposition("CPR101","courseKey"));
+        propositionMap.put("P1", getRuleProposition("CPR101",factId1));
         // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102","courseKey"));
+        propositionMap.put("P2", getRuleProposition("MATH102",factId1));
         // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101","courseKey"));
+        propositionMap.put("P3", getRuleProposition("CHEM101",factId1));
         // 1 of CHEM102
-        propositionMap.put("P4", getRuleProposition("CHEM999","courseKey"));
+        propositionMap.put("P4", getRuleProposition("CHEM999",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", "A package", "TestRuleName", "(P1+P2)*(P3+P4)", propositionMap);
         // Get facts
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
+        factMap.put(factId1, courseSet);
         FactContainer facts =  new FactContainer(anchorId, factMap);
 
         // Collection of Propositions
@@ -316,6 +329,10 @@ public class RuleSetTranslatorPropositionTest {
 
     @Test
     public void testParseRuleSet_FourProposition_AandBorC_IntersectionSumAverage() throws Exception {
+    	String factId1 = "fact1.intersection";
+    	String factId2 = "fact2.sum";
+    	String factId3 = "fact3.average";
+
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
         propositionMap.put("P1", getRuleProposition(
@@ -323,38 +340,41 @@ public class RuleSetTranslatorPropositionTest {
         		"1",
         		ComparisonOperator.EQUAL_TO.toString(),
         		"CPR101",
-        		"intersection.courseKey"));
+        		factId1));
         // Sum of credits = 12.0
         propositionMap.put("P2", getRuleProposition(
         		YieldValueFunctionType.SUM.toString(),
         		"12.0",
         		ComparisonOperator.EQUAL_TO.toString(),
         		null,
-        		"sum.courseKey"));
+        		factId2));
         // Average >= 75.0
         propositionMap.put("P3", getRuleProposition(
         		YieldValueFunctionType.AVERAGE.toString(),
         		"75.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
         		null,
-        		"average.courseKey"));
+        		factId3));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
         		"A package", "TestRuleName", "(P1*P2)+P3", propositionMap);
         Map<String,Object> factMap = new HashMap<String,Object>();
         
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts for intersection
         Set<String> courseSetIntersection = createSet("CPR101,MATH102,CHEM101,CHEM102");
-        factMap.put("intersection.courseKey", courseSetIntersection);
+        factMap.put(factId1, courseSetIntersection);
 
+        factId2 = FactUtil.getFactKey(PROPOSITION_NAME, factId2, 0);
         // Get facts for sum
         List<BigDecimal> courseSetSum = createList("3.0,6.0,3.0");
-        factMap.put("sum.courseKey", courseSetSum);
+        factMap.put(factId2, courseSetSum);
 
+        factId3 = FactUtil.getFactKey(PROPOSITION_NAME, factId3, 0);
         // Get facts for average
         List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
-        factMap.put("average.courseKey", courseSet);
+        factMap.put(factId3, courseSet);
 
         FactContainer facts =  new FactContainer(anchorId, factMap);
         
@@ -367,21 +387,25 @@ public class RuleSetTranslatorPropositionTest {
 
     @Test
     public void testParseRuleSet_FourProposition_AandBandCandDandEandF_IntersectionSumAverage() throws Exception {
-        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+    	String factId1 = "fact1.intersection";
+    	String factId2 = "fact2.sum";
+    	String factId3 = "fact3.average";
+
+    	Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
         propositionMap.put("P1", getRuleProposition(
         		YieldValueFunctionType.INTERSECTION.toString(),
         		"1",
         		ComparisonOperator.EQUAL_TO.toString(),
         		"CPR101",
-        		"intersection.courseKey"));
+        		factId1));
         // 1 of MATH102
         propositionMap.put("P2", getRuleProposition(
         		YieldValueFunctionType.INTERSECTION.toString(),
         		"1",
         		ComparisonOperator.EQUAL_TO.toString(),
         		"MATH102",
-        		"intersection.courseKey"));
+        		factId1));
 
         // Sum of credits = 12.0
         propositionMap.put("P3", getRuleProposition(
@@ -389,14 +413,14 @@ public class RuleSetTranslatorPropositionTest {
         		"12.0",
         		ComparisonOperator.EQUAL_TO.toString(),
         		null,
-        		"sum.courseKey"));
+        		factId2));
         // Sum of credits >= 12.0
         propositionMap.put("P4", getRuleProposition(
         		YieldValueFunctionType.SUM.toString(),
         		"9.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
         		null,
-        		"sum.courseKey"));
+        		factId2));
 
         // Average > 75.0
         propositionMap.put("P5", getRuleProposition(
@@ -404,31 +428,34 @@ public class RuleSetTranslatorPropositionTest {
         		"75.0",
         		ComparisonOperator.GREATER_THAN.toString(),
         		null,
-        		"average.courseKey"));
+        		factId3));
         // Average >= 80.0
         propositionMap.put("P6", getRuleProposition(
         		YieldValueFunctionType.AVERAGE.toString(),
         		"80.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
         		null,
-        		"average.courseKey"));
+        		factId3));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
         		"A package", "TestRuleName", "P1*P2*P3*P4*P5*P6", propositionMap);
         Map<String,Object> factMap = new HashMap<String,Object>();
         
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts for intersection
         Set<String> courseSetIntersection = createSet("CPR101,MATH102,CHEM101,CHEM102");
-        factMap.put("intersection.courseKey", courseSetIntersection);
+        factMap.put(factId1, courseSetIntersection);
 
+        factId2 = FactUtil.getFactKey(PROPOSITION_NAME, factId2, 0);
         // Get facts for sum
         List<BigDecimal> courseSetSum = createList("3.0,6.0,3.0");
-        factMap.put("sum.courseKey", courseSetSum);
+        factMap.put(factId2, courseSetSum);
 
+        factId3 = FactUtil.getFactKey(PROPOSITION_NAME, factId3, 0);
         // Get facts for average
         List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
-        factMap.put("average.courseKey", courseSet);
+        factMap.put(factId3, courseSet);
 
         FactContainer facts =  new FactContainer(anchorId, factMap);
         

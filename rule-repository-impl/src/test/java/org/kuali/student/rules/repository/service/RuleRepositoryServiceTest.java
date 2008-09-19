@@ -184,7 +184,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         yieldValueFunction.setYieldValueFunctionType("INTERSECTION");
         
         LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
-        leftHandSide.setYieldValueFunction(yieldValueFunction);
+        //leftHandSide.setYieldValueFunction(yieldValueFunction);
        
         RightHandSideDTO rightHandSide = new RightHandSideDTO();
         rightHandSide.setExpectedValue("1");

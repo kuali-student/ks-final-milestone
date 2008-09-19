@@ -8,7 +8,7 @@ import org.drools.compiler.DrlParser;
 import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.ParserError;
 import org.drools.lang.descr.PackageDescr;
-import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
+import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 
 enum Severity {ERROR, WARN, INFO, NONE}
 
@@ -27,17 +27,17 @@ public class RuleSetVerifier {
      * Verify that a rule package is valid.
      * 
      * @param source
-     * @throws GenerateRuleSetException Any errors verifying a rule set
+     * @throws RuleSetTranslatorException Any errors verifying a rule set
      * @return True if rule set was successfully verified otherwise false
      */
-    public boolean verify(Reader source) throws GenerateRuleSetException {
+    public boolean verify(Reader source) throws RuleSetTranslatorException {
         DrlParser p = new DrlParser();
         PackageDescr pkg;
         
         try {
             pkg = p.parse(source);
         } catch (DroolsParserException e) {
-            throw new GenerateRuleSetException("Parsing rule failed", e);
+            throw new RuleSetTranslatorException("Parsing rule failed", e);
         }
 
         if (p.hasErrors()) {

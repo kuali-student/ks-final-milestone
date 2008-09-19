@@ -26,7 +26,7 @@ import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
-import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
+import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
@@ -424,9 +424,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param businessRuleContainerDTO
      * @return
-     * @throws GenerateRuleSetException
+     * @throws RuleSetTranslatorException
      */
-    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) throws GenerateRuleSetException {
+    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) throws RuleSetTranslatorException {
     	RuleSet ruleSet = ruleSetTranslator.translate(businessRuleContainer);
     	ruleSet = this.ruleEngineRepository.createRuleSet(ruleSet);
     	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);

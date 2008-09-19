@@ -22,7 +22,7 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
+import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 
 public class RuleTemplate {
     VelocityContext context;
@@ -38,7 +38,7 @@ public class RuleTemplate {
      * Constructs and initializes a Velocity rule template
      *
      * @param enableLogging True enables logging; false disables logging
-     * @throws GenerateRuleSetException If Velocity rule template initialization fails
+     * @throws RuleSetTranslatorException If Velocity rule template initialization fails
      */
     public RuleTemplate(boolean enableLogging) {
         Properties p = new Properties();
@@ -52,7 +52,7 @@ public class RuleTemplate {
         try {
             Velocity.init(p);
         } catch( Exception e ) {
-            throw new GenerateRuleSetException( "Velocity rule template initialization failed", e );
+            throw new RuleSetTranslatorException( "Velocity rule template initialization failed", e );
         }
     }
 
@@ -82,7 +82,7 @@ public class RuleTemplate {
             Template template = Velocity.getTemplate(templateFile);
             template.merge(context, writer);
         } catch ( Exception e ) {
-            throw new GenerateRuleSetException( "Processing Velocity template failed", e );
+            throw new RuleSetTranslatorException( "Processing Velocity template failed", e );
         }
 
         return writer.toString();
