@@ -26,7 +26,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
-import org.kuali.student.rules.repository.exceptions.GenerateRuleSetException;
+import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
@@ -351,5 +351,5 @@ public interface RuleRepositoryService {
     public void changeRuleSetState(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="newState")String newState);
     
     @WebMethod
-    public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) throws GenerateRuleSetException;
+    public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) throws RuleSetTranslatorException;
 }

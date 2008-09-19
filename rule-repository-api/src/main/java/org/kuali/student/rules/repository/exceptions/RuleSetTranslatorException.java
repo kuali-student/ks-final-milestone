@@ -6,7 +6,7 @@ package org.kuali.student.rules.repository.exceptions;
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  *
  */
-public class GenerateRuleSetException extends RuntimeException {
+public class RuleSetTranslatorException extends RuntimeException {
 
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
@@ -16,7 +16,7 @@ public class GenerateRuleSetException extends RuntimeException {
      * 
      * @param cause Cause of this exception
      */
-    public GenerateRuleSetException(Throwable cause) {
+    public RuleSetTranslatorException(Throwable cause) {
         super(cause);
     }
 
@@ -26,7 +26,7 @@ public class GenerateRuleSetException extends RuntimeException {
      * @param msg Error message description
      * @param cause Cause of this exception
      */
-    public GenerateRuleSetException(String msg, Throwable cause) {
+    public RuleSetTranslatorException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
@@ -35,7 +35,7 @@ public class GenerateRuleSetException extends RuntimeException {
      * 
      * @param msg Error message description
      */
-    public GenerateRuleSetException(String msg) {
+    public RuleSetTranslatorException(String msg) {
         super(msg);
     }
 }
