@@ -237,6 +237,28 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
+    public void testRemoveSubCategory() throws Exception {
+        boolean b = brmsRepository.createCategory("/", "EnrollmentRules", "A test category 1.0 description");
+        assertTrue(b);
+        b = brmsRepository.createCategory("/EnrollmentRules", "Math", "A Math category description");
+        assertTrue(b);
+        b = brmsRepository.createCategory("/EnrollmentRules/Math", "PreReq", "A PreReq category description");
+        assertTrue(b);
+
+        brmsRepository.removeCategory("/EnrollmentRules/Math/PreReq");
+        List<String> list = brmsRepository.loadChildCategories("/EnrollmentRules/Math");
+        assertFalse(list.contains("PreReq"));
+        
+        brmsRepository.removeCategory("/EnrollmentRules/Math");
+        brmsRepository.loadChildCategories("/EnrollmentRules");
+        assertFalse(list.contains("Math"));
+        
+        brmsRepository.removeCategory("/EnrollmentRules");
+        list = brmsRepository.loadChildCategories("/");
+        assertFalse(list.contains("EnrollmentRules"));
+    }
+
+    @Test
     public void testCreateAndLoadCompiledRuleSetSnapshot() throws Exception {
         createSimpleRuleSet("MyRuleSet");
         
