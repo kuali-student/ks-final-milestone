@@ -185,9 +185,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         velocityContextMap.put("effectiveStartTime", effStartDate);
         velocityContextMap.put("effectiveEndTime", effEndDate);
         velocityContextMap.put("factUtil", new FactUtil());
-        velocityContextMap.put("FACT_STRUCTURE_ID", Constants.FACT_STRUCTURE_ID);
         velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
-        velocityContextMap.put("EXE_FACT_KEY", Constants.EXE_FACT_KEY);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, velocityContextMap);
