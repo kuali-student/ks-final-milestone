@@ -2,8 +2,9 @@
 
 	Can find it here: https://test.kuali.org/svn/rice/branches/rice-release-0-9-4-ks-080827-br/impl/src/main/config/sql/rice_db_bootstrap.sql
 
-2. In ks-poc-rice-war, edit ks-rice-config.xml with your oracle username/password.
+2. In ks-poc-rice-war, edit ks-rice-config.xml with your oracle configuration.
 	
+	datasource.url
 	datasource.username
 	datasource.password
 	
