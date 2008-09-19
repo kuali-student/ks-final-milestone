@@ -35,7 +35,7 @@ public class FactUtil {
 	 * @param variableKey key to lookup in the definition variable map
 	 * @return Definition variable value
 	 */
-	public   String getDefinitionVariableValue(YieldValueFunctionDTO yieldValueFunction, String variableKey) {
+	public final static String getDefinitionVariableValue(YieldValueFunctionDTO yieldValueFunction, String variableKey) {
 		if (yieldValueFunction == null) return null;
 		List<FactStructureDTO> list = yieldValueFunction.getFactStructureList();
 		for(int i=0; i<list.size(); i++) {
@@ -67,7 +67,7 @@ public class FactUtil {
 	 * @param propositionName Rule element proposition name
 	 * @return 
 	 */
-	public   String getFactId(YieldValueFunctionDTO yieldValueFunction, String propositionName) {
+	public final static String getFactId(YieldValueFunctionDTO yieldValueFunction, String propositionName) {
 		if (yieldValueFunction == null) return null;
 		List<FactStructureDTO> list = yieldValueFunction.getFactStructureList();
 		YieldValueFunctionType type = YieldValueFunctionType.valueOf(yieldValueFunction.getYieldValueFunctionType());
