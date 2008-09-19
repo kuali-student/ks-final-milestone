@@ -48,17 +48,6 @@ public class FactUtil {
 		return null;
 	}
 
-	/*public String getExecutionVariableValue(YieldValueFunctionDTO yieldValueFunction, String factStructureId, String variableKey) {
-		if (yieldValueFunction == null) return null;
-		List<FactStructureDTO> list = yieldValueFunction.getFactStructureList();
-		for(FactStructureDTO factStructure : list) {
-			if (factStructure != null && factStructure.getFactStructureId().equals(factStructureId)) {
-				return (factStructure.getExecutionVariableList() == null ? null : factStructure.getExecutionVariableList().get(variableKey));
-			}
-		}
-		return null;
-	}*/ 
-
 	/**
 	 * Gets the calculated fact id depending on the yield value function.
 	 * Fact id is of the form: PropositionName.FactStructureId.index
