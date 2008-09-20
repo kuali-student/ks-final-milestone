@@ -17,17 +17,14 @@ package org.kuali.student.rules.repository.service.impl;
 
 import java.util.List;
 
-import javax.jcr.SimpleCredentials;
 import javax.jws.WebService;
 
 import org.drools.repository.RulesRepository;
-import org.drools.repository.RulesRepositoryAdministrator;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.DefaultDroolsRepository;
 import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
-import org.kuali.student.rules.repository.exceptions.RepositoryLoginException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
@@ -59,11 +56,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     
     private RuleSetTranslator ruleSetTranslator;
 
-    private DefaultDroolsRepository defaultRepo;
     public RuleRepositoryServiceImpl() {
-    	defaultRepo = new DefaultDroolsRepository("/drools-repository");
-    	//RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
-    	RulesRepository repository = defaultRepo.getRepository();
+    	RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
         this.ruleEngineRepository = new RuleEngineRepositoryDroolsImpl(repository);
     }
 

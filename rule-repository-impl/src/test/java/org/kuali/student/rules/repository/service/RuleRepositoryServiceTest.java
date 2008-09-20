@@ -31,7 +31,6 @@ import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
-import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -72,7 +71,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     public void tearDown() throws Exception {
     }
     
-    private static RuleRepositoryService getService() {
+    /*private static RuleRepositoryService getService() {
         String serviceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleRepositoryService";
         String namespace = "http://student.kuali.org/wsdl/brms/RuleRepository";
         String serviceName = "RuleRepositoryService";
@@ -85,7 +84,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-    }
+    }*/
 
     private RuleSetDTO createRuleSet() {
     	RuleSetDTO dto = new RuleSetDTO("TestName", "Test description", "DRL");
