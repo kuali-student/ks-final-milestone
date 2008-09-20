@@ -45,6 +45,11 @@ import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 			 parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface RuleRepositoryService {
 
+	//TODO - Remove this method
+    //@WebMethod
+    //@Oneway
+    //public void clearRepository();
+
     /**
      * <p>
      * Creates a new category in the repository.
@@ -165,8 +170,8 @@ public interface RuleRepositoryService {
      *            A rule set to update
      * @throws RuleEngineRepositoryException
      */
-    @WebMethod
-    public RuleSetDTO updateRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) throws RuleEngineRepositoryException;
+    //@WebMethod
+    //public RuleSetDTO updateRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) throws RuleEngineRepositoryException;
 
     /**
      * <p>
@@ -236,8 +241,8 @@ public interface RuleRepositoryService {
      * @return A rule
      * @throws RuleEngineRepositoryException Thrown if loading rule fails
      */
-    @WebMethod
-    public RuleDTO fetchRule(@WebParam(name="uuid")String uuid);
+    //@WebMethod
+    //public RuleDTO fetchRule(@WebParam(name="uuid")String uuid);
     
     /**
      * <p>
@@ -342,6 +347,10 @@ public interface RuleRepositoryService {
 
     @WebMethod
     public String createState(@WebParam(name="name")String name);
+    
+    @WebMethod
+    @Oneway
+    public void removeState(@WebParam(name="name")String name);
     
     @WebMethod
     public String[] fetchStates();
