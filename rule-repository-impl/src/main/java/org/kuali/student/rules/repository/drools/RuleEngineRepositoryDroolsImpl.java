@@ -682,15 +682,15 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 			this.repository.getState(name).getNode().remove();
             this.repository.save();
         } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+            throw new RuleEngineRepositoryException("RulesRepositoryException. Removing status failed: name=" + name, e);
 		} catch (VersionException e) {
-            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+            throw new RuleEngineRepositoryException("VersionException. Removing status failed: name=" + name, e);
 		} catch (LockException e) {
-            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+            throw new RuleEngineRepositoryException("LockException. Removing status failed: name=" + name, e);
 		} catch (ConstraintViolationException e) {
-            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+            throw new RuleEngineRepositoryException("ConstraintViolationException. Removing status failed: name=" + name, e);
 		} catch (RepositoryException e) {
-            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+            throw new RuleEngineRepositoryException("RepositoryException. Removing status failed: name=" + name, e);
 		}
     }
 
@@ -852,6 +852,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             pkg.checkin(comment);
             this.repository.save();
         } catch (RulesRepositoryException e) {
+e.printStackTrace();        	
             throw new RuleEngineRepositoryException("Creating rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
         }
     }

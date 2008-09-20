@@ -33,7 +33,7 @@ import org.kuali.student.rules.repository.rule.RuleSet;
 
 public class RuleEngineRepositoryMock implements RuleEngineRepository {
 
-    private Package pkg;
+	private Package pkg;
     
     public RuleEngineRepositoryMock() {
         this.pkg = buildPackage(getSimplePackage());
@@ -203,6 +203,11 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     public String createStatus(String name) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
+
+    @Override
+	public void removeStatus(String name) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+	}
 
     @Override
     public byte[] exportRulesRepositoryAsXml() {

@@ -17,26 +17,26 @@ package org.kuali.student.rules.repository.service.impl;
 
 import java.util.List;
 
+import javax.jcr.SimpleCredentials;
 import javax.jws.WebService;
 
 import org.drools.repository.RulesRepository;
+import org.drools.repository.RulesRepositoryAdministrator;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.DefaultDroolsRepository;
 import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
-import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
+import org.kuali.student.rules.repository.exceptions.RepositoryLoginException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
-import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.service.RuleAdapter;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.translators.RuleSetTranslator;
-import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * This is a convenience interface for the rules repository interface.
@@ -59,8 +59,11 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     
     private RuleSetTranslator ruleSetTranslator;
 
+    private DefaultDroolsRepository defaultRepo;
     public RuleRepositoryServiceImpl() {
-    	RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
+    	defaultRepo = new DefaultDroolsRepository("/drools-repository");
+    	//RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
+    	RulesRepository repository = defaultRepo.getRepository();
         this.ruleEngineRepository = new RuleEngineRepositoryDroolsImpl(repository);
     }
 
@@ -88,6 +91,13 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	public void setRuleSetTranslator(RuleSetTranslator ruleSetTranslator) {
 		this.ruleSetTranslator = ruleSetTranslator;
 	}
+
+	//TODO - Remove this method
+    /*public void clearRepository() {
+    		//this.defaultRepo.logout();
+    		//this.defaultRepo.login(defaultRepo.getCredentials());
+			this.defaultRepo.clearData();
+    }*/
 
 	/**
      * <p>
@@ -217,12 +227,12 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return An updated rule set
      * @throws RuleEngineRepositoryException
      */
-    public RuleSetDTO updateRuleSet(RuleSetDTO ruleSetDTO) {
+    /*public RuleSetDTO updateRuleSet(RuleSetDTO ruleSetDTO) {
     	RuleSet ruleSet = ruleAdapter.getRuleSet(ruleSetDTO);
         RuleSet updatedRuleSet = this.ruleEngineRepository.updateRuleSet(ruleSet);
         RuleSetDTO dto = ruleAdapter.getRuleSetDTO(updatedRuleSet);
         return dto;
-    }
+    }*/
 
     /**
      * <p>
@@ -249,9 +259,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      *            Checkin comments
      * @throws RuleEngineRepositoryException
      */
-    //public void checkinRuleSet(final String uuid, final String comment) {
-    //    this.ruleEngineRepository.checkinRuleSet(uuid, comment);
-    //}
+    /*public void checkinRuleSet(final String uuid, final String comment) {
+        this.ruleEngineRepository.checkinRuleSet(uuid, comment);
+    }*/
 
     /**
      * Loads a rule by uuid.
@@ -261,11 +271,11 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A rule
      * @throws RuleEngineRepositoryException Thrown if loading rule fails
      */
-    public RuleDTO fetchRule(final String uuid) {
+    /*public RuleDTO fetchRule(final String uuid) {
     	Rule rule = this.ruleEngineRepository.loadRule(uuid);
     	RuleDTO dto = ruleAdapter.getRuleDTO(rule);
     	return dto;
-    }
+    }*/
     
     /**
      * <p>
@@ -413,6 +423,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     
     public String[] fetchStates() {
     	return this.ruleEngineRepository.loadStates();
+    }
+
+    public void removeState(String name) {
+    	this.ruleEngineRepository.removeStatus(name);
     }
 
     public void changeRuleSetState(final String ruleSetUUID, final String newState) {
