@@ -966,14 +966,19 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
-    public void testCreateStates() throws Exception {
+    public void testCreateAndRemoveStatus() throws Exception {
         brmsRepository.createStatus("Active");
 
         String[] states = brmsRepository.loadStates();
-
         assertEquals(2, states.length);
         assertEquals("Draft", states[0]); // default state is Draft
         assertEquals("Active", states[1]);
+
+        brmsRepository.removeStatus("Active");
+        states = brmsRepository.loadStates();
+
+        assertEquals(1, states.length);
+        assertEquals("Draft", states[0]); // default state is Draft
     }
 
     @Test
