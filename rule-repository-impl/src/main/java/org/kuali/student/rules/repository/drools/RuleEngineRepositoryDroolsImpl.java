@@ -30,8 +30,11 @@ import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.UnsupportedRepositoryOperationException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryResult;
+import javax.jcr.version.VersionException;
 
 import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.PackageBuilder;
@@ -662,6 +665,33 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         } catch (RepositoryException e) {
             throw new RuleEngineRepositoryException("Creating status failed: name=" + name, e);
         }
+    }
+
+    /**
+     * Removes a status fro the repositiory.
+     * 
+     * @param uuid Status uuid
+     * @throws RuleEngineRepositoryException Thrown if removing status fails
+     */
+    public void removeStatus(final String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("uuid cannot be null or empty");
+        }
+
+        try {
+			this.repository.getState(name).getNode().remove();
+            this.repository.save();
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+		} catch (VersionException e) {
+            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+		} catch (LockException e) {
+            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+		} catch (ConstraintViolationException e) {
+            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+		} catch (RepositoryException e) {
+            throw new RuleEngineRepositoryException("Removing status failed: name=" + name, e);
+		}
     }
 
     /**

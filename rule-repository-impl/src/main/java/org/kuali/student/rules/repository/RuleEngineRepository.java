@@ -470,6 +470,14 @@ public interface RuleEngineRepository {
     public String createStatus(String name);
 
     /**
+     * Removes a status from the repositiory.
+     * 
+     * @param uuid Status name
+     * @throws RuleEngineRepositoryException Thrown if removing status fails
+     */
+    public void removeStatus(final String name);
+    
+    /**
      * Loads all states.
      * 
      * @return Array of all states (statuses)
