@@ -86,7 +86,8 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public RuleSetDTO createRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) throws RuleSetExistsException, RuleExistsException;
+    public RuleSetDTO createRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) 
+    	throws RuleSetExistsException, RuleExistsException;
 
     /**
      * Deletes a rule set by uuid.
@@ -116,7 +117,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     //@WebMethod
-    //public RuleSetDTO updateRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) throws RuleEngineRepositoryException;
+    //public RuleSetDTO updateRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet);
 
     /**
      * Checks in a rule set into the repository.
@@ -128,7 +129,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public long checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment) throws RuleEngineRepositoryException;
+    public long checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment); 
 
     /**
      * Loads a rule set (including all rules) by UUID from the repository.
@@ -138,7 +139,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public RuleSetDTO fetchRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
+    public RuleSetDTO fetchRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID); 
 
     /**
      * Loads a rule by uuid.
@@ -158,7 +159,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public byte[] fetchCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) throws RuleEngineRepositoryException;
+    public byte[] fetchCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID); 
 
     /**
      * Creates a new rule set snapshot for deployment and stores it in the repository.
@@ -193,7 +194,7 @@ public interface RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     @WebMethod
-    public byte[] fetchCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName) throws RuleEngineRepositoryException;
+    public byte[] fetchCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName); 
 
     /**
      * Loads a rule set snapshot.
@@ -203,7 +204,7 @@ public interface RuleRepositoryService {
      * @return A rule set snapshot
      */
     @WebMethod
-    public RuleSetDTO fetchRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName) throws RuleEngineRepositoryException;
+    public RuleSetDTO fetchRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName); 
 
     /**
      * Creates a new status if it doesn't already exists.
@@ -241,6 +242,14 @@ public interface RuleRepositoryService {
     @Oneway
     public void changeRuleSetState(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="newState")String newState);
     
+    /**
+     * Generates rule engine specific source code from a <code>BusinessRuleContainerDTO</code>.
+     *  
+     * @param businessRuleContainer A container of business rules
+     * @return A rule set
+     * @throws RuleSetTranslatorException
+     */
     @WebMethod
-    public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) throws RuleSetTranslatorException;
+    public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
+    	throws RuleSetTranslatorException;
 }
