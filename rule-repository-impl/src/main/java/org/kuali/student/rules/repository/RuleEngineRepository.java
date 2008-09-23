@@ -294,9 +294,10 @@ public interface RuleEngineRepository {
      *            Rule set uuid
      * @param comment
      *            Checkin comments
+     * @return New version number
      * @throws RuleEngineRepositoryException Thrown if checkin rule set fails
      */
-    public void checkinRuleSet(String uuid, String comment);
+    public long checkinRuleSet(String uuid, String comment);
 
     /**
      * Updates a rule set in the repository and returns an updated rule set.
@@ -315,9 +316,10 @@ public interface RuleEngineRepository {
      *            Rule uuid
      * @param comment
      *            Checkin comments
+     * @return New version number
      * @throws RuleEngineRepositoryException Thrown if checkin rule fails
      */
-    public void checkinRule(String uuid, String comment);
+    public long checkinRule(String uuid, String comment);
 
     /**
      * Updates a rule in the repository and returns an updated rule.
@@ -472,7 +474,7 @@ public interface RuleEngineRepository {
     public String createStatus(String name);
 
     /**
-     * Removes a status from the repositiory.
+     * Removes a status from the repository.
      * 
      * @param uuid Status name
      * @throws RuleEngineRepositoryException Thrown if removing status fails
@@ -499,7 +501,7 @@ public interface RuleEngineRepository {
     public void changeRuleStatus(String uuid, String newState);
 
     /**
-     * Changes rule set status by uuid.
+     * Changes a rule set status by uuid.
      * 
      * @param uuid
      *            Rule set uuid

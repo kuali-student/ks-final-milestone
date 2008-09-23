@@ -700,10 +700,11 @@ public class RuleEngineRepositoryTest {
         assertEquals( 1L, ruleSet.getVersionNumber());
 
         // Rule Set Version 2
-        brmsRepository.checkinRuleSet(ruleSet.getUUID(), "Checkin Rule Set Version 2");
+        long version = brmsRepository.checkinRuleSet(ruleSet.getUUID(), "Checkin Rule Set Version 2");
         
         ruleSet = brmsRepository.loadRuleSet(ruleSet.getUUID());
-        assertEquals(2L, ruleSet.getVersionNumber());
+        assertEquals(version, ruleSet.getVersionNumber());
+        assertEquals(2L, version);
     }
 
     @Test
@@ -901,10 +902,11 @@ public class RuleEngineRepositoryTest {
 
         // Rule Version 1
         //RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
-        brmsRepository.checkinRule(ruleSet2.getRules().get(0).getUUID(), "Checkin Rule Version 1");
+        long version = brmsRepository.checkinRule(ruleSet2.getRules().get(0).getUUID(), "Checkin Rule Version 1");
         
         RuleSet ruleSet3 = brmsRepository.loadRuleSet(ruleSet2.getUUID());
-        assertEquals( 1L, ruleSet3.getRules().get(0).getVersionNumber());
+        assertEquals( version, ruleSet3.getRules().get(0).getVersionNumber());
+        assertEquals( 1L, version);
     }
     
     @Test

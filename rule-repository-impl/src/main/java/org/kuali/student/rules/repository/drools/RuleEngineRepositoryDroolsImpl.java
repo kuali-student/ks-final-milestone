@@ -157,9 +157,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule set uuid
      * @param comment
      *            Checkin comments
+     * @return New version number
      * @throws RuleEngineRepositoryException Thrown if checkin rule set fails
      */
-    public void checkinRuleSet(final String uuid, final String comment) {
+    public long checkinRuleSet(final String uuid, final String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
             throw new IllegalArgumentException("uuid cannot be null or empty");
         } else if (comment == null || comment.isEmpty()) {
@@ -170,6 +171,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             PackageItem item = this.repository.loadPackageByUUID(uuid);
             item.updateDescription(item.getDescription());
             item.checkin(comment);
+            item = this.repository.loadPackageByUUID(uuid);
+            return item.getVersionNumber();
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Checkin rule set failed: uuid=" + uuid, e);
         }
@@ -213,9 +216,10 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Rule uuid
      * @param comment
      *            Checkin comments
+     * @return New version number
      * @throws RuleEngineRepositoryException Thrown if checkin rule fails
      */
-    public void checkinRule(final String uuid, final String comment) {
+    public long checkinRule(final String uuid, final String comment) {
         if (uuid == null || uuid.trim().isEmpty()) {
             throw new IllegalArgumentException("uuid cannot be null or empty");
         } else if (comment == null || comment.trim().isEmpty()) {
@@ -227,6 +231,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             item.updateDateEffective(item.getDateEffective());
             item.updateDateExpired(item.getDateExpired());
             item.checkin(comment);
+            item = this.repository.loadAssetByUUID(uuid);
+            return item.getVersionNumber();
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Checkin rule failed: uuid=" + uuid, e);
         }
