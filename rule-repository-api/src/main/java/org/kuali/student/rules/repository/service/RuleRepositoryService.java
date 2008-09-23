@@ -23,7 +23,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
