@@ -288,6 +288,7 @@ public interface RuleEngineRepository {
 
     /**
      * Checkin a rule set into the repository.
+     * Checkin rule set will create a new version of the rule set.
      * 
      * @param uuid
      *            Rule set uuid
@@ -308,6 +309,7 @@ public interface RuleEngineRepository {
     
     /**
      * Checkin a rule by uuid into the repository.
+     * Checkin rule will create a new version of the rule.
      * 
      * @param uuid
      *            Rule uuid
