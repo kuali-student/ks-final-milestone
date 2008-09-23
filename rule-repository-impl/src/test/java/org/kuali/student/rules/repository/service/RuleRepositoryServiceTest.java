@@ -180,6 +180,22 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void testCheckinRuleSet() throws Exception {
+    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
+        assertNotNull(ruleSet1);
+        assertEquals( 1L, ruleSet1.getVersionNumber());
+        
+        long version = service.checkinRuleSet(ruleSet1.getUUID(), "Checkin ruleset version 2");
+
+        RuleSetDTO ruleSet2 = service.fetchRuleSet(ruleSet1.getUUID());
+        assertNotNull(ruleSet2);
+        assertEquals(version, ruleSet2.getVersionNumber());
+        assertEquals(2L, version);
+
+        service.removeRuleSet( ruleSet1.getUUID() );
+    }
+
+    @Test
     public void testFetchCompiledRuleSet() throws Exception {
     	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
         assertNotNull( ruleSet1 );
@@ -238,7 +254,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getName(), "snapshot1");
         assertNotNull( snapshot );
 
-        service.replaceRuleSetSnapshot(ruleSet1.getName(), "snapshot1", "Replace snapshot with new compilation");
+        service.rebuildRuleSetSnapshot(ruleSet1.getName(), "snapshot1", "Replace snapshot with new compilation");
 
 		snapshot = service.fetchRuleSetSnapshot(snapshot.getName(), "snapshot1");
         assertNotNull( snapshot );
