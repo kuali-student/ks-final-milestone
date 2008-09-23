@@ -4,12 +4,15 @@
 package org.kuali.student.rules.devgui.server.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
+import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
 /**
@@ -19,80 +22,69 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     RuleManagementService ruleManagementService;
 
-    // retrieve all available Agenda Type Keys
-    public List<String> findAgendaTypes() {
+    public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
 
-        // TODO: call findAgendaTypes() using BRMS Service
+        String new_rule_id = null;
 
-        String[] agendaTypeKeys = {"kuali.studentEnrollsInCourse", "kuali.studentDropsCourse", "kuali.instructorIsAssignedToCourse"};
-        List<String> result = new ArrayList<String>();
-        for (String agenaTypeKey : agendaTypeKeys) {
-            result.add(agenaTypeKey);
+        try {
+            new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }
-        return result;
+        return new_rule_id;
     }
 
-    // retrieve all available set of determination structure keys based on given Agenda Type
-    public List<String> findDeterminationKeysByAgendaType(String businessRuleType) {
+    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
+        StatusDTO rule_update_status = null;
 
-        // TODO: call ?() using BRMS Service
-
-        String[] determinationStructure1 = {"Enrolled"};
-        String[] determinationStructure2 = {"Dropped"};
-        String[] determinationStructure3 = {"Assigned"};
-
-        if (businessRuleType == "kuali.studentEnrollsInCourse") {
-            return Arrays.asList(determinationStructure1);
-        } else if (businessRuleType == "kuali.studentDropsCourse") {
-            return Arrays.asList(determinationStructure2);
-        } else if (businessRuleType == "kuali.instructorIsAssignedToCourse") {
-            return Arrays.asList(determinationStructure3);
+        try {
+            rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }
-
-        return null;
+        return rule_update_status;
     }
 
-    // retrieve all available Business Rule Types based on given set of determination keys
-    public List<String> findBusinessRuleTypesByDeterminationKeySet(String determinationKeys) {
+    // populate Business Rule Types tree
+    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
+        List<RuleTypesHierarchyInfo> ruleTypesInfo = new ArrayList<RuleTypesHierarchyInfo>();
+        RuleTypesHierarchyInfo ruleTypeInfo;
 
-        // TODO: call ?() using BRMS Service
-
-        String[] businessRuleTypes1 = {"kuali.coursePrerequisite", "kuali.coursCorequisite", "kuali.academicProgramRequirement", "kuali.gpaMinimum"};
-        String[] businessRuleTypes2 = {"kuali.courseFinancials"};
-        String[] businessRuleTypes3 = {"kuali.teachingQualifications", "kuali.courseRequirements"};
-
-        if (determinationKeys == "Enrolled") {
-            return Arrays.asList(businessRuleTypes1);
-        } else if (determinationKeys == "Dropped") {
-            return Arrays.asList(businessRuleTypes2);
-        } else if (determinationKeys == "Assigned") {
-            return Arrays.asList(businessRuleTypes3);
+        // 1. retrieve agendas
+        List<String> agendaTypes = new ArrayList<String>();
+        try {
+            agendaTypes = ruleManagementService.findAgendaTypes();
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to get agenda types", ex); // TODO
         }
 
-        return null;
+        // 2. for each agenda type, retrieve business rule types
+        for (String agendaTypeKey : agendaTypes) {
+
+            ruleTypeInfo = new RuleTypesHierarchyInfo();
+            ruleTypeInfo.setAgendaType(agendaTypeKey);
+
+            // 3. retrieve business rule types
+            List<String> businessRuleTypes = new ArrayList<String>();
+            try {
+                // businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
+                businessRuleTypes.add("Business Rule Type 123"); // WORKAROUND
+            } catch (Exception ex) {
+                throw new RuntimeException("Unable to get business rule types", ex); // TODO
+            }
+
+            List<String> businessRuleIds = new ArrayList<String>();
+            for (String businessRuleTypeKey : businessRuleTypes) {
+
+                ruleTypeInfo.setBusinessRuleTypeKey(businessRuleTypeKey);
+                ruleTypesInfo.add(ruleTypeInfo);
+            }
+        }
+
+        return ruleTypesInfo;
     }
 
-    // retrieve all available Business Rule Types based on given set of determination keys
-    /*   public List<String> findBusinessRuleTypesByDeterminationKeySet(String determinationKeys) {
-
-           // TODO: call ?() using BRMS Service
-
-           String[] businessRuleTypes1 = {"kuali.coursePrerequisite", "kuali.coursCorequisite", "kuali.academicProgramRequirement", "kuali.gpaMinimum"};
-           String[] businessRuleTypes2 = {"kuali.courseFinancials"};
-           String[] businessRuleTypes3 = {"kuali.teachingQualifications", "kuali.courseRequirements"};
-
-           if (determinationKeys == "Enrolled") {
-               return Arrays.asList(businessRuleTypes1);
-           } else if (determinationKeys == "Dropped") {
-               return Arrays.asList(businessRuleTypes2);
-           } else if (determinationKeys == "Assigned") {
-               return Arrays.asList(businessRuleTypes3);
-           }
-
-           return null;
-       }  */
-
-    // USED to populate rules tree
+    // populate rules tree
     public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
         List<RulesHierarchyInfo> rulesInfo = new ArrayList<RulesHierarchyInfo>();
         RulesHierarchyInfo ruleInfoA;
@@ -139,7 +131,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                 for (String businessRuleId : businessRuleIds) {
 
                     try {
-                        businessRuleName = ruleManagementService.fetchBusinessRuleInfo(businessRuleId).getName();
+                        businessRuleName = ruleManagementService.fetchDetailBusinessRuleInfo(businessRuleId).getName();
                     } catch (Exception ex) {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
@@ -316,6 +308,18 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                 ruleInfo.setRuleElementList(elemList);
         */
         return businessRuleInfo;
+    }
+
+    public BusinessRuleTypeDTO fetchBusinessRuleTypeInfo(String ruleTypeKey) {
+
+        // TODO call Kamal's service once he is done
+        BusinessRuleTypeDTO ruleType = new BusinessRuleTypeDTO();
+        ruleType.setAnchorTypeKey("kuali.student.course");
+        ruleType.setBussinessRuleTypeKey("kuali.student.enrollCourses");
+        List<FactStructureDTO> factStructures = null;
+        ruleType.setFactStructureList(factStructures);
+
+        return ruleType;
     }
 
     /**

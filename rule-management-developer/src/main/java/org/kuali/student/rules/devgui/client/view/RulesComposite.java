@@ -3,7 +3,6 @@
  */
 package org.kuali.student.rules.devgui.client.view;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
@@ -14,7 +13,6 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -24,6 +22,7 @@ import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 import com.google.gwt.core.client.GWT;
@@ -51,7 +50,6 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * @author Zdenek
@@ -101,6 +99,8 @@ public class RulesComposite extends Composite {
     // final ListBox businessRuleTypeListBox = new ListBox();
     final TextBox anchorTextBox = new TextBox();
     final Label anchorTypeReadOnly = new Label("");
+    final Button updateButton = new Button("Update Rule");
+    final Button createButton = new Button("Create Rule");
 
     // Propositions rules tab
     final ListBox yvfListBox = new ListBox();
@@ -110,8 +110,14 @@ public class RulesComposite extends Composite {
     final ListBox propositionsListBox = new ListBox();
     final TextArea completeRuleTextArea = new TextArea();
     final TextArea propCompositionTextArea = new TextArea();
+    final Button validateCompositionButton = new Button("Validate");
     final TextBox expectedValueTextBox = new TextBox();
     final Label compositionStatuLabel = new Label();
+    // Proposition Update, Reset, Add, Delete buttons
+    final Button updatePropButton = new Button("Update");
+    final Button deletePropButton = new Button("Delete");
+    final Button resetPropButton = new Button("Reset");
+    final Button addPropButton = new Button("Add");
 
     // Authoring tab
     final TextBox statusTextBox = new TextBox();
@@ -119,8 +125,10 @@ public class RulesComposite extends Composite {
     final TextBox effectiveEndTimeTextBox = new TextBox();
     final TextBox createTimeTextBox = new TextBox();
     final TextBox createUserIdTextBox = new TextBox();
+    final TextBox createCommentTextBox = new TextBox();
     final TextBox updateTimeTextBox = new TextBox();
     final TextBox updateUserIdTextBox = new TextBox();
+    final TextBox updateCommentTextBox = new TextBox();
 
     boolean loaded = false;
 
@@ -174,13 +182,15 @@ public class RulesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
+            /*
             rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
                 public void onSelect(RulesHierarchyInfo modelObject) {
-                    String ruleId = modelObject.getBusinessRuleId();
+
                     if (modelObject == null) {
                         // selection was cleared
                         clearRuleForms();
                     } else {
+                        String ruleId = modelObject.getBusinessRuleId();
                         // populate fields from new selection
                         DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfoDTO>() {
                             public void onFailure(Throwable caught) {
@@ -213,7 +223,160 @@ public class RulesComposite extends Composite {
                         });
                     }
                 }
+            });  */
+
+            /****************************************************************************************************************
+             * listeners for rule CREATE and UPDATE buttons
+             ***************************************************************************************************************/
+            createButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    DevelopersGuiService.Util.getInstance().createBusinessRule(activeRule, new AsyncCallback<String>() {
+                        public void onFailure(Throwable caught) {
+                            // just re-throw it and let the uncaught exception handler deal with it
+                            Window.alert(caught.getMessage());
+                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                        }
+
+                        public void onSuccess(String newRuleID) {
+                            System.out.println("Created rule: " + newRuleID);
+                        }
+                    });
+                }
             });
+
+            updateButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(activeRule.getBusinessRuleId(), activeRule, new AsyncCallback<StatusDTO>() {
+                        public void onFailure(Throwable caught) {
+                            // just re-throw it and let the uncaught exception handler deal with it
+                            Window.alert(caught.getMessage());
+                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                        }
+
+                        public void onSuccess(StatusDTO updateStatus) {
+                            System.out.println("Updated rule: " + updateStatus.isSuccess());
+                        }
+                    });
+                }
+            });
+
+            /****************************************************************************************************************
+             * listeners for proposition ADD, UPDATE, DELETE, RESET buttons
+             ***************************************************************************************************************/
+
+            updatePropButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    int selectedProp = propositionsListBox.getSelectedIndex();
+                    if (selectedProp != -1) {
+                        RuleElementDTO elem = definedPropositions.get(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
+                        elem.setOperation("PROPOSITION");
+                        RulePropositionDTO prop = elem.getRuleProposition();
+                        prop.setName(propNameTextBox.getText());
+                        prop.setDescription(propDescTextBox.getText());
+                        LeftHandSideDTO leftSide = new LeftHandSideDTO();
+                        YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+                        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+                        leftSide.setYieldValueFunction(yvf);
+                        prop.setLeftHandSide(leftSide);
+                        RightHandSideDTO rightSide = new RightHandSideDTO();
+                        rightSide.setExpectedValue(expectedValueTextBox.getText());
+                        prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
+                        prop.setRightHandSide(rightSide);
+                        propositionsListBox.setSelectedIndex(-1);
+                        clearPropositionDetails();
+                    }
+                }
+            });
+
+            deletePropButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    int selectedProp = propositionsListBox.getSelectedIndex();
+                    if (selectedProp != -1) {
+                        // remove the proposition
+                        definedPropositions.remove(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
+
+                        // refresh the form
+                        populatePropositionListBoxAndDetails(-1);
+                    }
+                }
+            });
+
+            resetPropButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    clearPropositionDetails();
+                }
+            });
+
+            addPropButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    RuleElementDTO elem = new RuleElementDTO();
+                    RulePropositionDTO prop = new RulePropositionDTO();
+
+                    if (yvfListBox.getSelectedIndex() == -1) {
+                        // TODO error messages
+                        return;
+                    }
+
+                    if (operatorsListBox.getSelectedIndex() == -1) {
+                        return;
+                    }
+
+                    if (expectedValueTextBox.getText().isEmpty()) {
+                        return;
+                    }
+
+                    prop.setName(propNameTextBox.getText());
+                    prop.setDescription(propDescTextBox.getText());
+                    LeftHandSideDTO leftSide = new LeftHandSideDTO();
+                    YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+                    yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+                    leftSide.setYieldValueFunction(yvf);
+                    prop.setLeftHandSide(leftSide);
+                    RightHandSideDTO rightSide = new RightHandSideDTO();
+                    rightSide.setExpectedValue(expectedValueTextBox.getText());
+                    prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
+                    elem.setRuleProposition(prop);
+                    elem.setOperation("PROPOSITION");
+
+                    int max = 0;
+                    for (Integer key : definedPropositions.keySet()) {
+                        if (key.intValue() > max) {
+                            max = key.intValue();
+                        }
+                    }
+                    max++;
+
+                    elem.setOrdinalPosition(max);
+                    definedPropositions.put(max, elem);
+
+                    populatePropositionListBoxAndDetails(propositionsListBox.getItemCount() - 1);
+                }
+            });
+
+            /****************************************************************************************************************
+             * listeners for COMPOSITION and COMPLETE TEXT elements of a rule
+             ***************************************************************************************************************/
+
+            validateCompositionButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                    compositionStatuLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
+                }
+            });
+
+            propCompositionTextArea.addFocusListener(new FocusListener() {
+                public void onFocus(final Widget sender) {
+
+                }
+
+                public void onLostFocus(final Widget sender) {
+                    // check whether the current composition is valid
+                    compositionStatuLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
+
+                    // update Rule Overview text as well
+                    completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
+                }
+            });
+
         }
     }
 
@@ -251,8 +414,10 @@ public class RulesComposite extends Composite {
         effectiveEndTimeTextBox.setText(formatter.format(activeRule.getEffectiveEndTime()));
         createTimeTextBox.setText(formatter.format(activeRule.getMetaInfo().getCreateTime()));
         createUserIdTextBox.setText(activeRule.getMetaInfo().getCreateID());
+        createCommentTextBox.setText(activeRule.getMetaInfo().getCreateComment());
         updateTimeTextBox.setText(formatter.format(activeRule.getMetaInfo().getUpdateTime()));
         updateUserIdTextBox.setText(activeRule.getMetaInfo().getUpdateID());
+        updateCommentTextBox.setText(activeRule.getMetaInfo().getUpdateComment());
     }
 
     private void populatePropositionListBoxAndDetails(int selectedPropIx) {
@@ -292,8 +457,7 @@ public class RulesComposite extends Composite {
         propositionsListBox.setSelectedIndex(-1);
     }
 
-    // TODO: check if changes were made to any form field; if changes made, ask user if they
-    // want to abandon the changes
+    // TODO: check if changes were made to any form field; if changes made, ask user if they want to abandon the changes
     public void clearRuleForms() {
         // clear Main TAB
         nameTextBox.setText("");
@@ -328,22 +492,12 @@ public class RulesComposite extends Composite {
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(addRRulesAuthoringPage(), "Authoring");
         rulesFormTabs.setSize("90%", "450px");
-
-        // tabs.setStyleName("rulesBorder");
         rulesFormTabs.selectTab(1);
 
-        final Button updateButton = new Button("Update Rule");
-        final Button createButton = new Button("Create Rule");
         HorizontalPanel hp = new HorizontalPanel();
         hp.setSpacing(8);
         hp.add(updateButton);
         hp.add(createButton);
-        createButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {}
-        });
-        updateButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {}
-        });
 
         final VerticalPanel rulesFormVerticalPanel = new VerticalPanel();
         rulesFormVerticalPanel.setSpacing(5);
@@ -389,17 +543,6 @@ public class RulesComposite extends Composite {
         // **********************************************************
         // rules form elements
         // **********************************************************
-
-        // heading
-        /*
-        final SimplePanel heading = new SimplePanel();
-        flexFormTable.setWidget(0, 0, heading);
-        flexFormTable.getFlexCellFormatter().setColSpan(0, 0, 2);
-        flexFormTable.getCellFormatter().setHeight(0, 0, "21px");
-        final Label headerLabel = new Label("Rule Definition");
-        heading.add(headerLabel);
-        headerLabel.setStyleName("gwt-Label-Form-Heading");
-        */
 
         // Name
         final Label nameLabel = new Label("Name");
@@ -539,7 +682,9 @@ public class RulesComposite extends Composite {
         });
         propositionsListBox.setWidth("150px");
 
-        // List of Propositions table
+        // **********************************************************
+        // Propositions List
+        // **********************************************************
         final VerticalPanel propListPanel = new VerticalPanel();
         final Label propositionsLabel = new Label("Propositions");
         propListPanel.add(propositionsLabel);
@@ -547,11 +692,11 @@ public class RulesComposite extends Composite {
 
         horizontalPanel.add(propListPanel);
 
-        // proposition details table
+        // **********************************************************
+        // Propositions details
+        // **********************************************************
         final SimplePanel propDetailsBorder = new SimplePanel();
-        // propDetailsBorder.setSize("100%", "100%");
         final FlexTable flexPropositionDetailsTable = new FlexTable();
-        // flexPropositionDetailsTable.setSize("100%", "100%");
         propDetailsBorder.add(flexPropositionDetailsTable);
 
         // Proposition Name
@@ -576,7 +721,6 @@ public class RulesComposite extends Composite {
 
         // YVF
         flexPropositionDetailsTable.getCellFormatter().setWidth(2, 0, "10px");
-        // flexPropositionDetailsTable.getCellFormatter().setWidth(0, 1, "20%");
         final VerticalPanel vp1 = new VerticalPanel();
         final Label yvfLabel = new Label("YVF");
         vp1.add(yvfLabel);
@@ -585,7 +729,6 @@ public class RulesComposite extends Composite {
         flexPropositionDetailsTable.setWidget(2, 1, vp1);
 
         // Operator
-        // flexPropositionDetailsTable.getCellFormatter().setWidth(0, 2, "20%");
         final VerticalPanel vp2 = new VerticalPanel();
         final Label operatorLabel = new Label("Operator");
         vp2.add(operatorLabel);
@@ -596,7 +739,6 @@ public class RulesComposite extends Composite {
         flexPropositionDetailsTable.setWidget(2, 2, vp2);
 
         // Expected Value
-        // flexPropositionDetailsTable.getCellFormatter().setWidth(0, 3, "30%");
         final VerticalPanel vp3 = new VerticalPanel();
         final Label expectedValueLabel = new Label("Expected Value");
         vp3.add(expectedValueLabel);
@@ -629,101 +771,6 @@ public class RulesComposite extends Composite {
         vp5.add(param2ListBox);
         flexPropositionDetailsTable.setWidget(6, 1, vp5);
 
-        // Proposition Update, Reset, Add, Delete buttons
-        final Button updatePropButton = new Button("Update");
-        final Button deletePropButton = new Button("Delete");
-        final Button resetPropButton = new Button("Reset");
-        final Button addPropButton = new Button("Add");
-
-        updatePropButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {
-                int selectedProp = propositionsListBox.getSelectedIndex();
-                if (selectedProp != -1) {
-                    RuleElementDTO elem = definedPropositions.get(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
-                    elem.setOperation("PROPOSITION");
-                    RulePropositionDTO prop = elem.getRuleProposition();
-                    prop.setName(propNameTextBox.getText());
-                    prop.setDescription(propDescTextBox.getText());
-                    LeftHandSideDTO leftSide = new LeftHandSideDTO();
-                    YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
-                    yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
-                    leftSide.setYieldValueFunction(yvf);
-                    prop.setLeftHandSide(leftSide);
-                    RightHandSideDTO rightSide = new RightHandSideDTO();
-                    rightSide.setExpectedValue(expectedValueTextBox.getText());
-                    prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
-                    prop.setRightHandSide(rightSide);
-                    propositionsListBox.setSelectedIndex(-1);
-                    clearPropositionDetails();
-                }
-            }
-        });
-
-        deletePropButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {
-                int selectedProp = propositionsListBox.getSelectedIndex();
-                if (selectedProp != -1) {
-                    // remove the proposition
-                    definedPropositions.remove(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
-
-                    // refresh the form
-                    populatePropositionListBoxAndDetails(-1);
-                }
-            }
-        });
-
-        resetPropButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {
-                clearPropositionDetails();
-            }
-        });
-
-        addPropButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {
-                RuleElementDTO elem = new RuleElementDTO();
-                RulePropositionDTO prop = new RulePropositionDTO();
-
-                if (yvfListBox.getSelectedIndex() == -1) {
-                    // TODO error messages
-                    return;
-                }
-
-                if (operatorsListBox.getSelectedIndex() == -1) {
-                    return;
-                }
-
-                if (expectedValueTextBox.getText().isEmpty()) {
-                    return;
-                }
-
-                prop.setName(propNameTextBox.getText());
-                prop.setDescription(propDescTextBox.getText());
-                LeftHandSideDTO leftSide = new LeftHandSideDTO();
-                YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
-                yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
-                leftSide.setYieldValueFunction(yvf);
-                prop.setLeftHandSide(leftSide);
-                RightHandSideDTO rightSide = new RightHandSideDTO();
-                rightSide.setExpectedValue(expectedValueTextBox.getText());
-                prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
-                elem.setRuleProposition(prop);
-                elem.setOperation("PROPOSITION");
-
-                int max = 0;
-                for (Integer key : definedPropositions.keySet()) {
-                    if (key.intValue() > max) {
-                        max = key.intValue();
-                    }
-                }
-                max++;
-
-                elem.setOrdinalPosition(max);
-                definedPropositions.put(max, elem);
-
-                populatePropositionListBoxAndDetails(propositionsListBox.getItemCount() - 1);
-            }
-        });
-
         HorizontalPanel hp = new HorizontalPanel();
         hp.setSpacing(8);
         hp.add(updatePropButton);
@@ -738,7 +785,9 @@ public class RulesComposite extends Composite {
         horizontalPanel.setCellWidth(propListPanel, "180px");
         verticalPanel.add(horizontalPanel);
 
-        // Propositions Composition
+        // **********************************************************
+        // Rule composition and complete text
+        // **********************************************************
         final FlexTable ruleCompositionFlexTable = new FlexTable();
         ruleCompositionFlexTable.setSize("100%", "100%");
 
@@ -746,54 +795,25 @@ public class RulesComposite extends Composite {
         ruleCompositionFlexTable.setWidget(0, 0, propCompositionLabel);
         ruleCompositionFlexTable.getCellFormatter().setHeight(0, 0, FORM_ROW_HEIGHT);
         ruleCompositionFlexTable.setWidget(0, 1, compositionStatuLabel);
-        final Button validateCompositionButton = new Button("Validate");
-        validateCompositionButton.addClickListener(new ClickListener() {
-            public void onClick(final Widget sender) {
-                compositionStatuLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
-            }
-        });
-
-        ruleCompositionFlexTable.setWidget(0, 2, validateCompositionButton);
 
         propCompositionTextArea.setSize("100%", "100%");
-        propCompositionTextArea.addFocusListener(new FocusListener() {
-            public void onFocus(final Widget sender) {
-
-            }
-
-            public void onLostFocus(final Widget sender) {
-                // check whether the current composition is valid
-                compositionStatuLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
-
-                // update Rule Overview text as well
-                completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
-            }
-        });
-
         ruleCompositionFlexTable.setWidget(1, 0, propCompositionTextArea);
         ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(1, 0, 3);
         ruleCompositionFlexTable.getCellFormatter().setHeight(1, 0, "63px");
         ruleCompositionFlexTable.getCellFormatter().setWidth(1, 0, "60%");
+        ruleCompositionFlexTable.setWidget(2, 2, validateCompositionButton);
 
         // Complete Rule
         final Label completeRuleLabel = new Label("Rule Overview");
-        ruleCompositionFlexTable.setWidget(2, 0, completeRuleLabel);
-        ruleCompositionFlexTable.getCellFormatter().setHeight(2, 0, FORM_ROW_HEIGHT);
+        ruleCompositionFlexTable.setWidget(3, 0, completeRuleLabel);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
 
         completeRuleTextArea.setSize("100%", "100%");
         completeRuleTextArea.setReadOnly(true);
-        ruleCompositionFlexTable.setWidget(3, 0, completeRuleTextArea);
-        ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(3, 0, 3);
-        ruleCompositionFlexTable.getCellFormatter().setHeight(3, 0, "93px");
-        ruleCompositionFlexTable.getCellFormatter().setWidth(3, 0, "60%");
-
-        // filler
-        // final SimplePanel filler = new SimplePanel();
-        // ruleCompositionFlexTable.setWidget(20, 0, filler);
-        // ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(20, 0, 4);
-
-        // ruleCompositionFlexTable.getCellFormatter().setHorizontalAlignment(21, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        // ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(21, 0, 2);
+        ruleCompositionFlexTable.setWidget(4, 0, completeRuleTextArea);
+        ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(4, 0, 3);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(4, 0, "93px");
+        ruleCompositionFlexTable.getCellFormatter().setWidth(4, 0, "60%");
 
         verticalPanel.add(ruleCompositionFlexTable);
         verticalPanel.setCellHeight(horizontalPanel, "200px");
@@ -882,31 +902,49 @@ public class RulesComposite extends Composite {
         flexFormTable.setWidget(5, 1, createUserIdTextBox);
         createUserIdTextBox.setWidth("30%");
 
-        // Update Time
-        final Label updateTimeLabel = new Label("Update Time");
-        flexFormTable.setWidget(6, 0, updateTimeLabel);
+        // Create Comment
+        final Label createCommentLabel = new Label("Create Comment");
+        flexFormTable.setWidget(6, 0, createCommentLabel);
         flexFormTable.getCellFormatter().setWidth(6, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(6, 1, updateTimeTextBox);
+        flexFormTable.setWidget(6, 1, createCommentTextBox);
+        createCommentTextBox.setWidth("30%");
+
+        // Update Time
+        final Label updateTimeLabel = new Label("Update Time");
+        flexFormTable.setWidget(7, 0, updateTimeLabel);
+        flexFormTable.getCellFormatter().setWidth(7, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(7, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(7, 1, updateTimeTextBox);
         updateTimeTextBox.setWidth("30%");
 
         // Update User ID
         final Label updateUserIdLabel = new Label("Update Rule User Id");
-        flexFormTable.setWidget(7, 0, updateUserIdLabel);
-        flexFormTable.getCellFormatter().setWidth(7, 0, "200px");
-        flexFormTable.getCellFormatter().setHeight(7, 0, FORM_ROW_HEIGHT);
+        flexFormTable.setWidget(8, 0, updateUserIdLabel);
+        flexFormTable.getCellFormatter().setWidth(8, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(8, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(7, 1, updateUserIdTextBox);
+        flexFormTable.setWidget(8, 1, updateUserIdTextBox);
         updateUserIdTextBox.setWidth("30%");
+
+        // Update Comment
+        final Label updateCommentLabel = new Label("Update Comment");
+        flexFormTable.setWidget(9, 0, updateCommentLabel);
+        flexFormTable.getCellFormatter().setWidth(9, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(9, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(9, 1, updateCommentTextBox);
+        updateCommentTextBox.setWidth("30%");
 
         // filler
         final SimplePanel filler = new SimplePanel();
-        flexFormTable.setWidget(8, 0, filler);
-        flexFormTable.getFlexCellFormatter().setColSpan(8, 0, 2);
+        flexFormTable.setWidget(10, 0, filler);
+        flexFormTable.getFlexCellFormatter().setColSpan(10, 0, 2);
 
-        flexFormTable.getCellFormatter().setHorizontalAlignment(9, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        flexFormTable.getFlexCellFormatter().setColSpan(9, 0, 2);
+        flexFormTable.getCellFormatter().setHorizontalAlignment(11, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        flexFormTable.getFlexCellFormatter().setColSpan(11, 0, 2);
 
         return rulesFlexTable;
     }

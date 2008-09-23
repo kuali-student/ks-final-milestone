@@ -6,10 +6,13 @@ package org.kuali.student.rules.devgui.server.gwt;
 import java.util.List;
 
 import org.kuali.student.core.spring.BeanFactory;
+import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.server.impl.DevelopersGuiServiceImpl;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -22,26 +25,28 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
 
     private final DevelopersGuiService serviceImpl = (DevelopersGuiService) BeanFactory.getInstance().getBean("developersGuiService");
 
-    // private final DevelopersGuiServiceImpl serviceImpl = new DevelopersGuiServiceImpl();
-
     public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
         return serviceImpl.findRulesHierarchyInfo();
+    }
+
+    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
+        return serviceImpl.findRuleTypesHierarchyInfo();
+    }
+
+    public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
+        return serviceImpl.createBusinessRule(businessRuleInfo);
+    }
+
+    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
+        return serviceImpl.updateBusinessRule(businessRuleId, businessRuleInfo);
     }
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
         return serviceImpl.fetchDetailedBusinessRuleInfo(ruleId);
     }
 
-    public List<String> findAgendaTypes() {
-        return serviceImpl.findAgendaTypes();
-    }
-
-    public List<String> findDeterminationKeysByAgendaType(String businessRuleType) {
-        return serviceImpl.findDeterminationKeysByAgendaType(businessRuleType);
-    }
-
-    public List<String> findBusinessRuleTypesByDeterminationKeySet(String determinationKeys) {
-        return serviceImpl.findBusinessRuleTypesByDeterminationKeySet(determinationKeys);
+    public BusinessRuleTypeDTO fetchBusinessRuleTypeInfo(String ruleTypeKey) {
+        return serviceImpl.fetchBusinessRuleTypeInfo(ruleTypeKey);
     }
 
     /**

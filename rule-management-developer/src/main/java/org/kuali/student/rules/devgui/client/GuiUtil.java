@@ -48,7 +48,7 @@ public class GuiUtil {
             }
         }
 
-        return completeRule.toString();
+        return completeRule.toString().trim();
     }
 
     /*
@@ -125,7 +125,7 @@ public class GuiUtil {
         ArrayList<Integer> listedPropositionIds = new ArrayList<Integer>();
         for (String token : tokens) {
             token = token.trim();
-            System.out.println("Validate Token read:" + token);
+            // System.out.println("Validate Token read:" + token);
             if (!token.isEmpty() && ((token.charAt(0) == 'P') || (token.charAt(0) == 'p'))) {
 
                 try {
@@ -171,7 +171,6 @@ public class GuiUtil {
         while ((nextToken = getNextTokenFromComposition(text)) != null) {
 
             text = text.trim();
-            System.out.println("Text1: " + text);
 
             // first handle any opening bracket
             if (nextToken.equals("(")) {
@@ -206,7 +205,6 @@ public class GuiUtil {
             }
 
             text = text.trim();
-            System.out.println("Text2: " + text);
 
             // next we expect one of the following: end of the text, OR, AND, )
             if (text.isEmpty()) {

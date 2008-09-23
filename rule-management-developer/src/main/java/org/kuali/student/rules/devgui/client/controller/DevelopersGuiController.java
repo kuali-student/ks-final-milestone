@@ -10,9 +10,10 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleType;
+import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
+import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.client.view.RuleTypesComposite;
 import org.kuali.student.rules.devgui.client.view.RulesComposite;
 
@@ -29,6 +30,7 @@ public class DevelopersGuiController extends Controller {
     // final Model<BusinessRuleInfo> businessRule = new Model<BusinessRuleInfo>();
     final Model<BusinessRuleType> businessRuleType = new Model<BusinessRuleType>();
     final Model<RulesHierarchyInfo> rulesHierarchyInfo = new Model<RulesHierarchyInfo>();
+    final Model<RuleTypesHierarchyInfo> ruleTypesHierarchyInfo = new Model<RuleTypesHierarchyInfo>();
 
     final TabPanel tabs = new TabPanel();
     final RulesComposite businessRuleComposite = new RulesComposite();
@@ -76,34 +78,36 @@ public class DevelopersGuiController extends Controller {
         // super.initializeModel(BusinessRuleInfo.class, businessRule);
         super.initializeModel(BusinessRuleType.class, businessRuleType);
         super.initializeModel(RulesHierarchyInfo.class, rulesHierarchyInfo);
+        super.initializeModel(RuleTypesHierarchyInfo.class, ruleTypesHierarchyInfo);
     }
 
     private void loadModelsData() {
-        /*
-        DevelopersGuiService.Util.getInstance().findBusinessRules(new AsyncCallback<List<BusinessRuleInfo>>() {
-            public void onFailure(Throwable caught) {
-                // just rethrow it and let the uncaught exception handler deal with it
-                throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-            }
-
-            public void onSuccess(List<BusinessRuleInfo> rules) {
-                // add the results to the model
-                for (BusinessRuleInfo rule : rules) {
-                    businessRule.add(rule);
-                }
-            }
-        });  */
-
+        // load rules tree
         DevelopersGuiService.Util.getInstance().findRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
-                throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                throw new RuntimeException("Unable to load RulesHierarchyInfo objects", caught);
             }
 
             public void onSuccess(List<RulesHierarchyInfo> rulesInfo) {
                 // add the results to the model
                 for (RulesHierarchyInfo ruleInfo : rulesInfo) {
                     rulesHierarchyInfo.add(ruleInfo);
+                }
+            }
+        });
+
+        // load rule types tree
+        DevelopersGuiService.Util.getInstance().findRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
+            public void onFailure(Throwable caught) {
+                // just rethrow it and let the uncaught exception handler deal with it
+                throw new RuntimeException("Unable to load RuleTypesHierarchyInfo objects", caught);
+            }
+
+            public void onSuccess(List<RuleTypesHierarchyInfo> ruleTypesInfo) {
+                // add the results to the model
+                for (RuleTypesHierarchyInfo ruleTypeInfo : ruleTypesInfo) {
+                    ruleTypesHierarchyInfo.add(ruleTypeInfo);
                 }
             }
         });

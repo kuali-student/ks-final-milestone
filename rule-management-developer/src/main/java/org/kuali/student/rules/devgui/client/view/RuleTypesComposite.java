@@ -8,8 +8,12 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
+import org.kuali.student.commons.ui.mvc.client.model.Model;
+import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
+import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
@@ -25,7 +29,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -58,17 +61,28 @@ public class RuleTypesComposite extends Composite {
 
     // class that binds a widget to a model, instantiation is deferred
     // until application state is guaranteed to be ready
-    // ModelBinding<BusinessRuleInfo> binding;
+    ModelBinding<RuleTypesHierarchyInfo> binding;
 
     // widgets used for Rules forms.....
-    final Tree ruleTypesTree = new Tree(); // used to browse Rule Types
+    final BusinessRuleTypesTree ruleTypesTree = new BusinessRuleTypesTree(); // used to browse Rule Types
     final ScrollPanel rulesBrowserScrollPanel = new ScrollPanel();
     final HorizontalSplitPanel ruleTypesHorizontalSplitPanel = new HorizontalSplitPanel();
     final ScrollPanel ruleTypesScrollPanel = new ScrollPanel();
     final VerticalSplitPanel ruleTypesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
 
+    // busines rule type form
+    final TextBox nameTextBox = new TextBox();
+    final TextBox anchorTypeTextBox = new TextBox();
+    final TextArea descriptionTextArea = new TextArea();
+    final ListBox availableFactsListBox = new ListBox();
+    final ListBox selectedFactsListBox = new ListBox();
+
     boolean loaded = false;
+
+    private BusinessRuleTypeDTO activeRuleType; // keep copy of business rule type so we can update all fields user can
+
+    // change
 
     public RuleTypesComposite() {
         super.initWidget(simplePanel);
@@ -87,8 +101,41 @@ public class RuleTypesComposite extends Composite {
             messages = metadata.getMessages();
 
             // bind the PeopleTable to the parent controller's Model of BusinesRule objects
-            // Model<BusinessRuleInfo> model = (Model<BusinessRuleInfo>) controller.getModel(BusinessRuleInfo.class);
-            // TODO binding = new ModelBinding<BusinessRuleInfo>(model, table);
+            Model<RuleTypesHierarchyInfo> model = (Model<RuleTypesHierarchyInfo>) controller.getModel(RuleTypesHierarchyInfo.class);
+            binding = new ModelBinding<RuleTypesHierarchyInfo>(model, ruleTypesTree);
+
+            // add selection event listener to ruleTypesTree widget
+            /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
+             * checked in to ks-commons-ui-dev module
+             */
+            /*
+            ruleTypesTree.addSelectionListener(new ModelTableSelectionListener<RuleTypesHierarchyInfo>() {
+                public void onSelect(RuleTypesHierarchyInfo modelObject) {
+
+                    if (modelObject == null) {
+                        // selection was cleared
+                        clearBusinessRuleTypeForm();
+                    } else {
+                        String ruleTypeKey = modelObject.getBusinessRuleTypeKey();
+                        // populate fields from new selection
+                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleTypeInfo(ruleTypeKey, new AsyncCallback<BusinessRuleTypeDTO>() {
+                            public void onFailure(Throwable caught) {
+                                // just re-throw it and let the uncaught exception handler deal with it
+                                Window.alert(caught.getMessage());
+                                // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                            }
+
+                            public void onSuccess(BusinessRuleTypeDTO ruleTypeInfo) {
+                                // store selected business rule in temporary object
+                                activeRuleType = ruleTypeInfo;
+
+                                // populate the business rule type details
+                                populateRuleTypeForm();
+                            }
+                        });
+                    }
+                }
+            }); */
 
             // create tree-like rules browser
             ruleTypesTree.setSize("100%", "100%");
@@ -115,6 +162,22 @@ public class RuleTypesComposite extends Composite {
         super.onUnload();
         // unlink the binding as it is no longer needed
         // binding.unlink();
+    }
+
+    private void clearBusinessRuleTypeForm() {
+        nameTextBox.setText("");
+        anchorTypeTextBox.setText("");
+        descriptionTextArea.setText("");
+        availableFactsListBox.clear();
+        selectedFactsListBox.clear();
+    }
+
+    private void populateRuleTypeForm() {
+        nameTextBox.setText(activeRuleType.getBussinessRuleTypeKey());
+        anchorTypeTextBox.setText(activeRuleType.getAnchorTypeKey());
+        // descriptionTextArea.setText(activeRuleType);
+        availableFactsListBox.clear();
+        selectedFactsListBox.clear();
     }
 
     private Widget getBusinessRuleTypesForm() {
@@ -168,7 +231,6 @@ public class RuleTypesComposite extends Composite {
         flexFormTable.getCellFormatter().setWidth(1, 0, "251px");
         flexFormTable.getCellFormatter().setHeight(1, 0, FORM_ROW_HEIGHT);
 
-        final TextBox nameTextBox = new TextBox();
         flexFormTable.setWidget(1, 2, nameTextBox);
         flexFormTable.getFlexCellFormatter().setColSpan(1, 2, 4);
         nameTextBox.setWidth("50%");
@@ -180,48 +242,53 @@ public class RuleTypesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(2, 0, FORM_ROW_HEIGHT);
         flexFormTable.getCellFormatter().setWidth(2, 0, "251px");
 
-        final TextArea descriptionTextArea = new TextArea();
-        flexFormTable.setWidget(2, 2, descriptionTextArea);
+        flexFormTable.setWidget(2, 2, anchorTypeTextBox);
         flexFormTable.getFlexCellFormatter().setColSpan(2, 2, 4);
-        flexFormTable.getCellFormatter().setWordWrap(2, 2, true);
-        flexFormTable.getCellFormatter().setVerticalAlignment(2, 2, HasVerticalAlignment.ALIGN_TOP);
+        anchorTypeTextBox.setWidth("50%");
+
+        // description
+        final Label descriptionLabel = new Label("Decription");
+        flexFormTable.setWidget(3, 0, descriptionLabel);
+        flexFormTable.getCellFormatter().setVerticalAlignment(3, 0, HasVerticalAlignment.ALIGN_TOP);
+        flexFormTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
+        flexFormTable.getCellFormatter().setWidth(3, 0, "251px");
+
+        flexFormTable.setWidget(3, 2, descriptionTextArea);
+        flexFormTable.getFlexCellFormatter().setColSpan(3, 2, 4);
+        flexFormTable.getCellFormatter().setWordWrap(3, 2, true);
+        flexFormTable.getCellFormatter().setVerticalAlignment(3, 2, HasVerticalAlignment.ALIGN_TOP);
         descriptionTextArea.setSize("75%", "100%");
-        flexFormTable.getCellFormatter().setHeight(2, 2, "93px");
-
-        // Available Facts
-
-        // Selected Facts
+        flexFormTable.getCellFormatter().setHeight(3, 2, "93px");
 
         // filler
         final SimplePanel filler = new SimplePanel();
-        flexFormTable.setWidget(3, 0, filler);
-        flexFormTable.getFlexCellFormatter().setColSpan(3, 0, 6);
+        flexFormTable.setWidget(4, 0, filler);
+        flexFormTable.getFlexCellFormatter().setColSpan(4, 0, 6);
 
         final Button saveRuleButton = new Button();
-        flexFormTable.setWidget(6, 0, saveRuleButton);
-        flexFormTable.getCellFormatter().setHorizontalAlignment(6, 0, HasHorizontalAlignment.ALIGN_CENTER);
+        flexFormTable.setWidget(7, 0, saveRuleButton);
+        flexFormTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_CENTER);
         flexFormTable.getCellFormatter().setHorizontalAlignment(10, 0, HasHorizontalAlignment.ALIGN_CENTER);
-        flexFormTable.getFlexCellFormatter().setColSpan(6, 0, 6);
+        flexFormTable.getFlexCellFormatter().setColSpan(7, 0, 6);
         saveRuleButton.setText("Save");
 
+        // Available and Selected Facts
         final Label availableFactsLabel = new Label("Available Facts");
-        flexFormTable.setWidget(4, 0, availableFactsLabel);
+        flexFormTable.setWidget(5, 0, availableFactsLabel);
 
         final Label selectedFactsLabel = new Label("Selected Facts");
-        flexFormTable.setWidget(4, 5, selectedFactsLabel);
+        flexFormTable.setWidget(5, 5, selectedFactsLabel);
 
-        final ListBox listBox = new ListBox();
-        flexFormTable.setWidget(5, 0, listBox);
-        listBox.setSize("75%", "100%");
-        listBox.setVisibleItemCount(10);
+        flexFormTable.setWidget(6, 0, availableFactsListBox);
+        availableFactsListBox.setSize("75%", "100%");
+        availableFactsListBox.setVisibleItemCount(10);
 
-        final ListBox listBox_1 = new ListBox();
-        flexFormTable.setWidget(5, 5, listBox_1);
-        listBox_1.setSize("75%", "100%");
-        listBox_1.setVisibleItemCount(10);
+        flexFormTable.setWidget(6, 5, selectedFactsListBox);
+        selectedFactsListBox.setSize("75%", "100%");
+        selectedFactsListBox.setVisibleItemCount(10);
 
         final FlexTable flexTable = new FlexTable();
-        flexFormTable.setWidget(5, 2, flexTable);
+        flexFormTable.setWidget(6, 2, flexTable);
 
         final Button button_1 = new Button();
         flexTable.setWidget(0, 1, button_1);
@@ -232,58 +299,6 @@ public class RuleTypesComposite extends Composite {
         flexTable.setWidget(2, 1, button);
         button.setText("   >>>   ");
 
-        // Success Message
-        /*        
-                final Label successMessageLabel = new Label("Success Message");
-                flexFormTable.setWidget(3, 0, successMessageLabel);
-                flexFormTable.getCellFormatter().setVerticalAlignment(3, 0, HasVerticalAlignment.ALIGN_TOP);
-                flexFormTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
-                flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
-
-                final TextArea successMessageTextArea = new TextArea();
-                flexFormTable.setWidget(3, 1, successMessageTextArea);
-                successMessageTextArea.setTextAlignment(TextBoxBase.ALIGN_LEFT);
-                flexFormTable.getCellFormatter().setVerticalAlignment(3, 1, HasVerticalAlignment.ALIGN_TOP);
-                successMessageTextArea.setSize("75%", "100%");
-                flexFormTable.getCellFormatter().setHeight(3, 1, "93px");
-
-                // Failure Message
-                final Label failureMessageLabel = new Label("Failure Message");
-                flexFormTable.setWidget(4, 0, failureMessageLabel);
-                flexFormTable.getCellFormatter().setVerticalAlignment(4, 0, HasVerticalAlignment.ALIGN_TOP);
-                flexFormTable.getCellFormatter().setHeight(4, 0, FORM_ROW_HEIGHT);
-                flexFormTable.getCellFormatter().setWidth(4, 0, "200px");
-
-                final TextArea failureMessageTextArea = new TextArea();
-                flexFormTable.setWidget(4, 1, failureMessageTextArea);
-                failureMessageTextArea.setSize("75%", "100%");
-                flexFormTable.getCellFormatter().setHeight(4, 1, "93px");
-
-                // Business Rule Type
-                final Label businessRuleTypeLabel = new Label("Business Rule Type");
-                flexFormTable.setWidget(5, 0, businessRuleTypeLabel);
-                flexFormTable.getCellFormatter().setHeight(5, 0, FORM_ROW_HEIGHT);
-
-                final ListBox businessRuleTypeListBox = new ListBox();
-                flexFormTable.setWidget(5, 1, businessRuleTypeListBox);
-                businessRuleTypeListBox.addItem("Test1");
-                businessRuleTypeListBox.addItem("Test2");
-                businessRuleTypeListBox.addItem("Test3");
-                businessRuleTypeListBox.setSize("75%", "100%");
-                // businessRuleTypeListBox.setVisibleItemCount(5);
-
-                // Anchor
-                final Label anchorLabel = new Label("Anchor");
-                flexFormTable.setWidget(6, 0, anchorLabel);
-                flexFormTable.getCellFormatter().setWidth(6, 0, "200px");
-                flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
-
-                final TextBox anchorTextBox = new TextBox();
-                flexFormTable.setWidget(6, 1, anchorTextBox);
-                anchorTextBox.setWidth("50%");
-
-
-        */
         return businesRuleTypesFlexTable;
     }
 
