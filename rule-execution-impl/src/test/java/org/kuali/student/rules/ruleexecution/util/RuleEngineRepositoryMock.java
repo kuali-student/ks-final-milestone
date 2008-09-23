@@ -151,12 +151,12 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public void checkinRule(String uuid, String comment) {
+    public long checkinRule(String uuid, String comment) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
     @Override
-    public void checkinRuleSet(String uuid, String comment) {
+    public long checkinRuleSet(String uuid, String comment) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
