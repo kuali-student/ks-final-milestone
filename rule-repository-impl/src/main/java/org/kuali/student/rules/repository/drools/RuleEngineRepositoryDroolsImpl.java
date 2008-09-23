@@ -796,7 +796,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public void replaceRuleSetSnapshot(final String ruleSetName, 
+    public void rebuildRuleSetSnapshot(final String ruleSetName, 
             final String snapshotName, final String comment) {
         createRuleSetSnapshot(ruleSetName, snapshotName, true, comment);
     }

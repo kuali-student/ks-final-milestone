@@ -349,7 +349,7 @@ public class RuleEngineRepositoryTest {
                 "Snapshot Version 1");
         // replace snapshot
         String expectedCheckinComment = "Snapshot Version 2";
-        brmsRepository.replaceRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+        brmsRepository.rebuildRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                 expectedCheckinComment);
         
         RuleSet ruleSet = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
@@ -362,7 +362,7 @@ public class RuleEngineRepositoryTest {
         createSimpleRuleSet("MyRuleSet");
         
             try {
-            brmsRepository.replaceRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+            brmsRepository.rebuildRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                     "Snapshot Version 1");
             fail("Replacing non-existing snapshot should have failed");
         } catch (RuleEngineRepositoryException e) {

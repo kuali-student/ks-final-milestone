@@ -525,7 +525,7 @@ public interface RuleEngineRepository {
     public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
 
     /**
-     * Replaces an existing rule set snapshot. 
+     * Rebuilds (recompiles) an existing rule set snapshot. 
      * If the rule set fails to compile, an exception will be thrown and
      * a snapshot will not be created. 
      * 
@@ -538,7 +538,7 @@ public interface RuleEngineRepository {
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public void replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    public void rebuildRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
 
     /**
      * 

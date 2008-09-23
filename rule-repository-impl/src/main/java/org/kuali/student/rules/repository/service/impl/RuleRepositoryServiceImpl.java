@@ -368,7 +368,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws RuleEngineRepositoryException
      */
     public void replaceRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) {
-        this.ruleEngineRepository.replaceRuleSetSnapshot(ruleSetName, snapshotName, comment);
+        this.ruleEngineRepository.rebuildRuleSetSnapshot(ruleSetName, snapshotName, comment);
     }
 
     /**
