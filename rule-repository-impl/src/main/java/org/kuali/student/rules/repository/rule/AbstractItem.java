@@ -42,7 +42,7 @@ public abstract class AbstractItem
     /** Item version number */
     private final long versionNumber;
     /** Item status */
-    private String status;
+    private String status = "Draft";
 
     /** Item snapshot version UUID */
     private String versionSnapshotUUID;
