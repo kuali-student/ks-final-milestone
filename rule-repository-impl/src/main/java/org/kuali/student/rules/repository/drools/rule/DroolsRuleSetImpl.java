@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.repository.StateItem;
 import org.kuali.student.rules.repository.rule.AbstractItem;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
@@ -63,10 +64,12 @@ public class DroolsRuleSetImpl
      */
     public DroolsRuleSetImpl(final String name, final String description) {
         super(name, description, DroolsConstants.FORMAT_DRL);
+        this.setStatus(StateItem.DRAFT_STATE_NAME);
     }
 
     public DroolsRuleSetImpl(final String name, final String description, final String format) {
         super(name, description, format);
+        this.setStatus(StateItem.DRAFT_STATE_NAME);
     }
 
     /**
@@ -79,6 +82,7 @@ public class DroolsRuleSetImpl
      */
     DroolsRuleSetImpl(final String uuid, final String name, final long versionNumber) {
         super(uuid, name, versionNumber);
+        this.setStatus(StateItem.DRAFT_STATE_NAME);
     }
 
     /**

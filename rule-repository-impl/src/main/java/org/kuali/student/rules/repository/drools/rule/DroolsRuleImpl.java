@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.drools.repository.StateItem;
 import org.kuali.student.rules.repository.rule.AbstractItem;
 import org.kuali.student.rules.repository.rule.Category;
 import org.kuali.student.rules.repository.rule.Rule;
@@ -69,6 +70,7 @@ public class DroolsRuleImpl
             throw new IllegalArgumentException("content cannot be null or empty");
         }
         this.content = content;
+        this.setStatus(StateItem.DRAFT_STATE_NAME);
     }
 
     /**
@@ -86,6 +88,7 @@ public class DroolsRuleImpl
             this.categoryNameList.add(initialCategory);
         }
         this.content = content;
+        this.setStatus(StateItem.DRAFT_STATE_NAME);
     }
 
     /**
