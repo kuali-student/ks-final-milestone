@@ -57,9 +57,9 @@ public interface RuleRepositoryService {
      * @throws CategoryExistsException Thrown if rule set already exists
      * @throws OperationFailedException Thrown if creating category fails
      */
-    @WebMethod
-    public Boolean createCategory(@WebParam(name="path")String path, @WebParam(name="name")String name, @WebParam(name="description")String description) 
-        throws CategoryExistsException, OperationFailedException, InvalidParameterException;
+    //@WebMethod
+    //public Boolean createCategory(@WebParam(name="path")String path, @WebParam(name="name")String name, @WebParam(name="description")String description) 
+    //    throws CategoryExistsException, OperationFailedException, InvalidParameterException;
 
     /**
      * Removes a category.
@@ -67,21 +67,21 @@ public interface RuleRepositoryService {
      * @param categoryPath Category path
      * @throws RuleEngineRepositoryException Thrown if removing a category fails
      */
-    @WebMethod
-    @Oneway
-    public void removeCategory(@WebParam(name="path")String path)
-    	throws OperationFailedException, InvalidParameterException;
+    //@WebMethod
+    //@Oneway
+    //public void removeCategory(@WebParam(name="path")String path)
+    //	throws OperationFailedException, InvalidParameterException;
     
     /**
-     * Loads child categories.
+     * Loads child categories from <code>path</code>.
      * 
      * @param categoryPath Category path
      * @return List of child category names
      * @throws OperationFailedException Thrown if loading child categories fails
      */
-    @WebMethod
-    public List<String> fetchChildCategories(@WebParam(name="path")String path)
-    	throws OperationFailedException, InvalidParameterException;
+    //@WebMethod
+    //public List<String> fetchCategories(@WebParam(name="path")String path)
+    //	throws OperationFailedException, InvalidParameterException;
 
     /**
      * Creates, compiles and checks in a rule set into the repository.
