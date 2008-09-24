@@ -6,10 +6,11 @@ import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 
 public interface RuleSetTranslator {
 	/**
+	 * Translates a container of business rules into a rule set.
 	 * 
-	 * @param container
-	 * @return
-	 * @throws RuleSetTranslatorException
+	 * @param container business rule container
+	 * @return A rule set
+	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
 	 */
     public RuleSet translate(BusinessRuleContainerDTO container) throws RuleSetTranslatorException;
 }
