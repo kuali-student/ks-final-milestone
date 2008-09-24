@@ -51,8 +51,10 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 
 public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
-    @Client(value="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
-    public static RuleRepositoryService service; 
+	// Automatically loads rule-repository-mock-service-context.xml (*-mock-service-context.xml)
+	// and auto-wires by type
+	@Client(value="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
+    public RuleRepositoryService service; 
 
     @BeforeClass
     public static void setUpOnce() throws Exception {

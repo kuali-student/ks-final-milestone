@@ -19,13 +19,9 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.drools.repository.RulesRepository;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.RuleEngineRepository;
-import org.kuali.student.rules.repository.drools.DefaultDroolsRepository;
-import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
@@ -38,22 +34,17 @@ import org.kuali.student.rules.repository.service.RuleAdapter;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.translators.RuleSetTranslator;
-import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * This is a convenience interface for the rules repository interface.
  * 
  * @author Kuali Student Team (len.kuali@googlegroups.com)
  */
-/**
- * @author lcarlsen
- *
- */
 @WebService(endpointInterface = "org.kuali.student.rules.repository.service.RuleRepositoryService", 
 			serviceName = "RuleRepositoryService", 
 			portName = "RuleRepositoryService", 
 			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
-//@Transactional
+@Transactional
 public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     
 	private final static RuleAdapter ruleAdapter = RuleAdapter.getInstance();
@@ -63,30 +54,19 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     
     private RuleSetTranslator ruleSetTranslator;
 
-    public RuleRepositoryServiceImpl() {
-    	RulesRepository repository = new DefaultDroolsRepository("/drools-repository").getRepository();
-        this.ruleEngineRepository = new RuleEngineRepositoryDroolsImpl(repository);
-        this.ruleSetTranslator = new RuleSetTranslatorDroolsImpl();
-    }
+    public RuleRepositoryServiceImpl() { }
 
-    /**
-     * Constructor
-     * 
-     * @param repository Drools rules repository
-     */
-    public RuleRepositoryServiceImpl(final RuleEngineRepository repository) {
-        this.ruleEngineRepository = repository;
-    }
-
-    /**
-     * 
-     * @return
-     */
-	public RuleSetTranslator getRuleSetTranslator() {
-		return ruleSetTranslator;
+	/**
+     * Sets the rule engine repository.
+	 * 
+	 * @param ruleEngineRepository Rule engine repository
+	 */
+	public void setRuleEngineRepository(final RuleEngineRepository ruleEngineRepository) {
+		this.ruleEngineRepository = ruleEngineRepository;
 	}
 
 	/**
+	 * Sets the rule set translator.
 	 * 
 	 * @param ruleSetTranslator
 	 */
