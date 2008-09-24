@@ -34,7 +34,6 @@ import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
