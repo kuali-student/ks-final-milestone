@@ -455,6 +455,15 @@ public interface RuleEngineRepository {
     public RuleSet loadRuleSetByName(String ruleSetName);
     
     /**
+     * Returns true if the repository contains the specified 
+     * <code>ruleSetName</code> otherwise false.
+     * 
+     * @param ruleSetName Rule set name
+     * @return True if contains <code>ruleSetName</code> otherwise false
+     */
+    public boolean containsRuleSet(final String ruleSetName);
+    
+    /**
      * Loads a rule by uuid.
      * 
      * @param uuid
@@ -676,7 +685,7 @@ public interface RuleEngineRepository {
      * @param ruleSetUUID
      *            Rule set uuid
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
-     * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
+     * @throws RuleEngineRepositoryException Thrown if compiling a rule set fails
      */
     public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID);
     
