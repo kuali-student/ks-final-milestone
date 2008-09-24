@@ -626,6 +626,25 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new RuleEngineRepositoryException("Loading rule set failed: ruleSetName=" + ruleSetName, e);
         }
     }
+    
+    /**
+     * Returns true if the repository contains the specified 
+     * <code>ruleSetName</code> otherwise false.
+     * 
+     * @param ruleSetName Rule set name
+     * @return True if contains <code>ruleSetName</code> otherwise false
+     */
+    public boolean containsRuleSet(final String ruleSetName) {
+        if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetName cannot be null or empty");
+        }
+
+        try {
+            return this.repository.containsPackage(ruleSetName);
+        } catch (RulesRepositoryException e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: ruleSetName=" + ruleSetName, e);
+        }
+    }
 
     /**
      * Loads a rule by uuid.
@@ -1507,11 +1526,12 @@ e.printStackTrace();
             }
 
             try {
-                if (rule.getUUID() != null && pkg.containsAsset(rule.getName())) {
+                //if (rule.getUUID() != null && pkg.containsAsset(rule.getName())) {
+                if (pkg.containsAsset(rule.getName())) {
                     AssetItem item = pkg.loadAsset(rule.getName());
                     updateRule(item, rule);
                 } else {
-                    AssetItem asset = pkg.addAsset(rule.getName(), 
+                	AssetItem asset = pkg.addAsset(rule.getName(), 
                             rule.getDescription(), null, rule.getFormat());
                     asset.updateContent(rule.getContent());
                     asset.updateDescription(rule.getDescription());
