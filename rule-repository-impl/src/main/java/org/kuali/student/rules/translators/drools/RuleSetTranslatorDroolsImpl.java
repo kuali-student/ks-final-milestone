@@ -16,11 +16,13 @@
 package org.kuali.student.rules.translators.drools;
 
 import java.io.StringReader;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.repository.StateItem;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
@@ -155,11 +157,11 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, 
         		functionString, functionalPropositionMap, 
         		effectiveStartTime, effectiveEndTime);
-        addRule(initRuleName, ruleDescription, ruleSet, rule1Source);
+        addRule(initRuleName, ruleDescription, ruleSet, rule1Source, effectiveStartTime, effectiveEndTime);
 
         String rule2Source = generateRule2SourceCode(anchor, ruleName, 
         		functionString, functionalPropositionMap);
-        addRule(ruleName, ruleDescription, ruleSet, rule2Source);
+        addRule(ruleName, ruleDescription, ruleSet, rule2Source, effectiveStartTime, effectiveEndTime);
     }
 
     private String generateRule1InitSourceCode(String anchor, String ruleName, 
@@ -241,10 +243,20 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      * @param ruleSourceCode
      *            Rule source code
      */
-    private void addRule(String name, String description, RuleSet ruleSet, String ruleSourceCode) {
+    private void addRule(String name, String description, RuleSet ruleSet, 
+    		String ruleSourceCode, Date effectiveStartTime, Date effectiveEndTime) {
         String category = null;
         Rule rule = RuleFactory.getInstance().createDroolsRule(name, description, category, ruleSourceCode,
                                                                DroolsConstants.FORMAT_DRL);
+        Calendar effectiveDate = Calendar.getInstance();
+        Calendar expiryDate = Calendar.getInstance();
+        
+        effectiveDate.setTime(effectiveStartTime);
+        expiryDate.setTime(effectiveEndTime);
+        
+        rule.setEffectiveDate(effectiveDate);
+        rule.setExpiryDate(expiryDate);
+        rule.setStatus(StateItem.DRAFT_STATE_NAME);
         ruleSet.addRule(rule);
     }
 
