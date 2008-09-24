@@ -353,9 +353,14 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     public RuleSet loadRuleSetByName(String ruleSetName) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
-
+    
     @Override
     public RuleSet loadRuleSetByCategory(String category) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }    
+
+    @Override
+    public boolean containsRuleSet(final String ruleSetName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
 }
