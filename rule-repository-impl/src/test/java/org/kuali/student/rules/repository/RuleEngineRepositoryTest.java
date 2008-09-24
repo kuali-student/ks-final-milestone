@@ -630,7 +630,27 @@ public class RuleEngineRepositoryTest {
         expected = ruleSet.getRules().get(0).getCategoryNames();
         assertTrue(expected.contains(category2));
     }
-    
+
+    @Test
+    public void testContainsRuleSet() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSet2);
+        assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
+        boolean exists = brmsRepository.containsRuleSet(ruleSet2.getName());
+        assertTrue(exists);
+    }
+
+    @Test
+    public void testNotContainsRuleSet() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSet2);
+        assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
+        boolean exists = brmsRepository.containsRuleSet("xyz123");
+        assertFalse(exists);
+    }
+
     @Test
     public void testCreateAndLoadRuleSet() throws Exception {
         List<String> header = new ArrayList<String>();
@@ -792,7 +812,7 @@ public class RuleEngineRepositoryTest {
         
         ruleSet = brmsRepository.updateRuleSet(ruleSet);
         
-        Rule rule2 = createRuleDRL("rule_1", "My new rule 1", null, 
+        /*Rule rule2 = createRuleDRL("rule_1", "My new rule 1", null, 
                 droolsTestUtil.getSimpleRule1());
         ruleSet.addRule(rule2);
         
@@ -801,7 +821,15 @@ public class RuleEngineRepositoryTest {
             fail("Update rule set should have thrown a RuleExistsException");
         } catch (RuleExistsException e) {
             assertTrue(true);
-        }
+        }*/
+
+        // Update rule_1 with new rule source
+        Rule rule2 = createRuleDRL("rule_1", "My new rule 1", null, 
+                droolsTestUtil.getSimpleRule2());
+        ruleSet.addRule(rule2);
+        
+        brmsRepository.updateRuleSet(ruleSet);
+        assertFalse(rule1.getContent().equals(rule2.getContent()));
     }
     
     @Test
