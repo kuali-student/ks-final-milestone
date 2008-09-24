@@ -438,6 +438,23 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
+    
+    private RuleSet updateRuleSet(RuleSet ruleSet1) 
+    	throws RuleEngineRepositoryException {
+		RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSetByName(ruleSet1.getName());
+		// Add headers
+		ruleSet2.clearHeaders();
+		for(String header : ruleSet1.getHeaderList()) {
+			ruleSet2.addHeader(header);
+		}
+		// Add rules
+		ruleSet2.clearRules();
+		for(Rule rule : ruleSet1.getRules()) {
+			ruleSet2.addRule(rule);
+		}
+		// Update rule set
+		return this.ruleEngineRepository.updateRuleSet(ruleSet2);
+    }
 
     /**
      * Generates and creates or updates a rule set (rule engine specific source code) 
@@ -449,46 +466,39 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      */
     public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) 
     	throws RuleSetTranslatorException, OperationFailedException, InvalidParameterException {
+		RuleSet ruleSet1 = null;
     	try {
-    		RuleSet ruleSet1 = this.ruleSetTranslator.translate(businessRuleContainer);
-    		
-    		boolean ruleSetExists = this.ruleEngineRepository.containsRuleSet(ruleSet1.getName());
+    		ruleSet1 = this.ruleSetTranslator.translate(businessRuleContainer);
+		} catch(IllegalArgumentException e) {
+			throw new InvalidParameterException(e.getMessage());
+        } catch(RuleSetTranslatorException e) {
+        	throw new OperationFailedException(e.getMessage());
+        } catch(RuleEngineRepositoryException e) {
+        	throw new OperationFailedException(e.getMessage());
+        }
+        
+		boolean ruleSetExists = this.ruleEngineRepository.containsRuleSet(ruleSet1.getName());
+
+		try {
     		if (ruleSetExists) {
-        		RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSetByName(ruleSet1.getName());
-        		// Add headers
-        		ruleSet2.clearHeaders();
-        		for(String header : ruleSet1.getHeaderList()) {
-        			ruleSet2.addHeader(header);
-        		}
-        		// Add rules
-        		ruleSet2.clearRules();
-        		for(Rule rule : ruleSet1.getRules()) {
-        			ruleSet2.addRule(rule);
-        		}
-        		// Update rule set
-    			ruleSet1 = this.ruleEngineRepository.updateRuleSet(ruleSet2);
+    			// Update rule set
+    			ruleSet1 = updateRuleSet(ruleSet1);
     		} else {
     			// Create new rule set
         		ruleSet1 = this.ruleEngineRepository.createRuleSet(ruleSet1);
     		}
-
-    		RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet1);
-	    	return dto;
-        } catch(RuleSetTranslatorException e) {
-e.printStackTrace();        	
-        	throw new OperationFailedException(e.getMessage());
-        } catch(RuleEngineRepositoryException e) {
-e.printStackTrace();        	
-        	throw new OperationFailedException(e.getMessage());
-        } catch(RuleSetExistsException e) {
-e.printStackTrace();        	
-        	throw new OperationFailedException(e.getMessage());
-        } catch(RuleExistsException e) {
-e.printStackTrace();        	
-        	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
+        } catch(RuleSetExistsException e) {
+        	throw new OperationFailedException(e.getMessage());
+        } catch(RuleExistsException e) {
+        	throw new OperationFailedException(e.getMessage());
+        } catch(RuleEngineRepositoryException e) {
+        	throw new OperationFailedException(e.getMessage());
 		}
+
+		RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet1);
+    	return dto;
     }
 
 }
