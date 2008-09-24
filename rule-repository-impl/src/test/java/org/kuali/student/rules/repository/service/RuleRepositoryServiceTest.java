@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.StringReader;
@@ -26,7 +27,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
@@ -48,6 +48,7 @@ import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
+import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 
 public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
@@ -56,7 +57,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
-    	//service = getService();
     }
 
     @AfterClass
@@ -71,21 +71,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     public void tearDown() throws Exception {
     }
     
-    /*private static RuleRepositoryService getService() {
-        String serviceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleRepositoryService";
-        String namespace = "http://student.kuali.org/wsdl/brms/RuleRepository";
-        String serviceName = "RuleRepositoryService";
-        String serviceInterface = RuleRepositoryService.class.getName();
-
-    	try {
-			RuleRepositoryService service = (RuleRepositoryService) ServiceFactory.getPort(
-			        serviceURL + "?wsdl", namespace, serviceName, serviceInterface, serviceURL);
-			return service;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-    }*/
-
     private RuleSetDTO createRuleSet() {
     	RuleSetDTO dto = new RuleSetDTO("TestName", "Test description", "DRL");
     	return dto;
@@ -163,7 +148,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         try {
 			RuleSetDTO ruleSet2 = service.fetchRuleSet(ruleSet1.getUUID());
 			fail("Ruleset should have been removed");
-		} catch (RuleEngineRepositoryException e) {
+		} catch (OperationFailedException e) {
 			assertTrue(true);
 		}
     }
@@ -223,7 +208,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         try {
 			snapshot = service.fetchRuleSetSnapshot(snapshot.getName(), "snapshot1");
 			fail("Snapshot should have been removed");
-		} catch (RuleEngineRepositoryException e) {
+		} catch (OperationFailedException e) {
 			assertTrue(true);
 		}
 
@@ -540,21 +525,37 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return facts;
     }
 
-    // TODO: FixMe - Throws a SOAPFaultException when using AbstractServiceTest
-	// and @Client annotation from within Eclipse??? Works when deployed to Tomcat???
-    @Ignore
     @Test
-    public void testGenerateRuleSet() throws Exception {
+    public void testGenerateAndCreateRuleSet() throws Exception {
     	BusinessRuleContainerDTO container = getBusinessRuleContainer("fact1", "fact2");
+    	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
         service.removeRuleSet( ruleSet1.getUUID() );
     }
 
-    // TODO: FixMe - Throws a SOAPFaultException when using AbstractServiceTest
-	// and @Client annotation from within Eclipse??? Works when deployed to Tomcat???
-    @Ignore
+    @Test
+    public void testGenerateAndUpdateRuleSet() throws Exception {
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("fact1", "fact2");
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+
+    	// Update rule's RHS expected value
+		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
+		RightHandSideDTO rhs = bri.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
+		rhs.setExpectedValue("6.0");
+    	// Generate and update rule set
+    	RuleSetDTO ruleSet2 = service.generateRuleSet(container);
+    	assertNotNull(ruleSet2);
+    	assertNotNull(ruleSet2.getUUID());
+    	assertFalse(ruleSet1.getContent().equals(ruleSet2.getContent()));
+		
+    	service.removeRuleSet( ruleSet2.getUUID() );
+    }
+
     @Test
     public void testGenerateRuleSetAndExecute() throws Exception {
 		String fact1 = "fact1";
