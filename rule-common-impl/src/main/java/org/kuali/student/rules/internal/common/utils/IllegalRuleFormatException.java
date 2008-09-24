@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.rules.devgui.client;
+package org.kuali.student.rules.internal.common.utils;
 
 /**
  * @author zzraly
