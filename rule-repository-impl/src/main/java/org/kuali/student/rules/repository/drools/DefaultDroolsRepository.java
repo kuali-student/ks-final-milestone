@@ -49,10 +49,10 @@ public final class DefaultDroolsRepository extends DroolsJackrabbitRepository {
      * This method is a convenience method to cleanly shutdown the repository
      *
      */
-    public void shutdown() {
+    /*public void shutdown() {
       clearData();
       shutdownRepository();
       clearAll();
-    }
+    }*/
     
 }
