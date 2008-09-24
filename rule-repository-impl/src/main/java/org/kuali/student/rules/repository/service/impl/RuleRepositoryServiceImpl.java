@@ -84,7 +84,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws CategoryExistsException Thrown if rule set already exists
      * @throws RuleEngineRepositoryException Thrown if creating category fails
      */
-    public Boolean createCategory(final String path, final String name, final String description) 
+    /*public Boolean createCategory(final String path, final String name, final String description) 
         throws CategoryExistsException, OperationFailedException, InvalidParameterException {
         try {
 			return this.ruleEngineRepository.createCategory(path, name, description);
@@ -93,7 +93,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
 		}
-    }
+    }*/
 
     /**
      * Removes a category.
@@ -101,7 +101,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param categoryPath Category path
      * @throws RuleEngineRepositoryException Thrown if removing a category fails
      */
-    public void removeCategory(final String path) 
+    /*public void removeCategory(final String path) 
     	throws OperationFailedException, InvalidParameterException {
     	try {
 			this.ruleEngineRepository.removeCategory(path);
@@ -110,16 +110,16 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
 		}
-    }
+    }*/
 
     /**
-     * Loads child categories.
+     * Loads child categories from <code>path</code>.
      * 
      * @param categoryPath Category path
      * @return List of child category names
      * @throws OperationFailedException Thrown if loading child categories fails
      */
-    public List<String> fetchChildCategories(final String path) 
+    /*public List<String> fetchCategories(final String path) 
     	throws OperationFailedException, InvalidParameterException {
     	try {
 		    return this.ruleEngineRepository.loadChildCategories(path);
@@ -128,7 +128,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
 		}
-	}
+	}*/
 	
     /**
      * Creates, compiles and checks in a rule set into the repository.
