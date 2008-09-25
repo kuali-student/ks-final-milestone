@@ -6,6 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.management.InvalidApplicationException;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.DependentObjectsExistException;
@@ -18,6 +19,7 @@ import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDeterminationStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 
 @WebService(name = "RuleManagementService", targetNamespace = "http://student.kuali.org/poc/wsdl/brms/rulemanagement")
@@ -99,7 +101,7 @@ public interface RuleManagementService {
     AgendaInfoDeterminationStructureDTO agendaInfoDeterminationStructure) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Retrieves the list of business rules associated with a given business rule type and anchor
+     * Retrieves the list of business rules associated with a given list of business rule type and anchor
      * 
      * @param list
      *            of business rule anchor info
@@ -112,6 +114,18 @@ public interface RuleManagementService {
     @WebMethod
     public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoList(@WebParam(name = "businessRuleAnchorInfoList")
     List<BusinessRuleAnchorDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method retrieves a list of business rules associated with a given business rule type and anchor
+     * 
+     * @param ruleAnchor
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidApplicationException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoDTO(BusinessRuleAnchorDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of business rules ids associated with a given business rule type
@@ -175,11 +189,11 @@ public interface RuleManagementService {
     public String fetchBusinessRuleEnglish(@WebParam(name = "businessRuleId")
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-
     /**
      * Retrieves the list of anchor values associated with a given anchor type key
      * 
-     * @param anchor type key
+     * @param anchor
+     *            type key
      * @return list of anchor values
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -238,4 +252,16 @@ public interface RuleManagementService {
     @WebMethod
     public StatusDTO deleteBusinessRule(@WebParam(name = "businessRuleId")
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * 
+     * This method retieves the business rule type for given type key and anchor type 
+     * 
+     * @param buisnessRuleTypeKey
+     * @param AnchorTypeKey
+     * @return
+     */
+    @WebMethod
+    public BusinessRuleTypeDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }

@@ -4,6 +4,7 @@
 package org.kuali.student.rules.rulemanagement.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,12 +18,14 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class YieldValueFunctionDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String yieldValueFunctionType; 
     
     @XmlElement(name = "factStructure")
     @XmlElementWrapper(name="factStructureList")
-    List<FactStructureDTO> factStructureList;
+    List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
 
     /**
      * @return the yieldValueFunctionType
