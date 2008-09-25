@@ -9,7 +9,14 @@ package org.kuali.student.rules.rulemanagement.dao;
 
 import java.util.List;
 
+import org.kuali.student.rules.internal.common.entity.AgendaType;
+import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
+import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
+import org.kuali.student.rules.rulemanagement.entity.AgendaInfoDeterminationStructure;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
+import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
+import org.kuali.student.rules.rulemanagement.entity.RuleElement;
 
 /**
  * Defines DAO operations for Functional Business Rule
@@ -17,6 +24,61 @@ import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 public interface RuleManagementDAO {
+
+    /**
+     * This method returns the agendainfo for given Id
+     * 
+     * @param agendaInfoId
+     * @return
+     */
+    public AgendaInfo lookupAgendaInfoById(String agendaInfoId);
+
+    /**
+     * This method retrieves AgendaInfo that matches the given type and the key,value pairs in the determination list
+     * 
+     * @param type
+     * @param determinationStructureList
+     * @return
+     */
+    public AgendaInfo lookupAgendaInfoByTypeAndStructure(AgendaType type, List<AgendaInfoDeterminationStructure> determinationStructureList);
+
+    /**
+     * This method returns a list of all the known agenda types
+     * 
+     * @return
+     */
+    public List<AgendaType> lookupUniqueAgendaTypes();
+
+    /**
+     * This method returns the list of agendainfo objects for a given type
+     * 
+     * @param type
+     * @return
+     */
+    public List<AgendaInfo> lookupAgendaInfosByType(AgendaType type);
+
+    /**
+     * This method returns all the unique business rule types known in the system
+     * 
+     * @return
+     */
+    public List<BusinessRuleTypeKey> lookupUniqueBusinessRuleTypeKeys();
+
+    /**
+     * This method returns all the unique anchor type keys known in the system
+     * 
+     * @return
+     */
+    public List<AnchorTypeKey> lookupUniqueAnchorTypeKeys();
+
+    /**
+     * This method returns the BusinessRuleType for a given business rule type key and anchor type key combination
+     * 
+     * @param businessRuleTypekey
+     * @param anchorTypeKey
+     * @return
+     */
+    public BusinessRuleType lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey businessRuleTypekey, AnchorTypeKey anchorTypeKey);
 
     /**
      * Creates BusinessRule in database.
@@ -45,6 +107,15 @@ public interface RuleManagementDAO {
      */
     public boolean deleteBusinessRule(BusinessRule rule);
 
+    /**
+     * 
+     * This method deletes ruleelement
+     * 
+     * @param ruleElement
+     * @return
+     */
+    public boolean deleteRuleElement(RuleElement ruleElement);
+    
     /**
      * Delete BusinessRule from database.
      * 
@@ -79,5 +150,22 @@ public interface RuleManagementDAO {
      * @param anchor
      * @return found functional business rules or null if element not found.
      */
-    public List<BusinessRule> lookupCompiledIDs(String businessRuleTypeKey, String anchor);
+    public List<BusinessRule> lookupBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor);
+
+    /**
+     * 
+     * This method returns all Business Rule instances for a given type key of Business Rule
+     * 
+     * @param businessRuleTypeKey
+     * @return
+     */
+    public List<String> lookupBusinessRuleIdUsingRuleTypeKey(BusinessRuleTypeKey businessRuleTypeKey);
+    
+    /**
+     * This method finds all the anchors uses for a given anchor type
+     * 
+     * @param anchorTypeKey
+     * @return
+     */
+    public List<String> lookupAnchorByAnchorType(AnchorTypeKey anchorTypeKey);
 }

@@ -18,16 +18,15 @@ package org.kuali.student.rules.rulemanagement.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
-import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 
 /**
  * Contains information about a business rule type 
@@ -36,19 +35,22 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
  */
 @Entity
 @Table(name = "BusinessRuleType_T")
+@NamedQueries({@NamedQuery(name = "BusinessRuleType.findByKeyAndAnchorType", query = "SELECT c FROM BusinessRuleType c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchorTypeKey = :anchorTypeKey"),
+               @NamedQuery(name = "BusinessRuleType.findBusinessRuleTypes", query = "SELECT c.businessRuleTypeKey FROM BusinessRuleType c"),
+               @NamedQuery(name = "BusinessRuleType.findAnchorTypes", query = "SELECT c.anchorTypeKey FROM BusinessRuleType c")})
 public class BusinessRuleType {
     @Id
     private String id;
-
-    @Embedded
-    private BusinessRuleTypeKey key;
     
-    @Embedded
-    private AnchorTypeKey anchorTypeKey;
+    private String businessRuleTypeKey;
+    
+    private String anchorTypeKey;
     
     @OneToMany(cascade = {CascadeType.ALL})
     private List<FactStructure> facts;
 
+    private String description;
+    
     /**
      * AutoGenerate the Id
      */
@@ -72,30 +74,30 @@ public class BusinessRuleType {
     }
 
     /**
-     * @return the key
+     * @return the businessRuleTypeKey
      */
-    public BusinessRuleTypeKey getKey() {
-        return key;
+    public String getBusinessRuleTypeKey() {
+        return businessRuleTypeKey;
     }
 
     /**
-     * @param key the key to set
+     * @param businessRuleTypeKey the businessRuleTypeKey to set
      */
-    public void setKey(BusinessRuleTypeKey key) {
-        this.key = key;
+    public void setBusinessRuleTypeKey(String businessRuleTypeKey) {
+        this.businessRuleTypeKey = businessRuleTypeKey;
     }
 
     /**
      * @return the anchorTypeKey
      */
-    public AnchorTypeKey getAnchorTypeKey() {
+    public String getAnchorTypeKey() {
         return anchorTypeKey;
     }
 
     /**
      * @param anchorTypeKey the anchorTypeKey to set
      */
-    public void setAnchorTypeKey(AnchorTypeKey anchorTypeKey) {
+    public void setAnchorTypeKey(String anchorTypeKey) {
         this.anchorTypeKey = anchorTypeKey;
     }
 
@@ -111,6 +113,20 @@ public class BusinessRuleType {
      */
     public void setFacts(List<FactStructure> facts) {
         this.facts = facts;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
         
 }

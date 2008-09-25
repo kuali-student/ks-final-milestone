@@ -8,7 +8,6 @@
 package org.kuali.student.rules.rulemanagement.entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,7 +35,9 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
 @Entity
 @Table(name = "BusinessRule_T")
 @NamedQueries({@NamedQuery(name = "BusinessRule.findByRuleID", query = "SELECT c FROM BusinessRule c WHERE c.ruleId = :ruleID"), 
-               @NamedQuery(name = "BusinessRule.findByBusinessRuleTypeAndAnchor", query = "SELECT c FROM BusinessRule c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchor = :anchor")})
+               @NamedQuery(name = "BusinessRule.findIdsByBusinessRuleType", query = "SELECT c.ruleId FROM BusinessRule c WHERE c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
+               @NamedQuery(name = "BusinessRule.findByBusinessRuleTypeAndAnchor", query = "SELECT c FROM BusinessRule c WHERE  c.anchor = :anchor AND c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
+               @NamedQuery(name = "BusinessRule.findAnchorsByAnchorType", query = "SELECT a.anchor FROM BusinessRule a WHERE a.businessRuleType.anchorTypeKey = :anchorTypeKey")})
 public class BusinessRule  {
     
     public static final String PROPOSITION_LABEL_PREFIX = "P";
@@ -48,7 +50,8 @@ public class BusinessRule  {
     private String name;
     private String description;
 
-    private String businessRuleTypeKey;
+    @ManyToOne(cascade = {CascadeType.ALL})    
+    private BusinessRuleType businessRuleType;
     private String anchor;
 
     private String successMessage;
@@ -62,7 +65,7 @@ public class BusinessRule  {
     private RuleMetaData metaData;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "businessRule")
-    private List<RuleElement> ruleEmelemnts = new ArrayList<RuleElement>();
+    private List<RuleElement> ruleElements = new ArrayList<RuleElement>();
 
     /**
      * Generates a HashMap of <unique alphabet character, proposition> pair from a functional business rule.
@@ -76,7 +79,7 @@ public class BusinessRule  {
         HashMap<String, RuleProposition> propositions = new HashMap<String, RuleProposition>();
 
         int key = INITIAL_PROPOSITION_PLACEHOLDER;
-        for (RuleElement ruleElement : ruleEmelemnts) {
+        for (RuleElement ruleElement : ruleElements) {
             if (ruleElement.getOperation() == RuleElementType.PROPOSITION) {
                 propositions.put(PROPOSITION_LABEL_PREFIX + String.valueOf(key), ruleElement.getRuleProposition());
                 key++;
@@ -92,7 +95,7 @@ public class BusinessRule  {
      *            a new Rule Element to add to this business rule object
      */
     public void addRuleElement(RuleElement ruleElement) {
-        ruleEmelemnts.add(ruleElement);
+        ruleElements.add(ruleElement);
     }
 
     /**
@@ -196,16 +199,16 @@ public class BusinessRule  {
     /**
      * @return the businessRuleType
      */
-    public final String getBusinessRuleTypeKey() {
-        return businessRuleTypeKey;
+    public final BusinessRuleType getBusinessRuleType() {
+        return businessRuleType;
     }
 
     /**
      * @param businessRuleTypeKey
      *            the businessRuleTypeKey to set
      */
-    public final void setBusinessRuleTypeKey(String businessRuleTypeKey) {
-        this.businessRuleTypeKey = businessRuleTypeKey;
+    public final void setBusinessRuleType(BusinessRuleType businessRuleType) {
+        this.businessRuleType = businessRuleType;
     }
 
     /**
@@ -257,7 +260,7 @@ public class BusinessRule  {
      * @return the ruleEmelemnts
      */
     public final List<RuleElement> getRuleElements() {
-        return ruleEmelemnts;
+        return ruleElements;
     }
 
     /**
@@ -265,6 +268,6 @@ public class BusinessRule  {
      *            the ruleEmelemnts to set
      */
     public final void setRuleElements(List<RuleElement> elements) {
-        this.ruleEmelemnts = elements;
+        this.ruleElements = elements;
     }
 }

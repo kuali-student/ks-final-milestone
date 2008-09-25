@@ -3,6 +3,7 @@
  */
 package org.kuali.student.rules.rulemanagement.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,7 @@ public class YieldValueFunction {
     YieldValueFunctionType yieldValueFunctionType; 
     
     @OneToMany(cascade = {CascadeType.ALL})
-    List<FactStructure> facts;
+    List<FactStructure> facts = new ArrayList<FactStructure>();
        
     /**
      * AutoGenerate the Id

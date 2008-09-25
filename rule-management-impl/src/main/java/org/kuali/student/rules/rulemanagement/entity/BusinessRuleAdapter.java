@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
@@ -14,6 +17,7 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 
@@ -25,22 +29,24 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
  *
  */
 public class BusinessRuleAdapter {
-
-    private static final BusinessRuleAdapter _instance = new BusinessRuleAdapter();
     
-    /**
-     * 
-     * This constructs a private constructor for the singleton
-     *
-     */
-    private BusinessRuleAdapter() {
+    
+    public static BusinessRuleTypeDTO getBusinessRuleTypeDTO(BusinessRuleType ruleType) {
+        BusinessRuleTypeDTO ruleTypeDTO = new BusinessRuleTypeDTO();
         
+        ruleTypeDTO.setAnchorTypeKey(ruleType.getAnchorTypeKey().toString());
+        ruleTypeDTO.setBussinessRuleTypeKey(ruleType.getBusinessRuleTypeKey().toString());
+        
+        List<FactStructureDTO> factStructureDTOList = new ArrayList<FactStructureDTO>();
+        for(FactStructure fact : ruleType.getFacts()) {
+            FactStructureDTO factDTO = getFactStructureDTO(fact);
+            factStructureDTOList.add(factDTO);
+        }
+        
+        ruleTypeDTO.setFactStructureList(factStructureDTOList);
+        
+        return ruleTypeDTO;
     }
-    
-    public static BusinessRuleAdapter getInstance() {
-        return _instance;
-    }
-    
     
     /**
      * 
@@ -49,7 +55,7 @@ public class BusinessRuleAdapter {
      * @param rule
      * @return
      */
-    public BusinessRuleInfoDTO getBusinessRuleInfoDTO(BusinessRule rule) {
+    public static BusinessRuleInfoDTO getBusinessRuleInfoDTO(BusinessRule rule) {
 
         if(null == rule) {
             return null;
@@ -59,7 +65,7 @@ public class BusinessRuleAdapter {
        
         ruleDTO.setBusinessRuleId( rule.getRuleId() );
         ruleDTO.setAnchorValue( rule.getAnchor() );
-        ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleTypeKey() );
+        ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
         ruleDTO.setCompiledId( rule.getCompiledId() );
         ruleDTO.setDescription( rule.getDescription() );
         ruleDTO.setEffectiveEndTime( rule.getMetaData().getEffectiveDateEnd() );
@@ -97,7 +103,7 @@ public class BusinessRuleAdapter {
      * @param element
      * @return
      */
-    public RuleElementDTO getRuleElementDTO(RuleElement element) {
+    public static RuleElementDTO getRuleElementDTO(RuleElement element) {
         
         RuleElementDTO elementDTO = new RuleElementDTO();
         
@@ -105,7 +111,11 @@ public class BusinessRuleAdapter {
         elementDTO.setName( element.getName() );
         elementDTO.setOperation( element.getOperation().getName() );
         elementDTO.setOrdinalPosition( element.getOrdinalPosition() );
-        elementDTO.setRuleProposition( getRulePropositionDTO( element.getRuleProposition() ) );
+        
+        // If we have a proposition
+        if(null != element.getRuleProposition()) {
+            elementDTO.setRuleProposition( getRulePropositionDTO( element.getRuleProposition() ) );
+        }
         
         return elementDTO;
     }
@@ -117,7 +127,7 @@ public class BusinessRuleAdapter {
      * @param proposition
      * @return
      */
-    public RulePropositionDTO getRulePropositionDTO(RuleProposition proposition) {
+    public static RulePropositionDTO getRulePropositionDTO(RuleProposition proposition) {
         
         RulePropositionDTO propositionDTO = new RulePropositionDTO();
         
@@ -139,7 +149,7 @@ public class BusinessRuleAdapter {
      * @param lhs
      * @return
      */
-    public LeftHandSideDTO getLeftHandSideDTO(LeftHandSide lhs) {
+    public static LeftHandSideDTO getLeftHandSideDTO(LeftHandSide lhs) {
         LeftHandSideDTO lhsDTO = new LeftHandSideDTO();
         
         lhsDTO.setYieldValueFunction( getYieldValueFunctionDTO( lhs.getYieldValueFunction() ) );
@@ -153,7 +163,7 @@ public class BusinessRuleAdapter {
      * @param rhs
      * @return
      */
-    public RightHandSideDTO getRightHandSideDTO(RightHandSide rhs) {
+    public static RightHandSideDTO getRightHandSideDTO(RightHandSide rhs) {
         RightHandSideDTO rhsDTO = new RightHandSideDTO();
         rhsDTO.setExpectedValue( rhs.getExpectedValue() );
         return rhsDTO;
@@ -166,7 +176,7 @@ public class BusinessRuleAdapter {
      * @param yvf
      * @return
      */
-    public YieldValueFunctionDTO getYieldValueFunctionDTO(YieldValueFunction yvf) {
+    public static YieldValueFunctionDTO getYieldValueFunctionDTO(YieldValueFunction yvf) {
      
         YieldValueFunctionDTO yvfDTO = new YieldValueFunctionDTO();
         
@@ -189,7 +199,7 @@ public class BusinessRuleAdapter {
      * @param fs
      * @return
      */
-    public FactStructureDTO getFactStructureDTO(FactStructure fs) {
+    public static FactStructureDTO getFactStructureDTO(FactStructure fs) {
         FactStructureDTO fsDTO = new FactStructureDTO();
         
         fsDTO.setAnchorFlag( fs.getAnchorFlag() );
@@ -213,13 +223,190 @@ public class BusinessRuleAdapter {
     }
 
     
-    /* MAP DTO -> ENTITY */    
-    public BusinessRule getBusinessRuleEntity(BusinessRuleInfoDTO ruleInfoDTO) {
-        BusinessRule rule = new BusinessRule();
+    /* MAP DTO -> ENTITY */            
+    public static BusinessRule getBusinessRuleEntity(BusinessRuleInfoDTO ruleInfoDTO) {
         
+        BusinessRule rule = new BusinessRule();
+                
         rule.setAnchor( ruleInfoDTO.getAnchorValue() );
-        rule.setBusinessRuleTypeKey( ruleInfoDTO.getBusinessRuleTypeKey() );
+        rule.setCompiledId(ruleInfoDTO.getCompiledId());
+        rule.setDescription(ruleInfoDTO.getDescription());
+        rule.setFailureMessage(ruleInfoDTO.getFailureMessage());
+        rule.setName(ruleInfoDTO.getName() );
+        rule.setRuleId( ruleInfoDTO.getBusinessRuleId() );
+        rule.setSuccessMessage( ruleInfoDTO.getSuccessMessage() );
+        
+        RuleMetaData metaData = new RuleMetaData();
+        metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
+        metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
+        metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveEndTime());
+        metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveStartTime());
+        metaData.setStatus(ruleInfoDTO.getStatus());
+        metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
+        metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
+
+        rule.setMetaData(metaData);
+        
+        List<RuleElement> elementList = new ArrayList<RuleElement>();
+        for(RuleElementDTO elementDTO : ruleInfoDTO.getRuleElementList()) {
+            RuleElement element = getRuleElementEntity(elementDTO);
+            element.setBusinessRule( rule );
+            elementList.add( element );
+        }
+        
+        rule.setRuleElements( elementList );                
         
         return rule;
+    }
+
+    /**
+     * 
+     * This method maps RuleElementDTO to RuleElement
+     * 
+     * @param elementDTO
+     * @return
+     */
+    public static RuleElement getRuleElementEntity(RuleElementDTO elementDTO) {
+        RuleElement element = new RuleElement();
+        
+        element.setDescription( elementDTO.getDescription() );
+        element.setName( elementDTO.getName() );
+        element.setOperation( RuleElementType.valueOf( elementDTO.getOperation() ) );
+        element.setOrdinalPosition( elementDTO.getOrdinalPosition() );
+        element.setRuleProposition( getRulePropositionEntity( elementDTO.getRuleProposition() ));
+        return element;        
+    }
+
+    /**
+     * 
+     * This method maps RulePropositionDTO to RuleProposition entity
+     * 
+     * @param rulePropositionDTO
+     * @return
+     */
+    public static RuleProposition getRulePropositionEntity(RulePropositionDTO rulePropositionDTO) {
+        RuleProposition ruleProposition = new RuleProposition();
+        
+        ruleProposition.setComparisonDataType( rulePropositionDTO.getComparisonDataType() );
+        ruleProposition.setDescription( rulePropositionDTO.getDescription() );
+        ruleProposition.setFailureMessage( rulePropositionDTO.getFailureMessage() );
+        ruleProposition.setLeftHandSide( getLeftHandSideEntity( rulePropositionDTO.getLeftHandSide() ));
+        ruleProposition.setName( rulePropositionDTO.getName() );
+        ruleProposition.setOperator( ComparisonOperator.valueOf( rulePropositionDTO.getComparisonOperatorType() ));
+        ruleProposition.setRightHandSide( getRightHandSideEntity( rulePropositionDTO.getRightHandSide() ) );
+        
+        return ruleProposition;
     }    
+
+    /**
+     * 
+     * This method LeftHandSideDTO to LeftHandSide entity
+     * 
+     * @param lhsDTO
+     * @return
+     */
+    public static LeftHandSide getLeftHandSideEntity(LeftHandSideDTO lhsDTO) {
+        LeftHandSide lhs = new LeftHandSide();        
+        lhs.setYieldValueFunction( getYieldValueFunctionEntity( lhsDTO.getYieldValueFunction() ) );        
+        return lhs;
+    }
+
+    /**
+     * 
+     * This method maps RightHandSideDTO to RightHandSide entity
+     * 
+     * @param rhsDTO
+     * @return
+     */
+    public static RightHandSide getRightHandSideEntity(RightHandSideDTO rhsDTO) {
+        RightHandSide rhs = new RightHandSide();        
+        rhs.setExpectedValue( rhsDTO.getExpectedValue() );
+        return rhs;
+    }
+ 
+    /**
+     * 
+     * This method maps YieldValueFuncitonDTO to YieldValueFunction entity
+     * 
+     * @param yvfDTO
+     * @return
+     */
+    public static YieldValueFunction getYieldValueFunctionEntity(YieldValueFunctionDTO yvfDTO) {
+        YieldValueFunction yvf = new YieldValueFunction();
+       
+        yvf.setYieldValueFunctionType( YieldValueFunctionType.valueOf( yvfDTO.getYieldValueFunctionType() ) );
+        
+        List<FactStructure> factList = new ArrayList<FactStructure>();
+        for(FactStructureDTO factDTO: yvfDTO.getFactStructureList()) {
+            factList.add( getFactStructureEntity( factDTO ) ) ;
+        }
+        yvf.setFacts(factList);
+        
+        return yvf;
+    }
+    
+    /**
+     * 
+     * This method maps FactStructureDTO to FactStructure entity
+     * 
+     * @param factDTO
+     * @return
+     */
+    public static FactStructure getFactStructureEntity(FactStructureDTO factDTO) {
+       FactStructure fs = new FactStructure();
+       
+       fs.setAnchorFlag( factDTO.getAnchorFlag() );
+       fs.setDataType( factDTO.getDataType() );
+       fs.setFactStructureId( factDTO.getFactStructureId() );
+       
+       // Extract execution variables
+       List<FactStructureVariable> fsExecVarList = new ArrayList<FactStructureVariable>(); 
+       Map<String,String> factExecVarMap = factDTO.getExecutionVariableList();
+       for(String key: factExecVarMap.keySet()) {
+           FactStructureVariable fsVar = new FactStructureVariable();
+           fsVar.setFactStructure(fs);
+           fsVar.setStructureKey(key);
+           fsVar.setValue( factExecVarMap.get(key));
+           fsExecVarList.add(fsVar);
+       }
+       fs.setExecutionVariableList(fsExecVarList);
+       
+       // Extract definition variables
+       List<FactStructureVariable> fsDefVarList = new ArrayList<FactStructureVariable>(); 
+       Map<String,String> factDefVarMap = factDTO.getExecutionVariableList();
+       for(String key: factDefVarMap.keySet()) {
+           FactStructureVariable fsVar = new FactStructureVariable();
+           fsVar.setFactStructure(fs);
+           fsVar.setStructureKey(key);
+           fsVar.setValue( factDefVarMap.get(key));
+           fsDefVarList.add(fsVar);
+       }
+       fs.setDefinitionVariableList(fsDefVarList);
+       return fs;
+    }
+
+        
+    /**
+     * 
+     * This method copies data from one rule to another keeping the id the same
+     * 
+     * @param fromRule
+     * @param toRule
+     * @return
+     */
+    public static BusinessRule copyBusinessRule(BusinessRule fromRule, BusinessRule toRule) {        
+                                
+        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id"});        
+        
+        // Now update the parent reference in rule element to change from fromRule to toRule
+        for(RuleElement element : fromRule.getRuleElements()) {
+            element.setBusinessRule(toRule);
+        }
+
+        toRule.setRuleElements(fromRule.getRuleElements());
+                
+        
+        return toRule;
+    }
+
 }

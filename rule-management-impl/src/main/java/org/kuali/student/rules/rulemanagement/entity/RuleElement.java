@@ -9,6 +9,8 @@ package org.kuali.student.rules.rulemanagement.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,6 +34,7 @@ public class RuleElement {
 
     @Id
     private String id;
+    @Enumerated(EnumType.STRING)
     private RuleElementType operation;
     private Integer ordinalPosition;
     private String name;
