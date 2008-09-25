@@ -15,15 +15,12 @@
  */
 package org.kuali.student.rules.repository.service.impl;
 
-import java.util.List;
-
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
@@ -134,10 +131,11 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * Creates, compiles and checks in a rule set into the repository.
      * 
      * @param ruleSet Rule set to create
-     * @return Rule set uuid
+     * @return New rule set
      * @throws RuleExistsException Thrown if a rule within the rule set already exists
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws OperationFailedException Thrown if compiling a rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public RuleSetDTO createRuleSet(final RuleSetDTO ruleSetDTO) 
         throws RuleSetExistsException, RuleExistsException, OperationFailedException, InvalidParameterException {
@@ -158,6 +156,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param uuid Rule set uuid
      * @throws OperationFailedException Thrown if removing rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public void removeRuleSet(final String uuid) 
     	throws OperationFailedException, InvalidParameterException {
@@ -175,7 +174,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param ruleSetName Rule set name
      * @param snapshotName Snapshot name
-     * @throws OperationFailedException Thrown if snapshot fails to be deleted or any other errors occur
+     * @throws OperationFailedException Thrown if removing snapshot fails or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public void removeRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
     	throws OperationFailedException, InvalidParameterException {
@@ -209,7 +209,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param uuid Rule set uuid
      * @param comment Checkin comments
-     * @throws RuleEngineRepositoryException Thrown if checkin rule set fails
+     * @return New version number
+     * @throws OperationFailedException Thrown if checkin rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public long checkinRuleSet(final String uuid, final String comment)
     	throws OperationFailedException, InvalidParameterException {
@@ -227,9 +229,11 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param uuid Rule uuid
      * @return A rule
-     * @throws RuleEngineRepositoryException Thrown if loading rule fails
+     * @throws OperationFailedException Thrown if loading child categories fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     /*public RuleDTO fetchRule(final String uuid) {
+    	throws OperationFailedException, InvalidParameterException {
     	Rule rule = this.ruleEngineRepository.loadRule(uuid);
     	RuleDTO dto = ruleAdapter.getRuleDTO(rule);
     	return dto;
@@ -241,6 +245,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param uuid Rule set uuid
      * @return A rule set
      * @throws OperationFailedException Thrown if loading rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public RuleSetDTO fetchRuleSet(final String ruleSetUUID) 
     	throws OperationFailedException, InvalidParameterException {
@@ -261,6 +266,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param ruleSetUUID Rule set UUID
      * @return A compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
      * @throws OperationFailedException Thrown if compiling a rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public byte[] fetchCompiledRuleSet(final String ruleSetUUID) 
     	throws OperationFailedException, InvalidParameterException {
@@ -280,6 +286,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param snapshotName Snapshot name
      * @param comment Comments for creating the snapshot
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public void createRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) 
     	throws OperationFailedException, InvalidParameterException {
@@ -299,6 +306,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param snapshotName Snapshot name
      * @param comment Comments for creating the snapshot
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public void rebuildRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) 
     	throws OperationFailedException, InvalidParameterException {
@@ -318,6 +326,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param snapshotName Snapshot name
      * @return Compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
      * @throws OperationFailedException Thrown if loading a snapshots fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public byte[] fetchCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
     	throws OperationFailedException, InvalidParameterException {
@@ -337,6 +346,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param snapshotName Rule set's snapshot name
      * @return A rule set snapshot
      * @throws OperationFailedException Thrown if loading a snapshots fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public RuleSetDTO fetchRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
     	throws OperationFailedException, InvalidParameterException {
@@ -357,6 +367,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param name Status name
      * @return New status uuid
      * @throws OperationFailedException Thrown if creating status fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public String createState(final String name)
     	throws OperationFailedException, InvalidParameterException {
@@ -373,7 +384,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * Loads all states.
      * 
      * @return Array of all states (statuses)
-     * @throws RuleEngineRepositoryException Thrown if loading states fails
+     * @throws OperationFailedException Thrown if loading states fails
      */
     public String[] fetchStates()
     	throws OperationFailedException {
@@ -388,7 +399,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * Removes a status from the repository.
      * 
      * @param uuid Status name
-     * @throws RuleEngineRepositoryException Thrown if removing status fails
+     * @throws OperationFailedException Thrown if removing status fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public void removeState(final String name)
     	throws OperationFailedException, InvalidParameterException {
@@ -406,7 +418,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * 
      * @param uuid Rule set uuid
      * @param newState New rule set status
-     * @throws RuleEngineRepositoryException Thrown if changing rule set status fails
+     * @throws OperationFailedException Thrown if changing rule set status fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public void changeRuleSetState(final String ruleSetUUID, final String newState)
     	throws OperationFailedException, InvalidParameterException {
@@ -419,6 +432,14 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		}
     }
     
+    /**
+     * Updates ruleset with new rules from <code>ruleSet1</code> and 
+     * returns the updated ruleset.
+     *  
+     * @param ruleSet1 Ruleset of new rules
+     * @return Updated ruleset
+     * @throws RuleEngineRepositoryException
+     */
     private RuleSet updateRuleSet(RuleSet ruleSet1) 
     	throws RuleEngineRepositoryException {
 		RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSetByName(ruleSet1.getName());
@@ -443,6 +464,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param businessRuleContainer A container of business rules
      * @return A rule set
 	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
+     * @throws OperationFailedException Thrown if generating ruleset fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) 
     	throws RuleSetTranslatorException, OperationFailedException, InvalidParameterException {
