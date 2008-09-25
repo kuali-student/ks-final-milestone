@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,16 +37,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.rulemanagement.entity.LeftHandSide;
-import org.kuali.student.rules.rulemanagement.entity.RightHandSide;
-import org.kuali.student.rules.rulemanagement.entity.RuleProposition;
-import org.kuali.student.rules.rulemanagement.entity.YieldValueFunction;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class GenerateRuleSetPerfTest {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(GenerateRuleSetPerfTest.class);
     
-    private final RuleSetTranslatorDroolsImpl generateRuleSet = RuleSetTranslatorDroolsImpl.getInstance();
+    private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
 
     @Before
     public void setUp() throws Exception {}
@@ -63,24 +63,33 @@ public class GenerateRuleSetPerfTest {
     @After
     public void tearDown() throws Exception {}
 
-    private RuleProposition getRuleProposition(String criteria) {
+    private RulePropositionDTO getRuleProposition(String criteria) {
         return getRuleProposition(criteria, YieldValueFunctionType.INTERSECTION, "1");
     }
 
-    private RuleProposition getRuleProposition(String criteria, YieldValueFunctionType functionType) {
+    private RulePropositionDTO getRuleProposition(String criteria, YieldValueFunctionType functionType) {
         return getRuleProposition(criteria, functionType, "1");
     }
 
-    private RuleProposition getRuleProposition(String criteria, YieldValueFunctionType functionType, String expectedValue) {
+    private RulePropositionDTO getRuleProposition(String criteria, YieldValueFunctionType functionType, String expectedValue) {
         // E.g. 1 of CPR 101
         //YieldValueFunction yieldValueFunction = new YieldValueFunction("1", YieldValueFunctionType.INTERSECTION);
-        YieldValueFunction yieldValueFunction = new YieldValueFunction("1", functionType);
-        LeftHandSide leftSide = new LeftHandSide(criteria, yieldValueFunction);
-        Operator operator = new Operator(ComparisonOperator.EQUAL_TO);
+    	YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
+        yieldValueFunction.setYieldValueFunctionType(functionType.toString());
+        LeftHandSideDTO leftSide = new LeftHandSideDTO();
+        leftSide.setYieldValueFunction(yieldValueFunction);
+        //Operator operator = new Operator(ComparisonOperator.EQUAL_TO);
         //RightHandSide rightSide = new RightHandSide("1");
-        RightHandSide rightSide = new RightHandSide(expectedValue);
-        RuleProposition ruleProp = new RuleProposition("co-requisites", "enumeration of required co-requisite courses",
-                "prop error message", leftSide, operator, rightSide);
+        RightHandSideDTO rightSide = new RightHandSideDTO();
+        rightSide.setExpectedValue(expectedValue);
+        RulePropositionDTO ruleProp = new RulePropositionDTO();
+        ruleProp.setComparisonDataType("kuali.number");
+        ruleProp.setComparisonOperatorType(ComparisonOperator.EQUAL_TO.toString());
+        ruleProp.setLeftHandSide(leftSide);
+        ruleProp.setRightHandSide(rightSide);
+        ruleProp.setFailureMessage("prop error message");
+        ruleProp.setDescription("enumeration of required co-requisite courses");
+        ruleProp.setName("co-requisites");
 
         return ruleProp;
     }
@@ -93,7 +102,7 @@ public class GenerateRuleSetPerfTest {
     }
 
     private RuleSet createRuleSet(int propositionCount, String ruleName) {
-        Map<String, RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
+        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         String functionString = "";
         int start = 65;
         int count = start + propositionCount;
@@ -106,8 +115,7 @@ public class GenerateRuleSetPerfTest {
 //            }
             functionString += (i==start ? "" : "*") + id; 
         }
-        RuleSet ruleSet = generateRuleSet.createRuleSet("TestPackageName", "A package", ruleName,
-                functionString, propositionMap);
+        RuleSet ruleSet = generateRuleSet.createRuleSet("AnchorName", "TestPackageName", "A package", ruleName, functionString, propositionMap, new Date(), new Date());
         return ruleSet;
     }
     
