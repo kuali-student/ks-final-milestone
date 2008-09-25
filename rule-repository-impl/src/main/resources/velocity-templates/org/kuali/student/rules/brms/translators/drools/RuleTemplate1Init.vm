@@ -24,8 +24,8 @@ rule "${ruleName}"
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
-    	prop.setFunctionalRuleString("$functionString");
-    	#foreach( $key in $propositionMap.keySet() ) 
+        prop.setFunctionalRuleString("$functionString");
+        #foreach( $key in $propositionMap.keySet() ) 
        		#set( $proposition = $propositionMap.get($key) )
        		#set( $rhs = $proposition.RightHandSide.ExpectedValue )
        		#set( $operator = $proposition.ComparisonOperatorType )
@@ -57,7 +57,7 @@ rule "${ruleName}"
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
             #end
-   		#end
+        #end
 
         container.setState(FactContainer.State.DONE);
         update(container);
