@@ -25,7 +25,6 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
         BigDecimal expectedValue = new BigDecimal(expectedValueAsString);
 
         BigDecimal average = sum().divide(listSize);
-        //System.out.println("AverageProposition: sum="+average);
 
         result = checkTruthValue(average, expectedValue);
 

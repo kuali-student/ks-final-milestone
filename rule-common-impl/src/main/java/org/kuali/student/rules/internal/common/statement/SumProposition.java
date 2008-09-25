@@ -41,7 +41,6 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         BigDecimal expectedValue = getDecimalValue(expectedValueAsString);
 
         BigDecimal sum = sum();
-        //System.out.println("SumProposition: sum="+sum);
 
         result = checkTruthValue(sum, expectedValue);
 
