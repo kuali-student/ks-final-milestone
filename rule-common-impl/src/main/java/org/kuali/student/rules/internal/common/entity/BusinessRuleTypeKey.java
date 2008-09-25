@@ -14,7 +14,6 @@ import javax.persistence.Embeddable;
  * 
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
-@Embeddable
 public enum BusinessRuleTypeKey {
     KUALI_PRE_REQ, KUALI_CO_REQ;
 }

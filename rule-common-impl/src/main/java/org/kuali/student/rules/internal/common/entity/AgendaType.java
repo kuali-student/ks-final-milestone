@@ -7,14 +7,12 @@
  */
 package org.kuali.student.rules.internal.common.entity;
 
-import javax.persistence.Embeddable;
 
 /**
  * Defines comparison operator types.
  * 
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
-@Embeddable
 public enum AgendaType {
-    KUALI_VALIDATE_LUI_PERSON_RELATION;
+    KUALI_STUDENT_ENROLLS_IN_COURSRE,KUALI_STUDENT_STUDENT_DROPS_COURSE;
 }

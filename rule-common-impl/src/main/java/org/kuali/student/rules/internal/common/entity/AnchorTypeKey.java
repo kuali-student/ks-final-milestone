@@ -14,7 +14,6 @@ import javax.persistence.Embeddable;
  * 
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
-@Embeddable
 public enum AnchorTypeKey {
     KUALI_COURSE, KUALI_PERSON;
 }
