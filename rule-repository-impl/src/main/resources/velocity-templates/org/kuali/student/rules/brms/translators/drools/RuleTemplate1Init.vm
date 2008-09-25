@@ -44,9 +44,9 @@ rule "${ruleName}"
 
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
-                if (logger.isInfoEnabled()) {
-                    logger.info("criteriaSet${key}="+criteriaSet${key});
-                    logger.info("factSet${key}="+factSet${key});
+                if (logger.isDebugEnabled()) {
+                    logger.debug("criteriaSet${key}="+criteriaSet${key});
+                    logger.debug("factSet${key}="+factSet${key});
                 }
                 SubsetProposition proposition${key} = new SubsetProposition("$key", criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
@@ -56,9 +56,9 @@ rule "${ruleName}"
 
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
-                if (logger.isInfoEnabled()) {
-                    logger.info("criteriaSet${key}="+criteriaSet${key});
-                    logger.info("factSet${key}="+factSet${key});
+                if (logger.isDebugEnabled()) {
+                    logger.debug("criteriaSet${key}="+criteriaSet${key});
+                    logger.debug("factSet${key}="+factSet${key});
                 }
                 IntersectionProposition proposition${key} = new IntersectionProposition("$key", ComparisonOperator.${operator}, "$rhs", criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
@@ -67,8 +67,8 @@ rule "${ruleName}"
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
 
                 List factList${key} = (List) factMap.get( "$factKey" );
-                if (logger.isInfoEnabled()) {
-                    logger.info("factList${key}="+factList${key});
+                if (logger.isDebugEnabled()) {
+                    logger.debug("factList${key}="+factList${key});
                 }
                 SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
@@ -77,8 +77,8 @@ rule "${ruleName}"
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
 
                 List factList${key} = (List) factMap.get( "$factKey" );
-                if (logger.isInfoEnabled()) {
-                    logger.info("factList${key}="+factList${key});
+                if (logger.isDebugEnabled()) {
+                    logger.debug("factList${key}="+factList${key});
                 }
                 AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
