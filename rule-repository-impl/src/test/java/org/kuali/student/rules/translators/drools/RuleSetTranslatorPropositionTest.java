@@ -156,9 +156,9 @@ public class RuleSetTranslatorPropositionTest {
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
     	RuleSet ruleSet = this.generateRuleSet.createRuleSet(anchor, 
-        		"TestPackageName", "A package", "TestRuleName", "P1", propositionMap,
+        		"TestPackageName", "A package", "TestRuleName", functionString, propositionMap,
         		effectiveStartTime, effectiveEndTime);
-
+System.out.println(ruleSet.getContent());
     	return ruleSet;
     }
     
