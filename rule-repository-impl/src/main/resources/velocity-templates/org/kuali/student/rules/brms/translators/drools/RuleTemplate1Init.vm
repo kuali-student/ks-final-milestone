@@ -25,7 +25,7 @@ rule "${ruleName}"
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
-        Logger logger = LoggerFactory.getLogger("VelocityRuleTemplate");
+        Logger logger = LoggerFactory.getLogger(org.kuali.student.rules.translators.RuleSetTranslator.class);
 
         prop.setFunctionalRuleString("$functionString");
         #foreach( $key in $propositionMap.keySet() ) 
