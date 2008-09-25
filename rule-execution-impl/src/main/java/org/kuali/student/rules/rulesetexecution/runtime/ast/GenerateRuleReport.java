@@ -24,7 +24,7 @@ import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.statement.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
 
@@ -38,7 +38,9 @@ public class GenerateRuleReport {
     private boolean ruleResult;
     private String functionString;
     
-    private final String SUCCESS_FAILURE_MESSAGE_LOGGER = "SuccessFailureMessageLogger";
+    private final static String SUCCESS_FAILURE_MESSAGE_LOGGER = "SuccessFailureMessageLogger";
+    private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl";
+    private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl";
 
     public GenerateRuleReport(RuleSetExecutorInternal ruleSetExecutor) {
         this.ruleSetExecutor = ruleSetExecutor;
@@ -114,9 +116,9 @@ public class GenerateRuleReport {
      * Add default rule sets
      */
     private void addRuleSets() {
-        Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl"));
+        Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
         this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
-        Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream("/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl"));
+        Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
         this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
     }
 }

@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.kuali.student.rules.internal.common.statement;
+package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  *            the type of elements being constrained
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
-public class IntersectionProposition<E> extends AbstractProposition<Integer> {
+public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
 
@@ -24,13 +24,12 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
 
     // ~ Constructors -----------------------------------------------------------
 
-    public IntersectionProposition() {
+    public SubsetProposition() {
         super();
     }
 
-    public IntersectionProposition(String propositionName, ComparisonOperator operator, String expectedValue,
-            Set<E> criteriaSet, Set<E> factSet) {
-        super(propositionName, operator, expectedValue);
+    public SubsetProposition(String propositionName, Set<E> criteriaSet, Set<E> factSet) {
+        super(propositionName, ComparisonOperator.EQUAL_TO, String.valueOf(criteriaSet.size()));
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }

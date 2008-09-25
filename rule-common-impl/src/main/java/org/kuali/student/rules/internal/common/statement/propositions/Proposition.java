@@ -1,7 +1,10 @@
 /**
  * 
  */
-package org.kuali.student.rules.internal.common.statement;
+package org.kuali.student.rules.internal.common.statement.propositions;
+
+import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * Apply a logical constraint.

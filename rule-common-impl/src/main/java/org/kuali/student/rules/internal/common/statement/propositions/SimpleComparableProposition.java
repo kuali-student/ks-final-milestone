@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.kuali.student.rules.internal.common.statement;
+package org.kuali.student.rules.internal.common.statement.propositions;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 

@@ -19,6 +19,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+
 /**
  * PropositionContainer is a representation of the functional business rule and is composed of the
  * individual propositions in the rule and the boolean operators that join them

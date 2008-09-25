@@ -1,8 +1,9 @@
-package org.kuali.student.rules.internal.common.statement;
+package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.util.Comparator;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * Abstract superclass that implements common proposition. Also wraps <code>CloneNotSupportedException</code> with

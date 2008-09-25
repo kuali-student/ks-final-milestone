@@ -226,7 +226,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     public void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.*");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.*");
         ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");

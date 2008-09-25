@@ -10,10 +10,10 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.AverageProposition;
-import org.kuali.student.rules.internal.common.statement.IntersectionProposition;
-import org.kuali.student.rules.internal.common.statement.SubsetProposition;
-import org.kuali.student.rules.internal.common.statement.SumProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.AverageProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
 
 public class PropositionTest {
 
