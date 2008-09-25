@@ -25,15 +25,15 @@
             ref="rulesRepository" />
     </bean>
 
-    <bean id="defaultDroolsRepositoryContainer"
+    <bean id="defaultDroolsRepository"
         class="org.kuali.student.rules.repository.drools.DefaultDroolsRepository"
-        destroy-method="shutdown">
+        destroy-method="shutdownRepository">
         <constructor-arg type="java.lang.String"
             value="/drools-repository" />
     </bean>
 
     <bean id="rulesRepository"
-        factory-bean="defaultDroolsRepositoryContainer"
+        factory-bean="defaultDroolsRepository"
         factory-method="getRepository" />
 
     <bean id="droolsTranslator"
@@ -62,8 +62,7 @@
 
     <bean id="ruleRepositoryServiceImpl"
         class="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl">
-        <constructor-arg type="org.kuali.student.rules.repository.RuleEngineRepository"
-            ref="droolsRepository" />
+            <property name="ruleEngineRepository" ref="droolsRepository"/>
             <property name="ruleSetTranslator" ref="droolsTranslator"/>
     </bean>
 
