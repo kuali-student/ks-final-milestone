@@ -229,6 +229,34 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
+    public void testParseBusinessRule_Subset() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factId1 = "fact1";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.SUBSET.toString(), 
+    			"CPR101",
+    			null,
+    			null,
+    			anchorValue,
+    			factId1);
+
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
+        // Get facts
+        Set<String> courseSet = createSet("CPR101,MATH102,CHEM100");
+        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
+        factMap.put(factId1, courseSet);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+    }
+
+    @Test
     public void testParseBusinessRule_Intersection_NullMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";

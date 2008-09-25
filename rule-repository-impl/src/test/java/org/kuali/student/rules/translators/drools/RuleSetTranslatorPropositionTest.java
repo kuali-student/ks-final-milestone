@@ -328,7 +328,7 @@ public class RuleSetTranslatorPropositionTest {
     }
 
     @Test
-    public void testParseRuleSet_FourProposition_AandBorC_IntersectionSumAverage() throws Exception {
+    public void testParseRuleSet_FourProposition_AandBandCorD_SubsetIntersectionSumAverage() throws Exception {
     	String factId1 = "fact1.intersection";
     	String factId2 = "fact2.sum";
     	String factId3 = "fact3.average";
@@ -336,20 +336,27 @@ public class RuleSetTranslatorPropositionTest {
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
         propositionMap.put("P1", getRuleProposition(
+        		YieldValueFunctionType.SUBSET.toString(),
+        		null,
+        		null,
+        		"CPR101",
+        		factId1));
+        // 1 of CPR101
+        propositionMap.put("P2", getRuleProposition(
         		YieldValueFunctionType.INTERSECTION.toString(),
         		"1",
         		ComparisonOperator.EQUAL_TO.toString(),
         		"CPR101",
         		factId1));
         // Sum of credits = 12.0
-        propositionMap.put("P2", getRuleProposition(
+        propositionMap.put("P3", getRuleProposition(
         		YieldValueFunctionType.SUM.toString(),
         		"12.0",
         		ComparisonOperator.EQUAL_TO.toString(),
         		null,
         		factId2));
         // Average >= 75.0
-        propositionMap.put("P3", getRuleProposition(
+        propositionMap.put("P4", getRuleProposition(
         		YieldValueFunctionType.AVERAGE.toString(),
         		"75.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
@@ -386,7 +393,7 @@ public class RuleSetTranslatorPropositionTest {
     }
 
     @Test
-    public void testParseRuleSet_FourProposition_AandBandCandDandEandF_IntersectionSumAverage() throws Exception {
+    public void testParseRuleSet_FourProposition_AandBandCandDandEandF_SubsetIntersectionSumAverage() throws Exception {
     	String factId1 = "fact1.intersection";
     	String factId2 = "fact2.sum";
     	String factId3 = "fact3.average";
@@ -394,9 +401,9 @@ public class RuleSetTranslatorPropositionTest {
     	Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
         propositionMap.put("P1", getRuleProposition(
-        		YieldValueFunctionType.INTERSECTION.toString(),
-        		"1",
-        		ComparisonOperator.EQUAL_TO.toString(),
+        		YieldValueFunctionType.SUBSET.toString(),
+        		null,
+        		null,
         		"CPR101",
         		factId1));
         // 1 of MATH102

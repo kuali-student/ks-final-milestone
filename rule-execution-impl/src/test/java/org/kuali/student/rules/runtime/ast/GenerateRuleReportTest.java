@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.PropositionReport;
-import org.kuali.student.rules.internal.common.statement.SubsetProposition;
+import org.kuali.student.rules.internal.common.statement.IntersectionProposition;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
@@ -18,10 +18,10 @@ public class GenerateRuleReportTest {
 
 	private String functionalRuleString;
 
-	private SubsetProposition<String> subsetPropA = new SubsetProposition<String>("A", null, null, null, null );
-	private SubsetProposition<String> subsetPropB = new SubsetProposition<String>("B", null, null, null, null );
-	private SubsetProposition<String> subsetPropC = new SubsetProposition<String>("C", null, null, null, null );
-	private SubsetProposition<String> subsetPropD = new SubsetProposition<String>("D", null, null, null, null );
+	private IntersectionProposition<String> subsetPropA = new IntersectionProposition<String>("A", null, null, null, null );
+	private IntersectionProposition<String> subsetPropB = new IntersectionProposition<String>("B", null, null, null, null );
+	private IntersectionProposition<String> subsetPropC = new IntersectionProposition<String>("C", null, null, null, null );
+	private IntersectionProposition<String> subsetPropD = new IntersectionProposition<String>("D", null, null, null, null );
 
 	private PropositionReport propositionReportA = new PropositionReport();
 	private PropositionReport propositionReportB = new PropositionReport();

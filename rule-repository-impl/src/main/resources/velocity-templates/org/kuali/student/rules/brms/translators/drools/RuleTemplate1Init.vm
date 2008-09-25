@@ -34,22 +34,24 @@ rule "${ruleName}"
             #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf, $DEF_CRITERIA_KEY ) )
             #set( $factKey = $factUtil.getFactId( $yvf, $proposition.Name ) )
 
-       		#if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
+            #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUBSET" )
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
-                SubsetProposition proposition${key} = new SubsetProposition("$key", ComparisonOperator.${operator}, "$rhs", criteriaSet${key}, factSet${key} ); 
+                SubsetProposition proposition${key} = new SubsetProposition("$key", criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
-            #end
-
-            #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
+       		#elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
+                Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
+                Set factSet${key} = (Set) factMap.get( "$factKey" );
+                IntersectionProposition proposition${key} = new IntersectionProposition("$key", ComparisonOperator.${operator}, "$rhs", criteriaSet${key}, factSet${key} ); 
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+            #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
                 List factList${key} = (List) factMap.get( "$factKey" );
                 SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
-       		#end
-
-            #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
+            #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
                 List factList${key} = (List) factMap.get( "$factKey" );
                 AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
