@@ -28,9 +28,8 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         super();
     }
 
-    public SubsetProposition(String propositionName, ComparisonOperator operator, String expectedValue,
-            Set<E> criteriaSet, Set<E> factSet) {
-        super(propositionName, operator, expectedValue);
+    public SubsetProposition(String propositionName, Set<E> criteriaSet, Set<E> factSet) {
+        super(propositionName, ComparisonOperator.EQUAL_TO, String.valueOf(criteriaSet.size()));
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }
@@ -46,7 +45,6 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         Integer count = met.size();
 
         result = checkTruthValue(count, expectedValue);
-        //System.out.println("SubsetProposition: count="+count);
 
         cacheReport("%d of %s is still required", count, expectedValue);
 
