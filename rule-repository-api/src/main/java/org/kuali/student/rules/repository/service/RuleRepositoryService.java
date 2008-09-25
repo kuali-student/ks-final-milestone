@@ -15,21 +15,16 @@
  */
 package org.kuali.student.rules.repository.service;
 
-import java.util.List;
-
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
-import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
@@ -56,6 +51,7 @@ public interface RuleRepositoryService {
      * @return True if category successfully created, otherwise false
      * @throws CategoryExistsException Thrown if rule set already exists
      * @throws OperationFailedException Thrown if creating category fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     //@WebMethod
     //public Boolean createCategory(@WebParam(name="path")String path, @WebParam(name="name")String name, @WebParam(name="description")String description) 
@@ -65,7 +61,8 @@ public interface RuleRepositoryService {
      * Removes a category.
      * 
      * @param categoryPath Category path
-     * @throws RuleEngineRepositoryException Thrown if removing a category fails
+     * @throws OperationFailedException Thrown if loading child categories fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     //@WebMethod
     //@Oneway
@@ -78,6 +75,7 @@ public interface RuleRepositoryService {
      * @param categoryPath Category path
      * @return List of child category names
      * @throws OperationFailedException Thrown if loading child categories fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     //@WebMethod
     //public List<String> fetchCategories(@WebParam(name="path")String path)
@@ -87,10 +85,11 @@ public interface RuleRepositoryService {
      * Creates, compiles and checks in a rule set into the repository.
      * 
      * @param ruleSet Rule set to create
-     * @return Rule set uuid
+     * @return New rule set
      * @throws RuleExistsException Thrown if a rule within the rule set already exists
      * @throws RuleSetExistsException Thrown if rule set already exists
      * @throws OperationFailedException Thrown if compiling a rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public RuleSetDTO createRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) 
@@ -101,6 +100,7 @@ public interface RuleRepositoryService {
      * 
      * @param uuid Rule set uuid
      * @throws OperationFailedException Thrown if removing rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     @Oneway
@@ -112,7 +112,8 @@ public interface RuleRepositoryService {
      * 
      * @param ruleSetName Rule set name
      * @param snapshotName Snapshot name
-     * @throws OperationFailedException Thrown if snapshot fails to be deleted or any other errors occur
+     * @throws OperationFailedException Thrown if removing snapshot fails or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     @Oneway
@@ -123,10 +124,13 @@ public interface RuleRepositoryService {
      * Updates a rule set in the repository and returns a new rule set.
      * 
      * @param ruleSet A rule set to update
-     * @throws RuleEngineRepositoryException
+     * @return An updated rule set
+     * @throws OperationFailedException Thrown if updating ruleset fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     //@WebMethod
     //public RuleSetDTO updateRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet);
+	//  throws OperationFailedException, InvalidParameterException;
 
     /**
      * Checks in a rule set into the repository.
@@ -135,7 +139,9 @@ public interface RuleRepositoryService {
      * 
      * @param uuid Rule set uuid
      * @param comment Checkin comments
+     * @return New version number
      * @throws OperationFailedException Thrown if checkin rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public long checkinRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="comment")String comment)
@@ -147,6 +153,7 @@ public interface RuleRepositoryService {
      * @param uuid Rule set uuid
      * @return A rule set
      * @throws OperationFailedException Thrown if loading rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public RuleSetDTO fetchRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) 
@@ -157,17 +164,20 @@ public interface RuleRepositoryService {
      * 
      * @param uuid Rule uuid
      * @return A rule
-     * @throws RuleEngineRepositoryException Thrown if loading rule fails
+     * @throws OperationFailedException Thrown if loading child categories fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     //@WebMethod
     //public RuleDTO fetchRule(@WebParam(name="uuid")String uuid);
+    //	throws OperationFailedException, InvalidParameterException;
     
     /**
      * Loads a compiled rule set from the repository.
      * 
-     * @param ruleSetUUID Rule set uuid
+     * @param ruleSetUUID Rule set UUID
      * @return A compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
      * @throws OperationFailedException Thrown if compiling a rule set fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public byte[] fetchCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID)
@@ -180,6 +190,7 @@ public interface RuleRepositoryService {
      * @param snapshotName Snapshot name
      * @param comment Comments for creating the snapshot
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     @Oneway
@@ -193,6 +204,7 @@ public interface RuleRepositoryService {
      * @param snapshotName Snapshot name
      * @param comment Comments for creating the snapshot
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     @Oneway
@@ -206,6 +218,7 @@ public interface RuleRepositoryService {
      * @param snapshotName Snapshot name
      * @return Compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
      * @throws OperationFailedException Thrown if loading a snapshots fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public byte[] fetchCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName)
@@ -218,6 +231,7 @@ public interface RuleRepositoryService {
      * @param snapshotName Rule set's snapshot name
      * @return A rule set snapshot
      * @throws OperationFailedException Thrown if loading a snapshots fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public RuleSetDTO fetchRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName)
@@ -229,6 +243,7 @@ public interface RuleRepositoryService {
      * @param name Status name
      * @return New status uuid
      * @throws OperationFailedException Thrown if creating status fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public String createState(@WebParam(name="name")String name)
@@ -249,6 +264,7 @@ public interface RuleRepositoryService {
      * 
      * @param uuid Status name
      * @throws OperationFailedException Thrown if removing status fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     @Oneway
@@ -261,6 +277,7 @@ public interface RuleRepositoryService {
      * @param uuid Rule set uuid
      * @param newState New rule set status
      * @throws OperationFailedException Thrown if changing rule set status fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     @Oneway
@@ -268,11 +285,14 @@ public interface RuleRepositoryService {
     	throws OperationFailedException, InvalidParameterException;
     
     /**
-     * Generates rule engine specific source code from a <code>BusinessRuleContainerDTO</code>.
+     * Generates and creates or updates a rule set (rule engine specific source code) 
+     * from a <code>BusinessRuleContainerDTO</code>.
      *  
      * @param businessRuleContainer A container of business rules
      * @return A rule set
 	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
+     * @throws OperationFailedException Thrown if generating ruleset fails
+     * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
     public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
