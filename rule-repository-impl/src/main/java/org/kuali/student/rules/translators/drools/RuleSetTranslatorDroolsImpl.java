@@ -49,6 +49,8 @@ import org.slf4j.LoggerFactory;
 public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
+    
+    private final static RuleSetFactory ruleSetFactory = RuleSetFactory.getInstance();
 
     private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init.vm";
     private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2.vm";
@@ -69,9 +71,9 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      */
     public RuleSet translate(BusinessRuleContainerDTO container) throws RuleSetTranslatorException {
     	//verifyKeys(container);
-    	String packageName = PACKAGE_PREFIX + container.getNamespace();
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
-        		packageName, container.getDescription());
+    	String ruleName = PACKAGE_PREFIX + container.getNamespace();
+        String ruleDescription = container.getDescription();
+    	RuleSet ruleSet = ruleSetFactory.createRuleSet(ruleName, ruleDescription);
         addHeader(ruleSet);
         for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
             parseRule(ruleSet, businessRule);
@@ -216,7 +218,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     							 String ruleName, String functionString,
     							 Map<String, RulePropositionDTO> functionalPropositionMap,
     							 Date effectiveStartTime, Date effectiveEndTime) {
-        RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(packageName, description);
+        RuleSet ruleSet = ruleSetFactory.createRuleSet(packageName, description);
         addHeader(ruleSet);
         generateRules(anchor, ruleName, "A rule description", functionString, 
         		functionalPropositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
@@ -225,6 +227,8 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 
     public void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
+        ruleSet.addHeader("import org.slf4j.Logger;");
+		ruleSet.addHeader("import org.slf4j.LoggerFactory;");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.*");
         ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");

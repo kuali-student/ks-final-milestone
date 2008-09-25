@@ -19,11 +19,14 @@
 rule "${ruleName}"
     no-loop true
     lock-on-active true
+
     when 
         container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
+        Logger logger = LoggerFactory.getLogger("VelocityRuleTemplate");
+
         prop.setFunctionalRuleString("$functionString");
         #foreach( $key in $propositionMap.keySet() ) 
        		#set( $proposition = $propositionMap.get($key) )
@@ -34,28 +37,53 @@ rule "${ruleName}"
             #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf, $DEF_CRITERIA_KEY ) )
             #set( $factKey = $factUtil.getFactId( $yvf, $proposition.Name ) )
 
+            // criteria = $criteria
+            // factKey  = $factKey
+
             #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUBSET" )
+
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
+                if (logger.isInfoEnabled()) {
+                    logger.info("criteriaSet${key}="+criteriaSet${key});
+                    logger.info("factSet${key}="+factSet${key});
+                }
                 SubsetProposition proposition${key} = new SubsetProposition("$key", criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
+
        		#elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
+
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
+                if (logger.isInfoEnabled()) {
+                    logger.info("criteriaSet${key}="+criteriaSet${key});
+                    logger.info("factSet${key}="+factSet${key});
+                }
                 IntersectionProposition proposition${key} = new IntersectionProposition("$key", ComparisonOperator.${operator}, "$rhs", criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
+
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
+
                 List factList${key} = (List) factMap.get( "$factKey" );
+                if (logger.isInfoEnabled()) {
+                    logger.info("factList${key}="+factList${key});
+                }
                 SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
+
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
+
                 List factList${key} = (List) factMap.get( "$factKey" );
+                if (logger.isInfoEnabled()) {
+                    logger.info("factList${key}="+factList${key});
+                }
                 AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
+
             #end
         #end
 

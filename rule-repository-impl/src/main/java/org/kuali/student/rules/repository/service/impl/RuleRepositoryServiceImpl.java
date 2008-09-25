@@ -31,6 +31,9 @@ import org.kuali.student.rules.repository.service.RuleAdapter;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.translators.RuleSetTranslator;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * This is a convenience interface for the rules repository interface.
@@ -43,6 +46,8 @@ import org.springframework.transaction.annotation.Transactional;
 			targetNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository")
 @Transactional
 public class RuleRepositoryServiceImpl implements RuleRepositoryService {
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
     
 	private final static RuleAdapter ruleAdapter = RuleAdapter.getInstance();
 	
@@ -431,7 +436,30 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
-    
+
+    /**
+     * Log rule set information
+     * 
+     * @param ruleSet Ruleset to log
+     * @param msg A logging message
+     */
+    private void log(RuleSet ruleSet, String msg) {
+		if (logger.isInfoEnabled()) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("\n"+msg);
+			sb.append("\nRuleSet.uuid:                "+ruleSet.getUUID());
+			sb.append("\nRuleSet.name:                "+ruleSet.getName());
+			sb.append("\nRuleSet.status:              "+ruleSet.getStatus());
+			sb.append("\nRuleSet.snapshotName:        "+ruleSet.getSnapshotName());
+			sb.append("\nRuleSet.version:             "+ruleSet.getVersionNumber());
+			sb.append("\nRuleSet.versionSnapshotUUID: "+ruleSet.getVersionSnapshotUUID());
+			logger.info(sb.toString());
+		}
+		if (logger.isDebugEnabled()) {
+			logger.info(ruleSet.getContent());
+		}
+    }
+
     /**
      * Updates ruleset with new rules from <code>ruleSet1</code> and 
      * returns the updated ruleset.
@@ -453,6 +481,9 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		for(Rule rule : ruleSet1.getRules()) {
 			ruleSet2.addRule(rule);
 		}
+
+		log(ruleSet2, "***** Update RuleSet *****");
+		
 		// Update rule set
 		return this.ruleEngineRepository.updateRuleSet(ruleSet2);
     }
@@ -487,6 +518,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     			// Update rule set
     			ruleSet1 = updateRuleSet(ruleSet1);
     		} else {
+				log(ruleSet1, "***** Create RuleSet *****");
     			// Create new rule set
         		ruleSet1 = this.ruleEngineRepository.createRuleSet(ruleSet1);
     		}
