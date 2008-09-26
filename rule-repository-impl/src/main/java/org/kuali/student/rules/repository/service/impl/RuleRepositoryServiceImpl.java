@@ -17,6 +17,7 @@ package org.kuali.student.rules.repository.service.impl;
 
 import javax.jws.WebService;
 
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.RuleEngineRepository;
@@ -143,12 +144,16 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public RuleSetDTO createRuleSet(final RuleSetDTO ruleSetDTO) 
-        throws RuleSetExistsException, RuleExistsException, OperationFailedException, InvalidParameterException {
+		throws AlreadyExistsException, OperationFailedException, InvalidParameterException {
     	try {
 	    	RuleSet ruleSet = ruleAdapter.getRuleSet(ruleSetDTO);
 	        RuleSet newRuleSet = this.ruleEngineRepository.createRuleSet(ruleSet);
 	        RuleSetDTO dto = ruleAdapter.getRuleSetDTO(newRuleSet);
 	        return dto;
+		} catch (RuleSetExistsException e) {
+			throw new AlreadyExistsException(e.getMessage());
+		} catch (RuleExistsException e) {
+			throw new AlreadyExistsException(e.getMessage());
 		} catch (RuleEngineRepositoryException e) {
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
