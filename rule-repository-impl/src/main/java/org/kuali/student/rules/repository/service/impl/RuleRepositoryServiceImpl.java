@@ -504,7 +504,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) 
-    	throws RuleSetTranslatorException, OperationFailedException, InvalidParameterException {
+    	throws OperationFailedException, InvalidParameterException {
 		RuleSet ruleSet1 = null;
     	try {
     		ruleSet1 = this.ruleSetTranslator.translate(businessRuleContainer);
@@ -529,6 +529,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     		}
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
+		} catch(RuleSetTranslatorException e) {
+        	throw new OperationFailedException("Ruleset translation error: " + e.getMessage());
         } catch(RuleSetExistsException e) {
         	throw new OperationFailedException(e.getMessage());
         } catch(RuleExistsException e) {
