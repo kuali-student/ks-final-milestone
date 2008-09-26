@@ -1,0 +1,92 @@
+##
+## Copyright 2007 The Kuali Foundation
+##
+## Licensed under the Educational Community License, Version 1.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+## http://www.opensource.org/licenses/ecl1.php
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+##
+
+## A generic initialization rule template
+
+rule "${ruleName}"
+    no-loop true
+    lock-on-active true
+
+    when 
+        container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
+        //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
+        CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
+    then
+        Logger logger = LoggerFactory.getLogger(org.kuali.student.rules.translators.RuleSetTranslator.class);
+
+        prop.setFunctionalRuleString("$functionString");
+        #foreach( $key in $propositionMap.keySet() ) 
+       		#set( $proposition = $propositionMap.get($key) )
+       		#set( $rhs = $proposition.RightHandSide.ExpectedValue )
+       		#set( $operator = $proposition.ComparisonOperatorType )
+    		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
+
+            #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf, $DEF_CRITERIA_KEY ) )
+            #set( $factKey = $factUtil.getFactId( $yvf, $proposition.Name ) )
+
+            // criteria = $criteria
+            // factKey  = $factKey
+
+            #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUBSET" )
+
+                Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
+                Set factSet${key} = (Set) factMap.get( "$factKey" );
+                if (logger.isDebugEnabled()) {
+                    logger.debug("criteriaSet${key}="+criteriaSet${key});
+                    logger.debug("factSet${key}="+factSet${key});
+                }
+                SubsetProposition proposition${key} = new SubsetProposition("$key", criteriaSet${key}, factSet${key} ); 
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+
+       		#elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
+
+                Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
+                Set factSet${key} = (Set) factMap.get( "$factKey" );
+                if (logger.isDebugEnabled()) {
+                    logger.debug("criteriaSet${key}="+criteriaSet${key});
+                    logger.debug("factSet${key}="+factSet${key});
+                }
+                IntersectionProposition proposition${key} = new IntersectionProposition("$key", ComparisonOperator.${operator}, "$rhs", criteriaSet${key}, factSet${key} ); 
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+
+            #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
+
+                List factList${key} = (List) factMap.get( "$factKey" );
+                if (logger.isDebugEnabled()) {
+                    logger.debug("factList${key}="+factList${key});
+                }
+                SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+
+            #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
+
+                List factList${key} = (List) factMap.get( "$factKey" );
+                if (logger.isDebugEnabled()) {
+                    logger.debug("factList${key}="+factList${key});
+                }
+                AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
+                proposition${key}.apply();
+                prop.addProposition(proposition${key});
+
+            #end
+        #end
+
+        container.setState(FactContainer.State.DONE);
+        update(container);
+end
