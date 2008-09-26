@@ -199,5 +199,17 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
         assertTrue(brTypeKeys.size() == 2);
         assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_CO_REQ.toString()));
+
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        List<String> brTypeKeys1 = client.findBusinessRuleTypesByAgendaType("ANY_KEY");
+
+        assertTrue(brTypeKeys1.size() == 2);
+        assertTrue(brTypeKeys1.contains(BusinessRuleTypeKey.KUALI_CO_REQ.toString()));
+
     }
 }
