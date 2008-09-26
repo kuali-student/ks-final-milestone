@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.rulesetexecution.drools;
+package org.kuali.student.rules.ruleexecution.drools;
 
 import java.io.Reader;
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
+import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
+import org.kuali.student.rules.ruleexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
-import org.kuali.student.rules.rulesetexecution.RuleSetExecutor;
-import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
-import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.rulesetexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     /**
      * Executes an <code>agenda</code> with <code>facts</code>.
      * 
-     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
+     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
     public synchronized Object execute(RuntimeAgendaDTO agenda, List<?> facts) {
     	List<Package> packageList = new ArrayList<Package>();
@@ -104,7 +104,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
      * 
-     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutor#executeSnapshot(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
+     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutor#executeSnapshot(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
     public synchronized Object executeSnapshot(RuntimeAgendaDTO agenda, List<?> facts) {
         throw new RuleSetExecutionException("Method not yet implemented");
@@ -178,7 +178,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     /**
      * Removes a rule set form the cache by <code>ruleSetId</code>.
      * 
-     * @see org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal#removeRuleSet(java.lang.String)
+     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal#removeRuleSet(java.lang.String)
      */
     public boolean removeRuleSet(String ruleSetId) {
         this.ruleSetMap.remove(ruleSetId);

@@ -1,4 +1,4 @@
-package org.kuali.student.rules.rulesetexecution;
+package org.kuali.student.rules.ruleexecution;
 
 import java.io.Reader;
 import java.util.List;

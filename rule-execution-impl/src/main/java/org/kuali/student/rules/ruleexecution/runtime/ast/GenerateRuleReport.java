@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.rulesetexecution.runtime.ast;
+package org.kuali.student.rules.ruleexecution.runtime.ast;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -25,8 +25,8 @@ import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.rulesetexecution.RuleSetExecutorInternal;
-import org.kuali.student.rules.rulesetexecution.exceptions.RuleSetExecutionException;
+import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
+import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.

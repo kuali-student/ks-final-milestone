@@ -1,4 +1,4 @@
-package org.kuali.student.rules.rulesetexecution.exceptions;
+package org.kuali.student.rules.ruleexecution.exceptions;
 
 public class RuleSetExecutionException extends RuntimeException {
     
