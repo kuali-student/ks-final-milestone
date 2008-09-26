@@ -3,24 +3,33 @@ package org.kuali.student.rules.util;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
-import org.kuali.student.rules.repository.rule.Rule;
-import org.kuali.student.rules.repository.rule.RuleSet;
+import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
+import org.kuali.student.rules.repository.rule.Rule;
+import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
+import org.kuali.student.rules.translators.util.Constants;
 
 public class RuleSetUtil {
     private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
+
+    private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
+    
+    private final static String PROPOSITION_NAME = "co-requisites";
+    private final static String ANCHOR_ID = "TestRuleAnchor";
+    private final static String FACT_ID_1 = "fact1";
 
     /**
      * Private constructor.
@@ -50,50 +59,41 @@ public class RuleSetUtil {
         assertEquals( ruleSet1.getHeader(), ruleSet2.getHeader() );
     }
 
-    private RulePropositionDTO getRuleProposition(String criteria) {
-        return getRuleProposition(criteria, YieldValueFunctionType.INTERSECTION, "1");
+    private RulePropositionDTO getRuleProposition(String criteria, String factId) {
+        return getRuleProposition(criteria, YieldValueFunctionType.INTERSECTION.toString(), "1", factId);
     }
 
-    private RulePropositionDTO getRuleProposition(String criteria, YieldValueFunctionType functionType) {
-        return getRuleProposition(criteria, functionType, "1");
-    }
+    private RulePropositionDTO getRuleProposition(
+    		String criteria, 
+    		String yieldValueFunctionType,
+    		String expectedValue,
+    		String factId) {
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
+    	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
+    	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
+        RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
+        		PROPOSITION_NAME, java.lang.Integer.class.getName(), 
+        		ComparisonOperator.EQUAL_TO.toString(), leftSide, rightSide);
+        
+        FactStructureDTO factStructure = new FactStructureDTO();
+        factStructure.setDataType(java.util.Set.class.getName());
+        factStructure.setFactStructureId(factId);
+        factStructure.setAnchorFlag(false);
 
-    private RulePropositionDTO getRuleProposition(String criteria, YieldValueFunctionType functionType, String expectedValue) {
-        // E.g. 1 of CPR 101
-        //YieldValueFunction yieldValueFunction = new YieldValueFunction("1", YieldValueFunctionType.INTERSECTION);
-        YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
-        yieldValueFunction.setYieldValueFunctionType(functionType.toString());
+        Map<String,String> definitionVariableMap = new HashMap<String,String>();
+        definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
+        factStructure.setDefinitionVariableList(definitionVariableMap);
         
-        LeftHandSideDTO leftSide = new LeftHandSideDTO();
-        leftSide.setYieldValueFunction(yieldValueFunction);
-                
-        // where did criteria go?
-        //LeftHandSide leftSide = new LeftHandSide(criteria, yieldValueFunction);
-        
-        //Operator operator = new Operator(ComparisonOperator.EQUAL_TO);
-        //RightHandSide rightSide = new RightHandSide("1");
-        RightHandSideDTO rightSide = new RightHandSideDTO();
-        rightSide.setExpectedValue(expectedValue);
-        
-        RulePropositionDTO ruleProp = new RulePropositionDTO();
-        ruleProp.setComparisonDataType("kuali.number");
-        ruleProp.setComparisonOperatorType(ComparisonOperator.EQUAL_TO.toString());
-        ruleProp.setLeftHandSide(leftSide);
-        ruleProp.setRightHandSide(rightSide);
-        ruleProp.setFailureMessage("prop error message");
-        ruleProp.setDescription("enumeration of required co-requisite courses");
-        ruleProp.setName("co-requisites");
+        Map<String,String> executionVariableMap = new HashMap<String,String>();
+        //executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
+        factStructure.setExecutionVariableList(executionVariableMap);
+
+        List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
+        factStructureList.add(factStructure);
+        yieldValueFunction.setFactStructureList(factStructureList);
         
         return ruleProp;
     }
-
-    /* No longer used
-    private CourseEnrollmentRequest getCourseEnrollmentRequest(String anchorId, String luiIds) {
-        CourseEnrollmentRequest request = new CourseEnrollmentRequest(anchorId);
-        Set<String> luiIdSet = new HashSet<String>(Arrays.asList(luiIds.split(",")));
-        request.setLuiIds(luiIdSet);
-        return request;
-    }*/
 
     private RuleSet createRuleSet(int propositionCount, String ruleName) {
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
@@ -103,16 +103,24 @@ public class RuleSetUtil {
         for(int i=start; i<=count; i++) {
             String id = String.valueOf((char) i);
             // 1 of xxx
-            propositionMap.put(id, getRuleProposition(""+(i-start)));
-//            for(YieldValueFunctionType type : YieldValueFunctionType.values()) {
-//                propositionMap.put(id, getRuleProposition(""+(i-start), type));
-//            }
+            propositionMap.put(id, getRuleProposition(""+(i-start+1),FACT_ID_1));
             functionString += (i==start ? "" : "*") + id; 
         }
-        RuleSet ruleSet = generateRuleSet.createRuleSet("AnchorName", "TestPackageName", "A package", ruleName, functionString, propositionMap, new Date(), new Date());
+
+        Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
+
+        RuleSet ruleSet = generateRuleSet.createRuleSet(ANCHOR_ID, "TestPackageName", "A package", ruleName,
+                functionString, propositionMap, effectiveStartTime, effectiveEndTime);
         return ruleSet;
     }
     
+    private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(year, month-1, day, hourOfDay, minute);
+    	return cal.getTime();
+    }
+
     public RuleSet createRuleSet(int RuleSetCount) {
         List<RuleSet> ruleSetList = new ArrayList<RuleSet>();
         for(int i=0; i<RuleSetCount; i++) {
@@ -132,6 +140,7 @@ public class RuleSetUtil {
         }
         return ruleSet;
     }
+    
     
     public List<RuleSet> createRuleSetList(int ruleSetCount, int ruleCount) {
         List<RuleSet> ruleSetList = new ArrayList<RuleSet>();

@@ -101,8 +101,8 @@ public class RuleEngineRepositoryPerfTest {
     @Test
     public void testCreateAndLoadRuleSet() throws Exception {
         int[] iterations = new int[] {1, 10, 50, 100};
-        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 
-        //        2000, 3000, 4000, 5000, 10000};
+        // This causes a JVM stack overflow when generating more than 600 rules 
+        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000};
         int c = 0;
         for(int ruleCount : iterations) {
             c++;
@@ -136,8 +136,8 @@ public class RuleEngineRepositoryPerfTest {
     @Test
     public void testCreateAndLoadRuleSetSnapshot() throws Exception {
         int[] iterations = new int[] {1, 10, 50, 100};
-        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 
-        //        2000, 3000, 4000, 5000, 10000};
+        // This causes a JVM stack overflow when generating more than 600 rules 
+        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000};
         int c = 0;
         for(int ruleCount : iterations) {
             c++;
