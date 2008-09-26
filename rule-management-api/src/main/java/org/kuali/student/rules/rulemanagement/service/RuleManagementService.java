@@ -101,19 +101,14 @@ public interface RuleManagementService {
     AgendaInfoDeterminationStructureDTO agendaInfoDeterminationStructure) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Retrieves the list of business rules associated with a given list of business rule type and anchor
+     * This method retieves the business rule type for given type key and anchor type
      * 
-     * @param list
-     *            of business rule anchor info
-     * @return list of business rule info
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @param buisnessRuleTypeKey
+     * @param AnchorTypeKey
+     * @return
      */
     @WebMethod
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoList(@WebParam(name = "businessRuleAnchorInfoList")
-    List<BusinessRuleAnchorDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public BusinessRuleTypeDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method retrieves a list of business rules associated with a given business rule type and anchor
@@ -125,7 +120,38 @@ public interface RuleManagementService {
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoDTO(BusinessRuleAnchorDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    @WebMethod
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of business rules associated with a given list of business rule type and anchor
+     * 
+     * @param list
+     *            of business rule anchor info
+     * @return list of business rule info
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @WebMethod
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchorList(@WebParam(name = "businessRuleAnchorInfoList")
+    List<BusinessRuleAnchorDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of anchor values associated with a given anchor type key
+     * 
+     * @param anchor
+     *            type key
+     * @return list of anchor values
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @WebMethod
+    public List<String> findAnchorsByAnchorType(@WebParam(name = "anchorTypeKey")
+    String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of business rules ids associated with a given business rule type
@@ -189,21 +215,6 @@ public interface RuleManagementService {
     public String fetchBusinessRuleEnglish(@WebParam(name = "businessRuleId")
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /**
-     * Retrieves the list of anchor values associated with a given anchor type key
-     * 
-     * @param anchor
-     *            type key
-     * @return list of anchor values
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    @WebMethod
-    public List<String> findAnchorsByAnchorType(@WebParam(name = "anchorTypeKey")
-    String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
     /* Maintenance */
     /**
      * Creates a business rule record
@@ -252,16 +263,4 @@ public interface RuleManagementService {
     @WebMethod
     public StatusDTO deleteBusinessRule(@WebParam(name = "businessRuleId")
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
-
-
-    /**
-     * 
-     * This method retieves the business rule type for given type key and anchor type 
-     * 
-     * @param buisnessRuleTypeKey
-     * @param AnchorTypeKey
-     * @return
-     */
-    @WebMethod
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
