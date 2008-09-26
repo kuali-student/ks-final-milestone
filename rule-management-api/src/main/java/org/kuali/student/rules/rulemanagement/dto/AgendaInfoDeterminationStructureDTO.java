@@ -13,8 +13,6 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
@@ -27,7 +25,10 @@ import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AgendaInfoDeterminationStructureDTO implements Serializable {
-
+    
+    
+    private static final long serialVersionUID = 1L;
+    
     @XmlElement(name="agendaInfoDeterminationKey")
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> agendaInfoDeterminationKeyList;

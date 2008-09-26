@@ -30,7 +30,7 @@ public class AgendaInfoDTO implements Serializable {
 
 
     @XmlElement
-    private String agendaType;
+    private String agendaTypeKey;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -44,17 +44,17 @@ public class AgendaInfoDTO implements Serializable {
     private String orchestration;
 
     /**
-     * @return the agendaType
+     * @return the agendaTypeKey
      */
-    public String getAgendaType() {
-        return agendaType;
+    public String getAgendaTypeKey() {
+        return agendaTypeKey;
     }
 
     /**
-     * @param agendaType the agendaType to set
+     * @param agendaTypeKey the agendaTypeKey to set
      */
-    public void setAgendaType(String agendaType) {
-        this.agendaType = agendaType;
+    public void setAgendaTypeKey(String agendaType) {
+        this.agendaTypeKey = agendaType;
     }
 
     /**
