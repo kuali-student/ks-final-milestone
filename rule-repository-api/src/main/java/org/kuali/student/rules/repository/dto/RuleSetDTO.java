@@ -166,4 +166,27 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
         return "RuleSetDTO UUID=" + getUUID() + ", name=" + getName() + ", versionNumber=" + getVersionNumber();
     }
 
+    /**
+     * Builds the rule source from this rule sets rules and headers.
+     * 
+     * @return Rule source code
+     */
+    public String buildContent() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("package ");
+        sb.append(super.getName());
+        sb.append("\n");
+        for(String header : this.header) {
+            sb.append(header);
+            sb.append("\n");
+        }
+
+        for(RuleDTO rule : this.rules.values()) {
+            sb.append(rule.getContent());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
 }
