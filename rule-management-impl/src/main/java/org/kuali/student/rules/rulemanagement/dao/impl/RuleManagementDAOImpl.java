@@ -35,7 +35,7 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
 
     private EntityManager entityManager;
 
-    @PersistenceContext(name = "RulesManagement")
+    @PersistenceContext(name = "RuleManagement")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
