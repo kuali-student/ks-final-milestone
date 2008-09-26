@@ -17,6 +17,22 @@
 
 	<import resource="classpath:data-beans.xml" />
 
+	<bean id="preloadBeans"
+		class="org.kuali.student.poc.common.util.jpa.LoadJpaBeanListener">
+		<property name="loadJpaBean">
+			<bean
+				class="org.kuali.student.poc.common.util.jpa.LoadJpaBean" />
+		</property>
+		<property name="preloadMap">
+			<map>
+				<entry key="RuleManagement">
+					<ref bean="ruleBeanPreloadList" />
+				</entry>
+			</map>
+		</property>
+		
+	</bean>
+
     <!--*****************************************-->
     <!--*          Web Service Clients          *-->
     <!--*****************************************-->
@@ -46,7 +62,7 @@
 	<bean id="ruleManagementDAO"
 		class="org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl">
 		<property name="entityManager" ref="ruleEntityManager" />
-	</bean>
+	</bean>	
 
 	<bean id="ruleEntityManager" factory-bean="ruleManagementEntityManagerFactory"
 		factory-method="createEntityManager" />

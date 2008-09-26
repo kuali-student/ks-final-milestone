@@ -2,18 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<bean id="persistList" class="org.springframework.beans.factory.config.ListFactoryBean">
+	
+	<bean id="ruleBeanPreloadList"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
 				<ref bean="funcBusRule1" />
 	    		<ref bean="funcBusRule2" />
-			<!-- <ref bean="funcBusRule3" />
-				<ref bean="funcBusRule4" />
-												-->
 			</list>
 		</property>
 	</bean>
-
+		
 	<bean id="currentTime" class="java.util.Date" />
 
 	<bean id="businessRuleType1" class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
