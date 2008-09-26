@@ -21,12 +21,11 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
-import org.kuali.student.rules.repository.exceptions.RuleExistsException;
-import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 
 /**
@@ -93,7 +92,7 @@ public interface RuleRepositoryService {
      */
     @WebMethod
     public RuleSetDTO createRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet) 
-    	throws RuleSetExistsException, RuleExistsException, OperationFailedException, InvalidParameterException;
+		throws AlreadyExistsException, OperationFailedException, InvalidParameterException;
 
     /**
      * Deletes a rule set by uuid.
