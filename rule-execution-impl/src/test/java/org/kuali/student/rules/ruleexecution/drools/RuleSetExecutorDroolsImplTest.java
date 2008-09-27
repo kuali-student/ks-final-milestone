@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -32,20 +33,13 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-//import org.kuali.student.rules.internal.common.agenda.entity.Agenda;
-//import org.kuali.student.rules.internal.common.agenda.entity.AgendaType;
-//import org.kuali.student.rules.internal.common.agenda.entity.Anchor;
-//import org.kuali.student.rules.internal.common.agenda.entity.AnchorType;
-//import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSet;
-//import org.kuali.student.rules.internal.common.agenda.entity.BusinessRuleSetType;
+import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
-import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.util.FactContainer;
 import org.springframework.test.context.ContextConfiguration;
@@ -57,7 +51,8 @@ public class RuleSetExecutorDroolsImplTest {
 	/** Rule set executor interface */
 	@Resource
 	private RuleSetExecutor executor;
-	
+
+
     private Set<String> createSet(String list) {
         Set<String> set = new HashSet<String>();
         for( String s : list.split(",") ) {
@@ -68,12 +63,6 @@ public class RuleSetExecutorDroolsImplTest {
     
 	@Test
     public void testExecute() throws Exception {
-        // Create the agenda
-//        AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
-//        Agenda agenda = new Agenda( "agenda1", agendaType );
-//        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
-//        agenda.addBusinessRule( new BusinessRuleSet( "ruleId=uuid-123", "", ruleType, "" ) );
-        
 		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
         List<BusinessRuleInfoDTO> list = new ArrayList<BusinessRuleInfoDTO>();
         BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
@@ -85,7 +74,7 @@ public class RuleSetExecutorDroolsImplTest {
         List<Object> facts = new ArrayList<Object>();
         facts.add( Calendar.getInstance() );
         // Iterator through any returned rule engine objects
-        Iterator<?> it = (Iterator<?>) executor.execute( agenda, facts );
+        Iterator<?> it = (Iterator<?>) executor.execute(agenda, facts);
         
         assertNotNull( it );
 
@@ -102,21 +91,37 @@ public class RuleSetExecutorDroolsImplTest {
         assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
     }
 
-    //TODO - lcarlsen - fixme
-	@Ignore
 	@Test
-    public void testExecute2() throws Exception {
-        // Create the agenda
-//        AgendaType agendaType = new AgendaType( "AgendaType.name", "AgendaType.type" );
-//        Agenda agenda = new Agenda( "agenda2", agendaType );
-//        BusinessRuleSetType ruleType = new BusinessRuleSetType( "name", "type" );
-//        BusinessRuleSet businessRule = new BusinessRuleSet( "ruleId=uuid-456", "", ruleType, "A*B*C" );
-//        AnchorType anchorType = new AnchorType( "course", "clu.type.course" );
-//        Anchor anchor = new Anchor( "Math101", "Math101", anchorType );
-//        businessRule.setAnchor(anchor);
-//        agenda.addBusinessRule( businessRule );
+    public void testExecuteWithDroolsCompiledRuleSet() throws Exception {
+        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
+        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+        ruleSet.setCompiledRuleSet(bytes);
 
+        // Add facts
+        List<Object> facts = new ArrayList<Object>();
+        facts.add( Calendar.getInstance() );
 
+        // Execute ruleset and fact
+        Iterator<?> it = (Iterator<?>) executor.execute(ruleSet, facts);
+        
+        assertNotNull( it );
+
+        // Iterate through returned rule engine objects
+        String time = null;
+        while( it != null && it.hasNext() ) {
+            Object obj = it.next();
+            if ( obj instanceof String ) {
+                time = (String) obj;
+                break;
+            }
+        }
+        
+        assertNotNull( time );
+        assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+    }
+
+	@Test
+    public void testExecuteWithDroolsDRL() throws Exception {
 		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
         List<BusinessRuleInfoDTO> list = new ArrayList<BusinessRuleInfoDTO>();
         BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
@@ -125,12 +130,6 @@ public class RuleSetExecutorDroolsImplTest {
         list.add(br);
         agenda.setBusinessRules(list);
     	
-    	
-//        CourseEnrollmentRequest req1 = new CourseEnrollmentRequest(br.getAnchorTypeKey());
-//        Set<String> luiIds = new HashSet<String>(Arrays.asList("CPR101,MATH102,CHEM101,CHEM102".split(",")));
-//        req1.setLuiIds(luiIds);
-//        
-//        FactContainer factContainer1 = new FactContainer( "Math101", req1 );
         // Get facts
         String anchorId = "Math101";
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");

@@ -29,6 +29,8 @@ import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.repository.RuleEngineRepository;
+import org.kuali.student.rules.repository.drools.util.DroolsUtil;
+import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
@@ -43,7 +45,9 @@ import org.slf4j.LoggerFactory;
 public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecutorInternal {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
-            
+
+    private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
+    
     private RuleEngineRepository ruleEngineRepository;
     private ConcurrentMap<String, List<Package>> ruleSetMap = new ConcurrentHashMap<String, List<Package>>();
     
@@ -61,7 +65,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     public RuleSetExecutorDroolsImpl( RuleEngineRepository ruleEngineRepository ) {
         this.ruleEngineRepository = ruleEngineRepository;
     }
-    
+
     /**
      * Gets the rule engine repository.
      * 
@@ -71,6 +75,30 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     	return this.ruleEngineRepository;
     }
 
+    private void log(RuleSet ruleSet, String message) {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n**************************************************");
+    	sb.append("\n"+message);
+    	sb.append("\nuuid="+ruleSet.getUUID());
+    	sb.append("\nname="+ruleSet.getName());
+    	sb.append("\n-------------------------");
+    	sb.append("\n"+ruleSet.getContent());
+    	sb.append("\n**************************************************");
+        logger.debug(sb.toString());
+    }
+    
+    private void log(RuleSetDTO ruleSet, String message) {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n**************************************************");
+    	sb.append("\n"+message);
+    	sb.append("\nuuid="+ruleSet.getUUID());
+    	sb.append("\nname="+ruleSet.getName());
+    	sb.append("\n-------------------------");
+    	sb.append("\n"+ruleSet.getContent());
+    	sb.append("\n**************************************************");
+        logger.debug(sb.toString());
+    }
+    
     /**
      * Executes an <code>agenda</code> with <code>facts</code>.
      * 
@@ -78,21 +106,15 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      */
     public synchronized Object execute(RuntimeAgendaDTO agenda, List<?> facts) {
     	List<Package> packageList = new ArrayList<Package>();
-        
         logger.info("Executing agenda: businessRules="+agenda.getBusinessRules());
         //for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
         for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
             logger.info("Loading compiled rule set: businessRuleSet.id="+businessRule.getCompiledId());
             Package pkg = loadCompiledRuleSet(businessRule.getCompiledId());
-            packageList.add((Package) pkg);
+            packageList.add(pkg);
             if (logger.isDebugEnabled()) {
-                RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRule.getCompiledId());
-                logger.debug("\n\n**************************************************");
-                logger.debug("uuid="+rs.getUUID());
-                logger.debug("name="+rs.getName());
-                logger.debug("\n\n-------------------------");
-                logger.debug("\n\n"+rs.getContent());
-                logger.debug("\n\n**************************************************");
+            	RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRule.getCompiledId());
+            	log(rs, "Execute Rule");
             }
         }
         RuleBase ruleBase = getRuleBase(packageList);
@@ -102,12 +124,27 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     }
 
     /**
-     * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
+     * Executes an <code>agenda</code> with <code>facts</code> and a 
+     * <code>ruleSet</code>.
      * 
-     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutor#executeSnapshot(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
+     * @param ruleSet Rule set to execute
+     * @param facts List of Facts for the <code>agenda</code>
+     * @return Result of executing the <code>agenda</code>
      */
-    public synchronized Object executeSnapshot(RuntimeAgendaDTO agenda, List<?> facts) {
-        throw new RuleSetExecutionException("Method not yet implemented");
+    public Object execute(RuleSetDTO ruleSet, List<?> facts) {
+    	List<Package> packageList = new ArrayList<Package>();
+        Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+        if (pkg == null) {
+        	throw new RuleSetExecutionException("Drools Package is null.");
+        }
+        packageList.add(pkg);
+        if (logger.isDebugEnabled()) {
+        	log(ruleSet, "Execute Rule");
+        }
+        RuleBase ruleBase = getRuleBase(packageList);
+        Iterator<?> iterator = executeRule(ruleBase, facts).iterateObjects();
+        generateReport(facts);
+        return iterator;
     }
 
     /**
@@ -117,6 +154,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @return A Drools package
      */
     private Package loadCompiledRuleSet(String uuid) {
+        if (this.ruleEngineRepository == null) {
+        	throw new RuleSetExecutionException("Rule engine repository has not been set.");
+        }
         return (Package) this.ruleEngineRepository.loadCompiledRuleSet(uuid);
     }
 
@@ -219,6 +259,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             RuleBase ruleBase = RuleBaseFactory.newRuleBase();
             try {
                 for( Package pkg : packages ) {
+                    if (pkg == null) {
+                    	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
+                    }
                     ruleBase.addPackage(pkg);
                 }
             } catch( Exception e ) {

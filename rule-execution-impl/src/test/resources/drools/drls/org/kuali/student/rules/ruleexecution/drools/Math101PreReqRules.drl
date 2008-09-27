@@ -16,9 +16,7 @@
 package org.kuali.student.rules.course_co_req
 
 import java.util.*;
-import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.*;
-import org.kuali.student.rules.internal.common.facts.CourseEnrollmentRequest;
+import org.kuali.student.rules.internal.common.statement.propositions.*;
 import org.kuali.student.rules.util.FactContainer;
 import org.kuali.student.rules.util.FactContainer.State;
 
@@ -26,19 +24,23 @@ rule "Math101_INIT"
     no-loop true
     lock-on-active true
     when
-        cont : FactContainer( id == "Math101", state == FactContainer.State.INIT, prop : propositionContainer, req : request )
+        cont : FactContainer( id == "Math101", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
     then
         System.out.println("Rule name: "+drools.getRule().getName());
+        System.out.println("factMap: "+factMap);
+        
+        Set factSet = (Set) factMap.get( "courseKey" );
+        
         prop.setFunctionalRuleString("A*B*C");
-        SubsetProposition propositionA = new SubsetProposition("A", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))),  req.getLuiIds() );
+        SubsetProposition propositionA = new SubsetProposition("A", new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*"))), factSet );
         propositionA.apply();
         prop.addProposition(propositionA);
 
-        SubsetProposition propositionB = new SubsetProposition("B", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("CHEM101".split("\\s*,\\s*"))),  req.getLuiIds() );
+        SubsetProposition propositionB = new SubsetProposition("B", new HashSet(Arrays.asList("CHEM101".split("\\s*,\\s*"))), factSet );
         propositionB.apply();
         prop.addProposition(propositionB);
 
-        SubsetProposition propositionC = new SubsetProposition("C", ComparisonOperator.EQUAL_TO, "1", new HashSet(Arrays.asList("MATH102".split("\\s*,\\s*"))),  req.getLuiIds() );
+        SubsetProposition propositionC = new SubsetProposition("C", new HashSet(Arrays.asList("MATH102".split("\\s*,\\s*"))), factSet );
         propositionC.apply();
         prop.addProposition(propositionC);
 
