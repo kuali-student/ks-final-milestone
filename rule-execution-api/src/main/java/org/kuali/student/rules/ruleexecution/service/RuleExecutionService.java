@@ -70,6 +70,6 @@ public interface RuleExecutionService {
      * @return Result of executing the <code>agenda</code>
      */
     @WebMethod
-    public Object executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")Object fact)
+    public byte[] executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")byte[] bytes)
 		throws InvalidParameterException, MissingParameterException, OperationFailedException;
 }
