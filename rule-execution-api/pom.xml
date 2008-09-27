@@ -14,4 +14,32 @@
 	<packaging>jar</packaging>
 	<name>Rule Execution API</name>
 	<description />
+
+    <properties>
+        <ks.service.package>org.kuali.student.rules.ruleexecution.service</ks.service.package>
+        <ks.service.className>RuleExecutionService</ks.service.className>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <artifactId>rule-management-api</artifactId>
+            <groupId>org.kuali.student.brms</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>rule-repository-api</artifactId>
+            <groupId>org.kuali.student.brms</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    
 </project>
