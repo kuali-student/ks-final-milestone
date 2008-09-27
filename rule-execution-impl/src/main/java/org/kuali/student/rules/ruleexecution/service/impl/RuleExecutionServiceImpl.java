@@ -1,5 +1,12 @@
 package org.kuali.student.rules.ruleexecution.service.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -9,6 +16,7 @@ import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.util.ObjectUtil;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
@@ -77,6 +85,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
     }
 
+
     /**
      * Executes an <code>agenda</code> with <code>fact</code> and a 
      * <code>ruleSet</code>.
@@ -85,12 +94,20 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      * @param fact List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object executeRuleSet(RuleSetDTO ruleSet, Object fact)
+    public byte[] executeRuleSet(RuleSetDTO ruleSet, byte[] fact)
 		throws InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
-System.out.println("\n\n\n\n*********** Pass 1\n\n\n\n");
-    	List<?> factList = (List<?>) fact;
-
+System.out.println("\n\n\n\n*********** Pass 1");
+		List<?> factList;
+		try {
+			factList = (List<?>) ObjectUtil.serialize(fact);
+System.out.println("*********** Pass 2: factList="+factList);
+		} catch (IOException e) {
+    		throw new OperationFailedException("IOException:" + e.getMessage()+"\n"+e.getCause());
+		} catch (ClassNotFoundException e) {
+    		throw new OperationFailedException("ClassNotFoundException:" + e.getMessage()+"\n"+e.getCause());
+		}
+System.out.println("*********** Pass 3");
     	if (ruleSet == null) {
     		throw new MissingParameterException("RuleSet is null");
     	} else if (fact == null) {
@@ -99,10 +116,13 @@ System.out.println("\n\n\n\n*********** Pass 1\n\n\n\n");
     		throw new InvalidParameterException("Fact list contains no elements");
     	}
     	
+System.out.println("*********** Pass 4");
     	try {
-    		return this.ruleSetExecutor.execute(ruleSet, factList);
+    		return ObjectUtil.deserialize( this.ruleSetExecutor.execute(ruleSet, factList));
     	} catch(RuleSetExecutionException e) {
-    		throw new OperationFailedException(e.getMessage());
+    		throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
+		} catch (IOException e) {
+    		throw new OperationFailedException("IOException:" + e.getMessage()+"\n"+e.getCause());
     	}
     }
 }

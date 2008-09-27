@@ -64,23 +64,24 @@ public class RuleSetExecutorDroolsImplTest {
 	@Test
     public void testExecute() throws Exception {
 		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
-        List<BusinessRuleInfoDTO> list = new ArrayList<BusinessRuleInfoDTO>();
+        List<BusinessRuleInfoDTO> briList = new ArrayList<BusinessRuleInfoDTO>();
         BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
         br.setCompiledId("uuid-123");
-        list.add(br);
-        agenda.setBusinessRules(list);
+        briList.add(br);
+        agenda.setBusinessRules(briList);
 
         // Add facts
         List<Object> facts = new ArrayList<Object>();
         facts.add( Calendar.getInstance() );
         // Iterator through any returned rule engine objects
-        Iterator<?> it = (Iterator<?>) executor.execute(agenda, facts);
+        List<Object> list = (List<Object>) executor.execute(agenda, facts);
         
-        assertNotNull( it );
+        assertNotNull( list );
 
         String time = null;
-        while( it != null && it.hasNext() ) {
-            Object obj = it.next();
+        //while( it != null && it.hasNext() ) {
+            //Object obj = it.next();
+        for(Object obj : list) {
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;
@@ -102,14 +103,13 @@ public class RuleSetExecutorDroolsImplTest {
         facts.add( Calendar.getInstance() );
 
         // Execute ruleset and fact
-        Iterator<?> it = (Iterator<?>) executor.execute(ruleSet, facts);
+        List<Object> list = (List<Object>) executor.execute(ruleSet, facts);
         
-        assertNotNull( it );
+        assertNotNull( list );
 
         // Iterate through returned rule engine objects
         String time = null;
-        while( it != null && it.hasNext() ) {
-            Object obj = it.next();
+        for(Object obj : list) {
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;
@@ -123,12 +123,12 @@ public class RuleSetExecutorDroolsImplTest {
 	@Test
     public void testExecuteWithDroolsDRL() throws Exception {
 		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
-        List<BusinessRuleInfoDTO> list = new ArrayList<BusinessRuleInfoDTO>();
+        List<BusinessRuleInfoDTO> briList = new ArrayList<BusinessRuleInfoDTO>();
         BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
         br.setCompiledId("uuid-123");
         br.setAnchorTypeKey("Math101");
-        list.add(br);
-        agenda.setBusinessRules(list);
+        briList.add(br);
+        agenda.setBusinessRules(briList);
     	
         // Get facts
         String anchorId = "Math101";
@@ -144,8 +144,8 @@ public class RuleSetExecutorDroolsImplTest {
         ((RuleEngineRepositoryMock) executor.getRuleEngineRepository()).setSource(source1);
 
         // Iterator through any returned rule engine objects
-        Iterator<?> it = (Iterator<?>) executor.execute( agenda, factList );
-        assertNotNull(it);
+        List<Object> list = (List<Object>) executor.execute( agenda, factList );
+        assertNotNull(list);
         assertTrue(factContainer1.getPropositionContainer().getRuleResult());
     }
 

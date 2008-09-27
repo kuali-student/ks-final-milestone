@@ -118,7 +118,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             }
         }
         RuleBase ruleBase = getRuleBase(packageList);
-        Iterator<?> iterator = executeRule(ruleBase, facts).iterateObjects();
+        List<Object> iterator = executeRule(ruleBase, facts);
         generateReport(facts);
         return iterator;
     }
@@ -142,9 +142,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         	log(ruleSet, "Execute Rule");
         }
         RuleBase ruleBase = getRuleBase(packageList);
-        Iterator<?> iterator = executeRule(ruleBase, facts).iterateObjects();
+        List<Object> list = executeRule(ruleBase, facts);
         generateReport(facts);
-        return iterator;
+        return list;
     }
 
     /**
@@ -191,7 +191,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      */
     public synchronized Object execute(String ruleSetId, List<?> facts) {
         RuleBase ruleBase = getRuleBase(this.ruleSetMap.get(ruleSetId));
-        return executeRule(ruleBase, facts).iterateObjects();
+        return executeRule(ruleBase, facts).iterator();
     }
 
     /**
@@ -282,9 +282,17 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param fact Facts for the <code>ruleBase</code>
      * @return A stateless session result
      */
-    private StatelessSessionResult executeRule( RuleBase ruleBase, List<?> fact ) { 
+    private List<Object> executeRule( RuleBase ruleBase, List<?> fact ) { 
         StatelessSession session = ruleBase.newStatelessSession();
-        return session.executeWithResults( fact );
+        
+        @SuppressWarnings("unchecked") 
+        Iterator<Object> it = session.executeWithResults( fact ).iterateObjects();
+        
+        List<Object> list = new ArrayList<Object>();
+        while(it != null && it.hasNext()) {
+        	list.add(it.next());
+        }
+        return list;
     }
 
 }

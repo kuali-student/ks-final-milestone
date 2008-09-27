@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.util.ObjectUtil;
 import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
@@ -49,7 +50,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	List<?> facts = null;
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void testExecuteRuleSet() throws Exception {
         RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
@@ -60,15 +61,18 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         List<Object> facts = new ArrayList<Object>();
         facts.add( Calendar.getInstance() );
 
-        // Execute ruleset and fact
-        Iterator<?> it = (Iterator<?>) this.service.executeRuleSet(ruleSet, facts);
+        byte[] factBytes = ObjectUtil.deserialize(facts);
+        byte[] returnBytes = this.service.executeRuleSet(ruleSet, factBytes);
         
-        assertNotNull( it );
+        // Execute ruleset and fact
+        @SuppressWarnings("unchecked") 
+        List<Object> list = (List<Object>) ObjectUtil.serialize(returnBytes);
+        
+        assertNotNull( list );
 
         // Iterate through returned rule engine objects
         String time = null;
-        while( it != null && it.hasNext() ) {
-            Object obj = it.next();
+        for(Object obj : list) {
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;
@@ -77,6 +81,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         
         assertNotNull( time );
         assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+        System.out.println("Rule Engine Execution Objects: " + list);
     }
 
 }

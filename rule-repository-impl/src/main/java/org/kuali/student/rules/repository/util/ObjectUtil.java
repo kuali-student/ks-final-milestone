@@ -17,7 +17,10 @@ package org.kuali.student.rules.repository.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 /**
@@ -101,5 +104,52 @@ public class ObjectUtil implements java.io.Serializable {
         byte[] copy = new byte[size];
         System.arraycopy(binaryContent, 0, copy , 0, size);
         return copy;
+    }
+
+	/**
+	 * Serializes a byte array into an object.
+	 * 
+	 * @param bytes Bytes to serialize
+	 * @return An object
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static Object serialize(final byte[] bytes) throws IOException, ClassNotFoundException {
+		ObjectInput in = null;
+		ByteArrayInputStream bis = null;
+		Object obj = null;
+		try {
+			bis = new ByteArrayInputStream(bytes);
+			in = new ObjectInputStream(bis);
+	        obj = in.readObject();
+		} finally {
+	        if (in!= null) in.close();
+	        if (bis!= null) bis.close();
+		}
+        return obj;
+    }
+
+	/**
+	 * Deserializes an object.
+	 * 
+	 * @param obj Object deserialize
+	 * @return A byte array
+	 * @throws IOException
+	 */
+    public static byte[] deserialize(final Object obj) throws IOException {
+    	ByteArrayOutputStream bos = null;
+    	ObjectOutput out = null;
+    	try {
+    		// Serialize to a byte array
+	        bos = new ByteArrayOutputStream();
+	        out = new ObjectOutputStream(bos);
+	        out.writeObject(obj);
+    	} finally {
+    		if (bos != null) bos.close();
+    		if (out != null) out.close();
+    	}
+        // Get the bytes of the serialized object
+        final byte[] bytes = bos.toByteArray();
+        return bytes;
     }
 }
