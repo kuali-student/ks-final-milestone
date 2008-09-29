@@ -506,7 +506,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if generating ruleset fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO container) 
+    public RuleSetDTO generateRuleSet(final BusinessRuleContainerDTO container) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
 		if (container == null) {
 			throw new MissingParameterException("businessRuleContainer is null");
