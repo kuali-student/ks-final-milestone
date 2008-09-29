@@ -23,6 +23,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
@@ -294,5 +295,5 @@ public interface RuleRepositoryService {
      */
     @WebMethod
     public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
-    	throws OperationFailedException, InvalidParameterException;
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 }
