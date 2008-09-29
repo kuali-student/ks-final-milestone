@@ -456,12 +456,21 @@ public interface RuleEngineRepository {
     
     /**
      * Returns true if the repository contains the specified 
+     * <code>ruleSetUUID</code> otherwise false.
+     * 
+     * @param ruleSetUUID Rule set UUID
+     * @return True if contains <code>ruleSetUUID</code> otherwise false
+     */
+    public boolean containsRuleSet(final String ruleSetUUID);
+    
+    /**
+     * Returns true if the repository contains the specified 
      * <code>ruleSetName</code> otherwise false.
      * 
      * @param ruleSetName Rule set name
      * @return True if contains <code>ruleSetName</code> otherwise false
      */
-    public boolean containsRuleSet(final String ruleSetName);
+    public boolean containsRuleSetByName(final String ruleSetName);
     
     /**
      * Loads a rule by uuid.

@@ -632,23 +632,74 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
-    public void testContainsRuleSet() throws Exception {
+    public void testContainsRuleSetByName() throws Exception {
         RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
         RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
         assertNotNull(ruleSet2);
         assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
-        boolean exists = brmsRepository.containsRuleSet(ruleSet2.getName());
+        boolean exists = brmsRepository.containsRuleSetByName(ruleSet2.getName());
         assertTrue(exists);
     }
 
     @Test
-    public void testNotContainsRuleSet() throws Exception {
+    public void testNotContainsRuleSetByName() throws Exception {
         RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
         RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
         assertNotNull(ruleSet2);
         assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
-        boolean exists = brmsRepository.containsRuleSet("xyz123");
+        boolean exists = brmsRepository.containsRuleSetByName("xyz123");
         assertFalse(exists);
+    }
+
+    @Test
+    public void testNotContainsRuleSetByName_NullName() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSet2);
+        assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
+        // Null rule set name
+        try {
+        	brmsRepository.containsRuleSetByName(null);
+        	fail("Should have thrown an IllegalArgumentException");
+        } catch(IllegalArgumentException e) {
+        	assertNotNull(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testContainsRuleSetByUUID() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSet2);
+        assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
+        boolean exists = brmsRepository.containsRuleSet(ruleSet2.getUUID());
+        assertTrue(exists);
+    }
+
+    @Test
+    public void testNotContainsRuleSetByUUID() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSet2);
+        assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
+        // UUID rule set 01010101-0101-0101-0101-010101010101 should not exist
+        boolean exists = brmsRepository.containsRuleSet("01010101-0101-0101-0101-010101010101");
+        assertFalse(exists);
+    }
+
+    @Test
+    public void testNotContainsRuleSetByUUID_NullUUID() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        RuleSet ruleSet2 = brmsRepository.createRuleSet(ruleSet1);
+        assertNotNull(ruleSet2);
+        assertTrue( ruleSet2.getUUID() != null && !ruleSet2.getUUID().isEmpty() );
+        // Null rule set UUID
+        try {
+        	brmsRepository.containsRuleSet(null);
+        	fail("Should have thrown an IllegalArgumentException");
+        } catch(IllegalArgumentException e) {
+        	assertNotNull(e.getMessage());
+        }
     }
 
     @Test

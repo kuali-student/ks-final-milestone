@@ -19,6 +19,7 @@ import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -31,6 +32,7 @@ import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.service.RuleAdapter;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.translators.RuleSetTranslator;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
 import org.slf4j.Logger;
@@ -475,7 +477,8 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      */
     private RuleSet updateRuleSet(RuleSet ruleSet1) 
     	throws RuleEngineRepositoryException {
-		RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSetByName(ruleSet1.getName());
+		//RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSetByName(ruleSet1.getName());
+		RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSet(ruleSet1.getUUID());
 		// Add headers
 		ruleSet2.clearHeaders();
 		for(String header : ruleSet1.getHeaderList()) {
@@ -503,11 +506,18 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if generating ruleset fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO businessRuleContainer) 
-    	throws OperationFailedException, InvalidParameterException {
-		RuleSet ruleSet1 = null;
+    public RuleSetDTO generateRuleSet(BusinessRuleContainerDTO container) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
+		if (container == null) {
+			throw new MissingParameterException("businessRuleContainer is null");
+		} else if (container.getBusinessRules() == null || container.getBusinessRules().isEmpty()) {
+			throw new InvalidParameterException("Container contains no business rules");
+		}
+		
+    	RuleSet ruleSet1 = null;
     	try {
-    		ruleSet1 = this.ruleSetTranslator.translate(businessRuleContainer);
+    		BusinessRuleInfoDTO  businessRule = container.getBusinessRules().get(0);
+    		ruleSet1 = this.ruleSetTranslator.translate(businessRule);
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
         } catch(RuleSetTranslatorException e) {
@@ -516,7 +526,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         	throw new OperationFailedException(e.getMessage());
         }
         
-		boolean ruleSetExists = this.ruleEngineRepository.containsRuleSet(ruleSet1.getName());
+		boolean ruleSetExists = false;
+		if (ruleSet1.getUUID() != null) {
+			ruleSetExists = this.ruleEngineRepository.containsRuleSet(ruleSet1.getUUID());
+		}
 
 		try {
     		if (ruleSetExists) {

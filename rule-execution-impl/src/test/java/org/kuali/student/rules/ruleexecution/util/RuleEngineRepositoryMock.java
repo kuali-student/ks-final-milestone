@@ -360,7 +360,12 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }    
 
     @Override
-    public boolean containsRuleSet(final String ruleSetName) {
+    public boolean containsRuleSetByName(final String ruleSetName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
+
+    @Override
+    public boolean containsRuleSet(final String ruleSetUUID) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 }

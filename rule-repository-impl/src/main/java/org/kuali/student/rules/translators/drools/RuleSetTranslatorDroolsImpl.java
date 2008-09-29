@@ -62,24 +62,29 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     public RuleSetTranslatorDroolsImpl() {
     }
 
-    /**
-     * Parses and generates a rule set from a functional business rule.
-     * 
-     * @param container List of business rule
-     * @throws RuleSetTranslatorException Any errors verifying a rule set
-     * @return A rule set
-     */
-    public RuleSet translate(BusinessRuleContainerDTO container) throws RuleSetTranslatorException {
+	/**
+	 * Translates a functional business rule into a rule set.
+	 * 
+	 * @param businessRule A functional business rule
+	 * @return A rule set
+	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
+	 */
+    public RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
     	//verifyKeys(container);
-    	String ruleName = PACKAGE_PREFIX + container.getNamespace();
-        String ruleDescription = container.getDescription();
-    	RuleSet ruleSet = ruleSetFactory.createRuleSet(ruleName, ruleDescription);
+    	RuleSet ruleSet = null;
+    	String ruleSetName = PACKAGE_PREFIX + businessRule.getName();
+    	if (businessRule.getCompiledId() != null) {
+        	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, businessRule.getCompiledVersionNumber());
+    	} else {
+        	ruleSet = ruleSetFactory.createRuleSet(ruleSetName, businessRule.getDescription());
+    	}
         addHeader(ruleSet);
-        for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
-            parseRule(ruleSet, businessRule);
-        }
+        parseRule(ruleSet, businessRule);
         if (logger.isDebugEnabled()) {
-        	logger.debug("Container namespace: "+container.getNamespace() 
+        	logger.debug("BusinessRuleInfoDTO: compiledId,version: "
+        			+businessRule.getCompiledId()
+        			+","
+        			+businessRule.getCompiledVersionNumber()
         			+ "\n" +
         			ruleSet.getContent());
         }
@@ -132,10 +137,14 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     }
     
     private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {
-        ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
+        boolean valid = ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
+        if (!valid) {
+        	throw new RuleSetTranslatorException(ruleSetVerifier.getMessage());
+        }
     }
 
     private void parseRule(RuleSet ruleSet, BusinessRuleInfoDTO businessRule) {
+        checkName(businessRule.getName());
         checkName(businessRule.getBusinessRuleTypeKey());
 
         String anchor = businessRule.getAnchorValue();

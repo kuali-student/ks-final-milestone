@@ -316,7 +316,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
-    	bri.setName("Rule-1");
+    	bri.setName("MyNewBusinessRule");
     	bri.setDescription("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
@@ -544,8 +544,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
 
-    	// Update rule's RHS expected value
+    	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
+		bri.setCompiledId(ruleSet1.getUUID());
 		RightHandSideDTO rhs = bri.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("6.0");
     	// Generate and update rule set
@@ -562,12 +563,15 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		String fact1 = "fact1";
 		String fact2 = "fact2";
     	BusinessRuleContainerDTO container = getBusinessRuleContainer(fact1, fact2);
+    	// Generate and create new rule set
 		RuleSetDTO ruleSet = service.generateRuleSet(container);
 
 		assertNotNull(ruleSet);
 		assertNotNull(ruleSet.getUUID());
 		
+    	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
+		bri.setCompiledId(ruleSet.getUUID());
 		String anchor = bri.getAnchorValue();
 		String propName1 = bri.getRuleElementList().get(0).getRuleProposition().getName();
 		String propName2 = bri.getRuleElementList().get(2).getRuleProposition().getName();

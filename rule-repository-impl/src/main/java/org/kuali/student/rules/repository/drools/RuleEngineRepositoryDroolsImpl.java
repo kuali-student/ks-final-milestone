@@ -188,6 +188,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public RuleSet updateRuleSet(final RuleSet ruleSet) {
         if (ruleSet == null) {
             throw new IllegalArgumentException("ruleSet cannot be null or empty");
+        } else if (ruleSet.getUUID() == null || ruleSet.getUUID().isEmpty()) {
+            throw new IllegalArgumentException("Rule set UUID cannot be null or empty");
         } else if (ruleSet.getDescription() == null || ruleSet.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Rule set description cannot be null or empty");
         } else if (ruleSet.getFormat() == null || ruleSet.getFormat().isEmpty()) {
@@ -629,12 +631,34 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     
     /**
      * Returns true if the repository contains the specified 
+     * <code>ruleSetUUID</code> otherwise false.
+     * 
+     * @param ruleSetUUID Rule set UUID
+     * @return True if contains <code>ruleSetUUID</code> otherwise false
+     */
+    public boolean containsRuleSet(final String ruleSetUUID) {
+        if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
+            throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
+        }
+
+        try {
+			Node packageNode = this.repository.getSession().getNodeByUUID( ruleSetUUID );
+			return (packageNode == null ? false : true);
+		} catch (ItemNotFoundException e) {
+            return false;
+		} catch (RepositoryException e) {
+            throw new RuleEngineRepositoryException("Loading rule set failed: ruleSetUUID=" + ruleSetUUID, e);
+		}
+    }
+
+    /**
+     * Returns true if the repository contains the specified 
      * <code>ruleSetName</code> otherwise false.
      * 
      * @param ruleSetName Rule set name
      * @return True if contains <code>ruleSetName</code> otherwise false
      */
-    public boolean containsRuleSet(final String ruleSetName) {
+    public boolean containsRuleSetByName(final String ruleSetName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
         }

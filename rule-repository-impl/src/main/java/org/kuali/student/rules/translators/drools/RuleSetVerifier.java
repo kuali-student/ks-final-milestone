@@ -1,6 +1,7 @@
 package org.kuali.student.rules.translators.drools;
 
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +16,7 @@ enum Severity {ERROR, WARN, INFO, NONE}
 public class RuleSetVerifier {
 
     //private Verifier verifier = new Verifier();
-    private List<String> errorMessages = Collections.emptyList();
+    private final List<String> errorMessages = new ArrayList<String>();
 
     /**
      * Constructs a new rule verifier.
@@ -33,6 +34,7 @@ public class RuleSetVerifier {
     public boolean verify(Reader source) throws RuleSetTranslatorException {
         DrlParser p = new DrlParser();
         PackageDescr pkg;
+        boolean valid = true;
         
         try {
             pkg = p.parse(source);
@@ -41,6 +43,7 @@ public class RuleSetVerifier {
         }
 
         if (p.hasErrors()) {
+        	valid = false;
         	// Drools 4 does not use generics so we have to suppress warning
         	@SuppressWarnings("unchecked") 
             List<ParserError> errors = p.getErrors();
@@ -53,7 +56,7 @@ public class RuleSetVerifier {
         //verifier.fireAnalysis();
         //VerifierResult result = anal.getResult();
         
-        return true;
+        return valid;
     }
 
     /**
@@ -72,5 +75,13 @@ public class RuleSetVerifier {
      */
     public List<String> getMessages() {
         return errorMessages;
+    }
+    
+    public String getMessage() {
+    	StringBuilder errorMessage = new StringBuilder();
+    	for(String msg : this.errorMessages) {
+    		errorMessage.append(msg);
+    	}
+    	return errorMessage.toString();
     }
 }

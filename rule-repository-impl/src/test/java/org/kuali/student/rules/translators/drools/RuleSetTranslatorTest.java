@@ -75,7 +75,7 @@ public class RuleSetTranslatorTest {
     		String criteria, String comparisonOperator, String expectedValue, 
     		String anchorValue, String factKey) throws Exception {
         BusinessRuleInfoDTO businessRule = dtoFactory.createBusinessRuleInfoDTO(
-        		"CPR 101", 
+        		"CPR101", 
         		"1", 
         		"Rule 1 Success Message", 
         		"Rule 1 Failure Message", 
@@ -192,10 +192,10 @@ public class RuleSetTranslatorTest {
         		expectedValue, 
         		anchorValue,
         		factId);
-    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        container.getBusinessRules().add(businessRule);
+    	//BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        //container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
-        RuleSet ruleSet = this.generateRuleSet.translate(container);
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
         // Rule set source code
         return ruleSet.getContent();
     }
@@ -509,10 +509,10 @@ public class RuleSetTranslatorTest {
     	businessRule.setEffectiveStartTime(effectiveStartTime);
     	businessRule.setEffectiveEndTime(effectiveEndTime);
     	
-    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        container.getBusinessRules().add(businessRule);
+    	//BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        //container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
-        RuleSet ruleSet = this.generateRuleSet.translate(container);
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
         // Rule set source code
         String source = ruleSet.getContent();
 
@@ -548,12 +548,12 @@ public class RuleSetTranslatorTest {
     		getLeftHandSide().getYieldValueFunction().
     		getFactStructureList().get(0).getDefinitionVariableList().clear();
     	
-    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        container.getBusinessRules().add(businessRule);
+    	//BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        //container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
-        RuleSet ruleSet;
+        RuleSet ruleSet = null;
 		try {
-			ruleSet = this.generateRuleSet.translate(container);
+			ruleSet = this.generateRuleSet.translate(businessRule);
 			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
 		} catch (RuleSetTranslatorException e) {
 			assertTrue(true);
@@ -582,11 +582,11 @@ public class RuleSetTranslatorTest {
 			getLeftHandSide().getYieldValueFunction().
 			getFactStructureList().get(0).getDefinitionVariableList().put("xxx","xyz");
     	
-    	BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        container.getBusinessRules().add(businessRule);
+    	//BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        //container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
 		try {
-			this.generateRuleSet.translate(container);
+			this.generateRuleSet.translate(businessRule);
 			fail("Should have thrown a GenerateRuleSetException since rule contains no valid definition keys");
 		} catch (RuleSetTranslatorException e) {
 			assertTrue(true);
@@ -595,7 +595,7 @@ public class RuleSetTranslatorTest {
 
     private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
-    	bri.setName("Rule-1");
+    	bri.setName("MyBusinessRule");
     	bri.setDescription("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
@@ -613,7 +613,6 @@ public class RuleSetTranslatorTest {
 
     private RuleElementDTO createRule1(YieldValueFunctionDTO yieldValueFunction) {
     	// Rule 1
-    	//YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
         yieldValueFunction.setYieldValueFunctionType("INTERSECTION");
         
         LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
@@ -755,9 +754,9 @@ public class RuleSetTranslatorTest {
     	createFact2(yieldValueFunction2, factId2);
 
         // Parse and generate functional business rule into Drools rules
-        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        container.getBusinessRules().add(bri);
-        RuleSet ruleSet = this.generateRuleSet.translate(container);
+        //BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
+        //container.getBusinessRules().add(bri);
+        RuleSet ruleSet = this.generateRuleSet.translate(bri);
         assertNotNull(ruleSet);
 
         // Rule set source code
