@@ -4,6 +4,7 @@
 package org.kuali.student.rules.devgui.client;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class GuiUtil {
 
-    static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
+    public static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
 
     /*
@@ -29,7 +30,7 @@ public class GuiUtil {
      * @throws OperationFailedException
      * 
      */
-    public static String assembleRuleFromComposition(String composition, Map<Integer, RuleElementDTO> definedPropositions) {
+    public static String assembleRuleFromComposition(String composition, Map<Integer, RulePropositionDTO> definedPropositions) {
         RuleElementDTO elem;
         RulePropositionDTO prop;
         String token;
@@ -46,11 +47,8 @@ public class GuiUtil {
                 // System.out.println("Comp Token read:" + token);
                 composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
                 if (token.charAt(0) == PROPOSITION_PREFIX) {
-                    elem = definedPropositions.get(new Integer(token.substring(1)));
-                    if (elem != null) {
-                        prop = elem.getRuleProposition();
-                        completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
-                    }
+                    prop = definedPropositions.get(new Integer(token.substring(1)));
+                    completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
                 } else {
                     completeRule.append(token + " ");
                 }
@@ -61,6 +59,46 @@ public class GuiUtil {
         }
 
         return completeRule.toString().trim();
+    }
+
+    /*
+     * 
+     * 
+     * @param composition - business rule composition e.g. (P1 AND P2) OR P3
+     * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
+     * @return list of business rule types
+     * @throws OperationFailedException
+     * 
+     */
+    public static List<RuleElementDTO> createRuleElementsFromComposition(String composition, Map<Integer, RulePropositionDTO> definedPropositions) throws IllegalRuleFormatException {
+
+        String token;
+        int counter = 0;
+
+        List<RuleElementDTO> elemList = new ArrayList<RuleElementDTO>();
+
+        // try {
+        while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
+            counter++;
+            // System.out.println("Comp Token read:" + token);
+            RuleElementDTO ruleElem = new RuleElementDTO();
+            ruleElem.setOrdinalPosition(counter);
+            composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
+            if (token.charAt(0) == PROPOSITION_PREFIX) {
+                ruleElem.setOperation("PROPOSITION");
+                ruleElem.setRuleProposition(definedPropositions.get(new Integer(token.substring(1))));
+            } else {
+                ruleElem.setOperation(token);
+            }
+            elemList.add(ruleElem);
+        }
+        // } catch (IllegalRuleFormatException e) {
+        // This should not happen as rule suppose to be checked before calling this function
+        // TODO: log into screen log text box
+
+        // }
+
+        return elemList;
     }
 
     /*
@@ -104,13 +142,13 @@ public class GuiUtil {
      * 
      * @param text - rule text
      * @param identifiers - currently defined identifiers
-     * @return validation message
+     * @return validation message or COMPOSITION_IS_VALID_MESSAGE is rule is valid
      * @throws TBD
      * 
      */
     public static String validateRuleComposition(String text, Set<Integer> identifiers) { // TODO with Antler?
 
-        String message;
+        String message = COMPOSITION_IS_VALID_MESSAGE;
 
         System.out.println("HERE in validate rule composition");
 
@@ -164,7 +202,7 @@ public class GuiUtil {
         // check that all elements are valid i.e. OR, AND etc.
         // TODO
 
-        return (message.isEmpty() ? COMPOSITION_IS_VALID_MESSAGE : message);
+        return (message.trim().isEmpty() ? COMPOSITION_IS_VALID_MESSAGE : message);
     }
 
     /*

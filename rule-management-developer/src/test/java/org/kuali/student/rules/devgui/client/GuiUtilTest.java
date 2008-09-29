@@ -2,8 +2,10 @@ package org.kuali.student.rules.devgui.client;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +24,7 @@ public class GuiUtilTest {
     @Test
     public void testAssembleRuleFromComposition_singleProposition() {
 
-        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
+        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
 
         assertEquals("A", GuiUtil.assembleRuleFromComposition("A", definedPropositions));
         assertEquals("INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1", definedPropositions));
@@ -30,10 +32,31 @@ public class GuiUtilTest {
         assertEquals("( INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition(" ( P1)", definedPropositions));
     }
 
+    // @Test
+    public void testCreateRuleElementsFromComposition_singleProposition() {
+
+        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
+
+        List<RuleElementDTO> elemList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO ruleElem = new RuleElementDTO();
+        ruleElem.setOrdinalPosition(1);
+        ruleElem.setOperation("PROPOSITION");
+        ruleElem.setRuleProposition(definedPropositions.get(new Integer(1)));
+
+        // ruleElem.setOrdinalPosition(1);
+        // ruleElem.setOperation(token);
+
+        elemList.add(ruleElem);
+
+        assertEquals(elemList, GuiUtil.createRuleElementsFromComposition("P1", definedPropositions));
+        assertEquals("INTERSECTION = 10", GuiUtil.createRuleElementsFromComposition(" P1 ", definedPropositions));
+        assertEquals("( INTERSECTION = 10 )", GuiUtil.createRuleElementsFromComposition(" ( P1)", definedPropositions));
+    }
+
     @Test
     public void testAssembleRuleFromComposition_twoPropositions() {
 
-        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
+        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
 
         assertEquals("INTERSECTION = 10 AND INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1 AND P2", definedPropositions));
         assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("(P1 AND P2)", definedPropositions));
@@ -42,7 +65,7 @@ public class GuiUtilTest {
     @Test
     public void testAssembleRuleFromComposition_threePropositions() {
 
-        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
+        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
 
         assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
         assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
@@ -116,10 +139,9 @@ public class GuiUtilTest {
         assertEquals("Expected 'Px' but found 'OR' in 'OR P2...'", GuiUtil.validateRuleComposition(" OR P2 AND P3", definedPropositions3));
     }
 
-    private static Map<Integer, RuleElementDTO> createTestPropositions() {
-        Map<Integer, RuleElementDTO> definedPropositions = new HashMap<Integer, RuleElementDTO>();
+    private static Map<Integer, RulePropositionDTO> createTestPropositions() {
+        Map<Integer, RulePropositionDTO> definedPropositions = new HashMap<Integer, RulePropositionDTO>();
 
-        RuleElementDTO ruleElem = new RuleElementDTO();
         RulePropositionDTO ruleProp = new RulePropositionDTO();
         LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
         YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
@@ -130,14 +152,13 @@ public class GuiUtilTest {
         ruleProp.setLeftHandSide(leftHandSide);
         ruleProp.setComparisonOperatorType(GuiUtil.ComparisonOperator.EQUAL_TO.name());
         ruleProp.setRightHandSide(rightHandSide);
-        ruleElem.setRuleProposition(ruleProp);
 
         // populate test data
-        definedPropositions.put(1, ruleElem);
-        definedPropositions.put(2, ruleElem);
-        definedPropositions.put(3, ruleElem);
-        definedPropositions.put(4, ruleElem);
-        definedPropositions.put(5, ruleElem);
+        definedPropositions.put(1, ruleProp);
+        definedPropositions.put(2, ruleProp);
+        definedPropositions.put(3, ruleProp);
+        definedPropositions.put(4, ruleProp);
+        definedPropositions.put(5, ruleProp);
 
         return definedPropositions;
     }
