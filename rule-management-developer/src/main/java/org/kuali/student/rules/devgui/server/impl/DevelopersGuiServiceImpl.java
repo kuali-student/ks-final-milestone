@@ -57,6 +57,11 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             throw new RuntimeException("Unable to get agenda types", ex); // TODO
         }
 
+        // TODO show 'empty' node in the rule types tree if none exist?
+        if (agendaTypes == null) {
+            throw new RuntimeException("Unable to get agenda types for Rule Types Tree.");
+        }
+
         // 2. for each agenda type, retrieve business rule types
         for (String agendaTypeKey : agendaTypes) {
 
@@ -69,6 +74,12 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                 businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
             } catch (Exception ex) {
                 throw new RuntimeException("Unable to get business rule types", ex); // TODO
+            }
+
+            // TODO show 'empty' node in the rule types tree if none exist?
+            if (businessRuleTypes == null) {
+                System.out.println("DEBUG findRuleTypesHierarchyInfo(): no business rule types for Agenda Type " + agendaTypeKey);
+                continue;
             }
 
             for (String businessRuleTypeKey : businessRuleTypes) {
@@ -94,6 +105,11 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             throw new RuntimeException("Unable to get agenda types", ex); // TODO
         }
 
+        // TODO show 'empty' node in the rule types tree if none exist?
+        if (agendaTypes == null) {
+            throw new RuntimeException("Unable to get agenda types for Rules Tree.");
+        }
+
         // 2. for each agenda type, retrieve business rule types and business rules
         for (String agendaTypeKey : agendaTypes) {
 
@@ -104,11 +120,14 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             List<String> businessRuleTypes = new ArrayList<String>();
             try {
                 businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
-
-                System.out.println("Count business rule types: " + businessRuleTypes.size());
-
             } catch (Exception ex) {
                 throw new RuntimeException("Unable to get business rule types", ex); // TODO
+            }
+
+            // TODO show 'empty' node in the rules tree if none exist?
+            if (businessRuleTypes == null) {
+                System.out.println("DEBUG findRulesHierarchyInfo(): no business rule types for Agenda Type " + agendaTypeKey);
+                continue;
             }
 
             // 4. find individual business rules
@@ -121,6 +140,12 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                     businessRuleIds = ruleManagementService.findBusinessRuleIdsByBusinessRuleType(businessRuleTypeKey);
                 } catch (Exception ex) {
                     throw new RuntimeException("Unable to get business rule ids", ex); // TODO
+                }
+
+                // TODO show 'empty' node in the rules tree if none exist?
+                if (businessRuleIds == null) {
+                    System.out.println("DEBUG findRulesHierarchyInfo(): no business rules for Business Rule Type: " + businessRuleTypeKey);
+                    continue;
                 }
 
                 // 5. go through individual business rules
