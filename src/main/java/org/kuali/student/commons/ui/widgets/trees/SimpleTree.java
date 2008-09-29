@@ -5,33 +5,50 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
+import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.TreeListener;
 
-public abstract class SimpleTree<T extends ModelObject> extends Composite implements ModelWidget<T> {
+public abstract class SimpleTree<T extends ModelObject> extends Composite implements ModelWidget<T>, TreeListener {
 
     final Tree tree = new Tree();
     final Map<String, ItemMap<T>> index = new HashMap<String, ItemMap<T>>();
     final List<T> items = new ArrayList<T>();
-    
+    private final Set<ModelTableSelectionListener<T>> listeners = new HashSet<ModelTableSelectionListener<T>>();
+    boolean loaded = false;
+
     public SimpleTree() {
         super.initWidget(tree);
     }
-    
+
+    /**
+     * Called by the container to initialize the table. Do not call directly.
+     */
+    @Override
+    public void onLoad() {
+        if (!loaded) {
+            loaded = true;
+            tree.addTreeListener(this);
+        }
+    }
+
     public abstract List<String> getPath(T modelObject);
-    
+
     public void add(T modelObject) {
         List<String> path = getPath(modelObject);
         Iterator<String> itr = path.iterator();
-        
+
         // does the root branch exist?
         String root = itr.next();
         ItemMap<T> im = index.get(root);
@@ -51,7 +68,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         }
         items.add(modelObject);
     }
-    
+
     private void add(Iterator<String> itr, ItemMap<T> parentMap, T modelObject) {
         if (itr.hasNext()) {
             String key = itr.next();
@@ -71,7 +88,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
             }
         }
     }
-    
+
     // uber nasty hack to "reorder" items if one was added
     private void sortChildren(TreeItem item) {
         if (item.getChildCount() > 1) {
@@ -91,6 +108,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
             item.removeItem(blank);
         }
     }
+
     // another uber nasty reorder hack
     private void sortRootChildren() {
         if (tree.getItemCount() > 1) {
@@ -106,7 +124,6 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
             }
         }
     }
-    
 
     public void addBulk(Collection<T> collection) {
         for (T t : collection) {
@@ -132,17 +149,18 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         Iterator<String> itr = path.iterator();
         String rootKey = itr.next();
         ItemMap<T> map = index.get(rootKey);
-        
+
         remove(path.iterator(), map);
         if (map.index.size() == 0) {
             index.remove(rootKey);
             tree.removeItem(map.item);
         }
     }
+
     private void remove(Iterator<String> itr, ItemMap<T> parentMap) {
         String key = itr.next();
         ItemMap<T> map = parentMap.index.get(key);
-        
+
         if (itr.hasNext()) {
             remove(itr, map);
         }
@@ -175,22 +193,23 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
                 map = map.index.get(s);
             }
         }
-        
+
         return map.modelObject;
     }
+
     private TreeItem getTreeItem(T modelObject) {
         List<String> path = getPath(modelObject);
         Iterator<String> itr = path.iterator();
         String rootKey = itr.next();
         ItemMap<T> map = index.get(rootKey);
-        
+
         while (itr.hasNext()) {
             map = map.index.get(itr.next());
         }
-        
+
         return map.item;
     }
-    
+
     private List<String> getItemPath(TreeItem item) {
         List<String> result = new ArrayList<String>();
         while (item != null) {
@@ -199,19 +218,59 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         }
         return result;
     }
+
     static class ItemMap<T extends ModelObject> {
         public String key;
         public TreeItem item;
         public T modelObject;
         public Map<String, ItemMap<T>> index = new HashMap<String, ItemMap<T>>();
     }
+
     static class TreeItemComparator implements Comparator<TreeItem> {
         public static final TreeItemComparator INSTANCE = new TreeItemComparator();
-        private TreeItemComparator() {
-        }
+
+        private TreeItemComparator() {}
+
         public int compare(TreeItem o1, TreeItem o2) {
             return String.CASE_INSENSITIVE_ORDER.compare(o1.getText(), o2.getText());
         }
-        
+    }
+
+    /**
+     * Adds a ModelTableSelectionListener to be fired when the selected item changes
+     * 
+     * @param listener
+     *            the listener to add
+     */
+    public void addSelectionListener(ModelTableSelectionListener<T> listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Removes a selection change listener
+     * 
+     * @param listener
+     *            the listener to remove
+     */
+    public void removeSelectionListener(ModelTableSelectionListener<T> listener) {
+        listeners.remove(listener);
+    }
+
+    public void onTreeItemSelected(TreeItem item) {
+        fireSelection(getSelection());
+    }
+
+    public void onTreeItemStateChanged(TreeItem item) {}
+
+    /**
+     * Fires the selection change event for the specified ModelObject
+     * 
+     * @param modelObject
+     *            the ModelObject that was selected
+     */
+    protected void fireSelection(T modelObject) {
+        for (ModelTableSelectionListener<T> listener : listeners) {
+            listener.onSelect(modelObject);
+        }
     }
 }
