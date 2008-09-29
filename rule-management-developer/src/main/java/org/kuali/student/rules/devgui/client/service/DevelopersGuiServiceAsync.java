@@ -27,5 +27,7 @@ public interface DevelopersGuiServiceAsync {
 
     public void fetchDetailedBusinessRuleInfo(String ruleId, AsyncCallback<BusinessRuleInfoDTO> callback);
 
-    public void fetchBusinessRuleTypeInfo(String ruleTypeKey, AsyncCallback<BusinessRuleTypeDTO> callback);
+    public void fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey, AsyncCallback<BusinessRuleTypeDTO> callback);
+
+    public void testBusinessRule(String businessRuleId, AsyncCallback<String> callback);
 }

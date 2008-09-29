@@ -51,5 +51,7 @@ public interface DevelopersGuiService extends RemoteService {
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId);
 
-    public BusinessRuleTypeDTO fetchBusinessRuleTypeInfo(String ruleTypeKey);
+    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey);
+
+    public String testBusinessRule(String businessRuleId);
 }

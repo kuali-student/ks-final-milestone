@@ -17,6 +17,9 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class GuiUtil {
 
+    static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
+    public static final char PROPOSITION_PREFIX = 'P';
+
     /*
      * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
      * 
@@ -33,19 +36,28 @@ public class GuiUtil {
         StringBuffer completeRule = new StringBuffer();
         int counter = 0;
 
-        while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
-            counter++;
-            // System.out.println("Comp Token read:" + token);
-            composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
-            if (token.charAt(0) == 'P') {
-                elem = definedPropositions.get(new Integer(token.substring(1)));
-                if (elem != null) {
-                    prop = elem.getRuleProposition();
-                    completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
+        if ((definedPropositions == null) || (definedPropositions.isEmpty())) {
+            return "";
+        }
+
+        try {
+            while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
+                counter++;
+                // System.out.println("Comp Token read:" + token);
+                composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
+                if (token.charAt(0) == PROPOSITION_PREFIX) {
+                    elem = definedPropositions.get(new Integer(token.substring(1)));
+                    if (elem != null) {
+                        prop = elem.getRuleProposition();
+                        completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
+                    }
+                } else {
+                    completeRule.append(token + " ");
                 }
-            } else {
-                completeRule.append(token + " ");
             }
+        } catch (IllegalRuleFormatException e) {
+            // TODO: log into screen log text box
+            return "Error: Cannot parse rule composition (" + e.getMessage() + ")";
         }
 
         return completeRule.toString().trim();
@@ -56,11 +68,11 @@ public class GuiUtil {
      * 
      * @param composition - business rule composition e.g. (P1 AND P2) OR P3
      * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
-     * @return list of business rule types
+     * @return list of business rule types or NULL if no token found
      * @throws OperationFailedException
      * 
      */
-    private static String getNextTokenFromComposition(String partialComposition) {
+    private static String getNextTokenFromComposition(String partialComposition) throws IllegalRuleFormatException {
         String nextToken = "?";
         // System.out.println("get next token:" + partialComposition);
         partialComposition = partialComposition.trim().toUpperCase();
@@ -75,23 +87,8 @@ public class GuiUtil {
             nextToken = partialComposition.substring(0, 2);
         } else if (partialComposition.startsWith("AND")) {
             nextToken = partialComposition.substring(0, 3);
-        } else if (partialComposition.charAt(0) == 'P') {
-
-            String[] tokens = partialComposition.substring(1).split("[^0-9]");
-            if (tokens[0].isEmpty()) {
-                return null;
-            }
-
-            // get Proposition ID
-            Integer propID;
-            try {
-                propID = new Integer(tokens[0]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid Proposition ID: '" + tokens[0] + "'");
-                return null;
-            }
-
-            nextToken = "P" + propID.toString();
+        } else if (partialComposition.charAt(0) == PROPOSITION_PREFIX) {
+            nextToken = PROPOSITION_PREFIX + Integer.toString(getPropositionID(partialComposition));
         } else {
             String[] tokens = partialComposition.split(" ");
             nextToken = tokens[0];
@@ -102,10 +99,20 @@ public class GuiUtil {
         return nextToken;
     }
 
-    // TODO ? Replace with antler?
-    public static String validateRuleComposition(String text, Set<Integer> identifiers) {
+    /*
+     * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
+     * 
+     * @param text - rule text
+     * @param identifiers - currently defined identifiers
+     * @return validation message
+     * @throws TBD
+     * 
+     */
+    public static String validateRuleComposition(String text, Set<Integer> identifiers) { // TODO with Antler?
 
         String message;
+
+        System.out.println("HERE in validate rule composition");
 
         // we need at least one proposition
         if (text.trim().isEmpty()) {
@@ -115,25 +122,25 @@ public class GuiUtil {
         // validate rule composition
         try {
             message = validateCompositionFormat(text, false);
-        } catch (Exception e) {
+        } catch (IllegalRuleFormatException e) {
             return e.getMessage();
         }
 
         // check that all propositions are defined
         int propID;
-        String[] tokens = text.split(" ");
+        String[] tokens = text.split("[ ()]");
         ArrayList<Integer> listedPropositionIds = new ArrayList<Integer>();
         for (String token : tokens) {
             token = token.trim();
             // System.out.println("Validate Token read:" + token);
-            if (!token.isEmpty() && ((token.charAt(0) == 'P') || (token.charAt(0) == 'p'))) {
+            if (!token.isEmpty() && ((token.charAt(0) == PROPOSITION_PREFIX) || (token.charAt(0) == PROPOSITION_PREFIX))) {
 
                 try {
                     propID = getPropositionID(token);
-                } catch (Exception e) {
+                } catch (IllegalRuleFormatException e) {
+                    // TODO
                     return e.getMessage();
                 }
-
                 listedPropositionIds.add(propID);
 
                 if (!identifiers.contains(propID)) {
@@ -146,7 +153,7 @@ public class GuiUtil {
         StringBuffer missingProps = new StringBuffer();
         for (Integer id : identifiers) {
             if (!listedPropositionIds.contains(id)) {
-                missingProps.append("P" + id + " ");
+                missingProps.append(PROPOSITION_PREFIX + "" + id + " ");
             }
         }
 
@@ -157,11 +164,18 @@ public class GuiUtil {
         // check that all elements are valid i.e. OR, AND etc.
         // TODO
 
-        return (message.isEmpty() ? "Composition valid." : message);
+        return (message.isEmpty() ? COMPOSITION_IS_VALID_MESSAGE : message);
     }
 
-    // call when parsing Proposition e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
-    private static String validateCompositionFormat(String text, boolean findClosingBracket) throws Exception {
+    /*
+     * Recursive parsing of a rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
+     * 
+     * @param text - rule text
+     * @param findClosingBracket - whether the recusion occured where we entered in bracket parsing mode
+     * @return rule text left to be parsed
+     * @throws IllegalRuleFormatException     
+     */
+    private static String validateCompositionFormat(String text, boolean findClosingBracket) throws IllegalRuleFormatException {
         // TODO our own exception here?
 
         String nextToken;
@@ -178,10 +192,10 @@ public class GuiUtil {
                 // we expect Proposition P1 or '(P1'
                 text = validateCompositionFormat(text, true).trim();
                 if (text.isEmpty()) {
-                    throw new Exception("Expected ')' but found nothing.");
+                    throw new IllegalRuleFormatException("Expected ')' but found nothing.");
                 }
                 if (text.charAt(0) != ')') {
-                    throw new Exception("Expected ')' but found '" + firstFiveChars(text) + "...'");
+                    throw new IllegalRuleFormatException("Expected ')' but found '" + text.charAt(0) + "' in '" + firstFiveChars(text) + "...'");
                 }
                 text = text.substring(1); // remove the closing bracket
                 logicalOperatorFound = false;
@@ -189,18 +203,15 @@ public class GuiUtil {
             } else { // now we expect Px
 
                 if (text.startsWith("AND")) {
-                    throw new Exception("Expected Px but found AND: " + firstFiveChars(text) + "...'");
+                    throw new IllegalRuleFormatException("Expected '" + PROPOSITION_PREFIX + "x' but found 'AND' in '" + firstFiveChars(text) + "...'");
                 } else if (text.startsWith("OR")) {
-                    throw new Exception("Expected Px but found OR: " + firstFiveChars(text) + "...'");
+                    throw new IllegalRuleFormatException("Expected '" + PROPOSITION_PREFIX + "x' but found 'OR' in '" + firstFiveChars(text) + "...'");
+                } else if (text.startsWith(")")) {
+                    throw new IllegalRuleFormatException("Expected '" + PROPOSITION_PREFIX + "x' or '(" + PROPOSITION_PREFIX + "x' but found ')' in '" + firstFiveChars(text) + "...'");
                 }
 
                 // (after brackets) handle Proposition or combination of Propositions
-                int propID;
-                try {
-                    propID = getPropositionID(nextToken); // ensure we can get valid Proposition ID
-                } catch (Exception e) {
-                    throw new Exception("Found invalid proposition ID: " + nextToken);
-                }
+                int propID = getPropositionID(nextToken); // ensure we can get valid Proposition ID
                 text = text.substring(new Integer(propID).toString().length() + 1).trim();
             }
 
@@ -213,27 +224,31 @@ public class GuiUtil {
                 if (findClosingBracket) {
                     return text; // process closing bracket in the caller
                 }
-                throw new Exception("Found ')' without opening bracket.");
+                throw new IllegalRuleFormatException("Found ')' without opening bracket.");
             } else if (!text.startsWith("AND") && !text.startsWith("OR")) {
-                throw new Exception("Expected AND or OR but found '" + firstFiveChars(text) + "...'");
+                throw new IllegalRuleFormatException("Expected 'AND' or 'OR' but found '" + firstFiveChars(text) + "...'");
             }
 
             // we found another logical operator but we don't want P1 AND P2 OR P3 but rather (P1 AND P2) OR P3
             if (logicalOperatorFound) {
-                throw new Exception("Found ambiguous proposition composition. Please add brackets: '" + firstFiveChars(text) + "...'");
+                throw new IllegalRuleFormatException("Found ambiguous proposition composition with multiple logical operators not grouped by brackets. Please add brackets: '" + firstFiveChars(text) + "...'");
             }
 
             logicalOperatorFound = true;
             text = text.substring((text.startsWith("AND") ? 3 : 2)).trim();
 
-            // now we expect again P1 or (P1 so loop
+            // now we expect again P1 or (P1 or P1) so loop
         }
 
-        throw new Exception("Expected 'Px' or '(Px' but found nothing.");
+        throw new IllegalRuleFormatException("Expected '" + PROPOSITION_PREFIX + "x' or '(" + PROPOSITION_PREFIX + "x' but found nothing.");
     }
 
     /*
      * Retrieve up to first five characters of a String
+     * 
+     * @param text to retrieve chars from
+     * @return up to the first five characters 
+     * 
      */
     private static String firstFiveChars(String text) {
         if (text.isEmpty())
@@ -242,23 +257,36 @@ public class GuiUtil {
         return text.substring(0, maxLen);
     }
 
-    // expects the first token to be proposition in format 'Px' e.g. P1
-    private static int getPropositionID(String text) throws Exception { // TODO our own exception here?
+    /*
+     * Get Proposition ID from a text that starts with proposition in format 'Px' or 'px' e.g. P1
+     * 
+     * @param text - rule text
+     * @param identifiers - currently defined identifiers
+     * @return ID 
+     * @throws IllegalRuleFormatException if format of the proposition ID not valid
+     * 
+     */
+    private static int getPropositionID(String text) throws IllegalRuleFormatException { // TODO our own exception here?
 
-        String[] tokens = text.trim().toUpperCase().split(" ");
-        if (tokens[0].isEmpty() || (tokens[0].charAt(0) != 'P')) {
-            throw new Exception("Missing Proposition");
+        if (text == null) {
+            throw new IllegalRuleFormatException("Proposition ID is null.");
         }
 
-        if (tokens[0].length() == 1) {
-            throw new Exception("Proposition is missing ID.");
+        text = text.trim().toUpperCase();
+        if (text.isEmpty() || (text.charAt(0) != PROPOSITION_PREFIX)) {
+            throw new IllegalRuleFormatException("Invalid Proposition format. Expected '" + PROPOSITION_PREFIX + "' but found: '" + text + "'");
+        }
+
+        String[] tokens = text.split("[^0-9]");
+        if ((tokens.length == 1)) {
+            throw new IllegalRuleFormatException("Proposition is missing ID number: '" + text + "'");
         }
 
         Integer propID;
         try {
-            propID = new Integer(tokens[0].substring(1));
+            propID = new Integer(tokens[1]);
         } catch (NumberFormatException e) {
-            throw new Exception("Invalid Proposition ID: '" + tokens[0].substring(1) + "'");
+            throw new IllegalRuleFormatException("Invalid Proposition ID: '" + tokens[1] + "'");
         }
 
         return propID;

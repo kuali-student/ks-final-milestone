@@ -3,6 +3,7 @@
  */
 package org.kuali.student.rules.devgui.client.view;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
@@ -13,6 +14,7 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -130,14 +132,25 @@ public class RulesComposite extends Composite {
     final TextBox updateUserIdTextBox = new TextBox();
     final TextBox updateCommentTextBox = new TextBox();
 
+    // Test Rule tab
+    final TextBox yvfTestTextBox = new TextBox();
+    final TextBox propNameTestTextBox = new TextBox();
+    final TextBox propDescTestTextBox = new TextBox();
+    final TextBox operatorsTestTextBox = new TextBox();
+    final ListBox propositionsTestListBox = new ListBox();
+    final TextArea completeRuleTestTextArea = new TextArea();
+    final TextArea propCompositionTestTextArea = new TextArea();
+    final TextBox expectedValueTestTextBox = new TextBox();
+    final Button testRuleButton = new Button("Test");
+
     boolean loaded = false;
 
     public RulesComposite() {
         super.initWidget(simplePanel);
     }
 
-    private BusinessRuleInfoDTO activeRule; // keep copy of business rule so we can update all fields user can change
-    private Map<Integer, RuleElementDTO> definedPropositions;
+    private BusinessRuleInfoDTO activeRule = null; // keep copy of business rule so we can update all fields user can change
+    private Map<Integer, RuleElementDTO> definedPropositions = new HashMap<Integer, RuleElementDTO>();
     private StringBuffer ruleComposition;
 
     @Override
@@ -182,7 +195,6 @@ public class RulesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
-            /*
             rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
                 public void onSelect(RulesHierarchyInfo modelObject) {
 
@@ -223,7 +235,7 @@ public class RulesComposite extends Composite {
                         });
                     }
                 }
-            });  */
+            });
 
             /****************************************************************************************************************
              * listeners for rule CREATE and UPDATE buttons
@@ -334,6 +346,7 @@ public class RulesComposite extends Composite {
                     prop.setLeftHandSide(leftSide);
                     RightHandSideDTO rightSide = new RightHandSideDTO();
                     rightSide.setExpectedValue(expectedValueTextBox.getText());
+                    prop.setRightHandSide(rightSide);
                     prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
                     elem.setRuleProposition(prop);
                     elem.setOperation("PROPOSITION");
@@ -374,6 +387,16 @@ public class RulesComposite extends Composite {
 
                     // update Rule Overview text as well
                     completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
+                }
+            });
+
+            /****************************************************************************************************************
+             * listeners for rule TEST button
+             ***************************************************************************************************************/
+
+            testRuleButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {
+                // TODO let user know if the rule was modified but not activated i.e. they are testing current rule
                 }
             });
 
@@ -418,6 +441,11 @@ public class RulesComposite extends Composite {
         updateTimeTextBox.setText(formatter.format(activeRule.getMetaInfo().getUpdateTime()));
         updateUserIdTextBox.setText(activeRule.getMetaInfo().getUpdateID());
         updateCommentTextBox.setText(activeRule.getMetaInfo().getUpdateComment());
+
+        // populate Test TAB
+        populatePropositionListBoxAndDetailsTest(0);
+        propCompositionTestTextArea.setText(ruleComposition.toString());
+        completeRuleTestTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTestTextArea.getText(), definedPropositions));
     }
 
     private void populatePropositionListBoxAndDetails(int selectedPropIx) {
@@ -439,6 +467,25 @@ public class RulesComposite extends Composite {
         }
     }
 
+    private void populatePropositionListBoxAndDetailsTest(int selectedPropIx) {
+        String propAbreviation;
+
+        propositionsTestListBox.clear();
+        for (Map.Entry<Integer, RuleElementDTO> entry : definedPropositions.entrySet()) {
+            propAbreviation = "P" + entry.getKey();
+            RulePropositionDTO prop = entry.getValue().getRuleProposition();
+            propositionsTestListBox.addItem(propAbreviation + ":  " + prop.getName(), entry.getKey().toString());
+
+            if ((entry.getKey().intValue() - 1) == selectedPropIx) {
+                populatePropositionDetailsTest(entry.getValue());
+            }
+        }
+        propositionsTestListBox.setSelectedIndex(selectedPropIx);
+        if (selectedPropIx == -1) {
+            clearPropositionDetails();
+        }
+    }
+
     private void populatePropositionDetails(RuleElementDTO elem) {
         RulePropositionDTO prop = elem.getRuleProposition();
         propNameTextBox.setText(prop.getName());
@@ -446,6 +493,15 @@ public class RulesComposite extends Composite {
         yvfListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(yvfListBox, prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType()));
         operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorType()));
         expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());
+    }
+
+    private void populatePropositionDetailsTest(RuleElementDTO elem) {
+        RulePropositionDTO prop = elem.getRuleProposition();
+        propNameTestTextBox.setText(prop.getName());
+        propDescTestTextBox.setText(prop.getDescription());
+        yvfTestTextBox.setText(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType());
+        operatorsTestTextBox.setText(prop.getComparisonOperatorType());
+        expectedValueTestTextBox.setText(prop.getRightHandSide().getExpectedValue());
     }
 
     private void clearPropositionDetails() {
@@ -490,13 +546,16 @@ public class RulesComposite extends Composite {
         TabPanel rulesFormTabs = new TabPanel();
         rulesFormTabs.add(addRulesMainPage(), "Main");
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
-        rulesFormTabs.add(addRRulesAuthoringPage(), "Authoring");
+        rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
+        rulesFormTabs.add(addRRulesTestPage(), "Test");
         rulesFormTabs.setSize("90%", "450px");
         rulesFormTabs.selectTab(1);
 
         HorizontalPanel hp = new HorizontalPanel();
         hp.setSpacing(8);
-        hp.add(updateButton);
+        if (activeRule != null) {
+            hp.add(updateButton);
+        }
         hp.add(createButton);
 
         final VerticalPanel rulesFormVerticalPanel = new VerticalPanel();
@@ -821,13 +880,12 @@ public class RulesComposite extends Composite {
         return propositionsFlexTable;
     }
 
-    private Widget addRRulesAuthoringPage() {
+    private Widget addRRulesMetaDataPage() {
 
         // **********************************************************
         // set rules form margins
         // **********************************************************
         final FlexTable rulesFlexTable = new FlexTable();
-        rulesFlexTable.setTitle("Rules");
         rulesFlexTable.setSize("100%", "100%");
 
         final SimplePanel topMargin = new SimplePanel();
@@ -949,4 +1007,197 @@ public class RulesComposite extends Composite {
         return rulesFlexTable;
     }
 
+    // TODO: populate with rule existing in database, not rule currently being modified?
+    private Widget addRRulesTestPage() {
+
+        // **********************************************************
+        // set rules form margins
+        // **********************************************************
+        final FlexTable propositionsFlexTable = new FlexTable();
+        propositionsFlexTable.setSize("100%", "100%");
+
+        final SimplePanel topMargin = new SimplePanel();
+        propositionsFlexTable.setWidget(0, 0, topMargin);
+        propositionsFlexTable.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+        propositionsFlexTable.getFlexCellFormatter().setColSpan(0, 0, 2);
+        propositionsFlexTable.getCellFormatter().setHeight(0, 0, "5pix");
+
+        final SimplePanel leftMargin = new SimplePanel();
+        propositionsFlexTable.setWidget(1, 0, leftMargin);
+        propositionsFlexTable.getCellFormatter().setWidth(1, 0, "5pix");
+
+        // **********************************************************
+        // set rules form size
+        // **********************************************************
+        final FormPanel rulesFormPanel = new FormPanel();
+        propositionsFlexTable.setWidget(1, 1, rulesFormPanel);
+        // propositionsFlexTable.getFlexCellFormatter().setColSpan(1, 1, 2);
+        propositionsFlexTable.getCellFormatter().setWidth(1, 1, "100%");
+        propositionsFlexTable.getCellFormatter().setHeight(1, 1, "100%");
+        rulesFormPanel.setSize("100%", "100%");
+        propositionsFlexTable.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
+
+        final VerticalPanel verticalPanel = new VerticalPanel();
+        rulesFormPanel.add(verticalPanel);
+        verticalPanel.setSize("100%", "100%");
+
+        // **********************************************************
+        // rules form elements
+        // **********************************************************
+
+        // first setup a list of propositions (left panel) and proposition details (right panel)
+        final HorizontalPanel horizontalPanel = new HorizontalPanel();
+        horizontalPanel.setSize("100%", "100%");
+
+        propositionsTestListBox.setVisibleItemCount(10);
+        propositionsTestListBox.addClickListener(new ClickListener() {
+            public void onClick(Widget sender) {
+                ListBox box = ((ListBox) sender);
+                RuleElementDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(box.getSelectedIndex())));
+                if (selectedRuleElement == null) {
+                    return;
+                }
+                populatePropositionDetails(selectedRuleElement); // TODO
+            }
+        });
+        propositionsTestListBox.setWidth("150px");
+
+        // **********************************************************
+        // Propositions List
+        // **********************************************************
+        final VerticalPanel propListPanel = new VerticalPanel();
+        final Label propositionsLabel = new Label("Propositions");
+        propListPanel.add(propositionsLabel);
+        propListPanel.add(propositionsTestListBox);
+
+        horizontalPanel.add(propListPanel);
+
+        // **********************************************************
+        // Propositions details
+        // **********************************************************
+        final SimplePanel propDetailsBorder = new SimplePanel();
+        final FlexTable flexPropositionDetailsTable = new FlexTable();
+        propDetailsBorder.add(flexPropositionDetailsTable);
+
+        // Proposition Name
+        final VerticalPanel vp = new VerticalPanel();
+        vp.setWidth("100%");
+        final Label propNameLabel = new Label("Name");
+        vp.add(propNameLabel);
+        propNameTestTextBox.setWidth("50%");
+        propNameTestTextBox.setReadOnly(true);
+        vp.add(propNameTestTextBox);
+        flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(0, 1, 3);
+        flexPropositionDetailsTable.setWidget(0, 1, vp);
+
+        // Proposition Description
+        final VerticalPanel vp0 = new VerticalPanel();
+        vp0.setWidth("100%");
+        final Label propDescLabel = new Label("Description");
+        vp0.add(propDescLabel);
+        propDescTestTextBox.setWidth("100%");
+        propDescTestTextBox.setReadOnly(true);
+        vp0.add(propDescTestTextBox);
+        flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(1, 1, 3);
+        flexPropositionDetailsTable.setWidget(1, 1, vp0);
+
+        // YVF
+        flexPropositionDetailsTable.getCellFormatter().setWidth(2, 0, "10px");
+        final VerticalPanel vp1 = new VerticalPanel();
+        final Label yvfLabel = new Label("YVF");
+        vp1.add(yvfLabel);
+        yvfTestTextBox.setReadOnly(true);
+        vp1.add(yvfTestTextBox);
+        flexPropositionDetailsTable.setWidget(2, 1, vp1);
+
+        // Operator
+        final VerticalPanel vp2 = new VerticalPanel();
+        final Label operatorLabel = new Label("Operator");
+        vp2.add(operatorLabel);
+
+        operatorsTestTextBox.setReadOnly(true);
+        operatorsListBox.setWidth("80px");
+        vp2.add(operatorsTestTextBox);
+        flexPropositionDetailsTable.setWidget(2, 2, vp2);
+
+        // Expected Value
+        final VerticalPanel vp3 = new VerticalPanel();
+        final Label expectedValueLabel = new Label("Expected Value");
+        vp3.add(expectedValueLabel);
+        expectedValueTestTextBox.setWidth("100%");
+        expectedValueTestTextBox.setReadOnly(true);
+        vp3.add(expectedValueTestTextBox);
+        flexPropositionDetailsTable.setWidget(2, 3, vp3);
+
+        // Yield Value Function details
+        final VerticalPanel vp4 = new VerticalPanel();
+        final Label param1Label = new Label("First YVF Parameter:");
+        vp4.add(param1Label);
+        ListBox param1ListBox = new ListBox();
+        param1ListBox.addItem("   param1");
+        param1ListBox.addItem("   param2");
+        param1ListBox.addItem("   param3");
+        param1ListBox.addItem("   param4");
+        param1ListBox.setWidth("80px");
+        vp4.add(param1ListBox);
+        flexPropositionDetailsTable.setWidget(5, 1, vp4);
+
+        final VerticalPanel vp5 = new VerticalPanel();
+        final Label param2Label = new Label("Second YVF Parameter:");
+        vp5.add(param2Label);
+        ListBox param2ListBox = new ListBox();
+        param2ListBox.addItem("   param1");
+        param2ListBox.addItem("   param2");
+        param2ListBox.addItem("   param3");
+        param2ListBox.addItem("   param4");
+        param2ListBox.setWidth("80px");
+        vp5.add(param2ListBox);
+        flexPropositionDetailsTable.setWidget(6, 1, vp5);
+
+        HorizontalPanel hp = new HorizontalPanel();
+        hp.setSpacing(8);
+        hp.add(testRuleButton);
+        flexPropositionDetailsTable.setWidget(7, 1, hp);
+        flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(7, 1, 3);
+
+        horizontalPanel.add(flexPropositionDetailsTable);
+        horizontalPanel.setCellHeight(propListPanel, "75%");
+        horizontalPanel.setCellWidth(propListPanel, "180px");
+        verticalPanel.add(horizontalPanel);
+
+        // **********************************************************
+        // Rule composition and complete text
+        // **********************************************************
+        final FlexTable ruleCompositionFlexTable = new FlexTable();
+        ruleCompositionFlexTable.setSize("100%", "100%");
+
+        final Label propCompositionLabel = new Label("Rule Composition");
+        ruleCompositionFlexTable.setWidget(0, 0, propCompositionLabel);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(0, 0, FORM_ROW_HEIGHT);
+        ruleCompositionFlexTable.setWidget(0, 1, compositionStatuLabel);
+
+        propCompositionTestTextArea.setSize("100%", "100%");
+        propCompositionTestTextArea.setReadOnly(true);
+        ruleCompositionFlexTable.setWidget(1, 0, propCompositionTestTextArea);
+        ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(1, 0, 3);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(1, 0, "63px");
+        ruleCompositionFlexTable.getCellFormatter().setWidth(1, 0, "60%");
+
+        // Complete Rule
+        final Label completeRuleLabel = new Label("Rule Overview");
+        ruleCompositionFlexTable.setWidget(3, 0, completeRuleLabel);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
+
+        completeRuleTestTextArea.setSize("100%", "100%");
+        completeRuleTestTextArea.setReadOnly(true);
+        ruleCompositionFlexTable.setWidget(4, 0, completeRuleTestTextArea);
+        ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(4, 0, 3);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(4, 0, "93px");
+        ruleCompositionFlexTable.getCellFormatter().setWidth(4, 0, "60%");
+
+        verticalPanel.add(ruleCompositionFlexTable);
+        verticalPanel.setCellHeight(horizontalPanel, "200px");
+
+        return propositionsFlexTable;
+    }
 }

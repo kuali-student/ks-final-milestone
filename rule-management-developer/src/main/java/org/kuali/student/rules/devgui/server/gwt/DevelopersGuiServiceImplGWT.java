@@ -45,8 +45,12 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
         return serviceImpl.fetchDetailedBusinessRuleInfo(ruleId);
     }
 
-    public BusinessRuleTypeDTO fetchBusinessRuleTypeInfo(String ruleTypeKey) {
-        return serviceImpl.fetchBusinessRuleTypeInfo(ruleTypeKey);
+    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
+        return serviceImpl.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
+    }
+
+    public String testBusinessRule(String businessRuleId) {
+        return serviceImpl.testBusinessRule(businessRuleId);
     }
 
     /**

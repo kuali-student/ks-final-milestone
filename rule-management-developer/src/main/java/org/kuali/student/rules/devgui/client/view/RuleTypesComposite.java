@@ -11,11 +11,15 @@ import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
+import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -108,7 +112,6 @@ public class RuleTypesComposite extends Composite {
             /* commented out because fix for org.kuali.student.commons.ui.widgets.trees.SimpleTree.java was not yet
              * checked in to ks-commons-ui-dev module
              */
-            /*
             ruleTypesTree.addSelectionListener(new ModelTableSelectionListener<RuleTypesHierarchyInfo>() {
                 public void onSelect(RuleTypesHierarchyInfo modelObject) {
 
@@ -117,8 +120,9 @@ public class RuleTypesComposite extends Composite {
                         clearBusinessRuleTypeForm();
                     } else {
                         String ruleTypeKey = modelObject.getBusinessRuleTypeKey();
+                        String anchorTypeKey = modelObject.getAgendaType();
                         // populate fields from new selection
-                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleTypeInfo(ruleTypeKey, new AsyncCallback<BusinessRuleTypeDTO>() {
+                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(ruleTypeKey, anchorTypeKey, new AsyncCallback<BusinessRuleTypeDTO>() {
                             public void onFailure(Throwable caught) {
                                 // just re-throw it and let the uncaught exception handler deal with it
                                 Window.alert(caught.getMessage());
@@ -135,7 +139,7 @@ public class RuleTypesComposite extends Composite {
                         });
                     }
                 }
-            }); */
+            });
 
             // create tree-like rules browser
             ruleTypesTree.setSize("100%", "100%");

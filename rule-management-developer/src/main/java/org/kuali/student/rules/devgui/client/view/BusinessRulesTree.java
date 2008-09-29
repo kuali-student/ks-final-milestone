@@ -38,17 +38,30 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
     public List<String> getPath(RulesHierarchyInfo modelObject) {
         final List<String> items = new ArrayList<String>();
 
-        items.add(modelObject.getAgendaType());
-        items.add(modelObject.getBusinessRuleType());
-        items.add(modelObject.getAnchor());
-        items.add(modelObject.getBusinessRuleName());
+        String agendaType = modelObject.getAgendaType();
+        if ((agendaType == null) || (agendaType.isEmpty())) {
+            return items;
+        }
+        items.add(agendaType);
 
-        // items.add(modelObject.getAgendaType());
-        // items.add(modelObject.getAnchor());
-        // items.add(modelObject.getBusinessRuleType());
-        // items.add(modelObject.getBusinessRuleName());
+        String ruleType = modelObject.getBusinessRuleType();
+        if ((ruleType == null) || (ruleType.isEmpty())) {
+            return items;
+        }
+        items.add(ruleType);
+
+        String anchor = modelObject.getAnchor();
+        if ((anchor == null) || (anchor.isEmpty())) {
+            return items;
+        }
+        items.add(anchor);
+
+        String ruleName = modelObject.getBusinessRuleName();
+        if ((ruleName == null) || (ruleName.isEmpty())) {
+            return items;
+        }
+        items.add(ruleName);
 
         return items;
     }
-
 }

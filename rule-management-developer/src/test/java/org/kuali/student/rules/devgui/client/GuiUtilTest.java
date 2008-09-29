@@ -3,7 +3,9 @@ package org.kuali.student.rules.devgui.client;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -17,19 +19,104 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
  */
 public class GuiUtilTest {
 
-    /*
-     * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
-     * 
-     * @param composition - business rule composition e.g. (P1 AND P2) OR P3
-     * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
-     * @return list of business rule types
-     * @throws OperationFailedException
-     * 
-     */
+    @Test
+    public void testAssembleRuleFromComposition_singleProposition() {
+
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
+
+        assertEquals("A", GuiUtil.assembleRuleFromComposition("A", definedPropositions));
+        assertEquals("INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1", definedPropositions));
+        assertEquals("INTERSECTION = 10", GuiUtil.assembleRuleFromComposition(" P1 ", definedPropositions));
+        assertEquals("( INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition(" ( P1)", definedPropositions));
+    }
 
     @Test
-    public void testAssembleRuleFromComposition() {
+    public void testAssembleRuleFromComposition_twoPropositions() {
 
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
+
+        assertEquals("INTERSECTION = 10 AND INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1 AND P2", definedPropositions));
+        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("(P1 AND P2)", definedPropositions));
+    }
+
+    @Test
+    public void testAssembleRuleFromComposition_threePropositions() {
+
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
+
+        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
+        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
+        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR ( INTERSECTION = 10 AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR ( P3 AND P4 ) ", definedPropositions));
+        assertEquals("( ( INTERSECTION = 10 OR INTERSECTION = 10 ) AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("( ( P1 OR P2) AND P3)", definedPropositions));
+    }
+
+    @Test
+    public void testValidateCompositionFormat_singleProposition() {
+
+        Set<Integer> definedPropositions1 = new HashSet<Integer>();
+        definedPropositions1.add(1);
+        Set<Integer> definedPropositions5 = new HashSet<Integer>();
+        definedPropositions5.add(1);
+        definedPropositions5.add(2);
+        definedPropositions5.add(3);
+        definedPropositions5.add(4);
+        definedPropositions5.add(5);
+
+        assertEquals("Invalid Proposition format. Expected 'P' but found: 'A'", GuiUtil.validateRuleComposition("A", definedPropositions5));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition(" P1 ", definedPropositions1));
+        assertEquals("Warning: Unused Propositions - P2 P3 P4 P5 ", GuiUtil.validateRuleComposition("P1", definedPropositions5));
+        assertEquals("Expected 'AND' or 'OR' but found 'P2...'", GuiUtil.validateRuleComposition(" P1 P2", definedPropositions5));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition(" ( P1)", definedPropositions1));
+    }
+
+    @Test
+    public void testValidateCompositionFormat_twoPropositions() {
+
+        Set<Integer> definedPropositions2 = new HashSet<Integer>();
+        definedPropositions2.add(1);
+        definedPropositions2.add(2);
+        Set<Integer> definedPropositions5 = new HashSet<Integer>();
+        definedPropositions5.add(1);
+        definedPropositions5.add(2);
+        definedPropositions5.add(3);
+        definedPropositions5.add(4);
+        definedPropositions5.add(5);
+
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition("P1 AND P2", definedPropositions2));
+        assertEquals("Expected 'Px' or '(Px' but found nothing.", GuiUtil.validateRuleComposition("(P1 AND P2 ) OR", definedPropositions2));
+        assertEquals("Expected 'AND' or 'OR' but found '( AND...'", GuiUtil.validateRuleComposition("P1 ( AND P2) ", definedPropositions2));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition("(P1 AND P2)", definedPropositions2));
+        assertEquals("Expected 'AND' or 'OR' but found '(...'", GuiUtil.validateRuleComposition("(P1 AND P2(", definedPropositions2));
+        assertEquals("Expected 'Px' or '(Px' but found ')' in ')P1 A...'", GuiUtil.validateRuleComposition(")P1 AND P2)", definedPropositions2));
+    }
+
+    @Test
+    public void testValidateCompositionFormat_threePropositions() {
+
+        Set<Integer> definedPropositions3 = new HashSet<Integer>();
+        definedPropositions3.add(1);
+        definedPropositions3.add(2);
+        definedPropositions3.add(3);
+        Set<Integer> definedPropositions4 = new HashSet<Integer>();
+        definedPropositions4.add(1);
+        definedPropositions4.add(2);
+        definedPropositions4.add(3);
+        definedPropositions4.add(4);
+
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition("(P1 AND P2) OR P3", definedPropositions3));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition("(P1 AND P2) OR P3", definedPropositions3));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition(" P1 OR (P2 AND P3 )", definedPropositions3));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition("(P1 AND P2) OR ( P3 AND P4 ) ", definedPropositions4));
+        assertEquals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE, GuiUtil.validateRuleComposition("( ( P1 OR P2) AND P3)", definedPropositions3));
+        assertEquals("Expected 'AND' or 'OR' but found '( OR ...'", GuiUtil.validateRuleComposition("(P1 AND P2 ( OR P3", definedPropositions3));
+        assertEquals("Expected 'Px' or '(Px' but found ')' in ')P1 A...'", GuiUtil.validateRuleComposition(")P1 AND P2 ( OR P3", definedPropositions3));
+        assertEquals("Found ambiguous proposition composition with multiple logical operators not grouped by brackets. Please add brackets: 'AND P...'", GuiUtil.validateRuleComposition(" P1 OR P2 AND P3 ", definedPropositions3));
+        assertEquals("Found ambiguous proposition composition with multiple logical operators not grouped by brackets. Please add brackets: 'AND P...'", GuiUtil.validateRuleComposition(" ( P1 OR P2 AND P3 )", definedPropositions3));
+        assertEquals("Expected 'AND' or 'OR' but found 'P3...'", GuiUtil.validateRuleComposition(" P1 OR P2 P3", definedPropositions3));
+        assertEquals("Expected 'Px' but found 'OR' in 'OR P2...'", GuiUtil.validateRuleComposition(" OR P2 AND P3", definedPropositions3));
+    }
+
+    private static Map<Integer, RuleElementDTO> createTestPropositions() {
         Map<Integer, RuleElementDTO> definedPropositions = new HashMap<Integer, RuleElementDTO>();
 
         RuleElementDTO ruleElem = new RuleElementDTO();
@@ -52,49 +139,7 @@ public class GuiUtilTest {
         definedPropositions.put(4, ruleElem);
         definedPropositions.put(5, ruleElem);
 
-        assertEquals("A", GuiUtil.assembleRuleFromComposition("A", definedPropositions));
-        assertEquals("INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1", definedPropositions));
-        assertEquals("INTERSECTION = 10", GuiUtil.assembleRuleFromComposition(" P1 ", definedPropositions));
-        assertEquals("( INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition(" ( P1)", definedPropositions));
-        assertEquals("INTERSECTION = 10 AND INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1 AND P2", definedPropositions));
-        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("(P1 AND P2)", definedPropositions));
-        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
-        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
-        assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR ( INTERSECTION = 10 AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR ( P3 AND P4 ) ", definedPropositions));
-        assertEquals("( ( INTERSECTION = 10 OR INTERSECTION = 10 ) AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("( ( P1 OR P2) AND P3)", definedPropositions));
+        return definedPropositions;
     }
 
-    /*
-     * Retrieves next token from rule composition e.g. Px, (, ), OR, AND
-     * 
-     * @param composition - business rule composition e.g. (P1 AND P2) OR P3
-     * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
-     * @return list of business rule types
-     * @throws OperationFailedException
-     * 
-     */
-
-    @Test
-    public void testGetNextTokenFromComposition() {
-
-    }
-
-    @Test
-    public void testValidateRuleComposition() {
-
-    }
-
-    // call when parsing Proposition e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
-
-    @Test
-    public void testValidateCompositionFormat() throws Exception {
-
-    }
-
-    // expects the first token to be proposition in format 'Px' e.g. P1
-
-    @Test
-    public void getPropositionID() throws Exception { // TODO our own exception here?
-
-    }
 }
