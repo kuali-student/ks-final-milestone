@@ -63,6 +63,9 @@ public class BusinessRuleInfoDTO implements Serializable{
     @XmlElement
     private String compiledId;
     
+    @XmlElement
+    private long compiledVersionNumber;
+    
     @XmlElement(name = "ruleElement")
     @XmlElementWrapper(name = "ruleElementList")
     private List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
@@ -294,6 +297,20 @@ public class BusinessRuleInfoDTO implements Serializable{
     public void setCompiledId(String compiledId) {
         this.compiledId = compiledId;
     }
+
+    /**
+     * @return the compiled version number
+     */
+	public long getCompiledVersionNumber() {
+		return compiledVersionNumber;
+	}
+
+	/**
+	 * @param compiledVersionNumber the compiled version number
+	 */
+	public void setCompiledVersionNumber(long compiledVersionNumber) {
+		this.compiledVersionNumber = compiledVersionNumber;
+	}
 
     
 }
