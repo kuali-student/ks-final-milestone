@@ -15,24 +15,6 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<import resource="classpath:data-beans.xml" />
-
-	<bean id="preloadBeans"
-		class="org.kuali.student.poc.common.util.jpa.LoadJpaBeanListener">
-		<property name="loadJpaBean">
-			<bean
-				class="org.kuali.student.poc.common.util.jpa.LoadJpaBean" />
-		</property>
-		<property name="preloadMap">
-			<map>
-				<entry key="RuleManagement">
-					<ref bean="ruleBeanPreloadList" />
-				</entry>
-			</map>
-		</property>
-		
-	</bean>
-
     <!--*****************************************-->
     <!--*          Web Service Clients          *-->
     <!--*****************************************-->
@@ -107,10 +89,47 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="AtomikosTxMgr"
+		class="com.atomikos.icatch.jta.UserTransactionManager"
+		init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true" />
+		<property name="startupTransactionService" value="true" />
+		<property name="transactionTimeout" value="60" />
+	</bean>
+	
+	<bean id="AtomikosUsrTx"
+		class="com.atomikos.icatch.jta.UserTransactionImp" />
 
+	<bean id="JtaTxManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager" ref="AtomikosTxMgr" />
+		<property name="userTransaction" ref="AtomikosUsrTx" />
+		<property name="transactionSynchronizationName"
+			value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+	</bean>
 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
+	<tx:annotation-driven transaction-manager="JtaTxManager" />
+	
+	<import resource="classpath:data-beans.xml" />
 
+	<bean id="preloadBeans"
+		class="org.kuali.student.poc.common.util.jpa.LoadJpaBeanListener">
+		<property name="loadJpaBean">
+			<bean
+				class="org.kuali.student.poc.common.util.jpa.LoadJpaBean" />
+		</property>
+		<property name="preloadMap">
+			<map>
+				<entry key="RuleManagement">
+					<ref bean="ruleBeanPreloadList" />
+				</entry>
+			</map>
+		</property>
+		
+	</bean>
+	
 </beans>

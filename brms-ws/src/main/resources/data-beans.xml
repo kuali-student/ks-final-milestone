@@ -7,8 +7,14 @@
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<ref bean="funcBusRule1" />
-	    		<ref bean="funcBusRule2" />
+	    		<!-- <ref bean="funcBusRule2" /> -->
+				<ref bean="businessRuleType1"/>
+				<ref bean="businessRuleType2"/>			
+<!-- 				<ref bean="ruleProposition1"/>
+				<ref bean="ruleProposition2"/>
+				<ref bean="leftHandSide1"/>
+				<ref bean="leftHandSide3"/> 				
+ 				<ref bean="funcBusRule1" /> -->	
 			</list>
 		</property>
 	</bean>
@@ -29,19 +35,19 @@
 
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
 	<bean id="funcBusRule1" class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
-		<property name="id"	value="11223344-1122-1122-1112-100000000001" />
-		<property name="ruleId" value="1" />
-		<property name="name" value="Intermediate CPR" />		
+		<property name="id"	value="" />
+		<property name="ruleId" value="201" />
+    	<property name="name" value="Intermediate" />		
 		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />	
 		<property name="successMessage" value="Rule 1 Success Message" />	
 		<property name="failureMessage" value="Rule 1 Failure Message" />	
-		<property name="compiledId" value="111" />	
+		<property name="compiledId" value="" />	
 		<property name="anchor" value="CPR 201" />	
 		<property name="businessRuleType" ref="businessRuleType2" />														
 		<property name="metaData" ref="ruleMetaData" />
-		<property name="ruleElements">
+<!-- 	<property name="ruleElements">
 			<list>
-				<bean id="ruleElement1" class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
+			<bean id="ruleElement1" class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1112-100000000002" />
 					<property name="name" value="PA" />	
 					<property name="description" value="" />	
@@ -66,11 +72,11 @@
 					<property name="ordinalPosition" value="3" />	
 					<property name="businessRule" ref="funcBusRule1" />	
 					<property name="ruleProposition" ref="ruleProposition2" />					
-				</bean>	
-			</list>
-		</property>						
+				</bean> 
+			</list> 
+		</property>	-->					
 	</bean>	
-
+	
 	<bean id="ruleMetaData"	class="org.kuali.student.rules.rulemanagement.entity.RuleMetaData">
 		<property name="createdBy" value="Kamal" />	
 		<property name="createDate" ref="currentTime" />	
@@ -132,7 +138,7 @@
 	
 	
 	
-	<!-- 1 of MATH 100 AND  SUM CREDIT > 12 -->
+	<!-- 1 of MATH 100 AND  SUM CREDIT > 12 
 	<bean id="funcBusRule2" class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
 		<property name="id"	value="11223344-1122-1122-1112-100000000011" />
 		<property name="ruleId" value="2" />
@@ -175,7 +181,8 @@
 			</list>
 		</property>						
 	</bean>	
-
+	-->
+	
 	<bean id="ruleProposition3"	class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
 		<property name="id"	value="11223344-1122-1122-1112-100000000015" />	
 		<property name="name" value="P3" />	
@@ -212,7 +219,7 @@
 	</bean>
 
 	<bean id="yieldValueFunction5"	class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
-		<property name="id"	value="11223344-1122-1122-1112-100000000008" />	
+		<property name="id"	value="11223344-1122-1122-1112-100000000018" />	
 		<property name="yieldValueFunctionType" value="SUM" />	
 	</bean>
 		
