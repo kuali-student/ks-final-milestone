@@ -213,7 +213,7 @@
 	</bean>
 
 	<bean id="yieldValueFunction5"	class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
-		<property name="id"	value="11223344-1122-1122-1112-100000000008" />	
+		<property name="id"	value="11223344-1122-1122-1112-100000000018" />	
 		<property name="yieldValueFunctionType" value="SUM" />	
 	</bean>
 		
