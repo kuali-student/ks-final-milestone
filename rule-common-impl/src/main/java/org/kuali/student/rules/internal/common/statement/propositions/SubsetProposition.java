@@ -1,5 +1,17 @@
-/**
+/*
+ * Copyright 2007 The Kuali Foundation
  *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
@@ -16,7 +28,6 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
 public class SubsetProposition<E> extends AbstractProposition<Integer> {
-
     // ~ Instance fields --------------------------------------------------------
 
     Set<E> criteriaSet;
@@ -29,7 +40,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     }
 
     public SubsetProposition(String propositionName, Set<E> criteriaSet, Set<E> factSet) {
-        super(propositionName, ComparisonOperator.EQUAL_TO, String.valueOf(criteriaSet.size()));
+        super(propositionName, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }
@@ -38,15 +49,12 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     @Override
     public Boolean apply() {
-
-        Integer expectedValue = Integer.valueOf(expectedValueAsString);
-
         Set<E> met = and();
         Integer count = met.size();
 
-        result = checkTruthValue(count, expectedValue);
+        result = checkTruthValue(count, super.expectedValue);
 
-        cacheReport("%d of %s is still required", count, expectedValue);
+        cacheReport("%d of %s is still required", count, super.expectedValue);
 
         return result;
     }

@@ -236,6 +236,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 
     public void addHeader(RuleSet ruleSet) {
         ruleSet.addHeader("import java.util.*");
+        ruleSet.addHeader("import java.math.BigDecimal");
         ruleSet.addHeader("import org.slf4j.Logger;");
 		ruleSet.addHeader("import org.slf4j.LoggerFactory;");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");

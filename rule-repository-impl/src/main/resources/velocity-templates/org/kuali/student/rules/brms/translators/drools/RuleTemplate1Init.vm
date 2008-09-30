@@ -60,7 +60,7 @@ rule "${ruleName}"
                     logger.debug("criteriaSet${key}="+criteriaSet${key});
                     logger.debug("factSet${key}="+factSet${key});
                 }
-                IntersectionProposition proposition${key} = new IntersectionProposition("$key", ComparisonOperator.${operator}, "$rhs", criteriaSet${key}, factSet${key} ); 
+                IntersectionProposition proposition${key} = new IntersectionProposition("$key", ComparisonOperator.${operator}, new Integer($rhs), criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
 
@@ -70,7 +70,7 @@ rule "${ruleName}"
                 if (logger.isDebugEnabled()) {
                     logger.debug("factList${key}="+factList${key});
                 }
-                SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
+                SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
 
@@ -80,7 +80,7 @@ rule "${ruleName}"
                 if (logger.isDebugEnabled()) {
                     logger.debug("factList${key}="+factList${key});
                 }
-                AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, "$rhs", factList${key} ); 
+                AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
 

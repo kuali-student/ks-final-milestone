@@ -1,5 +1,17 @@
-/**
+/*
+ * Copyright 2007 The Kuali Foundation
  *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
@@ -17,7 +29,6 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
-
     // ~ Instance fields --------------------------------------------------------
 
     List<E> factSet;
@@ -28,7 +39,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         super();
     }
 
-    public SumProposition(String propositionName, ComparisonOperator operator, String expectedValue, List<E> factSet) {
+    public SumProposition(String propositionName, ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
         super(propositionName, operator, expectedValue);
         this.factSet = (factSet == null ? new ArrayList<E>() : factSet);
     }
@@ -37,14 +48,11 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
     @Override
     public Boolean apply() {
-
-        BigDecimal expectedValue = getDecimalValue(expectedValueAsString);
-
         BigDecimal sum = sum();
 
-        result = checkTruthValue(sum, expectedValue);
+        result = checkTruthValue(sum, super.expectedValue);
 
-        cacheReport("Total is short by %s", sum, expectedValue);
+        cacheReport("Total is short by %s", sum, super.expectedValue);
 
         return result;
     }

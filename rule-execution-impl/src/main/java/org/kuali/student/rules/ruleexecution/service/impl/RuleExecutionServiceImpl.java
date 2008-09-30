@@ -97,17 +97,15 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     public byte[] executeRuleSet(RuleSetDTO ruleSet, byte[] fact)
 		throws InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
-System.out.println("\n\n\n\n*********** Pass 1");
 		List<?> factList;
 		try {
 			factList = (List<?>) ObjectUtil.serialize(fact);
-System.out.println("*********** Pass 2: factList="+factList);
 		} catch (IOException e) {
     		throw new OperationFailedException("IOException:" + e.getMessage()+"\n"+e.getCause());
 		} catch (ClassNotFoundException e) {
     		throw new OperationFailedException("ClassNotFoundException:" + e.getMessage()+"\n"+e.getCause());
 		}
-System.out.println("*********** Pass 3");
+
     	if (ruleSet == null) {
     		throw new MissingParameterException("RuleSet is null");
     	} else if (fact == null) {
@@ -116,7 +114,6 @@ System.out.println("*********** Pass 3");
     		throw new InvalidParameterException("Fact list contains no elements");
     	}
     	
-System.out.println("*********** Pass 4");
     	try {
     		return ObjectUtil.deserialize( this.ruleSetExecutor.execute(ruleSet, factList));
     	} catch(RuleSetExecutionException e) {
