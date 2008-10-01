@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.poc.common</groupId>
+	<artifactId>ks-parent-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>0.1.0-SNAPSHOT</version>
+	<name>KS POC Parent Profiles POM</name>
+	<description>POM with profiles to use a specific jpa or service engine implementation</description>
+
+	<parent>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-pom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<profiles>
+		<profile>
+			<id>eclipselink</id>
+			<activation>
+				<property>
+					<name>ks.use.eclipselink</name>
+				</property>
+			</activation>
+
+			<properties>
+				<jpa.impl>eclipselink</jpa.impl>
+				<jpa.vendorAdapter>
+					org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter
+				</jpa.vendorAdapter>
+				<jpa.databasePlatform>
+					org.eclipse.persistence.platform.database.DerbyPlatform
+				</jpa.databasePlatform>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>ks-eclipselink-pom</artifactId>
+					<type>pom</type>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>hibernate</id>
+			<activation>
+				<property>
+					<name>!ks.use.eclipselink</name>
+				</property>
+			</activation>
+
+			<properties>
+				<jpa.impl>hibernate</jpa.impl>
+				<jpa.vendorAdapter>
+					org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+				</jpa.vendorAdapter>
+				<jpa.databasePlatform>
+					org.hibernate.dialect.DerbyDialect
+				</jpa.databasePlatform>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>ks-hibernate-pom</artifactId>
+					<type>pom</type>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>cxf</id>
+			<activation>
+				<property>
+					<name>!ks.use.jaxws</name>
+				</property>
+			</activation>
+
+			<properties>
+				<ws.engine>cxf</ws.engine>
+				<ws.servlet>
+					org.apache.cxf.transport.servlet.CXFServlet
+				</ws.servlet>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>common-cxf</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>jaxws</id>
+			<activation>
+				<property>
+					<name>ks.use.jaxws</name>
+				</property>
+			</activation>
+
+			<properties>
+				<ws.servlet>
+					com.sun.xml.ws.transport.http.servlet.WSSpringServlet
+				</ws.servlet>
+				<ws.engine>jaxws</ws.engine>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.kuali.student.poc.common</groupId>
+					<artifactId>common-metro</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<!-- 
+		Set the dependency scope to test for specific implmentations of webservice engine and jpa
+		as they are only needed for test harness.
+	 -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.kuali.student.poc.common</groupId>
+				<artifactId>common-cxf</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.poc.common</groupId>
+				<artifactId>common-metro</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.poc.common</groupId>
+				<artifactId>ks-eclipselink-pom</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.kuali.student.poc.common</groupId>
+				<artifactId>ks-hibernate-pom</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>
