@@ -334,7 +334,6 @@ public class BusinessRuleUtil {
      * @param expectedValue The value to be converted
      * @return New value in proper data type 
      */
-    @SuppressWarnings("unchecked")
     public static <T> T convertToDataType(Class<T> clazz, String expectedValue) {
     	if (expectedValue == null) {
     		return null;
