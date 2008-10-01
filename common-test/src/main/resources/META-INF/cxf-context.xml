@@ -42,7 +42,7 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
 	</jaxws:endpoint>
 
-	<bean id="passwordCallback" class="org.kuali.student.poc.common.cxf.security.SimpleServerPasswordCallback"/>
+	<bean id="passwordCallback" class="org.kuali.student.poc.common.ws.security.cxf.SimpleServerPasswordCallback"/>
 
 	<bean id="wss4jInConfiguration" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
 		<property name="properties">

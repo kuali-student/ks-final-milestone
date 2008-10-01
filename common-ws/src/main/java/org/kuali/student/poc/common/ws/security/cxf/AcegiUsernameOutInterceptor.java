@@ -1,4 +1,4 @@
-package org.kuali.student.poc.common.cxf.security;
+package org.kuali.student.poc.common.ws.security.cxf;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContextHolder;

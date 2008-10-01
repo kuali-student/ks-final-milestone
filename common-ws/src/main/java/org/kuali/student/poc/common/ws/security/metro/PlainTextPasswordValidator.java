@@ -1,4 +1,4 @@
-package org.kuali.student.poc.common.metro.security;
+package org.kuali.student.poc.common.ws.security.metro;
 
 import org.kuali.student.poc.common.ws.security.AuthenticationService;
 

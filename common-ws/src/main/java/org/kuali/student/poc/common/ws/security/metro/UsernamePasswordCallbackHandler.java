@@ -1,4 +1,4 @@
-package org.kuali.student.poc.common.metro.security;
+package org.kuali.student.poc.common.ws.security.metro;
 
 import java.io.IOException;
 

@@ -1,5 +1,5 @@
 
-package org.kuali.student.poc.common.cxf.security;
+package org.kuali.student.poc.common.ws.security.cxf;
 
 import java.util.Vector;
 
