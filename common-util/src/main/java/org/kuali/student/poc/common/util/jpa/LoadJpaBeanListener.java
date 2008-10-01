@@ -1,5 +1,6 @@
 package org.kuali.student.poc.common.util.jpa;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,6 +41,10 @@ public class LoadJpaBeanListener implements ApplicationListener,
 				}
 			}
 		}
+		
+		// Reset the preloadMap to an empty Map after processing them
+		// This avoids multiple load of data beans when war is deployed 
+		preloadMap = new HashMap<String, List<Object>>();
 	}
 
 	/**
