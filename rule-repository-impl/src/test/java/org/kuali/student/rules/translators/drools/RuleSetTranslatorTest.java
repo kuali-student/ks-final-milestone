@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -73,14 +74,16 @@ public class RuleSetTranslatorTest {
 
     private BusinessRuleInfoDTO getBusinessRule(String yieldValueFunctionType, 
     		String criteria, String comparisonOperator, String expectedValue, 
-    		String anchorValue, String factKey) throws Exception {
+    		String anchorValue, String factKey,
+    		String comparisonDataType) throws Exception {
         BusinessRuleInfoDTO businessRule = dtoFactory.createBusinessRuleInfoDTO(
         		"CPR101", 
         		"1", 
         		"Rule 1 Success Message", 
         		"Rule 1 Failure Message", 
         		"kuali.businessrule.typekey.course.corequisites", 
-        		getRuleElementList(yieldValueFunctionType, criteria, comparisonOperator, expectedValue, factKey), 
+        		getRuleElementList(yieldValueFunctionType, criteria, 
+        				comparisonOperator, expectedValue, factKey, comparisonDataType), 
         		"kuali.anchor.typekey.course", 
         		anchorValue);
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
@@ -92,17 +95,20 @@ public class RuleSetTranslatorTest {
     }
 
     private List<RuleElementDTO> getRuleElementList(String yieldValueFunctionType, 
-    		String criteria, String comparisonOperator, String expectedValue, String factKey) {
+    		String criteria, String comparisonOperator, String expectedValue, String factKey,
+    		String comparisonDataType) {
     	List<RuleElementDTO> list = new ArrayList<RuleElementDTO>();
         RuleElementDTO re1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
-        		new Integer(1), getRuleProposition(yieldValueFunctionType, criteria, comparisonOperator, expectedValue, factKey));
+        		new Integer(1), getRuleProposition(yieldValueFunctionType, 
+        				criteria, comparisonOperator, expectedValue, factKey, comparisonDataType));
         list.add(re1);
         return list;
     }
 
     private RulePropositionDTO getRuleProposition(String yieldValueFunctionType, 
-    		String criteria, String comparisonOperator, String expectedValue, String factKey) {
+    		String criteria, String comparisonOperator, String expectedValue, String factKey,
+    		String comparisonDataType) {
         // E.g. 1 of CPR 101
     	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
     	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
@@ -111,6 +117,8 @@ public class RuleSetTranslatorTest {
         		PROPOSITION_NAME, java.lang.Integer.class.getName(), 
         		comparisonOperator, leftSide, rightSide);
 
+        ruleProp.setComparisonDataType(comparisonDataType);
+        
         FactStructureDTO factStructure = new FactStructureDTO();
         factStructure.setDataType(java.util.Set.class.getName());
         factStructure.setFactStructureId(factKey);
@@ -170,7 +178,8 @@ public class RuleSetTranslatorTest {
     
     private BusinessRuleInfoDTO getBusinessRuleInfo(String yieldValueFunctionType,
     		String criteria, String comparisonOperator, 
-    		String expectedValue, String anchorValue, String factId) throws Exception {
+    		String expectedValue, String anchorValue, String factId,
+    		String comparisonDataType) throws Exception {
         // Generate Drools rule set source code
         BusinessRuleInfoDTO businessRule = getBusinessRule(
         		yieldValueFunctionType, 
@@ -178,20 +187,23 @@ public class RuleSetTranslatorTest {
         		comparisonOperator,
         		expectedValue, 
         		anchorValue, 
-        		factId);
+        		factId,
+        		comparisonDataType);
         return businessRule;
     }
 
     private String getRuleSourceCode(String yieldValueFunctionType,
     		String criteria, String comparisonOperator, 
-    		String expectedValue, String anchorValue, String factId) throws Exception {
+    		String expectedValue, String anchorValue, String factId,
+    		String comparisonDataType) throws Exception {
     	BusinessRuleInfoDTO businessRule = getBusinessRuleInfo(
         		yieldValueFunctionType, 
         		criteria, 
         		comparisonOperator,
         		expectedValue, 
         		anchorValue,
-        		factId);
+        		factId,
+        		comparisonDataType);
     	//BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         //container.getBusinessRules().add(businessRule);
         // Parse and generate rule set
@@ -200,6 +212,130 @@ public class RuleSetTranslatorTest {
         return ruleSet.getContent();
     }
     
+    @Test
+    public void testParseBusinessRule_MinTrue() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factId1 = "fact1";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.MIN.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"75.0",
+    			anchorValue,
+    			factId1,
+    			BigDecimal.class.getName());
+
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
+        // Get facts
+        List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        //List<String> courseSet = Arrays.asList(new String[] {"70.0", "80.0", "90.0"});
+        //Map<String,List<String>> factMap = new HashMap<String,List<String>>(1);
+        factMap.put(factId1, courseSet);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_MinFalse() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factId1 = "fact1";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.MIN.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"85.0",
+    			anchorValue,
+    			factId1,
+    			BigDecimal.class.getName());
+
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
+        // Get facts
+        List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        //List<String> courseSet = Arrays.asList(new String[] {"70.0", "80.0", "90.0"});
+        //Map<String,List<String>> factMap = new HashMap<String,List<String>>(1);
+        factMap.put(factId1, courseSet);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_MaxTrue() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factId1 = "fact1";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.MAX.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"85.0",
+    			anchorValue,
+    			factId1,
+    			BigDecimal.class.getName());
+
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
+        // Get facts
+        List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        //List<String> courseSet = Arrays.asList(new String[] {"70.0", "80.0", "90.0"});
+        //Map<String,List<String>> factMap = new HashMap<String,List<String>>(1);
+        factMap.put(factId1, courseSet);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseBusinessRule_MaxFalse() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factId1 = "fact1";
+    	String source = getRuleSourceCode(
+    			YieldValueFunctionType.MAX.toString(), 
+    			"CPR101",
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"75.0",
+    			anchorValue,
+    			factId1,
+    			BigDecimal.class.getName());
+
+        factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
+        // Get facts
+        List<BigDecimal> courseSet = createList("85.0,75.0,80.0");
+        Map<String,List<BigDecimal>> factMap = new HashMap<String,List<BigDecimal>>(1);
+        //List<String> courseSet = Arrays.asList(new String[] {"70.0", "80.0", "90.0"});
+        //Map<String,List<String>> factMap = new HashMap<String,List<String>>(1);
+        factMap.put(factId1, courseSet);
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+    }
+
     @Test
     public void testParseBusinessRule_Intersection() throws Exception {
         // Generate Drools rule set source code
@@ -211,7 +347,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"1",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			String.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -239,7 +376,8 @@ public class RuleSetTranslatorTest {
     			null,
     			null,
     			anchorValue,
-    			factId1);
+    			factId1,
+    			String.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -267,7 +405,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"1",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			String.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts - null fact
@@ -294,7 +433,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"1",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			String.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts - empty fact
@@ -321,7 +461,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"12.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -349,7 +490,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"12.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -376,7 +518,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"12.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -403,7 +546,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"80.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
 
         // Get facts
 //        Set<SumFact> courseSet = new HashSet<SumFact>(2);
@@ -435,7 +579,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"80.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -466,7 +611,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"80.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
 
         factId1 = FactUtil.getFactKey(PROPOSITION_NAME, factId1, 0);
         // Get facts
@@ -502,7 +648,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"80.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
     	
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
@@ -542,7 +689,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"80.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
     	
     	businessRule.getRuleElementList().get(0).getRuleProposition().
     		getLeftHandSide().getYieldValueFunction().
@@ -571,7 +719,8 @@ public class RuleSetTranslatorTest {
     			ComparisonOperator.EQUAL_TO.toString(),
     			"80.0",
     			anchorValue,
-    			factId1);
+    			factId1,
+    			BigDecimal.class.getName());
     	
     	// Remove definition key
     	businessRule.getRuleElementList().get(0).getRuleProposition().

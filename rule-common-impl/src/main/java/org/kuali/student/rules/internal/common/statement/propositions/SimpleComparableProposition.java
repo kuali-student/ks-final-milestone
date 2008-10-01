@@ -24,8 +24,9 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  * @param <E>
  *            the type being constrained.
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
+ * @author Kuali Student Team (len.kuali@gmail.com)
  */
-public class SimpleComparableProposition<T> extends AbstractProposition<T> {
+public class SimpleComparableProposition<T extends Comparable<T>> extends AbstractProposition<T> {
     // ~ Instance fields --------------------------------------------------------
 
     T fact;

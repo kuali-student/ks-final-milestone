@@ -1,7 +1,11 @@
 package org.kuali.student.rules.internal.common.utils;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +19,8 @@ public class BusinessRuleUtil {
 
     static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
+    public static final String CALENDAR_DATE_FORMAT = "yyyy.MM.dd-HH.mm.ss.SSS";
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CALENDAR_DATE_FORMAT);
 
     /*
      * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
@@ -318,5 +324,69 @@ public class BusinessRuleUtil {
             }
         }
         return propositionMap;
+    }
+    
+    /**
+     * <p>Converts the <code>expectedValue</code> to <code>dataType</code>.</p>
+     * <p>e.g. dateType="java.lang.Integer" expectedValue="123" returns new Integer(123)</p>
+     * 
+     * @param dataType Data type to convert <code>expectedValue</code> to
+     * @param expectedValue The value to be converted
+     * @return New value in proper data type 
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T convertToDataType(Class<T> clazz, String expectedValue) {
+    	if (expectedValue == null) {
+    		return null;
+    	}
+    	else if (clazz.isPrimitive()) {
+        	throw new RuntimeException("Rule proposition comparison data type conversion error. Primitives cannot be converted: " + clazz);
+    	}
+    	else if (clazz.equals(String.class)) {
+    		return clazz.cast(expectedValue);
+    	}
+    	else if (clazz.equals(Integer.class)) {
+    		Integer i = new Integer(expectedValue);
+    		return clazz.cast(i);
+    	}
+    	else if (clazz.equals(Double.class)) {
+    		Double d = new Double(expectedValue);
+    		return clazz.cast(d);
+    	}
+    	else if (clazz.equals(Long.class)) {
+    		Long l = new Long(expectedValue);
+    		return clazz.cast(l);
+    	}
+    	else if (clazz.equals(Float.class)) {
+    		Float f = new Float(expectedValue);
+    		return clazz.cast(f);
+    	}
+    	else if (clazz.equals(Short.class)) {
+    		Short s = new Short(expectedValue);
+    		return clazz.cast(s);
+    	}
+    	else if (clazz.equals(BigDecimal.class)) {
+    		BigDecimal d = new BigDecimal(expectedValue);
+    		return clazz.cast(d);
+    	}
+    	else if (clazz.equals(BigInteger.class)) {
+    		BigInteger i = new BigInteger(expectedValue);
+    		return clazz.cast(i);
+    	}
+    	else if (clazz.equals(Boolean.class)) {
+    		Boolean b = new Boolean(expectedValue);
+    		return clazz.cast(b);
+    	}
+    	else if (clazz.equals(Date.class)) {
+    		Long timeInMillies = Long.valueOf(expectedValue);
+    		Date date = new Date(timeInMillies.longValue());
+    		return clazz.cast(date);
+    	}
+//    	else if (clazz.equals(Calendar.class)) {
+//    		return dateFormat.format(expectedValue);
+//    		return clazz.cast(date);
+//    	}
+    	
+    	throw new RuntimeException("Rule proposition comparison data type conversion error. Data type not found: " + clazz);
     }
 }

@@ -25,7 +25,7 @@ import org.kuali.student.rules.internal.common.statement.report.PropositionRepor
  * RuntimeException.
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
- * @param <T>
+ * @author Kuali Student Team (len.kuali@gmail.com)
  */
 public abstract class AbstractProposition<T> implements Proposition {
 
@@ -52,15 +52,14 @@ public abstract class AbstractProposition<T> implements Proposition {
         this.expectedValue = expectedValue;
     }
 
-    @SuppressWarnings("unchecked")
-    protected Boolean checkTruthValue(T computedValue, T expectedValue) {
+    protected Boolean checkTruthValue(Comparable<T> computedValue, T expectedValue) {
 
         if (!(computedValue instanceof Comparable) || !(expectedValue instanceof Comparable)) {
-            throw new IllegalArgumentException("Both computed value and expected values have to implement Comparable.");
+            throw new IllegalArgumentException("Both computed value and expected values have to implement java.lang.Comparable.");
         }
 
         Boolean truthValue = false;
-        int compareValue = ((Comparable<T>) computedValue).compareTo(expectedValue);
+        int compareValue = computedValue.compareTo(expectedValue);
 
         switch (operator) {
 

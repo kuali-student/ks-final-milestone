@@ -245,6 +245,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");
         ruleSet.addHeader("import org.kuali.student.rules.util.CurrentDateTime");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil");
     }
 
     /**

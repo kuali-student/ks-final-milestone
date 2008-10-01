@@ -71,7 +71,8 @@ public class RuleSetTranslatorPropositionTest {
     			"1", 
     			ComparisonOperator.EQUAL_TO.toString(), 
     			criteria, 
-    			factId);
+    			factId,
+    			String.class.getName());
     }
     
     private RulePropositionDTO getRuleProposition(
@@ -79,12 +80,13 @@ public class RuleSetTranslatorPropositionTest {
     		String expectedValue,
     		String comparisonOperator,
     		String criteria, 
-    		String factId) {
+    		String factId,
+    		String comparisonOperatorType) {
     	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
     	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
     	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
         RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
-        		PROPOSITION_NAME, java.lang.Integer.class.getName(), 
+        		PROPOSITION_NAME, comparisonOperatorType, 
         		comparisonOperator, leftSide, rightSide);
         
         FactStructureDTO factStructure = new FactStructureDTO();
@@ -340,28 +342,32 @@ public class RuleSetTranslatorPropositionTest {
         		null,
         		null,
         		"CPR101",
-        		factId1));
+        		factId1,
+        		null));
         // 1 of CPR101
         propositionMap.put("P2", getRuleProposition(
         		YieldValueFunctionType.INTERSECTION.toString(),
         		"1",
         		ComparisonOperator.EQUAL_TO.toString(),
         		"CPR101",
-        		factId1));
+        		factId1,
+        		null));
         // Sum of credits = 12.0
         propositionMap.put("P3", getRuleProposition(
         		YieldValueFunctionType.SUM.toString(),
         		"12.0",
         		ComparisonOperator.EQUAL_TO.toString(),
         		null,
-        		factId2));
+        		factId2,
+        		BigDecimal.class.getName()));
         // Average >= 75.0
         propositionMap.put("P4", getRuleProposition(
         		YieldValueFunctionType.AVERAGE.toString(),
         		"75.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
         		null,
-        		factId3));
+        		factId3,
+        		BigDecimal.class.getName()));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
@@ -405,14 +411,16 @@ public class RuleSetTranslatorPropositionTest {
         		null,
         		null,
         		"CPR101",
-        		factId1));
+        		factId1,
+        		null));
         // 1 of MATH102
         propositionMap.put("P2", getRuleProposition(
         		YieldValueFunctionType.INTERSECTION.toString(),
         		"1",
         		ComparisonOperator.EQUAL_TO.toString(),
         		"MATH102",
-        		factId1));
+        		factId1,
+        		null));
 
         // Sum of credits = 12.0
         propositionMap.put("P3", getRuleProposition(
@@ -420,14 +428,16 @@ public class RuleSetTranslatorPropositionTest {
         		"12.0",
         		ComparisonOperator.EQUAL_TO.toString(),
         		null,
-        		factId2));
+        		factId2,
+        		BigDecimal.class.getName()));
         // Sum of credits >= 12.0
         propositionMap.put("P4", getRuleProposition(
         		YieldValueFunctionType.SUM.toString(),
         		"9.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
         		null,
-        		factId2));
+        		factId2,
+        		BigDecimal.class.getName()));
 
         // Average > 75.0
         propositionMap.put("P5", getRuleProposition(
@@ -435,14 +445,16 @@ public class RuleSetTranslatorPropositionTest {
         		"75.0",
         		ComparisonOperator.GREATER_THAN.toString(),
         		null,
-        		factId3));
+        		factId3,
+        		BigDecimal.class.getName()));
         // Average >= 80.0
         propositionMap.put("P6", getRuleProposition(
         		YieldValueFunctionType.AVERAGE.toString(),
         		"80.0",
         		ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
         		null,
-        		factId3));
+        		factId3,
+        		BigDecimal.class.getName()));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 

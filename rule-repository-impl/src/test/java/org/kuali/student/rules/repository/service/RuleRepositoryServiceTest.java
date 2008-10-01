@@ -307,7 +307,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.removeState("Active");
     	service.removeState("Inactive");
     }
-    
+
     private Date createDate(int year, int month, int day, int hourOfDay, int minute, int seconds) {
     	Calendar cal = Calendar.getInstance();
     	cal.set(year, month-1, day, hourOfDay, minute, seconds);
@@ -348,7 +348,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         ruleProposition.setDescription("Course intersection");
         ruleProposition.setLeftHandSide(leftHandSide);
         ruleProposition.setRightHandSide(rightHandSide);
-        ruleProposition.setComparisonDataType(java.lang.Integer.class.getName());
+        ruleProposition.setComparisonDataType(String.class.getName());
         ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
     	RuleElementDTO re = new RuleElementDTO();
@@ -375,7 +375,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         ruleProposition.setDescription("Course credit summation");
         ruleProposition.setLeftHandSide(leftHandSide);
         ruleProposition.setRightHandSide(rightHandSide);
-        ruleProposition.setComparisonDataType(java.lang.Double.class.getName());
+        ruleProposition.setComparisonDataType(BigDecimal.class.getName());
         ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
     	RuleElementDTO re = new RuleElementDTO();

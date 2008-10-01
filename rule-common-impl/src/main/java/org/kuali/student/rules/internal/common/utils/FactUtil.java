@@ -74,6 +74,11 @@ public class FactUtil {
 				FactStructureDTO factStructure = list.get(0);
 				return FactUtil.getFactKey(propositionName, factStructure.getFactStructureId(), 0);
 			}
+			case MIN:
+			case MAX: {
+				FactStructureDTO factStructure = list.get(0);
+				return FactUtil.getFactKey(propositionName, factStructure.getFactStructureId(), 0);
+			}
 		}
 		throw new RuntimeException("Yield value function type not found: Type="+type);
 	}

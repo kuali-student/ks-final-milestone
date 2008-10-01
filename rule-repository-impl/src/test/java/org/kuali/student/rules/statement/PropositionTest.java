@@ -1,5 +1,6 @@
 package org.kuali.student.rules.statement;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +13,12 @@ import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.propositions.AverageProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.MaxProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.MinProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SimpleComparableProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
 public class PropositionTest {
 
@@ -97,7 +101,6 @@ public class PropositionTest {
 
     @Test
     public void testIntersectionFalse() throws Exception {
-
         IntersectionProposition<String> subsetProp = new IntersectionProposition<String>("A",
                 ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(2), set1, set2);
 
@@ -108,7 +111,6 @@ public class PropositionTest {
 
     @Test
     public void testSubsetTrue() throws Exception {
-
         SubsetProposition<String> subsetProp = new SubsetProposition<String>("A", set1, set2);
 
         Boolean result = subsetProp.apply();
@@ -139,7 +141,6 @@ public class PropositionTest {
 
     @Test
     public void testSumFalse() throws Exception {
-
         SumProposition<BigDecimal> subsetProp = new SumProposition<BigDecimal>("A",
                 ComparisonOperator.LESS_THAN, new BigDecimal(12.0), creditList);
 
@@ -150,7 +151,6 @@ public class PropositionTest {
 
     @Test
     public void testAverageTrue() throws Exception {
-
         AverageProposition<BigDecimal> subsetProp = new AverageProposition<BigDecimal>("A",
                 ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(80.0), gradeList);
 
@@ -161,7 +161,6 @@ public class PropositionTest {
 
     @Test
     public void testAverageFalse() throws Exception {
-
     	AverageProposition<BigDecimal> subsetProp = new AverageProposition<BigDecimal>("A",
                 ComparisonOperator.EQUAL_TO, new BigDecimal(70.0), gradeList);
 
@@ -170,4 +169,118 @@ public class PropositionTest {
         Assert.assertFalse(result);
     }
 
+    @Test
+    public void testMaxProposition_String() throws Exception {
+    	MaxProposition<String> maxProp = new MaxProposition<String>("A",
+    			ComparisonOperator.EQUAL_TO, new String("333"), Arrays.asList(new String[]{"1", "22", "333"}));
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+    
+    @Test
+    public void testMaxProposition_BigDecimal() throws Exception {
+    	MaxProposition<BigDecimal> maxProp = new MaxProposition<BigDecimal>("A",
+    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(85.0), gradeList);
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMaxProposition_Double() throws Exception {
+    	MaxProposition<Double> maxProp = new MaxProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO, new Double(3.3), Arrays.asList(new Double[]{new Double(1.1), new Double(2.2), new Double(3.3)}));
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMaxProposition_Integer() throws Exception {
+    	MaxProposition<Integer> maxProp = new MaxProposition<Integer>("A",
+    			ComparisonOperator.EQUAL_TO, new Integer(3), Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}));
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMaxProposition_Long() throws Exception {
+    	MaxProposition<Long> maxProp = new MaxProposition<Long>("A",
+    			ComparisonOperator.EQUAL_TO, new Long(3), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMinProposition_String() throws Exception {
+    	MinProposition<String> minProp = new MinProposition<String>("A",
+    			ComparisonOperator.EQUAL_TO, new String("1"), Arrays.asList(new String[]{"1", "22", "333"}));
+
+    	Boolean result = minProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMinProposition_BigDecimal() throws Exception {
+    	MinProposition<BigDecimal> minProp = new MinProposition<BigDecimal>("A",
+    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(75.0), gradeList);
+
+    	Boolean result = minProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMinProposition_Double() throws Exception {
+    	MinProposition<Double> minProp = new MinProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO, new Double(1.1), Arrays.asList(new Double[]{new Double(1.1), new Double(2.2), new Double(3.3)}));
+
+    	Boolean result = minProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMinProposition_Integer() throws Exception {
+    	MinProposition<Integer> minProp = new MinProposition<Integer>("A",
+    			ComparisonOperator.EQUAL_TO, new Integer(1), Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}));
+
+    	Boolean result = minProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testMinProposition_Long() throws Exception {
+    	MinProposition<Long> minProp = new MinProposition<Long>("A",
+    			ComparisonOperator.EQUAL_TO, new Long(1), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
+
+    	Boolean result = minProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    //@SuppressWarnings("unchecked")
+    public void testMinProposition_ConvertDataType() throws Exception {
+    	//String comparisonDataType = Long.class.getName();
+    	//Class<?> clazz = Class.forName("1".getClass().getName());
+    	//T value = (T)BusinessRuleUtil.convertToDataType(clazz, "1");
+
+    	MinProposition<Long> minProp = new MinProposition<Long>("A",
+    			ComparisonOperator.EQUAL_TO, new Long(1), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
+
+    	Boolean result = minProp.apply();
+
+    	Assert.assertTrue(result);
+    }
 }
