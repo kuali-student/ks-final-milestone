@@ -116,20 +116,18 @@
 	
 	<import resource="classpath:data-beans.xml" />
 
-	<bean id="preloadBeans"
+ 	<bean id="preloadBeans"
 		class="org.kuali.student.poc.common.util.jpa.LoadJpaBeanListener">
 		<property name="loadJpaBean">
 			<bean
 				class="org.kuali.student.poc.common.util.jpa.LoadJpaBean" />
 		</property>
-		<property name="preloadMap">
+ 		<property name="preloadMap">
 			<map>
 				<entry key="RuleManagement">
 					<ref bean="ruleBeanPreloadList" />
 				</entry>
-			</map>
-		</property>
-		
-	</bean>
-	
+			</map> 
+		</property> 
+	</bean>				
 </beans>

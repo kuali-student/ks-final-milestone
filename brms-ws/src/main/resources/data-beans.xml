@@ -9,12 +9,8 @@
 			<list>
 	    		<!-- <ref bean="funcBusRule2" /> -->
 				<ref bean="businessRuleType1"/>
-				<ref bean="businessRuleType2"/>			
-<!-- 				<ref bean="ruleProposition1"/>
-				<ref bean="ruleProposition2"/>
-				<ref bean="leftHandSide1"/>
-				<ref bean="leftHandSide3"/> 				
- 				<ref bean="funcBusRule1" /> -->	
+				<ref bean="businessRuleType2"/>
+				<ref bean="funcBusRule1" /> 			
 			</list>
 		</property>
 	</bean>
@@ -35,8 +31,8 @@
 
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
 	<bean id="funcBusRule1" class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
-		<property name="id"	value="" />
-		<property name="ruleId" value="201" />
+		<property name="id"	value="11223344-1122-1122-1112-100000000001" />
+		<property name="ruleId" value="101" />
     	<property name="name" value="Intermediate" />		
 		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />	
 		<property name="successMessage" value="Rule 1 Success Message" />	
@@ -45,7 +41,7 @@
 		<property name="anchor" value="CPR 201" />	
 		<property name="businessRuleType" ref="businessRuleType2" />														
 		<property name="metaData" ref="ruleMetaData" />
-<!-- 	<property name="ruleElements">
+    	<property name="ruleElements">
 			<list>
 			<bean id="ruleElement1" class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
 					<property name="id"	value="11223344-1122-1122-1112-100000000002" />
@@ -74,7 +70,7 @@
 					<property name="ruleProposition" ref="ruleProposition2" />					
 				</bean> 
 			</list> 
-		</property>	-->					
+		</property>						
 	</bean>	
 	
 	<bean id="ruleMetaData"	class="org.kuali.student.rules.rulemanagement.entity.RuleMetaData">
