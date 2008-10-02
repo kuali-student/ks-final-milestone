@@ -425,7 +425,8 @@ public class DroolsUtil {
         // The default compiler. This is nominally JANINO 
         // but can be overridden by setting drools.dialect.java.compiler to
         // ECLIPSE
-        properties.setProperty("drools.dialect.java.compiler", chainedProperties.getProperty("drools.dialect.java.compiler", "JANINO"));
+        //properties.setProperty("drools.dialect.java.compiler", chainedProperties.getProperty("drools.dialect.java.compiler", "JANINO"));
+        properties.setProperty("drools.dialect.java.compiler", chainedProperties.getProperty("drools.dialect.java.compiler", "ECLIPSE"));
         PackageBuilderConfiguration pkgConf = new PackageBuilderConfiguration(properties);
         pkgConf.setClassLoader(parentClassLoader);
         PackageBuilder builder = new PackageBuilder(pkgConf);
