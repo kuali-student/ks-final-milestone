@@ -100,6 +100,13 @@
 			<scope>test</scope>
 		</dependency>
     -->
+   
+   <!-- 
+   		GWT has a huge bug right now regarding classpaths.
+   		To get around this issue you need to set the
+   		scope of rule-common-imple to compile, run mvn install,
+   		set the scope back to runtime and run mvn install again
+    -->
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-common-impl</artifactId>
