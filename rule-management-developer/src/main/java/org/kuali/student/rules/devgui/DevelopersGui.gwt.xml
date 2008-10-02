@@ -7,7 +7,6 @@
   <inherits name="org.kuali.student.commons.ui.UICommons"/>
 
   <inherits name='org.kuali.student.rules.RuleManagement'/>
-  <inherits name='org.kuali.student.rules.InternalCommon'/>
 
   <!-- Specify the app entry point class.                   -->
   <entry-point class="org.kuali.student.rules.devgui.client.DevelopersGuiEntryPoint"/>

@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
@@ -25,6 +23,8 @@ import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
+import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
@@ -158,6 +158,7 @@ public class RulesComposite extends Composite {
     }
 
     private BusinessRuleInfoDTO activeRule = null; // keep copy of business rule so we can update all fields user
+
     // can change
     private Map<Integer, RulePropositionDTO> definedPropositions = new HashMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
@@ -278,6 +279,24 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(String newRuleID) {
                             System.out.println("Created rule: " + newRuleID);
+
+                            // update the model
+                            RulesEvent toFire = RULES_ADD_EVENT;
+
+                            // fire the event and the updated modelobject to the parent controller
+
+                            RulesHierarchyInfo ruleInfo = new RulesHierarchyInfo();
+                            ruleInfo.setAgendaType("KUALI_STUDENT_ENROLLS_IN_COURSRE");
+                            ruleInfo.setBusinessRuleType("KUALI_CO_REQ");
+                            ruleInfo.setAnchor("CHEM200");
+                            ruleInfo.setBusinessRuleName(nameTextBox.getText());
+                            ruleInfo.setBusinessRuleId("123"); // TODO generate? how?
+                            rulesTree.add(ruleInfo);
+
+                            // controller.getEventDispatcher().fireEvent(toFire, ruleInfo);
+
+                            // clear the current selection
+                            rulesTree.select(null);
                         }
                     });
                 }
@@ -319,6 +338,7 @@ public class RulesComposite extends Composite {
                     // for now set activeRule to a default empty rule
                     activeRule = createEmptyBusinessRule();
                     existingRuleLoaded = false;
+                    clearRuleForms();
                 }
             });
 

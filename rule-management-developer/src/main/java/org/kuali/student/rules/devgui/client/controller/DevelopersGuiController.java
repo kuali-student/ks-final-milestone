@@ -96,21 +96,21 @@ public class DevelopersGuiController extends Controller {
                 }
             }
         });
+        /*
+                // load rule types tree
+                DevelopersGuiService.Util.getInstance().findRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
+                    public void onFailure(Throwable caught) {
+                        // just rethrow it and let the uncaught exception handler deal with it
+                        throw new RuntimeException("Unable to load RuleTypesHierarchyInfo objects", caught);
+                    }
 
-        // load rule types tree
-        DevelopersGuiService.Util.getInstance().findRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
-            public void onFailure(Throwable caught) {
-                // just rethrow it and let the uncaught exception handler deal with it
-                throw new RuntimeException("Unable to load RuleTypesHierarchyInfo objects", caught);
-            }
-
-            public void onSuccess(List<RuleTypesHierarchyInfo> ruleTypesInfo) {
-                // add the results to the model
-                for (RuleTypesHierarchyInfo ruleTypeInfo : ruleTypesInfo) {
-                    ruleTypesHierarchyInfo.add(ruleTypeInfo);
-                }
-            }
-        });
+                    public void onSuccess(List<RuleTypesHierarchyInfo> ruleTypesInfo) {
+                        // add the results to the model
+                        for (RuleTypesHierarchyInfo ruleTypeInfo : ruleTypesInfo) {
+                            ruleTypesHierarchyInfo.add(ruleTypeInfo);
+                        }
+                    }
+                }); */
 
     }
 
@@ -123,12 +123,13 @@ public class DevelopersGuiController extends Controller {
     }
 
     private void doEventListenerWiring() {
-    // when a business rule is added TODO
+
+    // when a business rule is added
     /*
-    businessRule.addListener(ModelChangeEvent.AddEvent.class, new MVCEventListener() {
-        public void onEvent(Class<? extends MVCEvent> event, Object data) {
-        // businessRuleComposite.testForm(((BusinessRuleInfo) data).getName());
-        }
+    RulesHierarchyInfo.addListener(RulesComposite.RULES_ADD_EVENT, new MVCEventListener() {
+    public void onEvent(Class<? extends MVCEvent> event, Object data) {
+    // businessRuleComposite.testForm(((BusinessRuleInfo) data).getName());
+    }
     });  */
     }
 }

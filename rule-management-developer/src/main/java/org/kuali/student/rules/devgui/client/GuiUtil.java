@@ -24,6 +24,8 @@ public class GuiUtil {
     /*
      * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
      * 
+     * ASSUMPTION: Rule Composition string is valid (was validated)
+     * 
      * @param composition - business rule composition e.g. (P1 AND P2) OR P3
      * @param definedPropositions - list of proposition details with sequence numbers e.g. P1
      * @return list of business rule types
@@ -48,6 +50,15 @@ public class GuiUtil {
                 composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
                 if (token.charAt(0) == PROPOSITION_PREFIX) {
                     prop = definedPropositions.get(new Integer(token.substring(1)));
+
+                    // check that the proposition defined in Rule Composition exists (this should not happen since Rule
+                    // Composition should be verified
+                    // before calling this method.
+                    if (prop == null) {
+                        // TODO report error
+                        continue;
+                    }
+
                     completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
                 } else {
                     completeRule.append(token + " ");

@@ -47,7 +47,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     // populate Business Rule Types tree
     public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
         List<RuleTypesHierarchyInfo> ruleTypesInfo = new ArrayList<RuleTypesHierarchyInfo>();
-        RuleTypesHierarchyInfo ruleTypeInfo;
 
         // 1. retrieve agendas
         List<String> agendaTypes = new ArrayList<String>();
@@ -65,12 +64,10 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         // 2. for each agenda type, retrieve business rule types
         for (String agendaTypeKey : agendaTypes) {
 
-            ruleTypeInfo = new RuleTypesHierarchyInfo();
-            ruleTypeInfo.setAgendaType(agendaTypeKey);
-
             // 3. retrieve business rule types
             List<String> businessRuleTypes = new ArrayList<String>();
             try {
+                System.out.println("DEBUG findRuleTypesHierarchyInfo(): " + agendaTypeKey);
                 businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
             } catch (Exception ex) {
                 throw new RuntimeException("Unable to get business rule types", ex); // TODO
@@ -78,47 +75,53 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
             // TODO show 'empty' node in the rule types tree if none exist?
             if (businessRuleTypes == null) {
+                ruleTypesInfo.add(createTypesHierarchyInfoObject(agendaTypeKey, ""));
                 System.out.println("DEBUG findRuleTypesHierarchyInfo(): no business rule types for Agenda Type " + agendaTypeKey);
                 continue;
             }
 
             for (String businessRuleTypeKey : businessRuleTypes) {
-
-                ruleTypeInfo.setBusinessRuleTypeKey(businessRuleTypeKey);
-                ruleTypesInfo.add(ruleTypeInfo);
+                ruleTypesInfo.add(createTypesHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey));
             }
         }
 
         return ruleTypesInfo;
     }
 
+    private RuleTypesHierarchyInfo createTypesHierarchyInfoObject(String agendaType, String businessRuleType) {
+        RuleTypesHierarchyInfo ruleInfo = new RuleTypesHierarchyInfo();
+
+        ruleInfo.setAgendaType(agendaType);
+        ruleInfo.setBusinessRuleTypeKey(businessRuleType);
+
+        return ruleInfo;
+    }
+
     // populate rules tree
     public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
+
         List<RulesHierarchyInfo> rulesInfo = new ArrayList<RulesHierarchyInfo>();
-        RulesHierarchyInfo ruleInfo;
 
         // 1. retrieve agendas
         List<String> agendaTypes = new ArrayList<String>();
         try {
             agendaTypes = ruleManagementService.findAgendaTypes();
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to get agenda types", ex); // TODO
+            throw new RuntimeException("Unable to get Agenda Types", ex); // TODO
         }
 
         // TODO show 'empty' node in the rule types tree if none exist?
         if (agendaTypes == null) {
-            throw new RuntimeException("Unable to get agenda types for Rules Tree.");
+            throw new RuntimeException("Received zero Agenda Types for Rules Tree.");
         }
 
         // 2. for each agenda type, retrieve business rule types and business rules
         for (String agendaTypeKey : agendaTypes) {
 
-            ruleInfo = new RulesHierarchyInfo();
-            ruleInfo.setAgendaType(agendaTypeKey);
-
             // 3. retrieve business rule types
             List<String> businessRuleTypes = new ArrayList<String>();
             try {
+                System.out.println("DEBUG findRulesHierarchyInfo(): " + agendaTypeKey);
                 businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
             } catch (Exception ex) {
                 throw new RuntimeException("Unable to get business rule types", ex); // TODO
@@ -126,15 +129,13 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
             // TODO show 'empty' node in the rules tree if none exist?
             if (businessRuleTypes == null) {
-                System.out.println("DEBUG findRulesHierarchyInfo(): no business rule types for Agenda Type " + agendaTypeKey);
+                rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, "", "", "", ""));
                 continue;
             }
 
             // 4. find individual business rules
             List<String> businessRuleIds = new ArrayList<String>();
             for (String businessRuleTypeKey : businessRuleTypes) {
-
-                ruleInfo.setBusinessRuleType(businessRuleTypeKey);
 
                 try {
                     businessRuleIds = ruleManagementService.findBusinessRuleIdsByBusinessRuleType(businessRuleTypeKey);
@@ -144,6 +145,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
                 // TODO show 'empty' node in the rules tree if none exist?
                 if (businessRuleIds == null) {
+                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", ""));
                     System.out.println("DEBUG findRulesHierarchyInfo(): no business rules for Business Rule Type: " + businessRuleTypeKey);
                     continue;
                 }
@@ -158,17 +160,26 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
 
-                    ruleInfo.setBusinessRuleId(businessRuleId);
-                    ruleInfo.setBusinessRuleName(businessRule.getName());
-                    ruleInfo.setAnchor(businessRule.getAnchorValue());
+                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getName(), businessRule.getAnchorValue()));
                 }
             }
 
-            rulesInfo.add(ruleInfo);
             System.out.println("DEBUG: rule info:" + rulesInfo.toString());
         } // next agenda type
 
         return rulesInfo;
+    }
+
+    private RulesHierarchyInfo createHierarchyInfoObject(String agendaType, String businessRuleType, String ruleId, String ruleName, String anchor) {
+        RulesHierarchyInfo ruleInfo = new RulesHierarchyInfo();
+
+        ruleInfo.setAgendaType(agendaType);
+        ruleInfo.setBusinessRuleType(businessRuleType);
+        ruleInfo.setBusinessRuleId(ruleId);
+        ruleInfo.setBusinessRuleName(ruleName);
+        ruleInfo.setAnchor(anchor);
+
+        return ruleInfo;
     }
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
