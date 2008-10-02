@@ -51,11 +51,27 @@
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-management-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>		
+		</dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-repository-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>       
+        </dependency>
+        <dependency>
+            <groupId>commons-math</groupId>
+            <artifactId>commons-math</artifactId>
+            <version>1.2</version>
+        </dependency>
 	</dependencies>
+	
+    <repositories>
+        <repository>
+            <id>kuali.release</id>
+            <url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
 </project>

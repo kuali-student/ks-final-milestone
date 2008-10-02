@@ -1,4 +1,4 @@
-package org.kuali.student.rules.statement;
+package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -16,6 +16,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.Intersecti
 import org.kuali.student.rules.internal.common.statement.propositions.MaxProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.MinProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SimpleComparableProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.StatisticsProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
@@ -270,17 +271,86 @@ public class PropositionTest {
     }
 
     @Test
-    //@SuppressWarnings("unchecked")
-    public void testMinProposition_ConvertDataType() throws Exception {
-    	//String comparisonDataType = Long.class.getName();
-    	//Class<?> clazz = Class.forName("1".getClass().getName());
-    	//T value = (T)BusinessRuleUtil.convertToDataType(clazz, "1");
+    public void testStatisticsProposition_Max() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.MAX,
+    			new Double(3), Arrays.asList(new Double[]{new Double(1), new Double(2), new Double(3)}));
 
-    	MinProposition<Long> minProp = new MinProposition<Long>("A",
-    			ComparisonOperator.EQUAL_TO, new Long(1), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
-
-    	Boolean result = minProp.apply();
+    	Boolean result = statProp.apply();
 
     	Assert.assertTrue(result);
     }
+   
+    @Test
+    public void testStatisticsProposition_Min() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.MIN,
+    			new Double(1), Arrays.asList(new Double[]{new Double(1), new Double(2), new Double(3)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+   
+    @Test
+    public void testStatisticsProposition_Mean() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.MEAN,
+    			new Double(2), Arrays.asList(new Double[]{new Double(1), new Double(2), new Double(3)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+   
+    @Test
+    public void testStatisticsProposition_StandardDeviation() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.STANDARD_DEVIATION,
+    			new Double(2), Arrays.asList(new Double[]{new Double(1), new Double(3), new Double(5)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+   
+    @Test
+    public void testStatisticsProposition_Sum() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6), Arrays.asList(new Double[]{new Double(1), new Double(2), new Double(3)}));
+
+    	Boolean result = statProp.apply();
+    	Assert.assertTrue(result);
+    }
+   
+    @Test
+    public void testStatisticsProposition_SumOfSquares() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM_OF_SQUARES,
+    			new Double(14), Arrays.asList(new Double[]{new Double(1), new Double(2), new Double(3)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Variance() throws Exception {
+    	StatisticsProposition<Double> statProp = new StatisticsProposition<Double>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.VARIANCE,
+    			new Double(4), Arrays.asList(new Double[]{new Double(1), new Double(3), new Double(5)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+   
 }
