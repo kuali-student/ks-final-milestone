@@ -52,7 +52,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
         result = checkTruthValue(sum, super.expectedValue);
 
-        cacheReport("Total is short by %s", sum, super.expectedValue);
+        cacheReport("Sum is short by %s", sum, super.expectedValue);
 
         return result;
     }
@@ -65,7 +65,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     @Override
     protected void cacheReport(String format, Object... args) {
         if (result) {
-            report.setSuccessMessage("sum constraint fulfilled");
+            report.setSuccessMessage("Sum constraint fulfilled");
             return;
         }
 

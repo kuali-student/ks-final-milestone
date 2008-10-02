@@ -69,7 +69,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         Integer count = (Integer) args[0];
         Integer expectedValue = (Integer) args[1];
         if (result) {
-            report.setSuccessMessage("subset constraint fulfilled");
+            report.setSuccessMessage("Subset constraint fulfilled");
             return;
         }
 
