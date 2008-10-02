@@ -2,6 +2,7 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -352,5 +353,89 @@ public class PropositionTest {
 
     	Assert.assertTrue(result);
     }
-   
+
+    @Test
+    public void testStatisticsProposition_Sum_Long() throws Exception {
+    	StatisticsProposition<Long> statProp = new StatisticsProposition<Long>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.0), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Sum_Integer() throws Exception {
+    	StatisticsProposition<Integer> statProp = new StatisticsProposition<Integer>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.0), Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Sum_Float() throws Exception {
+    	StatisticsProposition<Float> statProp = new StatisticsProposition<Float>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.6), Arrays.asList(new Float[]{new Float(1.1), new Float(2.2), new Float(3.3)}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Sum_Short() throws Exception {
+    	StatisticsProposition<Short> statProp = new StatisticsProposition<Short>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.0), Arrays.asList(new Short[]{new Short("1"), new Short("2"), new Short("3")}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Sum_Byte() throws Exception {
+    	StatisticsProposition<Byte> statProp = new StatisticsProposition<Byte>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.0), Arrays.asList(new Byte[]{new Byte("1"), new Byte("2"), new Byte("3")}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Sum_BigInteger() throws Exception {
+    	StatisticsProposition<BigInteger> statProp = new StatisticsProposition<BigInteger>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.0), Arrays.asList(new BigInteger[]{new BigInteger("1"), new BigInteger("2"), new BigInteger("3")}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testStatisticsProposition_Sum_BigDecimal() throws Exception {
+    	StatisticsProposition<BigDecimal> statProp = new StatisticsProposition<BigDecimal>("A",
+    			ComparisonOperator.EQUAL_TO,
+    			StatisticsProposition.StatFunction.SUM,
+    			new Double(6.0), Arrays.asList(new BigDecimal[]{new BigDecimal("1"), new BigDecimal("2"), new BigDecimal("3")}));
+
+    	Boolean result = statProp.apply();
+
+    	Assert.assertTrue(result);
+    }
+
 }
