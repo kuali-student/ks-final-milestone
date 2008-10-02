@@ -41,8 +41,24 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
 
         result = checkTruthValue(average, super.expectedValue);
 
-        cacheReport("Total is short by %s", average, super.expectedValue);
+        cacheReport("Average is short by %s", average, super.expectedValue);
 
         return result;
+    }
+
+    @Override
+    protected void cacheReport(String format, Object... args) {
+        if (result) {
+            report.setSuccessMessage("Average constraint fulfilled");
+            return;
+        }
+
+        BigDecimal sum = (BigDecimal) args[0];
+        BigDecimal expectedValue = (BigDecimal) args[1];
+
+        // TODO: Use the operator to compute exact message
+        BigDecimal needed = expectedValue.subtract(sum);
+        String advice = String.format(format, needed.toString());
+        report.setFailureMessage(advice);
     }
 }
