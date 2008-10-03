@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.repository.util.ObjectUtil;
 import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
