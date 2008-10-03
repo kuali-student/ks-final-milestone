@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
+import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 public interface RuleSetExecutor {
@@ -49,7 +50,7 @@ public interface RuleSetExecutor {
      * @param fact Fact for the <code>ruleSet</code> 
      * @return Result of executing the <code>ruleSet</code>
      */
-    public Object execute(RuleSetDTO ruleSet, FactDTO fact);
+    public ResultDTO execute(RuleSetDTO ruleSet, FactDTO fact);
 
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.

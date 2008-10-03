@@ -20,13 +20,11 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +37,8 @@ import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
+import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
+import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -133,15 +133,14 @@ public class RuleSetExecutorDroolsImplTest {
         fact.addFact("1", "java.util.Calendar", String.valueOf(timeInMillis));
 
         // Execute ruleset and fact
-        List<Object> list = (List<Object>) executor.execute(ruleSet, fact);
+        ResultDTO result = executor.execute(ruleSet, fact);
         
-        assertNotNull( list );
+        assertNotNull( result );
 
-        // Iterate through returned rule engine objects
         String time = null;
-        for(Object obj : list) {
-            if ( obj instanceof String ) {
-                time = (String) obj;
+        for(ValueDTO obj : result.getResults()) {
+            if ( obj.getDataType().equals(String.class.getName())) {
+                time = obj.getValue();
                 break;
             }
         }

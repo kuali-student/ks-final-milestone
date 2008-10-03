@@ -35,6 +35,8 @@ import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
+import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
+import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -155,7 +157,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param fact Fact for the <code>ruleSet</code> 
      * @return Result of executing the <code>ruleSet</code>
      */
-    public Object execute(RuleSetDTO ruleSet, FactDTO fact) {
+    public ResultDTO execute(RuleSetDTO ruleSet, FactDTO fact) {
     	List<Package> packageList = new ArrayList<Package>();
         Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
         if (pkg == null) {
@@ -168,8 +170,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         RuleBase ruleBase = getRuleBase(packageList);
         List<?> factList = convertFacts(fact);
         List<Object> list = executeRule(ruleBase, factList);
-        //generateReport(fact);
-        return list;
+        generateReport(list);
+        return convertResult(fact.getId(), list);
     }
 
     /**
@@ -180,8 +182,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @return A list of real data type
      */
     private <T> List<?> convertFacts(FactDTO fact) {
-    	List<T> list = new ArrayList<T>(fact.getValues().size());
-		for(FactDTO.Value value : fact.getValues()) {
+    	List<T> list = new ArrayList<T>(fact.getFacts().size());
+		for(ValueDTO value : fact.getFacts()) {
     		try {
     			@SuppressWarnings("unchecked")
     			Class<T> clazz = (Class<T>) Class.forName(value.getDataType());
@@ -192,6 +194,23 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
 			}
     	}
     	return list;
+    }
+    
+    /**
+     * Converts java objects into DTOs and returns the result.
+     * 
+     * @param id Result id
+     * @param list List of result objects
+     * @return A result DTO
+     */
+    private ResultDTO convertResult(String id, List<Object> list) {
+    	ResultDTO result = new ResultDTO(id);
+    	for(Object obj : list) {
+    		String type = obj.getClass().getName();
+    		String value = obj.toString();
+    		result.addResult(null, type, value);
+    	}
+    	return result;
     }
 
     /**
