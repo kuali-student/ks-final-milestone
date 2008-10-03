@@ -25,6 +25,7 @@ import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 /**
@@ -66,10 +67,10 @@ public interface RuleExecutionService {
      * <code>ruleSet</code>.
      * 
      * @param ruleSet Rule set to execute
-     * @param fact List of Facts for the <code>agenda</code>
+     * @param fact Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
     @WebMethod
-    public byte[] executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")byte[] bytes)
+    public byte[] executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")FactDTO fact)
 		throws InvalidParameterException, MissingParameterException, OperationFailedException;
 }
