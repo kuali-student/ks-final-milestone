@@ -25,15 +25,16 @@ import java.util.concurrent.ConcurrentMap;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
-import org.drools.StatelessSessionResult;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
+import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.ast.GenerateRuleReport;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -145,6 +146,52 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         List<Object> list = executeRule(ruleBase, facts);
         generateReport(facts);
         return list;
+    }
+
+    /**
+     * Executes a <code>ruleSet</code> with a <code>fact</code>.
+     * 
+     * @param ruleSet Ruleset to execute
+     * @param fact Fact for the <code>ruleSet</code> 
+     * @return Result of executing the <code>ruleSet</code>
+     */
+    public Object execute(RuleSetDTO ruleSet, FactDTO fact) {
+    	List<Package> packageList = new ArrayList<Package>();
+        Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+        if (pkg == null) {
+        	throw new RuleSetExecutionException("Drools Package is null.");
+        }
+        packageList.add(pkg);
+        if (logger.isDebugEnabled()) {
+        	log(ruleSet, "Execute Rule");
+        }
+        RuleBase ruleBase = getRuleBase(packageList);
+        List<?> factList = convertFacts(fact);
+        List<Object> list = executeRule(ruleBase, factList);
+        //generateReport(fact);
+        return list;
+    }
+
+    /**
+     * Converts <code>fact</code> into a list of real Java data types.
+     * 
+     * @param <T> Data type
+     * @param fact Fact to convert
+     * @return A list of real data type
+     */
+    private <T> List<?> convertFacts(FactDTO fact) {
+    	List<T> list = new ArrayList<T>(fact.getValues().size());
+		for(FactDTO.Value value : fact.getValues()) {
+    		try {
+    			@SuppressWarnings("unchecked")
+    			Class<T> clazz = (Class<T>) Class.forName(value.getDataType());
+				T val = BusinessRuleUtil.convertToDataType(clazz, value.getValue());
+				list.add(val);
+    		} catch (ClassNotFoundException e) {
+				throw new RuleSetExecutionException("Converting fact value failed", e);
+			}
+    	}
+    	return list;
     }
 
     /**

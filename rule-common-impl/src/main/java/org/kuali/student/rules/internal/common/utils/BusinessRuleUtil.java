@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -381,10 +382,13 @@ public class BusinessRuleUtil {
     		Date date = new Date(timeInMillies.longValue());
     		return clazz.cast(date);
     	}
-//    	else if (clazz.equals(Calendar.class)) {
-//    		return dateFormat.format(expectedValue);
-//    		return clazz.cast(date);
-//    	}
+    	else if (clazz.equals(Calendar.class)) {
+    		//return dateFormat.format(expectedValue);
+    		Long timeInMillies = Long.valueOf(expectedValue);
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTimeInMillis(timeInMillies);
+    		return clazz.cast(cal);
+    	}
     	
     	throw new RuntimeException("Rule proposition comparison data type conversion error. Data type not found: " + clazz);
     }

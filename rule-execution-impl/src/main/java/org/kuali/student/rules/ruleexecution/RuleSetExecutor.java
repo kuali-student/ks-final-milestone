@@ -19,12 +19,13 @@ import java.util.List;
 
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 public interface RuleSetExecutor {
 
     /**
-     * Executes an <code>agenda</code> with <code>facts</code>.
+     * Executes an <code>agenda</code> with a list of <code>facts</code>.
      * 
      * @param agenda Agenda to execute
      * @param facts List of Facts for the <code>agenda</code>
@@ -33,14 +34,22 @@ public interface RuleSetExecutor {
     public Object execute(RuntimeAgendaDTO agenda, List<?> facts);
 
     /**
-     * Executes an <code>agenda</code> with <code>facts</code> and a 
-     * <code>ruleSet</code>.
+     * Executes a <code>ruleSet</code> with a list of <code>facts</code>.
      * 
      * @param ruleSet Rule set to execute
-     * @param facts List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
+     * @param facts List of Facts for the <code>ruleSet</code>
+     * @return Result of executing the <code>ruleSet</code>
      */
     public Object execute(RuleSetDTO ruleSet, List<?> facts);
+
+    /**
+     * Executes a <code>ruleSet</code> with a <code>fact</code>.
+     * 
+     * @param ruleSet Ruleset to execute
+     * @param fact Fact for the <code>ruleSet</code> 
+     * @return Result of executing the <code>ruleSet</code>
+     */
+    public Object execute(RuleSetDTO ruleSet, FactDTO fact);
 
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.

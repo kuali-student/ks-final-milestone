@@ -33,7 +33,6 @@
 		<!--module>brms-ws</module-->
         <!--module>integration-tests</module-->
 	</modules>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -43,6 +42,15 @@
 		</plugins>
 	</build>
 
+    <!--reporting>
+        <plugins>
+        	<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-jxr-plugin</artifactId>
+        	</plugin>
+        </plugins>
+    </reporting-->
+    
 	<dependencies>
         <dependency>
             <groupId>org.kuali.student.poc.common</groupId>
@@ -50,6 +58,17 @@
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+	<!--pluginRepositories>
+		<pluginRepository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</pluginRepository>
+	</pluginRepositories-->
 
 	<repositories>
 		<repository>

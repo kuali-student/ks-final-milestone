@@ -2,6 +2,7 @@ package org.kuali.student.rules.internal.common.utils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.After;
@@ -102,6 +103,14 @@ public class BusinessRuleUtilTest {
     	Class clazz = Class.forName(Date.class.getName());
     	Date value = (Date) BusinessRuleUtil.convertToDataType(clazz, String.valueOf(time));
     	Assert.assertEquals(date, value);
+    }
+
+    @Test
+    public void testConvertToDataType_Calendar() throws Exception {
+    	long time = System.currentTimeMillis();
+    	Class clazz = Class.forName(Calendar.class.getName());
+    	Calendar value = (Calendar) BusinessRuleUtil.convertToDataType(clazz, String.valueOf(time));
+    	Assert.assertEquals(time, value.getTimeInMillis());
     }
 
 }

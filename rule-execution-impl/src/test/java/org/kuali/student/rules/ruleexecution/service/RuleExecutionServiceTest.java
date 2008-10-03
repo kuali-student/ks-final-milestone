@@ -3,22 +3,20 @@ package org.kuali.student.rules.ruleexecution.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.util.ObjectUtil;
 import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 public class RuleExecutionServiceTest extends AbstractServiceTest {
@@ -58,11 +56,15 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         ruleSet.setCompiledRuleSet(bytes);
 
         // Add facts
-        List<Object> facts = new ArrayList<Object>();
-        facts.add( Calendar.getInstance() );
+        //List<Object> facts = new ArrayList<Object>();
+        //facts.add( Calendar.getInstance() );
+        FactDTO fact = new FactDTO("1");
+        long timeInMillis = Calendar.getInstance().getTimeInMillis();
+        fact.addFact("1", "java.util.Calendar", String.valueOf(timeInMillis));
 
-        byte[] factBytes = ObjectUtil.deserialize(facts);
-        byte[] returnBytes = this.service.executeRuleSet(ruleSet, factBytes);
+        //byte[] factBytes = ObjectUtil.deserialize(facts);
+        //byte[] returnBytes = this.service.executeRuleSet(ruleSet, factBytes);
+        byte[] returnBytes = this.service.executeRuleSet(ruleSet, fact);
         
         // Execute ruleset and fact
         @SuppressWarnings("unchecked") 

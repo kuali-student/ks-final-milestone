@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -104,6 +105,35 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Execute ruleset and fact
         List<Object> list = (List<Object>) executor.execute(ruleSet, facts);
+        
+        assertNotNull( list );
+
+        // Iterate through returned rule engine objects
+        String time = null;
+        for(Object obj : list) {
+            if ( obj instanceof String ) {
+                time = (String) obj;
+                break;
+            }
+        }
+        
+        assertNotNull( time );
+        assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+    }
+
+	@Test
+    public void testExecuteWithDroolsCompiledRuleSet_FactDTO() throws Exception {
+        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
+        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+        ruleSet.setCompiledRuleSet(bytes);
+
+        // Add facts
+        FactDTO fact = new FactDTO("1");
+        long timeInMillis = Calendar.getInstance().getTimeInMillis();
+        fact.addFact("1", "java.util.Calendar", String.valueOf(timeInMillis));
+
+        // Execute ruleset and fact
+        List<Object> list = (List<Object>) executor.execute(ruleSet, fact);
         
         assertNotNull( list );
 
