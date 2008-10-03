@@ -15,16 +15,25 @@
  */
 package org.kuali.student.rules.repository.test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatefulSession;
+import org.drools.StatelessSession;
+import org.drools.StatelessSessionResult;
 import org.drools.brms.client.modeldriven.brl.RuleModel;
 import org.drools.brms.server.util.BRDRLPersistence;
 import org.drools.brms.server.util.BRLPersistence;
@@ -32,11 +41,56 @@ import org.drools.brms.server.util.BRXMLPersistence;
 import org.drools.compiler.PackageBuilder;
 import org.drools.event.DebugWorkingMemoryEventListener;
 import org.junit.Test;
-import org.kuali.student.rules.repository.RuleEngineRepositoryTest;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
+import org.kuali.student.rules.util.FactContainer;
 
 public class DroolsRuleTest 
 {
+    private Set<String> createSet(String list) {
+        Set<String> set = new HashSet<String>();
+        for( String s : list.split(",") ) {
+        	set.add(s.trim());
+        }
+        return set;
+    }
+	
+	@Test
+	public void testRuleTranslation_DRL() throws Exception {
+		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/rule_translation_test.drl" );
+		// read in the source
+		//System.out.println("rules file: " + drl);
+		Reader sourceDrl = new InputStreamReader(drl);
+		PackageBuilder builder = new PackageBuilder();
+
+		// this will parse and compile
+		builder.addPackageFromDrl( sourceDrl );
+
+		// deploy the rulebase
+		RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+		ruleBase.addPackage(builder.getPackage());
+
+		StatelessSession workingMemory = ruleBase.newStatelessSession();
+
+        String anchorId = "TestRuleName";
+    	String factId1 = "fact1";
+        factId1 = FactUtil.getFactKey("co-requisites", factId1, 0);
+        Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");
+        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
+        factMap.put(factId1, courseSet);
+        FactContainer facts =  new FactContainer(anchorId, factMap);
+		
+		StatelessSessionResult result = workingMemory.executeWithResults(facts);
+		for(Iterator it = result.iterateObjects(); it.hasNext();) {
+			Object obj = it.next();
+			System.out.println(obj);
+		}
+		
+        PropositionContainer prop = facts.getPropositionContainer();
+        assertTrue(prop.getRuleResult());
+	}
+
     @Test
 	public void testSerializeDeserializeDroolsPackage() throws Exception
 	{
@@ -144,7 +198,7 @@ public class DroolsRuleTest
 
 	private static String loadRule( String file ) throws Exception
 	{
-        String filename = RuleEngineRepositoryTest.class.getResource( file ).getFile();
+        String filename = DroolsRuleTest.class.getResource( file ).getFile();
         //System.out.println( "*****  filename = " +filename );
 
         String str = "";
