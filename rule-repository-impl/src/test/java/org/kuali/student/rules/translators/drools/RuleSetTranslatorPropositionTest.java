@@ -269,19 +269,52 @@ public class RuleSetTranslatorPropositionTest {
     }
 
     /**
-     * TODO: Drools Bug - Test case will fail.
+     * <p>Due to a Drools bug, test case will fail if using version 1 of the 
+     * RuleTemplate***-v1.vm templates which has the form:</p>
+     * <pre>
+     * when 
+     *     FactContainer( id == "TestRuleName", state == FactContainer.State.DONE, prop : propositionContainer)
+     *     (
+     *         Proposition( propositionName == "P1" && result == true ) from prop.propositions
+     *         or
+     *         Proposition( propositionName == "P2" && result == true ) from prop.propositions 
+     *     )
+     *     and
+     *         Proposition( propositionName == "P3" && result == true ) from prop.propositions
+     * then
+     * </pre>
+     * 
+     * <p>Version 2 of the template solves the problem by using the 
+     * <b>exists</b> Drools keyword.</p>
+     * <pre>
+     * when
+     *     factContainer : FactContainer( id == "TestRuleName", state == FactContainer.State.DONE, prop : propositionContainer)
+     *     P1 : Proposition( propositionName == "P1-TestRuleName" )
+     *     P2 : Proposition( propositionName == "P2-TestRuleName" )
+     *     P3 : Proposition( propositionName == "P3-TestRuleName" )
+     *     exists
+     *     (
+     *         (
+     *             Proposition( propositionName == "P1-TestRuleName" && result == true )
+     *             ||
+     *             Proposition( propositionName == "P2-TestRuleName" && result == true )
+     *         )
+     *         && Proposition( propositionName == "P3-TestRuleName" && result == true )
+     *     )
+     * then
+     * </pre>
      */
     @Test
-    @Ignore
+    //@Ignore
     public void testParseRuleSet_ThreeProposition_AorBandC() throws Exception {
     	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
         propositionMap.put("P1", getRuleProposition("CPR101",factId1));
         // 1 of MATH102
-        propositionMap.put("P2", getRuleProposition("MATH102",factId1));
+        propositionMap.put("P2", getRuleProposition("MATH100",factId1));
         // 1 of CHEM101
-        propositionMap.put("P3", getRuleProposition("CHEM101",factId1));
+        propositionMap.put("P3", getRuleProposition("CHEM100",factId1));
 
         String anchorId = "TestRuleName";
         RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
