@@ -30,14 +30,14 @@ public class ResultDTO {
 	public String getId() {
 		return id;
 	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public void addResult(String id, String dataType, String value) {
 		ValueDTO v = new ValueDTO(id, dataType, value);
 		this.factList.add(v);
+	}
+	
+	public void addResult(ValueDTO value) {
+		this.factList.add(value);
 	}
 	
 	public List<ValueDTO> getResults() {

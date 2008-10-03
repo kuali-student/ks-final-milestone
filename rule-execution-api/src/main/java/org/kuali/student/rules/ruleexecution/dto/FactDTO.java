@@ -31,15 +31,15 @@ public class FactDTO implements java.io.Serializable {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	
 	public void addFact(String id, String dataType, String value) {
 		ValueDTO v = new ValueDTO(id, dataType, value);
 		this.factList.add(v);
 	}
 	
+	public void addFact(ValueDTO value) {
+		this.factList.add(value);
+	}
+
 	public List<ValueDTO> getFacts() {
 		return this.factList;
 	}

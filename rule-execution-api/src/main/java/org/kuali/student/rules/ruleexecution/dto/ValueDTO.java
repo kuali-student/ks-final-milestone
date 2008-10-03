@@ -20,13 +20,9 @@ public class ValueDTO {
 	}
 
 	public String getId() { return valueId; }
-	public void setId(String id) { this.valueId = id; }
 
 	public String getDataType() { return valueDataType; }
-	public void setDataType(String dataType) { this.valueDataType = dataType; }
 
 	public String getValue() { return val; }
-	public void setValue(String value) { this.val = value; }
-
 }
 
