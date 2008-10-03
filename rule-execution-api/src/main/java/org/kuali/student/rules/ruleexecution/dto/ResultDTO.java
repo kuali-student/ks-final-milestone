@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class FactDTO implements java.io.Serializable {
+public class ResultDTO {
 
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
@@ -21,9 +21,9 @@ public class FactDTO implements java.io.Serializable {
     @XmlElement
 	private final List<ValueDTO> factList = new ArrayList<ValueDTO>();
 
-	public FactDTO() {}
+	public ResultDTO() {}
 
-	public FactDTO(String id) {
+	public ResultDTO(String id) {
 		this.id = id;
 	}
 
@@ -35,12 +35,12 @@ public class FactDTO implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public void addFact(String id, String dataType, String value) {
+	public void addResult(String id, String dataType, String value) {
 		ValueDTO v = new ValueDTO(id, dataType, value);
 		this.factList.add(v);
 	}
 	
-	public List<ValueDTO> getFacts() {
+	public List<ValueDTO> getResults() {
 		return this.factList;
 	}
 
