@@ -21,17 +21,12 @@
         <finalName>integration-tests</finalName>
         <pluginManagement>
             <plugins>
-                <!--plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-	                    <argLine>-Xmx1024m -Xms1024m -XX:PermSize=128m -XX:MaxPermSize=384m</argLine>
-                    </configuration>
-                </plugin-->
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
-                        <skip>true</skip>
+                        <skip>false</skip>
+						<forkMode>pertest</forkMode>
+						<argLine>-Xmx512M -Xms512m -XX:PermSize=128m -XX:MaxPermSize=256m</argLine>
                     </configuration>
                     <executions>
                         <execution>

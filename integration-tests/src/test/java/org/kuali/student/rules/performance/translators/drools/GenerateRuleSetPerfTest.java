@@ -208,9 +208,10 @@ public class GenerateRuleSetPerfTest {
 
     @Test
     public void testParseAndExecuteRuleSets_StatelessSession() throws Exception {
-        int[] iterations = new int[] {1, 2, 3};
+        //int[] iterations = new int[] {1, 2, 3};
         // This causes a JVM stack overflow when generating more than 600 rules 
         //int[] iterations = new int[] {1, 5, 10, 20, 50, 100, 150, 200, 250};
+        int[] iterations = new int[] {1, 5, 10, 20, 50, 100};
         int c = 0;
         for(int ruleSetCount : iterations) {
             c++;
@@ -240,14 +241,17 @@ public class GenerateRuleSetPerfTest {
             PropositionContainer prop = facts.getPropositionContainer();
 
             assertTrue(prop.getRuleResult());
+            System.gc();
         }
     }
 
     @Test
     public void testParseAndExecuteRuleSets_StatefulSession() throws Exception {
-        int[] iterations = new int[] {1, 2, 3};
+        //int[] iterations = new int[] {1, 2, 3};
         // This causes a JVM stack overflow
         // This causes a JVM stack overflow when generating more than 600 rules 
+        //int[] iterations = new int[] {1, 5, 10, 20, 50, 100, 150, 200, 250};
+        int[] iterations = new int[] {1, 5, 10, 20, 50, 100};
         int c = 0;
         for(int ruleSetCount : iterations) {
             c++;
@@ -277,6 +281,7 @@ public class GenerateRuleSetPerfTest {
             PropositionContainer prop = facts.getPropositionContainer();
 
             assertTrue(prop.getRuleResult());
+            System.gc();
         }
     }
 }
