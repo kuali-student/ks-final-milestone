@@ -250,6 +250,15 @@ public interface RuleRepositoryService {
     	throws OperationFailedException, InvalidParameterException; 
 
     /**
+     * Loads a list of rule set snapshots by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     */
+    public List<RuleSetDTO> fetchRuleSetSnapshotsByTag(String tagName)
+		throws OperationFailedException; 
+
+    /**
      * Creates a new status if it doesn't already exists.
      * 
      * @param name Status name
