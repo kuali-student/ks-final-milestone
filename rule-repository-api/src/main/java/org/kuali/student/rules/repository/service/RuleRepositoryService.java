@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.repository.service;
 
+import java.util.List;
+
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -157,6 +159,17 @@ public interface RuleRepositoryService {
     @WebMethod
     public RuleSetDTO fetchRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID) 
     	throws OperationFailedException, InvalidParameterException; 
+
+    /**
+     * Loads a list of rule sets by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     * @throws OperationFailedException Thrown if loading rule set list fails
+     */
+    @WebMethod
+    public List<RuleSetDTO> fetchRuleSetsByTag(@WebParam(name="tagName")String tagName)
+    	throws OperationFailedException;
 
     /**
      * Loads a rule by uuid.

@@ -16,6 +16,7 @@
 package org.kuali.student.rules.repository.dto;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,6 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
     @XmlJavaTypeAdapter(RuleMapAdapter.class)
     private Map<String,RuleDTO> rules = new LinkedHashMap<String,RuleDTO>();
     /** Compiled rule set bye array */
-    //@XmlMimeType("application/octet-stream")
     private byte[] compiledRuleSet;
     /** List of header items */
     @XmlElement
@@ -49,9 +49,22 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
     /** snapshot name */
     @XmlElement
     private String snapshotName;
+    /** Tag name */
+    @XmlElement
+    private String tagName;
+    /** Date rule set becomes effective */
+    @XmlElement
+    private Calendar effectiveDate;
+    /** Date rule set expires */
+    @XmlElement
+    private Calendar expiryDate;
     /** Rule set source */
+    @XmlElement
     private String sourceContent;
 
+    /**
+     * Constructor
+     */
     public RuleSetDTO() {}
 
     /**
@@ -79,6 +92,12 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
         super(uuid, name, versionNumber);
     }
 
+    /**
+     * Adds a rule to this rule set.
+     * Null and duplicate rules are not allowed.
+     * 
+     * @param rule A rule
+     */
     public void addRule(final RuleDTO rule) {
         if ( rule == null ) {
             return;
@@ -86,30 +105,70 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
         this.rules.put(rule.getName(), rule);
     }
 
+    /**
+     * Removes a rule from this rule set.
+     * 
+     * @param rule A rule
+     * @return The rule that was removed
+     */
     public RuleDTO removeRule(final String ruleName) {
         return this.rules.remove( ruleName );
     }
 
+    /**
+     * Sets a list of <code>org.kuali.student.rules.repository.dto.RuleDTO</code>.
+     * 
+     * @param rules
+     */
     public void setRules(Map<String,RuleDTO> rules) {
     	this.rules = rules;
     }
     
+    /**
+     * Gets a list of <code>org.kuali.student.rules.repository.dto.RuleDTO</code> from this rule set.
+     * 
+     * @return List of rules
+     */
     public Map<String,RuleDTO> getRules() {
     	return this.rules;
     }
     
+    /**
+     * Adds a header to this rule set. 
+     * E.g. <code>ruleSet.addHeader("java.util.Calendar");</code>
+     * Null and duplicate headers are not allowed.
+     * 
+     * @param header A rule set header
+     */
     public void addHeader(final String header) {
         this.header.add(header);
     }
 
+    /**
+     * Removes a header from this rule set. 
+     * E.g. <code>ruleSet.removeHeader("java.util.Calendar");</code>
+     * 
+     * @param header A rule set header
+     * @return True if header was removed otherwise false
+     */
     public boolean removeHeader(final String header) {
         return this.header.remove(header);
     }
 
+    /**
+     * Gets this rule set list of headers. 
+     * 
+     * @param header Rule set header list
+     */
     public void setHeader(List<String> header) {
         this.header = header;
     }
 
+    /**
+     * Gets this rule set list of headers. 
+     * 
+     * @return Rule set header list
+     */
     public List<String> getHeader() {
         return this.header;
     }
@@ -131,6 +190,11 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
         this.compiledRuleSet = compiledRuleSet;
     }
 
+    /**
+     * Returns whether this rule set is a snashot or not.
+     * 
+     * @return True if this rule set is a snapshot, otherwise false
+     */
     public boolean isSnapshot() {
         return this.snapshot;
     }
@@ -146,24 +210,99 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
         this.snapshot = snapshot;
     }
 
+    /**
+     * Sets the rule set's source code content.
+     * 
+     * @param sourceContent Source code content
+     */
     public void setContent(final String sourceContent) {
         this.sourceContent = sourceContent;
     }
 
+    /**
+     * Gets the rule set's source code content.
+     * 
+     * @return Source code content
+     */
     public String getContent() {
         return this.sourceContent;
     }
 
+    /**
+     * Gets the rule set's snapshot name.
+     * 
+     * @return Snapshot name
+     */
     public String getSnapshotName() {
         return this.snapshotName;
     }
 
+    /**
+     * Sets the rule set's snapshot name.
+     * 
+     * @param snapshotName
+     */
     public void setSnapshotName(final String snapshotName) {
         this.snapshotName = snapshotName;
     }
     
-    public String toString() {
-        return "RuleSetDTO UUID=" + getUUID() + ", name=" + getName() + ", versionNumber=" + getVersionNumber();
+    /**
+     * Gets the rule set tag.
+     * 
+     * @return Tag name
+     */
+    public String getTag() {
+    	return this.tagName;
+    }
+    
+    /**
+     * Sets a rule set tag.
+     * 
+     * @param tagName Tag name
+     */
+    public void setTag(final String tagName) {
+    	this.tagName = tagName;
+    }
+    
+	/**
+	 * Gets the rule set effective date.
+	 * 
+	 * @return Effective date
+	 */
+	public Calendar getEffectiveDate() {
+		return this.effectiveDate;
+	}
+
+	/**
+	 * Sets the rule set effective date.
+	 * 
+	 * @param effectiveDate Effective date
+	 */
+	public void setEffectiveDate(final Calendar effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+    /**
+	 * Gets the rule set expiry date.
+	 * 
+	 * @return Expiry date
+     */
+	public Calendar getExpiryDate() {
+		return this.expiryDate;
+	}
+
+	/**
+	 * Sets the rule set expiry date.
+	 * 
+	 * @param expiryDate Expiry date
+	 */
+	public void setExpiryDate(final Calendar expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public String toString() {
+        return "RuleSet UUID=" + getUUID() + ", name=" + getName() + 
+        ", versionNumber=" + getVersionNumber() + ", ruleSetTag=" + getTag();
     }
 
     /**
