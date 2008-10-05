@@ -17,6 +17,7 @@ package org.kuali.student.rules.repository.drools.rule;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,12 @@ public class DroolsRuleSetImpl
     private boolean snapshot = false;
     /** snapshot name */
     private String snapshotName;
+    /** Tag name */
+    private String tagName;
+    /** Date rule set becomes effective */
+    private Calendar effectiveDate;
+    /** Date rule set expires */
+    private Calendar expiryDate;
     /** Object utility class */
     private ObjectUtil objectUtil = ObjectUtil.getInstance();
 
@@ -296,9 +303,64 @@ public class DroolsRuleSetImpl
     public void setSnapshotName(final String snapshotName) {
         this.snapshotName = snapshotName;
     }
+
+    /**
+     * Gets the rule set tag.
+     * 
+     * @return Tag name
+     */
+    public String getTag() {
+    	return this.tagName;
+    }
     
-    public String toString() {
-        return "RuleSet UUID=" + getUUID() + ", name=" + getName() + ", versionNumber=" + getVersionNumber();
+    /**
+     * Sets a rule set tag.
+     * 
+     * @param tagName Tag name
+     */
+    public void setTag(final String tagName) {
+    	this.tagName = tagName;
+    }
+    
+	/**
+	 * Gets the rule set effective date.
+	 * 
+	 * @return Effective date
+	 */
+	public Calendar getEffectiveDate() {
+		return this.effectiveDate;
+	}
+
+	/**
+	 * Sets the rule set effective date.
+	 * 
+	 * @param effectiveDate Effective date
+	 */
+	public void setEffectiveDate(final Calendar effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+    /**
+	 * Gets the rule set expiry date.
+	 * 
+	 * @return Expiry date
+     */
+	public Calendar getExpiryDate() {
+		return this.expiryDate;
+	}
+
+	/**
+	 * Sets the rule set expiry date.
+	 * 
+	 * @param expiryDate Expiry date
+	 */
+	public void setExpiryDate(final Calendar expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public String toString() {
+        return "RuleSet UUID=" + getUUID() + ", name=" + getName() + 
+        ", versionNumber=" + getVersionNumber() + ", ruleSetTag=" + getTag();
     }
 
     /**

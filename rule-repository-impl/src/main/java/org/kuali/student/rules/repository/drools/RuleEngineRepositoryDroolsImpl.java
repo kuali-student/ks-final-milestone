@@ -69,9 +69,13 @@ import org.kuali.student.rules.repository.rule.RuleSet;
  */
 public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /** Drools rule repository */
-    RulesRepository repository;
+    private RulesRepository repository;
     /** Drools utility class */
     private DroolsUtil droolsUtil = DroolsUtil.getInstance();
+
+    public static final String KUALI_PACKAGE_TAG_PROPERTY_NAME = "drools:packageTag";
+    public static final String KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME = "drools:dateEffective";
+    public static final String KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME = "drools:dateExpiry";
 
     /**
      * Constructor.
@@ -178,6 +182,16 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
     }
 
+    private void setCustomRuleSetProperties(PackageItem pkg, RuleSet ruleSet) 
+    	throws RuleEngineRepositoryException {
+        try {
+	    	pkg.getNode().setProperty(KUALI_PACKAGE_TAG_PROPERTY_NAME, ruleSet.getTag());
+	        pkg.getNode().setProperty(KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME, ruleSet.getEffectiveDate());
+	        pkg.getNode().setProperty(KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME, ruleSet.getExpiryDate());
+        } catch (RepositoryException e ) {
+            throw new RuleEngineRepositoryException("Setting package property failed", e);
+        }
+    }
     /**
      * Updates a rule set in the repository and returns an updated rule set.
      *  
@@ -203,6 +217,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             pkg.updateHeader(ruleSet.getHeader());
             pkg.updateState(ruleSet.getStatus());
             createOrUpdateRule(pkg, ruleSet);
+            setCustomRuleSetProperties(pkg, ruleSet);
             this.repository.save();
             return droolsUtil.buildRuleSet(pkg);
         } catch (RulesRepositoryException e) {
@@ -628,7 +643,40 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             throw new RuleEngineRepositoryException("Loading rule set failed: ruleSetName=" + ruleSetName, e);
         }
     }
-    
+
+    /**
+     * Loads a list of rule sets by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     */
+    public List<RuleSet> loadRuleSetsByTag(String tagName) {
+        try {
+            String sql = "SELECT *"; // + PackageItem.ASSET_FOLDER_NAME + ", " + PackageItem.RULE_PACKAGE_TYPE_NAME;
+            sql += " FROM " + PackageItem.RULE_PACKAGE_TYPE_NAME;
+            sql += " WHERE ";
+            sql += " jcr:path LIKE '/" + RulesRepository.RULES_REPOSITORY_NAME + "/" + RulesRepository.RULE_PACKAGE_AREA + "/%'";
+            sql += " AND " + KUALI_PACKAGE_TAG_PROPERTY_NAME + " = '"+tagName+"'";
+
+            Query q = this.repository.getSession().getWorkspace().getQueryManager().createQuery(sql, Query.SQL);
+
+            QueryResult res = q.execute();
+
+            // Drools 4 does not use generics so we have to suppress warning
+            @SuppressWarnings("unchecked") Iterator<PackageItem> it = new PackageIterator(this.repository, res.getNodes());
+            
+            List<RuleSet> list = new ArrayList<RuleSet>();
+            while(it != null && it.hasNext()) {
+            	PackageItem pkg = it.next();
+            	RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
+            	list.add(ruleSet);
+            }
+            return list;
+        } catch (RepositoryException e) {
+            throw new RulesRepositoryException("Finding tagged rule sets failed", e);
+        }
+    }
+
     /**
      * Returns true if the repository contains the specified 
      * <code>ruleSetUUID</code> otherwise false.
@@ -1448,6 +1496,7 @@ e.printStackTrace();
             }
             org.drools.rule.Package compiledPkg = (org.drools.rule.Package) result.getObject();
             pkg.updateCompiledPackage(droolsUtil.getBinaryPackage(compiledPkg));
+            setCustomRuleSetProperties(pkg, ruleSet);
         } catch (IOException e) {
             throw new RuleEngineRepositoryException("Compiling rule set failed", e);
         } catch (DroolsParserException e) {

@@ -17,8 +17,10 @@ package org.kuali.student.rules.repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Reader;
+import java.util.Iterator;
 import java.util.List;
 
+import org.drools.repository.PackageItem;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
@@ -772,4 +774,12 @@ public interface RuleEngineRepository {
      * @return A dynamic rule set
      */
     public RuleSet loadRuleSetByCategory(String category);
+
+    /**
+     * Loads a list of rule sets by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     */
+    public List<RuleSet> loadRuleSetsByTag(String tagName);
 }

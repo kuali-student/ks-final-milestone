@@ -31,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -44,6 +45,7 @@ import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
 
 import org.drools.jsr94.rules.RuleServiceProviderImpl;
+import org.drools.repository.PackageItem;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -707,7 +709,10 @@ public class RuleEngineRepositoryTest {
         List<String> header = new ArrayList<String>();
         header.add("import java.util.Calendar");
         RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", header);
-
+        
+        String tag = "RuleSetCollection";
+        ruleSet1.setTag(tag);
+        
         String ruleCategory = null; //"MyCategory";
         
         Rule rule1 = createRuleDRL("MyRule1", "My new rule 1", ruleCategory, 
@@ -726,10 +731,40 @@ public class RuleEngineRepositoryTest {
         RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
         // Rule Set 
         assertRuleSetEquals(ruleSet1, ruleSet2);
+        assertEquals(tag, ruleSet2.getTag());
         // Rule 1 
         assertRuleEquals(ruleSet1.getRules().get(0), ruleSet2.getRules().get(0));
         // Rule 2 
         assertRuleEquals(ruleSet1.getRules().get(1), ruleSet2.getRules().get(1));
+    }
+
+    @Test
+    public void testCreateAndLoadRuleSetsByTagName() throws Exception {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet1", "My new rule set 1", header);
+        RuleSet ruleSet2 = createRuleSet("MyRuleSet2", "My new rule set 2", header);
+        
+        String tag = "RuleSetCollection";
+        ruleSet1.setTag(tag);
+        ruleSet2.setTag(tag);
+        
+        String ruleSet1UUID = brmsRepository.createRuleSet(ruleSet1).getUUID();
+        assertTrue( ruleSet1UUID != null && !ruleSet1UUID.isEmpty() );
+        String ruleSet2UUID = brmsRepository.createRuleSet(ruleSet2).getUUID();
+        assertTrue( ruleSet2UUID != null && !ruleSet2UUID.isEmpty() );
+        
+        ruleSet1 = brmsRepository.loadRuleSet(ruleSet1UUID);
+        ruleSet2 = brmsRepository.loadRuleSet(ruleSet2UUID);
+        // Rule Set 
+        assertEquals(tag, ruleSet1.getTag());
+        assertEquals(tag, ruleSet2.getTag());
+        
+        List<RuleSet> list = brmsRepository.loadRuleSetsByTag(tag);
+        assertEquals("MyRuleSet1", list.get(0).getName());
+        assertEquals(tag, list.get(0).getTag());
+        assertEquals("MyRuleSet2", list.get(1).getName());
+        assertEquals(tag, list.get(1).getTag());
     }
 
     @Test
@@ -1659,5 +1694,39 @@ public class RuleEngineRepositoryTest {
         Calendar calendar = Calendar.getInstance();
         droolsTestUtil.executeRule(pkg, new Object[]{message, calendar});
         assertTrue(message.getMessage().startsWith("Minute is "));
+    }
+    
+    @Test
+    public void testRuleSetEffectiveDate() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        
+        Calendar effDate = Calendar.getInstance();
+        effDate.setTimeInMillis(System.currentTimeMillis());
+        ruleSet1.setEffectiveDate(effDate);
+        
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1).getUUID();
+        assertTrue( ruleSetUUID != null && !ruleSetUUID.isEmpty() );
+        
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+        // Rule Set 
+        assertRuleSetEquals(ruleSet1, ruleSet2);
+        assertEquals(effDate.getTimeInMillis(), ruleSet2.getEffectiveDate().getTimeInMillis());
+    }
+
+    @Test
+    public void testRuleSetExpiryDate() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        
+        Calendar effDate = Calendar.getInstance();
+        effDate.setTimeInMillis(System.currentTimeMillis());
+        ruleSet1.setExpiryDate(effDate);
+        
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1).getUUID();
+        assertTrue( ruleSetUUID != null && !ruleSetUUID.isEmpty() );
+        
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+        // Rule Set 
+        assertRuleSetEquals(ruleSet1, ruleSet2);
+        assertEquals(effDate.getTimeInMillis(), ruleSet2.getExpiryDate().getTimeInMillis());
     }
 }

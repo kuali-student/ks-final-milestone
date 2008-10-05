@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.repository.rule;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -112,7 +113,7 @@ public interface RuleSet extends Item {
     public void clearHeaders();
 
     /**
-     * Gets this rule set header as a string. 
+     * Gets this rule set list of headers. 
      * List of all header information.
      * 
      * @return Rule set header
@@ -158,4 +159,47 @@ public interface RuleSet extends Item {
      * @param snapshotName Snapshot name
      */
     public void setSnapshotName(String snapshotName);
+    
+    /**
+     * Sets a rule set tag.
+     * 
+     * @param tagName Tag name
+     */
+    public void setTag(String tagName);
+
+    /**
+     * Gets the rule set tag.
+     * 
+     * @return Tag name
+     */
+    public String getTag();
+
+	/**
+	 * Gets the rule set effective date.
+	 * 
+	 * @return Effective date
+	 */
+    public Calendar getEffectiveDate();
+
+	/**
+	 * Sets the rule set effective date.
+	 * 
+	 * @param effectiveDate Effective date
+	 */
+	public void setEffectiveDate(Calendar effectiveDate);
+
+    /**
+	 * Gets the rule set expiry date.
+	 * 
+	 * @return Expiry date
+     */
+	public Calendar getExpiryDate();
+
+	/**
+	 * Sets the rule set expiry date.
+	 * 
+	 * @param expiryDate Expiry date
+	 */
+	public void setExpiryDate(Calendar expiryDate);
 }
+

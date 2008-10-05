@@ -368,4 +368,9 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     public boolean containsRuleSet(final String ruleSetUUID) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
+
+	@Override
+	public List<RuleSet> loadRuleSetsByTag(String tagName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+	}
 }

@@ -73,7 +73,12 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
     
     private RuleSetDTO createRuleSet() {
-    	RuleSetDTO dto = new RuleSetDTO("TestName", "Test description", "DRL");
+    	return createRuleSet("TestName", null);
+    }
+
+    private RuleSetDTO createRuleSet(String name, String tagName) {
+    	RuleSetDTO dto = new RuleSetDTO(name, "Test description", "DRL");
+    	dto.setTag(tagName);
     	return dto;
     }
 
@@ -163,6 +168,25 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertNotNull(ruleSet2);
 
         service.removeRuleSet( ruleSet1.getUUID() );
+    }
+
+    @Test
+    public void testFetchRuleSetByTag() throws Exception {
+        String tagName = "RuleSetCollection";
+    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", tagName) );
+        assertNotNull(ruleSet1);
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", tagName) );
+        assertNotNull(ruleSet2);
+        
+        
+        List<RuleSetDTO> list = service.fetchRuleSetsByTag(tagName);
+        assertNotNull(list);
+        assertEquals(2, list.size());
+        assertEquals(ruleSet1.getUUID(), list.get(0).getUUID());
+        assertEquals(ruleSet2.getUUID(), list.get(1).getUUID());
+        		
+        service.removeRuleSet( ruleSet1.getUUID() );
+        service.removeRuleSet( ruleSet2.getUUID() );
     }
 
     @Test

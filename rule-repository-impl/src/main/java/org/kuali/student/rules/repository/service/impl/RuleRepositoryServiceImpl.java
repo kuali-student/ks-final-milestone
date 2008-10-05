@@ -15,6 +15,10 @@
  */
 package org.kuali.student.rules.repository.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
@@ -272,6 +276,28 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		}
     }
 
+    /**
+     * Loads a list of rule sets by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     * @throws OperationFailedException Thrown if loading rule set list fails
+     */
+    public List<RuleSetDTO> fetchRuleSetsByTag(@WebParam(name="tagName")String tagName)
+    	throws OperationFailedException {
+        try {
+	    	List<RuleSet> list = this.ruleEngineRepository.loadRuleSetsByTag(tagName);
+	        List<RuleSetDTO> dtoList = new ArrayList<RuleSetDTO>(list.size());
+	    	for(RuleSet ruleSet : list) {
+		    	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
+		    	dtoList.add(dto);
+	        }
+	        return dtoList;
+        } catch(RuleEngineRepositoryException e) {
+        	throw new OperationFailedException(e.getMessage());
+		}
+    }
+     
     /**
      * Loads a compiled rule set from the repository.
      * 

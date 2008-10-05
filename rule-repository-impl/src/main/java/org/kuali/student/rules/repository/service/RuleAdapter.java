@@ -110,6 +110,9 @@ public class RuleAdapter {
 		ruleSet.setStatus(ruleSetDTO.getStatus());
 		ruleSet.getHeaderList().addAll(ruleSetDTO.getHeader());
 		ruleSet.getRules().addAll(getRules(ruleSetDTO.getRules()));
+		ruleSet.setTag(ruleSetDTO.getTag());
+		ruleSet.setEffectiveDate(ruleSetDTO.getEffectiveDate());
+		ruleSet.setExpiryDate(ruleSetDTO.getExpiryDate());
 		return ruleSet;
 	}
 
@@ -133,6 +136,9 @@ public class RuleAdapter {
 		dto.setSnapshotName(ruleSet.getSnapshotName());
 		dto.setStatus(ruleSet.getStatus());
 		dto.setVersionSnapshotUUID(ruleSet.getVersionSnapshotUUID());
+		dto.setTag(ruleSet.getTag());
+		dto.setEffectiveDate(ruleSet.getEffectiveDate());
+		dto.setExpiryDate(ruleSet.getExpiryDate());
 		return dto;
 	}
 

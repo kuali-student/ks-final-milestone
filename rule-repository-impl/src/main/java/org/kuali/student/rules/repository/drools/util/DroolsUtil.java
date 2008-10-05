@@ -24,10 +24,13 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import javax.jcr.PathNotFoundException;
+import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 
 import org.drools.common.DroolsObjectInputStream;
@@ -43,6 +46,7 @@ import org.drools.repository.PackageItem;
 import org.drools.repository.VersionableItem;
 import org.drools.rule.Package;
 import org.drools.util.ChainedProperties;
+import org.kuali.student.rules.repository.drools.RuleEngineRepositoryDroolsImpl;
 import org.kuali.student.rules.repository.drools.rule.CategoryFactory;
 import org.kuali.student.rules.repository.drools.rule.DroolsRuleImpl;
 import org.kuali.student.rules.repository.drools.rule.DroolsRuleSetImpl;
@@ -54,6 +58,8 @@ import org.kuali.student.rules.repository.rule.CompilerResult;
 import org.kuali.student.rules.repository.rule.CompilerResultList;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is a general Drools utility class. 
@@ -63,6 +69,9 @@ import org.kuali.student.rules.repository.rule.RuleSet;
  */
 public class DroolsUtil {
     
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(DroolsUtil.class);
+
     /**
      * Private Constructor.
      *
@@ -251,6 +260,48 @@ public class DroolsUtil {
             throw new RuleEngineRepositoryException("Unable to set rule set historical version", e);
         }
 
+        try {
+            // Tag name
+        	Property propertyTag = pkg.getNode().getProperty(RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_TAG_PROPERTY_NAME);
+            String tagName = propertyTag.getValue().getString();
+            ruleSet.setTag(tagName);
+        } catch (RepositoryException e) {
+            if (e instanceof PathNotFoundException) {
+            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_TAG_PROPERTY_NAME + "not set");
+            }
+            else {
+            	throw new RuleEngineRepositoryException("Unable to set rule set tag", e);
+            }
+        }
+
+        try {
+            // Effective date
+        	Property propertyEffDate = pkg.getNode().getProperty(RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME);
+            Calendar EffDate = propertyEffDate.getValue().getDate();
+            ruleSet.setEffectiveDate(EffDate);
+        } catch (RepositoryException e) {
+            if (e instanceof PathNotFoundException) {
+            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME + "not set");
+            }
+            else {
+            	throw new RuleEngineRepositoryException("Unable to set rule set tag", e);
+            }
+        }
+        
+        try {
+            // Expiry date
+        	Property propertyExpDate = pkg.getNode().getProperty(RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME);
+            Calendar ExpDate = propertyExpDate.getValue().getDate();
+            ruleSet.setExpiryDate(ExpDate);
+        } catch (RepositoryException e) {
+            if (e instanceof PathNotFoundException) {
+            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME + "not set");
+            }
+            else {
+            	throw new RuleEngineRepositoryException("Unable to set rule set tag", e);
+            }
+        }
+        
         // Drools 4 does not use generics so we have to suppress warning
         for (@SuppressWarnings("unchecked") Iterator<AssetItem> it = pkg.getAssets(); it.hasNext();) {
             AssetItem item = it.next();
