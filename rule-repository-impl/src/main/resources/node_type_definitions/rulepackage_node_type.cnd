@@ -41,7 +41,14 @@
 
 // Kuali Student package tag so multiple packages can be group together as one package
 //- kuali:packageTag (string)
-- drools:packageTag (string)
+//- drools:packageTag (string)
+//for taxonomies/asset classification  
+- drools:categoryReference (reference)
+  multiple 
+  copy
+  < 'drools:categoryNodeType'  
+  
+
 
 // Kuali Student package date effective
 - drools:dateEffective (date)

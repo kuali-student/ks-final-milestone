@@ -73,7 +73,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /** Drools utility class */
     private DroolsUtil droolsUtil = DroolsUtil.getInstance();
 
-    public static final String KUALI_PACKAGE_TAG_PROPERTY_NAME = "drools:packageTag";
+    public static final String KUALI_PACKAGE_TAG_PROPERTY_NAME = "drools:categoryReference";
     public static final String KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME = "drools:dateEffective";
     public static final String KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME = "drools:dateExpiry";
 
