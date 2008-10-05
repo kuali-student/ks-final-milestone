@@ -373,4 +373,8 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
 	public List<RuleSet> loadRuleSetsByTag(String tagName) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
 	}
+
+    public List<RuleSet> loadRuleSetSnapshotsByTag(String tagName) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+    }
 }

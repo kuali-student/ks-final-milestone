@@ -768,6 +768,40 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
+    public void testCreateAndLoadRuleSetSnapshotsByTagName() throws Exception {
+        List<String> header = new ArrayList<String>();
+        header.add("import java.util.Calendar");
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet1", "My new rule set 1", header);
+        RuleSet ruleSet2 = createRuleSet("MyRuleSet2", "My new rule set 2", header);
+        
+        String tag = "RuleSetCollection";
+        ruleSet1.setTag(tag);
+        ruleSet2.setTag(tag);
+        
+        String ruleSet1UUID = brmsRepository.createRuleSet(ruleSet1).getUUID();
+        assertTrue( ruleSet1UUID != null && !ruleSet1UUID.isEmpty() );
+        String ruleSet2UUID = brmsRepository.createRuleSet(ruleSet2).getUUID();
+        assertTrue( ruleSet2UUID != null && !ruleSet2UUID.isEmpty() );
+
+        brmsRepository.createRuleSetSnapshot("MyRuleSet1", "MyRuleSetSnapshot1", "Snapshot Version 1");
+        brmsRepository.createRuleSetSnapshot("MyRuleSet2", "MyRuleSetSnapshot2", "Snapshot Version 1");
+        
+        ruleSet1 = brmsRepository.loadRuleSetSnapshot("MyRuleSet1", "MyRuleSetSnapshot1");
+        ruleSet2 = brmsRepository.loadRuleSetSnapshot("MyRuleSet2", "MyRuleSetSnapshot2");
+        // Rule Set 
+        assertEquals(tag, ruleSet1.getTag());
+        assertEquals(tag, ruleSet2.getTag());
+        
+        List<RuleSet> list = brmsRepository.loadRuleSetSnapshotsByTag(tag);
+        assertEquals("MyRuleSet1", list.get(0).getName());
+        assertEquals("MyRuleSetSnapshot1", list.get(0).getSnapshotName());
+        assertEquals(tag, list.get(0).getTag());
+        assertEquals("MyRuleSet2", list.get(1).getName());
+        assertEquals("MyRuleSetSnapshot2", list.get(1).getSnapshotName());
+        assertEquals(tag, list.get(1).getTag());
+    }
+
+    @Test
     public void testCreateAndLoadRuleSetByName() throws Exception {
         List<String> header = new ArrayList<String>();
         header.add("import java.util.Calendar");

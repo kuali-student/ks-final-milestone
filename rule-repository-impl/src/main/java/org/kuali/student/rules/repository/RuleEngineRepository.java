@@ -782,4 +782,12 @@ public interface RuleEngineRepository {
      * @return A list of rule sets
      */
     public List<RuleSet> loadRuleSetsByTag(String tagName);
+
+    /**
+     * Loads a list of rule set snapshots by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     */
+    public List<RuleSet> loadRuleSetSnapshotsByTag(String tagName);
 }

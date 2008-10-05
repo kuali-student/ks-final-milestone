@@ -171,14 +171,13 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testFetchRuleSetByTag() throws Exception {
+    public void testFetchRuleSetsByTag() throws Exception {
         String tagName = "RuleSetCollection";
     	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", tagName) );
         assertNotNull(ruleSet1);
     	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", tagName) );
         assertNotNull(ruleSet2);
-        
-        
+
         List<RuleSetDTO> list = service.fetchRuleSetsByTag(tagName);
         assertNotNull(list);
         assertEquals(2, list.size());
@@ -253,6 +252,31 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
         service.removeRuleSetSnapshot(snapshot.getName(), snapshot.getSnapshotName());
         service.removeRuleSet(ruleSet1.getUUID());
+    }
+
+    @Test
+    public void testFetchRuleSetSnapshotsByTag() throws Exception {
+        String tagName = "RuleSetCollection";
+    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", tagName) );
+        assertNotNull(ruleSet1);
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", tagName) );
+        assertNotNull(ruleSet2);
+        
+        service.createRuleSetSnapshot(ruleSet1.getName(), "snapshot1", "A new snapshot");
+        service.createRuleSetSnapshot(ruleSet2.getName(), "snapshot2", "A new snapshot");
+        
+        List<RuleSetDTO> list = service.fetchRuleSetSnapshotsByTag(tagName);
+        assertNotNull(list);
+        assertEquals(2, list.size());
+        //assertEquals(ruleSet1.getUUID(), list.get(0).getUUID());
+        assertEquals(ruleSet1.getName(), list.get(0).getName());
+        assertEquals("snapshot1", list.get(0).getSnapshotName());
+        //assertEquals(ruleSet2.getUUID(), list.get(1).getUUID());
+        assertEquals(ruleSet2.getName(), list.get(1).getName());
+        assertEquals("snapshot2", list.get(1).getSnapshotName());
+        		
+        service.removeRuleSet( ruleSet1.getUUID() );
+        service.removeRuleSet( ruleSet2.getUUID() );
     }
 
     @Test

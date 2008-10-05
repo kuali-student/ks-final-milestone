@@ -400,6 +400,27 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
+     * Loads a list of rule set snapshots by tag name.
+     * 
+     * @param tagName Tag name
+     * @return A list of rule sets
+     */
+    public List<RuleSetDTO> fetchRuleSetSnapshotsByTag(String tagName)
+		throws OperationFailedException {
+        try {
+	        List<RuleSet> list = this.ruleEngineRepository.loadRuleSetSnapshotsByTag(tagName);
+	        List<RuleSetDTO> dtoList = new ArrayList<RuleSetDTO>(list.size());
+	    	for(RuleSet ruleSet : list) {
+		    	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
+		    	dtoList.add(dto);
+	        }
+	        return dtoList;
+        } catch(RuleEngineRepositoryException e) {
+        	throw new OperationFailedException(e.getMessage());
+		}
+    }
+
+    /**
      * Creates a new status if it doesn't already exists.
      * 
      * @param name Status name
