@@ -267,7 +267,7 @@ public class DroolsUtil {
             ruleSet.setTag(tagName);
         } catch (RepositoryException e) {
             if (e instanceof PathNotFoundException) {
-            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_TAG_PROPERTY_NAME + "not set");
+            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_TAG_PROPERTY_NAME + " not set");
             }
             else {
             	throw new RuleEngineRepositoryException("Unable to set rule set tag", e);
@@ -281,7 +281,7 @@ public class DroolsUtil {
             ruleSet.setEffectiveDate(EffDate);
         } catch (RepositoryException e) {
             if (e instanceof PathNotFoundException) {
-            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME + "not set");
+            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME + " not set");
             }
             else {
             	throw new RuleEngineRepositoryException("Unable to set rule set tag", e);
@@ -295,7 +295,7 @@ public class DroolsUtil {
             ruleSet.setExpiryDate(ExpDate);
         } catch (RepositoryException e) {
             if (e instanceof PathNotFoundException) {
-            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME + "not set");
+            	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME + " not set");
             }
             else {
             	throw new RuleEngineRepositoryException("Unable to set rule set tag", e);
