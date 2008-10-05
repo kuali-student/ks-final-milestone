@@ -103,7 +103,7 @@ public class RuleEngineRepositoryPerfTest {
         //int[] iterations = new int[] {1, 10, 50, 100};
         // This causes a JVM stack overflow when generating more than 600 rules 
         //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000};
-        int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 2500};
+        int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000};
         int c = 0;
         for(int ruleCount : iterations) {
             c++;
