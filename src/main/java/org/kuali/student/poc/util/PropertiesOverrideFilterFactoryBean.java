@@ -113,10 +113,18 @@ public class PropertiesOverrideFilterFactoryBean implements FactoryBean {
 		try {
 			inProperties.load(inStream);
 		} finally {
-			if (inStream != null) {
+			if (defaultInStream != null) {
 				try {
-					inStream.close(); 
+					defaultInStream.close(); 
 				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (overrideInStream != null) {
+				try {
+					overrideInStream.close(); 
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		}
