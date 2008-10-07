@@ -5,6 +5,7 @@
 
   <!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
   <inherits name="org.kuali.student.commons.ui.UICommons"/>
+  <inherits name="org.kuali.student.rules.InternalCommon"/>
 
   <inherits name='org.kuali.student.rules.RuleManagement'/>
 
