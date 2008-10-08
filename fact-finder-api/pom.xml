@@ -11,7 +11,22 @@
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>fact-finder-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Fact Finder API</name>
+	<packaging>jar</packaging>
+	<name>Fact Finder Service API</name>
 	<description />
+	
+    <properties>
+        <ks.service.package>org.kuali.student.rules.factfinder.service</ks.service.package>
+        <ks.service.className>FactFinderService</ks.service.className>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

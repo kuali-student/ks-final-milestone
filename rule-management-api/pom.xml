@@ -28,5 +28,13 @@
             </plugin>
         </plugins>
     </build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>fact-finder-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 		
 </project>

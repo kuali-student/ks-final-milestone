@@ -12,6 +12,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+
 /**
  * @author zzraly
  */

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.rulemanagement.dto;
+package org.kuali.student.rules.factfinder.dto;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -35,6 +35,8 @@ import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FactStructureDTO implements Serializable {
 
+    private Boolean staticFact = false;
+    
     @XmlAttribute
     private String factStructureId;
     
@@ -52,6 +54,9 @@ public class FactStructureDTO implements Serializable {
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
     Map<String, String> definitionVariableList;
 
+    @XmlElement
+    private String staticValue;
+    
 
     /**
      * @return the factStructureId
