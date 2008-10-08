@@ -17,6 +17,8 @@
     	  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+	<context:annotation-config/>
+	
 	<bean id="propertyConfigurer"
 		class="org.kuali.student.poc.common.util.ModPropertyPlaceholderConfigurer">
 		<property name="locations">
