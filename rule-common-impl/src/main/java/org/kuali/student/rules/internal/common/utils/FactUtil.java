@@ -2,8 +2,8 @@ package org.kuali.student.rules.internal.common.utils;
 
 import java.util.List;
 
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class FactUtil {

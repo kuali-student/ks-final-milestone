@@ -2,8 +2,8 @@ package org.kuali.student.rules.util;
 
 import java.util.List;
 
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;

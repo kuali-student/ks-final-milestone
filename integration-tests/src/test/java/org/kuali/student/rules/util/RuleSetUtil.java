@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
