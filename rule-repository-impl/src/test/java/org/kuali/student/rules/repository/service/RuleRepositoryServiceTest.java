@@ -605,6 +605,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
 		bri.setCompiledId(ruleSet1.getUUID());
+		bri.setCompiledVersionNumber(ruleSet1.getVersionNumber());
 		RightHandSideDTO rhs = bri.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("6.0");
     	// Generate and update rule set
@@ -630,6 +631,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
 		bri.setCompiledId(ruleSet.getUUID());
+		bri.setCompiledVersionNumber(ruleSet.getVersionNumber());
 		String anchor = bri.getAnchorValue();
 		String propName1 = bri.getRuleElementList().get(0).getRuleProposition().getName();
 		String propName2 = bri.getRuleElementList().get(2).getRuleProposition().getName();
