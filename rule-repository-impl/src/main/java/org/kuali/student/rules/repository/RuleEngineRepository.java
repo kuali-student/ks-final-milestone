@@ -17,10 +17,9 @@ package org.kuali.student.rules.repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.List;
 
-import org.drools.repository.PackageItem;
+import org.drools.repository.RulesRepositoryException;
 import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
@@ -678,7 +677,7 @@ public interface RuleEngineRepository {
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public Object loadCompiledRuleSet(String ruleSetUuid);
+    //public Object loadCompiledRuleSet(String ruleSetUuid);
 
     /**
      * Loads a compiled rule set by rule set name.
@@ -688,7 +687,7 @@ public interface RuleEngineRepository {
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public Object loadCompiledRuleSetByName(String ruleSetName);
+    //public Object loadCompiledRuleSetByName(String ruleSetName);
 
     /**
      * Loads a compiled rule set as an array of bytes.
@@ -698,7 +697,7 @@ public interface RuleEngineRepository {
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if compiling a rule set fails
      */
-    public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID);
+    //public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID);
     
     /**
      * Loads a compiled rule set by rule set name as an array of bytes.
@@ -707,7 +706,7 @@ public interface RuleEngineRepository {
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName);
+    //public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName);
 
     /**
      * Loads a compiled rule set snapshot.
@@ -719,7 +718,7 @@ public interface RuleEngineRepository {
      * @return Compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
      */
-    public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName);
+    //public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName);
 
     /**
      * Loads a compiled rule set snapshot as an array of bytes.
@@ -731,7 +730,7 @@ public interface RuleEngineRepository {
      * @return Compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
      */
-    public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName);
+    //public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName);
     
     /**
      * Loads a rule set snapshot.
@@ -765,7 +764,7 @@ public interface RuleEngineRepository {
     public Object compileSource(Reader source);
 
     /**
-     * <p>Loads all rules in a specific category.</p>
+     * <p>Loads all rules in a specific rule category.</p>
      * <p>This is a dynamic rule set which is not stored in the repository
      * and therefore has no UUID or version. The rule set's name is the same 
      * as the <code>category</name> name.</p> 
@@ -773,21 +772,42 @@ public interface RuleEngineRepository {
      * @param category Category rules belong to
      * @return A dynamic rule set
      */
-    public RuleSet loadRuleSetByCategory(String category);
+    public RuleSet loadRuleSetByRuleCategory(String category);
 
     /**
-     * Loads a list of rule sets by tag name.
+     * Loads a list of rule sets by category name
+     * including archived rule sets.
      * 
-     * @param tagName Tag name
+     * @param category Category name
      * @return A list of rule sets
      */
-    public List<RuleSet> loadRuleSetsByTag(String tagName);
+    public List<RuleSet> findRuleSetsByCategory(String category);
 
     /**
-     * Loads a list of rule set snapshots by tag name.
+     * Loads a list of all rule set snapshots by category name 
+     * including archived rule sets.
      * 
-     * @param tagName Tag name
+     * @param category Category name
      * @return A list of rule sets
      */
-    public List<RuleSet> loadRuleSetSnapshotsByTag(String tagName);
+    public List<RuleSet> findRuleSetSnapshotsByCategory(String category);
+
+    
+    /**
+     * Loads a list of rule sets by category name.
+     * 
+     * @param category Category name
+     * @return A list of rule sets
+     */
+    public List<RuleSet> loadRuleSetsByCategory(String category) 
+    	throws RulesRepositoryException;
+
+    /**
+     * Loads a list of rule set snapshots by category name.
+     * 
+     * @param category Category name
+     * @return A list of rule sets
+     */
+    public List<RuleSet> loadRuleSetSnapshotsByCategory(String category)
+    	throws RulesRepositoryException;
 }

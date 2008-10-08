@@ -223,7 +223,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         if (this.ruleEngineRepository == null) {
         	throw new RuleSetExecutionException("Rule engine repository has not been set.");
         }
-        return (Package) this.ruleEngineRepository.loadCompiledRuleSet(uuid);
+        return (Package) this.ruleEngineRepository.loadRuleSet(uuid).getCompiledRuleSetObject();
     }
 
     /**
@@ -234,7 +234,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @return A Drools package
      */
     private Package loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) {
-        return (Package) this.ruleEngineRepository.loadCompiledRuleSetSnapshot(ruleSetName, snapshotName);
+        return (Package) this.ruleEngineRepository.loadRuleSetSnapshot(ruleSetName, snapshotName).getCompiledRuleSetObject();
     }
     
     private void generateReport(List<?> facts) {

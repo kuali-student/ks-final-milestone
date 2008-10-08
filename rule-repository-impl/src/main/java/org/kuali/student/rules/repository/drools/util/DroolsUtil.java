@@ -29,9 +29,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
+import javax.jcr.Value;
 
 import org.drools.common.DroolsObjectInputStream;
 import org.drools.compiler.DroolsError;
@@ -149,6 +151,20 @@ public class DroolsUtil {
         rule.setCategoryNames(categoryNameList);
     }
 
+    private void setCategories(DroolsRuleSetImpl ruleSet, List<CategoryItem> categories) {
+        List<Category> categoryList = new ArrayList<Category>();
+        //List<String> categoryNameList = new ArrayList<String>();
+        for(CategoryItem category : categories) {
+            String name = category.getName();
+            String path = category.getFullPath();
+            Category cat = CategoryFactory.getInstance().createDroolsCategory(name, path);
+            categoryList.add(cat);
+            //categoryNameList.add(name);
+        }
+        ruleSet.setCategories(categoryList);
+        //rule.setCategoryNames(categoryNameList);
+    }
+
     /**
      * Builds a rule from from history from an Drools repository item. Note: AssetItem.getFormat(),
      * AssetItem.getLastModified(), AssetItem.isArchived() throws exception when creating from history
@@ -263,8 +279,17 @@ public class DroolsUtil {
         try {
             // Tag name
         	Property propertyTag = pkg.getNode().getProperty(RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_TAG_PROPERTY_NAME);
-            String tagName = propertyTag.getValue().getString();
-            ruleSet.setTag(tagName);
+            Value[] values = propertyTag.getValues();
+            //String tagName = propertyTag.getValue().getString();
+            // TODO: Fix this
+            List<CategoryItem> categoryList = new ArrayList<CategoryItem>(values.length);
+            for(Value value : values) {
+            	String uuid = value.getString();
+	            Node tagNode = pkg.getNode().getSession().getNodeByUUID(uuid);
+	            CategoryItem tagItem = new CategoryItem(pkg.getRulesRepository(), tagNode);
+	            categoryList.add(tagItem);
+            }
+            setCategories(ruleSet, categoryList);
         } catch (RepositoryException e) {
             if (e instanceof PathNotFoundException) {
             	logger.info("Property " + RuleEngineRepositoryDroolsImpl.KUALI_PACKAGE_TAG_PROPERTY_NAME + " not set");

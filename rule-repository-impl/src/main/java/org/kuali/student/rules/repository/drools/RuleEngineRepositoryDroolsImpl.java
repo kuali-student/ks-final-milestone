@@ -28,6 +28,8 @@ import javax.jcr.ItemExistsException;
 import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
+import javax.jcr.Property;
+import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.UnsupportedRepositoryOperationException;
 import javax.jcr.lock.LockException;
@@ -41,12 +43,14 @@ import org.drools.compiler.PackageBuilder;
 import org.drools.repository.AssetHistoryIterator;
 import org.drools.repository.AssetItem;
 import org.drools.repository.AssetItemIterator;
+import org.drools.repository.CategorisableItem;
 import org.drools.repository.CategoryItem;
 import org.drools.repository.PackageItem;
 import org.drools.repository.PackageIterator;
 import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
+import org.drools.repository.VersionableItem;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.rule.DroolsConstants;
 import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
@@ -56,6 +60,7 @@ import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryExcepti
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetExistsException;
 import org.kuali.student.rules.repository.rule.CompilerResultList;
+import org.kuali.student.rules.repository.rule.Category;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 
@@ -76,6 +81,41 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     public static final String KUALI_PACKAGE_TAG_PROPERTY_NAME = "drools:categoryReference";
     public static final String KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME = "drools:dateEffective";
     public static final String KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME = "drools:dateExpiry";
+    public static final String KUALI_DROOLS_PACKAGE_SNAPSHOT_AREA_NAME = "drools:packagesnapshot_area";
+    public static final String KUALI_DROOLS_ARCHIVE_NAME = "drools:archive";
+    public static final String KUALI_DROOLS_PACKAGE_NODE_TYPE_NAME = "drools:packageNodeType";
+
+    private final static class CategorisablePackageItem extends CategorisableItem {
+    	public CategorisablePackageItem(RulesRepository rulesRepository, Node node) {
+    		super(rulesRepository, node);
+    	}
+    	
+        public VersionableItem getPrecedingVersion()
+        	throws RulesRepositoryException {
+            try {
+                Node precedingVersionNode = getPrecedingVersionNode();
+                if(precedingVersionNode != null)
+                    return new CategorisablePackageItem(rulesRepository, precedingVersionNode);
+            }
+            catch(Exception e) {
+                throw new RulesRepositoryException(e);
+            }
+            return null;
+        }
+
+        public VersionableItem getSucceedingVersion()
+        	throws RulesRepositoryException {
+            try {
+                Node succeedingVersionNode = getSucceedingVersionNode();
+                if(succeedingVersionNode != null)
+                    return new CategorisablePackageItem(rulesRepository, succeedingVersionNode);
+            }
+            catch(Exception e) {
+                throw new RulesRepositoryException(e);
+            }
+            return null;
+        }
+    }
 
     /**
      * Constructor.
@@ -153,6 +193,115 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
     }
 
+    private boolean isSnapshot(Node parentNode)
+	    throws RepositoryException
+	{
+	    return parentNode.getPath().indexOf(KUALI_DROOLS_PACKAGE_SNAPSHOT_AREA_NAME) != -1;
+	}
+
+    private boolean isArchived(Node parentNode)
+	    throws RepositoryException
+	{
+	    return parentNode.getProperty(KUALI_DROOLS_ARCHIVE_NAME).getBoolean();
+	}
+
+    public List<RuleSet> loadRuleSetsByCategory(String categoryTag)
+    	throws RulesRepositoryException {
+        CategoryItem item = this.repository.loadCategory(categoryTag);
+	    List<RuleSet> results = new ArrayList<RuleSet>();
+	    try
+	    {
+	        PropertyIterator it = item.getNode().getReferences();
+	        do
+	        {
+	            if(!it.hasNext()) {
+	                break;
+	            }
+	            Property ruleLink = (Property)it.next();
+	            Node parentNode = ruleLink.getParent();
+	            if( parentNode.getPrimaryNodeType().getName().equals(KUALI_DROOLS_PACKAGE_NODE_TYPE_NAME)
+	            		&& !isSnapshot(parentNode) && !isArchived(parentNode)) { 
+		            PackageItem pkg = getCategorisablePackageItemItem(parentNode);
+	            	RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
+	            	results.add(ruleSet);
+	            }
+	        } while(true);
+	        return results;
+	    }
+	    catch(RepositoryException e)
+	    {
+	        throw new RulesRepositoryException(e);
+	    }
+    }
+
+    public List<RuleSet> loadRuleSetSnapshotsByCategory(String categoryTag)
+    	throws RulesRepositoryException {
+        CategoryItem item = this.repository.loadCategory(categoryTag);
+	    List<RuleSet> results = new ArrayList<RuleSet>();
+	    try
+	    {
+	        PropertyIterator it = item.getNode().getReferences();
+	        do
+	        {
+	            if(!it.hasNext()) {
+	                break;
+	            }
+	            Property ruleLink = (Property)it.next();
+	            Node parentNode = ruleLink.getParent();
+	            if( parentNode.getPrimaryNodeType().getName().equals(KUALI_DROOLS_PACKAGE_NODE_TYPE_NAME)
+	            		&& isSnapshot(parentNode) && !isArchived(parentNode)) { 
+		            PackageItem pkg = getCategorisablePackageItemItem(parentNode);
+	            	RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
+	            	results.add(ruleSet);
+	            }
+	        } while(true);
+	        return results;
+	    }
+	    catch(RepositoryException e)
+	    {
+	        throw new RulesRepositoryException(e);
+	    }
+    }
+
+    /*private List<RuleSet> loadRuleSetsByCategory(String categoryTag, 
+    		boolean loadSnapshot, boolean loadArchivedAsset)
+	    throws RulesRepositoryException {
+        CategoryItem item = this.repository.loadCategory(categoryTag);
+	    List<RuleSet> results = new ArrayList<RuleSet>();
+	    try
+	    {
+	        PropertyIterator it = item.getNode().getReferences();
+	        do
+	        {
+	            if(!it.hasNext())
+	                break;
+	            Property ruleLink = (Property)it.next();
+	            Node parentNode = ruleLink.getParent();
+//	            if( parentNode.getPrimaryNodeType().getName().equals(KUALI_DROOLS_PACKAGE_NODE_TYPE_NAME)
+//	            		&& (loadSnapshot || !isSnapshot(parentNode)) 
+//	            		&& (loadArchivedAsset || !isArchived(parentNode))) {
+//	            	CategorisablePackageItem cat = new CategorisablePackageItem(this.repository, parentNode);
+//	            	Node node = cat.getNode();
+//	            	PackageItem pkg = new PackageItem(this.repository, node);
+	            PackageItem pkg = getCategorisablePackageItemItem(parentNode);
+	            	RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
+	            	results.add(ruleSet);
+	            //}
+	        } while(true);
+	        return results;
+	    }
+	    catch(RepositoryException e)
+	    {
+	        throw new RulesRepositoryException(e);
+	    }
+	}*/
+
+    private PackageItem getCategorisablePackageItemItem(Node parentNode) {
+    	CategorisablePackageItem cat = new CategorisablePackageItem(this.repository, parentNode);
+    	Node node = cat.getNode();
+    	return new PackageItem(this.repository, node);
+    }
+
     /**
      * Checkin a rule set into the repository. 
      * Checkin rule set will create a new version of the rule set.
@@ -185,7 +334,11 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     private void setCustomRuleSetProperties(PackageItem pkg, RuleSet ruleSet) 
     	throws RuleEngineRepositoryException {
         try {
-	    	pkg.getNode().setProperty(KUALI_PACKAGE_TAG_PROPERTY_NAME, ruleSet.getTag());
+	    	//pkg.getNode().setProperty(KUALI_PACKAGE_TAG_PROPERTY_NAME, ruleSet.getTag());
+            CategorisablePackageItem item = new CategorisablePackageItem(this.repository, pkg.getNode());
+            for(Category category : ruleSet.getCategories()) {
+            	item.addCategory(category.getName());
+            }
 	        pkg.getNode().setProperty(KUALI_PACKAGE_EFFECTIVE_DATE_PROPERTY_NAME, ruleSet.getEffectiveDate());
 	        pkg.getNode().setProperty(KUALI_PACKAGE_EXPIRY_DATE_PROPERTY_NAME, ruleSet.getExpiryDate());
         } catch (RepositoryException e ) {
@@ -660,7 +813,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param tagName Tag name
      * @return A list of rule sets
      */
-    public List<RuleSet> loadRuleSetsByTag(String tagName) {
+    public List<RuleSet> findRuleSetsByCategory(String tagName) {
         try {
             String sql = "SELECT *"; // + PackageItem.ASSET_FOLDER_NAME + ", " + PackageItem.RULE_PACKAGE_TYPE_NAME;
             sql += " FROM " + PackageItem.RULE_PACKAGE_TYPE_NAME;
@@ -686,7 +839,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @param tagName Tag name
      * @return A list of rule sets
      */
-    public List<RuleSet> loadRuleSetSnapshotsByTag(String tagName) {
+    public List<RuleSet> findRuleSetSnapshotsByCategory(String tagName) {
         try {
             String sql = "SELECT *"; // + PackageItem.ASSET_FOLDER_NAME + ", " + PackageItem.RULE_PACKAGE_TYPE_NAME;
             sql += " FROM " + PackageItem.RULE_PACKAGE_TYPE_NAME;
@@ -981,7 +1134,6 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
             pkg.checkin(comment);
             this.repository.save();
         } catch (RulesRepositoryException e) {
-e.printStackTrace();        	
             throw new RuleEngineRepositoryException("Creating rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
         }
     }
@@ -1294,7 +1446,7 @@ e.printStackTrace();
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public Object loadCompiledRuleSet(final String ruleSetUUID) {
+/*    public Object loadCompiledRuleSet(final String ruleSetUUID) {
         if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
         }
@@ -1310,7 +1462,7 @@ e.printStackTrace();
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public Object loadCompiledRuleSetByName(final String ruleSetName) {
+/*    public Object loadCompiledRuleSetByName(final String ruleSetName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
         }
@@ -1326,7 +1478,7 @@ e.printStackTrace();
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public byte[] loadCompiledRuleSetAsBytes(final String ruleSetUUID) {
+/*    public byte[] loadCompiledRuleSetAsBytes(final String ruleSetUUID) {
         if (ruleSetUUID == null || ruleSetUUID.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
         }
@@ -1348,7 +1500,7 @@ e.printStackTrace();
      * @return A compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a rule set fails
      */
-    public byte[] loadCompiledRuleSetAsBytesByName(final String ruleSetName) {
+/*    public byte[] loadCompiledRuleSetAsBytesByName(final String ruleSetName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetUUID cannot be null or empty");
         }
@@ -1373,7 +1525,7 @@ e.printStackTrace();
      * @return Compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
      */
-    public Object loadCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
+/*    public Object loadCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
         } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
@@ -1393,7 +1545,7 @@ e.printStackTrace();
      * @return Compiled rule set (<code>org.drools.rule.Package</code>)
      * @throws RuleEngineRepositoryException Thrown if loading a snapshots fails
      */
-    public byte[] loadCompiledRuleSetSnapshotAsBytes(final String ruleSetName, final String snapshotName) {
+/*    public byte[] loadCompiledRuleSetSnapshotAsBytes(final String ruleSetName, final String snapshotName) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
             throw new IllegalArgumentException("ruleSetName cannot be null or empty");
         } else if (snapshotName == null || snapshotName.trim().isEmpty()) {
@@ -1654,7 +1806,7 @@ e.printStackTrace();
     }
 
     /**
-     * <p>Loads all rules in a specific category.</p>
+     * <p>Loads all rules in a specific rule category.</p>
      * <p>This is a dynamic rule set which is not stored in the repository
      * and therefore has no UUID or version. The rule set's name is the same 
      * as the <code>category</name> name.</p> 
@@ -1662,7 +1814,7 @@ e.printStackTrace();
      * @param category Category rules belong to
      * @return A dynamic rule set
      */
-    public RuleSet loadRuleSetByCategory(final String category) {
+    public RuleSet loadRuleSetByRuleCategory(final String category) {
         RuleSet ruleSet = RuleSetFactory.getInstance().createRuleSet(
                 category, "A dynamic rule set", DroolsConstants.FORMAT_DRL);
         // Load all rules in a specific category

@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.drools.repository.StateItem;
 import org.kuali.student.rules.repository.rule.AbstractItem;
+import org.kuali.student.rules.repository.rule.Category;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.repository.util.ObjectUtil;
@@ -55,8 +56,8 @@ public class DroolsRuleSetImpl
     private boolean snapshot = false;
     /** snapshot name */
     private String snapshotName;
-    /** Tag name */
-    private String tagName;
+    /** List of categories */
+    private List<Category> categoryList = new ArrayList<Category>();
     /** Date rule set becomes effective */
     private Calendar effectiveDate;
     /** Date rule set expires */
@@ -305,23 +306,46 @@ public class DroolsRuleSetImpl
     }
 
     /**
-     * Gets the rule set tag.
+     * Adds a category to this rule set.
      * 
-     * @return Tag name
+     * @param name Category name
+     * @param path Category path
      */
-    public String getTag() {
-    	return this.tagName;
+    public void addCategory(String name, String path) {
+    	Category category = CategoryFactory.getInstance().createDroolsCategory(name, path);
+    	this.categoryList.add(category);
     }
-    
+
     /**
-     * Sets a rule set tag.
+     * Removes a category to this rule set.
      * 
-     * @param tagName Tag name
+     * @param name Category name
+     * @param path Category path
+     * @return True if category was removed otherwise false
      */
-    public void setTag(final String tagName) {
-    	this.tagName = tagName;
+    public boolean removeCategory(String name, String path) {
+    	Category category = CategoryFactory.getInstance().createDroolsCategory(name, path);
+    	return this.categoryList.remove(category);
     }
-    
+
+    /**
+     * Gets a list of categories this rule set belongs to.
+     * 
+     * @return List of categories
+     */
+	public List<Category> getCategories() {
+		return categoryList;
+	}
+
+	/**
+     * Gets a list of categories this rule set belongs to.
+	 * 
+	 * @param categoryList List of categories
+	 */
+	public void setCategories(List<Category> categoryList) {
+		this.categoryList = categoryList;
+	}
+
 	/**
 	 * Gets the rule set effective date.
 	 * 
@@ -360,7 +384,7 @@ public class DroolsRuleSetImpl
 
 	public String toString() {
         return "RuleSet UUID=" + getUUID() + ", name=" + getName() + 
-        ", versionNumber=" + getVersionNumber() + ", ruleSetTag=" + getTag();
+        ", versionNumber=" + getVersionNumber() + ", categoryList=" + getCategories();
     }
 
     /**

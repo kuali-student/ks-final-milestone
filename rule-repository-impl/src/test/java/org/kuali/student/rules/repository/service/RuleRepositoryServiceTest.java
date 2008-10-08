@@ -76,9 +76,11 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	return createRuleSet("TestName", null);
     }
 
-    private RuleSetDTO createRuleSet(String name, String tagName) {
+    private RuleSetDTO createRuleSet(String name, String category) {
     	RuleSetDTO dto = new RuleSetDTO(name, "Test description", "DRL");
-    	dto.setTag(tagName);
+    	if (category != null) {
+	    	dto.addCategory(category, "/");
+    	}
     	return dto;
     }
 
@@ -89,7 +91,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	return ruleSet;
     }
 
-    /*@Test
+    @Test
     public void testCreateAndRemoveCategories() throws Exception {
         boolean b = service.createCategory("/", "EnrollmentRules", "A test category 1.0 description");
         assertTrue(b);
@@ -135,7 +137,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         service.removeCategory("/EnrollmentRules/Math/PreReq");
         service.removeCategory("/EnrollmentRules/Math");
         service.removeCategory("/EnrollmentRules");
-    }*/
+    }
 
     @Test
     public void testCreateRuleSet() throws Exception {
@@ -171,21 +173,25 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testFetchRuleSetsByTag() throws Exception {
-        String tagName = "RuleSetCollection";
-    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", tagName) );
+    public void testFetchRuleSetsByCategory() throws Exception {
+        String category = "RuleSetCollection";
+        boolean b = service.createCategory("/", category, "A test category 1.0 description");
+        assertTrue(b);
+
+        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", category) );
         assertNotNull(ruleSet1);
-    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", tagName) );
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
         assertNotNull(ruleSet2);
 
-        List<RuleSetDTO> list = service.fetchRuleSetsByTag(tagName);
+        List<RuleSetDTO> list = service.fetchRuleSetsByCategory(category);
         assertNotNull(list);
         assertEquals(2, list.size());
         assertEquals(ruleSet1.getUUID(), list.get(0).getUUID());
         assertEquals(ruleSet2.getUUID(), list.get(1).getUUID());
-        		
-        service.removeRuleSet( ruleSet1.getUUID() );
-        service.removeRuleSet( ruleSet2.getUUID() );
+
+        service.removeRuleSet(ruleSet1.getUUID());
+        service.removeRuleSet(ruleSet2.getUUID());
+        service.removeCategory("/"+category);
     }
 
     @Test
@@ -209,7 +215,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet() );
         assertNotNull( ruleSet1 );
         
-        byte[] binPkg = service.fetchCompiledRuleSet(ruleSet1.getUUID());
+        byte[] binPkg = service.fetchRuleSet(ruleSet1.getUUID()).getCompiledRuleSet();
         org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
         assertNotNull(pkg);
         assertTrue(pkg.isValid());
@@ -255,28 +261,32 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testFetchRuleSetSnapshotsByTag() throws Exception {
-        String tagName = "RuleSetCollection";
-    	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", tagName) );
+    public void testFetchRuleSetSnapshotsByCategory() throws Exception {
+        String category = "RuleSetCollection";
+        boolean b = service.createCategory("/", category, "A test category 1.0 description");
+        assertTrue(b);
+
+        RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSet("Rule-1", category) );
         assertNotNull(ruleSet1);
-    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", tagName) );
+    	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
         assertNotNull(ruleSet2);
         
         service.createRuleSetSnapshot(ruleSet1.getName(), "snapshot1", "A new snapshot");
         service.createRuleSetSnapshot(ruleSet2.getName(), "snapshot2", "A new snapshot");
         
-        List<RuleSetDTO> list = service.fetchRuleSetSnapshotsByTag(tagName);
+        List<RuleSetDTO> list = service.fetchRuleSetSnapshotsByCategory(category);
         assertNotNull(list);
         assertEquals(2, list.size());
-        //assertEquals(ruleSet1.getUUID(), list.get(0).getUUID());
         assertEquals(ruleSet1.getName(), list.get(0).getName());
         assertEquals("snapshot1", list.get(0).getSnapshotName());
-        //assertEquals(ruleSet2.getUUID(), list.get(1).getUUID());
         assertEquals(ruleSet2.getName(), list.get(1).getName());
         assertEquals("snapshot2", list.get(1).getSnapshotName());
         		
+        service.removeRuleSetSnapshot(ruleSet1.getName(), "snapshot1");
+        service.removeRuleSetSnapshot(ruleSet2.getName(), "snapshot2");
         service.removeRuleSet( ruleSet1.getUUID() );
         service.removeRuleSet( ruleSet2.getUUID() );
+        service.removeCategory("/"+category);
     }
 
     @Test
@@ -304,7 +314,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertNotNull( ruleSet1 );
         service.createRuleSetSnapshot(ruleSet1.getName(), "snapshot1", "A new snapshot");
        
-        byte[] binPkg = service.fetchCompiledRuleSetSnapshot(ruleSet1.getName(), "snapshot1");
+        byte[] binPkg = service.fetchRuleSetSnapshot(ruleSet1.getName(), "snapshot1").getCompiledRuleSet();
         org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
 
         assertNotNull(pkg);

@@ -76,7 +76,7 @@ public class RuleAdapter {
 				rule.getRuleSetName());
 		dto.setArchived(rule.isArchived());
 		dto.setBinaryContent(rule.getBinaryContent());
-		dto.setCategories(getCategories(rule.getCategories()));
+		dto.setCategories(getCategoryDTOs(rule.getCategories()));
 		dto.setCategoryNames(rule.getCategoryNames());
 		dto.setCheckinComment(rule.getCheckinComment());
 		dto.setContent(rule.getContent());
@@ -92,7 +92,7 @@ public class RuleAdapter {
 		return dto;
 	}
 	
-	private List<CategoryDTO> getCategories(List<Category> categories) {
+	private List<CategoryDTO> getCategoryDTOs(List<Category> categories) {
 		List<CategoryDTO> dtoList = new ArrayList<CategoryDTO>(categories.size());
 		for( Category category : categories) {
 			dtoList.add(getCategoryDTO(category));
@@ -110,7 +110,7 @@ public class RuleAdapter {
 		ruleSet.setStatus(ruleSetDTO.getStatus());
 		ruleSet.getHeaderList().addAll(ruleSetDTO.getHeader());
 		ruleSet.getRules().addAll(getRules(ruleSetDTO.getRules()));
-		ruleSet.setTag(ruleSetDTO.getTag());
+		ruleSet.setCategories(getCategories(ruleSetDTO.getCategories()));
 		ruleSet.setEffectiveDate(ruleSetDTO.getEffectiveDate());
 		ruleSet.setExpiryDate(ruleSetDTO.getExpiryDate());
 		return ruleSet;
@@ -136,7 +136,7 @@ public class RuleAdapter {
 		dto.setSnapshotName(ruleSet.getSnapshotName());
 		dto.setStatus(ruleSet.getStatus());
 		dto.setVersionSnapshotUUID(ruleSet.getVersionSnapshotUUID());
-		dto.setTag(ruleSet.getTag());
+		dto.setCategories(getCategoryDTOs(ruleSet.getCategories()));
 		dto.setEffectiveDate(ruleSet.getEffectiveDate());
 		dto.setExpiryDate(ruleSet.getExpiryDate());
 		return dto;
@@ -156,6 +156,15 @@ public class RuleAdapter {
 			dtoMap.put(rule.getName(), getRuleDTO(rule));
 		}
 		return dtoMap;
+	}
+	
+	private List<Category> getCategories(List<CategoryDTO> dtoList) {
+		List<Category> list = new ArrayList<Category>(dtoList.size());
+		for(CategoryDTO dto : dtoList) {
+			Category category = categoryFactory.createDroolsCategory(dto.getName(), dto.getPath());
+			list.add(category);
+		}
+		return list;
 	}
 	
 	/*private BusinessRuleInfo getBusinessRuleInfo(BusinessRuleInfoDTO bri) {

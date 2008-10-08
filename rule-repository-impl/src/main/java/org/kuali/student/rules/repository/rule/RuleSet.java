@@ -18,6 +18,8 @@ package org.kuali.student.rules.repository.rule;
 import java.util.Calendar;
 import java.util.List;
 
+import org.kuali.student.rules.repository.drools.rule.CategoryFactory;
+
 /**
  * This is the <code>RuleSet</code> interface. 
  * 
@@ -161,18 +163,35 @@ public interface RuleSet extends Item {
     public void setSnapshotName(String snapshotName);
     
     /**
-     * Sets a rule set tag.
+     * Adds a category to this rule set.
      * 
-     * @param tagName Tag name
+     * @param name Category name
+     * @param path Category path
      */
-    public void setTag(String tagName);
+    public void addCategory(String name, String path);
 
     /**
-     * Gets the rule set tag.
+     * Removes a category to this rule set.
      * 
-     * @return Tag name
+     * @param name Category name
+     * @param path Category path
+     * @return True if category was removed otherwise false
      */
-    public String getTag();
+    public boolean removeCategory(String name, String path);
+
+    /**
+     * Gets a list of categories this rule set belongs to.
+     * 
+     * @return List of categories
+     */
+	public List<Category> getCategories();
+
+	/**
+     * Gets a list of categories this rule set belongs to.
+	 * 
+	 * @param categoryList List of categories
+	 */
+	public void setCategories(List<Category> categoryList);
 
 	/**
 	 * Gets the rule set effective date.

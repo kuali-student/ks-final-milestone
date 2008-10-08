@@ -27,6 +27,7 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.exceptions.CategoryExistsException;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.exceptions.RuleEngineRepositoryException;
 import org.kuali.student.rules.repository.exceptions.RuleExistsException;
@@ -90,28 +91,42 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param name Category name
      * @param description Category description
      * @return True if category successfully created, otherwise false
-     * @throws CategoryExistsException Thrown if rule set already exists
-     * @throws RuleEngineRepositoryException Thrown if creating category fails
+     * @throws OperationFailedException Thrown if creating category fails or category already exists
+     * @throws MissingParameterException Thrown if parameters are null or empty
+     * @throws IllegalArgumentException If path and/or name is invalid
      */
-    /*public Boolean createCategory(final String path, final String name, final String description) 
-        throws CategoryExistsException, OperationFailedException, InvalidParameterException {
-        try {
+    public Boolean createCategory(final String path, final String name, final String description) 
+        throws OperationFailedException, MissingParameterException, InvalidParameterException {
+    	if (path == null || path.isEmpty()) {
+    		throw new MissingParameterException("Path cannot be null or empty");
+    	} else if (name == null || name.isEmpty()) {
+    		throw new MissingParameterException("Name cannot be null or empty");
+    	}
+    	try {
 			return this.ruleEngineRepository.createCategory(path, name, description);
+		} catch(CategoryExistsException e) {
+			throw new OperationFailedException(e.getMessage());
 		} catch(RuleEngineRepositoryException e) {
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
 		}
-    }*/
+    }
 
     /**
      * Removes a category.
      * 
      * @param categoryPath Category path
-     * @throws RuleEngineRepositoryException Thrown if removing a category fails
+     * @throws OperationFailedException Thrown if removing category fails
+     * @throws MissingParameterException Thrown if parameter is null or empty
+     * @throws IllegalArgumentException If path is invalid
      */
-    /*public void removeCategory(final String path) 
-    	throws OperationFailedException, InvalidParameterException {
+    public void removeCategory(final String path) 
+    	throws OperationFailedException, InvalidParameterException, MissingParameterException {
+    	if (path == null || path.isEmpty()) {
+    		throw new MissingParameterException("Path cannot be null or empty");
+    	}
+
     	try {
 			this.ruleEngineRepository.removeCategory(path);
 		} catch (RuleEngineRepositoryException e) {
@@ -119,17 +134,23 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
 		}
-    }*/
+    }
 
     /**
      * Loads child categories from <code>path</code>.
      * 
      * @param categoryPath Category path
      * @return List of child category names
-     * @throws OperationFailedException Thrown if loading child categories fails
+     * @throws OperationFailedException Thrown if fetching category fails
+     * @throws MissingParameterException Thrown if parameter is null or empty
+     * @throws IllegalArgumentException If path is invalid
      */
-    /*public List<String> fetchCategories(final String path) 
-    	throws OperationFailedException, InvalidParameterException {
+    public List<String> fetchCategories(final String path) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
+    	if (path == null || path.isEmpty()) {
+    		throw new MissingParameterException("Path cannot be null or empty");
+    	}
+
     	try {
 		    return this.ruleEngineRepository.loadChildCategories(path);
 		} catch (RuleEngineRepositoryException e) {
@@ -137,7 +158,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		} catch(IllegalArgumentException e) {
 			throw new InvalidParameterException(e.getMessage());
 		}
-	}*/
+	}
 	
     /**
      * Creates, compiles and checks in a rule set into the repository.
@@ -279,14 +300,14 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     /**
      * Loads a list of rule sets by tag name.
      * 
-     * @param tagName Tag name
+     * @param category Category name
      * @return A list of rule sets
      * @throws OperationFailedException Thrown if loading rule set list fails
      */
-    public List<RuleSetDTO> fetchRuleSetsByTag(@WebParam(name="tagName")String tagName)
+    public List<RuleSetDTO> fetchRuleSetsByCategory(String category)
     	throws OperationFailedException {
         try {
-	    	List<RuleSet> list = this.ruleEngineRepository.loadRuleSetsByTag(tagName);
+	    	List<RuleSet> list = this.ruleEngineRepository.loadRuleSetsByCategory(category);
 	        List<RuleSetDTO> dtoList = new ArrayList<RuleSetDTO>(list.size());
 	    	for(RuleSet ruleSet : list) {
 		    	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
@@ -306,7 +327,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if compiling a rule set fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public byte[] fetchCompiledRuleSet(final String ruleSetUUID) 
+/*    public byte[] fetchCompiledRuleSet(final String ruleSetUUID) 
     	throws OperationFailedException, InvalidParameterException {
         try {
 	        return this.ruleEngineRepository.loadCompiledRuleSetAsBytes(ruleSetUUID);
@@ -316,7 +337,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
-
+*/
     /**
      * Creates a new rule set snapshot for deployment and stores it in the repository.
      * 
@@ -366,7 +387,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if loading a snapshots fails
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public byte[] fetchCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
+/*    public byte[] fetchCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
     	throws OperationFailedException, InvalidParameterException {
         try {
 	        return this.ruleEngineRepository.loadCompiledRuleSetSnapshotAsBytes(ruleSetName, snapshotName);
@@ -376,7 +397,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
-
+*/
     /**
      * Loads a rule set snapshot.
      * 
@@ -402,13 +423,13 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     /**
      * Loads a list of rule set snapshots by tag name.
      * 
-     * @param tagName Tag name
+     * @param category Category name
      * @return A list of rule sets
      */
-    public List<RuleSetDTO> fetchRuleSetSnapshotsByTag(String tagName)
+    public List<RuleSetDTO> fetchRuleSetSnapshotsByCategory(String category)
 		throws OperationFailedException {
         try {
-	        List<RuleSet> list = this.ruleEngineRepository.loadRuleSetSnapshotsByTag(tagName);
+	        List<RuleSet> list = this.ruleEngineRepository.loadRuleSetSnapshotsByCategory(category);
 	        List<RuleSetDTO> dtoList = new ArrayList<RuleSetDTO>(list.size());
 	    	for(RuleSet ruleSet : list) {
 		    	RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
