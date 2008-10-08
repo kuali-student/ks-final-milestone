@@ -59,8 +59,10 @@ public class BusinessRule  {
 
     @Column(unique = true, nullable = false)
     private String ruleId;
+    
     private String compiledId;
-
+    private Long compiledVersionNumber;
+    
     @Embedded
     private RuleMetaData metaData;
 
@@ -269,5 +271,19 @@ public class BusinessRule  {
      */
     public final void setRuleElements(List<RuleElement> elements) {
         this.ruleElements = elements;
+    }
+
+    /**
+     * @return the compiledVersionNumber
+     */
+    public Long getCompiledVersionNumber() {
+        return compiledVersionNumber;
+    }
+
+    /**
+     * @param compiledVersionNumber the compiledVersionNumber to set
+     */
+    public void setCompiledVersionNumber(Long compiledVersionNumber) {
+        this.compiledVersionNumber = compiledVersionNumber;
     }
 }

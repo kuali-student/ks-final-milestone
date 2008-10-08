@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
-import org.kuali.student.rules.rulemanagement.dto.FactStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
@@ -67,6 +67,7 @@ public class BusinessRuleAdapter {
         ruleDTO.setAnchorValue( rule.getAnchor() );
         ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
         ruleDTO.setCompiledId( rule.getCompiledId() );
+        ruleDTO.setCompiledVersionNumber(rule.getCompiledVersionNumber());
         ruleDTO.setDescription( rule.getDescription() );
         ruleDTO.setEffectiveEndTime( rule.getMetaData().getEffectiveDateEnd() );
         ruleDTO.setEffectiveStartTime( rule.getMetaData().getEffectiveDateStart() );
@@ -230,6 +231,7 @@ public class BusinessRuleAdapter {
                 
         rule.setAnchor( ruleInfoDTO.getAnchorValue() );
         rule.setCompiledId(ruleInfoDTO.getCompiledId());
+        rule.setCompiledVersionNumber(ruleInfoDTO.getCompiledVersionNumber());
         rule.setDescription(ruleInfoDTO.getDescription());
         rule.setFailureMessage(ruleInfoDTO.getFailureMessage());
         rule.setName(ruleInfoDTO.getName() );
@@ -285,6 +287,11 @@ public class BusinessRuleAdapter {
      * @return
      */
     public static RuleProposition getRulePropositionEntity(RulePropositionDTO rulePropositionDTO) {
+        // In case of AND|OR|(|)... type of rule elements
+        if(null == rulePropositionDTO) {
+            return null;
+        }
+        
         RuleProposition ruleProposition = new RuleProposition();
         
         ruleProposition.setComparisonDataType( rulePropositionDTO.getComparisonDataType() );
@@ -396,7 +403,7 @@ public class BusinessRuleAdapter {
      */
     public static BusinessRule copyBusinessRule(BusinessRule fromRule, BusinessRule toRule) {        
                                 
-        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id","compiledId"});        
+        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id","compiledId","compiledVersionNumber"});        
         
         // Now update the parent reference in rule element to change from fromRule to toRule
         for(RuleElement element : fromRule.getRuleElements()) {

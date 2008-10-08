@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebService;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.DependentObjectsExistException;
@@ -17,10 +19,13 @@ import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
+import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dao.RuleManagementDAO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDeterminationStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
@@ -39,26 +44,30 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
     private RuleManagementDAO ruleManagementDao;
     
-//    private RuleRepositoryService repository;
+    private RuleRepositoryService repository;
 
     @Override
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
-
+        BusinessRuleType brType = null;
         // Lookup Business Rule Type
-        BusinessRuleType brType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleInfo.getBusinessRuleTypeKey()), AnchorTypeKey.valueOf(businessRuleInfo.getAnchorTypeKey()));
-
-        if (null == brType) {
+        try {
+            brType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleInfo.getBusinessRuleTypeKey()), AnchorTypeKey.valueOf(businessRuleInfo.getAnchorTypeKey()));
+        } catch (NoResultException nre) {            
             throw new InvalidParameterException("Could not lookup business rule type!");
+        } catch (NonUniqueResultException nure) {
+            new InvalidParameterException("Multiple business rule types found!");
         }
+        
         rule.setBusinessRuleType(brType);
 
         // Compile the business rule
-//        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-//        container.getBusinessRules().add(businessRuleInfo);        
-//        RuleSetDTO rsDTO = repository.generateRuleSet(container);        
-//        rule.setCompiledId(rsDTO.getUUID());
+        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+        container.getBusinessRules().add(businessRuleInfo);        
+        RuleSetDTO rsDTO = repository.generateRuleSet(container);        
+        rule.setCompiledId(rsDTO.getUUID());
+        rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         
         ruleManagementDao.createBusinessRule(rule);
                 
@@ -67,27 +76,45 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
     @Override
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        BusinessRule orgRule = ruleManagementDao.lookupBusinessRuleUsingRuleId(businessRuleId);
-
+        BusinessRule orgRule = null;
+        try {
+            orgRule = ruleManagementDao.lookupBusinessRuleUsingRuleId(businessRuleId);
+        } catch (NoResultException nre1) {
+            throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleId);
+        }
+        
+        businessRuleInfo.setCompiledId(orgRule.getCompiledId());
+        businessRuleInfo.setCompiledVersionNumber(orgRule.getCompiledVersionNumber());
+        
         BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
 
+        BusinessRuleType brType = null;
         // Lookup Business Rule Type
-        BusinessRuleType brType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleInfo.getBusinessRuleTypeKey()), AnchorTypeKey.valueOf(businessRuleInfo.getAnchorTypeKey()));
-
-        if (null == brType) {
+        try {
+            brType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleInfo.getBusinessRuleTypeKey()), AnchorTypeKey.valueOf(businessRuleInfo.getAnchorTypeKey()));
+        } catch (NoResultException nre) {            
             throw new InvalidParameterException("Could not lookup business rule type!");
+        } catch (NonUniqueResultException nure) {
+            new InvalidParameterException("Multiple business rule types found!");
         }
+
         rule.setBusinessRuleType(brType);
         
         // Compile the business rule
-//        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-//        container.getBusinessRules().add(businessRuleInfo);        
-//        RuleSetDTO rsDTO = repository.generateRuleSet(container);
-//        rule.setCompiledId(rsDTO.getUUID());
+        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+        container.getBusinessRules().add(businessRuleInfo);        
+        RuleSetDTO rsDTO = repository.generateRuleSet(container);
+        rule.setCompiledId(rsDTO.getUUID());
+        rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         
         // Remove the existing rule elements from the detached object
+        try {
         for (RuleElement element : orgRule.getRuleElements()) {
             ruleManagementDao.deleteRuleElement(element);
+        } 
+        } catch (RuntimeException e) {
+            e.printStackTrace(System.out);
+            throw e;
         }
         orgRule.setRuleElements(null);
         orgRule = BusinessRuleAdapter.copyBusinessRule(rule, orgRule);
@@ -103,7 +130,24 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     @Override
     public StatusDTO deleteBusinessRule(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
         StatusDTO status = new StatusDTO();
-        status.setSuccess(ruleManagementDao.deleteBusinessRule(businessRuleId));
+        status.setSuccess(false);
+        
+        BusinessRule orgRule = null;
+        
+        try {
+            orgRule = ruleManagementDao.lookupBusinessRuleUsingRuleId(businessRuleId);
+        } catch (NoResultException nre) {
+            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
+        }
+        
+        try {        
+            repository.removeRuleSet(orgRule.getCompiledId());
+            
+            status.setSuccess(ruleManagementDao.deleteBusinessRule(businessRuleId));
+            status.setSuccess(true);
+        } catch (Exception e) {
+            throw new OperationFailedException("Operation failed:" + e.getLocalizedMessage());
+        }
         return status;
     }
 
@@ -148,7 +192,13 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
     @Override
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        BusinessRule rule = ruleManagementDao.lookupBusinessRuleUsingRuleId(businessRuleId);
+        BusinessRule rule = null;
+        try {
+            rule = ruleManagementDao.lookupBusinessRuleUsingRuleId(businessRuleId);
+        } catch(NoResultException nre) {
+            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
+        }
+        
         BusinessRuleInfoDTO brInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
         return brInfoDTO;
     }
@@ -257,17 +307,17 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         this.ruleManagementDao = ruleManagementDao;
     }
 
-//    /**
-//     * @return the repository
-//     */
-//    public RuleRepositoryService getRepository() {
-//        return repository;
-//    }
-//
-//    /**
-//     * @param repository the repository to set
-//     */
-//    public void setRepository(RuleRepositoryService repository) {
-//        this.repository = repository;
-//    }
+    /**
+     * @return the repository
+     */
+    public RuleRepositoryService getRepository() {
+        return repository;
+    }
+
+    /**
+     * @param repository the repository to set
+     */
+    public void setRepository(RuleRepositoryService repository) {
+        this.repository = repository;
+    }
 }
