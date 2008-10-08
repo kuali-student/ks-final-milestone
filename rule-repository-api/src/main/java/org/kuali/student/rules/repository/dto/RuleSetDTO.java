@@ -50,8 +50,9 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
     @XmlElement
     private String snapshotName;
     /** Tag name */
+    /** List of categories */
     @XmlElement
-    private String tagName;
+    private List<CategoryDTO> categoryList = new ArrayList<CategoryDTO>();
     /** Date rule set becomes effective */
     @XmlElement
     private Calendar effectiveDate;
@@ -247,22 +248,45 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
     }
     
     /**
-     * Gets the rule set tag.
+     * Adds a category to this rule set.
      * 
-     * @return Tag name
+     * @param name Category name
+     * @param path Category path
      */
-    public String getTag() {
-    	return this.tagName;
+    public void addCategory(String name, String path) {
+    	CategoryDTO category = new CategoryDTO(name, path);
+    	this.categoryList.add(category);
     }
-    
+
     /**
-     * Sets a rule set tag.
+     * Removes a category to this rule set.
      * 
-     * @param tagName Tag name
+     * @param name Category name
+     * @param path Category path
+     * @return True if category was removed otherwise false
      */
-    public void setTag(final String tagName) {
-    	this.tagName = tagName;
+    public boolean removeCategory(String name, String path) {
+    	CategoryDTO category = new CategoryDTO(name, path);
+    	return this.categoryList.remove(category);
     }
+
+    /**
+     * Gets a list of categories this rule set belongs to.
+     * 
+     * @return List of categories
+     */
+	public List<CategoryDTO> getCategories() {
+		return categoryList;
+	}
+
+	/**
+     * Gets a list of categories this rule set belongs to.
+	 * 
+	 * @param categoryList List of categories
+	 */
+	public void setCategories(List<CategoryDTO> categoryList) {
+		this.categoryList = categoryList;
+	}
     
 	/**
 	 * Gets the rule set effective date.
@@ -302,7 +326,7 @@ public class RuleSetDTO extends AbstractItemDTO implements java.io.Serializable 
 
 	public String toString() {
         return "RuleSet UUID=" + getUUID() + ", name=" + getName() + 
-        ", versionNumber=" + getVersionNumber() + ", ruleSetTag=" + getTag();
+        ", versionNumber=" + getVersionNumber() + ", categoryList=" + getCategories();
     }
 
     /**
