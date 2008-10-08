@@ -35,6 +35,21 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>fact-finder-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rule-repository-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
+			<artifactId>rule-repository-impl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-common-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
