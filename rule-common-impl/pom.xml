@@ -64,14 +64,4 @@
         </dependency>
 	</dependencies>
 	
-    <repositories>
-        <repository>
-            <id>kuali.release</id>
-            <url>http://people.apache.org/repo/m2-ibiblio-rsync-repository</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
 </project>
