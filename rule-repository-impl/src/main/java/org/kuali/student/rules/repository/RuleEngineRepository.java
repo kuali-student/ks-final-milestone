@@ -542,10 +542,11 @@ public interface RuleEngineRepository {
      *            Snapshot name
      * @param comment
      *            Comments for creating the snapshot
+     * @return New rule set
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public void createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    public RuleSet createRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
 
     /**
      * Rebuilds (recompiles) an existing rule set snapshot. 
@@ -558,10 +559,11 @@ public interface RuleEngineRepository {
      *            Snapshot name
      * @param comment
      *            Comments for creating the snapshot
+     * @return New rule set
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public void rebuildRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    public RuleSet rebuildRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
 
     /**
      * 

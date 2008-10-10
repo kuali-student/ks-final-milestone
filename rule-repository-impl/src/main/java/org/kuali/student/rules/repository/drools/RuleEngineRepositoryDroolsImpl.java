@@ -1057,11 +1057,12 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Snapshot name
      * @param comment
      *            Comments for creating the snapshot
+     * @return New rule set
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public void createRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) {
-        createRuleSetSnapshot(ruleSetName, snapshotName, false, comment);
+    public RuleSet createRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) {
+        return createRuleSetSnapshot(ruleSetName, snapshotName, false, comment);
     }
 
     /**
@@ -1075,12 +1076,13 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Snapshot name
      * @param comment
      *            Comments for creating the snapshot
+     * @return New rule set
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public void rebuildRuleSetSnapshot(final String ruleSetName, 
+    public RuleSet rebuildRuleSetSnapshot(final String ruleSetName, 
             final String snapshotName, final String comment) {
-        createRuleSetSnapshot(ruleSetName, snapshotName, true, comment);
+        return createRuleSetSnapshot(ruleSetName, snapshotName, true, comment);
     }
     
     /**
@@ -1097,10 +1099,11 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      *            Replace existing snapshot
      * @param comment
      *            Comments for creating the snapshot
+     * @return New rule set
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    private void createRuleSetSnapshot(
+    private RuleSet createRuleSetSnapshot(
             final String ruleSetName, final String snapshotName, 
             final boolean replaceExisting, final String comment) {
         if (ruleSetName == null || ruleSetName.trim().isEmpty()) {
@@ -1133,6 +1136,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
 
             pkg.checkin(comment);
             this.repository.save();
+            return droolsUtil.buildRuleSet(pkg);
         } catch (RulesRepositoryException e) {
             throw new RuleEngineRepositoryException("Creating rule set snapshot failed: " + "ruleSetName=" + ruleSetName + ", snapshotName=" + snapshotName, e);
         }

@@ -924,5 +924,21 @@ public class RuleSetTranslatorTest {
         executeRule(source, facts);
         assertTrue(prop.getRuleResult());
     }
+    
+    @Test
+    public void testRule_NoRuleElements() throws Exception {
+        // Rule elements
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
 
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
+
+        // Parse and generate functional business rule into Drools rules
+        try{
+	        RuleSet ruleSet = this.generateRuleSet.translate(bri);
+	        fail("Should have thrown a RuleSetTranslatorException since rule element list is empty");
+        } catch(RuleSetTranslatorException e) {
+        	assertTrue(true);
+        }
+    }
 }

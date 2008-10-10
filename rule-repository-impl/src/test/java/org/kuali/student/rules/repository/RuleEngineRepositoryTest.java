@@ -262,10 +262,12 @@ public class RuleEngineRepositoryTest {
 
     @Test
     public void testCreateAndLoadCompiledRuleSetSnapshot() throws Exception {
-        createSimpleRuleSet("MyRuleSet");
+        RuleSet ruleSet1 = createSimpleRuleSet("MyRuleSet");
         
-        brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+        RuleSet ruleSet2 = brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                 "Snapshot Version 1");
+
+        assertTrue(ruleSet1.getUUID() != ruleSet2.getUUID());
         
         org.drools.rule.Package binPkg = (org.drools.rule.Package) 
 	        brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1").getCompiledRuleSetObject();
@@ -282,9 +284,12 @@ public class RuleEngineRepositoryTest {
                 "Snapshot Version 1");
         
         RuleSet ruleSet2 = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
-
         assertNotNull(ruleSet2);
         assertFalse(ruleSet1.equals(ruleSet2));
+
+        RuleSet ruleSet3 = brmsRepository.loadRuleSet(ruleSet2.getUUID());
+        assertEquals(ruleSet2.getUUID(), ruleSet3.getUUID());
+        assertEquals(ruleSet2.getContent(), ruleSet3.getContent());
     }
     
     @Test
@@ -332,15 +337,18 @@ public class RuleEngineRepositoryTest {
         createSimpleRuleSet("MyRuleSet");
         
         String expectedCheckinComment = "Snapshot Version 1";
-        brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+        RuleSet snapshot1 = brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                 expectedCheckinComment);
-        brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot2", 
+        RuleSet snapshot2 = brmsRepository.createRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot2", 
                 expectedCheckinComment);
-        
+
         RuleSet ruleSet2 = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
 
         assertEquals( 2, ruleSet2.getVersionNumber() );
         assertEquals( expectedCheckinComment, ruleSet2.getCheckinComment() );
+        
+        RuleSet ruleSet3 = brmsRepository.loadRuleSet(snapshot1.getUUID());
+        assertEquals( 2, ruleSet3.getVersionNumber() );
     }
     
     @Test
@@ -1151,6 +1159,30 @@ public class RuleEngineRepositoryTest {
         brmsRepository.changeRuleSetStatus(ruleSetUUID, "Inactive");
         ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
         assertEquals(ruleSet2.getStatus(), "Inactive");
+    }
+
+    @Test
+    public void testChangeRuleSetSnapshotStatus() throws Exception {
+        RuleSet ruleSet1 = createRuleSet("MyRuleSet", "My new rule set", null);
+        String ruleSetUUID = brmsRepository.createRuleSet(ruleSet1).getUUID();
+
+        brmsRepository.createStatus("Active");
+        brmsRepository.createStatus("Inactive");
+
+        brmsRepository.changeRuleSetStatus(ruleSetUUID, "Active");
+        RuleSet ruleSet2 = brmsRepository.loadRuleSet(ruleSetUUID);
+        assertEquals(ruleSet2.getStatus(), "Active");
+
+        RuleSet snapshot1 = brmsRepository.createRuleSetSnapshot(
+        		"MyRuleSet", "MyRuleSetSnapshot1", "Version 1");
+        RuleSet snapshot2 = brmsRepository.createRuleSetSnapshot(
+        		"MyRuleSet", "MyRuleSetSnapshot2", "Version 1");
+
+        brmsRepository.changeRuleSetStatus(snapshot2.getUUID(), "Inactive");
+        RuleSet snapshot3 = brmsRepository.loadRuleSet(snapshot1.getUUID());
+        assertEquals("Active", snapshot3.getStatus());
+        RuleSet snapshot4 = brmsRepository.loadRuleSet(snapshot2.getUUID());
+        assertEquals("Inactive", snapshot4.getStatus());
     }
 
     @Test

@@ -207,6 +207,24 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
+     * Checks that the <code>ruleSetName</code> matches the rule set name from 
+     * the <code>ruleSetUUID</code>.
+     * 
+     * @param ruleSetUUID Rule set UUID
+     * @param ruleSetName Rule set name
+     * @throws InvalidParameterException Thrown if <code>ruleSetName</code>
+     * does not match rule set name from the <code>ruleSetUUID</code>
+     */
+    private void checkRuleSetName(final String ruleSetUUID, final String ruleSetName)
+    	throws InvalidParameterException {
+    	RuleSet ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSetUUID);
+    	if(!ruleSetName.equals(ruleSet.getName())) {
+    		throw new InvalidParameterException("ruleSetName '" + ruleSetName 
+    				+ "' does not equal stored rule set name '" + ruleSet.getName() + "'");
+    	}
+    }
+
+    /**
      * Deletes a rule set snapshot. 
      * 
      * @param ruleSetName Rule set name
@@ -214,9 +232,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if removing snapshot fails or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void removeRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
+    public void removeRuleSetSnapshot(final String ruleSetUUID, final String ruleSetName, final String snapshotName) 
     	throws OperationFailedException, InvalidParameterException {
     	try {
+    		checkRuleSetName(ruleSetUUID, ruleSetName);
 	    	this.ruleEngineRepository.removeRuleSetSnapshot(ruleSetName, snapshotName);
 		} catch (RuleEngineRepositoryException e) {
 			throw new OperationFailedException(e.getMessage());
@@ -344,13 +363,20 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param ruleSetName Rule set name
      * @param snapshotName Snapshot name
      * @param comment Comments for creating the snapshot
+     * @return A new rule set which contains a new UUID
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void createRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) 
+    public RuleSetDTO createRuleSetSnapshot(
+    		final String ruleSetUUID, 
+    		final String ruleSetName, 
+    		final String snapshotName, 
+    		final String comment) 
     	throws OperationFailedException, InvalidParameterException {
         try {
-	        this.ruleEngineRepository.createRuleSetSnapshot(ruleSetName, snapshotName, comment);
+    		checkRuleSetName(ruleSetUUID, ruleSetName);
+        	RuleSet ruleSetSnapshot = this.ruleEngineRepository.createRuleSetSnapshot(ruleSetName, snapshotName, comment);
+        	return ruleAdapter.getRuleSetDTO(ruleSetSnapshot);
         } catch(RuleEngineRepositoryException e) {
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
@@ -364,13 +390,24 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param ruleSetName Rule set name
      * @param snapshotName Snapshot name
      * @param comment Comments for creating the snapshot
+     * @return A new rule set which contains a new UUID
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public void rebuildRuleSetSnapshot(final String ruleSetName, final String snapshotName, final String comment) 
+    public RuleSetDTO rebuildRuleSetSnapshot(
+    		final String ruleSetUUID, 
+    		final String ruleSetName, 
+    		final String snapshotName, 
+    		final String comment) 
     	throws OperationFailedException, InvalidParameterException {
         try {
-	        this.ruleEngineRepository.rebuildRuleSetSnapshot(ruleSetName, snapshotName, comment);
+        	RuleSet ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSetUUID);
+        	if(!ruleSetName.equals(ruleSet.getName())) {
+        		throw new InvalidParameterException("ruleSetName '" + ruleSetName 
+        				+ "' does not equal stored rule set name '" + ruleSet.getName() + "'");
+        	}
+	        RuleSet ruleSetSnapshot = this.ruleEngineRepository.rebuildRuleSetSnapshot(ruleSetName, snapshotName, comment);
+        	return ruleAdapter.getRuleSetDTO(ruleSetSnapshot);
         } catch(RuleEngineRepositoryException e) {
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {

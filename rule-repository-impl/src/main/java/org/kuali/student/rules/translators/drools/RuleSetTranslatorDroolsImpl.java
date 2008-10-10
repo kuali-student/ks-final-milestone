@@ -148,7 +148,8 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     private void parseRule(RuleSet ruleSet, BusinessRuleInfoDTO businessRule) {
         checkName(businessRule.getName());
         checkName(businessRule.getBusinessRuleTypeKey());
-
+        checkBusinessRule(businessRule);
+        
         String anchor = businessRule.getAnchorValue();
         String ruleName = businessRule.getName();
         String ruleDescription = businessRule.getDescription();
@@ -275,6 +276,13 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         rule.setExpiryDate(expiryDate);
         rule.setStatus(StateItem.DRAFT_STATE_NAME);
         ruleSet.addRule(rule);
+    }
+
+    private void checkBusinessRule(BusinessRuleInfoDTO businessRule) {
+    	if(businessRule.getRuleElementList() == null || 
+    	   businessRule.getRuleElementList().isEmpty()) {
+            throw new RuleSetTranslatorException("Rule element list is null or empty");
+    	}
     }
 
     /**
