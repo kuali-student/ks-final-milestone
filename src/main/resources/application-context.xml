@@ -105,20 +105,14 @@
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties">
-			<props> <!-- no need to re-read properties file -->
-				<prop key="databaseName">
-					${jdbc.xaDataSourceProperties.databaseName}
-				</prop>
-				<prop key="user">
-					${jdbc.xaDataSourceProperties.user}
-				</prop>
-				<prop key="password">
-					${jdbc.xaDataSourceProperties.password}
-				</prop>
-				<prop key="createDatabase">
-					${jdbc.xaDataSourceProperties.createDatabase}
-				</prop>
-			</props>
+			<bean class="org.kuali.student.poc.util.PropertiesOverrideFilterFactoryBean">
+				<!-- read properties with prefix from override if specified otherwise read default -->
+				<property name="defaultPropertyFile"
+					value="classpath:application.properties" /> 
+				<property name="overridePropertyFile"
+					value="${ks.application.properties}" /> 
+				<property name="prefix" value="jdbc.xaDataSourceProperties" />
+			</bean>
 		</property>
 		<property name="maxPoolSize" value="10" />
 	</bean>
