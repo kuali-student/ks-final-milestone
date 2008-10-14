@@ -213,17 +213,7 @@ import org.kuali.student.rules.repository.rule.RuleSet;
  * </pre>
  * 
  * <p>
- * <b>Example 9: Load a compiled rule set (e.g. Drools package).</b>
- * </p>
- * 
- * <pre>
- * org.drools.rule.Package binPkg = (org.drools.rule.Package)
- *     rulesRepository.loadCompiledRuleSet(ruleSetUUID);
- * ...
- * </pre>
- * 
- * <p>
- * <b>Example 10: Create and load a rule set snapshot.</b>
+ * <b>Example 9: Create and load a rule set snapshot.</b>
  * </p>
  * 
  * <pre>
@@ -234,12 +224,12 @@ import org.kuali.student.rules.repository.rule.RuleSet;
  *     false, &quot;Snapshot Version 1&quot;);
  * 
  * org.drools.rule.Package pkg = (org.drools.rule.Package)
- *     rulesRepository.loadCompiledRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;);
+ *     rulesRepository.loadRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;).getCompiledRuleSetObject();
  * ...
  * </pre>
  * 
  * <p>
- * <b>Example 11: Load and execute a compiled rule set snapshot.</b>
+ * <b>Example 10: Load and execute (using Drools rule engine) a compiled rule set snapshot.</b>
  * </p>
  * 
  * <pre>
@@ -250,7 +240,7 @@ import org.kuali.student.rules.repository.rule.RuleSet;
  *     false, &quot;Snapshot Version 1&quot;);
  * 
  * org.drools.rule.Package pkg = (org.drools.rule.Package)
- *     rulesRepository.loadCompiledRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;);
+ *     rulesRepository.loadRuleSetSnapshot(&quot;MyRuleSet&quot;, &quot;MyRuleSetSnapshot1&quot;).getCompiledRuleSetObject();
  * 
  * RuleBase rb = RuleBaseFactory.newRuleBase();
  * rb.addPackage( pkg );
