@@ -18,7 +18,6 @@ package org.kuali.student.rules.repository.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
@@ -245,20 +244,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
     
     /**
-     * Updates a rule set in the repository and returns a new rule set.
-     * 
-     * @param ruleSet A rule set to update
-     * @return An updated rule set
-     * @throws RuleEngineRepositoryException
-     */
-    /*public RuleSetDTO updateRuleSet(RuleSetDTO ruleSetDTO) {
-    	RuleSet ruleSet = ruleAdapter.getRuleSet(ruleSetDTO);
-        RuleSet updatedRuleSet = this.ruleEngineRepository.updateRuleSet(ruleSet);
-        RuleSetDTO dto = ruleAdapter.getRuleSetDTO(updatedRuleSet);
-        return dto;
-    }*/
-
-    /**
      * Checks in a rule set into the repository.
      * Checkin rule set will create a new version of the rule set.
      * Rule set version is incremented by 1.
@@ -280,21 +265,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		}
     }
 
-    /**
-     * Loads a rule by uuid.
-     * 
-     * @param uuid Rule uuid
-     * @return A rule
-     * @throws OperationFailedException Thrown if loading child categories fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-    /*public RuleDTO fetchRule(final String uuid) {
-    	throws OperationFailedException, InvalidParameterException {
-    	Rule rule = this.ruleEngineRepository.loadRule(uuid);
-    	RuleDTO dto = ruleAdapter.getRuleDTO(rule);
-    	return dto;
-    }*/
-    
     /**
      * Loads a rule set (including all rules) by UUID from the repository.
      * 
@@ -338,25 +308,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		}
     }
      
-    /**
-     * Loads a compiled rule set from the repository.
-     * 
-     * @param ruleSetUUID Rule set UUID
-     * @return A compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
-     * @throws OperationFailedException Thrown if compiling a rule set fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-/*    public byte[] fetchCompiledRuleSet(final String ruleSetUUID) 
-    	throws OperationFailedException, InvalidParameterException {
-        try {
-	        return this.ruleEngineRepository.loadCompiledRuleSetAsBytes(ruleSetUUID);
-        } catch(RuleEngineRepositoryException e) {
-        	throw new OperationFailedException(e.getMessage());
-		} catch(IllegalArgumentException e) {
-			throw new InvalidParameterException(e.getMessage());
-		}
-    }
-*/
     /**
      * Creates a new rule set snapshot for deployment and stores it in the repository.
      * 
@@ -415,26 +366,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		}
     }
 
-    /**
-     * Loads a compiled rule set snapshot from the repository.
-     * 
-     * @param ruleSetName Rule set name
-     * @param snapshotName Snapshot name
-     * @return Compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
-     * @throws OperationFailedException Thrown if loading a snapshots fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-/*    public byte[] fetchCompiledRuleSetSnapshot(final String ruleSetName, final String snapshotName) 
-    	throws OperationFailedException, InvalidParameterException {
-        try {
-	        return this.ruleEngineRepository.loadCompiledRuleSetSnapshotAsBytes(ruleSetName, snapshotName);
-        } catch(RuleEngineRepositoryException e) {
-        	throw new OperationFailedException(e.getMessage());
-		} catch(IllegalArgumentException e) {
-			throw new InvalidParameterException(e.getMessage());
-		}
-    }
-*/
     /**
      * Loads a rule set snapshot.
      * 
@@ -582,7 +513,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      */
     private RuleSet updateRuleSet(RuleSet ruleSet1) 
     	throws RuleEngineRepositoryException {
-		//RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSetByName(ruleSet1.getName());
 		RuleSet ruleSet2 = this.ruleEngineRepository.loadRuleSet(ruleSet1.getUUID());
 		// Add headers
 		ruleSet2.clearHeaders();
