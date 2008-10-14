@@ -18,6 +18,7 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
@@ -75,6 +76,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     @Override
+    // Update, Publish & Un-publish based on state of the rule
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         BusinessRule orgRule = null;
         try {
@@ -83,6 +85,13 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleId);
         }
         
+        // Check if the rule has already been activated or retired
+        if(BusinessRuleStatus.IN_PROGRESS != BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus())) {
+            throw new OperationFailedException("Cannot update not in progress rules");
+        }
+        
+        // Overwrite the incoming values for non updateable attributes
+        businessRuleInfo.setName(orgRule.getName());
         businessRuleInfo.setCompiledId(orgRule.getCompiledId());
         businessRuleInfo.setCompiledVersionNumber(orgRule.getCompiledVersionNumber());
         
@@ -104,21 +113,17 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
         container.getBusinessRules().add(businessRuleInfo);        
         RuleSetDTO rsDTO = repository.generateRuleSet(container);
-        rule.setCompiledId(rsDTO.getUUID());
-        rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
+        orgRule.setCompiledId(rsDTO.getUUID());
+        orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         
         // Remove the existing rule elements from the detached object
-        try {
         for (RuleElement element : orgRule.getRuleElements()) {
             ruleManagementDao.deleteRuleElement(element);
         } 
-        } catch (RuntimeException e) {
-            e.printStackTrace(System.out);
-            throw e;
-        }
+
         orgRule.setRuleElements(null);
         orgRule = BusinessRuleAdapter.copyBusinessRule(rule, orgRule);
-        // rule.setId(orgRule.getId());
+                
         ruleManagementDao.updateBusinessRule(orgRule);
 
         StatusDTO status = new StatusDTO();

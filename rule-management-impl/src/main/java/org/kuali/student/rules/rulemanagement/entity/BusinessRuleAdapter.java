@@ -402,8 +402,9 @@ public class BusinessRuleAdapter {
      * @return
      */
     public static BusinessRule copyBusinessRule(BusinessRule fromRule, BusinessRule toRule) {        
-                                
-        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id","compiledId","compiledVersionNumber"});        
+
+        // Copy From rule to To rule with a list of ignore attributes
+        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id","ruleId","name","compiledId","compiledVersionNumber"});        
         
         // Now update the parent reference in rule element to change from fromRule to toRule
         for(RuleElement element : fromRule.getRuleElements()) {

@@ -26,6 +26,7 @@ import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
@@ -46,16 +47,18 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl", port = "8181")
     public RuleManagementService client;
     
-        
     @Test
-    public void testCreateAndUpdateBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+    public void testCreateBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         // Create Rule Test
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
         client.createBusinessRule(brInfoDTO);
         BusinessRuleInfoDTO newBrInfoDTO = client.fetchBusinessRuleInfo("100");
         assertEquals(brInfoDTO.getBusinessRuleId(), newBrInfoDTO.getBusinessRuleId());
-        
-        brInfoDTO = generateUpdatedBusinessRule(brInfoDTO);
+    }
+    
+    @Test
+    public void testUpdateBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {        
+        BusinessRuleInfoDTO brInfoDTO = generateUpdatedBusinessRule( generateNewBusinessRuleInfo() );
         client.updateBusinessRule("100", brInfoDTO);
         
         BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");        
@@ -165,7 +168,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue("CHEM 100");
-        brInfoDTO.setStatus("PENDING");
+        brInfoDTO.setStatus(BusinessRuleStatus.IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
         brInfoDTO.setEffectiveStartTime(new Date());
         brInfoDTO.setEffectiveEndTime(new Date());

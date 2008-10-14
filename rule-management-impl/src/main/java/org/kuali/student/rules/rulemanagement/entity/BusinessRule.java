@@ -15,6 +15,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -66,7 +67,7 @@ public class BusinessRule  {
     @Embedded
     private RuleMetaData metaData;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "businessRule")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "businessRule", fetch = FetchType.EAGER)
     private List<RuleElement> ruleElements = new ArrayList<RuleElement>();
 
     /**
