@@ -22,7 +22,7 @@
     <property name="businessRuleDAO" ref="businessRuleDAO"/>    
   </bean>
 
-  <bean id="ruleEngine"  class="org.kuali.student.rules.rulesetexecution.drools.RuleSetExecutorDroolsImpl">
+  <bean id="ruleEngine"  class="org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl">
   </bean>
 
   <bean id="agendaDiscovery"  class="org.kuali.student.rules.brms.agenda.AgendaDiscovery">

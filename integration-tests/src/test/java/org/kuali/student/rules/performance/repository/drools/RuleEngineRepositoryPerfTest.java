@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 /**
  * <p>This class tests the time it takes to create and load rules.</p>
  *
- * <p>Please note that when creating and loading more than 1000 rules the 
+ * <p>Please note that when creating and loading 1000-10000 rules the 
  * following Java VM settings must be set:</p>
  * 
  * <pre>
@@ -100,9 +100,10 @@ public class RuleEngineRepositoryPerfTest {
 
     @Test
     public void testCreateAndLoadRuleSet() throws Exception {
-        int[] iterations = new int[] {1, 10, 50, 100};
-        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 
-        //        2000, 3000, 4000, 5000, 10000};
+        //int[] iterations = new int[] {1, 10, 50, 100};
+        // This causes a JVM stack overflow when generating more than 600 rules 
+        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000};
+        int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000};
         int c = 0;
         for(int ruleCount : iterations) {
             c++;
@@ -129,15 +130,17 @@ public class RuleEngineRepositoryPerfTest {
             ruleSetUtil.assertRuleSetEquals(actualRuleSet, expectedRuleSet);
             // Remove the rule set
             brmsRepository.removeRuleSet(expectedRuleSet.getUUID());
+            System.gc();
             logger.info(c+": 4-Rule set removed");
         }
     }
 
     @Test
     public void testCreateAndLoadRuleSetSnapshot() throws Exception {
-        int[] iterations = new int[] {1, 10, 50, 100};
-        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 
-        //        2000, 3000, 4000, 5000, 10000};
+        //int[] iterations = new int[] {1, 10, 50, 100};
+        // This causes a JVM stack overflow when generating more than 600 rules 
+        //int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000};
+        int[] iterations = new int[] {1, 10, 50, 100, 200, 500, 1000};
         int c = 0;
         for(int ruleCount : iterations) {
             c++;
@@ -173,6 +176,7 @@ public class RuleEngineRepositoryPerfTest {
             brmsRepository.removeRuleSetSnapshot(expectedRuleSetSnapshot.getName(), expectedRuleSetSnapshot.getSnapshotName());
             // Remove rule set
             brmsRepository.removeRuleSet(expectedRuleSet.getUUID());
+            System.gc();
             logger.info(c+": 5-Rule set and snapshot removed");
         }
     }
