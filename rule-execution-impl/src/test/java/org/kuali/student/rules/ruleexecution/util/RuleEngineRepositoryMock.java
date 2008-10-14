@@ -125,18 +125,6 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         }
     }
     
-    /**
-     *  Simulates loading a rule set (org.drools.rule.Package) from the 
-     *  <code>RuleEngineRepository</code>.
-     * 
-     * @param uuid Rule set uuid
-     * @return A Drools Package
-     * @throws Exception
-     */
-    /*public Object loadCompiledRuleSet( String uuid ) {
-        return this.pkg;
-    }*/
-
     @Override
     public void archiveRule(String uuid, String comment) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
@@ -246,21 +234,6 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 
-/*    @Override
-    public byte[] loadCompiledRuleSetAsBytes(String ruleSetUUID) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-    }
-
-    @Override
-    public Object loadCompiledRuleSetSnapshot(String ruleSetName, String snapshotName) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-    }
-
-    @Override
-    public byte[] loadCompiledRuleSetSnapshotAsBytes(String ruleSetName, String snapshotName) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-    }
-*/
     @Override
     public Rule loadRule(String uuid) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
@@ -347,26 +320,11 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
     
-/*    @Override
-    public byte[] loadCompiledRuleSetAsBytesByName(String ruleSetName) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-    }
-
-    @Override
-    public Object loadCompiledRuleSetByName(String ruleSetName) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-    }
-*/
     @Override
     public RuleSet loadRuleSetByName(String ruleSetName) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
     
-//    @Override
-//    public RuleSet loadRuleSetByCategory(String category) {
-//        throw new RuleEngineRepositoryException("Method Not Implemented");
-//    }    
-
     @Override
     public boolean containsRuleSetByName(final String ruleSetName) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
@@ -382,19 +340,10 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
 	}
 
+	@Override
     public List<RuleSet> loadRuleSetSnapshotsByCategory(String category) {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
-
-	@Override
-	public List<RuleSet> findRuleSetsByCategory(String category) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-	}
-
-	@Override
-	public List<RuleSet> findRuleSetSnapshotsByCategory(String category) {
-        throw new RuleEngineRepositoryException("Method Not Implemented");
-	}
 
 	@Override
 	public RuleSet loadRuleSetByRuleCategory(String category) {

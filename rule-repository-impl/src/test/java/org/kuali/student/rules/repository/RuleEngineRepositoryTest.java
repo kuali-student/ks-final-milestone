@@ -1780,4 +1780,5 @@ public class RuleEngineRepositoryTest {
         assertRuleSetEquals(ruleSet1, ruleSet2);
         assertEquals(effDate.getTimeInMillis(), ruleSet2.getExpiryDate().getTimeInMillis());
     }
+
 }

@@ -777,25 +777,6 @@ public interface RuleEngineRepository {
     public RuleSet loadRuleSetByRuleCategory(String category);
 
     /**
-     * Loads a list of rule sets by category name
-     * including archived rule sets.
-     * 
-     * @param category Category name
-     * @return A list of rule sets
-     */
-    public List<RuleSet> findRuleSetsByCategory(String category);
-
-    /**
-     * Loads a list of all rule set snapshots by category name 
-     * including archived rule sets.
-     * 
-     * @param category Category name
-     * @return A list of rule sets
-     */
-    public List<RuleSet> findRuleSetSnapshotsByCategory(String category);
-
-    
-    /**
      * Loads a list of rule sets by category name.
      * 
      * @param category Category name

@@ -797,69 +797,6 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
         }
     }
 
-    private List<RuleSet> createRuleSetList(Iterator<PackageItem> it) {
-        List<RuleSet> list = new ArrayList<RuleSet>();
-        while(it != null && it.hasNext()) {
-        	PackageItem pkg = it.next();
-        	RuleSet ruleSet = droolsUtil.buildRuleSet(pkg);
-        	list.add(ruleSet);
-        }
-        return list;
-    }
-
-    /**
-     * Loads a list of rule sets by tag name.
-     * 
-     * @param tagName Tag name
-     * @return A list of rule sets
-     */
-    public List<RuleSet> findRuleSetsByCategory(String tagName) {
-        try {
-            String sql = "SELECT *"; // + PackageItem.ASSET_FOLDER_NAME + ", " + PackageItem.RULE_PACKAGE_TYPE_NAME;
-            sql += " FROM " + PackageItem.RULE_PACKAGE_TYPE_NAME;
-            sql += " WHERE ";
-            sql += " jcr:path LIKE '/" + RulesRepository.RULES_REPOSITORY_NAME + "/" + RulesRepository.RULE_PACKAGE_AREA + "/%'";
-            sql += " AND " + KUALI_PACKAGE_TAG_PROPERTY_NAME + " = '"+tagName+"'";
-
-            Query q = this.repository.getSession().getWorkspace().getQueryManager().createQuery(sql, Query.SQL);
-
-            QueryResult res = q.execute();
-
-            // Drools 4 does not use generics so we have to suppress warning
-            @SuppressWarnings("unchecked") Iterator<PackageItem> it = new PackageIterator(this.repository, res.getNodes());
-            return createRuleSetList(it);
-        } catch (RepositoryException e) {
-            throw new RulesRepositoryException("Finding tagged rule sets failed", e);
-        }
-    }
-
-    /**
-     * Loads a list of rule set snapshots by tag name.
-     * 
-     * @param tagName Tag name
-     * @return A list of rule sets
-     */
-    public List<RuleSet> findRuleSetSnapshotsByCategory(String tagName) {
-        try {
-            String sql = "SELECT *"; // + PackageItem.ASSET_FOLDER_NAME + ", " + PackageItem.RULE_PACKAGE_TYPE_NAME;
-            sql += " FROM " + PackageItem.RULE_PACKAGE_TYPE_NAME;
-            sql += " WHERE ";
-            sql += " jcr:path LIKE '/" + RulesRepository.RULES_REPOSITORY_NAME + 
-            	"/" + RulesRepository.PACKAGE_SNAPSHOT_AREA + "/%'";
-            sql += " AND " + KUALI_PACKAGE_TAG_PROPERTY_NAME + " = '"+tagName+"'";
-
-            Query q = this.repository.getSession().getWorkspace().getQueryManager().createQuery(sql, Query.SQL);
-
-            QueryResult res = q.execute();
-
-            // Drools 4 does not use generics so we have to suppress warning
-            @SuppressWarnings("unchecked") Iterator<PackageItem> it = new PackageIterator(this.repository, res.getNodes());
-            return createRuleSetList(it);
-        } catch (RepositoryException e) {
-            throw new RulesRepositoryException("Finding tagged rule set snapshots failed", e);
-        }
-    }
-
     /**
      * Returns true if the repository contains the specified 
      * <code>ruleSetUUID</code> otherwise false.
