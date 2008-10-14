@@ -130,18 +130,6 @@ public interface RuleRepositoryService {
     	throws OperationFailedException, InvalidParameterException;
 
     /**
-     * Updates a rule set in the repository and returns a new rule set.
-     * 
-     * @param ruleSet A rule set to update
-     * @return An updated rule set
-     * @throws OperationFailedException Thrown if updating ruleset fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-    //@WebMethod
-    //public RuleSetDTO updateRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet);
-	//  throws OperationFailedException, InvalidParameterException;
-
-    /**
      * Checks in a rule set into the repository.
      * Checkin rule set will create a new version of the rule set.
      * Rule set version is incremented by 1.
@@ -184,30 +172,6 @@ public interface RuleRepositoryService {
     	throws OperationFailedException;
 
     /**
-     * Loads a rule by uuid.
-     * 
-     * @param uuid Rule uuid
-     * @return A rule
-     * @throws OperationFailedException Thrown if loading child categories fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-    //@WebMethod
-    //public RuleDTO fetchRule(@WebParam(name="uuid")String uuid);
-    //	throws OperationFailedException, InvalidParameterException;
-    
-    /**
-     * Loads a compiled rule set from the repository.
-     * 
-     * @param ruleSetUUID Rule set UUID
-     * @return A compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
-     * @throws OperationFailedException Thrown if compiling a rule set fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-//    @WebMethod
-//    public byte[] fetchCompiledRuleSet(@WebParam(name="ruleSetUUID")String ruleSetUUID)
-//    	throws OperationFailedException, InvalidParameterException; 
-
-    /**
      * Creates a new rule set snapshot for deployment and stores it in the repository.
      * 
      * @param ruleSetUUID Rule set uuid
@@ -244,19 +208,6 @@ public interface RuleRepositoryService {
     		@WebParam(name="snapshotName")String snapshotName, 
     		@WebParam(name="comment")String comment)
     	throws OperationFailedException, InvalidParameterException;
-
-    /**
-     * Loads a compiled rule set snapshot from the repository.
-     * 
-     * @param ruleSetName Rule set name
-     * @param snapshotName Snapshot name
-     * @return Compiled rule set as a byte array (e.g. <code>org.drools.rule.Package</code>)
-     * @throws OperationFailedException Thrown if loading a snapshots fails
-     * @throws InvalidParameterException Thrown if method parameters are invalid
-     */
-//    @WebMethod
-//    public byte[] fetchCompiledRuleSetSnapshot(@WebParam(name="ruleSetName")String ruleSetName, @WebParam(name="snapshotName")String snapshotName)
-//    	throws OperationFailedException, InvalidParameterException; 
 
     /**
      * Loads a rule set snapshot.
