@@ -127,4 +127,32 @@ public class FactStructureDTO implements Serializable {
     public void setDefinitionVariableList(Map<String, String> definitionVariableList) {
         this.definitionVariableList = definitionVariableList;
     }
+
+    /**
+     * @return the staticFact
+     */
+    public Boolean getStaticFact() {
+        return staticFact;
+    }
+
+    /**
+     * @param staticFact the staticFact to set
+     */
+    public void setStaticFact(Boolean staticFact) {
+        this.staticFact = staticFact;
+    }
+
+    /**
+     * @return the staticValue
+     */
+    public String getStaticValue() {
+        return staticValue;
+    }
+
+    /**
+     * @param staticValue the staticValue to set
+     */
+    public void setStaticValue(String staticValue) {
+        this.staticValue = staticValue;
+    }
 }
