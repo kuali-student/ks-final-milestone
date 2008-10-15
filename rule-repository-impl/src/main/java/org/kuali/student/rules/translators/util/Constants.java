@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Constants {
-	public final static String DEF_CRITERIA_KEY = "kuali.student.criteria.key";
+	//public final static String DEF_CRITERIA_KEY = "kuali.student.criteria.key";
 
 	private final static int size = Constants.class.getFields().length;
 	private final static Map<String,String> map = new HashMap<String,String>(size);;

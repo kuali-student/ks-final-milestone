@@ -468,7 +468,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         fs1.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        definitionVariableMap1.put("some identifier - assume only one key", "CPR101");
         fs1.setDefinitionVariableList(definitionVariableMap1);
 
         Map<String,String> executionVariableMap1 = new HashMap<String,String>();
@@ -489,7 +489,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
         // Not need for summation or averages
         Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
-        definitionVariableMap2.put(Constants.DEF_CRITERIA_KEY, null);
+        definitionVariableMap2.put("some identifier - assume only one key", null);
         fs2.setDefinitionVariableList(definitionVariableMap2);
 
         Map<String,String> executionVariableMap2 = new HashMap<String,String>();

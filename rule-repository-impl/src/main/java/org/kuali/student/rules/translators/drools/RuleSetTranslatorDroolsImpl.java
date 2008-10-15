@@ -201,7 +201,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         velocityContextMap.put("effectiveStartTime", effStartDate);
         velocityContextMap.put("effectiveEndTime", effEndDate);
         velocityContextMap.put("factUtil", new FactUtil());
-        velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
+        //velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, velocityContextMap);
@@ -244,6 +244,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 		ruleSet.addHeader("import org.slf4j.LoggerFactory;");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.*");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.yvf.*");
         ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");

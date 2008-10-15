@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,7 +47,6 @@ import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
@@ -56,7 +54,6 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
-import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
@@ -125,7 +122,7 @@ public class RuleSetTranslatorTest {
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
+        definitionVariableMap.put("some identifier - assume only one key", criteria);
         factStructure.setDefinitionVariableList(definitionVariableMap);
 
         Map<String,String> executionVariableMap = new HashMap<String,String>();
@@ -725,7 +722,7 @@ public class RuleSetTranslatorTest {
     	// Remove definition key
     	businessRule.getRuleElementList().get(0).getRuleProposition().
     		getLeftHandSide().getYieldValueFunction().
-    		getFactStructureList().get(0).getDefinitionVariableList().remove(Constants.DEF_CRITERIA_KEY);
+    		getFactStructureList().get(0).getDefinitionVariableList().remove("some identifier - assume only one key");
     	// Add invalid definition key
     	businessRule.getRuleElementList().get(0).getRuleProposition().
 			getLeftHandSide().getYieldValueFunction().
@@ -822,7 +819,7 @@ public class RuleSetTranslatorTest {
         fs1.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        definitionVariableMap1.put("some identifier - assume only one key", "CPR101");
         fs1.setDefinitionVariableList(definitionVariableMap1);
 
         Map<String,String> executionVariableMap1 = new HashMap<String,String>();

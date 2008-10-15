@@ -20,7 +20,6 @@ import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
-import org.kuali.student.rules.translators.util.Constants;
 
 public class RuleSetUtil {
     private final RuleSetTranslatorDroolsImpl generateRuleSet = new RuleSetTranslatorDroolsImpl();
@@ -81,7 +80,8 @@ public class RuleSetUtil {
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
+        //definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
+        definitionVariableMap.put("some key", criteria);
         factStructure.setDefinitionVariableList(definitionVariableMap);
         
         Map<String,String> executionVariableMap = new HashMap<String,String>();

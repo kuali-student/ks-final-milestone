@@ -39,7 +39,6 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
-import org.kuali.student.rules.translators.util.Constants;
 
 @Daos({@Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
@@ -125,7 +124,8 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         fs1.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        //definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        definitionVariableMap1.put("some key", "CPR101");
         fs1.setDefinitionVariableList(definitionVariableMap1);
 
         Map<String,String> executionVariableMap1 = new HashMap<String,String>();
@@ -197,7 +197,8 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         fs1.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        //definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
+        definitionVariableMap1.put("some key", "CPR101");
         fs1.setDefinitionVariableList(definitionVariableMap1);
 
         Map<String,String> executionVariableMap1 = new HashMap<String,String>();
@@ -247,7 +248,8 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
 
         // Not need for summation or averages
         Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
-        definitionVariableMap2.put(Constants.DEF_CRITERIA_KEY, null);
+        //definitionVariableMap2.put(Constants.DEF_CRITERIA_KEY, null);
+        definitionVariableMap2.put("some key", null);
         fs2.setDefinitionVariableList(definitionVariableMap2);
 
         Map<String,String> executionVariableMap2 = new HashMap<String,String>();

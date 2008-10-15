@@ -36,14 +36,24 @@ rule "${ruleName}"
        		#set( $operator = $proposition.ComparisonOperatorType )
     		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
 
-            #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf, $DEF_CRITERIA_KEY ) )
-            #set( $factKey = $factUtil.getFactId( $yvf, $proposition.Name ) )
-
-            // criteria = $criteria
-            // factKey  = $factKey
+            if (logger.isDebugEnabled()) {
+                logger.debug("Fact Keys: $factUtil.getFactKey( $yvf, $proposition.Name )");
+            }
 
             #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUBSET" )
+                #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf ) )
+                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
 
+                //if (logger.isDebugEnabled()) {
+                //    logger.debug("factMap="+factMap);
+                //}
+
+                //YVFSubsetProposition proposition${key} = new YVFSubsetProposition("${key}-${anchor}", "$criteria", "$factKey", factMap);
+                //proposition${key}.apply();
+                //prop.addProposition(proposition${key}.getProposition());
+                //insert(proposition${key}.getProposition());
+
+                
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
                 if (logger.isDebugEnabled()) {
@@ -55,8 +65,12 @@ rule "${ruleName}"
                 prop.addProposition(proposition${key});
                 insert(proposition${key});
 
-       		#elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
 
+       		#elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
+                #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf ) )
+                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
+
+                // Must convert definition variable Map<String,String> to a HashSet
                 Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
                 Set factSet${key} = (Set) factMap.get( "$factKey" );
                 if (logger.isDebugEnabled()) {
@@ -64,12 +78,12 @@ rule "${ruleName}"
                     logger.debug("factSet${key}="+factSet${key});
                 }
                 IntersectionProposition<$comparisonDataType> proposition${key} = new IntersectionProposition<$comparisonDataType>("${key}-${anchor}", ComparisonOperator.${operator}, new Integer($rhs), criteriaSet${key}, factSet${key} ); 
-                //IntersectionProposition proposition${key} = new IntersectionProposition ("$key", ComparisonOperator.${operator}, new Integer($rhs), criteriaSet${key}, factSet${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
                 insert(proposition${key});
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
+                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
 
                 List factList${key} = (List) factMap.get( "$factKey" );
                 if (logger.isDebugEnabled()) {
@@ -77,12 +91,12 @@ rule "${ruleName}"
                 }
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
                 SumProposition<BigDecimal> proposition${key} = new SumProposition<BigDecimal>("${key}-${anchor}", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
-                //SumProposition proposition${key} = new SumProposition("$key", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
                 insert(proposition${key});
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
+                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
 
                 List factList${key} = (List) factMap.get( "$factKey" );
                 if (logger.isDebugEnabled()) {
@@ -90,12 +104,12 @@ rule "${ruleName}"
                 }
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
                 AverageProposition<BigDecimal> proposition${key} = new AverageProposition<BigDecimal>("${key}-${anchor}", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
-                //AverageProposition proposition${key} = new AverageProposition("$key", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
                 insert(proposition${key});
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MIN" )
+                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
 
                 List factList${key} = (List) factMap.get( "$factKey" );
                 if (logger.isDebugEnabled()) {
@@ -103,12 +117,12 @@ rule "${ruleName}"
                 }
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
                 MinProposition<$comparisonDataType> proposition${key} = new MinProposition<$comparisonDataType>("${key}-${anchor}", ComparisonOperator.${operator}, value${key}, factList${key} ); 
-                //MinProposition proposition${key} = new MinProposition("$key", ComparisonOperator.${operator}, value${key}, factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
                 insert(proposition${key});
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MAX" )
+                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
 
                 List factList${key} = (List) factMap.get( "$factKey" );
                 if (logger.isDebugEnabled()) {
@@ -116,7 +130,6 @@ rule "${ruleName}"
                 }
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
                 MaxProposition<$comparisonDataType> proposition${key} = new MaxProposition<$comparisonDataType>("${key}-${anchor}", ComparisonOperator.${operator}, value${key}, factList${key} ); 
-                //MaxProposition proposition${key} = new MaxProposition("$key", ComparisonOperator.${operator}, value${key}, factList${key} ); 
                 proposition${key}.apply();
                 prop.addProposition(proposition${key});
                 insert(proposition${key});

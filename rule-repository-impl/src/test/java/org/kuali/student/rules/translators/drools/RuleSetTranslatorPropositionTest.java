@@ -46,7 +46,6 @@ import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
-import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
@@ -93,7 +92,7 @@ public class RuleSetTranslatorPropositionTest {
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
+        definitionVariableMap.put("some identifier - assume only one key", criteria);
         factStructure.setDefinitionVariableList(definitionVariableMap);
         
         Map<String,String> executionVariableMap = new HashMap<String,String>();
