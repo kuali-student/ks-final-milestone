@@ -100,13 +100,19 @@ public class RuleSetExecutorDroolsImplTest {
         ruleSet.setCompiledRuleSet(bytes);
 
         // Add facts
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2008);
+        cal.set(Calendar.MONTH, 10);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 1);
+        cal.set(Calendar.MINUTE, 0);
         List<Object> facts = new ArrayList<Object>();
-        facts.add( Calendar.getInstance() );
+        facts.add(cal);
 
         // Execute ruleset and fact
         List<Object> list = (List<Object>) executor.execute(ruleSet, facts);
         
-        assertNotNull( list );
+        assertNotNull(list);
 
         // Iterate through returned rule engine objects
         String time = null;
@@ -118,7 +124,7 @@ public class RuleSetExecutorDroolsImplTest {
         }
         
         assertNotNull( time );
-        assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+        assertTrue( time.startsWith("Minute is even:"));
     }
 
 	@Test
@@ -128,25 +134,29 @@ public class RuleSetExecutorDroolsImplTest {
         ruleSet.setCompiledRuleSet(bytes);
 
         // Add facts
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2008);
+        cal.set(Calendar.MONTH, 10);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 1);
+        cal.set(Calendar.MINUTE, 0);
         FactDTO fact = new FactDTO("1");
-        long timeInMillis = Calendar.getInstance().getTimeInMillis();
-        fact.addFact("1", "java.util.Calendar", String.valueOf(timeInMillis));
+        fact.addFact("1", cal);
 
         // Execute ruleset and fact
         ResultDTO result = executor.execute(ruleSet, fact);
         
-        assertNotNull( result );
+        assertNotNull(result);
 
         String time = null;
         for(ValueDTO obj : result.getResults()) {
-            if ( obj.getDataType().equals(String.class.getName())) {
-                time = obj.getValue();
+            if ( obj.getValue().getClass().getName().equals(String.class.getName())) {
+                time = obj.getValue().toString();
                 break;
             }
         }
-        
         assertNotNull( time );
-        assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+        assertTrue(time.startsWith("Minute is even:" ));
     }
 
 	@Test

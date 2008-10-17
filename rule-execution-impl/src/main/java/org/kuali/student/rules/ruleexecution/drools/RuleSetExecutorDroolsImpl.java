@@ -181,17 +181,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param fact Fact to convert
      * @return A list of real data type
      */
-    private <T> List<?> convertFacts(FactDTO fact) {
-    	List<T> list = new ArrayList<T>(fact.getFacts().size());
+    private List<?> convertFacts(FactDTO fact) {
+    	List<Object> list = new ArrayList<Object>(fact.getFacts().size());
 		for(ValueDTO value : fact.getFacts()) {
-    		try {
-    			@SuppressWarnings("unchecked")
-    			Class<T> clazz = (Class<T>) Class.forName(value.getDataType());
-				T val = BusinessRuleUtil.convertToDataType(clazz, value.getValue());
-				list.add(val);
-    		} catch (ClassNotFoundException e) {
-				throw new RuleSetExecutionException("Converting fact value failed", e);
-			}
+			Class<?> clazz = value.getValue().getClass();
+			Object val = BusinessRuleUtil.convertToDataType(clazz, value.getValue());
+			list.add(val);
     	}
     	return list;
     }
@@ -208,7 +203,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     	for(Object obj : list) {
     		String type = obj.getClass().getName();
     		String value = obj.toString();
-    		result.addResult(null, type, value);
+    		result.addResult(null, 
+    				//type, 
+    				value);
     	}
     	return result;
     }
