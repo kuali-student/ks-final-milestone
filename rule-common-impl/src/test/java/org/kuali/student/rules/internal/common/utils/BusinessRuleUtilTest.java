@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class BusinessRuleUtilTest {
 
@@ -34,83 +37,138 @@ public class BusinessRuleUtilTest {
     }
     
     @Test
-    public void testConvertToDataType_String() throws Exception {
-    	Class clazz = Class.forName(String.class.getName());
-    	String value = (String) BusinessRuleUtil.convertToDataType(clazz, "Hey Kuali");
-    	Assert.assertEquals("Hey Kuali", value);
+    public void testConvertToDataType_String1() throws Exception {
+    	String s = "Hey Kuali";
+    	String value = (String) BusinessRuleUtil.convertToDataType(String.class, s);
+    	Assert.assertEquals(s, value);
+    }
+
+    @Test
+    public void testConvertToDataType_String2() throws Exception {
+    	String s = "Hey Kuali";
+    	String value = (String) BusinessRuleUtil.convertToDataType(s);
+    	Assert.assertEquals(s, value);
     }
 
     @Test
     public void testConvertToDataType_Integer() throws Exception {
-    	Class clazz = Class.forName(Integer.class.getName());
-    	Integer value = (Integer) BusinessRuleUtil.convertToDataType(clazz, "1");
-    	Assert.assertEquals(1, value.intValue());
+    	Integer num = new Integer(1);
+    	Integer value = (Integer) BusinessRuleUtil.convertToDataType(Integer.class, num);
+    	Assert.assertEquals(num, value);
     }
 
     @Test
     public void testConvertToDataType_Double() throws Exception {
-    	Class clazz = Class.forName(Double.class.getName());
-    	Double value = (Double) BusinessRuleUtil.convertToDataType(clazz, "1.23");
-    	Assert.assertEquals(1.23D, value.doubleValue(), 0);
+    	Double num = new Double(1.23D);
+    	Double value = (Double) BusinessRuleUtil.convertToDataType(Double.class, num);
+    	Assert.assertEquals(num, value);
     }
 
     @Test
     public void testConvertToDataType_Long() throws Exception {
-    	Class clazz = Class.forName(Long.class.getName());
-    	Long value = (Long) BusinessRuleUtil.convertToDataType(clazz, "1");
-    	Assert.assertEquals(1L, value.longValue());
+    	Long num = new Long(1L);
+    	Long value = (Long) BusinessRuleUtil.convertToDataType(Long.class,num);
+    	Assert.assertEquals(num, value);
     }
 
     @Test
     public void testConvertToDataType_Float() throws Exception {
-    	Class clazz = Class.forName(Float.class.getName());
-    	Float value = (Float) BusinessRuleUtil.convertToDataType(clazz, "1.1");
-    	Assert.assertEquals(1.1F, value.floatValue(), 0);
+    	Float num = new Float(1.1F);
+    	Float value = (Float) BusinessRuleUtil.convertToDataType(Float.class, num);
+    	Assert.assertEquals(num, value);
     }
 
     @Test
     public void testConvertToDataType_Short() throws Exception {
-    	Class clazz = Class.forName(Short.class.getName());
-    	Short value = (Short) BusinessRuleUtil.convertToDataType(clazz, "123");
-    	Assert.assertEquals(123, value.intValue());
+    	Short num = new Short("123");
+    	Short value = (Short) BusinessRuleUtil.convertToDataType(Short.class, num);
+    	Assert.assertEquals(num, value);
     }
 
     @Test
-    public void testConvertToDataType_BigDecimal() throws Exception {
-    	Class clazz = Class.forName(BigDecimal.class.getName());
-    	BigDecimal value = (BigDecimal) BusinessRuleUtil.convertToDataType(clazz, "123.456");
-    	Assert.assertEquals(new BigDecimal(123.456).doubleValue(), value.doubleValue(), 0);
+    public void testConvertToDataType_BigDecimal1() throws Exception {
+    	BigDecimal num = new BigDecimal(123.456);
+    	BigDecimal value = (BigDecimal) BusinessRuleUtil.convertToDataType(num);
+    	Assert.assertEquals(num.doubleValue(), value.doubleValue(), 0);
     }
 
     @Test
-    public void testConvertToDataType_BigInteger() throws Exception {
-    	Class clazz = Class.forName(BigInteger.class.getName());
-    	BigInteger value = (BigInteger) BusinessRuleUtil.convertToDataType(clazz, "123");
-    	Assert.assertEquals(new BigInteger("123"), value);
+    public void testConvertToDataType_BigDecimal2() throws Exception {
+    	BigDecimal num = new BigDecimal(123.456);
+    	BigDecimal value = (BigDecimal) BusinessRuleUtil.convertToDataType(BigDecimal.class, num);
+    	Assert.assertEquals(num.doubleValue(), value.doubleValue(), 0);
+    }
+
+    @Test
+    public void testConvertToDataType_BigInteger1() throws Exception {
+    	BigInteger num = new BigInteger("123");
+    	BigInteger value = (BigInteger) BusinessRuleUtil.convertToDataType(num);
+    	Assert.assertEquals(num, value);
+    }
+
+    @Test
+    public void testConvertToDataType_BigInteger2() throws Exception {
+    	BigInteger num = new BigInteger("123");
+    	BigInteger value = (BigInteger) BusinessRuleUtil.convertToDataType(BigInteger.class, num);
+    	Assert.assertEquals(num, value);
     }
 
     @Test
     public void testConvertToDataType_Boolean() throws Exception {
-    	Class clazz = Class.forName(Boolean.class.getName());
-    	Boolean value = (Boolean) BusinessRuleUtil.convertToDataType(clazz, "true");
-    	Assert.assertEquals(new Boolean("true").booleanValue(), true);
+    	Boolean b = new Boolean(true);
+    	Boolean value = (Boolean) BusinessRuleUtil.convertToDataType(Boolean.class, b);
+    	Assert.assertEquals(b, value);
     }
 
     @Test
-    public void testConvertToDataType_Date() throws Exception {
-    	long time = System.currentTimeMillis();
-    	Date date = new Date(time);
-    	Class clazz = Class.forName(Date.class.getName());
-    	Date value = (Date) BusinessRuleUtil.convertToDataType(clazz, String.valueOf(time));
-    	Assert.assertEquals(date, value);
+    public void testConvertToDataType_Date1() throws Exception {
+    	Date time = new Date();
+    	Date value = (Date) BusinessRuleUtil.convertToDataType(time);
+    	Assert.assertEquals(time, value);
     }
 
     @Test
-    public void testConvertToDataType_Calendar() throws Exception {
-    	long time = System.currentTimeMillis();
-    	Class clazz = Class.forName(Calendar.class.getName());
-    	Calendar value = (Calendar) BusinessRuleUtil.convertToDataType(clazz, String.valueOf(time));
-    	Assert.assertEquals(time, value.getTimeInMillis());
+    public void testConvertToDataType_Date2() throws Exception {
+    	Date time = new Date();
+    	Date value = (Date) BusinessRuleUtil.convertToDataType(Date.class, time);
+    	Assert.assertEquals(time, value);
     }
+
+    @Test
+    public void testConvertToDataType_Calendar1() throws Exception {
+    	Calendar time = Calendar.getInstance();
+    	Calendar value = (Calendar) BusinessRuleUtil.convertToDataType(Calendar.class, time);
+    	Assert.assertEquals(time, value);
+    }
+
+    @Test
+    public void testConvertToDataType_Calendar2() throws Exception {
+    	Calendar time = Calendar.getInstance();
+    	Calendar value = (Calendar) BusinessRuleUtil.convertToDataType(time);
+    	Assert.assertEquals(time, value);
+    }
+
+    @Test
+    public void testConvertToDataType_GregorianCalendar() throws Exception {
+    	GregorianCalendar greg = new GregorianCalendar();
+		GregorianCalendar value = (GregorianCalendar) BusinessRuleUtil.convertToDataType(greg);
+    	Assert.assertEquals(greg.getTime(), value.getTime());
+    }
+
+    @Test
+    public void testConvertToDataType_XMLGregorianCalendar() throws Exception {
+    	GregorianCalendar greg = new GregorianCalendar();
+    	XMLGregorianCalendarImpl time = new XMLGregorianCalendarImpl(greg);
+		GregorianCalendar value = (GregorianCalendar) BusinessRuleUtil.convertToDataType(time);
+    	Assert.assertEquals(greg.getTime(), value.getTime());
+    }
+
+    @Test
+    public void testConvertToDataType_Calendar_XMLGregorianCalendar() throws Exception {
+    	Calendar cal = Calendar.getInstance();
+		GregorianCalendar value = (GregorianCalendar) BusinessRuleUtil.convertToDataType(GregorianCalendar.class, cal);
+    	Assert.assertEquals(cal.getTime(), value.getTime());
+    }
+
 
 }

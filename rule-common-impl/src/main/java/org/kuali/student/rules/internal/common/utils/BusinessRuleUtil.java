@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -326,70 +329,68 @@ public class BusinessRuleUtil {
         }
         return propositionMap;
     }
+
+    public static Object convertToDataType(final Object value) {
+    	Class<?> clazz = value.getClass();
+    	return convertToDataType(clazz, value);
+    }
     
     /**
      * <p>Converts the <code>expectedValue</code> to <code>dataType</code>.</p>
      * <p>e.g. dateType="java.lang.Integer" expectedValue="123" returns new Integer(123)</p>
      * 
      * @param dataType Data type to convert <code>expectedValue</code> to
-     * @param expectedValue The value to be converted
+     * @param value The value to be converted
      * @return New value in proper data type 
      */
-    public static <T> T convertToDataType(Class<T> clazz, String expectedValue) {
-    	if (expectedValue == null) {
+    //public static <T> T convertToDataType(final Class<T> clazz, final Object value) {
+    public static Object convertToDataType(final Class<?> clazz, final Object value) {
+    	if (value == null) {
     		return null;
     	}
     	else if (clazz.isPrimitive()) {
         	throw new RuntimeException("Rule proposition comparison data type conversion error. Primitives cannot be converted: " + clazz);
     	}
     	else if (clazz.equals(String.class)) {
-    		return clazz.cast(expectedValue);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Integer.class)) {
-    		Integer i = new Integer(expectedValue);
-    		return clazz.cast(i);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Double.class)) {
-    		Double d = new Double(expectedValue);
-    		return clazz.cast(d);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Long.class)) {
-    		Long l = new Long(expectedValue);
-    		return clazz.cast(l);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Float.class)) {
-    		Float f = new Float(expectedValue);
-    		return clazz.cast(f);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Short.class)) {
-    		Short s = new Short(expectedValue);
-    		return clazz.cast(s);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(BigDecimal.class)) {
-    		BigDecimal d = new BigDecimal(expectedValue);
-    		return clazz.cast(d);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(BigInteger.class)) {
-    		BigInteger i = new BigInteger(expectedValue);
-    		return clazz.cast(i);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Boolean.class)) {
-    		Boolean b = new Boolean(expectedValue);
-    		return clazz.cast(b);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Date.class)) {
-    		Long timeInMillies = Long.valueOf(expectedValue);
-    		Date date = new Date(timeInMillies.longValue());
-    		return clazz.cast(date);
+    		return clazz.cast(value);
     	}
     	else if (clazz.equals(Calendar.class)) {
-    		//return dateFormat.format(expectedValue);
-    		Long timeInMillies = Long.valueOf(expectedValue);
-    		Calendar cal = Calendar.getInstance();
-    		cal.setTimeInMillis(timeInMillies);
-    		return clazz.cast(cal);
+    		return clazz.cast(value);
     	}
-    	
-    	throw new RuntimeException("Rule proposition comparison data type conversion error. Data type not found: " + clazz);
+    	else if (clazz.equals(GregorianCalendar.class)) {
+    		return clazz.cast(value);
+    	}
+    	else if (value instanceof XMLGregorianCalendar) {
+    		XMLGregorianCalendar xmlCal = (XMLGregorianCalendar) value;
+    		return xmlCal.toGregorianCalendar();
+    	}
+    	throw new RuntimeException("Data type conversion error. Data type not found: " + clazz);
     }
 }
