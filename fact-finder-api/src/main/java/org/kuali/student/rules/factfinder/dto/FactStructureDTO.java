@@ -35,28 +35,27 @@ import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FactStructureDTO implements Serializable {
 
-    private Boolean staticFact = false;
-    
     @XmlAttribute
     private String factStructureId;
     
+    @XmlAttribute
+    private String factTypeKey;
+        
     @XmlElement
-    private String dataType;
-    
+    private FactCriteriaTypeInfoDTO criteriaTypeInfo;
+                    
     @XmlElement
     private Boolean anchorFlag; 
  
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
-    Map<String, String> executionVariableList;
-    
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
-    Map<String, String> definitionVariableList;
+    Map<String, String> paramValueMap;
 
+    @XmlAttribute
+    private Boolean staticFact = false;
+    
     @XmlElement
     private String staticValue;
-    
 
     /**
      * @return the factStructureId
@@ -73,17 +72,31 @@ public class FactStructureDTO implements Serializable {
     }
 
     /**
-     * @return the dataType
+     * @return the factTypeKey
      */
-    public String getDataType() {
-        return dataType;
+    public String getFactTypeKey() {
+        return factTypeKey;
     }
 
     /**
-     * @param dataType the dataType to set
+     * @param factTypeKey the factTypeKey to set
      */
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
+    public void setFactTypeKey(String factTypeKey) {
+        this.factTypeKey = factTypeKey;
+    }
+
+    /**
+     * @return the criteriaTypeInfo
+     */
+    public FactCriteriaTypeInfoDTO getCriteriaTypeInfo() {
+        return criteriaTypeInfo;
+    }
+
+    /**
+     * @param criteriaTypeInfo the criteriaTypeInfo to set
+     */
+    public void setCriteriaTypeInfo(FactCriteriaTypeInfoDTO criteriaTypeInfo) {
+        this.criteriaTypeInfo = criteriaTypeInfo;
     }
 
     /**
@@ -101,37 +114,23 @@ public class FactStructureDTO implements Serializable {
     }
 
     /**
-     * @return the executionVariableList
+     * @return the paramValueMap
      */
-    public Map<String, String> getExecutionVariableList() {
-        return executionVariableList;
+    public Map<String, String> getParamValueMap() {
+        return paramValueMap;
     }
 
     /**
-     * @param executionVariableList the executionVariableList to set
+     * @param paramValuemap the paramValueMap to set
      */
-    public void setExecutionVariableList(Map<String, String> executionVariableList) {
-        this.executionVariableList = executionVariableList;
-    }
-
-    /**
-     * @return the definitionVariableList
-     */
-    public Map<String, String> getDefinitionVariableList() {
-        return definitionVariableList;
-    }
-
-    /**
-     * @param definitionVariableList the definitionVariableList to set
-     */
-    public void setDefinitionVariableList(Map<String, String> definitionVariableList) {
-        this.definitionVariableList = definitionVariableList;
+    public void setParamValueMap(Map<String, String> paramValueMap) {
+        this.paramValueMap = paramValueMap;
     }
 
     /**
      * @return the staticFact
      */
-    public Boolean getStaticFact() {
+    public Boolean isStaticFact() {
         return staticFact;
     }
 
@@ -154,5 +153,5 @@ public class FactStructureDTO implements Serializable {
      */
     public void setStaticValue(String staticValue) {
         this.staticValue = staticValue;
-    }
+    }    
 }
