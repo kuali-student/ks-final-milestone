@@ -72,7 +72,6 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
 	 */
     public RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
-    	//verifyKeys(container);
     	RuleSet ruleSet = null;
     	String ruleSetName = PACKAGE_PREFIX + businessRule.getName();
     	if (businessRule.getCompiledId() != null) {
@@ -92,50 +91,6 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         }
         verifyRule(ruleSet);
         return ruleSet;
-    }
-    
-    private void verifyKeys(BusinessRuleContainerDTO container) {
-        for (BusinessRuleInfoDTO businessRule : container.getBusinessRules()) {
-        	for(RuleElementDTO element : businessRule.getRuleElementList()) {
-        		if (element.getRuleProposition() == null) {
-        			return;
-        		}
-        		List<FactStructureDTO> facts = element.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
-        		for(FactStructureDTO fact : facts) {
-        			verifyDefinitionKeys(fact.getDefinitionVariableList());
-        			verifyExecutionKeys(fact.getExecutionVariableList());
-        		}
-        	}
-        }
-    }
-
-    private void verifyDefinitionKeys(Map<String,String> defMap) {
-    	if (defMap.isEmpty()) {
-    		throw new RuleSetTranslatorException("Definition key map contains no keys");
-    	}
-    	boolean found = false;
-    	for(String key: Constants.getConstantValues()) {
-    		if (defMap.containsKey(key)) {
-    			found = true;
-    			break;
-	    	}
-    	}
-    	
-    	if (!found) {
-    		throw new RuleSetTranslatorException("No valid definition keys found");
-    	}
-    }
-    
-    private void verifyExecutionKeys(Map<String,String> exeMap) {
-    	if (exeMap.isEmpty()) {
-    		throw new RuleSetTranslatorException("Execution key map contains no keys");
-    	}
-    	for(String key: exeMap.keySet()) {
-	    	String value = exeMap.get(key);
-    		if (!Constants.containsConstantValue(key)) {
-	    		throw new RuleSetTranslatorException("Invalid execution key value: " + key +"=" + value);
-	    	}
-    	}
     }
     
     private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {
