@@ -7,22 +7,17 @@ public class ValueDTO {
 	@XmlAttribute
     private String valueId;
 	@XmlElement
-	private String valueDataType;
-	@XmlElement
-	private String val;
+	private Object val;
 
 	public ValueDTO() {}
 
-	public ValueDTO(String id, String dataType, String value) {
+	public ValueDTO(String id, Object value) {
 		this.valueId = id;
-		this.valueDataType = dataType;
 		this.val = value;
 	}
 
 	public String getId() { return valueId; }
 
-	public String getDataType() { return valueDataType; }
-
-	public String getValue() { return val; }
+	public Object getValue() { return val; }
 }
 

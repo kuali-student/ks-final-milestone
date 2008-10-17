@@ -31,8 +31,8 @@ public class ResultDTO {
 		return id;
 	}
 	
-	public void addResult(String id, String dataType, String value) {
-		ValueDTO v = new ValueDTO(id, dataType, value);
+	public void addResult(String id, Object value) {
+		ValueDTO v = new ValueDTO(id, value);
 		this.factList.add(v);
 	}
 	
