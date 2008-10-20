@@ -5,13 +5,14 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectStructure implements Serializable{
 
     private static final long serialVersionUID = 7664540007997918206L;
     
-    @XmlAttribute
+    @XmlElement
     TypeSelector type;
     @XmlAttribute
     String objectTypeKey;
