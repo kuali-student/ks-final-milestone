@@ -12,4 +12,9 @@
 		<module>dic-services</module>
 		<module>dic-web</module>
 	</modules>
+	<parent>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-service-pom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
 </project>
