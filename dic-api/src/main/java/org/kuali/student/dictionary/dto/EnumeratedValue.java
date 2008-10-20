@@ -1,4 +1,4 @@
-package org.kuali.student.dictionary.enumeration.dto;
+package org.kuali.student.dictionary.dto;
 
 import java.io.Serializable;
 
