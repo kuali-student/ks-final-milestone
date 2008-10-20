@@ -1,6 +1,7 @@
 package org.kuali.student.dictionary.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,6 +17,10 @@ public class EnumeratedValue implements Serializable{
     private String key = null;
     @XmlElement
     private String value = null;
+    @XmlElement
+    private Date    startDate = null;
+    @XmlElement
+    private Date    endDate = null;   
 
     public EnumeratedValue() {
         super();
@@ -44,6 +49,34 @@ public class EnumeratedValue implements Serializable{
     }
     
     /**
+     * @return the startDate
+     */
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * @param startDate the startDate to set
+     */
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * @return the endDate
+     */
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * @param endDate the endDate to set
+     */
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    /**
      * This overridden method ...
      * 
      * @see java.lang.Object#hashCode()
@@ -52,7 +85,9 @@ public class EnumeratedValue implements Serializable{
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((key == null) ? 0 : key.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -74,11 +109,25 @@ public class EnumeratedValue implements Serializable{
             return false;
         }
         EnumeratedValue other = (EnumeratedValue) obj;
+        if (endDate == null) {
+            if (other.endDate != null) {
+                return false;
+            }
+        } else if (!endDate.equals(other.endDate)) {
+            return false;
+        }
         if (key == null) {
             if (other.key != null) {
                 return false;
             }
         } else if (!key.equals(other.key)) {
+            return false;
+        }
+        if (startDate == null) {
+            if (other.startDate != null) {
+                return false;
+            }
+        } else if (!startDate.equals(other.startDate)) {
             return false;
         }
         if (value == null) {
@@ -90,5 +139,7 @@ public class EnumeratedValue implements Serializable{
         }
         return true;
     }
+    
+    
 
 }
