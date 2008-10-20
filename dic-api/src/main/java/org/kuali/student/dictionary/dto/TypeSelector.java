@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TypeSelector implements Serializable{
 
     private static final long serialVersionUID = 7196108586115830413L;
-    @XmlElement
+    @XmlAttribute
     String key;
     @XmlElement
     StateSelector state;
