@@ -39,6 +39,7 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
+import org.kuali.student.rules.translators.util.Constants;
 
 @Daos({@Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
@@ -117,23 +118,13 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         metaInfo.setCreateID("Zdenek");
         metaInfo.setUpdateTime(new Date());
         metaInfo.setUpdateID("Len");
-        
-        FactStructureDTO fs1 = new FactStructureDTO();
-        fs1.setDataType(java.util.Set.class.getName());
-        fs1.setFactStructureId("f1");
-        fs1.setAnchorFlag(false);
-
-        Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        //definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
-        definitionVariableMap1.put("some key", "CPR101");
-        fs1.setDefinitionVariableList(definitionVariableMap1);
-
-        Map<String,String> executionVariableMap1 = new HashMap<String,String>();
-        //executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
-        fs1.setExecutionVariableList(executionVariableMap1);
+     
+        FactStructureDTO fs1 = buildFactStructureForRuleCriteria();
+        FactStructureDTO fs2 = buildFactStructureForIntersection();
         
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
         factStructureList.add(fs1);
+        factStructureList.add(fs2);
         
         YieldValueFunctionDTO yieldValueFunctionDTO = new YieldValueFunctionDTO();
         yieldValueFunctionDTO.setYieldValueFunctionType(YieldValueFunctionType.INTERSECTION.toString());
@@ -191,22 +182,15 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         YieldValueFunctionDTO yieldValueFunction1 = new YieldValueFunctionDTO();
         yieldValueFunction1.setYieldValueFunctionType("INTERSECTION");
         
-        FactStructureDTO fs1 = new FactStructureDTO();
-        fs1.setDataType(java.util.Set.class.getName());
-        fs1.setFactStructureId("f1");
-        fs1.setAnchorFlag(false);
+        FactStructureDTO fs1 = buildFactStructureForRuleCriteria();
+        FactStructureDTO fs2 = buildFactStructureForIntersection();
 
-        Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        //definitionVariableMap1.put(Constants.DEF_CRITERIA_KEY, "CPR101");
-        definitionVariableMap1.put("some key", "CPR101");
-        fs1.setDefinitionVariableList(definitionVariableMap1);
-
-        Map<String,String> executionVariableMap1 = new HashMap<String,String>();
-        //executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
-        fs1.setExecutionVariableList(executionVariableMap1);
+        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        fs1.setParamValueMap(paramVariableMap);
         
         List<FactStructureDTO> factStructureList1 = new ArrayList<FactStructureDTO>();
         factStructureList1.add(fs1);
+        factStructureList1.add(fs2);
         yieldValueFunction1.setFactStructureList(factStructureList1);
         
         LeftHandSideDTO leftHandSide1 = new LeftHandSideDTO();
@@ -234,30 +218,19 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         re2.setName("And");
         re2.setDescription("And");
         re2.setOperation("AND");
-
-        
-        
+                
         // Rule Element - III
         YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
         yieldValueFunction2.setYieldValueFunctionType("SUM");
         
-        FactStructureDTO fs2 = new FactStructureDTO();
-        fs2.setDataType(java.math.BigDecimal.class.getName());
-        fs2.setFactStructureId("f2");
-        fs2.setAnchorFlag(false);
+        FactStructureDTO fs3 = buildFactStructureForSum();
 
         // Not need for summation or averages
-        Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
-        //definitionVariableMap2.put(Constants.DEF_CRITERIA_KEY, null);
-        definitionVariableMap2.put("some key", null);
-        fs2.setDefinitionVariableList(definitionVariableMap2);
-
-        Map<String,String> executionVariableMap2 = new HashMap<String,String>();
-        //executionVariableMap2.put(Constants.EXE_FACT_KEY, "summation.courseSet");
-        fs2.setExecutionVariableList(executionVariableMap2);
+        Map<String,String> paramVariableMap2 = new HashMap<String,String>();
+        fs3.setParamValueMap(paramVariableMap2);
         
         List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
-        factStructureList2.add(fs2);
+        factStructureList2.add(fs3);
         yieldValueFunction2.setFactStructureList(factStructureList2);
         
         LeftHandSideDTO leftHandSide2 = new LeftHandSideDTO();
@@ -288,6 +261,60 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         brInfoDTO.setRuleElementList(elementList);
         
         return brInfoDTO;
+    }
+
+    /*
+     * Builds the fact structure to be used as a criteria
+     */
+    private FactStructureDTO buildFactStructureForRuleCriteria() {
+        FactStructureDTO fs = new FactStructureDTO();
+        
+        fs.setFactStructureId("1");
+        fs.setFactTypeKey("fact.cpr_prereq_criteria");
+        fs.setAnchorFlag(false);
+        fs.setStaticFact(true);
+        fs.setStaticValue("CPR101");
+        
+        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        fs.setParamValueMap(paramVariableMap);
+        
+        return fs;        
+    }
+    
+    /*
+     * Builds the fact structure to be used as a 'rule fact' in an intersection
+     */
+    private FactStructureDTO buildFactStructureForIntersection() {
+        FactStructureDTO fs = new FactStructureDTO();
+        
+        fs.setFactStructureId("2");
+        fs.setFactTypeKey("fact.cpr_prereq_clulist1");
+        fs.setAnchorFlag(false);
+        fs.setStaticFact(true);
+        fs.setStaticValue("CPR101, CPR201, CPR301");
+        
+        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        fs.setParamValueMap(paramVariableMap);
+        
+        return fs;                
+    }
+
+    /*
+     * Builds the fact structure to be used as a 'rule fact' in an intersection
+     */
+    private FactStructureDTO buildFactStructureForSum() {
+        FactStructureDTO fs = new FactStructureDTO();
+        
+        fs.setFactStructureId("3");
+        fs.setFactTypeKey("fact.cpr_prereq_gpalist");
+        fs.setAnchorFlag(false);
+        fs.setStaticFact(true);
+        fs.setStaticValue("4.0, 2.5, 3.0");
+        
+        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        fs.setParamValueMap(paramVariableMap);
+        
+        return fs;                
     }
 
 }
