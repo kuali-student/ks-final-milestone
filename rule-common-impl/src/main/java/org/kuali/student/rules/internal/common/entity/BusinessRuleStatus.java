@@ -15,5 +15,5 @@ package org.kuali.student.rules.internal.common.entity;
  *
  */
 public enum BusinessRuleStatus {
-   IN_PROGRESS, ACTIVE, RETIRED;
+   IN_PROGRESS, ACTIVE, PUBLISHED, RETIRED;
 }
