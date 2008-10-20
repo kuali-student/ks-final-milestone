@@ -14,13 +14,20 @@ public class FieldDescriptor implements Serializable {
     @XmlElement
     String dataType;
     @XmlElement
-    String minLength;
+    int minLength;
     @XmlElement
-    String maxLength;
+    int maxLength;
     @XmlElement
     String validChars;
     @XmlElement
-    String invalidChars;
+    String invalidChars;    
+    @XmlElement
+    EnumFieldView enumFieldView;    
+    @XmlElement
+    int minOccurs;
+    @XmlElement
+    int maxOccurs;
+    
     /**
      * @return the dataType
      */
@@ -36,25 +43,25 @@ public class FieldDescriptor implements Serializable {
     /**
      * @return the minLength
      */
-    public String getMinLength() {
+    public int getMinLength() {
         return minLength;
     }
     /**
      * @param minLength the minLength to set
      */
-    public void setMinLength(String minLength) {
+    public void setMinLength(int minLength) {
         this.minLength = minLength;
     }
     /**
      * @return the maxLength
      */
-    public String getMaxLength() {
+    public int getMaxLength() {
         return maxLength;
     }
     /**
      * @param maxLength the maxLength to set
      */
-    public void setMaxLength(String maxLength) {
+    public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
     }
     /**
@@ -91,9 +98,12 @@ public class FieldDescriptor implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
+        result = prime * result + ((enumFieldView == null) ? 0 : enumFieldView.hashCode());
         result = prime * result + ((invalidChars == null) ? 0 : invalidChars.hashCode());
-        result = prime * result + ((maxLength == null) ? 0 : maxLength.hashCode());
-        result = prime * result + ((minLength == null) ? 0 : minLength.hashCode());
+        result = prime * result + maxLength;
+        result = prime * result + maxOccurs;
+        result = prime * result + minLength;
+        result = prime * result + minOccurs;
         result = prime * result + ((validChars == null) ? 0 : validChars.hashCode());
         return result;
     }
@@ -121,6 +131,13 @@ public class FieldDescriptor implements Serializable {
         } else if (!dataType.equals(other.dataType)) {
             return false;
         }
+        if (enumFieldView == null) {
+            if (other.enumFieldView != null) {
+                return false;
+            }
+        } else if (!enumFieldView.equals(other.enumFieldView)) {
+            return false;
+        }
         if (invalidChars == null) {
             if (other.invalidChars != null) {
                 return false;
@@ -128,18 +145,16 @@ public class FieldDescriptor implements Serializable {
         } else if (!invalidChars.equals(other.invalidChars)) {
             return false;
         }
-        if (maxLength == null) {
-            if (other.maxLength != null) {
-                return false;
-            }
-        } else if (!maxLength.equals(other.maxLength)) {
+        if (maxLength != other.maxLength) {
             return false;
         }
-        if (minLength == null) {
-            if (other.minLength != null) {
-                return false;
-            }
-        } else if (!minLength.equals(other.minLength)) {
+        if (maxOccurs != other.maxOccurs) {
+            return false;
+        }
+        if (minLength != other.minLength) {
+            return false;
+        }
+        if (minOccurs != other.minOccurs) {
             return false;
         }
         if (validChars == null) {
@@ -151,6 +166,7 @@ public class FieldDescriptor implements Serializable {
         }
         return true;
     }
-    
+  
+   
     
 }
