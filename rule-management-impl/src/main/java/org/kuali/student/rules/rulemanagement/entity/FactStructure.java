@@ -40,16 +40,17 @@ public class FactStructure {
     private String id;
     
     private String factStructureId;
-    
-    private String dataType;
+
+    private String factTypeKey;
     
     private Boolean anchorFlag; 
  
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy="factStructure")
-    private List<FactStructureVariable> executionVariableList;
-
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy="factStructure")
-    private List<FactStructureVariable> definitionVariableList;
+    private List<FactStructureVariable> paramValueList;
+        
+    private Boolean staticFact;
+    
+    private String staticValue;
     
     /**
      * AutoGenerate the id
@@ -58,7 +59,7 @@ public class FactStructure {
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID();
     }
-    
+
     /**
      * @return the id
      */
@@ -88,17 +89,17 @@ public class FactStructure {
     }
 
     /**
-     * @return the dataType
+     * @return the factTypeKey
      */
-    public String getDataType() {
-        return dataType;
+    public String getFactTypeKey() {
+        return factTypeKey;
     }
 
     /**
-     * @param dataType the dataType to set
+     * @param factTypeKey the factTypeKey to set
      */
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
+    public void setFactTypeKey(String factTypeKey) {
+        this.factTypeKey = factTypeKey;
     }
 
     /**
@@ -116,30 +117,44 @@ public class FactStructure {
     }
 
     /**
-     * @return the executionVariableList
+     * @return the paramValueList
      */
-    public List<FactStructureVariable> getExecutionVariableList() {
-        return executionVariableList;
+    public List<FactStructureVariable> getParamValueList() {
+        return paramValueList;
     }
 
     /**
-     * @param executionVariableList the executionVariableList to set
+     * @param paramValueList the paramValueList to set
      */
-    public void setExecutionVariableList(List<FactStructureVariable> executionVariableList) {
-        this.executionVariableList = executionVariableList;
+    public void setParamValueList(List<FactStructureVariable> paramValueList) {
+        this.paramValueList = paramValueList;
     }
 
     /**
-     * @return the definitionVariableList
+     * @return the staticFact
      */
-    public List<FactStructureVariable> getDefinitionVariableList() {
-        return definitionVariableList;
+    public Boolean getStaticFact() {
+        return staticFact;
     }
 
     /**
-     * @param definitionVariableList the definitionVariableList to set
+     * @param staticFact the staticFact to set
      */
-    public void setDefinitionVariableList(List<FactStructureVariable> definitionVariableList) {
-        this.definitionVariableList = definitionVariableList;
+    public void setStaticFact(Boolean staticFact) {
+        this.staticFact = staticFact;
     }
+
+    /**
+     * @return the staticValue
+     */
+    public String getStaticValue() {
+        return staticValue;
+    }
+
+    /**
+     * @param staticValue the staticValue to set
+     */
+    public void setStaticValue(String staticValue) {
+        this.staticValue = staticValue;
+    }    
 }

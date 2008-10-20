@@ -204,22 +204,19 @@ public class BusinessRuleAdapter {
         FactStructureDTO fsDTO = new FactStructureDTO();
         
         fsDTO.setAnchorFlag( fs.getAnchorFlag() );
-        fsDTO.setDataType( fs.getDataType() );
         
-        // Extract the definition variables
-        Map<String, String> definitionVariables = new HashMap<String, String>();
-        for(FactStructureVariable fsVar : fs.getDefinitionVariableList()) {
-            definitionVariables.put( fsVar.getStructureKey(),  fsVar.getValue() );
+        // Extract the parameter values
+        Map<String, String> paramValueMap = new HashMap<String, String>();
+        for(FactStructureVariable fsVar : fs.getParamValueList()) {
+            paramValueMap.put( fsVar.getStructureKey(),  fsVar.getValue() );
         }
-        fsDTO.setDefinitionVariableList(definitionVariables);
-        
-        // Extract the execution variables
-        Map<String, String> executionVariables = new HashMap<String, String>();
-        for(FactStructureVariable fsVar : fs.getExecutionVariableList() ) {
-            executionVariables.put( fsVar.getStructureKey(),  fsVar.getValue() );
-        }
-        fsDTO.setExecutionVariableList(executionVariables);
-        
+        fsDTO.setParamValueMap(paramValueMap);        
+        fsDTO.setCriteriaTypeInfo(null);        
+        fsDTO.setFactStructureId(fs.getFactStructureId());        
+        fsDTO.setFactTypeKey(fs.getFactTypeKey());        
+        fsDTO.setStaticFact(fs.getStaticFact());        
+        fsDTO.setStaticValue(fs.getStaticValue());
+                
         return fsDTO;
     }
 
@@ -363,32 +360,24 @@ public class BusinessRuleAdapter {
        FactStructure fs = new FactStructure();
        
        fs.setAnchorFlag( factDTO.getAnchorFlag() );
-       fs.setDataType( factDTO.getDataType() );
        fs.setFactStructureId( factDTO.getFactStructureId() );
+       fs.setFactTypeKey(factDTO.getFactTypeKey());
+       fs.setStaticFact(factDTO.isStaticFact());
+       fs.setStaticValue(factDTO.getStaticValue());
        
-       // Extract execution variables
-       List<FactStructureVariable> fsExecVarList = new ArrayList<FactStructureVariable>(); 
-       Map<String,String> factExecVarMap = factDTO.getExecutionVariableList();
-       for(String key: factExecVarMap.keySet()) {
+       
+       // Extract parameter variables
+       List<FactStructureVariable> fsParamVarList = new ArrayList<FactStructureVariable>(); 
+       Map<String,String> factParamVarMap = factDTO.getParamValueMap();
+       for(String key: factParamVarMap.keySet()) {
            FactStructureVariable fsVar = new FactStructureVariable();
            fsVar.setFactStructure(fs);
            fsVar.setStructureKey(key);
-           fsVar.setValue( factExecVarMap.get(key));
-           fsExecVarList.add(fsVar);
+           fsVar.setValue( factParamVarMap.get(key));
+           fsParamVarList.add(fsVar);
        }
-       fs.setExecutionVariableList(fsExecVarList);
+       fs.setParamValueList(fsParamVarList);
        
-       // Extract definition variables
-       List<FactStructureVariable> fsDefVarList = new ArrayList<FactStructureVariable>(); 
-       Map<String,String> factDefVarMap = factDTO.getExecutionVariableList();
-       for(String key: factDefVarMap.keySet()) {
-           FactStructureVariable fsVar = new FactStructureVariable();
-           fsVar.setFactStructure(fs);
-           fsVar.setStructureKey(key);
-           fsVar.setValue( factDefVarMap.get(key));
-           fsDefVarList.add(fsVar);
-       }
-       fs.setDefinitionVariableList(fsDefVarList);
        return fs;
     }
 
