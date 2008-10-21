@@ -8,8 +8,6 @@
 
 package org.kuali.student.dictionary.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -28,9 +26,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}type" maxOccurs="unbounded"/>
+ *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}fieldDescriptor"/>
+ *         &lt;element name="readOnly" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
- *       &lt;attribute name="objectTypeKey" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="key" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -40,67 +39,80 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "type"
+    "fieldDescriptor",
+    "readOnly"
 })
-@XmlRootElement(name = "objectStructure")
-public class ObjectStructure {
+@XmlRootElement(name = "field")
+public class Field {
 
     @XmlElement(required = true)
-    protected List<Type> type;
+    protected FieldDescriptor fieldDescriptor;
+    protected boolean readOnly;
     @XmlAttribute
-    protected String objectTypeKey;
+    protected String key;
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the fieldDescriptor property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the type property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getType().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Type }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link FieldDescriptor }
+     *     
      */
-    public List<Type> getType() {
-        if (type == null) {
-            type = new ArrayList<Type>();
-        }
-        return this.type;
+    public FieldDescriptor getFieldDescriptor() {
+        return fieldDescriptor;
     }
 
     /**
-     * Gets the value of the objectTypeKey property.
+     * Sets the value of the fieldDescriptor property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link FieldDescriptor }
+     *     
+     */
+    public void setFieldDescriptor(FieldDescriptor value) {
+        this.fieldDescriptor = value;
+    }
+
+    /**
+     * Gets the value of the readOnly property.
+     * 
+     */
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    /**
+     * Sets the value of the readOnly property.
+     * 
+     */
+    public void setReadOnly(boolean value) {
+        this.readOnly = value;
+    }
+
+    /**
+     * Gets the value of the key property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getObjectTypeKey() {
-        return objectTypeKey;
+    public String getKey() {
+        return key;
     }
 
     /**
-     * Sets the value of the objectTypeKey property.
+     * Sets the value of the key property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setObjectTypeKey(String value) {
-        this.objectTypeKey = value;
+    public void setKey(String value) {
+        this.key = value;
     }
 
 }

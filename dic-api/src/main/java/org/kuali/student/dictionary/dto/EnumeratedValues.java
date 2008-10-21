@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -28,9 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}type" maxOccurs="unbounded"/>
+ *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}enumeratedValue" maxOccurs="unbounded"/>
  *       &lt;/sequence>
- *       &lt;attribute name="objectTypeKey" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -40,67 +38,41 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "type"
+    "enumeratedValue"
 })
-@XmlRootElement(name = "objectStructure")
-public class ObjectStructure {
+@XmlRootElement(name = "enumeratedValues")
+public class EnumeratedValues {
 
     @XmlElement(required = true)
-    protected List<Type> type;
-    @XmlAttribute
-    protected String objectTypeKey;
+    protected List<EnumeratedValue> enumeratedValue;
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the enumeratedValue property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the type property.
+     * This is why there is not a <CODE>set</CODE> method for the enumeratedValue property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getType().add(newItem);
+     *    getEnumeratedValue().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Type }
+     * {@link EnumeratedValue }
      * 
      * 
      */
-    public List<Type> getType() {
-        if (type == null) {
-            type = new ArrayList<Type>();
+    public List<EnumeratedValue> getEnumeratedValue() {
+        if (enumeratedValue == null) {
+            enumeratedValue = new ArrayList<EnumeratedValue>();
         }
-        return this.type;
-    }
-
-    /**
-     * Gets the value of the objectTypeKey property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getObjectTypeKey() {
-        return objectTypeKey;
-    }
-
-    /**
-     * Sets the value of the objectTypeKey property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setObjectTypeKey(String value) {
-        this.objectTypeKey = value;
+        return this.enumeratedValue;
     }
 
 }

@@ -28,9 +28,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}type" maxOccurs="unbounded"/>
+ *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}contexts" maxOccurs="unbounded"/>
  *       &lt;/sequence>
- *       &lt;attribute name="objectTypeKey" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="key" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -40,67 +40,67 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "type"
+    "contexts"
 })
-@XmlRootElement(name = "objectStructure")
-public class ObjectStructure {
+@XmlRootElement(name = "enum")
+public class Enum {
 
     @XmlElement(required = true)
-    protected List<Type> type;
+    protected List<Contexts> contexts;
     @XmlAttribute
-    protected String objectTypeKey;
+    protected String key;
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the contexts property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the type property.
+     * This is why there is not a <CODE>set</CODE> method for the contexts property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getType().add(newItem);
+     *    getContexts().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Type }
+     * {@link Contexts }
      * 
      * 
      */
-    public List<Type> getType() {
-        if (type == null) {
-            type = new ArrayList<Type>();
+    public List<Contexts> getContexts() {
+        if (contexts == null) {
+            contexts = new ArrayList<Contexts>();
         }
-        return this.type;
+        return this.contexts;
     }
 
     /**
-     * Gets the value of the objectTypeKey property.
+     * Gets the value of the key property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getObjectTypeKey() {
-        return objectTypeKey;
+    public String getKey() {
+        return key;
     }
 
     /**
-     * Sets the value of the objectTypeKey property.
+     * Sets the value of the key property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setObjectTypeKey(String value) {
-        this.objectTypeKey = value;
+    public void setKey(String value) {
+        this.key = value;
     }
 
 }
