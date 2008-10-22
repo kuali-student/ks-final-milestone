@@ -8,7 +8,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<import resource="classpath:lum-context.xml" />
+	<import resource="classpath:dic-context.xml" />
 <!-- - needs more work . -->
 	<jaxws:endpoint id="dictionaryService"
 		implementorClass="org.kuali.student.dictionary.service.DictionaryServiceImpl"
