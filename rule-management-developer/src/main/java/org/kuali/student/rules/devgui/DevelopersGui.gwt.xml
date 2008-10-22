@@ -8,6 +8,7 @@
   <inherits name="org.kuali.student.rules.InternalCommon"/>
 
   <inherits name='org.kuali.student.rules.RuleManagement'/>
+  <inherits name='org.kuali.student.rules.FactFinder'/>
 
   <!-- Specify the app entry point class.                   -->
   <entry-point class="org.kuali.student.rules.devgui.client.DevelopersGuiEntryPoint"/>
