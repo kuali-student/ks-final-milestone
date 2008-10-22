@@ -18,7 +18,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 		try {
 			JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 			Unmarshaller u = jc.createUnmarshaller();
-			EnumeratedValues enums = (EnumeratedValues)u.unmarshal(TypeNodeBuilder.class.getResource(enumerationKey));
+			EnumeratedValues enums = (EnumeratedValues)u.unmarshal(super.getClass().getResource(enumerationKey));
 			for(EnumeratedValue e: enums.getEnumeratedValue()){
 				for(Context c: e.getContexts().getContext()){
 					if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
@@ -36,12 +36,12 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     public ObjectStructure getObjectStructure(String objectTypeKey) {
-        ObjectStructure theStruct;
+        ObjectStructure theStruct = null;
     	try {
             JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 
             Unmarshaller u = jc.createUnmarshaller();
-            Dictionary dict = (Dictionary)u.unmarshal(TypeNodeBuilder.class.getResource("/Dictionary.xml"));
+            Dictionary dict = (Dictionary)u.unmarshal(super.getClass().getResource("/Dictionary.xml"));
 
             for(ObjectStructure struc: dict.getObjectStructure()){
                 if(objectTypeKey.equals(struc.getObjectTypeKey())){
@@ -62,7 +62,7 @@ public class DictionaryServiceImpl implements DictionaryService {
             JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 
             Unmarshaller u = jc.createUnmarshaller();
-            Dictionary dict = (Dictionary)u.unmarshal(TypeNodeBuilder.class.getResource("/Dictionary.xml"));
+            Dictionary dict = (Dictionary)u.unmarshal(super.getClass().getResource("/Dictionary.xml"));
 
             for(ObjectStructure struc: dict.getObjectStructure()){
                 types.add(struc.getObjectTypeKey());
@@ -71,7 +71,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     	catch (JAXBException e) {
             e.printStackTrace();
         }
-        return null;
+        return types;
     }
 
     public boolean validateObject(String objectTypeKey, String stateKey, String info) {
