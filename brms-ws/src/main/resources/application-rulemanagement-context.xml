@@ -125,7 +125,7 @@
  		<property name="preloadMap">
 			<map>
 				<entry key="RuleManagement">
-					<ref bean="ruleBeanPreloadList" />
+					<ref bean="persistList" />
 				</entry>
 			</map> 
 		</property> 
