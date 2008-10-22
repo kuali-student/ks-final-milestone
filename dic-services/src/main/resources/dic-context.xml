@@ -17,7 +17,7 @@
 	
 
 	
-	<bean id="luServiceImpl"
+	<bean id="dictionaryServiceImpl"
 		class="org.kuali.student.dictionary.service.DictionaryServiceImpl">
 		
 	</bean>
