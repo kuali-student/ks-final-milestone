@@ -16,7 +16,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public List<EnumeratedValue> getEnumeration(String enumerationKey, String enumContextKey, String contextValue) {
 		List<EnumeratedValue> eVals = new ArrayList<EnumeratedValue>();
 		try {
-			JAXBContext jc = JAXBContext.newInstance("org.kuali.student");
+			JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 			Unmarshaller u = jc.createUnmarshaller();
 			EnumeratedValues enums = (EnumeratedValues)u.unmarshal(TypeNodeBuilder.class.getResource(enumerationKey));
 			for(EnumeratedValue e: enums.getEnumeratedValue()){
@@ -38,7 +38,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public ObjectStructure getObjectStructure(String objectTypeKey) {
         ObjectStructure theStruct;
     	try {
-            JAXBContext jc = JAXBContext.newInstance("org.kuali.student");
+            JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 
             Unmarshaller u = jc.createUnmarshaller();
             Dictionary dict = (Dictionary)u.unmarshal(TypeNodeBuilder.class.getResource("/Dictionary.xml"));
@@ -59,7 +59,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public List<String> getObjectTypes() {
         List<String> types = new ArrayList<String>();
     	try {
-            JAXBContext jc = JAXBContext.newInstance("org.kuali.student");
+            JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 
             Unmarshaller u = jc.createUnmarshaller();
             Dictionary dict = (Dictionary)u.unmarshal(TypeNodeBuilder.class.getResource("/Dictionary.xml"));
