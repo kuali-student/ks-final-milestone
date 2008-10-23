@@ -20,6 +20,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -51,6 +53,10 @@ public class FactStructure {
     private Boolean staticFact;
     
     private String staticValue;
+    
+    @ManyToOne
+    @JoinColumn(name = "fkYieldValueFunction")
+    private YieldValueFunction yieldValueFunction;
     
     /**
      * AutoGenerate the id
@@ -156,5 +162,19 @@ public class FactStructure {
      */
     public void setStaticValue(String staticValue) {
         this.staticValue = staticValue;
+    }
+
+    /**
+     * @return the yieldValueFunction
+     */
+    public YieldValueFunction getYieldValueFunction() {
+        return yieldValueFunction;
+    }
+
+    /**
+     * @param yieldValueFunction the yieldValueFunction to set
+     */
+    public void setYieldValueFunction(YieldValueFunction yieldValueFunction) {
+        this.yieldValueFunction = yieldValueFunction;
     }    
 }

@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -31,7 +32,7 @@ public class YieldValueFunction {
     @Enumerated(EnumType.STRING)
     YieldValueFunctionType yieldValueFunctionType; 
     
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "yieldValueFunction")
     List<FactStructure> facts = new ArrayList<FactStructure>();
        
     /**

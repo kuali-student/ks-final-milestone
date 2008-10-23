@@ -36,15 +36,8 @@ public class BusinessRuleAdapter {
         
         ruleTypeDTO.setAnchorTypeKey(ruleType.getAnchorTypeKey().toString());
         ruleTypeDTO.setBussinessRuleTypeKey(ruleType.getBusinessRuleTypeKey().toString());
-        
-        List<FactStructureDTO> factStructureDTOList = new ArrayList<FactStructureDTO>();
-        for(FactStructure fact : ruleType.getFacts()) {
-            FactStructureDTO factDTO = getFactStructureDTO(fact);
-            factStructureDTOList.add(factDTO);
-        }
-        
-        ruleTypeDTO.setFactStructureList(factStructureDTOList);
-        
+        ruleTypeDTO.setFactTypeKeyList(ruleType.getFactTypeKeyList());
+                
         return ruleTypeDTO;
     }
     

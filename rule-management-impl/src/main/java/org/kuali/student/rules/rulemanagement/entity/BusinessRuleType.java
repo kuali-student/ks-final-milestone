@@ -18,6 +18,7 @@ package org.kuali.student.rules.rulemanagement.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -46,8 +47,8 @@ public class BusinessRuleType {
     
     private String anchorTypeKey;
     
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<FactStructure> facts;
+    @Embedded
+    private List<String> factTypeKeyList;
 
     private String description;
     
@@ -102,20 +103,6 @@ public class BusinessRuleType {
     }
 
     /**
-     * @return the facts
-     */
-    public List<FactStructure> getFacts() {
-        return facts;
-    }
-
-    /**
-     * @param facts the facts to set
-     */
-    public void setFacts(List<FactStructure> facts) {
-        this.facts = facts;
-    }
-
-    /**
      * @return the description
      */
     public String getDescription() {
@@ -128,5 +115,18 @@ public class BusinessRuleType {
     public void setDescription(String description) {
         this.description = description;
     }
-        
+
+    /**
+     * @return the factTypeKeyList
+     */
+    public List<String> getFactTypeKeyList() {
+        return factTypeKeyList;
+    }
+
+    /**
+     * @param factTypeKeyList the factTypeKeyList to set
+     */
+    public void setFactTypeKeyList(List<String> factTypeKeyList) {
+        this.factTypeKeyList = factTypeKeyList;
+    }
 }
