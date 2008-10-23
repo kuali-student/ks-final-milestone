@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.rules.factfinder.service.jaxws.adapter.ObjectMapAdapter;
 
 /**
  * Contains meta data about the left hand side of a Rule Proposition. For example, in "completed any 2 of (MATH101, MATH102,
@@ -48,8 +48,8 @@ public class FactStructureDTO implements Serializable {
     private Boolean anchorFlag; 
  
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
-    Map<String, String> paramValueMap;
+    @XmlJavaTypeAdapter(ObjectMapAdapter.class)
+    Map<String, Object> paramValueMap;
 
     @XmlAttribute
     private Boolean staticFact = false;
@@ -116,14 +116,14 @@ public class FactStructureDTO implements Serializable {
     /**
      * @return the paramValueMap
      */
-    public Map<String, String> getParamValueMap() {
+    public Map<String, Object> getParamValueMap() {
         return paramValueMap;
     }
 
     /**
      * @param paramValuemap the paramValueMap to set
      */
-    public void setParamValueMap(Map<String, String> paramValueMap) {
+    public void setParamValueMap(Map<String, Object> paramValueMap) {
         this.paramValueMap = paramValueMap;
     }
 

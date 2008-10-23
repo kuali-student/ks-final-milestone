@@ -202,4 +202,15 @@ public class FactParamDTO implements Serializable {
     public void setDefTime(FactParamDefTime defTime) {
         this.defTime = defTime;
     }
+    
+    /**
+     * @return Key, name, definitionTime and dataType.
+     */
+    public String toString() {
+    	return 
+    		"(key=" + this.key + 
+    		", name=" + this.name + 
+    		", definitionTime=" + this.defTime + 
+    		", dataType=" + this.dataType + ")";
+    }
 }

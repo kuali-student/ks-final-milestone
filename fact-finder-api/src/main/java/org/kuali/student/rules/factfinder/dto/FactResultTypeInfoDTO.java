@@ -16,7 +16,6 @@
 package org.kuali.student.rules.factfinder.dto;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.rules.factfinder.service.jaxws.adapter.FactResultColumnInfoMapAdapter;
 
 /**
  * This class defines the properties of the result of a fetchFact call 
@@ -46,8 +45,8 @@ public class FactResultTypeInfoDTO implements Serializable {
     private String description;
     
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, FactResultColumnInfoDTO> resultColumnsMap = new HashMap<String, FactResultColumnInfoDTO>();
+    @XmlJavaTypeAdapter(FactResultColumnInfoMapAdapter.class)
+    private Map<String, FactResultColumnInfoDTO> resultColumnsMap;
 
     /**
      * @return the key

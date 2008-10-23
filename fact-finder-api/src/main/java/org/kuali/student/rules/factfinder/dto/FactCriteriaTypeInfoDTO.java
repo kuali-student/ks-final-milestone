@@ -16,7 +16,6 @@
 package org.kuali.student.rules.factfinder.dto;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.rules.factfinder.service.jaxws.adapter.FactParamMapAdapter;
 
 /**
  * Contains the criteria definition associated with a Fact. Criteria definition
@@ -47,8 +46,8 @@ public class FactCriteriaTypeInfoDTO implements Serializable {
     private String description;
     
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, FactParamDTO> factParamMap = new HashMap<String, FactParamDTO>();
+    @XmlJavaTypeAdapter(FactParamMapAdapter.class)
+    private Map<String, FactParamDTO> factParamMap;
 
     /**
      * @return the key
