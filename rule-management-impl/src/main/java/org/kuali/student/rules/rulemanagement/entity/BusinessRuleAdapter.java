@@ -199,7 +199,7 @@ public class BusinessRuleAdapter {
         fsDTO.setAnchorFlag( fs.getAnchorFlag() );
         
         // Extract the parameter values
-        Map<String, String> paramValueMap = new HashMap<String, String>();
+        Map<String, Object> paramValueMap = new HashMap<String, Object>();
         for(FactStructureVariable fsVar : fs.getParamValueList()) {
             paramValueMap.put( fsVar.getStructureKey(),  fsVar.getValue() );
         }
@@ -361,12 +361,12 @@ public class BusinessRuleAdapter {
        
        // Extract parameter variables
        List<FactStructureVariable> fsParamVarList = new ArrayList<FactStructureVariable>(); 
-       Map<String,String> factParamVarMap = factDTO.getParamValueMap();
+       Map<String,Object> factParamVarMap = factDTO.getParamValueMap();
        for(String key: factParamVarMap.keySet()) {
            FactStructureVariable fsVar = new FactStructureVariable();
            fsVar.setFactStructure(fs);
            fsVar.setStructureKey(key);
-           fsVar.setValue( factParamVarMap.get(key));
+           fsVar.setValue((String)factParamVarMap.get(key));
            fsParamVarList.add(fsVar);
        }
        fs.setParamValueList(fsParamVarList);

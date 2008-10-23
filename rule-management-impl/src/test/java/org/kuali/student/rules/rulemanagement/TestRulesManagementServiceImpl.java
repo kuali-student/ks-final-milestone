@@ -185,7 +185,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         FactStructureDTO fs1 = buildFactStructureForRuleCriteria();
         FactStructureDTO fs2 = buildFactStructureForIntersection();
 
-        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        Map<String,Object> paramVariableMap = new HashMap<String,Object>();
         fs1.setParamValueMap(paramVariableMap);
         
         List<FactStructureDTO> factStructureList1 = new ArrayList<FactStructureDTO>();
@@ -226,7 +226,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         FactStructureDTO fs3 = buildFactStructureForSum();
 
         // Not need for summation or averages
-        Map<String,String> paramVariableMap2 = new HashMap<String,String>();
+        Map<String,Object> paramVariableMap2 = new HashMap<String,Object>();
         fs3.setParamValueMap(paramVariableMap2);
         
         List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
@@ -275,7 +275,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         fs.setStaticFact(true);
         fs.setStaticValue("CPR101");
         
-        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        Map<String,Object> paramVariableMap = new HashMap<String,Object>();
         fs.setParamValueMap(paramVariableMap);
         
         return fs;        
@@ -293,7 +293,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         fs.setStaticFact(true);
         fs.setStaticValue("CPR101, CPR201, CPR301");
         
-        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        Map<String,Object> paramVariableMap = new HashMap<String,Object>();
         fs.setParamValueMap(paramVariableMap);
         
         return fs;                
@@ -311,7 +311,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         fs.setStaticFact(true);
         fs.setStaticValue("4.0, 2.5, 3.0");
         
-        Map<String,String> paramVariableMap = new HashMap<String,String>();
+        Map<String,Object> paramVariableMap = new HashMap<String,Object>();
         fs.setParamValueMap(paramVariableMap);
         
         return fs;                
