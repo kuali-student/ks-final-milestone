@@ -42,7 +42,7 @@ public class BusinessRuleTypeDTO implements Serializable{
     
     @XmlElement(name="factStructure")
     @XmlElementWrapper(name = "factStructureList")
-    private List<FactStructureDTO> factStructureList;
+    private List<String> factTypeKeyList;
 
     /**
      * @return the bussinessRuleTypeKey
@@ -73,16 +73,16 @@ public class BusinessRuleTypeDTO implements Serializable{
     }
 
     /**
-     * @return the factStructureList
+     * @return the factTypeKeyList
      */
-    public List<FactStructureDTO> getFactStructureList() {
-        return factStructureList;
+    public List<String> getFactTypeKeyList() {
+        return factTypeKeyList;
     }
 
     /**
-     * @param factStructureList the factStructureList to set
+     * @param factTypeKeyList the factTypeKeyList to set
      */
-    public void setFactStructureList(List<FactStructureDTO> factStructureList) {
-        this.factStructureList = factStructureList;
+    public void setFactTypeKeyList(List<String> factTypeKeyList) {
+        this.factTypeKeyList = factTypeKeyList;
     }
 }
