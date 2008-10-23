@@ -15,18 +15,23 @@
  */
 package org.kuali.student.rules.repository.service.jaxws.adapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.rules.repository.dto.RuleDTO;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RuleMapEntryType {
 	@XmlAttribute
 	private String name;
 	
-	@XmlValue
+    @XmlElement
 	private RuleDTO rule;
 	
+    public RuleMapEntryType() {}
+
 	public RuleMapEntryType(String name, RuleDTO rule) {
 		this.name = name;
 		this.rule = rule;
