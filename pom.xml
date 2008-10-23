@@ -2,15 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student</groupId>
-	<artifactId>dictionary</artifactId>
+	<artifactId>enumeration</artifactId>
 	<packaging>pom</packaging>
-	<name>dictionary</name>
+	<name>enumeration</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
-		<module>dic-api</module>
-		<module>dic-impl</module>
-		<module>dic-services</module>
-		<module>dic-web</module>
+		<module>enumeration-api</module>
+		<module>enumeration-impl</module>
+		<module>enumeration-services</module>
+		<module>enumeration-web</module>
 	</modules>
 	<parent>
 		<groupId>org.kuali.student.poc.common</groupId>
