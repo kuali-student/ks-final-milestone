@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<Dictionary xmlns="http://www.student.kuali.org">
+
+<objectStructure objectTypeKey="cluInfo">
+    <type key="course">
+      <state key="proposed">
+        <field key="cluId">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>36</minLength>
+            <maxLength>36</maxLength>
+            <validChars>ABCDEF01234567890-</validChars>
+            <invalidChars></invalidChars>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <readOnly>true</readOnly>
+        </field>
+        <field key="cluCategory">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>1</minLength>
+            <maxLength>1</maxLength>
+            <enum key="lu.cluCategories">
+              <contexts>
+                <context type="default">
+                  <!-- passes back an unfiltered list  -->
+                  <!-- description of the context value - in this case, an empty string -->
+                </context>
+                <context type="org">
+                  <!-- description of the context value -->
+                </context>
+              </contexts>
+            </enum>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <isSelector>true</isSelector>
+        </field>
+      </state>
+      <state key="active">
+        <field key="cluId">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>36</minLength>
+            <maxLength>36</maxLength>
+            <validChars>ABCDEF01234567890-</validChars>
+            <minOccurs>1</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <readOnly>true</readOnly>
+        </field>
+        <field key="cluCategory">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>1</minLength>
+            <maxLength>1</maxLength>
+            <enum key="lu.cluCategories">
+              <contexts>
+                <context type="default">
+                  <!-- passes back an unfiltered list  -->
+                  <!-- description of the context value - in this case, an empty string -->
+                </context>
+                <context type="org">
+                  <!-- description of the context value -->
+                </context>
+              </contexts>
+            </enum>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <isSelector>true</isSelector>
+        </field>
+      </state>
+    </type>
+    <type key="program">
+      <state key="proposed">
+        <field key="cluId">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>36</minLength>
+            <maxLength>36</maxLength>
+            <validChars>ABCDEF01234567890-</validChars>
+            <invalidChars></invalidChars>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <readOnly>true</readOnly>
+        </field>
+        <field key="cluCategory">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>1</minLength>
+            <maxLength>1</maxLength>
+            <enum key="lu.cluCategories">
+              <contexts>
+                <context type="default">
+                  <!-- passes back an unfiltered list  -->
+                  <!-- description of the context value - in this case, an empty string -->
+                </context>
+                <context type="org">
+                  <!-- description of the context value -->
+                </context>
+              </contexts>
+            </enum>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <isSelector>true</isSelector>
+        </field>
+      </state>
+      <state key="active">
+        <field key="cluId">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>36</minLength>
+            <maxLength>36</maxLength>
+            <validChars>ABCDEF01234567890-</validChars>
+            <minOccurs>1</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <readOnly>true</readOnly>
+        </field>
+        <field key="cluCategory">
+          <fieldDescriptor>
+            <dataType>string</dataType>
+            <minLength>1</minLength>
+            <maxLength>1</maxLength>
+            <enum key="lu.cluCategories">
+              <contexts>
+                <context type="default">
+                  <!-- passes back an unfiltered list  -->
+                  <!-- description of the context value - in this case, an empty string -->
+                </context>
+                <context type="org">
+                  <!-- description of the context value -->
+                </context>
+              </contexts>
+            </enum>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+          <isSelector>true</isSelector>
+        </field>
+      </state>
+    </type>
+  </objectStructure>
+
+</Dictionary>
