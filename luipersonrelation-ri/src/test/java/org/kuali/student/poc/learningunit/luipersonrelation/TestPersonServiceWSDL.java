@@ -1,22 +1,15 @@
 package org.kuali.student.poc.learningunit.luipersonrelation;
+import static org.junit.Assert.assertNotNull;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceRef;
+import javax.xml.ws.soap.SOAPFaultException;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import org.apache.cxf.service.factory.ServiceConstructionException;
 import org.junit.Test;
-import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
-import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.ws.beans.JaxWsClientFactory;
 import org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean;
-//import org.kuali.student.poc.personidentity.person.service.PersonService; @TODO use this when refactoring from v .03 -> .1
 import org.kuali.student.poc.wsdl.personidentity.person.PersonService;
 import org.kuali.student.poc.xsd.personidentity.person.dto.PersonDisplay;
-import javax.xml.ws.soap.SOAPFaultException;
 
 /**
  * Tests CXF 2.1 runtime behavior for wsdl errors. Uses PersonService but what's under test is jax-ws handling 
