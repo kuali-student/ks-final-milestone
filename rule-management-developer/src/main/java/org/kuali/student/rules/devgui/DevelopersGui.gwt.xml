@@ -8,7 +8,9 @@
   <inherits name="org.kuali.student.rules.InternalCommon"/>
 
   <inherits name='org.kuali.student.rules.RuleManagement'/>
-  <inherits name='org.kuali.student.rules.FactFinder'/>
+
+  <!-- disable warnings -->
+  <set-property name="gwt.suppressNonStaticFinalFieldWarnings" value="true" /> 
 
   <!-- Specify the app entry point class.                   -->
   <entry-point class="org.kuali.student.rules.devgui.client.DevelopersGuiEntryPoint"/>
