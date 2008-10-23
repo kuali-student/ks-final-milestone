@@ -307,7 +307,7 @@
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000024" />
-		<property name="factStructureId" value="4" />
+		<property name="factStructureId" value="5" />
 		<property name="factTypeKey" value="fact.math_prereq_criteria" />
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
@@ -318,7 +318,7 @@
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000025" />
-		<property name="factStructureId" value="5" />
+		<property name="factStructureId" value="6" />
 		<property name="factTypeKey" value="fact.math_prereq_cluset" />
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
@@ -330,7 +330,7 @@
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000026" />
-		<property name="factStructureId" value="6" />
+		<property name="factStructureId" value="7" />
 		<property name="factTypeKey" value="fact.math_prereq_gpalist" />
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
