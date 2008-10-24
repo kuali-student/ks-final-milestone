@@ -52,27 +52,27 @@ public class FactUtil {
 		YieldValueFunctionType type = YieldValueFunctionType.valueOf(yieldValueFunction.getYieldValueFunctionType());
 
 		switch(type) {
-		case SUBSET:
-		case INTERSECTION: {
-			// Must only have one fact
-			Map<String, FactParamDTO> factParamMap = factStructure.getCriteriaTypeInfo().getFactParamMap();
-			logger.debug("EXECUTION: factParamMap="+factParamMap);
-			// Assume only one execution key
-			for(FactParamDTO factParam : factParamMap.values()) {
-				if ( factParam.getDefTime() == FactParamDefTime.EXECUTION) {
-					return factParam.getKey();
+			case SUBSET:
+			case INTERSECTION: {
+				// Must only have one fact
+				Map<String, FactParamDTO> factParamMap = factStructure.getCriteriaTypeInfo().getFactParamMap();
+				logger.debug("EXECUTION: factParamMap="+factParamMap);
+				// Assume only one execution key
+				for(FactParamDTO factParam : factParamMap.values()) {
+					if ( factParam.getDefTime() == FactParamDefTime.EXECUTION) {
+						return factParam.getKey();
+					}
 				}
 			}
+			case AVERAGE:
+			case SUM:
+			case MIN:
+			case MAX: {
+				// Assume no definition
+				return null;
+			}
 		}
-		case AVERAGE:
-		case SUM:
-		case MIN:
-		case MAX: {
-			// Assume no definition
-			return null;
-		}
-	}
-	throw new RuntimeException("Execution Key: Yield value function type not found: Type="+type);
+		throw new RuntimeException("Execution Key: Yield value function type not found: Type="+type);
 	}
 	
 	/**
