@@ -32,7 +32,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="expirationDate" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
  *         &lt;element name="sortKey" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}contexts"/>
- *         &lt;element name="key" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -49,7 +49,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "expirationDate",
     "sortKey",
     "contexts",
-    "key"
+    "value"
 })
 @XmlRootElement(name = "enumeratedValue")
 public class EnumeratedValue {
@@ -65,7 +65,7 @@ public class EnumeratedValue {
     @XmlElement(required = true)
     protected Contexts contexts;
     @XmlElement(required = true)
-    protected String key;
+    protected String value;
 
     /**
      * Gets the value of the code property.
@@ -211,8 +211,8 @@ public class EnumeratedValue {
      *     {@link String }
      *     
      */
-    public String getKey() {
-        return key;
+    public String getValue() {
+        return value;
     }
 
     /**
@@ -223,8 +223,8 @@ public class EnumeratedValue {
      *     {@link String }
      *     
      */
-    public void setKey(String value) {
-        this.key = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
 }
