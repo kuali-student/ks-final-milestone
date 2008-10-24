@@ -79,6 +79,33 @@ public class DictionaryServiceTest {
 	
 	@Test
 	public void testGetEnumeration(){
+		DictionaryServiceImpl impl = new DictionaryServiceImpl();
+		List<EnumeratedValue> enums = impl.getEnumeration("states", null, null);
+		assertTrue("Enumeration list is null or empty", enums != null && enums.isEmpty() == false);
+		for(EnumeratedValue e: enums){
+			String key = e.getKey();
+			assertTrue("key in enumeration is null", key != null);
+			String code = e.getCode();
+			assertTrue("code in enumeration is null", code != null);
+			String abbrev = e.getAbbrevValue();
+			assertTrue("abbrev in enumeration is null", abbrev != null);
+			//String value = e.get
+			Contexts contextsObj = e.getContexts();
+			List<Context> contexts = contextsObj.getContext();
+			assertTrue("Enumeration context list is null or empty", contexts != null && contexts.isEmpty() == false);
+			for(Context c: contexts){
+				String contextType = c.getType();
+				assertTrue("type in context is null", contextType != null);
+				assertTrue("type is an unexpected type", contextType.equals("country"));
+				String contextValue = c.getValue();
+				assertTrue("value in context is null", contextValue != null);
+				assertTrue("value is an unexpected type", contextValue.equals("US") || contextValue.equals("CA"));
+			}
+		}
+	}
+	
+	@Test
+	public void testGetEnumerationAccuracy(){
 		
 	}
 }
