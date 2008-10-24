@@ -1,0 +1,170 @@
+package org.kuali.student.enumeration.dao.impl;
+
+import junit.framework.TestCase;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.enumeration.entity.EnumeratedValue;
+import org.kuali.student.enumeration.entity.EnumeratedValueContext;
+import org.kuali.student.enumeration.entity.Enumerations;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+//TODO remove the comment
+//@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+public class EnumerationManagementDAOImplTest extends TestCase{
+    //@Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+    public EnumerationManagementDAOImpl enumerationManagementDAO;
+
+    //TODO delete all records from tables 
+    public void setup(){
+        
+    }
+
+    @Test
+    public void testCreateEnumerations(){
+        Enumerations entry = new Enumerations();
+        String myName = "my name";
+        entry.setName(myName);
+        entry = enumerationManagementDAO.createEnumerations(entry);
+        
+        entry = enumerationManagementDAO.lookupEnumerations(entry.getId());
+        assertEquals(entry.getName(), myName);
+    }
+    
+    @Test
+    public void testLookupEnumerations(){
+        Enumerations entry = new Enumerations();
+        String myName = "my name";
+        entry.setName(myName);
+        entry = enumerationManagementDAO.createEnumerations(entry);
+        
+        entry = enumerationManagementDAO.lookupEnumerations(entry.getId());
+        assertEquals(entry.getName(), myName);
+        
+        entry = enumerationManagementDAO.lookupEnumerations("");
+        assertNull(entry);
+    }
+    
+    @Test 
+    public void testUpdateEnumerations(){
+        Enumerations entry = new Enumerations();
+        String myName = "my name";
+        String myNewName = "new Name";
+        
+        String myDescription = "my desc";
+        String myNewDescription = "my new desc";
+        
+        entry.setName(myName);
+        entry.setDescription(myDescription);
+        entry = enumerationManagementDAO.createEnumerations(entry);
+
+        entry.setName(myNewName);
+        entry.setDescription(myNewDescription);
+        
+        enumerationManagementDAO.updateEnumerations(entry);
+        
+        entry = enumerationManagementDAO.lookupEnumerations(entry.getId());
+        assertEquals(entry.getName(), myNewName);
+        assertEquals(entry.getDescription(), myNewDescription);
+        
+    }
+    
+    @Test 
+    public void testDeleteEnumerations(){
+        Enumerations entry = new Enumerations();
+        String myName = "my name";
+        
+        entry.setName(myName);
+        entry = enumerationManagementDAO.createEnumerations(entry);
+
+        enumerationManagementDAO.deleteEnumerations(entry);
+        
+        entry = enumerationManagementDAO.lookupEnumerations(entry.getId());
+        assertNull(entry);
+        
+    }
+    
+    @Test 
+    public void testCreateEnumeratedValue(){
+        EnumeratedValue value = new EnumeratedValue();
+        String myValue = "value"; 
+        value.setValue(myValue);
+        
+        value = enumerationManagementDAO.createEnumeratedValue(value);
+        
+        enumerationManagementDAO.lookupEnumeratedValue(value.getId());
+        assertEquals(value.getValue(), myValue);
+    }
+    
+    @Test 
+    public void testLookupEnumeratedValue(){
+        EnumeratedValue value = new EnumeratedValue();
+        String myValue = "value"; 
+        value.setValue(myValue);
+        
+        value = enumerationManagementDAO.createEnumeratedValue(value);
+        
+        value = enumerationManagementDAO.lookupEnumeratedValue(value.getId());
+        assertEquals(value.getValue(), myValue);
+        
+        value = enumerationManagementDAO.lookupEnumeratedValue("");
+        assertNull(value);
+    }
+    
+    @Test 
+    public void testUpdateEnumeratedValue(){
+        EnumeratedValue value = new EnumeratedValue();
+        String myValue = "value";
+        String myNewValue = "new value";
+        
+        value.setValue(myValue);
+        
+        value = enumerationManagementDAO.createEnumeratedValue(value);
+        
+        value.setValue(myNewValue);
+        
+        value = enumerationManagementDAO.updateEnumeratedValue(value);
+        
+        assertEquals(value.getValue(), myNewValue);
+    }
+    
+    @Test 
+    public void testDeleteEnumeratedValue(){
+        EnumeratedValue value = new EnumeratedValue();
+        String myValue = "value"; 
+        value.setValue(myValue);
+        
+        value = enumerationManagementDAO.createEnumeratedValue(value);
+        
+        enumerationManagementDAO.deleteEnumeratedValue(value);
+        
+        value = enumerationManagementDAO.lookupEnumeratedValue(value.getId());
+        
+        assertNull(value);
+    }
+    
+    @Test
+    public void testCreateEnumeratedValueContext(){
+        EnumeratedValueContext context = new EnumeratedValueContext();
+        String myValue = "value";
+        
+        
+        context.setContextValue(myValue);
+        context = enumerationManagementDAO.createEnumeratedValueContext(context);
+        
+        
+        context = enumerationManagementDAO.lookupEnumeratedValueContext(context.getId());
+        assertEquals(context.getContextValue(),myValue);
+    }
+    
+   //TODO 
+    //public void testLookupEnumeratedValueContext
+    //public void testUpdateEnumeratedValueContext
+    //public void testDeleteEnumeratedValueContext
+    
+    
+    
+    
+}
