@@ -8,6 +8,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.dto.Enumerations;
 import org.kuali.student.enumeration.service.EnumerationService;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 
@@ -16,7 +17,7 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 public class EnumerationServiceImpl implements EnumerationService{
 
     @WebMethod
-    public List<String> getEnumerationKeys(){
+    public List<Enumerations> getEnumerations(){
         return null;
     }
 

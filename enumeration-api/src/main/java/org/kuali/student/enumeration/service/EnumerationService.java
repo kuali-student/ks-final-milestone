@@ -8,6 +8,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.dto.Enumerations;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 
 @WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
@@ -15,7 +16,7 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 public interface EnumerationService {
 
     @WebMethod
-    public List<String> getEnumerationKeys();
+    public List<Enumerations> getEnumerations();
 
     @WebMethod
     public List<EnumeratedValue> getEnumeration(@WebParam(name = "enumerationKey") String key) throws OperationFailedException;
