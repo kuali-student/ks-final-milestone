@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.DroolsJackrabbitRepository;
@@ -98,6 +99,7 @@ public class RuleEngineRepositoryPerfTest {
         jackrabbitRepository.logout();
     }
 
+    @Ignore
     @Test
     public void testCreateAndLoadRuleSet() throws Exception {
         //int[] iterations = new int[] {1, 10, 50, 100};
@@ -135,6 +137,7 @@ public class RuleEngineRepositoryPerfTest {
         }
     }
 
+    @Ignore
     @Test
     public void testCreateAndLoadRuleSetSnapshot() throws Exception {
         //int[] iterations = new int[] {1, 10, 50, 100};

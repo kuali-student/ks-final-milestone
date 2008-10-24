@@ -75,18 +75,18 @@ public class RuleSetUtil {
         		ComparisonOperator.EQUAL_TO.toString(), leftSide, rightSide);
         
         FactStructureDTO factStructure = new FactStructureDTO();
-        factStructure.setDataType(java.util.Set.class.getName());
+        //factStructure.setDataType(java.util.Set.class.getName());
         factStructure.setFactStructureId(factId);
         factStructure.setAnchorFlag(false);
 
         Map<String,String> definitionVariableMap = new HashMap<String,String>();
         //definitionVariableMap.put(Constants.DEF_CRITERIA_KEY, criteria);
         definitionVariableMap.put("some key", criteria);
-        factStructure.setDefinitionVariableList(definitionVariableMap);
+        //factStructure.setDefinitionVariableList(definitionVariableMap);
         
         Map<String,String> executionVariableMap = new HashMap<String,String>();
         //executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
-        factStructure.setExecutionVariableList(executionVariableMap);
+        //factStructure.setExecutionVariableList(executionVariableMap);
 
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
         factStructureList.add(factStructure);
