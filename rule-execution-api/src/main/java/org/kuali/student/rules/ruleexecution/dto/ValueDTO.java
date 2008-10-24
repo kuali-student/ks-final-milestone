@@ -19,5 +19,9 @@ public class ValueDTO {
 	public String getId() { return valueId; }
 
 	public Object getValue() { return val; }
+
+	public String toString() {
+		return "id=" + valueId + ", value=" + val;
+	}
 }
 
