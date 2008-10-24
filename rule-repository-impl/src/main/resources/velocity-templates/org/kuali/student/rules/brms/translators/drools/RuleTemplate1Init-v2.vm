@@ -45,8 +45,8 @@ rule "${ruleName}"
                 #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
                 String uuid${key} = "${key}-${uuid}";
-                YVFSubsetProposition proposition${key} = new YVFSubsetProposition(uuid${key}, 
-                    factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
+                YVFSubsetProposition<$comparisonDataType> proposition${key} = new YVFSubsetProposition<$comparisonDataType>(
+                    uuid${key}, factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
                 proposition${key}.apply();
                 prop.addProposition(proposition${key}.getProposition());
                 insert(proposition${key}.getProposition());
@@ -56,65 +56,72 @@ rule "${ruleName}"
                 #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
                 String uuid${key} = "${key}-${uuid}";
-                YVFIntersectionProposition proposition${key} = new YVFIntersectionProposition(uuid${key}, 
-                    ComparisonOperator.${operator}, new Integer($rhs), 
+                YVFIntersectionProposition<$comparisonDataType> proposition${key} = new YVFIntersectionProposition<$comparisonDataType>(
+                    uuid${key}, ComparisonOperator.${operator}, new Integer($rhs), 
                     factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
                 proposition${key}.apply();
                 prop.addProposition(proposition${key}.getProposition());
                 insert(proposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
-                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
+                ##set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
 
-                List factList${key} = (List) factMap.get( "$factKey" );
-                if (logger.isDebugEnabled()) {
-                    logger.debug("factList${key}="+factList${key});
-                }
+                //List factList${key} = (List) factMap.get( "$factKey" );
+                //if (logger.isDebugEnabled()) {
+                //    logger.debug("factList${key}="+factList${key});
+                //}
+                //$comparisonDataType value${key} = new $comparisonDataType("$rhs");
+                //SumProposition<BigDecimal> proposition${key} = new SumProposition<BigDecimal>("${key}-${anchor}", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
+                //proposition${key}.apply();
+                //prop.addProposition(proposition${key});
+                //insert(proposition${key});
+
+                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
+
+                String uuid${key} = "${key}-${uuid}";
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                SumProposition<BigDecimal> proposition${key} = new SumProposition<BigDecimal>("${key}-${anchor}", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
+                YVFSumProposition<$comparisonDataType> proposition${key} = new YVFSumProposition<$comparisonDataType>(
+                    uuid${key}, ComparisonOperator.${operator}, value${key}, 
+                    factMap.get( "$factKey" ) );
                 proposition${key}.apply();
-                prop.addProposition(proposition${key});
-                insert(proposition${key});
+                prop.addProposition(proposition${key}.getProposition());
+                insert(proposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
-                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
+                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                List factList${key} = (List) factMap.get( "$factKey" );
-                if (logger.isDebugEnabled()) {
-                    logger.debug("factList${key}="+factList${key});
-                }
-                $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                AverageProposition<BigDecimal> proposition${key} = new AverageProposition<BigDecimal>("${key}-${anchor}", ComparisonOperator.${operator}, new BigDecimal($rhs), factList${key} ); 
+                String uuid${key} = "${key}-${uuid}";
+                //$comparisonDataType value${key} = new $comparisonDataType("$rhs");
+                YVFAverageProposition<$comparisonDataType> proposition${key} = new YVFAverageProposition<$comparisonDataType>(
+                    uuid${key}, ComparisonOperator.${operator}, new BigDecimal($rhs), 
+                    factMap.get( "$factKey" ) );
                 proposition${key}.apply();
-                prop.addProposition(proposition${key});
-                insert(proposition${key});
+                prop.addProposition(proposition${key}.getProposition());
+                insert(proposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MIN" )
-                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
+                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                List factList${key} = (List) factMap.get( "$factKey" );
-                if (logger.isDebugEnabled()) {
-                    logger.debug("factList${key}="+factList${key});
-                }
+                String uuid${key} = "${key}-${uuid}";
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                MinProposition<$comparisonDataType> proposition${key} = new MinProposition<$comparisonDataType>("${key}-${anchor}", ComparisonOperator.${operator}, value${key}, factList${key} ); 
+                YVFMinProposition<$comparisonDataType> proposition${key} = new YVFMinProposition<$comparisonDataType>(
+                    uuid${key}, ComparisonOperator.${operator}, value${key}, 
+                    factMap.get( "$factKey" ) );
                 proposition${key}.apply();
-                prop.addProposition(proposition${key});
-                insert(proposition${key});
+                prop.addProposition(proposition${key}.getProposition());
+                insert(proposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MAX" )
-                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
+                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                List factList${key} = (List) factMap.get( "$factKey" );
-                if (logger.isDebugEnabled()) {
-                    logger.debug("factList${key}="+factList${key});
-                }
+                String uuid${key} = "${key}-${uuid}";
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                MaxProposition<$comparisonDataType> proposition${key} = new MaxProposition<$comparisonDataType>("${key}-${anchor}", ComparisonOperator.${operator}, value${key}, factList${key} ); 
+                YVFMaxProposition<$comparisonDataType> proposition${key} = new YVFMaxProposition<$comparisonDataType>(
+                    uuid${key}, ComparisonOperator.${operator}, value${key}, 
+                    factMap.get( "$factKey" ) );
                 proposition${key}.apply();
-                prop.addProposition(proposition${key});
-                insert(proposition${key});
-
+                prop.addProposition(proposition${key}.getProposition());
+                insert(proposition${key}.getProposition());
             #end
         #end
 

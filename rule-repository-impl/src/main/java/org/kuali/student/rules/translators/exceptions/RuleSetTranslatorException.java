@@ -1,4 +1,4 @@
-package org.kuali.student.rules.repository.exceptions;
+package org.kuali.student.rules.translators.exceptions;
 
 /**
  * This is a generate rule exception class. 

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.internal.common.statement.yvf;
 
 import java.util.HashSet;
@@ -6,30 +21,43 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
-public class YVFSubsetProposition implements Proposition {
+public class YVFSubsetProposition<E> implements Proposition {
 
-	private SubsetProposition<String> proposition;
+	private SubsetProposition<E> proposition;
 
 	public YVFSubsetProposition(String propositionName, Object criteria, Object fact) {
+		if (propositionName == null || propositionName.isEmpty()) {
+			throw new PropositionException("Proposition name cannot be null");
+		} else if (criteria == null) {
+			throw new PropositionException("Criteria cannot be null");
+		} else if (!(criteria instanceof FactResultDTO)) {
+			throw new PropositionException("Criteria must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
+		} else if (fact == null) {
+			throw new PropositionException("Fact cannot be null");
+		} else if (!(fact instanceof FactResultDTO)) {
+			throw new PropositionException("Fact must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
+		}
+
 		FactResultDTO criteriaDTO = (FactResultDTO) criteria;
 		FactResultDTO factDTO = (FactResultDTO) fact;
 
-		Set<String> criteriaSet = getSet(criteriaDTO);
-		Set<String> factSet = getSet(factDTO);
+		Set<E> criteriaSet = getSet(criteriaDTO);
+		Set<E> factSet = getSet(factDTO);
 
-        this.proposition = new SubsetProposition<String>(propositionName, criteriaSet, factSet); 
+        this.proposition = new SubsetProposition<E>(propositionName, criteriaSet, factSet); 
 	}
 
-	private Set<String> getSet(FactResultDTO criteria) {
-		Set<String> set = new HashSet<String>();
+	private Set<E> getSet(FactResultDTO criteria) {
+		Set<E> set = new HashSet<E>();
 		for( Map<String,Object> map : criteria.getResultList()) {
 			for(Entry<String, Object> entry : map.entrySet()) {
 				if (entry.getKey().equals("column1")) {
-					String value = (String) entry.getValue();
+					E value = (E) entry.getValue();
 					set.add(value);
 				}
 			}
@@ -37,7 +65,7 @@ public class YVFSubsetProposition implements Proposition {
 		return set;
 	}
 
-	public SubsetProposition<?> getProposition() {
+	public SubsetProposition<E> getProposition() {
 		return this.proposition;
 	}
 

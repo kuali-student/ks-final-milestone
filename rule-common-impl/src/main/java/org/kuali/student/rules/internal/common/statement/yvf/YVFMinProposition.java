@@ -23,47 +23,40 @@ import java.util.Map.Entry;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
-import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.MinProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
-public class YVFIntersectionProposition<E> implements Proposition {
+public class YVFMinProposition<T extends Comparable<T>> implements Proposition {
 
-	private IntersectionProposition<E> proposition;
+	private MinProposition<T> proposition;
 	
-	public YVFIntersectionProposition(String propositionName, ComparisonOperator comparisonOperator, Integer expectedValue, Object criteria, Object fact) {
+	public YVFMinProposition(String propositionName, ComparisonOperator comparisonOperator, T expectedValue, Object fact) {
 		if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (comparisonOperator == null) {
 			throw new PropositionException("Comparison operator name cannot be null");
 		} else if (expectedValue == null) {
 			throw new PropositionException("Expected value name cannot be null");
-		} else if (criteria == null) {
-			throw new PropositionException("Criteria cannot be null");
-		} else if (!(criteria instanceof FactResultDTO)) {
-			throw new PropositionException("Criteria must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
 		} else if (fact == null) {
 			throw new PropositionException("Fact cannot be null");
 		} else if (!(fact instanceof FactResultDTO)) {
 			throw new PropositionException("Fact must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
 		}
 
-		FactResultDTO criteriaDTO = (FactResultDTO) criteria;
 		FactResultDTO factDTO = (FactResultDTO) fact;
+		Set<T> factSet = getSet(factDTO);
 
-		Set<E> criteriaSet = getSet(criteriaDTO);
-		Set<E> factSet = getSet(factDTO);
-
-        this.proposition = new IntersectionProposition<E>( propositionName, 
-        		comparisonOperator, expectedValue, criteriaSet, factSet); 
+        this.proposition = new MinProposition<T>(propositionName, 
+        		comparisonOperator, expectedValue, factSet); 
 	}
 	
-	private Set<E> getSet(FactResultDTO criteria) {
-		Set<E> set = new HashSet<E>();
+	private Set<T> getSet(FactResultDTO criteria) {
+		Set<T> set = new HashSet<T>();
 		for( Map<String,Object> map : criteria.getResultList()) {
 			for(Entry<String, Object> entry : map.entrySet()) {
 				if (entry.getKey().equals("column1")) {
-					E value = (E) entry.getValue();
+					T value = (T) entry.getValue();
 					set.add(value);
 				}
 			}
@@ -71,7 +64,7 @@ public class YVFIntersectionProposition<E> implements Proposition {
 		return set;
 	}
 	
-	public IntersectionProposition<E> getProposition() {
+	public MinProposition<T> getProposition() {
 		return this.proposition;
 	}
 

@@ -33,6 +33,7 @@ public class FactUtil {
 						return factParam.getKey();
 					}
 				}
+				break;
 			}
 			case AVERAGE:
 			case SUM:
@@ -68,8 +69,16 @@ public class FactUtil {
 			case SUM:
 			case MIN:
 			case MAX: {
-				// Assume no definition
-				return null;
+				// Must only have one fact
+				Map<String, FactParamDTO> factParamMap = factStructure.getCriteriaTypeInfo().getFactParamMap();
+				logger.debug("EXECUTION: factParamMap="+factParamMap);
+				// Assume only one execution key
+				for(FactParamDTO factParam : factParamMap.values()) {
+					if ( factParam.getDefTime() == FactParamDefTime.EXECUTION) {
+						return factParam.getKey();
+					}
+				}
+				break;
 			}
 		}
 		throw new RuntimeException("Execution Key: Yield value function type not found: Type="+type);

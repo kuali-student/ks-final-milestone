@@ -185,7 +185,6 @@ public class RuleSetTranslatorPropositionTest {
     	RuleSet ruleSet = this.generateRuleSet.createRuleSet(anchor, 
         		"TestPackageName", "A package", "TestRuleName", functionString, propositionMap,
         		effectiveStartTime, effectiveEndTime);
-System.out.println(ruleSet.getContent());
     	return ruleSet;
     }
     

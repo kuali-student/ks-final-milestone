@@ -22,7 +22,7 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
+import org.kuali.student.rules.translators.exceptions.RuleSetTranslatorException;
 
 public class RuleTemplate {
     VelocityContext context;

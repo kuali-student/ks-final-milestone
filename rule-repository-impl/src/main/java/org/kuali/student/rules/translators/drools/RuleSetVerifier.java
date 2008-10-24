@@ -9,7 +9,7 @@ import org.drools.compiler.DrlParser;
 import org.drools.compiler.DroolsParserException;
 import org.drools.compiler.ParserError;
 import org.drools.lang.descr.PackageDescr;
-import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
+import org.kuali.student.rules.translators.exceptions.RuleSetTranslatorException;
 
 enum Severity {ERROR, WARN, INFO, NONE}
 
