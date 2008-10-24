@@ -7,13 +7,13 @@ import org.kuali.student.enumeration.entity.EnumeratedValueContext;
 import org.kuali.student.enumeration.entity.Enumerations;
 
 public interface EnumerationManagementDAO {
-    public Enumerations createEnumerationEntry(Enumerations entry);
+    public Enumerations createEnumerations(Enumerations entry);
     
     public boolean deleteEnumerationEntry(Enumerations entry);
 
     public Enumerations updateEnumerationEntry(Enumerations entry);
 
-    public Enumerations lookupEnumerationEntry(String id);
+    public Enumerations lookupEnumerations(String id);
 
     
     

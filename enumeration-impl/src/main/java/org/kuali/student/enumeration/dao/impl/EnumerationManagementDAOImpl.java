@@ -32,7 +32,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
 
-    public Enumerations createEnumerationEntry(Enumerations entry) {
+    public Enumerations createEnumerations(Enumerations entry) {
         this.entityManager.persist(entry);
         return entry;
     }
@@ -63,7 +63,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         return entityManager.find(EnumeratedValueContext.class, id);
     }
 
-    public Enumerations lookupEnumerationEntry(String id) {
+    public Enumerations lookupEnumerations(String id) {
         return entityManager.find(Enumerations.class, id);
     }
 
