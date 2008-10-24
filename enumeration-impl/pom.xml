@@ -16,14 +16,12 @@
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-test</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student</groupId>
-			<artifactId>dic-api</artifactId>
+			<artifactId>enumeration-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
   
 </project>
