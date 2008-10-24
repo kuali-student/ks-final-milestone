@@ -23,16 +23,26 @@ public class DictionaryServiceImpl implements DictionaryService {
 		List<EnumeratedValue> eVals = new ArrayList<EnumeratedValue>();
 		try {
 			JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
-			Unmarshaller u = jc.createUnmarshaller();
-			EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource(enumerationKey));
-			for(EnumeratedValue e: enums.getEnumeratedValue()){
-				for(Context c: e.getContexts().getContext()){
-					if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
-						eVals.add(e);
-						break;
+			
+			if(enumContextKey == null || contextValue == null){
+				Unmarshaller u = jc.createUnmarshaller();
+				EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource(enumerationKey + "-enum.xml"));
+				
+				eVals = enums.getEnumeratedValue();
+			}
+			else{		
+				Unmarshaller u = jc.createUnmarshaller();
+				EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource(enumerationKey + "-enum.xml"));
+				for(EnumeratedValue e: enums.getEnumeratedValue()){
+					for(Context c: e.getContexts().getContext()){
+						if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
+							eVals.add(e);
+							break;
+						}
 					}
 				}
 			}
+		
 		}
 		catch (JAXBException e) {
 			// TODO Auto-generated catch block
