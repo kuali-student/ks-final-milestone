@@ -28,6 +28,10 @@ rule "${ruleName}"
     then
         Logger logger = LoggerFactory.getLogger(org.kuali.student.rules.translators.RuleSetTranslator.class);
 
+        if (logger.isDebugEnabled()) {
+            logger.debug("factMap="+factMap);
+        }
+
         prop.setFunctionalRuleString("$functionString");
         #foreach( $key in $propositionMap.keySet() ) 
        		#set( $proposition = $propositionMap.get($key) )
@@ -36,51 +40,28 @@ rule "${ruleName}"
        		#set( $operator = $proposition.ComparisonOperatorType )
     		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("Fact Keys: $factUtil.getFactKey( $yvf, $proposition.Name )");
-            }
+            #if ( $yvf.YieldValueFunctionType == "SUBSET" )
+                #set( $criteriaKey = $factUtil.getFactParamDefinitionKey( $yvf ) )
+                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-            #if ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUBSET" )
-                #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf ) )
-                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
-
-                //if (logger.isDebugEnabled()) {
-                //    logger.debug("factMap="+factMap);
-                //}
-
-                //YVFSubsetProposition proposition${key} = new YVFSubsetProposition("${key}-${anchor}", "$criteria", "$factKey", factMap);
-                //proposition${key}.apply();
-                //prop.addProposition(proposition${key}.getProposition());
-                //insert(proposition${key}.getProposition());
-
-                
-                Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
-                Set factSet${key} = (Set) factMap.get( "$factKey" );
-                if (logger.isDebugEnabled()) {
-                    logger.debug("criteriaSet${key}="+criteriaSet${key});
-                    logger.debug("factSet${key}="+factSet${key});
-                }
-                SubsetProposition<$comparisonDataType> proposition${key} = new SubsetProposition<$comparisonDataType>("${key}-${anchor}", criteriaSet${key}, factSet${key} ); 
+                String uuid${key} = "${key}-${uuid}";
+                YVFSubsetProposition proposition${key} = new YVFSubsetProposition(uuid${key}, 
+                    factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
                 proposition${key}.apply();
-                prop.addProposition(proposition${key});
-                insert(proposition${key});
+                prop.addProposition(proposition${key}.getProposition());
+                insert(proposition${key}.getProposition());
 
+       		#elseif ( $yvf.YieldValueFunctionType == "INTERSECTION" )
+                #set( $criteriaKey = $factUtil.getFactParamDefinitionKey( $yvf ) )
+                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-       		#elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "INTERSECTION" )
-                #set( $criteria = $factUtil.getDefinitionVariableValue( $yvf ) )
-                #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )
-
-                // Must convert definition variable Map<String,String> to a HashSet
-                Set criteriaSet${key} = new HashSet(Arrays.asList("$criteria".split("\\s*,\\s*")));
-                Set factSet${key} = (Set) factMap.get( "$factKey" );
-                if (logger.isDebugEnabled()) {
-                    logger.debug("criteriaSet${key}="+criteriaSet${key});
-                    logger.debug("factSet${key}="+factSet${key});
-                }
-                IntersectionProposition<$comparisonDataType> proposition${key} = new IntersectionProposition<$comparisonDataType>("${key}-${anchor}", ComparisonOperator.${operator}, new Integer($rhs), criteriaSet${key}, factSet${key} ); 
+                String uuid${key} = "${key}-${uuid}";
+                YVFIntersectionProposition proposition${key} = new YVFIntersectionProposition(uuid${key}, 
+                    ComparisonOperator.${operator}, new Integer($rhs), 
+                    factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
                 proposition${key}.apply();
-                prop.addProposition(proposition${key});
-                insert(proposition${key});
+                prop.addProposition(proposition${key}.getProposition());
+                insert(proposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
                 #set( $factKey = $factUtil.getFactKey( $yvf, $proposition.Name ).get(0) )

@@ -75,7 +75,7 @@ public class DroolsRuleTest
 
         String anchorId = "TestRuleName";
     	String factId1 = "fact1";
-        factId1 = FactUtil.getFactKey("co-requisites", factId1, 0);
+        //factId1 = FactUtil.getFactKey("co-requisites", factId1, 0);
         Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");
         Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
         factMap.put(factId1, courseSet);

@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,14 +43,19 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -60,13 +66,15 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
-import org.kuali.student.rules.translators.util.Constants;
+import org.kuali.student.rules.translators.drools.RuleManagementDtoFactory;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
 public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
-	// Automatically loads rule-repository-mock-service-context.xml (*-mock-service-context.xml)
+    private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
+
+    // Automatically loads rule-repository-mock-service-context.xml (*-mock-service-context.xml)
 	// and auto-wires by type
 	@Client(value="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl", port="8181")
     public RuleRepositoryService service; 
@@ -387,7 +395,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	return cal.getTime();
     }
 
-    private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
+    private BusinessRuleInfoDTO createBusinessRule(String anchorValue, List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
     	bri.setName("MyNewBusinessRule");
     	bri.setDescription("Some business rule");
@@ -396,7 +404,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	bri.setBusinessRuleId("1");
     	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
     	bri.setAnchorTypeKey("kuali.student.lui.course.id");
-    	bri.setAnchorValue("CPR101");
+    	bri.setAnchorValue(anchorValue);
     	bri.setRuleElementList(ruleElementList);
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 0, 0);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 0, 0);
@@ -405,102 +413,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	return bri;
     }
 
-    private RuleElementDTO createRule1(YieldValueFunctionDTO yieldValueFunction) {
-    	// Rule 1
-    	//YieldValueFunctionDTO yieldValueFunction = new YieldValueFunctionDTO();
-        yieldValueFunction.setYieldValueFunctionType("INTERSECTION");
-        
-        LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
-        leftHandSide.setYieldValueFunction(yieldValueFunction);
-       
-        RightHandSideDTO rightHandSide = new RightHandSideDTO();
-        rightHandSide.setExpectedValue("1");
-        
-        RulePropositionDTO ruleProposition = new RulePropositionDTO();
-        ruleProposition.setName("Must-have-1-of-CPR101");
-        ruleProposition.setDescription("Course intersection");
-        ruleProposition.setLeftHandSide(leftHandSide);
-        ruleProposition.setRightHandSide(rightHandSide);
-        ruleProposition.setComparisonDataType(String.class.getName());
-        ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
-
-    	RuleElementDTO re = new RuleElementDTO();
-        re.setName("course.intersection.1.of.cpr101");
-        re.setDescription("Must have 1 of CPR 101");
-        re.setOperation("PROPOSITION");
-        re.setRuleProposition(ruleProposition);
-        
-        return re;
-    }
-    
-    private RuleElementDTO createRule2(YieldValueFunctionDTO yieldValueFunction) {
-    	// Rule 1
-        yieldValueFunction.setYieldValueFunctionType("SUM");
-        
-        LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
-        leftHandSide.setYieldValueFunction(yieldValueFunction);
-       
-        RightHandSideDTO rightHandSide = new RightHandSideDTO();
-        rightHandSide.setExpectedValue("10.0");
-        
-        RulePropositionDTO ruleProposition = new RulePropositionDTO();
-        ruleProposition.setName("Course-credit-summation");
-        ruleProposition.setDescription("Course credit summation");
-        ruleProposition.setLeftHandSide(leftHandSide);
-        ruleProposition.setRightHandSide(rightHandSide);
-        ruleProposition.setComparisonDataType(BigDecimal.class.getName());
-        ruleProposition.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
-
-    	RuleElementDTO re = new RuleElementDTO();
-        re.setName("course.credits.sum");
-        re.setDescription("Pre req check for CPR 101");
-        re.setOperation("PROPOSITION");
-        re.setRuleProposition(ruleProposition);
-        
-        return re;
-    }
-    
-    private void createFact1(YieldValueFunctionDTO yieldValueFunction1, String fact) {
-    	// Facts - Rule 1 - 1 of CPR101
-        FactStructureDTO fs1 = new FactStructureDTO();
-        fs1.setDataType(java.util.Set.class.getName());
-        fs1.setFactStructureId(fact);
-        fs1.setAnchorFlag(false);
-
-        Map<String,String> definitionVariableMap1 = new HashMap<String,String>();
-        definitionVariableMap1.put("some identifier - assume only one key", "CPR101");
-        fs1.setDefinitionVariableList(definitionVariableMap1);
-
-        Map<String,String> executionVariableMap1 = new HashMap<String,String>();
-        //executionVariableMap1.put(Constants.EXE_FACT_KEY, "intersection.courseSet");
-        fs1.setExecutionVariableList(executionVariableMap1);
-        
-        List<FactStructureDTO> factStructureList1 = new ArrayList<FactStructureDTO>();
-        factStructureList1.add(fs1);
-        yieldValueFunction1.setFactStructureList(factStructureList1);
-    }
-    
-    private void createFact2(YieldValueFunctionDTO yieldValueFunction2, String fact) {
-        // Facts - Rule 2 - Sum of credit > 10.0
-        FactStructureDTO fs2 = new FactStructureDTO();
-        fs2.setDataType(java.math.BigDecimal.class.getName());
-        fs2.setFactStructureId(fact);
-        fs2.setAnchorFlag(false);
-
-        // Not need for summation or averages
-        Map<String,String> definitionVariableMap2 = new HashMap<String,String>();
-        definitionVariableMap2.put("some identifier - assume only one key", null);
-        fs2.setDefinitionVariableList(definitionVariableMap2);
-
-        Map<String,String> executionVariableMap2 = new HashMap<String,String>();
-        //executionVariableMap2.put(Constants.EXE_FACT_KEY, "summation.courseSet");
-        fs2.setExecutionVariableList(executionVariableMap2);
-        
-        List<FactStructureDTO> factStructureList2 = new ArrayList<FactStructureDTO>();
-        factStructureList2.add(fs2);
-        yieldValueFunction2.setFactStructureList(factStructureList2);
-    }
-    
     private RuleElementDTO getAndOperator() {
     	RuleElementDTO re = new RuleElementDTO();
         re.setName("And");
@@ -510,54 +422,97 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return re;
     }
     
-    private Set<String> createSet(String list) {
-        Set<String> set = new HashSet<String>();
-        for( String s : list.split(",") ) {
-        	set.add(s.trim());
-        }
-        return set;
-    }
-    
-    private List<BigDecimal> createList(String list) {
-    	List<BigDecimal> set = new ArrayList<BigDecimal>();
-        for( String s : list.split(",") ) {
-        	set.add(new BigDecimal(s.trim()));
-        }
-        return set;
-    }
-    
-    private Map<String,Object> getFacts(String factId1, String factId2) {
-		Map<String,Object> factMap = new HashMap<String,Object>();
+    private RulePropositionDTO getRuleProposition(
+    		String yieldValueFunctionType, 
+    		Object criteria, 
+    		String criteriaId,
+    		String comparisonOperator, 
+    		String expectedValue,
+    		String comparisonOperatorType,
+    		String factKey) {
 
-		Set<String> courseSet1 = createSet("CPR101,MATH102,CHEM100");
-		factMap.put(factId1, courseSet1);
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
+    	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
+    	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
+        RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
+        		"PROPOSITION_NAME", comparisonOperatorType, 
+        		comparisonOperator, leftSide, rightSide);
+        
+        FactStructureDTO factStructure = new FactStructureDTO();
+        //factStructure.setDataType(java.util.Set.class.getName());
+        //factStructure.setFactStructureId("some id");
+        factStructure.setAnchorFlag(false);
 
-        List<BigDecimal> courseSet2 = createList("3.0,6.0,3.0");
-        factMap.put(factId2, courseSet2);
-        return factMap;
+        // DEFINITION
+        Map<String, FactParamDTO> factParamMap = new HashMap<String, FactParamDTO>();
+        FactParamDTO param1 = new FactParamDTO();
+        param1.setDataType("");
+        param1.setDefTime(FactParamDefTime.DEFINITION);
+        param1.setKey(criteriaId);
+        factParamMap.put(criteriaId, param1);
+        
+        FactParamDTO param2 = new FactParamDTO();
+        param2.setDataType("");
+        param2.setDefTime(FactParamDefTime.EXECUTION);
+        param2.setKey(factKey);
+        factParamMap.put(factKey, param2);
+        
+        FactCriteriaTypeInfoDTO criteriaTypeInfo = new FactCriteriaTypeInfoDTO();
+        criteriaTypeInfo.setFactParamMap(factParamMap);
+        factStructure.setCriteriaTypeInfo(criteriaTypeInfo);
+        
+        Map<String,Object> paramValueMap = new HashMap<String,Object>();
+        paramValueMap.put(criteriaId, criteria);
+        factStructure.setParamValueMap(paramValueMap);
+        
+        List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
+        factStructureList.add(factStructure);
+        yieldValueFunction.setFactStructureList(factStructureList);
+
+        return ruleProp;
     }
-    
-    private BusinessRuleContainerDTO getBusinessRuleContainer(String fact1, String fact2) {
-    	// Yield value functions
-    	YieldValueFunctionDTO yieldValueFunction1 = new YieldValueFunctionDTO();
-    	YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
 
-        // Rule elements
+    private BusinessRuleContainerDTO getBusinessRuleContainer(
+    		String anchorValue,
+    		String criteriaKey1, String criteriaKey2,
+    		String factKey1, String factKey2) {
+    	// JAXB doesn't allow you to set a java.util.Set to a JAXB defined element
+    	// only Java objects are allowed
+    	//Set<String> criteria1 = new HashSet<String>(Arrays.asList("CPR101"));
+    	//Set<String> criteria2 = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria1 = "CPR101";
+    	String criteria2 = "CPR101";
+
+    	// Create rule elements
     	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
-        ruleElementList.add(createRule1(yieldValueFunction1));
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SUBSET.toString(), 
+            			criteria1,
+            			criteriaKey1,
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"1",
+            			Integer.class.getName(),
+            			factKey1));
+        RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
+        		"element-2", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.INTERSECTION.toString(), 
+            			criteria2,
+            			criteriaKey2,
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"1",
+            			Integer.class.getName(),
+            			factKey2));
+    	ruleElementList.add(element1);
         ruleElementList.add(getAndOperator());
-        ruleElementList.add(createRule2(yieldValueFunction2));
+        ruleElementList.add(element2);
 
         // Create functional business rule
-        BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
+        BusinessRuleInfoDTO bri = createBusinessRule(anchorValue, ruleElementList);
+        bri.setAnchorValue(anchorValue);
 
-    	// Facts - Rule 1 - 1 of CPR101
-    	createFact1(yieldValueFunction1,fact1);
-
-        // Facts - Rule 2 - Sum of credit > 10.0
-    	createFact2(yieldValueFunction2,fact2);
-
-        // Parse and generate functional business rule into Drools rules
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(bri);
         
@@ -576,14 +531,37 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         ruleBase.addPackage(pkg);
         return ruleBase;
     }
+    
+    private FactResultDTO createFactResult(String values) {
+    	List<String> list = Arrays.asList(values.split(","));
+    	FactResultDTO factResult = new FactResultDTO();
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        for(String item : list) {
+        	Map<String, Object> row = new HashMap<String, Object>();
+	        row.put("column1", item);
+	        resultList.add(row);
+        }
+
+        factResult.setResultList(resultList);
+        return factResult;
+    }
 
     private FactContainer execute(RuleSetDTO ruleSet, String anchor, 
-    		String factId1, String factId2, 
-    		String propName1, String propName2) throws Exception {
-        factId1 = FactUtil.getFactKey(propName1, factId1, 0);
-        factId2 = FactUtil.getFactKey(propName2, factId2, 0);
-		Map<String,Object> factMap = getFacts(factId1, factId2);
+    		String criteriaKey1, String criteriaKey2,
+    		String factKey1, String factKey2) throws Exception {
+        // EXECUTION: Create facts
+        FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+        FactResultDTO factResultCriteria1 = createFactResult("CPR101");
+        FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
+        FactResultDTO factResultCriteria2 = createFactResult("MATH102");
 
+    	//Map<String,Object> factMap = getFacts(factId1, factId2);
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(criteriaKey1, factResultCriteria1);
+        factMap.put(factKey1, factResult1);
+        factMap.put(criteriaKey2, factResultCriteria2);
+        factMap.put(factKey2, factResult2);
+        
 		FactContainer facts =  new FactContainer(anchor, factMap);
 
         // Collection of Propositions
@@ -601,9 +579,11 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndCreateRuleSet() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("fact1", "fact2");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer(
+    			"CPR101", "CriteriaKey1", "CriteriaKey2", "factKey1", "factKey2");
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
         service.removeRuleSet( ruleSet1.getUUID() );
@@ -611,9 +591,11 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndUpdateRuleSet() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("fact1", "fact2");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer(
+    			"CPR101", "CriteriaKey1", "CriteriaKey2", "factKey1", "factKey2");
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
 
@@ -625,6 +607,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		rhs.setExpectedValue("6.0");
     	// Generate and update rule set
     	RuleSetDTO ruleSet2 = service.generateRuleSet(container);
+
     	assertNotNull(ruleSet2);
     	assertNotNull(ruleSet2.getUUID());
     	assertFalse(ruleSet1.getContent().equals(ruleSet2.getContent()));
@@ -634,25 +617,31 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateRuleSetAndExecute() throws Exception {
-		String fact1 = "fact1";
-		String fact2 = "fact2";
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer(fact1, fact2);
+    	String factKey1 = "FactKey1";
+    	String criteriaKey1 = "CriteriaKey1";
+    	String factKey2 = "FactKey2";
+    	String criteriaKey2 = "CriteriaKey2";
+
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer(
+    			"CPR101", criteriaKey1, criteriaKey2, factKey1, factKey2);
     	// Generate and create new rule set
 		RuleSetDTO ruleSet = service.generateRuleSet(container);
-
 		assertNotNull(ruleSet);
 		assertNotNull(ruleSet.getUUID());
+		assertNotNull(ruleSet.getRules());
 		
     	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
 		bri.setCompiledId(ruleSet.getUUID());
 		bri.setCompiledVersionNumber(ruleSet.getVersionNumber());
 		String anchor = bri.getAnchorValue();
-		String propName1 = bri.getRuleElementList().get(0).getRuleProposition().getName();
-		String propName2 = bri.getRuleElementList().get(2).getRuleProposition().getName();
-		FactContainer fact = execute(ruleSet, anchor, fact1, fact2, propName1, propName2);
+		
+		FactContainer fact = execute(ruleSet, anchor, 
+				criteriaKey1, criteriaKey2, factKey1, factKey2);
+				//propName1, propName2);
+		
         assertTrue(fact.getPropositionContainer().getRuleResult());
 		service.removeRuleSet(ruleSet.getUUID());
     }
-
+    
 }

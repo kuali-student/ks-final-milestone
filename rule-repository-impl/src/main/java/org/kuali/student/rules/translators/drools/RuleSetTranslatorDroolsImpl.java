@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.drools.repository.StateItem;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
@@ -33,12 +33,9 @@ import org.kuali.student.rules.repository.drools.rule.RuleSetFactory;
 import org.kuali.student.rules.repository.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.repository.rule.Rule;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.translators.RuleSetTranslator;
-import org.kuali.student.rules.translators.util.Constants;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +49,6 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     
     private final static RuleSetFactory ruleSetFactory = RuleSetFactory.getInstance();
 
-    //private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init-v1.vm";
-    //private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2-v1.vm";
     private static final String VELOCITY_RULE_TEMPLATE1_INIT = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate1Init-v2.vm";
     private static final String VELOCITY_RULE_TEMPLATE2 = "velocity-templates/org/kuali/student/rules/brms/translators/drools/RuleTemplate2-v2.vm";
 
@@ -123,17 +118,20 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     						  Date effectiveStartTime,
     						  Date effectiveEndTime) {
         String initRuleName = ruleName+"_INIT";
-        String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, 
+        String uuid = UUID.randomUUID().toString();
+        String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, uuid, 
         		functionString, functionalPropositionMap, 
         		effectiveStartTime, effectiveEndTime);
         addRule(initRuleName, ruleDescription, ruleSet, rule1Source, effectiveStartTime, effectiveEndTime);
 
-        String rule2Source = generateRule2SourceCode(anchor, ruleName, 
+        String rule2Source = generateRule2SourceCode(anchor, ruleName, uuid,
         		functionString, functionalPropositionMap);
         addRule(ruleName, ruleDescription, ruleSet, rule2Source, effectiveStartTime, effectiveEndTime);
     }
 
-    private String generateRule1InitSourceCode(String anchor, String ruleName, 
+    private String generateRule1InitSourceCode(String anchor, 
+    										   String ruleName,
+    										   String uuid,
     										   String functionString,
     										   Map<String, RulePropositionDTO> functionalPropositionMap,
     										   Date effectiveStartTime,
@@ -156,13 +154,15 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         velocityContextMap.put("effectiveStartTime", effStartDate);
         velocityContextMap.put("effectiveEndTime", effEndDate);
         velocityContextMap.put("factUtil", new FactUtil());
-        //velocityContextMap.put("DEF_CRITERIA_KEY", Constants.DEF_CRITERIA_KEY);
+        velocityContextMap.put("uuid", uuid);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, velocityContextMap);
     }
 
-    private String generateRule2SourceCode(String anchor, String ruleName, 
+    private String generateRule2SourceCode(String anchor, 
+    									   String ruleName, 
+    									   String uuid,
     									   String functionString,
     									   Map<String, RulePropositionDTO> functionalPropositionMap) {
         checkName(anchor);
@@ -176,6 +176,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
         velocityContextMap.put("functionString", functionString);
+        velocityContextMap.put("uuid", uuid);
 
         RuleTemplate velocityRuleTemplate = new RuleTemplate();
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, velocityContextMap);

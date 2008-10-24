@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,14 +37,18 @@ import org.drools.rule.Package;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.util.CurrentDateTime;
@@ -62,7 +67,7 @@ public class RuleSetTranslatorPropositionTest {
     @After
     public void tearDown() throws Exception {}
 
-    private RulePropositionDTO getRuleProposition(String criteria, String factId) {
+    /*private RulePropositionDTO getRuleProposition(String criteria, String factId) {
     	return getRuleProposition(
     			YieldValueFunctionType.INTERSECTION.toString(), 
     			"1", 
@@ -70,15 +75,16 @@ public class RuleSetTranslatorPropositionTest {
     			criteria, 
     			factId,
     			String.class.getName());
-    }
+    }*/
     
     private RulePropositionDTO getRuleProposition(
     		String yieldValueFunctionType,
     		String expectedValue,
     		String comparisonOperator,
-    		String criteria, 
-    		String factId,
+    		Object criteria, 
+    		String criteriaId,
     		String comparisonOperatorType) {
+    	
     	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
     	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
     	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
@@ -87,18 +93,26 @@ public class RuleSetTranslatorPropositionTest {
         		comparisonOperator, leftSide, rightSide);
         
         FactStructureDTO factStructure = new FactStructureDTO();
-        factStructure.setDataType(java.util.Set.class.getName());
-        factStructure.setFactStructureId(factId);
+        //factStructure.setDataType(java.util.Set.class.getName());
+        //factStructure.setFactStructureId("some id");
         factStructure.setAnchorFlag(false);
 
-        Map<String,String> definitionVariableMap = new HashMap<String,String>();
-        definitionVariableMap.put("some identifier - assume only one key", criteria);
-        factStructure.setDefinitionVariableList(definitionVariableMap);
+        // Metadata
+        Map<String, FactParamDTO> factParamMap = new HashMap<String, FactParamDTO>();
+        FactParamDTO param = new FactParamDTO();
+        param.setDataType("");
+        param.setDefTime(FactParamDefTime.DEFINITION);
+        param.setKey(criteriaId);
+        factParamMap.put(criteriaId, param);
         
-        Map<String,String> executionVariableMap = new HashMap<String,String>();
-        //executionVariableMap.put(Constants.EXE_FACT_KEY, factKey);
-        factStructure.setExecutionVariableList(executionVariableMap);
-
+        FactCriteriaTypeInfoDTO criteriaTypeInfo = new FactCriteriaTypeInfoDTO();
+        criteriaTypeInfo.setFactParamMap(factParamMap);
+        factStructure.setCriteriaTypeInfo(criteriaTypeInfo);
+        
+        Map<String,Object> paramValueMap = new HashMap<String,Object>();
+        paramValueMap.put(criteriaId, criteria);
+        factStructure.setParamValueMap(paramValueMap);
+        
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
         factStructureList.add(factStructure);
         yieldValueFunction.setFactStructureList(factStructureList);
@@ -127,6 +141,20 @@ public class RuleSetTranslatorPropositionTest {
         workingMemory.fireAllRules();
     }
 
+    private void createExecutionFact(FactStructureDTO factStructure, String id) {
+        //factStructure.setDataType(java.util.Set.class.getName());
+        factStructure.setFactStructureId("subsetFact");
+        factStructure.setAnchorFlag(false);
+
+        FactParamDTO param = new FactParamDTO();
+        param.setDataType("");
+        param.setDefTime(FactParamDefTime.EXECUTION);
+        param.setKey(id);
+        
+        FactCriteriaTypeInfoDTO criteriaTypeInfo = factStructure.getCriteriaTypeInfo();
+        criteriaTypeInfo.getFactParamMap().put(id, param);
+    }
+    
     private Set<String> createSet(String list) {
         Set<String> set = new HashSet<String>();
         for( String s : list.split(",") ) {
@@ -157,11 +185,233 @@ public class RuleSetTranslatorPropositionTest {
     	RuleSet ruleSet = this.generateRuleSet.createRuleSet(anchor, 
         		"TestPackageName", "A package", "TestRuleName", functionString, propositionMap,
         		effectiveStartTime, effectiveEndTime);
-
+System.out.println(ruleSet.getContent());
     	return ruleSet;
     }
     
+    private FactResultDTO createFactResult(String values) {
+    	List<String> list = Arrays.asList(values.split(","));
+    	FactResultDTO factResult = new FactResultDTO();
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        for(String item : list) {
+        	Map<String, Object> row = new HashMap<String, Object>();
+	        row.put("column1", item);
+	        resultList.add(row);
+        }
+
+        factResult.setResultList(resultList);
+        return factResult;
+    }
+
     @Test
+    public void testParseRuleSet_SubsetProposition() throws Exception {
+        // DEFINITION: Create rule definition
+    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	RulePropositionDTO ruleProposition = getRuleProposition(
+    			YieldValueFunctionType.SUBSET.toString(), 
+    			"1", 
+    			ComparisonOperator.EQUAL_TO.toString(), 
+    			criteria, 
+    			"CriteriaKey1",
+    			Integer.class.getName());
+
+    	// DEFINITION: Setup execution key
+        FactStructureDTO fact = ruleProposition.getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        createExecutionFact(fact, "FactKey1");
+
+    	Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+        // 1 of CPR 101
+        propositionMap.put("P1", ruleProposition);
+
+        // Generate rule
+        String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1", propositionMap);
+
+        // EXECUTION: Create facts
+        FactResultDTO factResult = createFactResult("CPR101,MATH101,CHEM101");
+        FactResultDTO factResultCriteria = createFactResult("CPR101");
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put("CriteriaKey1", factResultCriteria);
+        factMap.put("FactKey1", factResult);
+        
+        FactContainer factContainer = new FactContainer(anchorId, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = factContainer.getPropositionContainer();
+
+        // Execute rules
+        executeRule(ruleSet.getContent(), factContainer);
+        assertTrue(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseRuleSet_TwoSubsetPropositions() throws Exception {
+        // DEFINITION: Create rule subset definition
+    	Set<String> criteria1 = new HashSet<String>(Arrays.asList("CPR101"));
+    	RulePropositionDTO p1 = getRuleProposition(
+    			YieldValueFunctionType.SUBSET.toString(), 
+    			"1", 
+    			ComparisonOperator.EQUAL_TO.toString(), 
+    			criteria1, 
+    			"CriteriaKey1",
+    			Integer.class.getName());
+    	// DEFINITION: Setup execution key
+        FactStructureDTO fact1 = p1.getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        createExecutionFact(fact1, "FactKey1");
+
+        // DEFINITION: Create rule subset definition
+    	Set<String> criteria2 = new HashSet<String>(Arrays.asList("CPR102"));
+    	RulePropositionDTO p2 = getRuleProposition(
+    			YieldValueFunctionType.SUBSET.toString(), 
+    			"1", 
+    			ComparisonOperator.EQUAL_TO.toString(), 
+    			criteria2, 
+    			"CriteriaKey2",
+    			Integer.class.getName());
+    	// DEFINITION: Setup execution key
+        FactStructureDTO fact2 = p2.getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        createExecutionFact(fact2, "FactKey2");
+
+
+    	Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+        // 1 of CPR 101
+        propositionMap.put("P1", p1);
+        propositionMap.put("P2", p2);
+
+        // Generate rule
+        String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1*P2", propositionMap);
+
+        // EXECUTION: Create facts
+        FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+        FactResultDTO factResultCriteria1 = createFactResult("CPR101");
+        FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
+        FactResultDTO factResultCriteria2 = createFactResult("CPR102");
+        
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put("CriteriaKey1", factResultCriteria1);
+        factMap.put("FactKey1", factResult1);
+        factMap.put("CriteriaKey2", factResultCriteria2);
+        factMap.put("FactKey2", factResult2);
+
+        FactContainer factContainer = new FactContainer(anchorId, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = factContainer.getPropositionContainer();
+
+        // Execute rules
+        executeRule(ruleSet.getContent(), factContainer);
+        assertTrue(prop.getRuleResult());
+    }
+    
+    @Test
+    public void testParseRuleSet_IntersectionProposition() throws Exception {
+        // DEFINITION: Create rule definition
+    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	RulePropositionDTO ruleProposition = getRuleProposition(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			"1", 
+    			ComparisonOperator.EQUAL_TO.toString(), 
+    			criteria, 
+    			"CriteriaKey1",
+    			Integer.class.getName());
+
+    	// DEFINITION: Setup execution key
+        FactStructureDTO fact = ruleProposition.getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        createExecutionFact(fact, "FactKey1");
+
+    	Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+        // 1 of CPR 101
+        propositionMap.put("P1", ruleProposition);
+
+        // Generate rule
+        String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1", propositionMap);
+
+        // EXECUTION: Create facts
+        FactResultDTO factResult = createFactResult("CPR101,MATH101,CHEM101");
+        FactResultDTO factResultCriteria = createFactResult("CPR101");
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put("CriteriaKey1", factResultCriteria);
+        factMap.put("FactKey1", factResult);
+        
+        FactContainer factContainer = new FactContainer(anchorId, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = factContainer.getPropositionContainer();
+
+        // Execute rules
+        executeRule(ruleSet.getContent(), factContainer);
+        assertTrue(prop.getRuleResult());
+    }
+
+    @Test
+    public void testParseRuleSet_SubsetAndIntersectionProposition() throws Exception {
+        // Create rule definition
+    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+        Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+        // 1 of CPR101
+        RulePropositionDTO p1 = getRuleProposition(
+    			YieldValueFunctionType.SUBSET.toString(), 
+    			"1", 
+    			ComparisonOperator.EQUAL_TO.toString(), 
+    			criteria, 
+    			"CriteriaKey1",
+    			Integer.class.getName());
+        propositionMap.put("P1", p1);
+        // 1 of CPR101
+        RulePropositionDTO p2 = getRuleProposition(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			"1", 
+    			ComparisonOperator.EQUAL_TO.toString(), 
+    			criteria, 
+    			"CriteriaKey2",
+    			Integer.class.getName());
+        propositionMap.put("P2", p2);
+
+    	// DEFINITION: Setup execution key
+        FactStructureDTO fact1 = p1.getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        createExecutionFact(fact1, "FactKey1");
+        FactStructureDTO fact2 = p2.getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        createExecutionFact(fact2, "FactKey2");
+
+        // 1 of CPR 101
+        propositionMap.put("P1", p1);
+        propositionMap.put("P2", p2);
+
+        // Generate rule
+        String anchorId = "TestRuleName";
+        RuleSet ruleSet = createRuleSet(anchorId, "TestPackageName", 
+        		"A package", "TestRuleName", "P1*P2", propositionMap);
+
+        // EXECUTION: Create facts
+        FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+        FactResultDTO factResultCriteria1 = createFactResult("CPR101");
+        FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
+        FactResultDTO factResultCriteria2 = createFactResult("CPR102");
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put("CriteriaKey1", factResultCriteria1);
+        factMap.put("FactKey1", factResult1);
+        factMap.put("CriteriaKey2", factResultCriteria2);
+        factMap.put("FactKey2", factResult2);
+
+        FactContainer facts = new FactContainer(anchorId, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rules
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(prop.getRuleResult());
+    }
+
+/*    @Test
     public void testParseRuleSet_OneProposition() throws Exception {
     	String factId1 = "fact1";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
@@ -301,7 +551,7 @@ public class RuleSetTranslatorPropositionTest {
      * then
      * </pre>
      */
-    @Test
+/*    @Test
     //@Ignore
     public void testParseRuleSet_ThreeProposition_AorBandC() throws Exception {
     	String factId1 = "fact1";
@@ -514,5 +764,5 @@ public class RuleSetTranslatorPropositionTest {
         executeRule(ruleSet.getContent(), facts);
         assertTrue(prop.getRuleResult());
     }
-
+*/
 }

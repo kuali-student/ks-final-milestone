@@ -1,49 +1,38 @@
 package org.kuali.student.rules.internal.common.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FactUtil {
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(FactUtil.class);
 
-	/**
-	 * Gets the definition variable value by <code>variableKey</code> from the
-	 * <code>yieldValueFunction</code>.
-	 * 
-	 * @param yieldValueFunction Yield value function to get the list of fact structures from
-	 * @param variableKey key to lookup in the definition variable map
-	 * @return Definition variable value
-	 */
-	/*public final static String getDefinitionVariableValue(YieldValueFunctionDTO yieldValueFunction, String variableKey) {
+	public final static String getFactParamDefinitionKey(YieldValueFunctionDTO yieldValueFunction) {
 		if (yieldValueFunction == null) return null;
-		List<FactStructureDTO> list = yieldValueFunction.getFactStructureList();
-		for(int i=0; i<list.size(); i++) {
-			FactStructureDTO factStructure = list.get(i);
-			String factStructureId = factStructure.getFactStructureId();
-			if (factStructure != null && factStructure.getFactStructureId().equals(factStructureId)) {
-				return (factStructure.getDefinitionVariableList() == null ? null : factStructure.getDefinitionVariableList().get(variableKey));
-			}
-		}
-		return null;
-	}*/
-
-	public final static String getDefinitionVariableValue(YieldValueFunctionDTO yieldValueFunction) {
-		if (yieldValueFunction == null) return null;
-		List<FactStructureDTO> list = yieldValueFunction.getFactStructureList();
+		List<FactStructureDTO> factStructureList = yieldValueFunction.getFactStructureList();
+		FactStructureDTO factStructure = factStructureList.get(0);
 		YieldValueFunctionType type = YieldValueFunctionType.valueOf(yieldValueFunction.getYieldValueFunctionType());
 
 		switch(type) {
 			case SUBSET:
 			case INTERSECTION: {
-				// Assume only one fact
-				FactStructureDTO factStructure = list.get(0);
-				Map<String,String> map = factStructure.getDefinitionVariableList();
-				// Assume only one definition
-				return map.values().iterator().next();
+				// Must only have one fact
+				Map<String, FactParamDTO> factParamMap = factStructure.getCriteriaTypeInfo().getFactParamMap();
+				logger.debug("DEFINITION: factParamMap="+factParamMap);
+				// Assume only one definition key
+				for(FactParamDTO factParam : factParamMap.values()) {
+					if ( factParam.getDefTime() == FactParamDefTime.DEFINITION) {
+						return factParam.getKey();
+					}
+				}
 			}
 			case AVERAGE:
 			case SUM:
@@ -53,7 +42,37 @@ public class FactUtil {
 				return null;
 			}
 		}
-		throw new RuntimeException("Definition Variable: Yield value function type not found: Type="+type);
+		throw new RuntimeException("Definition Key: Yield value function type not found: Type="+type);
+	}
+
+	public final static String getFactParamExecutionKey(YieldValueFunctionDTO yieldValueFunction) {
+		if (yieldValueFunction == null) return null;
+		List<FactStructureDTO> factStructureList = yieldValueFunction.getFactStructureList();
+		FactStructureDTO factStructure = factStructureList.get(0);
+		YieldValueFunctionType type = YieldValueFunctionType.valueOf(yieldValueFunction.getYieldValueFunctionType());
+
+		switch(type) {
+		case SUBSET:
+		case INTERSECTION: {
+			// Must only have one fact
+			Map<String, FactParamDTO> factParamMap = factStructure.getCriteriaTypeInfo().getFactParamMap();
+			logger.debug("EXECUTION: factParamMap="+factParamMap);
+			// Assume only one execution key
+			for(FactParamDTO factParam : factParamMap.values()) {
+				if ( factParam.getDefTime() == FactParamDefTime.EXECUTION) {
+					return factParam.getKey();
+				}
+			}
+		}
+		case AVERAGE:
+		case SUM:
+		case MIN:
+		case MAX: {
+			// Assume no definition
+			return null;
+		}
+	}
+	throw new RuntimeException("Execution Key: Yield value function type not found: Type="+type);
 	}
 	
 	/**
@@ -64,7 +83,7 @@ public class FactUtil {
 	 * @param index Fact structure list index
 	 * @return
 	 */
-	public final static String getFactKey(String propositionName, String id, int index) {
+	/*public final static String getFactKey(String propositionName, String id, int index) {
 		StringBuilder sb = new StringBuilder(5);
 		sb.append(propositionName);
 		sb.append(".");
@@ -82,7 +101,7 @@ public class FactUtil {
 	 * @param propositionName Rule element proposition name
 	 * @return 
 	 */
-	public final static List<String> getFactKey(YieldValueFunctionDTO yieldValueFunction, String propositionName) {
+	/*public final static List<String> getFactKey(YieldValueFunctionDTO yieldValueFunction, String propositionName) {
 		if (yieldValueFunction == null) return null;
 		List<FactStructureDTO> list = yieldValueFunction.getFactStructureList();
 		YieldValueFunctionType type = YieldValueFunctionType.valueOf(yieldValueFunction.getYieldValueFunctionType());
@@ -120,6 +139,6 @@ public class FactUtil {
 			}
 		}
 		return keyList;
-	}
+	}*/
 
 }

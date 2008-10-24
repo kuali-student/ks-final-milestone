@@ -29,11 +29,11 @@ rule "TestRuleName_INIT"
         
             
             // criteria = CHEM999
-            // factKey  = co-requisites.fact1.0
+            // factKey  = fact1
 
             
                 Set criteriaSetP4 = new HashSet(Arrays.asList("CHEM999".split("\\s*,\\s*")));
-                Set factSetP4 = (Set) factMap.get( "co-requisites.fact1.0" );
+                Set factSetP4 = (Set) factMap.get( "fact1" );
                 if (logger.isDebugEnabled()) {
                     logger.debug("criteriaSetP4="+criteriaSetP4);
                     logger.debug("factSetP4="+factSetP4);
@@ -47,11 +47,11 @@ insert(propositionP4);
                     
             
             // criteria = CPR101
-            // factKey  = co-requisites.fact1.0
+            // factKey  = fact1
 
             
                 Set criteriaSetP1 = new HashSet(Arrays.asList("CPR101".split("\\s*,\\s*")));
-                Set factSetP1 = (Set) factMap.get( "co-requisites.fact1.0" );
+                Set factSetP1 = (Set) factMap.get( "fact1" );
                 if (logger.isDebugEnabled()) {
                     logger.debug("criteriaSetP1="+criteriaSetP1);
                     logger.debug("factSetP1="+factSetP1);
@@ -65,11 +65,11 @@ insert(propositionP1);
                     
             
             // criteria = CHEM101
-            // factKey  = co-requisites.fact1.0
+            // factKey  = fact1
 
             
                 Set criteriaSetP3 = new HashSet(Arrays.asList("CHEM101".split("\\s*,\\s*")));
-                Set factSetP3 = (Set) factMap.get( "co-requisites.fact1.0" );
+                Set factSetP3 = (Set) factMap.get( "fact1" );
                 if (logger.isDebugEnabled()) {
                     logger.debug("criteriaSetP3="+criteriaSetP3);
                     logger.debug("factSetP3="+factSetP3);
@@ -83,11 +83,11 @@ insert(propositionP3);
                     
             
             // criteria = MATH102
-            // factKey  = co-requisites.fact1.0
+            // factKey  = fact1
 
             
                 Set criteriaSetP2 = new HashSet(Arrays.asList("MATH102".split("\\s*,\\s*")));
-                Set factSetP2 = (Set) factMap.get( "co-requisites.fact1.0" );
+                Set factSetP2 = (Set) factMap.get( "fact1" );
                 if (logger.isDebugEnabled()) {
                     logger.debug("criteriaSetP2="+criteriaSetP2);
                     logger.debug("factSetP2="+factSetP2);
