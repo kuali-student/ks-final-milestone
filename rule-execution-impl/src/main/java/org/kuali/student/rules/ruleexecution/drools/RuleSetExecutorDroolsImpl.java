@@ -184,8 +184,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     private List<?> convertFacts(FactDTO fact) {
     	List<Object> list = new ArrayList<Object>(fact.getFacts().size());
 		for(ValueDTO value : fact.getFacts()) {
-			Class<?> clazz = value.getValue().getClass();
-			Object val = BusinessRuleUtil.convertToDataType(clazz, value.getValue());
+			Object val = BusinessRuleUtil.convertToDataType(value.getValue());
 			list.add(val);
     	}
     	return list;
@@ -201,8 +200,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     private ResultDTO convertResult(String id, List<Object> list) {
     	ResultDTO result = new ResultDTO(id);
     	for(Object obj : list) {
-    		String type = obj.getClass().getName();
-    		String value = obj.toString();
+			Object value = BusinessRuleUtil.convertToDataType(obj);
     		result.addResult(null, 
     				//type, 
     				value);
@@ -353,7 +351,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         
         List<Object> list = new ArrayList<Object>();
         while(it != null && it.hasNext()) {
-        	list.add(it.next());
+        	Object obj = it.next();
+        	list.add(obj);
         }
         return list;
     }
