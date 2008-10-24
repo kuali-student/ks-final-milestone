@@ -9,3 +9,6 @@
       <class>org.kuali.student.enumeration.entity.Enumerations</class>
     </persistence-unit>
 </persistence>
+
+
+
