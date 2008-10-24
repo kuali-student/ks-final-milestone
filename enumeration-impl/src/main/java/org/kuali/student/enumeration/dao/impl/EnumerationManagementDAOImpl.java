@@ -48,7 +48,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
          return true;
     }
 
-    public boolean deleteEnumerationEntry(Enumerations entry) {
+    public boolean deleteEnumerations(Enumerations entry) {
         entityManager.remove(entry);
         return true;
     }
@@ -77,7 +77,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         return context;
     }
 
-    public Enumerations updateEnumerationEntry(Enumerations entry) {
+    public Enumerations updateEnumerations(Enumerations entry) {
         this.entityManager.merge(entry);
         return entry;
     }

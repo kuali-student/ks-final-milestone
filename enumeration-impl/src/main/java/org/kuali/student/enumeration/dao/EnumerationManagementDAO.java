@@ -9,9 +9,9 @@ import org.kuali.student.enumeration.entity.Enumerations;
 public interface EnumerationManagementDAO {
     public Enumerations createEnumerations(Enumerations entry);
     
-    public boolean deleteEnumerationEntry(Enumerations entry);
+    public boolean deleteEnumerations(Enumerations entry);
 
-    public Enumerations updateEnumerationEntry(Enumerations entry);
+    public Enumerations updateEnumerations(Enumerations entry);
 
     public Enumerations lookupEnumerations(String id);
 
