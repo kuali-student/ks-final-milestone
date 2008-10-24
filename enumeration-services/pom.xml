@@ -6,7 +6,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student</groupId>
-  <artifactId>dic-services</artifactId>
+  <artifactId>enumeration-services</artifactId>
   <name>enumeration-services</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>enumeration service module</description>
@@ -15,7 +15,7 @@
   <dependencies>
 		<dependency>
 			<groupId>org.kuali.student</groupId>
-			<artifactId>dic-impl</artifactId>
+			<artifactId>enumeration-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
