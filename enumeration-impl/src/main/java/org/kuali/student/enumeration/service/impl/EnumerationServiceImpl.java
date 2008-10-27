@@ -25,7 +25,8 @@ public class EnumerationServiceImpl implements EnumerationService{
 
     @WebMethod
     public List<Enumerations> getEnumerations(){
-
+    	EnumerationManagementDAOImpl enumDAO = new EnumerationManagementDAOImpl();
+    	enumDAO.
     	return null;
     }
 
@@ -88,7 +89,20 @@ public class EnumerationServiceImpl implements EnumerationService{
 
     @WebMethod
     public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueOld")EnumeratedValue oldValue, @WebParam(name = "enumeratedValueNew")EnumeratedValue newValue){
-        //oldValue.
+    	
+    	//what is the old value used for?  used to check to see if we need an update?
+    	EnumerationManagementDAOImpl enumDAO = new EnumerationManagementDAOImpl();
+    	org.kuali.student.enumeration.entity.EnumeratedValue newEnumValueDAO = new org.kuali.student.enumeration.entity.EnumeratedValue();
+    	newEnumValueDAO.setValue(newValue.getValue());
+    	newEnumValueDAO.setId(newValue.getId());
+    	newEnumValueDAO.setCode(newValue.getCode());
+    	newEnumValueDAO.setAbbrevValue(newValue.getAbbrevValue());
+    	newEnumValueDAO.setEnumerationId(newValue.getEnumerationId());
+    	newEnumValueDAO.setEffectiveDate(newValue.getEffectiveDate().toGregorianCalendar().getTime());
+    	newEnumValueDAO.setExpirationDate(newValue.getExpirationDate().toGregorianCalendar().getTime());
+    	newEnumValueDAO.setSortKey(newValue.getSortKey().intValue());
+    	enumDAO.updateEnumeratedValue(newEnumValueDAO);
+    	//what do I return?
     	return null;
     }
 
