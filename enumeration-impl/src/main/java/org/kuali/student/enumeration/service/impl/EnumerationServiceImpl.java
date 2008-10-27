@@ -22,47 +22,31 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 @WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class EnumerationServiceImpl implements EnumerationService{
+	
+	private EnumerationManagementDAOImpl enumDAO;
+	
+    public EnumerationManagementDAOImpl getEnumDAO() {
+		return enumDAO;
+	}
 
-    @WebMethod
+	public void setEnumDAO(EnumerationManagementDAOImpl enumDAO) {
+		this.enumDAO = enumDAO;
+	}
+
+	@WebMethod
     public List<Enumerations> getEnumerations(){
-    	EnumerationManagementDAOImpl enumDAO = new EnumerationManagementDAOImpl();
-    	enumDAO.
+    	
     	return null;
     }
 
     @WebMethod
     public List<EnumeratedValue> getEnumeration(@WebParam(name = "enumerationKey") String key) throws OperationFailedException{
-        EnumerationManagementDAOImpl enumDAO = new EnumerationManagementDAOImpl();
         List<org.kuali.student.enumeration.entity.EnumeratedValue> enumValueListDAO = enumDAO.getEnumeratedValues(key);
         
         List<EnumeratedValue> enumValueList = new ArrayList<EnumeratedValue>();
         
         for(org.kuali.student.enumeration.entity.EnumeratedValue e: enumValueListDAO){
-        	EnumeratedValue newEnumValue = new EnumeratedValue();
-        	newEnumValue.setValue(e.getValue());
-        	newEnumValue.setId(e.getId());
-        	newEnumValue.setCode(e.getCode());
-        	newEnumValue.setAbbrevValue(e.getAbbrevValue());
-        	newEnumValue.setEnumerationId(e.getEnumerationId());
-        	newEnumValue.setSortKey(new BigInteger(Integer.toString(e.getSortKey())));
-        	try {
-        		DatatypeFactory df = DatatypeFactory.newInstance();
-				
-        		//effective date
-				GregorianCalendar gCal = new GregorianCalendar();
-				gCal.setTime(e.getEffectiveDate());
-				XMLGregorianCalendar XMLcal = df.newXMLGregorianCalendar(gCal);
-				newEnumValue.setEffectiveDate(XMLcal);
-				
-				//expiration date
-				gCal.setTime(e.getExpirationDate());
-				XMLcal = df.newXMLGregorianCalendar(gCal);
-				newEnumValue.setExpirationDate(XMLcal);
-				
-			} catch (DatatypeConfigurationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+        	EnumeratedValue newEnumValue = this.convertDAOtoDTOEnumeratedValue(e);
         	
 			//add the converted EnumeratedValue to the list
         	enumValueList.add(newEnumValue);
@@ -72,7 +56,57 @@ public class EnumerationServiceImpl implements EnumerationService{
 
     @WebMethod
     public EnumeratedValue addEnumeratedValue(@WebParam(name = "enumeratedValue")EnumeratedValue value){
-    	EnumerationManagementDAOImpl enumDAO = new EnumerationManagementDAOImpl();
+    	//Convert DTO
+    	org.kuali.student.enumeration.entity.EnumeratedValue newEnumValueDAO = this.convertDTOtoDAOEnumeratedValue(value);
+    	//create EnumeratedValue
+    	org.kuali.student.enumeration.entity.EnumeratedValue returnValue = enumDAO.createEnumeratedValue(newEnumValueDAO);
+    	//convert return value
+    	EnumeratedValue convertedReturn = this.convertDAOtoDTOEnumeratedValue(returnValue);
+    	return convertedReturn;
+    }
+
+    @WebMethod
+    public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueOld")EnumeratedValue oldValue, @WebParam(name = "enumeratedValueNew")EnumeratedValue newValue){
+    	
+    	//what is the old value used for?  Ignoring oldValue parameter
+    	org.kuali.student.enumeration.entity.EnumeratedValue newEnumValueDAO = this.convertDTOtoDAOEnumeratedValue(newValue);
+    	org.kuali.student.enumeration.entity.EnumeratedValue returnValue = enumDAO.updateEnumeratedValue(newEnumValueDAO);
+    	EnumeratedValue convertedReturn = this.convertDAOtoDTOEnumeratedValue(returnValue);
+    	return convertedReturn;
+    }
+
+ //   public Status removeEnumeratedValue(String key);
+
+    private EnumeratedValue convertDAOtoDTOEnumeratedValue(org.kuali.student.enumeration.entity.EnumeratedValue value){
+    	EnumeratedValue newEnumValue = new EnumeratedValue();
+    	newEnumValue.setValue(value.getValue());
+    	newEnumValue.setId(value.getId());
+    	newEnumValue.setCode(value.getCode());
+    	newEnumValue.setAbbrevValue(value.getAbbrevValue());
+    	newEnumValue.setEnumerationId(value.getEnumerationId());
+    	newEnumValue.setSortKey(new BigInteger(Integer.toString(value.getSortKey())));
+    	try {
+    		DatatypeFactory df = DatatypeFactory.newInstance();
+			
+    		//effective date
+			GregorianCalendar gCal = new GregorianCalendar();
+			gCal.setTime(value.getEffectiveDate());
+			XMLGregorianCalendar XMLcal = df.newXMLGregorianCalendar(gCal);
+			newEnumValue.setEffectiveDate(XMLcal);
+			
+			//expiration date
+			gCal.setTime(value.getExpirationDate());
+			XMLcal = df.newXMLGregorianCalendar(gCal);
+			newEnumValue.setExpirationDate(XMLcal);
+			
+		} catch (DatatypeConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return newEnumValue;
+    }
+    
+    private org.kuali.student.enumeration.entity.EnumeratedValue convertDTOtoDAOEnumeratedValue(EnumeratedValue value){
     	org.kuali.student.enumeration.entity.EnumeratedValue newEnumValueDAO = new org.kuali.student.enumeration.entity.EnumeratedValue();
     	newEnumValueDAO.setValue(value.getValue());
     	newEnumValueDAO.setId(value.getId());
@@ -82,30 +116,6 @@ public class EnumerationServiceImpl implements EnumerationService{
     	newEnumValueDAO.setEffectiveDate(value.getEffectiveDate().toGregorianCalendar().getTime());
     	newEnumValueDAO.setExpirationDate(value.getExpirationDate().toGregorianCalendar().getTime());
     	newEnumValueDAO.setSortKey(value.getSortKey().intValue());
-    	enumDAO.createEnumeratedValue(newEnumValueDAO);
-    	//what do I return?
-    	return null;
+    	return newEnumValueDAO;
     }
-
-    @WebMethod
-    public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueOld")EnumeratedValue oldValue, @WebParam(name = "enumeratedValueNew")EnumeratedValue newValue){
-    	
-    	//what is the old value used for?  used to check to see if we need an update?
-    	EnumerationManagementDAOImpl enumDAO = new EnumerationManagementDAOImpl();
-    	org.kuali.student.enumeration.entity.EnumeratedValue newEnumValueDAO = new org.kuali.student.enumeration.entity.EnumeratedValue();
-    	newEnumValueDAO.setValue(newValue.getValue());
-    	newEnumValueDAO.setId(newValue.getId());
-    	newEnumValueDAO.setCode(newValue.getCode());
-    	newEnumValueDAO.setAbbrevValue(newValue.getAbbrevValue());
-    	newEnumValueDAO.setEnumerationId(newValue.getEnumerationId());
-    	newEnumValueDAO.setEffectiveDate(newValue.getEffectiveDate().toGregorianCalendar().getTime());
-    	newEnumValueDAO.setExpirationDate(newValue.getExpirationDate().toGregorianCalendar().getTime());
-    	newEnumValueDAO.setSortKey(newValue.getSortKey().intValue());
-    	enumDAO.updateEnumeratedValue(newEnumValueDAO);
-    	//what do I return?
-    	return null;
-    }
-
- //   public Status removeEnumeratedValue(String key);
-
 }
