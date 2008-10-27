@@ -28,7 +28,7 @@
     </bean-->
 
     <bean id="ruleExecutor"
-        class="org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl">
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
         <constructor-arg type="org.kuali.student.rules.repository.RuleEngineRepository"
             ref="ruleRepository" />
     </bean>

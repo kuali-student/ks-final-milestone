@@ -9,8 +9,9 @@ import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.repository.RuleEngineRepository;
-import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
-import org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutorInternal;
+import org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 
 public class GenerateRuleReportTest {

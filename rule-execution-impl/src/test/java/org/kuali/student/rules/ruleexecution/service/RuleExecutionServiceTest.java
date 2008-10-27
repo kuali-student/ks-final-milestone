@@ -83,6 +83,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         System.out.println("Time="+time);
         assertTrue( time.startsWith("Minute is even:"));
         System.out.println("Rule Engine Execution Objects: " + result.getResults());
+        System.out.println("Execution Log:\n" + result.getExecutionLog());
     }
 
 }

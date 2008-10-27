@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="ruleSetExecutor"
-        class="org.kuali.student.rules.ruleexecution.drools.RuleSetExecutorDroolsImpl">
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
     </bean>
 
 </beans>

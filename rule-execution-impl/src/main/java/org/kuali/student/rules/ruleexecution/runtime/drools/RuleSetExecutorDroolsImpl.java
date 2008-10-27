@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.ruleexecution.drools;
+package org.kuali.student.rules.ruleexecution.runtime.drools;
 
 import java.io.Reader;
 import java.util.ArrayList;
@@ -32,13 +32,15 @@ import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
-import org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.ast.GenerateRuleReport;
+import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
+import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutorInternal;
+import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.util.FactContainer;
@@ -54,10 +56,21 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     private RuleEngineRepository ruleEngineRepository;
     private ConcurrentMap<String, List<Package>> ruleSetMap = new ConcurrentHashMap<String, List<Package>>();
     
+    private boolean logExecution = false;
+    
     /**
      * Constructs a new rule set executor without a repository.
      */
     public RuleSetExecutorDroolsImpl() {
+    	this.logExecution = false;
+    }
+    
+    public void addExecutionLogger() {
+    	this.logExecution = true;
+    }
+
+    public void removeExecutionLogger() {
+    	this.logExecution = false;
     }
 
     /**
@@ -105,9 +118,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     /**
      * Executes an <code>agenda</code> with <code>facts</code>.
      * 
-     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
+     * @see org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
      */
-    public synchronized Object execute(RuntimeAgendaDTO agenda, List<?> facts) {
+    public synchronized ExecutionResult execute(RuntimeAgendaDTO agenda, List<?> facts) {
     	List<Package> packageList = new ArrayList<Package>();
         logger.info("Executing agenda: businessRules="+agenda.getBusinessRules());
         //for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
@@ -121,9 +134,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
             }
         }
         RuleBase ruleBase = getRuleBase(packageList);
-        List<Object> iterator = executeRule(ruleBase, facts);
+        //List<Object> iterator = executeRule(ruleBase, facts);
+        ExecutionResult result = executeRule(agenda.getExecutionLogging(), ruleBase, facts);
         generateReport(facts);
-        return iterator;
+        return result;
     }
 
     /**
@@ -134,7 +148,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object execute(RuleSetDTO ruleSet, List<?> facts) {
+    public ExecutionResult execute(RuleSetDTO ruleSet, List<?> facts) {
     	List<Package> packageList = new ArrayList<Package>();
         Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
         if (pkg == null) {
@@ -145,9 +159,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         	log(ruleSet, "Execute Rule");
         }
         RuleBase ruleBase = getRuleBase(packageList);
-        List<Object> list = executeRule(ruleBase, facts);
+        //List<Object> list = executeRule(ruleBase, facts);
+        ExecutionResult result = executeRule(true, ruleBase, facts);
         generateReport(facts);
-        return list;
+        return result;
     }
 
     /**
@@ -169,9 +184,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         }
         RuleBase ruleBase = getRuleBase(packageList);
         List<?> factList = convertFacts(fact);
-        List<Object> list = executeRule(ruleBase, factList);
-        generateReport(list);
-        return convertResult(fact.getId(), list);
+        //List<Object> list = executeRule(ruleBase, factList);
+        ExecutionResult result = executeRule(true, ruleBase, factList);
+        generateReport(factList);
+        return convertResult(fact.getId(), result);
     }
 
     /**
@@ -197,9 +213,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param list List of result objects
      * @return A result DTO
      */
-    private ResultDTO convertResult(String id, List<Object> list) {
+    //private ResultDTO convertResult(String id, List<Object> list) {
+    private ResultDTO convertResult(String id, ExecutionResult executionResult) {
     	ResultDTO result = new ResultDTO(id);
-    	for(Object obj : list) {
+    	result.setExecutionLog(executionResult.getLog());
+    	for(Object obj : executionResult.getResults()) {
 			Object value = BusinessRuleUtil.convertToDataType(obj);
     		result.addResult(null, 
     				//type, 
@@ -250,9 +268,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * @param facts List of facts
      * @return
      */
-    public synchronized Object execute(String ruleSetId, List<?> facts) {
+    public synchronized ExecutionResult execute(String ruleSetId, List<?> facts) {
         RuleBase ruleBase = getRuleBase(this.ruleSetMap.get(ruleSetId));
-        return executeRule(ruleBase, facts).iterator();
+        //return executeRule(ruleBase, facts).iterator();
+        return executeRule(true, ruleBase, facts);
     }
 
     /**
@@ -279,7 +298,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
     /**
      * Removes a rule set form the cache by <code>ruleSetId</code>.
      * 
-     * @see org.kuali.student.rules.ruleexecution.RuleSetExecutorInternal#removeRuleSet(java.lang.String)
+     * @see org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutorInternal#removeRuleSet(java.lang.String)
      */
     public boolean removeRuleSet(String ruleSetId) {
         this.ruleSetMap.remove(ruleSetId);
@@ -341,11 +360,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
      * 
      * @param ruleBase List of rules
      * @param fact Facts for the <code>ruleBase</code>
-     * @return A stateless session result
+     * @return A execution result
      */
-    private List<Object> executeRule( RuleBase ruleBase, List<?> fact ) { 
+    private ExecutionResult executeRule(boolean logRuleExecution, RuleBase ruleBase, List<?> fact) { 
         StatelessSession session = ruleBase.newStatelessSession();
+        DroolsWorkingMemoryLogger logger = null;
         
+        if(this.logExecution || logRuleExecution) {
+        	logger = new DroolsWorkingMemoryLogger(session);
+        }
+
         @SuppressWarnings("unchecked") 
         Iterator<Object> it = session.executeWithResults( fact ).iterateObjects();
         
@@ -354,7 +378,13 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor, RuleSetExecut
         	Object obj = it.next();
         	list.add(obj);
         }
-        return list;
+        
+        ExecutionResult result = new ExecutionResult(list);
+        if(this.logExecution || logRuleExecution) {
+        	result.setExecutionLog(logger.getLog().toString());
+        }
+        
+        return result;
     }
 
 }

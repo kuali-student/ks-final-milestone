@@ -1,4 +1,4 @@
-package org.kuali.student.rules.ruleexecution;
+package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.io.Reader;
 import java.util.List;

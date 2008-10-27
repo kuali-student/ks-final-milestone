@@ -34,11 +34,12 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.ruleexecution.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
+import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
+import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -75,22 +76,21 @@ public class RuleSetExecutorDroolsImplTest {
         List<Object> facts = new ArrayList<Object>();
         facts.add( Calendar.getInstance() );
         // Iterator through any returned rule engine objects
-        List<Object> list = (List<Object>) executor.execute(agenda, facts);
+        ExecutionResult result = executor.execute(agenda, facts);
         
-        assertNotNull( list );
+        assertNotNull(result);
+        assertNotNull(result.getResults());
 
         String time = null;
-        //while( it != null && it.hasNext() ) {
-            //Object obj = it.next();
-        for(Object obj : list) {
+        for(Object obj : result.getResults()) {
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;
             }
         }
         
-        assertNotNull( time );
-        assertTrue( time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ) );
+        assertNotNull(time);
+        assertTrue(time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ));
     }
 
 	@Test
@@ -110,13 +110,14 @@ public class RuleSetExecutorDroolsImplTest {
         facts.add(cal);
 
         // Execute ruleset and fact
-        List<Object> list = (List<Object>) executor.execute(ruleSet, facts);
+        ExecutionResult result = executor.execute(ruleSet, facts);
         
-        assertNotNull(list);
+        assertNotNull(result);
+        assertNotNull(result.getResults());
 
         // Iterate through returned rule engine objects
         String time = null;
-        for(Object obj : list) {
+        for(Object obj : result.getResults()) {
             if ( obj instanceof String ) {
                 time = (String) obj;
                 break;
@@ -183,8 +184,9 @@ public class RuleSetExecutorDroolsImplTest {
         ((RuleEngineRepositoryMock) executor.getRuleEngineRepository()).setSource(source1);
 
         // Iterator through any returned rule engine objects
-        List<Object> list = (List<Object>) executor.execute( agenda, factList );
-        assertNotNull(list);
+        ExecutionResult result = executor.execute( agenda, factList );
+        assertNotNull(result);
+        assertNotNull(result.getResults());
         assertTrue(factContainer1.getPropositionContainer().getRuleResult());
     }
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.ruleexecution;
+package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public Object execute(RuntimeAgendaDTO agenda, List<?> facts);
+    public ExecutionResult execute(RuntimeAgendaDTO agenda, List<?> facts);
 
     /**
      * Executes a <code>ruleSet</code> with a list of <code>facts</code>.
@@ -41,7 +41,7 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>ruleSet</code>
      * @return Result of executing the <code>ruleSet</code>
      */
-    public Object execute(RuleSetDTO ruleSet, List<?> facts);
+    public ExecutionResult execute(RuleSetDTO ruleSet, List<?> facts);
 
     /**
      * Executes a <code>ruleSet</code> with a <code>fact</code>.
