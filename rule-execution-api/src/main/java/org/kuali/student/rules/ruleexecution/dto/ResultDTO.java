@@ -18,9 +18,13 @@ public class ResultDTO {
 
 	@XmlAttribute
     private String id;
-    @XmlElement
+
+	@XmlElement
 	private final List<ValueDTO> factList = new ArrayList<ValueDTO>();
 
+    @XmlElement
+    private String executionLog;
+    
 	public ResultDTO() {}
 
 	public ResultDTO(String id) {
@@ -42,6 +46,14 @@ public class ResultDTO {
 	
 	public List<ValueDTO> getResults() {
 		return this.factList;
+	}
+
+	public String getExecutionLog() {
+		return executionLog;
+	}
+
+	public void setExecutionLog(String executionLog) {
+		this.executionLog = executionLog;
 	}
 
 }

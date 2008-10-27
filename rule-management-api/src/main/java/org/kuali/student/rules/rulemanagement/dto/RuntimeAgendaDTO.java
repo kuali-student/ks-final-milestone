@@ -9,7 +9,10 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RuntimeAgendaDTO {
 
-    @XmlElement
+	@XmlElement
+    private Boolean executionLogging = Boolean.FALSE;
+    
+	@XmlElement
 	private List<BusinessRuleInfoDTO> businessRules;
 
 	public List<BusinessRuleInfoDTO> getBusinessRules() {
@@ -18,6 +21,14 @@ public class RuntimeAgendaDTO {
 
 	public void setBusinessRules(List<BusinessRuleInfoDTO> businessRules) {
 		this.businessRules = businessRules;
+	}
+
+	public Boolean getExecutionLogging() {
+		return executionLogging;
+	}
+
+	public void setExecutionLogging(Boolean executionLogging) {
+		this.executionLogging = executionLogging;
 	}
 	
 }
