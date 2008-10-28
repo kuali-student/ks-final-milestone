@@ -1,5 +1,9 @@
 package org.kuali.student.enumeration.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
+
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -150,7 +154,6 @@ public class EnumerationManagementDAOImplTest extends TestCase{
         EnumeratedValueContext context = new EnumeratedValueContext();
         String myValue = "value";
         
-        
         context.setContextValue(myValue);
         context = enumerationManagementDAO.createEnumeratedValueContext(context);
         
@@ -159,12 +162,81 @@ public class EnumerationManagementDAOImplTest extends TestCase{
         assertEquals(context.getContextValue(),myValue);
     }
     
-   //TODO 
-    //public void testLookupEnumeratedValueContext
-    //public void testUpdateEnumeratedValueContext
-    //public void testDeleteEnumeratedValueContext
-    
-    
-    
-    
+    @Test
+    public void testLookupEnumeratedValueContext(){
+        EnumeratedValueContext context = new EnumeratedValueContext();
+        String myValue = "value";
+        
+        context.setContextValue(myValue);
+        context = enumerationManagementDAO.createEnumeratedValueContext(context);
+        
+        
+        context = enumerationManagementDAO.lookupEnumeratedValueContext(context.getId());
+        assertEquals(context.getContextValue(),myValue);
+        
+        context = enumerationManagementDAO.lookupEnumeratedValueContext("");
+        assertNull(context);
+    }
+    @Test
+    public void testUpdateEnumeratedValueContext(){
+        EnumeratedValueContext context = new EnumeratedValueContext();
+        String myValue = "value";
+        String myNewValue = "new value";
+        
+        context.setContextValue(myValue);
+        context = enumerationManagementDAO.createEnumeratedValueContext(context);
+        
+        context.setContextValue(myNewValue);
+        
+        context = enumerationManagementDAO.updateEnumeratedValueContext(context);
+        
+        context = enumerationManagementDAO.lookupEnumeratedValueContext(context.getId());
+        assertEquals(context.getContextValue(),myNewValue);
+        
+    }
+    @Test
+    public void testDeleteEnumeratedValueContext(){
+        EnumeratedValueContext context = new EnumeratedValueContext();
+        String myValue = "value";
+        
+        context.setContextValue(myValue);
+        context = enumerationManagementDAO.createEnumeratedValueContext(context);
+        
+        enumerationManagementDAO.deleteEnumeratedValueContext(context);
+        
+        context = enumerationManagementDAO.lookupEnumeratedValueContext(context.getId());
+        assertNull(context);
+        
+    }
+    @Test
+    public void  testGetEnumeratedValueContexts() {
+        EnumeratedValueContext context = new EnumeratedValueContext();
+        context.setEnumeratedValueId("id1");
+        context.setContextValue("myValue");
+        enumerationManagementDAO.createEnumeratedValueContext(context);
+        
+        context = new EnumeratedValueContext();
+        context.setEnumeratedValueId("id2");
+        context.setContextValue("myValue2");
+        enumerationManagementDAO.createEnumeratedValueContext(context);        
+        
+        List<EnumeratedValueContext> list =  enumerationManagementDAO.getEnumeratedValueContexts("");
+        assertEquals(list.size(),2);
+    }
+
+    @Test
+    public void testGetEnumeratedValues() {
+        EnumeratedValue value = new EnumeratedValue();
+        value.setValue("myValue1");
+        value.setEnumerationId("id1");
+        enumerationManagementDAO.createEnumeratedValue(value);
+        
+        value = new EnumeratedValue();
+        value.setValue("myValue2");
+        value.setEnumerationId("id2");
+        enumerationManagementDAO.createEnumeratedValue(value);
+        
+        List<EnumeratedValue> list = enumerationManagementDAO.getEnumeratedValues("");
+        assertEquals(list.size(),2);
+    }
 }
