@@ -11,8 +11,8 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
     public MaxProposition() {
     }
 
-    public MaxProposition(String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
-        super(propositionName, operator, expectedValue);
+    public MaxProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
+        super(id, propositionName, operator, expectedValue);
         this.fact = fact;
 	}
 

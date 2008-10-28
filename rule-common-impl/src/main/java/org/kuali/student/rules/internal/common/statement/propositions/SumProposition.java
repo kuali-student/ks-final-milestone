@@ -39,8 +39,8 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         super();
     }
 
-    public SumProposition(String propositionName, ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
-        super(propositionName, operator, expectedValue);
+    public SumProposition(String id, String propositionName, ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
+        super(id, propositionName, operator, expectedValue);
         this.factSet = (factSet == null ? new ArrayList<E>() : factSet);
     }
 

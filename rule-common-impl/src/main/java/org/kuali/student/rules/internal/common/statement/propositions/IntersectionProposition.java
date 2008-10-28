@@ -40,9 +40,9 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
         super();
     }
 
-    public IntersectionProposition(String propositionName, ComparisonOperator operator, Integer expectedValue,
+    public IntersectionProposition(String id, String propositionName, ComparisonOperator operator, Integer expectedValue,
             Set<E> criteriaSet, Set<E> factSet) {
-        super(propositionName, operator, expectedValue);
+        super(id, propositionName, operator, expectedValue);
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }

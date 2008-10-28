@@ -32,7 +32,7 @@ public class YVFAverageProposition<E extends Number> implements Proposition {
 
 	private AverageProposition<E> proposition;
 	
-	public YVFAverageProposition(String propositionName, ComparisonOperator comparisonOperator, BigDecimal expectedValue, Object fact) {
+	public YVFAverageProposition(String id, String propositionName, ComparisonOperator comparisonOperator, BigDecimal expectedValue, Object fact) {
 		if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (comparisonOperator == null) {
@@ -48,7 +48,7 @@ public class YVFAverageProposition<E extends Number> implements Proposition {
 		FactResultDTO factDTO = (FactResultDTO) fact;
 		List<E> factSet = getList(factDTO);
 
-        this.proposition = new AverageProposition<E>(propositionName, 
+        this.proposition = new AverageProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
 	}
 	
@@ -73,7 +73,12 @@ public class YVFAverageProposition<E extends Number> implements Proposition {
 	public Boolean apply() {
 		return proposition.apply();
 	}
-	
+
+	@Override
+	public String getId() {
+		return this.proposition.getId();
+	}
+
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();

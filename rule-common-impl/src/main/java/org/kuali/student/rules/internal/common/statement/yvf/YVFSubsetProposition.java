@@ -30,8 +30,10 @@ public class YVFSubsetProposition<E> implements Proposition {
 
 	private SubsetProposition<E> proposition;
 
-	public YVFSubsetProposition(String propositionName, Object criteria, Object fact) {
-		if (propositionName == null || propositionName.isEmpty()) {
+	public YVFSubsetProposition(String id, String propositionName, Object criteria, Object fact) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (criteria == null) {
 			throw new PropositionException("Criteria cannot be null");
@@ -49,7 +51,7 @@ public class YVFSubsetProposition<E> implements Proposition {
 		Set<E> criteriaSet = getSet(criteriaDTO);
 		Set<E> factSet = getSet(factDTO);
 
-        this.proposition = new SubsetProposition<E>(propositionName, criteriaSet, factSet); 
+        this.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet); 
 	}
 
 	private Set<E> getSet(FactResultDTO criteria) {
@@ -74,6 +76,11 @@ public class YVFSubsetProposition<E> implements Proposition {
 		return proposition.apply();
 	}
 	
+	@Override
+	public String getId() {
+		return this.proposition.getId();
+	}
+
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();

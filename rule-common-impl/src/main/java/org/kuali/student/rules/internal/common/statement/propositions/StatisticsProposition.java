@@ -12,8 +12,8 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
     
     public enum StatFunction { MAX, MEAN, MIN, STANDARD_DEVIATION, SUM, SUM_OF_SQUARES, VARIANCE };
     
-    public StatisticsProposition(String propositionName, ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact) {
-        super(propositionName, operator, expectedValue);
+    public StatisticsProposition(String id, String propositionName, ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact) {
+        super(id, propositionName, operator, expectedValue);
         this.fact = fact;
         this.function = function;
     }

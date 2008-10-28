@@ -24,11 +24,12 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
 
     private BigDecimal listSize;
     
-	public AverageProposition(String propositionName, 
+	public AverageProposition(String id, 
+							  String propositionName, 
     						  ComparisonOperator operator, 
     						  BigDecimal expectedValue, 
     						  List<E> factSet) {
-    	super(propositionName, operator, expectedValue, factSet);
+    	super(id, propositionName, operator, expectedValue, factSet);
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}

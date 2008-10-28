@@ -37,8 +37,8 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
         super();
     }
 
-    public SimpleComparableProposition(String propositionName, ComparisonOperator operator, T expectedValue, T fact) {
-        super(propositionName, operator, expectedValue);
+    public SimpleComparableProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, T fact) {
+        super(id, propositionName, operator, expectedValue);
 
         this.fact = fact;
     }

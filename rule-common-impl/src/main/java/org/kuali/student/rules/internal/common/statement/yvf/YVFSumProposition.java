@@ -32,8 +32,10 @@ public class YVFSumProposition<E extends Number> implements Proposition {
 
 	private SumProposition<E> proposition;
 	
-	public YVFSumProposition(String propositionName, ComparisonOperator comparisonOperator, BigDecimal expectedValue, Object fact) {
-		if (propositionName == null || propositionName.isEmpty()) {
+	public YVFSumProposition(String id, String propositionName, ComparisonOperator comparisonOperator, BigDecimal expectedValue, Object fact) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (comparisonOperator == null) {
 			throw new PropositionException("Comparison operator name cannot be null");
@@ -48,7 +50,7 @@ public class YVFSumProposition<E extends Number> implements Proposition {
 		FactResultDTO factDTO = (FactResultDTO) fact;
 		List<E> factSet = getList(factDTO);
 
-        this.proposition = new SumProposition<E>(propositionName, 
+        this.proposition = new SumProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
 	}
 
@@ -74,6 +76,11 @@ public class YVFSumProposition<E extends Number> implements Proposition {
 		return proposition.apply();
 	}
 	
+	@Override
+	public String getId() {
+		return this.proposition.getId();
+	}
+
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();

@@ -31,8 +31,10 @@ public class YVFMinProposition<T extends Comparable<T>> implements Proposition {
 
 	private MinProposition<T> proposition;
 	
-	public YVFMinProposition(String propositionName, ComparisonOperator comparisonOperator, T expectedValue, Object fact) {
-		if (propositionName == null || propositionName.isEmpty()) {
+	public YVFMinProposition(String id, String propositionName, ComparisonOperator comparisonOperator, T expectedValue, Object fact) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (comparisonOperator == null) {
 			throw new PropositionException("Comparison operator name cannot be null");
@@ -47,7 +49,7 @@ public class YVFMinProposition<T extends Comparable<T>> implements Proposition {
 		FactResultDTO factDTO = (FactResultDTO) fact;
 		Set<T> factSet = getSet(factDTO);
 
-        this.proposition = new MinProposition<T>(propositionName, 
+        this.proposition = new MinProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
 	}
 	
@@ -73,6 +75,11 @@ public class YVFMinProposition<T extends Comparable<T>> implements Proposition {
 		return proposition.apply();
 	}
 	
+	@Override
+	public String getId() {
+		return this.proposition.getId();
+	}
+
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();

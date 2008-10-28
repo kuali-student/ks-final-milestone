@@ -31,6 +31,7 @@ public abstract class AbstractProposition<T> implements Proposition {
 
     // ~ Instance fields --------------------------------------------------------
     protected Boolean result = false;
+    protected String id;
     protected String propositionName;
     protected PropositionReport report = new PropositionReport();
     protected ComparisonOperator operator;
@@ -46,7 +47,8 @@ public abstract class AbstractProposition<T> implements Proposition {
      * 
      * @param propositionName
      */
-    public AbstractProposition(String propositionName, ComparisonOperator operator, T expectedValue) {
+    public AbstractProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue) {
+        this.id = id;
         this.propositionName = propositionName;
         this.operator = operator;
         this.expectedValue = expectedValue;
@@ -133,6 +135,13 @@ public abstract class AbstractProposition<T> implements Proposition {
      */
     public void setResult(Boolean result) {
         this.result = result;
+    }
+
+    /**
+     * Returns the proposition id
+     */
+    public String getId() {
+    	return id;
     }
 
     /**

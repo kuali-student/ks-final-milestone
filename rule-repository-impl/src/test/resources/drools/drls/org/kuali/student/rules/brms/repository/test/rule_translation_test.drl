@@ -38,7 +38,7 @@ rule "TestRuleName_INIT"
                     logger.debug("criteriaSetP4="+criteriaSetP4);
                     logger.debug("factSetP4="+factSetP4);
                 }
-                IntersectionProposition<java.lang.String> propositionP4 = new IntersectionProposition<java.lang.String>("P4", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP4, factSetP4 ); 
+                IntersectionProposition<java.lang.String> propositionP4 = new IntersectionProposition<java.lang.String>("P4-1", "P4", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP4, factSetP4 ); 
                 //IntersectionProposition propositionP4 = new IntersectionProposition ("P4", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP4, factSetP4 ); 
                 propositionP4.apply();
                 prop.addProposition(propositionP4);
@@ -56,7 +56,7 @@ insert(propositionP4);
                     logger.debug("criteriaSetP1="+criteriaSetP1);
                     logger.debug("factSetP1="+factSetP1);
                 }
-                IntersectionProposition<java.lang.String> propositionP1 = new IntersectionProposition<java.lang.String>("P1", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP1, factSetP1 ); 
+                IntersectionProposition<java.lang.String> propositionP1 = new IntersectionProposition<java.lang.String>("P1-1", "P1", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP1, factSetP1 ); 
                 //IntersectionProposition propositionP1 = new IntersectionProposition ("P1", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP1, factSetP1 ); 
                 propositionP1.apply();
                 prop.addProposition(propositionP1);
@@ -74,7 +74,7 @@ insert(propositionP1);
                     logger.debug("criteriaSetP3="+criteriaSetP3);
                     logger.debug("factSetP3="+factSetP3);
                 }
-                IntersectionProposition<java.lang.String> propositionP3 = new IntersectionProposition<java.lang.String>("P3", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP3, factSetP3 ); 
+                IntersectionProposition<java.lang.String> propositionP3 = new IntersectionProposition<java.lang.String>("P3-1", "P3", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP3, factSetP3 ); 
                 //IntersectionProposition propositionP3 = new IntersectionProposition ("P3", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP3, factSetP3 ); 
                 propositionP3.apply();
                 prop.addProposition(propositionP3);
@@ -92,7 +92,7 @@ insert(propositionP3);
                     logger.debug("criteriaSetP2="+criteriaSetP2);
                     logger.debug("factSetP2="+factSetP2);
                 }
-                IntersectionProposition<java.lang.String> propositionP2 = new IntersectionProposition<java.lang.String>("P2", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP2, factSetP2 ); 
+                IntersectionProposition<java.lang.String> propositionP2 = new IntersectionProposition<java.lang.String>("P2-1", "P2", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP2, factSetP2 ); 
                 //IntersectionProposition propositionP2 = new IntersectionProposition ("P2", ComparisonOperator.EQUAL_TO, new Integer(1), criteriaSetP2, factSetP2 ); 
                 propositionP2.apply();
                 prop.addProposition(propositionP2);
@@ -107,20 +107,20 @@ rule "TestRuleName"
     when
         factContainer : FactContainer( id == "TestRuleName", state == FactContainer.State.DONE, prop : propositionContainer)
 
-        P1 : Proposition( propositionName == "P1" )
-        P2 : Proposition( propositionName == "P2" )
-        P3 : Proposition( propositionName == "P3" )
-        P4 : Proposition( propositionName == "P4" )
+        P1 : Proposition( id == "P1-1" )
+        P2 : Proposition( id == "P2-1" )
+        P3 : Proposition( id == "P3-1" )
+        P4 : Proposition( id == "P4-1" )
 
         exists
         ( 
-            ( Proposition( propositionName == "P1" && result == true ) 
+            ( Proposition( id == "P1-1" && result == true ) 
             || 
-            Proposition( propositionName == "P2" && result == true ) )
+            Proposition( id == "P2-1" && result == true ) )
             && 
-            ( Proposition( propositionName == "P3" && result == true ) 
+            ( Proposition( id == "P3-1" && result == true ) 
             || 
-            Proposition( propositionName == "P4" && result == true ) ) 
+            Proposition( id == "P4-1" && result == true ) ) 
         )
     then
         prop.setRuleResult(true);

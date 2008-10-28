@@ -50,4 +50,10 @@ public interface Proposition {
 	 * @return Proposition name
 	 */
 	public String getPropositionName();
+
+	/**
+	 * Return the proposition id.
+	 * @return Proposition id
+	 */
+	public String getId();
 }

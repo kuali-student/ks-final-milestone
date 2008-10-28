@@ -31,8 +31,10 @@ public class YVFMaxProposition<T extends Comparable<T>> implements Proposition {
 
 	private MaxProposition<T> proposition;
 	
-	public YVFMaxProposition(String propositionName, ComparisonOperator comparisonOperator, T expectedValue, Object fact) {
-		if (propositionName == null || propositionName.isEmpty()) {
+	public YVFMaxProposition(String id, String propositionName, ComparisonOperator comparisonOperator, T expectedValue, Object fact) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (comparisonOperator == null) {
 			throw new PropositionException("Comparison operator name cannot be null");
@@ -48,7 +50,7 @@ public class YVFMaxProposition<T extends Comparable<T>> implements Proposition {
 		FactResultDTO factDTO = (FactResultDTO) fact;
 		Set<T> factSet = getSet(factDTO);
 
-        this.proposition = new MaxProposition<T>(propositionName, 
+        this.proposition = new MaxProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
 	}
 	
@@ -74,6 +76,11 @@ public class YVFMaxProposition<T extends Comparable<T>> implements Proposition {
 		return proposition.apply();
 	}
 	
+	@Override
+	public String getId() {
+		return this.proposition.getId();
+	}
+
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();

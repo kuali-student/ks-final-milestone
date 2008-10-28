@@ -31,8 +31,10 @@ public class YVFIntersectionProposition<E> implements Proposition {
 
 	private IntersectionProposition<E> proposition;
 	
-	public YVFIntersectionProposition(String propositionName, ComparisonOperator comparisonOperator, Integer expectedValue, Object criteria, Object fact) {
-		if (propositionName == null || propositionName.isEmpty()) {
+	public YVFIntersectionProposition(String id, String propositionName, ComparisonOperator comparisonOperator, Integer expectedValue, Object criteria, Object fact) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
 		} else if (comparisonOperator == null) {
 			throw new PropositionException("Comparison operator name cannot be null");
@@ -54,7 +56,7 @@ public class YVFIntersectionProposition<E> implements Proposition {
 		Set<E> criteriaSet = getSet(criteriaDTO);
 		Set<E> factSet = getSet(factDTO);
 
-        this.proposition = new IntersectionProposition<E>( propositionName, 
+        this.proposition = new IntersectionProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, criteriaSet, factSet); 
 	}
 	
@@ -80,6 +82,11 @@ public class YVFIntersectionProposition<E> implements Proposition {
 		return proposition.apply();
 	}
 	
+	@Override
+	public String getId() {
+		return this.proposition.getId();
+	}
+
 	@Override
 	public String getPropositionName() {
 		return this.proposition.getPropositionName();

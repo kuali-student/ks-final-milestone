@@ -11,8 +11,8 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
     public MinProposition() {
     }
     
-    public MinProposition(String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
-        super(propositionName, operator, expectedValue);
+    public MinProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
+        super(id, propositionName, operator, expectedValue);
         this.fact = fact;
 	}
 

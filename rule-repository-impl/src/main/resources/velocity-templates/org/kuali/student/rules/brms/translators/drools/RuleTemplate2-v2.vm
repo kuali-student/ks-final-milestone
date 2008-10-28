@@ -21,7 +21,7 @@ rule "${ruleName}"
         factContainer : FactContainer( id == "${anchor}", state == FactContainer.State.DONE, prop : propositionContainer)
 #foreach($symbol in $functionSymbols)
 #if ($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
-        $symbol : Proposition( propositionName == "${symbol}-${uuid}" )
+        $symbol : Proposition( id == "${symbol}-${uuid}" )
 #end
 #end                
         exists
@@ -31,7 +31,7 @@ rule "${ruleName}"
         #elseif($symbol == "*") &&
         #elseif($symbol == "(") (
         #elseif($symbol == ")") )
-        #else Proposition( propositionName == "${symbol}-${uuid}" && result == true )
+        #else Proposition( id == "${symbol}-${uuid}" && result == true )
         #end
 #end
         )

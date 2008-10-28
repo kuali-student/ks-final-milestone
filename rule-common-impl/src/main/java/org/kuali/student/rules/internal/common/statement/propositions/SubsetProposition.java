@@ -39,8 +39,8 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         super();
     }
 
-    public SubsetProposition(String propositionName, Set<E> criteriaSet, Set<E> factSet) {
-        super(propositionName, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
+    public SubsetProposition(String id, String propositionName, Set<E> criteriaSet, Set<E> factSet) {
+        super(id, propositionName, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }
