@@ -25,7 +25,7 @@ public interface EnumerationService {
     public EnumeratedValue addEnumeratedValue(@WebParam(name = "enumeratedValue")EnumeratedValue value);
 
     @WebMethod
-    public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueOld")EnumeratedValue oldValue, @WebParam(name = "enumeratedValueNew")EnumeratedValue newValue);
+    public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueNew")EnumeratedValue newValue);
 
  //   public Status removeEnumeratedValue(String key);
 
