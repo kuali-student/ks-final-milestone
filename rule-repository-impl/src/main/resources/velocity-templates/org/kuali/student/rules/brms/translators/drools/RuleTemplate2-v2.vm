@@ -37,7 +37,7 @@ rule "${ruleName}"
         )
     then
         prop.setRuleResult(true);
-        retract(factContainer);
+        //retract(factContainer);
 #foreach($symbol in $functionSymbols)
 #if ($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
         retract($symbol);
