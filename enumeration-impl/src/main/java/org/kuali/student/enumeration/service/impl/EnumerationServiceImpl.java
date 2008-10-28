@@ -66,7 +66,7 @@ public class EnumerationServiceImpl implements EnumerationService{
     }
 
     @WebMethod
-    public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueOld")EnumeratedValue oldValue, @WebParam(name = "enumeratedValueNew")EnumeratedValue newValue){
+    public EnumeratedValue updateEnumeratedValue(@WebParam(name = "enumeratedValueNew")EnumeratedValue newValue){
     	
     	//what is the old value used for?  Ignoring oldValue parameter
     	org.kuali.student.enumeration.entity.EnumeratedValue newEnumValueDAO = this.convertDTOtoDAOEnumeratedValue(newValue);
