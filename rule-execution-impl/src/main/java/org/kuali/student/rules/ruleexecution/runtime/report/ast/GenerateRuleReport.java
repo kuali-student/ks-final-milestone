@@ -26,13 +26,12 @@ import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutorInternal;
+import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.
  */
 public class GenerateRuleReport {
-    private RuleSetExecutorInternal ruleSetExecutor;
     private HashMap<String, Boolean> nodeValueMap;
     private HashMap<String, String> nodeMessageMap;
     private boolean ruleResult;
@@ -42,10 +41,11 @@ public class GenerateRuleReport {
     private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl";
     private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl";
 
-    public GenerateRuleReport(RuleSetExecutorInternal ruleSetExecutor) {
-        this.ruleSetExecutor = ruleSetExecutor;
-        // Add default rulesets/packages
-        addRuleSets();
+    private DefaultExecutor executor;
+    
+    public GenerateRuleReport(DefaultExecutor executor) {
+        this.executor = executor;
+    	setup();
     }
 
     /**
@@ -54,7 +54,7 @@ public class GenerateRuleReport {
      * @param propContainer Contains a list of propositions
      * @return The proposition container <code>propContainer</code> with a report
      */
-    public PropositionContainer execute(PropositionContainer propContainer) {
+    public PropositionReport execute(PropositionContainer propContainer) {
         BinaryTree ASTtree = null;
         ruleResult = propContainer.getRuleResult();
 
@@ -68,7 +68,7 @@ public class GenerateRuleReport {
             ASTtree.traverseTreePostOrder(root, null);
 
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
-            this.ruleSetExecutor.execute(SUCCESS_FAILURE_MESSAGE_LOGGER, treeNodes);
+            this.executor.execute(SUCCESS_FAILURE_MESSAGE_LOGGER, treeNodes);
 
         } catch (Throwable t) {
             throw new RuleSetExecutionException( "Generating rule report failed", t );
@@ -77,6 +77,7 @@ public class GenerateRuleReport {
         // This is the final rule report message
         String message = ASTtree.getRoot().getNodeMessage();
         PropositionReport ruleReport = propContainer.getRuleReport();
+        ruleReport.setSuccess(ruleResult);
 
         if (ruleResult == true) {
             ruleReport.setSuccessMessage(message);
@@ -85,7 +86,7 @@ public class GenerateRuleReport {
         }
 
         propContainer.setRuleReport(ruleReport);
-        return propContainer;
+        return ruleReport;
     }
 
     private void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult) {
@@ -101,7 +102,7 @@ public class GenerateRuleReport {
             nodeValueMap.put(var, value);
 
             PropositionReport report = propContainer.getProposition(var).getReport();
-            String message = "rule result undefined";
+            String message = "Rule execution result undefined";
 
             if (ruleResult == true) {
                 message = report.getSuccessMessage();
@@ -113,12 +114,12 @@ public class GenerateRuleReport {
     }
 
     /**
-     * Add default rule sets
+     * Setup default rule sets
      */
-    private void addRuleSets() {
+    private void setup() {
         Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
-        this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
+        this.executor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
         Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
-        this.ruleSetExecutor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
+        this.executor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
     }
 }

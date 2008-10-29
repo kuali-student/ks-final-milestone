@@ -1,4 +1,4 @@
-package org.kuali.student.rules.ruleexecution.runtime.ast;
+package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,20 +8,18 @@ import org.junit.Test;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.repository.RuleEngineRepository;
-import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutorInternal;
-import org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.drools.DefaultExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
-import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 
 public class GenerateRuleReportTest {
 
 	private String functionalRuleString;
 
-	private IntersectionProposition<String> subsetPropA = new IntersectionProposition<String>("A", null, null, null, null );
-	private IntersectionProposition<String> subsetPropB = new IntersectionProposition<String>("B", null, null, null, null );
-	private IntersectionProposition<String> subsetPropC = new IntersectionProposition<String>("C", null, null, null, null );
-	private IntersectionProposition<String> subsetPropD = new IntersectionProposition<String>("D", null, null, null, null );
+	private IntersectionProposition<String> subsetPropA = new IntersectionProposition<String>("A1", "A", null, null, null, null );
+	private IntersectionProposition<String> subsetPropB = new IntersectionProposition<String>("B1", "B", null, null, null, null );
+	private IntersectionProposition<String> subsetPropC = new IntersectionProposition<String>("C1", "C", null, null, null, null );
+	private IntersectionProposition<String> subsetPropD = new IntersectionProposition<String>("D1", "D", null, null, null, null );
 
 	private PropositionReport propositionReportA = new PropositionReport();
 	private PropositionReport propositionReportB = new PropositionReport();
@@ -32,13 +30,14 @@ public class GenerateRuleReportTest {
 
 	@Before
 	public void setUp() throws Exception {
-        // Create repository
-        RuleEngineRepository ruleEngineRepository = new RuleEngineRepositoryMock();
-        // Create the rule set executor (use Spring IoC)
-        RuleSetExecutorInternal executor = new RuleSetExecutorDroolsImpl(ruleEngineRepository);
+        DefaultExecutor executor = new DefaultExecutorDroolsImpl();
 	    this.generateRuleReport = new GenerateRuleReport(executor);
 	}
 	
+	@After
+	public void tearDown() throws Exception {
+	}
+
 	@Test
 	public void testExecuteRuleFailureMessage1()
 	{
@@ -70,8 +69,7 @@ public class GenerateRuleReportTest {
 	    
 	    String expected = "Need MATH 200";
 	    
-	    PropositionContainer propContainer = this.generateRuleReport.execute(pc);
-	    PropositionReport ruleReport = propContainer.getRuleReport();
+	    PropositionReport ruleReport = generateRuleReport.execute(pc);
 	    String actual = ruleReport.getFailureMessage();
 	    
         assertEquals(expected, actual);
@@ -111,8 +109,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
         
-        PropositionContainer propContainer = this.generateRuleReport.execute(pc);
-        PropositionReport ruleReport = propContainer.getRuleReport();
+	    PropositionReport ruleReport = generateRuleReport.execute(pc);
         String actual = ruleReport.getFailureMessage();
         
         assertEquals(expected, actual);
@@ -152,8 +149,7 @@ public class GenerateRuleReportTest {
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
         
-        PropositionContainer propContainer = this.generateRuleReport.execute(pc);
-        PropositionReport ruleReport = propContainer.getRuleReport();
+	    PropositionReport ruleReport = generateRuleReport.execute(pc);
         String actual = ruleReport.getSuccessMessage();
         
         assertEquals(expected, actual);
@@ -193,15 +189,10 @@ public class GenerateRuleReportTest {
         
         String expected = "Have MATH 200 OR Have English 6000";
         
-        PropositionContainer propContainer = this.generateRuleReport.execute(pc);
-        PropositionReport ruleReport = propContainer.getRuleReport();
+	    PropositionReport ruleReport = generateRuleReport.execute(pc);
         String actual = ruleReport.getSuccessMessage();
         
         assertEquals(expected, actual);
     }
-	
-	@After
-	public void tearDown() throws Exception {
-	}
 
 }

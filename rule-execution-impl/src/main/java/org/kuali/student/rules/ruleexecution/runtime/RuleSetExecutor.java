@@ -16,12 +16,9 @@
 package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.ruleexecution.dto.FactDTO;
-import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 public interface RuleSetExecutor {
 
@@ -32,7 +29,7 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public ExecutionResult execute(RuntimeAgendaDTO agenda, List<?> facts);
+    //public ExecutionResult execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap);
 
     /**
      * Executes a <code>ruleSet</code> with a list of <code>facts</code>.
@@ -50,7 +47,7 @@ public interface RuleSetExecutor {
      * @param fact Fact for the <code>ruleSet</code> 
      * @return Result of executing the <code>ruleSet</code>
      */
-    public ResultDTO execute(RuleSetDTO ruleSet, FactDTO fact);
+    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, Map<String, Object> factMap);
 
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
@@ -70,11 +67,4 @@ public interface RuleSetExecutor {
      * @return Result of executing the <code>agenda</code>
      */
     //public Object executeSnapshot(RuleSetDTO ruleSet, List<?> facts);
-    
-    /**
-     * Gets the rule engine repository.
-     * 
-     * @return Rule engine repository
-     */
-    public RuleEngineRepository getRuleEngineRepository();
 }

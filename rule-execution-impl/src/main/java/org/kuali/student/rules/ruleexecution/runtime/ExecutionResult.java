@@ -1,27 +1,40 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
 
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+
 public class ExecutionResult {
 	
+	private Boolean executionResult = null;
 	private List<Object> resultList;
-	private String log;
+	private PropositionReport report;
+	private String executionLog;
 	
-	public ExecutionResult(final List<Object> resultList) {
-		this.resultList = resultList;
-	}
-
-	public ExecutionResult(final List<Object> resultList, final String log) {
-		this.resultList = resultList;
-		this.log = log;
+	public ExecutionResult() {
 	}
 
 	public void setExecutionLog(final String log) {
-		this.log = log;
+		this.executionLog = log;
 	}
-	
-	public String getLog() {
-		return this.log;
+
+	public String getExecutionLog() {
+		return this.executionLog;
 	}
 
 	public List<Object> getResults() {
@@ -30,6 +43,22 @@ public class ExecutionResult {
 
 	public void setResults(final List<Object> resultList) {
 		this.resultList = resultList;
+	}
+
+	public Boolean getExecutionResult() {
+		return executionResult;
+	}
+
+	public void setExecutionResult(boolean executionResult) {
+		this.executionResult = executionResult;
+	}
+
+	public PropositionReport getReport() {
+		return report;
+	}
+
+	public void setReport(PropositionReport report) {
+		this.report = report;
 	}
 	
 	

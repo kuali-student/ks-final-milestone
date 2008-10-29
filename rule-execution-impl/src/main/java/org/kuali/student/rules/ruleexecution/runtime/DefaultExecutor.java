@@ -3,16 +3,16 @@ package org.kuali.student.rules.ruleexecution.runtime;
 import java.io.Reader;
 import java.util.List;
 
-public interface RuleSetExecutorInternal {
+public interface DefaultExecutor {
 
     /**
-     * Executes a list of rule sets.
+     * Executes a rule set by id.
      * 
      * @param RuleSetId List of rule set ids
      * @param facts List of facts
      * @return
      */
-    public Object execute(String ruleSetId, List<?> facts);
+    public Object execute(String Id, List<?> facts);
 
     /**
      * Caches a rule set's source code.

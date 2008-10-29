@@ -23,9 +23,26 @@ package org.kuali.student.rules.internal.common.statement.report;
  */
 public class PropositionReport {
 
-    private String successMessage;
+    private boolean success = false;
+	private String successMessage;
     private String failureMessage;
     
+	/**
+	 * Returns true if report is successful.
+	 * @return True if report is successful; otherwise false
+	 */
+    public boolean isSuccess() {
+		return success;
+	}
+	
+    /**
+	 * Set success to true if report is successful; other wise set t false.
+     * @param success True if report is successful; other false
+     */
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
     /**
      * @return the successMessage
      */

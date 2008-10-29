@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.ruleexecution.drools;
+package org.kuali.student.rules.ruleexecution.runtime.drools;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,13 +36,18 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.ruleexecution.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.repository.rule.RuleSet;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -64,7 +72,42 @@ public class RuleSetExecutorDroolsImplTest {
     }
     
 	@Test
-    public void testExecute() throws Exception {
+    public void testExecuteSimpleRuleSet_Drools() throws Exception {
+        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
+        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+        ruleSet.setCompiledRuleSet(bytes);
+
+        // Add facts
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2008);
+        cal.set(Calendar.MONTH, 10);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 1);
+        cal.set(Calendar.MINUTE, 0);
+        List<Object> facts = new ArrayList<Object>();
+        facts.add(cal);
+
+        // Execute ruleset and fact
+        ExecutionResult result = executor.execute(ruleSet, facts);
+
+        assertNotNull(result);
+        assertNotNull(result.getResults());
+
+        // Iterate through returned rule engine objects
+        String time = null;
+        for(Object obj : result.getResults()) {
+            if ( obj instanceof String ) {
+                time = (String) obj;
+                break;
+            }
+        }
+        
+        assertNotNull( time );
+        assertTrue( time.startsWith("Minute is even:"));
+    }
+
+	/*@Test
+    public void testExecuteAgenda() throws Exception {
 		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
         List<BusinessRuleInfoDTO> briList = new ArrayList<BusinessRuleInfoDTO>();
         BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
@@ -91,76 +134,41 @@ public class RuleSetExecutorDroolsImplTest {
         
         assertNotNull(time);
         assertTrue(time.startsWith( "Minute is even:" ) || time.startsWith( "Minute is odd:" ));
-    }
+    }*/
 
 	@Test
-    public void testExecuteWithDroolsCompiledRuleSet() throws Exception {
-        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
-        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+    public void testExecuteAverageIntersectionProposition_DroolsRuleSet() throws Exception {
+    	String anchor = "CPR101";
+    	String factKey1 = "FactKey1";
+    	String criteriaKey2 = "CriteriaKey2";
+    	String factKey2 = "FactKey2";
+        // DEFINITION and EXECUTION: Create rule definition and map execution keys
+    	//Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+        // Rule set source code
+    	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
+
+    	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
         ruleSet.setCompiledRuleSet(bytes);
 
-        // Add facts
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        List<Object> facts = new ArrayList<Object>();
-        facts.add(cal);
+        // EXECUTION: Create facts
+        FactResultDTO factResult1 = DroolsTestUtil.createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
+        FactResultDTO factResult2 = DroolsTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        FactResultDTO factResultCriteria1 = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(factKey1, factResult1);
+        factMap.put(criteriaKey2, factResultCriteria1);
+        factMap.put(factKey2, factResult2);
 
         // Execute ruleset and fact
-        ExecutionResult result = executor.execute(ruleSet, facts);
-        
+        ExecutionResult result = executor.execute(ruleSet, anchor, factMap);
         assertNotNull(result);
         assertNotNull(result.getResults());
+		assertNotNull(result.getExecutionLog());
+		assertTrue(result.getReport().isSuccess());
+	}
 
-        // Iterate through returned rule engine objects
-        String time = null;
-        for(Object obj : result.getResults()) {
-            if ( obj instanceof String ) {
-                time = (String) obj;
-                break;
-            }
-        }
-        
-        assertNotNull( time );
-        assertTrue( time.startsWith("Minute is even:"));
-    }
-
-	@Test
-    public void testExecuteWithDroolsCompiledRuleSet_FactDTO() throws Exception {
-        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
-        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
-        ruleSet.setCompiledRuleSet(bytes);
-
-        // Add facts
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        FactDTO fact = new FactDTO("1");
-        fact.addFact("1", cal);
-
-        // Execute ruleset and fact
-        ResultDTO result = executor.execute(ruleSet, fact);
-        
-        assertNotNull(result);
-
-        String time = null;
-        for(ValueDTO obj : result.getResults()) {
-            if ( obj.getValue().getClass().getName().equals(String.class.getName())) {
-                time = obj.getValue().toString();
-                break;
-            }
-        }
-        assertNotNull( time );
-        assertTrue(time.startsWith("Minute is even:" ));
-    }
-
-	@Test
+	/*@Test
     public void testExecuteWithDroolsDRL() throws Exception {
 		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
         List<BusinessRuleInfoDTO> briList = new ArrayList<BusinessRuleInfoDTO>();
@@ -188,6 +196,6 @@ public class RuleSetExecutorDroolsImplTest {
         assertNotNull(result);
         assertNotNull(result.getResults());
         assertTrue(factContainer1.getPropositionContainer().getRuleResult());
-    }
+    }*/
 
 }

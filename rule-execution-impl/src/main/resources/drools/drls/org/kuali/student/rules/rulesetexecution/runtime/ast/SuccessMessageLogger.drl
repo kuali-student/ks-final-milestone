@@ -11,8 +11,7 @@ rule "AND"
 	then
 		String logMessage = n.getLeftNode().getNodeMessage() + " AND " + n.getRightNode().getNodeMessage();
 		n.setNodeMessage(logMessage);
-		#System.out.println( n.getNodeMessage() + "   rule AND");
-		System.out.println( logMessage );
+        //System.out.println( logMessage + " (rule=\"AND\")");
 		
 		BooleanNode parent = n.getParent();
 		if (parent != null){
@@ -28,7 +27,7 @@ rule "OR2"
 	then
 		String logMessage = n.getLeftNode().getNodeMessage() + " OR " + n.getRightNode().getNodeMessage();
 		n.setNodeMessage(logMessage);
-		System.out.println( logMessage + "   rule OR2");
+		//System.out.println( logMessage + " (rule=\"OR2\")");
 		
 		BooleanNode parent = n.getParent();
 		if (parent != null){
@@ -50,7 +49,7 @@ rule "OR1"
 			logMessage = n.getRightNode().getNodeMessage();
 		
 		n.setNodeMessage(logMessage);
-		System.out.println( logMessage + "   rule OR1");
+		//System.out.println( logMessage + " (rule=\"OR1\")");
 		
 		BooleanNode parent = n.getParent();
 		if (parent != null){
