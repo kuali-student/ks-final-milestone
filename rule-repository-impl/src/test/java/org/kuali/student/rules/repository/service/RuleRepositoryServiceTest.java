@@ -23,16 +23,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.StringReader;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -43,7 +40,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
@@ -313,7 +309,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testReplaceRuleSetSnapshot() throws Exception {
+    public void testRebuildRuleSetSnapshot() throws Exception {
     	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
         assertNotNull(ruleSet1);
 
