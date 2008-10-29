@@ -116,7 +116,7 @@ public interface RuleRepositoryService {
     /**
      * Deletes a rule set snapshot. 
      * 
-     * @param ruleSetName Rule set name
+     * @param ruleSetUUID Rule set UUID
      * @param snapshotName Snapshot name
      * @throws OperationFailedException Thrown if removing snapshot fails or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
@@ -125,7 +125,7 @@ public interface RuleRepositoryService {
     @Oneway
     public void removeRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
-    		@WebParam(name="ruleSetName")String ruleSetName, 
+    		//@WebParam(name="ruleSetName")String ruleSetName, 
     		@WebParam(name="snapshotName")String snapshotName)
     	throws OperationFailedException, InvalidParameterException;
 
@@ -174,9 +174,7 @@ public interface RuleRepositoryService {
     /**
      * Creates a new rule set snapshot for deployment and stores it in the repository.
      * 
-     * @param ruleSetUUID Rule set uuid
-     * @param ruleSetName Rule set name
-     * @param snapshotName Snapshot name
+     * @param ruleSetUUID Rule set UUID
      * @param comment Comments for creating the snapshot
      * @return A new rule set which contains a new UUID
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
@@ -185,7 +183,7 @@ public interface RuleRepositoryService {
     @WebMethod
     public RuleSetDTO createRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
-    		@WebParam(name="ruleSetName")String ruleSetName, 
+    		//@WebParam(name="ruleSetName")String ruleSetName, 
     		@WebParam(name="snapshotName")String snapshotName, 
     		@WebParam(name="comment")String comment)
     	throws OperationFailedException, InvalidParameterException;
@@ -204,7 +202,7 @@ public interface RuleRepositoryService {
     @WebMethod
     public RuleSetDTO rebuildRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
-    		@WebParam(name="ruleSetName")String ruleSetName, 
+    		//@WebParam(name="ruleSetName")String ruleSetName, 
     		@WebParam(name="snapshotName")String snapshotName, 
     		@WebParam(name="comment")String comment)
     	throws OperationFailedException, InvalidParameterException;
@@ -212,7 +210,7 @@ public interface RuleRepositoryService {
     /**
      * Loads a rule set snapshot.
      * 
-     * @param ruleSetName Rule set name
+     * @param ruleSetUUID Rule set UUID
      * @param snapshotName Rule set's snapshot name
      * @return A rule set snapshot
      * @throws OperationFailedException Thrown if loading a snapshots fails
@@ -220,7 +218,7 @@ public interface RuleRepositoryService {
      */
     @WebMethod
     public RuleSetDTO fetchRuleSetSnapshot(
-    		@WebParam(name="ruleSetName")String ruleSetName, 
+    		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
     		@WebParam(name="snapshotName")String snapshotName)
     	throws OperationFailedException, InvalidParameterException; 
 
