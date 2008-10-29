@@ -251,15 +251,15 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
         assertNotNull(ruleSet1);
 
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1", "A new snapshot");
-        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getName(), "snapshot1");
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
+        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         assertNotNull( snapshot );
         assertEquals("snapshot1", snapshot.getSnapshotName());
         assertEquals("A new snapshot", snapshot.getCheckinComment());
 
-        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getName(), "snapshot1");
+        service.removeRuleSetSnapshot(snapshot.getUUID(), "snapshot1");
         try {
-			snapshot = service.fetchRuleSetSnapshot(snapshot.getName(), "snapshot1");
+			snapshot = service.fetchRuleSetSnapshot(snapshot.getUUID(), "snapshot1");
 			fail("Snapshot should have been removed");
 		} catch (OperationFailedException e) {
 			assertTrue(true);
@@ -273,13 +273,13 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
         assertNotNull(ruleSet1);
 
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1", "A new snapshot");
-        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getName(), "snapshot1");
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
+        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         assertNotNull( snapshot );
         assertEquals("snapshot1", snapshot.getSnapshotName());
         assertEquals("A new snapshot", snapshot.getCheckinComment());
 
-        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getName(), snapshot.getSnapshotName());
+        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getSnapshotName());
         service.removeRuleSet(ruleSet1.getUUID());
     }
 
@@ -294,8 +294,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet2 = service.createRuleSet( createRuleSet("Rule-2", category) );
         assertNotNull(ruleSet2);
         
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1", "A new snapshot");
-        service.createRuleSetSnapshot(ruleSet2.getUUID(), ruleSet2.getName(), "snapshot2", "A new snapshot");
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
+        service.createRuleSetSnapshot(ruleSet2.getUUID(), "snapshot2", "A new snapshot");
         
         List<RuleSetDTO> list = service.fetchRuleSetSnapshotsByCategory(category);
         assertNotNull(list);
@@ -305,8 +305,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertEquals(ruleSet2.getName(), list.get(1).getName());
         assertEquals("snapshot2", list.get(1).getSnapshotName());
         		
-        service.removeRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1");
-        service.removeRuleSetSnapshot(ruleSet2.getUUID(), ruleSet2.getName(), "snapshot2");
+        service.removeRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
+        service.removeRuleSetSnapshot(ruleSet2.getUUID(), "snapshot2");
         service.removeRuleSet( ruleSet1.getUUID() );
         service.removeRuleSet( ruleSet2.getUUID() );
         service.removeCategory("/"+category);
@@ -317,17 +317,17 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
         assertNotNull(ruleSet1);
 
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1", "A new snapshot");
-        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getName(), "snapshot1");
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
+        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         assertNotNull( snapshot );
 
-        service.rebuildRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1", "Replace snapshot with new compilation");
+        service.rebuildRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "Replace snapshot with new compilation");
 
-		snapshot = service.fetchRuleSetSnapshot(snapshot.getName(), "snapshot1");
+		snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         assertNotNull( snapshot );
         assertEquals("snapshot1", snapshot.getSnapshotName());
 
-        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getName(), snapshot.getSnapshotName());
+        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getSnapshotName());
         service.removeRuleSet(ruleSet1.getUUID());
     }
 
@@ -335,15 +335,15 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     public void testFetchCompiledRuleSetSnapshot() throws Exception {
     	RuleSetDTO ruleSet1 = service.createRuleSet( createRuleSetWithRule() );
         assertNotNull( ruleSet1 );
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1", "A new snapshot");
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
        
-        byte[] binPkg = service.fetchRuleSetSnapshot(ruleSet1.getName(), "snapshot1").getCompiledRuleSet();
+        byte[] binPkg = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1").getCompiledRuleSet();
         org.drools.rule.Package pkg = DroolsUtil.getInstance().getPackage(binPkg);
 
         assertNotNull(pkg);
         assertTrue(pkg.isValid());
 
-        service.removeRuleSetSnapshot(ruleSet1.getUUID(), ruleSet1.getName(), "snapshot1");
+        service.removeRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         service.removeRuleSet( ruleSet1.getUUID() );
     }
     
