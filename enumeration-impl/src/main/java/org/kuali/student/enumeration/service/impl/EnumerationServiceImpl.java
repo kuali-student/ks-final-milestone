@@ -2,6 +2,7 @@ package org.kuali.student.enumeration.service.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -15,23 +16,57 @@ import javax.xml.datatype.DatatypeFactory;
 
 import org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
-import org.kuali.student.enumeration.dto.Enumerations;
+import org.kuali.student.enumeration.dto.EnumeratedValueList;
+import org.kuali.student.enumeration.dto.EnumerationMeta;
+
 import org.kuali.student.enumeration.service.EnumerationService;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 
 @WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class EnumerationServiceImpl implements EnumerationService{
-	
-	private EnumerationManagementDAOImpl enumDAO;
-	
+    private EnumerationManagementDAOImpl enumDAO;
+    
     public EnumerationManagementDAOImpl getEnumDAO() {
-		return enumDAO;
-	}
+        return enumDAO;
+    }
 
-	public void setEnumDAO(EnumerationManagementDAOImpl enumDAO) {
-		this.enumDAO = enumDAO;
-	}
+    public void setEnumDAO(EnumerationManagementDAOImpl enumDAO) {
+        this.enumDAO = enumDAO;
+    }
+    public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value) {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    public EnumeratedValueList fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    public EnumerationMeta fetchEnumerationMeta(String enumerationKey) {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    public EnumeratedValueList findEnumerationMetas() {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    public boolean removeEnumeratedValue(String enumerationKey, String code) {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return false;
+    }
+
+    public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value) {
+        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    
+}
+/*	
+
 
 	@WebMethod
     public List<Enumerations> getEnumerations(){
@@ -119,3 +154,4 @@ public class EnumerationServiceImpl implements EnumerationService{
     	return newEnumValueDAO;
     }
 }
+*/
