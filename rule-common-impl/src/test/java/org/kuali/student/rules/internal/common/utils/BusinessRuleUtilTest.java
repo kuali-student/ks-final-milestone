@@ -6,13 +6,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import org.apache.xerces.jaxp.datatype.DatatypeFactoryImpl;
 
 public class BusinessRuleUtilTest {
 
@@ -158,7 +159,8 @@ public class BusinessRuleUtilTest {
     @Test
     public void testConvertToDataType_XMLGregorianCalendar() throws Exception {
     	GregorianCalendar greg = new GregorianCalendar();
-    	XMLGregorianCalendarImpl time = new XMLGregorianCalendarImpl(greg);
+    	DatatypeFactoryImpl factory = new DatatypeFactoryImpl();
+    	XMLGregorianCalendar time = factory.newXMLGregorianCalendar(greg);
 		GregorianCalendar value = (GregorianCalendar) BusinessRuleUtil.convertToDataType(time);
     	Assert.assertEquals(greg.getTime(), value.getTime());
     }
