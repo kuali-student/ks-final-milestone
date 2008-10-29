@@ -2,12 +2,12 @@ package org.kuali.student.enumeration.dao;
 
 import java.util.List;
 
-import org.kuali.student.enumeration.entity.EnumeratedValue;
-import org.kuali.student.enumeration.entity.EnumeratedValueContext;
-import org.kuali.student.enumeration.entity.Enumerations;
 
 public interface EnumerationManagementDAO {
-    public Enumerations createEnumerations(Enumerations entry);
+    
+    
+    
+/*    public Enumerations createEnumerations(Enumerations entry);
     
     public boolean deleteEnumerations(Enumerations entry);
 
@@ -39,5 +39,5 @@ public interface EnumerationManagementDAO {
     public EnumeratedValueContext lookupEnumeratedValueContext(String id);
     
     public List<EnumeratedValueContext> getEnumeratedValueContexts(String enumeratedValueId);
-    
+  */  
 }

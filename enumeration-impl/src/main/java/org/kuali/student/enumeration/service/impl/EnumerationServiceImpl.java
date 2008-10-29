@@ -35,32 +35,26 @@ public class EnumerationServiceImpl implements EnumerationService{
         this.enumDAO = enumDAO;
     }
     public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value) {
-        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     public EnumeratedValueList fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
-        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     public EnumerationMeta fetchEnumerationMeta(String enumerationKey) {
-        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     public EnumeratedValueList findEnumerationMetas() {
-        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     public boolean removeEnumeratedValue(String enumerationKey, String code) {
-        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
         return false;
     }
 
     public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value) {
-        // TODO joeyin - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     

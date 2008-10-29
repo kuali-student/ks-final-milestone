@@ -8,8 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
 import org.kuali.student.enumeration.entity.EnumeratedValue;
-import org.kuali.student.enumeration.entity.EnumeratedValueContext;
-import org.kuali.student.enumeration.entity.Enumerations;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,7 +19,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
+/*
     public EnumeratedValue createEnumeratedValue(EnumeratedValue value) {
         this.entityManager.persist(value);
         return value;
@@ -95,5 +94,5 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         }
         return null;
     }
-
+*/
 }
