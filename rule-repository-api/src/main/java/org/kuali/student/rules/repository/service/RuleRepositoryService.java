@@ -125,7 +125,6 @@ public interface RuleRepositoryService {
     @Oneway
     public void removeRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
-    		//@WebParam(name="ruleSetName")String ruleSetName, 
     		@WebParam(name="snapshotName")String snapshotName)
     	throws OperationFailedException, InvalidParameterException;
 
@@ -183,7 +182,6 @@ public interface RuleRepositoryService {
     @WebMethod
     public RuleSetDTO createRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
-    		//@WebParam(name="ruleSetName")String ruleSetName, 
     		@WebParam(name="snapshotName")String snapshotName, 
     		@WebParam(name="comment")String comment)
     	throws OperationFailedException, InvalidParameterException;
@@ -202,7 +200,6 @@ public interface RuleRepositoryService {
     @WebMethod
     public RuleSetDTO rebuildRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
-    		//@WebParam(name="ruleSetName")String ruleSetName, 
     		@WebParam(name="snapshotName")String snapshotName, 
     		@WebParam(name="comment")String comment)
     	throws OperationFailedException, InvalidParameterException;
