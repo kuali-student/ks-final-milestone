@@ -33,6 +33,7 @@ public class ObjectListMapAdapter extends XmlAdapter<ObjectListMap, List<Map<Str
 			for(ObjectMapEntry type : objectList.getEntry() ) {
 				map.put(type.getKey(), type.getValue());
 			}
+			list.add(map);
 		}
 		return list;
 	}
