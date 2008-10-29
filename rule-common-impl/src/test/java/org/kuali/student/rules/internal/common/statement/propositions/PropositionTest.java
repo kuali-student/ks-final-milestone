@@ -1,6 +1,5 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import org.kuali.student.rules.internal.common.statement.propositions.SimpleComp
 import org.kuali.student.rules.internal.common.statement.propositions.StatisticsProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
 public class PropositionTest {
 
@@ -40,7 +38,7 @@ public class PropositionTest {
         }
         return set;
     }
-    
+  
     @Test
     public void testSimpleComparableProposition_String() throws Exception {
     	SimpleComparableProposition<String> comparableProp = new SimpleComparableProposition<String>(
@@ -98,31 +96,31 @@ public class PropositionTest {
     
     @Test
     public void testIntersectionTrue() throws Exception {
-        IntersectionProposition<String> subsetProp = new IntersectionProposition<String>(
+        IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
                 ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(1), set1, set2);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertTrue(result);
     }
 
     @Test
     public void testIntersectionFalse() throws Exception {
-        IntersectionProposition<String> subsetProp = new IntersectionProposition<String>(
+        IntersectionProposition<String> prop = new IntersectionProposition<String>(
         		"A-1", "A",
                 ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new Integer(2), set1, set2);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertFalse(result);
     }
 
     @Test
     public void testSubsetTrue() throws Exception {
-        SubsetProposition<String> subsetProp = new SubsetProposition<String>("A-1", "A", set1, set2);
+        SubsetProposition<String> prop = new SubsetProposition<String>("A-1", "A", set1, set2);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertTrue(result);
     }
@@ -130,9 +128,9 @@ public class PropositionTest {
     @Test
     public void testSubsetFalse() throws Exception {
 
-        SubsetProposition<String> subsetProp = new SubsetProposition<String>("A-1", "A", set3, set2);
+        SubsetProposition<String> prop = new SubsetProposition<String>("A-1", "A", set3, set2);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertFalse(result);
     }
@@ -140,44 +138,44 @@ public class PropositionTest {
     @Test
     public void testSumTrue() throws Exception {
 
-        SumProposition<BigDecimal> subsetProp = new SumProposition<BigDecimal>(
+        SumProposition<BigDecimal> prop = new SumProposition<BigDecimal>(
         		"A-1", "A",
                 ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(12.0), creditList);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertTrue(result);
     }
 
     @Test
     public void testSumFalse() throws Exception {
-        SumProposition<BigDecimal> subsetProp = new SumProposition<BigDecimal>(
+        SumProposition<BigDecimal> prop = new SumProposition<BigDecimal>(
         		"A-1", "A",
                 ComparisonOperator.LESS_THAN, new BigDecimal(12.0), creditList);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertFalse(result);
     }
 
     @Test
     public void testAverageTrue() throws Exception {
-        AverageProposition<BigDecimal> subsetProp = new AverageProposition<BigDecimal>(
+        AverageProposition<BigDecimal> prop = new AverageProposition<BigDecimal>(
         		"A-1", "A",
                 ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(80.0), gradeList);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertTrue(result);
     }
 
     @Test
     public void testAverageFalse() throws Exception {
-    	AverageProposition<BigDecimal> subsetProp = new AverageProposition<BigDecimal>(
+    	AverageProposition<BigDecimal> prop = new AverageProposition<BigDecimal>(
     			"A-1", "A",
                 ComparisonOperator.EQUAL_TO, new BigDecimal(70.0), gradeList);
 
-        Boolean result = subsetProp.apply();
+        Boolean result = prop.apply();
 
         Assert.assertFalse(result);
     }
