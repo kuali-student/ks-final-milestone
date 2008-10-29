@@ -2,6 +2,7 @@ package org.kuali.student.rules.internal.common.utils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.xerces.jaxp.datatype.DatatypeFactoryImpl;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
@@ -23,8 +25,9 @@ public class BusinessRuleUtil {
 
     static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
-    public static final String CALENDAR_DATE_FORMAT = "yyyy.MM.dd-HH.mm.ss.SSS";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CALENDAR_DATE_FORMAT);
+    //public static final String CALENDAR_DATE_FORMAT = "yyyy.MM.dd-HH.mm.ss.SSS";
+    public static final String ISO_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
 
     /*
      * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
@@ -333,6 +336,86 @@ public class BusinessRuleUtil {
     public static Object convertToDataType(final Object value) {
     	Class<?> clazz = value.getClass();
     	return convertToDataType(clazz, value);
+    }
+    
+    public static Object convertToDataType(final String className, final String value) {
+    	Class<?> clazz = null;
+    	try {
+			clazz = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		
+    	if (value == null) {
+    		return null;
+    	}
+    	else if (clazz.isPrimitive()) {
+        	throw new RuntimeException("Rule proposition comparison data type conversion error. Primitives cannot be converted: " + clazz);
+    	}
+    	else if (clazz.equals(String.class)) {
+    		return value;
+    	}
+    	else if (clazz.equals(Integer.class)) {
+    		return new Integer(value);
+    	}
+    	else if (clazz.equals(Double.class)) {
+    		return new Double(value);
+    	}
+    	else if (clazz.equals(Long.class)) {
+    		return new Long(value);
+    	}
+    	else if (clazz.equals(Float.class)) {
+    		return new Float(value);
+    	}
+    	else if (clazz.equals(Short.class)) {
+    		return new Short(value);
+    	}
+    	else if (clazz.equals(BigDecimal.class)) {
+    		return new BigDecimal(value);
+    	}
+    	else if (clazz.equals(BigInteger.class)) {
+    		return new BigInteger(value);
+    	}
+    	else if (clazz.equals(Boolean.class)) {
+    		return new Boolean(value);
+    	}
+    	else if (clazz.equals(Date.class)) {
+    		return convertDate(value);
+    		
+    	}
+    	else if (clazz.equals(Calendar.class)) {
+    		Date date = convertDate(value);
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		return cal;
+    	}
+    	else if (clazz.equals(GregorianCalendar.class)) {
+    		Date date = convertDate(value);
+    		GregorianCalendar cal = new GregorianCalendar();
+    		cal.setTime(date);
+    		return cal;
+    	}
+    	else if (clazz.equals(XMLGregorianCalendar.class)) {
+        	String xsdDate = value;
+    		DatatypeFactoryImpl factory = new DatatypeFactoryImpl();
+        	XMLGregorianCalendar time = factory.newXMLGregorianCalendar(xsdDate);
+        	return time;
+    	}
+    	throw new RuntimeException("Data type conversion error. Data type not found: " + clazz);
+    }
+
+    /**
+     * Converts an ISO string date into a <code>java.util.Date</code>.
+     * 
+     * @param value Converted date
+     * @return
+     */
+    public static Date convertDate(String value) {
+		try {
+			return dateFormat.parse(value);
+		} catch (ParseException e) {
+			throw new RuntimeException("Data type conversion error", e);
+		}
     }
     
     /**

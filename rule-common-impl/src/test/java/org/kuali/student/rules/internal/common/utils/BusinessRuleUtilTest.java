@@ -2,6 +2,7 @@ package org.kuali.student.rules.internal.common.utils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -172,5 +173,116 @@ public class BusinessRuleUtilTest {
     	Assert.assertEquals(cal.getTime(), value.getTime());
     }
 
+    @Test
+    public void testConvertToDataType_StringToString() throws Exception {
+    	String s = "Hey Kuali";
+    	String type = java.lang.String.class.getName();
+    	String value = (String) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value);
+    }
 
+    @Test
+    public void testConvertToDataType_StringToInteger() throws Exception {
+    	String s = "123";
+    	String type = java.lang.Integer.class.getName();
+    	Integer value = (Integer) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToDouble() throws Exception {
+    	String s = "123.123";
+    	String type = java.lang.Double.class.getName();
+    	Double value = (Double) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToLong() throws Exception {
+    	String s = "123";
+    	String type = java.lang.Long.class.getName();
+    	Long value = (Long) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToFloat() throws Exception {
+    	String s = "123.456";
+    	String type = java.lang.Float.class.getName();
+    	Float value = (Float) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToShort() throws Exception {
+    	String s = "123";
+    	String type = java.lang.Short.class.getName();
+    	Short value = (Short) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToBigDecimal() throws Exception {
+    	String s = "12345678901234567890.123";
+    	String type = java.math.BigDecimal.class.getName();
+    	BigDecimal value = (BigDecimal) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToBigInteger() throws Exception {
+    	String s = "12345678901234567890";
+    	String type = java.math.BigInteger.class.getName();
+    	BigInteger value = (BigInteger) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToBoolean() throws Exception {
+    	String s = "true";
+    	String type = java.lang.Boolean.class.getName();
+    	Boolean value = (Boolean) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(s, value.toString());
+    }
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
+    
+    @Test
+    public void testConvertToDataType_StringToDate() throws Exception {
+    	Date date = new Date(System.currentTimeMillis());
+    	String s = dateFormat.format(date).toString();
+    	String type = java.util.Date.class.getName();
+    	Date value = (Date) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(date.toString(), value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToCalendar() throws Exception {
+    	Calendar time = Calendar.getInstance();
+    	String s = dateFormat.format(time.getTime()).toString();
+    	String type = java.util.Calendar.class.getName();
+    	Calendar value = (Calendar) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(time.toString(), value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToGregorianCalendar() throws Exception {
+    	Calendar time = GregorianCalendar.getInstance();
+    	String s = dateFormat.format(time.getTime()).toString();
+    	String type = java.util.GregorianCalendar.class.getName();
+    	GregorianCalendar value = (GregorianCalendar) BusinessRuleUtil.convertToDataType(type,s);
+    	Assert.assertEquals(time.toString(), value.toString());
+    }
+
+    @Test
+    public void testConvertToDataType_StringToXMLGregorianCalendar() throws Exception {
+    	GregorianCalendar greg = new GregorianCalendar();
+    	DatatypeFactoryImpl factory = new DatatypeFactoryImpl();
+    	XMLGregorianCalendar time = factory.newXMLGregorianCalendar(greg);
+
+    	String xsdDate = time.toString();
+    	String type = javax.xml.datatype.XMLGregorianCalendar.class.getName();
+    	XMLGregorianCalendar value = (XMLGregorianCalendar) BusinessRuleUtil.convertToDataType(type, xsdDate);
+    	Assert.assertEquals(time.toString(), value.toString());
+    }
 }
