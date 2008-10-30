@@ -1,6 +1,7 @@
 package org.kuali.student.rules.factfinder.dto;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.rules.factfinder.service.jaxws.adapter.ObjectListMapAdapter;
+import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * 
@@ -25,10 +26,10 @@ public class FactResultDTO implements Serializable{
     FactResultTypeInfoDTO factResultTypeInfo;
 
     @XmlElement
-    @XmlJavaTypeAdapter(ObjectListMapAdapter.class)
-    List<Map<String, Object>> resultList;
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
+    List<Map<String, String>> resultList;
 
-    /**
+	/**
      * @return the factResultTypeInfo
      */
     public FactResultTypeInfoDTO getFactResultTypeInfo() {
@@ -45,14 +46,14 @@ public class FactResultDTO implements Serializable{
     /**
      * @return the resultList
      */
-    public List<Map<String, Object>> getResultList() {
+    public List<Map<String, String>> getResultList() {
         return resultList;
     }
 
     /**
      * @param resultList the resultList to set
      */
-    public void setResultList(List<Map<String, Object>> resultList) {
+    public void setResultList(List<Map<String, String>> resultList) {
         this.resultList = resultList;
     }
 }
