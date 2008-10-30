@@ -43,6 +43,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RuleManagementServiceImpl implements RuleManagementService {
 
+    private static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
+    
     private RuleManagementDAO ruleManagementDao;
 
     private RuleRepositoryService repository;
@@ -64,11 +66,11 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         rule.setBusinessRuleType(brType);
 
         // Compile the business rule
-//        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-//        container.getBusinessRules().add(businessRuleInfo);
-//        RuleSetDTO rsDTO = repository.generateRuleSet(container);
-//        rule.setCompiledId(rsDTO.getUUID());
-//        rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
+        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+        container.getBusinessRules().add(businessRuleInfo);
+        RuleSetDTO rsDTO = repository.generateRuleSet(container);
+        rule.setCompiledId(rsDTO.getUUID());
+        rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
 
         ruleManagementDao.createBusinessRule(rule);
 
@@ -90,7 +92,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getStatus());
         if( (BusinessRuleStatus.ACTIVE == orgStatus && BusinessRuleStatus.RETIRED != newStatus) || 
                 BusinessRuleStatus.IN_PROGRESS != orgStatus) {            
-            throw new OperationFailedException("Cannot update not in progress rules");
+            throw new InvalidParameterException("Cannot update not in progress rules");
         }
         
         // Overwrite the incoming values for non updateable attributes
@@ -113,22 +115,22 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         rule.setBusinessRuleType(brType);
         
         // Compile the business rule
-//        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-//        container.getBusinessRules().add(businessRuleInfo);        
-// 
-//        RuleSetDTO rsDTO = null;
-//        if(BusinessRuleStatus.IN_PROGRESS == newStatus) {
-//            rsDTO = repository.generateRuleSet(container);
-//        } else if(BusinessRuleStatus.ACTIVE == newStatus) {
-//            rsDTO = repository.generateRuleSet(container);
-//            rsDTO = repository.createRuleSetSnapshot(ruleSetUUID, ruleSetName, snapshotName, comment);
-//        } else if(BusinessRuleStatus.RETIRED == newStatus) {
-//            rsDTO = repository.removeRuleSetSnapshot(ruleSetUUID, ruleSetName, snapshotName);
-//        }
-//        
-//        orgRule.setCompiledId(rsDTO.getUUID());
-//        orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
-        
+        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+        container.getBusinessRules().add(businessRuleInfo);        
+ 
+        RuleSetDTO rsDTO = null;
+        if(BusinessRuleStatus.IN_PROGRESS == newStatus) {
+            rsDTO = repository.generateRuleSet(container);
+            orgRule.setCompiledId(rsDTO.getUUID());
+            orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
+        } else if(BusinessRuleStatus.ACTIVE == newStatus) {
+            rsDTO = repository.generateRuleSet(container);
+            rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX, "Activating rule " + orgRule.getName());
+            orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());            
+        } else if(BusinessRuleStatus.RETIRED == newStatus) {
+            repository.removeRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX);
+        }
+                
         // Remove the existing rule elements from the detached object
         for (RuleElement element : orgRule.getRuleElements()) {
             ruleManagementDao.deleteRuleElement(element);
