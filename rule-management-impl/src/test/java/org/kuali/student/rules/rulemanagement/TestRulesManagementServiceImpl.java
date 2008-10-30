@@ -31,6 +31,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
@@ -63,7 +64,26 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
         BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");        
         assertTrue(newBrInfoDTO1.getRuleElementList().size() == 3);
-        assertEquals(newBrInfoDTO1.getStatus(), "ACTIVE");
+        assertEquals(newBrInfoDTO1.getStatus(), "IN_PROGRESS");
+    }
+    
+    @Test
+    public void testActivateBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleInfoDTO brInfoDTO = generateUpdatedBusinessRule( generateNewBusinessRuleInfo() );
+        brInfoDTO.setStatus("ACTIVE");
+        client.updateBusinessRule("100", brInfoDTO);
+                
+        BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");        
+        assertTrue(newBrInfoDTO1.getRuleElementList().size() == 3);
+        assertEquals(newBrInfoDTO1.getStatus(), "IN_PROGRESS");
+                
+        // Check if the exception is caught when trying to change ACTIVE rule
+        brInfoDTO.setStatus("IN_PROGRESS");        
+        try {
+            client.updateBusinessRule("100", brInfoDTO);
+        } catch (InvalidParameterException ex) {
+            // This is an expected exception
+        }
     }
     
     @Test
@@ -100,18 +120,27 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
 
     }
     
-//    @Test
-    public void testDeleteBusinessRuleType()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException {
-        client.deleteBusinessRule("1");
-        
-        try {
-            BusinessRuleInfoDTO ruleInfoDTO = client.fetchDetailedBusinessRuleInfo("1");
-        } catch (Exception e) {
-            String s = "temp";
-        }
-        
+    @Test
+    public void testDeleteBusinessRuleType()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
+        client.deleteBusinessRule("100");
     }
 
+    @Test
+    public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
+        BusinessRuleAnchorDTO anchorDTO = new BusinessRuleAnchorDTO();
+        anchorDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_CO_REQ.toString());
+        anchorDTO.setAnchorValue("CPR 201");
+        anchorDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        
+        List<BusinessRuleInfoDTO> rules = client.fetchBusinessRuleInfoByAnchor(anchorDTO);
+                
+        assertEquals(1, rules.size());
+        
+        BusinessRuleInfoDTO ruleInfo = rules.get(0);
+        
+        assertEquals("1", ruleInfo.getBusinessRuleId());        
+    }
+    
     private BusinessRuleInfoDTO generateNewBusinessRuleInfo() {
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         metaInfo.setCreateTime(new Date());
@@ -175,7 +204,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     
     private BusinessRuleInfoDTO generateUpdatedBusinessRule(BusinessRuleInfoDTO brInfoDTO) {
         
-        brInfoDTO.setStatus("ACTIVE");
+        brInfoDTO.setStatus("IN_PROGRESS");
         brInfoDTO.setBusinessRuleId("1");
                 
         // Rule element - I
