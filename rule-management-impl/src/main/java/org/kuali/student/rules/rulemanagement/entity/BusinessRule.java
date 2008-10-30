@@ -51,7 +51,7 @@ public class BusinessRule  {
     private String name;
     private String description;
 
-    @ManyToOne(cascade = {CascadeType.ALL})    
+    @ManyToOne(cascade = {CascadeType.PERSIST})    
     private BusinessRuleType businessRuleType;
     private String anchor;
 
