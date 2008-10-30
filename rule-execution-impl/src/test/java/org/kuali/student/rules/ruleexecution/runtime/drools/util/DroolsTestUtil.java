@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.drools.compiler.PackageBuilder;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -72,11 +74,11 @@ public class DroolsTestUtil {
 		return DroolsUtil.deserialize( builder.getPackage() );
 	}
 
-	public static <T> FactResultDTO createFactResult(T[] values) {
+	public static FactResultDTO createFactResult(String[] values) {
 		FactResultDTO factResult = new FactResultDTO();
-		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		for (T item : values) {
-			Map<String, Object> row = new HashMap<String, Object>();
+		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+		for (String item : values) {
+			Map<String, String> row = new HashMap<String, String>();
 			row.put("column1", item);
 			resultList.add(row);
 		}
@@ -84,6 +86,17 @@ public class DroolsTestUtil {
 		factResult.setResultList(resultList);
 		return factResult;
 	}
+
+	public static FactResultTypeInfoDTO createColumnMetaData(String dataType) {
+    	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
+    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	columnInfo.setKey("column1");
+    	columnInfo.setDataType(dataType);
+    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
+    	typeInfo.setResultColumnsMap(columnsInfoMap);
+    	return typeInfo;
+    }
 
 	public static RuleSetDTO getAverageIntersectionPropositionRuleSet() {
     	RuleSetDTO ruleSet = new RuleSetDTO("TestName", "Test description", "DRL");

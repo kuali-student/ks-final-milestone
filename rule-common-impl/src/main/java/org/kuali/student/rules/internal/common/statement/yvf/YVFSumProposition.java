@@ -17,16 +17,19 @@ package org.kuali.student.rules.internal.common.statement.yvf;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
 public class YVFSumProposition<E extends Number> implements Proposition {
 
@@ -40,7 +43,7 @@ public class YVFSumProposition<E extends Number> implements Proposition {
 		} else if (comparisonOperator == null) {
 			throw new PropositionException("Comparison operator name cannot be null");
 		} else if (expectedValue == null) {
-			throw new PropositionException("Expected value name cannot be null");
+			throw new PropositionException("Expected value cannot be null");
 		} else if (fact == null) {
 			throw new PropositionException("Fact cannot be null");
 		} else if (!(fact instanceof FactResultDTO)) {
@@ -55,12 +58,16 @@ public class YVFSumProposition<E extends Number> implements Proposition {
 	}
 
 	private List<E> getList(FactResultDTO criteria) {
+		Map<String, FactResultColumnInfoDTO> columnMetaData = criteria.getFactResultTypeInfo().getResultColumnsMap();
 		List<E> set = new ArrayList<E>();
-		for( Map<String,Object> map : criteria.getResultList()) {
-			for(Entry<String, Object> entry : map.entrySet()) {
+		for( Map<String,String> map : criteria.getResultList()) {
+			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals("column1")) {
-					E value = (E) entry.getValue();
-					set.add(value);
+					String value = (String) entry.getValue();
+					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+					String dataType = info.getDataType();
+					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+					set.add(obj);
 				}
 			}
 		}

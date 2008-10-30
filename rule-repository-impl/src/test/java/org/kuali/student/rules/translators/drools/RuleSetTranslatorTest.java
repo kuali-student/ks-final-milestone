@@ -42,7 +42,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -81,7 +83,7 @@ public class RuleSetTranslatorTest {
 
     private BusinessRuleInfoDTO getBusinessRule(
     		String yieldValueFunctionType, 
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId,
     		String comparisonOperator, 
     		String expectedValue, 
@@ -113,7 +115,7 @@ public class RuleSetTranslatorTest {
     }
 
     private List<RuleElementDTO> getRuleElementList(String yieldValueFunctionType, 
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId,
     		String comparisonOperator, 
     		String expectedValue, 
@@ -136,7 +138,7 @@ public class RuleSetTranslatorTest {
 
     private RulePropositionDTO getRuleProposition(
     		String yieldValueFunctionType, 
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId,
     		String comparisonOperator, 
     		String expectedValue,
@@ -167,7 +169,7 @@ public class RuleSetTranslatorTest {
         criteriaTypeInfo.setFactParamMap(factParamMap);
         factStructure.setCriteriaTypeInfo(criteriaTypeInfo);
         
-        Map<String,Object> paramValueMap = new HashMap<String,Object>();
+        Map<String,String> paramValueMap = new HashMap<String,String>();
         paramValueMap.put(criteriaId, criteria);
         factStructure.setParamValueMap(paramValueMap);
         
@@ -227,14 +229,13 @@ public class RuleSetTranslatorTest {
     }*/
     
     private BusinessRuleInfoDTO getBusinessRuleInfo(String yieldValueFunctionType,
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId, 
     		String comparisonOperator, 
     		String expectedValue, 
     		String anchorValue, 
     		String comparisonOperatorType,
     		String factKey) throws Exception {
-    		//String comparisonDataType) throws Exception {
         // Generate Drools rule set source code
         BusinessRuleInfoDTO businessRule = getBusinessRule(
         		yieldValueFunctionType, 
@@ -245,20 +246,18 @@ public class RuleSetTranslatorTest {
         		anchorValue, 
         		comparisonOperatorType,
         		factKey);
-        		//comparisonDataType);
         return businessRule;
     }
 
     private String createRuleSourceCode(
     		String yieldValueFunctionType,
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId, 
     		String comparisonOperator, 
     		String expectedValue, 
     		String anchorValue, 
     		String comparisonOperatorType,
     		String factKey) throws Exception {
-    		//String comparisonDataType) throws Exception {
     	BusinessRuleInfoDTO businessRule = getBusinessRuleInfo(
         		yieldValueFunctionType, 
         		criteria, 
@@ -277,11 +276,11 @@ public class RuleSetTranslatorTest {
         return ruleSet.getContent();
     }
 
-    private <T> FactResultDTO createFactResult(T[] values) {
+    private FactResultDTO createFactResult(String[] values) {
 		FactResultDTO factResult = new FactResultDTO();
-		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		for (T item : values) {
-			Map<String, Object> row = new HashMap<String, Object>();
+		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+		for (String item : values) {
+			Map<String, String> row = new HashMap<String, String>();
 			row.put("column1", item);
 			resultList.add(row);
 		}
@@ -289,193 +288,176 @@ public class RuleSetTranslatorTest {
 		factResult.setResultList(resultList);
 		return factResult;
 	}
-
-	@Test
-	public void testParseBusinessRule_MinTrue() throws Exception {
-        // Generate Drools rule set source code
-    	String anchorValue = "CPR101";
-    	String factKey = "FactKey1";
-    	String criteriaKey = "CriteriaKey1";
-        // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
-    	String source = createRuleSourceCode(
-    			YieldValueFunctionType.MIN.toString(), 
-    			criteria,
-    			criteriaKey,
-    			ComparisonOperator.EQUAL_TO.toString(),
-    			"75.0",
-    			anchorValue,
-    			BigDecimal.class.getName(),
-    			factKey);
-
-        // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
-        //FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
-
-        Map<String, Object> factMap = new HashMap<String, Object>();
-        //factMap.put(criteriaKey, factResultCriteria);
-        factMap.put(factKey, factResult);
-    	
-        FactContainer facts =  new FactContainer(anchorValue, factMap);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        // Execute rule
-        executeRule(source, facts);
-        assertTrue(prop.getRuleResult());
-	}
-
-	@Test
-	public void testParseBusinessRule_MinFalse() throws Exception {
-        // Generate Drools rule set source code
-    	String anchorValue = "CPR101";
-    	String factKey = "FactKey1";
-    	String criteriaKey = "CriteriaKey1";
-        // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
-    	String source = createRuleSourceCode(
-    			YieldValueFunctionType.MIN.toString(), 
-    			criteria,
-    			criteriaKey,
-    			ComparisonOperator.EQUAL_TO.toString(),
-    			"85.0",
-    			anchorValue,
-    			BigDecimal.class.getName(),
-    			factKey);
-
-        // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
-        //FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
-
-        Map<String, Object> factMap = new HashMap<String, Object>();
-        //factMap.put(criteriaKey, factResultCriteria);
-        factMap.put(factKey, factResult);
-    	
-        FactContainer facts =  new FactContainer(anchorValue, factMap);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        // Execute rule
-        executeRule(source, facts);
-        assertFalse(prop.getRuleResult());
-	}
-
-	@Test
-	public void testParseBusinessRule_MaxTrue() throws Exception {
-        // Generate Drools rule set source code
-    	String anchorValue = "CPR101";
-    	String factKey = "FactKey1";
-    	String criteriaKey = "CriteriaKey1";
-        // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
-    	String source = createRuleSourceCode(
-    			YieldValueFunctionType.MAX.toString(), 
-    			criteria,
-    			criteriaKey,
-    			ComparisonOperator.EQUAL_TO.toString(),
-    			"85.0",
-    			anchorValue,
-    			BigDecimal.class.getName(),
-    			factKey);
-
-        // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
-
-        Map<String, Object> factMap = new HashMap<String, Object>();
-        factMap.put(factKey, factResult);
-    	
-        FactContainer facts =  new FactContainer(anchorValue, factMap);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        // Execute rule
-        executeRule(source, facts);
-        assertTrue(prop.getRuleResult());
-	}
-
-	@Test
-	public void testParseBusinessRule_MaxFalse() throws Exception {
-        // Generate Drools rule set source code
-    	String anchorValue = "CPR101";
-    	String factKey = "FactKey1";
-    	String criteriaKey = "CriteriaKey1";
-        // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
-    	String source = createRuleSourceCode(
-    			YieldValueFunctionType.MAX.toString(), 
-    			criteria,
-    			criteriaKey,
-    			ComparisonOperator.EQUAL_TO.toString(),
-    			"75.0",
-    			anchorValue,
-    			BigDecimal.class.getName(),
-    			factKey);
-
-        // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
-        //FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
-
-        Map<String, Object> factMap = new HashMap<String, Object>();
-        //factMap.put(criteriaKey, factResultCriteria);
-        factMap.put(factKey, factResult);
-    	
-        FactContainer facts =  new FactContainer(anchorValue, factMap);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        // Execute rule
-        executeRule(source, facts);
-        assertFalse(prop.getRuleResult());
-	}
-
-	@Test
-    public void testParseBusinessRule_Intersection() throws Exception {
-        // Generate Drools rule set source code
-    	String anchorValue = "CPR101";
-    	String factKey = "FactKey1";
-    	String criteriaKey = "CriteriaKey1";
-        // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
-    	String source = createRuleSourceCode(
-    			YieldValueFunctionType.INTERSECTION.toString(), 
-    			criteria,
-    			criteriaKey,
-    			ComparisonOperator.EQUAL_TO.toString(),
-    			"1",
-    			anchorValue,
-    			Integer.class.getName(),
-    			factKey);
-
-        // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
-        FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
-
-        Map<String, Object> factMap = new HashMap<String, Object>();
-        factMap.put(criteriaKey, factResultCriteria);
-        factMap.put(factKey, factResult);
-    	
-        FactContainer facts =  new FactContainer(anchorValue, factMap);
-
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
-
-        // Execute rule
-        executeRule(source, facts);
-        assertTrue(prop.getRuleResult());
+    
+    private FactResultTypeInfoDTO createColumnMetaData(String dataType) {
+    	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
+    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	columnInfo.setKey("column1");
+    	columnInfo.setDataType(dataType);
+    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
+    	typeInfo.setResultColumnsMap(columnsInfoMap);
+    	return typeInfo;
     }
 
-    @Test
-    public void testParseBusinessRule_Subset() throws Exception {
+	@Test
+	public void testTranslateBusinessRule_MinTrue() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
+    	String source = createRuleSourceCode(
+    			YieldValueFunctionType.MIN.toString(), 
+    			criteria,
+    			criteriaKey,
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"75.0",
+    			anchorValue,
+    			BigDecimal.class.getName(),
+    			factKey);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        FactResultDTO factResult = createFactResult(new String[] {"85.0", "75.0", "80.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
+        //FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        //factMap.put(criteriaKey, factResultCriteria);
+        factMap.put(factKey, factResult);
+    	
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+	}
+
+	@Test
+	public void testTranslateBusinessRule_MinFalse() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factKey = "FactKey1";
+    	String criteriaKey = "CriteriaKey1";
+        // DEFINITION and EXECUTION: Create rule definition and map execution keys
+    	String criteria = "CPR101";
+    	String source = createRuleSourceCode(
+    			YieldValueFunctionType.MIN.toString(), 
+    			criteria,
+    			criteriaKey,
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"85.0",
+    			anchorValue,
+    			BigDecimal.class.getName(),
+    			factKey);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        FactResultDTO factResult = createFactResult(new String[] {"85.0", "75.0", "80.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
+        //FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        //factMap.put(criteriaKey, factResultCriteria);
+        factMap.put(factKey, factResult);
+    	
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+	}
+
+	@Test
+	public void testTranslateBusinessRule_MaxTrue() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factKey = "FactKey1";
+    	String criteriaKey = "CriteriaKey1";
+        // DEFINITION and EXECUTION: Create rule definition and map execution keys
+    	String criteria = "CPR101";
+    	String source = createRuleSourceCode(
+    			YieldValueFunctionType.MAX.toString(), 
+    			criteria,
+    			criteriaKey,
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"85.0",
+    			anchorValue,
+    			BigDecimal.class.getName(),
+    			factKey);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        FactResultDTO factResult = createFactResult(new String[] {"85.0", "75.0", "80.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(factKey, factResult);
+    	
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+	}
+
+	@Test
+	public void testTranslateBusinessRule_MaxFalse() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factKey = "FactKey1";
+    	String criteriaKey = "CriteriaKey1";
+        // DEFINITION and EXECUTION: Create rule definition and map execution keys
+    	String criteria = "CPR101";
+    	String source = createRuleSourceCode(
+    			YieldValueFunctionType.MAX.toString(), 
+    			criteria,
+    			criteriaKey,
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"75.0",
+    			anchorValue,
+    			BigDecimal.class.getName(),
+    			factKey);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        FactResultDTO factResult = createFactResult(new String[] {"85.0", "75.0", "80.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
+        //FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        //factMap.put(criteriaKey, factResultCriteria);
+        factMap.put(factKey, factResult);
+    	
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertFalse(prop.getRuleResult());
+	}
+
+    @Test
+    public void testTranslateBusinessRule_Subset() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factKey = "FactKey1";
+    	String criteriaKey = "CriteriaKey1";
+        // DEFINITION and EXECUTION: Create rule definition and map execution keys
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.SUBSET.toString(), 
     			criteria,
@@ -487,8 +469,50 @@ public class RuleSetTranslatorTest {
     			factKey);
 
         // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(String.class.getName());
         FactResultDTO factResult = createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResult.setFactResultTypeInfo(columnMetadata);
         FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
+        factResultCriteria.setFactResultTypeInfo(columnMetadata);
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(criteriaKey, factResultCriteria);
+        factMap.put(factKey, factResult);
+    	
+        FactContainer facts =  new FactContainer(anchorValue, factMap);
+
+        // Collection of Propositions
+        PropositionContainer prop = facts.getPropositionContainer();
+
+        // Execute rule
+        executeRule(source, facts);
+        assertTrue(prop.getRuleResult());
+    }
+
+	@Test
+    public void testTranslateBusinessRule_Intersection() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+    	String factKey = "FactKey1";
+    	String criteriaKey = "CriteriaKey1";
+        // DEFINITION and EXECUTION: Create rule definition and map execution keys
+    	String criteria = "CPR101";
+    	String source = createRuleSourceCode(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			criteria,
+    			criteriaKey,
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			anchorValue,
+    			Integer.class.getName(),
+    			factKey);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(String.class.getName());
+        FactResultDTO factResult = createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResult.setFactResultTypeInfo(columnMetadata);
+        FactResultDTO factResultCriteria = createFactResult(new String[] {"CPR101"});
+        factResultCriteria.setFactResultTypeInfo(columnMetadata);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(criteriaKey, factResultCriteria);
@@ -505,13 +529,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Intersection_NullMap() throws Exception {
+    public void testTranslateBusinessRule_Intersection_NullMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.INTERSECTION.toString(), 
     			criteria,
@@ -543,13 +567,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Intersection_EmptyMap() throws Exception {
+    public void testTranslateBusinessRule_Intersection_EmptyMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.INTERSECTION.toString(), 
     			criteria,
@@ -581,13 +605,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Sum() throws Exception {
+    public void testTranslateBusinessRule_Sum() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.SUM.toString(), 
     			criteria,
@@ -599,7 +623,10 @@ public class RuleSetTranslatorTest {
     			factKey);
 
         // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(3.0),new BigDecimal(6.0),new BigDecimal (3.0)});
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        //FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(3.0),new BigDecimal(6.0),new BigDecimal (3.0)});
+        FactResultDTO factResult = createFactResult(new String[] {"3.0", "6.0", "3.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(factKey, factResult);
@@ -615,13 +642,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Sum_NullMap() throws Exception {
+    public void testTranslateBusinessRule_Sum_NullMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.SUM.toString(), 
     			criteria,
@@ -652,13 +679,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Sum_EmptyMap() throws Exception {
+    public void testTranslateBusinessRule_Sum_EmptyMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.SUM.toString(), 
     			criteria,
@@ -689,13 +716,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Average() throws Exception {
+    public void testTranslateBusinessRule_Average() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.AVERAGE.toString(), 
     			criteria,
@@ -707,7 +734,10 @@ public class RuleSetTranslatorTest {
     			factKey);
 
         // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        //FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
+        FactResultDTO factResult = createFactResult(new String[] {"85.0", "75.0", "80.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(factKey, factResult);
@@ -723,13 +753,13 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Average_NullMap() throws Exception {
+    public void testTranslateBusinessRule_Average_NullMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.AVERAGE.toString(), 
     			criteria,
@@ -760,13 +790,14 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Average_EmptyMap() throws Exception {
+    public void testTranslateBusinessRule_Average_EmptyMap() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	//Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	String source = createRuleSourceCode(
     			YieldValueFunctionType.AVERAGE.toString(), 
     			criteria,
@@ -797,13 +828,14 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testParseBusinessRule_Average_EffectiveExpiryDate() throws Exception {
+    public void testTranslateBusinessRule_Average_EffectiveExpiryDate() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
     	String factKey = "FactKey1";
     	String criteriaKey = "CriteriaKey1";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	//Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	BusinessRuleInfoDTO businessRule = getBusinessRule(
     			YieldValueFunctionType.AVERAGE.toString(), 
     			criteria,
@@ -826,7 +858,10 @@ public class RuleSetTranslatorTest {
         String source = ruleSet.getContent();
 
         // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(BigDecimal.class.getName());
+        //FactResultDTO factResult = createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
+        FactResultDTO factResult = createFactResult(new String[] {"85.0", "75.0", "80.0"});
+        factResult.setFactResultTypeInfo(columnMetadata);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(factKey, factResult);
@@ -869,13 +904,13 @@ public class RuleSetTranslatorTest {
     }
     
     @Test
-    public void testComplexRule() throws Exception {
+    public void testTranslateBusinessRule_SubsetIntersection() throws Exception {
     	String factKey1 = "FactKey1";
     	String criteriaKey1 = "CriteriaKey1";
     	String factKey2 = "FactKey2";
     	String criteriaKey2 = "CriteriaKey2";
         // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
 
         // Rule elements
     	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
@@ -914,10 +949,19 @@ public class RuleSetTranslatorTest {
         String source = ruleSet.getContent();
 
         // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(String.class.getName());
+
         FactResultDTO factResult1 = createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResult1.setFactResultTypeInfo(columnMetadata);
+
         FactResultDTO factResultCriteria1 = createFactResult(new String[] {"CPR101"});
+        factResultCriteria1.setFactResultTypeInfo(columnMetadata);
+
         FactResultDTO factResult2 = createFactResult(new String[] {"CPR102","MATH102","CHEM102"});
+        factResult2.setFactResultTypeInfo(columnMetadata);
+
         FactResultDTO factResultCriteria2 = createFactResult(new String[] {"MATH102"});
+        factResultCriteria2.setFactResultTypeInfo(columnMetadata);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(criteriaKey1, factResultCriteria1);

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
@@ -26,6 +27,7 @@ import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -121,13 +123,20 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		throw new MissingParameterException("Fact list is null");
     	}
     	
-        List<Object> factList = new ArrayList<Object>();
-        for(Map<String, Object> row : fact.getResultList()) {
-        	Object obj = row.get("column1");
-			// Convert to proper datatype
-        	Object val = BusinessRuleUtil.convertToDataType(obj);
-        	factList.add(val);
-        }
+		Map<String, FactResultColumnInfoDTO> columnMetaData = fact.getFactResultTypeInfo().getResultColumnsMap();
+
+		List<Object> factList = new ArrayList<Object>();
+		for( Map<String,String> map : fact.getResultList()) {
+			for(Entry<String, String> entry : map.entrySet()) {
+				if (entry.getKey().equals("column1")) {
+					String value = (String) entry.getValue();
+					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+					String dataType = info.getDataType();
+					Object obj = BusinessRuleUtil.convertToDataType(dataType, value);
+					factList.add(obj);
+				}
+			}
+		}
 
         try {
     		ExecutionResult result =  this.ruleSetExecutor.execute(ruleSet, factList);
@@ -140,6 +149,5 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	} catch(RuleSetExecutionException e) {
     		throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
     	}
-//return null;
     }
 }

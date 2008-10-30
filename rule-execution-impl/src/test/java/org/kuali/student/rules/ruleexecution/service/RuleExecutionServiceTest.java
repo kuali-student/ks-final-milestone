@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
@@ -98,18 +100,22 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         ruleSet.setCompiledRuleSet(bytes);
 
         // Add facts
-        //FactDTO fact = new FactDTO("1");
         FactResultDTO fact = new FactResultDTO();
-        Calendar cal = Calendar.getInstance();
+    	FactResultTypeInfoDTO columnMetaData = DroolsTestUtil.createColumnMetaData(Calendar.class.getName());
+    	fact.setFactResultTypeInfo(columnMetaData);
+    	
+    	Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2008);
         cal.set(Calendar.MONTH, 10);
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
-        //fact.addFact("1", cal);
-        Map<String, Object> rowMap = new HashMap<String, Object>();
-        rowMap.put("column1", cal);
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        
+        String dateString = BusinessRuleUtil.formatDate(cal.getTime());
+
+        Map<String, String> rowMap = new HashMap<String, String>();
+        rowMap.put("column1", dateString);
+        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
         resultList.add(rowMap);
         fact.setResultList(resultList);
 

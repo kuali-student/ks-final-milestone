@@ -15,16 +15,19 @@
  */
 package org.kuali.student.rules.internal.common.statement.yvf;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 
 public class YVFSubsetProposition<E> implements Proposition {
 
@@ -55,12 +58,16 @@ public class YVFSubsetProposition<E> implements Proposition {
 	}
 
 	private Set<E> getSet(FactResultDTO criteria) {
+		Map<String, FactResultColumnInfoDTO> columnMetaData = criteria.getFactResultTypeInfo().getResultColumnsMap();
 		Set<E> set = new HashSet<E>();
-		for( Map<String,Object> map : criteria.getResultList()) {
-			for(Entry<String, Object> entry : map.entrySet()) {
+		for( Map<String,String> map : criteria.getResultList()) {
+			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals("column1")) {
-					E value = (E) entry.getValue();
-					set.add(value);
+					String value = entry.getValue();
+					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+					String dataType = info.getDataType();
+					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+					set.add(obj);
 				}
 			}
 		}

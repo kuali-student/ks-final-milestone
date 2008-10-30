@@ -46,7 +46,9 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -420,7 +422,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     
     private RulePropositionDTO getRuleProposition(
     		String yieldValueFunctionType, 
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId,
     		String comparisonOperator, 
     		String expectedValue,
@@ -457,7 +459,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         criteriaTypeInfo.setFactParamMap(factParamMap);
         factStructure.setCriteriaTypeInfo(criteriaTypeInfo);
         
-        Map<String,Object> paramValueMap = new HashMap<String,Object>();
+        Map<String,String> paramValueMap = new HashMap<String,String>();
         paramValueMap.put(criteriaId, criteria);
         factStructure.setParamValueMap(paramValueMap);
         
@@ -531,9 +533,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     private FactResultDTO createFactResult(String values) {
     	List<String> list = Arrays.asList(values.split(","));
     	FactResultDTO factResult = new FactResultDTO();
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
         for(String item : list) {
-        	Map<String, Object> row = new HashMap<String, Object>();
+        	Map<String, String> row = new HashMap<String, String>();
 	        row.put("column1", item);
 	        resultList.add(row);
         }
@@ -542,16 +544,35 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return factResult;
     }
 
+    private FactResultTypeInfoDTO createColumnMetaData(String dataType) {
+    	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
+    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	columnInfo.setKey("column1");
+    	columnInfo.setDataType(dataType);
+    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
+    	typeInfo.setResultColumnsMap(columnsInfoMap);
+    	return typeInfo;
+    }
+
     private FactContainer execute(RuleSetDTO ruleSet, String anchor, 
     		String criteriaKey1, String criteriaKey2,
     		String factKey1, String factKey2) throws Exception {
         // EXECUTION: Create facts
-        FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
-        FactResultDTO factResultCriteria1 = createFactResult("CPR101");
-        FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
-        FactResultDTO factResultCriteria2 = createFactResult("MATH102");
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(String.class.getName());
 
-    	//Map<String,Object> factMap = getFacts(factId1, factId2);
+    	FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+    	factResult1.setFactResultTypeInfo(columnMetaData);
+    	
+        FactResultDTO factResultCriteria1 = createFactResult("CPR101");
+        factResultCriteria1.setFactResultTypeInfo(columnMetaData);
+    	
+        FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
+        factResult2.setFactResultTypeInfo(columnMetaData);
+    	
+        FactResultDTO factResultCriteria2 = createFactResult("MATH102");
+        factResultCriteria2.setFactResultTypeInfo(columnMetaData);
+
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(criteriaKey1, factResultCriteria1);
         factMap.put(factKey1, factResult1);

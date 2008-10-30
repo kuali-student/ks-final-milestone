@@ -37,6 +37,7 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
@@ -151,9 +152,16 @@ public class RuleSetExecutorDroolsImplTest {
         ruleSet.setCompiledRuleSet(bytes);
 
         // EXECUTION: Create facts
-        FactResultDTO factResult1 = DroolsTestUtil.createFactResult(new BigDecimal[] {new BigDecimal(85.0),new BigDecimal(75.0),new BigDecimal (80.0)});
+    	FactResultTypeInfoDTO columnMetaData1 = DroolsTestUtil.createColumnMetaData(BigDecimal.class.getName());
+    	FactResultDTO factResult1 = DroolsTestUtil.createFactResult(new String[] {"85.0","75.0","80.0"});
+    	factResult1.setFactResultTypeInfo(columnMetaData1);
+    	
+    	FactResultTypeInfoDTO columnMetaData2 = DroolsTestUtil.createColumnMetaData(String.class.getName());
         FactResultDTO factResult2 = DroolsTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
-        FactResultDTO factResultCriteria1 = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
+        factResult2.setFactResultTypeInfo(columnMetaData2);
+
+    	FactResultDTO factResultCriteria1 = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
+    	factResultCriteria1.setFactResultTypeInfo(columnMetaData2);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(factKey1, factResult1);

@@ -405,20 +405,6 @@ public class BusinessRuleUtil {
     }
 
     /**
-     * Converts an ISO string date into a <code>java.util.Date</code>.
-     * 
-     * @param value Converted date
-     * @return
-     */
-    public static Date convertDate(String value) {
-		try {
-			return dateFormat.parse(value);
-		} catch (ParseException e) {
-			throw new RuntimeException("Data type conversion error", e);
-		}
-    }
-    
-    /**
      * <p>Converts the <code>expectedValue</code> to <code>dataType</code>.</p>
      * <p>e.g. dateType="java.lang.Integer" expectedValue="123" returns new Integer(123)</p>
      * 
@@ -475,5 +461,31 @@ public class BusinessRuleUtil {
     		return xmlCal.toGregorianCalendar();
     	}
     	throw new RuntimeException("Data type conversion error. Data type not found: " + clazz);
+    }
+    
+    /**
+     * Converts an <code>ISO_TIMESTAMP_FORMAT</code> string date into a 
+     * <code>java.util.Date</code>.
+     * 
+     * @param value Converted date
+     * @return
+     */
+    public static Date convertDate(String value) {
+		try {
+			return dateFormat.parse(value);
+		} catch (ParseException e) {
+			throw new RuntimeException("Data type conversion error", e);
+		}
+    }
+    
+    /**
+     * Formats a date such as java.util.Date, java.util.Calendar, etc.
+     * according to the <code>ISO_TIMESTAMP_FORMAT</code>.
+     * 
+     * @param dateObject A date object  
+     * @return
+     */
+    public static String formatDate(Date date) {
+    	return dateFormat.format(date).toString();
     }
 }

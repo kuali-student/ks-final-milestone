@@ -39,7 +39,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -81,7 +83,7 @@ public class RuleSetTranslatorPropositionTest {
     		String yieldValueFunctionType,
     		String expectedValue,
     		String comparisonOperator,
-    		Object criteria, 
+    		String criteria, 
     		String criteriaId,
     		String comparisonOperatorType) {
     	
@@ -109,7 +111,7 @@ public class RuleSetTranslatorPropositionTest {
         criteriaTypeInfo.setFactParamMap(factParamMap);
         factStructure.setCriteriaTypeInfo(criteriaTypeInfo);
         
-        Map<String,Object> paramValueMap = new HashMap<String,Object>();
+        Map<String,String> paramValueMap = new HashMap<String,String>();
         paramValueMap.put(criteriaId, criteria);
         factStructure.setParamValueMap(paramValueMap);
         
@@ -191,9 +193,9 @@ public class RuleSetTranslatorPropositionTest {
     private FactResultDTO createFactResult(String values) {
     	List<String> list = Arrays.asList(values.split(","));
     	FactResultDTO factResult = new FactResultDTO();
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
         for(String item : list) {
-        	Map<String, Object> row = new HashMap<String, Object>();
+        	HashMap<String, String> row = new HashMap<String, String>();
 	        row.put("column1", item);
 	        resultList.add(row);
         }
@@ -202,10 +204,21 @@ public class RuleSetTranslatorPropositionTest {
         return factResult;
     }
 
+    private FactResultTypeInfoDTO createColumnMetaData(String dataType) {
+    	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
+    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	columnInfo.setKey("column1");
+    	columnInfo.setDataType(dataType);
+    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
+    	typeInfo.setResultColumnsMap(columnsInfoMap);
+    	return typeInfo;
+    }
+
     @Test
     public void testParseRuleSet_SubsetProposition() throws Exception {
         // DEFINITION: Create rule definition
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	RulePropositionDTO ruleProposition = getRuleProposition(
     			YieldValueFunctionType.SUBSET.toString(), 
     			"1", 
@@ -228,8 +241,13 @@ public class RuleSetTranslatorPropositionTest {
         		"A package", "TestRuleName", "P1", propositionMap);
 
         // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult("CPR101,MATH101,CHEM101");
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(String.class.getName());
+
+    	FactResultDTO factResult = createFactResult("CPR101,MATH101,CHEM101");
+    	factResult.setFactResultTypeInfo(columnMetaData);
+    	
         FactResultDTO factResultCriteria = createFactResult("CPR101");
+        factResultCriteria.setFactResultTypeInfo(columnMetaData);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put("CriteriaKey1", factResultCriteria);
@@ -248,7 +266,7 @@ public class RuleSetTranslatorPropositionTest {
     @Test
     public void testParseRuleSet_TwoSubsetPropositions() throws Exception {
         // DEFINITION: Create rule subset definition
-    	Set<String> criteria1 = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria1 = "CPR101";
     	RulePropositionDTO p1 = getRuleProposition(
     			YieldValueFunctionType.SUBSET.toString(), 
     			"1", 
@@ -261,7 +279,8 @@ public class RuleSetTranslatorPropositionTest {
         createExecutionFact(fact1, "FactKey1");
 
         // DEFINITION: Create rule subset definition
-    	Set<String> criteria2 = new HashSet<String>(Arrays.asList("CPR102"));
+    	//Set<String> criteria2 = new HashSet<String>(Arrays.asList("CPR102"));
+    	String criteria2 = "CPR102";
     	RulePropositionDTO p2 = getRuleProposition(
     			YieldValueFunctionType.SUBSET.toString(), 
     			"1", 
@@ -285,10 +304,20 @@ public class RuleSetTranslatorPropositionTest {
         		"A package", "TestRuleName", "P1*P2", propositionMap);
 
         // EXECUTION: Create facts
-        FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(String.class.getName());
+
+    	FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+    	factResult1.setFactResultTypeInfo(columnMetaData);
+    	
         FactResultDTO factResultCriteria1 = createFactResult("CPR101");
+        factResultCriteria1.setFactResultTypeInfo(columnMetaData);
+    	
         FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
+        factResult2.setFactResultTypeInfo(columnMetaData);
+    	
         FactResultDTO factResultCriteria2 = createFactResult("CPR102");
+        factResultCriteria2.setFactResultTypeInfo(columnMetaData);
+    	
         
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put("CriteriaKey1", factResultCriteria1);
@@ -309,7 +338,7 @@ public class RuleSetTranslatorPropositionTest {
     @Test
     public void testParseRuleSet_IntersectionProposition() throws Exception {
         // DEFINITION: Create rule definition
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
     	RulePropositionDTO ruleProposition = getRuleProposition(
     			YieldValueFunctionType.INTERSECTION.toString(), 
     			"1", 
@@ -332,8 +361,13 @@ public class RuleSetTranslatorPropositionTest {
         		"A package", "TestRuleName", "P1", propositionMap);
 
         // EXECUTION: Create facts
-        FactResultDTO factResult = createFactResult("CPR101,MATH101,CHEM101");
-        FactResultDTO factResultCriteria = createFactResult("CPR101");
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(String.class.getName());
+
+    	FactResultDTO factResult = createFactResult("CPR101,MATH101,CHEM101");
+    	factResult.setFactResultTypeInfo(columnMetaData);
+
+    	FactResultDTO factResultCriteria = createFactResult("CPR101");
+    	factResultCriteria.setFactResultTypeInfo(columnMetaData);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put("CriteriaKey1", factResultCriteria);
@@ -352,7 +386,7 @@ public class RuleSetTranslatorPropositionTest {
     @Test
     public void testParseRuleSet_SubsetAndIntersectionProposition() throws Exception {
         // Create rule definition
-    	Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
+    	String criteria = "CPR101";
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         // 1 of CPR101
         RulePropositionDTO p1 = getRuleProposition(
@@ -389,10 +423,19 @@ public class RuleSetTranslatorPropositionTest {
         		"A package", "TestRuleName", "P1*P2", propositionMap);
 
         // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(String.class.getName());
+
         FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
+        factResult1.setFactResultTypeInfo(columnMetaData);
+        
         FactResultDTO factResultCriteria1 = createFactResult("CPR101");
+        factResultCriteria1.setFactResultTypeInfo(columnMetaData);
+        
         FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
+        factResult2.setFactResultTypeInfo(columnMetaData);
+        
         FactResultDTO factResultCriteria2 = createFactResult("CPR102");
+        factResultCriteria2.setFactResultTypeInfo(columnMetaData);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put("CriteriaKey1", factResultCriteria1);
