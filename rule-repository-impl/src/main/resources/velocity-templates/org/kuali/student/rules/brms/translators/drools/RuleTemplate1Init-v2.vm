@@ -22,7 +22,7 @@ rule "${ruleName}"
     lock-on-active true
 
     when 
-        container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap )
+        container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
@@ -40,76 +40,66 @@ rule "${ruleName}"
        		#set( $operator = $proposition.ComparisonOperatorType )
     		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
 
-            #if ( $yvf.YieldValueFunctionType == "SUBSET" )
-                #set( $criteriaKey = $factUtil.getFactParamDefinitionKey( $yvf ) )
-                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
+            String uuid${key} = "${key}-${uuid}";
+            RulePropositionDTO ruleProposition${key} = (RulePropositionDTO) propositionMap.get("${key}");
+            YieldValueFunctionDTO yvf${key} = ruleProposition${key}.getLeftHandSide().getYieldValueFunction();
 
-                String uuid${key} = "${key}-${uuid}";
-                YVFSubsetProposition<$comparisonDataType> proposition${key} = new YVFSubsetProposition<$comparisonDataType>(
-                    uuid${key}, "${key}", factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
-                proposition${key}.apply();
-                prop.addProposition(proposition${key}.getProposition());
-                insert(proposition${key}.getProposition());
+            #if ( $yvf.YieldValueFunctionType == "SUBSET" )
+
+                YVFSubsetProposition<$comparisonDataType> yvfProposition${key} = new YVFSubsetProposition<$comparisonDataType>(
+                    uuid${key}, "${key}", yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
 
        		#elseif ( $yvf.YieldValueFunctionType == "INTERSECTION" )
-                #set( $criteriaKey = $factUtil.getFactParamDefinitionKey( $yvf ) )
-                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                String uuid${key} = "${key}-${uuid}";
-                YVFIntersectionProposition<$comparisonDataType> proposition${key} = new YVFIntersectionProposition<$comparisonDataType>(
+                YVFIntersectionProposition<$comparisonDataType> yvfProposition${key} = new YVFIntersectionProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, new Integer($rhs), 
-                    factMap.get( "$criteriaKey" ), factMap.get( "$factKey" ) );
-                proposition${key}.apply();
-                prop.addProposition(proposition${key}.getProposition());
-                insert(proposition${key}.getProposition());
+                    yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
-                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                String uuid${key} = "${key}-${uuid}";
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                YVFSumProposition<$comparisonDataType> proposition${key} = new YVFSumProposition<$comparisonDataType>(
+                YVFSumProposition<$comparisonDataType> yvfProposition${key} = new YVFSumProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
-                    factMap.get( "$factKey" ) );
-                proposition${key}.apply();
-                prop.addProposition(proposition${key}.getProposition());
-                insert(proposition${key}.getProposition());
+                    yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
-                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                String uuid${key} = "${key}-${uuid}";
                 //$comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                YVFAverageProposition<$comparisonDataType> proposition${key} = new YVFAverageProposition<$comparisonDataType>(
+                YVFAverageProposition<$comparisonDataType> yvfProposition${key} = new YVFAverageProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, new BigDecimal($rhs), 
-                    factMap.get( "$factKey" ) );
-                proposition${key}.apply();
-                prop.addProposition(proposition${key}.getProposition());
-                insert(proposition${key}.getProposition());
+                    yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MIN" )
-                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                String uuid${key} = "${key}-${uuid}";
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                YVFMinProposition<$comparisonDataType> proposition${key} = new YVFMinProposition<$comparisonDataType>(
+                YVFMinProposition<$comparisonDataType> yvfProposition${key} = new YVFMinProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
-                    factMap.get( "$factKey" ) );
-                proposition${key}.apply();
-                prop.addProposition(proposition${key}.getProposition());
-                insert(proposition${key}.getProposition());
+                    yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
 
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MAX" )
-                #set( $factKey = $factUtil.getFactParamExecutionKey( $yvf ) )
 
-                String uuid${key} = "${key}-${uuid}";
                 $comparisonDataType value${key} = new $comparisonDataType("$rhs");
-                YVFMaxProposition<$comparisonDataType> proposition${key} = new YVFMaxProposition<$comparisonDataType>(
+                YVFMaxProposition<$comparisonDataType> yvfProposition${key} = new YVFMaxProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
-                    factMap.get( "$factKey" ) );
-                proposition${key}.apply();
-                prop.addProposition(proposition${key}.getProposition());
-                insert(proposition${key}.getProposition());
+                    yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
             #end
         #end
 

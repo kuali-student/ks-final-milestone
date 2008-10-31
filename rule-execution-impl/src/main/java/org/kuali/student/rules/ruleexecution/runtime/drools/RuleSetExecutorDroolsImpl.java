@@ -35,6 +35,7 @@ import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,8 +114,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         return result;
     }*/
 
-    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, Map<String, Object> factMap) {
-        FactContainer factContainer =  new FactContainer(anchor, factMap);
+    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
+    		Map<String, RulePropositionDTO> propositionMap,
+    		Map<String, Object> factMap) {
+        FactContainer factContainer =  new FactContainer(anchor, propositionMap, factMap);
     	List<Package> packageList = new ArrayList<Package>();
         Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
         if (pkg == null) {

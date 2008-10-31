@@ -2,6 +2,7 @@ package org.kuali.student.rules.rulemanagement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -75,14 +76,16 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
                 
         BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");        
         assertTrue(newBrInfoDTO1.getRuleElementList().size() == 3);
-        assertEquals(newBrInfoDTO1.getStatus(), "IN_PROGRESS");
+        assertEquals(newBrInfoDTO1.getStatus(), "ACTIVE");
                 
         // Check if the exception is caught when trying to change ACTIVE rule
         brInfoDTO.setStatus("IN_PROGRESS");        
         try {
             client.updateBusinessRule("100", brInfoDTO);
+            fail("Updating business rule from 'ACTIVE' to 'IN_PROGRESS' should have failed");
         } catch (InvalidParameterException ex) {
             // This is an expected exception
+        	assertTrue(true);
         }
     }
     

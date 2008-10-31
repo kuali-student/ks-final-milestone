@@ -15,26 +15,23 @@
  */
 package org.kuali.student.rules.internal.common.statement.yvf;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
-import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFIntersectionProposition<E> implements Proposition {
+public class YVFIntersectionProposition<E> extends YVFProposition<E> {
 
-	private IntersectionProposition<E> proposition;
-	
-	public YVFIntersectionProposition(String id, String propositionName, ComparisonOperator comparisonOperator, Integer expectedValue, Object criteria, Object fact) {
+	public YVFIntersectionProposition(String id, String propositionName, 
+			ComparisonOperator comparisonOperator, Integer expectedValue, 
+			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
 		if (id == null || id.isEmpty()) {
 			throw new PropositionException("Proposition id cannot be null");
 		} else if (propositionName == null || propositionName.isEmpty()) {
@@ -43,69 +40,37 @@ public class YVFIntersectionProposition<E> implements Proposition {
 			throw new PropositionException("Comparison operator name cannot be null");
 		} else if (expectedValue == null) {
 			throw new PropositionException("Expected value cannot be null");
-		} else if (criteria == null) {
-			throw new PropositionException("Criteria cannot be null");
-		} else if (!(criteria instanceof FactResultDTO)) {
-			throw new PropositionException("Criteria must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
-		} else if (fact == null) {
-			throw new PropositionException("Fact cannot be null");
-		} else if (!(fact instanceof FactResultDTO)) {
-			throw new PropositionException("Fact must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
+		} else if (yvf == null) {
+			throw new PropositionException("Yield value function cannot be null");
+		} else if (factMap == null || factMap.isEmpty()) {
+			throw new PropositionException("Fact map cannot be null or empty");
 		}
 
-		FactResultDTO criteriaDTO = (FactResultDTO) criteria;
-		FactResultDTO factDTO = (FactResultDTO) fact;
+		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
+		FactStructureDTO criteria = factStructureList.get(0);
+		FactStructureDTO fact = factStructureList.get(1);
 
-		Set<E> criteriaSet = getSet(criteriaDTO);
-		Set<E> factSet = getSet(factDTO);
+		Set<E> criteriaSet = null;
+		Set<E> factSet = null;
 
-        this.proposition = new IntersectionProposition<E>(id, propositionName, 
+		if (criteria.isStaticFact()) {
+			criteriaSet = getSet(criteria.getStaticValueDataType(), criteria.getStaticValue());
+		} else {
+			String criteriaKey = FactUtil.createCriteriaKey(criteria);
+			FactResultDTO criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
+			criteriaSet = getSet(criteriaDTO);
+		}
+
+		if (fact.isStaticFact()) {
+			factSet = getSet(fact.getStaticValueDataType(), fact.getStaticValue());
+		} else {
+	    	String factKey = FactUtil.createFactKey(fact);
+			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factSet = getSet(factDTO);
+		}
+
+		super.proposition = new IntersectionProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, criteriaSet, factSet); 
 	}
 	
-	private Set<E> getSet(FactResultDTO criteria) {
-		Map<String, FactResultColumnInfoDTO> columnMetaData = criteria.getFactResultTypeInfo().getResultColumnsMap();
-		Set<E> set = new HashSet<E>();
-		for( Map<String,String> map : criteria.getResultList()) {
-			for(Entry<String, String> entry : map.entrySet()) {
-				if (entry.getKey().equals("column1")) {
-					String value = entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
-					String dataType = info.getDataType();
-					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-					set.add(obj);
-				}
-			}
-		}
-		return set;
-	}
-	
-	public IntersectionProposition<E> getProposition() {
-		return this.proposition;
-	}
-
-	@Override
-	public Boolean apply() {
-		return proposition.apply();
-	}
-	
-	@Override
-	public String getId() {
-		return this.proposition.getId();
-	}
-
-	@Override
-	public String getPropositionName() {
-		return this.proposition.getPropositionName();
-	}
-
-	@Override
-	public PropositionReport getReport() {
-		return this.proposition.getReport();
-	}
-
-	@Override
-	public Boolean getResult() {
-		return this.proposition.getResult();
-	}
 }
