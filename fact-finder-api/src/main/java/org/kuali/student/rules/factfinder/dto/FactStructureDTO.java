@@ -55,6 +55,9 @@ public class FactStructureDTO implements Serializable {
     private Boolean staticFact = false;
     
     @XmlElement
+    private String staticValueDataType;
+
+    @XmlElement
     private String staticValue;
 
     /**
@@ -153,5 +156,13 @@ public class FactStructureDTO implements Serializable {
      */
     public void setStaticValue(String staticValue) {
         this.staticValue = staticValue;
-    }    
+    }
+
+	public String getStaticValueDataType() {
+		return staticValueDataType;
+	}
+
+	public void setStaticValueDataType(String staticValueDataType) {
+		this.staticValueDataType = staticValueDataType;
+	}    
 }
