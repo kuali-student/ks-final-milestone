@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public interface RuleSetExecutor {
 
@@ -47,7 +48,9 @@ public interface RuleSetExecutor {
      * @param fact Fact for the <code>ruleSet</code> 
      * @return Result of executing the <code>ruleSet</code>
      */
-    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, Map<String, Object> factMap);
+    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
+    		Map<String, RulePropositionDTO> propositionMap, 
+    		Map<String, Object> factMap);
 
     /**
      * Executes a production snapshot <code>agenda</code> with <code>facts</code>.

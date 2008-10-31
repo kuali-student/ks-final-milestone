@@ -15,26 +15,23 @@
  */
 package org.kuali.student.rules.internal.common.statement.yvf;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
-import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.MinProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFMinProposition<T extends Comparable<T>> implements Proposition {
+public class YVFMinProposition<T extends Comparable<T>> extends YVFProposition<T> {
 
-	private MinProposition<T> proposition;
-	
-	public YVFMinProposition(String id, String propositionName, ComparisonOperator comparisonOperator, T expectedValue, Object fact) {
+	public YVFMinProposition(String id, String propositionName, 
+			ComparisonOperator comparisonOperator, T expectedValue, 
+			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
 		if (id == null || id.isEmpty()) {
 			throw new PropositionException("Proposition id cannot be null");
 		} else if (propositionName == null || propositionName.isEmpty()) {
@@ -43,62 +40,26 @@ public class YVFMinProposition<T extends Comparable<T>> implements Proposition {
 			throw new PropositionException("Comparison operator name cannot be null");
 		} else if (expectedValue == null) {
 			throw new PropositionException("Expected value cannot be null");
-		} else if (fact == null) {
-			throw new PropositionException("Fact cannot be null");
-		} else if (!(fact instanceof FactResultDTO)) {
-			throw new PropositionException("Fact must be an instance of org.kuali.student.rules.factfinder.dto.FactResultDTO");
+		} else if (yvf == null) {
+			throw new PropositionException("Yield value function cannot be null");
+		} else if (factMap == null || factMap.isEmpty()) {
+			throw new PropositionException("Fact map cannot be null or empty");
 		}
 
-		FactResultDTO factDTO = (FactResultDTO) fact;
-		Set<T> factSet = getSet(factDTO);
+		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
+		FactStructureDTO fact = factStructureList.get(0);
 
-        this.proposition = new MinProposition<T>(id, propositionName, 
+		Set<T> factSet = null;
+
+		if (fact.isStaticFact()) {
+			factSet = getSet(fact.getStaticValueDataType(), fact.getStaticValue());
+		} else {
+	    	String factKey = FactUtil.createFactKey(fact);
+			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factSet = getSet(factDTO);
+		}
+
+        super.proposition = new MinProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
-	}
-	
-	private Set<T> getSet(FactResultDTO criteria) {
-		Map<String, FactResultColumnInfoDTO> columnMetaData = criteria.getFactResultTypeInfo().getResultColumnsMap();
-		Set<T> set = new HashSet<T>();
-		for( Map<String,String> map : criteria.getResultList()) {
-			for(Entry<String, String> entry : map.entrySet()) {
-				if (entry.getKey().equals("column1")) {
-					String value = entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
-					String dataType = info.getDataType();
-					T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
-					set.add(obj);
-				}
-			}
-		}
-		return set;
-	}
-	
-	public MinProposition<T> getProposition() {
-		return this.proposition;
-	}
-
-	@Override
-	public Boolean apply() {
-		return proposition.apply();
-	}
-	
-	@Override
-	public String getId() {
-		return this.proposition.getId();
-	}
-
-	@Override
-	public String getPropositionName() {
-		return this.proposition.getPropositionName();
-	}
-
-	@Override
-	public PropositionReport getReport() {
-		return this.proposition.getReport();
-	}
-
-	@Override
-	public Boolean getResult() {
-		return this.proposition.getResult();
 	}
 }

@@ -18,22 +18,29 @@ package org.kuali.student.rules.util;
 import java.util.Map;
 
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class FactContainer {
     private String id;
+    Map<String, RulePropositionDTO> propositionMap;
     private PropositionContainer propositionContainer = new PropositionContainer();
     private Map<String, ?> factMap;
     private State state = State.INIT;
     
     public enum State {INIT,DONE};
 
-    public FactContainer(String id, Map<String, ?> factMap) {
+    public FactContainer(String id, Map<String, RulePropositionDTO> propositionMap, Map<String, ?> factMap) {
         this.id = id;
+        this.propositionMap = propositionMap;
         this.factMap = factMap;
     }
     
     public String getId() {
         return this.id;
+    }
+    
+    public Map<String, RulePropositionDTO> getPropositionMap() {
+    	return this.propositionMap;
     }
     
     public Map<String, ?> getFactMap() {

@@ -121,49 +121,53 @@ public class DroolsTestUtil {
 		"    lock-on-active true \n" +
 		"\n" +
 		"    when \n" + 
-		"        container : FactContainer( id == \"CPR101\", state == FactContainer.State.INIT, prop : propositionContainer, factMap : factMap ) \n" +
+        "          container : FactContainer( id == \"CPR101\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
 		"        //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime \n" +
 		//"        CurrentDateTime( currentDateAsLong >= 20000101120010 && currentDateAsLong < 20010101120010 ) \n" +
 		"    then \n" +
 		"\n" +
 		"        prop.setFunctionalRuleString(\"P1*P2\"); \n" +
 		"\n" +
-		"        String uuidP1 = \"P1-a4f5b5b6-c7e3-4abf-abf6-f68efec26785\"; \n" +
-		"        YVFAverageProposition<java.math.BigDecimal> propositionP1 = new YVFAverageProposition<java.math.BigDecimal>( \n" +
-		"            uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new BigDecimal(80.0),  \n" +
-		"            factMap.get( \"FactKey1\" ) ); \n" +
-		"        propositionP1.apply(); \n" +
-		"        prop.addProposition(propositionP1.getProposition()); \n" +
-		"        insert(propositionP1.getProposition()); \n" +
-		"        container.setState(FactContainer.State.DONE); \n" +
-		"        update(container); \n" +
+		"        String uuidP1 = \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\"; \n" +
+		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
+		"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
+        
+		"        YVFAverageProposition<java.math.BigDecimal> yvfPropositionP1 = new YVFAverageProposition<java.math.BigDecimal>( \n" +
+		"        uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new BigDecimal(80.0),  \n" +
+		"        yvfP1, factMap ); \n" +
+		"        yvfPropositionP1.apply(); \n" +
+		"        prop.addProposition(yvfPropositionP1.getProposition()); \n" +
+		"        insert(yvfPropositionP1.getProposition()); \n" +
 		"\n" +
-		"        String uuidP2 = \"P2-a4f5b5b6-c7e3-4abf-abf6-f68efec26785\"; \n" +
-		"        YVFIntersectionProposition<java.lang.Integer> propositionP2 = new YVFIntersectionProposition<java.lang.Integer>( \n" +
-		"            uuidP2, \"P2\", ComparisonOperator.EQUAL_TO, new Integer(1),  \n" +
-		"            factMap.get( \"CriteriaKey2\" ), factMap.get( \"FactKey2\" ) ); \n" +
-		"        propositionP2.apply(); \n" +
-		"        prop.addProposition(propositionP2.getProposition()); \n" +
-		"        insert(propositionP2.getProposition()); \n" +
-		"        container.setState(FactContainer.State.DONE); \n" +
-		"        update(container); \n" +
+		"        String uuidP2 = \"P2-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
+		"        RulePropositionDTO rulePropositionP2 = (RulePropositionDTO) propositionMap.get(\"P2\"); \n" +
+		"        YieldValueFunctionDTO yvfP2 = rulePropositionP2.getLeftHandSide().getYieldValueFunction(); \n" +
+		"\n" +
+		"        YVFIntersectionProposition<java.lang.Integer> yvfPropositionP2 = new YVFIntersectionProposition<java.lang.Integer>( \n" +
+		"        uuidP2, \"P2\", ComparisonOperator.EQUAL_TO, new Integer(1),  \n" +
+		"        yvfP2, factMap ); \n" +
+		"        yvfPropositionP2.apply(); \n" +
+		"        prop.addProposition(yvfPropositionP2.getProposition()); \n" +
+		"        insert(yvfPropositionP2.getProposition()); \n" +
+		
 		"end \n" +
 
 		"rule \"CPR101\" \n" +
 		"    when \n" +
-		"        factContainer : FactContainer( id == \"CPR101\", state == FactContainer.State.DONE, prop : propositionContainer) \n" +
-		"        P1 : Proposition( id == \"P1-a4f5b5b6-c7e3-4abf-abf6-f68efec26785\" ) \n" +
-		"        P2 : Proposition( id == \"P2-a4f5b5b6-c7e3-4abf-abf6-f68efec26785\" ) \n" +
+        "          container : FactContainer( id == \"CPR101\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
+		
+		"        P1 : Proposition( id == \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\" ) \n" +
+		"        P2 : Proposition( id == \"P2-a46c7596-8052-4d83-bcc0-da4744436ed3\" ) \n" +
 		"\n" +
 		"        exists \n" +
 		"        ( \n" +
-		"            Proposition( id == \"P1-a4f5b5b6-c7e3-4abf-abf6-f68efec26785\" && result == true ) \n" +
+		"            Proposition( id == \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\" && result == true ) \n" +
 		"            && \n" +
-		"            Proposition( id == \"P2-a4f5b5b6-c7e3-4abf-abf6-f68efec26785\" && result == true ) \n" +
+		"            Proposition( id == \"P2-a46c7596-8052-4d83-bcc0-da4744436ed3\" && result == true ) \n" +
 		"        ) \n" +
 		"    then \n" +
 		"        prop.setRuleResult(true); \n" +
-		//"        retract(factContainer); \n" +
+		//"        retract(container); \n" +
 		"        retract(P1); \n" +
 		"        retract(P2); \n" +
 		"end \n";

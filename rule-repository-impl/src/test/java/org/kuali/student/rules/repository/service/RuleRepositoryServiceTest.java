@@ -45,15 +45,14 @@ import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
-import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
-import org.kuali.student.rules.factfinder.dto.FactParamDTO.FactParamDefTime;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -420,100 +419,61 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return re;
     }
     
-    private RulePropositionDTO getRuleProposition(
+    private RulePropositionDTO createRuleProposition(
     		String yieldValueFunctionType, 
-    		String criteria, 
-    		String criteriaId,
     		String comparisonOperator, 
     		String expectedValue,
     		String comparisonOperatorType,
-    		String factKey) {
+    		YieldValueFunctionDTO yieldValueFunction) {
 
-    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, yieldValueFunctionType);
     	LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
     	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
         RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
-        		"PROPOSITION_NAME", comparisonOperatorType, 
+        		"co-requisites", comparisonOperatorType, 
         		comparisonOperator, leftSide, rightSide);
-        
-        FactStructureDTO factStructure = new FactStructureDTO();
-        //factStructure.setDataType(java.util.Set.class.getName());
-        //factStructure.setFactStructureId("some id");
-        factStructure.setAnchorFlag(false);
-
-        // DEFINITION
-        Map<String, FactParamDTO> factParamMap = new HashMap<String, FactParamDTO>();
-        FactParamDTO param1 = new FactParamDTO();
-        param1.setDataType("");
-        param1.setDefTime(FactParamDefTime.DEFINITION);
-        param1.setKey(criteriaId);
-        factParamMap.put(criteriaId, param1);
-        
-        FactParamDTO param2 = new FactParamDTO();
-        param2.setDataType("");
-        param2.setDefTime(FactParamDefTime.EXECUTION);
-        param2.setKey(factKey);
-        factParamMap.put(factKey, param2);
-        
-        FactCriteriaTypeInfoDTO criteriaTypeInfo = new FactCriteriaTypeInfoDTO();
-        criteriaTypeInfo.setFactParamMap(factParamMap);
-        factStructure.setCriteriaTypeInfo(criteriaTypeInfo);
-        
-        Map<String,String> paramValueMap = new HashMap<String,String>();
-        paramValueMap.put(criteriaId, criteria);
-        factStructure.setParamValueMap(paramValueMap);
-        
-        List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
-        factStructureList.add(factStructure);
-        yieldValueFunction.setFactStructureList(factStructureList);
-
         return ruleProp;
     }
 
-    private BusinessRuleContainerDTO getBusinessRuleContainer(
-    		String anchorValue,
-    		String criteriaKey1, String criteriaKey2,
-    		String factKey1, String factKey2) {
-    	// JAXB doesn't allow you to set a java.util.Set to a JAXB defined element
-    	// only Java objects are allowed
-    	//Set<String> criteria1 = new HashSet<String>(Arrays.asList("CPR101"));
-    	//Set<String> criteria2 = new HashSet<String>(Arrays.asList("CPR101"));
-    	String criteria1 = "CPR101";
-    	String criteria2 = "CPR101";
+    private BusinessRuleContainerDTO getBusinessRuleContainer(String anchorValue) {
+    	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+    	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.subset.fact");
+		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1, factStructure2));
+		
+		FactStructureDTO factStructure3 = createFactStructure("subset.id.3", "course.subset.criteria");
+		FactStructureDTO factStructure4 = createFactStructure("subset.id.4", "course.subset.fact");
+		yieldValueFunction2.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
 
-    	// Create rule elements
-    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+		List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
-        		new Integer(1), getRuleProposition(
+        		new Integer(1), createRuleProposition(
             			YieldValueFunctionType.SUBSET.toString(), 
-            			criteria1,
-            			criteriaKey1,
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
-            			factKey1));
+            			yieldValueFunction1));
         RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
         		"element-2", "PROPOSITION", 
-        		new Integer(1), getRuleProposition(
+        		new Integer(1), createRuleProposition(
             			YieldValueFunctionType.INTERSECTION.toString(), 
-            			criteria2,
-            			criteriaKey2,
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
-            			factKey2));
+            			yieldValueFunction2));
     	ruleElementList.add(element1);
         ruleElementList.add(getAndOperator());
         ruleElementList.add(element2);
 
         // Create functional business rule
-        BusinessRuleInfoDTO bri = createBusinessRule(anchorValue, ruleElementList);
-        bri.setAnchorValue(anchorValue);
+        BusinessRuleInfoDTO businessRule = createBusinessRule(anchorValue, ruleElementList);
+        businessRule.setAnchorValue("CPR101");
 
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
-        container.getBusinessRules().add(bri);
-        
+        container.getBusinessRules().add(businessRule);
+
         return container;
     }
     
@@ -530,11 +490,20 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return ruleBase;
     }
     
-    private FactResultDTO createFactResult(String values) {
-    	List<String> list = Arrays.asList(values.split(","));
+    private FactStructureDTO createFactStructure(String factStructureId, String criteriaTypeName) {
+    	FactStructureDTO factStructure1 = new FactStructureDTO();
+	    factStructure1.setFactStructureId(factStructureId);
+	    FactCriteriaTypeInfoDTO criteriaTypeInfo1 = new FactCriteriaTypeInfoDTO();
+	    criteriaTypeInfo1.setName(criteriaTypeName);
+	    factStructure1.setCriteriaTypeInfo(criteriaTypeInfo1);
+	    return factStructure1;
+    }
+    
+    private FactResultDTO createFactResult(String[] values) {
+    	//List<String> list = Arrays.asList(values.split(","));
     	FactResultDTO factResult = new FactResultDTO();
         List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-        for(String item : list) {
+        for(String item : values) {
         	Map<String, String> row = new HashMap<String, String>();
 	        row.put("column1", item);
 	        resultList.add(row);
@@ -555,34 +524,54 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	return typeInfo;
     }
 
-    private FactContainer execute(RuleSetDTO ruleSet, String anchor, 
-    		String criteriaKey1, String criteriaKey2,
-    		String factKey1, String factKey2) throws Exception {
-        // EXECUTION: Create facts
-    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(String.class.getName());
+    private FactContainer execute(RuleSetDTO ruleSet, String anchor,
+    		BusinessRuleInfoDTO bri) throws Exception { 
+    	// Proposition 0 - SUBSET 
+    	List<RuleElementDTO> ruleElementList = bri.getRuleElementList();
+    	RuleElementDTO ruleElement1 = ruleElementList.get(0);
+    	List<FactStructureDTO> factList = ruleElement1.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+    	FactStructureDTO factStructure1 = factList.get(0);
+    	FactStructureDTO factStructure2 = factList.get(1);
 
-    	FactResultDTO factResult1 = createFactResult("CPR101,MATH101,CHEM101");
-    	factResult1.setFactResultTypeInfo(columnMetaData);
+    	// Proposition 1 - AND 
+    	// ruleElementList.get(1) is an AND operator and has no proposition
     	
-        FactResultDTO factResultCriteria1 = createFactResult("CPR101");
-        factResultCriteria1.setFactResultTypeInfo(columnMetaData);
+    	// Proposition 2 - INTERSECTION 
+    	RuleElementDTO ruleElement2 = ruleElementList.get(2);
+    	List<FactStructureDTO> factList2 = ruleElement2.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+    	FactStructureDTO factStructure3 = factList2.get(0);
+    	FactStructureDTO factStructure4 = factList2.get(1);
     	
-        FactResultDTO factResult2 = createFactResult("CPR102,MATH102,CHEM102");
-        factResult2.setFactResultTypeInfo(columnMetaData);
-    	
-        FactResultDTO factResultCriteria2 = createFactResult("MATH102");
-        factResultCriteria2.setFactResultTypeInfo(columnMetaData);
+    	String criteriaKey1 = FactUtil.createCriteriaKey(factStructure1);
+    	String factKey1 = FactUtil.createFactKey(factStructure2);
+
+    	String criteriaKey2 = FactUtil.createCriteriaKey(factStructure3);
+    	String factKey2 = FactUtil.createFactKey(factStructure4);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(String.class.getName());
+
+        FactResultDTO factResult1 = createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResult1.setFactResultTypeInfo(columnMetadata);
+
+        FactResultDTO factResultCriteria1 = createFactResult(new String[] {"CPR101"});
+        factResultCriteria1.setFactResultTypeInfo(columnMetadata);
+
+        FactResultDTO factResult2 = createFactResult(new String[] {"CPR102","MATH102","CHEM102"});
+        factResult2.setFactResultTypeInfo(columnMetadata);
+
+        FactResultDTO factResultCriteria2 = createFactResult(new String[] {"MATH102"});
+        factResultCriteria2.setFactResultTypeInfo(columnMetadata);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(criteriaKey1, factResultCriteria1);
         factMap.put(factKey1, factResult1);
         factMap.put(criteriaKey2, factResultCriteria2);
         factMap.put(factKey2, factResult2);
-        
-		FactContainer facts =  new FactContainer(anchor, factMap);
 
-        // Collection of Propositions
-        PropositionContainer prop = facts.getPropositionContainer();
+        //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(bri);
+        FactContainer facts =  new FactContainer(bri.getAnchorValue(), propMap, factMap);
 
         // Execute rule
         // Execute Drools rule set source code
@@ -596,8 +585,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndCreateRuleSet() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer(
-    			"CPR101", "CriteriaKey1", "CriteriaKey2", "factKey1", "factKey2");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
 
@@ -608,8 +596,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndUpdateRuleSet() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer(
-    			"CPR101", "CriteriaKey1", "CriteriaKey2", "factKey1", "factKey2");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
 
@@ -618,7 +605,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
-		bri.setCompiledId(ruleSet1.getUUID());
+		bri.setCompiledId(ruleSet1.getUUID()); 
 		bri.setCompiledVersionNumber(ruleSet1.getVersionNumber());
 		RightHandSideDTO rhs = bri.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("6.0");
@@ -634,15 +621,10 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateRuleSetAndExecute() throws Exception {
-    	String factKey1 = "FactKey1";
-    	String criteriaKey1 = "CriteriaKey1";
-    	String factKey2 = "FactKey2";
-    	String criteriaKey2 = "CriteriaKey2";
-
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer(
-    			"CPR101", criteriaKey1, criteriaKey2, factKey1, factKey2);
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101"); 
     	// Generate and create new rule set
 		RuleSetDTO ruleSet = service.generateRuleSet(container);
+
 		assertNotNull(ruleSet);
 		assertNotNull(ruleSet.getUUID());
 		assertNotNull(ruleSet.getRules());
@@ -653,9 +635,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		bri.setCompiledVersionNumber(ruleSet.getVersionNumber());
 		String anchor = bri.getAnchorValue();
 		
-		FactContainer fact = execute(ruleSet, anchor, 
-				criteriaKey1, criteriaKey2, factKey1, factKey2);
-				//propName1, propName2);
+		FactContainer fact = execute(ruleSet, anchor, container.getBusinessRules().get(0)); 
 		
         assertTrue(fact.getPropositionContainer().getRuleResult());
 		service.removeRuleSet(ruleSet.getUUID());

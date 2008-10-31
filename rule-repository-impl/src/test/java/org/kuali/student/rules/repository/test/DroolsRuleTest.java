@@ -15,121 +15,61 @@
  */
 package org.kuali.student.rules.repository.test;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.StatefulSession;
-import org.drools.StatelessSession;
-import org.drools.StatelessSessionResult;
 import org.drools.brms.client.modeldriven.brl.RuleModel;
 import org.drools.brms.server.util.BRDRLPersistence;
 import org.drools.brms.server.util.BRLPersistence;
 import org.drools.brms.server.util.BRXMLPersistence;
 import org.drools.compiler.PackageBuilder;
 import org.drools.event.DebugWorkingMemoryEventListener;
+import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
-import org.kuali.student.rules.util.FactContainer;
 
 public class DroolsRuleTest 
 {
-    private Set<String> createSet(String list) {
-        Set<String> set = new HashSet<String>();
-        for( String s : list.split(",") ) {
-        	set.add(s.trim());
-        }
-        return set;
-    }
-	
-	@Test
-	public void testRuleTranslation_DRL() throws Exception {
-		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/rule_translation_test.drl" );
-		// read in the source
-		//System.out.println("rules file: " + drl);
-		Reader sourceDrl = new InputStreamReader(drl);
-		PackageBuilder builder = new PackageBuilder();
-
-		// this will parse and compile
-		builder.addPackageFromDrl( sourceDrl );
-
-		// deploy the rulebase
-		RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-		ruleBase.addPackage(builder.getPackage());
-
-		StatelessSession workingMemory = ruleBase.newStatelessSession();
-
-        String anchorId = "TestRuleName";
-    	String factId1 = "fact1";
-        //factId1 = FactUtil.getFactKey("co-requisites", factId1, 0);
-        Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");
-        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put(factId1, courseSet);
-        FactContainer facts =  new FactContainer(anchorId, factMap);
-		
-		StatelessSessionResult result = workingMemory.executeWithResults(facts);
-		for(Iterator it = result.iterateObjects(); it.hasNext();) {
-			Object obj = it.next();
-			System.out.println(obj);
-		}
-		
-        PropositionContainer prop = facts.getPropositionContainer();
-        assertTrue(prop.getRuleResult());
-	}
-
     @Test
-	public void testSerializeDeserializeDroolsPackage() throws Exception
-	{
+	public void testSerializeDeserializeDroolsPackage() throws Exception {
 		RuleBase[] businessRules = new RuleBase[2];
 		
 		businessRules[0] = getRules1(); // Test dslr and dsl files
 		businessRules[1] = getRules2(); // Test drl file
 		//businessRules[2] = getRules3(); // Corrupt brl file
 		
-		for( int i=0; i<businessRules.length; i++ )
-		{
+		for( int i=0; i<businessRules.length; i++ ) {
 			StatefulSession workingMemory = businessRules[i].newStatefulSession();
-	
+
 			workingMemory.addEventListener( new DebugWorkingMemoryEventListener() );
-	
+
 			Email email = new Email( "tom@ubc.ca" );
 	        Message message = new Message( false, "Invalid email" );
-	        //Message message = test.new Message();
-	
+
 			//Let the rule engine know about the facts
 			workingMemory.insert( email );
 			workingMemory.insert( message );
-			//workingMemory.insert( Calendar.getInstance() );
-	
+
 			//Let the rule engine do its stuff!!
 			workingMemory.fireAllRules();
-	
-			//System.out.println( "message = " + message.getMessage() );
-			//System.out.println( "average = " + email.getAverage() );
+
 			workingMemory.dispose();
 		}
+		Assert.assertTrue(true);
 	}
 	
-	private static RuleBase getRules1() throws Exception
-	{
+	private static RuleBase getRules1() throws Exception {
 		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-email.dslr" );
 		InputStream dsl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-drools.dsl" );
+
 		// read in the source
-		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
 		Reader sourceDsl = new InputStreamReader(dsl);
 		PackageBuilder builder = new PackageBuilder();
@@ -149,25 +89,23 @@ public class DroolsRuleTest
 		return businessRules;
 	}
 
-	private static RuleBase getRules2() throws Exception
-	{
+	private static RuleBase getRules2() throws Exception {
 		InputStream drl = DroolsRuleTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/brms/repository/test/test.drl" );
+
 		// read in the source
-		//System.out.println("rules file: " + drl);
 		Reader sourceDrl = new InputStreamReader(drl);
 		PackageBuilder builder = new PackageBuilder();
 
 		// this will parse and compile
 		builder.addPackageFromDrl( sourceDrl );
 
-		// deploy the rulebase
+		// Deploy the rulebase
 		RuleBase businessRules = RuleBaseFactory.newRuleBase();
 		businessRules.addPackage(builder.getPackage());
 		return businessRules;
 	}
 
-	private static RuleBase getRules3() throws Exception
-	{
+	private static RuleBase getRules3() throws Exception {
 		String packageName = "package org.kuali.student.test\n";
 		String brl = loadRule( "/drools/drls/org/kuali/student/rules/brms/repository/test/hello-drools.brl" );
 		String packageImports = 
@@ -182,39 +120,32 @@ public class DroolsRuleTest
 		
 		sourceDrl = packageName + "\n" + packageImports + "\n" + sourceDrl;
 		
-		// read in the source
-		//System.out.println( "rules file:\n\n" + sourceDrl );
+		// Read in the source
 		PackageBuilder builder = new PackageBuilder();
 		Reader drl = new StringReader( sourceDrl );
 
 		// this will parse and compile
 		builder.addPackageFromDrl( drl );
 
-		// deploy the rulebase
+		// Deploy the rulebase
 		RuleBase businessRules = RuleBaseFactory.newRuleBase();
 		businessRules.addPackage(builder.getPackage());
 		return businessRules;
 	}
 
-	private static String loadRule( String file ) throws Exception
-	{
+	private static String loadRule( String file ) throws Exception {
         String filename = DroolsRuleTest.class.getResource( file ).getFile();
-        //System.out.println( "*****  filename = " +filename );
 
         String str = "";
         StringBuilder drl = new StringBuilder();
         BufferedReader in = null;
-		try
-		{
+		try {
 			in = new BufferedReader( new FileReader( filename ) );
-	        while ( ( str = in.readLine() ) != null ) 
-	        {
+	        while ( ( str = in.readLine() ) != null ) {
 	            drl.append(str);
 	        }
-            //System.out.println( drl );
 		}
-		finally
-		{
+		finally {
 	        if (in != null ) in.close();
 		}
         return drl.toString();

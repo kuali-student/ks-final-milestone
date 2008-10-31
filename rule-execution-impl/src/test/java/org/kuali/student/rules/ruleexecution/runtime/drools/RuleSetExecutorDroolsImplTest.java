@@ -15,44 +15,37 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.repository.rule.RuleSet;
-import org.kuali.student.rules.ruleexecution.dto.FactDTO;
-import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
-import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
-import org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
-import org.kuali.student.rules.util.FactContainer;
+import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.ruleexecution.util.RuleManagementDtoFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -63,15 +56,31 @@ public class RuleSetExecutorDroolsImplTest {
 	@Resource
 	private RuleSetExecutor executor;
 
+    private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
 
-    private Set<String> createSet(String list) {
-        Set<String> set = new HashSet<String>();
-        for( String s : list.split(",") ) {
-        	set.add(s.trim());
-        }
-        return set;
+    private FactStructureDTO createFactStructure(String factStructureId, String criteriaTypeName) {
+    	FactStructureDTO factStructure1 = new FactStructureDTO();
+	    factStructure1.setFactStructureId(factStructureId);
+	    FactCriteriaTypeInfoDTO criteriaTypeInfo1 = new FactCriteriaTypeInfoDTO();
+	    criteriaTypeInfo1.setName(criteriaTypeName);
+	    factStructure1.setCriteriaTypeInfo(criteriaTypeInfo1);
+	    return factStructure1;
     }
     
+    private RulePropositionDTO createRuleProposition(
+    		String yieldValueFunctionType, 
+    		String comparisonOperator, 
+    		String expectedValue,
+    		String comparisonOperatorType,
+    		YieldValueFunctionDTO yieldValueFunction) {
+		LeftHandSideDTO leftSide = dtoFactory.createLeftHandSideDTO(yieldValueFunction);
+    	RightHandSideDTO rightSide = dtoFactory.createRightHandSideDTO(expectedValue);
+        RulePropositionDTO ruleProp = dtoFactory.createRulePropositionDTO(
+        		"co-requisites", comparisonOperatorType, 
+        		comparisonOperator, leftSide, rightSide);
+        return ruleProp;
+    }
+
 	@Test
     public void testExecuteSimpleRuleSet_Drools() throws Exception {
         RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
@@ -140,70 +149,67 @@ public class RuleSetExecutorDroolsImplTest {
 	@Test
     public void testExecuteAverageIntersectionProposition_DroolsRuleSet() throws Exception {
     	String anchor = "CPR101";
-    	String factKey1 = "FactKey1";
-    	String criteriaKey2 = "CriteriaKey2";
-    	String factKey2 = "FactKey2";
-        // DEFINITION and EXECUTION: Create rule definition and map execution keys
-    	//Set<String> criteria = new HashSet<String>(Arrays.asList("CPR101"));
         // Rule set source code
     	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
 
     	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
         ruleSet.setCompiledRuleSet(bytes);
 
+    	YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+    	YieldValueFunctionDTO yvfIntersection = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
+		
+		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
+		FactStructureDTO factStructure4 = createFactStructure("subset.id.3", "course.subset.fact");
+		yvfIntersection.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
+
+    	//String criteriaKey1 = FactUtil.getCriteriaKey(factStructure1);
+    	String factKeyAverage = FactUtil.createFactKey(factStructure1);
+
+    	String criteriaKeyIntersection = FactUtil.createCriteriaKey(factStructure3);
+    	String factKeyIntersection = FactUtil.createFactKey(factStructure4);
+		
+		RulePropositionDTO propositionAverage = createRuleProposition(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			Integer.class.getName(),
+    			yvfAverage);
+		RulePropositionDTO propositionIntersection = createRuleProposition(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			Integer.class.getName(),
+    			yvfIntersection);
+		Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+		propositionMap.put("P1", propositionAverage);
+		propositionMap.put("P2", propositionIntersection);
+        
         // EXECUTION: Create facts
     	FactResultTypeInfoDTO columnMetaData1 = DroolsTestUtil.createColumnMetaData(BigDecimal.class.getName());
-    	FactResultDTO factResult1 = DroolsTestUtil.createFactResult(new String[] {"85.0","75.0","80.0"});
-    	factResult1.setFactResultTypeInfo(columnMetaData1);
+    	FactResultDTO factResultAverage = DroolsTestUtil.createFactResult(new String[] {"85.0","75.0","80.0"});
+    	factResultAverage.setFactResultTypeInfo(columnMetaData1);
     	
     	FactResultTypeInfoDTO columnMetaData2 = DroolsTestUtil.createColumnMetaData(String.class.getName());
-        FactResultDTO factResult2 = DroolsTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
-        factResult2.setFactResultTypeInfo(columnMetaData2);
+        FactResultDTO factResultIntersection = DroolsTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResultIntersection.setFactResultTypeInfo(columnMetaData2);
 
-    	FactResultDTO factResultCriteria1 = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
-    	factResultCriteria1.setFactResultTypeInfo(columnMetaData2);
+    	FactResultDTO factResultCriteriaIntersection = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
+    	factResultCriteriaIntersection.setFactResultTypeInfo(columnMetaData2);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
-        factMap.put(factKey1, factResult1);
-        factMap.put(criteriaKey2, factResultCriteria1);
-        factMap.put(factKey2, factResult2);
+        factMap.put(factKeyAverage, factResultAverage);
+        factMap.put(criteriaKeyIntersection, factResultCriteriaIntersection);
+        factMap.put(factKeyIntersection, factResultIntersection);
 
         // Execute ruleset and fact
-        ExecutionResult result = executor.execute(ruleSet, anchor, factMap);
+        ExecutionResult result = executor.execute(ruleSet, anchor, propositionMap, factMap);
         assertNotNull(result);
         assertNotNull(result.getResults());
 		assertNotNull(result.getExecutionLog());
 		assertTrue(result.getReport().isSuccess());
 	}
-
-	/*@Test
-    public void testExecuteWithDroolsDRL() throws Exception {
-		RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
-        List<BusinessRuleInfoDTO> briList = new ArrayList<BusinessRuleInfoDTO>();
-        BusinessRuleInfoDTO br = new BusinessRuleInfoDTO();
-        br.setCompiledId("uuid-123");
-        br.setAnchorTypeKey("Math101");
-        briList.add(br);
-        agenda.setBusinessRules(briList);
-    	
-        // Get facts
-        String anchorId = "Math101";
-        Set<String> courseSet = createSet("CPR101,MATH102,CHEM101,CHEM102");
-        Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
-        factMap.put("courseKey", courseSet);
-        FactContainer factContainer1 =  new FactContainer(anchorId, factMap);
-
-        List<FactContainer> factList = Arrays.asList(factContainer1);
-        
-        // Create the rule set executor
-        Reader source1 = new InputStreamReader( RuleSetExecutorDroolsImplTest.class.getResourceAsStream( "/drools/drls/org/kuali/student/rules/ruleexecution/drools/Math101PreReqRules.drl" ) );
-        ((RuleEngineRepositoryMock) executor.getRuleEngineRepository()).setSource(source1);
-
-        // Iterator through any returned rule engine objects
-        ExecutionResult result = executor.execute( agenda, factList );
-        assertNotNull(result);
-        assertNotNull(result.getResults());
-        assertTrue(factContainer1.getPropositionContainer().getRuleResult());
-    }*/
 
 }
