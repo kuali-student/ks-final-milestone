@@ -265,7 +265,7 @@ public class RuleSetTranslatorTest {
     	String factKey1 = FactUtil.createFactKey(factStructure1);
 
         // EXECUTION: Create fact results (data)
-        int loops = 100;
+        int loops = 20;
         List<FactContainer> factList = createFactList("cluID-1234", loops, businessRule, factKey1, anchorValue, String.class);
 
         Map<String, FactContainer> exeMap = executeStatelessSessionRule(ruleSet.getContent(), factList);
@@ -307,7 +307,7 @@ public class RuleSetTranslatorTest {
     	String factKey1 = FactUtil.createFactKey(factStructure1);
 
         // EXECUTION: Create fact results (data)
-        int loops = 100;
+        int loops = 20;
         List<FactContainer> factList = createFactList("100.1234567890", loops, businessRule, factKey1, anchorValue, BigDecimal.class);
 
         Map<String, FactContainer> exeMap = executeStatefulSessionRule(ruleSet.getContent(), factList);
@@ -379,6 +379,65 @@ public class RuleSetTranslatorTest {
 
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
         FactContainer facts = new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+	}
+
+	@Test
+	public void testTranslateBusinessRule_Comparable_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SIMPLECOMPARABLE.toString());
+    	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SIMPLECOMPARABLE.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.comparable.fact");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("cluID-1234");
+		factStructure1.setStaticValueDataType(String.class.getName());
+		
+		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.comparable.fact");
+		factStructure2.setStaticFact(true);
+		factStructure2.setStaticValue("75.0");
+		factStructure2.setStaticValueDataType(BigDecimal.class.getName());
+		
+		// EXECUTION: Fact
+		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1));
+		yieldValueFunction2.setFactStructureList(Arrays.asList(factStructure2));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"cluID-1234",
+            			String.class.getName(),
+            			yieldValueFunction1));
+        RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
+            			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
+            			"75.0",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction2));
+    	ruleElementList.add(element1);
+        ruleElementList.add(getAndOperator());
+        ruleElementList.add(element2);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts = new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -484,6 +543,47 @@ public class RuleSetTranslatorTest {
 	}
 
 	@Test
+	public void testTranslateBusinessRule_MinTrue_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.MIN.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("85.0, 75.0, 80.0");
+		factStructure1.setStaticValueDataType(BigDecimal.class.getName());
+		// EXECUTION: Fact
+		yieldValueFunction.setFactStructureList(Arrays.asList(factStructure1));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.MIN.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"75.0",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+    	
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+	}
+
+	@Test
 	public void testTranslateBusinessRule_MaxTrue() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
@@ -526,6 +626,47 @@ public class RuleSetTranslatorTest {
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
         FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+	}
+
+	@Test
+	public void testTranslateBusinessRule_MaxTrue_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.MAX.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("85.0, 75.0, 80.0");
+		factStructure1.setStaticValueDataType(BigDecimal.class.getName());
+		// EXECUTION: Fact
+		yieldValueFunction.setFactStructureList(Arrays.asList(factStructure1));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.MAX.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"85.0",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+    	
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -635,6 +776,51 @@ public class RuleSetTranslatorTest {
         assertTrue(facts.getPropositionContainer().getRuleResult());
     }
 
+    @Test
+    public void testTranslateBusinessRule_Subset_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("CPR101");
+		factStructure1.setStaticValueDataType(String.class.getName());
+		// EXECUTION: Fact
+		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.subset.fact");
+		factStructure2.setStaticFact(true);
+		factStructure2.setStaticValue("CPR101,MATH101,CHEM101");
+		factStructure2.setStaticValueDataType(String.class.getName());
+		yieldValueFunction.setFactStructureList(Arrays.asList(factStructure1, factStructure2));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SUBSET.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"1",
+            			Integer.class.getName(),
+            			yieldValueFunction));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+    	
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+    }
+
 	@Test
     public void testTranslateBusinessRule_Intersection() throws Exception {
         // Generate Drools rule set source code
@@ -683,6 +869,51 @@ public class RuleSetTranslatorTest {
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
         FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+    }
+
+	@Test
+    public void testTranslateBusinessRule_Intersection_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("CPR101");
+		factStructure1.setStaticValueDataType(String.class.getName());
+		// EXECUTION: Fact
+		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.subset.fact");
+		factStructure2.setStaticFact(true);
+		factStructure2.setStaticValue("CPR101,MATH101,CHEM101");
+		factStructure2.setStaticValueDataType(String.class.getName());
+		yieldValueFunction.setFactStructureList(Arrays.asList(factStructure1, factStructure2));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.INTERSECTION.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"1",
+            			Integer.class.getName(),
+            			yieldValueFunction));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+    	
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -739,6 +970,47 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
+    public void testTranslateBusinessRule_Sum_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUM.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("3.0, 6.0, 3.0");
+		factStructure1.setStaticValueDataType(BigDecimal.class.getName());
+		// EXECUTION: Fact
+		yieldValueFunction.setFactStructureList(Arrays.asList(factStructure1));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SUM.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"12.0",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+    	
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+    }
+
+    @Test
     public void testTranslateBusinessRule_Average() throws Exception {
         // Generate Drools rule set source code
     	String anchorValue = "CPR101";
@@ -781,6 +1053,47 @@ public class RuleSetTranslatorTest {
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
         FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+    }
+
+    @Test
+    public void testTranslateBusinessRule_Average_StaticFact() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("85.0,75.0,80.0");
+		factStructure1.setStaticValueDataType(BigDecimal.class.getName());
+		// EXECUTION: Fact
+		yieldValueFunction.setFactStructureList(Arrays.asList(factStructure1));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.AVERAGE.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"80.0",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+    	
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, null);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -832,7 +1145,6 @@ public class RuleSetTranslatorTest {
         Map<String, Object> factMap = new HashMap<String, Object>();
         factMap.put(factKey, factResult);
 
-        //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
         FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
@@ -943,6 +1255,98 @@ public class RuleSetTranslatorTest {
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+    }
+
+    @Test
+    public void testTranslateBusinessRule_SubsetIntersection_StaticFact() throws Exception {
+    	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+    	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		factStructure1.setStaticFact(true);
+		factStructure1.setStaticValue("CPR101");
+		factStructure1.setStaticValueDataType(String.class.getName());
+		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.subset.fact");
+		factStructure2.setStaticFact(true);
+		factStructure2.setStaticValue("CPR101,MATH101,CHEM101");
+		factStructure2.setStaticValueDataType(String.class.getName());
+		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1, factStructure2));
+		
+		FactStructureDTO factStructure3 = createFactStructure("subset.id.3", "course.subset.criteria");
+		factStructure3.setStaticFact(true);
+		factStructure3.setStaticValue("MATH102");
+		factStructure3.setStaticValueDataType(String.class.getName());
+		FactStructureDTO factStructure4 = createFactStructure("subset.id.4", "course.subset.fact");
+		factStructure4.setStaticFact(true);
+		factStructure4.setStaticValue("CPR102,MATH102,CHEM102");
+		factStructure4.setStaticValueDataType(String.class.getName());
+		yieldValueFunction2.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
+
+		List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SUBSET.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"1",
+            			Integer.class.getName(),
+            			yieldValueFunction1));
+        RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
+        		"element-2", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.INTERSECTION.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"1",
+            			Integer.class.getName(),
+            			yieldValueFunction2));
+    	ruleElementList.add(element1);
+        ruleElementList.add(getAndOperator());
+        ruleElementList.add(element2);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+        assertNotNull(ruleSet);
+        
+    	/*String criteriaKey1 = FactUtil.createCriteriaKey(factStructure1);
+    	String factKey1 = FactUtil.createFactKey(factStructure2);
+
+    	String criteriaKey2 = FactUtil.createCriteriaKey(factStructure3);
+    	String factKey2 = FactUtil.createFactKey(factStructure4);
+
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(String.class.getName());
+
+        FactResultDTO factResult1 = createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResult1.setFactResultTypeInfo(columnMetadata);
+
+        FactResultDTO factResultCriteria1 = createFactResult(new String[] {"CPR101"});
+        factResultCriteria1.setFactResultTypeInfo(columnMetadata);
+
+        FactResultDTO factResult2 = createFactResult(new String[] {"CPR102","MATH102","CHEM102"});
+        factResult2.setFactResultTypeInfo(columnMetadata);
+
+        FactResultDTO factResultCriteria2 = createFactResult(new String[] {"MATH102"});
+        factResultCriteria2.setFactResultTypeInfo(columnMetadata);
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(criteriaKey1, factResultCriteria1);
+        factMap.put(factKey1, factResult1);
+        factMap.put(criteriaKey2, factResultCriteria2);
+        factMap.put(factKey2, factResult2);
+
+        //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);*/
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), businessRule.getAnchorValue(), propMap, null);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+System.out.println("FailureMessage="+facts.getPropositionContainer().getRuleReport().getFailureMessage());
+System.out.println("SuccessMessage="+facts.getPropositionContainer().getRuleReport().getSuccessMessage());
         assertTrue(facts.getPropositionContainer().getRuleResult());
     }
 
