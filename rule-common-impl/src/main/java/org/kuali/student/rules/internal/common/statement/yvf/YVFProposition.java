@@ -13,15 +13,19 @@ import org.kuali.student.rules.internal.common.statement.exceptions.PropositionE
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class YVFProposition<E> implements Proposition {
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(YVFProposition.class);
 
 	Proposition proposition;
 	
 	@SuppressWarnings("unchecked")
 	public Set<E> getSet(String dataType, String stringList) {
 		Set<E> set = new HashSet<E>();
-		for(String value : stringList.split(",")) {
+		for(String value : stringList.split("\\s*,\\s*")) {
 			E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
 			set.add(obj);
 		}
@@ -52,7 +56,7 @@ public abstract class YVFProposition<E> implements Proposition {
 	@SuppressWarnings("unchecked")
 	public List<E> getList(String dataType, String stringList) {
 		List<E> list = new ArrayList<E>();
-		for(String value : stringList.split(",")) {
+		for(String value : stringList.split("\\s*,\\s*")) {
 			E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
 			list.add(obj);
 		}
@@ -60,10 +64,10 @@ public abstract class YVFProposition<E> implements Proposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<E> getList(FactResultDTO criteria) {
-		Map<String, FactResultColumnInfoDTO> columnMetaData = criteria.getFactResultTypeInfo().getResultColumnsMap();
+	public List<E> getList(FactResultDTO factResult) {
+		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
 		List<E> set = new ArrayList<E>();
-		for( Map<String,String> map : criteria.getResultList()) {
+		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals("column1")) {
 					String value = (String) entry.getValue();
@@ -83,7 +87,13 @@ public abstract class YVFProposition<E> implements Proposition {
 
 	@Override
 	public Boolean apply() {
-		return proposition.apply();
+		Boolean b = proposition.apply();
+		if(logger.isDebugEnabled()) {
+			logger.debug("Proposition id="+this.proposition.getId());
+			logger.debug("Proposition name="+this.proposition.getPropositionName());
+			logger.debug("Proposition result="+this.proposition.getResult());
+		}
+		return b;
 	}
 	
 	@Override

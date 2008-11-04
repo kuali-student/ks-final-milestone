@@ -42,31 +42,56 @@ public class YVFIntersectionProposition<E> extends YVFProposition<E> {
 			throw new PropositionException("Expected value cannot be null");
 		} else if (yvf == null) {
 			throw new PropositionException("Yield value function cannot be null");
-		} else if (factMap == null || factMap.isEmpty()) {
-			throw new PropositionException("Fact map cannot be null or empty");
 		}
 
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO criteria = factStructureList.get(0);
 		FactStructureDTO fact = factStructureList.get(1);
 
+		if (criteria == null) {
+			throw new PropositionException("Criteria fact structure cannot be null");
+		} else if (fact == null) {
+			throw new PropositionException("Fact structure cannot be null");
+		}
+
 		Set<E> criteriaSet = null;
 		Set<E> factSet = null;
 
 		if (criteria.isStaticFact()) {
-			criteriaSet = getSet(criteria.getStaticValueDataType(), criteria.getStaticValue());
+			String value = criteria.getStaticValue();
+			String dataType = criteria.getStaticValueDataType();
+			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
+				throw new PropositionException("Static value and data type cannot be null or empty");
+			}
+			criteriaSet = getSet(dataType, value);
 		} else {
+			if (factMap == null || factMap.isEmpty()) {
+				throw new PropositionException("Fact map cannot be null or empty");
+			}
 			String criteriaKey = FactUtil.createCriteriaKey(criteria);
 			FactResultDTO criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
 			criteriaSet = getSet(criteriaDTO);
 		}
 
 		if (fact.isStaticFact()) {
-			factSet = getSet(fact.getStaticValueDataType(), fact.getStaticValue());
+			String value = fact.getStaticValue();
+			String dataType = fact.getStaticValueDataType();
+			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
+				throw new PropositionException("Static value and data type cannot be null or empty");
+			}
+			factSet = getSet(dataType, value);
 		} else {
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
 			factSet = getSet(factDTO);
+		}
+
+		if(logger.isDebugEnabled()) {
+			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
+			logger.debug("Comparison operator="+comparisonOperator);
+			logger.debug("Expected value="+expectedValue);
+			logger.debug("Criteria set="+criteriaSet);
+			logger.debug("Fact set="+factSet);
 		}
 
 		super.proposition = new IntersectionProposition<E>(id, propositionName, 

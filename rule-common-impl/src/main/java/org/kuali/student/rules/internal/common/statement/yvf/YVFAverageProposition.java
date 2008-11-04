@@ -40,21 +40,38 @@ public class YVFAverageProposition<E extends Number> extends YVFProposition<E> {
 			throw new PropositionException("Expected value cannot be null");
 		} else if (yvf == null) {
 			throw new PropositionException("Yield value function cannot be null");
-		} else if (factMap == null || factMap.isEmpty()) {
-			throw new PropositionException("Fact map cannot be null or empty");
 		}
 
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO fact = factStructureList.get(0);
 
+		if (fact == null) {
+			throw new PropositionException("Fact structure cannot be null");
+		}
+
 		List<E> factList = null;
 
 		if (fact.isStaticFact()) {
-			factList = getList(fact.getStaticValueDataType(), fact.getStaticValue());
+			String value = fact.getStaticValue();
+			String dataType = fact.getStaticValueDataType();
+			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
+				throw new PropositionException("Static value and data type cannot be null or empty");
+			}
+			factList = getList(dataType, value);
 		} else {
+			if (factMap == null || factMap.isEmpty()) {
+				throw new PropositionException("Fact map cannot be null or empty");
+			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
 			factList = getList(factDTO);
+		}
+
+		if(logger.isDebugEnabled()) {
+			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
+			logger.debug("Comparison operator="+comparisonOperator);
+			logger.debug("Expected value="+expectedValue);
+			logger.debug("Fact list="+factList);
 		}
 
         super.proposition = new AverageProposition<E>(id, propositionName, 

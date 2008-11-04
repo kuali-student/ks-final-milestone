@@ -29,20 +29,28 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends YVF
 			throw new PropositionException("Expected value cannot be null");
 		} else if (yvf == null) {
 			throw new PropositionException("Yield value function cannot be null");
-		} else if (factMap == null || factMap.isEmpty()) {
-			throw new PropositionException("Fact map cannot be null or empty");
 		}
 
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO fact = factStructureList.get(0);
+
+		if (fact == null) {
+			throw new PropositionException("Fact structure cannot be null");
+		}
 
 		T factObject = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
 			String dataType = fact.getStaticValueDataType();
+			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
+				throw new PropositionException("Static value and data type cannot be null or empty");
+			}
 			factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 		} else {
+			if (factMap == null || factMap.isEmpty()) {
+				throw new PropositionException("Fact map cannot be null or empty");
+			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
 			String value = factDTO.getResultList().get(0).get("column1");
@@ -50,6 +58,13 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends YVF
 			FactResultColumnInfoDTO info = columnMetaData.get("column1");
 			String dataType = info.getDataType();
 			factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
+		}
+
+		if(logger.isDebugEnabled()) {
+			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
+			logger.debug("Comparison operator="+comparisonOperator);
+			logger.debug("Expected value="+expectedValue);
+			logger.debug("Fact object="+factObject);
 		}
 
 		super.proposition = new SimpleComparableProposition<T>(id, propositionName, 
