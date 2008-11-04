@@ -381,7 +381,6 @@ public class BusinessRuleUtil {
     	}
     	else if (clazz.equals(Date.class)) {
     		return convertDate(value);
-    		
     	}
     	else if (clazz.equals(Calendar.class)) {
     		Date date = convertDate(value);
