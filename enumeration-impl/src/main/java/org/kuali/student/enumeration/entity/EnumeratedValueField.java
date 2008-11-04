@@ -16,8 +16,8 @@ public class EnumeratedValueField {
     String dataType;
     int minLength;
     int maxLength;
-    int minOccors;
-    int maxOccors;
+    int minOccurs;
+    int maxOccurs;
     String validChars;
     String invalidChars;
     /**
@@ -76,19 +76,19 @@ public class EnumeratedValueField {
     }
 
     public int getMinOccors() {
-        return minOccors;
+        return minOccurs;
     }
 
     public void setMinOccors(int minOccors) {
-        this.minOccors = minOccors;
+        this.minOccurs = minOccors;
     }
 
     public int getMaxOccors() {
-        return maxOccors;
+        return maxOccurs;
     }
 
     public void setMaxOccors(int maxOccors) {
-        this.maxOccors = maxOccors;
+        this.maxOccurs = maxOccors;
     }
 
     public String getValidChars() {

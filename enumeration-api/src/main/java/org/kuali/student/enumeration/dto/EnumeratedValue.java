@@ -9,6 +9,8 @@
 package org.kuali.student.enumeration.dto;
 
 import java.math.BigInteger;
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -62,8 +64,8 @@ public class EnumeratedValue {
     @XmlElement(required = true)
     protected String value;
     @XmlElement(required = true)
-    protected XMLGregorianCalendar effectiveDate;
-    protected XMLGregorianCalendar expirationDate;
+    protected Date effectiveDate;
+    protected Date expirationDate;
     @XmlElement(required = true)
     protected BigInteger sortKey;
     @XmlElement(required = true)
@@ -149,7 +151,7 @@ public class EnumeratedValue {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getEffectiveDate() {
+    public Date getEffectiveDate() {
         return effectiveDate;
     }
 
@@ -161,7 +163,7 @@ public class EnumeratedValue {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setEffectiveDate(XMLGregorianCalendar value) {
+    public void setEffectiveDate(Date value) {
         this.effectiveDate = value;
     }
 
@@ -173,7 +175,7 @@ public class EnumeratedValue {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
@@ -185,7 +187,7 @@ public class EnumeratedValue {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setExpirationDate(XMLGregorianCalendar value) {
+    public void setExpirationDate(Date value) {
         this.expirationDate = value;
     }
 

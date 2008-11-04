@@ -56,12 +56,12 @@ public class FieldDescriptor {
 
     @XmlElement(required = true)
     protected String dataType;
-    protected BigInteger minLength;
-    protected BigInteger maxLength;
+    protected Integer minLength;
+    protected Integer maxLength;
     protected String validChars;
     protected String invalidChars;
-    protected BigInteger minOccurs;
-    protected BigInteger maxOccurs;
+    protected Integer minOccurs;
+    protected Integer maxOccurs;
 
     /**
      * Gets the value of the dataType property.
@@ -95,7 +95,7 @@ public class FieldDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getMinLength() {
+    public Integer getMinLength() {
         return minLength;
     }
 
@@ -104,10 +104,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Integer }
      *     
      */
-    public void setMinLength(BigInteger value) {
+    public void setMinLength(Integer value) {
         this.minLength = value;
     }
 
@@ -116,10 +116,10 @@ public class FieldDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Integer }
      *     
      */
-    public BigInteger getMaxLength() {
+    public Integer getMaxLength() {
         return maxLength;
     }
 
@@ -128,10 +128,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Integer }
      *     
      */
-    public void setMaxLength(BigInteger value) {
+    public void setMaxLength(Integer value) {
         this.maxLength = value;
     }
 
@@ -188,10 +188,10 @@ public class FieldDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Integer }
      *     
      */
-    public BigInteger getMinOccurs() {
+    public Integer getMinOccurs() {
         return minOccurs;
     }
 
@@ -200,10 +200,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Integer }
      *     
      */
-    public void setMinOccurs(BigInteger value) {
+    public void setMinOccurs(Integer value) {
         this.minOccurs = value;
     }
 
@@ -215,7 +215,7 @@ public class FieldDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getMaxOccurs() {
+    public Integer getMaxOccurs() {
         return maxOccurs;
     }
 
@@ -224,10 +224,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Integer }
      *     
      */
-    public void setMaxOccurs(BigInteger value) {
+    public void setMaxOccurs(Integer value) {
         this.maxOccurs = value;
     }
 

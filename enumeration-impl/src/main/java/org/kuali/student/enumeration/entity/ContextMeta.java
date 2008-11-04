@@ -15,8 +15,8 @@ public class ContextMeta {
     String dataType;
     int minLength;
     int maxLength;
-    int minOccors;
-    int maxOccors;
+    int minOccurs;
+    int maxOccurs;
     /**
      * AutoGenerate the id
      */
@@ -73,19 +73,19 @@ public class ContextMeta {
     }
 
     public int getMinOccors() {
-        return minOccors;
+        return minOccurs;
     }
 
     public void setMinOccors(int minOccors) {
-        this.minOccors = minOccors;
+        this.minOccurs = minOccors;
     }
 
     public int getMaxOccors() {
-        return maxOccors;
+        return maxOccurs;
     }
 
     public void setMaxOccors(int maxOccors) {
-        this.maxOccors = maxOccors;
+        this.maxOccurs = maxOccors;
     }
 
 }

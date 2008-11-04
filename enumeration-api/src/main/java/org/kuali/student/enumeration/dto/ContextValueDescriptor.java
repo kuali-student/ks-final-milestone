@@ -53,13 +53,13 @@ public class ContextValueDescriptor {
     @XmlElement(required = true)
     protected String dataType;
     @XmlElement(required = true)
-    protected BigInteger minLength;
+    protected Integer minLength;
     @XmlElement(required = true)
-    protected BigInteger maxLength;
+    protected Integer maxLength;
     @XmlElement(required = true)
-    protected BigInteger minOccurs;
+    protected Integer minOccurs;
     @XmlElement(required = true)
-    protected BigInteger maxOccurs;
+    protected Integer maxOccurs;
 
     /**
      * Gets the value of the dataType property.
@@ -93,7 +93,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getMinLength() {
+    public Integer getMinLength() {
         return minLength;
     }
 
@@ -105,7 +105,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public void setMinLength(BigInteger value) {
+    public void setMinLength(Integer value) {
         this.minLength = value;
     }
 
@@ -117,7 +117,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getMaxLength() {
+    public Integer getMaxLength() {
         return maxLength;
     }
 
@@ -129,7 +129,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public void setMaxLength(BigInteger value) {
+    public void setMaxLength(Integer value) {
         this.maxLength = value;
     }
 
@@ -141,7 +141,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getMinOccurs() {
+    public Integer getMinOccurs() {
         return minOccurs;
     }
 
@@ -153,7 +153,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public void setMinOccurs(BigInteger value) {
+    public void setMinOccurs(Integer value) {
         this.minOccurs = value;
     }
 
@@ -165,7 +165,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getMaxOccurs() {
+    public Integer getMaxOccurs() {
         return maxOccurs;
     }
 
@@ -177,7 +177,7 @@ public class ContextValueDescriptor {
      *     {@link BigInteger }
      *     
      */
-    public void setMaxOccurs(BigInteger value) {
+    public void setMaxOccurs(Integer value) {
         this.maxOccurs = value;
     }
 
