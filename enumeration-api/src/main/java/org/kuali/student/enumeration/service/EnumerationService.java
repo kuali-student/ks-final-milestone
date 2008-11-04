@@ -10,13 +10,14 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
+import org.kuali.student.enumeration.dto.EnumerationMetaList;
 
 @WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerationService {
 
     @WebMethod
-    public EnumeratedValueList findEnumerationMetas();
+    public EnumerationMetaList findEnumerationMetas();
 
     @WebMethod
     public EnumerationMeta fetchEnumerationMeta(@WebParam(name = "enumerationKey") String enumerationKey);
