@@ -74,7 +74,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
         ruleManagementDao.createBusinessRule(rule);
 
-        return rule.getId();
+        return rule.getRuleId();
     }
 
     @Override
@@ -308,8 +308,14 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
     @Override
     public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO: Remove hard coding. Currently all unique business rule types are returned
-        return findBusinessRuleTypes();
+        List<String> result = new ArrayList<String>();
+        List<BusinessRuleTypeKey> brTypeKeyList = ruleManagementDao.lookupBusinessRuleTypeByAgenda(AgendaType.valueOf(agendaTypeKey));
+
+        for (BusinessRuleTypeKey key : brTypeKeyList) {
+            result.add(key.toString());
+        }
+
+        return result;
     }
 
     /**

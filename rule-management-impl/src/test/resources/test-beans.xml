@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--  MAX ID : 100000000031 -->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
@@ -6,6 +9,10 @@
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
+	 			<ref bean="businessRuleType1"/>
+	 			<ref bean="businessRuleType2"/> 
+				<ref bean="agendaType1"/>
+ 				<ref bean="agendaType2"/>  
 				<ref bean="funcBusRule1" />
 				<ref bean="funcBusRule2" />
 				<!-- <ref bean="funcBusRule3" />
@@ -16,6 +23,38 @@
 	</bean>
 
 	<bean id="currentTime" class="java.util.Date" />
+
+	<bean id="agendaType1"
+		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		<property name="id" value="11223344-1122-1122-1112-100000000030"/>
+		<property name="type" value="KUALI_STUDENT_ENROLLS_IN_COURSRE"/>
+		<property name="businessRuleTypes">
+		  <list>
+			<ref bean="businessRuleType1"/>
+			<ref bean="businessRuleType2"/>
+		  </list>
+		</property>
+		<property name="agendaInfoDeterminationStructureList">
+		  <list>
+		  </list>
+		</property>
+	</bean>
+	
+
+	<bean id="agendaType2"
+		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
+		<property name="id" value="11223344-1122-1122-1112-100000000031"/>
+		<property name="type" value="KUALI_STUDENT_STUDENT_DROPS_COURSE"/>
+		<property name="businessRuleTypes">
+		  <list>
+			<ref bean="businessRuleType1"/>
+		  </list>
+		</property>
+		<property name="agendaInfoDeterminationStructureList">
+		  <list>
+		  </list>
+		</property>
+	</bean>
 
 	<bean id="businessRuleType1"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">

@@ -41,13 +41,49 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
-import org.kuali.student.rules.translators.util.Constants;
 
 @Daos({@Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
 public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl", port = "8181")
     public RuleManagementService client;
+    
+    @Test
+    public void testFetchDetailedBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleInfoDTO brInfoDTO = client.fetchDetailedBusinessRuleInfo("1");
+        assertEquals("1",  brInfoDTO.getBusinessRuleId());
+        assertEquals("CPR 201", brInfoDTO.getAnchorValue());
+        assertEquals(3, brInfoDTO.getRuleElementList().size());
+    }    
+
+    @Test
+    public void testFetchBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleInfoDTO brInfoDTO = client.fetchBusinessRuleInfo("1");
+        assertEquals("1",  brInfoDTO.getBusinessRuleId());
+        assertEquals("CPR 201", brInfoDTO.getAnchorValue());
+        assertEquals(0, brInfoDTO.getRuleElementList().size());
+    }    
+
+    @Test
+    public void testFindBusinessRuleIdByType()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        List<String> ruleIdList = client.findBusinessRuleIdsByBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+    
+        assertEquals(1, ruleIdList.size());
+        assertEquals("2", ruleIdList.get(0));
+    }
+    
+    @Test
+    public void testInvalidFetchBusinessRule()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        try {
+            // Business rule with ruleId 0 does not exists
+            BusinessRuleInfoDTO brInfo = client.fetchBusinessRuleInfo("0");
+        } catch (DoesNotExistException ex) {
+            // Right behavior
+            return;
+        }        
+       
+        assertTrue(false);
+    }
     
     @Test
     public void testCreateBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
@@ -89,6 +125,18 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         }
     }
     
+ //   @Test
+    public void testRetireBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleInfoDTO brInfoDTO = generateUpdatedBusinessRule( generateNewBusinessRuleInfo() );
+        brInfoDTO.setStatus("RETIRED");
+        client.updateBusinessRule("100", brInfoDTO);
+                
+        BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");        
+        assertTrue(newBrInfoDTO1.getRuleElementList().size() == 3);
+        assertEquals(newBrInfoDTO1.getStatus(), "RETIRED");                
+    }    
+    
+    
     @Test
     public void testFetchBusinessRuleEnglish() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         String englishValue = client.fetchBusinessRuleEnglish("1");
@@ -105,29 +153,31 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testFindBusinessRuleType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-        List<String> brTypeKeys = client.findBusinessRuleTypesByAgendaType("ANY_KEY");
+        List<String> brTypeKeys = client.findBusinessRuleTypes();
         
         assertTrue(brTypeKeys.size() == 2);
-        assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_CO_REQ.toString()));
-
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        List<String> brTypeKeys1 = client.findBusinessRuleTypesByAgendaType("ANY_KEY");
-
-        assertTrue(brTypeKeys1.size() == 2);
-        assertTrue(brTypeKeys1.contains(BusinessRuleTypeKey.KUALI_CO_REQ.toString()));
-
+        assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_CO_REQ.toString()));        
     }
     
     @Test
-    public void testDeleteBusinessRuleType()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
-        client.deleteBusinessRule("100");
+    public void testFindBusinessRuleTypeByAgenda() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        List<String> brTypeKeys = client.findBusinessRuleTypesByAgendaType("KUALI_STUDENT_STUDENT_DROPS_COURSE");
+        
+        assertTrue(brTypeKeys.size() == 1);
+        assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_PRE_REQ.toString()));
     }
+    
+    @Test
+    public void testDeleteBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
+        client.deleteBusinessRule("100");
 
+        try {
+            BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");
+        } catch (DoesNotExistException ex) {
+            assertTrue(true);
+        }                        
+    }
+    
     @Test
     public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
         BusinessRuleAnchorDTO anchorDTO = new BusinessRuleAnchorDTO();
@@ -143,6 +193,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
         assertEquals("1", ruleInfo.getBusinessRuleId());        
     }
+
     
     private BusinessRuleInfoDTO generateNewBusinessRuleInfo() {
         MetaInfoDTO metaInfo = new MetaInfoDTO();

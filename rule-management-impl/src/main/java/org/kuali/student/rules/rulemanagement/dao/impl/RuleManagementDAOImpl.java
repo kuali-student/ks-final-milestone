@@ -88,6 +88,21 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
 
     @SuppressWarnings("unchecked")
     @Override
+    public List<BusinessRuleTypeKey> lookupBusinessRuleTypeByAgenda(AgendaType agendaType) {
+        Query query = entityManager.createNamedQuery("AgendaInfo.findBusinessRuleTypes");
+        query.setParameter("agendaType", agendaType.toString());
+        List<BusinessRuleType> ruleTypeStrList = query.getResultList();
+
+        List<BusinessRuleTypeKey> typeList = new ArrayList<BusinessRuleTypeKey>();
+        for (BusinessRuleType ruleType : ruleTypeStrList) {
+            typeList.add(BusinessRuleTypeKey.valueOf( ruleType.getBusinessRuleTypeKey() ));
+        }
+
+        return typeList;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public List<AnchorTypeKey> lookupUniqueAnchorTypeKeys() {
         Query query = entityManager.createNamedQuery("BusinessRuleType.findAnchorTypes");
         List<String> anchorTypeStrList = query.getResultList();
@@ -146,7 +161,6 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     }
 
     @Override
-    @SuppressWarnings(value = {"unchecked"})
     public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier) {
         Query query = entityManager.createNamedQuery("BusinessRule.findByRuleID");
         query.setParameter("ruleID", ruleIdentifier);

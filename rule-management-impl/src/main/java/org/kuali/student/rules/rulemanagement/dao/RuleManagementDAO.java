@@ -64,6 +64,17 @@ public interface RuleManagementDAO {
      */
     public List<BusinessRuleTypeKey> lookupUniqueBusinessRuleTypeKeys();
 
+    
+    /**
+     * 
+     * This method lookups business rule types that belong to given agenda type
+     * 
+     * @param agendaType
+     * @return
+     */
+    public List<BusinessRuleTypeKey> lookupBusinessRuleTypeByAgenda(AgendaType agendaType);
+    
+    
     /**
      * This method returns all the unique anchor type keys known in the system
      * 

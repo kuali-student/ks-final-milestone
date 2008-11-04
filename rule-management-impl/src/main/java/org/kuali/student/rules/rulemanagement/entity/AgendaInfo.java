@@ -8,16 +8,24 @@
 package org.kuali.student.rules.rulemanagement.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.internal.common.entity.AgendaType;
 
 /**
@@ -28,23 +36,31 @@ import org.kuali.student.rules.internal.common.entity.AgendaType;
  */
 @Entity
 @Table(name = "AgendaInfo_T")
-//@NamedQueries({@NamedQuery(name = "AgendaInfo.findByAgendaType", query = "SELECT a FROM AgendaInfo a WHERE a.type = :agendaType "), 
-//               @NamedQuery(name = "AgendaInfo.findUniqueAgendaTypes", query = "SELECT DISTINCT a.type FROM AgendaInfo a ORDER BY a.type ASC")})
+@NamedQueries({@NamedQuery(name = "AgendaInfo.findBusinessRuleTypes", query = "SELECT a.businessRuleTypes FROM AgendaInfo a WHERE a.type = :agendaType "), 
+              @NamedQuery(name = "AgendaInfo.findUniqueAgendaTypes", query = "SELECT DISTINCT a.type FROM AgendaInfo a ORDER BY a.type ASC")})
 public class AgendaInfo {
     @Id
     private String id;
 
-    @Embedded
-    private AgendaType type;
+    private String type;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "agendaInfo")
     private List<AgendaInfoDeterminationStructure> agendaInfoDeterminationStructureList;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    //TODO: Change this to @OnetoMany relation after they fix the bug HHH-3410
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<BusinessRuleType> businessRuleTypes;
 
     private String orchestration;
-
+    
+    /**
+     * AutoGenerate the Id
+     */
+    @PrePersist
+    public void prePersist() {
+        this.id = UUIDHelper.genStringUUID();
+    }
+    
     /**
      * @return the id
      */
@@ -63,7 +79,7 @@ public class AgendaInfo {
     /**
      * @return the type
      */
-    public AgendaType getType() {
+    public String getType() {
         return type;
     }
 
@@ -71,7 +87,7 @@ public class AgendaInfo {
      * @param type
      *            the type to set
      */
-    public void setType(AgendaType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

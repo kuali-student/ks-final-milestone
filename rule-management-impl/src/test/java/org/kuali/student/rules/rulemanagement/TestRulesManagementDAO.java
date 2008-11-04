@@ -192,7 +192,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         List<String> anchorList = rulesManagementDAO.lookupAnchorByAnchorType(AnchorTypeKey.KUALI_COURSE);
 
         assertEquals(2, anchorList.size());
-        assertEquals("CPR 201", anchorList.get(0));
+        assertEquals(true, anchorList.contains("CPR 201"));
     }
 
     @Test
