@@ -11,7 +11,7 @@ public class EnumerationMeta {
     @Id
     String id;
 
-    String key;
+    String enumerationKey;
     String name;
     String desc;
     /**
@@ -29,12 +29,12 @@ public class EnumerationMeta {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
+    public String getEnumerationKey() {
+        return enumerationKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setEnumerationKey(String key) {
+        this.enumerationKey = key;
     }
 
     public String getName() {

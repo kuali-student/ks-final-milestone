@@ -1,14 +1,14 @@
 package org.kuali.student.enumeration.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
-import org.kuali.student.enumeration.entity.EnumeratedValue;
-
+import org.kuali.student.enumeration.entity.EnumerationMeta;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,6 +18,19 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     @PersistenceContext(name = "EnumerationManagement")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+    
+    public List<EnumerationMeta> findEnumerationMetas(){
+        Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e");
+        return (List<EnumerationMeta>) query.getResultList();
+    }
+    public EnumerationMeta fetchEnumerationMeta(String enumerationKey){
+        Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e where e.enumerationKey = :key");
+        query.setParameter("key", enumerationKey);
+        
+        Object obj = query.getResultList().get(0);
+        
+        return (EnumerationMeta) obj;
     }
 /*
     public EnumeratedValue createEnumeratedValue(EnumeratedValue value) {
@@ -57,6 +70,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     public EnumeratedValueContext lookupEnumeratedValueContext(String id) {
         return entityManager.find(EnumeratedValueContext.class, id);
     }
+    
 
     public Enumerations lookupEnumerations(String id) {
         return entityManager.find(Enumerations.class, id);

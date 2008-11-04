@@ -2,10 +2,17 @@ package org.kuali.student.enumeration.dao;
 
 import java.util.List;
 
+import javax.jws.WebParam;
+
+import org.kuali.student.enumeration.dto.EnumerationMetaList;
+import org.kuali.student.enumeration.entity.EnumerationMeta;
+
 
 public interface EnumerationManagementDAO {
     
+    public List<EnumerationMeta> findEnumerationMetas();
     
+    public EnumerationMeta fetchEnumerationMeta(String enumerationKey);
     
 /*    public Enumerations createEnumerations(Enumerations entry);
     
