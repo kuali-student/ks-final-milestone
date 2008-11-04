@@ -37,6 +37,8 @@ rule "${ruleName}"
         Logger logger = LoggerFactory.getLogger(org.kuali.student.rules.translators.RuleSetTranslator.class);
 
         if (logger.isDebugEnabled()) {
+            logger.debug("id="+container.getId());
+            logger.debug("anchor="+container.getAnchor());
             logger.debug("factMap="+factMap);
         }
 
