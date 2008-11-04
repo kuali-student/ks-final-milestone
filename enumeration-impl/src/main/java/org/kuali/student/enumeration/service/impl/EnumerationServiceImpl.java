@@ -1,26 +1,16 @@
 package org.kuali.student.enumeration.service.impl;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.datatype.DatatypeFactory;
 
 import org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
-
+import org.kuali.student.enumeration.dto.EnumerationMetaList;
 import org.kuali.student.enumeration.service.EnumerationService;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 
 @WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -46,7 +36,7 @@ public class EnumerationServiceImpl implements EnumerationService{
         return null;
     }
 
-    public EnumeratedValueList findEnumerationMetas() {
+    public EnumerationMetaList findEnumerationMetas() {
         return null;
     }
 
