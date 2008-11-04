@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CurrentDateTime {
+    /** Class serial version uid */
+    private static final long serialVersionUID = 1L;
 
 	public long getCurrentDateAsLong() {
 		return getDateAsLong(new Date());

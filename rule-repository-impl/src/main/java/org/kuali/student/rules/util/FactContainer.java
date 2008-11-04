@@ -20,7 +20,10 @@ import java.util.Map;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
-public class FactContainer {
+public class FactContainer implements java.io.Serializable {
+    /** Class serial version uid */
+    private static final long serialVersionUID = 1L;
+
     private String id;
     private String anchor;
     Map<String, RulePropositionDTO> propositionMap;
