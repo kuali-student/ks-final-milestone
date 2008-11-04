@@ -68,7 +68,13 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public List<AgendaType> lookupUniqueAgendaTypes() {
         Query query = entityManager.createNamedQuery("AgendaInfo.findUniqueAgendaTypes");
-        List<AgendaType> agendaTypeList = query.getResultList();
+        List<String> agendaTypeStrList = query.getResultList();
+
+        List<AgendaType> agendaTypeList = new ArrayList<AgendaType>();
+        for (String agendaType : agendaTypeStrList) {
+            agendaTypeList.add(AgendaType.valueOf(agendaType));
+        }
+
         return agendaTypeList;
     }
 
@@ -104,7 +110,7 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<AnchorTypeKey> lookupUniqueAnchorTypeKeys() {
-        Query query = entityManager.createNamedQuery("BusinessRuleType.findAnchorTypes");
+        Query query = entityManager.createNamedQuery("BusinessRuleType.findUniqueAnchorTypes");
         List<String> anchorTypeStrList = query.getResultList();
 
         List<AnchorTypeKey> anchorTypeList = new ArrayList<AnchorTypeKey>();

@@ -259,10 +259,14 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
     @Override
     public List<String> findAgendaTypes() throws OperationFailedException {
-        List<String> agendaTypeStList = new ArrayList<String>();
-        agendaTypeStList.add(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSRE.toString());
-        agendaTypeStList.add(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString());
-        return agendaTypeStList;
+        List<String> result = new ArrayList<String>();
+        List<AgendaType> agendaTypeKeyList = ruleManagementDao.lookupUniqueAgendaTypes();
+
+        for (AgendaType key : agendaTypeKeyList) {
+            result.add(key.toString());
+        }
+
+        return result;
     }
 
     @Override

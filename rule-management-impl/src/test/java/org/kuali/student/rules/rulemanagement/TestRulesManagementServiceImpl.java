@@ -34,6 +34,7 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
@@ -83,6 +84,39 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         }        
        
         assertTrue(false);
+    }
+
+    @Test
+    public void testFindAgendaTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        List<String> agendaTypes = client.findAgendaTypes();
+        assertTrue(agendaTypes.size() == 2);
+        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSRE.toString()));
+        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString()));
+    }
+    
+    @Test
+    public void testFindAnchorTypes()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        List<String> anchorTypes = client.findAnchorTypes();
+
+        assertTrue(anchorTypes.size() == 1);
+        assertTrue(anchorTypes.contains(AnchorTypeKey.KUALI_COURSE.toString()));
+    }
+    
+    @Test
+    public void testFindAnchorsByAnchorType()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        List<String> anchors = client.findAnchorsByAnchorType(AnchorTypeKey.KUALI_COURSE.toString());
+        
+        assertTrue(anchors.size() == 2);
+        assertTrue(anchors.contains("CPR 201"));
+        assertTrue(anchors.contains("MATH 101"));
+    }
+
+    @Test
+    public void testFetchBusinessRuleType()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleTypeDTO ruleType = client.fetchBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), AnchorTypeKey.KUALI_COURSE.toString());
+        
+        assertEquals(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), ruleType.getBussinessRuleTypeKey());
+        assertEquals(AnchorTypeKey.KUALI_COURSE.toString(),ruleType.getAnchorTypeKey());
     }
     
     @Test
@@ -141,14 +175,6 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     public void testFetchBusinessRuleEnglish() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         String englishValue = client.fetchBusinessRuleEnglish("1");
         assertEquals("Rule1", englishValue);
-    }
-
-    @Test
-    public void testFindAgendaTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-        List<String> agendaTypes = client.findAgendaTypes();
-        assertTrue(agendaTypes.size() == 2);
-        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSRE.toString()));
-        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString()));
     }
 
     @Test

@@ -38,7 +38,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 @Table(name = "BusinessRuleType_T")
 @NamedQueries({@NamedQuery(name = "BusinessRuleType.findByKeyAndAnchorType", query = "SELECT c FROM BusinessRuleType c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchorTypeKey = :anchorTypeKey"),
                @NamedQuery(name = "BusinessRuleType.findBusinessRuleTypes", query = "SELECT c.businessRuleTypeKey FROM BusinessRuleType c"),
-               @NamedQuery(name = "BusinessRuleType.findAnchorTypes", query = "SELECT c.anchorTypeKey FROM BusinessRuleType c")})
+               @NamedQuery(name = "BusinessRuleType.findUniqueAnchorTypes", query = "SELECT DISTINCT c.anchorTypeKey FROM BusinessRuleType c order by c.anchorTypeKey ASC")})
 public class BusinessRuleType {
     @Id
     private String id;
