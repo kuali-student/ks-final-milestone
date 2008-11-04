@@ -71,7 +71,7 @@
 		<property name="businessRuleTypeKey" value="KUALI_CO_REQ" />
 		<property name="anchorTypeKey" value="KUALI_COURSE" />
 	</bean>
-
+		
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
 	<bean id="funcBusRule1"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
