@@ -227,7 +227,7 @@ public class GenerateRuleSetPerfTest {
 
             Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
             factMap.put(factId1, createFacts(100));
-            FactContainer facts = new FactContainer(ANCHOR_ID, null, factMap);
+            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, null, factMap);
 
             long start = System.currentTimeMillis();
             RuleBase ruleBase = createRuleBase(ruleSetList);
@@ -268,7 +268,7 @@ public class GenerateRuleSetPerfTest {
 
             Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
             factMap.put(factId1, createFacts(100));
-            FactContainer facts = new FactContainer(ANCHOR_ID, null, factMap);
+            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, null, factMap);
 
             long start = System.currentTimeMillis();
             RuleBase ruleBase = createRuleBase(ruleSetList);

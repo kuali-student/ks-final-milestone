@@ -17,12 +17,20 @@
 ## A generic initialization rule template
 ## Generics need Java 1.5 or greater - Must set drools.dialect.java.compiler=ECLIPSE
 
+#macro (dataType $comparisonDataType)
+    #if($comparisonDataType == "java.lang.String")
+        $comparisonDataType value${key} = "$rhs";
+    #else
+        $comparisonDataType value${key} = new $comparisonDataType("$rhs");
+    #end
+#end
+
 rule "${ruleName}"
     no-loop true
     lock-on-active true
 
     when 
-        container : FactContainer( id == "${anchor}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
+        container : FactContainer( anchor == "${anchor}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
@@ -44,56 +52,54 @@ rule "${ruleName}"
             RulePropositionDTO ruleProposition${key} = (RulePropositionDTO) propositionMap.get("${key}");
             YieldValueFunctionDTO yvf${key} = ruleProposition${key}.getLeftHandSide().getYieldValueFunction();
 
-            #if ( $yvf.YieldValueFunctionType == "SUBSET" )
+            #if ( $yvf.YieldValueFunctionType == "SIMPLECOMPARABLE" )
+                #dataType($comparisonDataType)
+                YVFSimpleComparableProposition<$comparisonDataType> yvfProposition${key} = new YVFSimpleComparableProposition<$comparisonDataType>(
+                    uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
+                    yvf${key}, factMap );
+                yvfProposition${key}.apply();
+                prop.addProposition(yvfProposition${key}.getProposition());
+                insert(yvfProposition${key}.getProposition());
 
+            #elseif ( $yvf.YieldValueFunctionType == "SUBSET" )
                 YVFSubsetProposition<$comparisonDataType> yvfProposition${key} = new YVFSubsetProposition<$comparisonDataType>(
                     uuid${key}, "${key}", yvf${key}, factMap );
                 yvfProposition${key}.apply();
                 prop.addProposition(yvfProposition${key}.getProposition());
                 insert(yvfProposition${key}.getProposition());
-
        		#elseif ( $yvf.YieldValueFunctionType == "INTERSECTION" )
-
                 YVFIntersectionProposition<$comparisonDataType> yvfProposition${key} = new YVFIntersectionProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, new Integer($rhs), 
                     yvf${key}, factMap );
                 yvfProposition${key}.apply();
                 prop.addProposition(yvfProposition${key}.getProposition());
                 insert(yvfProposition${key}.getProposition());
-
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "SUM" )
-
-                $comparisonDataType value${key} = new $comparisonDataType("$rhs");
+                #dataType($comparisonDataType)
                 YVFSumProposition<$comparisonDataType> yvfProposition${key} = new YVFSumProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
                     yvf${key}, factMap );
                 yvfProposition${key}.apply();
                 prop.addProposition(yvfProposition${key}.getProposition());
                 insert(yvfProposition${key}.getProposition());
-
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "AVERAGE" )
-
-                //$comparisonDataType value${key} = new $comparisonDataType("$rhs");
+                #dataType($comparisonDataType)
                 YVFAverageProposition<$comparisonDataType> yvfProposition${key} = new YVFAverageProposition<$comparisonDataType>(
-                    uuid${key}, "${key}", ComparisonOperator.${operator}, new BigDecimal($rhs), 
+                    uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
                     yvf${key}, factMap );
                 yvfProposition${key}.apply();
                 prop.addProposition(yvfProposition${key}.getProposition());
                 insert(yvfProposition${key}.getProposition());
-
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MIN" )
-
-                $comparisonDataType value${key} = new $comparisonDataType("$rhs");
+                #dataType($comparisonDataType)
                 YVFMinProposition<$comparisonDataType> yvfProposition${key} = new YVFMinProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
                     yvf${key}, factMap );
                 yvfProposition${key}.apply();
                 prop.addProposition(yvfProposition${key}.getProposition());
                 insert(yvfProposition${key}.getProposition());
-
             #elseif ( $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionType == "MAX" )
-
-                $comparisonDataType value${key} = new $comparisonDataType("$rhs");
+                #dataType($comparisonDataType)
                 YVFMaxProposition<$comparisonDataType> yvfProposition${key} = new YVFMaxProposition<$comparisonDataType>(
                     uuid${key}, "${key}", ComparisonOperator.${operator}, value${key}, 
                     yvf${key}, factMap );

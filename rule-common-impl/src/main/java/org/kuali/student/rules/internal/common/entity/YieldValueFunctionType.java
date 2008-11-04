@@ -13,5 +13,5 @@ package org.kuali.student.rules.internal.common.entity;
  * @author Kuali Student Team (zdenek.kuali@gmail.com)
  */
 public enum YieldValueFunctionType {
-    INTERSECTION, SUBSET, SUM, AVERAGE, MIN, MAX
+    SIMPLECOMPARABLE, INTERSECTION, SUBSET, SUM, AVERAGE, MIN, MAX
 }

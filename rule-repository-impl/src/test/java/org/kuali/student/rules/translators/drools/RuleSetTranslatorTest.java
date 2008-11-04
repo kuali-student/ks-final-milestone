@@ -27,11 +27,14 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
+import org.drools.StatefulSession;
+import org.drools.StatelessSession;
 import org.drools.WorkingMemory;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
@@ -114,6 +117,47 @@ public class RuleSetTranslatorTest {
         workingMemory.fireAllRules();
     }
 
+    private Map<String, FactContainer> executeStatefulSessionRule(String source, List<FactContainer> facts) throws Exception {
+        // Execute Drools rule set source code
+    	StatefulSession workingMemory = getRuleBase(source).newStatefulSession();
+        workingMemory.insert(new CurrentDateTime());
+        for(FactContainer fact : facts) {
+        	workingMemory.insert(fact);
+        }
+        workingMemory.fireAllRules();
+        Map<String, FactContainer> map = new HashMap<String, FactContainer>();
+        for(Iterator<?> it = workingMemory.iterateObjects(); it.hasNext(); ) {
+        	Object obj = it.next();
+        	if(obj instanceof FactContainer) {
+        		FactContainer fc = (FactContainer) obj;
+        		map.put(fc.getId(), fc);
+        	}
+        }
+        workingMemory.dispose();
+        return map;
+    }
+
+    private Map<String, FactContainer> executeStatelessSessionRule(String source, List<FactContainer> facts) throws Exception {
+        // Execute Drools rule set source code
+    	StatelessSession session = getRuleBase(source).newStatelessSession();
+    	List<Object> newFacts = new ArrayList<Object>(facts.size()+1);
+    	newFacts.add(new CurrentDateTime());
+    	for(FactContainer fc : facts){ 
+    		newFacts.add(fc);
+    	}
+    	Iterator<?> it = session.executeWithResults(newFacts).iterateObjects();
+    	
+        Map<String, FactContainer> map = new HashMap<String, FactContainer>();
+        while(it.hasNext()) {
+        	Object obj = it.next();
+        	if(obj instanceof FactContainer) {
+        		FactContainer fc = (FactContainer) obj;
+        		map.put(fc.getId(), fc);
+        	}
+        }
+        return map;
+    }
+
     private FactResultDTO createFactResult(String[] values) {
 		FactResultDTO factResult = new FactResultDTO();
 		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
@@ -146,7 +190,201 @@ public class RuleSetTranslatorTest {
 	    factStructure1.setCriteriaTypeInfo(criteriaTypeInfo1);
 	    return factStructure1;
     }
+
+    private FactResultDTO createFactResult(String fact, Class<?> dataType) {
+    	FactResultTypeInfoDTO columnMetadata = createColumnMetaData(dataType.getName());
+        FactResultDTO factResult = createFactResult(new String[] {fact});
+        factResult.setFactResultTypeInfo(columnMetadata);
+        return factResult;
+    }
     
+    private List<FactContainer> createFactList(String trueFact, int loops, BusinessRuleInfoDTO businessRule, String factKey, String anchor, Class<?> dataType) {
+    	List<FactContainer> factList = new ArrayList<FactContainer>(loops);
+        for(int i=0; i<loops; i++) {
+        	// True fact
+        	FactResultDTO factResult = createFactResult(trueFact, dataType);
+            if (i % 2 != 0) {
+            	// False fact
+            	factResult = createFactResult(""+trueFact.hashCode(), dataType);
+            }
+            
+            Map<String, Object> factMap = new HashMap<String, Object>();
+            factMap.put(factKey, factResult);
+
+            Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
+            FactContainer fact = new FactContainer("id-"+i, anchor, propositionMap, factMap);
+            
+            factList.add(fact);
+        }
+        return factList;
+    }
+    
+    private void assertFactContainerList(Map<String, FactContainer> exeMap, int loops) {
+        for(int i=0; i<loops; i++) {
+        	String key = "id-"+i;
+        	FactContainer fc = exeMap.get(key);
+            if (i % 2 == 0) {
+            	assertTrue("Failing proposition: id=" + key, fc.getPropositionContainer().getRuleResult());
+            } else {
+            	assertFalse(fc.getPropositionContainer().getRuleResult());
+            }
+        }
+    }
+    
+	@Test
+	public void testTranslateBusinessRule_Comparable_100FactContainers_StatelessSession() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SIMPLECOMPARABLE.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.comparable.fact");
+		
+		// EXECUTION: Fact
+		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"cluID-1234",
+            			String.class.getName(),
+            			yieldValueFunction1));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+
+    	String factKey1 = FactUtil.createFactKey(factStructure1);
+
+        // EXECUTION: Create fact results (data)
+        int loops = 100;
+        List<FactContainer> factList = createFactList("cluID-1234", loops, businessRule, factKey1, anchorValue, String.class);
+
+        Map<String, FactContainer> exeMap = executeStatelessSessionRule(ruleSet.getContent(), factList);
+        
+        assertFactContainerList(exeMap, loops);
+	}
+
+	@Test
+	public void testTranslateBusinessRule_Comparable_100FactContainers_StatefulSession() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SIMPLECOMPARABLE.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.comparable.fact");
+		
+		// EXECUTION: Fact
+		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"100.1234567890",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction1));
+    	ruleElementList.add(element1);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+
+    	String factKey1 = FactUtil.createFactKey(factStructure1);
+
+        // EXECUTION: Create fact results (data)
+        int loops = 100;
+        List<FactContainer> factList = createFactList("100.1234567890", loops, businessRule, factKey1, anchorValue, BigDecimal.class);
+
+        Map<String, FactContainer> exeMap = executeStatefulSessionRule(ruleSet.getContent(), factList);
+        
+        assertFactContainerList(exeMap, loops);
+	}
+
+	@Test
+	public void testTranslateBusinessRule_Comparable() throws Exception {
+        // Generate Drools rule set source code
+    	String anchorValue = "CPR101";
+        // DEFINITION: Create rule definition 
+
+    	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SIMPLECOMPARABLE.toString());
+    	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SIMPLECOMPARABLE.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.comparable.fact");
+		FactStructureDTO factStructure2 = createFactStructure("subset.id.2", "course.comparable.fact");
+		
+		// EXECUTION: Fact
+		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1));
+		yieldValueFunction2.setFactStructureList(Arrays.asList(factStructure2));
+		
+    	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+        RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
+            			ComparisonOperator.EQUAL_TO.toString(),
+            			"cluID-1234",
+            			String.class.getName(),
+            			yieldValueFunction1));
+        RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
+        		"element-1", "PROPOSITION", 
+        		new Integer(1), getRuleProposition(
+            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
+            			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
+            			"75.0",
+            			BigDecimal.class.getName(),
+            			yieldValueFunction2));
+    	ruleElementList.add(element1);
+        ruleElementList.add(getAndOperator());
+        ruleElementList.add(element2);
+
+        // Create functional business rule
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleElementList);
+        businessRule.setAnchorValue("CPR101");
+
+        // Parse and generate functional business rule into Drools rules
+        RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
+
+    	String factKey1 = FactUtil.createFactKey(factStructure1);
+
+        // EXECUTION: Create fact results (data)
+    	FactResultTypeInfoDTO columnMetadata1 = createColumnMetaData(String.class.getName());
+        FactResultDTO factResult1 = createFactResult(new String[] {"cluID-1234"});
+        factResult1.setFactResultTypeInfo(columnMetadata1);
+
+    	String factKey2 = FactUtil.createFactKey(factStructure2);
+
+        // EXECUTION: Create fact results (data)
+    	FactResultTypeInfoDTO columnMetadata2 = createColumnMetaData(BigDecimal.class.getName());
+        FactResultDTO factResult2 = createFactResult(new String[] {"75.0"});
+        factResult2.setFactResultTypeInfo(columnMetadata2);
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(factKey1, factResult1);
+        factMap.put(factKey2, factResult2);
+
+    	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
+        FactContainer facts = new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
+
+        // Execute rule
+        executeRule(ruleSet.getContent(), facts);
+        assertTrue(facts.getPropositionContainer().getRuleResult());
+	}
+
 	@Test
 	public void testTranslateBusinessRule_MinTrue() throws Exception {
         // Generate Drools rule set source code
@@ -189,7 +427,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -238,7 +476,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -287,7 +525,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -336,7 +574,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -390,7 +628,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -444,7 +682,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -493,7 +731,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -542,7 +780,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -596,7 +834,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(anchorValue, propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), anchorValue, propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);
@@ -701,7 +939,7 @@ public class RuleSetTranslatorTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
-        FactContainer facts =  new FactContainer(businessRule.getAnchorValue(), propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), businessRule.getAnchorValue(), propMap, factMap);
 
         // Execute rule
         executeRule(ruleSet.getContent(), facts);

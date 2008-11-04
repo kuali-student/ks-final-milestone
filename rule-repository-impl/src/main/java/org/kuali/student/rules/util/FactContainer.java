@@ -22,6 +22,7 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class FactContainer {
     private String id;
+    private String anchor;
     Map<String, RulePropositionDTO> propositionMap;
     private PropositionContainer propositionContainer = new PropositionContainer();
     private Map<String, ?> factMap;
@@ -29,14 +30,19 @@ public class FactContainer {
     
     public enum State {INIT,DONE};
 
-    public FactContainer(String id, Map<String, RulePropositionDTO> propositionMap, Map<String, ?> factMap) {
+    public FactContainer(String id, String anchor, Map<String, RulePropositionDTO> propositionMap, Map<String, ?> factMap) {
         this.id = id;
+        this.anchor = anchor;
         this.propositionMap = propositionMap;
         this.factMap = factMap;
     }
     
     public String getId() {
         return this.id;
+    }
+    
+    public String getAnchor() {
+        return this.anchor;
     }
     
     public Map<String, RulePropositionDTO> getPropositionMap() {
@@ -57,5 +63,9 @@ public class FactContainer {
 
     public void setState(State state) {
         this.state = state;
+    }
+    
+    public String toString() {
+    	return "id=" + this.id + ", anchor=" + this.anchor;
     }
 }

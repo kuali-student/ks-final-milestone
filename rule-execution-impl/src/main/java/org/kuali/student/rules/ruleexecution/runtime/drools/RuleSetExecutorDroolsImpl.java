@@ -117,7 +117,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
     		Map<String, RulePropositionDTO> propositionMap,
     		Map<String, Object> factMap) {
-        FactContainer factContainer =  new FactContainer(anchor, propositionMap, factMap);
+        String id = ""+System.nanoTime();
+    	FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
     	List<Package> packageList = new ArrayList<Package>();
         Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
         if (pkg == null) {
@@ -296,7 +297,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param fact Facts for the <code>ruleBase</code>
      * @return A execution result
      */
-    private ExecutionResult executeRule(boolean logRuleExecution, RuleBase ruleBase, Object fact) { 
+    private ExecutionResult executeRule(boolean logRuleExecution, RuleBase ruleBase, FactContainer fact) { 
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger logger = null;
         
@@ -309,7 +310,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         List<Object> list = new ArrayList<Object>();
         while(it != null && it.hasNext()) {
         	Object obj = it.next();
-        	list.add(obj);
+        	if (obj instanceof FactContainer) {
+        		FactContainer fc = (FactContainer) obj;
+        		if (fc.getId().equals(fact.getId())){
+                	list.add(obj);
+        		}
+        	}
         }
         
         ExecutionResult result = new ExecutionResult();
