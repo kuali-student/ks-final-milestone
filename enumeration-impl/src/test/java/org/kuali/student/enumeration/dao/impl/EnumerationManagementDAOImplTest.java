@@ -9,8 +9,6 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enumeration.entity.EnumeratedValue;
-import org.kuali.student.enumeration.entity.EnumeratedValueContext;
-import org.kuali.student.enumeration.entity.Enumerations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
@@ -18,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //TODO remove the comment
 //@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationManagementDAOImplTest extends TestCase{
-    //@Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+/*    //@Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 
     //TODO delete all records from tables 
@@ -239,4 +237,5 @@ public class EnumerationManagementDAOImplTest extends TestCase{
         List<EnumeratedValue> list = enumerationManagementDAO.getEnumeratedValues("");
         assertEquals(list.size(),2);
     }
+*/    
 }
