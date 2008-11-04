@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
-import org.kuali.student.enumeration.dto.EnumerationMetaList;
+import org.kuali.student.enumeration.entity.EnumeratedValue;
+
 import org.kuali.student.enumeration.entity.EnumerationMeta;
 
 
@@ -14,6 +15,8 @@ public interface EnumerationManagementDAO {
     
     public EnumerationMeta fetchEnumerationMeta(String enumerationKey);
     
+    public EnumeratedValue updateEnumeratedValue(String enumerationKey,String code,EnumeratedValue value);    
+    public void removeEnumeratedValue(String enumerationKey,String code);
 /*    public Enumerations createEnumerations(Enumerations entry);
     
     public boolean deleteEnumerations(Enumerations entry);

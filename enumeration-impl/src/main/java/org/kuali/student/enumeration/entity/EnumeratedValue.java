@@ -15,7 +15,7 @@ public class EnumeratedValue {
     @Id
     String id;
 
-    String enumerationId;
+    String enumerationKey;
     String code;
     String abbrevValue;
     String value;
@@ -42,11 +42,11 @@ public class EnumeratedValue {
     }
 
     public String getEnumerationId() {
-        return enumerationId;
+        return enumerationKey;
     }
 
     public void setEnumerationId(String enumerationId) {
-        this.enumerationId = enumerationId;
+        this.enumerationKey = enumerationId;
     }
 
     public String getCode() {

@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
+import org.kuali.student.enumeration.entity.EnumeratedValue;
 import org.kuali.student.enumeration.entity.EnumerationMeta;
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +33,31 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         
         return (EnumerationMeta) obj;
     }
+    public EnumeratedValue updateEnumeratedValue(String enumerationKey,String code,EnumeratedValue value){
+        Query query = entityManager.createQuery("update EnumeratedValue e set e.value = :value where e.enumerationKey = :key and e.code = :code");
+        query.setParameter("key", enumerationKey);
+        query.setParameter("code", code);
+        query.setParameter("value", value);
+        query.executeUpdate();
+        
+        
+        query = entityManager.createQuery("SELECT e FROM EnumeratedValue e where e.enumerationKey = :key and e.code = :code");
+        query.setParameter("key", enumerationKey);
+        query.setParameter("code", code);
+        Object obj = query.getResultList().get(0);
+        
+        return (EnumeratedValue)obj;        
+    }    
+
+    
+    public void removeEnumeratedValue(String enumerationKey,String code){
+        Query query = entityManager.createQuery("delete from EnumeratedValue e where e.enumerationKey = :key and e.code = :code");
+        query.setParameter("key", enumerationKey);
+        query.setParameter("code", code);
+        
+        query.executeUpdate();
+    }
+    
 /*
     public EnumeratedValue createEnumeratedValue(EnumeratedValue value) {
         this.entityManager.persist(value);
