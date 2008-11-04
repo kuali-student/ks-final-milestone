@@ -56,7 +56,7 @@ public class BinaryTree {
         try {
             boolexpr_ret = parser.boolexpr();  
         } catch (RecognitionException e)  {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         // get the root of the AST from the parsed expression
         return root = (BooleanNode) boolexpr_ret.getTree();
