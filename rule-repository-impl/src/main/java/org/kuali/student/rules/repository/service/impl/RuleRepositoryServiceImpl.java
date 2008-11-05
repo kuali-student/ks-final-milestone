@@ -104,10 +104,13 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	try {
 			return this.ruleEngineRepository.createCategory(path, name, description);
 		} catch(CategoryExistsException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -129,8 +132,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	try {
 			this.ruleEngineRepository.removeCategory(path);
 		} catch (RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -153,8 +158,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	try {
 		    return this.ruleEngineRepository.loadChildCategories(path);
 		} catch (RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
 	}
@@ -177,12 +184,16 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	        RuleSetDTO dto = ruleAdapter.getRuleSetDTO(newRuleSet);
 	        return dto;
 		} catch (RuleSetExistsException e) {
+			logger.error(e.getMessage(), e);
 			throw new AlreadyExistsException(e.getMessage());
 		} catch (RuleExistsException e) {
+			logger.error(e.getMessage(), e);
 			throw new AlreadyExistsException(e.getMessage());
 		} catch (RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -199,8 +210,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	try {
 	    	this.ruleEngineRepository.removeRuleSet(uuid);
 		} catch (RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -222,8 +235,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         	String ruleSetName = ruleSet.getName();
 	    	this.ruleEngineRepository.removeRuleSetSnapshot(ruleSetName, snapshotName);
 		} catch (RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -244,8 +259,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	try {
 	        return this.ruleEngineRepository.checkinRuleSet(uuid, comment);
 		} catch (RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
 			throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -265,8 +282,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	        RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
 	        return dto;
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -289,6 +308,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	        }
 	        return dtoList;
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		}
     }
@@ -313,8 +333,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         	RuleSet ruleSetSnapshot = this.ruleEngineRepository.createRuleSetSnapshot(ruleSetName, snapshotName, comment);
         	return ruleAdapter.getRuleSetDTO(ruleSetSnapshot);
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -340,8 +362,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	        RuleSet ruleSetSnapshot = this.ruleEngineRepository.rebuildRuleSetSnapshot(ruleSetName, snapshotName, comment);
         	return ruleAdapter.getRuleSetDTO(ruleSetSnapshot);
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -364,8 +388,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	        RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSetSnapshot);
 	        return dto;
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -387,6 +413,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	        }
 	        return dtoList;
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		}
     }
@@ -404,8 +431,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         try {
 	    	return this.ruleEngineRepository.createStatus(name);
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -421,6 +450,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         try {
 	    	return this.ruleEngineRepository.loadStates();
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         }
     }
@@ -437,8 +467,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         try {
 	    	this.ruleEngineRepository.removeStatus(name);
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -456,8 +488,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         try {
 	    	this.ruleEngineRepository.changeRuleSetStatus(ruleSetUUID, newState);
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		}
     }
@@ -536,10 +570,13 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     		BusinessRuleInfoDTO  businessRule = container.getBusinessRules().get(0);
     		ruleSet1 = this.ruleSetTranslator.translate(businessRule);
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
         } catch(RuleSetTranslatorException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         }
         
@@ -558,14 +595,19 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         		ruleSet1 = this.ruleEngineRepository.createRuleSet(ruleSet1);
     		}
 		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
 			throw new InvalidParameterException(e.getMessage());
 		} catch(RuleSetTranslatorException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException("Ruleset translation error: " + e.getMessage());
         } catch(RuleSetExistsException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         } catch(RuleExistsException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
 		}
 
