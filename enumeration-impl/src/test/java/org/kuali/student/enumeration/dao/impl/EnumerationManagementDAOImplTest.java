@@ -16,13 +16,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //TODO remove the comment
 //@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationManagementDAOImplTest extends TestCase{
-/*    //@Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
-    public EnumerationManagementDAOImpl enumerationManagementDAO;
+//    @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+  //  public EnumerationManagementDAOImpl enumerationManagementDAO;
 
     //TODO delete all records from tables 
     public void setup(){
         
     }
+    
+/*    
 
     @Test
     public void testCreateEnumerations(){
