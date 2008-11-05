@@ -40,14 +40,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "fieldDescriptor",
-    "readOnly"
+    "isSelector"
 })
 @XmlRootElement(name = "field")
 public class Field {
 
     @XmlElement(required = true)
     protected FieldDescriptor fieldDescriptor;
-    protected boolean readOnly;
+    protected boolean isSelector;
     @XmlAttribute
     protected String key;
 
@@ -75,23 +75,15 @@ public class Field {
         this.fieldDescriptor = value;
     }
 
-    /**
-     * Gets the value of the readOnly property.
-     * 
-     */
-    public boolean isReadOnly() {
-        return readOnly;
-    }
+	public boolean isSelector() {
+		return isSelector;
+	}
 
-    /**
-     * Sets the value of the readOnly property.
-     * 
-     */
-    public void setReadOnly(boolean value) {
-        this.readOnly = value;
-    }
+	public void setSelector(boolean isSelector) {
+		this.isSelector = isSelector;
+	}
 
-    /**
+	/**
      * Gets the value of the key property.
      * 
      * @return
