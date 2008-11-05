@@ -10,7 +10,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 public class EnumeratedValueField {
     @Id
     String id;
-    String enumerationId;
+    String enumerationKey;
 
     String key;
     String dataType;
@@ -36,11 +36,11 @@ public class EnumeratedValueField {
     }
 
     public String getEnumerationId() {
-        return enumerationId;
+        return enumerationKey;
     }
 
     public void setEnumerationId(String enumerationId) {
-        this.enumerationId = enumerationId;
+        this.enumerationKey = enumerationId;
     }
 
     public String getKey() {

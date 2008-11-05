@@ -41,12 +41,12 @@ public class EnumeratedValue {
         this.id = id;
     }
 
-    public String getEnumerationId() {
+    public String getEnumerationKey() {
         return enumerationKey;
     }
 
-    public void setEnumerationId(String enumerationId) {
-        this.enumerationKey = enumerationId;
+    public void setEnumerationKey(String enumerationKey) {
+        this.enumerationKey = enumerationKey;
     }
 
     public String getCode() {

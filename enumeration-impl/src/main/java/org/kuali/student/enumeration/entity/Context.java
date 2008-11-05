@@ -10,10 +10,12 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 public class Context {
     @Id
     String id;
-
-    String type;
+    String enumerationId;
+    
+    String key;
     String value;
-    String enumeratedValueId;
+    String enumerationKey;
+
     /**
      * AutoGenerate the id
      */
@@ -30,11 +32,11 @@ public class Context {
     }
 
     public String getType() {
-        return type;
+        return key;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.key = type;
     }
 
     public String getValue() {
@@ -44,13 +46,13 @@ public class Context {
     public void setValue(String value) {
         this.value = value;
     }
-
-    public String getEnumeratedValueId() {
-        return enumeratedValueId;
+    public String getEnumerationKey() {
+        return enumerationKey;
+    }
+    public void setEnumerationKey(String enumerationKey) {
+        this.enumerationKey = enumerationKey;
     }
 
-    public void setEnumeratedValueId(String enumeratedValueId) {
-        this.enumeratedValueId = enumeratedValueId;
-    }
+
 
 }

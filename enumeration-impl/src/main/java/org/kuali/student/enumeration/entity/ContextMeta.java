@@ -10,7 +10,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 public class ContextMeta {
     @Id
     String id;
-    String enumerationId;
+    String enumerationKey;
     String type;
     String dataType;
     int minLength;
@@ -33,11 +33,11 @@ public class ContextMeta {
     }
 
     public String getEnumerationId() {
-        return enumerationId;
+        return enumerationKey;
     }
 
     public void setEnumerationId(String enumerationId) {
-        this.enumerationId = enumerationId;
+        this.enumerationKey = enumerationId;
     }
 
     public String getType() {
