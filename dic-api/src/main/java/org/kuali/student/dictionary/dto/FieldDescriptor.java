@@ -44,29 +44,89 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "dataType",
+    "name",
+    "desc",
+	"dataType",
+	"minValue",
+	"maxValue",
     "minLength",
     "maxLength",
     "validChars",
     "invalidChars",
     "minOccurs",
     "maxOccurs",
+    "readOnly",
     "_enum"
 })
 @XmlRootElement(name = "fieldDescriptor")
 public class FieldDescriptor {
 
     @XmlElement(required = true)
+    protected String name;
+    @XmlElement(required = true)
+    protected String desc;
+    @XmlElement(required = true)
     protected String dataType;
+    protected String minValue;
+    protected String maxValue;
     protected BigInteger minLength;
     protected BigInteger maxLength;
     protected String validChars;
     protected String invalidChars;
     protected BigInteger minOccurs;
     protected BigInteger maxOccurs;
+    protected boolean readOnly;
     @XmlElement(name = "enum")
     protected Enum _enum;
+    
+    public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getMinValue() {
+		return minValue;
+	}
+
+	public void setMinValue(String minValue) {
+		this.minValue = minValue;
+	}
+
+	public String getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(String maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	/**
+     * Gets the value of the readOnly property.
+     * 
+     */
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    /**
+     * Sets the value of the readOnly property.
+     * 
+     */
+    public void setReadOnly(boolean value) {
+        this.readOnly = value;
+    }
+    
     /**
      * Gets the value of the dataType property.
      * 
