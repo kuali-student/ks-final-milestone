@@ -53,6 +53,8 @@ public class FactStructure {
     private Boolean staticFact;
     
     private String staticValue;
+
+    private String staticValueDataType;
     
     @ManyToOne
     @JoinColumn(name = "fkYieldValueFunction")
@@ -158,6 +160,22 @@ public class FactStructure {
     }
 
     /**
+     * Returns the static value's data type.
+     * @return Static value's data type
+     */
+	public String getStaticValueDataType() {
+		return staticValueDataType;
+	}
+
+	/**
+	 * Sets the static value's data type.
+	 * @param staticValueDataType Static value's data type
+	 */
+	public void setStaticValueDataType(String staticValueDataType) {
+		this.staticValueDataType = staticValueDataType;
+	}    
+
+    /**
      * @param staticValue the staticValue to set
      */
     public void setStaticValue(String staticValue) {
@@ -176,5 +194,5 @@ public class FactStructure {
      */
     public void setYieldValueFunction(YieldValueFunction yieldValueFunction) {
         this.yieldValueFunction = yieldValueFunction;
-    }    
+    }
 }

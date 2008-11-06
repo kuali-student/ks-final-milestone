@@ -79,6 +79,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         factStructure.setFactStructureId("1");
         factStructure.setStaticFact(true);
         factStructure.setStaticValue("123");
+        factStructure.setStaticValueDataType(Long.class.getName());
         
         List<FactStructure> factStructureList = new ArrayList<FactStructure>();
         factStructureList.add(factStructure);
@@ -129,6 +130,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         assertEquals("1", fs.getFactStructureId());
         assertEquals("123", fs.getStaticValue());
         assertEquals(true, fs.getStaticFact());
+        assertEquals(Long.class.getName(), fs.getStaticValueDataType());
     }
 
     @Test
@@ -139,6 +141,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         factStructure.setFactStructureId("1");
         factStructure.setStaticFact(true);
         factStructure.setStaticValue("123");
+        factStructure.setStaticValueDataType(Double.class.getName());
         
         List<FactStructure> factStructureList = new ArrayList<FactStructure>();
         factStructureList.add(factStructure);
@@ -202,6 +205,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         assertEquals("1", fs.getFactStructureId());
         assertEquals("123", fs.getStaticValue());
         assertEquals(true, fs.getStaticFact());
+        assertEquals(Double.class.getName(), fs.getStaticValueDataType());
     }
 
     @Test
