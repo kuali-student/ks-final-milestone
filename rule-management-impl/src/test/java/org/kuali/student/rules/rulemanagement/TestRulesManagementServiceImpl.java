@@ -8,8 +8,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
@@ -55,6 +57,18 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         assertEquals("1",  brInfoDTO.getBusinessRuleId());
         assertEquals("CPR 201", brInfoDTO.getAnchorValue());
         assertEquals(3, brInfoDTO.getRuleElementList().size());
+                
+        RulePropositionDTO ruleProp = brInfoDTO.getRuleElementList().get(0).getRuleProposition();
+        
+        List<FactStructureDTO> factStructureList = ruleProp.getLeftHandSide().getYieldValueFunction().getFactStructureList();
+        assertEquals(2, factStructureList.size());
+    
+        
+        FactStructureDTO fs1 = factStructureList.get(0);
+        assertEquals("CPR 101", fs1.getStaticValue());
+
+        FactStructureDTO fs2 = factStructureList.get(1);
+        assertEquals("CPR 101, MATH 101, MATH 102", fs2.getStaticValue());
     }    
 
     @Test
