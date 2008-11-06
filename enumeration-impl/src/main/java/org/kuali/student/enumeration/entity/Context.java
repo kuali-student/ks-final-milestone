@@ -14,7 +14,6 @@ public class Context {
     
     String key;
     String value;
-    String enumerationKey;
 
     /**
      * AutoGenerate the id
@@ -46,13 +45,4 @@ public class Context {
     public void setValue(String value) {
         this.value = value;
     }
-    public String getEnumerationKey() {
-        return enumerationKey;
-    }
-    public void setEnumerationKey(String enumerationKey) {
-        this.enumerationKey = enumerationKey;
-    }
-
-
-
 }

@@ -43,8 +43,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
                 "e.expirationDate > :contextDate and " +
                 "c.value = :contextValue and " +
                 "c.key = :enumContextKey and " +
-                "e.enumerationKey = :enumerationKey and " +
-                "c.enumerationKey = :enumerationKey");
+                "e.enumerationKey = :enumerationKey ");
 
         query.setParameter("enumerationKey", enumerationKey);
         query.setParameter("enumContextKey", enumContextKey);        
