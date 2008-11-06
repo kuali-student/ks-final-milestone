@@ -68,7 +68,7 @@
 		<property name="businessRuleTypeKey" value="KUALI_CO_REQ" />
 		<property name="anchorTypeKey" value="KUALI_COURSE" />
 	</bean>
-				
+		
 	<!-- 1 of CPR 101 OR 1 of FA 001 -->
 	<bean id="funcBusRule1"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
@@ -183,6 +183,9 @@
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
 		<property name="staticValue" value="CPR 101" />
+		<property name="staticValueDataType" value="java.lang.String"/>		
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction1"/>		
 	</bean>
 
 	<bean id="factStructure2"
@@ -195,6 +198,24 @@
 		<property name="staticFact" value="true" />
 		<property name="staticValue"
 			value="CPR 101, MATH 101, MATH 102" />
+		<property name="staticValueDataType" value="java.lang.String"/>
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction1"/>					
+	</bean>
+
+	<bean id="factStructure2copy"
+		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
+		<property name="id"
+			value="11223344-1122-1122-1112-100000000121" />
+		<property name="factStructureId" value="2" />
+		<property name="factTypeKey" value="fact.cpr_prereq_cluset" />
+		<property name="anchorFlag" value="false" />
+		<property name="staticFact" value="true" />
+		<property name="staticValue"
+			value="CPR 101, MATH 101, MATH 102" />
+		<property name="staticValueDataType" value="java.lang.String"/>
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction3"/>					
 	</bean>
 
 	<bean id="factStructure3"
@@ -206,18 +227,21 @@
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
 		<property name="staticValue" value="FA 001" />
+		<property name="staticValueDataType" value="java.lang.String"/>
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction3"/>					
 	</bean>
-
+			
 	<bean id="yieldValueFunction1"
 		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000006" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
-			<list>
+			<set>
 				<ref bean="factStructure1" />
 				<ref bean="factStructure2" />
-			</list>
+			</set>
 		</property>
 	</bean>
 
@@ -227,11 +251,11 @@
 			value="11223344-1122-1122-1112-100000000008" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
-			<list>
+			<set>
 				<ref bean="factStructure3" />
-				<ref bean="factStructure2" />
-			</list>
-		</property>
+				<ref bean="factStructure2copy" />
+			</set>
+		</property>		
 	</bean>
 
 	<bean id="rightHandSide1"
@@ -348,6 +372,9 @@
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
 		<property name="staticValue" value="MATH 100" />
+		<property name="staticValueDataType" value="java.lang.String"/>		
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction4"/>							
 	</bean>
 
 	<bean id="factStructure6"
@@ -360,6 +387,9 @@
 		<property name="staticFact" value="true" />
 		<property name="staticValue"
 			value="CPR 101, MATH 100, MATH 102" />
+		<property name="staticValueDataType" value="java.lang.String"/>			
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction4"/>
 	</bean>
 
 	<bean id="factStructure7"
@@ -371,6 +401,9 @@
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
 		<property name="staticValue" value="2.0, 3.0, 4.0" />
+		<property name="staticValueDataType" value="java.lang.String"/>		
+		<property name="yieldValueFunction"
+			ref="yieldValueFunction5"/>		
 	</bean>
 
 	<bean id="yieldValueFunction4"
@@ -379,10 +412,10 @@
 			value="11223344-1122-1122-1112-100000000017" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
-			<list>
+			<set>
 				<ref bean="factStructure5" />
 				<ref bean="factStructure6" />
-			</list>
+			</set>
 		</property>
 	</bean>
 
@@ -392,9 +425,9 @@
 			value="11223344-1122-1122-1112-100000000018" />
 		<property name="yieldValueFunctionType" value="SUM" />
 		<property name="facts">
-			<list>
+			<set>
 				<ref bean="factStructure7"/>
-			</list>
+			</set>
 		</property>			
 	</bean>
 
