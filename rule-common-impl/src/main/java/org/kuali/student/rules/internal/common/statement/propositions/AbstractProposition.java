@@ -35,7 +35,7 @@ public abstract class AbstractProposition<T> implements Proposition {
     protected String propositionName;
     protected PropositionReport report = new PropositionReport();
     protected ComparisonOperator operator;
-    T expectedValue;
+    protected T expectedValue;
 
     // ~ Constructors -----------------------------------------------------------
     public AbstractProposition() {
@@ -205,6 +205,9 @@ public abstract class AbstractProposition<T> implements Proposition {
     }
 
     public String toString() {
-    	return "(propositionName=" + propositionName + ", result="+this.result + ")";
+    	return "Proposition[id=" + this.id 
+    		+ ", propositionName=" + this.propositionName
+    		+ ", type=" + this.getClass().getSimpleName()
+    		+ ", result="+this.result + "]";
     }
 }

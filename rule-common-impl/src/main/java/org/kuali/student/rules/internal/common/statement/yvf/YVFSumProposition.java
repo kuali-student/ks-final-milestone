@@ -27,7 +27,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.SumProposi
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSumProposition<E extends Number> extends YVFProposition<E> {
+public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<E> {
 	
 	public YVFSumProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, BigDecimal expectedValue, 

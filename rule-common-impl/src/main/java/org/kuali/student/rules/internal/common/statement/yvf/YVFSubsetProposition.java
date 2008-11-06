@@ -26,7 +26,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.SubsetProp
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSubsetProposition<E> extends YVFProposition<E> {
+public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 
 	public YVFSubsetProposition(String id, String propositionName, 
 			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {

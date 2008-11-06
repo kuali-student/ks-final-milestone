@@ -27,7 +27,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.AveragePro
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFAverageProposition<E extends Number> extends YVFProposition<E> {
+public class YVFAverageProposition<E extends Number> extends AbstractYVFProposition<E> {
 
 	public YVFAverageProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, BigDecimal expectedValue, 

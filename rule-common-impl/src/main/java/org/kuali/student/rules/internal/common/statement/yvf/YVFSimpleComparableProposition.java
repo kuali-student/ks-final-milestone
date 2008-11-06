@@ -14,7 +14,7 @@ import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSimpleComparableProposition<T extends Comparable<T>> extends YVFProposition<T> {
+public class YVFSimpleComparableProposition<T extends Comparable<T>> extends AbstractYVFProposition<T> {
 
 	public YVFSimpleComparableProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, T expectedValue, 

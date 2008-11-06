@@ -27,7 +27,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.Intersecti
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFIntersectionProposition<E> extends YVFProposition<E> {
+public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 
 	public YVFIntersectionProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, Integer expectedValue, 

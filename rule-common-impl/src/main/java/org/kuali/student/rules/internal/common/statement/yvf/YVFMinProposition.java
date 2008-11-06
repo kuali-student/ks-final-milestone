@@ -27,7 +27,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.MinProposi
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFMinProposition<T extends Comparable<T>> extends YVFProposition<T> {
+public class YVFMinProposition<T extends Comparable<T>> extends AbstractYVFProposition<T> {
 
 	public YVFMinProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, T expectedValue, 

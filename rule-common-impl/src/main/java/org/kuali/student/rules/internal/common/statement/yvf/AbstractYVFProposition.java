@@ -16,11 +16,11 @@ import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class YVFProposition<E> implements Proposition {
+public abstract class AbstractYVFProposition<E> implements Proposition {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(YVFProposition.class);
+    final static Logger logger = LoggerFactory.getLogger(AbstractYVFProposition.class);
 
-	Proposition proposition;
+    protected Proposition proposition;
 	
 	@SuppressWarnings("unchecked")
 	public Set<E> getSet(String dataType, String stringList) {
@@ -115,4 +115,10 @@ public abstract class YVFProposition<E> implements Proposition {
 	public Boolean getResult() {
 		return this.proposition.getResult();
 	}
+
+    public String toString() {
+    	return "YVFProposition[id=" + this.proposition.getId() 
+    		+ ", propositionName=" + this.proposition.getPropositionName() 
+    		+ ", result="+this.proposition.getResult() + "]";
+    }
 }
