@@ -410,7 +410,7 @@ public class TestPersonServiceImpl extends AbstractServiceTest{
             throw new Exception("Security not processed");
         } catch (SOAPFaultException sfe) {
             //This is the soap fault message thrown by CXF
-            assertEquals("Security processing failed.", sfe.getMessage());
+            assertEquals("The security token could not be authenticated or authorized", sfe.getMessage());
         }
         catch (WebServiceException wse){
             //FIXME: This is a wrong, because Metro should be throwing SoapFaultException, but is
