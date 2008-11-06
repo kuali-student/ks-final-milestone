@@ -241,10 +241,10 @@
 			value="11223344-1122-1122-1112-100000000006" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
-			<set>
+			<list>
 				<ref bean="factStructure1" />
 				<ref bean="factStructure2" />
-			</set>
+			</list>
 		</property>
 	</bean>
 
@@ -254,10 +254,10 @@
 			value="11223344-1122-1122-1112-100000000008" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
-			<set>
+			<list>
 				<ref bean="factStructure3" />
 				<ref bean="factStructure2copy" />
-			</set>
+			</list>
 		</property>		
 	</bean>
 
@@ -270,7 +270,6 @@
 		class="org.kuali.student.rules.rulemanagement.entity.RightHandSide">
 		<property name="expectedValue" value="1" />
 	</bean>
-
 
 
 	<!-- 1 of MATH 100 AND  SUM CREDIT > 12 -->
@@ -415,10 +414,10 @@
 			value="11223344-1122-1122-1112-100000000017" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
-			<set>
+			<list>
 				<ref bean="factStructure5" />
 				<ref bean="factStructure6" />
-			</set>
+			</list>
 		</property>
 	</bean>
 
@@ -428,9 +427,9 @@
 			value="11223344-1122-1122-1112-100000000018" />
 		<property name="yieldValueFunctionType" value="SUM" />
 		<property name="facts">
-			<set>
+			<list>
 				<ref bean="factStructure7"/>
-			</set>
+			</list>
 		</property>			
 	</bean>
 
