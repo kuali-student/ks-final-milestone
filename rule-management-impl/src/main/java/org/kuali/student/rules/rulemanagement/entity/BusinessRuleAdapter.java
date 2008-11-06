@@ -2,8 +2,10 @@ package org.kuali.student.rules.rulemanagement.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -200,7 +202,7 @@ public class BusinessRuleAdapter {
         
         // Extract the parameter values
         Map<String, String> paramValueMap = new HashMap<String, String>();
-        for(FactStructureVariable fsVar : fs.getParamValueList()) {
+        for(FactStructureVariable fsVar : fs.getParamValueSet()) {
             paramValueMap.put( fsVar.getStructureKey(),  fsVar.getValue() );
         }
         fsDTO.setParamValueMap(paramValueMap);        
@@ -209,7 +211,8 @@ public class BusinessRuleAdapter {
         fsDTO.setFactTypeKey(fs.getFactTypeKey());        
         fsDTO.setStaticFact(fs.getStaticFact());        
         fsDTO.setStaticValue(fs.getStaticValue());
-                
+        fsDTO.setStaticValueDataType(fs.getStaticValueDataType());
+        
         return fsDTO;
     }
 
@@ -335,7 +338,9 @@ public class BusinessRuleAdapter {
         
         List<FactStructure> factList = new ArrayList<FactStructure>();
         for(FactStructureDTO factDTO: yvfDTO.getFactStructureList()) {
-            factList.add( getFactStructureEntity( factDTO ) ) ;
+            FactStructure fact = getFactStructureEntity( factDTO );
+            fact.setYieldValueFunction(yvf);
+            factList.add( fact  ) ;
         }
         yvf.setFacts(factList);
         
@@ -357,10 +362,10 @@ public class BusinessRuleAdapter {
        fs.setFactTypeKey(factDTO.getFactTypeKey());
        fs.setStaticFact(factDTO.isStaticFact());
        fs.setStaticValue(factDTO.getStaticValue());
-       
+       fs.setStaticValueDataType(factDTO.getStaticValueDataType());
        
        // Extract parameter variables
-       List<FactStructureVariable> fsParamVarList = new ArrayList<FactStructureVariable>(); 
+       Set<FactStructureVariable> fsParamVarList = new HashSet<FactStructureVariable>(); 
        Map<String,String> factParamVarMap = factDTO.getParamValueMap();
        for(String key: factParamVarMap.keySet()) {
            FactStructureVariable fsVar = new FactStructureVariable();
@@ -369,7 +374,7 @@ public class BusinessRuleAdapter {
            fsVar.setValue((String)factParamVarMap.get(key));
            fsParamVarList.add(fsVar);
        }
-       fs.setParamValueList(fsParamVarList);
+       fs.setParamValueSet(fsParamVarList);
        
        return fs;
     }

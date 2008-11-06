@@ -4,7 +4,9 @@
 package org.kuali.student.rules.rulemanagement.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,7 +34,7 @@ public class YieldValueFunction {
     @Enumerated(EnumType.STRING)
     YieldValueFunctionType yieldValueFunctionType; 
     
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "yieldValueFunction")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "yieldValueFunction")
     List<FactStructure> facts = new ArrayList<FactStructure>();
        
     /**

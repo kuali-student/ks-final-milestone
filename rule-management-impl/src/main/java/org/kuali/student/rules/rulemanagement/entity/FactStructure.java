@@ -16,9 +16,11 @@
 package org.kuali.student.rules.rulemanagement.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -47,18 +49,18 @@ public class FactStructure {
     
     private Boolean anchorFlag; 
  
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy="factStructure")
-    private List<FactStructureVariable> paramValueList;
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy="factStructure")
+    private Set<FactStructureVariable> paramValueSet;
         
     private Boolean staticFact;
     
     private String staticValue;
-
+    
     private String staticValueDataType;
     
     @ManyToOne
     @JoinColumn(name = "fkYieldValueFunction")
-    private YieldValueFunction yieldValueFunction;
+    private YieldValueFunction yieldValueFunction; 
     
     /**
      * AutoGenerate the id
@@ -127,15 +129,15 @@ public class FactStructure {
     /**
      * @return the paramValueList
      */
-    public List<FactStructureVariable> getParamValueList() {
-        return paramValueList;
+    public Set<FactStructureVariable> getParamValueSet() {
+        return paramValueSet;
     }
 
     /**
      * @param paramValueList the paramValueList to set
      */
-    public void setParamValueList(List<FactStructureVariable> paramValueList) {
-        this.paramValueList = paramValueList;
+    public void setParamValueSet(Set<FactStructureVariable> paramValueSet) {
+        this.paramValueSet = paramValueSet;
     }
 
     /**
@@ -160,22 +162,6 @@ public class FactStructure {
     }
 
     /**
-     * Returns the static value's data type.
-     * @return Static value's data type
-     */
-	public String getStaticValueDataType() {
-		return staticValueDataType;
-	}
-
-	/**
-	 * Sets the static value's data type.
-	 * @param staticValueDataType Static value's data type
-	 */
-	public void setStaticValueDataType(String staticValueDataType) {
-		this.staticValueDataType = staticValueDataType;
-	}    
-
-    /**
      * @param staticValue the staticValue to set
      */
     public void setStaticValue(String staticValue) {
@@ -195,4 +181,18 @@ public class FactStructure {
     public void setYieldValueFunction(YieldValueFunction yieldValueFunction) {
         this.yieldValueFunction = yieldValueFunction;
     }
+
+    /**
+     * @return the staticValueDataType
+     */
+    public String getStaticValueDataType() {
+        return staticValueDataType;
+    }
+
+    /**
+     * @param staticValueDataType the staticValueDataType to set
+     */
+    public void setStaticValueDataType(String staticValueDataType) {
+        this.staticValueDataType = staticValueDataType;
+    }    
 }
