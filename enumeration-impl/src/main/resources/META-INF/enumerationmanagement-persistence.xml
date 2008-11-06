@@ -5,8 +5,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
     <persistence-unit name="EnumerationManagement" transaction-type="JTA">
       <class>org.kuali.student.enumeration.entity.EnumeratedValue</class>
-      <class>org.kuali.student.enumeration.entity.EnumeratedValueContext</class>
-      <class>org.kuali.student.enumeration.entity.Enumerations</class>
+      <class>org.kuali.student.enumeration.entity.Context</class>
+      <class>org.kuali.student.enumeration.entity.ContextMeta</class>
+      <class>org.kuali.student.enumeration.entity.EnumeratedValueField</class>
+      <class>org.kuali.student.enumeration.entity.EnumerationMeta</class>
     </persistence-unit>
 </persistence>
 
