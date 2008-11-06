@@ -8,6 +8,7 @@
 package org.kuali.student.rules.rulemanagement;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +27,7 @@ import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
+import org.kuali.student.rules.rulemanagement.entity.FactStructure;
 import org.kuali.student.rules.rulemanagement.entity.LeftHandSide;
 import org.kuali.student.rules.rulemanagement.entity.RightHandSide;
 import org.kuali.student.rules.rulemanagement.entity.RuleElement;
@@ -73,10 +75,17 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         rule.setAnchor("CHEM 100");
         rule.setMetaData(metaInfo);
 
-        List<RuleElement> elements = new ArrayList<RuleElement>();
-
+        FactStructure factStructure = new FactStructure();
+        factStructure.setFactStructureId("1");
+        factStructure.setStaticFact(true);
+        factStructure.setStaticValue("123");
+        
+        List<FactStructure> factStructureList = new ArrayList<FactStructure>();
+        factStructureList.add(factStructure);
+        
         YieldValueFunction yvf = new YieldValueFunction();
         yvf.setYieldValueFunctionType(YieldValueFunctionType.INTERSECTION);
+        yvf.setFacts(factStructureList);
 
         LeftHandSide lhs = new LeftHandSide();
         lhs.setYieldValueFunction(yvf);
@@ -98,6 +107,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         re1.setOrdinalPosition(1);
         re1.setRuleProposition(ruleProposition);
 
+        List<RuleElement> elements = new ArrayList<RuleElement>();
         elements.add(re1);
 
         rule.setRuleElements(elements);
@@ -110,14 +120,32 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         assertEquals(newRule.getRuleId(), rule.getRuleId());
         assertEquals(newRule.getName(), rule.getName());
         assertEquals(newRule.getDescription(), rule.getDescription());
+        
+        assertEquals(1, newRule.getRuleElements().size());
+        RuleProposition rp = newRule.getRuleElements().get(0).getRuleProposition();
+        assertNotNull(rp);
+        assertNotNull(rp.getLeftHandSide().getYieldValueFunction().getFacts());
+        FactStructure fs = rp.getLeftHandSide().getYieldValueFunction().getFacts().get(0);
+        assertEquals("1", fs.getFactStructureId());
+        assertEquals("123", fs.getStaticValue());
+        assertEquals(true, fs.getStaticFact());
     }
 
     @Test
     public void testUpdateRule() {
         BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingRuleId(ruleId_1);
 
+        FactStructure factStructure = new FactStructure();
+        factStructure.setFactStructureId("1");
+        factStructure.setStaticFact(true);
+        factStructure.setStaticValue("123");
+        
+        List<FactStructure> factStructureList = new ArrayList<FactStructure>();
+        factStructureList.add(factStructure);
+        
         YieldValueFunction yvf = new YieldValueFunction();
         yvf.setYieldValueFunctionType(YieldValueFunctionType.INTERSECTION);
+        yvf.setFacts(factStructureList);
 
         LeftHandSide lhs = new LeftHandSide();
         lhs.setYieldValueFunction(yvf);
@@ -139,7 +167,6 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         re1.setOrdinalPosition(1);
         re1.setRuleProposition(ruleProposition1);
 
-        
         RuleProposition ruleProposition2 = new RuleProposition();
         ruleProposition2.setComparisonDataType("kual.number");
         ruleProposition2.setName("Py");
@@ -166,7 +193,15 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
         BusinessRule updatedRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId(rule.getRuleId());
         assertEquals(updatedRule.getName(), rule.getName());
-        assertEquals(2, rule.getRuleElements().size());
+        assertEquals(2, updatedRule.getRuleElements().size());
+        
+        RuleProposition rp = updatedRule.getRuleElements().get(0).getRuleProposition();
+        assertNotNull(rp);
+        assertNotNull(rp.getLeftHandSide().getYieldValueFunction().getFacts());
+        FactStructure fs = rp.getLeftHandSide().getYieldValueFunction().getFacts().get(0);
+        assertEquals("1", fs.getFactStructureId());
+        assertEquals("123", fs.getStaticValue());
+        assertEquals(true, fs.getStaticFact());
     }
 
     @Test
