@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.drools.rule.Package;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -48,9 +47,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     
     private DefaultExecutor defaultExecutor = new DefaultExecutorDroolsImpl();
     
-    private final RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+    private final static String DEFAULT_RULE_BASE = "defaultRuleBase1"; 
+
+    private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
 
     private boolean logExecution = false;
+    
     
     /**
      * Constructs a new rule set executor without a repository.
@@ -73,27 +75,20 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param ruleSet Rule set
      */
     private void addPackage(RuleSetDTO ruleSet) {
-    	Package pkg = ruleBase.getPackage(ruleSet.getName());
-    	if (pkg == null) {
-            pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
-            if (!pkg.getName().equals(ruleSet.getName())){
-            	throw new RuleSetExecutionException(
-            			"Cannot add package to rule base. " +
-            			"Drools compiled package name '" + pkg.getName() + 
-            			"' does not match rule set name '" + ruleSet.getName() +
-            			"'.");
-            }
-            addPackageToRuleBase(pkg);
-    		if(logger.isDebugEnabled()) {
-        		logger.debug("Added package: package name=" + pkg.getName() + ", rule set uuid=" + ruleSet.getUUID());
-        	}
+    	Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+        if (!pkg.getName().equals(ruleSet.getName())){
+        	throw new RuleSetExecutionException(
+        			"Cannot add package to rule base. " +
+        			"Drools compiled package name '" + pkg.getName() + 
+        			"' does not match rule set name '" + ruleSet.getName() +
+        			"'.");
+        }
+        ruleBaseCache.addPackage(DEFAULT_RULE_BASE, pkg);
+		if(logger.isDebugEnabled()) {
+    		logger.debug("Added package: Package name=" + pkg.getName() + ", rule set uuid=" + ruleSet.getUUID());
     	}
     }
 
-    private void removePackage(String packageName) {
-    	ruleBase.removePackage(packageName);
-    }
-    
     private void log(RuleSetDTO ruleSet, String message) {
     	StringBuilder sb = new StringBuilder();
     	sb.append("\n**************************************************");
@@ -191,40 +186,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
-     * Adds a Drools package to the rule base.
-     * 
-     * @param packages Packages to add to the rule base
-     * @return A rule base
-     * @throws RuleSetExecutionException If adding a package to the Drools rule base fails
-     */
-    private RuleBase addPackageToRuleBase(Package pkg) {
-        Thread currentThread = Thread.currentThread();
-        ClassLoader oldClassLoader = currentThread.getContextClassLoader();
-        ClassLoader newClassLoader = RuleSetExecutorDroolsImpl.class.getClassLoader();
-
-        if (pkg == null) {
-        	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
-        }
-
-        try
-        {
-            currentThread.setContextClassLoader( newClassLoader );
-        
-            //Add package to rulebase (deploy the rule package).
-            try {
-                ruleBase.addPackage(pkg);
-            } catch(Exception e) {
-                throw new RuleSetExecutionException("Adding package to rule base failed", e);
-            }
-            return ruleBase;
-        }
-        finally
-        {
-            currentThread.setContextClassLoader(oldClassLoader);
-        }
-    }
-
-    /**
      * Assemble the list of facts.
      * 
      * @param factContainer Fact container
@@ -272,6 +233,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @return An execution result
      */
     private ExecutionResult executeRule(boolean logRuleExecution, FactContainer fact) { 
+    	RuleBase ruleBase = ruleBaseCache.getRuleBase(DEFAULT_RULE_BASE);
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
         LoggingStringBuilder executionLog = null;
@@ -327,6 +289,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @return An execution result
      */
     private ExecutionResult executeRule(boolean logRuleExecution, List<Object> facts) { 
+    	RuleBase ruleBase = ruleBaseCache.getRuleBase(DEFAULT_RULE_BASE);
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
         LoggingStringBuilder executionLog = null;
