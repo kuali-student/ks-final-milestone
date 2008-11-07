@@ -1,6 +1,7 @@
 package org.kuali.student.dictionary.service;
 
 import java.util.List;
+import java.util.Date;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -15,15 +16,16 @@ import org.kuali.student.dictionary.dto.ObjectStructure;
 public interface DictionaryService {
 
     @WebMethod
-    public List<String> getObjectTypes();
+    public List<String> findObjectTypes();
 
     @WebMethod
-    public ObjectStructure getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey);
+    public ObjectStructure fetchObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey);
 
     @WebMethod
-    public List<EnumeratedValue> getEnumeration(@WebParam(name = "enumerationKey") String enumerationKey, 
+    public List<EnumeratedValue> fetchEnumeration(@WebParam(name = "enumerationKey") String enumerationKey, 
             @WebParam(name = "enumContextKey") String enumContextKey, 
-            @WebParam(name = "contextValue") String contextValue);
+            @WebParam(name = "contextValue") String contextValue,
+            @WebParam(name = "contextDate") Date contextDate);
 
     @WebMethod
     public boolean validateObject(@WebParam(name = "objectTypeKey")String objectTypeKey, 

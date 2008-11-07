@@ -1,8 +1,9 @@
-package org.kuali.student.dictionary.service;
+	package org.kuali.student.dictionary.service;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import javax.jws.WebService;
 import javax.xml.bind.JAXBContext;
@@ -19,25 +20,41 @@ public class DictionaryServiceImpl implements DictionaryService {
 		xmlFile = file;
 	}
 	
-    public List<EnumeratedValue> getEnumeration(String enumerationKey, String enumContextKey, String contextValue) {
+    public List<EnumeratedValue> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
 		List<EnumeratedValue> eVals = new ArrayList<EnumeratedValue>();
 		try {
 			JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
-			
-			if(enumContextKey == null || contextValue == null){
-				Unmarshaller u = jc.createUnmarshaller();
-				EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource(enumerationKey + "-enum.xml"));
-				
-				eVals = enums.getEnumeratedValue();
+			Unmarshaller u = jc.createUnmarshaller();
+			EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource("/" + enumerationKey + "-enum.xml"));
+			if(enumContextKey == null && contextValue == null){	
+				for(EnumeratedValue e: enums.getEnumeratedValue()){	
+					if(enumValidForDate(e, contextDate)){
+						eVals.add(e);
+					}
+				}
 			}
-			else{		
-				Unmarshaller u = jc.createUnmarshaller();
-				EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource(enumerationKey + "-enum.xml"));
-				for(EnumeratedValue e: enums.getEnumeratedValue()){
-					for(Context c: e.getContexts().getContext()){
-						if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
-							eVals.add(e);
-							break;
+			else if(enumContextKey != null && contextValue == null){
+				for(EnumeratedValue e: enums.getEnumeratedValue()){	
+					if(enumValidForDate(e, contextDate)){
+						for(Context c: e.getContexts().getContext()){
+							//check context type and value match
+							if(c.getType().equals(enumContextKey)){
+								eVals.add(e);
+								break;
+							}
+						}
+					}
+				}
+			}
+			else{
+				for(EnumeratedValue e: enums.getEnumeratedValue()){					
+					if(enumValidForDate(e, contextDate)){
+						for(Context c: e.getContexts().getContext()){
+							//check context type and value match
+							if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
+								eVals.add(e);
+								break;
+							}
 						}
 					}
 				}
@@ -50,14 +67,42 @@ public class DictionaryServiceImpl implements DictionaryService {
 		}
 		return eVals;
     }
+    
+    private boolean enumValidForDate(EnumeratedValue e, Date contextDate){
+    	boolean passesDateCheck = false;
+		if(contextDate == null){
+			passesDateCheck = true;
+		}
+		else{
+			boolean afterEffective = false;
+			if(e.getEffectiveDate() != null){
+				afterEffective = contextDate.before(e.getExpirationDate());
+			}
+			else{
+				afterEffective = true;
+			}
+			
+			boolean beforeExpiration = false;
+			if(e.getExpirationDate() != null){
+				beforeExpiration = contextDate.before(e.getExpirationDate());
+			}
+			else{
+				beforeExpiration = true;
+			}
+			
+			if(afterEffective && beforeExpiration){
+				passesDateCheck = true;
+			}
+		}
+		return passesDateCheck;
+    }
 
-    public ObjectStructure getObjectStructure(String objectTypeKey) {
+    public ObjectStructure fetchObjectStructure(String objectTypeKey) {
         ObjectStructure theStruct = null;
     	try {
             JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 
             Unmarshaller u = jc.createUnmarshaller();
-            System.out.println(super.getClass().getResource("/Dictionary.xml"));
             Dictionary dict = (Dictionary)u.unmarshal(DictionaryServiceImpl.class.getResource(xmlFile));
             
             for(ObjectStructure struc: dict.getObjectStructure()){
@@ -73,7 +118,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         return theStruct;
     }
 
-    public List<String> getObjectTypes() {
+    public List<String> findObjectTypes() {
         List<String> types = new ArrayList<String>();
     	try {
             JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");

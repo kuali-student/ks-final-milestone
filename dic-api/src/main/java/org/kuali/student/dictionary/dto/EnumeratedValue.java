@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
 
 
 /**
@@ -59,8 +59,8 @@ public class EnumeratedValue {
     @XmlElement(required = true)
     protected String abbrevValue;
     @XmlElement(required = true)
-    protected XMLGregorianCalendar effectiveDate;
-    protected XMLGregorianCalendar expirationDate;
+    protected Date effectiveDate;
+    protected Date expirationDate;
     protected int sortKey;
     @XmlElement(required = true)
     protected Contexts contexts;
@@ -120,10 +120,10 @@ public class EnumeratedValue {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public XMLGregorianCalendar getEffectiveDate() {
+    public Date getEffectiveDate() {
         return effectiveDate;
     }
 
@@ -132,10 +132,10 @@ public class EnumeratedValue {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public void setEffectiveDate(XMLGregorianCalendar value) {
+    public void setEffectiveDate(Date value) {
         this.effectiveDate = value;
     }
 
@@ -144,10 +144,10 @@ public class EnumeratedValue {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public XMLGregorianCalendar getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
@@ -156,10 +156,10 @@ public class EnumeratedValue {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Date }
      *     
      */
-    public void setExpirationDate(XMLGregorianCalendar value) {
+    public void setExpirationDate(Date value) {
         this.expirationDate = value;
     }
 
