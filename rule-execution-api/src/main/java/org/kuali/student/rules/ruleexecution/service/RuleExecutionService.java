@@ -26,6 +26,7 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -43,37 +44,44 @@ import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 		 parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface RuleExecutionService {
 
-    /**
+	/**
      * Executes an <code>agenda</code> with <code>fact</code>.
-     * 
+	 * 
      * @param agenda Agenda to execute
-     * @param fact List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
+	 * @return An execution result
+     * @throws DoesNotExistException Thrown if agenda does not exist
+     * @throws InvalidParameterException Thrown if agenda is invalid
+     * @throws MissingParameterException Thrown if agenda is null or has missing parameters
+     * @throws OperationFailedException Thrown if execution fails
+	 */
     @WebMethod
-    public Object executeAgenda(@WebParam(name="agenda")RuntimeAgendaDTO agenda, @WebParam(name="fact")Object fact)
+    public ExecutionResultDTO executeAgenda(@WebParam(name="agenda")RuntimeAgendaDTO agenda)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Executes a production snapshot <code>agenda</code> with <code>fact</code>.
-     * 
-     * @param agenda Agenda to execute
-     * @param fact List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
-    //@WebMethod
-    //public Object executeAgendaSnapshot(@WebParam(name="agenda")RuntimeAgendaDTO agenda, @WebParam(name="fact")List<?> fact);
-
-    /**
-     * Executes an <code>agenda</code> with <code>fact</code> and a 
-     * <code>ruleSet</code>.
+     * Executes a <code>ruleSet</code> with a <code>fact</code>.
      * 
      * @param ruleSet Rule set to execute
-     * @param fact Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
+     * @param fact Facts for the <code>ruleSet</code>
+	 * @return An execution result
+     * @throws InvalidParameterException Thrown if ruleSet or fact is invalid
+     * @throws MissingParameterException Thrown if ruleSet or fact is null or has missing parameters
+     * @throws OperationFailedException Thrown if execution fails
      */
     @WebMethod
-    //public ResultDTO executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")FactDTO fact)
-    public ResultDTO executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")FactResultDTO fact)
+    public ExecutionResultDTO executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")FactResultDTO fact)
 		throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Executes a <code>ruleSet</code> with a <code>fact</code>.
+     * 
+     * @param businessRuleId Functional business rule id
+	 * @return An execution result
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+     * @throws InvalidParameterException Thrown if business rule id is invalid
+     * @throws MissingParameterException Thrown if business rule id is null or empty
+     * @throws OperationFailedException Thrown if execution fails
+     */
+    public ExecutionResultDTO executeBusinessRule(@WebParam(name="businessRuleId")String businessRuleId)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }

@@ -22,8 +22,8 @@ public class ResultDTO {
 	@XmlElement
 	private final List<ValueDTO> factList = new ArrayList<ValueDTO>();
 
-    @XmlElement
-    private String executionLog;
+    //@XmlElement
+    //private String executionLog;
     
 	public ResultDTO() {}
 
@@ -48,12 +48,12 @@ public class ResultDTO {
 		return this.factList;
 	}
 
-	public String getExecutionLog() {
+	/*public String getExecutionLog() {
 		return executionLog;
 	}
 
 	public void setExecutionLog(String executionLog) {
 		this.executionLog = executionLog;
-	}
+	}*/
 
 }
