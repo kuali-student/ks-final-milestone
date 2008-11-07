@@ -1,114 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="DictionaryService" targetNamespace="http://org.kuali.student/dictonary" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://org.kuali.student/dictonary" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.dto.dictionary.student.kuali.org" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dto.dictionary.student.kuali.org">
-    <xs:element name="Dictionary">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:objectStructure"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="context">
-        <xs:complexType>
-            <xs:simpleContent>
-                <xs:extension base="xs:string">
-                    <xs:attribute name="type" type="xs:string"/>
-                </xs:extension>
-            </xs:simpleContent>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="contexts">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:context"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="enum">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:contexts"/>
-            </xs:sequence>
-            <xs:attribute name="key" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="enumeratedValue">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="code" type="xs:string"/>
-                <xs:element name="abbrevValue" type="xs:string"/>
-                <xs:element name="effectiveDate" type="xs:anySimpleType"/>
-                <xs:element minOccurs="0" name="expirationDate" type="xs:anySimpleType"/>
-                <xs:element name="sortKey" type="xs:int"/>
-                <xs:element ref="tns:contexts"/>
-                <xs:element name="key" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="enumeratedValues">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:enumeratedValue"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="field">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="tns:fieldDescriptor"/>
-                <xs:element name="readOnly" type="xs:boolean"/>
-            </xs:sequence>
-            <xs:attribute name="key" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="fieldDescriptor">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="dataType" type="xs:string"/>
-                <xs:element minOccurs="0" name="minLength" type="xs:integer"/>
-                <xs:element minOccurs="0" name="maxLength" type="xs:integer"/>
-                <xs:element minOccurs="0" name="validChars" type="xs:string"/>
-                <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
-                <xs:element minOccurs="0" name="minOccurs" type="xs:integer"/>
-                <xs:element minOccurs="0" name="maxOccurs" type="xs:integer"/>
-                <xs:element minOccurs="0" ref="tns:enum"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="objectStructure">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:type"/>
-            </xs:sequence>
-            <xs:attribute name="objectTypeKey" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="state">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:field"/>
-            </xs:sequence>
-            <xs:attribute name="key" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="type">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="tns:state"/>
-            </xs:sequence>
-            <xs:attribute name="key" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.dto.dictionary.student.kuali.org" xmlns:tns="http://org.kuali.student/dictonary" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.kuali.student/dictonary">
     <xs:import namespace="http://www.dto.dictionary.student.kuali.org"/>
-    <xs:element name="getEnumeration" type="tns:getEnumeration"/>
-    <xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
-    <xs:element name="getObjectStructure" type="tns:getObjectStructure"/>
-    <xs:element name="getObjectStructureResponse" type="tns:getObjectStructureResponse"/>
-    <xs:element name="getObjectTypes" type="tns:getObjectTypes"/>
-    <xs:element name="getObjectTypesResponse" type="tns:getObjectTypesResponse"/>
+    <xs:element name="fetchEnumeration" type="tns:fetchEnumeration"/>
+    <xs:element name="fetchEnumerationResponse" type="tns:fetchEnumerationResponse"/>
+    <xs:element name="fetchObjectStructure" type="tns:fetchObjectStructure"/>
+    <xs:element name="fetchObjectStructureResponse" type="tns:fetchObjectStructureResponse"/>
+    <xs:element name="findObjectTypes" type="tns:findObjectTypes"/>
+    <xs:element name="findObjectTypesResponse" type="tns:findObjectTypesResponse"/>
     <xs:element name="validateObject" type="tns:validateObject"/>
     <xs:element name="validateObjectResponse" type="tns:validateObjectResponse"/>
     <xs:element name="validateStructureData" type="tns:validateStructureData"/>
@@ -125,27 +25,32 @@
             <xs:element name="return" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getObjectTypes">
-        <xs:sequence/>
+    <xs:complexType name="fetchEnumeration">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
+            <xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+        </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getObjectTypesResponse">
+    <xs:complexType name="fetchEnumerationResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getObjectStructure">
+    <xs:complexType name="fetchObjectStructure">
         <xs:sequence>
             <xs:element minOccurs="0" name="objectTypeKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getObjectStructureResponse">
+    <xs:complexType name="fetchObjectStructureResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element maxOccurs="unbounded" ref="ns1:type"/>
                     </xs:sequence>
-                    <xs:attribute name="objectTypeKey" type="xs:string"/>
+                    <xs:attribute name="objectTypeKey" type="xs:string" use="required"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
@@ -162,58 +67,159 @@
             <xs:element name="return" type="xs:boolean"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="getEnumeration">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="enumContextKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="contextValue" type="xs:string"/>
-        </xs:sequence>
+    <xs:complexType name="findObjectTypes">
+        <xs:sequence/>
     </xs:complexType>
-    <xs:complexType name="getEnumerationResponse">
+    <xs:complexType name="findObjectTypesResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.dto.dictionary.student.kuali.org" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dto.dictionary.student.kuali.org">
+    <xs:element name="Dictionary">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:objectStructure"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="context">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="type" type="xs:string" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="contexts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:context"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="enum">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:contexts"/>
+            </xs:sequence>
+            <xs:attribute name="key" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="enumeratedValue">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="code" type="xs:string"/>
+                <xs:element name="abbrevValue" type="xs:string"/>
+                <xs:element name="effectiveDate" type="xs:dateTime"/>
+                <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+                <xs:element name="sortKey" type="xs:int"/>
+                <xs:element ref="tns:contexts"/>
+                <xs:element name="value" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="enumeratedValues">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:enumeratedValue"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="field">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tns:fieldDescriptor"/>
+                <xs:element name="isSelector" type="xs:boolean"/>
+            </xs:sequence>
+            <xs:attribute name="key" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="fieldDescriptor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="desc" type="xs:string"/>
+                <xs:element name="dataType" type="xs:string"/>
+                <xs:element minOccurs="0" name="minValue" type="xs:string"/>
+                <xs:element minOccurs="0" name="maxValue" type="xs:string"/>
+                <xs:element name="minLength" type="xs:int"/>
+                <xs:element name="maxLength" type="xs:int"/>
+                <xs:element minOccurs="0" name="validChars" type="xs:string"/>
+                <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
+                <xs:element name="minOccurs" type="xs:int"/>
+                <xs:element name="maxOccurs" type="xs:int"/>
+                <xs:element name="readOnly" type="xs:boolean"/>
+                <xs:element minOccurs="0" ref="tns:enum"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="objectStructure">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:type"/>
+            </xs:sequence>
+            <xs:attribute name="objectTypeKey" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="state">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:field"/>
+            </xs:sequence>
+            <xs:attribute name="key" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="type">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:state"/>
+            </xs:sequence>
+            <xs:attribute name="key" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
   </wsdl:types>
-  <wsdl:message name="getObjectStructureResponse">
-    <wsdl:part name="parameters" element="tns:getObjectStructureResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="validateObject">
     <wsdl:part name="parameters" element="tns:validateObject">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getObjectTypesResponse">
-    <wsdl:part name="parameters" element="tns:getObjectTypesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEnumeration">
-    <wsdl:part name="parameters" element="tns:getEnumeration">
+  <wsdl:message name="fetchObjectStructureResponse">
+    <wsdl:part name="parameters" element="tns:fetchObjectStructureResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateStructureDataResponse">
     <wsdl:part name="parameters" element="tns:validateStructureDataResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchEnumerationResponse">
+    <wsdl:part name="parameters" element="tns:fetchEnumerationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findObjectTypesResponse">
+    <wsdl:part name="parameters" element="tns:findObjectTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchEnumeration">
+    <wsdl:part name="parameters" element="tns:fetchEnumeration">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="validateObjectResponse">
     <wsdl:part name="parameters" element="tns:validateObjectResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getObjectStructure">
-    <wsdl:part name="parameters" element="tns:getObjectStructure">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getObjectTypes">
-    <wsdl:part name="parameters" element="tns:getObjectTypes">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEnumerationResponse">
-    <wsdl:part name="parameters" element="tns:getEnumerationResponse">
+  <wsdl:message name="findObjectTypes">
+    <wsdl:part name="parameters" element="tns:findObjectTypes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="validateStructureData">
     <wsdl:part name="parameters" element="tns:validateStructureData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchObjectStructure">
+    <wsdl:part name="parameters" element="tns:fetchObjectStructure">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="DictionaryService">
@@ -223,16 +229,16 @@
       <wsdl:output name="validateObjectResponse" message="tns:validateObjectResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getObjectTypes">
-      <wsdl:input name="getObjectTypes" message="tns:getObjectTypes">
+    <wsdl:operation name="fetchEnumeration">
+      <wsdl:input name="fetchEnumeration" message="tns:fetchEnumeration">
     </wsdl:input>
-      <wsdl:output name="getObjectTypesResponse" message="tns:getObjectTypesResponse">
+      <wsdl:output name="fetchEnumerationResponse" message="tns:fetchEnumerationResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getObjectStructure">
-      <wsdl:input name="getObjectStructure" message="tns:getObjectStructure">
+    <wsdl:operation name="fetchObjectStructure">
+      <wsdl:input name="fetchObjectStructure" message="tns:fetchObjectStructure">
     </wsdl:input>
-      <wsdl:output name="getObjectStructureResponse" message="tns:getObjectStructureResponse">
+      <wsdl:output name="fetchObjectStructureResponse" message="tns:fetchObjectStructureResponse">
     </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="validateStructureData">
@@ -241,10 +247,10 @@
       <wsdl:output name="validateStructureDataResponse" message="tns:validateStructureDataResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getEnumeration">
-      <wsdl:input name="getEnumeration" message="tns:getEnumeration">
+    <wsdl:operation name="findObjectTypes">
+      <wsdl:input name="findObjectTypes" message="tns:findObjectTypes">
     </wsdl:input>
-      <wsdl:output name="getEnumerationResponse" message="tns:getEnumerationResponse">
+      <wsdl:output name="findObjectTypesResponse" message="tns:findObjectTypesResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -259,21 +265,21 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getObjectTypes">
+    <wsdl:operation name="fetchEnumeration">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getObjectTypes">
+      <wsdl:input name="fetchEnumeration">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getObjectTypesResponse">
+      <wsdl:output name="fetchEnumerationResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getObjectStructure">
+    <wsdl:operation name="fetchObjectStructure">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getObjectStructure">
+      <wsdl:input name="fetchObjectStructure">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getObjectStructureResponse">
+      <wsdl:output name="fetchObjectStructureResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -286,12 +292,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getEnumeration">
+    <wsdl:operation name="findObjectTypes">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getEnumeration">
+      <wsdl:input name="findObjectTypes">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getEnumerationResponse">
+      <wsdl:output name="findObjectTypesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
