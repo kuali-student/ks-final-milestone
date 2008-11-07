@@ -26,10 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
@@ -46,18 +47,31 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.ruleexecution.util.RuleManagementDtoFactory;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:rule-execution-context.xml"})
 public class RuleSetExecutorDroolsImplTest {
 	/** Rule set executor interface */
-	@Resource
 	private RuleSetExecutor executor;
 
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
 
+    @BeforeClass
+    public static void setUpOnce() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownOnce() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    	this.executor = new RuleSetExecutorDroolsImpl();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    	this.executor = null;
+    }
+    
     private FactStructureDTO createFactStructure(String factStructureId, String criteriaTypeName) {
     	FactStructureDTO factStructure1 = new FactStructureDTO();
 	    factStructure1.setFactStructureId(factStructureId);
@@ -106,14 +120,14 @@ public class RuleSetExecutorDroolsImplTest {
         // Iterate through returned rule engine objects
         String time = null;
         for(Object obj : result.getResults()) {
-            if ( obj instanceof String ) {
+            if (obj instanceof String) {
                 time = (String) obj;
                 break;
             }
         }
-        
-        assertNotNull( time );
-        assertTrue( time.startsWith("Minute is even:"));
+
+        assertNotNull(time);
+        assertTrue(time.startsWith("Minute is even:"));
     }
 
 	/*@Test
@@ -209,7 +223,7 @@ public class RuleSetExecutorDroolsImplTest {
         assertNotNull(result);
         assertNotNull(result.getResults());
 		assertNotNull(result.getExecutionLog());
-		assertTrue(result.getReport().isSuccess());
+		assertTrue(result.getReport().isSuccessful());
 	}
 
 }

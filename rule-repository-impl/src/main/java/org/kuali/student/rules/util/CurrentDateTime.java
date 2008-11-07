@@ -4,19 +4,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CurrentDateTime {
+public class CurrentDateTime implements java.io.Serializable {
     /** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
-	public long getCurrentDateAsLong() {
+    private final static String pattern = "yyyyMMddHHmmss";
+    private final static SimpleDateFormat format = new SimpleDateFormat(pattern);
+
+    public long getCurrentDateAsLong() {
 		return getDateAsLong(new Date());
 	}
 
 	public long getDateAsLong(Date date) {
 		Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        String pattern = "yyyyMMddHHmmss";
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        return new Long(format.format(date)).longValue();
+        Long time = new Long(format.format(date));
+        return time.longValue();
 	}
 }

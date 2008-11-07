@@ -25,8 +25,6 @@ import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.drools.rule.Package;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
-import org.kuali.student.rules.repository.RuleEngineRepository;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
@@ -35,7 +33,9 @@ import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
+import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,10 +46,10 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
-    private RuleEngineRepository ruleEngineRepository;
-    
     private DefaultExecutor defaultExecutor = new DefaultExecutorDroolsImpl();
     
+    private final RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+
     private boolean logExecution = false;
     
     /**
@@ -68,14 +68,32 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
-     * Constructs a new rule set executor with a specific repository.
+     * Adds a Drools package to the Drools rule base.
      * 
-     * @param ruleEngineRepository Repository to load rule sets from
+     * @param ruleSet Rule set
      */
-    public RuleSetExecutorDroolsImpl( RuleEngineRepository ruleEngineRepository ) {
-        this.ruleEngineRepository = ruleEngineRepository;
+    private void addPackage(RuleSetDTO ruleSet) {
+    	Package pkg = ruleBase.getPackage(ruleSet.getName());
+    	if (pkg == null) {
+            pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+            if (!pkg.getName().equals(ruleSet.getName())){
+            	throw new RuleSetExecutionException(
+            			"Cannot add package to rule base. " +
+            			"Drools compiled package name '" + pkg.getName() + 
+            			"' does not match rule set name '" + ruleSet.getName() +
+            			"'.");
+            }
+            addPackageToRuleBase(pkg);
+    		if(logger.isDebugEnabled()) {
+        		logger.debug("Added package: package name=" + pkg.getName() + ", rule set uuid=" + ruleSet.getUUID());
+        	}
+    	}
     }
 
+    private void removePackage(String packageName) {
+    	ruleBase.removePackage(packageName);
+    }
+    
     private void log(RuleSetDTO ruleSet, String message) {
     	StringBuilder sb = new StringBuilder();
     	sb.append("\n**************************************************");
@@ -114,26 +132,24 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         return result;
     }*/
 
-    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
+    public synchronized ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
     		Map<String, RulePropositionDTO> propositionMap,
     		Map<String, Object> factMap) {
         String id = ""+System.nanoTime();
     	FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
-    	List<Package> packageList = new ArrayList<Package>();
-        Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
-        if (pkg == null) {
-        	throw new RuleSetExecutionException("Drools Package is null.");
-        }
-        packageList.add(pkg);
+    	addPackage(ruleSet);
+    	
         if (logger.isDebugEnabled()) {
         	log(ruleSet, "Execute Rule");
         }
-        RuleBase ruleBase = getRuleBase(packageList);
         
-        ExecutionResult result = executeRule(true, ruleBase, factContainer);
-        PropositionReport report = generateReport(result.getResults());
-        result.setReport(report);
-        //return convertResult(factContainer.getId(), result);
+        ExecutionResult result = executeRule(true, factContainer);
+        try {
+	        PropositionReport report = generateReport(result.getResults());
+	        result.setReport(report);
+        } catch(RuleSetExecutionException e) {
+        	result.setErrorMessage(e.getMessage());
+        }
         return result;
     }
 
@@ -145,104 +161,24 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public ExecutionResult execute(RuleSetDTO ruleSet, List<?> facts) {
-    	List<Package> packageList = new ArrayList<Package>();
-        Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
-        if (pkg == null) {
-        	throw new RuleSetExecutionException("Drools Package is null.");
-        }
-        packageList.add(pkg);
-        if (logger.isDebugEnabled()) {
+    public synchronized ExecutionResult execute(RuleSetDTO ruleSet, List<Object> facts) {
+    	addPackage(ruleSet);
+
+    	if (logger.isDebugEnabled()) {
         	log(ruleSet, "Execute Rule");
         }
-        RuleBase ruleBase = getRuleBase(packageList);
-        //List<?> factList = convertFacts(facts);
-        ExecutionResult result = executeRule(true, ruleBase, facts);
-        //return convertResult(result);
+
+        ExecutionResult result = executeRule(true, facts);
         return result;
     }
 
     /**
-     * Converts <code>fact</code> into a list of real Java data types.
+     * Generates a proposition report.
      * 
-     * @param <T> Data type
-     * @param fact Fact to convert
-     * @return A list of real data type
+     * @param facts Facts for the proposition reports
+     * @return A proposition report
      */
-    private List<?> convertFacts(List<?> facts) {
-    	List<Object> list = new ArrayList<Object>(facts.size());
-		for(Object fact : facts) {
-			Object obj = BusinessRuleUtil.convertToDataType(fact);
-			list.add(obj);
-		}
-		return list;
-	}
-
-    /*private List<?> convertFacts(FactDTO fact) {
-    	List<Object> list = new ArrayList<Object>(fact.getFacts().size());
-		for(ValueDTO value : fact.getFacts()) {
-			Object val = BusinessRuleUtil.convertToDataType(value.getValue());
-			list.add(val);
-    	}
-    	return list;
-    }*/
-    /*private FactResultDTO convertToProperDataType(FactResultDTO fact) {
-    	FactResultDTO newFact = new FactResultDTO();
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-
-		for(Map<String, Object> row : fact.getResultList()) {
-	        Map<String, Object> rowMap = new HashMap<String, Object>();
-	    	for(Entry<String, Object> entry : row.entrySet()) {
-				Object val = BusinessRuleUtil.convertToDataType(entry.getValue());
-				rowMap.put(entry.getKey(), val);
-	    	}
-	    	resultList.add(rowMap);
-		}
-		newFact.setResultList(resultList);
-    	return newFact;
-    }*/
-    
-    /**
-     * Converts java objects into DTOs and returns the result.
-     * 
-     * @param id Result id
-     * @param list List of result objects
-     * @return A result DTO
-     */
-    private ExecutionResult convertResult(ExecutionResult executionResult) {
-    	ExecutionResult result = new ExecutionResult();
-    	List<Object> resultList = new ArrayList<Object>();
-    	result.setExecutionLog(executionResult.getExecutionLog());
-    	for(Object obj : executionResult.getResults()) {
-			Object value = BusinessRuleUtil.convertToDataType(obj);
-			resultList.add(value);
-    	}
-    	return result;
-    }
-    /*private ResultDTO convertResult(String id, ExecutionResult executionResult) {
-    	ResultDTO result = new ResultDTO(id);
-    	result.setExecutionLog(executionResult.getLog());
-    	for(Object obj : executionResult.getResults()) {
-			//Object value = BusinessRuleUtil.convertToDataType(obj);
-    		result.addResult(null, obj);
-    	}
-    	return result;
-    }*/
-
-    /**
-     * Loads a compiled rule set by <code>uuid</code>
-     * 
-     * @param uuid Rule set UUID 
-     * @return A Drools package
-     */
-    private Package loadCompiledRuleSet(String uuid) {
-        if (this.ruleEngineRepository == null) {
-        	throw new RuleSetExecutionException("Rule engine repository has not been set.");
-        }
-        return (Package) this.ruleEngineRepository.loadRuleSet(uuid).getCompiledRuleSetObject();
-    }
-
-    private PropositionReport generateReport(List<?> facts) {
+    private PropositionReport generateReport(List<?> facts) throws RuleSetExecutionException {
         GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(defaultExecutor);
         for(int i=0; i<facts.size(); i++) {
             Object obj = facts.get(i);
@@ -255,61 +191,114 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
-     * Gets the Drools rule base.
+     * Adds a Drools package to the rule base.
      * 
      * @param packages Packages to add to the rule base
      * @return A rule base
      * @throws RuleSetExecutionException If adding a package to the Drools rule base fails
      */
-    private RuleBase getRuleBase( List<Package> packages ) {
+    private RuleBase addPackageToRuleBase(Package pkg) {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
         ClassLoader newClassLoader = RuleSetExecutorDroolsImpl.class.getClassLoader();
+
+        if (pkg == null) {
+        	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
+        }
 
         try
         {
             currentThread.setContextClassLoader( newClassLoader );
         
             //Add package to rulebase (deploy the rule package).
-            RuleBase ruleBase = RuleBaseFactory.newRuleBase();
             try {
-                for( Package pkg : packages ) {
-                    if (pkg == null) {
-                    	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
-                    }
-                    ruleBase.addPackage(pkg);
-                }
-            } catch( Exception e ) {
-                throw new RuleSetExecutionException( "Adding package to rule base failed", e );
+                ruleBase.addPackage(pkg);
+            } catch(Exception e) {
+                throw new RuleSetExecutionException("Adding package to rule base failed", e);
             }
             return ruleBase;
         }
         finally
         {
-            currentThread.setContextClassLoader( oldClassLoader );
+            currentThread.setContextClassLoader(oldClassLoader);
         }
     }
 
     /**
+     * Assemble the list of facts.
+     * 
+     * @param factContainer Fact container
+     * @return List of facts
+     */
+    private List<Object> assembleFacts(FactContainer factContainer) {
+        List<Object> factList = new ArrayList<Object>();
+        factList.add(new CurrentDateTime());
+        factList.add(factContainer);
+        return factList;
+    }
+
+    /**
+     * Assemble the list of facts.
+     * 
+     * @param factList List of facts
+     * @return List of facts
+     */
+    private List<Object> assembleFacts(List<Object> factList) {
+        factList.add(new CurrentDateTime());
+        return factList;
+    }
+    
+    /**
+     * Creates a string builder for logging.
+     * 
+     * @return A Logging string builder
+     */
+    private LoggingStringBuilder createLogging() {
+    	LoggingStringBuilder builder = new LoggingStringBuilder();
+    	builder.append("********************************");
+    	builder.append("*   Drools Rule Set Executor   *");
+    	builder.append("*        Execution Log         *");
+    	builder.append("********************************");
+    	builder.append("----- START -----");
+    	return builder;
+    }
+    
+    /**
      * Executes a <code>ruleBase</code> with a <code>fact</code>.
      * 
+     * @param logRuleExecution If set to true, logs rule engine execution; otherwise no logging is done
      * @param ruleBase List of rules
-     * @param fact Facts for the <code>ruleBase</code>
-     * @return A execution result
+     * @param fact Fact container for the <code>ruleBase</code>
+     * @return An execution result
      */
-    private ExecutionResult executeRule(boolean logRuleExecution, RuleBase ruleBase, FactContainer fact) { 
+    private ExecutionResult executeRule(boolean logRuleExecution, FactContainer fact) { 
         StatelessSession session = ruleBase.newStatelessSession();
-        DroolsWorkingMemoryLogger logger = null;
+        DroolsWorkingMemoryLogger droolsLogger = null;
+        LoggingStringBuilder executionLog = null;
         
         if(this.logExecution || logRuleExecution) {
-        	logger = new DroolsWorkingMemoryLogger(session);
+            executionLog = createLogging();
+        	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
         }
+        
+        List<Object> factList = assembleFacts(fact);
+        ExecutionResult result = new ExecutionResult();
+        
         @SuppressWarnings("unchecked") 
-        Iterator<Object> it = session.executeWithResults(fact).iterateObjects();
+        Iterator<Object> it = session.executeWithResults(factList).iterateObjects();
+    
+        if(this.logExecution || logRuleExecution) {
+        	executionLog.append("********************************");
+        	executionLog.append("*   Execution Result Objects   *");
+        	executionLog.append("********************************");
+        }
         
         List<Object> list = new ArrayList<Object>();
         while(it != null && it.hasNext()) {
         	Object obj = it.next();
+            if(this.logExecution || logRuleExecution) {
+            	executionLog.append(obj.toString());
+            }
         	if (obj instanceof FactContainer) {
         		FactContainer fc = (FactContainer) obj;
         		if (fc.getId().equals(fact.getId())){
@@ -317,40 +306,67 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         		}
         	}
         }
-        
-        ExecutionResult result = new ExecutionResult();
+
         result.setResults(list);
+        result.setExecutionResult(Boolean.TRUE);
+        
         if(this.logExecution || logRuleExecution) {
-        	result.setExecutionLog(logger.getLog().toString());
+        	executionLog.append("----- END -----");
+        	result.setExecutionLog(droolsLogger.getLog().toString());
         }
         
         return result;
     }
-    
-    private ExecutionResult executeRule(boolean logRuleExecution, RuleBase ruleBase, List<?> facts) { 
+
+    /**
+     * Executes a <code>ruleBase</code> with a list of <code>facts</code>.
+     * 
+     * @param logRuleExecution If set to true, logs rule engine execution; otherwise no logging is done
+     * @param ruleBase List of rules
+     * @param fact A list of facts for the <code>ruleBase</code>
+     * @return An execution result
+     */
+    private ExecutionResult executeRule(boolean logRuleExecution, List<Object> facts) { 
         StatelessSession session = ruleBase.newStatelessSession();
-        DroolsWorkingMemoryLogger logger = null;
+        DroolsWorkingMemoryLogger droolsLogger = null;
+        LoggingStringBuilder executionLog = null;
         
         if(this.logExecution || logRuleExecution) {
-        	logger = new DroolsWorkingMemoryLogger(session);
+            executionLog = createLogging();
+        	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
         }
 
+        List<Object> factList = assembleFacts(facts);
+        ExecutionResult result = new ExecutionResult();
+
         @SuppressWarnings("unchecked") 
-        Iterator<Object> it = session.executeWithResults(facts).iterateObjects();
+        Iterator<Object> it = session.executeWithResults(factList).iterateObjects();
+        
+        if(this.logExecution || logRuleExecution) {
+        	executionLog.append("********************************");
+        	executionLog.append("*   Execution Result Objects   *");
+        	executionLog.append("********************************");
+        }
         
         List<Object> list = new ArrayList<Object>();
         while(it != null && it.hasNext()) {
         	Object obj = it.next();
-        	list.add(obj);
+            if(this.logExecution || logRuleExecution) {
+            	executionLog.append("Object: "+obj.toString());
+            }
+        	if (!(obj instanceof CurrentDateTime)) {
+	        	list.add(obj);
+        	}
         }
-        
-        ExecutionResult result = new ExecutionResult();
+
         result.setResults(list);
+        result.setExecutionResult(Boolean.TRUE);
+        
         if(this.logExecution || logRuleExecution) {
-        	result.setExecutionLog(logger.getLog().toString());
+        	executionLog.append("----- END -----");
+        	result.setExecutionLog(droolsLogger.getLog().toString());
         }
         
         return result;
     }
-    
 }

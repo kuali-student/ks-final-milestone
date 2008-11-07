@@ -21,6 +21,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
@@ -119,24 +120,15 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         resultList.add(rowMap);
         fact.setResultList(resultList);
 
-        ResultDTO executionResult = this.service.executeRuleSet(ruleSet, fact);
+        ExecutionResultDTO executionResult = this.service.executeRuleSet(ruleSet, fact);
 
         assertNotNull( executionResult );
 
-        // Iterate through returned rule engine objects
-        String time = null;
-        for(ValueDTO obj : executionResult.getResults()) {
-            if ( obj.getValue().getClass().getName().equals(String.class.getName())) {
-                time = obj.getValue().toString();
-                break;
-            }
-        }
+        String executionLog = executionResult.getExecutionLog();
 
-        assertNotNull( time );
-        System.out.println("Time="+time);
-        assertTrue( time.startsWith("Minute is even:"));
-        System.out.println("Rule Engine Execution Objects: " + executionResult.getResults());
-        System.out.println("Execution Log:\n" + executionResult.getExecutionLog());
+        assertNotNull( executionLog );
+        assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
+        System.out.println("Rule Engine Execution Log:\n" + executionLog);
     }
 
 }

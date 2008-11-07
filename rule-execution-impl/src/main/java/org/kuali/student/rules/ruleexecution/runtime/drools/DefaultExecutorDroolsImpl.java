@@ -19,8 +19,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -32,10 +30,15 @@ import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionExceptio
 import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
+import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultExecutorDroolsImpl implements DefaultExecutor {
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(DefaultExecutorDroolsImpl.class);
 
-    private ConcurrentMap<String, List<Package>> packageMap = new ConcurrentHashMap<String, List<Package>>();
+    private final RuleBase ruleBase = RuleBaseFactory.newRuleBase();
 
     private boolean logExecution = false;
 
@@ -48,34 +51,41 @@ public class DefaultExecutorDroolsImpl implements DefaultExecutor {
     /**
      * Caches a rule set's source code by <code>id</code>.
      * 
-     * @param ruleSetId Rule set cache id
+     * @param id Drools package name
      * @param source Rule set source code
      */
     public void addRuleSet(String id, Reader source) {
-        try {
-            if (this.packageMap.containsKey(id)) {
-                this.packageMap.get(id).add(buildPackage(source));
+    	Package pkg = ruleBase.getPackage(id);
+    	if (pkg == null) {
+    		try {
+    			pkg = buildPackage(source);
+            } catch(Exception e) {
+                throw new RuleSetExecutionException("Building Drools Package failed",e);
+            }            
+            if (!pkg.getName().equals(id)){
+            	throw new RuleSetExecutionException(
+            			"Cannot add package to rule base. " +
+            			"Drools compiled package name '" + pkg.getName() + 
+            			"' does not match package name '" + id +
+            			"'.");
             }
-            else {
-                List<Package> list = new ArrayList<Package>();
-                list.add(buildPackage(source));
-                this.packageMap.put(id, list);
-            }
-        } catch(Exception e) {
-            throw new RuleSetExecutionException("Building Drools Package failed",e);
-        }
+            addPackageToRuleBase(pkg);
+    		if(logger.isDebugEnabled()) {
+        		logger.debug("Added package '" + pkg.getName() + "'");
+        	}
+    	}
     }
+
 
     /**
-     * Removes a rule set from the cache by <code>id</code>.
+     * Removes a package from the cache by <code>id</code>.
      * 
-     * @param id Rule set id
+     * @param id Drools package name
      */
-    public boolean removeRuleSet(String id) {
-        this.packageMap.remove(id);
-        return !this.packageMap.containsKey(id);
+    public void removeRuleSet(String id) {
+    	ruleBase.removePackage(id);
     }
-
+    
     /**
      * Builds a Drools package from <code>source</code>
      * 
@@ -91,41 +101,55 @@ public class DefaultExecutorDroolsImpl implements DefaultExecutor {
     }
 
     /**
-     * Gets the Drools rule base.
+     * Adds a Drools package to the rule base.
      * 
      * @param packages Packages to add to the rule base
      * @return A rule base
      * @throws RuleSetExecutionException If adding a package to the Drools rule base fails
      */
-    private RuleBase getRuleBase( List<Package> packages ) {
+    private RuleBase addPackageToRuleBase(Package pkg) {
         Thread currentThread = Thread.currentThread();
         ClassLoader oldClassLoader = currentThread.getContextClassLoader();
         ClassLoader newClassLoader = RuleSetExecutorDroolsImpl.class.getClassLoader();
+
+        if (pkg == null) {
+        	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
+        }
 
         try
         {
             currentThread.setContextClassLoader( newClassLoader );
         
             //Add package to rulebase (deploy the rule package).
-            RuleBase ruleBase = RuleBaseFactory.newRuleBase();
             try {
-                for( Package pkg : packages ) {
-                    if (pkg == null) {
-                    	throw new RuleSetExecutionException("Cannot add a null Drools Package to the Drools RuleBase.");
-                    }
-                    ruleBase.addPackage(pkg);
-                }
-            } catch( Exception e ) {
-                throw new RuleSetExecutionException( "Adding package to rule base failed", e );
+                ruleBase.addPackage(pkg);
+            } catch(Exception e) {
+                throw new RuleSetExecutionException("Adding package to rule base failed", e);
             }
             return ruleBase;
         }
         finally
         {
-            currentThread.setContextClassLoader( oldClassLoader );
+            currentThread.setContextClassLoader(oldClassLoader);
         }
     }
 
+
+    /**
+     * Creates a string builder for logging.
+     * 
+     * @return A Logging string builder
+     */
+    private LoggingStringBuilder createLogging() {
+    	LoggingStringBuilder builder = new LoggingStringBuilder();
+    	builder.append("*******************************");
+    	builder.append("*   Default Drools Executor   *");
+    	builder.append("*        Execution Log        *");
+    	builder.append("*******************************");
+    	builder.append("----- START -----");
+    	return builder;
+    }
+    
     /**
      * Executes a rule set by id.
      * 
@@ -134,27 +158,39 @@ public class DefaultExecutorDroolsImpl implements DefaultExecutor {
      * @return
      */
     public synchronized ExecutionResult execute(String id, List<?> facts) {
-        RuleBase ruleBase = getRuleBase(this.packageMap.get(id));
+        //RuleBase ruleBase = getRuleBase(this.packageMap.get(id));
         StatelessSession session = ruleBase.newStatelessSession();
-        DroolsWorkingMemoryLogger logger = null;
+        DroolsWorkingMemoryLogger droolsLogger = null;
+        LoggingStringBuilder executionLog = null;
         
         if(this.logExecution) {
-        	logger = new DroolsWorkingMemoryLogger(session);
+            executionLog = createLogging();
+        	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
         }
 
         @SuppressWarnings("unchecked") 
         Iterator<Object> it = session.executeWithResults(facts).iterateObjects();
         
+        if(this.logExecution) {
+        	executionLog.append("********************************");
+        	executionLog.append("*   Execution Result Objects   *");
+        	executionLog.append("********************************");
+        }
+        
         List<Object> list = new ArrayList<Object>();
         while(it != null && it.hasNext()) {
         	Object obj = it.next();
         	list.add(obj);
+            if(this.logExecution) {
+            	executionLog.append("Object: "+obj.toString());
+            }
         }
         
         ExecutionResult result = new ExecutionResult();
         result.setResults(list);
         if(this.logExecution) {
-        	result.setExecutionLog(logger.getLog().toString());
+        	executionLog.append("--- END ---");
+        	result.setExecutionLog(droolsLogger.getLog().toString());
         }
         
         return result;

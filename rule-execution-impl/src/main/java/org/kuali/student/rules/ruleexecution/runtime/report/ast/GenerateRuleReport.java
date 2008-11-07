@@ -37,7 +37,8 @@ public class GenerateRuleReport {
     private boolean ruleResult;
     private String functionString;
     
-    private final static String SUCCESS_FAILURE_MESSAGE_LOGGER = "SuccessFailureMessageLogger";
+    private final static String SUCCESS_MESSAGE_LOGGER = "org.kuali.student.rules.runtime.ast.success";
+    private final static String FAILURE_MESSAGE_LOGGER = "org.kuali.student.rules.runtime.ast.failure";
     private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl";
     private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl";
 
@@ -68,16 +69,16 @@ public class GenerateRuleReport {
             ASTtree.traverseTreePostOrder(root, null);
 
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
-            this.executor.execute(SUCCESS_FAILURE_MESSAGE_LOGGER, treeNodes);
+            this.executor.execute(null, treeNodes);
 
         } catch (Throwable t) {
-            throw new RuleSetExecutionException( "Generating rule report failed", t );
+            throw new RuleSetExecutionException( "Generating rule report failed: " + t.getMessage(), t );
         }
 
         // This is the final rule report message
         String message = ASTtree.getRoot().getNodeMessage();
         PropositionReport ruleReport = propContainer.getRuleReport();
-        ruleReport.setSuccess(ruleResult);
+        ruleReport.setSuccessful(ruleResult);
 
         if (ruleResult == true) {
             ruleReport.setSuccessMessage(message);
@@ -94,6 +95,10 @@ public class GenerateRuleReport {
         nodeMessageMap = new HashMap<String, String>();
         functionString = propContainer.getFunctionalRuleString();
 
+        if (functionString == null || functionString.isEmpty()) {
+        	throw new RuleSetExecutionException("Boolean function is null. Rule may not have been executed.");
+        }
+        
         Function func = new Function(functionString);
         List<String> funcVars = func.getVariables();
 
@@ -118,8 +123,8 @@ public class GenerateRuleReport {
      */
     private void setup() {
         Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
-        this.executor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source1);
+        this.executor.addRuleSet(SUCCESS_MESSAGE_LOGGER, source1);
         Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
-        this.executor.addRuleSet(SUCCESS_FAILURE_MESSAGE_LOGGER, source2);
+        this.executor.addRuleSet(FAILURE_MESSAGE_LOGGER, source2);
     }
 }

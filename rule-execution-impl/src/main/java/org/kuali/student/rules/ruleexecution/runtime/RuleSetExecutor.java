@@ -39,7 +39,7 @@ public interface RuleSetExecutor {
      * @param facts List of Facts for the <code>ruleSet</code>
      * @return Result of executing the <code>ruleSet</code>
      */
-    public ExecutionResult execute(RuleSetDTO ruleSet, List<?> facts);
+    public ExecutionResult execute(RuleSetDTO ruleSet, List<Object> facts);
 
     /**
      * Executes a <code>ruleSet</code> with a <code>fact</code>.
@@ -51,23 +51,4 @@ public interface RuleSetExecutor {
     public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
     		Map<String, RulePropositionDTO> propositionMap, 
     		Map<String, Object> factMap);
-
-    /**
-     * Executes a production snapshot <code>agenda</code> with <code>facts</code>.
-     * 
-     * @param agenda Agenda to execute
-     * @param facts List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
-    //public Object executeSnapshot(RuntimeAgendaDTO agenda, List<?> facts);
-    
-    /**
-     * Executes a production snapshot <code>agenda</code> with 
-     * <code>facts</code> and a <code>ruleSet</code>.
-     * 
-     * @param ruleSet Rule set to execute
-     * @param facts List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
-    //public Object executeSnapshot(RuleSetDTO ruleSet, List<?> facts);
 }

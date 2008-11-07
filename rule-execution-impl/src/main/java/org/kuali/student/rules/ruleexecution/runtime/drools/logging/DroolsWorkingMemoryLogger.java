@@ -16,47 +16,55 @@ import org.drools.event.ObjectInsertedEvent;
 import org.drools.event.ObjectRetractedEvent;
 import org.drools.event.ObjectUpdatedEvent;
 import org.drools.spi.Activation;
+import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 
 public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 
-	private LoggingStringBuffer stringBuffer = new LoggingStringBuffer();
+	private LoggingStringBuilder stringBuilder;
 	
     public DroolsWorkingMemoryLogger(final WorkingMemoryEventManager workingMemoryEventManager) {
         super(workingMemoryEventManager);
+        this.stringBuilder = new LoggingStringBuilder();
+    }
+
+    public DroolsWorkingMemoryLogger(final WorkingMemoryEventManager workingMemoryEventManager, 
+    		final LoggingStringBuilder stringBuilder) {
+        super(workingMemoryEventManager);
+        this.stringBuilder = stringBuilder;
     }
 
     public void clear() {
-    	this.stringBuffer = new LoggingStringBuffer();
+    	this.stringBuilder = new LoggingStringBuilder();
     }
 
-    public StringBuffer getLog() {
-    	this.stringBuffer.trimToSize();
-    	return this.stringBuffer.getStringBuffer();
+    public StringBuilder getLog() {
+    	this.stringBuilder.trimToSize();
+    	return this.stringBuilder.getStringBuffer();
     }
 
     @Override
 	public void logEventCreated(LogEvent logEvent) {
-    	this.stringBuffer.append("Event Created: " + logEvent.getType());
+    	this.stringBuilder.append("Event Created: " + logEvent.getType());
     }
 
 	@Override
 	public void activationCancelled(ActivationCancelledEvent event,
 			WorkingMemory workingMemory) {
 		super.activationCancelled(event, workingMemory);
-    	this.stringBuffer.append("Activation Cancelled: " + event);
+    	this.stringBuilder.append("Activation Cancelled: " + event);
 	}
 
 	@Override
 	public void activationCreated(ActivationCreatedEvent event,
 			WorkingMemory workingMemory) {
 		super.activationCreated(event, workingMemory);
-    	this.stringBuffer.append("Activation Created: " + event);
+    	this.stringBuilder.append("Activation Created: " + event);
 	}
 
 	@Override
 	public void afterFunctionRemoved(AfterFunctionRemovedEvent event) {
 		super.afterFunctionRemoved(event);
-    	this.stringBuffer.append("Function Removed: " + event);
+    	this.stringBuilder.append("Function Removed: " + event);
 	}
 
 	@Override
@@ -64,80 +72,55 @@ public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 			WorkingMemory workingMemory) {
 		super.afterActivationFired(event, workingMemory);
     	Activation activation = event.getActivation();
-    	this.stringBuffer.append("Activation Fired: ");
-    	this.stringBuffer.append("\tActivation Number:   " + activation.getActivationNumber());
-    	this.stringBuffer.append("\tPropagation Context: " + activation.getPropagationContext().getType());
-    	this.stringBuffer.append("\tAgenda Group:        " + activation.getAgendaGroup().getName());
-    	this.stringBuffer.append("\tPackage:             " + activation.getRule().getPackage());
-    	this.stringBuffer.append("\tRule:                " + activation.getRule().getName());
-    	this.stringBuffer.append("\tTuple:               " + activation.getTuple());
-    	this.stringBuffer.append("Object source: " + event.getSource());
+    	this.stringBuilder.append("Activation Fired: ");
+    	this.stringBuilder.append("\tActivation Number:   " + activation.getActivationNumber());
+    	this.stringBuilder.append("\tPropagation Context: " + activation.getPropagationContext().getType());
+    	this.stringBuilder.append("\tAgenda Group:        " + activation.getAgendaGroup().getName());
+    	this.stringBuilder.append("\tPackage:             " + activation.getRule().getPackage());
+    	this.stringBuilder.append("\tRule:                " + activation.getRule().getName());
+    	this.stringBuilder.append("\tTuple:               " + activation.getTuple());
+    	this.stringBuilder.append("Object source: " + event.getSource());
 	}
 
 	@Override
 	public void afterPackageAdded(AfterPackageAddedEvent event) {
 		super.afterPackageAdded(event);
-		this.stringBuffer.append("Package Added: " + event.getPackage());
+		this.stringBuilder.append("Package Added: " + event.getPackage());
 	}
 
 	@Override
 	public void afterPackageRemoved(AfterPackageRemovedEvent event) {
 		super.afterPackageRemoved(event);
-		this.stringBuffer.append("Package Removed: " + event);
+		this.stringBuilder.append("Package Removed: " + event);
 	}
 
 	@Override
 	public void afterRuleAdded(AfterRuleAddedEvent event) {
 		super.afterRuleAdded(event);
-		this.stringBuffer.append("Rule Added: " + event);
+		this.stringBuilder.append("Rule Added: " + event);
 	}
 
 	@Override
 	public void afterRuleRemoved(AfterRuleRemovedEvent event) {
 		super.afterRuleRemoved(event);
-		this.stringBuffer.append("Rule Removed: " + event);
+		this.stringBuilder.append("Rule Removed: " + event);
 	}
 
 	@Override
 	public void objectInserted(ObjectInsertedEvent event) {
 		super.objectInserted(event);
-		this.stringBuffer.append("Object Inserted: " + event);
+		this.stringBuilder.append("Object Inserted: " + event);
 	}
 
 	@Override
 	public void objectRetracted(ObjectRetractedEvent event) {
 		super.objectRetracted(event);
-		this.stringBuffer.append("Object Retracted: " + event);
+		this.stringBuilder.append("Object Retracted: " + event);
 	}
 
 	@Override
 	public void objectUpdated(ObjectUpdatedEvent event) {
 		super.objectUpdated(event);
-		this.stringBuffer.append("Object Updated: " + event);
+		this.stringBuilder.append("Object Updated: " + event);
 	}
-
-	private static class LoggingStringBuffer {
-		private int counter = 0;
-		private StringBuffer stringBuffer = new StringBuffer();
-		
-		public StringBuffer append(String s) {
-			String f = String.format("%1$6d: %2$s", ++counter, s);
-			this.stringBuffer.append(f);
-			this.stringBuffer.append("\n");
-			return stringBuffer;
-		}
-		
-		public void trimToSize() {
-			this.stringBuffer.trimToSize();
-		}
-
-		public StringBuffer getStringBuffer() {
-			return this.stringBuffer;
-		}
-		
-		public String toString() {
-			return this.stringBuffer.toString();
-		}
-	}
-	
 }

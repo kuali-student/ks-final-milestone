@@ -26,7 +26,6 @@ public interface DefaultExecutor {
      * Removes a cache rule set's source code.
      * 
      * @param ruleSetId Rule set cache id
-     * @return True if rule set was removed otherwise false 
      */
-    public boolean removeRuleSet(String ruleSetId);
+    public void removeRuleSet(String ruleSetId);
 }

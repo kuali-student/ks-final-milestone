@@ -69,6 +69,6 @@ public class FactContainer implements java.io.Serializable {
     }
     
     public String toString() {
-    	return "id=" + this.id + ", anchor=" + this.anchor;
+    	return "FactContainer[id=" + this.id + ", anchor=" + this.anchor + "]";
     }
 }

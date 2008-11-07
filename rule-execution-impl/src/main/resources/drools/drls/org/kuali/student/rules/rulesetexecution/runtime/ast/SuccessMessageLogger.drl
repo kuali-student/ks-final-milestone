@@ -1,4 +1,4 @@
-package org.kuali.student.rules.runtime.ast
+package org.kuali.student.rules.runtime.ast.success
  
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;

@@ -100,9 +100,9 @@ public class DroolsTestUtil {
 
 	public static RuleSetDTO getAverageIntersectionPropositionRuleSet() {
     	RuleSetDTO ruleSet = new RuleSetDTO("TestName", "Test description", "DRL");
-
+    	// Rule set name and Drools package name must match
 		String drl = 
-		"package org.kuali.student.rules.CPR101 \n" +
+		"package TestName \n" +
 		"import java.util.*; \n" +
 		"import java.math.BigDecimal; \n" +
 		"import org.slf4j.Logger; \n" +

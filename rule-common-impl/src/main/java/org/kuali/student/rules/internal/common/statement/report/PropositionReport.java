@@ -23,7 +23,7 @@ package org.kuali.student.rules.internal.common.statement.report;
  */
 public class PropositionReport {
 
-    private boolean success = false;
+    private boolean successful = false;
 	private String successMessage;
     private String failureMessage;
     
@@ -31,16 +31,16 @@ public class PropositionReport {
 	 * Returns true if report is successful.
 	 * @return True if report is successful; otherwise false
 	 */
-    public boolean isSuccess() {
-		return success;
+    public boolean isSuccessful() {
+		return successful;
 	}
 	
     /**
-	 * Set success to true if report is successful; other wise set t false.
-     * @param success True if report is successful; other false
+	 * Set success to true if report is successful; otherwise set it to false.
+     * @param success True if report is successful; otherwise false
      */
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setSuccessful(final boolean success) {
+		this.successful = success;
 	}
 
     /**
@@ -52,7 +52,7 @@ public class PropositionReport {
     /**
      * @param successMessage the successMessage to set
      */
-    public void setSuccessMessage(String successMessage) {
+    public void setSuccessMessage(final String successMessage) {
         this.successMessage = successMessage;
     }
     /**
@@ -64,7 +64,11 @@ public class PropositionReport {
     /**
      * @param failureMessage the failureMessage to set
      */
-    public void setFailureMessage(String failureMessage) {
+    public void setFailureMessage(final String failureMessage) {
         this.failureMessage = failureMessage;
+    }
+
+    public String toString() {
+    	return "PropositionReport[successful=" + successful + "]";
     }
 }

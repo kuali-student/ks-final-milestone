@@ -21,10 +21,11 @@ import org.kuali.student.rules.internal.common.statement.report.PropositionRepor
 
 public class ExecutionResult {
 	
-	private Boolean executionResult = null;
+	private Boolean executionResult = Boolean.FALSE;
 	private List<Object> resultList;
 	private PropositionReport report;
 	private String executionLog;
+	private String errorMessage;
 	
 	public ExecutionResult() {
 	}
@@ -49,7 +50,7 @@ public class ExecutionResult {
 		return executionResult;
 	}
 
-	public void setExecutionResult(boolean executionResult) {
+	public void setExecutionResult(final Boolean executionResult) {
 		this.executionResult = executionResult;
 	}
 
@@ -57,9 +58,20 @@ public class ExecutionResult {
 		return report;
 	}
 
-	public void setReport(PropositionReport report) {
+	public void setReport(final PropositionReport report) {
 		this.report = report;
 	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 	
-	
+	public String toString() {
+		return "ExecutionResult[executionResult=" + this.executionResult 
+			+ ", report=" + this.report + "]";
+ 	}
 }
