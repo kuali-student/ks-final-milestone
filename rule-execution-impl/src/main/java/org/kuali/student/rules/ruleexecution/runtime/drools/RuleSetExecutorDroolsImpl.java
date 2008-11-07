@@ -61,11 +61,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.logExecution = false;
     }
     
-    public void addExecutionLogging() {
+    public void enableExecutionLogging() {
     	this.logExecution = true;
     }
 
-    public void removeExecutionLogging() {
+    public void disableExecutionLogging() {
     	this.logExecution = false;
     }
 
