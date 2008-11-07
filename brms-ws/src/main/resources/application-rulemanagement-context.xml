@@ -18,7 +18,6 @@
     <!--*****************************************-->
     <!--*          Web Service Clients          *-->
     <!--*****************************************-->
-
     <bean id="ruleManagementClient"
         class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
         <property name="wsdlLocation"
@@ -37,8 +36,8 @@
 
     <bean id="ruleManagementServiceImpl"
         class="org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl">
-		<property name="ruleManagementDao" ref="ruleManagementDAO">
-		</property>
+		<property name="ruleManagementDao" ref="ruleManagementDAO"/>
+		<property name="repository" ref="ruleRepositoryClient"/>
     </bean>
 
 	<bean id="ruleManagementDAO"
