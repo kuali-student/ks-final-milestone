@@ -1,6 +1,7 @@
 package org.kuali.student.enumeration.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -24,6 +25,18 @@ public class EnumerationServiceImpl implements EnumerationService{
     public void setEnumDAO(EnumerationManagementDAOImpl enumDAO) {
         this.enumDAO = enumDAO;
     }
+    public EnumerationMetaList findEnumerationMetas() {
+        List<org.kuali.student.enumeration.entity.EnumerationMeta> listDAOEntity =  this.enumDAO.findEnumerationMetas();
+        
+        EnumerationMetaList metaList = new EnumerationMetaList();
+        List<org.kuali.student.enumeration.dto.EnumerationMeta> listDTOEntity = null;
+        //POJOConverter.convert(listDAOEntity, listDTOEntity);
+        metaList.setEnumerationMeta(listDTOEntity);
+        
+        return metaList;
+    }    
+    
+    
     public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value) {
         return null;
     }
@@ -36,9 +49,7 @@ public class EnumerationServiceImpl implements EnumerationService{
         return null;
     }
 
-    public EnumerationMetaList findEnumerationMetas() {
-        return null;
-    }
+
 
     public boolean removeEnumeratedValue(String enumerationKey, String code) {
         return false;
