@@ -47,7 +47,7 @@ public class State {
 
     @XmlElement(required = true)
     protected List<Field> field;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String key;
 
     /**

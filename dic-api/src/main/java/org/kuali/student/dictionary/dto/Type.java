@@ -47,7 +47,7 @@ public class Type {
 
     @XmlElement(required = true)
     protected List<State> state;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String key;
 
     /**

@@ -47,7 +47,7 @@ public class Enum {
 
     @XmlElement(required = true)
     protected List<Contexts> contexts;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String key;
 
     /**

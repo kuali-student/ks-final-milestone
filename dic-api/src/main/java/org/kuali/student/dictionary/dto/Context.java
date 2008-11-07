@@ -42,7 +42,7 @@ public class Context {
 
     @XmlValue
     protected String value;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String type;
 
     /**

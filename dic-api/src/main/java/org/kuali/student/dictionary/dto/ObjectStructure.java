@@ -47,7 +47,7 @@ public class ObjectStructure {
 
     @XmlElement(required = true)
     protected List<Type> type;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String objectTypeKey;
 
     /**

@@ -16,7 +16,7 @@ public class DictionaryServiceTest {
 	@Test
 	public void testGetObjectTypes(){
 		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		List<String> result = impl.getObjectTypes();
+		List<String> result = impl.findObjectTypes();
 		assertTrue("Dictionary is null or empty", result != null && result.isEmpty() == false);
 		assertTrue("cluInfo not found in dictionary", result.contains("cluInfo"));
 		assertTrue("ObjectType list has  an unexpected amount of items", result.size() == TOTAL_OBJ);
@@ -25,7 +25,7 @@ public class DictionaryServiceTest {
 	@Test
 	public void testGetObjectStructureForCluInfo(){
 		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		ObjectStructure objStruct = impl.getObjectStructure("cluInfo");
+		ObjectStructure objStruct = impl.fetchObjectStructure("cluInfo");
 		assertTrue("ObjectStructure for cluInfo is null", objStruct != null);
 		List<Type> types = objStruct.getType();
 		assertTrue("ObjectStructure's Types are null or empty", types != null && types.isEmpty() == false);
@@ -47,40 +47,51 @@ public class DictionaryServiceTest {
 					String dataType = fd.getDataType();
 					assertTrue("No dataType defined for a fieldDescriptor", fd.getDataType() != null);
 					
-					
-					BigInteger minLength = fd.getMinLength();
-					BigInteger maxLength = fd.getMaxLength();
+					String name = fd.getName();
+					assertTrue("name in fieldDescriptor is null", name != null);
+					String desc = fd.getDesc();
+					assertTrue("desc in fieldDescriptor is null", desc != null);
+					int minLength = fd.getMinLength();
+					int maxLength = fd.getMaxLength();
 					String validChars = fd.getValidChars();
 					String invalidChars = fd.getInvalidChars();
-					BigInteger minOccurs = fd.getMinOccurs();
-					BigInteger maxOccurs = fd.getMaxOccurs();
+					int minOccurs = fd.getMinOccurs();
+					int maxOccurs = fd.getMaxOccurs();
 					Enum e = fd.getEnum();
+					testEnum(e);
 					if(f.getKey().equals("cluId") && s.getKey().equals("proposed") && t.getKey().equals("course")){
+								
+						assertTrue("Wrong value for name, expected value = CLU Identifier", name.equals("CLU Identifier"));
+						assertTrue("Wrong value for desc, expected value = Unique identifier for a Canonical Learning Unit (CLU).", desc.equals("Unique identifier for a Canonical Learning Unit (CLU)."));
 						
 						assertTrue("validChars in fieldDescriptor is null", validChars != null);
-						assertTrue("Wrong value for validChars, expected value = ABCDEF01234567890-", validChars.equals("ABCDEF01234567890-"));
+						assertTrue("Wrong value for validChars, expected value = ABCDEF0123456789-", validChars.equals("ABCDEF0123456789-"));
 						
-						assertTrue("minOccurs in fieldDescriptor is null", minOccurs != null);
-						assertTrue("Wrong value for minOccurs, expected value = 0", minOccurs.intValue() == 0);
+						assertTrue("minOccurs in fieldDescriptor is null", minOccurs != -1);
+						assertTrue("Wrong value for minOccurs, expected value = 0", minOccurs == 0);
 						
-						assertTrue("maxOccurs in fieldDescriptor is null", maxOccurs != null);
-						assertTrue("Wrong value for maxOccurs, expected value = 1", maxOccurs.intValue() == 1);
+						assertTrue("maxOccurs in fieldDescriptor is null", maxOccurs != -1);
+						assertTrue("Wrong value for maxOccurs, expected value = 1", maxOccurs == 1);
 						
-						assertTrue("minLength in feildDescriptor is null", minLength != null);
-						assertTrue("Wrong value for minLength, expected value = 36", minLength.intValue() == 36);
+						assertTrue("minLength in feildDescriptor is null", minLength != -1);
+						assertTrue("Wrong value for minLength, expected value = 36", minLength == 36);
 						
-						assertTrue("maxLength in feildDescriptor is null", maxLength != null);
-						assertTrue("Wrong value for maxLength, expected value = 36", maxLength.intValue() == 36);
+						assertTrue("maxLength in feildDescriptor is null", maxLength != -1);
+						assertTrue("Wrong value for maxLength, expected value = 36", maxLength == 36);
 					}
 				}
 			}
 		}
 	}
 	
+	private void testEnum(Enum e){
+		//e
+	}
+	
 	@Test
 	public void testGetEnumeration(){
 		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		List<EnumeratedValue> enums = impl.getEnumeration("states", null, null);
+		List<EnumeratedValue> enums = impl.fetchEnumeration("states", null, null, null);
 		assertTrue("Enumeration list is null or empty", enums != null && enums.isEmpty() == false);
 		for(EnumeratedValue e: enums){
 			//String key = e.getKey();

@@ -48,7 +48,7 @@ public class Field {
     @XmlElement(required = true)
     protected FieldDescriptor fieldDescriptor;
     protected boolean isSelector;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String key;
 
     /**
