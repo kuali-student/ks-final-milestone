@@ -25,46 +25,48 @@ public class DictionaryServiceImpl implements DictionaryService {
 		try {
 			JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 			Unmarshaller u = jc.createUnmarshaller();
-			EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource("/" + enumerationKey + "-enum.xml"));
-			if(enumContextKey == null && contextValue == null){	
-				for(EnumeratedValue e: enums.getEnumeratedValue()){	
-					if(enumValidForDate(e, contextDate)){
-						eVals.add(e);
+			if(enumerationKey != null){
+				EnumeratedValues enums = (EnumeratedValues)u.unmarshal(DictionaryServiceImpl.class.getResource("/" + enumerationKey + "-enum.xml"));
+				if(enumContextKey == null || contextValue == null){	
+					for(EnumeratedValue e: enums.getEnumeratedValue()){	
+						if(enumValidForDate(e, contextDate)){
+							eVals.add(e);
+						}
 					}
 				}
-			}
-			else if(enumContextKey != null && contextValue == null){
-				for(EnumeratedValue e: enums.getEnumeratedValue()){	
-					if(enumValidForDate(e, contextDate)){
-						for(Context c: e.getContexts().getContext()){
-							//check context type and value match
-							if(c.getType().equals(enumContextKey)){
-								eVals.add(e);
-								break;
+				/*else if(enumContextKey != null && contextValue == null){
+					for(EnumeratedValue e: enums.getEnumeratedValue()){	
+						if(enumValidForDate(e, contextDate)){
+							for(Context c: e.getContexts().getContext()){
+								//check context type and value match
+								if(c.getType().equals(enumContextKey)){
+									eVals.add(e);
+									break;
+								}
+							}
+						}
+					}
+				}*/
+				else{
+					for(EnumeratedValue e: enums.getEnumeratedValue()){					
+						if(enumValidForDate(e, contextDate)){
+							for(Context c: e.getContexts().getContext()){
+								//check context type and value match
+								if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
+									eVals.add(e);
+									break;
+								}
 							}
 						}
 					}
 				}
 			}
-			else{
-				for(EnumeratedValue e: enums.getEnumeratedValue()){					
-					if(enumValidForDate(e, contextDate)){
-						for(Context c: e.getContexts().getContext()){
-							//check context type and value match
-							if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
-								eVals.add(e);
-								break;
-							}
-						}
-					}
-				}
-			}
-		
 		}
 		catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return eVals;
     }
     
