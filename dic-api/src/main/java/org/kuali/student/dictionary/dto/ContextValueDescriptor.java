@@ -28,12 +28,12 @@ public class ContextValueDescriptor {
     protected String dataType;
     protected String minValue;
     protected String maxValue;
-    protected int minLength;
-    protected int maxLength;
+    protected int minLength = -1;
+    protected int maxLength = -1;
     protected String validChars;
     protected String invalidChars;
-    protected int minOccurs;
-    protected int maxOccurs;
+    protected int minOccurs = -1;
+    protected int maxOccurs = -1;
 
 	public String getDesc() {
 		return desc;
