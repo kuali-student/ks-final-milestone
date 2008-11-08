@@ -4,20 +4,20 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
-import org.kuali.student.enumeration.entity.EnumeratedValue;
-import org.kuali.student.enumeration.entity.EnumerationMeta;
+import org.kuali.student.enumeration.entity.EnumeratedValueDAO;
+import org.kuali.student.enumeration.entity.EnumerationMetaDAO;
 
 public interface EnumerationManagementDAO {
 
-    public List<EnumerationMeta> findEnumerationMetas();
+    public List<EnumerationMetaDAO> findEnumerationMetas();
 
-    public EnumerationMeta fetchEnumerationMeta(String enumerationKey);
+    public EnumerationMetaDAO fetchEnumerationMeta(String enumerationKey);
 
-    public List<EnumeratedValue> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate);
+    public List<EnumeratedValueDAO> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate);
 
-    public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value);
+    public EnumeratedValueDAO addEnumeratedValue(String enumerationKey, EnumeratedValueDAO value);
 
-    public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value);
+    public EnumeratedValueDAO updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueDAO value);
 
     public void removeEnumeratedValue(String enumerationKey, String code);
 

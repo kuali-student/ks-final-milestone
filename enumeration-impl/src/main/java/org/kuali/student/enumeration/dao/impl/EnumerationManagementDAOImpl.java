@@ -8,8 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
-import org.kuali.student.enumeration.entity.EnumeratedValue;
-import org.kuali.student.enumeration.entity.EnumerationMeta;
+import org.kuali.student.enumeration.entity.EnumeratedValueDAO;
+import org.kuali.student.enumeration.entity.EnumerationMetaDAO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,21 +21,21 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         this.entityManager = entityManager;
     }
 
-    public List<EnumerationMeta> findEnumerationMetas() {
+    public List<EnumerationMetaDAO> findEnumerationMetas() {
         Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e");
-        return (List<EnumerationMeta>) query.getResultList();
+        return (List<EnumerationMetaDAO>) query.getResultList();
     }
 
-    public EnumerationMeta fetchEnumerationMeta(String enumerationKey) {
+    public EnumerationMetaDAO fetchEnumerationMeta(String enumerationKey) {
         Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e where e.enumerationKey = :key");
         query.setParameter("key", enumerationKey);
 
         Object obj = query.getResultList().get(0);
 
-        return (EnumerationMeta) obj;
+        return (EnumerationMetaDAO) obj;
     }
 
-    public List<EnumeratedValue> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
+    public List<EnumeratedValueDAO> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
         Query query = entityManager.createQuery(
                 "select e from EnumeratedValue e, Context c " +
                 "where e.id = c.enumerationId and " +
@@ -50,18 +50,18 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         query.setParameter("contextValue", contextValue);
         query.setParameter("contextDate", contextDate);
                 
-        return (List<EnumeratedValue>)query.getResultList();
+        return (List<EnumeratedValueDAO>)query.getResultList();
 
     }
 
-    public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue value) {
+    public EnumeratedValueDAO addEnumeratedValue(String enumerationKey, EnumeratedValueDAO value) {
         entityManager.persist(value);
         value.setEnumerationKey(enumerationKey);
 
         return value;
     }
 
-    public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value) {
+    public EnumeratedValueDAO updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueDAO value) {
         Query query = entityManager.createQuery("update EnumeratedValue e set e.value = :value where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
         query.setParameter("code", code);
@@ -73,7 +73,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         query.setParameter("code", code);
         Object obj = query.getResultList().get(0);
 
-        return (EnumeratedValue) obj;
+        return (EnumeratedValueDAO) obj;
     }
 
     public void removeEnumeratedValue(String enumerationKey, String code) {
