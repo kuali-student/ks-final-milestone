@@ -25,6 +25,15 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e");
         return (List<EnumerationMetaEntity>) query.getResultList();
     }
+    public EnumerationMetaEntity addEnumerationMeta(EnumerationMetaEntity entity){
+        
+        entityManager.persist(entity);
+        entity = entityManager.find(EnumerationMetaEntity.class, entity.getId());
+        return entity;
+    }
+    public void removeEnumerationMeta(EnumerationMetaEntity entity){
+        entityManager.remove(entity);
+    }
 
     public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey) {
         Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e where e.enumerationKey = :key");
