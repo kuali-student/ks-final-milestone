@@ -26,7 +26,7 @@ public class EnumerationServiceImpl implements EnumerationService{
         this.enumDAO = enumDAO;
     }
     public EnumerationMetaList findEnumerationMetas() {
-        List<org.kuali.student.enumeration.entity.EnumerationMetaDAO> listDAOEntity =  this.enumDAO.findEnumerationMetas();
+        List<org.kuali.student.enumeration.entity.EnumerationMetaEntity> listDAOEntity =  this.enumDAO.findEnumerationMetas();
         
         EnumerationMetaList metaList = new EnumerationMetaList();
         List<org.kuali.student.enumeration.dto.EnumerationMeta> listDTOEntity = null;
