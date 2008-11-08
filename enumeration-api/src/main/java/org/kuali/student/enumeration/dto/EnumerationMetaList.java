@@ -74,5 +74,7 @@ public class EnumerationMetaList {
         }
         return this.enumerationMeta;
     }
-
+    public void setEnumerationMeta(List<EnumerationMeta> l) {
+        this.enumerationMeta = l;
+    }
 }
