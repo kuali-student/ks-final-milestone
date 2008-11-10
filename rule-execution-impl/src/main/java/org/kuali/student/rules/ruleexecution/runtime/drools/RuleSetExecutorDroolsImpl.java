@@ -188,28 +188,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         return result;
     }*/
 
-/*    public synchronized ExecutionResult execute( 
-    		String ruleBaseType, RuleSetDTO ruleSet, String anchor, 
-    		Map<String, RulePropositionDTO> propositionMap,
-    		Map<String, Object> factMap) {
-        String id = ""+System.nanoTime();
-    	FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
-    	addPackage(ruleBaseType, ruleSet);
-    	
-        if (logger.isDebugEnabled()) {
-        	log(ruleSet, "Execute Rule");
-        }
-        
-        ExecutionResult result = executeRule(ruleBaseType, true, factContainer);
-        try {
-	        PropositionReport report = generateReport(result.getResults());
-	        result.setReport(report);
-        } catch(RuleSetExecutionException e) {
-        	result.setErrorMessage(e.getMessage());
-        }
-        return result;
-    }*/
-    public ExecutionResult execute(BusinessRuleInfoDTO brInfo, RuleSetDTO ruleSet, Map<String, Object> factMap) {
+    public synchronized ExecutionResult execute(BusinessRuleInfoDTO brInfo, RuleSetDTO ruleSet, Map<String, Object> factMap) {
         String id = ""+System.nanoTime();
         String ruleBaseType = brInfo.getBusinessRuleTypeKey();
         if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
