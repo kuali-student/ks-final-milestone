@@ -2,13 +2,11 @@ package org.kuali.student.enumeration.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.NoResultException;
-
 import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enumeration.entity.EnumeratedValue;
+import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
@@ -17,12 +15,31 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationManagementDAOImplTest extends TestCase{
 //    @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
-  //  public EnumerationManagementDAOImpl enumerationManagementDAO;
+    public EnumerationManagementDAOImpl enumerationManagementDAO;
 
     //TODO delete all records from tables 
     public void setup(){
         
     }
+    @Test
+    public void testFindEnumerationMetas(){
+        EnumerationMetaEntity entity = new EnumerationMetaEntity();
+        entity.setName("Name");
+        entity.setEnumerationKey("Key");
+        entity.setDesc("desc");
+        
+        enumerationManagementDAO.addEnumerationMeta(entity);
+
+        List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
+        EnumerationMetaEntity returnedEntity = list.get(0);
+        
+        assertEquals(returnedEntity.getName(), entity.getName());
+        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
+        assertEquals(returnedEntity.getDesc(), entity.getDesc());
+        
+        
+    }    
+    
     
 /*    
 
