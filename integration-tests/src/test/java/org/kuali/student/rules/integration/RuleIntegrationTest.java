@@ -25,7 +25,6 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -177,27 +176,6 @@ public class RuleIntegrationTest {
         return brInfoDTO;
     }
     
-    /*private Map<String, Object> createFacts() {
-        FactStructureDTO fs1 = buildFactStructureForRuleCriteria();
-        FactStructureDTO fs2 = buildFactStructureForIntersection();
-
-        String criteriaKeyIntersection = FactUtil.createCriteriaKey(fs1);
-    	String factKeyIntersection = FactUtil.createFactKey(fs2);
-
-    	FactResultTypeInfoDTO columnMetaData2 = DroolsTestUtil.createColumnMetaData(String.class.getName());
-        FactResultDTO factResultIntersection = DroolsTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
-        factResultIntersection.setFactResultTypeInfo(columnMetaData2);
-
-    	FactResultDTO factResultCriteriaIntersection = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
-    	factResultCriteriaIntersection.setFactResultTypeInfo(columnMetaData2);
-
-        Map<String, Object> factMap = new HashMap<String, Object>();
-        factMap.put(criteriaKeyIntersection, factResultCriteriaIntersection);
-        factMap.put(factKeyIntersection, factResultIntersection);
-        
-        return factMap;
-    }*/
-
     @Test
     public void testRuleIntegration_ExecuteWithStaticFact() throws Exception {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("100", "CHEM100PRE_REQ", "CHEM100");
@@ -235,4 +213,28 @@ public class RuleIntegrationTest {
         System.out.println("Execution log:\n" + result.getExecutionLog());
         System.out.println("Error message:\n" + result.getErrorMessage());
     }
+
+    //@Ignore
+    @Test
+    public void testRuleIntegration_ExecuteSnapshotWithStaticFact() throws Exception {
+        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("300", "CHEM300PRE_REQ", "CHEM100");
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+		
+        //Create snapshot - Active business rule will create a snapshot
+        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
+        ruleManagementService.updateBusinessRule(businessRuleId, brInfoDTO);
+        
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertTrue(result.getReport().isSuccessful());
+        assertNotNull(result.getReport().getSuccessMessage());
+        assertNull(result.getReport().getFailureMessage());
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+    }
+
 }
