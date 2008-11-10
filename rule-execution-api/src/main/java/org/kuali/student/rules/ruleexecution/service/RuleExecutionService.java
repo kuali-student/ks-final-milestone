@@ -27,8 +27,6 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.rules.ruleexecution.dto.FactDTO;
-import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 /**
@@ -84,4 +82,5 @@ public interface RuleExecutionService {
      */
     public ExecutionResultDTO executeBusinessRule(@WebParam(name="businessRuleId")String businessRuleId)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
 }
