@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 //TODO remove the comment
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+
 public class EnumerationManagementDAOImplTest extends TestCase{
     @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
