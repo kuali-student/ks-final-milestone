@@ -16,12 +16,10 @@
 package org.kuali.student.rules.ruleexecution.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
@@ -30,15 +28,13 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
-import org.kuali.student.rules.repository.util.ObjectUtil;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.rules.ruleexecution.dto.FactDTO;
 import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
-import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
@@ -66,6 +62,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     private RuleManagementService ruleManagementService;
 
+    private  static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
+    
     /**
      * Gets the rule execution engine.
      * 
@@ -162,7 +160,9 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		}
 
         try {
-    		ExecutionResult result =  this.ruleSetExecutor.execute(ruleSet, factList);
+        	String ruleBaseType = RuleSetExecutor.DEFAULT_RULE_CACHE_KEY;
+        	//this.ruleSetExecutor.addRuleSet(ruleBaseType, ruleSet);
+    		ExecutionResult result =  this.ruleSetExecutor.execute(ruleBaseType, ruleSet, factList);
     		return createExecutionResultDTO(result);
     	} catch(RuleSetExecutionException e) {
     		logger.error(e.getMessage(), e);
@@ -178,20 +178,21 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
 
     	String ruleSetUUID = null;
-    	BusinessRuleInfoDTO info = null;
+    	BusinessRuleInfoDTO brInfo = null;
     	
-		info = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-		ruleSetUUID = info.getCompiledId();
+    	brInfo = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+		ruleSetUUID = brInfo.getCompiledId();
     	
-    	RuleSetDTO ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
-
+		RuleSetDTO ruleSet = null;
+		if (brInfo.getStatus().equals(BusinessRuleStatus.ACTIVE.toString())) {
+			String SnapshotName = brInfo.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
+    		ruleSet = this.ruleRespositoryService.fetchRuleSetSnapshot(ruleSetUUID, SnapshotName);
+    	} else {
+    		ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
+    	}
+    	
         try {
-        	String anchor = info.getAnchorValue();
-        	Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(info);
-            
-        	ExecutionResult result = this.ruleSetExecutor.execute(
-            		ruleSet, anchor, propositionMap, null);
-    		
+        	ExecutionResult result = this.ruleSetExecutor.execute(brInfo, ruleSet, null);
     		return createExecutionResultDTO(result);
     	} catch(RuleSetExecutionException e) {
     		logger.error(e.getMessage(), e);

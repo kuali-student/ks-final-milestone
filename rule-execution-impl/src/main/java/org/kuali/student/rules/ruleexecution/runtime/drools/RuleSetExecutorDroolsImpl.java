@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.drools.RuleBase;
 import org.drools.StatelessSession;
 import org.drools.rule.Package;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
@@ -33,6 +35,7 @@ import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
@@ -47,12 +50,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     
     private DefaultExecutor defaultExecutor = new DefaultExecutorDroolsImpl();
     
-    private final static String DEFAULT_RULE_BASE = "defaultRuleBase1"; 
-
     private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
 
     private boolean logExecution = false;
-    
     
     /**
      * Constructs a new rule set executor without a repository.
@@ -60,13 +60,28 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     public RuleSetExecutorDroolsImpl() {
     	this.logExecution = false;
     }
-    
+
+    /**
+     * Enables rule engine execution logging.
+     */
     public void enableExecutionLogging() {
     	this.logExecution = true;
     }
 
+    /**
+     * disables rule engine execution logging.
+     */
     public void disableExecutionLogging() {
     	this.logExecution = false;
+    }
+
+	/**
+	 * Returns the set of keys in the rule set cache.
+	 * 
+	 * @return Cache key set
+	 */
+	public Set<String> getCacheKeySet() {
+    	return ruleBaseCache.getCacheKeySet();
     }
 
     /**
@@ -74,7 +89,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * 
      * @param ruleSet Rule set
      */
-    private void addPackage(RuleSetDTO ruleSet) {
+    private void addPackage(String ruleBaseType, RuleSetDTO ruleSet) {
     	Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
         if (!pkg.getName().equals(ruleSet.getName())){
         	throw new RuleSetExecutionException(
@@ -83,10 +98,56 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         			"' does not match rule set name '" + ruleSet.getName() +
         			"'.");
         }
-        ruleBaseCache.addPackage(DEFAULT_RULE_BASE, pkg);
+        if (ruleBaseType == null) {
+        	ruleBaseType = DEFAULT_RULE_CACHE_KEY; 
+        }
+        if (logger.isDebugEnabled()) {
+        	if (ruleBaseCache.getRuleBase(ruleBaseType).getPackage(pkg.getName()) == null) {
+        		logger.debug("Adding new package to rulebase: package name=" + 
+        				pkg.getName() + ", uuid=" + ruleSet.getUUID() + 
+        				", rule base type=" + ruleBaseType);
+        	} else {
+        		logger.debug("Replacing package in rulebase: package name=" + 
+        				pkg.getName() + ", uuid=" + ruleSet.getUUID() + 
+        				", rule base type=" + ruleBaseType);
+        	}
+        }
+        ruleBaseCache.addPackage(ruleBaseType, pkg);
 		if(logger.isDebugEnabled()) {
     		logger.debug("Added package: Package name=" + pkg.getName() + ", rule set uuid=" + ruleSet.getUUID());
     	}
+    }
+
+    /**
+     * Adds a rule set to the rule set execution cache.
+     * 
+     * @param ruleBaseType
+     * @param ruleSet
+     */
+    public void addRuleSet(String ruleBaseType, RuleSetDTO ruleSet) {
+    	addPackage(ruleBaseType, ruleSet);
+    }
+    
+	/**
+     * Removes a rule set from the rule set execution cache.
+	 * 
+	 * @param ruleBaseType Rule set type (category) to add rule set to
+	 * @param ruleSetName Rule set name
+	 */
+    public void removeRuleSet(String ruleBaseType, String ruleSetName) {
+    	ruleBaseCache.removePackage(ruleBaseType, ruleSetName);
+    }
+
+    /**
+     * Returns true is the <code>ruleSetName</code> exists in the 
+     * <code>businessRuleType</code> execution cache.
+     * 
+	 * @param businessRuleType Rule set type (category) to add rule set to
+	 * @param ruleSetName Rule set name
+     * @return True if rule set exists in the business rule type execution cache; otherwise false
+     */
+    public boolean containsRuleSet(String ruleBaseType, String ruleSetName) {
+    	return ruleBaseCache.containsPackage(ruleBaseType, ruleSetName);
     }
 
     private void log(RuleSetDTO ruleSet, String message) {
@@ -127,18 +188,44 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         return result;
     }*/
 
-    public synchronized ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
+/*    public synchronized ExecutionResult execute( 
+    		String ruleBaseType, RuleSetDTO ruleSet, String anchor, 
     		Map<String, RulePropositionDTO> propositionMap,
     		Map<String, Object> factMap) {
         String id = ""+System.nanoTime();
     	FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
-    	addPackage(ruleSet);
+    	addPackage(ruleBaseType, ruleSet);
     	
         if (logger.isDebugEnabled()) {
         	log(ruleSet, "Execute Rule");
         }
         
-        ExecutionResult result = executeRule(true, factContainer);
+        ExecutionResult result = executeRule(ruleBaseType, true, factContainer);
+        try {
+	        PropositionReport report = generateReport(result.getResults());
+	        result.setReport(report);
+        } catch(RuleSetExecutionException e) {
+        	result.setErrorMessage(e.getMessage());
+        }
+        return result;
+    }*/
+    public ExecutionResult execute(BusinessRuleInfoDTO brInfo, RuleSetDTO ruleSet, Map<String, Object> factMap) {
+        String id = ""+System.nanoTime();
+        String ruleBaseType = brInfo.getBusinessRuleTypeKey();
+        if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
+        	ruleBaseType = DEFAULT_RULE_CACHE_KEY;
+        }
+        String anchor = brInfo.getAnchorValue();
+    	Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(brInfo);
+    	
+        FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
+    	addPackage(ruleBaseType, ruleSet);
+    	
+        if (logger.isDebugEnabled()) {
+        	log(ruleSet, "Execute Rule");
+        }
+        
+        ExecutionResult result = executeRule(ruleBaseType, true, factContainer);
         try {
 	        PropositionReport report = generateReport(result.getResults());
 	        result.setReport(report);
@@ -156,14 +243,14 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public synchronized ExecutionResult execute(RuleSetDTO ruleSet, List<Object> facts) {
-    	addPackage(ruleSet);
+    public synchronized ExecutionResult execute(String ruleBaseType, RuleSetDTO ruleSet, List<Object> facts) {
+    	addPackage(ruleBaseType, ruleSet);
 
     	if (logger.isDebugEnabled()) {
         	log(ruleSet, "Execute Rule");
         }
 
-        ExecutionResult result = executeRule(true, facts);
+        ExecutionResult result = executeRule(ruleBaseType, true, facts);
         return result;
     }
 
@@ -232,8 +319,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param fact Fact container for the <code>ruleBase</code>
      * @return An execution result
      */
-    private ExecutionResult executeRule(boolean logRuleExecution, FactContainer fact) { 
-    	RuleBase ruleBase = ruleBaseCache.getRuleBase(DEFAULT_RULE_BASE);
+    private ExecutionResult executeRule(String ruleBaseType, boolean logRuleExecution, FactContainer fact) { 
+    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
         LoggingStringBuilder executionLog = null;
@@ -288,8 +375,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param fact A list of facts for the <code>ruleBase</code>
      * @return An execution result
      */
-    private ExecutionResult executeRule(boolean logRuleExecution, List<Object> facts) { 
-    	RuleBase ruleBase = ruleBaseCache.getRuleBase(DEFAULT_RULE_BASE);
+    private ExecutionResult executeRule(String ruleBaseType, boolean logRuleExecution, List<Object> facts) { 
+    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
         LoggingStringBuilder executionLog = null;

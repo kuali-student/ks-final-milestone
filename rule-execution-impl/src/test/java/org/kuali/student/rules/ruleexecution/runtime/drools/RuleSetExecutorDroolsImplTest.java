@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,15 +36,22 @@ import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.ruleexecution.util.RuleManagementDtoFactory;
@@ -95,7 +103,43 @@ public class RuleSetExecutorDroolsImplTest {
         return ruleProp;
     }
 
-	@Test
+    private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(year, month-1, day, hourOfDay, minute, 0);
+    	return cal.getTime();
+    }
+
+    private BusinessRuleInfoDTO generateNewBusinessRuleInfo(
+    		String businessRuleId, String ruleName, String anchor) {
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        metaInfo.setCreateTime(new Date());
+        metaInfo.setCreateID("Zdenek");
+        metaInfo.setUpdateTime(new Date());
+        metaInfo.setUpdateID("Kamal");
+     
+        BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
+        brInfoDTO.setBusinessRuleId(businessRuleId);
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setSuccessMessage("Test success message");
+        brInfoDTO.setFailureMessage("Test failure message");
+        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        brInfoDTO.setAnchorValue(anchor);
+        brInfoDTO.setStatus(BusinessRuleStatus.IN_PROGRESS.toString());
+        brInfoDTO.setMetaInfo(metaInfo);
+
+        //brInfoDTO.setEffectiveStartTime(new Date());
+        //brInfoDTO.setEffectiveEndTime(new Date());
+        Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+    	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
+        brInfoDTO.setEffectiveStartTime(effectiveStartTime);
+        brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+
+        return brInfoDTO;
+    }
+
+    @Test
     public void testExecuteSimpleRuleSet_Drools() throws Exception {
         RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
         byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
@@ -112,7 +156,9 @@ public class RuleSetExecutorDroolsImplTest {
         facts.add(cal);
 
         // Execute ruleset and fact
-        ExecutionResult result = executor.execute(ruleSet, facts);
+    	String ruleBaseType = RuleSetExecutor.DEFAULT_RULE_CACHE_KEY;
+    	//executor.addRuleSet(ruleBaseType, ruleSet);
+        ExecutionResult result = executor.execute(ruleBaseType, ruleSet, facts);
 
         assertNotNull(result);
         assertNotNull(result.getResults());
@@ -179,7 +225,6 @@ public class RuleSetExecutorDroolsImplTest {
 		FactStructureDTO factStructure4 = createFactStructure("subset.id.3", "course.subset.fact");
 		yvfIntersection.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
 
-    	//String criteriaKey1 = FactUtil.getCriteriaKey(factStructure1);
     	String factKeyAverage = FactUtil.createFactKey(factStructure1);
 
     	String criteriaKeyIntersection = FactUtil.createCriteriaKey(factStructure3);
@@ -198,8 +243,19 @@ public class RuleSetExecutorDroolsImplTest {
     			Integer.class.getName(),
     			yvfIntersection);
 		Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-		propositionMap.put("P1", propositionAverage);
-		propositionMap.put("P2", propositionIntersection);
+        RuleElementDTO element1 = new RuleElementDTO();
+        element1.setOperation(RuleElementType.PROPOSITION.toString());
+        element1.setRuleProposition(propositionAverage);
+        RuleElementDTO element2 = new RuleElementDTO();
+        element2.setOperation(RuleElementType.PROPOSITION.toString());
+        element2.setRuleProposition(propositionIntersection);
+
+        List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
+        elementList.add(element1);
+        elementList.add(element2);
+
+        BusinessRuleInfoDTO brinfo = generateNewBusinessRuleInfo("1", "Business Rule", "CPR101");
+        brinfo.setRuleElementList(elementList);
         
         // EXECUTION: Create facts
     	FactResultTypeInfoDTO columnMetaData1 = DroolsTestUtil.createColumnMetaData(BigDecimal.class.getName());
@@ -219,7 +275,7 @@ public class RuleSetExecutorDroolsImplTest {
         factMap.put(factKeyIntersection, factResultIntersection);
 
         // Execute ruleset and fact
-        ExecutionResult result = executor.execute(ruleSet, anchor, propositionMap, factMap);
+        ExecutionResult result = executor.execute(brinfo, ruleSet, factMap);
         assertNotNull(result);
         assertNotNull(result.getResults());
 		assertNotNull(result.getExecutionLog());

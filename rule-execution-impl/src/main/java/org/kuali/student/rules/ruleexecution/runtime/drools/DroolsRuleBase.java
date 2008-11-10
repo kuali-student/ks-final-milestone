@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -48,6 +49,15 @@ public class DroolsRuleBase {
 		return INSTANCE;
 	}
 
+    /**
+     * Returns the set of keys in this cache.
+     * 
+     * @return Cache key set
+     */
+	public Set<String> getCacheKeySet() {
+    	return ruleBaseTypeMap.keySet();
+    }
+
 	/**
 	 * Adds a Drools package to a rule base type.
 	 * 
@@ -71,9 +81,18 @@ public class DroolsRuleBase {
 	 * @param packageName Package name
 	 */
 	public void removePackage(String ruleBaseType, String packageName) {
-		ruleBaseTypeMap.get(ruleBaseType).removePackage(packageName);
+        if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
+        	throw new RuleSetExecutionException("Rule base type cannot be null or empty.");
+        } else if (packageName == null || packageName.trim().isEmpty()) {
+            	throw new RuleSetExecutionException("Package name cannot be null or empty");
+        }
+
+        ruleBaseTypeMap.get(ruleBaseType).removePackage(packageName);
 	}
 	
+    public boolean containsPackage(String ruleBaseType, String ruleSetName) {
+    	return (ruleBaseTypeMap.get(ruleBaseType).getPackage(ruleSetName) == null ? false : true);
+    }
 	/**
 	 * Gets a rule base by rule base type.
 	 * 
@@ -105,18 +124,20 @@ public class DroolsRuleBase {
         
             //Add package to rulebase (deploy the rule package).
             try {
-    			if (!ruleBaseTypeMap.containsKey(ruleBaseType)) {
+            	if (!ruleBaseTypeMap.containsKey(ruleBaseType)) {
     				ruleBaseTypeMap.put(ruleBaseType, RuleBaseFactory.newRuleBase());
     			}
+            	ruleBaseTypeMap.get(ruleBaseType).lock();
     			ruleBaseTypeMap.get(ruleBaseType).addPackage(pkg);
             } catch(Exception e) {
     			throw new RuleSetExecutionException(
     					"Adding package to rule base failed: Package name=" + 
     					pkg.getName() + ", Error summary=" + pkg.getErrorSummary(), e);
+            } finally {
+            	ruleBaseTypeMap.get(ruleBaseType).unlock();
             }
         }
-        finally
-        {
+        finally {
             currentThread.setContextClassLoader(oldClassLoader);
         }
     }

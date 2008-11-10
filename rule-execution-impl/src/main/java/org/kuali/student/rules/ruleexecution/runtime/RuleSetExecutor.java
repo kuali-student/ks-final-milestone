@@ -17,11 +17,53 @@ package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 public interface RuleSetExecutor {
+
+    public final static String DEFAULT_RULE_CACHE_KEY = "DEFAULT_RULE_CACHE_KEY"; 
+
+    /**
+     * Adds a rule set to the rule set execution cache.
+     * This is a convenience method since rule sets are lazily loaded into the 
+     * execution cache when <code>execute>/code> is performed. 
+     * If <code>businessRuleType</code> is null then the 
+     * <code>DEFAULT_RULE_CACHE_KEY</code> is used. 
+     * See {@link #execute(BusinessRuleInfoDTO, RuleSetDTO, Map)}
+     * 
+     * @param businessRuleType
+     * @param ruleSet
+     * @see #execute(BusinessRuleInfoDTO, RuleSetDTO, Map)
+     */
+	public void addRuleSet(String businessRuleType, RuleSetDTO ruleSet);
+
+	/**
+     * Removes a rule set from the rule set execution cache.
+	 * 
+	 * @param businessRuleType Rule set type (category) to add rule set to
+	 * @param ruleSetName Rule set name
+	 */
+    public void removeRuleSet(String businessRuleType, String ruleSetName);
+
+    /**
+     * Returns true is the <code>ruleSetName</code> exists in the 
+     * <code>businessRuleType</code> execution cache.
+     * 
+	 * @param businessRuleType Rule set type (category) to add rule set to
+	 * @param ruleSetName Rule set name
+     * @return True if rule set exists in the business rule type execution cache; otherwise false
+     */
+    public boolean containsRuleSet(String businessRuleType, String ruleSetName);
+
+	/**
+	 * Returns the set of keys in the rule set cache.
+	 * 
+	 * @return Cache key set
+	 */
+    public Set<String> getCacheKeySet();
 
     /**
      * Executes an <code>agenda</code> with a list of <code>facts</code>.
@@ -35,20 +77,23 @@ public interface RuleSetExecutor {
     /**
      * Executes a <code>ruleSet</code> with a list of <code>facts</code>.
      * 
+     * @param businessRuleType Business rule type key (cache key)
      * @param ruleSet Rule set to execute
      * @param facts List of Facts for the <code>ruleSet</code>
      * @return Result of executing the <code>ruleSet</code>
      */
-    public ExecutionResult execute(RuleSetDTO ruleSet, List<Object> facts);
+    public ExecutionResult execute(String businessRuleType, RuleSetDTO ruleSet, List<Object> facts);
 
     /**
-     * Executes a <code>ruleSet</code> with a <code>fact</code>.
+     * Executes a business rule.
+     * The BusinessRuleInfoDTO.getBusinessRuleTypeKey() is used as the key in 
+     * rule set execution cache. If BusinessRuleInfoDTO.getBusinessRuleTypeKey()
+     * is null then the <code>DEFAULT_RULE_CACHE_KEY</code> is used.
      * 
-     * @param ruleSet Ruleset to execute
-     * @param fact Fact for the <code>ruleSet</code> 
-     * @return Result of executing the <code>ruleSet</code>
+     * @param ruleSet Rule set to be executed
+     * @param brInfo Business rule to be executed
+     * @param factMap Map of facts (data)
+     * @return Result of execution 
      */
-    public ExecutionResult execute(RuleSetDTO ruleSet, String anchor, 
-    		Map<String, RulePropositionDTO> propositionMap, 
-    		Map<String, Object> factMap);
+    public ExecutionResult execute(BusinessRuleInfoDTO brInfo, RuleSetDTO ruleSet, Map<String, Object> factMap);
 }
