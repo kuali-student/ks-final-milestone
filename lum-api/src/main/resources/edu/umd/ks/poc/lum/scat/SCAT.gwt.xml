@@ -1,0 +1,5 @@
+<module>
+ <inherits name='com.google.gwt.user.User'/>
+   <source path='dto' />
+   <source path='service' />
+</module>
