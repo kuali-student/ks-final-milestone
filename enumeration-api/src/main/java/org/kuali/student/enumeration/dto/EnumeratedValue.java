@@ -67,7 +67,7 @@ public class EnumeratedValue {
     protected Date effectiveDate;
     protected Date expirationDate;
     @XmlElement(required = true)
-    protected BigInteger sortKey;
+    protected int sortKey;
     @XmlElement(required = true)
     protected Contexts contexts;
 
@@ -199,7 +199,7 @@ public class EnumeratedValue {
      *     {@link BigInteger }
      *     
      */
-    public BigInteger getSortKey() {
+    public int getSortKey() {
         return sortKey;
     }
 
@@ -211,7 +211,7 @@ public class EnumeratedValue {
      *     {@link BigInteger }
      *     
      */
-    public void setSortKey(BigInteger value) {
+    public void setSortKey(int value) {
         this.sortKey = value;
     }
 
