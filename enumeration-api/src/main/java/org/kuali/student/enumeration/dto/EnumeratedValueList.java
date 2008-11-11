@@ -75,4 +75,8 @@ public class EnumeratedValueList {
         return this.enumeratedValue;
     }
 
+    public void setEnumeratedValue(List<EnumeratedValue> l) {
+        enumeratedValue = l;
+
+    } 
 }
