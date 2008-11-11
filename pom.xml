@@ -4,7 +4,7 @@
     
     <groupId>edu.umd.ks.poc</groupId>
     <artifactId>lum</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>lum-umd</name>
     
@@ -16,8 +16,8 @@
     </modules>
 
 	<scm>
-		<connection>scm:svn:https://test.kuali.org/svn/student/sandbox/team2/lum/branches/lum-0.0.1</connection>
-		<developerConnection>scm:svn:https://test.kuali.org/svn/student/sandbox/team2/lum/branches/lum-0.0.1</developerConnection>
+		<connection>scm:svn:https://test.kuali.org/svn/student/sandbox/team2/lum/branches/lum-dev</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/sandbox/team2/lum/branches/lum-dev</developerConnection>
 	</scm>
     
     <parent>

@@ -3,11 +3,11 @@
 	<groupId>edu.umd.ks.poc</groupId>
 	<artifactId>lum-overlay</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<parent>
 		<groupId>edu.umd.ks.poc</groupId>
 		<artifactId>lum</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -212,7 +212,7 @@
 		<dependency>
 			<groupId>edu.umd.ks.poc</groupId>
 			<artifactId>lum-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.kuali.student.poc.common</groupId>

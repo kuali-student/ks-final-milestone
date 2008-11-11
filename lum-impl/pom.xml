@@ -3,11 +3,11 @@
 	<groupId>edu.umd.ks.poc</groupId>
 	<artifactId>lum-impl</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<parent>
 		<groupId>edu.umd.ks.poc</groupId>
 		<artifactId>lum</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>edu.umd.ks.poc</groupId>
 			<artifactId>lum-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
