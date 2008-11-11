@@ -26,7 +26,7 @@ public class WorkflowUtilityRpcServiceGwt extends RemoteServiceServlet implement
 
 	private static final long serialVersionUID = 7963474847089269228L;
 
-	private WorkflowUtilityService service = (WorkflowUtilityService) LumServicesContext.getBean("workflowUtilityService") ;
+	private WorkflowUtilityService service;
 
 //	@Override
 //	public ActionItemDTO[] getActionItemsForUser(UuIdDTO userId)
@@ -132,6 +132,20 @@ public class WorkflowUtilityRpcServiceGwt extends RemoteServiceServlet implement
 		}
 		this.getThreadLocalRequest().getSession().setAttribute("UserId",userId);
 		return userId;
+	}
+
+	/**
+	 * @return the service
+	 */
+	public WorkflowUtilityService getService() {
+		return service;
+	}
+
+	/**
+	 * @param service the service to set
+	 */
+	public void setService(WorkflowUtilityService service) {
+		this.service = service;
 	}
 
 }

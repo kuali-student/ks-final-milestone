@@ -17,7 +17,7 @@ public class ScatRpcServiceGwt extends RemoteServiceServlet implements ScatRpcSe
 
     private static final long serialVersionUID = 14089372485672195L;
 
-    ScatRpcService serviceImpl = (ScatRpcService) LumServicesContext.getBean("scatService") ;
+    ScatRpcService serviceImpl;
 
     /**
      * @return the serviceImpl

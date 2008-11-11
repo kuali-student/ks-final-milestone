@@ -12,11 +12,80 @@
 		location="classpath:application.properties" />
 
 
+	<!-- Spring to GWT servlet mapping -->
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/edu.umd.ks.poc.lum.web.lum.LUM/WorkflowUtilityRpcService">
+					<ref bean="workflowUtilityRpcServiceGwtController"/>
+				</entry>
+				<entry key="/edu.umd.ks.poc.lum.web.entrypoints.kew.KEW/WorkflowUtilityRpcService">
+					<ref bean="workflowUtilityRpcServiceGwtController"/>
+				</entry>
+				<entry key="/edu.umd.ks.poc.lum.web.lum.LUM/LuRpcService">
+					<ref bean="luRpcServiceGwtController"/>
+				</entry>
+				<entry key="/edu.umd.ks.poc.lum.web.entrypoints.kew.KEW/LuRpcService">
+					<ref bean="luRpcServiceGwtController"/>
+				</entry>
+				<entry key="/edu.umd.ks.poc.lum.web.lum.LUM/ScatRpcService">
+					<ref bean="scatRpcServiceGwtController"/>
+				</entry>
+				<entry key="/edu.umd.ks.poc.lum.web.entrypoints.kew.KEW/ScatRpcService">
+					<ref bean="scatRpcServiceGwtController"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="workflowUtilityRpcServiceGwtController" class="edu.umd.ks.poc.util.server.ServletWrappingController">
+		<property name="servletName" value="workflowUtilityRpcServiceGwt"/>
+		<property name="servletInstance" ref="workflowUtilityRpcServiceGwt"/>
+	</bean>
+
+	<bean id="luRpcServiceGwtController" class="edu.umd.ks.poc.util.server.ServletWrappingController">
+		<property name="servletName" value="luRpcServiceGwt"/>
+		<property name="servletInstance" ref="luRpcServiceGwt"/>
+	</bean>
+	
+	<bean id="scatRpcServiceGwtController" class="edu.umd.ks.poc.util.server.ServletWrappingController">
+		<property name="servletName" value="scatRpcServiceGwt"/>
+		<property name="servletInstance" ref="scatRpcServiceGwt"/>
+	</bean>
+
+
+	<!-- GWT Servlets -->
+	<bean id="workflowUtilityRpcServiceGwt" class="edu.umd.ks.poc.lum.web.kew.server.gwt.WorkflowUtilityRpcServiceGwt">
+		<property name="service" ref="workflowUtilityService"/>
+	</bean>
+	
+	<bean id="luRpcServiceGwt" class="edu.umd.ks.poc.lum.web.lu.server.gwt.LuRpcServiceGwt">
+		<property name="serviceImpl" ref="luService"/>
+	</bean>
+
+	<bean id="scatRpcServiceGwt" class="edu.umd.ks.poc.lum.web.scat.server.gwt.ScatRpcServiceGwt">
+		<property name="serviceImpl" ref="scatService"/>
+	</bean>
+	
+
+
+	<!-- Service Implementations -->
 	<bean id="scatService" class="edu.umd.ks.poc.lum.web.scat.server.impl.ScatRpcServiceImpl">
 		<property name="service" ref="scatClient" />
 	</bean>
 
+	<bean id="luService" class="edu.umd.ks.poc.lum.web.lu.server.impl.LuRpcServiceImpl">
+		<property name="service" ref="luClient" />
+		<property name="wfService" ref="simpleDocActionClient"/>
+	</bean>
 
+	<bean id="workflowUtilityService" class="edu.umd.ks.poc.lum.web.kew.server.impl.WorkflowUtilityRpcServiceImpl">
+		<property name="wfService" ref="wfClient" />
+		<property name="luService" ref="luClient" />
+	</bean>
+
+
+	<!-- Service Clients -->	
 	<bean id="scatClient"
 		class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation"
@@ -28,7 +97,6 @@
 	 	<property name="address"
 			value="${ks.servicelocation.ScatService}" />
 	</bean>
-	
 
 	<bean id="luClient"
 		class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
@@ -42,11 +110,6 @@
 			value="${ks.servicelocation.LuService}" />
 	</bean>
 
-	<bean id="luService" class="edu.umd.ks.poc.lum.web.lu.server.impl.LuRpcServiceImpl">
-		<property name="service" ref="luClient" />
-		<property name="wfService" ref="simpleDocActionClient"/>
-	</bean>
-
 	<simple:client id="wfClient" 
 		serviceClass="org.kuali.rice.kew.webservice.SimpleWorkflowUtilityService"
 		serviceName="s:SimpleWorkflowUtilityService"
@@ -58,12 +121,6 @@
 		</simple:dataBinding>		
 	</simple:client>
 
-	<bean id="workflowUtilityService" class="edu.umd.ks.poc.lum.web.kew.server.impl.WorkflowUtilityRpcServiceImpl">
-		<property name="wfService" ref="wfClient" />
-		<property name="luService" ref="luClient" />
-	</bean>
-
- 
 	<simple:client id="simpleDocActionClient" 
 		serviceClass="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService"
 		serviceName="s:simpleDocumentActionsService"

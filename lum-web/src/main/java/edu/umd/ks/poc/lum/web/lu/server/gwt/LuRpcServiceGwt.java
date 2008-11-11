@@ -40,7 +40,7 @@ public class LuRpcServiceGwt extends RemoteServiceServlet implements LuRpcServic
 
 	private static final long serialVersionUID = 1L;
 
-	LuRpcService serviceImpl = (LuRpcService) LumServicesContext.getBean("luService") ;
+	LuRpcService serviceImpl;
 
 	/**
 	 * @return the serviceImpl
