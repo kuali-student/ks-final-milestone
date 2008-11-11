@@ -12,7 +12,6 @@ import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//TODO remove the comment
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 
 public class EnumerationManagementDAOImplTest extends TestCase{
