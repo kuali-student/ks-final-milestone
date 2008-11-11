@@ -7,14 +7,16 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
+import org.kuali.student.poc.common.test.spring.Dao;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //TODO remove the comment
-//@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 
 public class EnumerationManagementDAOImplTest extends TestCase{
-  //  @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+    @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 
     //TODO delete all records from tables 
