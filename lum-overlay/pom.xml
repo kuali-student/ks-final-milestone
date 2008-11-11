@@ -141,14 +141,14 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-web</artifactId>
-					<version>0.9.4-SNAPSHOT</version>
+					<version>0.9.4-ks-SNAPSHOT</version>
 					<type>war</type>
 				</dependency>
 
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-web</artifactId>
-					<version>0.9.4-SNAPSHOT</version>
+					<version>0.9.4-ks-SNAPSHOT</version>
 					<type>pom</type>
 				</dependency>
 
@@ -191,14 +191,14 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-web</artifactId>
-					<version>0.9.4-SNAPSHOT</version>
+					<version>0.9.4-ks-SNAPSHOT</version>
 					<type>war</type>
 				</dependency>
 
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-web</artifactId>
-					<version>0.9.4-SNAPSHOT</version>
+					<version>0.9.4-ks-SNAPSHOT</version>
 					<type>pom</type>
 				</dependency>
 
