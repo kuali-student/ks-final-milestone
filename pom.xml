@@ -16,6 +16,11 @@
         <module>lum-web</module>
         <module>lum-overlay</module>
     </modules>
+
+	<scm>
+		<connection>scm:svn:https://test.kuali.org/svn/student/sandbox/team2/lum/branches/lum-dev</connection>
+		<developerConnection>scm:svn:https://test.kuali.org/svn/student/sandbox/team2/lum/branches/lum-dev</developerConnection>
+	</scm>
     
     <parent>
         <groupId>org.kuali.student.poc.common</groupId>
