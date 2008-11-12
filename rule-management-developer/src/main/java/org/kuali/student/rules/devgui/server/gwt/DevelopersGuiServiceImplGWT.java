@@ -25,13 +25,6 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
 
     private final DevelopersGuiService serviceImpl = (DevelopersGuiService) BeanFactory.getInstance().getBean("developersGuiService");
 
-    public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
-        return serviceImpl.findRulesHierarchyInfo();
-    }
-
-    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
-        return serviceImpl.findRuleTypesHierarchyInfo();
-    }
 
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
         return serviceImpl.createBusinessRule(businessRuleInfo);
@@ -53,6 +46,22 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
         return serviceImpl.testBusinessRule(businessRuleId);
     }
 
+    public List<String> findAgendaTypes() {
+    	return serviceImpl.findAgendaTypes();
+    }
+    
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) {
+    	return serviceImpl.findBusinessRuleTypesByAgendaType(agendaTypeKey);
+    }
+    
+    public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
+        return serviceImpl.findRulesHierarchyInfo();
+    }
+
+    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
+        return serviceImpl.findRuleTypesHierarchyInfo();
+    }    
+    
     /**
      * @return the serviceImpl
      */

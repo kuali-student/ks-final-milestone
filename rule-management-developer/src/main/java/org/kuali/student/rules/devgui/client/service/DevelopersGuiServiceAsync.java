@@ -17,9 +17,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author zzraly
  */
 public interface DevelopersGuiServiceAsync {
-    public void findRulesHierarchyInfo(AsyncCallback<List<RulesHierarchyInfo>> callback);
-
-    public void findRuleTypesHierarchyInfo(AsyncCallback<List<RuleTypesHierarchyInfo>> callback);
 
     public void createBusinessRule(BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<String> callback);
 
@@ -30,4 +27,12 @@ public interface DevelopersGuiServiceAsync {
     public void fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey, AsyncCallback<BusinessRuleTypeDTO> callback);
 
     public void testBusinessRule(String businessRuleId, AsyncCallback<String> callback);
+    
+    public void findAgendaTypes(AsyncCallback<List<String>> callback);
+    
+    public void findBusinessRuleTypesByAgendaType(String agendaTypeKey, AsyncCallback<List<String>> callback);
+    
+    public void findRulesHierarchyInfo(AsyncCallback<List<RulesHierarchyInfo>> callback);
+
+    public void findRuleTypesHierarchyInfo(AsyncCallback<List<RuleTypesHierarchyInfo>> callback);    
 }

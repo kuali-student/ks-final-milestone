@@ -341,6 +341,15 @@ public class GuiUtil {
         return propID;
     }
 
+    /****************************************************************************************************************
+     *                                 LIST BOX HELPERS
+     ***************************************************************************************************************/
+    
+    public static String getListBoxSelectedValue(ListBox listBox) {
+    	int ix = listBox.getSelectedIndex();    	
+    	return (ix == -1 ? "" : listBox.getItemText(ix));    	
+    }
+    
     public static int getListBoxIndexByName(ListBox listBox, String itemText) {
         for (int i = 0; i < listBox.getItemCount(); i++) {
             if (listBox.getValue(i).trim().equals(itemText.trim())) {
@@ -350,6 +359,22 @@ public class GuiUtil {
         return 0;
     }
 
+    public static void setListBoxByItemName(ListBox listBox, String itemText) {  
+    	
+    	if (listBox.getSelectedIndex() == -1) { //no item selected
+    		System.out.println("DEBUG: no item selected!.....");
+    		return;
+    	}
+    	
+    	if (itemText.isEmpty()) {
+    		listBox.setItemSelected(listBox.getSelectedIndex(), false);
+    		return;
+    	}
+    	
+    	int itemIx = getListBoxIndexByName(listBox, itemText);
+    	listBox.setSelectedIndex(itemIx);
+    }      
+    
     public static void populateComparisonOperatorList(ListBox opList) {
         for (ComparisonOperator op : ComparisonOperator.values()) {
             opList.addItem("     " + op.symbol(), op.name());

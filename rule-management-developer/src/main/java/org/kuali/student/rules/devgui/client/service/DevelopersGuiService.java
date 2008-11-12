@@ -41,10 +41,6 @@ public interface DevelopersGuiService extends RemoteService {
         }
     }
 
-    public List<RulesHierarchyInfo> findRulesHierarchyInfo();
-
-    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo();
-
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
 
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo);
@@ -54,4 +50,12 @@ public interface DevelopersGuiService extends RemoteService {
     public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey);
 
     public String testBusinessRule(String businessRuleId);
+    
+    public List<String> findAgendaTypes();
+    
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey);
+    
+    public List<RulesHierarchyInfo> findRulesHierarchyInfo();
+
+    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo();    
 }

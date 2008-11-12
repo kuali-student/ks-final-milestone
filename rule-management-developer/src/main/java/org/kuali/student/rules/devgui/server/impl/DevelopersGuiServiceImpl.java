@@ -44,6 +44,67 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return rule_update_status;
     }
 
+    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
+
+        BusinessRuleInfoDTO businessRuleInfo;
+
+        try {
+            businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(ruleId);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to get detailed business rule info", ex);
+        }
+
+        return businessRuleInfo;
+    }
+
+    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
+
+        BusinessRuleTypeDTO businessRuleType;
+
+        try {
+            businessRuleType = ruleManagementService.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to get agenda types", ex);
+        }
+
+        return businessRuleType;
+    }
+
+    public String testBusinessRule(String businessRuleId) {
+        return "TEST result"; // TODO
+    }
+    
+    public List<String> findAgendaTypes() {
+    	
+        List<String> agendaTypes = new ArrayList<String>();
+        try {
+            agendaTypes = ruleManagementService.findAgendaTypes();
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to find agenda types", ex); // TODO
+        }
+        
+        return agendaTypes;
+    }
+     
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) {
+    	
+        List<String> businessRuleTypes = new ArrayList<String>();
+        try {
+        	businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to find Business Rule Types based on Agenda Key:" + agendaTypeKey, ex); // TODO
+        }
+        
+        return businessRuleTypes;
+    }    
+    
+    
+    /******************************************************************************************************************
+     * 
+     *                                                     LOADING TREES 
+     *
+     *******************************************************************************************************************/
+    
     // populate Business Rule Types tree
     public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
         List<RuleTypesHierarchyInfo> ruleTypesInfo = new ArrayList<RuleTypesHierarchyInfo>();
@@ -182,38 +243,8 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         ruleInfo.setAnchor(anchor);
 
         return ruleInfo;
-    }
-
-    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
-
-        BusinessRuleInfoDTO businessRuleInfo;
-
-        try {
-            businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(ruleId);
-        } catch (Exception ex) {
-            throw new RuntimeException("Unable to get detailed business rule info", ex);
-        }
-
-        return businessRuleInfo;
-    }
-
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
-
-        BusinessRuleTypeDTO businessRuleType;
-
-        try {
-            businessRuleType = ruleManagementService.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
-        } catch (Exception ex) {
-            throw new RuntimeException("Unable to get agenda types", ex);
-        }
-
-        return businessRuleType;
-    }
-
-    public String testBusinessRule(String businessRuleId) {
-        return "TEST result"; // TODO
-    }
-
+    }    
+    
     /**
      * @return the ruleManagementService
      */
