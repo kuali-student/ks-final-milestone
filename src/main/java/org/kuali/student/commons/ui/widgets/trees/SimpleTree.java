@@ -178,6 +178,10 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         tree.ensureSelectedItemVisible();
     }
 
+    public void unSelect() {
+    	tree.setSelectedItem(null);
+    }
+    
     public void update(T modelObject) {
         remove(modelObject);
         add(modelObject);
