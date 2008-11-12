@@ -134,7 +134,7 @@
 		<property name="effectiveDateStart" ref="currentTime" />
 		<property name="effectiveDateEnd" ref="currentTime" />
 		<property name="version" value="1.0" />
-		<property name="status" value="INCOMPLETE" />
+		<property name="status" value="IN_PROGRESS" />
 	</bean>
 
 	<bean id="ruleProposition1"

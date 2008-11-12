@@ -15,10 +15,6 @@
 	<name>Kuali Student BRMS - brms-ws</name>
 	<description>Web services</description>
 
-    <!--properties>
-        <cxf.version>2.1.2</cxf.version>
-    </properties-->
-
 	<build>
 		<plugins>
 			<!--plugin>
