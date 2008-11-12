@@ -10,6 +10,26 @@ a {
 	color: darkblue;
 }
 
+.status-empty {
+   background-color: #FFA6C9;
+   color: black;
+ }
+
+.status-draft {
+   background-color: #F0E68C;
+   color: black;
+ }
+ 
+.status-active {
+   background-color: #addfad;
+   color: black;
+ }
+ 
+.status-retired {
+   background-color: #A9A9A9;
+   color: black;
+ }  
+
 a:visited {	
 	color: darkblue; 
 }
@@ -47,14 +67,16 @@ a:visited {
 	margin-top: auto;
 	border: groove;
 }
-
 .gwt-Tree .gwt-TreeItem {
-	font-size: 80%;
-	cursor: default;
+  padding: 1px;
+  margin: 0px;
+  white-space: nowrap;
+  cursor: hand;
+  cursor: pointer;
 }
 
 .gwt-Tree .gwt-TreeItem-selected {
-	background-color: #C3D9FF;
+  background: #93c2f1;
 }
 
 .gwt-StackPanel {

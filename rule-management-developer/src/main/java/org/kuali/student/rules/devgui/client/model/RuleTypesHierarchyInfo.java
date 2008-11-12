@@ -13,8 +13,17 @@ public class RuleTypesHierarchyInfo implements ModelObject {
 
     private String agendaType;
     private String businessRuleTypeKey;
+    private String anchorTypeKey;
 
-    public String getUniqueId() {
+    public String getAnchorTypeKey() {
+		return anchorTypeKey;
+	}
+
+	public void setAnchorTypeKey(String anchorTypeKey) {
+		this.anchorTypeKey = anchorTypeKey;
+	}
+
+	public String getUniqueId() {
         return businessRuleTypeKey;
     }
 

@@ -119,10 +119,10 @@ public class RuleTypesComposite extends Composite {
                         // selection was cleared
                         clearBusinessRuleTypeForm();
                     } else {
-                        String ruleTypeKey = modelObject.getBusinessRuleTypeKey();
-                        String anchorTypeKey = modelObject.getAgendaType();
+                        String businessRuleTypeKey = modelObject.getBusinessRuleTypeKey();
+                        String anchorTypeKey = modelObject.getAnchorTypeKey();
                         // populate fields from new selection
-                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(ruleTypeKey, anchorTypeKey, new AsyncCallback<BusinessRuleTypeDTO>() {
+                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(businessRuleTypeKey, anchorTypeKey, new AsyncCallback<BusinessRuleTypeDTO>() {
                             public void onFailure(Throwable caught) {
                                 // just re-throw it and let the uncaught exception handler deal with it
                                 Window.alert(caught.getMessage());
@@ -179,7 +179,7 @@ public class RuleTypesComposite extends Composite {
     private void populateRuleTypeForm() {
         nameTextBox.setText(activeRuleType.getBussinessRuleTypeKey());
         anchorTypeTextBox.setText(activeRuleType.getAnchorTypeKey());
-        // descriptionTextArea.setText(activeRuleType);
+        // descriptionTextArea.setText(activeRuleType.getDescription());  Kamal TODO
         availableFactsListBox.clear();
         selectedFactsListBox.clear();
     }

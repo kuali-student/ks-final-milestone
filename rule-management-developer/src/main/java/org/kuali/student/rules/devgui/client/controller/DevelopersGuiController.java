@@ -82,6 +82,9 @@ public class DevelopersGuiController extends Controller {
     }
 
     private void loadModelsData() {
+    	
+    	System.out.println("Load Models Data");
+    	
         // load rules tree
         DevelopersGuiService.Util.getInstance().findRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
             public void onFailure(Throwable caught) {
@@ -90,27 +93,35 @@ public class DevelopersGuiController extends Controller {
             }
 
             public void onSuccess(List<RulesHierarchyInfo> rulesInfo) {
+            	System.out.println("LOading rules info");
                 // add the results to the model
                 for (RulesHierarchyInfo ruleInfo : rulesInfo) {
                     rulesHierarchyInfo.add(ruleInfo);
                 }
             }
-        });
-        /*
-                // load rule types tree
-                DevelopersGuiService.Util.getInstance().findRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
-                    public void onFailure(Throwable caught) {
-                        // just rethrow it and let the uncaught exception handler deal with it
-                        throw new RuntimeException("Unable to load RuleTypesHierarchyInfo objects", caught);
-                    }
+        });  
 
-                    public void onSuccess(List<RuleTypesHierarchyInfo> ruleTypesInfo) {
-                        // add the results to the model
-                        for (RuleTypesHierarchyInfo ruleTypeInfo : ruleTypesInfo) {
-                            ruleTypesHierarchyInfo.add(ruleTypeInfo);
-                        }
-                    }
-                }); */
+        /*
+        int total = 0;
+        for (int i = 0; i < 5000000; i++) {
+        	total = total + (i * 2) / 2;
+        } */
+        
+        // load rule types tree
+    	/*
+        DevelopersGuiService.Util.getInstance().findRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
+            public void onFailure(Throwable caught) {
+                // just rethrow it and let the uncaught exception handler deal with it
+                throw new RuntimeException("Unable to load RuleTypesHierarchyInfo objects", caught);
+            }
+
+            public void onSuccess(List<RuleTypesHierarchyInfo> ruleTypesInfo) {
+                // add the results to the model
+                for (RuleTypesHierarchyInfo ruleTypeInfo : ruleTypesInfo) {
+                    ruleTypesHierarchyInfo.add(ruleTypeInfo);
+                }
+            }
+        }); */   
 
     }
 
@@ -118,7 +129,7 @@ public class DevelopersGuiController extends Controller {
         tabs.add(businessRuleComposite, "Rules");
         tabs.add(ruleTypesComposite, "Business Rule Types");
         // tabs.add(rulesVerticalSplitPanel, "Facts");
-        tabs.setSize("100%", "800px");
+        tabs.setSize("100%", "900px");
         tabs.selectTab(0);
     }
 

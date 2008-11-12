@@ -75,31 +75,32 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
             // TODO show 'empty' node in the rule types tree if none exist?
             if (businessRuleTypes == null) {
-                ruleTypesInfo.add(createTypesHierarchyInfoObject(agendaTypeKey, ""));
+                ruleTypesInfo.add(createTypesHierarchyInfoObject(agendaTypeKey, "", ""));
                 System.out.println("DEBUG findRuleTypesHierarchyInfo(): no business rule types for Agenda Type " + agendaTypeKey);
                 continue;
             }
 
             for (String businessRuleTypeKey : businessRuleTypes) {
-                ruleTypesInfo.add(createTypesHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey));
+                ruleTypesInfo.add(createTypesHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "KUALI_COURSE"));  //TODO: remove hard-coded value
             }
         }
 
         return ruleTypesInfo;
     }
 
-    private RuleTypesHierarchyInfo createTypesHierarchyInfoObject(String agendaType, String businessRuleType) {
-        RuleTypesHierarchyInfo ruleInfo = new RuleTypesHierarchyInfo();
+    private RuleTypesHierarchyInfo createTypesHierarchyInfoObject(String agendaType, String businessRuleType, String anchorTypeKey) {
+        RuleTypesHierarchyInfo ruleTypeInfo = new RuleTypesHierarchyInfo();
 
-        ruleInfo.setAgendaType(agendaType);
-        ruleInfo.setBusinessRuleTypeKey(businessRuleType);
+        ruleTypeInfo.setAgendaType(agendaType);
+        ruleTypeInfo.setBusinessRuleTypeKey(businessRuleType);
+        ruleTypeInfo.setAnchorTypeKey(anchorTypeKey);
 
-        return ruleInfo;
+        return ruleTypeInfo;
     }
 
     // populate rules tree
     public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
-
+    	System.out.println("loading rules hierarchy");
         List<RulesHierarchyInfo> rulesInfo = new ArrayList<RulesHierarchyInfo>();
 
         // 1. retrieve agendas
@@ -167,6 +168,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             System.out.println("DEBUG: rule info:" + rulesInfo.toString());
         } // next agenda type
 
+        System.out.println("Finished loading rule info");
         return rulesInfo;
     }
 
@@ -189,7 +191,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         try {
             businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(ruleId);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to get agenda types", ex);
+            throw new RuntimeException("Unable to get detailed business rule info", ex);
         }
 
         return businessRuleInfo;
