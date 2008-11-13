@@ -1,10 +1,11 @@
 package org.kuali.student.enumeration.dao.impl;
 
+import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import org.junit.Test;
+import static org.junit.Assert.*;
+
+import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
 import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
@@ -29,20 +30,22 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), "desc 1");
        
     }    
-/*
+
     @Test
     public void testFetchEnumerationMeta(){
     	EnumerationMetaEntity entity = new EnumerationMetaEntity();
         entity.setName("Name3");
         entity.setEnumerationKey("Key3");
-        entity.setDesc("desc3");
+        entity.setEnumerationMetaKeyDesc("desc3");
+        entity.prePersist();
         
         enumerationManagementDAO.addEnumerationMeta(entity);
         
         EnumerationMetaEntity returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key3");
         assertEquals(returnedEntity.getName(), entity.getName());
         assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
-        assertEquals(returnedEntity.getDesc(), entity.getDesc());
+        assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), entity.getEnumerationMetaKeyDesc());
+        assertEquals(returnedEntity.getId(), entity.getId());
     }
     
     @Test
@@ -50,18 +53,24 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
     	EnumerationMetaEntity entity = new EnumerationMetaEntity();
         entity.setName("Name4");
         entity.setEnumerationKey("Key4");
-        entity.setDesc("desc4");
+        entity.setEnumerationMetaKeyDesc("desc4");
+        entity.prePersist();
         
         enumerationManagementDAO.addEnumerationMeta(entity);
         
         EnumerationMetaEntity returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
         assertEquals(returnedEntity.getName(), entity.getName());
         assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
-        assertEquals(returnedEntity.getDesc(), entity.getDesc());
+        assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), entity.getEnumerationMetaKeyDesc());
+        assertEquals(returnedEntity.getId(), entity.getId());
         
         enumerationManagementDAO.removeEnumerationMeta(entity);
-        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
-        assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
+        List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
+        for(EnumerationMetaEntity e: list){
+        	assertTrue("EnumerationMetaEntity still exists after remove", !e.getEnumerationKey().equals("Key4"));
+        }
+        //Note: I think fetchEnumeration to return null and not die if what you are looking for doesn't exist
+        //assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
     }
     
     @Test
@@ -83,7 +92,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         //null values are passed into the method, as in dictionary
         //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
     }
-    
+    /*
     @Test
     public void testAddEnumeratedValue()
     {
