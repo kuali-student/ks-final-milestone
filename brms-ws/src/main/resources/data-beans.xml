@@ -25,7 +25,7 @@
 	<bean id="agendaType1"
 		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
 		<property name="id" value="11223344-1122-1122-1112-100000000030"/>
-		<property name="type" value="KUALI_STUDENT_ENROLLS_IN_COURSRE"/>
+		<property name="type" value="KUALI_STUDENT_ENROLLS_IN_COURSE"/>
 		<property name="businessRuleTypes">
 		  <list>
 			<ref bean="businessRuleType1"/>
@@ -134,7 +134,7 @@
 		<property name="effectiveDateStart" ref="currentTime" />
 		<property name="effectiveDateEnd" ref="currentTime" />
 		<property name="version" value="1.0" />
-		<property name="status" value="IN_PROGRESS" />
+		<property name="status" value="DRAFT_IN_PROGRESS" />
 	</bean>
 
 	<bean id="ruleProposition1"
