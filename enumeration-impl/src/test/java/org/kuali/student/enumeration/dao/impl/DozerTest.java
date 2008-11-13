@@ -26,8 +26,7 @@ public class DozerTest extends TestCase {
         
         POJOConverter.map(dao, dto);
         
-        System.out.println(dto.getSortKey());
-        System.out.println(dto.getAbbrevValue());
+        
         
         List<EnumeratedValueEntity> listDao = new ArrayList<EnumeratedValueEntity>();
         listDao.add(dao);
