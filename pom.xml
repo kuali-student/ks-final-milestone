@@ -7,6 +7,11 @@
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<modules>
+		<module>lum-api</module>
+		<module>lum-impl</module>
+	</modules>
+
 	<name>KS Learning Unit Management POM</name>
 	<description>
 		Kuali Student Learning Unit Management POM
@@ -18,4 +23,5 @@
 		<artifactId>ks-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
 </project>

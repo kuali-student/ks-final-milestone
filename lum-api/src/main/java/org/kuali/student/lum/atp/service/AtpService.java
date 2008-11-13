@@ -8,13 +8,6 @@ import javax.jws.WebParam;
 import org.kuali.student.core.dictionary.dto.EnumeratedValue;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.Status;
-import org.kuali.student.core.exception.AlreadyExistsException;
-import org.kuali.student.core.exception.DataValidationErrorException;
-import org.kuali.student.core.exception.DoesNotExistException;
-import org.kuali.student.core.exception.InvalidParameterException;
-import org.kuali.student.core.exception.MissingParameterException;
-import org.kuali.student.core.exception.OperationFailedException;
-import org.kuali.student.core.exception.PermissionDeniedException;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
@@ -29,8 +22,14 @@ import org.kuali.student.lum.atp.dto.DateRangeInfo;
 import org.kuali.student.lum.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.lum.atp.dto.MilestoneInfo;
 import org.kuali.student.lum.atp.dto.MilestoneTypeInfo;
-
-import com.sun.xml.internal.ws.protocol.soap.VersionMismatchException;
+import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
+import org.kuali.student.poc.common.ws.exceptions.DataValidationErrorException;
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
+import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.common.ws.exceptions.VersionMismatchException;
 
 public interface AtpService {
     /** 
