@@ -17,83 +17,64 @@ package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 public interface RuleSetExecutor {
-
-    public final static String DEFAULT_RULE_CACHE_KEY = "DEFAULT_RULE_CACHE_KEY"; 
-
     /**
-     * Adds a rule set to the rule set execution cache.
+     * Adds or replaces a rule set in the rule set execution cache.
      * This is a convenience method since rule sets are lazily loaded into the 
      * execution cache when <code>execute>/code> is performed. 
-     * If <code>businessRuleType</code> is null then the 
-     * <code>DEFAULT_RULE_CACHE_KEY</code> is used. 
-     * See {@link #execute(BusinessRuleInfoDTO, RuleSetDTO, Map)}
      * 
-     * @param businessRuleType
-     * @param ruleSet
+     * @param businessRule Functional business rule
+     * @param ruleSet Rule set
      * @see #execute(BusinessRuleInfoDTO, RuleSetDTO, Map)
      */
-	public void addRuleSet(String businessRuleType, RuleSetDTO ruleSet);
+	public void addRuleSet(BusinessRuleInfoDTO businessRule, RuleSetDTO ruleSet);
 
 	/**
      * Removes a rule set from the rule set execution cache.
 	 * 
-	 * @param businessRuleType Rule set type (category) to add rule set to
-	 * @param ruleSetName Rule set name
+     * @param businessRule Functional business rule
+	 * @param ruleSet Rule set
 	 */
-    public void removeRuleSet(String businessRuleType, String ruleSetName);
+    public void removeRuleSet(BusinessRuleInfoDTO businessRule, RuleSetDTO ruleSet);
 
     /**
      * Returns true is the <code>ruleSetName</code> exists in the 
      * <code>businessRuleType</code> execution cache.
      * 
-	 * @param businessRuleType Rule set type (category) to add rule set to
-	 * @param ruleSetName Rule set name
+     * @param businessRule Functional business rule
+	 * @param ruleSet Rule set
      * @return True if rule set exists in the business rule type execution cache; otherwise false
      */
-    public boolean containsRuleSet(String businessRuleType, String ruleSetName);
-
-	/**
-	 * Returns the set of keys in the rule set cache.
-	 * 
-	 * @return Cache key set
-	 */
-    public Set<String> getCacheKeySet();
+    public boolean containsRuleSet(BusinessRuleInfoDTO businessRule);
 
     /**
-     * Executes an <code>agenda</code> with a list of <code>facts</code>.
+     * Clears the rule set cache.
+     */
+    public void clearRuleSetCache();
+    
+    /**
+     * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
+     * returns a list of execution results {@link ExecutionResult}.</p>
+     * <p>The {@link ExecutionResult}'s id is set to the 
+     * {@link BusinessRuleInfoDTO}'s business rule id.</p>
      * 
      * @param agenda Agenda to execute
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    //public ExecutionResult execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap);
+    public List<ExecutionResult> execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap);
 
     /**
-     * Executes a <code>ruleSet</code> with a list of <code>facts</code>.
+     * Executes a business rule <code>businessRule</code> in a rule set <code>ruleSet</code>.
      * 
-     * @param businessRuleType Business rule type key (cache key)
-     * @param ruleSet Rule set to execute
-     * @param facts List of Facts for the <code>ruleSet</code>
-     * @return Result of executing the <code>ruleSet</code>
-     */
-    public ExecutionResult execute(String businessRuleType, RuleSetDTO ruleSet, List<Object> facts);
-
-    /**
-     * Executes a business rule.
-     * The BusinessRuleInfoDTO.getBusinessRuleTypeKey() is used as the key in 
-     * rule set execution cache. If BusinessRuleInfoDTO.getBusinessRuleTypeKey()
-     * is null then the <code>DEFAULT_RULE_CACHE_KEY</code> is used.
-     * 
-     * @param ruleSet Rule set to be executed
-     * @param brInfo Business rule to be executed
+     * @param businessRule Business rule to be executed
      * @param factMap Map of facts (data)
      * @return Result of execution 
      */
-    public ExecutionResult execute(BusinessRuleInfoDTO brInfo, RuleSetDTO ruleSet, Map<String, Object> factMap);
+    public ExecutionResult execute(BusinessRuleInfoDTO businessRule, Map<String, Object> factMap);
 }

@@ -49,6 +49,28 @@ public class DroolsRuleBase {
 		return INSTANCE;
 	}
 
+	/**
+	 * Clears the rule base cache.
+	 */
+	public void clearRuleBase() {
+		ruleBaseTypeMap.clear();
+	}
+
+	/**
+	 * Creates a new rule base for the rule base type.
+	 * 
+	 * @param ruleBaseType Rule base type to clear
+	 */
+	public void clearRuleBase(String ruleBaseType) {
+		RuleBase ruleBase = ruleBaseTypeMap.get(ruleBaseType);
+		try {
+			ruleBase.lock();
+			ruleBase = RuleBaseFactory.newRuleBase();
+		} finally {
+			ruleBase.unlock();
+		}
+	}
+
     /**
      * Returns the set of keys in this cache.
      * 
@@ -91,7 +113,7 @@ public class DroolsRuleBase {
 	}
 	
     public boolean containsPackage(String ruleBaseType, String ruleSetName) {
-    	return (ruleBaseTypeMap.get(ruleBaseType).getPackage(ruleSetName) == null ? false : true);
+    	return (ruleBaseTypeMap.get(ruleBaseType) == null || ruleBaseTypeMap.get(ruleBaseType).getPackage(ruleSetName) == null ? false : true);
     }
 	/**
 	 * Gets a rule base by rule base type.

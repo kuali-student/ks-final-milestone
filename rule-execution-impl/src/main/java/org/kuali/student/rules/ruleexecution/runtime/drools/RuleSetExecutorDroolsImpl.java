@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.drools.RuleBase;
 import org.drools.StatelessSession;
@@ -37,6 +38,7 @@ import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleRepo
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
@@ -46,12 +48,20 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(RuleSetExecutorDroolsImpl.class);
 
+	/** Class serial version uid */
+    private static final long serialVersionUID = 1L;
+
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
     private DefaultExecutor defaultExecutor = new DefaultExecutorDroolsImpl();
     
     private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
 
+    // Each rule base must have unique anchors
+    private final static ConcurrentMap<String,String> anchorMap = new ConcurrentHashMap<String,String>();
+
+    private final static ConcurrentMap<String,BusinessRuleInfoValue> businessRuleMap = new ConcurrentHashMap<String,BusinessRuleInfoValue>();
+    
     private boolean logExecution = false;
     
     /**
@@ -75,13 +85,71 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.logExecution = false;
     }
 
-	/**
-	 * Returns the set of keys in the rule set cache.
-	 * 
-	 * @return Cache key set
-	 */
-	public Set<String> getCacheKeySet() {
-    	return ruleBaseCache.getCacheKeySet();
+    /**
+     * Logs a business rule.
+     * 
+     * @param businessRule business rule to log
+     * @param message A message
+     */
+    private void logBusinessRule(BusinessRuleInfoDTO businessRule, String message) {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n**************************************************");
+    	sb.append("\n"+message);
+    	sb.append("\nBusiness rule name:                "+businessRule.getName());
+    	sb.append("\nBusiness rule id:                  "+businessRule.getBusinessRuleId());
+    	sb.append("\nBusiness rule compiledId:          "+businessRule.getCompiledId());
+    	sb.append("\nBusiness rule compiled version no: "+businessRule.getCompiledVersionNumber());
+    	sb.append("\nBusiness rule anchor type key:     "+businessRule.getAnchorTypeKey());
+    	sb.append("\nBusiness rule anchor value:        "+businessRule.getAnchorValue());
+    	sb.append("\n**************************************************");
+        logger.debug(sb.toString());
+    }
+
+    /**
+     * Logs a rule set.
+     * 
+     * @param ruleSet Rule set to log
+     * @param message A message
+     */
+    private void logRuleSet(RuleSetDTO ruleSet, String message) {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("\n**************************************************");
+    	sb.append("\n"+message);
+    	sb.append("\nRule set name:                  "+ruleSet.getName());
+    	sb.append("\nRule set uuid:                  "+ruleSet.getUUID());
+    	sb.append("\nRule set version number:        "+ruleSet.getVersionNumber());
+    	sb.append("\nRule set snapshot name:         "+ruleSet.getSnapshotName());
+    	sb.append("\nRule set version snapshot uuid: "+ruleSet.getVersionSnapshotUUID());
+    	sb.append("\nRule set status:                "+ruleSet.getStatus());
+    	sb.append("\n-------------------------");
+    	sb.append(ruleSet.getContent());
+    	sb.append("\n**************************************************");
+        logger.debug(sb.toString());
+    }
+
+    /**
+     * Gets the business rule anchor key.
+     * 
+     * @param businessRule Business rule
+     * @return Anchor key
+     */
+    private String getAnchorKey(BusinessRuleInfoDTO businessRule) {
+    	return businessRule.getBusinessRuleTypeKey() + businessRule.getAnchorValue();
+    }
+
+    /**
+     * Gets the business rule info key value.
+     * 
+     * @param businessRule Business rule
+     * @return Business rule info key value
+     */
+    private BusinessRuleInfoValue getBusinessRuleInfoValue(BusinessRuleInfoDTO businessRule) {
+    	return new BusinessRuleInfoValue(
+			businessRule.getBusinessRuleId(), 
+			businessRule.getCompiledId(), 
+			businessRule.getCompiledVersionNumber(),
+			businessRule.getAnchorValue(),
+			businessRule.getAnchorTypeKey());
     }
 
     /**
@@ -98,11 +166,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         			"' does not match rule set name '" + ruleSet.getName() +
         			"'.");
         }
-        if (ruleBaseType == null) {
-        	ruleBaseType = DEFAULT_RULE_CACHE_KEY; 
-        }
+
         if (logger.isDebugEnabled()) {
-        	if (ruleBaseCache.getRuleBase(ruleBaseType).getPackage(pkg.getName()) == null) {
+        	if (ruleBaseCache.getRuleBase(ruleBaseType) == null) {
+        		logger.debug("Adding rule base: rule base type="+ruleBaseType);
+        	}
+        	if (ruleBaseCache.getRuleBase(ruleBaseType) == null || ruleBaseCache.getRuleBase(ruleBaseType).getPackage(pkg.getName()) == null) {
         		logger.debug("Adding new package to rulebase: package name=" + 
         				pkg.getName() + ", uuid=" + ruleSet.getUUID() + 
         				", rule base type=" + ruleBaseType);
@@ -112,124 +181,130 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         				", rule base type=" + ruleBaseType);
         	}
         }
+
         ruleBaseCache.addPackage(ruleBaseType, pkg);
-		if(logger.isDebugEnabled()) {
-    		logger.debug("Added package: Package name=" + pkg.getName() + ", rule set uuid=" + ruleSet.getUUID());
-    	}
     }
 
     /**
-     * Adds a rule set to the rule set execution cache.
+     * Adds or replaces a rule set in the rule set execution cache.
+     * This is a convenience method since rule sets are lazily loaded into the 
+     * execution cache when <code>execute>/code> is performed. 
      * 
-     * @param ruleBaseType
-     * @param ruleSet
+     * @param businessRule Functional business rule
+     * @param ruleSet Rule set
+     * @see #execute(BusinessRuleInfoDTO, RuleSetDTO, Map)
      */
-    public void addRuleSet(String ruleBaseType, RuleSetDTO ruleSet) {
+    public void addRuleSet(BusinessRuleInfoDTO businessRule, RuleSetDTO ruleSet) {
+    	String ruleBaseType = getRuleTypeKey(businessRule);
+    	String anchorKey = getAnchorKey(businessRule);
+    	if(anchorMap.containsKey(anchorKey)) {
+    		throw new RuleSetExecutionException(
+    				"Rule base already contains a business rule (id="+
+    				businessRule.getBusinessRuleId() +
+    				") with anchor value '" +businessRule.getAnchorValue() + "'");
+    	}
     	addPackage(ruleBaseType, ruleSet);
+    	anchorMap.put(anchorKey, businessRule.getBusinessRuleId());
+    	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
+    	businessRuleMap.put(value.getKey(), value);
     }
-    
+
 	/**
      * Removes a rule set from the rule set execution cache.
 	 * 
-	 * @param ruleBaseType Rule set type (category) to add rule set to
-	 * @param ruleSetName Rule set name
+     * @param businessRule Functional business rule
+	 * @param ruleSet Rule set
 	 */
-    public void removeRuleSet(String ruleBaseType, String ruleSetName) {
+    public void removeRuleSet(BusinessRuleInfoDTO businessRule, RuleSetDTO ruleSet) {
+    	String ruleBaseType = businessRule.getBusinessRuleTypeKey();
+    	String ruleSetName = ruleSet.getName();
+    	String anchorKey = getAnchorKey(businessRule);
+    	anchorMap.remove(anchorKey);
     	ruleBaseCache.removePackage(ruleBaseType, ruleSetName);
+    	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
+    	businessRuleMap.remove(value.getKey());
+    }
+
+    /**
+     * Clears the rule set cache
+     */
+    public void clearRuleSetCache() {
+    	ruleBaseCache.clearRuleBase();
+    	anchorMap.clear();
+    	businessRuleMap.clear();
     }
 
     /**
      * Returns true is the <code>ruleSetName</code> exists in the 
      * <code>businessRuleType</code> execution cache.
      * 
-	 * @param businessRuleType Rule set type (category) to add rule set to
-	 * @param ruleSetName Rule set name
+     * @param businessRule Functional business rule
+	 * @param ruleSet Rule set
      * @return True if rule set exists in the business rule type execution cache; otherwise false
      */
-    public boolean containsRuleSet(String ruleBaseType, String ruleSetName) {
-    	return ruleBaseCache.containsPackage(ruleBaseType, ruleSetName);
+    public boolean containsRuleSet(BusinessRuleInfoDTO businessRule) {
+    	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
+    	return businessRuleMap.containsKey(value.getKey());
     }
 
-    private void log(RuleSetDTO ruleSet, String message) {
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("\n**************************************************");
-    	sb.append("\n"+message);
-    	sb.append("\nuuid="+ruleSet.getUUID());
-    	sb.append("\nname="+ruleSet.getName());
-    	sb.append("\n-------------------------");
-    	sb.append("\n"+ruleSet.getContent());
-    	sb.append("\n**************************************************");
-        logger.debug(sb.toString());
+    /**
+     * Gets the business rule type key.
+     * 
+     * @param brInfo Business rule
+     * @return A key
+     */
+    private String getRuleTypeKey(BusinessRuleInfoDTO businessRule) {
+        String ruleBaseType = businessRule.getBusinessRuleTypeKey();
+        return ruleBaseType;
     }
     
     /**
-     * Executes an <code>agenda</code> with <code>facts</code>.
+     * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
+     * returns a list of execution results {@link ExecutionResult}.</p>
+     * <p>The {@link ExecutionResult}'s id is set to the 
+     * {@link BusinessRuleInfoDTO}'s business rule id.</p>
      * 
-     * @see org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor#execute(org.kuali.student.rules.internal.common.agenda.entity.Agenda, java.util.List)
+     * @param agenda Agenda to execute
+     * @param facts List of Facts for the <code>agenda</code>
+     * @return Result of executing the <code>agenda</code>
      */
-    /*public synchronized ExecutionResult execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap) {
-        FactContainer factContainer =  new FactContainer(anchor, factMap);
-    	List<Package> packageList = new ArrayList<Package>();
+    public synchronized List<ExecutionResult> execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap) {
         logger.info("Executing agenda: businessRules="+agenda.getBusinessRules());
-        //for(BusinessRuleSet businessRuleSet : agenda.getBusinessRules()) {
+        List<ExecutionResult> resultList = new ArrayList<ExecutionResult>(agenda.getBusinessRules().size());
         for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
-            logger.info("Loading compiled rule set: businessRuleSet.id="+businessRule.getCompiledId());
-            Package pkg = loadCompiledRuleSet(businessRule.getCompiledId());
-            packageList.add(pkg);
-            if (logger.isDebugEnabled()) {
-            	RuleSet rs = this.ruleEngineRepository.loadRuleSet(businessRule.getCompiledId());
-            	log(rs, "Execute Rule");
-            }
+            ExecutionResult result = execute(businessRule, factMap);
+            resultList.add(result);
         }
-        RuleBase ruleBase = getRuleBase(packageList);
-        //List<Object> iterator = executeRule(ruleBase, facts);
-        ExecutionResult result = executeRule(agenda.getExecutionLogging(), ruleBase, facts);
-        //generateReport(facts);
-        return result;
-    }*/
+        return resultList;
+    }
 
-    public synchronized ExecutionResult execute(BusinessRuleInfoDTO brInfo, RuleSetDTO ruleSet, Map<String, Object> factMap) {
+    /**
+     * Executes a business rule <code>businessRule</code> in a rule set <code>ruleSet</code>.
+     * 
+     * @param businessRule Business rule to be executed
+     * @param factMap Map of facts (data)
+     * @return Result of execution 
+     */
+    public synchronized ExecutionResult execute(BusinessRuleInfoDTO businessRule, Map<String, Object> factMap) {
+    	if (logger.isDebugEnabled()) {
+    		logBusinessRule(businessRule, "Executing Business Rule");
+    	}
+
+    	String ruleBaseType = getRuleTypeKey(businessRule);
         String id = ""+System.nanoTime();
-        String ruleBaseType = brInfo.getBusinessRuleTypeKey();
-        if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
-        	ruleBaseType = DEFAULT_RULE_CACHE_KEY;
-        }
-        String anchor = brInfo.getAnchorValue();
-    	Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(brInfo);
+        String anchor = businessRule.getAnchorValue();
+    	Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
     	
         FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
-    	addPackage(ruleBaseType, ruleSet);
-    	
-        if (logger.isDebugEnabled()) {
-        	log(ruleSet, "Execute Rule");
-        }
-        
+
         ExecutionResult result = executeRule(ruleBaseType, true, factContainer);
+        result.setId(businessRule.getBusinessRuleId());
         try {
 	        PropositionReport report = generateReport(result.getResults());
 	        result.setReport(report);
         } catch(RuleSetExecutionException e) {
         	result.setErrorMessage(e.getMessage());
         }
-        return result;
-    }
-
-    /**
-     * Executes an <code>agenda</code> with <code>facts</code> and a 
-     * <code>ruleSet</code>.
-     * 
-     * @param ruleSet Rule set to execute
-     * @param facts List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
-    public synchronized ExecutionResult execute(String ruleBaseType, RuleSetDTO ruleSet, List<Object> facts) {
-    	addPackage(ruleBaseType, ruleSet);
-
-    	if (logger.isDebugEnabled()) {
-        	log(ruleSet, "Execute Rule");
-        }
-
-        ExecutionResult result = executeRule(ruleBaseType, true, facts);
         return result;
     }
 
@@ -397,5 +472,47 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         }
         
         return result;
+    }
+    
+    private class BusinessRuleInfoValue implements java.io.Serializable {
+    	/** Class serial version uid */
+        private static final long serialVersionUID = 1L;
+        
+        private String businessruleId; 
+        private String compiledId;
+        private Long compiledVersionNumber;
+        private String anchorValue;
+        private String anchorTypeKey;
+        
+		public BusinessRuleInfoValue(String businessruleId, String compiledId, Long compiledVersionNumber, String anchorValue, String anchorTypeKey) {
+        	this.businessruleId = businessruleId;
+        	this.compiledId = compiledId;
+        	this.compiledVersionNumber = compiledVersionNumber;
+        	this.anchorValue = anchorValue;
+        	this.anchorTypeKey = anchorTypeKey;
+        }
+
+		public String getBusinessruleId() { return this.businessruleId; }
+
+		public String getCompiledId() { return this.compiledId; }
+
+		public Long getCompiledVersionNumber() { return this.compiledVersionNumber; }
+
+		public String getAnchorValue() { return this.anchorValue; }
+	    
+        public String getAnchorTypeKey() { return this.anchorTypeKey; }
+
+	    public String getKey() {
+	    	return 
+	    		this.businessruleId + "." + 
+	    		this.compiledId + "." +
+	    		this.compiledVersionNumber;
+	    }
+	    
+	    public String toString() {
+	    	return "[key=" + getKey() + 
+	    		", anchorTypeKey=" + this.anchorTypeKey + 
+	    		", anchorValue=" + this.anchorValue + "]";
+	    }
     }
 }

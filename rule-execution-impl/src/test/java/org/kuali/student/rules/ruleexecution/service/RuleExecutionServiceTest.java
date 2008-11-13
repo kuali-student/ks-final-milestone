@@ -93,7 +93,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         System.out.println("Execution Log:\n" + result.getExecutionLog());
     }*/
 
-    //@Ignore
+    /*@Ignore
     @Test
     public void testExecuteRuleSet2() throws Exception {
         RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
@@ -129,6 +129,6 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         assertNotNull( executionLog );
         assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
         System.out.println("Rule Engine Execution Log:\n" + executionLog);
-    }
+    }*/
 
 }

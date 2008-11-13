@@ -122,8 +122,8 @@ public class DroolsTestUtil {
 		"\n" +
 		"    when \n" + 
         "          container : FactContainer( anchor == \"CPR101\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
-		"        //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime \n" +
-		//"        CurrentDateTime( currentDateAsLong >= 20000101120010 && currentDateAsLong < 20010101120010 ) \n" +
+		//"          //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime \n" +
+		//"          CurrentDateTime( currentDateAsLong >= 20000101120010 && currentDateAsLong < 20010101120010 ) \n" +
 		"    then \n" +
 		"\n" +
 		"        prop.setFunctionalRuleString(\"P1*P2\"); \n" +
@@ -170,6 +170,129 @@ public class DroolsTestUtil {
 		//"        retract(container); \n" +
 		"        retract(P1); \n" +
 		"        retract(P2); \n" +
+		"end \n";
+
+    	ruleSet.setContent(drl);
+    	return ruleSet;
+	}
+
+	public static RuleSetDTO getAveragePropositionRuleSet() {
+    	RuleSetDTO ruleSet = new RuleSetDTO("AverageProposition", "A description", "DRL");
+    	// Rule set name and Drools package name must match
+		String drl = 
+		"package AverageProposition \n" +
+		"import java.util.*; \n" +
+		"import java.math.BigDecimal; \n" +
+		"import org.slf4j.Logger; \n" +
+		"import org.slf4j.LoggerFactory; \n" +
+		"import org.kuali.student.rules.internal.common.entity.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.yvf.*; \n" +
+		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
+		"import org.kuali.student.rules.util.FactContainer; \n" +
+		"import org.kuali.student.rules.util.FactContainer.State; \n" +
+		"import org.kuali.student.rules.util.CurrentDateTime; \n" +
+		"import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil; \n" +
+		"\n" +
+		"rule \"CPR201_INIT\" \n" +
+		"    no-loop true \n" +
+		"    lock-on-active true \n" +
+		"\n" +
+		"    when \n" + 
+        "          container : FactContainer( anchor == \"CPR201\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
+		//"          //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime \n" +
+		//"          CurrentDateTime( currentDateAsLong >= 20000101120010 && currentDateAsLong < 20010101120010 ) \n" +
+		"    then \n" +
+		"\n" +
+		"        prop.setFunctionalRuleString(\"P1\"); \n" +
+		"\n" +
+		"        String uuidP1 = \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\"; \n" +
+		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
+		"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
+        
+		"        YVFAverageProposition<java.math.BigDecimal> yvfPropositionP1 = new YVFAverageProposition<java.math.BigDecimal>( \n" +
+		"            uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new BigDecimal(80.0),  \n" +
+		"            yvfP1, factMap ); \n" +
+		"        yvfPropositionP1.apply(); \n" +
+		"        prop.addProposition(yvfPropositionP1.getProposition()); \n" +
+		"        insert(yvfPropositionP1.getProposition()); \n" +
+		
+		"end \n" +
+
+		"rule \"CPR201\" \n" +
+		"    when \n" +
+        "          container : FactContainer( anchor == \"CPR201\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
+		
+		"        P1 : Proposition( id == \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\" ) \n" +
+		"\n" +
+		"        exists \n" +
+		"        ( \n" +
+		"            Proposition( id == \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\" && result == true ) \n" +
+		"        ) \n" +
+		"    then \n" +
+		"        prop.setRuleResult(true); \n" +
+		"        retract(P1); \n" +
+		"end \n";
+
+    	ruleSet.setContent(drl);
+    	return ruleSet;
+	}
+
+	public static RuleSetDTO getIntersectionPropositionRuleSet() {
+    	RuleSetDTO ruleSet = new RuleSetDTO("IntersectionProposition", "A description", "DRL");
+    	// Rule set name and Drools package name must match
+		String drl = 
+		"package IntersectionProposition \n" +
+		"import java.util.*; \n" +
+		"import java.math.BigDecimal; \n" +
+		"import org.slf4j.Logger; \n" +
+		"import org.slf4j.LoggerFactory; \n" +
+		"import org.kuali.student.rules.internal.common.entity.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.yvf.*; \n" +
+		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
+		"import org.kuali.student.rules.util.FactContainer; \n" +
+		"import org.kuali.student.rules.util.FactContainer.State; \n" +
+		"import org.kuali.student.rules.util.CurrentDateTime; \n" +
+		"import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil; \n" +
+		"\n" +
+		"rule \"CPR103_INIT\" \n" +
+		"    no-loop true \n" +
+		"    lock-on-active true \n" +
+		"\n" +
+		"    when \n" + 
+        "          container : FactContainer( anchor == \"CPR301\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
+		//"          //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime \n" +
+		//"          CurrentDateTime( currentDateAsLong >= 20000101120010 && currentDateAsLong < 20010101120010 ) \n" +
+		"    then \n" +
+		"\n" +
+		"        prop.setFunctionalRuleString(\"P1\"); \n" +
+		"\n" +
+		"        String uuidP1 = \"P1-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
+		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
+		"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
+		"\n" +
+		"        YVFIntersectionProposition<java.lang.Integer> yvfPropositionP1 = new YVFIntersectionProposition<java.lang.Integer>( \n" +
+		"            uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new Integer(1),  \n" +
+		"            yvfP1, factMap ); \n" +
+		"        yvfPropositionP1.apply(); \n" +
+		"        prop.addProposition(yvfPropositionP1.getProposition()); \n" +
+		"        insert(yvfPropositionP1.getProposition()); \n" +
+		"end \n" +
+
+		"rule \"CPR301\" \n" +
+		"    when \n" +
+        "          container : FactContainer( anchor == \"CPR301\", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap ) \n" +
+		
+		"        P1 : Proposition( id == \"P1-a46c7596-8052-4d83-bcc0-da4744436ed3\" ) \n" +
+		"\n" +
+		"        exists \n" +
+		"        ( \n" +
+		"            Proposition( id == \"P1-a46c7596-8052-4d83-bcc0-da4744436ed3\" && result == true ) \n" +
+		"        ) \n" +
+		"    then \n" +
+		"        prop.setRuleResult(true); \n" +
+		"        retract(P1); \n" +
 		"end \n";
 
     	ruleSet.setContent(drl);

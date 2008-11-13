@@ -214,10 +214,9 @@ public class RuleIntegrationTest {
         System.out.println("Error message:\n" + result.getErrorMessage());
     }
 
-    //@Ignore
     @Test
     public void testRuleIntegration_ExecuteSnapshotWithStaticFact() throws Exception {
-        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("300", "CHEM300PRE_REQ", "CHEM100");
+        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("300", "CHEM300PRE_REQ", "CHEM300");
         String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
         assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
 		

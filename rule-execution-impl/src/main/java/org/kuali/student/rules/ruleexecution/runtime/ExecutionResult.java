@@ -21,6 +21,7 @@ import org.kuali.student.rules.internal.common.statement.report.PropositionRepor
 
 public class ExecutionResult {
 	
+	private String id;
 	private Boolean executionResult = Boolean.FALSE;
 	private List<Object> resultList;
 	private PropositionReport report;
@@ -28,6 +29,14 @@ public class ExecutionResult {
 	private String errorMessage;
 	
 	public ExecutionResult() {
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public void setExecutionLog(final String log) {

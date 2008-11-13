@@ -69,7 +69,7 @@ public class GenerateRuleReport {
             ASTtree.traverseTreePostOrder(root, null);
 
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
-            this.executor.execute(null, treeNodes);
+            this.executor.execute(treeNodes);
 
         } catch (Throwable t) {
             throw new RuleSetExecutionException( "Generating rule report failed: " + t.getMessage(), t );

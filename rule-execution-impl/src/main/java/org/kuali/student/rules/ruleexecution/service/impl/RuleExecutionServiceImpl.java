@@ -118,71 +118,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		this.ruleManagementService = ruleManagementService;
 	}
 
-    public ExecutionResultDTO executeAgenda(RuntimeAgendaDTO agenda) 
-    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
-    {
-    	if (agenda == null) {
-    		throw new MissingParameterException("Agenda is null");
-    	}
-
-    	/*try {
-    		return this.ruleSetExecutor.execute(agenda, factList);
-    	} catch(RuleSetExecutionException e) {
-    		throw new OperationFailedException(e.getMessage());
-    	}*/
-    	throw new RuntimeException("Method not yet implemented");
-    }
-
-    public ExecutionResultDTO executeRuleSet(RuleSetDTO ruleSet, FactResultDTO fact)
-		throws InvalidParameterException, MissingParameterException, OperationFailedException 
-	{
-    	if (ruleSet == null) {
-    		throw new MissingParameterException("RuleSet is null");
-    	} else if (fact == null) {
-    		throw new MissingParameterException("Fact is null");
-    	} else if (fact.getResultList() == null || fact.getResultList().isEmpty()) {
-    		throw new MissingParameterException("Fact list is null");
-    	}
-
-		Map<String, FactResultColumnInfoDTO> columnMetaData = fact.getFactResultTypeInfo().getResultColumnsMap();
-
-		List<Object> factList = new ArrayList<Object>();
-		for( Map<String,String> map : fact.getResultList()) {
-			for(Entry<String, String> entry : map.entrySet()) {
-				if (entry.getKey().equals("column1")) {
-					String value = (String) entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
-					String dataType = info.getDataType();
-					Object obj = BusinessRuleUtil.convertToDataType(dataType, value);
-					factList.add(obj);
-				}
-			}
-		}
-
-        try {
-        	String ruleBaseType = RuleSetExecutor.DEFAULT_RULE_CACHE_KEY;
-        	//this.ruleSetExecutor.addRuleSet(ruleBaseType, ruleSet);
-    		ExecutionResult result =  this.ruleSetExecutor.execute(ruleBaseType, ruleSet, factList);
-    		return createExecutionResultDTO(result);
-    	} catch(RuleSetExecutionException e) {
-    		logger.error(e.getMessage(), e);
-    		throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
-    	}
-	}
-
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId)
-		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
-	{
-    	if (businessRuleId == null || businessRuleId.isEmpty()) {
-    		throw new MissingParameterException("Business rule id is null or empty");
-    	}
-
-    	String ruleSetUUID = null;
-    	BusinessRuleInfoDTO brInfo = null;
-    	
-    	brInfo = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-		ruleSetUUID = brInfo.getCompiledId();
-    	
+	private RuleSetDTO getRuleSet(BusinessRuleInfoDTO brInfo, String ruleSetUUID) 
+		throws OperationFailedException, InvalidParameterException {
 		RuleSetDTO ruleSet = null;
 		if (brInfo.getStatus().equals(BusinessRuleStatus.ACTIVE.toString())) {
 			String SnapshotName = brInfo.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
@@ -190,16 +127,9 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	} else {
     		ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
     	}
-    	
-        try {
-        	ExecutionResult result = this.ruleSetExecutor.execute(brInfo, ruleSet, null);
-    		return createExecutionResultDTO(result);
-    	} catch(RuleSetExecutionException e) {
-    		logger.error(e.getMessage(), e);
-    		throw new OperationFailedException(e.getMessage());
-    	}
-    }
-    
+		return ruleSet;
+	}
+	
     private ExecutionResultDTO createExecutionResultDTO(ExecutionResult executionResult) {
     	ExecutionResultDTO dto = new ExecutionResultDTO();
     	dto.setExecutionLog(executionResult.getExecutionLog());
@@ -217,4 +147,63 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	
     	return dto;
     }
+
+    private List<ExecutionResultDTO> createExecutionResultDTOList(List<ExecutionResult> resultList) {
+    	List<ExecutionResultDTO> list = new ArrayList<ExecutionResultDTO>(resultList.size());
+    	for(ExecutionResult result : resultList) {
+    		list.add(createExecutionResultDTO(result));
+    	}
+    	return list;
+    }
+
+    public List<ExecutionResultDTO> executeAgenda(String agendaId) 
+    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
+    {
+    	if (agendaId == null) {
+    		throw new MissingParameterException("Agenda is null");
+    	}
+
+    	// Retrieve runtime agenda from rule mangement
+    	RuntimeAgendaDTO agenda = null;
+    	
+    	try {
+    		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
+    	    	if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
+	    			RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
+	    			this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
+    	    	}
+    		}
+    		List<ExecutionResult> resultList = this.ruleSetExecutor.execute(agenda, null);
+    		return createExecutionResultDTOList(resultList);
+    	} catch(RuleSetExecutionException e) {
+    		throw new OperationFailedException(e.getMessage());
+    	}
+    }
+
+    public ExecutionResultDTO executeBusinessRule(String businessRuleId)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
+	{
+    	if (businessRuleId == null || businessRuleId.trim().isEmpty()) {
+    		throw new MissingParameterException("Business rule id is null or empty");
+    	}
+
+    	// Retrieve business rule
+    	BusinessRuleInfoDTO brInfo = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+    	String ruleSetUUID = brInfo.getCompiledId();
+    	
+		//String ruleBaseType = brInfo.getBusinessRuleTypeKey();
+    	if (!this.ruleSetExecutor.containsRuleSet(brInfo)) {
+	    	RuleSetDTO ruleSet = getRuleSet(brInfo, ruleSetUUID);
+        	this.ruleSetExecutor.addRuleSet(brInfo, ruleSet);
+    	}
+    	
+        try {
+        	ExecutionResult result = this.ruleSetExecutor.execute(brInfo, null);
+    		return createExecutionResultDTO(result);
+    	} catch(RuleSetExecutionException e) {
+    		logger.error(e.getMessage(), e);
+    		throw new OperationFailedException(e.getMessage());
+    	}
+    }
+
 }
