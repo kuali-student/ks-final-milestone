@@ -44,6 +44,9 @@ public class BinaryTree {
 	};
 	
 	public BooleanNode buildTree(String function){
+		if (function == null || function.trim().isEmpty()) {
+			return null;
+		}
 		
 		BooleanFunctionLexer lex = new BooleanFunctionLexer(new ANTLRStringStream(function) );
 		CommonTokenStream tokens = new CommonTokenStream(lex);

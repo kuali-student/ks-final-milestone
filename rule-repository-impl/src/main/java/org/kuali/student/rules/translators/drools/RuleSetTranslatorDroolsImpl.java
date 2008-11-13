@@ -91,6 +91,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {
         boolean valid = ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
         if (!valid) {
+        	logger.warn("*****  Invalid Rule!  *****\n"+ruleSet.getContent()+"\n********************");
         	throw new RuleSetTranslatorException(ruleSetVerifier.getMessage());
         }
     }
@@ -137,14 +138,14 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     										   Date effectiveStartTime,
     										   Date effectiveEndTime) {
         checkName(anchor);
-        Function f = new Function(functionString);
+        Function function = new Function(functionString);
 
         CurrentDateTime date = new CurrentDateTime();
         long effStartDate = date.getDateAsLong(effectiveStartTime);
         long effEndDate = date.getDateAsLong(effectiveEndTime);
         
         // Create the final composite rule for the function
-        List<String> symbols = f.getSymbols();
+        List<String> symbols = function.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
         velocityContextMap.put("anchor", anchor);
         velocityContextMap.put("ruleName", ruleName);
@@ -166,10 +167,10 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     									   String functionString,
     									   Map<String, RulePropositionDTO> functionalPropositionMap) {
         checkName(anchor);
-        Function f = new Function(functionString);
+        Function function = new Function(functionString);
 
         // Create the final composite rule for the function
-        List<String> symbols = f.getSymbols();
+        List<String> symbols = function.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
         velocityContextMap.put("anchor", anchor);
         velocityContextMap.put("ruleName", ruleName);
@@ -236,9 +237,10 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     }
 
     private void checkBusinessRule(BusinessRuleInfoDTO businessRule) {
-    	if(businessRule.getRuleElementList() == null || 
-    	   businessRule.getRuleElementList().isEmpty()) {
-            throw new RuleSetTranslatorException("Rule element list is null or empty");
+    	if(businessRule == null) {
+            throw new RuleSetTranslatorException("BusinessRuleInfoDTO is null");
+    	//} else if(businessRule.getRuleElementList() == null || businessRule.getRuleElementList().isEmpty()) {
+        //    throw new RuleSetTranslatorException("Rule element list is null or empty");
     	}
     }
 

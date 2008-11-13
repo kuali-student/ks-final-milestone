@@ -52,7 +52,7 @@ public class Function {
     public List<String> getSymbols() {
         String workString = null;
         // remove spaces
-        functionString = functionString.replaceAll("\\s+", "");
+        functionString = (functionString == null ? null : functionString.replaceAll("\\s+", ""));
         
         workString = functionString;
 

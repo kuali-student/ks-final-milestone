@@ -20,10 +20,11 @@ rule "${ruleName}"
     when
         factContainer : FactContainer( anchor == "${anchor}", state == FactContainer.State.DONE, prop : propositionContainer)
 #foreach($symbol in $functionSymbols)
-#if ($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
+#if($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
         $symbol : Proposition( id == "${symbol}-${uuid}" )
 #end
 #end                
+#if($functionSymbols.size()>0)
         exists
         (
 #foreach($symbol in $functionSymbols)
@@ -39,8 +40,12 @@ rule "${ruleName}"
         prop.setRuleResult(true);
         //retract(factContainer);
 #foreach($symbol in $functionSymbols)
-#if ($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
+#if($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
         retract($symbol);
 #end
+#end                
+#else
+    then
+        prop.setRuleResult(false);
 #end                
 end
