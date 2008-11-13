@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.ruleexecution.service;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -24,9 +26,8 @@ import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
-import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 /**
@@ -53,27 +54,13 @@ public interface RuleExecutionService {
      * @throws OperationFailedException Thrown if execution fails
 	 */
     @WebMethod
-    public ExecutionResultDTO executeAgenda(@WebParam(name="agenda")RuntimeAgendaDTO agenda)
+    public List<ExecutionResultDTO> executeAgenda(@WebParam(name="agenda")String agendaId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Executes a <code>ruleSet</code> with a <code>fact</code>.
      * 
-     * @param ruleSet Rule set to execute
-     * @param fact Facts for the <code>ruleSet</code>
-	 * @return An execution result
-     * @throws InvalidParameterException Thrown if ruleSet or fact is invalid
-     * @throws MissingParameterException Thrown if ruleSet or fact is null or has missing parameters
-     * @throws OperationFailedException Thrown if execution fails
-     */
-    @WebMethod
-    public ExecutionResultDTO executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="fact")FactResultDTO fact)
-		throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Executes a <code>ruleSet</code> with a <code>fact</code>.
-     * 
-     * @param businessRuleId Functional business rule id
+     * @param businessRule Functional business rule
 	 * @return An execution result
      * @throws DoesNotExistException Thrown if business rule id does not exist
      * @throws InvalidParameterException Thrown if business rule id is invalid
