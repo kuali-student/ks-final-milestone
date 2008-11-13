@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
@@ -11,6 +13,7 @@ import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 
 public interface SearchService {
     /** 
@@ -91,5 +94,18 @@ public interface SearchService {
      * @throws OperationFailedException unable to complete request
 	 */
     public SearchCriteriaTypeInfo fetchSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey")String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+   
+    /** 
+     * Retrieves results in tabular form for the specified parameters.
+     * @param searchTypeKey search identifier
+     * @param queryParamValues list of values for search parameters
+     * @return list of results from the query
+     * @throws DoesNotExistException specified search type not found
+     * @throws InvalidParameterException invalid searchTypeKey, queryParamValueList
+     * @throws MissingParameterException searchTypeKey, queryParamValueList not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+	 */
+    public List<Result> searchForResults(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name="queryParamValues")List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }
