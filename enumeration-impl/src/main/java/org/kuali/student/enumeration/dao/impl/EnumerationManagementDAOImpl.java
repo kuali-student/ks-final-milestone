@@ -1,5 +1,6 @@
 package org.kuali.student.enumeration.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,28 +39,78 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey) {
         Query query = entityManager.createQuery("SELECT e FROM EnumerationMetaEntity e where e.enumerationKey = :key");
         query.setParameter("key", enumerationKey);
+        
+        EnumerationMetaEntity em = null;
+        if(!query.getResultList().isEmpty()){
+        	em = (EnumerationMetaEntity)query.getResultList().get(0);
+        }
 
-        Object obj = query.getResultList().get(0);
-
-        return (EnumerationMetaEntity) obj;
+        return em;
     }
 
     public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
-        Query query = entityManager.createQuery(
-                "select e from EnumeratedValueEntity e, ContextEntity c " +
-                "where e.id = c.enumerationId and " +
-                "e.effectiveDate < :contextDate and " +
-                "e.expirationDate > :contextDate and " +
-                "c.value = :contextValue and " +
-                "c.key = :enumContextKey and " +
-                "e.enumerationKey = :enumerationKey ");
-
-        query.setParameter("enumerationKey", enumerationKey);
-        query.setParameter("enumContextKey", enumContextKey);        
-        query.setParameter("contextValue", contextValue);
-        query.setParameter("contextDate", contextDate);
-                
-        return (List<EnumeratedValueEntity>)query.getResultList();
+    	
+    	List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+    	
+    	if(enumerationKey != null){
+    		if(enumContextKey == null || contextValue == null){
+    			//check to see if there is a date, return all results under these conditions if one does not exist
+    			if(contextDate != null){
+    				Query query = entityManager.createQuery(
+    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
+    			            "where e.id = c.enumerationId and " +
+    			            "e.effectiveDate < :contextDate and " +
+    			            "e.expirationDate > :contextDate and " +
+    			            "e.enumerationKey = :enumerationKey ");
+    				 query.setParameter("enumerationKey", enumerationKey);
+    				 query.setParameter("contextDate", contextDate);
+    				 list = (List<EnumeratedValueEntity>)query.getResultList();
+    			}
+    			else{
+    				Query query = entityManager.createQuery(
+    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
+    			            "where e.id = c.enumerationId and " +
+    			            "e.enumerationKey = :enumerationKey ");
+    				 query.setParameter("enumerationKey", enumerationKey);
+    				 list = (List<EnumeratedValueEntity>)query.getResultList();
+    			}
+    		}
+    		//enumContextKey and contextValue are both not null
+    		else{
+    			//check to see if there is a date, return all results under these conditions if one does not exist
+    			if(contextDate != null){
+    				Query query = entityManager.createQuery(
+    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
+    			            "where e.id = c.enumerationId and " +
+    			            "e.effectiveDate < :contextDate and " +
+    			            "e.expirationDate > :contextDate and " +
+    			            "c.value = :contextValue and " +
+    			            "c.key = :enumContextKey and " +
+    			            "e.enumerationKey = :enumerationKey ");
+    				 query.setParameter("enumerationKey", enumerationKey);
+    				 query.setParameter("enumContextKey", enumContextKey);        
+    				 query.setParameter("contextValue", contextValue);
+    				 query.setParameter("contextDate", contextDate);
+    				 list = (List<EnumeratedValueEntity>)query.getResultList();
+    			}
+    			else{
+    				Query query = entityManager.createQuery(
+    			            "select e from EnumeratedValueEntity e, ContextEntity c " +
+    			            "where e.id = c.enumerationId and " +
+    			            "c.value = :contextValue and " +
+    			            "c.key = :enumContextKey and " +
+    			            "e.enumerationKey = :enumerationKey ");
+    				 query.setParameter("enumerationKey", enumerationKey);
+    				 query.setParameter("enumContextKey", enumContextKey);        
+    				 query.setParameter("contextValue", contextValue);
+    				 list = (List<EnumeratedValueEntity>)query.getResultList();
+    			}
+    		}
+    		
+		    
+    	}
+    	
+        return list;
 
     }
 
