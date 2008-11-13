@@ -6,6 +6,7 @@
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-cxf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>KS CXF Pom</name>
 	<description>KS CXF dependencies</description>
 
