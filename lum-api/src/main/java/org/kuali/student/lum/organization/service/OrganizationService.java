@@ -1,4 +1,4 @@
-package org.kuali.student.organization.service;
+package org.kuali.student.lum.organization.service;
 
 import java.util.List;
 
