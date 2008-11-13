@@ -25,7 +25,7 @@ public class DozerTest extends TestCase {
         EnumeratedValue dto = new EnumeratedValue();
         
         POJOConverter.map(dao, dto);
-        
+        //assertEquals();
         
         
         List<EnumeratedValueEntity> listDao = new ArrayList<EnumeratedValueEntity>();
@@ -33,5 +33,6 @@ public class DozerTest extends TestCase {
         
         List<EnumeratedValue> listDto = (List<EnumeratedValue>)POJOConverter.mapList(listDao, dto.getClass());
  
+      //assertEquals();
     }
 }
