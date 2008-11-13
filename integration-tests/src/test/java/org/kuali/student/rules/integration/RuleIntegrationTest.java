@@ -158,7 +158,7 @@ public class RuleIntegrationTest {
         brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.IN_PROGRESS.toString());
+        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
 
         //brInfoDTO.setEffectiveStartTime(new Date());
