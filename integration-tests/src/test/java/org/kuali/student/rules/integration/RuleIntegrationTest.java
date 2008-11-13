@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,11 +14,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.compiler.PackageBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
@@ -25,6 +30,11 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.repository.drools.util.DroolsUtil;
+import org.kuali.student.rules.repository.dto.RuleDTO;
+import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -39,7 +49,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class RuleIntegrationTest {
-	//private static RuleRepositoryService ruleRepositoryService;
+	private static RuleRepositoryService ruleRepositoryService;
 	private static RuleManagementService ruleManagementService;
 	private static RuleExecutionService ruleExecutionService;
 	
@@ -50,7 +60,7 @@ public class RuleIntegrationTest {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("/rulemanagement-mock-service-context.xml");
 		
-		//ruleRepositoryService = (RuleRepositoryService) context.getBean("repository");
+		ruleRepositoryService = (RuleRepositoryService) context.getBean("repository");
 		ruleManagementService = (RuleManagementService) context.getBean("ruleManagement");
 		ruleExecutionService = (RuleExecutionService) context.getBean("ruleExecution");
     }
@@ -176,6 +186,151 @@ public class RuleIntegrationTest {
         return brInfoDTO;
     }
     
+    /**
+     * Gets a simple rule. 
+     * First rule determines whether the minutes of the hour is even.
+     * Rule takes <code>java.util.Calendar</code> as fact (package import).
+     * 
+     * @param ruleName Rule name
+     * @return a Drools rule
+     */
+	private String getSimpleRule1(String ruleName) {
+        ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
+        return 
+			"rule \"" + ruleName + "\"" +
+			"     when" +
+			"          now: Calendar()" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )" +
+			"     then" +
+			"          insert( \"Minute is even: \" + now.get(Calendar.MINUTE) );" +
+			"end";
+	}
+	
+	/**
+	 * Gets a simple rule. 
+	 * Rule determines whether the minutes of the hour is odd.
+	 * Rule takes <code>java.util.Calendar</code> as fact (package import).
+	 *  
+	 * @return a Drools' rule
+	 */
+	private String getSimpleRule2(String ruleName) {
+        ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
+		return 
+            "rule \"" + ruleName + "\"" +
+			"     when" +
+			"          now: Calendar()" +
+			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )" +
+			"     then" +
+			"          insert( \"Minute is odd: \" + now.get(Calendar.MINUTE) );" +
+			"end";
+	}
+
+	private RuleSetDTO createRuleSet() {
+    	RuleSetDTO ruleSet = new RuleSetDTO("TestName", "Test description", "DRL");
+    	ruleSet.addHeader("import java.util.Calendar");
+    	
+    	RuleDTO rule1 = new RuleDTO("rule1", "A rule", getSimpleRule1("rule1"), "DRL");
+    	RuleDTO rule2 = new RuleDTO("rule2", "A rule", getSimpleRule2("rule2"), "DRL");
+    	ruleSet.addRule(rule1);
+    	ruleSet.addRule(rule2);
+    	ruleSet.setContent(ruleSet.buildContent());
+    	return ruleSet;
+    }
+	
+	private byte[] createPackage(RuleSetDTO ruleSet) throws Exception {
+		PackageBuilder builder = new PackageBuilder();
+		builder.addPackageFromDrl(new StringReader(ruleSet.getContent()));
+        // Deserialize a Drools package
+		return DroolsUtil.deserialize( builder.getPackage() );
+	}
+
+	private FactResultTypeInfoDTO createColumnMetaData(String dataType) {
+    	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
+    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	columnInfo.setKey("column1");
+    	columnInfo.setDataType(dataType);
+    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
+    	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
+    	typeInfo.setResultColumnsMap(columnsInfoMap);
+    	return typeInfo;
+    }
+
+    @Test
+    public void testRuleIntegration_ExecuteDefaultRuleSet() throws Exception {
+        RuleSetDTO ruleSet = createRuleSet();
+        byte[] bytes = createPackage(ruleSet);
+        ruleSet.setCompiledRuleSet(bytes);
+
+        // Add facts
+        FactResultDTO fact = new FactResultDTO();
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(Calendar.class.getName());
+    	fact.setFactResultTypeInfo(columnMetaData);
+    	
+    	Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2008);
+        cal.set(Calendar.MONTH, 10);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 1);
+        cal.set(Calendar.MINUTE, 0);
+        
+        String dateString = BusinessRuleUtil.formatDate(cal.getTime());
+
+        Map<String, String> rowMap = new HashMap<String, String>();
+        rowMap.put("column1", dateString);
+        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+        resultList.add(rowMap);
+        fact.setResultList(resultList);
+
+        ExecutionResultDTO executionResult = ruleExecutionService.executeRuleSet(ruleSet, fact);
+
+        assertNotNull( executionResult );
+
+        String executionLog = executionResult.getExecutionLog();
+
+        assertNotNull( executionLog );
+        assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
+        System.out.println("Rule Engine Execution Log:\n" + executionLog);
+    }
+
+    @Test
+    public void testRuleIntegration_ExecuteDefaultRuleSetByUUID() throws Exception {
+        RuleSetDTO ruleSet = createRuleSet();
+        byte[] bytes = createPackage(ruleSet);
+        ruleSet.setCompiledRuleSet(bytes);
+
+        // Add facts
+        FactResultDTO fact = new FactResultDTO();
+    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(Calendar.class.getName());
+    	fact.setFactResultTypeInfo(columnMetaData);
+    	
+    	Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2008);
+        cal.set(Calendar.MONTH, 10);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 1);
+        cal.set(Calendar.MINUTE, 0);
+        
+        String dateString = BusinessRuleUtil.formatDate(cal.getTime());
+
+        Map<String, String> rowMap = new HashMap<String, String>();
+        rowMap.put("column1", dateString);
+        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+        resultList.add(rowMap);
+        fact.setResultList(resultList);
+
+        RuleSetDTO newRuleSet = ruleRepositoryService.createRuleSet(ruleSet);
+        
+        ExecutionResultDTO executionResult = ruleExecutionService.executeRuleSetByUUID(newRuleSet.getUUID(), fact);
+
+        assertNotNull( executionResult );
+
+        String executionLog = executionResult.getExecutionLog();
+
+        assertNotNull( executionLog );
+        assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
+        System.out.println("Rule Engine Execution Log:\n" + executionLog);
+    }
+
     @Test
     public void testRuleIntegration_ExecuteWithStaticFact() throws Exception {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("100", "CHEM100PRE_REQ", "CHEM100");

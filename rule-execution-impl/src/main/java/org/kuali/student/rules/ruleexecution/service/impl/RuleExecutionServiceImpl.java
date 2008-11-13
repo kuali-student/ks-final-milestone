@@ -36,6 +36,7 @@ import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
+import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
@@ -58,12 +59,32 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     
     private RuleSetExecutor ruleSetExecutor;
     
+    private DefaultExecutor defaultExecutor;
+    
     private RuleRepositoryService ruleRespositoryService;
 
     private RuleManagementService ruleManagementService;
 
     private  static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
-    
+
+    /**
+     * Gets the default rule set executor.
+     * 
+     * @return Default executor
+     */
+	public DefaultExecutor getDefaultExecutor() {
+		return defaultExecutor;
+	}
+
+	/**
+     * Sets the default rule set executor.
+	 * 
+	 * @param defaultExecutor Default executor
+	 */
+	public void setDefaultExecutor(DefaultExecutor defaultExecutor) {
+		this.defaultExecutor = defaultExecutor;
+	}
+
     /**
      * Gets the rule execution engine.
      * 
@@ -163,7 +184,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		throw new MissingParameterException("Agenda is null");
     	}
 
-    	// Retrieve runtime agenda from rule mangement
+    	// Retrieve runtime agenda from rule management
     	RuntimeAgendaDTO agenda = null;
     	
     	try {
@@ -206,4 +227,69 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
     }
 
+    private List<Object> getFactList(FactResultDTO fact) {
+		Map<String, FactResultColumnInfoDTO> columnMetaData = fact.getFactResultTypeInfo().getResultColumnsMap();
+		
+		List<Object> factList = new ArrayList<Object>();
+		for( Map<String,String> map : fact.getResultList()) {
+			for(Entry<String, String> entry : map.entrySet()) {
+				// Get only the first column (column 1)
+				String value = (String) entry.getValue();
+				FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+				String dataType = info.getDataType();
+				Object obj = BusinessRuleUtil.convertToDataType(dataType, value);
+				factList.add(obj);
+			}
+		}
+		return factList;
+    }
+    
+    public ExecutionResultDTO executeRuleSet(RuleSetDTO ruleSet, FactResultDTO fact)
+		throws InvalidParameterException, MissingParameterException, OperationFailedException 
+	{
+		if (ruleSet == null) {
+			throw new MissingParameterException("RuleSet is null");
+		} else if (fact == null) {
+			throw new MissingParameterException("Fact is null");
+		} else if (fact.getResultList() == null || fact.getResultList().isEmpty()) {
+			throw new MissingParameterException("Fact list is null");
+		}
+	
+		List<Object> factList = getFactList(fact);
+	
+	    try {
+	    	String ruleBaseType = DefaultExecutor.DEFAULT_RULE_CACHE_KEY;
+	    	this.defaultExecutor.addRuleSet(ruleBaseType, ruleSet);
+			ExecutionResult result =  this.defaultExecutor.execute(ruleBaseType, factList);
+			return createExecutionResultDTO(result);
+		} catch(RuleSetExecutionException e) {
+			logger.error(e.getMessage(), e);
+			throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
+		}
+	}
+
+    public ExecutionResultDTO executeRuleSetByUUID(String ruleSetUUID, FactResultDTO fact)
+		throws InvalidParameterException, MissingParameterException, OperationFailedException 
+	{
+		if (ruleSetUUID == null) {
+			throw new MissingParameterException("RuleSet UUID is null");
+		} else if (fact == null) {
+			throw new MissingParameterException("Fact is null");
+		} else if (fact.getResultList() == null || fact.getResultList().isEmpty()) {
+			throw new MissingParameterException("Fact list is null");
+		}
+	
+		List<Object> factList = getFactList(fact);
+		
+	    try {
+	    	RuleSetDTO ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
+	    	String ruleBaseType = DefaultExecutor.DEFAULT_RULE_CACHE_KEY;
+	    	this.defaultExecutor.addRuleSet(ruleBaseType, ruleSet);
+			ExecutionResult result =  this.defaultExecutor.execute(ruleBaseType, factList);
+			return createExecutionResultDTO(result);
+		} catch(RuleSetExecutionException e) {
+			logger.error(e.getMessage(), e);
+			throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
+		}
+	}
 }

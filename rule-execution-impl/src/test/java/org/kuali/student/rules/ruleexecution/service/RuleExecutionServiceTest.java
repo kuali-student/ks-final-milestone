@@ -93,8 +93,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         System.out.println("Execution Log:\n" + result.getExecutionLog());
     }*/
 
-    /*@Ignore
-    @Test
+    /*@Test
     public void testExecuteRuleSet2() throws Exception {
         RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
         byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
