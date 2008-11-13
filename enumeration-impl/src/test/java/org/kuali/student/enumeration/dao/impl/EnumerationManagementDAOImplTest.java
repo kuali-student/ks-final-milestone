@@ -69,8 +69,10 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         for(EnumerationMetaEntity e: list){
         	assertTrue("EnumerationMetaEntity still exists after remove", !e.getEnumerationKey().equals("Key4"));
         }
-        //Note: I think fetchEnumeration to return null and not die if what you are looking for doesn't exist
-        //assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
+        
+        //try to fetch it directly too, testing for null return
+        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
+        assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
     }
     
     @Test
@@ -92,7 +94,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         //null values are passed into the method, as in dictionary
         //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
     }
-    /*
+    
     @Test
     public void testAddEnumeratedValue()
     {
@@ -114,6 +116,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         //EnumeratedValueEntity returnedEntity = 
     }
     
+    /*
     @Test
     public void testUpdateEnumeratedValue()
     {
@@ -138,6 +141,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         assertEquals(returnedEntity.getValue(), entity.getValue());
         
     }
+    */
     
     @Test
     public void testRemoveEnumeratedValue(){
@@ -156,7 +160,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumerationManagementDAO.removeEnumeratedValue("Key3", "Code3");
         //no way to check if it is still there after without fetch working
     }
-*/    
+    
 /*
     @Test
     public void testCreateEnumerations(){
