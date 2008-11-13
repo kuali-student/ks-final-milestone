@@ -1,34 +1,23 @@
 package org.kuali.student.enumeration.dao.impl;
 
-import java.util.Date;
 import java.util.List;
-
-import junit.framework.TestCase;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
 import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
+import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@PersistenceFileLocation("classpath:META-INF/enumerationmanagement-persistence.xml")
-
-public class EnumerationManagementDAOImplTest extends TestCase{
-  //  @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
+@PersistenceFileLocation("classpath:META-INF/enumerationmanagement-persistence.xml")
+public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTest{
+    @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 
-    //TODO delete all records from tables 
-    public void setup(){
-        
-    }
-
-    /*
     @Test
     public void testFindEnumerationMetas(){
-        EnumerationMetaEntity entity = new EnumerationMetaEntity();
+        /*EnumerationMetaEntity entity = new EnumerationMetaEntity();
         entity.setName("Name1");
         entity.setEnumerationKey("Key1");
         entity.setDesc("desc1");
@@ -54,10 +43,10 @@ public class EnumerationManagementDAOImplTest extends TestCase{
         assertEquals(returnedEntity.getName(), entity2.getName());
         assertEquals(returnedEntity.getEnumerationKey(), entity2.getEnumerationKey());
         assertEquals(returnedEntity.getDesc(), entity2.getDesc());
-        
+        */
         
     }    
-
+/*
     @Test
     public void testFetchEnumerationMeta(){
     	EnumerationMetaEntity entity = new EnumerationMetaEntity();
