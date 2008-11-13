@@ -43,10 +43,10 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/poc/common/branches/common-dev
+			scm:svn:https://test.kuali.org/svn/student/sandbox/team2/ks-core/branches/ks-core-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/poc/common/branches/common-dev
+			scm:svn:https://test.kuali.org/svn/student/sandbox/team2/ks-core/branches/ks-core-dev
 		</developerConnection>
 	</scm>
 
