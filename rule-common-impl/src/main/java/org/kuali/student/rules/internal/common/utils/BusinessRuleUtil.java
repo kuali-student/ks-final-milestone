@@ -269,6 +269,10 @@ public class BusinessRuleUtil {
         int counter = 1;
         StringBuilder functionString = new StringBuilder();
 
+        if(ruleElements == null) {
+		    return functionString.toString().trim();
+		}
+        
         // step through rule elements and create a function string
         for (RuleElementDTO ruleElement : ruleElements) {
             switch (RuleElementType.valueOf(ruleElement.getOperation())) {
@@ -323,6 +327,10 @@ public class BusinessRuleUtil {
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         Collection<RuleElementDTO> ruleElements = rule.getRuleElementList();
 
+        if (ruleElements == null) {
+        	return null;
+        }
+        
         int counter = 1;
         for (RuleElementDTO ruleElement : ruleElements) {
             if (RuleElementType.valueOf(ruleElement.getOperation()) == RuleElementType.PROPOSITION) {

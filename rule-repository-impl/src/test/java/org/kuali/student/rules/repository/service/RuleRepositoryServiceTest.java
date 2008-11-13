@@ -595,9 +595,22 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testGenerateAndCreateRuleSet_EmptyRuleElements() throws Exception {
+    public void testGenerateAndCreateRuleSet_NullRuleElements() throws Exception {
     	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
     	container.getBusinessRules().get(0).setRuleElementList(null);
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+        service.removeRuleSet( ruleSet1.getUUID() );
+    }
+
+    @Test
+    public void testGenerateAndCreateRuleSet_EmptyRuleElements() throws Exception {
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
+    	List<RuleElementDTO> list = new ArrayList<RuleElementDTO>();
+    	container.getBusinessRules().get(0).setRuleElementList(list);
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
 

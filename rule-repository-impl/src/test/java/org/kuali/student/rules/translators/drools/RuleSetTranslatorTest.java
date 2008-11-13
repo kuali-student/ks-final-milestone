@@ -1321,7 +1321,19 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testRule_NoRuleElements() throws Exception {
+    public void testRule_NullRuleElements() throws Exception {
+        // Rule elements
+    	List<RuleElementDTO> ruleElementList = null;
+
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
+
+        RuleSet ruleSet = this.generateRuleSet.translate(bri);
+        assertNotNull(ruleSet);
+    }
+
+    @Test
+    public void testRule_EmptyRuleElements() throws Exception {
         // Rule elements
     	List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
 
