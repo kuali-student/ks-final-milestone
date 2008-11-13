@@ -66,7 +66,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         metaInfo.setEffectiveDateStart(new Date());
 
         BusinessRule rule = new BusinessRule();
-        rule.setRuleId("3");
+        rule.setRuleId("103");
         rule.setName("CHEM 100 course prerequisites");
         rule.setDescription("Prerequsite courses required in order to enroll in CHEM 100.");
         rule.setSuccessMessage("Test success message");
@@ -115,7 +115,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
         rulesManagementDAO.createBusinessRule(rule);
 
-        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId("3");
+        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId("103");
 
         assertEquals(newRule.getId(), rule.getId());
         assertEquals(newRule.getRuleId(), rule.getRuleId());
@@ -230,8 +230,9 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
     public void testLookupAnchorByAnchorTypeKey() {
         List<String> anchorList = rulesManagementDAO.lookupAnchorByAnchorType(AnchorTypeKey.KUALI_COURSE);
 
-        assertEquals(2, anchorList.size());
+        assertEquals(3, anchorList.size());
         assertEquals(true, anchorList.contains("CPR 201"));
+        assertEquals(true, anchorList.contains("PSYC 300"));
     }
 
     @Test

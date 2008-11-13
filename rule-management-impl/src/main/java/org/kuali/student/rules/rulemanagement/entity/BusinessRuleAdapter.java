@@ -61,6 +61,7 @@ public class BusinessRuleAdapter {
         ruleDTO.setBusinessRuleId( rule.getRuleId() );
         ruleDTO.setAnchorValue( rule.getAnchor() );
         ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
+        ruleDTO.setAnchorTypeKey( rule.getBusinessRuleType().getAnchorTypeKey() );
         ruleDTO.setCompiledId( rule.getCompiledId() );
         ruleDTO.setCompiledVersionNumber(rule.getCompiledVersionNumber());
         ruleDTO.setDescription( rule.getDescription() );

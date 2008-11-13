@@ -92,7 +92,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         BusinessRuleStatus orgStatus = BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus());
         BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getStatus());
         if( (BusinessRuleStatus.ACTIVE == orgStatus && BusinessRuleStatus.RETIRED != newStatus) || 
-                BusinessRuleStatus.IN_PROGRESS != orgStatus) {            
+                BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus) {            
             throw new InvalidParameterException("Cannot update not in progress rules");
         }
         
@@ -120,7 +120,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         container.getBusinessRules().add(businessRuleInfo);        
  
         RuleSetDTO rsDTO = null;
-        if(BusinessRuleStatus.IN_PROGRESS == newStatus) {
+        if(BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
             rsDTO = repository.generateRuleSet(container);
             orgRule.setCompiledId(rsDTO.getUUID());
             orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
