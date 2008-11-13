@@ -6,8 +6,6 @@ import java.util.List;
 import javax.jws.WebParam;
 
 import org.kuali.student.core.dto.Status;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.service.DictionaryService;
 import org.kuali.student.core.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
@@ -300,19 +298,6 @@ public interface AtpService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
 	 */
     public List<DateRangeInfo> findDateRangesByDate(@WebParam(name="searchDate")Date searchDate) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves results in tabular form for the specified parameters.
-     * @param searchTypeKey search identifier
-     * @param queryParamValues list of values for search parameters
-     * @return list of results from the query
-     * @throws DoesNotExistException specified search type not found
-     * @throws InvalidParameterException invalid searchTypeKey, queryParamValueList
-     * @throws MissingParameterException searchTypeKey, queryParamValueList not specified
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public List<Result> searchForResults(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name="queryParamValues")List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Academic Time Period
