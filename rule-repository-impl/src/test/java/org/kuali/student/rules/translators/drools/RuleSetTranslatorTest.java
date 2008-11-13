@@ -1310,7 +1310,6 @@ public class RuleSetTranslatorTest {
 
         // Parse and generate functional business rule into Drools rules
         RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
-System.out.println("\n\n -1- *********\n\n"+ruleSet.getContent()+"\n\n**********\n\n");
         assertNotNull(ruleSet);
         
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(businessRule);
@@ -1333,7 +1332,6 @@ System.out.println("\n\n -1- *********\n\n"+ruleSet.getContent()+"\n\n**********
         //try{
 	        RuleSet ruleSet = this.generateRuleSet.translate(bri);
 	        //fail("Should have thrown a RuleSetTranslatorException since rule element list is empty");
-System.out.println("\n\n -2- *********\n\n"+ruleSet.getContent()+"\n\n**********\n\n");
 	        assertNotNull(ruleSet);
         //} catch(RuleSetTranslatorException e) {
         //	assertTrue(true);
