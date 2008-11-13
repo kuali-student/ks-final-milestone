@@ -1,19 +1,24 @@
 package org.kuali.student.enumeration.service.impl.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
+import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
+
 public class POJOConverter {
     private static MapperIF mapper;
 
     static {
-        List<String> mappingFiles = new ArrayList<String>();
-        mappingFiles.add("map.xml");
+     //   List<String> mappingFiles = new ArrayList<String>();
+       // mappingFiles.add("dozerMap.xml");
 
-        mapper = new DozerBeanMapper(mappingFiles);
+        //mapper = new DozerBeanMapper(mappingFiles);
+        mapper = new DozerBeanMapper();
 
     }
 
@@ -29,9 +34,5 @@ public class POJOConverter {
         }
         return result;
     }
-    public static void main(String[] a){
-        System.out.println("asdf");
-        
-        
-    }
+
 }
