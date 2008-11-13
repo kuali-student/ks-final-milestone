@@ -22,7 +22,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
     public List<EnumerationMetaEntity> findEnumerationMetas() {
-        Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e");
+        Query query = entityManager.createQuery("SELECT e FROM EnumerationMetaEntity e");
         return (List<EnumerationMetaEntity>) query.getResultList();
     }
     public EnumerationMetaEntity addEnumerationMeta(EnumerationMetaEntity entity){
@@ -36,7 +36,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
     public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey) {
-        Query query = entityManager.createQuery("SELECT e FROM EnumerationMeta e where e.enumerationKey = :key");
+        Query query = entityManager.createQuery("SELECT e FROM EnumerationMetaEntity e where e.enumerationKey = :key");
         query.setParameter("key", enumerationKey);
 
         Object obj = query.getResultList().get(0);
@@ -46,7 +46,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 
     public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
         Query query = entityManager.createQuery(
-                "select e from EnumeratedValue e, Context c " +
+                "select e from EnumeratedValueEntity e, ContextEntity c " +
                 "where e.id = c.enumerationId and " +
                 "e.effectiveDate < :contextDate and " +
                 "e.expirationDate > :contextDate and " +
@@ -71,13 +71,13 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity value) {
-        Query query = entityManager.createQuery("update EnumeratedValue e set e.value = :value where e.enumerationKey = :key and e.code = :code");
+        Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
         query.setParameter("code", code);
         query.setParameter("value", value);
         query.executeUpdate();
 
-        query = entityManager.createQuery("SELECT e FROM EnumeratedValue e where e.enumerationKey = :key and e.code = :code");
+        query = entityManager.createQuery("SELECT e FROM EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
         query.setParameter("code", code);
         Object obj = query.getResultList().get(0);
@@ -86,7 +86,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
     public void removeEnumeratedValue(String enumerationKey, String code) {
-        Query query = entityManager.createQuery("delete from EnumeratedValue e where e.enumerationKey = :key and e.code = :code");
+        Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
         query.setParameter("code", code);
 
