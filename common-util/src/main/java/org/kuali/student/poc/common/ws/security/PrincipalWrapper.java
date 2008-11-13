@@ -1,8 +1,6 @@
 package org.kuali.student.poc.common.ws.security;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.ws.WebServiceContext;
 
