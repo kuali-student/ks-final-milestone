@@ -3,6 +3,7 @@ package org.kuali.student.rules.internal.common.statement.yvf;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
@@ -53,9 +54,13 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
-			String value = factDTO.getResultList().get(0).get("column1");
+			// Get only the first column (column 1)
+			List<Map<String,String>> resultList= factDTO.getResultList();
+			String value = resultList.get(0).entrySet().iterator().next().getValue();
+			
 			Map<String, FactResultColumnInfoDTO> columnMetaData = factDTO.getFactResultTypeInfo().getResultColumnsMap();
-			FactResultColumnInfoDTO info = columnMetaData.get("column1");
+			// Get only the first column (column 1)
+			FactResultColumnInfoDTO info = columnMetaData.entrySet().iterator().next().getValue();;
 			String dataType = info.getDataType();
 			factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 		}

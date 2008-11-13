@@ -41,13 +41,12 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 		Set<E> set = new HashSet<E>();
 		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
-				if (entry.getKey().equals("column1")) {
-					String value = entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
-					String dataType = info.getDataType();
-					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-					set.add(obj);
-				}
+				// Get only the first column (column 1)
+				String value = entry.getValue();
+				FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+				String dataType = info.getDataType();
+				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+				set.add(obj);
 			}
 		}
 		return set;
