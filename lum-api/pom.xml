@@ -7,15 +7,15 @@
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>KS Learning Unit Management POM</name>
+	<name>KS LUM- POM</name>
 	<description>
 		Kuali Student Learning Unit Management POM
 	</description>
 
 	<url>http://kuali.org/communities/ks/</url>
 	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<groupId>org.kuali.student.lum</groupId>
+		<artifactId>ks-lum</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 </project>
