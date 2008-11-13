@@ -84,7 +84,7 @@
 			<id>external.repositories</id>
 			<activation>
 				<property>
-					<name>!ks.use.developer</name>
+					<name>!ks.use.proxy</name>
 				</property>
 			</activation>
 
