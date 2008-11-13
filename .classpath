@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="atp-api/src/main/java"/>
-	<classpathentry kind="src" path="atp-api/src/main/resources"/>
+	<classpathentry kind="src" path="lum-api/src/main/java"/>
+	<classpathentry kind="src" path="lum-api/src/main/resources"/>
+	<classpathentry kind="src" path="lum-impl/src/main/java"/>
+	<classpathentry kind="src" path="lum-impl/src/main/resources"/>
+	<classpathentry kind="src" path="lum-impl/src/test/java"/>
+	<classpathentry kind="src" path="lum-impl/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
