@@ -1,7 +1,13 @@
 package org.kuali.student.enumeration.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
@@ -15,6 +21,8 @@ public class ContextEntity {
     String contextKey;
     String contextValue;
 
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    List<EnumeratedValueEntity> enumeratedValueEntityList =new ArrayList<EnumeratedValueEntity>();
     /**
      * AutoGenerate the id
      */
@@ -45,4 +53,11 @@ public class ContextEntity {
     public void setValue(String value) {
         this.contextValue = value;
     }
+    public List<EnumeratedValueEntity> getEnumeratedValueEntityList() {
+        return enumeratedValueEntityList;
+    }
+    public void setEnumeratedValueEntityList(List<EnumeratedValueEntity> enumeratedValueEntityList) {
+        this.enumeratedValueEntityList = enumeratedValueEntityList;
+    }
+    
 }

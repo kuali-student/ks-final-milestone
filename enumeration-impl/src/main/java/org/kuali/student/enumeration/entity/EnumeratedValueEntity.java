@@ -1,9 +1,14 @@
 package org.kuali.student.enumeration.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +30,9 @@ public class EnumeratedValueEntity {
     @Temporal(TemporalType.TIMESTAMP)
     Date expirationDate;
     int sortKey;
+    
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    List<ContextEntity> contextEntityList =new ArrayList<ContextEntity>();
 
     /**
      * AutoGenerate the id
@@ -95,6 +103,12 @@ public class EnumeratedValueEntity {
 
     public void setSortKey(int sortKey) {
         this.sortKey = sortKey;
+    }
+    public List<ContextEntity> getContextEntityList() {
+        return contextEntityList;
+    }
+    public void setContextEntityList(List<ContextEntity> contextEntityList) {
+        this.contextEntityList = contextEntityList;
     }
 
 }
