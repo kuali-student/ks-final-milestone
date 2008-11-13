@@ -17,34 +17,17 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
     @Test
     public void testFindEnumerationMetas(){
-        /*EnumerationMetaEntity entity = new EnumerationMetaEntity();
-        entity.setName("Name1");
-        entity.setEnumerationKey("Key1");
-        entity.setDesc("desc1");
-        
-        enumerationManagementDAO.addEnumerationMeta(entity);
-        
-        EnumerationMetaEntity entity2 = new EnumerationMetaEntity();
-        entity2.setName("Name2");
-        entity2.setEnumerationKey("Key2");
-        entity2.setDesc("desc2");
-        
-        enumerationManagementDAO.addEnumerationMeta(entity2);
-
         List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
+        
+        assertEquals(list.size(),1);
+        
         EnumerationMetaEntity returnedEntity = list.get(0);
         
-        assertEquals(returnedEntity.getName(), entity.getName());
-        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
-        assertEquals(returnedEntity.getDesc(), entity.getDesc());
-        
-        returnedEntity = list.get(1);
-        
-        assertEquals(returnedEntity.getName(), entity2.getName());
-        assertEquals(returnedEntity.getEnumerationKey(), entity2.getEnumerationKey());
-        assertEquals(returnedEntity.getDesc(), entity2.getDesc());
-        */
-        
+        System.out.println();
+        assertEquals(returnedEntity.getName(), "name 1");
+        assertEquals(returnedEntity.getEnumerationKey(), "key 1");
+        assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), "desc 1");
+       
     }    
 /*
     @Test

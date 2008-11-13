@@ -12,8 +12,8 @@ public class ContextEntity {
     String id;
     String enumerationId;
     
-    String key;
-    String value;
+    String contextKey;
+    String contextValue;
 
     /**
      * AutoGenerate the id
@@ -31,18 +31,18 @@ public class ContextEntity {
     }
 
     public String getType() {
-        return key;
+        return contextKey;
     }
 
     public void setType(String type) {
-        this.key = type;
+        this.contextKey = type;
     }
 
     public String getValue() {
-        return value;
+        return contextValue;
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.contextValue = value;
     }
 }

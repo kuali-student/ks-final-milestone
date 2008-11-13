@@ -12,7 +12,7 @@ public class EnumeratedValueFieldEntity {
     String id;
     String enumerationKey;
 
-    String key;
+    String enumeratedValue;
     String dataType;
     int minLength;
     int maxLength;
@@ -44,11 +44,11 @@ public class EnumeratedValueFieldEntity {
     }
 
     public String getKey() {
-        return key;
+        return enumeratedValue;
     }
 
     public void setKey(String key) {
-        this.key = key;
+        this.enumeratedValue = key;
     }
 
     public String getDataType() {

@@ -1,5 +1,7 @@
 package org.kuali.student.enumeration.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
@@ -7,13 +9,13 @@ import javax.persistence.PrePersist;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
-public class EnumerationMetaEntity {
+public class EnumerationMetaEntity implements Serializable{
     @Id
     String id;
 
     String enumerationKey;
     String name;
-    String desc;
+    String enumerationMetaKeyDesc;
     /**
      * AutoGenerate the id
      */
@@ -45,12 +47,12 @@ public class EnumerationMetaEntity {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getEnumerationMetaKeyDesc() {
+        return enumerationMetaKeyDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setEnumerationMetaKeyDesc(String desc) {
+        this.enumerationMetaKeyDesc = desc;
     }
 
 }
