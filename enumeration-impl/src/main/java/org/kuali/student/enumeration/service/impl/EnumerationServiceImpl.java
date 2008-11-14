@@ -52,16 +52,16 @@ public class EnumerationServiceImpl implements EnumerationService{
         EnumeratedValueList enumeratedValueListDTO = new EnumeratedValueList();
         List<EnumeratedValueEntity> enumeratedValueEntityList = new ArrayList();
         if(enumerationKey != null && enumContextKey != null && contextValue != null && contextDate != null){
-        	enumeratedValueEntityList = enumDAO.fetchEnumerationsWithContextAndDate(enumerationKey, enumContextKey, contextValue, contextDate);
+        	enumeratedValueEntityList = enumDAO.fetchEnumerationWithContextAndDate(enumerationKey, enumContextKey, contextValue, contextDate);
         }
         else if(enumerationKey != null && enumContextKey != null && contextValue != null){
-        	enumeratedValueEntityList = enumDAO.fetchEnumerationsWithContext(enumerationKey, enumContextKey, contextValue);
+        	enumeratedValueEntityList = enumDAO.fetchEnumerationWithContext(enumerationKey, enumContextKey, contextValue);
         }
         else if(enumerationKey != null && contextDate != null){
-        	enumeratedValueEntityList = enumDAO.fetchAllEnumerationsWithDate(enumerationKey, contextDate);
+        	enumeratedValueEntityList = enumDAO.fetchEnumerationWithDate(enumerationKey, contextDate);
         }
         else if(enumerationKey != null){
-        	enumeratedValueEntityList = enumDAO.fetchAllEnumerations(enumerationKey);
+        	enumeratedValueEntityList = enumDAO.fetchEnumeration(enumerationKey);
         }
         
         List<EnumeratedValue> enumeratedValueList = null; 

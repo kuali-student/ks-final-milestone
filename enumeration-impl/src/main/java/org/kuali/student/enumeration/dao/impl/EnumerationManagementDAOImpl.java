@@ -84,7 +84,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         query.executeUpdate();
     }
     
-	public List<EnumeratedValueEntity> fetchAllEnumerations(String enumerationKey) {
+	public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey) {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
@@ -96,7 +96,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		 
 		return list;
 	}
-	public List<EnumeratedValueEntity> fetchAllEnumerationsWithDate(String enumerationKey, Date contextDate) {
+	public List<EnumeratedValueEntity> fetchEnumerationWithDate(String enumerationKey, Date contextDate) {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
@@ -111,7 +111,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		 
 		return list;
 	}
-	public List<EnumeratedValueEntity> fetchEnumerationsWithContext(String enumerationKey, String enumContextKey, String contextValue) {
+	public List<EnumeratedValueEntity> fetchEnumerationWithContext(String enumerationKey, String enumContextKey, String contextValue) {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
@@ -129,7 +129,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		return list;
 	}
 	
-	public List<EnumeratedValueEntity> fetchEnumerationsWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue,
+	public List<EnumeratedValueEntity> fetchEnumerationWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue,
 			Date contextDate) {
     	
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
