@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>common-util</artifactId>
+			<artifactId>ks-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
