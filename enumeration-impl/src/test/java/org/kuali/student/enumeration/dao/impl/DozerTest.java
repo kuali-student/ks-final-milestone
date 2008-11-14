@@ -31,10 +31,18 @@ public class DozerTest extends TestCase {
         dao.setSortKey(1);
         dao.setValue("v");
         dao.setAbbrevValue("a");
+        ContextEntity contextEntity = new ContextEntity();
+        contextEntity.setContextKey("context key");
+        dao.getContextEntityList().add(contextEntity);
+        
         
         EnumeratedValue dto = new EnumeratedValue();
         
         POJOConverter.map(dao, dto);
+        
+        assertEquals(dao.getContextEntityList().get(0).getContextKey() ,dto.getContexts().getContext().get(0).getType());
+
+        
         assertEquals(dao.getAbbrevValue(), dto.getAbbrevValue());
         assertEquals(dao.getCode(), dto.getCode());
         assertEquals(dao.getEffectiveDate(), dto.getEffectiveDate());
