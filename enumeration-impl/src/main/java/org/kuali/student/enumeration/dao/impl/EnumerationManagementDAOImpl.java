@@ -46,6 +46,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         EnumerationMetaEntity em = null;
         if(!query.getResultList().isEmpty()){
         	em = (EnumerationMetaEntity)query.getResultList().get(0);
+        }else{
+            return null;
         }
 
         return em;

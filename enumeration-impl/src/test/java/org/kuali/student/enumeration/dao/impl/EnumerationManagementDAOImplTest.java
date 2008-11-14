@@ -2,6 +2,7 @@ package org.kuali.student.enumeration.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
-/*
+
     @Test
     public void testFindEnumerationMetas(){
         List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
@@ -34,8 +35,8 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), "desc 1");
        
     }    
-*/
-/*    @Test
+
+    @Test
     public void testFetchEnumerationMeta(){
     	EnumerationMetaEntity entity = new EnumerationMetaEntity();
         entity.setName("Name3");
@@ -51,7 +52,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), entity.getEnumerationMetaKeyDesc());
         assertEquals(returnedEntity.getId(), entity.getId());
     }
-  *//*  
+
     @Test
     public void testRemoveEnumerationMeta(){
     	EnumerationMetaEntity entity = new EnumerationMetaEntity();
@@ -74,30 +75,48 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	assertTrue("EnumerationMetaEntity still exists after remove", !e.getEnumerationKey().equals("Key4"));
         }
         
-        //try to fetch it directly too, testing for null return
+
         returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
         assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
+
+        //try to fetch it directly too, testing for null return
+        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Does not Exist");
+        assertNull(returnedEntity);
     }
-    *//*
+
     @Test
     public void testFetchEnumeration(){
     	EnumeratedValueEntity entity = new EnumeratedValueEntity();
         entity.setEnumerationKey("Key");
         entity.setAbbrevValue("Abbrev");
         entity.setCode("Code");
-        entity.setEffectiveDate(new Date());
-        entity.setExpirationDate(new Date());
+        entity.setEffectiveDate(new Date(System.currentTimeMillis()-10000000L));
+        entity.setExpirationDate(new Date(System.currentTimeMillis()+10000000L));
         entity.setSortKey(1);
         entity.setValue("Value");
 
+        ContextEntity contextEntity = new ContextEntity();
+        contextEntity.setContextKey("type 1");
+        contextEntity.setValue("context value 1");
+        
+        entity.getContextEntityList().add(contextEntity);
+        contextEntity.getEnumeratedValueEntityList().add(entity);
         
         enumerationManagementDAO.addEnumeratedValue("Key", entity);
+
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumeration(entity.getEnumerationKey(), 
+                contextEntity.getContextKey(), contextEntity.getValue(), new Date(System.currentTimeMillis()));
+        assertEquals(enumeratedValueEntityList.size(), 1);
         
-        //No way to add context so no way to fetch anything, ALSO fetch enumeration needs to behave differently when
+        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
+        
+        assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
+        
+        // fetch enumeration needs to behave differently when
         //null values are passed into the method, as in dictionary
         //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
     }
-    */
+  
     @Test
     public void testAddEnumeratedValue()
     {
