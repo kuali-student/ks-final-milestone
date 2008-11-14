@@ -116,7 +116,7 @@ public class DozerTest extends TestCase {
     	ContextEntity dao = new ContextEntity();
     	dao.setContextKey("ck");
     	dao.setId("id");
-    	dao.setValue("v");
+    	dao.setContextKey("v");
     	
     	Context dto = new Context();
     	
