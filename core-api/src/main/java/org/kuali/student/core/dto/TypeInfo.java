@@ -17,10 +17,7 @@ public abstract class TypeInfo implements Serializable {
 	private String name; 
 	@XmlElement
 	private String desc; 
-	@XmlElement
-	private String durationType; 
-	@XmlElement
-	private String seasonalType; 
+
 	@XmlElement
 	private Date effectiveDate; 
 	@XmlElement
@@ -40,18 +37,6 @@ public abstract class TypeInfo implements Serializable {
 	}
 	public void setDesc(String desc){
 		this.desc = desc;
-	}
-	public String getDurationType(){
-		return durationType;
-	}
-	public void setDurationType(String durationType){
-		this.durationType = durationType;
-	}
-	public String getSeasonalType(){
-		return seasonalType;
-	}
-	public void setSeasonalType(String seasonalType){
-		this.seasonalType = seasonalType;
 	}
 	public Date getEffectiveDate(){
 		return effectiveDate;
