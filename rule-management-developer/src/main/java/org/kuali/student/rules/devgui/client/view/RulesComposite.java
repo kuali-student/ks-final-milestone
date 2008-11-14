@@ -267,7 +267,7 @@ public class RulesComposite extends Composite {
                 	}                
                 	
                     //make sure rule has draft status 
-                    displayedRule.setStatus(BusinessRuleStatus.IN_PROGRESS.toString());
+                    displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
                 	
                     // 1) validate draft before submitting - we need at least agenda type and business rule type
                     if (isDisplayedRuleValid() == false) {
@@ -650,7 +650,7 @@ public class RulesComposite extends Composite {
     	 	
     	if (ruleStatus.getText().equals(STATUS_NOT_IN_DATABASE)) {
     		ruleStatus.setStylePrimaryName("status-empty");
-    	} else if (ruleStatus.getText().equalsIgnoreCase(BusinessRuleStatus.IN_PROGRESS.toString())) {
+    	} else if (ruleStatus.getText().equalsIgnoreCase(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
         	ruleStatus.setStylePrimaryName("status-draft");
         } else if (ruleStatus.getText().equalsIgnoreCase(BusinessRuleStatus.ACTIVE.toString())) {
         	ruleStatus.setStylePrimaryName("status-active");           
@@ -676,7 +676,7 @@ public class RulesComposite extends Composite {
         	copyRuleButton.setEnabled(false);
         	cancelButton.setEnabled(true);  
         	return;
-    	} else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.IN_PROGRESS.toString())) {
+    	} else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
         	submitDraftButton.setEnabled(false);  
         	updateDraftButton.setEnabled(true); 
         	activateDraftButton.setEnabled(true); 
@@ -832,7 +832,7 @@ public class RulesComposite extends Composite {
     private boolean isDisplayedRuleValid() {
 
     	//for draft we need at least Agenda Type and Business Rule Type
-    	if ((getRuleStatus().equals(STATUS_NOT_IN_DATABASE)) || (getRuleStatus().equals(BusinessRuleStatus.IN_PROGRESS))) {
+    	if ((getRuleStatus().equals(STATUS_NOT_IN_DATABASE)) || (getRuleStatus().equals(BusinessRuleStatus.DRAFT_IN_PROGRESS))) {
     		if (displayedRuleInfo.getAgendaType().isEmpty() || displayedRuleInfo.getBusinessRuleType().isEmpty()) {
 	            // TODO error messages
 	            System.out.println("Rule has no agenda type or business rule type defined");
