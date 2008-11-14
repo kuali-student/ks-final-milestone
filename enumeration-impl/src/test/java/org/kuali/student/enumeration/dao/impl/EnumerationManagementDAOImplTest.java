@@ -29,7 +29,6 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         
         EnumerationMetaEntity returnedEntity = list.get(0);
         
-        System.out.println();
         assertEquals(returnedEntity.getName(), "name 1");
         assertEquals(returnedEntity.getEnumerationKey(), "key 1");
         assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), "desc 1");
