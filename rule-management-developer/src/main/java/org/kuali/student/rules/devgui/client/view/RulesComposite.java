@@ -161,7 +161,7 @@ public class RulesComposite extends Composite {
     final Button submitDraftButton = new Button("Submit Draft");    
     final Button updateDraftButton = new Button("Update Draft");
     final Button activateDraftButton = new Button("Activate Draft");
-    final Button updateRuleButton = new Button("Update Rule");
+    final Button makeNewVersionButton = new Button("Make New Version");
     final Button retireRuleButton = new Button("Retire Rule");    
     final Button copyRuleButton = new Button("Make Rule Copy");
     final Button cancelButton = new Button("Cancel");     
@@ -216,7 +216,7 @@ public class RulesComposite extends Composite {
             rulesVerticalSplitPanel.setBottomWidget(rulesScrollPanel);
             rulesVerticalSplitPanel.setSplitPosition("80%");
             // simplePanel.setSize("100%", "100%");
-            simplePanel.add(rulesVerticalSplitPanel);
+            simplePanel.add(rulesVerticalSplitPanel);                   
             
             // add selection event listener to rulesTree widget
             rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
@@ -269,12 +269,18 @@ public class RulesComposite extends Composite {
                     //make sure rule has draft status 
                     displayedRule.setStatus(BusinessRuleStatus.IN_PROGRESS.toString());
                 	
-                    // 1) update the displayed rule copy with data entered
+                    // 1) validate draft before submitting - we need at least agenda type and business rule type
+                    if (isDisplayedRuleValid() == false) {
+                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
+                        System.out.println("DEBUG: invalid DRAFT - it cannot be updated");
+                    }                    
+                    
+                    // 2) update the displayed rule copy with data entered
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
 
-                    // 2) create new draft rule
+                    // 3) create new draft rule
                     DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<String>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -311,7 +317,13 @@ public class RulesComposite extends Composite {
             updateDraftButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
-                    // second, update the active rule with data entered
+                    // 1) validate draft before update
+                    if (isDisplayedRuleValid() == false) {
+                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
+                        System.out.println("DEBUG: invalid DRAFT - it cannot be updated");
+                    }                 	
+                	
+                    // 2) update the draft with data entered
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
@@ -335,7 +347,7 @@ public class RulesComposite extends Composite {
             activateDraftButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
-                    // first validate that the rule entered/changed data is correct  //TODO needed for draft?
+                    // first validate that the rule entered/changed is correct
                     if (isDisplayedRuleValid() == false) {
                         // TODO: show dialog 'Rule is not valid or complete: <error message>"
                         System.out.println("DEBUG: invalid rule DRAFT - it cannot be updated");
@@ -365,7 +377,7 @@ public class RulesComposite extends Composite {
                 }
             });            
             
-            updateRuleButton.addClickListener(new ClickListener() {
+            makeNewVersionButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
                     // first validate that the rule entered/changed data is correct  
@@ -379,6 +391,9 @@ public class RulesComposite extends Composite {
                         return;
                     }
 
+                    
+                    //TODO retire this rule and make a new version - talk to Kamal
+                    
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -397,17 +412,6 @@ public class RulesComposite extends Composite {
             
             retireRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-
-                    // first validate that the rule entered/changed data is correct  //TODO needed for draft?
-                    if (isDisplayedRuleValid() == false) {
-                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
-                        System.out.println("DEBUG: invalid rule - it cannot be updated");
-                    }
-
-                    // second, update the active rule with data entered
-                    if (updateDisplayedRuleCopy() == false) {
-                        return;
-                    }
                     
                     //retire Rule
                     displayedRule.setStatus(BusinessRuleStatus.RETIRED.toString());
@@ -431,16 +435,18 @@ public class RulesComposite extends Composite {
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
                 	//new draft will be positioned in the tree
-                	placeNewDraftInTree("");                	
+                	//placeNewDraftInTree("");                	
                 	
                 	//keep original rule values except rule id
                 	BusinessRuleInfoDTO ruleCopy = displayedRule;
+                	RulesHierarchyInfo ruleInfoCopy = displayedRuleInfo;
                 	ruleCopy.setBusinessRuleId("");
                 	ruleCopy.setStatus(STATUS_NOT_IN_DATABASE);
                 	
                 	//now load the draft
                 	loadEmptyRule();
-                	displayedRule = ruleCopy;                	          	            	                	
+                	displayedRule = ruleCopy; 
+                	displayedRuleInfo = ruleInfoCopy;
                     displayActiveRule();
                 }
             });  
@@ -575,9 +581,15 @@ public class RulesComposite extends Composite {
                 }
             });           
 
+            //agenda type can be changed ONLY if draft is in STATE_NOT_IN_DATABASE
             agendaTypesListBox.addChangeListener(new ChangeListener() {
                 public void onChange(final Widget sender) {
                 	//changing agenda type will reset the business rule type and related Anchor Key
+                	if (displayedRuleInfo == null) {
+                		displayedRuleInfo = new RulesHierarchyInfo();
+                	}
+                	
+                	displayedRuleInfo.setAgendaType(GuiUtil.getListBoxSelectedValue(agendaTypesListBox).trim());
                 	displayedRule.setBusinessRuleTypeKey("");  
                 	displayedRule.setAnchorTypeKey("");
                 	ruleAnchorType.setText("");
@@ -585,9 +597,11 @@ public class RulesComposite extends Composite {
                 }
             });  
             
+            //business rule type can be changed ONLY if draft is in STATE_NOT_IN_DATABASE
             businessRuleTypesListBox.addChangeListener(new ChangeListener() {
                 public void onChange(final Widget sender) {
-                	ruleAnchorType.setText(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox));
+                	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
+                	ruleAnchorType.setText(AnchorTypeKey.KUALI_COURSE.name());  //TODO lookup based on business rule type
                 }
             });             
         }
@@ -596,6 +610,7 @@ public class RulesComposite extends Composite {
     private void loadEmptyRule() {    	
         displayedRule = createEmptyBusinessRule();
     	clearRuleForms();
+    	displayedRuleInfo = null;
     	setRuleStatus(STATUS_NOT_IN_DATABASE);
     	populateAgendaAndBusinessRuleTypesListBox();
         updateRulesFormButtons(displayedRule.getStatus()); 
@@ -605,6 +620,10 @@ public class RulesComposite extends Composite {
     private void loadExistingRule(BusinessRuleInfoDTO ruleInfo) {
     	
         displayedRule = ruleInfo;
+        
+        //TODO remove after code update
+        displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name());
+
         updateRulesFormButtons(ruleInfo.getStatus());
     	
         // store individual propositions in a temporary list & set Rule Composition text
@@ -652,7 +671,7 @@ public class RulesComposite extends Composite {
         	submitDraftButton.setEnabled(true);
         	updateDraftButton.setEnabled(false);        	
         	activateDraftButton.setEnabled(false);        	
-        	updateRuleButton.setEnabled(false); 
+        	makeNewVersionButton.setEnabled(false); 
         	retireRuleButton.setEnabled(false);        	
         	copyRuleButton.setEnabled(false);
         	cancelButton.setEnabled(true);  
@@ -661,7 +680,7 @@ public class RulesComposite extends Composite {
         	submitDraftButton.setEnabled(false);  
         	updateDraftButton.setEnabled(true); 
         	activateDraftButton.setEnabled(true); 
-        	updateRuleButton.setEnabled(false);     	
+        	makeNewVersionButton.setEnabled(false);     	
         	retireRuleButton.setEnabled(false);        	
         	copyRuleButton.setEnabled(false);
         	cancelButton.setEnabled(true); 
@@ -669,7 +688,7 @@ public class RulesComposite extends Composite {
         	submitDraftButton.setEnabled(false);
         	updateDraftButton.setEnabled(false);        	
         	activateDraftButton.setEnabled(false);   
-        	updateRuleButton.setEnabled(true);
+        	makeNewVersionButton.setEnabled(true);
         	retireRuleButton.setEnabled(true);        	
         	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true);             
@@ -677,7 +696,7 @@ public class RulesComposite extends Composite {
         	submitDraftButton.setEnabled(false);
         	updateDraftButton.setEnabled(false);        	
         	activateDraftButton.setEnabled(false);   
-        	updateRuleButton.setEnabled(false);
+        	makeNewVersionButton.setEnabled(false);
         	retireRuleButton.setEnabled(false);        	
         	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true); 
@@ -688,16 +707,17 @@ public class RulesComposite extends Composite {
    
     private boolean updateDisplayedRuleCopy() {
 
-       // BusinessRuleInfoDTO rule = displayedRule;
-
         // set rule basic info
     	displayedRule.setName(nameTextBox.getText());
     	displayedRule.setDescription(descriptionTextArea.getText());
     	displayedRule.setSuccessMessage(successMessageTextArea.getText());
     	displayedRule.setFailureMessage(failureMessageTextArea.getText());
-    	displayedRule.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_CO_REQ.name()); // TODO - this should be a drop down
-    	displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name()); // TODO
-    	displayedRule.setAnchorValue("course"); // TODO
+    	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
+    	displayedRule.setAnchorTypeKey(ruleAnchorType.getText());
+    	
+    	System.out.println("Anchor Type key:" + ruleAnchorType.getText());
+    	
+    	displayedRule.setAnchorValue(ruleAnchorTextBox.getText());
     	displayedRule.setEffectiveStartTime(new Date()); // TODO - add to form
     	displayedRule.setEffectiveEndTime(new Date()); // TODO - add to form
 
@@ -742,7 +762,7 @@ public class RulesComposite extends Composite {
         BusinessRuleInfoDTO newRule = new BusinessRuleInfoDTO();
 
         newRule.setBusinessRuleId("");
-        newRule.setStatus(BusinessRuleStatus.IN_PROGRESS.name());
+        newRule.setStatus(STATUS_NOT_IN_DATABASE);
         newRule.setName("");
         newRule.setDescription("");
         newRule.setSuccessMessage("");
@@ -793,20 +813,13 @@ public class RulesComposite extends Composite {
         String businessRuleType = GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox);
         String anchor = ruleAnchorTextBox.getText();
         String ruleName = displayedRule.getName();
-        
-        /* TODO within the existing rules hierarchy?                                              
-        displayedRuleInfo = new RulesHierarchyInfo();
-    	displayedRuleInfo.setAgendaType(agendaType.isEmpty() ? "empty agenda" : agendaType);
-    	displayedRuleInfo.setBusinessRuleType(businessRuleType.isEmpty() ? "empty business rule type" : businessRuleType);
-    	displayedRuleInfo.setAnchor(ruleAnchorTextBox.getText().isEmpty() ? "empty anchor" : ruleAnchorTextBox.getText());                            
-        */
-        
+                
         //TODO for now display draft rules in separate branch
         displayedRuleInfo = new RulesHierarchyInfo();
     	displayedRuleInfo.setAgendaType(EMPTY_AGENDA_TYPE);
-    	displayedRuleInfo.setBusinessRuleType(businessRuleType.isEmpty() ? "empty business rule type" : businessRuleType);
-    	displayedRuleInfo.setAnchor(anchor.isEmpty() ? "empty anchor" : anchor); 
-    	displayedRuleInfo.setBusinessRuleName(ruleName.isEmpty() ? newRuleID : ruleName);
+    	displayedRuleInfo.setBusinessRuleType(businessRuleType);
+    	displayedRuleInfo.setAnchor(anchor); 
+    	displayedRuleInfo.setBusinessRuleName(ruleName);
     	displayedRuleInfo.setBusinessRuleId(newRuleID);      	
     }
     
@@ -818,6 +831,16 @@ public class RulesComposite extends Composite {
     
     private boolean isDisplayedRuleValid() {
 
+    	//for draft we need at least Agenda Type and Business Rule Type
+    	if ((getRuleStatus().equals(STATUS_NOT_IN_DATABASE)) || (getRuleStatus().equals(BusinessRuleStatus.IN_PROGRESS))) {
+    		if (displayedRuleInfo.getAgendaType().isEmpty() || displayedRuleInfo.getBusinessRuleType().isEmpty()) {
+	            // TODO error messages
+	            System.out.println("Rule has no agenda type or business rule type defined");
+	            return false;  
+    		}
+    		return true;
+    	}
+    	
         ruleComposition = new StringBuffer(propCompositionTextArea.getText());
 
         // each rule should have at least one proposition
@@ -855,7 +878,9 @@ public class RulesComposite extends Composite {
         descriptionTextArea.setText("");
         successMessageTextArea.setText("");
         failureMessageTextArea.setText("");
-        populateAgendaAndBusinessRuleTypesListBox();
+        GuiUtil.setListBoxByItemName(agendaTypesListBox, "");  //unselect agenda type list box
+        businessRuleTypesListBox.clear();
+        //populateAgendaAndBusinessRuleTypesListBox();
         ruleAnchorType.setText("");
         ruleAnchorTextBox.setText("");
 
@@ -878,29 +903,13 @@ public class RulesComposite extends Composite {
     
     private void populateAgendaAndBusinessRuleTypesListBox() {
     	        	
-    	String ruleAgendaType;
-    	String businessRuleType = (displayedRule == null ? "" : displayedRule.getBusinessRuleTypeKey());    	
-    	agendaTypesListBox.setEnabled(false);
-    	businessRuleTypesListBox.setEnabled(false);
+    	String ruleAgendaType = (displayedRuleInfo == null ? "" : displayedRuleInfo.getAgendaType());
+    	String businessRuleType = (displayedRule == null ? "" : displayedRule.getBusinessRuleTypeKey()); 
     	
-    	// if a rule is already active or retired, user cannot change agenda type or business rule type
-    	if (getRuleStatus().equals(BusinessRuleStatus.ACTIVE.toString()) || getRuleStatus().equals(BusinessRuleStatus.RETIRED.toString())) {
-    		ruleAgendaType = (displayedRuleInfo == null ? "" : displayedRuleInfo.getAgendaType());
-    		agendaTypesListBox.clear();
-    		agendaTypesListBox.addItem(ruleAgendaType);
-    		GuiUtil.setListBoxByItemName(agendaTypesListBox, ruleAgendaType);
-    		businessRuleTypesListBox.clear();
-    		businessRuleTypesListBox.addItem(businessRuleType);
-    		GuiUtil.setListBoxByItemName(businessRuleTypesListBox, businessRuleType);
-    		return;
-    	}
+    	System.out.println("DEBUG: agenda type:" + ruleAgendaType);     	
+    	System.out.println("Business rule type: " + businessRuleType);       	
     	
-    	ruleAgendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);    	
-   	
-    	// rule is either empty or draft and user can change both agenda and business rule type
-    	agendaTypesListBox.setEnabled(true);
-    	 
-    	//retrieve all agenda types if necessary
+    	//populate agenda type list box if empty
     	if (agendaTypesListBox.getItemCount() == 0) {
 	        DevelopersGuiService.Util.getInstance().findAgendaTypes(new AsyncCallback<List<String>>() {
 	            public void onFailure(Throwable caught) {
@@ -917,17 +926,36 @@ public class RulesComposite extends Composite {
 	                }	
 	            }
 	        });                       
+    	}    	
+    	
+    	System.out.println("STATUS: " + getRuleStatus());
+    	
+    	//if the rule is stored in database i.e. DRAFT_IN_PROGRESS, ACTIVE, RETIRED then we just populate the drop downs
+    	if (!getRuleStatus().equals(STATUS_NOT_IN_DATABASE)) {
+    		
+    		if (ruleAgendaType.isEmpty() || businessRuleType.isEmpty()) {
+    			System.out.println("Internal error(1)...");
+    		}
+        	agendaTypesListBox.setEnabled(false);  		
+        	GuiUtil.setListBoxByItemName(agendaTypesListBox, ruleAgendaType);
+    	    businessRuleTypesListBox.setEnabled(false); 
+    		businessRuleTypesListBox.clear();
+    		businessRuleTypesListBox.addItem(businessRuleType);
+    		GuiUtil.setListBoxByItemName(businessRuleTypesListBox, businessRuleType);
+    		return;    		
     	}
+    		
+    	agendaTypesListBox.setEnabled(true);
+	    businessRuleTypesListBox.setEnabled(true);    	   	 
         
-        //if user did not select agenda type then we don't retrieve business rule types and leave list box disabled
+        //if user did not select any agenda type then we don't retrieve business rule types and leave the list box disabled
         if (ruleAgendaType.trim().isEmpty() || ruleAgendaType.equals(EMPTY_AGENDA_TYPE)) {
+        	agendaTypesListBox.setSelectedIndex(0); //show empty agenda
         	businessRuleTypesListBox.clear();
+        	businessRuleTypesListBox.setEnabled(false);
         	return;
-        }
-            	
-System.out.println("DEBUG: agenda type:" + ruleAgendaType);        
+        }                   
         
-  		businessRuleTypesListBox.setEnabled(true);
    		GuiUtil.setListBoxByItemName(agendaTypesListBox, ruleAgendaType);
     	
     	//find related business rule types
@@ -947,7 +975,8 @@ System.out.println("DEBUG: agenda type:" + ruleAgendaType);
             }
         });   
         
-        if (!businessRuleType.isEmpty()) {
+        if (!businessRuleType.trim().isEmpty()) {
+        	System.out.println("HERE: " + businessRuleType);
         	GuiUtil.setListBoxByItemName(businessRuleTypesListBox, businessRuleType);
         }
     }         
@@ -1005,7 +1034,7 @@ System.out.println("DEBUG: agenda type:" + ruleAgendaType);
         hp.add(submitDraftButton);
         hp.add(updateDraftButton);
         hp.add(activateDraftButton);
-        hp.add(updateRuleButton);
+        hp.add(makeNewVersionButton);
         hp.add(retireRuleButton);
         hp.add(copyRuleButton);
         hp.add(cancelButton);     

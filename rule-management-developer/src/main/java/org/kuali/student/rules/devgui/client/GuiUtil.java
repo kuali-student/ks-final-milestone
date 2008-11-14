@@ -359,19 +359,20 @@ public class GuiUtil {
         return 0;
     }
 
+    //if itemText is empty then un-select any selected item the list box
     public static void setListBoxByItemName(ListBox listBox, String itemText) {  
-    	
-    	if (listBox.getSelectedIndex() == -1) { //no item selected
-    		System.out.println("DEBUG: no item selected!.....");
-    		return;
-    	}
-    	
+   	    	
     	if (itemText.isEmpty()) {
-    		listBox.setItemSelected(listBox.getSelectedIndex(), false);
+    		if (listBox.getSelectedIndex() != -1) {
+    			listBox.setItemSelected(listBox.getSelectedIndex(), false);
+    		}
     		return;
     	}
     	
     	int itemIx = getListBoxIndexByName(listBox, itemText);
+    	
+    	System.out.println("Util: " + itemIx + "  " + itemText);
+    	
     	listBox.setSelectedIndex(itemIx);
     }      
     
