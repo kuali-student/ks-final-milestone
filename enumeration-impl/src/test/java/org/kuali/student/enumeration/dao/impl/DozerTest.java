@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.enumeration.dto.EnumeratedValue;
-import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
+import org.kuali.student.enumeration.dto.*;
+import org.kuali.student.enumeration.entity.*;
 import org.kuali.student.enumeration.service.impl.util.POJOConverter;
 
 import junit.framework.TestCase;
@@ -71,7 +71,7 @@ public class DozerTest extends TestCase {
         dto.setSortKey(1);
         dto.setValue("v");
         dto.setAbbrevValue("a");
-        
+
         EnumeratedValueEntity dao = new EnumeratedValueEntity();
         
         POJOConverter.map(dto, dao);
@@ -110,5 +110,51 @@ public class DozerTest extends TestCase {
         	i++;
         }
         
+    }
+    
+    public void testDAOtoDTOContext(){
+    	ContextEntity dao = new ContextEntity();
+    	dao.setContextKey("ck");
+    	dao.setId("id");
+    	dao.setValue("v");
+    	
+    	Context dto = new Context();
+    	
+    	/*
+    	POJOConverter.map(dao, dto);
+        assertEquals(dao.getContextKey(), dto.getType());
+        assertEquals(dao.getValue(), dto.getValue());
+		*/
+    }
+    
+    public void testDTOtoDAOContext(){
+    	
+    }
+    
+    public void testDAOtoDTOContextMeta(){
+    	ContextMetaEntity dao = new ContextMetaEntity();
+    	dao.setDataType("d");
+    	dao.setMaxLength(5);
+    	dao.setMinLength(1);
+    	//spelling is wrong
+    	dao.setMinOccors(1);
+    	dao.setMaxOccors(2);
+    	dao.setEnumerationId("e");
+    	dao.setType("t");
+    	dao.setId("id");
+    	
+    	ContextValueDescriptor dto = new ContextValueDescriptor();
+    	
+    	POJOConverter.map(dao, dto);
+    	assertEquals(dao.getDataType(), dto.getDataType());
+    	assertEquals(dao.getMaxLength(), dto.getMaxLength().intValue());
+    	assertEquals(dao.getMinLength(), dto.getMinLength().intValue());
+    	//assertEquals(dao.getMinOccors(), dto.getMinOccurs().intValue());
+    	//assertEquals(dao.getMaxOccors(), dto.getMaxOccurs().intValue());
+    	
+    }
+    
+    public void testDTOtoDAOContextMeta(){
+    	
     }
 }
