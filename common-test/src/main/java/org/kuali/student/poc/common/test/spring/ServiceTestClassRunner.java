@@ -161,13 +161,16 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			ServletMapping servletMapping = new ServletMapping();
 			ContextLoaderListener contextLoaderListener = new ContextLoaderListener();
 
-			String wsEngine = "cxf";
-			String wsServlet = "org.apache.cxf.transport.servlet.CXFServlet";
-			if (System.getProperties().containsKey("ks.use.jaxws")) {
+			
+            Class<?> servletClass;
+			String wsEngine;
+			try{
+			    servletClass = Class.forName("org.apache.cxf.transport.servlet.CXFServlet");		    
+			    wsEngine = "cxf";
+			} catch (ClassNotFoundException e) {
+	            servletClass = Class.forName("com.sun.xml.ws.transport.http.servlet.WSSpringServlet");
 				wsEngine = "jaxws";
-				wsServlet = "com.sun.xml.ws.transport.http.servlet.WSSpringServlet";
 			}
-			Class<?> servletClass = Class.forName(wsServlet);
 
 			Servlet servlet = (Servlet) servletClass.newInstance();
 

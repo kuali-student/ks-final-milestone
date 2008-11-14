@@ -8,7 +8,7 @@
 	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/resources"/>
 	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/resources"/>
 	<classpathentry kind="src" path="core-api/src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_03"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

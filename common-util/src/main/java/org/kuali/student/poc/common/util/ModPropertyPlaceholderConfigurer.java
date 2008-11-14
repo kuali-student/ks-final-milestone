@@ -6,27 +6,35 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 public class ModPropertyPlaceholderConfigurer extends
 		PropertyPlaceholderConfigurer {
-	public static final String KS_MVN_ARTIFACTID_INITIALCAPS = "ks.mvn.artifactId.initialCaps";
+	
+    public static final String KS_MVN_ARTIFACTID_INITIALCAPS = "ks.mvn.artifactId.initialCaps";
 	public static final String KS_MVN_ARTIFACTID_LOWERCASE = "ks.mvn.artifactId.lowercase";
 	public static final String KS_MVN_PARENT_ARTIFACTID_LOWERCASE = "ks.mvn.parent.artifactId.lowercase";
 	public static final String JPA_VENDOR_ADAPTER = "jpa.vendorAdapter";
 	public static final String JPA_DATABASEPLATFORM = "jpa.databasePlatform";
+	
+	//Class to check for in CLASSPATH to determine which jpa impl is being used
+	public static final String JPA_HIBERNATE_PROVIDER = "org.hibernate.ejb.HibernatePersistence";
+	
 	@Override
 	protected String resolvePlaceholder(String placeholder, Properties props) {
-		if(JPA_VENDOR_ADAPTER.equals(placeholder)){
-			if(System.getProperties().containsKey("ks.use.eclipselink")){
-				return "org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter";
-			}else{
-				return "org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter";
-			}
+
+	    if(JPA_VENDOR_ADAPTER.equals(placeholder)){
+	        try{
+	            Class.forName(JPA_HIBERNATE_PROVIDER);            
+                return "org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter";
+	        } catch (ClassNotFoundException e) {
+                return "org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter";
+	        }
 		}
 		
 		if(JPA_DATABASEPLATFORM.equals(placeholder)){
-			if(System.getProperties().containsKey("ks.use.eclipselink")){
-				return "org.eclipse.persistence.platform.database.DerbyPlatform";
-			}else{
-				return "org.hibernate.dialect.DerbyDialect";
-			}
+	        try{
+	            Class.forName(JPA_HIBERNATE_PROVIDER);            
+                return "org.hibernate.dialect.DerbyDialect";
+	        } catch (ClassNotFoundException e) {
+                return "org.eclipse.persistence.platform.database.DerbyPlatform";
+	        }
 		}
 		
 		/*
