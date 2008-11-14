@@ -188,8 +188,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         entity.setExpirationDate(new Date());
         entity.setSortKey(1);
         entity.setValue("Value3");
-        //need to do this?
-        entity.prePersist();
+
         //why is there context in enumerated value or a way to add a context through the DAO methods?
         enumerationManagementDAO.addEnumeratedValue("Key3", entity);
         enumerationManagementDAO.removeEnumeratedValue("Key3", "Code3");
