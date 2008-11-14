@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN"
+   "http://dozer.sourceforge.net/dtd/dozerbeanmapping.dtd">
+<mappings>
+  <configuration>
+    <stop-on-errors>true</stop-on-errors>
+    <date-format>MM/dd/yyyy HH:mm</date-format>
+    <wildcard>true</wildcard>
+  </configuration>
+
+ <mapping>
+    <class-a>org.kuali.student.enumeration.entity.ContextEntity</class-a>
+    <class-b>org.kuali.student.enumeration.dto.Context</class-b>
+      <field>
+        <a>contextKey</a>
+        <b>type</b>
+      </field>
+      <field>
+        <a>contextValue</a>
+        <b>value</b>
+      </field>
+  </mapping> 
+
+ 
+  <mapping>
+    <class-a>org.kuali.student.enumeration.entity.EnumeratedValueEntity</class-a>
+    <class-b>org.kuali.student.enumeration.dto.EnumeratedValue</class-b>
+      <field>
+        <a>contextEntityList</a>
+        <b>contexts.context</b>
+      </field>
+  </mapping> 
+
+               
+</mappings>
