@@ -104,7 +104,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         
         enumerationManagementDAO.addEnumeratedValue("Key", entity);
 
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumeration(entity.getEnumerationKey(), 
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationsWithContextAndDate(entity.getEnumerationKey(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
@@ -139,7 +139,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         //also addEnumeratedValue should return the value from the db not what was passed in
         enumerationManagementDAO.addEnumeratedValue("Key1", entity);
         
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumeration(entity.getEnumerationKey(), 
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationsWithContextAndDate(entity.getEnumerationKey(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
