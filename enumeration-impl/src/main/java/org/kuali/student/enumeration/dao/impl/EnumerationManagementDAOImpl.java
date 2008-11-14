@@ -53,9 +53,86 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         return em;
     }
 
-    public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
+    public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
+        entityManager.persist(value);
+        value.setEnumerationKey(enumerationKey);
+
+        return value;
+    }
+
+    public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
+        Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value, e. where e.enumerationKey = :key and e.code = :code");
+        query.setParameter("key", enumerationKey);
+        query.setParameter("code", code);
+        query.setParameter("value", enumeratedValueEntity.getValue());
+        
+        query.executeUpdate();
+
+        query = entityManager.createQuery("SELECT e FROM EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
+        query.setParameter("key", enumerationKey);
+        query.setParameter("code", code);
+        Object obj = query.getResultList().get(0);
+
+        return (EnumeratedValueEntity) obj;
+    }
+
+    public void removeEnumeratedValue(String enumerationKey, String code) {
+        Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
+        query.setParameter("key", enumerationKey);
+        query.setParameter("code", code);
+
+        query.executeUpdate();
+    }
+    
+	public List<EnumeratedValueEntity> fetchAllEnumerations(String enumerationKey) {
+		
+		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		Query query = entityManager.createQuery(
+	            "select e from EnumeratedValueEntity e, ContextEntity c " +
+	            "where e.id = c.enumerationId and " +
+	            "e.enumerationKey = :enumerationKey ");
+		 query.setParameter("enumerationKey", enumerationKey);
+		 list = (List<EnumeratedValueEntity>)query.getResultList();
+		 
+		return list;
+	}
+	public List<EnumeratedValueEntity> fetchAllEnumerationsWithDate(String enumerationKey, Date contextDate) {
+		
+		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		Query query = entityManager.createQuery(
+	            "select e from EnumeratedValueEntity e, ContextEntity c " +
+	            "where e.id = c.enumerationId and " +
+	            "e.effectiveDate < :contextDate and " +
+	            "e.expirationDate > :contextDate and " +
+	            "e.enumerationKey = :enumerationKey ");
+		 query.setParameter("enumerationKey", enumerationKey);
+		 query.setParameter("contextDate", contextDate);
+		 list = (List<EnumeratedValueEntity>)query.getResultList();
+		 
+		return list;
+	}
+	public List<EnumeratedValueEntity> fetchEnumerationsWithContext(String enumerationKey, String enumContextKey, String contextValue) {
+		
+		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		Query query = entityManager.createQuery(
+	            "select e from EnumeratedValueEntity e, ContextEntity c " +
+	            "where e.id = c.enumerationId and " +
+	            "c.value = :contextValue and " +
+	            "c.key = :enumContextKey and " +
+	            "e.enumerationKey = :enumerationKey ");
+		 query.setParameter("enumerationKey", enumerationKey);
+		 query.setParameter("enumContextKey", enumContextKey);        
+		 query.setParameter("contextValue", contextValue);
+		 
+		list = (List<EnumeratedValueEntity>)query.getResultList();
+		
+		return list;
+	}
+	
+	public List<EnumeratedValueEntity> fetchEnumerationsWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue,
+			Date contextDate) {
     	
-    	List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
+		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
     	
         Query query = entityManager.createQuery(
                 "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
@@ -68,10 +145,16 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         query.setParameter("contextValue", contextValue);
         query.setParameter("enumContextKey", enumContextKey);
         query.setParameter("enumKey", enumerationKey);
-         list = (List<EnumeratedValueEntity>)query.getResultList();
+        list = (List<EnumeratedValueEntity>)query.getResultList();
          
-         return list;
-/*    	
+        return list;
+	}
+	
+    /*
+    public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
+    	
+
+    	
     	if(enumerationKey != null){
     		if(enumContextKey == null || contextValue == null){
     			//check to see if there is a date, return all results under these conditions if one does not exist
@@ -131,37 +214,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     	}
  	
 
-  */ 
+
     }
-
-    public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
-        entityManager.persist(value);
-        value.setEnumerationKey(enumerationKey);
-
-        return value;
-    }
-
-    public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
-        Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value, e. where e.enumerationKey = :key and e.code = :code");
-        query.setParameter("key", enumerationKey);
-        query.setParameter("code", code);
-        query.setParameter("value", enumeratedValueEntity.getValue());
-        
-        query.executeUpdate();
-
-        query = entityManager.createQuery("SELECT e FROM EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
-        query.setParameter("key", enumerationKey);
-        query.setParameter("code", code);
-        Object obj = query.getResultList().get(0);
-
-        return (EnumeratedValueEntity) obj;
-    }
-
-    public void removeEnumeratedValue(String enumerationKey, String code) {
-        Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
-        query.setParameter("key", enumerationKey);
-        query.setParameter("code", code);
-
-        query.executeUpdate();
-    }
+      */ 
 }

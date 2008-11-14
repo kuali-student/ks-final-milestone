@@ -17,8 +17,14 @@ public interface EnumerationManagementDAO {
 
     public void removeEnumerationMeta(EnumerationMetaEntity entity);
     
-    public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate);
-
+    public List<EnumeratedValueEntity> fetchEnumerationsWithContextAndDate(String enumerationKey, String enumContextKey, String contextValue, Date contextDate);
+   
+    public List<EnumeratedValueEntity> fetchEnumerationsWithContext(String enumerationKey, String enumContextKey, String contextValue);
+   
+    public List<EnumeratedValueEntity> fetchAllEnumerationsWithDate(String enumerationKey, Date contextDate);
+    
+    public List<EnumeratedValueEntity> fetchAllEnumerations(String enumerationKey);
+    
     public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value);
 
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity value);
