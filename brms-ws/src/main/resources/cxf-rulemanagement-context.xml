@@ -8,8 +8,8 @@
     
     <import resource="classpath:application-rulemanagement-context.xml" />
 
-    <jaxws:endpoint id="factFinderService"
-        implementorClass="org.kuali.student.rules.factfinder.service.impl.FactFinderServiceImpl"
-        implementor="#factFinderServiceImpl" address="/FactFinderService" />
+    <jaxws:endpoint id="ruleManagementService"
+        implementorClass="org.kuali.student.rules.rulemanagement.service.impl.RuleManagementServiceImpl"
+        implementor="#ruleManagementServiceImpl" address="/RuleManagementService" />
 
 </beans>
