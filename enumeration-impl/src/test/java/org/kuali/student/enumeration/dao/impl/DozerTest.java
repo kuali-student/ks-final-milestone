@@ -25,14 +25,30 @@ public class DozerTest extends TestCase {
         EnumeratedValue dto = new EnumeratedValue();
         
         POJOConverter.map(dao, dto);
-        //assertEquals();
-        
+        assertEquals(dao.getAbbrevValue(), dto.getAbbrevValue());
+        assertEquals(dao.getCode(), dto.getCode());
+        assertEquals(dao.getEffectiveDate(), dto.getEffectiveDate());
+        assertEquals(dao.getExpirationDate(), dto.getExpirationDate());
+        assertEquals(dao.getValue(), dto.getValue());
+        assertEquals(dao.getCode(), dto.getCode());
+        assertEquals(dao.getSortKey(), dto.getSortKey());
         
         List<EnumeratedValueEntity> listDao = new ArrayList<EnumeratedValueEntity>();
         listDao.add(dao);
         
         List<EnumeratedValue> listDto = (List<EnumeratedValue>)POJOConverter.mapList(listDao, dto.getClass());
- 
-      //assertEquals();
+        
+        int i = 0;
+        for(EnumeratedValue dtoItem: listDto){
+        	EnumeratedValueEntity daoItem = listDao.get(i);
+            assertEquals(daoItem.getAbbrevValue(), dtoItem.getAbbrevValue());
+            assertEquals(daoItem.getCode(), dtoItem.getCode());
+            assertEquals(daoItem.getEffectiveDate(), dtoItem.getEffectiveDate());
+            assertEquals(daoItem.getExpirationDate(), dtoItem.getExpirationDate());
+            assertEquals(daoItem.getValue(), dtoItem.getValue());
+            assertEquals(daoItem.getCode(), dtoItem.getCode());
+            assertEquals(daoItem.getSortKey(), dtoItem.getSortKey());
+        	i++;
+        }
     }
 }
