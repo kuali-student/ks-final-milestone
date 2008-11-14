@@ -97,7 +97,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
         ContextEntity contextEntity = new ContextEntity();
         contextEntity.setContextKey("type 1");
-        contextEntity.setValue("context value 1");
+        contextEntity.setContextValue("context value 1");
         
         entity.getContextEntityList().add(contextEntity);
         contextEntity.getEnumeratedValueEntityList().add(entity);
@@ -105,7 +105,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumerationManagementDAO.addEnumeratedValue("Key", entity);
 
         List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumeration(entity.getEnumerationKey(), 
-                contextEntity.getContextKey(), contextEntity.getValue(), new Date(System.currentTimeMillis()));
+                contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
         EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
@@ -131,7 +131,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
         ContextEntity contextEntity = new ContextEntity();
         contextEntity.setContextKey("type 1");
-        contextEntity.setValue("context value 1");
+        contextEntity.setContextValue("context value 1");
         
         entity.getContextEntityList().add(contextEntity);
         contextEntity.getEnumeratedValueEntityList().add(entity);
@@ -140,7 +140,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumerationManagementDAO.addEnumeratedValue("Key1", entity);
         
         List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumeration(entity.getEnumerationKey(), 
-                contextEntity.getContextKey(), contextEntity.getValue(), new Date(System.currentTimeMillis()));
+                contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
         EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 

@@ -75,4 +75,7 @@ public class Contexts {
         return this.context;
     }
 
+    public void setContext(List<Context> l){
+        this.context = l;
+    }
 }

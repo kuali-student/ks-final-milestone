@@ -46,11 +46,11 @@ public class ContextEntity {
         this.contextKey = type;
     }
 
-    public String getValue() {
+    public String getContextValue() {
         return contextValue;
     }
 
-    public void setValue(String value) {
+    public void setContextValue(String value) {
         this.contextValue = value;
     }
     public List<EnumeratedValueEntity> getEnumeratedValueEntityList() {

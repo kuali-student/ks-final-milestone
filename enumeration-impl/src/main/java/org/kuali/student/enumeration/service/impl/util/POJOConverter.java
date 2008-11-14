@@ -14,12 +14,9 @@ public class POJOConverter {
     private static MapperIF mapper;
 
     static {
-     //   List<String> mappingFiles = new ArrayList<String>();
-       // mappingFiles.add("dozerMap.xml");
-
-        //mapper = new DozerBeanMapper(mappingFiles);
-        mapper = new DozerBeanMapper();
-
+        List<String> mappingFiles = new ArrayList<String>();
+        mappingFiles.add("dozerMap.xml");
+        mapper = new DozerBeanMapper(mappingFiles);
     }
 
     public static Object map(Object from, Object to) {
