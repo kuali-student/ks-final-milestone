@@ -21,7 +21,10 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
+    public EntityManager getEntityManager(){
+        return this.entityManager; 
+    }
+    
     public List<EnumerationMetaEntity> findEnumerationMetas() {
         Query query = entityManager.createQuery("SELECT e FROM EnumerationMetaEntity e");
         return (List<EnumerationMetaEntity>) query.getResultList();
@@ -52,6 +55,21 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     	
     	List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
     	
+        Query query = entityManager.createQuery(
+                "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
+                + "where e.effectiveDate < :contextDate and " +
+                "e.expirationDate > :contextDate and " + 
+                "c.contextValue = :contextValue and " + 
+                "c.contextKey = :enumContextKey and " +
+                "e.enumerationKey = :enumKey ");
+        query.setParameter("contextDate", contextDate);
+        query.setParameter("contextValue", contextValue);
+        query.setParameter("enumContextKey", enumContextKey);
+        query.setParameter("enumKey", enumerationKey);
+         list = (List<EnumeratedValueEntity>)query.getResultList();
+         
+         return list;
+/*    	
     	if(enumerationKey != null){
     		if(enumContextKey == null || contextValue == null){
     			//check to see if there is a date, return all results under these conditions if one does not exist
@@ -109,9 +127,9 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     		
 		    
     	}
-    	
-        return list;
+ 	
 
+  */ 
     }
 
     public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {

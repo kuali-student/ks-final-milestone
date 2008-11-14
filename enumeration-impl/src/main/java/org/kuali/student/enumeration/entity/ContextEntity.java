@@ -38,11 +38,11 @@ public class ContextEntity {
         this.id = id;
     }
 
-    public String getType() {
+    public String getContextKey() {
         return contextKey;
     }
 
-    public void setType(String type) {
+    public void setContextKey(String type) {
         this.contextKey = type;
     }
 
