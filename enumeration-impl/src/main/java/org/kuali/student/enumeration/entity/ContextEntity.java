@@ -21,7 +21,7 @@ public class ContextEntity {
     String contextKey;
     String contextValue;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     List<EnumeratedValueEntity> enumeratedValueEntityList =new ArrayList<EnumeratedValueEntity>();
     /**
      * AutoGenerate the id

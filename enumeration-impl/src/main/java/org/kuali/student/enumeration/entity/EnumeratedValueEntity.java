@@ -31,7 +31,7 @@ public class EnumeratedValueEntity {
     Date expirationDate;
     int sortKey;
     
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     List<ContextEntity> contextEntityList =new ArrayList<ContextEntity>();
 
     /**

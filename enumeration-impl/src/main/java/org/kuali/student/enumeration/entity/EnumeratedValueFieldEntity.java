@@ -1,7 +1,10 @@
 package org.kuali.student.enumeration.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
@@ -20,6 +23,10 @@ public class EnumeratedValueFieldEntity {
     int maxOccurs;
     String validChars;
     String invalidChars;
+    
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    EnumerationMetaEntity enumerationMetaEntity = new EnumerationMetaEntity(); 
+
     /**
      * AutoGenerate the id
      */
@@ -105,6 +112,12 @@ public class EnumeratedValueFieldEntity {
 
     public void setInvalidChars(String invalidChars) {
         this.invalidChars = invalidChars;
+    }
+    public EnumerationMetaEntity getEnumerationMetaEntity() {
+        return enumerationMetaEntity;
+    }
+    public void setEnumerationMetaEntity(EnumerationMetaEntity enumerationMetaEntity) {
+        this.enumerationMetaEntity = enumerationMetaEntity;
     }
 
 }

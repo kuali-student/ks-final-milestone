@@ -1,9 +1,14 @@
 package org.kuali.student.enumeration.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
@@ -16,6 +21,9 @@ public class EnumerationMetaEntity implements Serializable{
     String enumerationKey;
     String name;
     String enumerationMetaKeyDesc;
+    
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    List<EnumeratedValueFieldEntity> enumeratedValueFieldList = new ArrayList<EnumeratedValueFieldEntity>();
     /**
      * AutoGenerate the id
      */
@@ -53,6 +61,12 @@ public class EnumerationMetaEntity implements Serializable{
 
     public void setEnumerationMetaKeyDesc(String desc) {
         this.enumerationMetaKeyDesc = desc;
+    }
+    public List<EnumeratedValueFieldEntity> getEnumeratedValueFieldList() {
+        return enumeratedValueFieldList;
+    }
+    public void setEnumeratedValueFieldList(List<EnumeratedValueFieldEntity> enumeratedValueFieldList) {
+        this.enumeratedValueFieldList = enumeratedValueFieldList;
     }
 
 }
