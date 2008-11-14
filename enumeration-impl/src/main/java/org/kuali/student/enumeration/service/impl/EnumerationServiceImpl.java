@@ -1,5 +1,6 @@
 package org.kuali.student.enumeration.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,9 +50,19 @@ public class EnumerationServiceImpl implements EnumerationService{
 
     public EnumeratedValueList fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
         EnumeratedValueList enumeratedValueListDTO = new EnumeratedValueList();
-        
-        
-        List<EnumeratedValueEntity> enumeratedValueEntityList = enumDAO.fetchEnumeration(enumerationKey, enumContextKey, contextValue, contextDate);
+        List<EnumeratedValueEntity> enumeratedValueEntityList = new ArrayList();
+        if(enumerationKey != null && enumContextKey != null && contextValue != null && contextDate != null){
+        	enumeratedValueEntityList = enumDAO.fetchEnumerationsWithContextAndDate(enumerationKey, enumContextKey, contextValue, contextDate);
+        }
+        else if(enumerationKey != null && enumContextKey != null && contextValue != null){
+        	enumeratedValueEntityList = enumDAO.fetchEnumerationsWithContext(enumerationKey, enumContextKey, contextValue);
+        }
+        else if(enumerationKey != null && contextDate != null){
+        	enumeratedValueEntityList = enumDAO.fetchAllEnumerationsWithDate(enumerationKey, contextDate);
+        }
+        else if(enumerationKey != null){
+        	enumeratedValueEntityList = enumDAO.fetchAllEnumerations(enumerationKey);
+        }
         
         List<EnumeratedValue> enumeratedValueList = null; 
         

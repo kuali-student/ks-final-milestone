@@ -59,7 +59,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 
         return value;
     }
-
+    
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
         Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value, e. where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
