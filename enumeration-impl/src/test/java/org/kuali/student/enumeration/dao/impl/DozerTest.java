@@ -11,7 +11,17 @@ import org.kuali.student.enumeration.service.impl.util.POJOConverter;
 import junit.framework.TestCase;
 
 public class DozerTest extends TestCase {
-
+    public void testContext(){
+        Context context = new Context();
+        context.setType("type");
+        context.setValue("value");
+        
+        ContextEntity contextEntity = new ContextEntity();
+        POJOConverter.map(context, contextEntity);
+        
+        assertEquals(context.getValue(), contextEntity.getContextValue());
+        assertEquals(context.getType(), contextEntity.getContextKey());
+    }
     public void testDAOtoDTOEnumeratedValue(){
         EnumeratedValueEntity dao = new EnumeratedValueEntity();
         dao.setId("1");
