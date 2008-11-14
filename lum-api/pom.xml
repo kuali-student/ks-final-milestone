@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>lum-api</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>ks-lum-api</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>KS LUM-API POM</name>
@@ -21,12 +21,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>common-util</artifactId>
+			<artifactId>ks-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>core-api</artifactId>
+			<artifactId>ks-core-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
