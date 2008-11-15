@@ -76,7 +76,8 @@ public class RuleSetExecutorDroolsImplTest {
     public void setUp() throws Exception {
     	this.executor = new RuleSetExecutorDroolsImpl();
     	this.executor.clearRuleSetCache();
-    	this.executor.enableExecutionLogging();
+    	((RuleSetExecutorDroolsImpl)this.executor).setEnableExecutionLogging(true);
+    	((RuleSetExecutorDroolsImpl)this.executor).setEnableStatLogging(true);
     }
 
     @After

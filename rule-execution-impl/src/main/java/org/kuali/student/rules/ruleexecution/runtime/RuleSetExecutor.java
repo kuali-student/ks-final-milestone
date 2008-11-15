@@ -58,16 +58,6 @@ public interface RuleSetExecutor {
     public void clearRuleSetCache();
     
     /**
-     * Enables rule engine execution logging.
-     */
-    public void enableExecutionLogging();
-
-    /**
-     * Disables rule engine execution logging.
-     */
-    public void disableExecutionLogging();
-
-    /**
      * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
      * returns a list of execution results {@link ExecutionResult}.</p>
      * <p>The {@link ExecutionResult}'s id is set to the 

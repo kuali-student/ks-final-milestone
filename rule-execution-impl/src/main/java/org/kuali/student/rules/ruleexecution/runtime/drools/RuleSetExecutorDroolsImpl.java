@@ -34,7 +34,9 @@ import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
+import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
@@ -64,8 +66,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     private final static ConcurrentMap<String,BusinessRuleInfoValue> businessRuleMap = new ConcurrentHashMap<String,BusinessRuleInfoValue>();
     
     private boolean logExecution = false;
+
+    private boolean statlogging = false;
     
     private LoggingStringBuilder executionLog = null;
+    
+    private final static DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
     
     /**
      * Constructs a new rule set executor without a repository.
@@ -77,15 +83,19 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     /**
      * Enables rule engine execution logging.
      */
-    public void enableExecutionLogging() {
-    	this.logExecution = true;
+    public void setEnableExecutionLogging(boolean enable) {
+    	this.logExecution = enable;
     }
 
     /**
-     * Disables rule engine execution logging.
+     * Enables rule engine execution statistics logging.
      */
-    public void disableExecutionLogging() {
-    	this.logExecution = false;
+    public void setEnableStatLogging(boolean enable) {
+    	this.statlogging = enable;
+    }
+
+    public DroolsExecutionStatistics getStatistics() {
+    	return executionStats;
     }
 
     /**
@@ -283,6 +293,27 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("********************************");
     }
 
+    private void logStats() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n**********  Rule Statistics  **********");
+		sb.append("\n* Total activations fired count: " + executionStats.getStatistics().getTotalActivationsFiredCount());
+		sb.append("\n* Total log event count:         " + executionStats.getStatistics().getTotalLogEventCount());
+		sb.append("\n* Total object insert count:     " + executionStats.getStatistics().getTotalObjectInsertCount());
+		sb.append("\n* Total object retract count:    " + executionStats.getStatistics().getTotalObjectRetractCount());
+		sb.append("\n* Total object update count:     " + executionStats.getStatistics().getTotalObjectUpdateCount());
+		sb.append("\n* Total package add count:       " + executionStats.getStatistics().getTotalPackageAddCount());
+		sb.append("\n* Total package remove count:    " + executionStats.getStatistics().getTotalPackageRemoveCount());
+		sb.append("\n* Rule Activation Counts: ");
+		for(DroolsExecutionStatistics.EventLogger event : executionStats.getRuleActivationStatistics()) {
+			sb.append("\n*\tRule Base Type:   " + event.getRuleBaseType());
+			sb.append("\n*\tPackage name:     " + event.getPackageName());
+			sb.append("\n*\tRule name:        " + event.getRuleName());
+			sb.append("\n*\tRule activations: " + event.getActivationCount());
+		}
+		sb.append("\n***************************************");
+		logger.info(sb.toString());
+    }
+    
     /**
      * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
      * returns a list of execution results {@link ExecutionResult}.</p>
@@ -336,6 +367,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         } catch(RuleSetExecutionException e) {
         	result.setErrorMessage(e.getMessage());
         }
+        
+    	if (logger.isInfoEnabled()) {
+    		logStats();
+    	}
+        
         return result;
     }
 
@@ -382,9 +418,14 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
+        DroolsWorkingMemoryStatisticsLogger statLogger = null;
         
         if(this.logExecution) {
         	droolsLogger = new DroolsWorkingMemoryLogger(session, this.executionLog);
+        }
+        if(this.statlogging) {
+        	statLogger = new DroolsWorkingMemoryStatisticsLogger(
+        			session, ruleBaseType, executionStats);
         }
         
         List<Object> factList = assembleFacts(fact);
