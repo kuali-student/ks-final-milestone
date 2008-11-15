@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,15 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.drools.compiler.PackageBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
-import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
@@ -30,10 +25,6 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
-import org.kuali.student.rules.repository.drools.util.DroolsUtil;
-import org.kuali.student.rules.repository.dto.RuleDTO;
-import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
@@ -44,26 +35,36 @@ import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
+import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
+import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class RuleIntegrationTest {
+
 	private static RuleRepositoryService ruleRepositoryService;
 	private static RuleManagementService ruleManagementService;
 	private static RuleExecutionService ruleExecutionService;
+
+	private static ApplicationContext testBeanContext;
+	
+	private BusinessRuleInfoDTO businessRuleInfo1;
+	private BusinessRuleInfoDTO businessRuleInfo2;
 	
 	@BeforeClass
     public static void setUpOnce() throws Exception {
 		System.setProperty("ks.test.persistenceLocation", "classpath:META-INF/rulemanagement-persistence.xml");
 		System.setProperty("ks.test.daoImplClasses", "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl|classpath:test-beans.xml");
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext("/rulemanagement-mock-service-context.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/rulemanagement-mock-service-context.xml");
 		
-		ruleRepositoryService = (RuleRepositoryService) context.getBean("repository");
-		ruleManagementService = (RuleManagementService) context.getBean("ruleManagement");
-		ruleExecutionService = (RuleExecutionService) context.getBean("ruleExecution");
-    }
+		ruleRepositoryService = (RuleRepositoryService) applicationContext.getBean("repository");
+		ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
+		ruleExecutionService = (RuleExecutionService) applicationContext.getBean("ruleExecution");
+
+		testBeanContext = new ClassPathXmlApplicationContext("/test-beans.xml");
+	}
 
     @AfterClass
     public static void tearDownOnce() throws Exception {
@@ -71,10 +72,21 @@ public class RuleIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+		BusinessRule businessRule1 = (BusinessRule) testBeanContext.getBean("funcBusRule1");
+		BusinessRule businessRule2 = (BusinessRule) testBeanContext.getBean("funcBusRule2");
+
+		this.businessRuleInfo1 = BusinessRuleAdapter.getBusinessRuleInfoDTO(businessRule1);
+		this.businessRuleInfo2 = BusinessRuleAdapter.getBusinessRuleInfoDTO(businessRule2);
+		
+		// Generate the Drools rule source code (DRL) and save it to the rule repository
+		//ruleManagementService.updateBusinessRule(businessRuleInfo1.getBusinessRuleId(), businessRuleInfo1);
+		//ruleManagementService.updateBusinessRule(businessRuleInfo2.getBusinessRuleId(), businessRuleInfo2);
     }
 
     @After
     public void tearDown() throws Exception {
+    	this.businessRuleInfo1 = null;
+    	this.businessRuleInfo2 = null;
     }
 
     private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
@@ -186,153 +198,8 @@ public class RuleIntegrationTest {
         return brInfoDTO;
     }
     
-    /**
-     * Gets a simple rule. 
-     * First rule determines whether the minutes of the hour is even.
-     * Rule takes <code>java.util.Calendar</code> as fact (package import).
-     * 
-     * @param ruleName Rule name
-     * @return a Drools rule
-     */
-	private String getSimpleRule1(String ruleName) {
-        ruleName = (ruleName == null ? "HelloDroolsEven" : ruleName);
-        return 
-			"rule \"" + ruleName + "\"" +
-			"     when" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 0 ) )" +
-			"     then" +
-			"          insert( \"Minute is even: \" + now.get(Calendar.MINUTE) );" +
-			"end";
-	}
-	
-	/**
-	 * Gets a simple rule. 
-	 * Rule determines whether the minutes of the hour is odd.
-	 * Rule takes <code>java.util.Calendar</code> as fact (package import).
-	 *  
-	 * @return a Drools' rule
-	 */
-	private String getSimpleRule2(String ruleName) {
-        ruleName = (ruleName == null ? "HelloDroolsOdd" : ruleName);
-		return 
-            "rule \"" + ruleName + "\"" +
-			"     when" +
-			"          now: Calendar()" +
-			"          eval ( ( now.get(Calendar.MINUTE) % 2 == 1 ) )" +
-			"     then" +
-			"          insert( \"Minute is odd: \" + now.get(Calendar.MINUTE) );" +
-			"end";
-	}
-
-	private RuleSetDTO createRuleSet() {
-    	RuleSetDTO ruleSet = new RuleSetDTO("TestName", "Test description", "DRL");
-    	ruleSet.addHeader("import java.util.Calendar");
-    	
-    	RuleDTO rule1 = new RuleDTO("rule1", "A rule", getSimpleRule1("rule1"), "DRL");
-    	RuleDTO rule2 = new RuleDTO("rule2", "A rule", getSimpleRule2("rule2"), "DRL");
-    	ruleSet.addRule(rule1);
-    	ruleSet.addRule(rule2);
-    	ruleSet.setContent(ruleSet.buildContent());
-    	return ruleSet;
-    }
-	
-	private byte[] createPackage(RuleSetDTO ruleSet) throws Exception {
-		PackageBuilder builder = new PackageBuilder();
-		builder.addPackageFromDrl(new StringReader(ruleSet.getContent()));
-        // Deserialize a Drools package
-		return DroolsUtil.deserialize( builder.getPackage() );
-	}
-
-	private FactResultTypeInfoDTO createColumnMetaData(String dataType) {
-    	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
-    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
-    	columnInfo.setKey("column1");
-    	columnInfo.setDataType(dataType);
-    	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
-    	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();
-    	typeInfo.setResultColumnsMap(columnsInfoMap);
-    	return typeInfo;
-    }
-
-    @Test
-    public void testRuleIntegration_ExecuteDefaultRuleSet() throws Exception {
-        RuleSetDTO ruleSet = createRuleSet();
-        byte[] bytes = createPackage(ruleSet);
-        ruleSet.setCompiledRuleSet(bytes);
-
-        // Add facts
-        FactResultDTO fact = new FactResultDTO();
-    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(Calendar.class.getName());
-    	fact.setFactResultTypeInfo(columnMetaData);
-    	
-    	Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        
-        String dateString = BusinessRuleUtil.formatDate(cal.getTime());
-
-        Map<String, String> rowMap = new HashMap<String, String>();
-        rowMap.put("column1", dateString);
-        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-        resultList.add(rowMap);
-        fact.setResultList(resultList);
-
-        ExecutionResultDTO executionResult = ruleExecutionService.executeRuleSet(ruleSet, fact);
-
-        assertNotNull( executionResult );
-
-        String executionLog = executionResult.getExecutionLog();
-
-        assertNotNull( executionLog );
-        assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
-        System.out.println("Rule Engine Execution Log:\n" + executionLog);
-    }
-
-    @Test
-    public void testRuleIntegration_ExecuteDefaultRuleSetByUUID() throws Exception {
-        RuleSetDTO ruleSet = createRuleSet();
-        byte[] bytes = createPackage(ruleSet);
-        ruleSet.setCompiledRuleSet(bytes);
-
-        // Add facts
-        FactResultDTO fact = new FactResultDTO();
-    	FactResultTypeInfoDTO columnMetaData = createColumnMetaData(Calendar.class.getName());
-    	fact.setFactResultTypeInfo(columnMetaData);
-    	
-    	Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        
-        String dateString = BusinessRuleUtil.formatDate(cal.getTime());
-
-        Map<String, String> rowMap = new HashMap<String, String>();
-        rowMap.put("column1", dateString);
-        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-        resultList.add(rowMap);
-        fact.setResultList(resultList);
-
-        RuleSetDTO newRuleSet = ruleRepositoryService.createRuleSet(ruleSet);
-        
-        ExecutionResultDTO executionResult = ruleExecutionService.executeRuleSetByUUID(newRuleSet.getUUID(), fact);
-
-        assertNotNull( executionResult );
-
-        String executionLog = executionResult.getExecutionLog();
-
-        assertNotNull( executionLog );
-        assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
-        System.out.println("Rule Engine Execution Log:\n" + executionLog);
-    }
-
-    @Test
-    public void testRuleIntegration_ExecuteWithStaticFact() throws Exception {
+    /*@Test
+    public void testRuleIntegration_ExecuteBusinessRuleWithStaticFact() throws Exception {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("100", "CHEM100PRE_REQ", "CHEM100");
         String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
         assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
@@ -350,7 +217,7 @@ public class RuleIntegrationTest {
     }
 
     @Test
-    public void testRuleIntegration_ExecuteWithStaticFact_BadEffectiveDates() throws Exception {
+    public void testRuleIntegration_ExecuteBusinessRuleWithStaticFact_BadEffectiveDates() throws Exception {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("200", "CHEM200PRE_REQ", "CHEM200");
         brInfoDTO.setEffectiveStartTime(new Date());
         brInfoDTO.setEffectiveEndTime(new Date());
@@ -370,7 +237,7 @@ public class RuleIntegrationTest {
     }
 
     @Test
-    public void testRuleIntegration_ExecuteSnapshotWithStaticFact() throws Exception {
+    public void testRuleIntegration_ExecuteBusinessRuleSnapshotWithStaticFact() throws Exception {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo("300", "CHEM300PRE_REQ", "CHEM300");
         String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
         assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
@@ -389,6 +256,161 @@ public class RuleIntegrationTest {
         assertNull(result.getReport().getFailureMessage());
         System.out.println("Execution log:\n" + result.getExecutionLog());
         System.out.println("Error message:\n" + result.getErrorMessage());
+    }*/
+
+    @Test
+    public void testExecuteBusinessRuleWithStaticFact_Rule1() throws Exception {
+    	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
+    	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo1;
+    	// RuleId "1" already exists in the rule management database 
+    	// from pre-loading test-beans.xml so we set the ruleId to "1000"
+    	brInfoDTO.setBusinessRuleId("1000");
+        brInfoDTO.setName("CHEM100PRE_REQ");
+        brInfoDTO.setAnchorValue("CHEM100");
+    	
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertTrue(result.getReport().isSuccessful());
+        assertNotNull(result.getReport().getSuccessMessage());
+        assertNull(result.getReport().getFailureMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testExecuteBusinessRuleWithStaticFact_Rule1_BadEffectiveDates() throws Exception {
+    	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
+    	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo1;
+    	// RuleId "1" already exists in the rule management database 
+    	// from pre-loading test-beans.xml so we set the ruleId to "2000"
+    	brInfoDTO.setBusinessRuleId("2000");
+        brInfoDTO.setName("CHEM200PRE_REQ");
+        brInfoDTO.setAnchorValue("CHEM200");
+
+    	brInfoDTO.setEffectiveStartTime(new Date());
+        brInfoDTO.setEffectiveEndTime(new Date());
+
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+		
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertFalse(result.getReport().isSuccessful());
+        assertNotNull(result.getErrorMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testExecuteBusinessRuleSnapshotWithStaticFact_Rule1() throws Exception {
+    	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
+    	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo1;
+    	// RuleId "1" already exists in the rule management database 
+    	// from pre-loading test-beans.xml so we set the ruleId to "3000"
+    	brInfoDTO.setBusinessRuleId("3000");
+        brInfoDTO.setName("CHEM300PRE_REQ");
+        brInfoDTO.setAnchorValue("CHEM300");
+
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+		
+        //Create snapshot - Active business rule will create a snapshot
+        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
+        ruleManagementService.updateBusinessRule(businessRuleId, brInfoDTO);
+        
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertTrue(result.getReport().isSuccessful());
+        assertNotNull(result.getReport().getSuccessMessage());
+        assertNull(result.getReport().getFailureMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testExecuteBusinessRuleWithStaticFact_Rule2() throws Exception {
+    	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
+    	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo2;
+    	// RuleId "1" already exists in the rule management database 
+    	// from pre-loading test-beans.xml so we set the ruleId to "1000"
+    	brInfoDTO.setBusinessRuleId("4000");
+        brInfoDTO.setName("CHEM400PRE_REQ");
+        brInfoDTO.setAnchorValue("CHEM400");
+    	
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertFalse(result.getReport().isSuccessful());
+        assertNotNull(result.getReport().getFailureMessage());
+        assertNull(result.getReport().getSuccessMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testExecuteBusinessRuleSnapshotWithStaticFact_Rule2() throws Exception {
+    	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
+    	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo2;
+    	// RuleId "1" already exists in the rule management database 
+    	// from pre-loading test-beans.xml so we set the ruleId to "3000"
+    	brInfoDTO.setBusinessRuleId("5000");
+        brInfoDTO.setName("CHEM500PRE_REQ");
+        brInfoDTO.setAnchorValue("CHEM500");
+
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+		
+        //Create snapshot - Active business rule will create a snapshot
+        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
+        ruleManagementService.updateBusinessRule(businessRuleId, brInfoDTO);
+        
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertFalse(result.getReport().isSuccessful());
+        assertNotNull(result.getReport().getFailureMessage());
+        assertNull(result.getReport().getSuccessMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
     }
 
 }

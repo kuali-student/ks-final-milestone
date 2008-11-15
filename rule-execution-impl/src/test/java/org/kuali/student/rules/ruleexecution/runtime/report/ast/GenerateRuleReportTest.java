@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
-import org.kuali.student.rules.ruleexecution.runtime.drools.DefaultExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
 
 public class GenerateRuleReportTest {
@@ -30,7 +30,7 @@ public class GenerateRuleReportTest {
 
 	@Before
 	public void setUp() throws Exception {
-        DefaultExecutor executor = new DefaultExecutorDroolsImpl();
+        SimpleExecutor executor = new SimpleExecutorDroolsImpl();
 	    this.generateRuleReport = new GenerateRuleReport(executor);
 	}
 	

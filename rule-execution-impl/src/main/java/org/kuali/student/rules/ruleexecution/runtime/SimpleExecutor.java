@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 
-public interface DefaultExecutor {
+public interface SimpleExecutor {
     /**
      * Default rule base type key.
      */

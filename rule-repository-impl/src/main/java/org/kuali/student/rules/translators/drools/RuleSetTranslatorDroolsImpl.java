@@ -68,8 +68,8 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 	 */
     public RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
     	RuleSet ruleSet = null;
-    	String ruleSetName = PACKAGE_PREFIX + businessRule.getName();
-    	if (businessRule.getCompiledId() != null) {
+    	String ruleSetName = PACKAGE_PREFIX + removeInvalidCharacters(businessRule.getName());
+    	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
         	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, businessRule.getCompiledVersionNumber());
     	} else {
         	ruleSet = ruleSetFactory.createRuleSet(ruleSetName, businessRule.getDescription());
@@ -102,7 +102,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         checkBusinessRule(businessRule);
         
         String anchor = businessRule.getAnchorValue();
-        String ruleName = businessRule.getName();
+        String ruleName = removeInvalidCharacters(businessRule.getName());
         String ruleDescription = businessRule.getDescription();
         String functionString = BusinessRuleUtil.createAdjustedRuleFunctionString(businessRule);
         Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
@@ -256,6 +256,12 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         if (name.trim().indexOf("-") > -1) {
             throw new RuleSetTranslatorException("Name cannot contain hyphens");
         }
+    }
+
+    private String removeInvalidCharacters(String s) {
+    	s = s.replaceAll("[\\s ]", "");
+    	s = s.replaceAll("[\\s-]", "");
+    	return s;
     }
 
 }

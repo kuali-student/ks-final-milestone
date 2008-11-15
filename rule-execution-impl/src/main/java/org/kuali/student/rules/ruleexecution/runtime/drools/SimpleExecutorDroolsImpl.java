@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.drools.RuleBase;
-import org.drools.RuleBaseFactory;
 import org.drools.StatelessSession;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
@@ -29,16 +28,16 @@ import org.drools.rule.Package;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultExecutorDroolsImpl implements DefaultExecutor {
+public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(DefaultExecutorDroolsImpl.class);
+    final static Logger logger = LoggerFactory.getLogger(SimpleExecutorDroolsImpl.class);
 
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
@@ -46,9 +45,9 @@ public class DefaultExecutorDroolsImpl implements DefaultExecutor {
 
     private boolean logExecution = false;
 
-    public DefaultExecutorDroolsImpl() {}
+    public SimpleExecutorDroolsImpl() {}
     
-    public DefaultExecutorDroolsImpl(boolean logExecution) {
+    public SimpleExecutorDroolsImpl(boolean logExecution) {
     	this.logExecution = logExecution;
     }
     

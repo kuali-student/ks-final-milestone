@@ -30,7 +30,8 @@ import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
+import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
@@ -53,7 +54,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
-    private DefaultExecutor defaultExecutor = new DefaultExecutorDroolsImpl();
+    private SimpleExecutor defaultExecutor = new SimpleExecutorDroolsImpl();
     
     private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
 
@@ -63,6 +64,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     private final static ConcurrentMap<String,BusinessRuleInfoValue> businessRuleMap = new ConcurrentHashMap<String,BusinessRuleInfoValue>();
     
     private boolean logExecution = false;
+    
+    private LoggingStringBuilder executionLog = null;
     
     /**
      * Constructs a new rule set executor without a repository.
@@ -79,7 +82,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
-     * disables rule engine execution logging.
+     * Disables rule engine execution logging.
      */
     public void disableExecutionLogging() {
     	this.logExecution = false;
@@ -91,40 +94,19 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param businessRule business rule to log
      * @param message A message
      */
-    private void logBusinessRule(BusinessRuleInfoDTO businessRule, String message) {
+    private String logBusinessRule(BusinessRuleInfoDTO businessRule, String message) {
     	StringBuilder sb = new StringBuilder();
     	sb.append("\n**************************************************");
     	sb.append("\n"+message);
-    	sb.append("\nBusiness rule name:                "+businessRule.getName());
-    	sb.append("\nBusiness rule id:                  "+businessRule.getBusinessRuleId());
-    	sb.append("\nBusiness rule compiledId:          "+businessRule.getCompiledId());
-    	sb.append("\nBusiness rule compiled version no: "+businessRule.getCompiledVersionNumber());
-    	sb.append("\nBusiness rule anchor type key:     "+businessRule.getAnchorTypeKey());
-    	sb.append("\nBusiness rule anchor value:        "+businessRule.getAnchorValue());
+    	sb.append("\nBusiness rule name:                    "+businessRule.getName());
+    	sb.append("\nBusiness rule id:                      "+businessRule.getBusinessRuleId());
+    	sb.append("\nBusiness rule compiledId:              "+businessRule.getCompiledId());
+    	sb.append("\nBusiness rule compiled version number: "+businessRule.getCompiledVersionNumber());
+    	sb.append("\nBusiness rule anchor type key:         "+businessRule.getAnchorTypeKey());
+    	sb.append("\nBusiness rule anchor value:            "+businessRule.getAnchorValue());
     	sb.append("\n**************************************************");
         logger.debug(sb.toString());
-    }
-
-    /**
-     * Logs a rule set.
-     * 
-     * @param ruleSet Rule set to log
-     * @param message A message
-     */
-    private void logRuleSet(RuleSetDTO ruleSet, String message) {
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("\n**************************************************");
-    	sb.append("\n"+message);
-    	sb.append("\nRule set name:                  "+ruleSet.getName());
-    	sb.append("\nRule set uuid:                  "+ruleSet.getUUID());
-    	sb.append("\nRule set version number:        "+ruleSet.getVersionNumber());
-    	sb.append("\nRule set snapshot name:         "+ruleSet.getSnapshotName());
-    	sb.append("\nRule set version snapshot uuid: "+ruleSet.getVersionSnapshotUUID());
-    	sb.append("\nRule set status:                "+ruleSet.getStatus());
-    	sb.append("\n-------------------------");
-    	sb.append(ruleSet.getContent());
-    	sb.append("\n**************************************************");
-        logger.debug(sb.toString());
+        return sb.toString();
     }
 
     /**
@@ -259,6 +241,49 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
     
     /**
+     * Creates a string builder for logging.
+     * 
+     * @return A Logging string builder
+     */
+    private void startLogging(BusinessRuleInfoDTO businessRule, String ruleBaseType, String id) {
+    	this.executionLog = new LoggingStringBuilder();
+    	this.executionLog.append("********************************");
+    	this.executionLog.append("*   Drools Rule Set Executor   *");
+    	this.executionLog.append("*        Execution Log         *");
+    	this.executionLog.append("********************************");
+    	this.executionLog.append("----- START -----");
+    	this.executionLog.append("Business rule name:                    "+businessRule.getName());
+    	this.executionLog.append("Business rule id:                      "+businessRule.getBusinessRuleId());
+    	this.executionLog.append("Business rule compiled ID:             "+businessRule.getCompiledId());
+    	this.executionLog.append("Business rule compiled version number: "+businessRule.getCompiledVersionNumber());
+    	this.executionLog.append("Business rule anchor type key:         "+businessRule.getAnchorTypeKey());
+    	this.executionLog.append("Business rule anchor value:            "+businessRule.getAnchorValue());
+    	this.executionLog.append("Fact container ID:                     " + id);
+    	this.executionLog.append("Execution rule base:                   " + ruleBaseType);
+    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
+    	this.executionLog.append("Packages loaded in rule base:          " + ruleBase.getPackages().length);
+    	for(Package pkg : ruleBase.getPackages()) {
+    		this.executionLog.append("\tPackage Name: " + pkg.getName());
+    	}
+    }
+    
+    /**
+     * Stop logging message.
+     */
+    private void stopLogging() {
+    	this.executionLog.append("----- END -----");
+    }
+    
+    /**
+     * Log execution result message.
+     */
+    private void logResults() {
+    	this.executionLog.append("********************************");
+    	this.executionLog.append("*   Execution Result Objects   *");
+    	this.executionLog.append("********************************");
+    }
+
+    /**
      * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
      * returns a list of execution results {@link ExecutionResult}.</p>
      * <p>The {@link ExecutionResult}'s id is set to the 
@@ -268,14 +293,15 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param facts List of Facts for the <code>agenda</code>
      * @return Result of executing the <code>agenda</code>
      */
-    public synchronized List<ExecutionResult> execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap) {
+    public synchronized AgendaExecutionResult execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap) {
         logger.info("Executing agenda: businessRules="+agenda.getBusinessRules());
-        List<ExecutionResult> resultList = new ArrayList<ExecutionResult>(agenda.getBusinessRules().size());
+        AgendaExecutionResult agendaExecutionResult = new AgendaExecutionResult();
         for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
             ExecutionResult result = execute(businessRule, factMap);
-            resultList.add(result);
+            agendaExecutionResult.addExecutionResult(result);
         }
-        return resultList;
+        agendaExecutionResult.setExecutionResult(Boolean.TRUE);
+        return agendaExecutionResult;
     }
 
     /**
@@ -293,11 +319,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	String ruleBaseType = getRuleTypeKey(businessRule);
         String id = ""+System.nanoTime();
         String anchor = businessRule.getAnchorValue();
+
+        if(this.logExecution) {
+            startLogging(businessRule, ruleBaseType, id);
+        }
+        
     	Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
     	
         FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
 
-        ExecutionResult result = executeRule(ruleBaseType, true, factContainer);
+        ExecutionResult result = executeRule(ruleBaseType, factContainer);
         result.setId(businessRule.getBusinessRuleId());
         try {
 	        PropositionReport report = generateReport(result.getResults());
@@ -340,32 +371,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
-     * Assemble the list of facts.
-     * 
-     * @param factList List of facts
-     * @return List of facts
-     */
-    private List<Object> assembleFacts(List<Object> factList) {
-        factList.add(new CurrentDateTime());
-        return factList;
-    }
-    
-    /**
-     * Creates a string builder for logging.
-     * 
-     * @return A Logging string builder
-     */
-    private LoggingStringBuilder createLogging() {
-    	LoggingStringBuilder builder = new LoggingStringBuilder();
-    	builder.append("********************************");
-    	builder.append("*   Drools Rule Set Executor   *");
-    	builder.append("*        Execution Log         *");
-    	builder.append("********************************");
-    	builder.append("----- START -----");
-    	return builder;
-    }
-    
-    /**
      * Executes a <code>ruleBase</code> with a <code>fact</code>.
      * 
      * @param logRuleExecution If set to true, logs rule engine execution; otherwise no logging is done
@@ -373,15 +378,13 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param fact Fact container for the <code>ruleBase</code>
      * @return An execution result
      */
-    private ExecutionResult executeRule(String ruleBaseType, boolean logRuleExecution, FactContainer fact) { 
+    private ExecutionResult executeRule(String ruleBaseType, FactContainer fact) { 
     	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
-        LoggingStringBuilder executionLog = null;
         
-        if(this.logExecution || logRuleExecution) {
-            executionLog = createLogging();
-        	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
+        if(this.logExecution) {
+        	droolsLogger = new DroolsWorkingMemoryLogger(session, this.executionLog);
         }
         
         List<Object> factList = assembleFacts(fact);
@@ -390,17 +393,15 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         @SuppressWarnings("unchecked") 
         Iterator<Object> it = session.executeWithResults(factList).iterateObjects();
     
-        if(this.logExecution || logRuleExecution) {
-        	executionLog.append("********************************");
-        	executionLog.append("*   Execution Result Objects   *");
-        	executionLog.append("********************************");
+        if(this.logExecution) {
+        	logResults();
         }
         
         List<Object> list = new ArrayList<Object>();
         while(it != null && it.hasNext()) {
         	Object obj = it.next();
-            if(this.logExecution || logRuleExecution) {
-            	executionLog.append(obj.toString());
+            if(this.logExecution) {
+            	this.executionLog.append(obj.toString());
             }
         	if (obj instanceof FactContainer) {
         		FactContainer fc = (FactContainer) obj;
@@ -411,69 +412,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         }
 
         result.setResults(list);
-        result.setExecutionResult(Boolean.TRUE);
         
-        if(this.logExecution || logRuleExecution) {
-        	executionLog.append("----- END -----");
+        if(this.logExecution) {
+        	stopLogging();
         	result.setExecutionLog(droolsLogger.getLog().toString());
         }
         
-        return result;
-    }
-
-    /**
-     * Executes a <code>ruleBase</code> with a list of <code>facts</code>.
-     * 
-     * @param logRuleExecution If set to true, logs rule engine execution; otherwise no logging is done
-     * @param ruleBase List of rules
-     * @param fact A list of facts for the <code>ruleBase</code>
-     * @return An execution result
-     */
-    private ExecutionResult executeRule(String ruleBaseType, boolean logRuleExecution, List<Object> facts) { 
-    	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
-        StatelessSession session = ruleBase.newStatelessSession();
-        DroolsWorkingMemoryLogger droolsLogger = null;
-        LoggingStringBuilder executionLog = null;
-        
-        if(this.logExecution || logRuleExecution) {
-            executionLog = createLogging();
-        	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
-        }
-
-        List<Object> factList = assembleFacts(facts);
-        ExecutionResult result = new ExecutionResult();
-
-        @SuppressWarnings("unchecked") 
-        Iterator<Object> it = session.executeWithResults(factList).iterateObjects();
-        
-        if(this.logExecution || logRuleExecution) {
-        	executionLog.append("********************************");
-        	executionLog.append("*   Execution Result Objects   *");
-        	executionLog.append("********************************");
-        }
-        
-        List<Object> list = new ArrayList<Object>();
-        while(it != null && it.hasNext()) {
-        	Object obj = it.next();
-            if(this.logExecution || logRuleExecution) {
-            	executionLog.append("Object: "+obj.toString());
-            }
-        	if (!(obj instanceof CurrentDateTime)) {
-	        	list.add(obj);
-        	}
-        }
-
-        result.setResults(list);
         result.setExecutionResult(Boolean.TRUE);
-        
-        if(this.logExecution || logRuleExecution) {
-        	executionLog.append("----- END -----");
-        	result.setExecutionLog(droolsLogger.getLog().toString());
-        }
-        
         return result;
     }
-    
+
     private class BusinessRuleInfoValue implements java.io.Serializable {
     	/** Class serial version uid */
         private static final long serialVersionUID = 1L;

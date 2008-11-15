@@ -1,10 +1,10 @@
 package org.kuali.student.rules.ruleexecution.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,30 +13,55 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
 import org.kuali.student.poc.common.test.spring.Client;
+import org.kuali.student.poc.common.test.spring.Dao;
+import org.kuali.student.poc.common.test.spring.Daos;
+import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
-import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.rules.ruleexecution.dto.FactDTO;
-import org.kuali.student.rules.ruleexecution.dto.ResultDTO;
-import org.kuali.student.rules.ruleexecution.dto.ValueDTO;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
+import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
+import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
+import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
+import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.ContextLoader;
 
+@Daos({@Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")})
+@PersistenceFileLocation("classpath:META-INF/rulemanagement-persistence.xml")
 public class RuleExecutionServiceTest extends AbstractServiceTest {
 
-	// Automatically loads rule-repository-mock-service-context.xml (*-mock-service-context.xml)
-	// and auto-wires by type
+	// Automatically loads rule-repository-mock-service-context.xml 
+	// (*-mock-service-context.xml) and auto-wires by type
 	@Client(value="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181")
-    public RuleExecutionService service; 
+    public RuleExecutionService ruleExecutionService; 
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
+		ApplicationContext testBeanContext = new ClassPathXmlApplicationContext("/test-beans.xml");
+		
+		BusinessRule businessRule1 = (BusinessRule) testBeanContext.getBean("funcBusRule1");
+		BusinessRule businessRule2 = (BusinessRule) testBeanContext.getBean("funcBusRule2");
+
+		BusinessRuleInfoDTO businessRuleInfo1 = BusinessRuleAdapter.getBusinessRuleInfoDTO(businessRule1);
+		BusinessRuleInfoDTO businessRuleInfo2 = BusinessRuleAdapter.getBusinessRuleInfoDTO(businessRule2);
+		
+		// Generate the Drools rule source code (DRL) and save it to the rule repository
+		ApplicationContext applicationContext = ContextLoader.getCurrentWebApplicationContext();
+
+		RuleManagementService ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
+		ruleManagementService.updateBusinessRule(businessRuleInfo1.getBusinessRuleId(), businessRuleInfo1);
+		ruleManagementService.updateBusinessRule(businessRuleInfo2.getBusinessRuleId(), businessRuleInfo2);
+
+		//RuleRepositoryService ruleRepositoryService = (RuleRepositoryService) applicationContext.getBean("repository");
+		//System.out.println("\n\n********** "+ruleRepositoryService.fetchRuleSet(ruleManagementService.fetchBusinessRuleInfo(businessRuleInfo1.getBusinessRuleId()).getCompiledId()).getContent());
+		//System.out.println("\n\n********** "+ruleRepositoryService.fetchRuleSet(ruleManagementService.fetchBusinessRuleInfo(businessRuleInfo2.getBusinessRuleId()).getCompiledId()).getContent());
     }
 
     @AfterClass
@@ -57,77 +82,41 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	List<?> facts = null;
     }
 
-    /*@Test
-    public void testExecuteRuleSet() throws Exception {
-        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
-        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
-        ruleSet.setCompiledRuleSet(bytes);
+    @Test
+    public void testExecuteBusinessRule_StaticFact_TestBeans_Rule1() throws Exception {
+        // Get functional business rule with ruleUId="1" from test-beans.xml
+    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule("1");
+        Assert.assertNotNull(result);
 
-        // Add facts
-        FactDTO fact = new FactDTO("1");
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        fact.addFact("1", cal);
+        Assert.assertTrue(result.getExecutionResult());
+        Assert.assertNotNull(result.getExecutionLog());
+        Assert.assertNotNull(result.getReport());
+        Assert.assertTrue(result.getReport().isSuccessful());
+        Assert.assertNotNull(result.getReport().getSuccessMessage());
+        Assert.assertNull(result.getReport().getFailureMessage());
 
-        ResultDTO result = this.service.executeRuleSet(ruleSet, fact);
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+    }
 
-        assertNotNull( result );
+    @Test
+    public void testExecuteBusinessRule_StaticFact_TestBeans_Rule2() throws Exception {
+        // Get functional business rule with ruleUId="2" from test-beans.xml
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule("2");
+        Assert.assertNotNull(result);
 
-        // Iterate through returned rule engine objects
-        String time = null;
-        for(ValueDTO obj : result.getResults()) {
-            if ( obj.getValue().getClass().getName().equals(String.class.getName())) {
-                time = obj.getValue().toString();
-                break;
-            }
-        }
+        Assert.assertTrue(result.getExecutionResult());
+        Assert.assertNotNull(result.getExecutionLog());
+        Assert.assertNotNull(result.getReport());
+        Assert.assertFalse(result.getReport().isSuccessful());
+        Assert.assertNull(result.getReport().getSuccessMessage());
+        Assert.assertNotNull(result.getReport().getFailureMessage());
 
-        assertNotNull( time );
-        System.out.println("Time="+time);
-        assertTrue( time.startsWith("Minute is even:"));
-        System.out.println("Rule Engine Execution Objects: " + result.getResults());
-        System.out.println("Execution Log:\n" + result.getExecutionLog());
-    }*/
-
-    /*@Test
-    public void testExecuteRuleSet2() throws Exception {
-        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
-        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
-        ruleSet.setCompiledRuleSet(bytes);
-
-        // Add facts
-        FactResultDTO fact = new FactResultDTO();
-    	FactResultTypeInfoDTO columnMetaData = DroolsTestUtil.createColumnMetaData(Calendar.class.getName());
-    	fact.setFactResultTypeInfo(columnMetaData);
-    	
-    	Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        
-        String dateString = BusinessRuleUtil.formatDate(cal.getTime());
-
-        Map<String, String> rowMap = new HashMap<String, String>();
-        rowMap.put("column1", dateString);
-        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
-        resultList.add(rowMap);
-        fact.setResultList(resultList);
-
-        ExecutionResultDTO executionResult = this.service.executeRuleSet(ruleSet, fact);
-
-        assertNotNull( executionResult );
-
-        String executionLog = executionResult.getExecutionLog();
-
-        assertNotNull( executionLog );
-        assertTrue(executionLog.indexOf("Minute is even: 0") > -1);
-        System.out.println("Rule Engine Execution Log:\n" + executionLog);
-    }*/
-
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+    }
 }

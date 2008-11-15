@@ -44,6 +44,7 @@ import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
+import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
@@ -75,6 +76,7 @@ public class RuleSetExecutorDroolsImplTest {
     public void setUp() throws Exception {
     	this.executor = new RuleSetExecutorDroolsImpl();
     	this.executor.clearRuleSetCache();
+    	this.executor.enableExecutionLogging();
     }
 
     @After
@@ -143,43 +145,6 @@ public class RuleSetExecutorDroolsImplTest {
 
         return brInfoDTO;
     }
-
-/*    @Test
-    public void testExecuteSimpleRuleSet_Drools() throws Exception {
-        RuleSetDTO ruleSet = DroolsTestUtil.createRuleSet();
-        byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
-        ruleSet.setCompiledRuleSet(bytes);
-
-        // Add facts
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2008);
-        cal.set(Calendar.MONTH, 10);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        List<Object> facts = new ArrayList<Object>();
-        facts.add(cal);
-
-        // Execute ruleset and fact
-    	String ruleBaseType = RuleSetExecutor.DEFAULT_RULE_CACHE_KEY;
-    	this.executor.addRuleSet(ruleBaseType, ruleSet);
-        ExecutionResult result = this.executor.execute(ruleBaseType, ruleSet, facts);
-
-        Assert.assertNotNull(result);
-        Assert.assertNotNull(result.getResults());
-
-        // Iterate through returned rule engine objects
-        String time = null;
-        for(Object obj : result.getResults()) {
-            if (obj instanceof String) {
-                time = (String) obj;
-                break;
-            }
-        }
-
-        Assert.assertNotNull(time);
-        Assert.assertTrue(time.startsWith("Minute is even:"));
-    }*/
 
 	@Test
     public void testClearRuleSetCache() throws Exception {
@@ -359,15 +324,15 @@ public class RuleSetExecutorDroolsImplTest {
     	this.executor.addRuleSet(brInfoIntersection, ruleSetIntersection);
 
     	// Execute ruleset and fact
-        List<ExecutionResult> resultList = this.executor.execute(agenda, factMap);
-        Assert.assertNotNull(resultList);
-        ExecutionResult result1 = resultList.get(0);
+        AgendaExecutionResult executionResult = this.executor.execute(agenda, factMap);
+        Assert.assertNotNull(executionResult);
+        ExecutionResult result1 = executionResult.getExecutionResultList().get(0);
         Assert.assertEquals("1", result1.getId());
         Assert.assertNotNull(result1.getResults());
         Assert.assertTrue(result1.getExecutionResult());
         Assert.assertTrue(result1.getReport().isSuccessful());
 
-        ExecutionResult result2 = resultList.get(1);
+        ExecutionResult result2 = executionResult.getExecutionResultList().get(1);
         Assert.assertEquals("2", result2.getId());
         Assert.assertNotNull(result2.getResults());
         Assert.assertTrue(result2.getExecutionResult());

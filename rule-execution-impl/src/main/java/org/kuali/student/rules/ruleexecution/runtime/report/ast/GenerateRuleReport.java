@@ -26,7 +26,7 @@ import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.DefaultExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.
@@ -42,9 +42,9 @@ public class GenerateRuleReport {
     private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl";
     private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl";
 
-    private DefaultExecutor executor;
+    private SimpleExecutor executor;
     
-    public GenerateRuleReport(DefaultExecutor executor) {
+    public GenerateRuleReport(SimpleExecutor executor) {
         this.executor = executor;
     	setup();
     }

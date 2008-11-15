@@ -45,8 +45,6 @@
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
         <property name="ruleSetExecutor"
             ref="ruleSetExecutor" />
-        <property name="defaultExecutor"
-            ref="defaultExecutor" />
         <property name="ruleRespositoryService"
             ref="repository" />
         <property name="ruleManagementService"
@@ -54,12 +52,8 @@
     </bean>
 
     <bean id="ruleSetExecutor"
-        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
-    </bean>
-
-    <bean id="defaultExecutor"
-        class="org.kuali.student.rules.ruleexecution.runtime.drools.DefaultExecutorDroolsImpl">
-        <constructor-arg type="boolean" value="true" />
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl"
+        init-method="enableExecutionLogging">
     </bean>
 
 
