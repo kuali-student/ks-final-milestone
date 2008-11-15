@@ -29,7 +29,7 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
- * Elements, this class is associated with one or more RuleElement instances. The class also contains RuleMetaData instance.
+ * Elements, this class is associated with one or more LUIPerson instances. The class also contains RuleMetaData instance.
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
@@ -61,8 +61,10 @@ public class BusinessRule  {
     @Column(unique = true, nullable = false)
     private String ruleId;
     
+    /* Repository Variables */
     private String compiledId;
     private Long compiledVersionNumber;
+    private String repositorySnapshotName;
     
     @Embedded
     private RuleMetaData metaData;
@@ -92,7 +94,7 @@ public class BusinessRule  {
     }
 
     /**
-     * Adds a new RuleElement to the list of rule ruleEmelemnts that the business rule is composed of
+     * Adds a new LUIPerson to the list of rule ruleEmelemnts that the business rule is composed of
      * 
      * @param ruleElement
      *            a new Rule Element to add to this business rule object
@@ -286,5 +288,19 @@ public class BusinessRule  {
      */
     public void setCompiledVersionNumber(Long compiledVersionNumber) {
         this.compiledVersionNumber = compiledVersionNumber;
+    }
+
+    /**
+     * @return the repositorySnapshotName
+     */
+    public String getRepositorySnapshotName() {
+        return repositorySnapshotName;
+    }
+
+    /**
+     * @param repositorySnapshotName the repositorySnapshotName to set
+     */
+    public void setRepositorySnapshotName(String repositorySnapshotName) {
+        this.repositorySnapshotName = repositorySnapshotName;
     }
 }

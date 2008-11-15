@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
@@ -69,6 +70,7 @@ public class BusinessRuleAdapter {
         ruleDTO.setEffectiveStartTime( rule.getMetaData().getEffectiveDateStart() );
         ruleDTO.setFailureMessage( rule.getFailureMessage() );
         ruleDTO.setName( rule.getName() );
+        ruleDTO.setRepositorySnapshotName( rule.getRepositorySnapshotName() );
         
         // Extract the Meta Info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
@@ -199,7 +201,7 @@ public class BusinessRuleAdapter {
     public static FactStructureDTO getFactStructureDTO(FactStructure fs) {
         FactStructureDTO fsDTO = new FactStructureDTO();
         
-        fsDTO.setAnchorFlag(fs.getAnchorFlag());
+        fsDTO.setAnchorFlag( fs.getAnchorFlag() );
         
         // Extract the parameter values
         if (fs.getParamValueSet() != null) {
@@ -208,7 +210,7 @@ public class BusinessRuleAdapter {
 	            paramValueMap.put( fsVar.getStructureKey(), fsVar.getValue() );
 	        }
 	        fsDTO.setParamValueMap(paramValueMap);
-        }
+        }        
         fsDTO.setCriteriaTypeInfo(null);        
         fsDTO.setFactStructureId(fs.getFactStructureId());        
         fsDTO.setFactTypeKey(fs.getFactTypeKey());        
@@ -238,8 +240,8 @@ public class BusinessRuleAdapter {
         metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
         metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
         metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveEndTime());
-        metaData.setEffectiveDateStart(ruleInfoDTO.getEffectiveStartTime());
-        metaData.setStatus(ruleInfoDTO.getStatus());
+        metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveStartTime());
+        metaData.setStatus( BusinessRuleStatus.valueOf( ruleInfoDTO.getStatus() ).toString());
         metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
         metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
 
