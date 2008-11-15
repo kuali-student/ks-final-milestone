@@ -199,14 +199,16 @@ public class BusinessRuleAdapter {
     public static FactStructureDTO getFactStructureDTO(FactStructure fs) {
         FactStructureDTO fsDTO = new FactStructureDTO();
         
-        fsDTO.setAnchorFlag( fs.getAnchorFlag() );
+        fsDTO.setAnchorFlag(fs.getAnchorFlag());
         
         // Extract the parameter values
-        Map<String, String> paramValueMap = new HashMap<String, String>();
-        for(FactStructureVariable fsVar : fs.getParamValueSet()) {
-            paramValueMap.put( fsVar.getStructureKey(),  fsVar.getValue() );
+        if (fs.getParamValueSet() != null) {
+	        Map<String, String> paramValueMap = new HashMap<String, String>();
+	        for(FactStructureVariable fsVar : fs.getParamValueSet()) {
+	            paramValueMap.put( fsVar.getStructureKey(), fsVar.getValue() );
+	        }
+	        fsDTO.setParamValueMap(paramValueMap);
         }
-        fsDTO.setParamValueMap(paramValueMap);        
         fsDTO.setCriteriaTypeInfo(null);        
         fsDTO.setFactStructureId(fs.getFactStructureId());        
         fsDTO.setFactTypeKey(fs.getFactTypeKey());        
@@ -236,7 +238,7 @@ public class BusinessRuleAdapter {
         metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
         metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
         metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveEndTime());
-        metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveStartTime());
+        metaData.setEffectiveDateStart(ruleInfoDTO.getEffectiveStartTime());
         metaData.setStatus(ruleInfoDTO.getStatus());
         metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
         metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
@@ -368,15 +370,16 @@ public class BusinessRuleAdapter {
        // Extract parameter variables
        Set<FactStructureVariable> fsParamVarList = new HashSet<FactStructureVariable>(); 
        Map<String,String> factParamVarMap = factDTO.getParamValueMap();
-       for(String key: factParamVarMap.keySet()) {
-           FactStructureVariable fsVar = new FactStructureVariable();
-           fsVar.setFactStructure(fs);
-           fsVar.setStructureKey(key);
-           fsVar.setValue((String)factParamVarMap.get(key));
-           fsParamVarList.add(fsVar);
-       }
-       fs.setParamValueSet(fsParamVarList);
-       
+       if (factParamVarMap != null) {
+	       for(String key: factParamVarMap.keySet()) {
+	           FactStructureVariable fsVar = new FactStructureVariable();
+	           fsVar.setFactStructure(fs);
+	           fsVar.setStructureKey(key);
+	           fsVar.setValue((String)factParamVarMap.get(key));
+	           fsParamVarList.add(fsVar);
+	       }
+	       fs.setParamValueSet(fsParamVarList);
+       }       
        return fs;
     }
 
