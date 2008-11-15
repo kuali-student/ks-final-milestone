@@ -126,10 +126,12 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         } else if(BusinessRuleStatus.ACTIVE == newStatus) {
             rsDTO = repository.generateRuleSet(container);
-            rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX, "Activating rule " + orgRule.getName());
+            String snapshotName = orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
+            rule.setRepositorySnapshotName(snapshotName);
+            rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), snapshotName, "Activating rule " + orgRule.getName());
             orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());            
         } else if(BusinessRuleStatus.RETIRED == newStatus) {
-            repository.removeRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX);
+            repository.removeRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getRepositorySnapshotName());
         }
                 
         // Remove the existing rule elements from the detached object

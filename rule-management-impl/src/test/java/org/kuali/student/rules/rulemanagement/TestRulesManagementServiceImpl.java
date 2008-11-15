@@ -1,6 +1,7 @@
 package org.kuali.student.rules.rulemanagement;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -160,6 +161,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         BusinessRuleInfoDTO newBrInfoDTO1 = client.fetchDetailedBusinessRuleInfo("100");        
         assertTrue(newBrInfoDTO1.getRuleElementList().size() == 3);
         assertEquals(newBrInfoDTO1.getStatus(), "ACTIVE");
+        assertEquals(newBrInfoDTO1.getCompiledId() + "_SNAPSHOT", newBrInfoDTO1.getRepositorySnapshotName() );
                 
         // Check if the exception is caught when trying to change ACTIVE rule
         brInfoDTO.setStatus("DRAFT_IN_PROGRESS");        
@@ -291,7 +293,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
     }
     
-   // @Test
+    //@Test
     public void testEmptyRuleCreating()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
 
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
