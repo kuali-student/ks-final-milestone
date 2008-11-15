@@ -83,73 +83,170 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Does not Exist");
         assertNull(returnedEntity);
     }
-
-    @Test
-    public void testFetchEnumeration(){
-    	EnumeratedValueEntity entity = new EnumeratedValueEntity();
-        entity.setEnumerationKey("Key");
-        entity.setAbbrevValue("Abbrev");
-        entity.setCode("Code");
-        entity.setEffectiveDate(new Date(System.currentTimeMillis()-10000000L));
-        entity.setExpirationDate(new Date(System.currentTimeMillis()+10000000L));
-        entity.setSortKey(1);
-        entity.setValue("Value");
-
-        ContextEntity contextEntity = new ContextEntity();
-        contextEntity.setContextKey("type 1");
-        contextEntity.setContextValue("context value 1");
-        
-        entity.getContextEntityList().add(contextEntity);
-        contextEntity.getEnumeratedValueEntityList().add(entity);
-        
-        enumerationManagementDAO.addEnumeratedValue("Key", entity);
-
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationsWithContextAndDate(entity.getEnumerationKey(), 
-                contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
-        assertEquals(enumeratedValueEntityList.size(), 1);
-        
-        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
-        
-        assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
-        
-        // fetch enumeration needs to behave differently when
-        //null values are passed into the method, as in dictionary
-        //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
-    }
-  
+    
     @Test
     public void testAddEnumeratedValue()
     {
     	EnumeratedValueEntity entity = new EnumeratedValueEntity();
-        entity.setEnumerationKey("Key1");
-        entity.setAbbrevValue("Abbrev1");
-        entity.setCode("Code1");
+        entity.setEnumerationKey("KeyA");
+        entity.setAbbrevValue("AbbrevA");
+        entity.setCode("CodeA");
         entity.setEffectiveDate(new Date(System.currentTimeMillis()-10000000L));
         entity.setExpirationDate(new Date(System.currentTimeMillis()+10000000L));
         entity.setSortKey(1);
-        entity.setValue("enum value 1");
+        entity.setValue("ValueA");
 
         ContextEntity contextEntity = new ContextEntity();
-        contextEntity.setContextKey("type 1");
-        contextEntity.setContextValue("context value 1");
+        contextEntity.setContextKey("type A");
+        contextEntity.setValue("context value A");
         
         entity.getContextEntityList().add(contextEntity);
         contextEntity.getEnumeratedValueEntityList().add(entity);
         
-        //also addEnumeratedValue should return the value from the db not what was passed in
-        enumerationManagementDAO.addEnumeratedValue("Key1", entity);
-        
-        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationsWithContextAndDate(entity.getEnumerationKey(), 
-                contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
+        enumerationManagementDAO.addEnumeratedValue("KeyA", entity);
+
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationWithContextAndDate(entity.getEnumerationKey(), 
+                contextEntity.getContextKey(), contextEntity.getValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
         EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
         
         assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
-        
-        //no way to check without the fetch working
-        //EnumeratedValueEntity returnedEntity = 
+        assertEquals(returnedEntity.getCode(), entity.getCode());
+        assertEquals(returnedEntity.getEffectiveDate(), entity.getEffectiveDate());
+        assertEquals(returnedEntity.getExpirationDate(), entity.getExpirationDate());
+        assertEquals(returnedEntity.getSortKey(), entity.getSortKey());
+        assertEquals(returnedEntity.getValue(), entity.getValue());
+        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
+        int i =0;
+        for(ContextEntity ce: returnedEntity.getContextEntityList()){
+        	ContextEntity original = entity.getContextEntityList().get(i);
+        	assertEquals(ce.getContextKey(), original.getContextKey());
+        	assertEquals(ce.getId(), original.getId());
+        	assertEquals(ce.getValue(), original.getValue());
+        	i++;
+        }
     }
+
+    @Test
+    public void testFetchEnumeration(){
+    	long baseTime = System.currentTimeMillis();
+    	
+    	EnumeratedValueEntity entity1 = new EnumeratedValueEntity();
+        entity1.setEnumerationKey("Key1");
+        entity1.setAbbrevValue("Abbrev1");
+        entity1.setCode("Code1");
+        entity1.setEffectiveDate(new Date(baseTime-10000000L));
+        entity1.setExpirationDate(new Date(baseTime+10000000L));
+        entity1.setSortKey(1);
+        entity1.setValue("Value1");
+        
+    	EnumeratedValueEntity entity2 = new EnumeratedValueEntity();
+        entity2.setEnumerationKey("Key1");
+        entity2.setAbbrevValue("Abbrev2");
+        entity2.setCode("Code2");
+        entity2.setEffectiveDate(new Date(baseTime-10000000L));
+        entity2.setExpirationDate(new Date(baseTime+50000000L));
+        entity2.setSortKey(1);
+        entity2.setValue("Value2");
+        
+    	EnumeratedValueEntity entity3 = new EnumeratedValueEntity();
+        entity3.setEnumerationKey("Key1");
+        entity3.setAbbrevValue("Abbrev3");
+        entity3.setCode("Code3");
+        entity3.setEffectiveDate(new Date(baseTime-10000000L));
+        entity3.setExpirationDate(new Date(baseTime+10000000L));
+        entity3.setSortKey(1);
+        entity3.setValue("Value3");
+        
+    	EnumeratedValueEntity entity4 = new EnumeratedValueEntity();
+        entity4.setEnumerationKey("Key1");
+        entity4.setAbbrevValue("Abbrev4");
+        entity4.setCode("Code4");
+        entity4.setEffectiveDate(new Date(baseTime-10000000L));
+        entity4.setExpirationDate(new Date(baseTime+50000000L));
+        entity4.setSortKey(1);
+        entity4.setValue("Value4");
+
+        ContextEntity contextEntity1 = new ContextEntity();
+        contextEntity1.setContextKey("country");
+        contextEntity1.setValue("US");
+        
+        ContextEntity contextEntity2 = new ContextEntity();
+        contextEntity2.setContextKey("country");
+        contextEntity2.setValue("CA");
+        
+        entity1.getContextEntityList().add(contextEntity1);
+        entity2.getContextEntityList().add(contextEntity1);
+        contextEntity1.getEnumeratedValueEntityList().add(entity1);
+        contextEntity1.getEnumeratedValueEntityList().add(entity2);
+        
+        entity3.getContextEntityList().add(contextEntity2);
+        entity4.getContextEntityList().add(contextEntity2);
+        contextEntity2.getEnumeratedValueEntityList().add(entity3);
+        contextEntity2.getEnumeratedValueEntityList().add(entity4);
+        
+        enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
+        enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
+        enumerationManagementDAO.addEnumeratedValue("Key1", entity3);
+        enumerationManagementDAO.addEnumeratedValue("Key1", entity4);
+
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumeration("Key1");
+        assertEquals(enumeratedValueEntityList.size(), 4);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "CA");
+        assertEquals(enumeratedValueEntityList.size(), 2);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "US");
+        assertEquals(enumeratedValueEntityList.size(), 2);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime));
+        assertEquals(enumeratedValueEntityList.size(), 4);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime+40000000L));
+        assertEquals(enumeratedValueEntityList.size(), 2);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "US", new Date(baseTime+40000000L));
+        assertEquals(enumeratedValueEntityList.size(), 1);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "CA", new Date(baseTime+40000000L));
+        assertEquals(enumeratedValueEntityList.size(), 1);
+        
+        enumeratedValueEntityList =  
+        	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "CA", new Date(baseTime));
+        assertEquals(enumeratedValueEntityList.size(), 2);
+        
+        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
+        /*
+        assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
+        assertEquals(returnedEntity.getCode(), entity.getCode());
+        assertEquals(returnedEntity.getEffectiveDate(), entity.getEffectiveDate());
+        assertEquals(returnedEntity.getExpirationDate(), entity.getExpirationDate());
+        assertEquals(returnedEntity.getSortKey(), entity.getSortKey());
+        assertEquals(returnedEntity.getValue(), entity.getValue());
+        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
+        int i =0;
+        for(ContextEntity ce: returnedEntity.getContextEntityList()){
+        	ContextEntity original = entity.getContextEntityList().get(i);
+        	assertEquals(ce.getContextKey(), original.getContextKey());
+        	assertEquals(ce.getId(), original.getId());
+        	assertEquals(ce.getValue(), original.getValue());
+        	i++;
+        }
+        */
+        // fetch enumeration needs to behave differently when 
+        //null values are passed into the method, as in dictionary
+        //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
+    }
+  
+    
     
     /*
     @Test
@@ -181,13 +278,13 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
     @Test
     public void testRemoveEnumeratedValue(){
     	EnumeratedValueEntity entity = new EnumeratedValueEntity();
-        entity.setEnumerationKey("Key3");
-        entity.setAbbrevValue("Abbrev3");
-        entity.setCode("Code3");
+        entity.setEnumerationKey("KeyB");
+        entity.setAbbrevValue("AbbrevB");
+        entity.setCode("CodeB");
         entity.setEffectiveDate(new Date());
         entity.setExpirationDate(new Date());
         entity.setSortKey(1);
-        entity.setValue("Value3");
+        entity.setValue("ValueB");
 
         //why is there context in enumerated value or a way to add a context through the DAO methods?
         enumerationManagementDAO.addEnumeratedValue("Key3", entity);
