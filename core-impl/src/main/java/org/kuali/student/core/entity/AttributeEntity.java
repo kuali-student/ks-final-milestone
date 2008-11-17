@@ -1,28 +1,21 @@
 package org.kuali.student.core.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
-public class AttributeEntity<T> {
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+public class AttributeEntity {
 	@Id
-	String id;
-	
+	private String id;
 	@ManyToOne
-	T owner;
-	String name;
-	String value;
-	public T getOwner() {
-		return owner;
-	}
-	public void setOwner(T owner) {
-		this.owner = owner;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	private AttributeType type;
+	private String value;
+
+
 	public String getValue() {
 		return value;
 	}
@@ -35,4 +28,13 @@ public class AttributeEntity<T> {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public AttributeType getType() {
+		return type;
+	}
+	public void setType(AttributeType type) {
+		this.type = type;
+	}
+	
+	
+	
 }

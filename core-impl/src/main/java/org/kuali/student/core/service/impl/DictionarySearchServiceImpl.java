@@ -15,8 +15,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.service.DictionaryService;
-import org.kuali.student.core.service.SearchService;
+import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.search.service.SearchService;
 
 public class DictionarySearchServiceImpl implements DictionaryService, SearchService{
 
