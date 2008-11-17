@@ -1,5 +1,10 @@
 package org.kuali.student.lum.atp.entity;
 
-public class AtpDurationType {
+import javax.persistence.Entity;
+
+import org.kuali.student.core.entity.Type;
+
+@Entity
+public class AtpDurationType extends Type{
 
 }

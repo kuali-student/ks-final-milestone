@@ -1,5 +1,10 @@
 package org.kuali.student.lum.atp.entity;
 
-public class DateRangeType {
+import javax.persistence.Entity;
+
+import org.kuali.student.core.entity.Type;
+
+@Entity
+public class DateRangeType extends Type{
 
 }
