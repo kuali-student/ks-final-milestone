@@ -1,4 +1,4 @@
-package org.kuali.student.core.service;
+package org.kuali.student.core.dictionary.service;
 
 import java.util.Date;
 import java.util.List;

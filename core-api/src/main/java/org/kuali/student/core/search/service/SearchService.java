@@ -1,4 +1,4 @@
-package org.kuali.student.core.service;
+package org.kuali.student.core.search.service;
 
 import java.util.List;
 
