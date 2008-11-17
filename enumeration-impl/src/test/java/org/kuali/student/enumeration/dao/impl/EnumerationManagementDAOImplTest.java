@@ -200,9 +200,47 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "CA");
         assertEquals(enumeratedValueEntityList.size(), 2);
         
+
+        
         enumeratedValueEntityList =  
         	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "US");
         assertEquals(enumeratedValueEntityList.size(), 2);
+        
+        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
+        
+        assertEquals(returnedEntity.getAbbrevValue(), entity1.getAbbrevValue());
+        assertEquals(returnedEntity.getCode(), entity1.getCode());
+        assertEquals(returnedEntity.getEffectiveDate(), entity1.getEffectiveDate());
+        assertEquals(returnedEntity.getExpirationDate(), entity1.getExpirationDate());
+        assertEquals(returnedEntity.getSortKey(), entity1.getSortKey());
+        assertEquals(returnedEntity.getValue(), entity1.getValue());
+        assertEquals(returnedEntity.getEnumerationKey(), entity1.getEnumerationKey());
+        int i =0;
+        for(ContextEntity ce: returnedEntity.getContextEntityList()){
+        	ContextEntity original = entity1.getContextEntityList().get(i);
+        	assertEquals(ce.getContextKey(), original.getContextKey());
+        	assertEquals(ce.getId(), original.getId());
+        	assertEquals(ce.getContextValue(), original.getContextValue());
+        	i++;
+        }
+        
+        returnedEntity = enumeratedValueEntityList.get(1); 
+        
+        assertEquals(returnedEntity.getAbbrevValue(), entity2.getAbbrevValue());
+        assertEquals(returnedEntity.getCode(), entity2.getCode());
+        assertEquals(returnedEntity.getEffectiveDate(), entity2.getEffectiveDate());
+        assertEquals(returnedEntity.getExpirationDate(), entity2.getExpirationDate());
+        assertEquals(returnedEntity.getSortKey(), entity2.getSortKey());
+        assertEquals(returnedEntity.getValue(), entity2.getValue());
+        assertEquals(returnedEntity.getEnumerationKey(), entity2.getEnumerationKey());
+        i =0;
+        for(ContextEntity ce: returnedEntity.getContextEntityList()){
+        	ContextEntity original = entity2.getContextEntityList().get(i);
+        	assertEquals(ce.getContextKey(), original.getContextKey());
+        	assertEquals(ce.getId(), original.getId());
+        	assertEquals(ce.getContextValue(), original.getContextValue());
+        	i++;
+        }
         
         enumeratedValueEntityList =  
         	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime));
@@ -224,24 +262,8 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "CA", new Date(baseTime));
         assertEquals(enumeratedValueEntityList.size(), 2);
         
-        EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
-        /*
-        assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
-        assertEquals(returnedEntity.getCode(), entity.getCode());
-        assertEquals(returnedEntity.getEffectiveDate(), entity.getEffectiveDate());
-        assertEquals(returnedEntity.getExpirationDate(), entity.getExpirationDate());
-        assertEquals(returnedEntity.getSortKey(), entity.getSortKey());
-        assertEquals(returnedEntity.getValue(), entity.getValue());
-        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
-        int i =0;
-        for(ContextEntity ce: returnedEntity.getContextEntityList()){
-        	ContextEntity original = entity.getContextEntityList().get(i);
-        	assertEquals(ce.getContextKey(), original.getContextKey());
-        	assertEquals(ce.getId(), original.getId());
-        	assertEquals(ce.getValue(), original.getValue());
-        	i++;
-        }
-        */
+
+        
         // fetch enumeration needs to behave differently when 
         //null values are passed into the method, as in dictionary
         //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
