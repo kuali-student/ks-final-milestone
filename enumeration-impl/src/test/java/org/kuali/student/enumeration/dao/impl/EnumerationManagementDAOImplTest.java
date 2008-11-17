@@ -98,7 +98,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
         ContextEntity contextEntity = new ContextEntity();
         contextEntity.setContextKey("type A");
-        contextEntity.setValue("context value A");
+        contextEntity.setContextValue("context value A");
         
         entity.getContextEntityList().add(contextEntity);
         contextEntity.getEnumeratedValueEntityList().add(entity);
@@ -106,7 +106,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumerationManagementDAO.addEnumeratedValue("KeyA", entity);
 
         List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationWithContextAndDate(entity.getEnumerationKey(), 
-                contextEntity.getContextKey(), contextEntity.getValue(), new Date(System.currentTimeMillis()));
+                contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
         EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
@@ -123,7 +123,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	ContextEntity original = entity.getContextEntityList().get(i);
         	assertEquals(ce.getContextKey(), original.getContextKey());
         	assertEquals(ce.getId(), original.getId());
-        	assertEquals(ce.getValue(), original.getValue());
+        	assertEquals(ce.getContextValue(), original.getContextValue());
         	i++;
         }
     }
@@ -170,11 +170,11 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
         ContextEntity contextEntity1 = new ContextEntity();
         contextEntity1.setContextKey("country");
-        contextEntity1.setValue("US");
+        contextEntity1.setContextValue("US");
         
         ContextEntity contextEntity2 = new ContextEntity();
         contextEntity2.setContextKey("country");
-        contextEntity2.setValue("CA");
+        contextEntity2.setContextValue("CA");
         
         entity1.getContextEntityList().add(contextEntity1);
         entity2.getContextEntityList().add(contextEntity1);
