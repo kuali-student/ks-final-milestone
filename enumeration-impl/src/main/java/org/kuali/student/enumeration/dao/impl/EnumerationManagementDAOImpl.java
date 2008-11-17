@@ -61,15 +61,18 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
     
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
-        Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value, e. where e.enumerationKey = :key and e.code = :code");
+        Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
         query.setParameter("code", code);
         query.setParameter("value", enumeratedValueEntity.getValue());
         
         query.executeUpdate();
 
-        query = entityManager.createQuery("SELECT e FROM EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
-        query.setParameter("key", enumerationKey);
+		query = entityManager.createQuery(
+	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+	            "where e.enumerationKey = :enumerationKey "+
+	            "and e.code = :code");
+		query.setParameter("enumerationKey", enumerationKey);
         query.setParameter("code", code);
         Object obj = query.getResultList().get(0);
 
