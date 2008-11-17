@@ -191,6 +191,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumerationManagementDAO.addEnumeratedValue("Key1", entity3);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity4);
 
+        /*
         List<EnumeratedValueEntity> enumeratedValueEntityList =  
         	enumerationManagementDAO.fetchEnumeration("Key1");
         assertEquals(enumeratedValueEntityList.size(), 4);
@@ -202,8 +203,8 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         enumeratedValueEntityList =  
         	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "US");
         assertEquals(enumeratedValueEntityList.size(), 2);
-        
-        enumeratedValueEntityList =  
+        */
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  
         	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime));
         assertEquals(enumeratedValueEntityList.size(), 4);
         
@@ -211,7 +212,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	enumerationManagementDAO.fetchEnumerationWithDate("Key1", new Date(baseTime+40000000L));
         assertEquals(enumeratedValueEntityList.size(), 2);
         
-        enumeratedValueEntityList =  
+         enumeratedValueEntityList =  
         	enumerationManagementDAO.fetchEnumerationWithContextAndDate("Key1" , "country", "US", new Date(baseTime+40000000L));
         assertEquals(enumeratedValueEntityList.size(), 1);
         
