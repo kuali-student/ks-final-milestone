@@ -33,7 +33,7 @@ public class LUIPerson {
     
     private String cluId;
     
-    private Long credits;
+    private Double credits;
 
     
     /**
@@ -89,14 +89,14 @@ public class LUIPerson {
     /**
      * @return the credits
      */
-    public Long getCredits() {
+    public Double getCredits() {
         return credits;
     }
 
     /**
      * @param credits the credits to set
      */
-    public void setCredits(Long cretids) {
+    public void setCredits(Double cretids) {
         this.credits = cretids;
     }    
 }

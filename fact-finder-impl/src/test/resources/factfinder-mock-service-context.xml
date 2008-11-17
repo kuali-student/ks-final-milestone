@@ -7,15 +7,6 @@
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd ">
 
 	<import resource="classpath:fact-data-beans.xml" />
-	
-	<bean id="factDataSupport"
-		class="org.kuali.student.rules.factfinder.util.FactDataSupport">
-		<property name="factTypeInfoList">
-			<list>
-				<ref bean="factType1"/>
-				<ref bean="factType2"/>
-			</list>
-		</property>
-	</bean>		
-		
+	<import resource="classpath:fact-metadata-beans.xml" />
+			
 </beans>
