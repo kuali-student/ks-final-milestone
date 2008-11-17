@@ -51,6 +51,9 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
         assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), entity.getEnumerationMetaKeyDesc());
         assertEquals(returnedEntity.getId(), entity.getId());
+        
+        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Does not Exist");
+        assertNull(returnedEntity);
     }
 
     @Test
@@ -78,10 +81,6 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
         returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
         assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
-
-        //try to fetch it directly too, testing for null return
-        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Does not Exist");
-        assertNull(returnedEntity);
     }
     
     @Test
@@ -206,6 +205,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         	enumerationManagementDAO.fetchEnumerationWithContext("Key1" , "country", "US");
         assertEquals(enumeratedValueEntityList.size(), 2);
         
+        //testing accuracy
         EnumeratedValueEntity returnedEntity = enumeratedValueEntityList.get(0); 
         
         assertEquals(returnedEntity.getAbbrevValue(), entity1.getAbbrevValue());
@@ -263,40 +263,42 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         assertEquals(enumeratedValueEntityList.size(), 2);
         
 
-        
-        // fetch enumeration needs to behave differently when 
-        //null values are passed into the method, as in dictionary
-        //List<EnumeratedValueEntity> evList = enumerationManagementDAO.fetchEnumeration(key, code)
     }
   
     
     
-    /*
+    
     @Test
     public void testUpdateEnumeratedValue()
     {
     	EnumeratedValueEntity entity = new EnumeratedValueEntity();
-        entity.setEnumerationKey("Key2");
-        entity.setAbbrevValue("Abbrev2");
-        entity.setCode("Code2");
+        entity.setEnumerationKey("KeyA");
+        entity.setAbbrevValue("AbbrevA");
+        entity.setCode("CodeA");
         entity.setEffectiveDate(new Date());
         entity.setExpirationDate(new Date());
         entity.setSortKey(1);
-        entity.setValue("Value2");
-        //need to do this?
-        entity.prePersist();
-        //why is there context in enumerated value or a way to add a context through the DAO methods?
-        enumerationManagementDAO.addEnumeratedValue("Key2", entity);
+        entity.setValue("ValueA");
+        
+        ContextEntity contextEntity = new ContextEntity();
+        contextEntity.setContextKey("type testA");
+        contextEntity.setContextValue("context value testA");
+        
+        entity.getContextEntityList().add(contextEntity);
+        
+        contextEntity.getEnumeratedValueEntityList().add(entity);
+
+        enumerationManagementDAO.addEnumeratedValue("KeyA", entity);
         
         entity.setAbbrevValue("newAbbrev");
         entity.setValue("newValue");
         
-        EnumeratedValueEntity returnedEntity = enumerationManagementDAO.updateEnumeratedValue("Key2", "Code2", entity);
+        EnumeratedValueEntity returnedEntity = enumerationManagementDAO.updateEnumeratedValue("KeyA", "CodeA", entity);
         assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
         assertEquals(returnedEntity.getValue(), entity.getValue());
         
     }
-    */
+    
     
     @Test
     public void testRemoveEnumeratedValue(){
@@ -308,10 +310,18 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         entity.setExpirationDate(new Date());
         entity.setSortKey(1);
         entity.setValue("ValueB");
+        
+        ContextEntity contextEntity = new ContextEntity();
+        contextEntity.setContextKey("type testB");
+        contextEntity.setContextValue("context value testB");
+        
+        entity.getContextEntityList().add(contextEntity);
+        contextEntity.getEnumeratedValueEntityList().add(entity);
 
-        //why is there context in enumerated value or a way to add a context through the DAO methods?
         enumerationManagementDAO.addEnumeratedValue("Key3", entity);
         enumerationManagementDAO.removeEnumeratedValue("Key3", "Code3");
-        //no way to check if it is still there after without fetch working
+        List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationWithContextAndDate(entity.getEnumerationKey(), 
+                contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
+        assertEquals(enumeratedValueEntityList.size(), 0);
     }
 }
