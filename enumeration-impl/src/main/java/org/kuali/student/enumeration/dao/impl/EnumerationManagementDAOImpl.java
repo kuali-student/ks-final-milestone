@@ -88,9 +88,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
-	            "select e from EnumeratedValueEntity e, ContextEntity c " +
-	            "where e.id = c.enumerationId and " +
-	            "e.enumerationKey = :enumerationKey ");
+	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+	            "where e.enumerationKey = :enumerationKey ");
 		 query.setParameter("enumerationKey", enumerationKey);
 		 list = (List<EnumeratedValueEntity>)query.getResultList();
 		 
@@ -100,9 +99,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
-	            "select e from EnumeratedValueEntity e, ContextEntity c " +
-	            "where e.id = c.enumerationId and " +
-	            "e.effectiveDate < :contextDate and " +
+	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+	            "where e.effectiveDate < :contextDate and " +
 	            "e.expirationDate > :contextDate and " +
 	            "e.enumerationKey = :enumerationKey ");
 		 query.setParameter("enumerationKey", enumerationKey);
@@ -115,10 +113,9 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
-	            "select e from EnumeratedValueEntity e, ContextEntity c " +
-	            "where e.id = c.enumerationId and " +
-	            "c.value = :contextValue and " +
-	            "c.key = :enumContextKey and " +
+	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+	            "where c.contextValue = :contextValue and " +
+	            "c.contextKey = :enumContextKey and " +
 	            "e.enumerationKey = :enumerationKey ");
 		 query.setParameter("enumerationKey", enumerationKey);
 		 query.setParameter("enumContextKey", enumContextKey);        
