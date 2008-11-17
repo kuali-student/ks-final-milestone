@@ -7,7 +7,7 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="methodCacheAdvisor"
-		class="org.kuali.student.poc.common.test.spring.IdToObjectEhcacheAdvice">
+		class="org.kuali.student.common.test.spring.IdToObjectEhcacheAdvice">
 		<property name="cacheName" value="defaultCache" />
 	</bean>
 

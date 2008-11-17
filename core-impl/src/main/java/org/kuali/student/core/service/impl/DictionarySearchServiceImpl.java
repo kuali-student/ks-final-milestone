@@ -3,6 +3,11 @@ package org.kuali.student.core.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.common.ws.exceptions.DoesNotExistException;
+import org.kuali.student.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.common.ws.exceptions.MissingParameterException;
+import org.kuali.student.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.core.dictionary.dto.EnumeratedValue;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.search.dto.QueryParamValue;
@@ -12,11 +17,6 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.service.DictionaryService;
 import org.kuali.student.core.service.SearchService;
-import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
 
 public class DictionarySearchServiceImpl implements DictionaryService, SearchService{
 

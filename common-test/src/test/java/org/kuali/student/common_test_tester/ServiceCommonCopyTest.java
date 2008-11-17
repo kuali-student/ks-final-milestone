@@ -3,12 +3,12 @@ package org.kuali.student.common_test_tester;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common_test_tester.support.MyService;
-import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
-import org.kuali.student.poc.common.test.spring.Client;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.Daos;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 
 @Daos( {
 		@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml"),

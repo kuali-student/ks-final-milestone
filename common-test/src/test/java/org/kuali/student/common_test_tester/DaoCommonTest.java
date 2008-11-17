@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common_test_tester.support.MyDao;
 import org.kuali.student.common_test_tester.support.Value;
-import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 
 @PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class DaoCommonTest extends AbstractTransactionalDaoTest {

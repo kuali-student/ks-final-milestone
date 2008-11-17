@@ -7,13 +7,13 @@
 
 
 	<bean id="loadDataBean"
-		class="org.kuali.student.poc.common.test.spring.LoadDataBean">
+		class="org.kuali.student.common.test.spring.LoadDataBean">
 		<property name="daoAnnotations"
 			value="${ks.test.daoImplClasses}" />
 	</bean>
 
 	<bean id="loadBeanListener"
-		class="org.kuali.student.poc.common.test.spring.LoadBeanListener">
+		class="org.kuali.student.common.test.spring.LoadBeanListener">
 		<property name="ldb" ref="loadDataBean" />
 	</bean>
 
