@@ -14,6 +14,7 @@ public class EnumeratedValueFieldEntity {
     @Id
     String id;
     String dataType;
+    String key;
     int minLength;
     int maxLength;
     int minOccurs;
@@ -37,6 +38,15 @@ public class EnumeratedValueFieldEntity {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getDataType() {
