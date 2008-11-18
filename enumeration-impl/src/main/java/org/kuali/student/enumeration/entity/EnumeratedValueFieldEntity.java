@@ -13,9 +13,6 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 public class EnumeratedValueFieldEntity {
     @Id
     String id;
-    String enumerationKey;
-
-    String enumeratedValue;
     String dataType;
     int minLength;
     int maxLength;
@@ -40,22 +37,6 @@ public class EnumeratedValueFieldEntity {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getEnumerationKey() {
-        return enumerationKey;
-    }
-
-    public void setEnumerationKey(String enumerationId) {
-        this.enumerationKey = enumerationId;
-    }
-
-    public String getKey() {
-        return enumeratedValue;
-    }
-
-    public void setKey(String key) {
-        this.enumeratedValue = key;
     }
 
     public String getDataType() {
