@@ -109,9 +109,13 @@ public class DozerTest extends TestCase {
         assertEquals(dao.getValue(), dto.getValue());
         assertEquals(dao.getCode(), dto.getCode());
         assertEquals(dao.getSortKey(), dto.getSortKey());
-        //context check
+        
+        //context value check
         List<ContextEntity> contexts = dao.getContextEntityList();
         assertEquals(contexts.size(), 1);
+        ContextEntity c = contexts.get(0);
+        assertEquals(c.getContextKey(), newContext.getType());
+        assertEquals(c.getContextValue(), newContext.getValue());
         
         //List
         List<EnumeratedValue> listDto = new ArrayList<EnumeratedValue>();
@@ -123,6 +127,8 @@ public class DozerTest extends TestCase {
         dto2.setSortKey(1);
         dto2.setValue("v2");
         dto2.setAbbrevValue("a2");
+        dto2.setContexts(new Contexts());
+        dto2.getContexts().setContext(dtoContext);
         
         listDto.add(dto2);
         
@@ -138,6 +144,11 @@ public class DozerTest extends TestCase {
             assertEquals(daoItem.getValue(), dtoItem.getValue());
             assertEquals(daoItem.getCode(), dtoItem.getCode());
             assertEquals(daoItem.getSortKey(), dtoItem.getSortKey());
+            contexts = daoItem.getContextEntityList();
+            assertEquals(contexts.size(), 1);
+            c = contexts.get(0);
+            assertEquals(c.getContextKey(), newContext.getType());
+            assertEquals(c.getContextValue(), newContext.getValue());
         	i++;
         }
         
