@@ -138,7 +138,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		throws OperationFailedException, InvalidParameterException {
 		RuleSetDTO ruleSet = null;
 		if (brInfo.getStatus().equals(BusinessRuleStatus.ACTIVE.toString())) {
-			String SnapshotName = brInfo.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
+			String SnapshotName = brInfo.getRepositorySnapshotName();
     		ruleSet = this.ruleRespositoryService.fetchRuleSetSnapshot(ruleSetUUID, SnapshotName);
     	} else {
     		ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
