@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>common-test</artifactId>
+			<artifactId>ks-common-test</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>

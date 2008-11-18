@@ -7,9 +7,9 @@ import org.kuali.student.core.entity.AttributeEntity;
 import org.kuali.student.core.entity.AttributeType;
 import org.kuali.student.core.entity.Type;
 import org.kuali.student.lum.atp.dao.AtpDao;
-import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
-import org.kuali.student.poc.common.test.spring.Dao;
-import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
 
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpDaoImpl extends AbstractTransactionalDaoTest {
