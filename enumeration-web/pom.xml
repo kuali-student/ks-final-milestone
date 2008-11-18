@@ -164,6 +164,7 @@
 			<artifactId>gwt-incubator</artifactId>
 			<version>1.4.0</version>
 		</dependency>		
+
 		<dependency>
 			<groupId>org.kuali.student.commons</groupId>
 			<artifactId>ks-commons-ui</artifactId>
