@@ -15,9 +15,6 @@
  */
 package org.kuali.student.rules.ruleexecution.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
@@ -54,31 +51,11 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     
     private RuleSetExecutor ruleSetExecutor;
     
-    //private SimpleExecutor defaultExecutor;
-    
     private RuleRepositoryService ruleRespositoryService;
 
     private RuleManagementService ruleManagementService;
 
     private  static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
-
-    /**
-     * Gets the default rule set executor.
-     * 
-     * @return Default executor
-     */
-	//public SimpleExecutor getDefaultExecutor() {
-	//	return defaultExecutor;
-	//}
-
-	/**
-     * Sets the default rule set executor.
-	 * 
-	 * @param defaultExecutor Default executor
-	 */
-	//public void setDefaultExecutor(SimpleExecutor defaultExecutor) {
-	//	this.defaultExecutor = defaultExecutor;
-	//}
 
     /**
      * Gets the rule execution engine.
