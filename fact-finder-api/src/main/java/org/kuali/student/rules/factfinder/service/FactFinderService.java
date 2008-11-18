@@ -6,6 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
@@ -32,7 +33,7 @@ public interface FactFinderService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public FactTypeInfoDTO fetchFactType(String factTypeKey) throws OperationFailedException;
+    public FactTypeInfoDTO fetchFactType(String factTypeKey) throws OperationFailedException, DoesNotExistException;
 
     
     /**
@@ -43,5 +44,5 @@ public interface FactFinderService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public FactResultDTO fetchFact(String factTypeKey, FactStructureDTO factStructure) throws OperationFailedException;    
+    public FactResultDTO fetchFact(String factTypeKey, FactStructureDTO factStructure) throws OperationFailedException, DoesNotExistException;    
 }
