@@ -15,10 +15,11 @@ public class DroolsExecutionStatistics {
 	private DroolsExecutionStatistics() {}
 	
 	public static synchronized DroolsExecutionStatistics getInstance() {
+		INSTANCE.start();
 		return INSTANCE;
 	}
 	
-    public void start() {
+    private void start() {
         this.startTime = new Date();
     }
 
