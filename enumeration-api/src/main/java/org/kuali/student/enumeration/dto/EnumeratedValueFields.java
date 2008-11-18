@@ -75,4 +75,11 @@ public class EnumeratedValueFields {
         return this.enumeratedValueField;
     }
 
+	public void setEnumeratedValueField(
+			List<EnumeratedValueField> enumeratedValueField) {
+		this.enumeratedValueField = enumeratedValueField;
+	}
+    
+
+
 }

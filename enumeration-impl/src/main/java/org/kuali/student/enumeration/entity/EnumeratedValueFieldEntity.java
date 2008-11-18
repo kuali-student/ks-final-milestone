@@ -42,11 +42,11 @@ public class EnumeratedValueFieldEntity {
         this.id = id;
     }
 
-    public String getEnumerationId() {
+    public String getEnumerationKey() {
         return enumerationKey;
     }
 
-    public void setEnumerationId(String enumerationId) {
+    public void setEnumerationKey(String enumerationId) {
         this.enumerationKey = enumerationId;
     }
 
