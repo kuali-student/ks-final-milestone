@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,7 +32,10 @@ public class Atp {
 	private List<AtpAttribute> attributes;
 	@Embedded
 	private Meta meta;
-	private String type;
+	
+	@ManyToOne
+	@JoinColumn(name="atpType")
+	private AtpType type;
 	private String state;
 
 	public String getKey() {
@@ -81,11 +86,11 @@ public class Atp {
 		this.attributes = attributes;
 	}
 
-	public String getType() {
+	public AtpType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(AtpType type) {
 		this.type = type;
 	}
 

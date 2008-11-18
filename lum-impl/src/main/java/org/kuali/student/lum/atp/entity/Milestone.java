@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -31,7 +32,9 @@ public class Milestone {
 	private List<MilestoneAttribute> attributes;
 	@Embedded
 	private Meta meta;
-	private String type;
+	@ManyToOne
+	@JoinColumn(name="MilestoneType")
+	private MilestoneType type;
 	private String state;
 
 	public String getName() {
@@ -74,11 +77,11 @@ public class Milestone {
 		this.attributes = attributes;
 	}
 
-	public String getType() {
+	public MilestoneType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(MilestoneType type) {
 		this.type = type;
 	}
 

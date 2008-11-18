@@ -1,25 +1,17 @@
 package org.kuali.student.lum.atp.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.core.entity.AttributeDef;
 import org.kuali.student.lum.atp.dao.AtpDao;
-import org.kuali.student.lum.atp.entity.Atp;
-import org.kuali.student.lum.atp.entity.DateRange;
 
 public class AtpDaoImpl implements AtpDao {
 	@PersistenceContext(unitName = "Atp")
 	private EntityManager em;
-
-
-
-	@Override
-	public Type createType(Type type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	
 	public EntityManager getEm() {
 		return em;
@@ -34,18 +26,31 @@ public class AtpDaoImpl implements AtpDao {
 	public <T> T fetch(Class<T> clazz, String key) {
 		return em.find(clazz, key);
 	}
-
-
-	@Override
-	public Atp fetchAtp(String atpKey) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	@SuppressWarnings("unchecked")
+	public <T> List<T> find(Class<T> clazz){
+		
+		String className = clazz.getClass().getSimpleName();
+		
+		Query q = em.createQuery("SELECT x FROM "+className+" x");
+		return (List<T>) q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends AttributeDef> T fetchAttributeDefByName(Class<T> clazz, String attributeName) {
+
+		String className = clazz.getClass().getSimpleName();
+		
+		Query q = em.createQuery("SELECT attrDef FROM "+className+" attrDef WHERE attrDef.name=:attributeName");
+		q.setParameter("attributeName", attributeName);
+
+		return (T) q.getResultList();
+	}
 
 	@Override
-	public void createDateRange(DateRange dateRange) {
-		// TODO Auto-generated method stub
-		
+	public <T> T create(T entity) {
+		em.persist(entity);
+		return entity;
 	}
 }

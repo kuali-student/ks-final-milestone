@@ -39,7 +39,9 @@ public class DateRange {
 	private List<DateRangeAttribute> attributes;
 	@Embedded
 	private Meta meta;
-	private String type;
+	@ManyToOne
+	@JoinColumn(name="DateRangeType")
+	private DateRangeType type;
 	private String state;
 
 	public String getName() {
@@ -90,11 +92,11 @@ public class DateRange {
 		this.attributes = attributes;
 	}
 
-	public String getType() {
+	public DateRangeType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(DateRangeType type) {
 		this.type = type;
 	}
 

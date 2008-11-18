@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.common.ws.exceptions.DataValidationErrorException;
@@ -26,6 +28,8 @@ import org.kuali.student.lum.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.lum.atp.dto.MilestoneInfo;
 import org.kuali.student.lum.atp.dto.MilestoneTypeInfo;
 
+@WebService(name = "AtpService", targetNamespace = "http://org.kuali.student/lum/atp")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AtpService extends DictionaryService, SearchService{
 
 

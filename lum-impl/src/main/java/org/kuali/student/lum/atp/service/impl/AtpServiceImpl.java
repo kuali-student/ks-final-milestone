@@ -3,6 +3,8 @@ package org.kuali.student.lum.atp.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.jws.WebService;
+
 import org.kuali.student.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.common.ws.exceptions.DataValidationErrorException;
 import org.kuali.student.common.ws.exceptions.DoesNotExistException;
@@ -25,9 +27,12 @@ import org.kuali.student.lum.atp.dto.MilestoneInfo;
 import org.kuali.student.lum.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.lum.atp.entity.Atp;
 import org.kuali.student.lum.atp.entity.DateRange;
+import org.kuali.student.lum.atp.entity.Milestone;
 import org.kuali.student.lum.atp.service.AtpService;
+import org.springframework.transaction.annotation.Transactional;
 
-
+@WebService(endpointInterface = "org.kuali.student.lum.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://org.kuali.student/lum/atp")
+@Transactional
 public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpService {
 
 	private AtpDao atpDao;
@@ -42,17 +47,12 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		CheckMissingParameters(new String[]{"atpKey","dateRangeKey","dateRangeInfo"},
 				               new Object[]{ atpKey,  dateRangeKey,  dateRangeInfo});
 		
-		Atp atp = atpDao.fetchAtp(atpKey);
-		if(atp==null){
-			throw new InvalidParameterException("Atp does not exist for atpKey: " + atpKey);
-		}
-		
+
+		dateRangeInfo.setAtpKey(atpKey);
+		dateRangeInfo.setKey(dateRangeKey);
 		DateRange dateRange = AtpAssembler.toDateRange(dateRangeInfo,atpDao);
 		
-		dateRange.setKey(dateRangeKey);
-		dateRange.setAtp(atp);
-		
-		atpDao.createDateRange(dateRange);
+		atpDao.create(dateRange);
 		
 		return AtpAssembler.toDateRangeInfo(dateRange);
 	}
@@ -77,8 +77,18 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CheckMissingParameters(new String[]{"atpKey","milestoneKey","milestoneInfo"},
+	               			   new Object[]{ atpKey,  milestoneKey,  milestoneInfo});
+
+
+		milestoneInfo.setAtpKey(atpKey);
+		milestoneInfo.setKey(milestoneKey);
+		Milestone milestone = AtpAssembler.toMilestone(milestoneInfo,atpDao);
+		
+		atpDao.create(milestone);
+		
+		return AtpAssembler.toMilestoneInfo(milestone);
 	}
 
 	@Override
@@ -86,8 +96,18 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		CheckMissingParameters(new String[]{"atpTypeKey","atpKey","atpInfo"},
+	                           new Object[]{ atpTypeKey,  atpKey,  atpInfo});
+
+		atpInfo.setType(atpTypeKey);
+		atpInfo.setKey(atpKey);
+		
+		Atp atp = AtpAssembler.toAtp(atpInfo, atpDao);
+		
+		atpDao.create(atp);
+		
+		return AtpAssembler.toAtpInfo(atp);
 	}
 
 	@Override
