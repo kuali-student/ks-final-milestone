@@ -3,16 +3,18 @@ package org.kuali.student.lum.atp.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.entity.Meta;
 
 @Entity
 public class DateRange {
@@ -26,16 +28,17 @@ public class DateRange {
 	private String desc;
 
 	@ManyToOne
+	@JoinColumn(name="ATP_KEY")
 	private Atp atp;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<DateRangeAttribute> attributes;
 	@Embedded
-	private MetaInfo metaInfo;
+	private Meta meta;
 	private String type;
 	private String state;
 
@@ -87,14 +90,6 @@ public class DateRange {
 		this.attributes = attributes;
 	}
 
-	public MetaInfo getMetaInfo() {
-		return metaInfo;
-	}
-
-	public void setMetaInfo(MetaInfo metaInfo) {
-		this.metaInfo = metaInfo;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -117,5 +112,13 @@ public class DateRange {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	public Meta getMeta() {
+		return meta;
+	}
+
+	public void setMeta(Meta meta) {
+		this.meta = meta;
 	}
 }

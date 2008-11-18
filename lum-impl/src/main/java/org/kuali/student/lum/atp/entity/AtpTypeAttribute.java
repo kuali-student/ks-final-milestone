@@ -5,19 +5,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.kuali.student.core.entity.Attribute;
-
 @Entity
-public class AtpAttribute extends Attribute {
-
+public class AtpTypeAttribute extends Attribute {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
-	private Atp owner;
+	private AtpType owner;
 
-	public Atp getOwner() {
+	public AtpType getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Atp owner) {
+	public void setOwner(AtpType owner) {
 		this.owner = owner;
 	}
 }

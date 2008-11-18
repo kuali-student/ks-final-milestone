@@ -10,7 +10,7 @@ import org.kuali.student.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.common.ws.exceptions.VersionMismatchException;
-import org.kuali.student.core.dto.Status;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.service.impl.DictionarySearchServiceImpl;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.organization.dao.OrganizationDao;
@@ -78,7 +78,7 @@ public class OrganizationServiceImpl extends DictionarySearchServiceImpl impleme
 	}
 
 	@Override
-	public Status deleteOrganization(String orgId)
+	public StatusInfo deleteOrganization(String orgId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -345,7 +345,7 @@ public class OrganizationServiceImpl extends DictionarySearchServiceImpl impleme
 	}
 
 	@Override
-	public Status removeOrgOrgRelation(String orgOrgRelationId)
+	public StatusInfo removeOrgOrgRelation(String orgOrgRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -354,7 +354,7 @@ public class OrganizationServiceImpl extends DictionarySearchServiceImpl impleme
 	}
 
 	@Override
-	public Status removeOrgPersonRelation(String orgPersonRelationId)
+	public StatusInfo removeOrgPersonRelation(String orgPersonRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -363,7 +363,7 @@ public class OrganizationServiceImpl extends DictionarySearchServiceImpl impleme
 	}
 
 	@Override
-	public Status removePositionRestrictionFromOrg(String orgId,
+	public StatusInfo removePositionRestrictionFromOrg(String orgId,
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {

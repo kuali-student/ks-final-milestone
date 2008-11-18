@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.Attribute;
+import org.kuali.student.core.dto.AttributeInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgPersonRelationTypeInfo implements Serializable {
@@ -24,7 +24,7 @@ public class OrgPersonRelationTypeInfo implements Serializable {
 	@XmlElement
 	private Date expirationDate;
 	@XmlElement
-	private List<Attribute> attributes;
+	private List<AttributeInfo> attributes;
 	@XmlAttribute
 	private String key;
 
@@ -60,14 +60,14 @@ public class OrgPersonRelationTypeInfo implements Serializable {
 		this.expirationDate = expirationDate;
 	}
 
-	public List<Attribute> getAttributes() {
+	public List<AttributeInfo> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<Attribute>();
+			attributes = new ArrayList<AttributeInfo>();
 		}
 		return attributes;
 	}
 
-	public void setAttributes(List<Attribute> attributes) {
+	public void setAttributes(List<AttributeInfo> attributes) {
 		this.attributes = attributes;
 	}
 

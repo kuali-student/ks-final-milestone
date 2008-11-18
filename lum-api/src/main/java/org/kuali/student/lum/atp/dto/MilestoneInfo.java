@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.Attribute;
+import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,7 +25,7 @@ public class MilestoneInfo implements Serializable {
 	@XmlElement
 	private Date milestoneDate; 
 	@XmlElement
-	private List<Attribute> attributes; 
+	private List<AttributeInfo> attributes; 
 	@XmlElement
 	private MetaInfo metaInfo; 
 	@XmlAttribute
@@ -58,13 +58,13 @@ public class MilestoneInfo implements Serializable {
 	public void setMilestoneDate(Date milestoneDate){
 		this.milestoneDate = milestoneDate;
 	}
-	public List<Attribute> getAttributes(){
+	public List<AttributeInfo> getAttributes(){
 		if(attributes == null){
-			attributes = new ArrayList<Attribute>();
+			attributes = new ArrayList<AttributeInfo>();
 		}
 		return attributes;
 	}
-	public void setAttributes(List<Attribute> attributes){
+	public void setAttributes(List<AttributeInfo> attributes){
 		this.attributes = attributes;
 	}
 	public MetaInfo getMetaInfo(){

@@ -13,7 +13,7 @@ import org.kuali.student.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.common.ws.exceptions.VersionMismatchException;
-import org.kuali.student.core.dto.Status;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
@@ -381,7 +381,7 @@ public interface AtpService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public Status removeMilestone(@WebParam(name="milestoneKey")String milestoneKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeMilestone(@WebParam(name="milestoneKey")String milestoneKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Adds a new dateRange to an existing Academic Time Period
@@ -423,6 +423,6 @@ public interface AtpService extends DictionaryService, SearchService{
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public Status removeDateRange(@WebParam(name="dateRangeKey")String dateRangeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeDateRange(@WebParam(name="dateRangeKey")String dateRangeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

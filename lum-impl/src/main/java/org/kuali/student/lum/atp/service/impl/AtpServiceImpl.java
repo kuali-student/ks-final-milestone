@@ -11,7 +11,7 @@ import org.kuali.student.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.common.ws.exceptions.VersionMismatchException;
-import org.kuali.student.core.dto.Status;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.service.impl.DictionarySearchServiceImpl;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.atp.dao.AtpDao;
@@ -23,6 +23,8 @@ import org.kuali.student.lum.atp.dto.DateRangeInfo;
 import org.kuali.student.lum.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.lum.atp.dto.MilestoneInfo;
 import org.kuali.student.lum.atp.dto.MilestoneTypeInfo;
+import org.kuali.student.lum.atp.entity.Atp;
+import org.kuali.student.lum.atp.entity.DateRange;
 import org.kuali.student.lum.atp.service.AtpService;
 
 
@@ -36,8 +38,37 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		CheckMissingParameters(new String[]{"atpKey","dateRangeKey","dateRangeInfo"},
+				               new Object[]{ atpKey,  dateRangeKey,  dateRangeInfo});
+		
+		Atp atp = atpDao.fetchAtp(atpKey);
+		if(atp==null){
+			throw new InvalidParameterException("Atp does not exist for atpKey: " + atpKey);
+		}
+		
+		DateRange dateRange = AtpAssembler.toDateRange(dateRangeInfo,atpDao);
+		
+		dateRange.setKey(dateRangeKey);
+		dateRange.setAtp(atp);
+		
+		atpDao.createDateRange(dateRange);
+		
+		return AtpAssembler.toDateRangeInfo(dateRange);
+	}
+
+	private void CheckMissingParameters(String[] paramNames, Object[] params) throws MissingParameterException {
+		String errors = null;
+		int i = 0;
+		for(Object param:params){
+			if(param==null){
+				errors = errors==null?paramNames[i]:errors+", " + paramNames[i];
+			}
+			i++;
+		}
+		if(errors!=null){
+			throw new MissingParameterException("Missing Parameters: " + errors);
+		}
 	}
 
 	@Override
@@ -249,7 +280,7 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 	}
 
 	@Override
-	public Status removeDateRange(String dateRangeKey)
+	public StatusInfo removeDateRange(String dateRangeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -258,7 +289,7 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 	}
 
 	@Override
-	public Status removeMilestone(String milestoneKey)
+	public StatusInfo removeMilestone(String milestoneKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {

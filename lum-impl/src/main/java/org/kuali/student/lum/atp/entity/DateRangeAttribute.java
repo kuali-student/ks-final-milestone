@@ -1,20 +1,22 @@
 package org.kuali.student.lum.atp.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.kuali.student.core.entity.AttributeEntity;
+import org.kuali.student.core.entity.Attribute;
 
 @Entity
-public class DateRangeAttribute extends AttributeEntity{
+public class DateRangeAttribute extends Attribute{
 	@ManyToOne
-	private Atp owner;
+	@JoinColumn(name = "OWNER")
+	private DateRange owner;
 
-	public Atp getOwner() {
+	public DateRange getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Atp owner) {
+	public void setOwner(DateRange owner) {
 		this.owner = owner;
 	}
 }

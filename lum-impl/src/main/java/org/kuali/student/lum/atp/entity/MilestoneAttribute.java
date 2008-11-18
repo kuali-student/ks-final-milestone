@@ -1,20 +1,22 @@
 package org.kuali.student.lum.atp.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.kuali.student.core.entity.AttributeEntity;
+import org.kuali.student.core.entity.Attribute;
 
 @Entity
-public class MilestoneAttribute extends AttributeEntity{
+public class MilestoneAttribute extends Attribute{
 	@ManyToOne
-	private Atp owner;
+	@JoinColumn(name = "OWNER")
+	private Milestone owner;
 
-	public Atp getOwner() {
+	public Milestone getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Atp owner) {
+	public void setOwner(Milestone owner) {
 		this.owner = owner;
 	}
 }

@@ -12,7 +12,7 @@ import org.kuali.student.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.common.ws.exceptions.PermissionDeniedException;
 import org.kuali.student.common.ws.exceptions.VersionMismatchException;
-import org.kuali.student.core.dto.Status;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
@@ -1003,7 +1003,7 @@ public interface OrganizationService extends DictionaryService, SearchService{
 	 * @throws PermissionDeniedException
 	 *             authorization failure
 	 */
-	public Status deleteOrganization(@WebParam(name = "orgId")
+	public StatusInfo deleteOrganization(@WebParam(name = "orgId")
 	String orgId) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
@@ -1100,7 +1100,7 @@ public interface OrganizationService extends DictionaryService, SearchService{
 	 * @throws PermissionDeniedException
 	 *             authorization failure
 	 */
-	public Status removeOrgOrgRelation(@WebParam(name = "orgOrgRelationId")
+	public StatusInfo removeOrgOrgRelation(@WebParam(name = "orgOrgRelationId")
 	String orgOrgRelationId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException;
@@ -1198,7 +1198,7 @@ public interface OrganizationService extends DictionaryService, SearchService{
 	 * @throws PermissionDeniedException
 	 *             authorization failure
 	 */
-	public Status removeOrgPersonRelation(
+	public StatusInfo removeOrgPersonRelation(
 			@WebParam(name = "orgPersonRelationId")
 			String orgPersonRelationId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1305,7 +1305,7 @@ public interface OrganizationService extends DictionaryService, SearchService{
 	 * @throws PermissionDeniedException
 	 *             authorization failure
 	 */
-	public Status removePositionRestrictionFromOrg(@WebParam(name = "orgId")
+	public StatusInfo removePositionRestrictionFromOrg(@WebParam(name = "orgId")
 	String orgId, @WebParam(name = "orgPersonRelationTypeKey")
 	String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

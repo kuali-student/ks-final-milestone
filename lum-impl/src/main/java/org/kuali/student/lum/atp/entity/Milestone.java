@@ -3,6 +3,7 @@ package org.kuali.student.lum.atp.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.entity.Meta;
 
 @Entity
 public class Milestone {
@@ -26,10 +27,10 @@ public class Milestone {
 	private Atp atp;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date milestoneDate;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<MilestoneAttribute> attributes;
 	@Embedded
-	private MetaInfo metaInfo;
+	private Meta meta;
 	private String type;
 	private String state;
 
@@ -73,14 +74,6 @@ public class Milestone {
 		this.attributes = attributes;
 	}
 
-	public MetaInfo getMetaInfo() {
-		return metaInfo;
-	}
-
-	public void setMetaInfo(MetaInfo metaInfo) {
-		this.metaInfo = metaInfo;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -103,6 +96,14 @@ public class Milestone {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	public Meta getMeta() {
+		return meta;
+	}
+
+	public void setMeta(Meta meta) {
+		this.meta = meta;
 	}
 
 }

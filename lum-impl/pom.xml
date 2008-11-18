@@ -20,6 +20,11 @@
 	</parent>
 	<dependencies>
 		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-common-test</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
