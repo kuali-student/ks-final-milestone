@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Status implements Serializable {
+public class StatusInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlElement
 	private Boolean success; 

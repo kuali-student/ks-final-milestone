@@ -23,7 +23,7 @@ public abstract class TypeInfo implements Serializable {
 	@XmlElement
 	private Date expirationDate; 
 	@XmlElement
-	private List<Attribute> attributes; 
+	private List<AttributeInfo> attributes; 
 	@XmlAttribute
 	private String key; 
 	public String getName(){
@@ -50,13 +50,13 @@ public abstract class TypeInfo implements Serializable {
 	public void setExpirationDate(Date expirationDate){
 		this.expirationDate = expirationDate;
 	}
-	public List<Attribute> getAttributes(){
+	public List<AttributeInfo> getAttributes(){
 		if(attributes == null){
-			attributes = new ArrayList<Attribute>();
+			attributes = new ArrayList<AttributeInfo>();
 		}
 		return attributes;
 	}
-	public void setAttributes(List<Attribute> attributes){
+	public void setAttributes(List<AttributeInfo> attributes){
 		this.attributes = attributes;
 	}
 	public String getKey(){

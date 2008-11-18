@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Attribute implements Serializable {
+public class AttributeInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlElement
 	private String value; 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,8 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Type {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Type {
 	@Id
 	@Column(name = "TYPE_KEY")
 	private String key;
@@ -30,8 +31,8 @@ public class Type {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expirationDate;
 
-	@OneToMany
-	private List<AttributeEntity> attributes;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<TypeAttribute> attributes;
 
 	public String getName() {
 		return name;
@@ -57,14 +58,14 @@ public class Type {
 		this.expirationDate = expirationDate;
 	}
 
-	public List<AttributeEntity> getAttributes() {
+	public List<TypeAttribute> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<AttributeEntity>();
+			attributes = new ArrayList<TypeAttribute>();
 		}
 		return attributes;
 	}
 
-	public void setAttributes(List<AttributeEntity> attributes) {
+	public void setAttributes(List<TypeAttribute> attributes) {
 		this.attributes = attributes;
 	}
 
