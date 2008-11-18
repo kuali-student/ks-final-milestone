@@ -89,6 +89,15 @@ public class DozerTest extends TestCase {
         dto.setSortKey(1);
         dto.setValue("v");
         dto.setAbbrevValue("a");
+        dto.setContexts(new Contexts());
+        
+        //dto context
+        List<Context> dtoContext = new ArrayList();
+        Context newContext = new Context();
+        newContext.setType("ContextA");
+        newContext.setValue("1");
+        dtoContext.add(newContext);
+        dto.getContexts().setContext(dtoContext);
 
         EnumeratedValueEntity dao = new EnumeratedValueEntity();
         
@@ -100,7 +109,11 @@ public class DozerTest extends TestCase {
         assertEquals(dao.getValue(), dto.getValue());
         assertEquals(dao.getCode(), dto.getCode());
         assertEquals(dao.getSortKey(), dto.getSortKey());
+        //context check
+        List<ContextEntity> contexts = dao.getContextEntityList();
+        assertEquals(contexts.size(), 1);
         
+        //List
         List<EnumeratedValue> listDto = new ArrayList<EnumeratedValue>();
         listDto.add(dto);
         
@@ -138,11 +151,10 @@ public class DozerTest extends TestCase {
     	
     	Context dto = new Context();
     	
-    	/*
     	POJOConverter.map(dao, dto);
         assertEquals(dao.getContextKey(), dto.getType());
-        assertEquals(dao.getValue(), dto.getValue());
-		*/
+        assertEquals(dao.getContextValue(), dto.getValue());
+		
     }
     
     public void testDTOtoDAOContext(){
@@ -154,9 +166,8 @@ public class DozerTest extends TestCase {
     	dao.setDataType("d");
     	dao.setMaxLength(5);
     	dao.setMinLength(1);
-    	//spelling is wrong
-    	dao.setMinOccors(1);
-    	dao.setMaxOccors(2);
+    	dao.setMinOccurs(1);
+    	dao.setMaxOccurs(2);
     	dao.setEnumerationId("e");
     	dao.setType("t");
     	dao.setId("id");
@@ -165,14 +176,28 @@ public class DozerTest extends TestCase {
     	
     	POJOConverter.map(dao, dto);
     	assertEquals(dao.getDataType(), dto.getDataType());
-    	assertEquals(dao.getMaxLength(), dto.getMaxLength().intValue());
-    	assertEquals(dao.getMinLength(), dto.getMinLength().intValue());
-    	//assertEquals(dao.getMinOccors(), dto.getMinOccurs().intValue());
-    	//assertEquals(dao.getMaxOccors(), dto.getMaxOccurs().intValue());
+    	assertEquals(dao.getMaxLength(), dto.getMaxLength());
+    	assertEquals(dao.getMinLength(), dto.getMinLength());
+    	assertEquals(dao.getMinOccurs(), dto.getMinOccurs());
+    	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
     	
     }
     
     public void testDTOtoDAOContextMeta(){
+    	ContextValueDescriptor dto = new ContextValueDescriptor();
+    	dto.setDataType("d");
+    	dto.setMaxLength(5);
+    	dto.setMinLength(1);
+    	dto.setMinOccurs(1);
+    	dto.setMaxOccurs(2);
     	
+    	ContextMetaEntity dao = new ContextMetaEntity();
+    	
+    	POJOConverter.map(dto, dao);
+    	assertEquals(dao.getDataType(), dto.getDataType());
+    	assertEquals(dao.getMaxLength(), dto.getMaxLength());
+    	assertEquals(dao.getMinLength(), dto.getMinLength());
+    	assertEquals(dao.getMinOccurs(), dto.getMinOccurs());
+    	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
     }
 }

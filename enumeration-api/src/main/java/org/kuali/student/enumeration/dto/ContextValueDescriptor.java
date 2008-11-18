@@ -53,13 +53,13 @@ public class ContextValueDescriptor {
     @XmlElement(required = true)
     protected String dataType;
     @XmlElement(required = true)
-    protected Integer minLength;
+    protected int minLength;
     @XmlElement(required = true)
-    protected Integer maxLength;
+    protected int maxLength;
     @XmlElement(required = true)
-    protected Integer minOccurs;
+    protected int minOccurs;
     @XmlElement(required = true)
-    protected Integer maxOccurs;
+    protected int maxOccurs;
 
     /**
      * Gets the value of the dataType property.
@@ -90,10 +90,10 @@ public class ContextValueDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public Integer getMinLength() {
+    public int getMinLength() {
         return minLength;
     }
 
@@ -102,10 +102,10 @@ public class ContextValueDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public void setMinLength(Integer value) {
+    public void setMinLength(int value) {
         this.minLength = value;
     }
 
@@ -114,10 +114,10 @@ public class ContextValueDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public Integer getMaxLength() {
+    public int getMaxLength() {
         return maxLength;
     }
 
@@ -126,10 +126,10 @@ public class ContextValueDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public void setMaxLength(Integer value) {
+    public void setMaxLength(int value) {
         this.maxLength = value;
     }
 
@@ -138,10 +138,10 @@ public class ContextValueDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public Integer getMinOccurs() {
+    public int getMinOccurs() {
         return minOccurs;
     }
 
@@ -150,10 +150,10 @@ public class ContextValueDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public void setMinOccurs(Integer value) {
+    public void setMinOccurs(int value) {
         this.minOccurs = value;
     }
 
@@ -162,10 +162,10 @@ public class ContextValueDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public Integer getMaxOccurs() {
+    public int getMaxOccurs() {
         return maxOccurs;
     }
 
@@ -174,10 +174,10 @@ public class ContextValueDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public void setMaxOccurs(Integer value) {
+    public void setMaxOccurs(int value) {
         this.maxOccurs = value;
     }
 

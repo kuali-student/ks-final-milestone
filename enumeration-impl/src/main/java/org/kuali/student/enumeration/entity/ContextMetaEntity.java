@@ -72,20 +72,20 @@ public class ContextMetaEntity {
         this.maxLength = maxLength;
     }
 
-    public int getMinOccors() {
+    public int getMinOccurs() {
         return minOccurs;
     }
 
-    public void setMinOccors(int minOccors) {
-        this.minOccurs = minOccors;
+    public void setMinOccurs(int minOccurs) {
+        this.minOccurs = minOccurs;
     }
 
-    public int getMaxOccors() {
+    public int getMaxOccurs() {
         return maxOccurs;
     }
 
-    public void setMaxOccors(int maxOccors) {
-        this.maxOccurs = maxOccors;
+    public void setMaxOccurs(int maxOccurs) {
+        this.maxOccurs = maxOccurs;
     }
 
 }
