@@ -2,14 +2,14 @@ package org.kuali.student.lum.organization.service.impl;
 
 import java.util.List;
 
-import org.kuali.student.common.ws.exceptions.AlreadyExistsException;
-import org.kuali.student.common.ws.exceptions.DataValidationErrorException;
-import org.kuali.student.common.ws.exceptions.DoesNotExistException;
-import org.kuali.student.common.ws.exceptions.InvalidParameterException;
-import org.kuali.student.common.ws.exceptions.MissingParameterException;
-import org.kuali.student.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.common.ws.exceptions.PermissionDeniedException;
-import org.kuali.student.common.ws.exceptions.VersionMismatchException;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.service.impl.DictionarySearchServiceImpl;
 import org.kuali.student.core.validation.dto.ValidationResult;

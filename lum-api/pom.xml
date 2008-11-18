@@ -18,12 +18,41 @@
 		<artifactId>ks-lum</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-jaxws</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-simple</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+					<className>
+						org.kuali.student.lum.atp.service.AtpService
+					</className>
+					<serviceName>AtpService</serviceName>
+					<genWsdl>true</genWsdl>
+					<genWrapperbean>true</genWrapperbean>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<dependencies>
-		<dependency>
-			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-common-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>

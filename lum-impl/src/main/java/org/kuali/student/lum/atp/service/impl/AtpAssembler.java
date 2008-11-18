@@ -3,7 +3,7 @@ package org.kuali.student.lum.atp.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ws.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.entity.Attribute;
