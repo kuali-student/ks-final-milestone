@@ -8,7 +8,6 @@
 
 package org.kuali.student.enumeration.dto;
 
-import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -56,12 +55,12 @@ public class FieldDescriptor {
 
     @XmlElement(required = true)
     protected String dataType;
-    protected Integer minLength;
-    protected Integer maxLength;
+    protected int minLength;
+    protected int maxLength;
     protected String validChars;
     protected String invalidChars;
-    protected Integer minOccurs;
-    protected Integer maxOccurs;
+    protected int minOccurs;
+    protected int maxOccurs;
 
     /**
      * Gets the value of the dataType property.
@@ -92,10 +91,10 @@ public class FieldDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public Integer getMinLength() {
+    public int getMinLength() {
         return minLength;
     }
 
@@ -104,10 +103,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link Integer }
+     *     {@link int }
      *     
      */
-    public void setMinLength(Integer value) {
+    public void setMinLength(int value) {
         this.minLength = value;
     }
 
@@ -116,10 +115,10 @@ public class FieldDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link Integer }
+     *     {@link int }
      *     
      */
-    public Integer getMaxLength() {
+    public int getMaxLength() {
         return maxLength;
     }
 
@@ -128,10 +127,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link Integer }
+     *     {@link int }
      *     
      */
-    public void setMaxLength(Integer value) {
+    public void setMaxLength(int value) {
         this.maxLength = value;
     }
 
@@ -188,10 +187,10 @@ public class FieldDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link Integer }
+     *     {@link int }
      *     
      */
-    public Integer getMinOccurs() {
+    public int getMinOccurs() {
         return minOccurs;
     }
 
@@ -200,10 +199,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link Integer }
+     *     {@link int }
      *     
      */
-    public void setMinOccurs(Integer value) {
+    public void setMinOccurs(int value) {
         this.minOccurs = value;
     }
 
@@ -212,10 +211,10 @@ public class FieldDescriptor {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link Bigint }
      *     
      */
-    public Integer getMaxOccurs() {
+    public int getMaxOccurs() {
         return maxOccurs;
     }
 
@@ -224,10 +223,10 @@ public class FieldDescriptor {
      * 
      * @param value
      *     allowed object is
-     *     {@link Integer }
+     *     {@link int }
      *     
      */
-    public void setMaxOccurs(Integer value) {
+    public void setMaxOccurs(int value) {
         this.maxOccurs = value;
     }
 

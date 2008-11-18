@@ -169,7 +169,15 @@ public class DozerTest extends TestCase {
     }
     
     public void testDTOtoDAOContext(){
+    	Context dto = new Context();
+    	dto.setType("TypeA");
+    	dto.setValue("ValueA");
     	
+    	ContextEntity dao = new ContextEntity();
+    	
+    	POJOConverter.map(dto, dao);
+        assertEquals(dao.getContextKey(), dto.getType());
+        assertEquals(dao.getContextValue(), dto.getValue());
     }
     
     public void testDAOtoDTOContextMeta(){
@@ -210,5 +218,114 @@ public class DozerTest extends TestCase {
     	assertEquals(dao.getMinLength(), dto.getMinLength());
     	assertEquals(dao.getMinOccurs(), dto.getMinOccurs());
     	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
+    }
+    
+    public void testDAOtoDTOEnumerationMeta(){
+    	EnumerationMetaEntity dao = new EnumerationMetaEntity();
+    	dao.setEnumerationKey("metaKey1");
+    	dao.setEnumerationMetaKeyDesc("metaDesc1");
+    	dao.setName("Name1");
+    	dao.setId("id1");
+    	EnumeratedValueFieldEntity fieldDao = new EnumeratedValueFieldEntity();
+    	fieldDao.setInvalidChars("f");
+    	fieldDao.setValidChars("ab");
+    	fieldDao.setId("id");
+    	fieldDao.setKey("key");
+    	fieldDao.setMaxLength(2);
+    	fieldDao.setMinLength(0);
+    	fieldDao.setMaxOccurs(2);
+    	fieldDao.setMinOccurs(1);
+    	//fieldDao.setEnumerationId("1");
+    	fieldDao.setEnumerationMetaEntity(dao);
+    	fieldDao.setDataType("string");
+    	dao.getEnumeratedValueFieldList().add(fieldDao);
+    	
+    	EnumeratedValueFieldEntity fieldDao2 = new EnumeratedValueFieldEntity();
+    	fieldDao2.setInvalidChars("456");
+    	fieldDao2.setValidChars("123");
+    	fieldDao2.setId("id2");
+    	fieldDao2.setKey("key2");
+    	fieldDao2.setMaxLength(2);
+    	fieldDao2.setMinLength(0);
+    	fieldDao2.setMaxOccurs(2);
+    	fieldDao2.setMinOccurs(1);
+    	fieldDao2.setEnumerationMetaEntity(dao);
+    	fieldDao2.setDataType("int");
+    	dao.getEnumeratedValueFieldList().add(fieldDao2);
+    	
+    	EnumerationMeta dto = new EnumerationMeta();
+    	POJOConverter.map(dao, dto);
+    	assertEquals(dao.getEnumerationKey(), dto.getKey());
+    	assertEquals(dao.getName(), dto.getName());
+    	assertEquals(dao.getEnumerationMetaKeyDesc(), dto.getDesc());
+    	List<EnumeratedValueField> fields = dto.getEnumeratedValueFields().getEnumeratedValueField();
+    	assertEquals(fields.size(), 2);
+    	int i = 0;
+    	for(EnumeratedValueField field: fields){
+    		fieldDao = dao.getEnumeratedValueFieldList().get(i);
+    		assertEquals(fieldDao.getKey(), field.getKey());
+    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
+    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
+    		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
+    		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
+    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs());
+    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs());
+    		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
+    		i++;
+    	}
+    }
+    
+    public void testDTOtoDAOEnumerationMeta(){
+    	EnumerationMeta dto = new EnumerationMeta();
+    	dto.setKey("metaKey1");
+    	dto.setDesc("metaDesc1");
+    	dto.setName("Name1");
+    	dto.setEnumeratedValueFields(new EnumeratedValueFields());
+    	EnumeratedValueField fieldDto = new EnumeratedValueField();
+    	fieldDto.setFieldDescriptor(new FieldDescriptor());
+    	fieldDto.getFieldDescriptor().setInvalidChars("f");
+    	fieldDto.getFieldDescriptor().setValidChars("ab");
+    	fieldDto.setKey("key4");
+    	fieldDto.getFieldDescriptor().setMaxLength(2);
+    	fieldDto.getFieldDescriptor().setMinLength(0);
+    	fieldDto.getFieldDescriptor().setMaxOccurs(2);
+    	fieldDto.getFieldDescriptor().setMinOccurs(1);
+    	fieldDto.getFieldDescriptor().setDataType("string");
+
+    	dto.getEnumeratedValueFields().getEnumeratedValueField().add(fieldDto);
+    	
+    	EnumeratedValueField fieldDto2 = new EnumeratedValueField();
+    	fieldDto2.setFieldDescriptor(new FieldDescriptor());
+    	fieldDto2.getFieldDescriptor().setInvalidChars("1");
+    	fieldDto2.getFieldDescriptor().setValidChars("2");
+    	fieldDto2.setKey("key3");
+    	fieldDto2.getFieldDescriptor().setMaxLength(2);
+    	fieldDto2.getFieldDescriptor().setMinLength(0);
+    	fieldDto2.getFieldDescriptor().setMaxOccurs(2);
+    	fieldDto2.getFieldDescriptor().setMinOccurs(1);
+    	fieldDto2.getFieldDescriptor().setDataType("int");
+
+    	dto.getEnumeratedValueFields().getEnumeratedValueField().add(fieldDto2);
+    	
+    	EnumerationMetaEntity dao = new EnumerationMetaEntity();
+    	POJOConverter.map(dto, dao);
+    	assertEquals(dao.getEnumerationKey(), dto.getKey());
+    	assertEquals(dao.getName(), dto.getName());
+    	assertEquals(dao.getEnumerationMetaKeyDesc(), dto.getDesc());
+    	List<EnumeratedValueFieldEntity> fields = dao.getEnumeratedValueFieldList();
+    	assertEquals(fields.size(), 2);
+    	int i = 0;
+    	for(EnumeratedValueFieldEntity fieldDao: fields){
+    		fieldDto = dto.getEnumeratedValueFields().getEnumeratedValueField().get(i);
+    		assertEquals(fieldDao.getKey(), fieldDto.getKey());
+    		assertEquals(fieldDao.getMaxLength(), fieldDto.getFieldDescriptor().getMaxLength());
+    		assertEquals(fieldDao.getMinLength(), fieldDto.getFieldDescriptor().getMinLength());
+    		assertEquals(fieldDao.getValidChars(), fieldDto.getFieldDescriptor().getValidChars());
+    		assertEquals(fieldDao.getInvalidChars(), fieldDto.getFieldDescriptor().getInvalidChars());
+    		assertEquals(fieldDao.getMaxOccurs(), fieldDto.getFieldDescriptor().getMaxOccurs());
+    		assertEquals(fieldDao.getMinOccurs(), fieldDto.getFieldDescriptor().getMinOccurs());
+    		assertEquals(fieldDao.getDataType(), fieldDto.getFieldDescriptor().getDataType());
+    		i++;
+    	}
     }
 }

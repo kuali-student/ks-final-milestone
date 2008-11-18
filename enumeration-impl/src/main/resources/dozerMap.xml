@@ -34,10 +34,6 @@
    <mapping>
     <class-a>org.kuali.student.enumeration.entity.EnumeratedValueFieldEntity</class-a>
     <class-b>org.kuali.student.enumeration.dto.EnumeratedValueField</class-b>
-      <field>
-        <a>enumerationKey</a>
-        <b>key</b>
-      </field>
 
       <field>
         <a>maxOccurs</a>
