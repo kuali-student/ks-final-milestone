@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
-	<classpathentry kind="src" output="target/classes" path="src/main/resources"/>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
-		<attributes>
-			<attribute name="maven.type" value="test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="enumeration-services/src/main/resources"/>
+	<classpathentry kind="src" path="enumeration-services/src/test/java"/>
+	<classpathentry kind="src" path="enumeration-api/src/test/java"/>
+	<classpathentry kind="src" path="enumeration-services/src/test/resources"/>
+	<classpathentry kind="src" path="enumeration-impl/src/main/java"/>
+	<classpathentry kind="src" path="enumeration-impl/src/main/resources"/>
+	<classpathentry kind="src" path="enumeration-web/src/main/java"/>
+	<classpathentry kind="src" path="enumeration-api/src/main/java"/>
+	<classpathentry kind="src" path="enumeration-api/src/test/resources"/>
+	<classpathentry kind="src" path="enumeration-impl/src/test/resources"/>
+	<classpathentry kind="src" path="enumeration-web/src/test/resources"/>
+	<classpathentry kind="src" path="enumeration-impl/src/test/java"/>
+	<classpathentry kind="src" path="enumeration-web/src/main/resources"/>
+	<classpathentry kind="src" path="enumeration-web/src/test/java"/>
+	<classpathentry kind="src" path="enumeration-api/src/main/resources"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student</groupId>
+  <artifactId>enumeration-impl</artifactId>
+  <name>enumeration-impl</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>Enumeration impl module</description>
+  
+  <parent>
+    <artifactId>enumeration</artifactId>
+    <groupId>org.kuali.student</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <dependencies>
+		<dependency>
+			<groupId>org.kuali.student</groupId>
+			<artifactId>enumeration-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+    <dependency>
+      <groupId>org.kuali.student.poc.common</groupId>
+      <artifactId>common-test</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  
+</project>

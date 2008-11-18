@@ -1,7 +1,0 @@
-<module>
-	<inherits name="com.google.gwt.user.User" />
-	<inherits name="org.kuali.student.commons.ui.MVCNoServer"/>
-	<inherits name="com.google.gwt.widgetideas.datepicker.DatePicker"/>
-	<source path="widgets" />
-	<stylesheet src="KS-Widgets.css"/>
-</module>
