@@ -15,7 +15,6 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime;
 
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
