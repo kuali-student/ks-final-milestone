@@ -4,11 +4,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
-	<artifactId>ks-jpa</artifactId>
+	<artifactId>ks-jta</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>KS JPA Pom</name>
-	<description>Atomikos and JPA Dependencies</description>
+	<name>KS JTA Pom</name>
+	<description>Atomikos and JTA Dependencies</description>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>

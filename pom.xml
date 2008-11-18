@@ -33,7 +33,7 @@
 		<module>ks-metro</module>
 		<module>ks-eclipselink</module>
 		<module>ks-hibernate</module>
-		<module>ks-jpa</module>	
+		<module>ks-jta</module>	
 		<module>common-util</module>
 		<module>common-test</module>
 		<module>core-api</module>
@@ -500,7 +500,7 @@
 			<!-- Pom dependencies for impl specific jars -->
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
-				<artifactId>ks-jpa</artifactId>
+				<artifactId>ks-jta</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<type>pom</type>
 			</dependency>		
