@@ -4,64 +4,50 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://student.kuali.org/wsdl/brms/RuleRepository" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/brms/RuleRepository">
     <xs:element name="categoryDTO" type="tns:categoryDTO"/>
     <xs:element name="changeRuleSetState" type="tns:changeRuleSetState"/>
+    <xs:element name="checkinRuleSet" type="tns:checkinRuleSet"/>
+    <xs:element name="checkinRuleSetResponse" type="tns:checkinRuleSetResponse"/>
     <xs:element name="createCategory" type="tns:createCategory"/>
     <xs:element name="createCategoryResponse" type="tns:createCategoryResponse"/>
     <xs:element name="createRuleSet" type="tns:createRuleSet"/>
     <xs:element name="createRuleSetResponse" type="tns:createRuleSetResponse"/>
     <xs:element name="createRuleSetSnapshot" type="tns:createRuleSetSnapshot"/>
+    <xs:element name="createRuleSetSnapshotResponse" type="tns:createRuleSetSnapshotResponse"/>
     <xs:element name="createState" type="tns:createState"/>
     <xs:element name="createStateResponse" type="tns:createStateResponse"/>
-    <xs:element name="fetchChildCategories" type="tns:fetchChildCategories"/>
-    <xs:element name="fetchChildCategoriesResponse" type="tns:fetchChildCategoriesResponse"/>
-    <xs:element name="fetchCompiledRuleSet" type="tns:fetchCompiledRuleSet"/>
-    <xs:element name="fetchCompiledRuleSetResponse" type="tns:fetchCompiledRuleSetResponse"/>
-    <xs:element name="fetchCompiledRuleSetSnapshot" type="tns:fetchCompiledRuleSetSnapshot"/>
-    <xs:element name="fetchCompiledRuleSetSnapshotResponse" type="tns:fetchCompiledRuleSetSnapshotResponse"/>
-    <xs:element name="fetchRule" type="tns:fetchRule"/>
-    <xs:element name="fetchRuleResponse" type="tns:fetchRuleResponse"/>
+    <xs:element name="fetchCategories" type="tns:fetchCategories"/>
+    <xs:element name="fetchCategoriesResponse" type="tns:fetchCategoriesResponse"/>
     <xs:element name="fetchRuleSet" type="tns:fetchRuleSet"/>
     <xs:element name="fetchRuleSetResponse" type="tns:fetchRuleSetResponse"/>
     <xs:element name="fetchRuleSetSnapshot" type="tns:fetchRuleSetSnapshot"/>
     <xs:element name="fetchRuleSetSnapshotResponse" type="tns:fetchRuleSetSnapshotResponse"/>
+    <xs:element name="fetchRuleSetSnapshotsByCategory" type="tns:fetchRuleSetSnapshotsByCategory"/>
+    <xs:element name="fetchRuleSetSnapshotsByCategoryResponse" type="tns:fetchRuleSetSnapshotsByCategoryResponse"/>
+    <xs:element name="fetchRuleSetsByCategory" type="tns:fetchRuleSetsByCategory"/>
+    <xs:element name="fetchRuleSetsByCategoryResponse" type="tns:fetchRuleSetsByCategoryResponse"/>
     <xs:element name="fetchStates" type="tns:fetchStates"/>
     <xs:element name="fetchStatesResponse" type="tns:fetchStatesResponse"/>
     <xs:element name="generateRuleSet" type="tns:generateRuleSet"/>
     <xs:element name="generateRuleSetResponse" type="tns:generateRuleSetResponse"/>
+    <xs:element name="rebuildRuleSetSnapshot" type="tns:rebuildRuleSetSnapshot"/>
+    <xs:element name="rebuildRuleSetSnapshotResponse" type="tns:rebuildRuleSetSnapshotResponse"/>
     <xs:element name="removeCategory" type="tns:removeCategory"/>
     <xs:element name="removeRuleSet" type="tns:removeRuleSet"/>
     <xs:element name="removeRuleSetSnapshot" type="tns:removeRuleSetSnapshot"/>
-    <xs:element name="replaceRuleSetSnapshot" type="tns:replaceRuleSetSnapshot"/>
+    <xs:element name="removeState" type="tns:removeState"/>
     <xs:element name="ruleDTO" type="tns:ruleDTO"/>
-    <xs:element name="updateRuleSet" type="tns:updateRuleSet"/>
-    <xs:element name="updateRuleSetResponse" type="tns:updateRuleSetResponse"/>
-    <xs:complexType name="replaceRuleSetSnapshot">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-            <xs:element minOccurs="0" name="comment" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="removeCategory">
         <xs:sequence>
-            <xs:element minOccurs="0" name="path" type="xs:string"/>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="createRuleSetSnapshot">
+    <xs:complexType name="fetchRuleSetsByCategory">
         <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-            <xs:element minOccurs="0" name="comment" type="xs:string"/>
+            <xs:element minOccurs="0" name="category" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="changeRuleSetState">
+    <xs:complexType name="fetchRuleSetsByCategoryResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-            <xs:element minOccurs="0" name="newState" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="updateRuleSet">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSet" type="tns:ruleSetDTO"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleSetDTO"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="ruleSetDTO">
@@ -73,6 +59,9 @@
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="header" type="xs:string"/>
                     <xs:element name="snapshot" type="xs:boolean"/>
                     <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
+                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
                     <xs:element minOccurs="0" name="sourceContent" type="xs:string"/>
                 </xs:sequence>
             </xs:extension>
@@ -95,11 +84,76 @@
         <xs:attribute name="uuid" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="ruleMapType">
-        <xs:sequence/>
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:ruleMapEntryType"/>
+        </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="updateRuleSetResponse">
+    <xs:complexType name="ruleMapEntryType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="rule" type="tns:ruleDTO"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="ruleDTO">
+        <xs:complexContent>
+            <xs:extension base="tns:abstractItemDTO">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="binaryContent" type="xs:base64Binary"/>
+                    <xs:element minOccurs="0" name="content" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryNameList" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
+                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="categoryDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="path" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="createRuleSetSnapshot">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="comment" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createRuleSetSnapshotResponse">
         <xs:sequence>
             <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="changeRuleSetState">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="newState" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rebuildRuleSetSnapshot">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="comment" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rebuildRuleSetSnapshotResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchCategories">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchCategoriesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="fetchStates">
@@ -120,22 +174,22 @@
             <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchCompiledRuleSetSnapshot">
+    <xs:complexType name="checkinRuleSet">
         <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="comment" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchCompiledRuleSetSnapshotResponse">
+    <xs:complexType name="checkinRuleSetResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:base64Binary"/>
+            <xs:element name="return" type="xs:long"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="createCategory">
         <xs:sequence>
-            <xs:element minOccurs="0" name="path" type="xs:string"/>
-            <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+            <xs:element minOccurs="0" name="arg2" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="createCategoryResponse">
@@ -145,28 +199,8 @@
     </xs:complexType>
     <xs:complexType name="removeRuleSetSnapshot">
         <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchCompiledRuleSet">
-        <xs:sequence>
             <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchCompiledRuleSetResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:base64Binary"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchChildCategories">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="path" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchChildCategoriesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="createRuleSet">
@@ -184,9 +218,19 @@
             <xs:element minOccurs="0" name="uuid" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="fetchRuleSetSnapshotsByCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="category" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchRuleSetSnapshotsByCategoryResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="fetchRuleSetSnapshot">
         <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
             <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
@@ -220,6 +264,8 @@
             <xs:element minOccurs="0" name="effectiveEndTime" type="xs:dateTime"/>
             <xs:element minOccurs="0" name="status" type="xs:string"/>
             <xs:element minOccurs="0" name="compiledId" type="xs:string"/>
+            <xs:element minOccurs="0" name="compiledVersionNumber" type="xs:long"/>
+            <xs:element minOccurs="0" name="repositorySnapshotName" type="xs:string"/>
             <xs:element minOccurs="0" name="ruleElementList">
                 <xs:complexType>
                     <xs:sequence>
@@ -270,12 +316,48 @@
     </xs:complexType>
     <xs:complexType name="factStructureDTO">
         <xs:sequence>
-            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfoDTO"/>
             <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
-            <xs:element minOccurs="0" name="executionVariableList" type="tns:jaxbAttributeList"/>
-            <xs:element minOccurs="0" name="definitionVariableList" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="staticValueDataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="staticValue" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="factStructureId" type="xs:string"/>
+        <xs:attribute name="factTypeKey" type="xs:string"/>
+        <xs:attribute name="staticFact" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="factCriteriaTypeInfoDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="factParamMap" type="tns:factParamList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:factParamMapEntry"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factParamMapEntry">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="tns:factParamDTO"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="validCharacters" type="xs:string"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="defTime" type="tns:factParamDefTime"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="jaxbAttributeList">
         <xs:sequence>
@@ -307,6 +389,11 @@
             <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="removeState">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="createState">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
@@ -317,70 +404,52 @@
             <xs:element minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchRule">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="uuid" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchRuleResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:ruleDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="ruleDTO">
-        <xs:complexContent>
-            <xs:extension base="tns:abstractItemDTO">
-                <xs:sequence>
-                    <xs:element minOccurs="0" name="binaryContent" type="xs:base64Binary"/>
-                    <xs:element minOccurs="0" name="content" type="xs:string"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryNameList" type="xs:string"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
-                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
-                    <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-                    <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="categoryDTO">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="path" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="name" type="xs:string"/>
-    </xs:complexType>
-    <xs:element name="RuleEngineRepositoryException" type="tns:RuleEngineRepositoryException"/>
-    <xs:complexType name="RuleEngineRepositoryException">
+    <xs:simpleType name="factParamDefTime">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DEFINITION"/>
+            <xs:enumeration value="EXECUTION"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+    <xs:complexType name="OperationFailedException">
         <xs:sequence/>
     </xs:complexType>
-    <xs:element name="CategoryExistsException" type="tns:CategoryExistsException"/>
-    <xs:complexType name="CategoryExistsException">
+    <xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+    <xs:complexType name="InvalidParameterException">
         <xs:sequence/>
     </xs:complexType>
-    <xs:element name="RuleExistsException" type="tns:RuleExistsException"/>
-    <xs:complexType name="RuleExistsException">
+    <xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+    <xs:complexType name="MissingParameterException">
         <xs:sequence/>
     </xs:complexType>
-    <xs:element name="RuleSetExistsException" type="tns:RuleSetExistsException"/>
-    <xs:complexType name="RuleSetExistsException">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:element name="GenerateRuleSetException" type="tns:GenerateRuleSetException"/>
-    <xs:complexType name="GenerateRuleSetException">
+    <xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+    <xs:complexType name="AlreadyExistsException">
         <xs:sequence/>
     </xs:complexType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="replaceRuleSetSnapshot">
-    <wsdl:part name="parameters" element="tns:replaceRuleSetSnapshot">
+  <wsdl:message name="rebuildRuleSetSnapshotResponse">
+    <wsdl:part name="parameters" element="tns:rebuildRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fetchCompiledRuleSet">
-    <wsdl:part name="parameters" element="tns:fetchCompiledRuleSet">
+  <wsdl:message name="rebuildRuleSetSnapshot">
+    <wsdl:part name="parameters" element="tns:rebuildRuleSetSnapshot">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createRuleSet">
     <wsdl:part name="parameters" element="tns:createRuleSet">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchCategories">
+    <wsdl:part name="parameters" element="tns:fetchCategories">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchRuleSetSnapshotsByCategoryResponse">
+    <wsdl:part name="parameters" element="tns:fetchRuleSetSnapshotsByCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeRuleSet">
@@ -391,48 +460,36 @@
     <wsdl:part name="parameters" element="tns:generateRuleSetResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fetchChildCategoriesResponse">
-    <wsdl:part name="parameters" element="tns:fetchChildCategoriesResponse">
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createState">
     <wsdl:part name="parameters" element="tns:createState">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchRuleSetsByCategory">
+    <wsdl:part name="parameters" element="tns:fetchRuleSetsByCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createCategoryResponse">
     <wsdl:part name="parameters" element="tns:createCategoryResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fetchChildCategories">
-    <wsdl:part name="parameters" element="tns:fetchChildCategories">
+  <wsdl:message name="fetchRuleSetSnapshotsByCategory">
+    <wsdl:part name="parameters" element="tns:fetchRuleSetSnapshotsByCategory">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="RuleEngineRepositoryException">
-    <wsdl:part name="RuleEngineRepositoryException" element="tns:RuleEngineRepositoryException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchRule">
-    <wsdl:part name="parameters" element="tns:fetchRule">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="CategoryExistsException">
-    <wsdl:part name="CategoryExistsException" element="tns:CategoryExistsException">
+  <wsdl:message name="fetchCategoriesResponse">
+    <wsdl:part name="parameters" element="tns:fetchCategoriesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchRuleSetResponse">
     <wsdl:part name="parameters" element="tns:fetchRuleSetResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateRuleSet">
-    <wsdl:part name="parameters" element="tns:updateRuleSet">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchCompiledRuleSetResponse">
-    <wsdl:part name="parameters" element="tns:fetchCompiledRuleSetResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchStatesResponse">
-    <wsdl:part name="parameters" element="tns:fetchStatesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="changeRuleSetState">
@@ -441,6 +498,10 @@
   </wsdl:message>
   <wsdl:message name="removeCategory">
     <wsdl:part name="parameters" element="tns:removeCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchStatesResponse">
+    <wsdl:part name="parameters" element="tns:fetchStatesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchRuleSetSnapshot">
@@ -463,16 +524,12 @@
     <wsdl:part name="parameters" element="tns:createRuleSetResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="RuleExistsException">
-    <wsdl:part name="RuleExistsException" element="tns:RuleExistsException">
+  <wsdl:message name="createRuleSetSnapshotResponse">
+    <wsdl:part name="parameters" element="tns:createRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="RuleSetExistsException">
-    <wsdl:part name="RuleSetExistsException" element="tns:RuleSetExistsException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchCompiledRuleSetSnapshotResponse">
-    <wsdl:part name="parameters" element="tns:fetchCompiledRuleSetSnapshotResponse">
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createStateResponse">
@@ -483,6 +540,10 @@
     <wsdl:part name="parameters" element="tns:fetchRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchRuleSetsByCategoryResponse">
+    <wsdl:part name="parameters" element="tns:fetchRuleSetsByCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="fetchStates">
     <wsdl:part name="parameters" element="tns:fetchStates">
     </wsdl:part>
@@ -491,49 +552,79 @@
     <wsdl:part name="parameters" element="tns:createCategory">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="GenerateRuleSetException">
-    <wsdl:part name="GenerateRuleSetException" element="tns:GenerateRuleSetException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchCompiledRuleSetSnapshot">
-    <wsdl:part name="parameters" element="tns:fetchCompiledRuleSetSnapshot">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateRuleSetResponse">
-    <wsdl:part name="parameters" element="tns:updateRuleSetResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchRuleResponse">
-    <wsdl:part name="parameters" element="tns:fetchRuleResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="removeRuleSetSnapshot">
     <wsdl:part name="parameters" element="tns:removeRuleSetSnapshot">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="checkinRuleSet">
+    <wsdl:part name="parameters" element="tns:checkinRuleSet">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkinRuleSetResponse">
+    <wsdl:part name="parameters" element="tns:checkinRuleSetResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeState">
+    <wsdl:part name="parameters" element="tns:removeState">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="RuleRepositoryService">
-    <wsdl:operation name="replaceRuleSetSnapshot">
-      <wsdl:input name="replaceRuleSetSnapshot" message="tns:replaceRuleSetSnapshot">
-    </wsdl:input>
-    </wsdl:operation>
     <wsdl:operation name="removeCategory">
       <wsdl:input name="removeCategory" message="tns:removeCategory">
     </wsdl:input>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchRuleSetsByCategory">
+      <wsdl:input name="fetchRuleSetsByCategory" message="tns:fetchRuleSetsByCategory">
+    </wsdl:input>
+      <wsdl:output name="fetchRuleSetsByCategoryResponse" message="tns:fetchRuleSetsByCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createRuleSetSnapshot">
       <wsdl:input name="createRuleSetSnapshot" message="tns:createRuleSetSnapshot">
     </wsdl:input>
+      <wsdl:output name="createRuleSetSnapshotResponse" message="tns:createRuleSetSnapshotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="changeRuleSetState">
       <wsdl:input name="changeRuleSetState" message="tns:changeRuleSetState">
     </wsdl:input>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="updateRuleSet">
-      <wsdl:input name="updateRuleSet" message="tns:updateRuleSet">
+    <wsdl:operation name="rebuildRuleSetSnapshot">
+      <wsdl:input name="rebuildRuleSetSnapshot" message="tns:rebuildRuleSetSnapshot">
     </wsdl:input>
-      <wsdl:output name="updateRuleSetResponse" message="tns:updateRuleSetResponse">
+      <wsdl:output name="rebuildRuleSetSnapshotResponse" message="tns:rebuildRuleSetSnapshotResponse">
     </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException" message="tns:RuleEngineRepositoryException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchCategories">
+      <wsdl:input name="fetchCategories" message="tns:fetchCategories">
+    </wsdl:input>
+      <wsdl:output name="fetchCategoriesResponse" message="tns:fetchCategoriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchStates">
@@ -541,21 +632,27 @@
     </wsdl:input>
       <wsdl:output name="fetchStatesResponse" message="tns:fetchStatesResponse">
     </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchRuleSet">
       <wsdl:input name="fetchRuleSet" message="tns:fetchRuleSet">
     </wsdl:input>
       <wsdl:output name="fetchRuleSetResponse" message="tns:fetchRuleSetResponse">
     </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException" message="tns:RuleEngineRepositoryException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fetchCompiledRuleSetSnapshot">
-      <wsdl:input name="fetchCompiledRuleSetSnapshot" message="tns:fetchCompiledRuleSetSnapshot">
+    <wsdl:operation name="checkinRuleSet">
+      <wsdl:input name="checkinRuleSet" message="tns:checkinRuleSet">
     </wsdl:input>
-      <wsdl:output name="fetchCompiledRuleSetSnapshotResponse" message="tns:fetchCompiledRuleSetSnapshotResponse">
+      <wsdl:output name="checkinRuleSetResponse" message="tns:checkinRuleSetResponse">
     </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException" message="tns:RuleEngineRepositoryException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createCategory">
@@ -563,27 +660,19 @@
     </wsdl:input>
       <wsdl:output name="createCategoryResponse" message="tns:createCategoryResponse">
     </wsdl:output>
-      <wsdl:fault name="CategoryExistsException" message="tns:CategoryExistsException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeRuleSetSnapshot">
       <wsdl:input name="removeRuleSetSnapshot" message="tns:removeRuleSetSnapshot">
     </wsdl:input>
-    </wsdl:operation>
-    <wsdl:operation name="fetchCompiledRuleSet">
-      <wsdl:input name="fetchCompiledRuleSet" message="tns:fetchCompiledRuleSet">
-    </wsdl:input>
-      <wsdl:output name="fetchCompiledRuleSetResponse" message="tns:fetchCompiledRuleSetResponse">
-    </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException" message="tns:RuleEngineRepositoryException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="fetchChildCategories">
-      <wsdl:input name="fetchChildCategories" message="tns:fetchChildCategories">
-    </wsdl:input>
-      <wsdl:output name="fetchChildCategoriesResponse" message="tns:fetchChildCategoriesResponse">
-    </wsdl:output>
-      <wsdl:fault name="CategoryExistsException" message="tns:CategoryExistsException">
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createRuleSet">
@@ -591,21 +680,37 @@
     </wsdl:input>
       <wsdl:output name="createRuleSetResponse" message="tns:createRuleSetResponse">
     </wsdl:output>
-      <wsdl:fault name="RuleExistsException" message="tns:RuleExistsException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
-      <wsdl:fault name="RuleSetExistsException" message="tns:RuleSetExistsException">
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeRuleSet">
       <wsdl:input name="removeRuleSet" message="tns:removeRuleSet">
     </wsdl:input>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchRuleSetSnapshotsByCategory">
+      <wsdl:input name="fetchRuleSetSnapshotsByCategory" message="tns:fetchRuleSetSnapshotsByCategory">
+    </wsdl:input>
+      <wsdl:output name="fetchRuleSetSnapshotsByCategoryResponse" message="tns:fetchRuleSetSnapshotsByCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchRuleSetSnapshot">
       <wsdl:input name="fetchRuleSetSnapshot" message="tns:fetchRuleSetSnapshot">
     </wsdl:input>
       <wsdl:output name="fetchRuleSetSnapshotResponse" message="tns:fetchRuleSetSnapshotResponse">
     </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException" message="tns:RuleEngineRepositoryException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="generateRuleSet">
@@ -613,7 +718,19 @@
     </wsdl:input>
       <wsdl:output name="generateRuleSetResponse" message="tns:generateRuleSetResponse">
     </wsdl:output>
-      <wsdl:fault name="GenerateRuleSetException" message="tns:GenerateRuleSetException">
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeState">
+      <wsdl:input name="removeState" message="tns:removeState">
+    </wsdl:input>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createState">
@@ -621,50 +738,99 @@
     </wsdl:input>
       <wsdl:output name="createStateResponse" message="tns:createStateResponse">
     </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="fetchRule">
-      <wsdl:input name="fetchRule" message="tns:fetchRule">
-    </wsdl:input>
-      <wsdl:output name="fetchRuleResponse" message="tns:fetchRuleResponse">
-    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="RuleRepositoryServiceServiceSoapBinding" type="tns:RuleRepositoryService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="replaceRuleSetSnapshot">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="replaceRuleSetSnapshot">
-        <soap:body use="literal"/>
-      </wsdl:input>
-    </wsdl:operation>
     <wsdl:operation name="removeCategory">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="removeCategory">
         <soap:body use="literal"/>
       </wsdl:input>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchRuleSetsByCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="fetchRuleSetsByCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchRuleSetsByCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="changeRuleSetState">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="changeRuleSetState">
         <soap:body use="literal"/>
       </wsdl:input>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createRuleSetSnapshot">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createRuleSetSnapshot">
         <soap:body use="literal"/>
       </wsdl:input>
-    </wsdl:operation>
-    <wsdl:operation name="updateRuleSet">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="updateRuleSet">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="updateRuleSetResponse">
+      <wsdl:output name="createRuleSetSnapshotResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException">
-        <soap:fault name="RuleEngineRepositoryException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchCategories">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="fetchCategories">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchCategoriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="rebuildRuleSetSnapshot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rebuildRuleSetSnapshot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rebuildRuleSetSnapshotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchStates">
@@ -675,6 +841,9 @@
       <wsdl:output name="fetchStatesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchRuleSet">
       <soap:operation soapAction="" style="document"/>
@@ -684,20 +853,26 @@
       <wsdl:output name="fetchRuleSetResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException">
-        <soap:fault name="RuleEngineRepositoryException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fetchCompiledRuleSetSnapshot">
+    <wsdl:operation name="checkinRuleSet">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fetchCompiledRuleSetSnapshot">
+      <wsdl:input name="checkinRuleSet">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="fetchCompiledRuleSetSnapshotResponse">
+      <wsdl:output name="checkinRuleSetResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException">
-        <soap:fault name="RuleEngineRepositoryException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createCategory">
@@ -708,8 +883,14 @@
       <wsdl:output name="createCategoryResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="CategoryExistsException">
-        <soap:fault name="CategoryExistsException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeRuleSetSnapshot">
@@ -717,29 +898,11 @@
       <wsdl:input name="removeRuleSetSnapshot">
         <soap:body use="literal"/>
       </wsdl:input>
-    </wsdl:operation>
-    <wsdl:operation name="fetchChildCategories">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fetchChildCategories">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="fetchChildCategoriesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="CategoryExistsException">
-        <soap:fault name="CategoryExistsException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
       </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="fetchCompiledRuleSet">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fetchCompiledRuleSet">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="fetchCompiledRuleSetResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException">
-        <soap:fault name="RuleEngineRepositoryException" use="literal"/>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createRuleSet">
@@ -750,11 +913,26 @@
       <wsdl:output name="createRuleSetResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="RuleExistsException">
-        <soap:fault name="RuleExistsException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="RuleSetExistsException">
-        <soap:fault name="RuleSetExistsException" use="literal"/>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchRuleSetSnapshotsByCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="fetchRuleSetSnapshotsByCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchRuleSetSnapshotsByCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="removeRuleSet">
@@ -762,6 +940,12 @@
       <wsdl:input name="removeRuleSet">
         <soap:body use="literal"/>
       </wsdl:input>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="fetchRuleSetSnapshot">
       <soap:operation soapAction="" style="document"/>
@@ -771,8 +955,11 @@
       <wsdl:output name="fetchRuleSetSnapshotResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="RuleEngineRepositoryException">
-        <soap:fault name="RuleEngineRepositoryException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="generateRuleSet">
@@ -783,8 +970,26 @@
       <wsdl:output name="generateRuleSetResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="GenerateRuleSetException">
-        <soap:fault name="GenerateRuleSetException" use="literal"/>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeState">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeState">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createState">
@@ -795,15 +1000,12 @@
       <wsdl:output name="createStateResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="fetchRule">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fetchRule">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="fetchRuleResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="RuleRepositoryService">
