@@ -568,7 +568,6 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     	for(BusinessRuleInfoDTO  businessRule : businessRuleContainer.getBusinessRules()) {
 			RuleSet ruleSet = null;
 	    	try {
-	    		//BusinessRuleInfoDTO  businessRule = businessRuleContainer.getBusinessRules().get(0);
 	    		ruleSet = this.ruleSetTranslator.translate(businessRule);
 			} catch(IllegalArgumentException e) {
 				logger.error(e.getMessage(), e);
