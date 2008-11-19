@@ -12,10 +12,11 @@ public class DroolsExecutionStatistics {
 	
 	private StatisticsLogger counter = new StatisticsLogger();
 	
-	private DroolsExecutionStatistics() {}
+	private DroolsExecutionStatistics() {
+		start();
+	}
 	
-	public static synchronized DroolsExecutionStatistics getInstance() {
-		INSTANCE.start();
+	public static DroolsExecutionStatistics getInstance() {
 		return INSTANCE;
 	}
 	
@@ -23,6 +24,11 @@ public class DroolsExecutionStatistics {
         this.startTime = new Date();
     }
 
+    public void reset() {
+    	eventMap.clear();
+    	counter.reset();
+    }
+    
 	public Date getStartTime() {
     	return this.startTime;
     }
@@ -99,6 +105,16 @@ public class DroolsExecutionStatistics {
 		private int totalObjectUpdateCount = 0;
 		
 		public StatisticsLogger() {
+		}
+
+		public void reset() {
+			this.totalLogEventCount = 0;
+			this.totalActivationsFiredCount = 0;
+			this.totalPackageAddCount = 0;
+			this.totalPackageRemoveCount = 0;
+			this.totalObjectInsertCount = 0;
+			this.totalObjectRetractCount = 0;
+			this.totalObjectUpdateCount = 0;
 		}
 
 		public void addLogEvent() {

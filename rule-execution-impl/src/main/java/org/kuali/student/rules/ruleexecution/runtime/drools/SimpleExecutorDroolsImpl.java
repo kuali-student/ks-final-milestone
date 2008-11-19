@@ -30,7 +30,9 @@ import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
+import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
+import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,18 +41,47 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(SimpleExecutorDroolsImpl.class);
 
+    /** Drools general utility */
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
+    /** Drools rule base cache */
     private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
 
+    /** Execution logging */
     private boolean logExecution = false;
+    
+    /** Statistics logging */
+    private boolean statlogging = false;
+    
+    private final static DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
 
     public SimpleExecutorDroolsImpl() {}
     
+    /**
+     * Constructor.
+     * 
+     * @param logExecution True starts rule execution logging, false stops rule execution logging
+     */
     public SimpleExecutorDroolsImpl(boolean logExecution) {
     	this.logExecution = logExecution;
     }
     
+    /**
+     * Enables rule engine execution statistics logging.
+     */
+    public void setEnableStatisticsLogging(boolean enable) {
+    	this.statlogging = enable;
+    }
+
+    /**
+     * Gets rule execution statistics.
+     * 
+     * @return Drools execution statistics
+     */
+    public DroolsExecutionStatistics getStatistics() {
+    	return executionStats;
+    }
+
     /**
      * Add a rule set's source code by <code>id</code> to the default 
      * execution cache.
@@ -246,11 +277,16 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     private ExecutionResult execute(RuleBase ruleBase, List<?> facts) {
         StatelessSession session = ruleBase.newStatelessSession();
         DroolsWorkingMemoryLogger droolsLogger = null;
+        DroolsWorkingMemoryStatisticsLogger statLogger = null;
         LoggingStringBuilder executionLog = null;
         
         if(this.logExecution) {
             executionLog = createLogging();
         	droolsLogger = new DroolsWorkingMemoryLogger(session, executionLog);
+        }
+        if(this.statlogging) {
+        	statLogger = new DroolsWorkingMemoryStatisticsLogger(
+        			session, "SimpleExecutorDroolsImpl", executionStats);
         }
 
         @SuppressWarnings("unchecked") 

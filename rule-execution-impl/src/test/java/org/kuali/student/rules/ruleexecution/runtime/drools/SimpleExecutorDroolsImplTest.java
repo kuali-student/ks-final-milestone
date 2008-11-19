@@ -15,9 +15,11 @@ import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 
 public class SimpleExecutorDroolsImplTest {
 
+	private DroolsUtil droolsUtil = new DroolsUtil();
 	private SimpleExecutor executor;
 	
     @BeforeClass
@@ -32,6 +34,7 @@ public class SimpleExecutorDroolsImplTest {
     public void setUp() throws Exception {
     	this.executor = new SimpleExecutorDroolsImpl(true);
     	this.executor.clearRuleSetCache();
+		((SimpleExecutorDroolsImpl)this.executor).setEnableStatisticsLogging(true);
     }
 
     @After
@@ -74,6 +77,7 @@ public class SimpleExecutorDroolsImplTest {
 
         Assert.assertNotNull(time);
         Assert.assertTrue(time.startsWith("Minute is even: 0"));
+	    System.out.println(droolsUtil.getStatisticsSummary(((SimpleExecutorDroolsImpl)this.executor).getStatistics()));
     }
 
 }

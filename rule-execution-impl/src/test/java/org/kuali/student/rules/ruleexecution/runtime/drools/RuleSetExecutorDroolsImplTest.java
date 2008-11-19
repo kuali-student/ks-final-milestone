@@ -47,7 +47,9 @@ import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionExceptio
 import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
+import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
@@ -59,11 +61,14 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.ruleexecution.util.RuleManagementDtoFactory;
 
 public class RuleSetExecutorDroolsImplTest {
+
+	private DroolsUtil droolsUtil = new DroolsUtil();
+
 	/** Rule set executor interface */
 	private RuleSetExecutor executor;
 
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
-
+    
     @BeforeClass
     public static void setUpOnce() throws Exception {
     }
@@ -77,7 +82,6 @@ public class RuleSetExecutorDroolsImplTest {
     	this.executor = new RuleSetExecutorDroolsImpl();
     	this.executor.clearRuleSetCache();
     	((RuleSetExecutorDroolsImpl)this.executor).setEnableExecutionLogging(true);
-    	((RuleSetExecutorDroolsImpl)this.executor).setEnableStatLogging(true);
     }
 
     @After
@@ -342,7 +346,6 @@ public class RuleSetExecutorDroolsImplTest {
 
 	@Test
     public void testExecuteAverageIntersectionProposition_DroolsRuleSet() throws Exception {
-    	String anchor = "CPR101";
         // Rule set source code
     	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
 
@@ -415,6 +418,86 @@ public class RuleSetExecutorDroolsImplTest {
         Assert.assertNotNull(result.getResults());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertTrue(result.getReport().isSuccessful());
+	}
+
+	@Test
+    public void testExecuteAverageIntersectionProposition_DroolsRuleSet_MultipleExecutions() throws Exception {
+        // Rule set source code
+    	RuleSetDTO ruleSet = DroolsTestUtil.getAverageIntersectionPropositionRuleSet();
+
+    	byte[] bytes = DroolsTestUtil.createPackage(ruleSet);
+        ruleSet.setCompiledRuleSet(bytes);
+
+    	YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());
+    	YieldValueFunctionDTO yvfIntersection = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
+		
+		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
+		
+		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
+		FactStructureDTO factStructure4 = createFactStructure("subset.id.3", "course.subset.fact");
+		yvfIntersection.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
+
+    	String factKeyAverage = FactUtil.createFactKey(factStructure1);
+
+    	String criteriaKeyIntersection = FactUtil.createCriteriaKey(factStructure3);
+    	String factKeyIntersection = FactUtil.createFactKey(factStructure4);
+		
+		RulePropositionDTO propositionAverage = createRuleProposition(
+    			YieldValueFunctionType.AVERAGE.toString(), 
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			Integer.class.getName(),
+    			yvfAverage);
+		RulePropositionDTO propositionIntersection = createRuleProposition(
+    			YieldValueFunctionType.INTERSECTION.toString(), 
+    			ComparisonOperator.EQUAL_TO.toString(),
+    			"1",
+    			Integer.class.getName(),
+    			yvfIntersection);
+		//Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
+        RuleElementDTO element1 = new RuleElementDTO();
+        element1.setOperation(RuleElementType.PROPOSITION.toString());
+        element1.setRuleProposition(propositionAverage);
+        RuleElementDTO element2 = new RuleElementDTO();
+        element2.setOperation(RuleElementType.PROPOSITION.toString());
+        element2.setRuleProposition(propositionIntersection);
+
+        List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
+        elementList.add(element1);
+        elementList.add(element2);
+
+        BusinessRuleInfoDTO brInfo = generateNewBusinessRuleInfo("1", "Business Rule", "CPR101");
+        brInfo.setRuleElementList(elementList);
+        
+        // EXECUTION: Create facts
+    	FactResultTypeInfoDTO columnMetaData1 = DroolsTestUtil.createColumnMetaData(BigDecimal.class.getName());
+    	FactResultDTO factResultAverage = DroolsTestUtil.createFactResult(new String[] {"85.0","75.0","80.0"});
+    	factResultAverage.setFactResultTypeInfo(columnMetaData1);
+    	
+    	FactResultTypeInfoDTO columnMetaData2 = DroolsTestUtil.createColumnMetaData(String.class.getName());
+        FactResultDTO factResultIntersection = DroolsTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+        factResultIntersection.setFactResultTypeInfo(columnMetaData2);
+
+    	FactResultDTO factResultCriteriaIntersection = DroolsTestUtil.createFactResult(new String[] {"CPR101"});
+    	factResultCriteriaIntersection.setFactResultTypeInfo(columnMetaData2);
+
+        Map<String, Object> factMap = new HashMap<String, Object>();
+        factMap.put(factKeyAverage, factResultAverage);
+        factMap.put(criteriaKeyIntersection, factResultCriteriaIntersection);
+        factMap.put(factKeyIntersection, factResultIntersection);
+
+    	// Enable rule execution statistics
+        ((RuleSetExecutorDroolsImpl)this.executor).setEnableStatLogging(true);
+        DroolsExecutionStatistics droolsStats = ((RuleSetExecutorDroolsImpl)this.executor).getStatistics();
+
+    	// Execute ruleset and fact
+		this.executor.addRuleSet(brInfo, ruleSet);
+        for(int i=0; i<10; i++) {
+			this.executor.execute(brInfo, factMap);
+        }
+
+	    System.out.println(droolsUtil.getStatisticsSummary(droolsStats));
 	}
 
 }

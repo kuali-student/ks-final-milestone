@@ -10,6 +10,7 @@ import org.kuali.student.rules.internal.common.statement.propositions.Intersecti
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
 
 public class GenerateRuleReportTest {
@@ -27,11 +28,12 @@ public class GenerateRuleReportTest {
 	private PropositionReport propositionReportD = new PropositionReport();
 
 	private GenerateRuleReport generateRuleReport;
+	private final SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
 
 	@Before
 	public void setUp() throws Exception {
-        SimpleExecutor executor = new SimpleExecutorDroolsImpl();
-	    this.generateRuleReport = new GenerateRuleReport(executor);
+		this.executor.setEnableStatisticsLogging(true);
+	    this.generateRuleReport = new GenerateRuleReport(this.executor);
 	}
 	
 	@After
@@ -73,7 +75,6 @@ public class GenerateRuleReportTest {
 	    String actual = ruleReport.getFailureMessage();
 	    
         assertEquals(expected, actual);
-	    
 	}
 	
 	@Test
@@ -81,11 +82,11 @@ public class GenerateRuleReportTest {
 	{
 	    // New code for PropositionContainer starts here
 	    functionalRuleString = "A+(B*C)+D";
-        
+
         PropositionContainer pc = new PropositionContainer();
         pc.setFunctionalRuleString(functionalRuleString);
         pc.setRuleResult(false);
-        
+
         // need to set proposition result and failure message for testing.
         subsetPropA.setResult(false);
         subsetPropB.setResult(true);
@@ -114,9 +115,6 @@ public class GenerateRuleReportTest {
         
         assertEquals(expected, actual);
 	}
-	
-	
-	
 	
 	@Test
     public void testExecuteRuleSuccessMessage1()
@@ -153,7 +151,6 @@ public class GenerateRuleReportTest {
         String actual = ruleReport.getSuccessMessage();
         
         assertEquals(expected, actual);
-        
     }
     
     @Test

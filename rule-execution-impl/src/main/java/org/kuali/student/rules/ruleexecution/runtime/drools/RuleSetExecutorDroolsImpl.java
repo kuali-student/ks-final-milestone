@@ -293,29 +293,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("********************************");
     }
 
-    private void logStats() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n**********  Rule Statistics  **********");
-		sb.append("\n* Total activations fired count: " + executionStats.getStatistics().getTotalActivationsFiredCount());
-		sb.append("\n* Total log event count:         " + executionStats.getStatistics().getTotalLogEventCount());
-		sb.append("\n* Total object insert count:     " + executionStats.getStatistics().getTotalObjectInsertCount());
-		sb.append("\n* Total object retract count:    " + executionStats.getStatistics().getTotalObjectRetractCount());
-		sb.append("\n* Total object update count:     " + executionStats.getStatistics().getTotalObjectUpdateCount());
-		sb.append("\n* Total package add count:       " + executionStats.getStatistics().getTotalPackageAddCount());
-		sb.append("\n* Total package remove count:    " + executionStats.getStatistics().getTotalPackageRemoveCount());
-		sb.append("\n* Rule Activation Counts: ");
-		for(DroolsExecutionStatistics.EventLogger event : executionStats.getRuleActivationStatistics()) {
-			sb.append("\n*\tRule Base Type:          " + event.getRuleBaseType());
-			sb.append("\n*\tPackage name:            " + event.getPackageName());
-			sb.append("\n*\tRule name:               " + event.getRuleName());
-			sb.append("\n*\tRule activations:        " + event.getActivationCount());
-			double timeInSeconds = event.getAverageExecutionTime() / 1000000000;
-			sb.append("\n*\tRule avg execution time: " + timeInSeconds + " secs");
-		}
-		sb.append("\n***************************************");
-		logger.info(sb.toString());
-    }
-    
     /**
      * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
      * returns a list of execution results {@link ExecutionResult}.</p>
@@ -370,9 +347,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         	result.setErrorMessage(e.getMessage());
         }
         
-    	if (logger.isInfoEnabled()) {
-    		logStats();
-    	}
+    	//if (logger.isInfoEnabled()) {
+    	//	droolsUtil().logStatistics(executionStats);
+    	//}
         
         return result;
     }
