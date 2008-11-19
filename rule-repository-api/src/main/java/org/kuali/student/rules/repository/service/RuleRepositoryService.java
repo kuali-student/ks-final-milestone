@@ -27,6 +27,7 @@ import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.rules.repository.dto.RuleSetContainerDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 
@@ -290,6 +291,6 @@ public interface RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
-    public RuleSetDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
+    public RuleSetContainerDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 }
