@@ -35,13 +35,13 @@ public class DroolsExecutionStatistics {
     	return this.eventMap.values();
     }
     
-    public void addRuleActivation(String ruleBaseType, String packageName, String ruleName) {
+    public void addRuleActivation(String ruleBaseType, String packageName, String ruleName, long executionTime) {
     	String key = ruleBaseType + "." + packageName + "." + ruleName;
     	if(!eventMap.containsKey(key)) {
     		EventLogger ec = new EventLogger(ruleBaseType, packageName, ruleName);
     		eventMap.put(key, ec);
     	}
-    	eventMap.get(key).addActivation();
+    	eventMap.get(key).addActivation(executionTime);
     }
     
 	public static class EventLogger {
@@ -49,6 +49,7 @@ public class DroolsExecutionStatistics {
 		private String packageName;
 		private String ruleName;
 		private int activationCount = 0;
+		private long totalExecutionTime = 0;
 	
 		public EventLogger(String ruleBaseType, String packageName, String ruleName) {
 			this.ruleBaseType = ruleBaseType;
@@ -68,12 +69,22 @@ public class DroolsExecutionStatistics {
 			return this.ruleName;
 		}
 		
-		public void addActivation() {
+		public void addActivation(long executionTime) {
 			this.activationCount++;
+			this.totalExecutionTime += executionTime;
 		}
 		
 		public int getActivationCount() {
 			return this.activationCount;
+		}
+		
+		/**
+		 * Returns the average execution time in nanoseconds.
+		 * 
+		 * @return Average rule execution time
+		 */
+		public double getAverageExecutionTime() {
+			return (this.totalExecutionTime / (this.activationCount));
 		}
 	}
 

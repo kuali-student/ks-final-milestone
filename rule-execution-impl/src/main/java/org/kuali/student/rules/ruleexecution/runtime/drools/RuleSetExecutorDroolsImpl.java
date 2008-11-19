@@ -305,10 +305,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 		sb.append("\n* Total package remove count:    " + executionStats.getStatistics().getTotalPackageRemoveCount());
 		sb.append("\n* Rule Activation Counts: ");
 		for(DroolsExecutionStatistics.EventLogger event : executionStats.getRuleActivationStatistics()) {
-			sb.append("\n*\tRule Base Type:   " + event.getRuleBaseType());
-			sb.append("\n*\tPackage name:     " + event.getPackageName());
-			sb.append("\n*\tRule name:        " + event.getRuleName());
-			sb.append("\n*\tRule activations: " + event.getActivationCount());
+			sb.append("\n*\tRule Base Type:          " + event.getRuleBaseType());
+			sb.append("\n*\tPackage name:            " + event.getPackageName());
+			sb.append("\n*\tRule name:               " + event.getRuleName());
+			sb.append("\n*\tRule activations:        " + event.getActivationCount());
+			double timeInSeconds = event.getAverageExecutionTime() / 1000000000;
+			sb.append("\n*\tRule avg execution time: " + timeInSeconds + " secs");
 		}
 		sb.append("\n***************************************");
 		logger.info(sb.toString());
