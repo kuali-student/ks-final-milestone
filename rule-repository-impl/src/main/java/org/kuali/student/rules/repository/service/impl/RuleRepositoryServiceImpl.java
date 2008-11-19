@@ -550,13 +550,84 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * Generates and creates or updates a rule set (rule engine specific source code) 
      * from a <code>BusinessRuleContainerDTO</code>.
      *  
-     * @param businessRuleContainer A container of business rules
+     * @param businessRule A business rule
      * @return A rule set
-	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
-     * @throws OperationFailedException Thrown if generating ruleset fails
+     * @throws OperationFailedException Thrown if translating/generating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetContainerDTO generateRuleSet(final BusinessRuleContainerDTO businessRuleContainer) 
+    public RuleSetDTO generateRuleSetForBusinessRule(final BusinessRuleInfoDTO businessRule) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException {
+		if (businessRule == null) {
+			throw new MissingParameterException("Business rule is null");
+		}
+		RuleSet ruleSet = null;
+    	try {
+    		ruleSet = this.ruleSetTranslator.translate(businessRule);
+		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
+			throw new InvalidParameterException(e.getMessage());
+        } catch(RuleSetTranslatorException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+        } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+        }
+        
+		boolean ruleSetExists = false;
+		if (ruleSet.getUUID() != null) {
+			ruleSetExists = this.ruleEngineRepository.containsRuleSet(ruleSet.getUUID());
+		}
+
+		try {
+    		if (ruleSetExists) {
+				log(ruleSet, "***** Update RuleSet *****");
+    			// Update rule set
+    			ruleSet = updateRuleSet(ruleSet);
+    			// Checkin rule set to create new version
+    			this.ruleEngineRepository.checkinRuleSet(ruleSet.getUUID(), "Rule set update");
+    			// Load rule set to get the new version
+				ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSet.getUUID());
+				log(ruleSet, "***** RuleSet Updated *****");
+    		} else {
+				log(ruleSet, "***** Create RuleSet *****");
+    			// Create new rule set
+        		ruleSet = this.ruleEngineRepository.createRuleSet(ruleSet);
+				log(ruleSet, "***** RuleSet Created *****");
+    		}
+		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
+			throw new InvalidParameterException(e.getMessage());
+		} catch(RuleSetTranslatorException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException("Ruleset translation error: " + e.getMessage());
+        } catch(RuleSetExistsException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+        } catch(RuleExistsException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+        } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+		}
+
+		RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
+		return dto;
+    }
+
+    /**
+     * Generates and creates or updates a rule set (rule engine specific source code) 
+     * from a <code>businessRuleContainer</code>.
+     *  
+     * @param businessRuleContainer A container of business rules
+     * @return A rule set container with a list of rule sets
+     * @throws OperationFailedException Thrown if translating/generating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    public RuleSetContainerDTO generateRuleSetForBusinessRuleContainer(final BusinessRuleContainerDTO businessRuleContainer) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
 		if (businessRuleContainer == null) {
 			throw new MissingParameterException("businessRuleContainer is null");
@@ -565,63 +636,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		}
 		
 		RuleSetContainerDTO ruleSetContainer = new RuleSetContainerDTO();
-    	for(BusinessRuleInfoDTO  businessRule : businessRuleContainer.getBusinessRules()) {
-			RuleSet ruleSet = null;
-	    	try {
-	    		ruleSet = this.ruleSetTranslator.translate(businessRule);
-			} catch(IllegalArgumentException e) {
-				logger.error(e.getMessage(), e);
-				throw new InvalidParameterException(e.getMessage());
-	        } catch(RuleSetTranslatorException e) {
-				logger.error(e.getMessage(), e);
-	        	throw new OperationFailedException(e.getMessage());
-	        } catch(RuleEngineRepositoryException e) {
-				logger.error(e.getMessage(), e);
-	        	throw new OperationFailedException(e.getMessage());
-	        }
-	        
-			boolean ruleSetExists = false;
-			if (ruleSet.getUUID() != null) {
-				ruleSetExists = this.ruleEngineRepository.containsRuleSet(ruleSet.getUUID());
-			}
-	
-			try {
-	    		if (ruleSetExists) {
-					log(ruleSet, "***** Update RuleSet *****");
-	    			// Update rule set
-	    			ruleSet = updateRuleSet(ruleSet);
-	    			// Checkin rule set to create new version
-	    			this.ruleEngineRepository.checkinRuleSet(ruleSet.getUUID(), "Rule set update");
-	    			// Load rule set to get the new version
-					ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSet.getUUID());
-					log(ruleSet, "***** RuleSet Updated *****");
-	    		} else {
-					log(ruleSet, "***** Create RuleSet *****");
-	    			// Create new rule set
-	        		ruleSet = this.ruleEngineRepository.createRuleSet(ruleSet);
-					log(ruleSet, "***** RuleSet Created *****");
-	    		}
-			} catch(IllegalArgumentException e) {
-				logger.error(e.getMessage(), e);
-				throw new InvalidParameterException(e.getMessage());
-			} catch(RuleSetTranslatorException e) {
-				logger.error(e.getMessage(), e);
-	        	throw new OperationFailedException("Ruleset translation error: " + e.getMessage());
-	        } catch(RuleSetExistsException e) {
-				logger.error(e.getMessage(), e);
-	        	throw new OperationFailedException(e.getMessage());
-	        } catch(RuleExistsException e) {
-				logger.error(e.getMessage(), e);
-	        	throw new OperationFailedException(e.getMessage());
-	        } catch(RuleEngineRepositoryException e) {
-				logger.error(e.getMessage(), e);
-	        	throw new OperationFailedException(e.getMessage());
-			}
-	
-			RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
-			ruleSetContainer.addRuleSet(dto);
+    	for(BusinessRuleInfoDTO businessRule : businessRuleContainer.getBusinessRules()) {
+    		RuleSetDTO dto = generateRuleSetForBusinessRule(businessRule);
+    		ruleSetContainer.addRuleSet(dto);
     	}
     	return ruleSetContainer;
     }
-
 }

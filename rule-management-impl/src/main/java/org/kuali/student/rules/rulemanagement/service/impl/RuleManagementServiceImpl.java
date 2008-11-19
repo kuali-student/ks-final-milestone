@@ -67,9 +67,10 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         rule.setBusinessRuleType(brType);
 
         // Compile the business rule
-        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-        container.getBusinessRules().add(businessRuleInfo);
-        RuleSetDTO rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
+        //BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+        //container.getBusinessRules().add(businessRuleInfo);
+        //RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(container).getRuleSetList().get(0);
+        RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
         rule.setCompiledId(rsDTO.getUUID());
         rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
 
@@ -116,16 +117,18 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         rule.setBusinessRuleType(brType);
         
         // Compile the business rule
-        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-        container.getBusinessRules().add(businessRuleInfo);        
+        //BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+        //container.getBusinessRules().add(businessRuleInfo);        
  
         RuleSetDTO rsDTO = null;
         if(BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
-            rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
+            //rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
+            rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             orgRule.setCompiledId(rsDTO.getUUID());
             orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         } else if(BusinessRuleStatus.ACTIVE == newStatus) {
-            rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
+            //rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
+            rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             String snapshotName = orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
             rule.setRepositorySnapshotName(snapshotName);
             rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), snapshotName, "Activating rule " + orgRule.getName());
