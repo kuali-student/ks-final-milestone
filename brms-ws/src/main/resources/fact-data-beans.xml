@@ -83,7 +83,7 @@
 					<key><value>factParam.studentId</value></key>
 					<bean class="org.kuali.student.rules.factfinder.dto.FactParamDTO">
 						<property name="key" value="factParam.studentId"/>
-						<property name="name" value="factParam.studentId"/>
+						<property name="name" value="studentId"/>
 						<property name="description" value="Student Id"/>
 						<property name="dataType" value="java.lang.String"/>
 						<property name="minLength" value="1"/>
@@ -98,7 +98,7 @@
 					<key><value>factParam.clusetId</value></key>
 					<bean class="org.kuali.student.rules.factfinder.dto.FactParamDTO">
 						<property name="key" value="factParam.clusetId"/>
-						<property name="name" value="factParam.clusetId"/>
+						<property name="name" value="clusetId"/>
 						<property name="description" value="Cluset for which the credits are required"/>
 						<property name="dataType" value="java.lang.String"/>
 						<property name="minLength" value="1"/>
@@ -113,7 +113,7 @@
 					<key><value>factParam.excludeCluSet</value></key>
 					<bean class="org.kuali.student.rules.factfinder.dto.FactParamDTO">
 						<property name="key" value="factParam.excludeCluSet"/>
-						<property name="name" value="factParam.excludeCluSet"/>
+						<property name="name" value="excludeCluSet"/>
 						<property name="description" value="Cluset that needs to be excluded from the calculation"/>
 						<property name="dataType" value="java.lang.String"/>
 						<property name="minLength" value="0"/>
@@ -139,7 +139,7 @@
 					<key><value>factParam.studentId</value></key>
 					<bean class="org.kuali.student.rules.factfinder.dto.FactParamDTO">
 						<property name="key" value="factParam.studentId"/>
-						<property name="name" value="factParam.studentId"/>
+						<property name="name" value="studentId"/>
 						<property name="description" value="Student Id"/>
 						<property name="dataType" value="java.lang.String"/>
 						<property name="minLength" value="1"/>
