@@ -1,14 +1,15 @@
 package org.kuali.student.enumeration.service.impl;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
+import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-
-import junit.framework.TestCase;
 @PersistenceFileLocation("classpath:META-INF/enumerationmanagement-persistence.xml")
-public class EnumerationServiceImplTest extends TestCase{
+public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 	
