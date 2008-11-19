@@ -99,10 +99,6 @@
 					<layout>legacy</layout>
 				</repository>
 				<repository>
-					<id>jboss</id>
-					<url>http://repository.jboss.org/maven2</url>
-				</repository>
-				<repository>
 					<id>kuali.rice</id>
 					<url>https://test.kuali.org/maven</url>
 				</repository>
