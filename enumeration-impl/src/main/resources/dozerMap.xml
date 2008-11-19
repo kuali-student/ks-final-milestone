@@ -36,6 +36,11 @@
     <class-b>org.kuali.student.enumeration.dto.EnumeratedValueField</class-b>
 
       <field>
+        <a>fieldKey</a>
+        <b>key</b>
+      </field>
+      
+      <field>
         <a>maxOccurs</a>
         <b>fieldDescriptor.maxOccurs</b>
       </field>
