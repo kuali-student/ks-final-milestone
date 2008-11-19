@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kuali.student.lum</groupId>
+	<artifactId>ks-lum-api</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>KS LUM-API POM</name>
+	<description>
+		Kuali Student Learning Unit Management API POM
+	</description>
+
+	<url>http://kuali.org/communities/ks/</url>
+	<parent>
+		<groupId>org.kuali.student.lum</groupId>
+		<artifactId>ks-lum</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-jaxws</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-simple</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+					<className>
+						org.kuali.student.lum.atp.service.AtpService
+					</className>
+					<serviceName>AtpService</serviceName>
+					<genWsdl>true</genWsdl>
+					<genWrapperbean>true</genWrapperbean>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>
