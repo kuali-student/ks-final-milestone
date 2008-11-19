@@ -43,33 +43,33 @@ public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
     }
 
     @Override
-	public void logEventCreated(LogEvent logEvent) {
+	public void logEventCreated(final LogEvent logEvent) {
     	this.stringBuilder.append("Event Created: " + logEvent.getType());
     }
 
 	@Override
-	public void activationCancelled(ActivationCancelledEvent event,
-			WorkingMemory workingMemory) {
+	public void activationCancelled(final ActivationCancelledEvent event,
+			final WorkingMemory workingMemory) {
 		super.activationCancelled(event, workingMemory);
     	this.stringBuilder.append("Activation Cancelled: " + event);
 	}
 
 	@Override
-	public void activationCreated(ActivationCreatedEvent event,
-			WorkingMemory workingMemory) {
+	public void activationCreated(final ActivationCreatedEvent event,
+			final WorkingMemory workingMemory) {
 		super.activationCreated(event, workingMemory);
     	this.stringBuilder.append("Activation Created: " + event);
 	}
 
 	@Override
-	public void afterFunctionRemoved(AfterFunctionRemovedEvent event) {
+	public void afterFunctionRemoved(final AfterFunctionRemovedEvent event) {
 		super.afterFunctionRemoved(event);
     	this.stringBuilder.append("Function Removed: " + event);
 	}
 
 	@Override
-	public void afterActivationFired(AfterActivationFiredEvent event,
-			WorkingMemory workingMemory) {
+	public void afterActivationFired(final AfterActivationFiredEvent event,
+			final WorkingMemory workingMemory) {
 		super.afterActivationFired(event, workingMemory);
     	Activation activation = event.getActivation();
     	this.stringBuilder.append("Activation Fired: ");
@@ -83,43 +83,43 @@ public class DroolsWorkingMemoryLogger extends WorkingMemoryLogger {
 	}
 
 	@Override
-	public void afterPackageAdded(AfterPackageAddedEvent event) {
+	public void afterPackageAdded(final AfterPackageAddedEvent event) {
 		super.afterPackageAdded(event);
 		this.stringBuilder.append("Package Added: " + event.getPackage());
 	}
 
 	@Override
-	public void afterPackageRemoved(AfterPackageRemovedEvent event) {
+	public void afterPackageRemoved(final AfterPackageRemovedEvent event) {
 		super.afterPackageRemoved(event);
 		this.stringBuilder.append("Package Removed: " + event);
 	}
 
 	@Override
-	public void afterRuleAdded(AfterRuleAddedEvent event) {
+	public void afterRuleAdded(final AfterRuleAddedEvent event) {
 		super.afterRuleAdded(event);
 		this.stringBuilder.append("Rule Added: " + event);
 	}
 
 	@Override
-	public void afterRuleRemoved(AfterRuleRemovedEvent event) {
+	public void afterRuleRemoved(final AfterRuleRemovedEvent event) {
 		super.afterRuleRemoved(event);
 		this.stringBuilder.append("Rule Removed: " + event);
 	}
 
 	@Override
-	public void objectInserted(ObjectInsertedEvent event) {
+	public void objectInserted(final ObjectInsertedEvent event) {
 		super.objectInserted(event);
 		this.stringBuilder.append("Object Inserted: " + event);
 	}
 
 	@Override
-	public void objectRetracted(ObjectRetractedEvent event) {
+	public void objectRetracted(final ObjectRetractedEvent event) {
 		super.objectRetracted(event);
 		this.stringBuilder.append("Object Retracted: " + event);
 	}
 
 	@Override
-	public void objectUpdated(ObjectUpdatedEvent event) {
+	public void objectUpdated(final ObjectUpdatedEvent event) {
 		super.objectUpdated(event);
 		this.stringBuilder.append("Object Updated: " + event);
 	}
