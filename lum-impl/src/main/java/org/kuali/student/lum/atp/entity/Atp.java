@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,10 +13,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-public class Atp {
+public class Atp extends MetaEntity{
 	@Id
 	@Column(name = "ATP_KEY")
 	private String key;
@@ -30,9 +29,8 @@ public class Atp {
 	private Date expirationDate;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<AtpAttribute> attributes;
-	@Embedded
-	private Meta meta;
-	
+//	@Embedded
+//	private Meta meta;
 	@ManyToOne
 	@JoinColumn(name="atpType")
 	private AtpType type;
@@ -102,12 +100,12 @@ public class Atp {
 		this.state = state;
 	}
 
-	public Meta getMeta() {
-		return meta;
-	}
-
-	public void setMeta(Meta meta) {
-		this.meta = meta;
-	}
+//	public Meta getMeta() {
+//		return meta;
+//	}
+//
+//	public void setMeta(Meta meta) {
+//		this.meta = meta;
+//	}
 
 }

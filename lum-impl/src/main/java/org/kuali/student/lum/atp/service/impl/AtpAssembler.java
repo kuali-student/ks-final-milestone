@@ -103,14 +103,14 @@ public class AtpAssembler {
 		
 		//copy attributes, metadata, Atp, and Type
 		dateRangeInfo.setAttributes(toAttributeInfos(dateRange.getAttributes()));
-		dateRangeInfo.setMetaInfo(toMetaInfo(dateRange.getMeta()));
+		dateRangeInfo.setMetaInfo(toMetaInfo(dateRange.getMeta(),dateRange.getVersionInd()));
 		dateRangeInfo.setType(dateRange.getType().getKey());
 		dateRangeInfo.setAtpKey(dateRange.getAtp().getKey());
 		
 		return dateRangeInfo;
 	}
 
-	private static MetaInfo toMetaInfo(Meta meta) {
+	private static MetaInfo toMetaInfo(Meta meta, long versionInd) {
 		
 		MetaInfo metaInfo = new MetaInfo();
 		
@@ -183,7 +183,7 @@ public class AtpAssembler {
 		
 		//copy attributes, metadata, Atp, and Type
 		atpInfo.setAttributes(toAttributeInfos(atp.getAttributes()));
-		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta()));
+		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(),atp.getVersionInd()));
 		atpInfo.setType(atp.getType().getKey());
 			
 		return atpInfo;
@@ -247,7 +247,7 @@ public class AtpAssembler {
 		
 		//copy attributes, metadata, Atp, and Type
 		milestoneInfo.setAttributes(toAttributeInfos(milestone.getAttributes()));
-		milestoneInfo.setMetaInfo(toMetaInfo(milestone.getMeta()));
+		milestoneInfo.setMetaInfo(toMetaInfo(milestone.getMeta(),milestone.getVersionInd()));
 		milestoneInfo.setType(milestone.getType().getKey());
 		milestoneInfo.setAtpKey(milestone.getAtp().getKey());
 		

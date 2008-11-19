@@ -5,22 +5,30 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 	<persistence-unit name="Atp" transaction-type="JTA">
 		<class>org.kuali.student.core.entity.Type</class>
-		<class>org.kuali.student.core.entity.AttributeEntity</class>
-		<class>org.kuali.student.core.entity.AttributeType</class>
+		<class>org.kuali.student.core.entity.Attribute</class>
+		<class>org.kuali.student.core.entity.AttributeDef</class>
 		<class>org.kuali.student.core.entity.TypeAttribute</class>
+		<class>org.kuali.student.core.entity.Meta</class>
+		<class>org.kuali.student.core.entity.MetaEntity</class>
+		
 		<class>org.kuali.student.lum.atp.entity.Atp</class>
 		<class>org.kuali.student.lum.atp.entity.AtpAttribute</class>
-		<class>org.kuali.student.lum.atp.entity.AtpAttributeType</class>
+		<class>org.kuali.student.lum.atp.entity.AtpAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.AtpDurationType</class>
+		<class>org.kuali.student.lum.atp.entity.AtpDurationTypeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.AtpSeasonalType</class>
+		<class>org.kuali.student.lum.atp.entity.AtpSeasonalTypeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.AtpType</class>
+		<class>org.kuali.student.lum.atp.entity.AtpTypeAttribute</class>
 		<class>org.kuali.student.lum.atp.entity.DateRange</class>
-		<class>org.kuali.student.lum.atp.entity.DateRangeType</class>
 		<class>org.kuali.student.lum.atp.entity.DateRangeAttribute</class>
-		<class>org.kuali.student.lum.atp.entity.DateRangeAttributeType</class>
+		<class>org.kuali.student.lum.atp.entity.DateRangeAttributeDef</class>
+		<class>org.kuali.student.lum.atp.entity.DateRangeType</class>
+		<class>org.kuali.student.lum.atp.entity.DateRangeTypeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.Milestone</class>
-		<class>org.kuali.student.lum.atp.entity.MilestoneType</class>
 		<class>org.kuali.student.lum.atp.entity.MilestoneAttribute</class>
-		<class>org.kuali.student.lum.atp.entity.MilestoneAttributeType</class>
+		<class>org.kuali.student.lum.atp.entity.MilestoneAttributeDef</class>
+		<class>org.kuali.student.lum.atp.entity.MilestoneType</class>
+		<class>org.kuali.student.lum.atp.entity.MilestoneTypeAttributeDef</class>
 	</persistence-unit>
 </persistence>

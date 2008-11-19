@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,10 +13,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-public class Milestone {
+public class Milestone extends MetaEntity{
 	@Id
 	@Column(name = "MILESTONE_KEY")
 	private String key;
@@ -30,8 +29,8 @@ public class Milestone {
 	private Date milestoneDate;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<MilestoneAttribute> attributes;
-	@Embedded
-	private Meta meta;
+//	@Embedded
+//	private Meta meta;
 	@ManyToOne
 	@JoinColumn(name="MilestoneType")
 	private MilestoneType type;
@@ -101,12 +100,12 @@ public class Milestone {
 		this.key = key;
 	}
 
-	public Meta getMeta() {
-		return meta;
-	}
-
-	public void setMeta(Meta meta) {
-		this.meta = meta;
-	}
+//	public Meta getMeta() {
+//		return meta;
+//	}
+//
+//	public void setMeta(Meta meta) {
+//		this.meta = meta;
+//	}
 
 }
