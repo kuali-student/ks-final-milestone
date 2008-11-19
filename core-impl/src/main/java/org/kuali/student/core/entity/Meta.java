@@ -7,13 +7,22 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 
 @Embeddable
 public class Meta {
-    @Version
-	private long versionInd;
 
+//	Hibernate will not allow @Version in @Embeddable for some annoying reason
+//	@Version
+//	private long versionInd;
+	
+//	public long getVersionInd() {
+//	    return versionInd;
+//  }
+//
+//  public void setVersionInd(long versionInd) {
+//	    this.versionInd = versionInd;
+//  }
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 
@@ -24,13 +33,7 @@ public class Meta {
 
 	private String updateId;
 
-	public long getVersionInd() {
-		return versionInd;
-	}
 
-	public void setVersionInd(long versionInd) {
-		this.versionInd = versionInd;
-	}
 
 	@PrePersist
 	public Date getCreateTime() {
