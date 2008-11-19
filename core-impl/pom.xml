@@ -64,9 +64,6 @@
 		</profile>
 		<profile>
 			<id>ks-eclipselink</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
@@ -78,6 +75,9 @@
 		</profile>
 		<profile>
 			<id>ks-cxf</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>org.kuali.student.core</groupId>
