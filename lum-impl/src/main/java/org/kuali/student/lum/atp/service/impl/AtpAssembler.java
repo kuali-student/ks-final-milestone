@@ -7,6 +7,7 @@ import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.core.entity.AttributeDef;
 import org.kuali.student.core.entity.Meta;
 import org.kuali.student.core.entity.Type;
 import org.kuali.student.core.exceptions.InvalidParameterException;
@@ -38,7 +39,7 @@ public class AtpAssembler {
 		BeanUtils.copyProperties(dateRangeInfo, dateRange,new String[]{"atpKey", "type", "attributes", "metaInfo"});
 		
 		//Copy the attributes
-		dateRange.setAttributes(toAttributes(dateRangeInfo.getAttributes(),dateRange,dao));
+		dateRange.setAttributes(toGenericAttributes(DateRangeAttributeDef.class,DateRangeAttribute.class,dateRangeInfo.getAttributes(),dateRange,dao));
 		
 		//Search for and copy the associated Atp
 		Atp atp = dao.fetch(Atp.class, dateRangeInfo.getAtpKey());
@@ -74,29 +75,29 @@ public class AtpAssembler {
 //		return dateRangeAttributes;
 //	}
 	
-	private static List<DateRangeAttribute> toAttributes(List<AttributeInfo> attributes, DateRange dateRange, AtpDao dao) throws InvalidParameterException {
-		
-		List<DateRangeAttribute> dateRangeAttributes = new ArrayList<DateRangeAttribute>();
-		
-		for(AttributeInfo attributeInfo:attributes){
-			
-			//Look up the attribute definition
-			DateRangeAttributeDef attributeDef = dao.fetchAttributeDefByName(DateRangeAttributeDef.class, attributeInfo.getKey());
-			
-			if(attributeDef==null){
-				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
-			}
-			
-			DateRangeAttribute dateRangeAttribute = new DateRangeAttribute();
-			dateRangeAttribute.setValue(attributeInfo.getValue());
-			dateRangeAttribute.setAttrDef(attributeDef);
-			dateRangeAttribute.setOwner(dateRange);
-			
-			dateRangeAttributes.add(dateRangeAttribute);
-		}
-		
-		return dateRangeAttributes;
-	}
+//	private static List<DateRangeAttribute> toAttributes(List<AttributeInfo> attributes, DateRange dateRange, AtpDao dao) throws InvalidParameterException {
+//		
+//		List<DateRangeAttribute> dateRangeAttributes = new ArrayList<DateRangeAttribute>();
+//		
+//		for(AttributeInfo attributeInfo:attributes){
+//			
+//			//Look up the attribute definition
+//			DateRangeAttributeDef attributeDef = dao.fetchAttributeDefByName(DateRangeAttributeDef.class, attributeInfo.getKey());
+//			
+//			if(attributeDef==null){
+//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
+//			}
+//			
+//			DateRangeAttribute dateRangeAttribute = new DateRangeAttribute();
+//			dateRangeAttribute.setValue(attributeInfo.getValue());
+//			dateRangeAttribute.setAttrDef(attributeDef);
+//			dateRangeAttribute.setOwner(dateRange);
+//			
+//			dateRangeAttributes.add(dateRangeAttribute);
+//		}
+//		
+//		return dateRangeAttributes;
+//	}
 
 	public static DateRangeInfo toDateRangeInfo(DateRange dateRange) {
 		
@@ -125,11 +126,11 @@ public class AtpAssembler {
 	}
 
 	private static List<AttributeInfo> toAttributeInfos(
-			List<? extends Attribute> attributes) {
+			List<? extends Attribute<?,?>> attributes) {
 
 		List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
 		
-		for(Attribute attribute:attributes){
+		for(Attribute<?,?> attribute:attributes){
 			AttributeInfo attributeInfo = new AttributeInfo();
 			attributeInfo.setKey(attribute.getAttrDef().getName());
 			attributeInfo.setValue(attribute.getValue());
@@ -147,7 +148,7 @@ public class AtpAssembler {
 		BeanUtils.copyProperties(atpInfo, atp, new String[]{"type","attributes","metaInfo"});
 		
 		//Copy Attributes
-		atp.setAttributes(toAttributes(atpInfo.getAttributes(),atp,dao));
+		atp.setAttributes(toGenericAttributes(AtpAttributeDef.class,AtpAttribute.class,atpInfo.getAttributes(),atp,dao));
 		
 		//Search for and copy the type
 		AtpType atpType = dao.fetch(AtpType.class, atpInfo.getType());
@@ -159,28 +160,55 @@ public class AtpAssembler {
 		return atp;
 	}
 
-	private static List<AtpAttribute> toAttributes(
-			List<AttributeInfo> attributes, Atp atp, AtpDao dao) throws InvalidParameterException {
-		List<AtpAttribute> atpAttributes = new ArrayList<AtpAttribute>();
+	public static <A extends Attribute<O,D>,O,D extends AttributeDef> List<A> toGenericAttributes(Class<D> attributeDefClass, Class<A> attributeClass,List<AttributeInfo> attributeInfos, O owner, AtpDao dao) throws InvalidParameterException {
+		List<A> attributes = new ArrayList<A>();
 		
-		for(AttributeInfo attributeInfo:attributes){
+		for(AttributeInfo attributeInfo:attributeInfos){
 			//Look up the attribute definition
-			AtpAttributeDef attributeDef = dao.fetchAttributeDefByName(AtpAttributeDef.class, attributeInfo.getKey());
+			D attributeDef = dao.fetchAttributeDefByName(attributeDefClass, attributeInfo.getKey());
 		
 			if(attributeDef==null){
 				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
 			}
 			
-			AtpAttribute atpAttribute = new AtpAttribute();
-			atpAttribute.setValue(attributeInfo.getValue());
-			atpAttribute.setAttrDef(attributeDef);
-			atpAttribute.setOwner(atp);
-			
-			atpAttributes.add(atpAttribute);
+			A attribute;
+			try {
+				attribute = attributeClass.newInstance();
+				attribute.setValue(attributeInfo.getValue());
+				attribute.setAttrDef(attributeDef);
+				attribute.setOwner(owner);
+				
+				attributes.add(attribute);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
-		return atpAttributes;
+		return attributes;
 	}
+	
+//	private static List<AtpAttribute> toAttributes(
+//			List<AttributeInfo> attributes, Atp atp, AtpDao dao) throws InvalidParameterException {
+//		List<AtpAttribute> atpAttributes = new ArrayList<AtpAttribute>();
+//		
+//		for(AttributeInfo attributeInfo:attributes){
+//			//Look up the attribute definition
+//			AtpAttributeDef attributeDef = dao.fetchAttributeDefByName(AtpAttributeDef.class, attributeInfo.getKey());
+//		
+//			if(attributeDef==null){
+//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
+//			}
+//			
+//			AtpAttribute atpAttribute = new AtpAttribute();
+//			atpAttribute.setValue(attributeInfo.getValue());
+//			atpAttribute.setAttrDef(attributeDef);
+//			atpAttribute.setOwner(atp);
+//			
+//			atpAttributes.add(atpAttribute);
+//		}
+//		
+//		return atpAttributes;
+//	}
 
 	public static AtpInfo toAtpInfo(Atp atp) {
 		AtpInfo atpInfo = new AtpInfo();
@@ -203,7 +231,7 @@ public class AtpAssembler {
 		BeanUtils.copyProperties(milestoneInfo, milestone,new String[]{"atpKey", "type", "attributes","metaInfo"});
 		
 		//Copy the attributes
-		milestone.setAttributes(toAttributes(milestoneInfo.getAttributes(),milestone,dao));
+		milestone.setAttributes(toGenericAttributes(MilestoneAttributeDef.class,MilestoneAttribute.class,milestoneInfo.getAttributes(),milestone,dao));
 		
 		//Search for and copy the associated Atp
 		Atp atp = dao.fetch(Atp.class, milestoneInfo.getAtpKey());
@@ -223,28 +251,28 @@ public class AtpAssembler {
 		
 	}
 
-	private static List<MilestoneAttribute> toAttributes(
-			List<AttributeInfo> attributes, Milestone milestone, AtpDao dao) throws InvalidParameterException {
-		List<MilestoneAttribute> milestoneAttributes = new ArrayList<MilestoneAttribute>();
-		
-		for(AttributeInfo attributeInfo:attributes){
-			//Look up the attribute definition
-			MilestoneAttributeDef attributeDef = dao.fetchAttributeDefByName(MilestoneAttributeDef.class, attributeInfo.getKey());
-		
-			if(attributeDef==null){
-				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
-			}
-			
-			MilestoneAttribute milestoneAttribute = new MilestoneAttribute();
-			milestoneAttribute.setValue(attributeInfo.getValue());
-			milestoneAttribute.setAttrDef(attributeDef);
-			milestoneAttribute.setOwner(milestone);
-			
-			milestoneAttributes.add(milestoneAttribute);
-		}
-		
-		return milestoneAttributes;
-	}
+//	private static List<MilestoneAttribute> toAttributes(
+//			List<AttributeInfo> attributes, Milestone milestone, AtpDao dao) throws InvalidParameterException {
+//		List<MilestoneAttribute> milestoneAttributes = new ArrayList<MilestoneAttribute>();
+//		
+//		for(AttributeInfo attributeInfo:attributes){
+//			//Look up the attribute definition
+//			MilestoneAttributeDef attributeDef = dao.fetchAttributeDefByName(MilestoneAttributeDef.class, attributeInfo.getKey());
+//		
+//			if(attributeDef==null){
+//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
+//			}
+//			
+//			MilestoneAttribute milestoneAttribute = new MilestoneAttribute();
+//			milestoneAttribute.setValue(attributeInfo.getValue());
+//			milestoneAttribute.setAttrDef(attributeDef);
+//			milestoneAttribute.setOwner(milestone);
+//			
+//			milestoneAttributes.add(milestoneAttribute);
+//		}
+//		
+//		return milestoneAttributes;
+//	}
 
 	public static MilestoneInfo toMilestoneInfo(Milestone milestone) {
 		
