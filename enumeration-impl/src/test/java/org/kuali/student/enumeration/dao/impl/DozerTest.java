@@ -230,7 +230,7 @@ public class DozerTest extends TestCase {
     	fieldDao.setInvalidChars("f");
     	fieldDao.setValidChars("ab");
     	fieldDao.setId("id");
-    	fieldDao.setKey("key");
+    	fieldDao.setFieldKey("key");
     	fieldDao.setMaxLength(2);
     	fieldDao.setMinLength(0);
     	fieldDao.setMaxOccurs(2);
@@ -244,7 +244,7 @@ public class DozerTest extends TestCase {
     	fieldDao2.setInvalidChars("456");
     	fieldDao2.setValidChars("123");
     	fieldDao2.setId("id2");
-    	fieldDao2.setKey("key2");
+    	fieldDao2.setFieldKey("key2");
     	fieldDao2.setMaxLength(2);
     	fieldDao2.setMinLength(0);
     	fieldDao2.setMaxOccurs(2);
@@ -263,7 +263,7 @@ public class DozerTest extends TestCase {
     	int i = 0;
     	for(EnumeratedValueField field: fields){
     		fieldDao = dao.getEnumeratedValueFieldList().get(i);
-    		assertEquals(fieldDao.getKey(), field.getKey());
+    		assertEquals(fieldDao.getFieldKey(), field.getKey());
     		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
     		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
@@ -317,7 +317,7 @@ public class DozerTest extends TestCase {
     	int i = 0;
     	for(EnumeratedValueFieldEntity fieldDao: fields){
     		fieldDto = dto.getEnumeratedValueFields().getEnumeratedValueField().get(i);
-    		assertEquals(fieldDao.getKey(), fieldDto.getKey());
+    		assertEquals(fieldDao.getFieldKey(), fieldDto.getKey());
     		assertEquals(fieldDao.getMaxLength(), fieldDto.getFieldDescriptor().getMaxLength());
     		assertEquals(fieldDao.getMinLength(), fieldDto.getFieldDescriptor().getMinLength());
     		assertEquals(fieldDao.getValidChars(), fieldDto.getFieldDescriptor().getValidChars());
