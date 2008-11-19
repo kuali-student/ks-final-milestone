@@ -28,6 +28,7 @@ public class AtpDaoImpl implements AtpDao {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public <T> List<T> find(Class<T> clazz){
 		
 		String className = clazz.getSimpleName();
@@ -52,5 +53,11 @@ public class AtpDaoImpl implements AtpDao {
 	public <T> T create(T entity) {
 		em.persist(entity);
 		return entity;
+	}
+
+	@Override
+	public <T> void delete(Class<T> clazz, String key) {
+		T entity = em.find(clazz, key);
+		em.remove(entity);
 	}
 }

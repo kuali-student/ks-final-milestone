@@ -26,8 +26,13 @@ import org.kuali.student.lum.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.lum.atp.dto.MilestoneInfo;
 import org.kuali.student.lum.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.lum.atp.entity.Atp;
+import org.kuali.student.lum.atp.entity.AtpDurationType;
+import org.kuali.student.lum.atp.entity.AtpSeasonalType;
+import org.kuali.student.lum.atp.entity.AtpType;
 import org.kuali.student.lum.atp.entity.DateRange;
+import org.kuali.student.lum.atp.entity.DateRangeType;
 import org.kuali.student.lum.atp.entity.Milestone;
+import org.kuali.student.lum.atp.entity.MilestoneType;
 import org.kuali.student.lum.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,92 +120,115 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 	public void deleteAtp(String atpKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		
+		atpDao.delete(Atp.class,atpKey);
 	}
 
 	@Override
 	public AtpInfo fetchAtp(String atpKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Atp atp = atpDao.fetch(Atp.class, atpKey);
+		
+		return AtpAssembler.toAtpInfo(atp);
 	}
 
 	@Override
 	public AtpDurationTypeInfo fetchAtpDurationType(String atpDurationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AtpDurationType atpDurationType = atpDao.fetch(AtpDurationType.class, atpDurationTypeKey);
+		
+		return AtpAssembler.toGenericTypeInfo(AtpDurationTypeInfo.class, atpDurationType);
 	}
 
 	@Override
 	public AtpSeasonalTypeInfo fetchAtpSeasonalType(String atpSeasonalTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AtpSeasonalType atpSeasonalType = atpDao.fetch(AtpSeasonalType.class, atpSeasonalTypeKey);
+		
+		return AtpAssembler.toGenericTypeInfo(AtpSeasonalTypeInfo.class, atpSeasonalType);
 	}
 
 	@Override
 	public AtpTypeInfo fetchAtpType(String atpTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AtpType atpType = atpDao.fetch(AtpType.class, atpTypeKey);
+		
+		return AtpAssembler.toAtpTypeInfo(atpType);
 	}
 
 	@Override
 	public DateRangeInfo fetchDateRange(String dateRangeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		DateRange dateRange = atpDao.fetch(DateRange.class, dateRangeKey);
+		
+		return AtpAssembler.toDateRangeInfo(dateRange);
+
 	}
 
 	@Override
 	public DateRangeTypeInfo fetchDateRangeType(String dateRangeTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		DateRangeType dateRangeType = atpDao.fetch(DateRangeType.class, dateRangeTypeKey);
+		
+		return AtpAssembler.toGenericTypeInfo(DateRangeTypeInfo.class, dateRangeType);
 	}
 
 	@Override
 	public MilestoneInfo fetchMilestone(String milestoneKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Milestone milestone = atpDao.fetch(Milestone.class, milestoneKey);
+		
+		return AtpAssembler.toMilestoneInfo(milestone);
+
 	}
 
 	@Override
 	public MilestoneTypeInfo fetchMilestoneType(String milestoneTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		MilestoneType milestoneType = atpDao.fetch(MilestoneType.class, milestoneTypeKey);
+		
+		return AtpAssembler.toGenericTypeInfo(MilestoneTypeInfo.class, milestoneType);
 	}
 
 	@Override
 	public List<AtpDurationTypeInfo> findAtpDurationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<AtpDurationType> atpDurationTypes = atpDao.find(AtpDurationType.class);
+		
+		return AtpAssembler.toGenericTypeInfoList(AtpDurationTypeInfo.class, atpDurationTypes);
 	}
 
 	@Override
 	public List<AtpSeasonalTypeInfo> findAtpSeasonalTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<AtpSeasonalType> atpSeasonalType = atpDao.find(AtpSeasonalType.class);
+		
+		return AtpAssembler.toGenericTypeInfoList(AtpSeasonalTypeInfo.class, atpSeasonalType);
 	}
 
 	@Override
 	public List<AtpTypeInfo> findAtpTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<AtpType> atpTypes = atpDao.find(AtpType.class);
+		
+		return AtpAssembler.toAtpTypeInfoList(atpTypes);
 	}
 
 	@Override

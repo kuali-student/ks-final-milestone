@@ -3,13 +3,16 @@ package org.kuali.student.lum.atp.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.Meta;
+import org.kuali.student.core.entity.Type;
+import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.lum.atp.dao.AtpDao;
 import org.kuali.student.lum.atp.dto.AtpInfo;
+import org.kuali.student.lum.atp.dto.AtpTypeInfo;
 import org.kuali.student.lum.atp.dto.DateRangeInfo;
 import org.kuali.student.lum.atp.dto.MilestoneInfo;
 import org.kuali.student.lum.atp.entity.Atp;
@@ -244,6 +247,7 @@ public class AtpAssembler {
 	}
 
 	public static MilestoneInfo toMilestoneInfo(Milestone milestone) {
+		
 		MilestoneInfo milestoneInfo = new MilestoneInfo();
 
 		BeanUtils.copyProperties(milestone, milestoneInfo, new String[]{"atp", "type", "attributes", "metaInfo"});
@@ -255,6 +259,55 @@ public class AtpAssembler {
 		milestoneInfo.setAtpKey(milestone.getAtp().getKey());
 		
 		return milestoneInfo;
+	}
+
+	public static AtpTypeInfo toAtpTypeInfo(AtpType atpType) {
+		
+		AtpTypeInfo atpTypeInfo = new AtpTypeInfo();
+		
+		BeanUtils.copyProperties(atpType, atpTypeInfo, new String[]{"seasonalType","durationType","attributes"});
+		
+		atpTypeInfo.setAttributes(toAttributeInfos(atpType.getAttributes()));
+		
+		atpTypeInfo.setDurationType(atpType.getDurationType().getKey());
+		atpTypeInfo.setSeasonalType(atpType.getSeasonalType().getKey());
+		
+		return atpTypeInfo;
+	}
+
+	public static <T extends TypeInfo, S extends Type> T toGenericTypeInfo(Class<T> typeInfoClass, S typeEntity ) {
+		T typeInfo;
+		try {
+			typeInfo = typeInfoClass.newInstance();
+			BeanUtils.copyProperties(typeEntity, typeInfo, new String[]{"attributes"});
+			
+			typeInfo.setAttributes(toAttributeInfos(typeEntity.getAttributes()));
+			
+			return typeInfo;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	public static <T extends TypeInfo, S extends Type> List<T> toGenericTypeInfoList(
+			Class<T> typeInfoClass,
+			List<S> typeEntities) {
+		List<T> typeInfoList = new ArrayList<T>();
+		for(S typeEntity:typeEntities){
+			typeInfoList.add(toGenericTypeInfo(typeInfoClass,typeEntity));
+		}
+		return typeInfoList;
+	}
+
+	public static List<AtpTypeInfo> toAtpTypeInfoList(List<AtpType> atpTypes) {
+		List<AtpTypeInfo> typeInfoList = new ArrayList<AtpTypeInfo>();
+		for(AtpType atpType:atpTypes){
+			typeInfoList.add(toAtpTypeInfo(atpType));
+		}
+		return typeInfoList;
 	}
 
 

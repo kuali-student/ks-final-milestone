@@ -11,6 +11,10 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.dto.AttributeInfo;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.atp.dto.AtpInfo;
 import org.kuali.student.lum.atp.dto.DateRangeInfo;
 import org.kuali.student.lum.atp.dto.MilestoneInfo;
@@ -32,6 +36,12 @@ public class TestAtpService extends AbstractServiceTest {
 	public static final String milestone_lastDateToDropFall2008 = "atp.milestone.lastDateToDropFall2008";
 	public static final String dateRange_finalsFall2008 = "atp.dateRange.finalsFall2008";
 
+	@Test
+	public void TestFinds() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		client.fetchMilestoneType(milestoneType_lastDateToDrop);
+		client.findAtpTypes();
+	}
+	
 	@Test
 	public void TestNothing(){
 		//Make an ATP
