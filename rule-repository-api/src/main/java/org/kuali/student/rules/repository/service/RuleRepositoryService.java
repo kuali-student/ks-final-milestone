@@ -30,6 +30,7 @@ import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetContainerDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 /**
  * This is the rule engine runtime repository interface.
@@ -284,13 +285,27 @@ public interface RuleRepositoryService {
      * Generates and creates or updates a rule set (rule engine specific source code) 
      * from a <code>BusinessRuleContainerDTO</code>.
      *  
-     * @param businessRuleContainer A container of business rules
+     * @param businessRule A business rule
      * @return A rule set
-	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
-     * @throws OperationFailedException Thrown if generating ruleset fails
+     * @throws OperationFailedException Thrown if translating/generating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    @WebMethod
-    public RuleSetContainerDTO generateRuleSet(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
+    @WebMethod(operationName="generateRuleSetForBusinessRule")
+    public RuleSetDTO generateRuleSetForBusinessRule(@WebParam(name="businessRule")BusinessRuleInfoDTO businessRule)
+		throws OperationFailedException, MissingParameterException, InvalidParameterException;
+
+    /**
+     * Generates and creates or updates a rule set (rule engine specific source code) 
+     * from a <code>businessRuleContainer</code>.
+     *  
+     * @param businessRuleContainer A container of business rules
+     * @return A rule set container with a list of rule sets
+     * @throws OperationFailedException Thrown if translating/generating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    @WebMethod(operationName="generateRuleSetForBusinessRuleContainer")
+    public RuleSetContainerDTO generateRuleSetForBusinessRuleContainer(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 }
