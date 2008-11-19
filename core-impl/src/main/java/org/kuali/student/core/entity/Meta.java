@@ -2,6 +2,7 @@ package org.kuali.student.core.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -24,8 +25,10 @@ public class Meta {
 //  }
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable=false)
 	private Date createTime;
 
+	@Column(updatable=false)
 	private String createId;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -33,11 +36,19 @@ public class Meta {
 
 	private String updateId;
 
-
-
 	@PrePersist
-	public Date getCreateTime() {
+	public void prePersist(){
 		createTime = new Date();
+		//TODO Also set the create user id from context
+	}
+	
+	@PreUpdate
+	public void preUpdate(){
+		updateTime = new Date();
+		//TODO Also set the update user id from context
+	}
+
+	public Date getCreateTime() {
 		return createTime;
 	}
 
@@ -52,10 +63,8 @@ public class Meta {
 	public void setCreateId(String createId) {
 		this.createId = createId;
 	}
-
-	@PreUpdate
+	
 	public Date getUpdateTime() {
-		updateTime = new Date();
 		return updateTime;
 	}
 
