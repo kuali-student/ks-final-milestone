@@ -9,12 +9,12 @@ import javax.persistence.PrePersist;
 import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
-public abstract class Attribute {
+public abstract class Attribute<T,S extends AttributeDef> {
 	@Id
 	private String id;
 	@ManyToOne(targetEntity=AttributeDef.class)
 	@JoinColumn(name="ATTR_DEF")
-	private AttributeDef attrDef;
+	private S attrDef;
 	private String value;
 
 
@@ -31,12 +31,16 @@ public abstract class Attribute {
 		this.id = id;
 	}
 
-	public AttributeDef getAttrDef() {
+	public S getAttrDef() {
 		return attrDef;
 	}
-	public void setAttrDef(AttributeDef attrDef) {
+	public void setAttrDef(S attrDef) {
 		this.attrDef = attrDef;
 	}
+	
+
+	public abstract T getOwner();
+	public abstract void setOwner(T owner);
 	
 	/**
 	 * AutoGenerate the Id
