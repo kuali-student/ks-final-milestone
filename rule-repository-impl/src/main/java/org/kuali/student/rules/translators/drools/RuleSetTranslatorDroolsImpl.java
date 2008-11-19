@@ -68,7 +68,8 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 	 */
     public RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
     	RuleSet ruleSet = null;
-    	String ruleSetName = PACKAGE_PREFIX + removeInvalidCharacters(businessRule.getName());
+    	String businessRuleName = removeInvalidCharacters(businessRule.getName());
+    	String ruleSetName = PACKAGE_PREFIX + businessRuleName + businessRule.getBusinessRuleId();
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
         	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, businessRule.getCompiledVersionNumber());
     	} else {

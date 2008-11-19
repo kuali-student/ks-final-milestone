@@ -69,7 +69,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         // Compile the business rule
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
         container.getBusinessRules().add(businessRuleInfo);
-        RuleSetDTO rsDTO = repository.generateRuleSet(container);
+        RuleSetDTO rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
         rule.setCompiledId(rsDTO.getUUID());
         rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
 
@@ -121,11 +121,11 @@ public class RuleManagementServiceImpl implements RuleManagementService {
  
         RuleSetDTO rsDTO = null;
         if(BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
-            rsDTO = repository.generateRuleSet(container);
+            rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
             orgRule.setCompiledId(rsDTO.getUUID());
             orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         } else if(BusinessRuleStatus.ACTIVE == newStatus) {
-            rsDTO = repository.generateRuleSet(container);
+            rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
             String snapshotName = orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
             rule.setRepositorySnapshotName(snapshotName);
             rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), snapshotName, "Activating rule " + orgRule.getName());

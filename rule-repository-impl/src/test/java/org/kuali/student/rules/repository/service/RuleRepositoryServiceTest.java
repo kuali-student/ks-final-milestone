@@ -392,13 +392,16 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	return cal.getTime();
     }
 
-    private BusinessRuleInfoDTO createBusinessRule(String anchorValue, List<RuleElementDTO> ruleElementList) {
+    private BusinessRuleInfoDTO createBusinessRule(String ruleId, String ruleName, 
+    		String anchorValue, List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
-    	bri.setName("MyNewBusinessRule");
+    	//bri.setName("MyNewBusinessRule");
+    	bri.setName(ruleName);
     	bri.setDescription("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
-    	bri.setBusinessRuleId("1");
+    	//bri.setBusinessRuleId("1");
+    	bri.setBusinessRuleId(ruleId);
     	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
     	bri.setAnchorTypeKey("kuali.student.lui.course.id");
     	bri.setAnchorValue(anchorValue);
@@ -434,7 +437,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         return ruleProp;
     }
 
-    private BusinessRuleContainerDTO getBusinessRuleContainer(String anchorValue) {
+    private BusinessRuleContainerDTO getBusinessRuleContainer(String ruleId, String ruleName, String anchorValue) {
     	YieldValueFunctionDTO yieldValueFunction1 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
     	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
@@ -468,8 +471,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         ruleElementList.add(element2);
 
         // Create functional business rule
-        BusinessRuleInfoDTO businessRule = createBusinessRule(anchorValue, ruleElementList);
-        businessRule.setAnchorValue("CPR101");
+        BusinessRuleInfoDTO businessRule = createBusinessRule(ruleId, ruleName, anchorValue, ruleElementList);
+        businessRule.setAnchorValue(anchorValue);
 
         BusinessRuleContainerDTO container = new BusinessRuleContainerDTO("course.co.req", "Cource Co-Requisites");
         container.getBusinessRules().add(businessRule);
@@ -585,9 +588,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndCreateRuleSet() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
     	// Generate and create new rule set
-    	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container).getRuleSetList().get(0);
 
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
@@ -595,11 +598,73 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void testGenerateAndCreateRuleSet_SameIdDifferentName() throws Exception {
+    	BusinessRuleContainerDTO container1 = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container1).getRuleSetList().get(0);
+
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+
+    	BusinessRuleContainerDTO container2 = getBusinessRuleContainer("1", "MyOtherNewBusinessRule", "CPR101");
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet2 = service.generateRuleSet(container2).getRuleSetList().get(0);
+
+    	assertNotNull(ruleSet2);
+    	assertNotNull(ruleSet2.getUUID());
+    	
+    	service.removeRuleSet( ruleSet1.getUUID() );
+    	service.removeRuleSet( ruleSet2.getUUID() );
+    }
+
+    @Test
+    public void testGenerateAndCreateRuleSet_SameNameDifferentId() throws Exception {
+    	BusinessRuleContainerDTO container1 = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container1).getRuleSetList().get(0);
+
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+
+    	BusinessRuleContainerDTO container2 = getBusinessRuleContainer("2", "MyNewBusinessRule", "CPR101");
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet2 = service.generateRuleSet(container2).getRuleSetList().get(0);
+
+    	assertNotNull(ruleSet2);
+    	assertNotNull(ruleSet2.getUUID());
+    	
+    	service.removeRuleSet( ruleSet1.getUUID() );
+    	service.removeRuleSet( ruleSet2.getUUID() );
+    }
+
+    @Test
+    public void testGenerateAndCreateRuleSet_SameNameAndSameId() throws Exception {
+    	BusinessRuleContainerDTO container1 = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container1).getRuleSetList().get(0);
+
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+
+    	BusinessRuleContainerDTO container2 = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
+    	// Generate and create new rule set
+    	try {
+    		RuleSetDTO ruleSet2 = service.generateRuleSet(container2).getRuleSetList().get(0);
+    		fail("Generating rule set with the same business rule id and name should have failed.");
+    	} catch(OperationFailedException e) {
+    		assertNotNull(e);
+    		assertNotNull(e.getMessage());
+    	}
+
+    	service.removeRuleSet( ruleSet1.getUUID() );
+    }
+
+    @Test
     public void testGenerateAndCreateRuleSet_NullRuleElements() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
     	container.getBusinessRules().get(0).setRuleElementList(null);
     	// Generate and create new rule set
-    	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container).getRuleSetList().get(0);
 
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
@@ -608,11 +673,11 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndCreateRuleSet_EmptyRuleElements() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
     	List<RuleElementDTO> list = new ArrayList<RuleElementDTO>();
     	container.getBusinessRules().get(0).setRuleElementList(list);
     	// Generate and create new rule set
-    	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container).getRuleSetList().get(0);
 
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
@@ -621,34 +686,36 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateAndUpdateRuleSet() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101");
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101");
     	// Generate and create new rule set
-    	RuleSetDTO ruleSet1 = service.generateRuleSet(container);
-
+    	RuleSetDTO ruleSet1 = service.generateRuleSet(container).getRuleSetList().get(0);
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
-
+    	assertEquals(1L, ruleSet1.getVersionNumber());
+    	
     	// Update rule's RHS expected value and set rule set UUID
 		BusinessRuleInfoDTO bri = container.getBusinessRules().get(0);
 		bri.setCompiledId(ruleSet1.getUUID()); 
 		bri.setCompiledVersionNumber(ruleSet1.getVersionNumber());
 		RightHandSideDTO rhs = bri.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("6.0");
-    	// Generate and update rule set
-    	RuleSetDTO ruleSet2 = service.generateRuleSet(container);
+    	// Generate (update) rule set again which creates a new version
+    	RuleSetDTO ruleSet2 = service.generateRuleSet(container).getRuleSetList().get(0);
 
     	assertNotNull(ruleSet2);
     	assertNotNull(ruleSet2.getUUID());
+    	assertEquals(ruleSet1.getUUID(), ruleSet2.getUUID());
     	assertFalse(ruleSet1.getContent().equals(ruleSet2.getContent()));
+    	assertEquals(2L, ruleSet2.getVersionNumber());
 		
     	service.removeRuleSet( ruleSet2.getUUID() );
     }
 
     @Test
     public void testGenerateRuleSetAndExecute() throws Exception {
-    	BusinessRuleContainerDTO container = getBusinessRuleContainer("CPR101"); 
+    	BusinessRuleContainerDTO container = getBusinessRuleContainer("1", "MyNewBusinessRule", "CPR101"); 
     	// Generate and create new rule set
-		RuleSetDTO ruleSet = service.generateRuleSet(container);
+		RuleSetDTO ruleSet = service.generateRuleSet(container).getRuleSetList().get(0);
 
 		assertNotNull(ruleSet);
 		assertNotNull(ruleSet.getUUID());
