@@ -369,10 +369,7 @@ public class GuiUtil {
     		return;
     	}
     	
-    	int itemIx = getListBoxIndexByName(listBox, itemText);
-    	
-    	System.out.println("Util: " + itemIx + "  " + itemText);
-    	
+    	int itemIx = getListBoxIndexByName(listBox, itemText);    	    	
     	listBox.setSelectedIndex(itemIx);
     }      
     

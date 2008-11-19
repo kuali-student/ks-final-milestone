@@ -599,9 +599,15 @@ public class RulesComposite extends Composite {
             
             //business rule type can be changed ONLY if draft is in STATE_NOT_IN_DATABASE
             businessRuleTypesListBox.addChangeListener(new ChangeListener() {
-                public void onChange(final Widget sender) {
-                	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
-                	ruleAnchorType.setText(AnchorTypeKey.KUALI_COURSE.name());  //TODO lookup based on business rule type
+                public void onChange(final Widget sender) {                	
+                    if (businessRuleTypesListBox.getSelectedIndex() == 0) {
+                    	//we need to clear related Anchor Type
+                    	displayedRule.setAnchorTypeKey("");
+                    	ruleAnchorType.setText("");
+                    } else {
+                    	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
+                    	ruleAnchorType.setText(AnchorTypeKey.KUALI_COURSE.name());  //TODO lookup based on business rule type
+                    }                	                	                	
                 }
             });             
         }
@@ -622,7 +628,7 @@ public class RulesComposite extends Composite {
         displayedRule = ruleInfo;
         
         //TODO remove after code update
-        displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name());
+        //displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name());
 
         updateRulesFormButtons(ruleInfo.getStatus());
     	
@@ -682,7 +688,7 @@ public class RulesComposite extends Composite {
         	activateDraftButton.setEnabled(true); 
         	makeNewVersionButton.setEnabled(false);     	
         	retireRuleButton.setEnabled(false);        	
-        	copyRuleButton.setEnabled(false);
+        	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true); 
         } else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.ACTIVE.toString())) {
         	submitDraftButton.setEnabled(false);
@@ -909,7 +915,7 @@ public class RulesComposite extends Composite {
     	System.out.println("DEBUG: agenda type:" + ruleAgendaType);     	
     	System.out.println("Business rule type: " + businessRuleType);       	
     	
-    	//populate agenda type list box if empty
+    	//populate agenda type list box if it is empty
     	if (agendaTypesListBox.getItemCount() == 0) {
 	        DevelopersGuiService.Util.getInstance().findAgendaTypes(new AsyncCallback<List<String>>() {
 	            public void onFailure(Throwable caught) {
@@ -920,7 +926,7 @@ public class RulesComposite extends Composite {
 	
 	            public void onSuccess(List<String> agendaTypes) {
 	            	agendaTypesListBox.clear();
-	            	agendaTypesListBox.addItem("                      ");
+	            	agendaTypesListBox.addItem("                       ");  //TODO "Please Select"
 	                for (String agendaTypeKey : agendaTypes) {
 	                	agendaTypesListBox.addItem(agendaTypeKey);
 	                }	
@@ -931,7 +937,7 @@ public class RulesComposite extends Composite {
     	System.out.println("STATUS: " + getRuleStatus());
     	
     	//if the rule is stored in database i.e. DRAFT_IN_PROGRESS, ACTIVE, RETIRED then we just populate the drop downs
-    	if (!getRuleStatus().equals(STATUS_NOT_IN_DATABASE)) {
+    	if (getRuleStatus().equals(STATUS_NOT_IN_DATABASE) == false) {
     		
     		if (ruleAgendaType.isEmpty() || businessRuleType.isEmpty()) {
     			System.out.println("Internal error(1)...");
@@ -945,6 +951,7 @@ public class RulesComposite extends Composite {
     		return;    		
     	}
     		
+    	//the rule status is NOT_IN_DATABASE....
     	agendaTypesListBox.setEnabled(true);
 	    businessRuleTypesListBox.setEnabled(true);    	   	 
         
@@ -968,17 +975,16 @@ public class RulesComposite extends Composite {
 
             public void onSuccess(List<String> businessRuleTypes) {
             	businessRuleTypesListBox.clear();
-            	businessRuleTypesListBox.addItem("                       ");
+            	businessRuleTypesListBox.addItem("                       ");  //TODO "Please Select"
                 for (String businessRuleTypeKey : businessRuleTypes) {
                 	businessRuleTypesListBox.addItem(businessRuleTypeKey);
-                }	
+                }
+                
+                if (displayedRule.getBusinessRuleTypeKey().trim().isEmpty() == false) {
+                	GuiUtil.setListBoxByItemName(businessRuleTypesListBox, displayedRule.getBusinessRuleTypeKey());
+                }
             }
-        });   
-        
-        if (!businessRuleType.trim().isEmpty()) {
-        	System.out.println("HERE: " + businessRuleType);
-        	GuiUtil.setListBoxByItemName(businessRuleTypesListBox, businessRuleType);
-        }
+        });          
     }         
     
     public void displayActiveRule() {
@@ -1026,9 +1032,12 @@ public class RulesComposite extends Composite {
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
         rulesFormTabs.add(addRRulesTestPage(), "Test");
-        rulesFormTabs.setSize("90%", "450px");
-        rulesFormTabs.selectTab(0);
+        rulesFormTabs.setSize("90%", "500px");
+        rulesFormTabs.selectTab(1);
 
+        //show buttons
+        HorizontalPanel space = new HorizontalPanel();
+        space.setWidth("20px");
         HorizontalPanel hp = new HorizontalPanel();
         hp.setSpacing(8);                
         hp.add(submitDraftButton);
@@ -1036,6 +1045,7 @@ public class RulesComposite extends Composite {
         hp.add(activateDraftButton);
         hp.add(makeNewVersionButton);
         hp.add(retireRuleButton);
+        hp.add(space);
         hp.add(copyRuleButton);
         hp.add(cancelButton);     
 
@@ -1489,7 +1499,6 @@ public class RulesComposite extends Composite {
         final Label propCompositionLabel = new Label("Rule Composition");
         ruleCompositionFlexTable.setWidget(0, 0, propCompositionLabel);
         ruleCompositionFlexTable.getCellFormatter().setHeight(0, 0, FORM_ROW_HEIGHT);
-        ruleCompositionFlexTable.setWidget(0, 1, compositionStatusLabel);
 
         propCompositionTestTextArea.setSize("100%", "100%");
         propCompositionTestTextArea.setReadOnly(true);
@@ -1689,7 +1698,9 @@ public class RulesComposite extends Composite {
         final Label propCompositionLabel = new Label("Rule Composition");
         ruleCompositionFlexTable.setWidget(0, 0, propCompositionLabel);
         ruleCompositionFlexTable.getCellFormatter().setHeight(0, 0, FORM_ROW_HEIGHT);
-        ruleCompositionFlexTable.setWidget(0, 1, compositionStatusLabel);
+        final Label propCompositionStatusLabel = new Label("Status:");
+        ruleCompositionFlexTable.setWidget(0, 1, propCompositionStatusLabel);
+        ruleCompositionFlexTable.setWidget(0, 2, compositionStatusLabel);
 
         propCompositionTextArea.setSize("100%", "100%");
         ruleCompositionFlexTable.setWidget(1, 0, propCompositionTextArea);
@@ -1701,7 +1712,7 @@ public class RulesComposite extends Composite {
         // Complete Rule
         final Label completeRuleLabel = new Label("Rule Overview");
         ruleCompositionFlexTable.setWidget(3, 0, completeRuleLabel);
-        ruleCompositionFlexTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
+        ruleCompositionFlexTable.getCellFormatter().setHeight(1, 0, FORM_ROW_HEIGHT);
 
         completeRuleTextArea.setSize("100%", "100%");
         completeRuleTextArea.setReadOnly(true);
