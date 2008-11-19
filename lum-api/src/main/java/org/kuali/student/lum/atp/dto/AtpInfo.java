@@ -12,10 +12,9 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.TypeInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AtpInfo extends TypeInfo implements Serializable{
+public class AtpInfo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@XmlElement
 	private String name;

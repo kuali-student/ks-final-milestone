@@ -6,9 +6,100 @@
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-
+				<ref bean="atpSeasonalTypeFall"/>
+				<ref bean="atpSeasonalTypeSpring"/>
+				<ref bean="atpDurationTypeSemester"/>
+				<ref bean="atpAttributeDefNotes"/>
+				<ref bean="atpDateRangeAttributeDefNotes"/>
+				<ref bean="atpMilestoneAttributeDefNotes"/>
+				<ref bean="atpTypeSpringSemester"/>
+				<ref bean="atpDateRangeTypeFinals"/>
+				<ref bean="atpMilestoneTypeLastDateToDrop"/>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="atpMilestoneTypeLastDateToDrop" class="org.kuali.student.lum.atp.entity.MilestoneType">
+		<property name="key" value="atp.milestoneType.lastDateToDrop" />
+		<property name="name" value="LastDateToDrop" />
+		<property name="desc" value="ATP Milestone Type for Last Date To Drop Classes" />
+		<property name="effectiveDate" value="01/01/2008" />
+		<property name="expirationDate" value="01/01/2100" />
+	</bean>
+	
+	<bean id="atpDateRangeTypeFinals" class="org.kuali.student.lum.atp.entity.DateRangeType">
+		<property name="key" value="atp.dateRangeType.finals" />
+		<property name="name" value="Finals" />
+		<property name="desc" value="ATP Duration Type for Finals" />
+		<property name="effectiveDate" value="01/01/2008" />
+		<property name="expirationDate" value="01/01/2100" />
+	</bean>
+	
+	<bean id="atpTypeSpringSemester" class="org.kuali.student.lum.atp.entity.AtpType">
+		<property name="key" value="atp.atpType.fallSemester" />
+		<property name="name" value="Fall Semester" />
+		<property name="desc" value="ATP Type for Fall Semester" />
+		<property name="effectiveDate" value="01/01/2008" />
+		<property name="expirationDate" value="01/01/2100" />
+		<property name="durationType" ref="atpDurationTypeSemester"/>
+		<property name="seasonalType" ref="atpSeasonalTypeFall"/>
+	</bean>
+	
+	<bean id="atpAttributeDefNotes" class="org.kuali.student.lum.atp.entity.AtpAttributeDef">
+		<property name="name" value="atp.attribute.notes"/>
+	</bean>
+	<bean id="atpDateRangeAttributeDefNotes" class="org.kuali.student.lum.atp.entity.DateRangeAttributeDef">
+		<property name="name" value="atp.dateRangeAttribute.notes"/>
+	</bean>
+	<bean id="atpMilestoneAttributeDefNotes" class="org.kuali.student.lum.atp.entity.MilestoneAttributeDef">
+		<property name="name" value="atp.milestoneAttribute.notes"/>
+	</bean>
+	
+	
+	<bean id="atpSeasonalTypeFall"
+		class="org.kuali.student.lum.atp.entity.AtpSeasonalType">
+		<property name="key" value="atp.seasonType.fall" />
+		<property name="name" value="Fall" />
+		<property name="desc" value="ATP Season Type for Fall" />
+		<property name="effectiveDate" value="01/01/2008" />
+		<property name="expirationDate" value="01/01/2100" />
+	</bean>
+
+	<bean id="atpSeasonalTypeSpring"
+		class="org.kuali.student.lum.atp.entity.AtpSeasonalType">
+		<property name="key" value="atp.seasonType.spring" />
+		<property name="name" value="Spring" />
+		<property name="desc" value="ATP Season Type for Spring" />
+		<property name="effectiveDate" value="01/01/2008" />
+		<property name="expirationDate" value="01/01/2100" />
+	</bean>
+
+	<bean id="atpDurationTypeSemester" class="org.kuali.student.lum.atp.entity.AtpDurationType">
+		<property name="key" value="atp.durationType.semester" />
+		<property name="name" value="Semester" />
+		<property name="desc" value="ATP Duration Type for Semester" />
+		<property name="effectiveDate" value="01/01/2008" />
+		<property name="expirationDate" value="01/01/2100" />
+	</bean>
+
+	<bean id="customEditorConfigurer"
+		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.util.Date">
+					<bean
+						class="org.springframework.beans.propertyeditors.CustomDateEditor">
+						<constructor-arg index="0">
+							<bean class="java.text.SimpleDateFormat">
+								<constructor-arg value="MM/dd/yyyy" />
+							</bean>
+						</constructor-arg>
+						<constructor-arg index="1" value="false" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 
 </beans>

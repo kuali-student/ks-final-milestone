@@ -30,7 +30,7 @@ public class AtpDaoImpl implements AtpDao {
 	@SuppressWarnings("unchecked")
 	public <T> List<T> find(Class<T> clazz){
 		
-		String className = clazz.getClass().getSimpleName();
+		String className = clazz.getSimpleName();
 		
 		Query q = em.createQuery("SELECT x FROM "+className+" x");
 		return (List<T>) q.getResultList();
@@ -40,12 +40,12 @@ public class AtpDaoImpl implements AtpDao {
 	@Override
 	public <T extends AttributeDef> T fetchAttributeDefByName(Class<T> clazz, String attributeName) {
 
-		String className = clazz.getClass().getSimpleName();
+		String className = clazz.getSimpleName();
 		
 		Query q = em.createQuery("SELECT attrDef FROM "+className+" attrDef WHERE attrDef.name=:attributeName");
 		q.setParameter("attributeName", attributeName);
 
-		return (T) q.getResultList();
+		return (T) q.getSingleResult();
 	}
 
 	@Override

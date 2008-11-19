@@ -107,7 +107,8 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		
 		atpDao.create(atp);
 		
-		return AtpAssembler.toAtpInfo(atp);
+		AtpInfo result = AtpAssembler.toAtpInfo(atp);
+		return result;
 	}
 
 	@Override

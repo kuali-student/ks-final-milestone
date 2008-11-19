@@ -113,8 +113,10 @@ public class AtpAssembler {
 	private static MetaInfo toMetaInfo(Meta meta, long versionInd) {
 		
 		MetaInfo metaInfo = new MetaInfo();
-		
-		BeanUtils.copyProperties(meta, metaInfo);
+		if(meta!=null){
+			BeanUtils.copyProperties(meta, metaInfo);
+		}
+		metaInfo.setVersionInd(String.valueOf(versionInd));
 		
 		return metaInfo;
 	}
@@ -149,7 +151,8 @@ public class AtpAssembler {
 		if(atpType==null){
 			throw new InvalidParameterException("AtpType does not exist for key: " + atpInfo.getType());
 		}
-		
+		atp.setType(atpType);
+
 		return atp;
 	}
 
