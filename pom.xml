@@ -274,21 +274,18 @@
 			</dependency>
 
 			<!--  Hibernate -->
+
 			<dependency>
 				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate</artifactId>
-				<version>3.3.1.GA</version>
-				<exclusions>
-					<exclusion>
-						<groupId>asm</groupId>
-						<artifactId>asm-attrs</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>cglib</groupId>
-						<artifactId>cglib</artifactId>
-					</exclusion>
-				</exclusions>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>3.4.0.GA</version>
 			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>3.4.0.GA</version>
+			</dependency>
+
 
 			<!-- Hibernate Transitive Dependencies -->
 			<dependency>
