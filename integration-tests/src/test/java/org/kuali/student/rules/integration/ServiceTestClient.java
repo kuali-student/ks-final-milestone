@@ -185,9 +185,48 @@ public class ServiceTestClient {
         return brInfoDTO;
     }
     
+    private BusinessRuleInfoDTO generateNewEmptyBusinessRuleInfo(String businessRuleId, String ruleName, String anchor) {
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        metaInfo.setCreateTime(new Date());
+        metaInfo.setCreateID("Zdenek");
+        metaInfo.setUpdateTime(new Date());
+        metaInfo.setUpdateID("Len");
+     
+        BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
+        brInfoDTO.setBusinessRuleId(businessRuleId);
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        brInfoDTO.setAnchorValue(anchor);
+        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setMetaInfo(metaInfo);
+
+		Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+		Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
+		brInfoDTO.setEffectiveStartTime(effectiveStartTime);
+		brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        
+        return brInfoDTO;
+    }
+    
     @Test
     public void testCreateBusinessRule() throws Exception {
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
+
+    	try {
+    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
+	        System.out.println("********** Business Rule ID            : "+businessRule2.getBusinessRuleId());
+	        System.out.println("********** Business Rule Name          : "+businessRule2.getName());
+    	} finally {
+    		ruleManagementService.deleteBusinessRule("1000");
+    	}
+    }
+    
+    @Test
+    public void testCreateEmptyBusinessRule() throws Exception {
+    	BusinessRuleInfoDTO businessRule1 = generateNewEmptyBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
 
     	try {
     		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
@@ -226,7 +265,7 @@ public class ServiceTestClient {
 
     @Test
     public void testUpdateBusinessRule() throws Exception {
-    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("2000", "CHEM200PRE_REQ", "CHEM100");
+    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
     	
     	try {
     		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
@@ -247,7 +286,7 @@ public class ServiceTestClient {
 	        System.out.println("********** RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("********** RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		ruleManagementService.deleteBusinessRule("2000");
+    		ruleManagementService.deleteBusinessRule("1000");
     	}
     }
 }
