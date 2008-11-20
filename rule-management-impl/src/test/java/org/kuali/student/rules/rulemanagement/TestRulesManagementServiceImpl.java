@@ -134,6 +134,16 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }
     
     @Test
+    public void testFetchFactTypeKey()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleTypeDTO ruleType = client.fetchBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), AnchorTypeKey.KUALI_COURSE.toString());
+        
+        assertEquals(2, ruleType.getFactTypeKeyList().size());
+        assertEquals("fact.earned_credit_list", ruleType.getFactTypeKeyList().get(0));
+        assertEquals("fact.completed_course_list", ruleType.getFactTypeKeyList().get(1));
+    }
+    
+    
+    @Test
     public void testCreateBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         // Create Rule Test
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
@@ -174,7 +184,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         }
     }
     
- //   @Test
+    //@Test
     public void testRetireBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         BusinessRuleInfoDTO brInfoDTO = generateUpdatedBusinessRule( generateNewBusinessRuleInfo() );
         brInfoDTO.setStatus("RETIRED");
@@ -293,7 +303,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
     }
     
-    //@Test
+    @Test
     public void testEmptyRuleCreating()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
 
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
@@ -306,6 +316,9 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         } catch (Exception e) {
             assertTrue(false);
         }
+        
+        BusinessRuleInfoDTO newBrInfoDTO = client.fetchBusinessRuleInfo("101");
+        assertEquals(0, newBrInfoDTO.getRuleElementList().size());
         
         assertTrue(true);
     }

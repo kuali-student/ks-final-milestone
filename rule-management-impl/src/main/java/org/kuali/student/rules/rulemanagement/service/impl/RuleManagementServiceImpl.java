@@ -61,21 +61,21 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         } catch (NoResultException nre) {
             throw new InvalidParameterException("Could not lookup business rule type!");
         } catch (NonUniqueResultException nure) {
-            new InvalidParameterException("Multiple business rule types found!");
+            throw new InvalidParameterException("Multiple business rule types found!");
         }
 
         rule.setBusinessRuleType(brType);
 
         // Compile the business rule
-        //BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-        //container.getBusinessRules().add(businessRuleInfo);
-        //RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(container).getRuleSetList().get(0);
+//        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
+//        container.getBusinessRules().add(businessRuleInfo);
+//        RuleSetDTO rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
         RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
         rule.setCompiledId(rsDTO.getUUID());
         rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
 
-        ruleManagementDao.createBusinessRule(rule);
-
+        ruleManagementDao.createBusinessRule(rule);        
+        
         return rule.getRuleId();
     }
 
