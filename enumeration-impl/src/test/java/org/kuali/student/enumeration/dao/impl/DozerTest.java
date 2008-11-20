@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Test;
 import org.kuali.student.enumeration.dto.*;
 import org.kuali.student.enumeration.entity.*;
 import org.kuali.student.enumeration.service.impl.util.POJOConverter;
@@ -11,7 +12,8 @@ import org.kuali.student.enumeration.service.impl.util.POJOConverter;
 import junit.framework.TestCase;
 
 public class DozerTest extends TestCase {
-    public void testContext(){
+	@Test
+	public void testContext(){
         Context context = new Context();
         context.setType("type");
         context.setValue("value");
@@ -22,6 +24,7 @@ public class DozerTest extends TestCase {
         assertEquals(context.getValue(), contextEntity.getContextValue());
         assertEquals(context.getType(), contextEntity.getContextKey());
     }
+	@Test
     public void testDAOtoDTOEnumeratedValue(){
         EnumeratedValueEntity dao = new EnumeratedValueEntity();
         dao.setId("1");
@@ -80,7 +83,7 @@ public class DozerTest extends TestCase {
         	i++;
         }
     }
-    
+	@Test
     public void testDTOtoDAOEnumeratedValue(){
         
     	EnumeratedValue dto = new EnumeratedValue();
@@ -153,7 +156,7 @@ public class DozerTest extends TestCase {
         }
         
     }
-    
+	@Test
     public void testDAOtoDTOContext(){
     	ContextEntity dao = new ContextEntity();
     	dao.setContextKey("ck");
@@ -167,7 +170,7 @@ public class DozerTest extends TestCase {
         assertEquals(dao.getContextValue(), dto.getValue());
 		
     }
-    
+	@Test
     public void testDTOtoDAOContext(){
     	Context dto = new Context();
     	dto.setType("TypeA");
@@ -179,7 +182,7 @@ public class DozerTest extends TestCase {
         assertEquals(dao.getContextKey(), dto.getType());
         assertEquals(dao.getContextValue(), dto.getValue());
     }
-    
+	@Test
     public void testDAOtoDTOContextMeta(){
     	ContextMetaEntity dao = new ContextMetaEntity();
     	dao.setDataType("d");
@@ -201,7 +204,7 @@ public class DozerTest extends TestCase {
     	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
     	
     }
-    
+	@Test
     public void testDTOtoDAOContextMeta(){
     	ContextValueDescriptor dto = new ContextValueDescriptor();
     	dto.setDataType("d");
@@ -219,7 +222,7 @@ public class DozerTest extends TestCase {
     	assertEquals(dao.getMinOccurs(), dto.getMinOccurs());
     	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
     }
-    
+	@Test
     public void testDAOtoDTOEnumerationMeta(){
     	EnumerationMetaEntity dao = new EnumerationMetaEntity();
     	dao.setEnumerationKey("metaKey1");
@@ -274,7 +277,7 @@ public class DozerTest extends TestCase {
     		i++;
     	}
     }
-    
+	@Test
     public void testDTOtoDAOEnumerationMeta(){
     	EnumerationMeta dto = new EnumerationMeta();
     	dto.setKey("metaKey1");

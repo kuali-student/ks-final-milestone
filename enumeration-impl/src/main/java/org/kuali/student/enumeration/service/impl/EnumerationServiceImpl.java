@@ -33,8 +33,7 @@ public class EnumerationServiceImpl implements EnumerationService{
         List<EnumerationMetaEntity> listDAOEntity =  this.enumDAO.findEnumerationMetas();
         
         EnumerationMetaList metaList = new EnumerationMetaList();
-        List<EnumerationMeta> listDTOEntity = null;
-        POJOConverter.map(listDAOEntity, listDTOEntity);
+        List<EnumerationMeta> listDTOEntity =  POJOConverter.mapList(listDAOEntity, EnumerationMeta.class);
         metaList.setEnumerationMeta(listDTOEntity);
         
         return metaList;
@@ -42,10 +41,11 @@ public class EnumerationServiceImpl implements EnumerationService{
     
     
     public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue valueDTO) {
-        EnumeratedValueEntity valueEntity = null;
+        EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
         POJOConverter.map(valueDTO, valueEntity);
         enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
-        return null;
+        //return what was passed in?
+        return valueDTO;
     }
 
     public EnumeratedValueList fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
@@ -64,9 +64,7 @@ public class EnumerationServiceImpl implements EnumerationService{
         	enumeratedValueEntityList = enumDAO.fetchEnumeration(enumerationKey);
         }
         
-        List<EnumeratedValue> enumeratedValueList = null; 
-        
-        POJOConverter.mapList(enumeratedValueEntityList, EnumeratedValue.class);
+        List<EnumeratedValue> enumeratedValueList = POJOConverter.mapList(enumeratedValueEntityList, EnumeratedValue.class);
         
         enumeratedValueListDTO.setEnumeratedValue(enumeratedValueList);
         return enumeratedValueListDTO;
