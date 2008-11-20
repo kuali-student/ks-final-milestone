@@ -62,4 +62,9 @@ public class MyServiceImpl implements MyService {
 		return this.dao0.updateValue(id,value);
 	}
 
+    @Override
+    public String findValueFromValue(String value) {
+        return this.dao0.findValueFromValue(value).getValue();
+    }
+
 }

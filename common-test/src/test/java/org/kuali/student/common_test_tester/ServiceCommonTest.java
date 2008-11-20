@@ -2,6 +2,7 @@ package org.kuali.student.common_test_tester;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 
@@ -37,6 +38,12 @@ public class ServiceCommonTest extends AbstractServiceTest {
 		assertNotNull(client.saveString("la la la"));
 	}
 
+	@Test
+	public void testDaoLoader(){
+	    String value = "loaded-value";
+	    assertEquals(value, client.findValueFromValue(value));
+	}
+	
 	@Test
 	public void testClientCaching() {
 		// Create a proxy for aop caching

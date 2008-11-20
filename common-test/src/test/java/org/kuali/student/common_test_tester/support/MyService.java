@@ -15,4 +15,8 @@ public interface MyService {
 	
 	@WebMethod
 	public boolean updateValue(String id, String value);
+
+    @WebMethod
+    public String findValueFromValue(String value);
+
 }
