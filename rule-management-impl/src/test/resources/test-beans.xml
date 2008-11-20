@@ -160,7 +160,7 @@
 		<property name="description"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="NUMBER" />
+		<property name="comparisonDataType" value="java.lang.Number" />
 		<property name="leftHandSide" ref="leftHandSide1" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide1" />
@@ -174,7 +174,7 @@
 		<property name="description"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.lang.java.lang.Number" />
 		<property name="leftHandSide" ref="leftHandSide3" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide3" />
@@ -348,7 +348,7 @@
 		<property name="description"
 			value="enumeration of required pre-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.lang.java.lang.Number" />
 		<property name="leftHandSide" ref="leftHandSide4" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide4" />
@@ -361,7 +361,7 @@
 		<property name="name" value="P4" />
 		<property name="description" value="credits check" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.lang.java.lang.Number" />
 		<property name="leftHandSide" ref="leftHandSide5" />
 		<property name="operator" value="GREATER_THAN" />
 		<property name="rightHandSide" ref="rightHandSide5" />
