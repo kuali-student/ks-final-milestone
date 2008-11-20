@@ -3,6 +3,7 @@ package org.kuali.student.rules.factfinder.service;
 import java.util.List;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
@@ -33,7 +34,7 @@ public interface FactFinderService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public FactTypeInfoDTO fetchFactType(String factTypeKey) throws OperationFailedException, DoesNotExistException;
+    public FactTypeInfoDTO fetchFactType(@WebParam(name="factTypeKey")String factTypeKey) throws OperationFailedException, DoesNotExistException;
 
     
     /**
@@ -44,5 +45,5 @@ public interface FactFinderService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public FactResultDTO fetchFact(String factTypeKey, FactStructureDTO factStructure) throws OperationFailedException, DoesNotExistException;    
+    public FactResultDTO fetchFact(@WebParam(name="factTypeKey")String factTypeKey, @WebParam(name="factStructure")FactStructureDTO factStructure) throws OperationFailedException, DoesNotExistException;    
 }
