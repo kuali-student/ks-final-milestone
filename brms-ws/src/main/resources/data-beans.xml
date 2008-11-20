@@ -158,7 +158,7 @@
 		<property name="description"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="NUMBER" />
+		<property name="comparisonDataType" value="java.lang.Number" />
 		<property name="leftHandSide" ref="leftHandSide1" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide1" />
