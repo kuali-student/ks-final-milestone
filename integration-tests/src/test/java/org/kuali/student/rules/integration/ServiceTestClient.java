@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
@@ -42,8 +47,8 @@ public class ServiceTestClient {
     private static RuleManagementService ruleManagementService;
     private static RuleRepositoryService ruleRepositoryService;
     
-    static {
-    	try {
+	@BeforeClass
+    public static void setUpOnce() throws Exception {
     	ruleManagementService = (RuleManagementService) ServiceFactory.getPort(
     			ruleManagementServiceURL + "?wsdl", 
     			ruleManagementNamespace, 
@@ -57,12 +62,20 @@ public class ServiceTestClient {
     			ruleRepositoryServiceName, 
     			ruleRepositoryServiceInterface, 
     			ruleRepositoryServiceURL);
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
+	}
 
+    @AfterClass
+    public static void tearDownOnce() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
     }
     
+    @After
+    public void tearDown() throws Exception {
+    }
+
     private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
     	Calendar cal = Calendar.getInstance();
     	cal.set(year, month-1, day, hourOfDay, minute, 0);
@@ -172,51 +185,69 @@ public class ServiceTestClient {
         return brInfoDTO;
     }
     
-    public static void main(String[] args) throws Exception {
-    	ServiceTestClient test = new ServiceTestClient();
-    	//test.testCreateBusinessRule();
-    	test.testUpdateBusinessRule();
+    @Test
+    public void testCreateBusinessRule() throws Exception {
+    	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
+
+    	try {
+    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
+	        System.out.println("********** Business Rule ID            : "+businessRule2.getBusinessRuleId());
+	        System.out.println("********** Business Rule Name          : "+businessRule2.getName());
+    	} finally {
+    		ruleManagementService.deleteBusinessRule("1000");
+    	}
     }
     
-    public void testCreateBusinessRule() throws Exception {
+    @Test
+    public void testCreateAndFetchBusinessRule() throws Exception {
     	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
-    	
-        String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
-        System.out.println("********** businessRuleId              : "+businessRuleId);
-        
-        // fetchDetailedBusinessRuleInfo fails 
-        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-        System.out.println("********** Business Rule ID            : "+businessRule.getBusinessRuleId());
-        System.out.println("********** Business Rule Name          : "+businessRule.getName());
-        System.out.println("********** Business Compiled ID        : "+businessRule.getCompiledId());
-        System.out.println("********** Business Compiled Version No: "+businessRule.getCompiledVersionNumber());
-        
-        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
-        System.out.println("********** RuleSet Name:           "+ruleSet.getName());
-        System.out.println("********** RuleSet UUID:           "+ruleSet.getUUID());
-        System.out.println("********** RuleSet Version Number: "+ruleSet.getVersionNumber());
-        System.out.println("********** RuleSet Source:\n"+ruleSet.getContent());
+
+    	try {
+    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+	        System.out.println("********** businessRuleId              : "+businessRuleId);
+	        
+	        // fetchDetailedBusinessRuleInfo fails 
+	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+	        System.out.println("********** Business Rule ID            : "+businessRule.getBusinessRuleId());
+	        System.out.println("********** Business Rule Name          : "+businessRule.getName());
+	        System.out.println("********** Business Compiled ID        : "+businessRule.getCompiledId());
+	        System.out.println("********** Business Compiled Version No: "+businessRule.getCompiledVersionNumber());
+	        
+	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
+	        System.out.println("********** RuleSet Name:           "+ruleSet.getName());
+	        System.out.println("********** RuleSet UUID:           "+ruleSet.getUUID());
+	        System.out.println("********** RuleSet Version Number: "+ruleSet.getVersionNumber());
+	        System.out.println("********** RuleSet Source:\n"+ruleSet.getContent());
+    	} finally {
+    		ruleManagementService.deleteBusinessRule("1000");
+    	}
     }
 
+    @Test
     public void testUpdateBusinessRule() throws Exception {
-    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("6000", "CHEM300PRE_REQ", "CHEM100");
+    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("2000", "CHEM300PRE_REQ", "CHEM100");
     	
-        String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
-        System.out.println("********** businessRuleId              : "+businessRuleId);
-        StatusDTO status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
-        System.out.println("********** status                      : "+status);
-
-        // fetchDetailedBusinessRuleInfo fails 
-        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-        System.out.println("********** Business Rule ID            : "+businessRule.getBusinessRuleId());
-        System.out.println("********** Business Rule Name          : "+businessRule.getName());
-        System.out.println("********** Business Compiled ID        : "+businessRule.getCompiledId());
-        System.out.println("********** Business Compiled Version No: "+businessRule.getCompiledVersionNumber());
-        
-        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
-        System.out.println("********** RuleSet Name:           "+ruleSet.getName());
-        System.out.println("********** RuleSet UUID:           "+ruleSet.getUUID());
-        System.out.println("********** RuleSet Version Number: "+ruleSet.getVersionNumber());
-        System.out.println("********** RuleSet Source:\n"+ruleSet.getContent());
+    	try {
+    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+	        System.out.println("********** businessRuleId              : "+businessRuleId);
+	        StatusDTO status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+	        System.out.println("********** status                      : "+status);
+	
+	        // fetchDetailedBusinessRuleInfo fails 
+	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+	        System.out.println("********** Business Rule ID            : "+businessRule.getBusinessRuleId());
+	        System.out.println("********** Business Rule Name          : "+businessRule.getName());
+	        System.out.println("********** Business Compiled ID        : "+businessRule.getCompiledId());
+	        System.out.println("********** Business Compiled Version No: "+businessRule.getCompiledVersionNumber());
+	        
+	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
+	        System.out.println("********** RuleSet Name:           "+ruleSet.getName());
+	        System.out.println("********** RuleSet UUID:           "+ruleSet.getUUID());
+	        System.out.println("********** RuleSet Version Number: "+ruleSet.getVersionNumber());
+	        System.out.println("********** RuleSet Source:\n"+ruleSet.getContent());
+    	} finally {
+    		ruleManagementService.deleteBusinessRule("2000");
+    	}
     }
 }
