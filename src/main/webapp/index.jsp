@@ -1,1 +1,0 @@
-<% response.sendRedirect("org.kuali.student.poc.POC/POC.jsp"); %>
