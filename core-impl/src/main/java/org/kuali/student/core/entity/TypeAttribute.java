@@ -5,7 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class TypeAttribute extends Attribute<Type, AttributeDef> {
+public class TypeAttribute extends Attribute<Type, TypeAttributeDef> {
 
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

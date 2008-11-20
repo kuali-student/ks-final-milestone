@@ -1,7 +1,11 @@
 package org.kuali.student.core.entity;
 
+import java.util.Date;
+
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 
 @MappedSuperclass
@@ -12,6 +16,19 @@ public abstract class MetaEntity {
 	
 	@Embedded
 	private Meta meta;
+	
+	@PrePersist
+	public void prePersist(){
+		meta.setCreateTime(new Date());
+		meta.setUpdateTime(new Date());
+		//TODO Also set the create and update user id from context
+	}
+	
+	@PreUpdate
+	public void preUpdate(){
+		meta.setUpdateTime(new Date());
+		//TODO Also set the update user id from context
+	}
 	
 	public long getVersionInd() {
 		return versionInd;

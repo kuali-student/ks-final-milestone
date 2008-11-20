@@ -5,10 +5,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ATTR_DEF", "OWNER"})})
+
 public abstract class Attribute<T,S extends AttributeDef> {
 	@Id
 	private String id;

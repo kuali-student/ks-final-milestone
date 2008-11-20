@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -35,18 +33,6 @@ public class Meta {
 	private Date updateTime;
 
 	private String updateId;
-
-	@PrePersist
-	public void prePersist(){
-		createTime = new Date();
-		//TODO Also set the create user id from context
-	}
-	
-	@PreUpdate
-	public void preUpdate(){
-		updateTime = new Date();
-		//TODO Also set the update user id from context
-	}
 
 	public Date getCreateTime() {
 		return createTime;

@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Type {
+public abstract class Type implements AttributeOwner<TypeAttribute> {
 	@Id
 	@Column(name = "TYPE_KEY")
 	private String key;
