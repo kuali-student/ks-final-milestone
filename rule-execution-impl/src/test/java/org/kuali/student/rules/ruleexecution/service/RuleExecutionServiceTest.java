@@ -2,12 +2,7 @@ package org.kuali.student.rules.ruleexecution.service;
 
 import org.junit.Assert;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,13 +14,9 @@ import org.kuali.student.poc.common.test.spring.Client;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
-import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
-import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
