@@ -1,5 +1,6 @@
 package org.kuali.student.lum.atp.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,10 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-public class Atp extends MetaEntity{
+public class Atp extends MetaEntity implements AttributeOwner<AtpAttribute>{
 	@Id
 	@Column(name = "ATP_KEY")
 	private String key;
@@ -36,6 +38,11 @@ public class Atp extends MetaEntity{
 	private AtpType type;
 	private String state;
 
+	@OneToMany(mappedBy="atp", cascade=CascadeType.REMOVE)
+	private List<DateRange> dateRanges;
+	@OneToMany(mappedBy="atp", cascade=CascadeType.REMOVE)
+	private List<Milestone> milestones;
+	
 	public String getKey() {
 		return key;
 	}
@@ -77,6 +84,9 @@ public class Atp extends MetaEntity{
 	}
 
 	public List<AtpAttribute> getAttributes() {
+		if(attributes==null){
+			attributes = new ArrayList<AtpAttribute>();
+		}
 		return attributes;
 	}
 
@@ -98,6 +108,28 @@ public class Atp extends MetaEntity{
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public List<DateRange> getDateRanges() {
+		if(dateRanges==null){
+			dateRanges = new ArrayList<DateRange>();
+		}
+		return dateRanges;
+	}
+
+	public void setDateRanges(List<DateRange> dateRanges) {
+		this.dateRanges = dateRanges;
+	}
+
+	public List<Milestone> getMilestones() {
+		if(milestones==null){
+			milestones = new ArrayList<Milestone>();
+		}
+		return milestones;
+	}
+
+	public void setMilestones(List<Milestone> milestones) {
+		this.milestones = milestones;
 	}
 
 //	public Meta getMeta() {

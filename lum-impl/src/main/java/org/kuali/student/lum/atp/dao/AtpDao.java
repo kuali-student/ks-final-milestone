@@ -21,6 +21,8 @@ public interface AtpDao {
 
 	public <T> void delete(Class<T> clazz, String key);
 
+	public void delete(Object entity);
+	
 	public <T> List<T> find(Class<T> clazz);
 
 	public <T> T update(T entity);

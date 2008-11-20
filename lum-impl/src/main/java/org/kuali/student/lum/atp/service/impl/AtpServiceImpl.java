@@ -55,7 +55,7 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 
 		dateRangeInfo.setAtpKey(atpKey);
 		dateRangeInfo.setKey(dateRangeKey);
-		DateRange dateRange = AtpAssembler.toDateRange(dateRangeInfo,atpDao);
+		DateRange dateRange = AtpAssembler.toDateRange(false, dateRangeInfo,atpDao);
 		
 		atpDao.create(dateRange);
 		
@@ -89,7 +89,7 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 
 		milestoneInfo.setAtpKey(atpKey);
 		milestoneInfo.setKey(milestoneKey);
-		Milestone milestone = AtpAssembler.toMilestone(milestoneInfo,atpDao);
+		Milestone milestone = AtpAssembler.toMilestone(false, milestoneInfo,atpDao);
 		
 		atpDao.create(milestone);
 		
@@ -108,7 +108,7 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		atpInfo.setType(atpTypeKey);
 		atpInfo.setKey(atpKey);
 		
-		Atp atp = AtpAssembler.toAtp(atpInfo, atpDao);
+		Atp atp = AtpAssembler.toAtp(false, atpInfo, atpDao);
 		
 		atpDao.create(atp);
 		
@@ -398,7 +398,10 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 
 		atpInfo.setKey(atpKey);
 		
-		Atp atp = AtpAssembler.toAtp(atpInfo, atpDao);
+		Atp atp = AtpAssembler.toAtp(true, atpInfo, atpDao);
+		if(atp==null){
+			throw new DoesNotExistException("Atp does not exist for key: " + atpKey);
+		}
 		
 		Atp updatedAtp = atpDao.update(atp);
 		
@@ -415,10 +418,13 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		
 		CheckMissingParameters(new String[]{"dateRangeKey","dateRangeInfo"},
                                new Object[]{ dateRangeKey,  dateRangeInfo});
-
+		
 		dateRangeInfo.setKey(dateRangeKey);
 		
-		DateRange dateRange = AtpAssembler.toDateRange(dateRangeInfo, atpDao);
+		DateRange dateRange = AtpAssembler.toDateRange(true, dateRangeInfo, atpDao);
+		if(dateRange==null){
+			throw new DoesNotExistException("DateRange does not exist for key: " + dateRangeKey);
+		}
 		
 		DateRange updatedDateRange = atpDao.update(dateRange);
 		
@@ -436,9 +442,14 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		CheckMissingParameters(new String[]{"milestoneKey","milestoneInfo"},
                                new Object[]{ milestoneKey,  milestoneInfo});
 		
+
+		
 		milestoneInfo.setKey(milestoneKey);
 		
-		Milestone milestone = AtpAssembler.toMilestone(milestoneInfo, atpDao);
+		Milestone milestone = AtpAssembler.toMilestone(true, milestoneInfo, atpDao);
+		if(milestone==null){
+			throw new DoesNotExistException("Milestone does not exist for key: " + milestoneKey);
+		}
 		
 		Milestone updatedMilestone = atpDao.update(milestone);
 		

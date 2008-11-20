@@ -57,9 +57,9 @@ public class TestAtpService extends AbstractServiceTest {
 		notesAttr.setValue("Notes for the Fall 2008 Semester");
 		atpInfo.getAttributes().add(notesAttr);
 		
+		AtpInfo createdAtp=null;
 		try {
-			AtpInfo result = client.createAtp(atpType_fallSemester, atp_fall2008Semester, atpInfo);
-			result.getAttributes();
+			createdAtp = client.createAtp(atpType_fallSemester, atp_fall2008Semester, atpInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -80,9 +80,9 @@ public class TestAtpService extends AbstractServiceTest {
 		dateRangeNotesAttr.setValue("Notes for the Finals date range Fall 2008 Semester");
 		dateRangeInfo.getAttributes().add(dateRangeNotesAttr);
 		
+		DateRangeInfo createdDateRange=null;
 		try {
-			DateRangeInfo result = client.addDateRange(atp_fall2008Semester, dateRange_finalsFall2008, dateRangeInfo);
-			result.getAttributes();
+			createdDateRange = client.addDateRange(atp_fall2008Semester, dateRange_finalsFall2008, dateRangeInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -102,12 +102,45 @@ public class TestAtpService extends AbstractServiceTest {
 		milestoneNotesAttr.setValue("Notes for the Last Day to Drop Fall 2008 Semester");
 		milestoneInfo.getAttributes().add(milestoneNotesAttr);
 		
+		MilestoneInfo createdMilestone=null;
 		try {
-			MilestoneInfo result = client.addMilestone(atp_fall2008Semester, milestone_lastDateToDropFall2008, milestoneInfo);
-			result.getAttributes();
+			createdMilestone = client.addMilestone(atp_fall2008Semester, milestone_lastDateToDropFall2008, milestoneInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
 		} 
+		
+		//Do some updates
+		createdAtp.setDesc("Updated Atp for the Fall 2008 Semester");
+		try {
+			client.updateAtp(atp_fall2008Semester, createdAtp);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		createdDateRange.setDesc("Updated DateRange for the Finals date range Fall 2008 Semester");
+		try {
+			client.updateDateRange(dateRange_finalsFall2008, createdDateRange);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		createdMilestone.setDesc("Updated Milestone for fall 2008 semester last day to drop");
+		try {
+			client.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		//Do some deletes
+		try {
+			client.deleteAtp(atp_fall2008Semester);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 }

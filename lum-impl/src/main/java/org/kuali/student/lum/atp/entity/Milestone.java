@@ -1,5 +1,6 @@
 package org.kuali.student.lum.atp.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,10 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-public class Milestone extends MetaEntity{
+public class Milestone extends MetaEntity implements AttributeOwner<MilestoneAttribute>{
 	@Id
 	@Column(name = "MILESTONE_KEY")
 	private String key;
@@ -69,6 +71,9 @@ public class Milestone extends MetaEntity{
 	}
 
 	public List<MilestoneAttribute> getAttributes() {
+		if(attributes==null){
+			attributes = new ArrayList<MilestoneAttribute>();
+		}
 		return attributes;
 	}
 

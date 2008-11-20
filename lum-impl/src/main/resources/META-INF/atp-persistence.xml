@@ -8,6 +8,7 @@
 		<class>org.kuali.student.core.entity.Attribute</class>
 		<class>org.kuali.student.core.entity.AttributeDef</class>
 		<class>org.kuali.student.core.entity.TypeAttribute</class>
+		<class>org.kuali.student.core.entity.TypeAttributeDef</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
 		

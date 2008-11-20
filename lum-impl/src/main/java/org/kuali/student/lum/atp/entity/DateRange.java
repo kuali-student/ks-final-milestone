@@ -1,5 +1,6 @@
 package org.kuali.student.lum.atp.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,21 +14,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-public class DateRange extends MetaEntity{
+public class DateRange extends MetaEntity implements
+		AttributeOwner<DateRangeAttribute> {
 	@Id
-	@Column(name="DATERANGE_KEY")
+	@Column(name = "DATERANGE_KEY")
 	private String key;
 
 	private String name;
 
-	@Column(name="DATERANGE_DESC")
+	@Column(name = "DATERANGE_DESC")
 	private String desc;
 
 	@ManyToOne
-	@JoinColumn(name="ATP_KEY")
+	@JoinColumn(name = "ATP_KEY")
 	private Atp atp;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -36,10 +39,10 @@ public class DateRange extends MetaEntity{
 	private Date endDate;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<DateRangeAttribute> attributes;
-//	@Embedded
-//	private Meta meta;
+	// @Embedded
+	// private Meta meta;
 	@ManyToOne
-	@JoinColumn(name="DateRangeType")
+	@JoinColumn(name = "DateRangeType")
 	private DateRangeType type;
 	private String state;
 
@@ -84,6 +87,9 @@ public class DateRange extends MetaEntity{
 	}
 
 	public List<DateRangeAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<DateRangeAttribute>();
+		}
 		return attributes;
 	}
 
@@ -115,11 +121,11 @@ public class DateRange extends MetaEntity{
 		this.key = key;
 	}
 
-//	public Meta getMeta() {
-//		return meta;
-//	}
-//
-//	public void setMeta(Meta meta) {
-//		this.meta = meta;
-//	}
+	// public Meta getMeta() {
+	// return meta;
+	// }
+	//
+	// public void setMeta(Meta meta) {
+	// this.meta = meta;
+	// }
 }

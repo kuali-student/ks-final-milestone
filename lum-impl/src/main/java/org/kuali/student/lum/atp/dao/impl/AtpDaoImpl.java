@@ -68,6 +68,11 @@ public class AtpDaoImpl implements AtpDao {
 	}
 
 	@Override
+	public void delete(Object entity) {
+		em.remove(entity);	
+	}
+	
+	@Override
 	public <T> T update(T entity) {
 		return em.merge(entity);
 	}
@@ -193,6 +198,7 @@ public class AtpDaoImpl implements AtpDao {
 		
 		return q.getResultList();
 	}
+
 
 
 

@@ -13,8 +13,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.core.entity.AttributeOwner;
+
 @Entity
-public class AtpType{
+public class AtpType implements AttributeOwner<AtpTypeAttribute>{
 	@Id
 	@Column(name = "TYPE_KEY")
 	private String key;
