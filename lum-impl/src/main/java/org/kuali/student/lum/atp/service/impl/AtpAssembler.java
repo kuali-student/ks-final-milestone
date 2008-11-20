@@ -55,49 +55,11 @@ public class AtpAssembler {
 		}
 		dateRange.setType(dateRangeType);
 		
+		//Create a new meta?
+		dateRange.setMeta(new Meta());
+		
 		return dateRange;
 	}
-
-//	private static <T,S> List<T> toAttributes(Class<T> attributeClass, List<AttributeInfo> attributes, S dateRange, AtpDao dao) throws InvalidParameterException {
-//		
-//		List<T> dateRangeAttributes = new ArrayList<T>();
-//		for(AttributeInfo attributeInfo:attributes){
-//			//Look up the attribute definition
-//			DateRangeAttributeDef attributeDef = dao.fetchAttributeDefByName(DateRangeAttributeDef.class, attributeInfo.getKey());
-//			if(attributeDef==null){
-//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
-//			}
-//			T attribute = attributeClass.newInstance();
-//			attribute.setValue(attributeInfo.getValue());
-//			attribute.setAttrDef(attributeDef);
-//			attribute.setOwner(dateRange);
-//		}
-//		return dateRangeAttributes;
-//	}
-	
-//	private static List<DateRangeAttribute> toAttributes(List<AttributeInfo> attributes, DateRange dateRange, AtpDao dao) throws InvalidParameterException {
-//		
-//		List<DateRangeAttribute> dateRangeAttributes = new ArrayList<DateRangeAttribute>();
-//		
-//		for(AttributeInfo attributeInfo:attributes){
-//			
-//			//Look up the attribute definition
-//			DateRangeAttributeDef attributeDef = dao.fetchAttributeDefByName(DateRangeAttributeDef.class, attributeInfo.getKey());
-//			
-//			if(attributeDef==null){
-//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
-//			}
-//			
-//			DateRangeAttribute dateRangeAttribute = new DateRangeAttribute();
-//			dateRangeAttribute.setValue(attributeInfo.getValue());
-//			dateRangeAttribute.setAttrDef(attributeDef);
-//			dateRangeAttribute.setOwner(dateRange);
-//			
-//			dateRangeAttributes.add(dateRangeAttribute);
-//		}
-//		
-//		return dateRangeAttributes;
-//	}
 
 	public static DateRangeInfo toDateRangeInfo(DateRange dateRange) {
 		
@@ -117,6 +79,7 @@ public class AtpAssembler {
 	private static MetaInfo toMetaInfo(Meta meta, long versionInd) {
 		
 		MetaInfo metaInfo = new MetaInfo();
+		//If there was a meta passed in then copy the values 
 		if(meta!=null){
 			BeanUtils.copyProperties(meta, metaInfo);
 		}
@@ -156,11 +119,14 @@ public class AtpAssembler {
 			throw new InvalidParameterException("AtpType does not exist for key: " + atpInfo.getType());
 		}
 		atp.setType(atpType);
+		
+		//Create a new meta?
+		atp.setMeta(new Meta());
 
 		return atp;
 	}
 
-	public static <A extends Attribute<O,D>,O,D extends AttributeDef> List<A> toGenericAttributes(Class<D> attributeDefClass, Class<A> attributeClass,List<AttributeInfo> attributeInfos, O owner, AtpDao dao) throws InvalidParameterException {
+	private static <A extends Attribute<O,D>,O,D extends AttributeDef> List<A> toGenericAttributes(Class<D> attributeDefClass, Class<A> attributeClass,List<AttributeInfo> attributeInfos, O owner, AtpDao dao) throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();
 		
 		for(AttributeInfo attributeInfo:attributeInfos){
@@ -187,29 +153,6 @@ public class AtpAssembler {
 		return attributes;
 	}
 	
-//	private static List<AtpAttribute> toAttributes(
-//			List<AttributeInfo> attributes, Atp atp, AtpDao dao) throws InvalidParameterException {
-//		List<AtpAttribute> atpAttributes = new ArrayList<AtpAttribute>();
-//		
-//		for(AttributeInfo attributeInfo:attributes){
-//			//Look up the attribute definition
-//			AtpAttributeDef attributeDef = dao.fetchAttributeDefByName(AtpAttributeDef.class, attributeInfo.getKey());
-//		
-//			if(attributeDef==null){
-//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
-//			}
-//			
-//			AtpAttribute atpAttribute = new AtpAttribute();
-//			atpAttribute.setValue(attributeInfo.getValue());
-//			atpAttribute.setAttrDef(attributeDef);
-//			atpAttribute.setOwner(atp);
-//			
-//			atpAttributes.add(atpAttribute);
-//		}
-//		
-//		return atpAttributes;
-//	}
-
 	public static AtpInfo toAtpInfo(Atp atp) {
 		AtpInfo atpInfo = new AtpInfo();
 
@@ -247,32 +190,12 @@ public class AtpAssembler {
 		}
 		milestone.setType(milestoneType);
 		
+		//Create a new meta?
+		milestone.setMeta(new Meta());
+		
 		return milestone;
 		
 	}
-
-//	private static List<MilestoneAttribute> toAttributes(
-//			List<AttributeInfo> attributes, Milestone milestone, AtpDao dao) throws InvalidParameterException {
-//		List<MilestoneAttribute> milestoneAttributes = new ArrayList<MilestoneAttribute>();
-//		
-//		for(AttributeInfo attributeInfo:attributes){
-//			//Look up the attribute definition
-//			MilestoneAttributeDef attributeDef = dao.fetchAttributeDefByName(MilestoneAttributeDef.class, attributeInfo.getKey());
-//		
-//			if(attributeDef==null){
-//				throw new InvalidParameterException("Invalid Attribute : " + attributeInfo.getKey());
-//			}
-//			
-//			MilestoneAttribute milestoneAttribute = new MilestoneAttribute();
-//			milestoneAttribute.setValue(attributeInfo.getValue());
-//			milestoneAttribute.setAttrDef(attributeDef);
-//			milestoneAttribute.setOwner(milestone);
-//			
-//			milestoneAttributes.add(milestoneAttribute);
-//		}
-//		
-//		return milestoneAttributes;
-//	}
 
 	public static MilestoneInfo toMilestoneInfo(Milestone milestone) {
 		
@@ -295,6 +218,7 @@ public class AtpAssembler {
 		
 		BeanUtils.copyProperties(atpType, atpTypeInfo, new String[]{"seasonalType","durationType","attributes"});
 		
+		//Copy attributes and duration/seasonal types 
 		atpTypeInfo.setAttributes(toAttributeInfos(atpType.getAttributes()));
 		
 		atpTypeInfo.setDurationType(atpType.getDurationType().getKey());
@@ -303,12 +227,21 @@ public class AtpAssembler {
 		return atpTypeInfo;
 	}
 
+	/**
+	 * @param <T> TypeInfo class
+	 * @param <S> Type Class
+	 * @param typeInfoClass the class of the resulting typeInfo object
+	 * @param typeEntity the typeEntity to copy from
+	 * @return a new TypeInfo
+	 */
 	public static <T extends TypeInfo, S extends Type> T toGenericTypeInfo(Class<T> typeInfoClass, S typeEntity ) {
 		T typeInfo;
 		try {
+			//Create a new TypeInfo based on the <T> class and copy the properties
 			typeInfo = typeInfoClass.newInstance();
 			BeanUtils.copyProperties(typeEntity, typeInfo, new String[]{"attributes"});
 			
+			//Copy the attributes
 			typeInfo.setAttributes(toAttributeInfos(typeEntity.getAttributes()));
 			
 			return typeInfo;

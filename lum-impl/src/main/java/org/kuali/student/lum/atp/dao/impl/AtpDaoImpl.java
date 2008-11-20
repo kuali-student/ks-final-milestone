@@ -49,7 +49,7 @@ public class AtpDaoImpl implements AtpDao {
 
 		String className = clazz.getSimpleName();
 		
-		Query q = em.createQuery("SELECT attrDef FROM "+className+" attrDef WHERE attrDef.name=:attributeName");
+		Query q = em.createQuery("SELECT attrDef FROM "+className+" attrDef WHERE attrDef.name = :attributeName");
 		q.setParameter("attributeName", attributeName);
 
 		return (T) q.getSingleResult();
@@ -76,26 +76,33 @@ public class AtpDaoImpl implements AtpDao {
 	@Override
 	public List<Atp> findAtpsByAtpType(String atpTypeKey) {
 		
-		Query q = em.createQuery("SELECT atp FROM Atp atp WHERE atp.type.key=:atpTypeKey");
+		Query q = em.createQuery("SELECT atp FROM Atp atp WHERE atp.type.key = :atpTypeKey");
 		q.setParameter("atpTypeKey", atpTypeKey);
 		
 		return q.getResultList();
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Atp> findAtpsByDate(Date searchDate) {
-		//FIXME not sure what to compare here
-		Query q = em.createQuery("SELECT atp FROM Atp atp WHERE atp.type.key=:atpTypeKey");
+		
+		Query q = em.createQuery("SELECT atp " +
+				                 "  FROM Atp atp " +
+				                 " WHERE atp.effectiveDate <= :searchDate " +
+				                 "   AND atp.expirationDate > :searchDate");
 		q.setParameter("searchDate", searchDate);
 		
 		return q.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Atp> findAtpsByDates(Date startDate, Date endDate) {
-		//FIXME not sure what to compare here
-		Query q = em.createQuery("SELECT atp FROM Atp atp WHERE atp.type.key=:atpTypeKey");
+		Query q = em.createQuery("SELECT atp " +
+				                 "  FROM Atp atp " +
+				                 " WHERE atp.effectiveDate >= :startDate " +
+ 				                 "   AND atp.expirationDate <= :endDate");
 		q.setParameter("startDate", startDate);
 		q.setParameter("endDate", endDate);
 		
@@ -106,7 +113,7 @@ public class AtpDaoImpl implements AtpDao {
 	@Override
 	public List<DateRange> findDateRangesByAtp(String atpKey) {
 		
-		Query q = em.createQuery("SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.key=:atpKey");
+		Query q = em.createQuery("SELECT dateRange FROM DateRange dateRange WHERE dateRange.atp.key = :atpKey");
 		q.setParameter("atpKey", atpKey);
 		
 		return q.getResultList();
@@ -130,7 +137,7 @@ public class AtpDaoImpl implements AtpDao {
 	@Override
 	public List<MilestoneType> findMilestoneTypesForAtpType(String atpTypeKey) {
 		
-		Query q = em.createQuery("SELECT milestone.type FROM Milestone milestone WHERE milestone.atp.type.key=:atpTypeKey");
+		Query q = em.createQuery("SELECT milestone.type FROM Milestone milestone WHERE milestone.atp.type.key = :atpTypeKey");
 		q.setParameter("atpTypeKey", atpTypeKey);
 		
 		return q.getResultList();
@@ -140,7 +147,7 @@ public class AtpDaoImpl implements AtpDao {
 	@Override
 	public List<DateRangeType> findDateRangeTypesForAtpType(String atpTypeKey) {
 		
-		Query q = em.createQuery("SELECT dateRange.type FROM DateRange dateRange WHERE dateRange.atp.type.key=:atpTypeKey");
+		Query q = em.createQuery("SELECT dateRange.type FROM DateRange dateRange WHERE dateRange.atp.type.key = :atpTypeKey");
 		q.setParameter("atpTypeKey", atpTypeKey);
 		
 		return q.getResultList();
@@ -150,7 +157,7 @@ public class AtpDaoImpl implements AtpDao {
 	@Override
 	public List<Milestone> findMilestonesByAtp(String atpKey) {
 		
-		Query q = em.createQuery("SELECT milestone FROM Milestone milestone WHERE milestone.atp.key=:atpKey");
+		Query q = em.createQuery("SELECT milestone FROM Milestone milestone WHERE milestone.atp.key = :atpKey");
 		q.setParameter("atpKey", atpKey);
 		
 		return q.getResultList();
