@@ -12,7 +12,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabPanel;
 
 public class DevelopersGuiController extends Controller {
-    public static final String VIEW_NAME = "org.kuali.student.rules.devgui";
+    public static final String VIEW_NAME = "org.kuali.student.enumeration";
     boolean loaded = false;
 
     final TabPanel tabs = new TabPanel();
