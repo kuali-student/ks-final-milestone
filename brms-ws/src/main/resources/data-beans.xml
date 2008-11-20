@@ -158,7 +158,7 @@
 		<property name="description"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide1" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide1" />
@@ -172,7 +172,7 @@
 		<property name="description"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide3" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide3" />
@@ -346,7 +346,7 @@
 		<property name="description"
 			value="enumeration of required pre-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide4" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide4" />
@@ -359,7 +359,7 @@
 		<property name="name" value="P4" />
 		<property name="description" value="credits check" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide5" />
 		<property name="operator" value="GREATER_THAN" />
 		<property name="rightHandSide" ref="rightHandSide5" />
@@ -607,7 +607,7 @@
 		<property name="description"
 			value="pre-req psychology 300 courses is PSYC 200" />
 		<property name="failureMessage" value="Pre req of PSYC 200 not met." />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide31" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide31" />
@@ -679,7 +679,7 @@
 		<property name="description"
 			value="pre-req psychology 300 courses is PSYC 201 and PSYC 202" />
 		<property name="failureMessage" value="Pre req of PSYC 201 and PSYC 202 not met." />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide32" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide32" />
@@ -751,7 +751,7 @@
 		<property name="description"
 			value="6 credits of 200-level Psychology courses (but not 205 or 263)" />
 		<property name="failureMessage" value="Did not met requirements for 6 credits from 200-level Psychology courses." />
-		<property name="comparisonDataType" value="java.lang.Number" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide33" />
 		<property name="operator" value="GREATER_THAN" />
 		<property name="rightHandSide" ref="rightHandSide33" />
@@ -782,7 +782,7 @@
 		<property name="factTypeKey" value="fact.earned_credit_list" />
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="false" />
-		<property name="staticValueDataType" value="java.lang.Number"/>
+		<property name="staticValueDataType" value="java.math.BigDecimal"/>
 		<property name="staticValue" value="" />
 		<property name="paramValueSet">
 			<set>
