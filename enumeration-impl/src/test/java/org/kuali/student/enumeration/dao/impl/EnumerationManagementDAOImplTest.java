@@ -319,7 +319,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         contextEntity.getEnumeratedValueEntityList().add(entity);
 
         enumerationManagementDAO.addEnumeratedValue("Key3", entity);
-        enumerationManagementDAO.removeEnumeratedValue("Key3", "Code3");
+        enumerationManagementDAO.removeEnumeratedValue("Key3", "CodeB");
         List<EnumeratedValueEntity> enumeratedValueEntityList =  enumerationManagementDAO.fetchEnumerationWithContextAndDate(entity.getEnumerationKey(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueEntityList.size(), 0);
