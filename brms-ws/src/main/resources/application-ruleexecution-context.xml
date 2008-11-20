@@ -46,6 +46,8 @@
     <bean id="ruleExecutionServiceImpl"
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
             <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
+	        <property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
+            <property name="ruleManagementService" ref="ruleManagementClient"/>
     </bean>
 
 </beans>
