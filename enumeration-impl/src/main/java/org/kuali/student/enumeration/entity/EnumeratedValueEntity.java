@@ -32,7 +32,8 @@ public class EnumeratedValueEntity {
     int sortKey;
     
     //@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST
+            ,CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     List<ContextEntity> contextEntityList =new ArrayList<ContextEntity>();
 
     /**
