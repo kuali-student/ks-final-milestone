@@ -19,7 +19,6 @@ public class IdToObjectEhcacheAdvice implements Advice {
 	 */
 	public IdToObjectEhcacheAdvice() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
