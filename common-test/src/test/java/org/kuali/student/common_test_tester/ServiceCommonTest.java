@@ -78,10 +78,10 @@ public class ServiceCommonTest extends AbstractServiceTest {
 			
 			cachedClient = (MyService) factory.getProxy();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
