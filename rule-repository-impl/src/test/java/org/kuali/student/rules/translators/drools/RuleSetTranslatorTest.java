@@ -15,11 +15,10 @@
  */
 package org.kuali.student.rules.translators.drools;
 
-import static org.junit.Assert.assertEquals;;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -59,7 +58,6 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
-import org.kuali.student.rules.translators.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
