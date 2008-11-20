@@ -117,10 +117,16 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 	}
 
 	@Override
-	public void deleteAtp(String atpKey) throws DoesNotExistException,
+	public StatusInfo deleteAtp(String atpKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
+		
 		atpDao.delete(Atp.class,atpKey);
+		
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		
+		return statusInfo;
 	}
 
 	@Override
@@ -218,9 +224,9 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 	public List<AtpSeasonalTypeInfo> findAtpSeasonalTypes()
 			throws OperationFailedException {
 		
-		List<AtpSeasonalType> atpSeasonalType = atpDao.find(AtpSeasonalType.class);
+		List<AtpSeasonalType> atpSeasonalTypes = atpDao.find(AtpSeasonalType.class);
 		
-		return AtpAssembler.toGenericTypeInfoList(AtpSeasonalTypeInfo.class, atpSeasonalType);
+		return AtpAssembler.toGenericTypeInfoList(AtpSeasonalTypeInfo.class, atpSeasonalTypes);
 	}
 
 	@Override
@@ -235,31 +241,39 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 	public List<AtpInfo> findAtpsByAtpType(String atpTypeKey)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Atp> atps = atpDao.findAtpsByAtpType(atpTypeKey);
+		
+		return AtpAssembler.toAtpInfoList(atps);
 	}
 
 	@Override
 	public List<AtpInfo> findAtpsByDate(Date searchDate)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Atp> atps = atpDao.findAtpsByDate(searchDate);
+		
+		return AtpAssembler.toAtpInfoList(atps);
 	}
 
 	@Override
 	public List<AtpInfo> findAtpsByDates(Date startDate, Date endDate)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Atp> atps = atpDao.findAtpsByDates(startDate, endDate);
+		
+		return AtpAssembler.toAtpInfoList(atps);
 	}
 
 	@Override
 	public List<DateRangeTypeInfo> findDateRangeTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<DateRangeType> dateRangeTypes = atpDao.find(DateRangeType.class);
+		
+		return AtpAssembler.toGenericTypeInfoList(DateRangeTypeInfo.class, dateRangeTypes);
 	}
 
 	@Override
@@ -267,31 +281,39 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			String atpTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<DateRangeType> dateRangeTypes = atpDao.findDateRangeTypesForAtpType(atpTypeKey);
+		
+		return AtpAssembler.toGenericTypeInfoList(DateRangeTypeInfo.class, dateRangeTypes);
 	}
 
 	@Override
 	public List<DateRangeInfo> findDateRangesByAtp(String atpKey)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<DateRange> dateRanges = atpDao.findDateRangesByAtp(atpKey);
+		
+		return AtpAssembler.toDateRangeInfoList(dateRanges);
 	}
 
 	@Override
 	public List<DateRangeInfo> findDateRangesByDate(Date searchDate)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<DateRange> dateRanges = atpDao.findDateRangesByDate(searchDate);
+		
+		return AtpAssembler.toDateRangeInfoList(dateRanges);
 	}
 
 	@Override
 	public List<MilestoneTypeInfo> findMilestoneTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<MilestoneType> milestoneTypes = atpDao.find(MilestoneType.class);
+		
+		return AtpAssembler.toGenericTypeInfoList(MilestoneTypeInfo.class, milestoneTypes);
 	}
 
 	@Override
@@ -299,24 +321,30 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			String atpTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<MilestoneType> milestoneTypes = atpDao.findMilestoneTypesForAtpType(atpTypeKey);
+		
+		return AtpAssembler.toGenericTypeInfoList(MilestoneTypeInfo.class, milestoneTypes);
 	}
 
 	@Override
 	public List<MilestoneInfo> findMilestonesByAtp(String atpKey)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Milestone> milestones = atpDao.findMilestonesByAtp(atpKey);
+		
+		return AtpAssembler.toMilestoneInfoList(milestones);
 	}
 
 	@Override
 	public List<MilestoneInfo> findMilestonesByDates(Date startDate,
 			Date endDate) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Milestone> milestones = atpDao.findMilestonesByDates(startDate, endDate);
+		
+		return AtpAssembler.toMilestoneInfoList(milestones);
 	}
 
 	@Override
@@ -324,8 +352,10 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			String milestoneTypeKey, Date startDate, Date endDate)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Milestone> milestones = atpDao.findMilestonesByDatesAndType(milestoneTypeKey, startDate, endDate);
+		
+		return AtpAssembler.toMilestoneInfoList(milestones);
 	}
 
 	@Override
@@ -333,8 +363,13 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		atpDao.delete(DateRange.class, dateRangeKey);
+		
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		
+		return statusInfo;
 	}
 
 	@Override
@@ -342,8 +377,13 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		atpDao.delete(Milestone.class, milestoneKey);
+		
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		
+		return statusInfo;
 	}
 
 	@Override
@@ -352,8 +392,18 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CheckMissingParameters(new String[]{"atpKey","atpInfo"},
+                               new Object[]{ atpKey,  atpInfo});
+
+		atpInfo.setKey(atpKey);
+		
+		Atp atp = AtpAssembler.toAtp(atpInfo, atpDao);
+		
+		Atp updatedAtp = atpDao.update(atp);
+		
+		AtpInfo result = AtpAssembler.toAtpInfo(updatedAtp);
+		return result;
 	}
 
 	@Override
@@ -362,8 +412,18 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CheckMissingParameters(new String[]{"dateRangeKey","dateRangeInfo"},
+                               new Object[]{ dateRangeKey,  dateRangeInfo});
+
+		dateRangeInfo.setKey(dateRangeKey);
+		
+		DateRange dateRange = AtpAssembler.toDateRange(dateRangeInfo, atpDao);
+		
+		DateRange updatedDateRange = atpDao.update(dateRange);
+		
+		DateRangeInfo result = AtpAssembler.toDateRangeInfo(updatedDateRange);
+		return result;
 	}
 
 	@Override
@@ -372,8 +432,18 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CheckMissingParameters(new String[]{"milestoneKey","milestoneInfo"},
+                               new Object[]{ milestoneKey,  milestoneInfo});
+		
+		milestoneInfo.setKey(milestoneKey);
+		
+		Milestone milestone = AtpAssembler.toMilestone(milestoneInfo, atpDao);
+		
+		Milestone updatedMilestone = atpDao.update(milestone);
+		
+		MilestoneInfo result = AtpAssembler.toMilestoneInfo(updatedMilestone);
+		return result;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.kuali.student.lum.atp.service.jaxws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -17,7 +18,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "deleteAtpResponse", namespace = "http://org.kuali.student/lum/atp")
 
 public class DeleteAtpResponse {
+    @XmlElement(name = "return")
+    private org.kuali.student.core.dto.StatusInfo _return;
 
+    public org.kuali.student.core.dto.StatusInfo getReturn() {
+        return this._return;
+    }
 
+    public void setReturn(org.kuali.student.core.dto.StatusInfo new_return)  {
+        this._return = new_return;
+    }
 }
 

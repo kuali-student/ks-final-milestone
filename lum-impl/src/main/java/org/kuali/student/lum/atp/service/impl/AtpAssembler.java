@@ -338,5 +338,31 @@ public class AtpAssembler {
 		return typeInfoList;
 	}
 
+	public static List<AtpInfo> toAtpInfoList(List<Atp> atps) {
+		List<AtpInfo> atpInfoList = new ArrayList<AtpInfo>();
+		for(Atp atp:atps){
+			atpInfoList.add(toAtpInfo(atp));
+		}
+		return atpInfoList;
+	}
+
+	public static List<DateRangeInfo> toDateRangeInfoList(
+			List<DateRange> dateRanges) {
+		List<DateRangeInfo> dateRangeInfoList = new ArrayList<DateRangeInfo>();
+		for(DateRange dateRange:dateRanges){
+			dateRangeInfoList.add(toDateRangeInfo(dateRange));
+		}
+		return dateRangeInfoList;
+	}
+
+	public static List<MilestoneInfo> toMilestoneInfoList(
+			List<Milestone> milestones) {
+		List<MilestoneInfo> milestoneInfoList = new ArrayList<MilestoneInfo>();
+		for(Milestone milestone:milestones){
+			milestoneInfoList.add(toMilestoneInfo(milestone));
+		}
+		return milestoneInfoList;
+	}
+
 
 }
