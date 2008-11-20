@@ -201,7 +201,7 @@ public class ServiceTestClient {
     
     @Test
     public void testCreateAndFetchBusinessRule() throws Exception {
-    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
+    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("1000", "CHEM100PRE_REQ", "CHEM100");
 
     	try {
     		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
@@ -226,7 +226,7 @@ public class ServiceTestClient {
 
     @Test
     public void testUpdateBusinessRule() throws Exception {
-    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("2000", "CHEM300PRE_REQ", "CHEM100");
+    	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("2000", "CHEM200PRE_REQ", "CHEM100");
     	
     	try {
     		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
