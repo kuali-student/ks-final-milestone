@@ -15,12 +15,13 @@
  */
 package org.kuali.student.rules.rulemanagement.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,9 +47,8 @@ public class BusinessRuleType {
     private String businessRuleTypeKey;
     
     private String anchorTypeKey;
-    
-    @Embedded
-    private List<String> factTypeKeyList;
+
+    private ArrayList<String> factTypeKeyList;
 
     private String description;
     
@@ -119,14 +119,14 @@ public class BusinessRuleType {
     /**
      * @return the factTypeKeyList
      */
-    public List<String> getFactTypeKeyList() {
+    public ArrayList<String> getFactTypeKeyList() {
         return factTypeKeyList;
     }
 
     /**
      * @param factTypeKeyList the factTypeKeyList to set
      */
-    public void setFactTypeKeyList(List<String> factTypeKeyList) {
+    public void setFactTypeKeyList(ArrayList<String> factTypeKeyList) {
         this.factTypeKeyList = factTypeKeyList;
     }
 }
