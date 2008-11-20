@@ -83,7 +83,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
         query.setParameter("key", enumerationKey);
         query.setParameter("code", code);
-
+        
         query.executeUpdate();
     }
     
