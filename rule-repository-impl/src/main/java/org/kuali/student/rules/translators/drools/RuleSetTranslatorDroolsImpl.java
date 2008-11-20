@@ -68,8 +68,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 	 */
     public RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
     	RuleSet ruleSet = null;
-    	String businessRuleName = removeInvalidCharacters(businessRule.getName());
-    	String ruleSetName = PACKAGE_PREFIX + businessRuleName + businessRule.getBusinessRuleId();
+    	String ruleSetName = getRuleSetName(businessRule);
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
         	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, businessRule.getCompiledVersionNumber());
     	} else {
@@ -89,6 +88,17 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         return ruleSet;
     }
     
+    /**
+     * Gets the proper rule set name from the <code>businessRule</code>.
+     * 
+     * @param businessRule Business rule
+     * @return Rule set name
+     */
+    public static String getRuleSetName(BusinessRuleInfoDTO businessRule) {
+    	String businessRuleName = removeInvalidCharacters(businessRule.getName());
+    	return PACKAGE_PREFIX + businessRuleName + businessRule.getBusinessRuleId();
+    }
+    
     private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {
         boolean valid = ruleSetVerifier.verify(new StringReader(ruleSet.getContent()));
         if (!valid) {
@@ -98,8 +108,6 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     }
 
     private void parseRule(RuleSet ruleSet, BusinessRuleInfoDTO businessRule) {
-        checkName(businessRule.getName());
-        checkName(businessRule.getBusinessRuleTypeKey());
         checkBusinessRule(businessRule);
         
         String anchor = businessRule.getAnchorValue();
@@ -138,7 +146,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     										   Map<String, RulePropositionDTO> functionalPropositionMap,
     										   Date effectiveStartTime,
     										   Date effectiveEndTime) {
-        checkName(anchor);
+    	removeInvalidCharacters(anchor);
         Function function = new Function(functionString);
 
         CurrentDateTime date = new CurrentDateTime();
@@ -167,7 +175,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     									   String uuid,
     									   String functionString,
     									   Map<String, RulePropositionDTO> functionalPropositionMap) {
-        checkName(anchor);
+    	removeInvalidCharacters(anchor);
         Function function = new Function(functionString);
 
         // Create the final composite rule for the function
@@ -245,24 +253,8 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     	}
     }
 
-    /**
-     * Checks that a name cannot contain any hyphens.
-     * 
-     * @param name
-     *            Rule name
-     * @return A clean rule name
-     */
-    private static void checkName(String name) {
-        // return name.trim().replaceAll("[\\s-]", "_");
-        if (name.trim().indexOf("-") > -1) {
-            throw new RuleSetTranslatorException("Name cannot contain hyphens");
-        }
-    }
-
-    private String removeInvalidCharacters(String s) {
-    	s = s.replaceAll("[\\s ]", "");
-    	s = s.replaceAll("[\\s-]", "");
-    	return s;
+    private static String removeInvalidCharacters(String s) {
+    	return s.replaceAll("[^a-zA-Z0-9]", "");
     }
 
 }

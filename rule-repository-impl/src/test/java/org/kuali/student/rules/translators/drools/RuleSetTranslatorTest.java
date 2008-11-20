@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.translators.drools;
 
+import static org.junit.Assert.assertEquals;;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -1341,12 +1342,20 @@ public class RuleSetTranslatorTest {
         BusinessRuleInfoDTO bri = createBusinessRule(ruleElementList);
 
         // Parse and generate functional business rule into Drools rules
-        //try{
-	        RuleSet ruleSet = this.generateRuleSet.translate(bri);
-	        //fail("Should have thrown a RuleSetTranslatorException since rule element list is empty");
-	        assertNotNull(ruleSet);
-        //} catch(RuleSetTranslatorException e) {
-        //	assertTrue(true);
-        //}
+        RuleSet ruleSet = this.generateRuleSet.translate(bri);
+        assertNotNull(ruleSet);
+    }
+
+    @Test
+    public void testRule_InvalidRuleName_InvalidCharacters() throws Exception {
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(null);
+        // Create invalid name
+        bri.setName("TestName `~!@#$%^&*()-+={[}]|\\:;\"'<,>.?/ \b\t\n\f\r \' \"");
+
+        RuleSet ruleSet = this.generateRuleSet.translate(bri);
+        String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
+        assertNotNull(ruleSet);
+        assertEquals(name, ruleSet.getName());
     }
 }
