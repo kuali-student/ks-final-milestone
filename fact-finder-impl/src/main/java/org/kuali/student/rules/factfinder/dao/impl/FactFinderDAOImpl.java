@@ -34,9 +34,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FactFinderDAOImpl implements FactFinderDAO {
 
+    @PersistenceContext(unitName = "FactFinder")
     private EntityManager entityManager;
+    
+    /**
+     * @return the entityManager
+     */
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
-    @PersistenceContext(name = "RuleManagement")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

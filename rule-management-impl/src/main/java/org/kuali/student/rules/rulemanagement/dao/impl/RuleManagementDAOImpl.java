@@ -33,9 +33,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RuleManagementDAOImpl implements RuleManagementDAO {
 
+    @PersistenceContext(unitName = "RuleManagement")
     private EntityManager entityManager;
 
-    @PersistenceContext(name = "RuleManagement")
+    /**
+     * @return the entityManager
+     */
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+    /**     
+     * @param entityManager
+     */
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
