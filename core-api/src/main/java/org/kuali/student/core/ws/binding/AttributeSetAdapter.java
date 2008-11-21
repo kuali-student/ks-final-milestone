@@ -17,7 +17,7 @@ public class AttributeSetAdapter extends
         if(value == null) return null;
         AttributeSet result = new AttributeSet();
         for (JaxbAttribute a : value.getAttribute()) {
-            result.put(a.type, a.value);
+            result.put(a.key, a.value);
         }
         return result;
     }

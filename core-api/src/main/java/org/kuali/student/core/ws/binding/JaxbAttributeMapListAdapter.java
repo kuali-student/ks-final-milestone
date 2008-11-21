@@ -11,7 +11,7 @@ public class JaxbAttributeMapListAdapter extends
 		if(value == null) return null;
 		Map<String, String> resultMap = new HashMap<String, String>();
 		for (JaxbAttribute a : value.getAttribute()) {
-			resultMap.put(a.type, a.value);
+			resultMap.put(a.key, a.value);
 		}
 		return resultMap;
 	}
