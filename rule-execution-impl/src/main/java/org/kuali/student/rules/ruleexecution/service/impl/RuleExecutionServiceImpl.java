@@ -55,8 +55,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     private RuleManagementService ruleManagementService;
 
-    private  static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
-
     /**
      * Gets the rule execution engine.
      * 
