@@ -24,7 +24,7 @@ public class Main implements EntryPoint {
             }
 
             public void onSuccess(List<String> stringList) {
-                System.out.println("LOading rules info");
+                System.out.println("LOading info");
                 // add the results to the model
                 for (String rInfo : stringList) {
                     RootPanel.get().add(new HTML(rInfo));
