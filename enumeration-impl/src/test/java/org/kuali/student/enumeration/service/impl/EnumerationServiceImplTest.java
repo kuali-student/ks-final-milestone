@@ -417,7 +417,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         }
         
         //update
-        /*update currently fails on context updates
+        //update currently fails on context updates
         dto.setCode("newCode");
         dto.setValue("newValue");
         dto.getContexts().getContext().get(0).setType("newType");
@@ -441,7 +441,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         	assertEquals(c.getValue(), "newContextValue");
         	i++;
         }
-        */
+        
 	}
 	
 	@Test
@@ -468,9 +468,9 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.getContexts().setContext(dtoContext);
         //add first
 		enumService.addEnumeratedValue("Key4", dto);
-		//enumService.removeEnumeratedValue("Key4", "c");
-		//EnumeratedValueList result = enumService.fetchEnumeration("Key4", "ContextA", "1", new Date(baseTime));
-		//List<EnumeratedValue> list = result.getEnumeratedValue();
-		//assertTrue(list.isEmpty());
+		enumService.removeEnumeratedValue("Key4", "c");
+		EnumeratedValueList result = enumService.fetchEnumeration("Key4", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValue> list = result.getEnumeratedValue();
+		assertTrue(list.isEmpty());
 	}
 }
