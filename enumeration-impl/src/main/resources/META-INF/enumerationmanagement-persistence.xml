@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+    <persistence-unit name="EnumerationManagement" transaction-type="JTA">
+      <class>org.kuali.student.enumeration.entity.EnumeratedValueEntity</class>
+      <class>org.kuali.student.enumeration.entity.ContextEntity</class>
+      <class>org.kuali.student.enumeration.entity.ContextMetaEntity</class>
+      <class>org.kuali.student.enumeration.entity.EnumeratedValueFieldEntity</class>
+      <class>org.kuali.student.enumeration.entity.EnumerationMetaEntity</class>
+    </persistence-unit>
+</persistence>
+
+
+

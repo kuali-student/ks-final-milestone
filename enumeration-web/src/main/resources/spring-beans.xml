@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<context:property-placeholder
+		location="classpath:application.properties" />
+
+	<bean id="enumerationGWTClientService"		
+		class="org.kuali.student.enumeration.web.server.impl.EnumerationGWTClientServiceImpl">
+		<property name="enumerationService" ref="enumerationClient" />	
+		</bean>
+
+   <bean id="enumerationClient"
+		 class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		 <property name="wsdlLocation"
+		     value="classpath:wsdl/EnumerationService.wsdl" />
+		 <property name="serviceEndpointInterface"
+		     value="org.kuali.student.enumeration.service.EnumerationService" />
+		 <property name="serviceQNameString"
+		     value="{http://student.kuali.org/wsdl/EnumerationService}EnumerationService" />
+		 <property name="address"
+		     value="${ks.servicelocation.EnumerationService}" />
+    </bean>
+	
+	
+	<!-- Spring to GWT servlet mapping -->
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/org.kuali.student.enumeration.web.Main/GuiService">
+				             
+					<ref bean="enumerationGWTClientController"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="enumerationGWTClientController"
+		class="org.kuali.student.enumeration.util.server.ServletWrappingController">
+		<property name="servletName"     value="enumerationClientService" />
+		<property name="servletInstance" ref="enumerationClientService" />
+	</bean>	
+	
+	<bean id="enumerationClientService"
+		class="org.kuali.student.enumeration.web.server.gwt.EnumerationGWTClientServiceImplGWT">
+		<property name="serviceImpl">
+			<bean
+			      class="org.kuali.student.enumeration.web.server.impl.EnumerationGWTClientServiceImpl">
+			    <property name="enumerationService" ref="enumerationClient" />
+			</bean>
+		</property>
+	</bean>	
+</beans>
