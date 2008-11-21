@@ -7,10 +7,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.*;
 
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
 import org.kuali.student.enumeration.entity.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
@@ -60,8 +62,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
     
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
-        this.removeEnumeratedValue(enumerationKey, code);
-        this.addEnumeratedValue(enumerationKey, enumeratedValueEntity);
+        //this.removeEnumeratedValue(enumerationKey, code);
+        //this.addEnumeratedValue(enumerationKey, enumeratedValueEntity);
     	
     	//Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value where e.enumerationKey = :key and e.code = :code");
         //query.setParameter("key", enumerationKey);
@@ -69,25 +71,29 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         //query.setParameter("value", enumeratedValueEntity.getValue());
         
         //query.executeUpdate();
-    	/*
+    	EnumeratedValueEntity returnValue = null;
     	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
         for(EnumeratedValueEntity e: list){
         	if(e.getCode().equals(code)){
-        		for(ContextEntity c: e.getContextEntityList()){
-        			for(ContextEntity newContext : enumeratedValueEntity.getContextEntityList()){
-        				if(c.getId().equals(newContext.getId())){
-        					c.getC
-        				}
-        			}
-        			
-        		}
+        		e.setCode(enumeratedValueEntity.getCode());
+        		e.setEffectiveDate(enumeratedValueEntity.getEffectiveDate());
+        		e.setExpirationDate(enumeratedValueEntity.getExpirationDate());
+        		e.setEnumerationKey(enumerationKey);
+        		e.setSortKey(enumeratedValueEntity.getSortKey());
+        		e.setValue(enumeratedValueEntity.getValue());
+        		e.setAbbrevValue(enumeratedValueEntity.getAbbrevValue());
+        		e.setContextEntityList(enumeratedValueEntity.getContextEntityList());
+        		entityManager.merge(e);
+        		returnValue = e;
         	}
-        */
+        }
+        
+        
     	//entityManager.merge(enumeratedValueEntity);
     	//for(ContextEntity c: enumeratedValueEntity.getContextEntityList()){
     		//entityManager.merge(c);
     	//}
-
+/*
     	Query query = entityManager.createQuery(
 	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
 	            "where e.enumerationKey = :enumerationKey "+
@@ -95,10 +101,12 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		query.setParameter("enumerationKey", enumerationKey);
         query.setParameter("code", code);
         Object obj = query.getResultList().get(0);
-
-        return (EnumeratedValueEntity) obj;
+*/
+        
+        //return (EnumeratedValueEntity) obj;
+        return returnValue;
     }
-
+    
     public void removeEnumeratedValue(String enumerationKey, String code) {
         //Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
         //query.setParameter("key", enumerationKey);
