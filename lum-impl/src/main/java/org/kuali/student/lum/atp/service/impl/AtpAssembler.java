@@ -12,7 +12,9 @@ import org.kuali.student.core.entity.AttributeDef;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
 import org.kuali.student.core.entity.Type;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.atp.dao.AtpDao;
 import org.kuali.student.lum.atp.dto.AtpInfo;
 import org.kuali.student.lum.atp.dto.AtpTypeInfo;
@@ -36,13 +38,16 @@ public class AtpAssembler {
 
 	public static DateRange toDateRange(boolean isUpdate,
 			DateRangeInfo dateRangeInfo, AtpDao dao)
-			throws InvalidParameterException {
+			throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
 
 		DateRange dateRange;
 		if (isUpdate) {
 			dateRange = dao.fetch(DateRange.class, dateRangeInfo.getKey());
 			if (dateRange == null) {
-				return null;
+				throw new DoesNotExistException("DateRange does not exist for key: " + dateRangeInfo.getKey());
+			}
+			if (!String.valueOf(dateRange.getVersionInd()).equals(dateRangeInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("DateRange to be updated is not the current version");
 			}
 		} else {
 			dateRange = new DateRange();
@@ -73,9 +78,6 @@ public class AtpAssembler {
 							+ dateRangeInfo.getType());
 		}
 		dateRange.setType(dateRangeType);
-
-		// Create a new meta?
-		dateRange.setMeta(new Meta());
 
 		return dateRange;
 	}
@@ -123,12 +125,15 @@ public class AtpAssembler {
 	}
 
 	public static Atp toAtp(boolean isUpdate, AtpInfo atpInfo, AtpDao dao)
-			throws InvalidParameterException {
+			throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
 		Atp atp;
 		if (isUpdate) {
 			atp = dao.fetch(Atp.class, atpInfo.getKey());
 			if (atp == null) {
-				return null;
+				throw new DoesNotExistException("Atp does not exist for key: " + atp.getKey());
+			}
+			if (!String.valueOf(atp.getVersionInd()).equals(atpInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("Atp to be updated is not the current version");
 			}
 		} else {
 			atp = new Atp();
@@ -149,9 +154,6 @@ public class AtpAssembler {
 					"AtpType does not exist for key: " + atpInfo.getType());
 		}
 		atp.setType(atpType);
-
-		// Create a new meta?
-		atp.setMeta(new Meta());
 
 		return atp;
 	}
@@ -209,13 +211,16 @@ public class AtpAssembler {
 
 	public static Milestone toMilestone(boolean isUpdate,
 			MilestoneInfo milestoneInfo, AtpDao dao)
-			throws InvalidParameterException {
+			throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
 
 		Milestone milestone;
 		if (isUpdate) {
 			milestone = dao.fetch(Milestone.class, milestoneInfo.getKey());
 			if (milestone == null) {
-				return null;
+				throw new DoesNotExistException("Milestone does not exist for key: " + milestoneInfo.getKey());
+			}
+			if (!String.valueOf(milestone.getVersionInd()).equals(milestoneInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("Milestone to be updated is not the current version");
 			}
 		} else {
 			milestone = new Milestone();
@@ -246,9 +251,6 @@ public class AtpAssembler {
 							+ milestoneInfo.getType());
 		}
 		milestone.setType(milestoneType);
-
-		// Create a new meta?
-		milestone.setMeta(new Meta());
 
 		return milestone;
 

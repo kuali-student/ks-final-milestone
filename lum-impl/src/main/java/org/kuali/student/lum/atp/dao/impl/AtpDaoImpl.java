@@ -74,7 +74,10 @@ public class AtpDaoImpl implements AtpDao {
 	
 	@Override
 	public <T> T update(T entity) {
-		return em.merge(entity);
+		T updated =  em.merge(entity);
+		//We need to flush here to make sure the version number is updated before we populate any messages that return the version
+		em.flush();
+		return updated;
 	}
 
 	@SuppressWarnings("unchecked")

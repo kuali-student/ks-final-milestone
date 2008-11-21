@@ -55,7 +55,13 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 
 		dateRangeInfo.setAtpKey(atpKey);
 		dateRangeInfo.setKey(dateRangeKey);
-		DateRange dateRange = AtpAssembler.toDateRange(false, dateRangeInfo,atpDao);
+		DateRange dateRange = null;
+		
+		try {
+			dateRange = AtpAssembler.toDateRange(false, dateRangeInfo,atpDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
 		
 		atpDao.create(dateRange);
 		
@@ -89,7 +95,12 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 
 		milestoneInfo.setAtpKey(atpKey);
 		milestoneInfo.setKey(milestoneKey);
-		Milestone milestone = AtpAssembler.toMilestone(false, milestoneInfo,atpDao);
+		Milestone milestone = null;
+		try {
+			milestone = AtpAssembler.toMilestone(false, milestoneInfo,atpDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
 		
 		atpDao.create(milestone);
 		
@@ -108,7 +119,12 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		atpInfo.setType(atpTypeKey);
 		atpInfo.setKey(atpKey);
 		
-		Atp atp = AtpAssembler.toAtp(false, atpInfo, atpDao);
+		Atp atp = null;
+		try {
+			atp = AtpAssembler.toAtp(false, atpInfo, atpDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
 		
 		atpDao.create(atp);
 		
@@ -422,9 +438,6 @@ public class AtpServiceImpl extends DictionarySearchServiceImpl implements AtpSe
 		dateRangeInfo.setKey(dateRangeKey);
 		
 		DateRange dateRange = AtpAssembler.toDateRange(true, dateRangeInfo, atpDao);
-		if(dateRange==null){
-			throw new DoesNotExistException("DateRange does not exist for key: " + dateRangeKey);
-		}
 		
 		DateRange updatedDateRange = atpDao.update(dateRange);
 		
