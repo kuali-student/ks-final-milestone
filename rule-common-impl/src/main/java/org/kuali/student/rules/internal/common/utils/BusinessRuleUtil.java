@@ -345,6 +345,10 @@ public class BusinessRuleUtil {
     	Class<?> clazz = value.getClass();
     	return convertToDataType(clazz, value);
     }
+
+    public static Object convertToDataType(final Class<?> clazz, final String value) {
+    	return convertToDataType(clazz.getName(), value);
+    }
     
     public static Object convertToDataType(final String className, final String value) {
     	Class<?> clazz = null;
@@ -377,6 +381,9 @@ public class BusinessRuleUtil {
     	}
     	else if (clazz.equals(Short.class)) {
     		return new Short(value);
+    	}
+    	else if (clazz.equals(Byte.class)) {
+    		return new Byte(value);
     	}
     	else if (clazz.equals(BigDecimal.class)) {
     		return new BigDecimal(value);
@@ -478,7 +485,7 @@ public class BusinessRuleUtil {
      * @return
      */
     public static Date convertDate(String value) {
-		try {
+    	try {
 			return dateFormat.parse(value);
 		} catch (ParseException e) {
 			throw new RuntimeException("Data type conversion error", e);
