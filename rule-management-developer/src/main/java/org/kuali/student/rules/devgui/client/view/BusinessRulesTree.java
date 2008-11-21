@@ -37,14 +37,23 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
     @Override
     public List<String> getPath(RulesHierarchyInfo modelObject) {
         final List<String> items = new ArrayList<String>();
-
+       
+        //remove "KUALI_" from the Agenda Type since it is given and makes the string too long
         String agendaType = modelObject.getAgendaType();
+        if (agendaType.startsWith("KUALI_")) {
+        	agendaType = agendaType.substring(6);
+        }
+        
         if ((agendaType == null) || (agendaType.isEmpty())) {
             return items;
         }
         items.add(agendaType);
 
         String ruleType = modelObject.getBusinessRuleType();
+        if (ruleType.startsWith("KUALI_")) {
+        	ruleType = ruleType.substring(6);
+        }        
+        
         if ((ruleType == null) || (ruleType.isEmpty())) {
             return items;
         }

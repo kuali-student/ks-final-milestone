@@ -4,6 +4,7 @@
 package org.kuali.student.rules.devgui.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,13 +21,19 @@ import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
+import org.kuali.student.rules.devgui.client.GuiUtil.YieldValueFunctionType;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
+import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
@@ -43,6 +50,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -114,7 +122,18 @@ public class RulesComposite extends Composite {
     final TextBox ruleAnchorTextBox = new TextBox();
 
     // Propositions rules tab
+    //YVF - for now, hard code the number of parameters (1 or 2) and number of facts (up to 2)
     final ListBox yvfListBox = new ListBox();
+    final ListBox yvfFirstFactCriteriaTypeListBox = new ListBox();
+    final Label yvfFirstFactParamOneLabel = new Label();
+    final TextBox yvfFirstFactParamOneTextBox = new TextBox();
+    final Label yvfFirstFactParamTwoLabel = new Label();
+    final TextBox yvfFirstFactParamTwoTextBox = new TextBox();    
+    final ListBox yvfSecondFactCriteriaTypeListBox = new ListBox();
+    final Label yvfSecondFactParamOneLabel = new Label();
+    final TextBox yvfSecondFactParamOneTextBox = new TextBox();
+    final Label yvfSecondFactParamTwoLabel = new Label();
+    final TextBox yvfSecondFactParamTwoTextBox = new TextBox();    
     final TextBox propNameTextBox = new TextBox();
     final TextBox propDescTextBox = new TextBox();
     final ListBox operatorsListBox = new ListBox();
@@ -171,9 +190,13 @@ public class RulesComposite extends Composite {
     private RulesHierarchyInfo displayedRuleInfo = null; // keep copy of rule meta info
     private Map<Integer, RulePropositionDTO> definedPropositions = new HashMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
+    private List<String> factTypeKeyList = null;  // keep copy of current list of factTypeKeys based on business rule type
+    private boolean loadingFactTypeKeyList = false;  //TODO 'loading' icon; also for other drop downs
+    private String factTypeKeyListSelectedValue = null;
     private final String STATUS_NOT_IN_DATABASE = "NOT_IN_DATABASE";
     private final String EMPTY_AGENDA_TYPE = "drafts";
-    //private boolean emptyRuleLoaded = true;
+    private final String EMPTY_LIST_BOX_ITEM = "        ";
+
 
 
     @Override
@@ -201,20 +224,18 @@ public class RulesComposite extends Composite {
 
             // create panel with a tree on left and a form on the right
             rulesHorizontalSplitPanel.setLeftWidget(rulesTree);
-            //rulesTree.setStyleName("gwt-Tree-rules");
             rulesHorizontalSplitPanel.setRightWidget(addRulesForm());
             rulesHorizontalSplitPanel.setSize("100%", "100%");
-            rulesHorizontalSplitPanel.setSplitPosition("30%");
+            rulesHorizontalSplitPanel.setSplitPosition("35%");
 
             // scroll panel on the bottom for log/error messages
-            rulesScrollPanel.setSize("100%", "0%");    // TODO setSize("100%", "100%");
-            
+            rulesScrollPanel.setSize("100%", "0%");    // TODO setSize("100%", "100%");            
 
             // add tree/form and scroll panel together
             rulesVerticalSplitPanel.setSize("100%", "800px");
             rulesVerticalSplitPanel.setTopWidget(rulesHorizontalSplitPanel);
             rulesVerticalSplitPanel.setBottomWidget(rulesScrollPanel);
-            rulesVerticalSplitPanel.setSplitPosition("80%");
+            rulesVerticalSplitPanel.setSplitPosition("90%");
             // simplePanel.setSize("100%", "100%");
             simplePanel.add(rulesVerticalSplitPanel);                   
             
@@ -247,9 +268,7 @@ public class RulesComposite extends Composite {
                         public void onSuccess(BusinessRuleInfoDTO ruleInfo) {
                         	loadExistingRule(ruleInfo);
                         }
-                    });
-                    
-                    //emptyRuleLoaded = false;
+                    });                    
                 }
             });
 
@@ -279,7 +298,7 @@ public class RulesComposite extends Composite {
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
-
+                   
                     // 3) create new draft rule
                     DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<String>() {
                         public void onFailure(Throwable caught) {
@@ -327,7 +346,7 @@ public class RulesComposite extends Composite {
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
-
+                   
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -360,7 +379,7 @@ public class RulesComposite extends Composite {
                     
                     //activated Draft will become a rule
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
-
+                    
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -462,7 +481,17 @@ public class RulesComposite extends Composite {
             /****************************************************************************************************************
              * listeners for proposition ADD, UPDATE, DELETE, RESET buttons
              ***************************************************************************************************************/
-
+            propositionsListBox.addClickListener(new ClickListener() {
+                public void onClick(Widget sender) {
+                    ListBox box = ((ListBox) sender);
+                    RulePropositionDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(box.getSelectedIndex())));
+                    if (selectedRuleElement == null) {
+                        return;
+                    }
+                    populatePropositionDetails(selectedRuleElement);
+                }
+            });
+            
             updatePropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
                     int selectedProp = propositionsListBox.getSelectedIndex();
@@ -548,9 +577,15 @@ public class RulesComposite extends Composite {
             });
 
             /****************************************************************************************************************
-             * listeners for COMPOSITION and COMPLETE TEXT elements of a rule
+             * listeners for YVF drop downs, COMPOSITION and COMPLETE TEXT elements of a rule
              ***************************************************************************************************************/
-
+                             
+            yvfFirstFactCriteriaTypeListBox.addChangeListener(new ChangeListener() {
+                public void onChange(final Widget sender) {
+                    //TODO
+                }
+            });            
+            
             validateCompositionButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
                     compositionStatusLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
@@ -617,6 +652,8 @@ public class RulesComposite extends Composite {
         displayedRule = createEmptyBusinessRule();
     	clearRuleForms();
     	displayedRuleInfo = null;
+    	factTypeKeyList = null;
+    	factTypeKeyListSelectedValue = null;
     	setRuleStatus(STATUS_NOT_IN_DATABASE);
     	populateAgendaAndBusinessRuleTypesListBox();
         updateRulesFormButtons(displayedRule.getStatus()); 
@@ -626,12 +663,8 @@ public class RulesComposite extends Composite {
     private void loadExistingRule(BusinessRuleInfoDTO ruleInfo) {
     	
         displayedRule = ruleInfo;
-        
-        //TODO remove after code update
-        //displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name());
-
         updateRulesFormButtons(ruleInfo.getStatus());
-    	
+      
         // store individual propositions in a temporary list & set Rule Composition text
         int propCount = 1;
         ruleComposition = new StringBuffer();
@@ -646,7 +679,6 @@ public class RulesComposite extends Composite {
             }
         }
 
-        // populate the proposition details according to first prop selected by default
         displayActiveRule();    	
     }
     
@@ -829,6 +861,7 @@ public class RulesComposite extends Composite {
     	displayedRuleInfo.setBusinessRuleId(newRuleID);      	
     }
     
+   
     /******************************************************************************************************************
      * 
      *                                                     VALIDATIONS 
@@ -916,7 +949,7 @@ public class RulesComposite extends Composite {
     	System.out.println("Business rule type: " + businessRuleType);       	
     	
     	//populate agenda type list box if it is empty
-    	if (agendaTypesListBox.getItemCount() == 0) {
+    	if (agendaTypesListBox.getItemCount() == 0) {    		
 	        DevelopersGuiService.Util.getInstance().findAgendaTypes(new AsyncCallback<List<String>>() {
 	            public void onFailure(Throwable caught) {
 	                // just re-throw it and let the uncaught exception handler deal with it
@@ -926,7 +959,7 @@ public class RulesComposite extends Composite {
 	
 	            public void onSuccess(List<String> agendaTypes) {
 	            	agendaTypesListBox.clear();
-	            	agendaTypesListBox.addItem("                       ");  //TODO "Please Select"
+	            	agendaTypesListBox.addItem(EMPTY_LIST_BOX_ITEM);
 	                for (String agendaTypeKey : agendaTypes) {
 	                	agendaTypesListBox.addItem(agendaTypeKey);
 	                }	
@@ -975,7 +1008,7 @@ public class RulesComposite extends Composite {
 
             public void onSuccess(List<String> businessRuleTypes) {
             	businessRuleTypesListBox.clear();
-            	businessRuleTypesListBox.addItem("                       ");  //TODO "Please Select"
+            	businessRuleTypesListBox.addItem(EMPTY_LIST_BOX_ITEM);
                 for (String businessRuleTypeKey : businessRuleTypes) {
                 	businessRuleTypesListBox.addItem(businessRuleTypeKey);
                 }
@@ -1003,6 +1036,7 @@ public class RulesComposite extends Composite {
         ruleAnchorTextBox.setText(displayedRule.getAnchorValue());
 
         // populate Propositions TAB
+        // populate the proposition details according to first prop selected by default        
         populatePropositionListBoxAndDetails(0);
 
         propCompositionTextArea.setText(ruleComposition.toString());
@@ -1032,7 +1066,7 @@ public class RulesComposite extends Composite {
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
         rulesFormTabs.add(addRRulesTestPage(), "Test");
-        rulesFormTabs.setSize("90%", "500px");
+        rulesFormTabs.setSize("90%", "550px");
         rulesFormTabs.selectTab(1);
 
         //show buttons
@@ -1574,16 +1608,6 @@ public class RulesComposite extends Composite {
         horizontalPanel.setSize("100%", "100%");
 
         propositionsListBox.setVisibleItemCount(10);
-        propositionsListBox.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
-                ListBox box = ((ListBox) sender);
-                RulePropositionDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(box.getSelectedIndex())));
-                if (selectedRuleElement == null) {
-                    return;
-                }
-                populatePropositionDetails(selectedRuleElement);
-            }
-        });
         propositionsListBox.setWidth("150px");
 
         // **********************************************************
@@ -1600,89 +1624,67 @@ public class RulesComposite extends Composite {
         // Propositions details
         // **********************************************************
         final SimplePanel propDetailsBorder = new SimplePanel();
-        final FlexTable flexPropositionDetailsTable = new FlexTable();
+        final VerticalPanel flexPropositionDetailsTable = new VerticalPanel();
+        flexPropositionDetailsTable.setWidth("100%");
+        flexPropositionDetailsTable.setSpacing(5);
         propDetailsBorder.add(flexPropositionDetailsTable);
+       
 
         // Proposition Name
-        final VerticalPanel vp = new VerticalPanel();
-        vp.setWidth("100%");
-        final Label propNameLabel = new Label("Name");
-        vp.add(propNameLabel);
-        propNameTextBox.setWidth("50%");
-        vp.add(propNameTextBox);
-        flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(0, 1, 3);
-        flexPropositionDetailsTable.setWidget(0, 1, vp);
-
+        final HorizontalPanel hpPropName = new HorizontalPanel(); 
+        hpPropName.setWidth("100%");
+        hpPropName.add(GuiUtil.addLabelAndField("Name", propNameTextBox, "50%"));
+        flexPropositionDetailsTable.add(hpPropName);
+        
         // Proposition Description
-        final VerticalPanel vp0 = new VerticalPanel();
-        vp0.setWidth("100%");
-        final Label propDescLabel = new Label("Description");
-        vp0.add(propDescLabel);
-        propDescTextBox.setWidth("100%");
-        vp0.add(propDescTextBox);
-        flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(1, 1, 3);
-        flexPropositionDetailsTable.setWidget(1, 1, vp0);
-
-        // YVF
-        flexPropositionDetailsTable.getCellFormatter().setWidth(2, 0, "10px");
-        final VerticalPanel vp1 = new VerticalPanel();
-        final Label yvfLabel = new Label("YVF");
-        vp1.add(yvfLabel);
+        final HorizontalPanel hpPropDesc = new HorizontalPanel();        
+        hpPropDesc.setWidth("100%");        
+        hpPropDesc.add(GuiUtil.addLabelAndField("Description", propDescTextBox, "70%"));
+ 
+        flexPropositionDetailsTable.add(hpPropDesc);
+        
+        //add proposition left, operator and right hand side  
+        yvfListBox.addItem(EMPTY_LIST_BOX_ITEM );
         GuiUtil.populateYVFList(yvfListBox);
-        vp1.add(yvfListBox);
-        flexPropositionDetailsTable.setWidget(2, 1, vp1);
-
-        // Operator
-        final VerticalPanel vp2 = new VerticalPanel();
-        final Label operatorLabel = new Label("Operator");
-        vp2.add(operatorLabel);
-
+        operatorsListBox.addItem(EMPTY_LIST_BOX_ITEM);
         GuiUtil.populateComparisonOperatorList(operatorsListBox);
-        operatorsListBox.setWidth("80px");
-        vp2.add(operatorsListBox);
-        flexPropositionDetailsTable.setWidget(2, 2, vp2);
+        final HorizontalPanel hpLeftOpRightSide = new HorizontalPanel();
+        hpLeftOpRightSide.add(GuiUtil.addLabelAndField("YVF", yvfListBox, "200px"));
+        GuiUtil.addSpaceAfterWidget(hpLeftOpRightSide, "15px");
+        hpLeftOpRightSide.add(GuiUtil.addLabelAndField("Operator", operatorsListBox, "80px"));
+        GuiUtil.addSpaceAfterWidget(hpLeftOpRightSide, "15px");
+        hpLeftOpRightSide.add(GuiUtil.addLabelAndField("Expected Value", expectedValueTextBox, "150px"));                        
+        flexPropositionDetailsTable.add(hpLeftOpRightSide);        
 
-        // Expected Value
-        final VerticalPanel vp3 = new VerticalPanel();
-        final Label expectedValueLabel = new Label("Expected Value");
-        vp3.add(expectedValueLabel);
-        expectedValueTextBox.setWidth("100%");
-        vp3.add(expectedValueTextBox);
-        flexPropositionDetailsTable.setWidget(2, 3, vp3);
+        // Yield Value Function details  
+        
+        //first fact criteria fields
+        final HorizontalPanel hpFirstCriteria = new HorizontalPanel();
+        hpFirstCriteria.add(GuiUtil.addLabelAndField("", new Label("First YVF Fact:"), "150px"));   
+        hpFirstCriteria.add(GuiUtil.addLabelAndField("Fact Type:", yvfFirstFactCriteriaTypeListBox, "150px"));
+        GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "15px");       
+        hpFirstCriteria.add(GuiUtil.addLabelAndField(yvfFirstFactParamOneLabel, yvfFirstFactParamOneTextBox, "150px"));
+        GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "15px");
+        hpFirstCriteria.add(GuiUtil.addLabelAndField(yvfFirstFactParamTwoLabel, yvfFirstFactParamTwoTextBox, "150px"));
+        flexPropositionDetailsTable.add(hpFirstCriteria);        
 
-        // Yield Value Function details
-        final VerticalPanel vp4 = new VerticalPanel();
-        final Label param1Label = new Label("First YVF Parameter:");
-        vp4.add(param1Label);
-        ListBox param1ListBox = new ListBox();
-        param1ListBox.addItem("   param1");
-        param1ListBox.addItem("   param2");
-        param1ListBox.addItem("   param3");
-        param1ListBox.addItem("   param4");
-        param1ListBox.setWidth("80px");
-        vp4.add(param1ListBox);
-        flexPropositionDetailsTable.setWidget(5, 1, vp4);
+        //second fact criteria fields
+        final HorizontalPanel hpSecondCriteria = new HorizontalPanel();
+        hpSecondCriteria.add(GuiUtil.addLabelAndField("", new Label("Second YVF Fact:"), "150px"));          
+        hpSecondCriteria.add(GuiUtil.addLabelAndField("Fact Type:", yvfSecondFactCriteriaTypeListBox, "150px"));
+        GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "15px");     
+        hpSecondCriteria.add(GuiUtil.addLabelAndField(yvfSecondFactParamOneLabel, yvfSecondFactParamOneTextBox, "150px"));
+        GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "15px");       
+        hpSecondCriteria.add(GuiUtil.addLabelAndField(yvfSecondFactParamTwoLabel, yvfSecondFactParamTwoTextBox, "150px"));
+        flexPropositionDetailsTable.add(hpSecondCriteria);             
 
-        final VerticalPanel vp5 = new VerticalPanel();
-        final Label param2Label = new Label("Second YVF Parameter:");
-        vp5.add(param2Label);
-        ListBox param2ListBox = new ListBox();
-        param2ListBox.addItem("   param1");
-        param2ListBox.addItem("   param2");
-        param2ListBox.addItem("   param3");
-        param2ListBox.addItem("   param4");
-        param2ListBox.setWidth("80px");
-        vp5.add(param2ListBox);
-        flexPropositionDetailsTable.setWidget(6, 1, vp5);
-
-        HorizontalPanel hp = new HorizontalPanel();
-        hp.setSpacing(8);
-        hp.add(updatePropButton);
-        hp.add(resetPropButton);
-        hp.add(addPropButton);
-        hp.add(deletePropButton);
-        flexPropositionDetailsTable.setWidget(7, 1, hp);
-        flexPropositionDetailsTable.getFlexCellFormatter().setColSpan(7, 1, 3);
+        HorizontalPanel hpButtons = new HorizontalPanel();
+        hpButtons.setSpacing(8);
+        hpButtons.add(updatePropButton);
+        hpButtons.add(resetPropButton);
+        hpButtons.add(addPropButton);
+        hpButtons.add(deletePropButton);
+        flexPropositionDetailsTable.add(hpButtons);        
 
         horizontalPanel.add(flexPropositionDetailsTable);
         horizontalPanel.setCellHeight(propListPanel, "75%");
@@ -1704,7 +1706,7 @@ public class RulesComposite extends Composite {
 
         propCompositionTextArea.setSize("100%", "100%");
         ruleCompositionFlexTable.setWidget(1, 0, propCompositionTextArea);
-        ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(1, 0, 3);
+        ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(1, 0, 4);
         ruleCompositionFlexTable.getCellFormatter().setHeight(1, 0, "63px");
         ruleCompositionFlexTable.getCellFormatter().setWidth(1, 0, "60%");
         ruleCompositionFlexTable.setWidget(2, 2, validateCompositionButton);
@@ -1727,6 +1729,24 @@ public class RulesComposite extends Composite {
         return propositionsFlexTable;
     }    
     
+    private void populatePropositionListBoxAndDetails(int selectedPropIx) {
+        String propAbreviation;
+
+        propositionsListBox.clear();
+        for (Map.Entry<Integer, RulePropositionDTO> prop : definedPropositions.entrySet()) {
+            propAbreviation = "P" + prop.getKey();
+            propositionsListBox.addItem(propAbreviation + ":  " + prop.getValue().getName(), prop.getKey().toString());
+
+            if ((prop.getKey().intValue() - 1) == selectedPropIx) {
+                populatePropositionDetails(prop.getValue());
+            }
+        }
+        propositionsListBox.setSelectedIndex(selectedPropIx);
+        if (selectedPropIx == -1) {
+            clearPropositionDetails();
+        }
+    }    
+    
     private void populatePropositionListBoxAndDetailsTest(int selectedPropIx) {
         String propAbreviation;
 
@@ -1744,15 +1764,156 @@ public class RulesComposite extends Composite {
             clearPropositionDetails();
         }
     }
-
+    
     private void populatePropositionDetails(RulePropositionDTO prop) {
         propNameTextBox.setText(prop.getName());
-        propDescTextBox.setText(prop.getDescription());
-        yvfListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(yvfListBox, prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType()));
+        propDescTextBox.setText(prop.getDescription());        
         operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorType()));
-        expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());
+        expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());        
+        populateYVFDetails(prop.getLeftHandSide().getYieldValueFunction());        
     }
+    
+    private void populateYVFDetails(YieldValueFunctionDTO yvf) {
 
+    	//first reset YVF fields
+	    GuiUtil.setListBoxByItemName(yvfListBox, "");
+    	
+	    GuiUtil.setListBoxByItemName(yvfFirstFactCriteriaTypeListBox, "");
+        yvfFirstFactCriteriaTypeListBox.setEnabled(false);
+        yvfFirstFactParamOneLabel.setText("<first param>");
+        yvfFirstFactParamOneTextBox.setText("");
+        yvfFirstFactParamOneTextBox.setEnabled(false);
+        yvfFirstFactParamTwoLabel.setText("<second param>");
+        yvfFirstFactParamTwoTextBox.setText("");
+        yvfFirstFactParamTwoTextBox.setEnabled(false);
+        
+	    GuiUtil.setListBoxByItemName(yvfSecondFactCriteriaTypeListBox, "");
+        yvfSecondFactCriteriaTypeListBox.setEnabled(false);
+        yvfSecondFactParamOneLabel.setText("<first param>");
+        yvfSecondFactParamOneTextBox.setText("");
+        yvfSecondFactParamOneTextBox.setEnabled(false);
+        yvfSecondFactParamTwoLabel.setText("<second param>");
+        yvfSecondFactParamTwoTextBox.setText("");
+        yvfSecondFactParamTwoTextBox.setEnabled(false);     	
+    	
+        // do not enable YVF fact parameters if no YVF is selected or we don't know the rule type
+        if ((yvf == null) || yvf.getYieldValueFunctionType().equals(EMPTY_LIST_BOX_ITEM) ||
+        	(displayedRule == null) || (displayedRule.getBusinessRuleTypeKey().trim().isEmpty())) {
+        	return;	//no selection of YVF yet
+        }
+        
+        GuiUtil.setListBoxByItemName(yvfListBox, yvf.getYieldValueFunctionType());
+        
+        //find the first fact type selected, if any
+        yvfFirstFactCriteriaTypeListBox.setEnabled(true);
+        
+        System.out.println("Populate prop, factTypeKeyList: " + factTypeKeyList);     
+        
+        List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
+        
+        if (factStructureList.size() == 0) {
+        	System.out.println("No facts???");
+        	return;  //no facts? TODO log error?
+        }        
+        
+        FactStructureDTO firstFact = factStructureList.get(0);
+        Map<String, String> map = firstFact.getParamValueMap();
+        System.out.println("======================================================");
+        System.out.println("MAP: " + map.toString());        
+        System.out.println("FACT TYPE KEY: " + firstFact.getFactTypeKey());
+        System.out.println("Static fact: " + firstFact.isStaticFact());
+        
+        //if a Fact is static then we don't need to go to the Fact Service 
+        if (firstFact.isStaticFact()) {
+            System.out.println("Static fact value data type: " + firstFact.getStaticValueDataType());  //TODO use somehow
+            System.out.println("Static fact type key: " + firstFact.getFactTypeKey());
+            System.out.println("Static fact VALUE: " + firstFact.getStaticValue());            
+        
+    	}
+        System.out.println("======================================================");       
+        
+        //waiting for Kamal to implement...
+        //FactCriteriaTypeInfoDTO firstCriteria = firstFact.getCriteriaTypeInfo();
+        //System.out.println(firstCriteria.getKey());
+        //System.out.println(firstCriteria.getName());
+        //System.out.println(firstCriteria.getDescription());                   
+        //Map<String, FactParamDTO> mapParam = firstCriteria.getFactParamMap();
+        //System.out.println(mapParam.toString());
+        
+        //get fact type
+        if (firstFact.isStaticFact() == false) {
+			DevelopersGuiService.Util.getInstance().fetchFactType(firstFact.getFactTypeKey(),
+																	new AsyncCallback<FactTypeInfoDTO>() {
+	            public void onFailure(Throwable caught) {
+	                // just re-throw it and let the uncaught exception handler deal with it
+	                Window.alert(caught.getMessage());
+	                //loadingFactTypeKeyList = false;
+	                // throw new RuntimeException("Unable to load fact type key list", caught);
+	            }
+	
+	            public void onSuccess(FactTypeInfoDTO factTypeInfo) {
+	            	FactCriteriaTypeInfoDTO factCriteriaTypeInfo = factTypeInfo.getFactCriteriaTypeInfo();
+	            	System.out.println(factCriteriaTypeInfo.getDescription());
+	            	System.out.println(factCriteriaTypeInfo.getKey());
+	            	System.out.println(factCriteriaTypeInfo.getName());
+	            	Map<String, FactParamDTO> paramMap = factCriteriaTypeInfo.getFactParamMap();
+	            	System.out.println("Param Map:" + paramMap.toString());
+	            }
+	        });            
+        }
+        
+        /*
+        if (paramValueMap.size() > 0) {
+	        yvfFirstFactCriteriaListBox.setEnabled(true);
+	        yvfFirstFactParamOneLabel.setText(paramValueMap.);
+	        yvfFirstFactParamOneTextBox.setText("");
+	        yvfFirstFactParamOneTextBox.setEnabled(false);        
+        }
+        
+
+        yvfFirstFactParamTwoLabel.setText("<second param>");
+        yvfFirstFactParamTwoTextBox.setText("");
+        yvfFirstFactParamTwoTextBox.setEnabled(false);
+    	*/
+        
+        
+    	//load a new fact type key list if it is missing (because of new business rule
+    	if (factTypeKeyList == null) {    	
+	        //load list of factTypeKeys for the given business rule type
+	        //TODO in proposition form, make indication that the param list boxes are still being loaded...
+        	loadingFactTypeKeyList = true;
+    		DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(displayedRule.getBusinessRuleTypeKey(),
+    				displayedRule.getAnchorTypeKey(),new AsyncCallback<BusinessRuleTypeDTO>() {
+	            public void onFailure(Throwable caught) {
+	                // just re-throw it and let the uncaught exception handler deal with it
+	                Window.alert(caught.getMessage());
+	                //loadingFactTypeKeyList = false;
+	                // throw new RuntimeException("Unable to load fact type key list", caught);
+	            }
+	
+	            public void onSuccess(BusinessRuleTypeDTO ruleTypeInfo) {
+	            	factTypeKeyList = ruleTypeInfo.getFactTypeKeyList();
+	            	if (factTypeKeyList == null) factTypeKeyList = Arrays.asList("test1", "test2");
+	            	if (factTypeKeyList != null) System.out.println("Loaded fact type key list: " + factTypeKeyList.toString());
+	            	loadingFactTypeKeyList = false;
+	            	
+	            	yvfFirstFactCriteriaTypeListBox.addItem(EMPTY_LIST_BOX_ITEM);
+	            	for (String factTypeKey : factTypeKeyList) {
+		                if (factTypeKey.startsWith("fact.")) {
+		                	factTypeKey = factTypeKey.substring(5);
+		                }  	            		
+		                yvfFirstFactCriteriaTypeListBox.addItem(factTypeKey);
+	            	}	            	
+	            	
+	            	GuiUtil.setListBoxByItemName(yvfFirstFactCriteriaTypeListBox, factTypeKeyListSelectedValue);
+	            }
+	        });        	
+    	}
+    	
+    	System.out.println("factTypeKeyList loaded...");
+    	GuiUtil.setListBoxByItemName(yvfFirstFactCriteriaTypeListBox, factTypeKeyListSelectedValue);               
+    }
+    
     private void populatePropositionDetailsTest(RulePropositionDTO prop) {
         propNameTestTextBox.setText(prop.getName());
         propDescTestTextBox.setText(prop.getDescription());
@@ -1760,34 +1921,19 @@ public class RulesComposite extends Composite {
         operatorsTestTextBox.setText(prop.getComparisonOperatorType());
         expectedValueTestTextBox.setText(prop.getRightHandSide().getExpectedValue());
     }
-
+    
     private void clearPropositionDetails() {
         propNameTextBox.setText("");
         propDescTextBox.setText("");
         yvfListBox.setSelectedIndex(-1);
+
+        populateYVFDetails(null);     
+        
         operatorsListBox.setSelectedIndex(-1);
         expectedValueTextBox.setText("");
         propositionsListBox.setSelectedIndex(-1);
     }
-    
-    private void populatePropositionListBoxAndDetails(int selectedPropIx) {
-        String propAbreviation;
-
-        propositionsListBox.clear();
-        for (Map.Entry<Integer, RulePropositionDTO> prop : definedPropositions.entrySet()) {
-            propAbreviation = "P" + prop.getKey();
-            propositionsListBox.addItem(propAbreviation + ":  " + prop.getValue().getName(), prop.getKey().toString());
-
-            if ((prop.getKey().intValue() - 1) == selectedPropIx) {
-                populatePropositionDetails(prop.getValue());
-            }
-        }
-        propositionsListBox.setSelectedIndex(selectedPropIx);
-        if (selectedPropIx == -1) {
-            clearPropositionDetails();
-        }
-    }
-    
+           
     @Override
     protected void onUnload() {
         super.onUnload();

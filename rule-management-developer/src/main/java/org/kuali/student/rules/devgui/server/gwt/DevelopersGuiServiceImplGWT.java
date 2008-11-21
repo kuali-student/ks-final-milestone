@@ -10,6 +10,7 @@ import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.server.impl.DevelopersGuiServiceImpl;
+import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
@@ -25,7 +26,10 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
 
     private final DevelopersGuiService serviceImpl = (DevelopersGuiService) BeanFactory.getInstance().getBean("developersGuiService");
 
-
+    public FactTypeInfoDTO fetchFactType(String factTypeKey) {
+    	return serviceImpl.fetchFactType(factTypeKey);
+    }
+    
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
         return serviceImpl.createBusinessRule(businessRuleInfo);
     }

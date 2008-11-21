@@ -73,6 +73,7 @@ a:visited {
   white-space: nowrap;
   cursor: hand;
   cursor: pointer;
+  font-size: 12px;  
 }
 
 .gwt-Tree .gwt-TreeItem-selected {

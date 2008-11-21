@@ -11,7 +11,12 @@ import java.util.Set;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author zzraly
@@ -160,8 +165,6 @@ public class GuiUtil {
     public static String validateRuleComposition(String text, Set<Integer> identifiers) { // TODO with Antler?
 
         String message = COMPOSITION_IS_VALID_MESSAGE;
-
-        System.out.println("HERE in validate rule composition");
 
         // we need at least one proposition
         if (text.trim().isEmpty()) {
@@ -378,6 +381,13 @@ public class GuiUtil {
             opList.addItem("     " + op.symbol(), op.name());
         }
     }
+    
+    public static void populateListBox(ListBox listBox, List <String> values) {
+    	if (values == null) return;
+        for (String value : values) {
+        	listBox.addItem(value);
+        }
+    }    
 
     public static String getComparisonOperatorTypeSymbol(String comparisonOperatorTypeText) {
         for (ComparisonOperator op : ComparisonOperator.values()) {
@@ -389,7 +399,7 @@ public class GuiUtil {
     }
 
     public enum ComparisonOperator {
-        EMPTY(" "), EQUAL_TO("="), NOT_EQUAL_TO("<>"), GREATER_THAN(">"), LESS_THAN("<"), GREATER_THAN_OR_EQUAL_TO(">="), LESS_THAN_OR_EQUAL_TO("<=");
+        EQUAL_TO("="), NOT_EQUAL_TO("<>"), GREATER_THAN(">"), LESS_THAN("<"), GREATER_THAN_OR_EQUAL_TO(">="), LESS_THAN_OR_EQUAL_TO("<=");
 
         private final String symbol;
 
@@ -418,7 +428,7 @@ public class GuiUtil {
     }
 
     public enum YieldValueFunctionType {
-        EMPTY("   "), INTERSECTION("Intersection (arg1, arg2)"), SUBSET("Subset (arg)"), SUM("Sum (arg)"), AVERAGE("Average (arg)");
+        INTERSECTION("Intersection (arg1, arg2)"), SUM("Sum (arg)"), AVERAGE("Average (arg)");
 
         private final String symbol;
 
@@ -430,5 +440,30 @@ public class GuiUtil {
             return symbol;
         }
     }
+    
+    public static void addSpaceAfterWidget(Panel widget, String width) {
+        final SimplePanel space = new SimplePanel();
+        space.setWidth(width);
+        widget.add(space);
+    }
 
+    public static Widget addLabelAndField(String labelName, Widget field, String fieldWidth) {
+        final VerticalPanel vp = new VerticalPanel();
+        vp.setWidth("100%");
+        final Label label = new Label(labelName);
+        label.setWidth(fieldWidth);      
+        vp.add(label);
+        field.setWidth(fieldWidth);
+        vp.add(field);
+        return vp;
+    }
+    
+    public static Widget addLabelAndField(Widget label, Widget field, String fieldSize) {
+        final VerticalPanel vp = new VerticalPanel();
+        label.setWidth(fieldSize);
+        vp.add(label);
+        field.setWidth(fieldSize);
+        vp.add(field);
+        return vp;
+    }    
 }

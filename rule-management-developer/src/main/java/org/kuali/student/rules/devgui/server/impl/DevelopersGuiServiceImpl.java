@@ -4,13 +4,25 @@
 package org.kuali.student.rules.devgui.server.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
+import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
+import org.kuali.student.rules.factfinder.service.FactFinderService;
+import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
@@ -20,13 +32,66 @@ import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     RuleManagementService ruleManagementService;
-
+    FactFinderService factFinderService;
+    
+    /******************************************************************************************************************
+     * 
+     *                                                     FACTS 
+     *
+     *******************************************************************************************************************/    
+ 
+    public FactTypeInfoDTO fetchFactType(String factTypeKey) {
+    	FactTypeInfoDTO factTypeInfo;
+    	try {
+    		factTypeInfo = factFinderService.fetchFactType(factTypeKey);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to fetch Fact Type using Fact Type Key: " + factTypeKey, ex); // TODO
+        }
+        return factTypeInfo;
+    }
+    
+    
+    /******************************************************************************************************************
+     * 
+     *                                                     BUSINESS RULES 
+     *
+     *******************************************************************************************************************/    
+     
+    
+	private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(year, month-1, day, hourOfDay, minute, 0);
+    	return cal.getTime();
+    }       
+    
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
 
         String new_rule_id = null;
 
+        //TODO temporary fix
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        metaInfo.setCreateTime(new Date());
+        metaInfo.setCreateID("");
+        metaInfo.setUpdateTime(new Date());
+        metaInfo.setUpdateID("");
+     
+        BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
+        brInfoDTO.setBusinessRuleId("111111");
+        brInfoDTO.setName("Test Rule Name 1111");
+        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        brInfoDTO.setAnchorValue("TEST");
+        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setMetaInfo(metaInfo);
+
+		Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
+		Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
+		brInfoDTO.setEffectiveStartTime(effectiveStartTime);
+		brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        
         try {
-            new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
+            new_rule_id = ruleManagementService.createBusinessRule(brInfoDTO);
         } catch (Exception ex) {
             throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }
@@ -36,6 +101,12 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
         StatusDTO rule_update_status = null;
 
+        //TODO temporary fix
+        businessRuleInfo.setEffectiveStartTime(new Date());
+        businessRuleInfo.setEffectiveEndTime(new Date());
+        businessRuleInfo.setDescription("Test Description");
+        businessRuleInfo.setName("Test Name");
+        
         try {
             rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
@@ -251,6 +322,13 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     public final RuleManagementService getRuleManagementService() {
         return ruleManagementService;
     }
+    
+    
+    /******************************************************************************************************************
+     * 
+     *                                                     GETTERS & SETTERS 
+     *
+     *******************************************************************************************************************/         
 
     /**
      * @param ruleManagementService
@@ -259,4 +337,12 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     public final void setRuleManagementService(RuleManagementService ruleManagementService) {
         this.ruleManagementService = ruleManagementService;
     }
+    
+    public FactFinderService getFactFinderService() {
+		return factFinderService;
+	}
+
+	public void setFactFinderService(FactFinderService factFinderService) {
+		this.factFinderService = factFinderService;
+	}    
 }
