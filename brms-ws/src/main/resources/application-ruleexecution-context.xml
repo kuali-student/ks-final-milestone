@@ -21,6 +21,8 @@
 
     <bean id="ruleSetExecutor"
         class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <property name="enableExecutionLogging" value="true"/>
+        <property name="enableStatLogging" value="true"/>
     </bean>
 
     <!--*****************************************-->
