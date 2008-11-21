@@ -16,20 +16,16 @@
 		<class>org.kuali.student.lum.atp.entity.AtpAttribute</class>
 		<class>org.kuali.student.lum.atp.entity.AtpAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.AtpDurationType</class>
-		<class>org.kuali.student.lum.atp.entity.AtpDurationTypeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.AtpSeasonalType</class>
-		<class>org.kuali.student.lum.atp.entity.AtpSeasonalTypeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.AtpType</class>
 		<class>org.kuali.student.lum.atp.entity.AtpTypeAttribute</class>
 		<class>org.kuali.student.lum.atp.entity.DateRange</class>
 		<class>org.kuali.student.lum.atp.entity.DateRangeAttribute</class>
 		<class>org.kuali.student.lum.atp.entity.DateRangeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.DateRangeType</class>
-		<class>org.kuali.student.lum.atp.entity.DateRangeTypeAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.Milestone</class>
 		<class>org.kuali.student.lum.atp.entity.MilestoneAttribute</class>
 		<class>org.kuali.student.lum.atp.entity.MilestoneAttributeDef</class>
 		<class>org.kuali.student.lum.atp.entity.MilestoneType</class>
-		<class>org.kuali.student.lum.atp.entity.MilestoneTypeAttributeDef</class>
 	</persistence-unit>
 </persistence>

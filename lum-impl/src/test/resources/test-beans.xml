@@ -6,26 +6,24 @@
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<ref bean="atpTypeAttributeDefNotes" />
+				<ref bean="typeDefNotes" />
+				<ref bean="atpAttributeDefNotes" />
+				<ref bean="dateRangeAttributeDefNotes"/>
+				<ref bean="milestoneAttributeDefNotes"/>
+
 				<ref bean="atpSeasonalTypeFall" />
 				<ref bean="atpSeasonalTypeSpring" />
 				<ref bean="atpDurationTypeSemester" />
-				<ref bean="atpAttributeDefNotes" />
-				<ref bean="atpDateRangeAttributeDefNotes" />
-				<ref bean="atpMilestoneAttributeDefNotes" />
 				<ref bean="atpTypeSpringSemester" />
-				<ref bean="atpDateRangeTypeFinals" />
-				<ref bean="atpMilestoneTypeLastDateToDrop" />
+				<ref bean="dateRangeTypeFinals" />
+				<ref bean="milestoneTypeLastDateToDrop" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="atpTypeAttributeDefNotes"
-		class="org.kuali.student.core.entity.TypeAttributeDef">
-		<property name="name" value="type.attribute.notes" />
-	</bean>
 
-	<bean id="atpMilestoneTypeLastDateToDrop"
+
+	<bean id="milestoneTypeLastDateToDrop"
 		class="org.kuali.student.lum.atp.entity.MilestoneType">
 		<property name="key" value="atp.milestoneType.lastDateToDrop" />
 		<property name="name" value="LastDateToDrop" />
@@ -35,7 +33,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 	</bean>
 
-	<bean id="atpDateRangeTypeFinals"
+	<bean id="dateRangeTypeFinals"
 		class="org.kuali.student.lum.atp.entity.DateRangeType">
 		<property name="key" value="atp.dateRangeType.finals" />
 		<property name="name" value="Finals" />
@@ -55,17 +53,25 @@
 		<property name="seasonalType" ref="atpSeasonalTypeFall" />
 	</bean>
 
+
 	<bean id="atpAttributeDefNotes"
 		class="org.kuali.student.lum.atp.entity.AtpAttributeDef">
 		<property name="name" value="atp.attribute.notes" />
 	</bean>
-	<bean id="atpDateRangeAttributeDefNotes"
+
+	<bean id="dateRangeAttributeDefNotes"
 		class="org.kuali.student.lum.atp.entity.DateRangeAttributeDef">
 		<property name="name" value="atp.dateRangeAttribute.notes" />
 	</bean>
-	<bean id="atpMilestoneAttributeDefNotes"
+
+	<bean id="milestoneAttributeDefNotes"
 		class="org.kuali.student.lum.atp.entity.MilestoneAttributeDef">
 		<property name="name" value="atp.milestoneAttribute.notes" />
+	</bean>
+
+	<bean id="typeDefNotes"
+		class="org.kuali.student.core.entity.TypeAttributeDef">
+		<property name="name" value="atp.attribute.notes" />
 	</bean>
 
 
@@ -80,9 +86,9 @@
 			<list>
 				<bean
 					class="org.kuali.student.core.entity.TypeAttribute">
-					<property name="attrDef" ref="atpTypeAttributeDefNotes" />
+					<property name="attrDef" ref="typeDefNotes" />
 					<property name="value"
-						value="Notes for a Seasonal type attribute" />
+						value="Notes for a Seasonal type Fall attribute" />
 					<property name="owner" ref="atpSeasonalTypeFall" />
 				</bean>
 			</list>
@@ -96,6 +102,17 @@
 		<property name="desc" value="ATP Season Type for Spring" />
 		<property name="effectiveDate" value="01/01/2008" />
 		<property name="expirationDate" value="01/01/2100" />
+		<property name="attributes">
+			<list>
+				<bean
+					class="org.kuali.student.core.entity.TypeAttribute">
+					<property name="attrDef" ref="typeDefNotes" />
+					<property name="value"
+						value="Notes for a Seasonal type Spring attribute" />
+					<property name="owner" ref="atpSeasonalTypeSpring" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="atpDurationTypeSemester"
@@ -105,6 +122,17 @@
 		<property name="desc" value="ATP Duration Type for Semester" />
 		<property name="effectiveDate" value="01/01/2008" />
 		<property name="expirationDate" value="01/01/2100" />
+		<property name="attributes">
+			<list>
+				<bean
+					class="org.kuali.student.core.entity.TypeAttribute">
+					<property name="attrDef" ref="typeDefNotes" />
+					<property name="value"
+						value="Notes for a Duration type Semester attribute" />
+					<property name="owner" ref="atpSeasonalTypeSpring" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="customEditorConfigurer"
