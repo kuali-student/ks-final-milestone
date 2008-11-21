@@ -7,10 +7,10 @@
 	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/java"/>
 	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/resources"/>
 	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/resources"/>
-	<classpathentry kind="src" path="core-api/src/main/java"/>
-	<classpathentry kind="src" path="core-impl/src/main/java"/>
-	<classpathentry kind="src" path="core-impl/src/test/java"/>
-	<classpathentry kind="src" path="core-impl/src/test/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="core-api/target/clasees" path="core-api/src/main/java"/>
+	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/java"/>
+	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/java"/>
+	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/resources"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
