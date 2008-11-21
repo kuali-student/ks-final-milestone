@@ -19,27 +19,28 @@ import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 
 public class SimpleExecutorDroolsImplTest {
 
-	private DroolsUtil droolsUtil = new DroolsUtil();
-	private SimpleExecutor executor;
+	private final DroolsUtil droolsUtil = new DroolsUtil();
+    private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
+	private static SimpleExecutor executor = new SimpleExecutorDroolsImpl(true);;
 	
     @BeforeClass
     public static void setUpOnce() throws Exception {
+		((SimpleExecutorDroolsImpl)executor).setEnableStatisticsLogging(true);
+    	((SimpleExecutorDroolsImpl)executor).setRuleBaseCache(ruleBase);
     }
 
     @AfterClass
     public static void tearDownOnce() throws Exception {
+    	executor = null;
     }
 
     @Before
     public void setUp() throws Exception {
-    	this.executor = new SimpleExecutorDroolsImpl(true);
-    	this.executor.clearRuleSetCache();
-		((SimpleExecutorDroolsImpl)this.executor).setEnableStatisticsLogging(true);
+    	executor.clearRuleSetCache();
     }
 
     @After
     public void tearDown() throws Exception {
-    	this.executor = null;
     }
     
     @Test
@@ -60,8 +61,8 @@ public class SimpleExecutorDroolsImplTest {
 
         // Execute ruleset and fact
     	String ruleBaseType = SimpleExecutor.DEFAULT_RULE_CACHE_KEY;
-    	this.executor.addRuleSet(ruleBaseType, ruleSet);
-        ExecutionResult result = this.executor.execute(ruleSet, facts);
+    	executor.addRuleSet(ruleBaseType, ruleSet);
+        ExecutionResult result = executor.execute(ruleSet, facts);
 
         Assert.assertNotNull(result);
         Assert.assertNotNull(result.getResults());
@@ -77,7 +78,7 @@ public class SimpleExecutorDroolsImplTest {
 
         Assert.assertNotNull(time);
         Assert.assertTrue(time.startsWith("Minute is even: 0"));
-	    System.out.println(droolsUtil.getStatisticsSummary(((SimpleExecutorDroolsImpl)this.executor).getStatistics()));
+	    System.out.println(droolsUtil.getStatisticsSummary(((SimpleExecutorDroolsImpl)executor).getStatistics()));
     }
 
 }

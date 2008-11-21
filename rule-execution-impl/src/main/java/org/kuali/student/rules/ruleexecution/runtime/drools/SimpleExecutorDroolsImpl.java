@@ -45,7 +45,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
     /** Drools rule base cache */
-    private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
+    private DroolsRuleBase ruleBaseCache = new DroolsRuleBase();
 
     /** Execution logging */
     private boolean logExecution = false;
@@ -82,6 +82,15 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     	return executionStats;
     }
 
+    /**
+     * Sets the Drools rule base cache.
+     * 
+     * @param ruleBase Drools rule base
+     */
+    public void setRuleBaseCache(DroolsRuleBase ruleBase) {
+    	this.ruleBaseCache = ruleBase;
+    }
+    
     /**
      * Add a rule set's source code by <code>id</code> to the default 
      * execution cache.

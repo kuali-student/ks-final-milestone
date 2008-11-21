@@ -23,8 +23,13 @@
         class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="true"/>
+        <property name="ruleBaseCache" ref="ruleBaseCache"/>
     </bean>
 
+    <bean id="ruleBaseCache"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+    </bean>
+    
     <!--*****************************************-->
     <!--*          Web Service Clients          *-->
     <!--*****************************************-->

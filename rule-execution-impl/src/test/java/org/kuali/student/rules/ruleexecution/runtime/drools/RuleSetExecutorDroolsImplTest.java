@@ -65,28 +65,30 @@ public class RuleSetExecutorDroolsImplTest {
 	private DroolsUtil droolsUtil = new DroolsUtil();
 
 	/** Rule set executor interface */
-	private RuleSetExecutor executor;
+	private static RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
+    private static DroolsRuleBase ruleBase = new DroolsRuleBase();
 
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
     
     @BeforeClass
     public static void setUpOnce() throws Exception {
+    	((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
+    	((RuleSetExecutorDroolsImpl)executor).setRuleBaseCache(ruleBase);
     }
 
     @AfterClass
     public static void tearDownOnce() throws Exception {
+    	executor = null;
+    	ruleBase = null;
     }
 
     @Before
     public void setUp() throws Exception {
-    	this.executor = new RuleSetExecutorDroolsImpl();
-    	this.executor.clearRuleSetCache();
-    	((RuleSetExecutorDroolsImpl)this.executor).setEnableExecutionLogging(true);
+    	executor.clearRuleSetCache();
     }
 
     @After
     public void tearDown() throws Exception {
-    	this.executor = null;
     }
     
     private FactStructureDTO createFactStructure(String factStructureId, String criteriaTypeName) {
@@ -161,9 +163,9 @@ public class RuleSetExecutorDroolsImplTest {
     	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
-		this.executor.addRuleSet(brInfoAverage, ruleSetAverage);
-		this.executor.clearRuleSetCache();
-		Assert.assertFalse(this.executor.containsRuleSet(brInfoAverage));
+		executor.addRuleSet(brInfoAverage, ruleSetAverage);
+		executor.clearRuleSetCache();
+		Assert.assertFalse(executor.containsRuleSet(brInfoAverage));
 	}
 	
 	@Test
@@ -176,8 +178,8 @@ public class RuleSetExecutorDroolsImplTest {
     	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
-		this.executor.addRuleSet(brInfoAverage, ruleSetAverage);
-		Assert.assertTrue(this.executor.containsRuleSet(brInfoAverage));
+		executor.addRuleSet(brInfoAverage, ruleSetAverage);
+		Assert.assertTrue(executor.containsRuleSet(brInfoAverage));
 	}
 	
 	@Test
@@ -190,7 +192,7 @@ public class RuleSetExecutorDroolsImplTest {
     	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
-		this.executor.addRuleSet(brInfoAverage, ruleSetAverage);
+		executor.addRuleSet(brInfoAverage, ruleSetAverage);
 
         // Business rule 2 - Intersection proposition
         BusinessRuleInfoDTO brInfoIntersection = generateNewBusinessRuleInfo("2", "Business Rule - Intersection", "CPR101");
@@ -200,7 +202,7 @@ public class RuleSetExecutorDroolsImplTest {
     	ruleSetIntersection.setCompiledRuleSet(bytes2);
     	
 		try {
-			this.executor.addRuleSet(brInfoIntersection, ruleSetIntersection);
+			executor.addRuleSet(brInfoIntersection, ruleSetIntersection);
 			Assert.fail("Rule base already contains a business rule (id="+
 					brInfoIntersection.getBusinessRuleId() +
     				") with anchor value '" +brInfoIntersection.getAnchorValue() + "'");
@@ -219,9 +221,9 @@ public class RuleSetExecutorDroolsImplTest {
     	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
-		this.executor.addRuleSet(brInfoAverage, ruleSetAverage);
-		this.executor.removeRuleSet(brInfoAverage, ruleSetAverage);
-		Assert.assertFalse(this.executor.containsRuleSet(brInfoAverage));
+		executor.addRuleSet(brInfoAverage, ruleSetAverage);
+		executor.removeRuleSet(brInfoAverage, ruleSetAverage);
+		Assert.assertFalse(executor.containsRuleSet(brInfoAverage));
 	}
 	
 	@Test
@@ -234,8 +236,8 @@ public class RuleSetExecutorDroolsImplTest {
     	byte[] bytes1 = DroolsTestUtil.createPackage(ruleSetAverage);
     	ruleSetAverage.setCompiledRuleSet(bytes1);
 
-		this.executor.addRuleSet(brInfoAverage, ruleSetAverage);
-		Assert.assertTrue(this.executor.containsRuleSet(brInfoAverage));
+		executor.addRuleSet(brInfoAverage, ruleSetAverage);
+		Assert.assertTrue(executor.containsRuleSet(brInfoAverage));
 	}
 	
 	@Test
@@ -325,11 +327,11 @@ public class RuleSetExecutorDroolsImplTest {
     	byte[] bytes2 = DroolsTestUtil.createPackage(ruleSetIntersection);
     	ruleSetIntersection.setCompiledRuleSet(bytes2);
     	
-    	this.executor.addRuleSet(brInfoAverage, ruleSetAverage);
-    	this.executor.addRuleSet(brInfoIntersection, ruleSetIntersection);
+    	executor.addRuleSet(brInfoAverage, ruleSetAverage);
+    	executor.addRuleSet(brInfoIntersection, ruleSetIntersection);
 
     	// Execute ruleset and fact
-        AgendaExecutionResult executionResult = this.executor.execute(agenda, factMap);
+        AgendaExecutionResult executionResult = executor.execute(agenda, factMap);
         Assert.assertNotNull(executionResult);
         ExecutionResult result1 = executionResult.getExecutionResultList().get(0);
         Assert.assertEquals("1", result1.getId());
@@ -412,8 +414,8 @@ public class RuleSetExecutorDroolsImplTest {
         factMap.put(factKeyIntersection, factResultIntersection);
 
         // Execute ruleset and fact
-		this.executor.addRuleSet(brInfo, ruleSet);
-        ExecutionResult result = this.executor.execute(brInfo, factMap);
+		executor.addRuleSet(brInfo, ruleSet);
+        ExecutionResult result = executor.execute(brInfo, factMap);
         Assert.assertNotNull(result);
         Assert.assertNotNull(result.getResults());
         Assert.assertNotNull(result.getExecutionLog());
@@ -488,13 +490,13 @@ public class RuleSetExecutorDroolsImplTest {
         factMap.put(factKeyIntersection, factResultIntersection);
 
     	// Enable rule execution statistics
-        ((RuleSetExecutorDroolsImpl)this.executor).setEnableStatLogging(true);
-        DroolsExecutionStatistics droolsStats = ((RuleSetExecutorDroolsImpl)this.executor).getStatistics();
+        ((RuleSetExecutorDroolsImpl)executor).setEnableStatLogging(true);
+        DroolsExecutionStatistics droolsStats = ((RuleSetExecutorDroolsImpl)executor).getStatistics();
 
     	// Execute ruleset and fact
-		this.executor.addRuleSet(brInfo, ruleSet);
+		executor.addRuleSet(brInfo, ruleSet);
         for(int i=0; i<10; i++) {
-			this.executor.execute(brInfo, factMap);
+			executor.execute(brInfo, factMap);
         }
 
 	    System.out.println(droolsUtil.getStatisticsSummary(droolsStats));

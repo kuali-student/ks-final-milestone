@@ -29,10 +29,15 @@
 
     <bean id="ruleExecutor"
         class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <property name="ruleBaseCache" ref="droolsRuleBaseCache"/>
         <!--constructor-arg type="org.kuali.student.rules.repository.RuleEngineRepository"
             ref="ruleRepository" /-->
     </bean>
 
+    <bean id="droolsRuleBaseCache"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+    </bean>
+    
     <!--bean id="ruleRepository"
 		class="org.kuali.student.rules.ruleexecution.util.RuleEngineRepositoryMock">
 	</bean-->

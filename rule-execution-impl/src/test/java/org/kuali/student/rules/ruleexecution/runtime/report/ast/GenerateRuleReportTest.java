@@ -3,12 +3,15 @@ package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
@@ -28,12 +31,23 @@ public class GenerateRuleReportTest {
 	private PropositionReport propositionReportD = new PropositionReport();
 
 	private GenerateRuleReport generateRuleReport;
-	private final SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
+    private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
+	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
+
+    @BeforeClass
+    public static void setUpOnce() throws Exception {
+		executor.setEnableStatisticsLogging(true);
+    	executor.setRuleBaseCache(ruleBase);
+    }
+    
+    @AfterClass
+    public static void tearDownOnce() throws Exception {
+    	executor = null;
+    }
 
 	@Before
 	public void setUp() throws Exception {
-		this.executor.setEnableStatisticsLogging(true);
-	    this.generateRuleReport = new GenerateRuleReport(this.executor);
+	    this.generateRuleReport = new GenerateRuleReport(executor);
 	}
 	
 	@After

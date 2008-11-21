@@ -23,30 +23,22 @@ import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.rule.Package;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DroolsRuleBase {
-	/**
-	 * Singleton instance of DroolsRuleBase.
-	 */
-	private final static DroolsRuleBase INSTANCE = new DroolsRuleBase();
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(DroolsRuleBase.class);
 
 	/**
 	 * Map of rule base types.
 	 */
 	private final static ConcurrentMap<String,RuleBase> ruleBaseTypeMap = new ConcurrentHashMap<String, RuleBase>();
-
+	
 	/**
 	 * Constructor
 	 */
-	private DroolsRuleBase() {}
-
-	/**
-	 * Gets this single instance.
-	 * 
-	 * @return This single intance
-	 */
-	public static DroolsRuleBase getInstance() {
-		return INSTANCE;
+	public DroolsRuleBase() {
 	}
 
 	/**
@@ -67,7 +59,9 @@ public class DroolsRuleBase {
 			ruleBase.lock();
 			ruleBase = RuleBaseFactory.newRuleBase();
 		} finally {
-			ruleBase.unlock();
+        	if (ruleBase != null) {
+        		ruleBase.unlock();
+        	}
 		}
 	}
 
@@ -145,18 +139,24 @@ public class DroolsRuleBase {
             currentThread.setContextClassLoader( newClassLoader );
         
             //Add package to rulebase (deploy the rule package).
+            RuleBase ruleBase = null;
             try {
             	if (!ruleBaseTypeMap.containsKey(ruleBaseType)) {
-    				ruleBaseTypeMap.put(ruleBaseType, RuleBaseFactory.newRuleBase());
+            		ruleBase = RuleBaseFactory.newRuleBase();
+    				ruleBaseTypeMap.put(ruleBaseType, ruleBase);
+    			} else {
+    				ruleBase = ruleBaseTypeMap.get(ruleBaseType);
     			}
-            	ruleBaseTypeMap.get(ruleBaseType).lock();
-    			ruleBaseTypeMap.get(ruleBaseType).addPackage(pkg);
+            	ruleBase.lock();
+            	ruleBase.addPackage(pkg);
             } catch(Exception e) {
     			throw new RuleSetExecutionException(
     					"Adding package to rule base failed: Package name=" + 
     					pkg.getName() + ", Error summary=" + pkg.getErrorSummary(), e);
             } finally {
-            	ruleBaseTypeMap.get(ruleBaseType).unlock();
+            	if (ruleBase != null) {
+            		ruleBase.unlock();
+            	}
             }
         }
         finally {

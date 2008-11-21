@@ -31,7 +31,6 @@ import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
-import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
@@ -56,9 +55,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
     private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
-    private SimpleExecutor defaultExecutor = new SimpleExecutorDroolsImpl();
+    private SimpleExecutorDroolsImpl defaultExecutor = new SimpleExecutorDroolsImpl();
     
-    private final static DroolsRuleBase ruleBaseCache = DroolsRuleBase.getInstance();
+    private DroolsRuleBase ruleBaseCache;
 
     // Each rule base must have unique anchors
     private final static ConcurrentMap<String,String> anchorMap = new ConcurrentHashMap<String,String>();
@@ -67,7 +66,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     
     private boolean logExecution = false;
 
-    private boolean statlogging = false;
+    private boolean statLogging = false;
     
     private LoggingStringBuilder executionLog = null;
     
@@ -91,13 +90,27 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * Enables rule engine execution statistics logging.
      */
     public void setEnableStatLogging(boolean enable) {
-    	this.statlogging = enable;
+    	this.statLogging = enable;
     }
 
+    /**
+     * Gets Drools execution statistics.
+     * 
+     * @return Execution statistics
+     */
     public DroolsExecutionStatistics getStatistics() {
     	return executionStats;
     }
 
+    /**
+     * Sets the Drools rule base cache.
+     * 
+     * @param ruleBase Drools rule base
+     */
+    public void setRuleBaseCache(DroolsRuleBase ruleBase) {
+    	this.ruleBaseCache = ruleBase;
+    }
+    
     /**
      * Logs a business rule.
      * 
@@ -271,9 +284,15 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("Fact container ID:                     " + id);
     	this.executionLog.append("Execution rule base:                   " + ruleBaseType);
     	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
-    	this.executionLog.append("Packages loaded in rule base:          " + ruleBase.getPackages().length);
-    	for(Package pkg : ruleBase.getPackages()) {
-    		this.executionLog.append("\tPackage Name: " + pkg.getName());
+    	if (ruleBase == null) {
+    		this.executionLog.append("Packages loaded in rule base:          rule base is null");
+    	} else if (ruleBase.getPackages() == null ) {
+    		this.executionLog.append("Packages loaded in rule base:          0");
+    	} else {
+    		this.executionLog.append("Packages loaded in rule base:          " + ruleBase.getPackages().length);
+	    	for(Package pkg : ruleBase.getPackages()) {
+	    		this.executionLog.append("\tPackage Name: " + pkg.getName());
+	    	}
     	}
     }
     
@@ -402,7 +421,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         if(this.logExecution) {
         	droolsLogger = new DroolsWorkingMemoryLogger(session, this.executionLog);
         }
-        if(this.statlogging) {
+        if(this.statLogging) {
         	statLogger = new DroolsWorkingMemoryStatisticsLogger(
         			session, ruleBaseType, executionStats);
         }
