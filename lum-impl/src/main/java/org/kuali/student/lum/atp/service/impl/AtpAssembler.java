@@ -1,9 +1,10 @@
 package org.kuali.student.lum.atp.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
@@ -88,7 +89,7 @@ public class AtpAssembler {
 
 		// copy attributes, metadata, Atp, and Type
 		dateRangeInfo
-				.setAttributes(toAttributeInfos(dateRange.getAttributes()));
+				.setAttributes(toAttributeMap(dateRange.getAttributes()));
 		dateRangeInfo.setMetaInfo(toMetaInfo(dateRange.getMeta(), dateRange
 				.getVersionInd()));
 		dateRangeInfo.setType(dateRange.getType().getKey());
@@ -109,16 +110,13 @@ public class AtpAssembler {
 		return metaInfo;
 	}
 
-	private static List<AttributeInfo> toAttributeInfos(
+	private static Map<String,String> toAttributeMap(
 			List<? extends Attribute<?, ?>> attributes) {
 
-		List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
+		Map<String,String> attributeInfos = new HashMap<String,String>();
 
 		for (Attribute<?, ?> attribute : attributes) {
-			AttributeInfo attributeInfo = new AttributeInfo();
-			attributeInfo.setKey(attribute.getAttrDef().getName());
-			attributeInfo.setValue(attribute.getValue());
-			attributeInfos.add(attributeInfo);
+			attributeInfos.put(attribute.getAttrDef().getName(), attribute.getValue());
 		}
 
 		return attributeInfos;
@@ -160,7 +158,7 @@ public class AtpAssembler {
 
 	private static <A extends Attribute<O, D>, O extends AttributeOwner<A>, D extends AttributeDef> List<A> toGenericAttributes(
 			Class<D> attributeDefClass, Class<A> attributeClass,
-			List<AttributeInfo> attributeInfos, O owner, AtpDao dao)
+			Map<String,String> attributeMap, O owner, AtpDao dao)
 			throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();
 
@@ -170,20 +168,20 @@ public class AtpAssembler {
 		}
 		owner.getAttributes().clear();
 
-		for (AttributeInfo attributeInfo : attributeInfos) {
+		for (Map.Entry<String,String> attributeEntry : attributeMap.entrySet()) {
 			// Look up the attribute definition
 			D attributeDef = dao.fetchAttributeDefByName(attributeDefClass,
-					attributeInfo.getKey());
+					attributeEntry.getKey());
 
 			if (attributeDef == null) {
 				throw new InvalidParameterException("Invalid Attribute : "
-						+ attributeInfo.getKey());
+						+ attributeEntry.getKey());
 			}
 
 			A attribute;
 			try {
 				attribute = attributeClass.newInstance();
-				attribute.setValue(attributeInfo.getValue());
+				attribute.setValue(attributeEntry.getValue());
 				attribute.setAttrDef(attributeDef);
 				attribute.setOwner(owner);
 				attributes.add(attribute);
@@ -202,7 +200,7 @@ public class AtpAssembler {
 				"attributes", "metaInfo" });
 
 		// copy attributes, metadata, Atp, and Type
-		atpInfo.setAttributes(toAttributeInfos(atp.getAttributes()));
+		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
 		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
 		atpInfo.setType(atp.getType().getKey());
 
@@ -265,7 +263,7 @@ public class AtpAssembler {
 
 		// copy attributes, metadata, Atp, and Type
 		milestoneInfo
-				.setAttributes(toAttributeInfos(milestone.getAttributes()));
+				.setAttributes(toAttributeMap(milestone.getAttributes()));
 		milestoneInfo.setMetaInfo(toMetaInfo(milestone.getMeta(), milestone
 				.getVersionInd()));
 		milestoneInfo.setType(milestone.getType().getKey());
@@ -282,7 +280,7 @@ public class AtpAssembler {
 				"seasonalType", "durationType", "attributes" });
 
 		// Copy attributes and duration/seasonal types
-		atpTypeInfo.setAttributes(toAttributeInfos(atpType.getAttributes()));
+		atpTypeInfo.setAttributes(toAttributeMap(atpType.getAttributes()));
 
 		atpTypeInfo.setDurationType(atpType.getDurationType().getKey());
 		atpTypeInfo.setSeasonalType(atpType.getSeasonalType().getKey());
@@ -313,7 +311,7 @@ public class AtpAssembler {
 
 			// Copy the attributes
 			typeInfo
-					.setAttributes(toAttributeInfos(typeEntity.getAttributes()));
+					.setAttributes(toAttributeMap(typeEntity.getAttributes()));
 
 			return typeInfo;
 

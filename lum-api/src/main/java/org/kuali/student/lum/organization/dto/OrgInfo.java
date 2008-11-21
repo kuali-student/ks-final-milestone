@@ -1,17 +1,18 @@
 package org.kuali.student.lum.organization.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgInfo implements Serializable {
@@ -27,7 +28,8 @@ public class OrgInfo implements Serializable {
 	@XmlElement
 	private Date expirationDate;
 	@XmlElement
-	private List<AttributeInfo> attributes;
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
 	@XmlElement
 	private MetaInfo metaInfo;
 	@XmlAttribute
@@ -77,14 +79,14 @@ public class OrgInfo implements Serializable {
 		this.expirationDate = expirationDate;
 	}
 
-	public List<AttributeInfo> getAttributes() {
+	public Map<String, String> getAttributes() {
 		if (attributes == null) {
-			attributes = new ArrayList<AttributeInfo>();
+			attributes = new HashMap<String, String>();
 		}
 		return attributes;
 	}
 
-	public void setAttributes(List<AttributeInfo> attributes) {
+	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
 	}
 

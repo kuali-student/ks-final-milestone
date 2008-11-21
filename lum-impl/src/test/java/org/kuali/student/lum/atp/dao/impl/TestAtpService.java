@@ -10,7 +10,6 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dto.AttributeInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -52,10 +51,7 @@ public class TestAtpService extends AbstractServiceTest {
 		atpInfo.setExpirationDate(new Date());
 		atpInfo.setState("new");
 		
-		AttributeInfo notesAttr = new AttributeInfo();
-		notesAttr.setKey(atpAttribute_notes);
-		notesAttr.setValue("Notes for the Fall 2008 Semester");
-		atpInfo.getAttributes().add(notesAttr);
+		atpInfo.getAttributes().put(atpAttribute_notes, "Notes for the Fall 2008 Semester");
 		
 		AtpInfo createdAtp=null;
 		try {
@@ -75,10 +71,7 @@ public class TestAtpService extends AbstractServiceTest {
 		dateRangeInfo.setAtpKey(atp_fall2008Semester);
 		dateRangeInfo.setType(dateRangeType_finals);
 
-		AttributeInfo dateRangeNotesAttr = new AttributeInfo();
-		dateRangeNotesAttr.setKey(dateRangeAttribute_notes);
-		dateRangeNotesAttr.setValue("Notes for the Finals date range Fall 2008 Semester");
-		dateRangeInfo.getAttributes().add(dateRangeNotesAttr);
+		dateRangeInfo.getAttributes().put(dateRangeAttribute_notes, "Notes for the Finals date range Fall 2008 Semester");
 		
 		DateRangeInfo createdDateRange=null;
 		try {
@@ -97,10 +90,7 @@ public class TestAtpService extends AbstractServiceTest {
 		milestoneInfo.setAtpKey(atp_fall2008Semester);
 		milestoneInfo.setType(milestoneType_lastDateToDrop);
 
-		AttributeInfo milestoneNotesAttr = new AttributeInfo();
-		milestoneNotesAttr.setKey(milestoneAttribute_notes);
-		milestoneNotesAttr.setValue("Notes for the Last Day to Drop Fall 2008 Semester");
-		milestoneInfo.getAttributes().add(milestoneNotesAttr);
+		milestoneInfo.getAttributes().put(milestoneAttribute_notes, "Notes for the Last Day to Drop Fall 2008 Semester");
 		
 		MilestoneInfo createdMilestone=null;
 		try {
