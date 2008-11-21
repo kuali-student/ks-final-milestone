@@ -13,9 +13,7 @@ import org.kuali.student.enumeration.dto.*;
 import org.kuali.student.enumeration.entity.*;
 import org.kuali.student.enumeration.service.impl.util.POJOConverter;
 
-import junit.framework.TestCase;
-
-public class DozerTest extends TestCase {
+public class DozerTest {
 	@Test
 	public void testContext(){
         Context context = new Context();
