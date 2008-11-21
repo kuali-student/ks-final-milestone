@@ -3,29 +3,14 @@ package org.kuali.student.lum.atp.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.entity.AttributeDef;
+import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.lum.atp.entity.Atp;
 import org.kuali.student.lum.atp.entity.DateRange;
 import org.kuali.student.lum.atp.entity.DateRangeType;
 import org.kuali.student.lum.atp.entity.Milestone;
 import org.kuali.student.lum.atp.entity.MilestoneType;
 
-public interface AtpDao {
-
-	public <T> T fetch(Class<T> clazz, String key);
-
-	public <T extends AttributeDef> T fetchAttributeDefByName(Class<T> clazz,
-			String attributeName);
-
-	public <T> T create(T entity);
-
-	public <T> void delete(Class<T> clazz, String key);
-
-	public void delete(Object entity);
-	
-	public <T> List<T> find(Class<T> clazz);
-
-	public <T> T update(T entity);
+public interface AtpDao extends CrudDao {
 
 	public List<Atp> findAtpsByAtpType(String atpTypeKey);
 
@@ -40,13 +25,12 @@ public interface AtpDao {
 	public List<MilestoneType> findMilestoneTypesForAtpType(String atpTypeKey);
 
 	public List<DateRangeType> findDateRangeTypesForAtpType(String atpTypeKey);
-	
+
 	public List<Milestone> findMilestonesByAtp(String atpKey);
 
 	public List<Milestone> findMilestonesByDates(Date startDate, Date endDate);
 
 	public List<Milestone> findMilestonesByDatesAndType(
 			String milestoneTypeKey, Date startDate, Date endDate);
-
 
 }

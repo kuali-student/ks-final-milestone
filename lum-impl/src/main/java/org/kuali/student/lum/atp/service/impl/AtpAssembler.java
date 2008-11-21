@@ -1,20 +1,12 @@
 package org.kuali.student.lum.atp.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.TypeInfo;
-import org.kuali.student.core.entity.Attribute;
-import org.kuali.student.core.entity.AttributeDef;
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.Meta;
-import org.kuali.student.core.entity.Type;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.atp.dao.AtpDao;
 import org.kuali.student.lum.atp.dto.AtpInfo;
 import org.kuali.student.lum.atp.dto.AtpTypeInfo;
@@ -34,7 +26,91 @@ import org.kuali.student.lum.atp.entity.MilestoneAttributeDef;
 import org.kuali.student.lum.atp.entity.MilestoneType;
 import org.springframework.beans.BeanUtils;
 
-public class AtpAssembler {
+public class AtpAssembler extends BaseAssembler{
+
+	public static Atp toAtp(boolean isUpdate, AtpInfo atpInfo, AtpDao dao)
+			throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
+		Atp atp;
+		if (isUpdate) {
+			atp = dao.fetch(Atp.class, atpInfo.getKey());
+			if (atp == null) {
+				throw new DoesNotExistException("Atp does not exist for key: " + atp.getKey());
+			}
+			if (!String.valueOf(atp.getVersionInd()).equals(atpInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("Atp to be updated is not the current version");
+			}
+		} else {
+			atp = new Atp();
+		}
+
+		// Copy all basic properties
+		BeanUtils.copyProperties(atpInfo, atp, new String[] { "type",
+				"attributes", "metaInfo" });
+
+		// Copy Attributes
+		atp.setAttributes(toGenericAttributes(AtpAttributeDef.class,
+				AtpAttribute.class, atpInfo.getAttributes(), atp, dao));
+
+		// Search for and copy the type
+		AtpType atpType = dao.fetch(AtpType.class, atpInfo.getType());
+		if (atpType == null) {
+			throw new InvalidParameterException(
+					"AtpType does not exist for key: " + atpInfo.getType());
+		}
+		atp.setType(atpType);
+
+		return atp;
+	}
+
+	public static AtpInfo toAtpInfo(Atp atp) {
+		AtpInfo atpInfo = new AtpInfo();
+
+		BeanUtils.copyProperties(atp, atpInfo, new String[] { "type",
+				"attributes", "metaInfo" });
+
+		// copy attributes, metadata, Atp, and Type
+		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
+		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
+		atpInfo.setType(atp.getType().getKey());
+
+		return atpInfo;
+	}
+
+
+
+	public static List<AtpInfo> toAtpInfoList(List<Atp> atps) {
+		List<AtpInfo> atpInfoList = new ArrayList<AtpInfo>();
+		for (Atp atp : atps) {
+			atpInfoList.add(toAtpInfo(atp));
+		}
+		return atpInfoList;
+	}
+
+
+
+	public static AtpTypeInfo toAtpTypeInfo(AtpType atpType) {
+
+		AtpTypeInfo atpTypeInfo = new AtpTypeInfo();
+
+		BeanUtils.copyProperties(atpType, atpTypeInfo, new String[] {
+				"seasonalType", "durationType", "attributes" });
+
+		// Copy attributes and duration/seasonal types
+		atpTypeInfo.setAttributes(toAttributeMap(atpType.getAttributes()));
+
+		atpTypeInfo.setDurationType(atpType.getDurationType().getKey());
+		atpTypeInfo.setSeasonalType(atpType.getSeasonalType().getKey());
+
+		return atpTypeInfo;
+	}
+
+	public static List<AtpTypeInfo> toAtpTypeInfoList(List<AtpType> atpTypes) {
+		List<AtpTypeInfo> typeInfoList = new ArrayList<AtpTypeInfo>();
+		for (AtpType atpType : atpTypes) {
+			typeInfoList.add(toAtpTypeInfo(atpType));
+		}
+		return typeInfoList;
+	}
 
 	public static DateRange toDateRange(boolean isUpdate,
 			DateRangeInfo dateRangeInfo, AtpDao dao)
@@ -100,113 +176,15 @@ public class AtpAssembler {
 		return dateRangeInfo;
 	}
 
-	private static MetaInfo toMetaInfo(Meta meta, long versionInd) {
 
-		MetaInfo metaInfo = new MetaInfo();
-		// If there was a meta passed in then copy the values
-		if (meta != null) {
-			BeanUtils.copyProperties(meta, metaInfo);
+
+	public static List<DateRangeInfo> toDateRangeInfoList(
+			List<DateRange> dateRanges) {
+		List<DateRangeInfo> dateRangeInfoList = new ArrayList<DateRangeInfo>();
+		for (DateRange dateRange : dateRanges) {
+			dateRangeInfoList.add(toDateRangeInfo(dateRange));
 		}
-		metaInfo.setVersionInd(String.valueOf(versionInd));
-
-		return metaInfo;
-	}
-
-	private static Map<String,String> toAttributeMap(
-			List<? extends Attribute<?, ?>> attributes) {
-
-		Map<String,String> attributeInfos = new HashMap<String,String>();
-
-		for (Attribute<?, ?> attribute : attributes) {
-			attributeInfos.put(attribute.getAttrDef().getName(), attribute.getValue());
-		}
-
-		return attributeInfos;
-	}
-
-	public static Atp toAtp(boolean isUpdate, AtpInfo atpInfo, AtpDao dao)
-			throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
-		Atp atp;
-		if (isUpdate) {
-			atp = dao.fetch(Atp.class, atpInfo.getKey());
-			if (atp == null) {
-				throw new DoesNotExistException("Atp does not exist for key: " + atp.getKey());
-			}
-			if (!String.valueOf(atp.getVersionInd()).equals(atpInfo.getMetaInfo().getVersionInd())){
-				throw new VersionMismatchException("Atp to be updated is not the current version");
-			}
-		} else {
-			atp = new Atp();
-		}
-
-		// Copy all basic properties
-		BeanUtils.copyProperties(atpInfo, atp, new String[] { "type",
-				"attributes", "metaInfo" });
-
-		// Copy Attributes
-		atp.setAttributes(toGenericAttributes(AtpAttributeDef.class,
-				AtpAttribute.class, atpInfo.getAttributes(), atp, dao));
-
-		// Search for and copy the type
-		AtpType atpType = dao.fetch(AtpType.class, atpInfo.getType());
-		if (atpType == null) {
-			throw new InvalidParameterException(
-					"AtpType does not exist for key: " + atpInfo.getType());
-		}
-		atp.setType(atpType);
-
-		return atp;
-	}
-
-	private static <A extends Attribute<O, D>, O extends AttributeOwner<A>, D extends AttributeDef> List<A> toGenericAttributes(
-			Class<D> attributeDefClass, Class<A> attributeClass,
-			Map<String,String> attributeMap, O owner, AtpDao dao)
-			throws InvalidParameterException {
-		List<A> attributes = new ArrayList<A>();
-
-		// Delete all the old attributes(if the owner is not null)
-		for (A attribute : owner.getAttributes()) {
-			dao.delete(attribute);
-		}
-		owner.getAttributes().clear();
-
-		for (Map.Entry<String,String> attributeEntry : attributeMap.entrySet()) {
-			// Look up the attribute definition
-			D attributeDef = dao.fetchAttributeDefByName(attributeDefClass,
-					attributeEntry.getKey());
-
-			if (attributeDef == null) {
-				throw new InvalidParameterException("Invalid Attribute : "
-						+ attributeEntry.getKey());
-			}
-
-			A attribute;
-			try {
-				attribute = attributeClass.newInstance();
-				attribute.setValue(attributeEntry.getValue());
-				attribute.setAttrDef(attributeDef);
-				attribute.setOwner(owner);
-				attributes.add(attribute);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return attributes;
-	}
-
-	public static AtpInfo toAtpInfo(Atp atp) {
-		AtpInfo atpInfo = new AtpInfo();
-
-		BeanUtils.copyProperties(atp, atpInfo, new String[] { "type",
-				"attributes", "metaInfo" });
-
-		// copy attributes, metadata, Atp, and Type
-		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
-		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionInd()));
-		atpInfo.setType(atp.getType().getKey());
-
-		return atpInfo;
+		return dateRangeInfoList;
 	}
 
 	public static Milestone toMilestone(boolean isUpdate,
@@ -272,90 +250,6 @@ public class AtpAssembler {
 		milestoneInfo.setAtpKey(milestone.getAtp().getKey());
 
 		return milestoneInfo;
-	}
-
-	public static AtpTypeInfo toAtpTypeInfo(AtpType atpType) {
-
-		AtpTypeInfo atpTypeInfo = new AtpTypeInfo();
-
-		BeanUtils.copyProperties(atpType, atpTypeInfo, new String[] {
-				"seasonalType", "durationType", "attributes" });
-
-		// Copy attributes and duration/seasonal types
-		atpTypeInfo.setAttributes(toAttributeMap(atpType.getAttributes()));
-
-		atpTypeInfo.setDurationType(atpType.getDurationType().getKey());
-		atpTypeInfo.setSeasonalType(atpType.getSeasonalType().getKey());
-
-		return atpTypeInfo;
-	}
-
-	/**
-	 * @param <T>
-	 *            TypeInfo class
-	 * @param <S>
-	 *            Type Class
-	 * @param typeInfoClass
-	 *            the class of the resulting typeInfo object
-	 * @param typeEntity
-	 *            the typeEntity to copy from
-	 * @return a new TypeInfo
-	 */
-	public static <T extends TypeInfo, S extends Type> T toGenericTypeInfo(
-			Class<T> typeInfoClass, S typeEntity) {
-		T typeInfo;
-		try {
-			// Create a new TypeInfo based on the <T> class and copy the
-			// properties
-			typeInfo = typeInfoClass.newInstance();
-			BeanUtils.copyProperties(typeEntity, typeInfo,
-					new String[] { "attributes" });
-
-			// Copy the attributes
-			typeInfo
-					.setAttributes(toAttributeMap(typeEntity.getAttributes()));
-
-			return typeInfo;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-
-	}
-
-	public static <T extends TypeInfo, S extends Type> List<T> toGenericTypeInfoList(
-			Class<T> typeInfoClass, List<S> typeEntities) {
-		List<T> typeInfoList = new ArrayList<T>();
-		for (S typeEntity : typeEntities) {
-			typeInfoList.add(toGenericTypeInfo(typeInfoClass, typeEntity));
-		}
-		return typeInfoList;
-	}
-
-	public static List<AtpTypeInfo> toAtpTypeInfoList(List<AtpType> atpTypes) {
-		List<AtpTypeInfo> typeInfoList = new ArrayList<AtpTypeInfo>();
-		for (AtpType atpType : atpTypes) {
-			typeInfoList.add(toAtpTypeInfo(atpType));
-		}
-		return typeInfoList;
-	}
-
-	public static List<AtpInfo> toAtpInfoList(List<Atp> atps) {
-		List<AtpInfo> atpInfoList = new ArrayList<AtpInfo>();
-		for (Atp atp : atps) {
-			atpInfoList.add(toAtpInfo(atp));
-		}
-		return atpInfoList;
-	}
-
-	public static List<DateRangeInfo> toDateRangeInfoList(
-			List<DateRange> dateRanges) {
-		List<DateRangeInfo> dateRangeInfoList = new ArrayList<DateRangeInfo>();
-		for (DateRange dateRange : dateRanges) {
-			dateRangeInfoList.add(toDateRangeInfo(dateRange));
-		}
-		return dateRangeInfoList;
 	}
 
 	public static List<MilestoneInfo> toMilestoneInfoList(
