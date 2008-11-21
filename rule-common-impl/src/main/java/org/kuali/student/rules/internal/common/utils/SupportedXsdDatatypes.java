@@ -1,5 +1,9 @@
 package org.kuali.student.rules.internal.common.utils;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Calendar;
+
 import javax.xml.bind.DatatypeConverter;
 
 /**
@@ -19,21 +23,21 @@ import javax.xml.bind.DatatypeConverter;
  * 3.2.4 float<br/>
  * 3.2.5 double<br/>
  * 3.2.7 dateTime<br/>
- * 3.2.8 time<br/>
- * 3.2.9 date<br/>
+ * 3.2.8 time - Not supported, use dateTime<br/>
+ * 3.2.9 date - Not supported, use dateTime<br/>
  * <br/>
  * 3.3 Derived datatypes<br/>
  * 3.3.13 integer<br/>
  * 3.3.16 long<br/>
  * 3.3.17 int<br/>
- * 3.3.18 short<br/>
- * 3.3.19 byte<br/>
+ * 3.3.18 short - Not supported<br/>
+ * 3.3.19 byte - Not supported<br/>
  */ 
 public class SupportedXsdDatatypes {
-
-	public enum Datatype {STRING, BOOLEAN, DECIMAL, FLOAT, DOUBLE, 
-		DATETIME, DATE, TIME, INTEGER, LONG, INT, SHORT, BYTE};
-
+	/**
+	 * Supported XSD datatype.
+	 */
+	public enum Datatype {STRING, BOOLEAN, DECIMAL, INT, INTEGER, FLOAT, DOUBLE, LONG, DATETIME};
 
     /**
      * Converts an XSD datatype into a Java datatype using the 
@@ -43,8 +47,7 @@ public class SupportedXsdDatatypes {
      * @param value String value
      * @return Value in its proper Java datatype
      */
-    public static Object convertToXsdDataType(
-    		final Datatype xsdDataType, final String xsdStringValue) {
+    public static Object convertToXsdDataType(final Datatype xsdDataType, final String xsdStringValue) {
     	if (xsdStringValue == null) {
     		return null;
     	}
@@ -53,30 +56,52 @@ public class SupportedXsdDatatypes {
     		case STRING:
     			return DatatypeConverter.parseString(xsdStringValue);
     		case BOOLEAN:
-    			return DatatypeConverter.parseBoolean(xsdStringValue);
+    			return new Boolean(DatatypeConverter.parseBoolean(xsdStringValue));
     		case DECIMAL:
     			return DatatypeConverter.parseDecimal(xsdStringValue);
     		case FLOAT:
-    			return DatatypeConverter.parseFloat(xsdStringValue);
+    			return new Float(DatatypeConverter.parseFloat(xsdStringValue));
     		case DOUBLE:
-    			return DatatypeConverter.parseDouble(xsdStringValue);
-    		case DATE:
-    			return DatatypeConverter.parseDate(xsdStringValue);
-    		case TIME:
-    			return DatatypeConverter.parseTime(xsdStringValue);
+    			return new Double(DatatypeConverter.parseDouble(xsdStringValue));
     		case DATETIME:
     			return DatatypeConverter.parseDateTime(xsdStringValue);
     		case INT:
-    			return DatatypeConverter.parseInt(xsdStringValue);
+    			return new Integer(DatatypeConverter.parseInt(xsdStringValue));
     		case INTEGER:
     			return DatatypeConverter.parseInteger(xsdStringValue);
     		case LONG:
-    			return DatatypeConverter.parseLong(xsdStringValue);
-    		case SHORT:
-    			return DatatypeConverter.parseShort(xsdStringValue);
-    		case BYTE:
-    			return DatatypeConverter.parseByte(xsdStringValue);
+    			return new Long(DatatypeConverter.parseLong(xsdStringValue));
     	}
+		throw new AssertionError("Data type conversion error. Unknown XSD datatype: " + xsdDataType);
+    }
+    
+    /**
+     * Gets the Java class (datatype) for the XSD datatype.
+     * 
+     * @param xsdDataType XSD datatype
+     * @return Java class
+     */
+    public static Class<?> getJavaDataType(final Datatype xsdDataType) {
+    	switch(xsdDataType) {
+			case STRING:
+				return String.class;
+			case BOOLEAN:
+				return Boolean.class;
+			case DECIMAL:
+				return BigDecimal.class;
+			case FLOAT:
+				return Float.class;
+			case DOUBLE:
+				return Double.class;
+			case DATETIME:
+				return Calendar.class;
+			case INT:
+				return Integer.class;
+			case INTEGER:
+				return BigInteger.class;
+			case LONG:
+				return Long.class;
+		}
 		throw new AssertionError("Data type conversion error. Unknown XSD datatype: " + xsdDataType);
     }
 }
