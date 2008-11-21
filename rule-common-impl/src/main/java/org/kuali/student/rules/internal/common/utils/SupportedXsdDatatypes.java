@@ -31,8 +31,8 @@ import javax.xml.bind.DatatypeConverter;
  */ 
 public class SupportedXsdDatatypes {
 
-	public enum Datatype {STRING, BOOLEAN, DECIMAL, FLOAT, DOUBLE, DATETIME, DATE, TIME, 
-	INTEGER, LONG, INT, SHORT, BYTE};
+	public enum Datatype {STRING, BOOLEAN, DECIMAL, FLOAT, DOUBLE, 
+		DATETIME, DATE, TIME, INTEGER, LONG, INT, SHORT, BYTE};
 
 
     /**
