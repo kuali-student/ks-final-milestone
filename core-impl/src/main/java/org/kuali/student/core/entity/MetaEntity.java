@@ -19,6 +19,9 @@ public abstract class MetaEntity {
 	
 	@PrePersist
 	public void prePersist(){
+		if(meta==null){
+			meta = new Meta();
+		}
 		meta.setCreateTime(new Date());
 		meta.setUpdateTime(new Date());
 		//TODO Also set the create and update user id from context
