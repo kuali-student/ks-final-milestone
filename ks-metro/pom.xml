@@ -21,5 +21,9 @@
 			<groupId>com.sun.xml.ws</groupId>
 			<artifactId>webservices-rt</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+			<artifactId>jaxws-spring</artifactId>
+		</dependency>
 	</dependencies>
 </project>
