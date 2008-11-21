@@ -27,14 +27,10 @@
 
     <bean id="ruleExecution"
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
-        <property name="ruleSetExecutor"
-            ref="ruleSetExecutor" />
-        <!--property name="defaultExecutor"
-            ref="defaultExecutor" /-->
-        <property name="ruleRespositoryService"
-            ref="repository" />
-        <property name="ruleManagementService"
-            ref="ruleManagement" />
+        <property name="enableRuleSetCaching" value="false" />
+        <property name="ruleSetExecutor" ref="ruleSetExecutor" />
+        <property name="ruleRespositoryService" ref="repository" />
+        <property name="ruleManagementService" ref="ruleManagement" />
     </bean>
 
     <bean id="ruleSetExecutor"

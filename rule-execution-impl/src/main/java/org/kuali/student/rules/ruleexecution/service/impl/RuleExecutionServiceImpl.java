@@ -54,7 +54,13 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     private RuleRepositoryService ruleRespositoryService;
 
     private RuleManagementService ruleManagementService;
+    
+    private boolean ruleSetCachingEnabled = true;
 
+    public void setEnableRuleSetCaching(boolean enableCaching) {
+    	this.ruleSetCachingEnabled = enableCaching;
+    }
+    
     /**
      * Gets the rule execution engine.
      * 
@@ -121,6 +127,25 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		return ruleSet;
 	}
 	
+	private void addRuleSet(BusinessRuleInfoDTO businessRule) throws OperationFailedException, InvalidParameterException {
+    	try {
+			if (this.ruleSetCachingEnabled) {
+	    		if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
+					RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
+					this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
+	    		}
+			} else {
+				RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
+				this.ruleSetExecutor.removeRuleSet(businessRule, ruleSet);
+				this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
+			}
+		} catch (OperationFailedException e) {
+			throw e;
+		} catch (InvalidParameterException e) {
+			throw e;
+		}
+	}
+
     private ExecutionResultDTO createExecutionResultDTO(ExecutionResult executionResult) {
     	ExecutionResultDTO dto = new ExecutionResultDTO();
     	dto.setExecutionLog(executionResult.getExecutionLog());
@@ -159,10 +184,11 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	
     	try {
     		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
-    	    	if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
+    	    	/*if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
 	    			RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
 	    			this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
-    	    	}
+    	    	}*/
+    			addRuleSet(businessRule);
     		}
     		AgendaExecutionResult executionResult = this.ruleSetExecutor.execute(agenda, null);
     		return createAgendaExecutionResultDTO(executionResult);
@@ -179,17 +205,18 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
 
     	// Retrieve business rule
-    	BusinessRuleInfoDTO brInfo = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-    	String ruleSetUUID = brInfo.getCompiledId();
+    	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+    	//String ruleSetUUID = businessRule.getCompiledId();
     	
 		//String ruleBaseType = brInfo.getBusinessRuleTypeKey();
-    	if (!this.ruleSetExecutor.containsRuleSet(brInfo)) {
-	    	RuleSetDTO ruleSet = getRuleSet(brInfo, ruleSetUUID);
-        	this.ruleSetExecutor.addRuleSet(brInfo, ruleSet);
-    	}
+    	/*if (!this.ruleSetExecutor.containsRuleSet(businessRule) && this.ruleSetCachingEnabled) {
+	    	RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
+        	this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
+    	}*/
+		addRuleSet(businessRule);
     	
         try {
-        	ExecutionResult result = this.ruleSetExecutor.execute(brInfo, null);
+        	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, null);
     		return createExecutionResultDTO(result);
     	} catch(RuleSetExecutionException e) {
     		logger.error(e.getMessage(), e);
