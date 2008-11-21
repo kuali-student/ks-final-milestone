@@ -9,8 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
-import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
-import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
+import org.kuali.student.enumeration.entity.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -61,14 +60,35 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
     
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
-        Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value where e.enumerationKey = :key and e.code = :code");
-        query.setParameter("key", enumerationKey);
-        query.setParameter("code", code);
-        query.setParameter("value", enumeratedValueEntity.getValue());
+        this.removeEnumeratedValue(enumerationKey, code);
+        this.addEnumeratedValue(enumerationKey, enumeratedValueEntity);
+    	
+    	//Query query = entityManager.createQuery("update EnumeratedValueEntity e set e.value = :value where e.enumerationKey = :key and e.code = :code");
+        //query.setParameter("key", enumerationKey);
+        //query.setParameter("code", code);
+        //query.setParameter("value", enumeratedValueEntity.getValue());
         
-        query.executeUpdate();
+        //query.executeUpdate();
+    	/*
+    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
+        for(EnumeratedValueEntity e: list){
+        	if(e.getCode().equals(code)){
+        		for(ContextEntity c: e.getContextEntityList()){
+        			for(ContextEntity newContext : enumeratedValueEntity.getContextEntityList()){
+        				if(c.getId().equals(newContext.getId())){
+        					c.getC
+        				}
+        			}
+        			
+        		}
+        	}
+        */
+    	//entityManager.merge(enumeratedValueEntity);
+    	//for(ContextEntity c: enumeratedValueEntity.getContextEntityList()){
+    		//entityManager.merge(c);
+    	//}
 
-		query = entityManager.createQuery(
+    	Query query = entityManager.createQuery(
 	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
 	            "where e.enumerationKey = :enumerationKey "+
 	            "and e.code = :code");
@@ -80,12 +100,19 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
     public void removeEnumeratedValue(String enumerationKey, String code) {
-        Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
-        query.setParameter("key", enumerationKey);
-        query.setParameter("code", code);
+        //Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
+        //query.setParameter("key", enumerationKey);
+       // query.setParameter("code", code);
+        List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
+        for(EnumeratedValueEntity e: list){
+        	if(e.getCode().equals(code)){
+        		entityManager.remove(e);
+        	}
+        }
+        //query.executeUpdate();
         
-        query.executeUpdate();
     }
+    
     
 	public List<EnumeratedValueEntity> fetchEnumeration(String enumerationKey) {
 		
