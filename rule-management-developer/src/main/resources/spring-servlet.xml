@@ -47,7 +47,7 @@
      <property name="serviceEndpointInterface"
          value="org.kuali.student.rules.rulemanagement.service.RuleManagementService" />
      <property name="serviceQNameString"
-         value="{http://student.kuali.org/poc/wsdl/brms/rulemanagement}RuleManagementService" />
+         value="{http://student.kuali.org/wsdl/brms/RuleManagement}RuleManagementService" />
      <property name="address"
          value="${ks.servicelocation.RuleManagementService}" />
     </bean>
@@ -59,7 +59,7 @@
 		 <property name="serviceEndpointInterface"
 		     value="org.kuali.student.rules.factfinder.service.FactFinderService" />
 		 <property name="serviceQNameString"
-		     value="{http://student.kuali.org/poc/wsdl/brms/factfinder}FactFinderService" />
+		     value="{http://student.kuali.org/wsdl/brms/FactFinder}FactFinderService" />
 		 <property name="address"
 		     value="${ks.servicelocation.FactFinderService}" />
     </bean>    	

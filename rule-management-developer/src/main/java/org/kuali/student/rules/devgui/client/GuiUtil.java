@@ -365,7 +365,7 @@ public class GuiUtil {
     //if itemText is empty then un-select any selected item the list box
     public static void setListBoxByItemName(ListBox listBox, String itemText) {  
    	    	
-    	if (itemText.isEmpty()) {
+    	if (itemText == null || itemText.isEmpty()) {
     		if (listBox.getSelectedIndex() != -1) {
     			listBox.setItemSelected(listBox.getSelectedIndex(), false);
     		}
