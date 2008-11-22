@@ -21,7 +21,7 @@ import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.factfinder.util.FactDataSupport;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(endpointInterface = "org.kuali.student.rules.factfinder.service.FactFinderService", serviceName = "FactFinderService", portName = "FactFinderService", targetNamespace = "http://student.kuali.org/poc/wsdl/brms/factfinder")
+@WebService(endpointInterface = "org.kuali.student.rules.factfinder.service.FactFinderService", serviceName = "FactFinderService", portName = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder")
 @Transactional
 public class FactFinderServiceImpl implements FactFinderService {
 
