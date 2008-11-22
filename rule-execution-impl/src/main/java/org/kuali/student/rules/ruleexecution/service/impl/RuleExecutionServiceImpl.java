@@ -15,14 +15,22 @@
  */
 package org.kuali.student.rules.ruleexecution.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
@@ -34,6 +42,8 @@ import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 import org.slf4j.Logger;
@@ -54,6 +64,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     private RuleRepositoryService ruleRespositoryService;
 
     private RuleManagementService ruleManagementService;
+
+    private FactFinderService factFinderService;
     
     private boolean ruleSetCachingEnabled = true;
 
@@ -89,24 +101,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	}
 
 	/**
-	 * Gets the rule repository service.
-	 * 
-	 * @return Rule repository service
-	 */
-	public RuleRepositoryService getRuleRespositoryService() {
-		return this.ruleRespositoryService;
-	}
-	
-	/**
-	 * Sets the rule management service.
-	 * 
-	 * @return Rule management service
-	 */
-	public RuleManagementService getRuleManagementService() {
-		return ruleManagementService;
-	}
-
-	/**
 	 * Gets the rule management service.
 	 * 
 	 * @param ruleManagementService Rule management service
@@ -115,11 +109,29 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		this.ruleManagementService = ruleManagementService;
 	}
 
-	private RuleSetDTO getRuleSet(BusinessRuleInfoDTO brInfo, String ruleSetUUID) 
+	/**
+	 * Sets the fact finder service.
+	 * 
+	 * @param factFinderService Fact finder service
+	 */
+	public void setFactFinderService(FactFinderService factFinderService) {
+		this.factFinderService = factFinderService;
+	}
+
+	/**
+	 * Gets a rule set from the repository from rule set UUID.
+	 * 
+	 * @param businessRule Business rule
+	 * @param ruleSetUUID Rule set UUID
+	 * @return A rule set
+	 * @throws OperationFailedException
+	 * @throws InvalidParameterException
+	 */
+	private RuleSetDTO getRuleSet(BusinessRuleInfoDTO businessRule, String ruleSetUUID) 
 		throws OperationFailedException, InvalidParameterException {
 		RuleSetDTO ruleSet = null;
-		if (brInfo.getStatus().equals(BusinessRuleStatus.ACTIVE.toString())) {
-			String SnapshotName = brInfo.getRepositorySnapshotName();
+		if (businessRule.getStatus().equals(BusinessRuleStatus.ACTIVE.toString())) {
+			String SnapshotName = businessRule.getRepositorySnapshotName();
     		ruleSet = this.ruleRespositoryService.fetchRuleSetSnapshot(ruleSetUUID, SnapshotName);
     	} else {
     		ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
@@ -128,21 +140,15 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	}
 	
 	private void addRuleSet(BusinessRuleInfoDTO businessRule) throws OperationFailedException, InvalidParameterException {
-    	try {
-			if (this.ruleSetCachingEnabled) {
-	    		if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
-					RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
-					this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
-	    		}
-			} else {
+		if (this.ruleSetCachingEnabled) {
+    		if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
 				RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
-				this.ruleSetExecutor.removeRuleSet(businessRule, ruleSet);
 				this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
-			}
-		} catch (OperationFailedException e) {
-			throw e;
-		} catch (InvalidParameterException e) {
-			throw e;
+    		}
+		} else {
+			RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
+			this.ruleSetExecutor.removeRuleSet(businessRule, ruleSet);
+			this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
 		}
 	}
 
@@ -171,6 +177,34 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
     	return executionResultDTO;
     }
+    
+    private Map<String, Object> getFactMap(BusinessRuleInfoDTO businessRule) throws OperationFailedException, DoesNotExistException {
+    	if (businessRule.getRuleElementList() == null) {
+    		return null;
+    	}
+    	
+    	Map<String, Object> factMap = new HashMap<String, Object>();
+
+    	for(RuleElementDTO ruleElement : businessRule.getRuleElementList()) {
+    		RulePropositionDTO ruleProposition = ruleElement.getRuleProposition();
+    		if (ruleProposition != null) {
+	    		List<FactStructureDTO> list = ruleProposition.getLeftHandSide().getYieldValueFunction().getFactStructureList();
+	    		if (list != null) {
+		    		for(FactStructureDTO factStructure : list) {
+		    			if (factStructure.isStaticFact()) {
+		    				continue;
+		    			}
+		    			String factTypeKey = factStructure.getFactTypeKey();
+		    			FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, factStructure);
+		    	    	String factKey = FactUtil.createFactKey(factStructure);
+		    			factMap.put(factKey, factResult);
+		    		}
+	    		}
+    		}
+    	}
+    	
+    	return factMap;
+    }
 
     public AgendaExecutionResultDTO executeAgenda(String agendaId) 
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
@@ -181,16 +215,15 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     	// Retrieve runtime agenda from rule management
     	RuntimeAgendaDTO agenda = null;
+		Map<String, Object> factMap = new HashMap<String, Object>();
     	
     	try {
     		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
-    	    	/*if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
-	    			RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
-	    			this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
-    	    	}*/
     			addRuleSet(businessRule);
+    			Map<String, Object> map = getFactMap(businessRule);
+    			factMap.putAll(map);
     		}
-    		AgendaExecutionResult executionResult = this.ruleSetExecutor.execute(agenda, null);
+    		AgendaExecutionResult executionResult = this.ruleSetExecutor.execute(agenda, factMap);
     		return createAgendaExecutionResultDTO(executionResult);
     	} catch(RuleSetExecutionException e) {
     		throw new OperationFailedException(e.getMessage());
@@ -206,17 +239,12 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     	// Retrieve business rule
     	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-    	//String ruleSetUUID = businessRule.getCompiledId();
-    	
-		//String ruleBaseType = brInfo.getBusinessRuleTypeKey();
-    	/*if (!this.ruleSetExecutor.containsRuleSet(businessRule) && this.ruleSetCachingEnabled) {
-	    	RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
-        	this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
-    	}*/
 		addRuleSet(businessRule);
     	
+		Map<String, Object> factMap = getFactMap(businessRule);
+		
         try {
-        	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, null);
+        	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, factMap);
     		return createExecutionResultDTO(result);
     	} catch(RuleSetExecutionException e) {
     		logger.error(e.getMessage(), e);
