@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="FactFinderService" targetNamespace="http://student.kuali.org/wsdl/brms/FactFinder" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/brms/FactFinder" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/brms/FactFinder" xmlns:tns="http://student.kuali.org/poc/wsdl/brms/factfinder" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/poc/wsdl/brms/factfinder">
+    <xs:import namespace="http://student.kuali.org/wsdl/brms/FactFinder"/>
+    <xs:element name="fetchFact" type="tns:fetchFact"/>
+    <xs:element name="fetchFactResponse" type="tns:fetchFactResponse"/>
+    <xs:element name="fetchFactType" type="tns:fetchFactType"/>
+    <xs:element name="fetchFactTypeResponse" type="tns:fetchFactTypeResponse"/>
+    <xs:element name="findFactTypes" type="tns:findFactTypes"/>
+    <xs:element name="findFactTypesResponse" type="tns:findFactTypesResponse"/>
+    <xs:complexType name="fetchFact">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="factTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="factStructure" type="ns1:factStructureDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchFactResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:factResultDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="findFactTypes">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="findFactTypesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchFactType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="factTypeKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchFactTypeResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns1:factTypeInfoDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/poc/wsdl/brms/factfinder" xmlns:tns="http://student.kuali.org/wsdl/brms/FactFinder" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/brms/FactFinder">
     <xs:complexType name="factStructureDTO">
         <xs:sequence>
@@ -119,44 +157,6 @@
     <xs:element name="findFactTypesResponse" nillable="true" type="ns0:findFactTypesResponse"/>
     <xs:element name="fetchFactType" nillable="true" type="ns0:fetchFactType"/>
     <xs:element name="fetchFactTypeResponse" nillable="true" type="ns0:fetchFactTypeResponse"/>
-</xs:schema>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/brms/FactFinder" xmlns:tns="http://student.kuali.org/poc/wsdl/brms/factfinder" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/poc/wsdl/brms/factfinder">
-    <xs:import namespace="http://student.kuali.org/wsdl/brms/FactFinder"/>
-    <xs:element name="fetchFact" type="tns:fetchFact"/>
-    <xs:element name="fetchFactResponse" type="tns:fetchFactResponse"/>
-    <xs:element name="fetchFactType" type="tns:fetchFactType"/>
-    <xs:element name="fetchFactTypeResponse" type="tns:fetchFactTypeResponse"/>
-    <xs:element name="findFactTypes" type="tns:findFactTypes"/>
-    <xs:element name="findFactTypesResponse" type="tns:findFactTypesResponse"/>
-    <xs:complexType name="fetchFact">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="factTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="factStructure" type="ns1:factStructureDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchFactResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:factResultDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="findFactTypes">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="findFactTypesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchFactType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="factTypeKey" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchFactTypeResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="ns1:factTypeInfoDTO"/>
-        </xs:sequence>
-    </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="fetchFactType">
