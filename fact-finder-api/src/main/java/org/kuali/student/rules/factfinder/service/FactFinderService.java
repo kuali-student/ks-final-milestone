@@ -13,7 +13,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 
-@WebService(name = "FactFinderService", targetNamespace = "http://student.kuali.org/poc/wsdl/brms/factfinder")
+@WebService(name = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface FactFinderService {
 
