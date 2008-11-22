@@ -15,7 +15,7 @@ public class FactUtil {
      * @return Criteria key string
      */
     public static String createCriteriaKey(FactStructureDTO factStructure) {
-    	return "CRITERIA" + "." + 
+    	return "FACT" + "." + 
 	    	factStructure.getFactStructureId() + "." + 
 	    	factStructure.getCriteriaTypeInfo().getName();
     }
