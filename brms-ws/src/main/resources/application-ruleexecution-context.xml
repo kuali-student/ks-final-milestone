@@ -56,6 +56,7 @@
             <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
 	        <property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
             <property name="ruleManagementService" ref="ruleManagementClient"/>
+            <property name="factFinderService" ref="factFinderClient"/>
     </bean>
 
 </beans>
