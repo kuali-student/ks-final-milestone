@@ -11,6 +11,11 @@ import java.util.Set;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -25,7 +30,8 @@ public class GuiUtil {
 
     public static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
-
+	public static final String FACT_TYPE_KEY_PREFIX = "fact.";
+    
     /*
      * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
      * 
@@ -469,4 +475,55 @@ public class GuiUtil {
         vp.add(field);
         return vp;
     }    
+    
+    public static String removeFactTypeKeyPrefix(String factTypeKey) {
+        if (factTypeKey.startsWith(FACT_TYPE_KEY_PREFIX)) {
+        	factTypeKey = factTypeKey.substring(FACT_TYPE_KEY_PREFIX.length());
+        } 
+        return factTypeKey;
+    }
+    
+    public static String addFactTypeKeyPrefix(String factTypeKey) {
+        return FACT_TYPE_KEY_PREFIX + factTypeKey;
+    }    
+    
+    public static String removeFactParamPrefix(String factParam) {
+    	final String FACT_PARAM_PREFIX = "factParam.";
+        if (factParam.startsWith(FACT_PARAM_PREFIX)) {
+        	factParam = factParam.substring(FACT_PARAM_PREFIX.length());
+        } 
+        return factParam;
+    }
+
+    public static void showUserDialog(String message) {
+    	MyDialog box = new MyDialog(message);
+    	box.center();
+    	box.show();
+    }
+    
+    private static class MyDialog extends DialogBox {
+
+    public MyDialog(String message) {
+      // Set the dialog box's caption.
+      setText(message);
+
+      // DialogBox is a SimplePanel, so you have to set its widget property to
+      // whatever you want its contents to be.
+
+      Button ok = new Button("OK");
+      ok.addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          MyDialog.this.hide();
+        }
+      });
+      
+      VerticalPanel dialogContents = new VerticalPanel();
+      dialogContents.setSpacing(4);
+      setWidget(dialogContents);      
+      dialogContents.add(ok);
+      dialogContents.setCellHorizontalAlignment(ok, HasHorizontalAlignment.ALIGN_CENTER);
+      dialogContents.setCellVerticalAlignment(ok, HasVerticalAlignment.ALIGN_MIDDLE);
+    }
+  }    
+    
 }
