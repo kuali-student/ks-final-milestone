@@ -57,7 +57,7 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
     public FactFinderService client;
 
     @Test
-    public void testFetchFact() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+    public void testFetchFact_EarnedCreditList() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         
         String factTypeKey = "fact.earned_credit_list";
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -77,6 +77,29 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         assertEquals(2, result.getResultList().size());
         assertEquals("2.5", result.getResultList().get(0).get("resultColumn.credit"));
         assertEquals("3.5", result.getResultList().get(1).get("resultColumn.credit"));        
+    }
+    
+    @Test
+    public void testFetchFact_CompletedCourseList() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        
+        String factTypeKey = "fact.completed_course_list";
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("factParam.studentId", "student1");
+        paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
+        
+        FactStructureDTO factStructureDTO = new FactStructureDTO();
+        factStructureDTO.setFactTypeKey(factTypeKey);
+        factStructureDTO.setParamValueMap(paramMap);
+        
+        FactResultDTO result = client.fetchFact(factTypeKey, factStructureDTO);
+        
+        assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
+        assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        
+        assertEquals(3, result.getResultList().size());
+        assertEquals("PSYC 200", result.getResultList().get(0).get("resultColumn.cluId"));
+        assertEquals("PSYC 201", result.getResultList().get(1).get("resultColumn.cluId"));
+        assertEquals("PSYC 202", result.getResultList().get(2).get("resultColumn.cluId"));        
     }
     
     @Test
