@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -58,6 +59,7 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
+import org.kuali.student.rules.translators.exceptions.RuleSetTranslatorException;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 
@@ -1345,7 +1347,7 @@ public class RuleSetTranslatorTest {
     }
 
     @Test
-    public void testRule_InvalidRuleName_InvalidCharacters() throws Exception {
+    public void testRule_InvalidRuleName_InvalidCharacters1() throws Exception {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
@@ -1355,5 +1357,33 @@ public class RuleSetTranslatorTest {
         String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
         assertNotNull(ruleSet);
         assertEquals(name, ruleSet.getName());
+    }
+
+    @Test
+    public void testRule_InvalidRuleName_InvalidCharacters2() throws Exception {
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(null);
+        // Create invalid name
+        bri.setName("ABC123456 `~!@#$%^&*()-+= XYZ");
+
+        RuleSet ruleSet = this.generateRuleSet.translate(bri);
+        String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
+        assertNotNull(ruleSet);
+        assertEquals(name, ruleSet.getName());
+    }
+
+    @Test
+    public void testRule_InvalidPackageAndRuleName_InvalidNumber() throws Exception {
+        // Create functional business rule
+        BusinessRuleInfoDTO bri = createBusinessRule(null);
+        // Create invalid name
+        bri.setName("123456 `~!@#$%^&*()-+= XYZ");
+
+        try {
+        	this.generateRuleSet.translate(bri);
+        fail("Translator should have thrown an invalid rule exception");
+        } catch(RuleSetTranslatorException e) {
+        	assertNotNull(e.getMessage());
+        }
     }
 }

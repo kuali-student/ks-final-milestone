@@ -54,6 +54,9 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 
     private static final String PACKAGE_PREFIX = "org.kuali.student.rules.";
 
+    private final static String INVALID_CHARACTERS_REGEX = "[^a-zA-Z0-9]";
+    private final static String VALID_RULE_NAME_REGEX = "[a-zA-Z_][a-zA-Z0-9_]*";
+    
     private RuleSetVerifier ruleSetVerifier = new RuleSetVerifier();
     
     public RuleSetTranslatorDroolsImpl() {
@@ -96,6 +99,11 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      */
     public static String getRuleSetName(BusinessRuleInfoDTO businessRule) {
     	String businessRuleName = removeInvalidCharacters(businessRule.getName());
+    	if(!isValidRuleName(businessRuleName)) {
+    		throw new RuleSetTranslatorException("Invalid rule name. " +
+    				"Rule name must must start with a letter. Original rule name: " + 
+    				businessRule.getName() + " Adjusted rule name " + businessRuleName);
+    	}
     	return PACKAGE_PREFIX + businessRuleName + businessRule.getBusinessRuleId();
     }
     
@@ -254,7 +262,11 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     }
 
     private static String removeInvalidCharacters(String s) {
-    	return s.replaceAll("[^a-zA-Z0-9]", "");
+    	return s.replaceAll(INVALID_CHARACTERS_REGEX, "");
+    }
+    
+    private static boolean isValidRuleName(String s) {
+    	return s.matches(VALID_RULE_NAME_REGEX);
     }
 
 }
