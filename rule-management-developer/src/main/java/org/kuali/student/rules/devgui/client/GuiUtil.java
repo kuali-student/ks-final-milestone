@@ -4,6 +4,8 @@
 package org.kuali.student.rules.devgui.client;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -526,4 +528,10 @@ public class GuiUtil {
     }
   }    
     
+    /*
+	public static Date createDate(int year, int month, int day, int hourOfDay, int minute) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month-1, day, hourOfDay, minute, 0);
+		return cal.getTime();
+	} */    
 }

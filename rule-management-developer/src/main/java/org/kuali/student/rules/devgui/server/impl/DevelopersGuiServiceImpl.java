@@ -55,43 +55,28 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      * 
      *                                                     BUSINESS RULES 
      *
-     *******************************************************************************************************************/    
-     
-    
-	private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
-    	Calendar cal = Calendar.getInstance();
-    	cal.set(year, month-1, day, hourOfDay, minute, 0);
-    	return cal.getTime();
-    }       
+     *******************************************************************************************************************/                  
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
 
-        String new_rule_id = null;
+    	//TODO remove after Kamal's fix
+    	businessRuleInfo.setBusinessRuleId("111111" + new Date());
+    	
+    	String new_rule_id = null;
 
-        //TODO temporary fix
-        MetaInfoDTO metaInfo = new MetaInfoDTO();
-        metaInfo.setCreateTime(new Date());
-        metaInfo.setCreateID("");
-        metaInfo.setUpdateTime(new Date());
-        metaInfo.setUpdateID("");
      
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setBusinessRuleId("111111");
-        brInfoDTO.setName("Test Rule Name 1111");
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
-        brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
-        brInfoDTO.setAnchorValue("TEST");
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-        brInfoDTO.setMetaInfo(metaInfo);
 
-		Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
-		Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-		brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-		brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        //brInfoDTO.setName("Test Rule Name 1111");
+        //brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        //brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        //brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        //brInfoDTO.setAnchorValue("TEST");
+        //brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+
         
         try {
-            new_rule_id = ruleManagementService.createBusinessRule(brInfoDTO);
+            new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
         } catch (Exception ex) {
             throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }

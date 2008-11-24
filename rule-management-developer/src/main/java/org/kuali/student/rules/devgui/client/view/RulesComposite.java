@@ -301,27 +301,20 @@ public class RulesComposite extends Composite {
              ***************************************************************************************************************/
                                              
             submitDraftButton.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-
-                	if (!displayedRule.getBusinessRuleId().isEmpty()) {
-                		System.out.println("DEBUG: expected empty business rule id!");
-                		Window.alert("Internal error");  //TODO better message to the user
-                		return;
-                	}                
-                	
-                    //make sure rule has draft status 
-                    displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-                	
-                    // 1) validate draft before submitting - we need at least agenda type and business rule type
-                    if (isDisplayedRuleValid() == false) {
-                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
-                        System.out.println("DEBUG: invalid DRAFT - it cannot be updated");
-                    }                    
+                public void onClick(final Widget sender) {               	                	                                        	                 
                     
-                    // 2) update the displayed rule copy with data entered
+                    // 1) update the displayed rule copy with data entered
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
+                    
+                    // 2) validate draft before submitting - we need at least agenda type and business rule type
+                    if (isDisplayedRuleValid("Cannot submit draft") == false) {
+                    	return;
+                    }                        
+                    
+                    //make sure rule has draft status 
+                    displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());                      
                    
                     // 3) create new draft rule
                     DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<String>() {
@@ -358,19 +351,18 @@ public class RulesComposite extends Composite {
             });
 
             updateDraftButton.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-
-                    // 1) validate draft before update
-                    if (isDisplayedRuleValid() == false) {
-                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
-                        System.out.println("DEBUG: invalid DRAFT - it cannot be updated");
-                    }                 	
+                public void onClick(final Widget sender) {                	
                 	
-                    // 2) update the draft with data entered
+                    // 1) update the draft with data entered
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
                    
+                    // 2) validate draft before update
+                    if (isDisplayedRuleValid("Cannot update draft.") == false) {
+                    	return;
+                    } 
+                    
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -390,18 +382,17 @@ public class RulesComposite extends Composite {
             activateDraftButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
-                    // first validate that the rule entered/changed is correct
-                    if (isDisplayedRuleValid() == false) {
-                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
-                        System.out.println("DEBUG: invalid rule DRAFT - it cannot be updated");
-                    }
-
-                    // second, update the active rule with data entered
+                    // 1) update the active rule with data entered
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
+
+                    // 2) validate that the rule entered/changed is correct
+                    if (isDisplayedRuleValid("Cannot activate draft.") == false) {
+                    	return;
+                    }
                     
-                    //activated Draft will become a rule
+                    // 3) activated Draft will become a rule
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
@@ -423,17 +414,15 @@ public class RulesComposite extends Composite {
             makeNewVersionButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
-                    // first validate that the rule entered/changed data is correct  
-                    if (isDisplayedRuleValid() == false) {
-                        // TODO: show dialog 'Rule is not valid or complete: <error message>"
-                        System.out.println("DEBUG: invalid rule DRAFT - it cannot be updated");
+                    // 1) validate that the rule entered/changed data is correct  
+                    if (isDisplayedRuleValid("Cannot make a new rule version.") == false) {
+                    	return;
                     }
 
-                    // second, update the active rule with data entered
+                    // 2) update the active rule with data entered
                     if (updateDisplayedRuleCopy() == false) {
                         return;
                     }
-
                     
                     //TODO retire this rule and make a new version - talk to Kamal
                     
@@ -719,9 +708,12 @@ public class RulesComposite extends Composite {
                     	//we need to clear related Anchor Type
                     	displayedRule.setAnchorTypeKey("");
                     	ruleAnchorType.setText("");
+                    	factTypeKeyList = null;
                     } else {
                     	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
                     	ruleAnchorType.setText(AnchorTypeKey.KUALI_COURSE.name());  //TODO lookup based on business rule type
+                    	displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name());
+                    	retrieveFactTypes();
                     }                	                	                	
                 }
             });             
@@ -759,6 +751,7 @@ public class RulesComposite extends Composite {
             }
         }
 
+        retrieveFactTypes();
         displayActiveRule();    	
     }
     
@@ -855,14 +848,13 @@ public class RulesComposite extends Composite {
         // set meta info
         final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
         MetaInfoDTO metaInfo = new MetaInfoDTO();
-        /* test later i.e. when certain fields are empty
         metaInfo.setCreateID(createUserIdTextBox.getText());
-        metaInfo.setCreateTime(formatter.parse(createTimeTextBox.getText()));
+        metaInfo.setCreateTime(new Date()); //TOOD formatter.parse(createTimeTextBox.getText()));
         metaInfo.setCreateComment(createCommentTextBox.getText());
         metaInfo.setUpdateID(updateUserIdTextBox.getText());
-        metaInfo.setUpdateTime(formatter.parse(updateTimeTextBox.getText()));
+        metaInfo.setUpdateTime(new Date()); //formatter.parse(updateTimeTextBox.getText()));
         metaInfo.setUpdateComment(updateCommentTextBox.getText());
-        */
+        
         displayedRule.setMetaInfo(metaInfo);
 
         return true;
@@ -888,16 +880,18 @@ public class RulesComposite extends Composite {
         newRule.setBusinessRuleTypeKey("");
         newRule.setAnchorTypeKey("");
         newRule.setAnchorValue("");
-        newRule.setEffectiveStartTime(new Date());
-        newRule.setEffectiveEndTime(new Date());
+		Date effectiveStartTime = new Date(); //GuiUtil.createDate(2000, 1, 1, 12, 00);
+		Date effectiveEndTime = new Date(); //GuiUtil.createDate(2010, 1, 1, 12, 00);
+		newRule.setEffectiveStartTime(effectiveStartTime);
+		newRule.setEffectiveEndTime(effectiveEndTime);
 
         // set meta info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
-        metaInfo.setCreateID("");
         metaInfo.setCreateTime(new Date());
+        metaInfo.setCreateID("");
         metaInfo.setCreateComment("");
-        metaInfo.setUpdateID("");
         metaInfo.setUpdateTime(new Date());
+        metaInfo.setUpdateID("");        
         metaInfo.setUpdateComment("");
         newRule.setMetaInfo(metaInfo);
 
@@ -948,50 +942,68 @@ public class RulesComposite extends Composite {
      *
      *******************************************************************************************************************/        
     
-    private boolean isDisplayedRuleValid() {
-
-    	//for draft we need at least Agenda Type and Business Rule Type
-    	if ((getRuleStatus().equals(STATUS_NOT_IN_DATABASE)) || (getRuleStatus().equals(BusinessRuleStatus.DRAFT_IN_PROGRESS))) {
-    		if (displayedRuleInfo.getAgendaType().isEmpty() || displayedRuleInfo.getBusinessRuleType().isEmpty()) {
-	            // TODO error messages
-	            System.out.println("Rule has no agenda type or business rule type defined");
-	            return false;  
-    		}
-    		return true;
+    private boolean isDisplayedRuleValid(String message) {
+ 	
+        // at least one proposition needs to be used
+        if (displayedRule.getName().isEmpty()) {
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Name.");
+            return false;
+        }
+        
+        // at least one proposition needs to be used
+        if (displayedRule.getDescription().isEmpty()) {
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Description.");
+            return false;
+        }     	
+        
+        if (displayedRuleInfo == null) {
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Agenda Type.");
+            return false;        	
+        }
+    	
+    	//all rules need Agenda Type, Business Rule Type
+  		if ((displayedRuleInfo.getAgendaType() == null) || displayedRuleInfo.getAgendaType().equals(EMPTY_LIST_BOX_ITEM) ||
+  				displayedRuleInfo.getAgendaType().isEmpty()) {
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Agenda Type.");
+            return false;  
     	}
     	
+  		if ((displayedRule.getBusinessRuleTypeKey() == null) || displayedRule.getBusinessRuleTypeKey().equals(EMPTY_LIST_BOX_ITEM) ||
+  				displayedRule.getBusinessRuleTypeKey().isEmpty()) {
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Business Rule Type.");
+            return false;  
+    	}  		
+  		
         ruleComposition = new StringBuffer(propCompositionTextArea.getText());
 
         // each rule should have at least one proposition
         if ((definedPropositions == null) || (definedPropositions.size() == 0)) {
-            // TODO error messages
-            System.out.println("Rule has no propositions defined");
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please add at least one Proposition.");
             return false;
         }
 
         // at least one proposition needs to be used
         if (ruleComposition.toString().isEmpty()) {
-            System.out.println("Rule has no propositions.");
+        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please use at least one defined Proposition.");
             return false;
-        }
-
+        }       
+        
         // TODO make form read-only while validating/creating/updating the rule???
         return (GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()).equals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE));
-
-        // TODO validate other fields i.e. fields that are required
     }
+    
 
     private boolean isYVFFactValid() {
     	
 		if (factTypeKeyList == null) {
-        	GuiUtil.showUserDialog("ERROR: No Business Rule Type Selected.");
+        	GuiUtil.showUserDialog("ERROR: No Business Rule Type selected.");
             return false;    		
     	}
     	
 		//we don't want duplicate names
 		//if (propNameTextBox.getText() TODO
 		
-		String yvf = GuiUtil.getListBoxSelectedValue(yvfListBox);
+		String yvf = GuiUtil.getListBoxSelectedValue(yvfListBox).trim();
         if ((yvfListBox.getSelectedIndex() == -1) || (yvf.equals(EMPTY_LIST_BOX_ITEM))) {
         	GuiUtil.showUserDialog("ERROR: YVF cannot be empty.");
             return false;
@@ -2196,6 +2208,13 @@ public class RulesComposite extends Composite {
         } */
                
     	//load a new fact type key list if it is missing (because of new business rule
+    	retrieveFactTypes();
+    	
+    	System.out.println("factTypeKeyList loaded...");
+    	populateYVFFactTypeLits();
+    }
+    
+    private void retrieveFactTypes() {
     	if (factTypeKeyList == null) {    	
 	        //load list of factTypeKeys for the given business rule type
 	        //TODO in proposition form, make indication that the param list boxes are still being loaded...
@@ -2229,10 +2248,7 @@ public class RulesComposite extends Composite {
 	            	populateYVFFactTypeLits(); 
 	            }
 	        });        	
-    	}
-    	
-    	System.out.println("factTypeKeyList loaded...");
-    	populateYVFFactTypeLits();
+    	}    	
     }
     
     private void populatePropositionDetailsTest(RulePropositionDTO prop) {
