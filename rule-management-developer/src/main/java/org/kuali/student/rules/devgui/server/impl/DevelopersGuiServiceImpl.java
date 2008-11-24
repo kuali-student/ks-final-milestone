@@ -16,6 +16,7 @@ import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -71,6 +72,16 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         //brInfoDTO.setAnchorValue("TEST");
         //brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         
+        //Temporary workaround                    
+        List<RuleElementDTO> ruleElementList = businessRuleInfo.getRuleElementList();
+        for (RuleElementDTO elem : ruleElementList) {
+            if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
+            } else {
+            	if (elem.getOperation().equals("(")) elem.setOperation(RuleElementType.LPAREN.toString());
+            	if (elem.getOperation().equals(")")) elem.setOperation(RuleElementType.RPAREN.toString());                            
+            }
+        }    	
+    	
         try {
             new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
         } catch (Exception ex) {
@@ -81,6 +92,16 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
         StatusDTO rule_update_status = null;
+        
+        //Temporary workaround                    
+        List<RuleElementDTO> ruleElementList = businessRuleInfo.getRuleElementList();
+        for (RuleElementDTO elem : ruleElementList) {
+            if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
+            } else {
+            	if (elem.getOperation().equals("(")) elem.setOperation(RuleElementType.LPAREN.toString());
+            	if (elem.getOperation().equals(")")) elem.setOperation(RuleElementType.RPAREN.toString());                            
+            }
+        }
         
         try {
             rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);

@@ -118,7 +118,7 @@ public class RulesComposite extends Composite {
     final SimplePanel simplePanel = new SimplePanel();
     
     // Main rules tab
-    final Label businessRuleID = new Label("");
+    final TextBox businessRuleID = new TextBox();
     final Label ruleStatus = new Label();
     final TextBox nameTextBox = new TextBox();
     final TextArea descriptionTextArea = new TextArea();
@@ -363,7 +363,7 @@ public class RulesComposite extends Composite {
                     // 2) validate draft before update
                     if (isDisplayedRuleValid("Cannot update draft.") == false) {
                     	return;
-                    } 
+                    }                                        
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
@@ -860,8 +860,8 @@ public class RulesComposite extends Composite {
         
         displayedRule.setMetaInfo(metaInfo);
 
-    	//TODO remove after Kamal's fix
-        displayedRule.setBusinessRuleId(nameTextBox.getText());
+    	//TODO remove after Kamal's fix and make businessRuleID a LABEL
+        displayedRule.setBusinessRuleId(businessRuleID.getText());
         
         return true;
     }

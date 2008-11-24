@@ -117,9 +117,6 @@ public class GuiUtil {
                 ruleElem.setOperation(RuleElementType.PROPOSITION.toString()); //TODO RuleElementType.PROPOSITION.getName());
                 ruleElem.setRuleProposition(prop);
             } else {
-            	if (token.equals("(")) token = RuleElementType.LPAREN.toString();
-            	if (token.equals(")")) token = RuleElementType.RPAREN.toString();
-            	System.out.println("Comp Token read1: '" + token + "'");
                 ruleElem.setOperation(token);
             }
             elemList.add(ruleElem);
