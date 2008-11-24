@@ -362,16 +362,19 @@ public class GuiUtil {
         return 0;
     }
 
-    //if itemText is empty then un-select any selected item the list box
-    public static void setListBoxByItemName(ListBox listBox, String itemText) {  
-   	    	
-    	if (itemText == null || itemText.isEmpty()) {
+    //if itemText is empty or null then select the first item in the list box
+    public static void setListBoxSelectionByItemName(ListBox listBox, String itemText) {  
+   	    	    	
+    	if ((itemText == null) || itemText.isEmpty()) {
     		if (listBox.getSelectedIndex() != -1) {
-    			listBox.setItemSelected(listBox.getSelectedIndex(), false);
+        		//System.out.println("first fact type BEFORE:" + listBox.getSelectedIndex());
+    			//listBox.setItemSelected(listBox.getSelectedIndex(), false);
+    			//System.out.println("first fact type AFTER:" + listBox.getSelectedIndex());
+    			listBox.setItemSelected(0, true);
     		}
     		return;
     	}
-    	
+
     	int itemIx = getListBoxIndexByName(listBox, itemText);    	    	
     	listBox.setSelectedIndex(itemIx);
     }      
