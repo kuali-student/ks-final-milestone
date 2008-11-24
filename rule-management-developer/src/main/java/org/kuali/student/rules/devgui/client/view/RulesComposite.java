@@ -33,6 +33,7 @@ import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -45,6 +46,7 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -743,7 +745,7 @@ public class RulesComposite extends Composite {
         definedPropositions = new HashMap<Integer, RulePropositionDTO>();
 
         for (RuleElementDTO elem : ruleInfo.getRuleElementList()) {
-            if (elem.getOperation().equals("PROPOSITION")) {
+            if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
                 definedPropositions.put(propCount, elem.getRuleProposition());
                 ruleComposition.append("P" + (propCount++) + " ");
             } else {
@@ -833,13 +835,14 @@ public class RulesComposite extends Composite {
     	displayedRule.setEffectiveEndTime(new Date()); // TODO - add to form
 
         // set rule propositions
+    	ruleComposition = new StringBuffer(propCompositionTextArea.getText());
     	if (ruleComposition != null) {
+    		System.out.println("HERE--");
 	        List<RuleElementDTO> elemList;
 	        try {
 	            elemList = GuiUtil.createRuleElementsFromComposition(ruleComposition.toString(), definedPropositions);
 	        } catch (IllegalRuleFormatException e) {
-	            // This should not happen as rule suppose to be checked before calling this function
-	            // TODO: log into screen log text box
+	        	GuiUtil.showUserDialog("ERROR: Failed to process defined propositions." + e.getMessage());
 	            return false;
 	        }
 	        displayedRule.setRuleElementList(elemList);
@@ -857,6 +860,9 @@ public class RulesComposite extends Composite {
         
         displayedRule.setMetaInfo(metaInfo);
 
+    	//TODO remove after Kamal's fix
+        displayedRule.setBusinessRuleId(nameTextBox.getText());
+        
         return true;
     }
 

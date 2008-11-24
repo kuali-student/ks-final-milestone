@@ -26,6 +26,8 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
+import com.google.gwt.user.client.Random;
+
 /**
  * @author zzraly
  */
@@ -58,22 +60,16 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *******************************************************************************************************************/                  
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
-
-    	//TODO remove after Kamal's fix
-    	businessRuleInfo.setBusinessRuleId("111111" + new Date());
     	
     	String new_rule_id = null;
-
      
-        BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-
+        //BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
         //brInfoDTO.setName("Test Rule Name 1111");
         //brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         //brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         //brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         //brInfoDTO.setAnchorValue("TEST");
         //brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-
         
         try {
             new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
@@ -85,12 +81,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
         StatusDTO rule_update_status = null;
-
-        //TODO temporary fix
-        businessRuleInfo.setEffectiveStartTime(new Date());
-        businessRuleInfo.setEffectiveEndTime(new Date());
-        businessRuleInfo.setDescription("Test Description");
-        businessRuleInfo.setName("Test Name");
         
         try {
             rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);

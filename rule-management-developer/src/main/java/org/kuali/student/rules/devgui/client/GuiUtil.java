@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -104,14 +105,21 @@ public class GuiUtil {
         // try {
         while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
             counter++;
-            // System.out.println("Comp Token read:" + token);
+            token = token.trim();
+            System.out.println("Comp Token read: '" + token + "'");
             RuleElementDTO ruleElem = new RuleElementDTO();
             ruleElem.setOrdinalPosition(counter);
             composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
             if (token.charAt(0) == PROPOSITION_PREFIX) {
-                ruleElem.setOperation("PROPOSITION");
-                ruleElem.setRuleProposition(definedPropositions.get(new Integer(token.substring(1))));
+                RulePropositionDTO prop = definedPropositions.get(new Integer(token.substring(1)));
+                ruleElem.setName(prop.getName());
+                ruleElem.setDescription(prop.getDescription());
+                ruleElem.setOperation(RuleElementType.PROPOSITION.toString()); //TODO RuleElementType.PROPOSITION.getName());
+                ruleElem.setRuleProposition(prop);
             } else {
+            	if (token.equals("(")) token = RuleElementType.LPAREN.toString();
+            	if (token.equals(")")) token = RuleElementType.RPAREN.toString();
+            	System.out.println("Comp Token read1: '" + token + "'");
                 ruleElem.setOperation(token);
             }
             elemList.add(ruleElem);
