@@ -496,7 +496,11 @@ public class RuleSetExecutorDroolsImplTest {
     	// Execute ruleset and fact
 		executor.addRuleSet(brInfo, ruleSet);
         for(int i=0; i<10; i++) {
-			executor.execute(brInfo, factMap);
+        	ExecutionResult result = executor.execute(brInfo, factMap);
+	        Assert.assertNotNull(result);
+	        Assert.assertNotNull(result.getResults());
+	        Assert.assertNotNull(result.getExecutionLog());
+	        Assert.assertTrue(result.getReport().isSuccessful());
         }
 
 	    System.out.println(droolsUtil.getStatisticsSummary(droolsStats));
