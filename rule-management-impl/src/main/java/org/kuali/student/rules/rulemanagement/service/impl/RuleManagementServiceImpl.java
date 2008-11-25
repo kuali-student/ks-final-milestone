@@ -114,11 +114,9 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
         RuleSetDTO rsDTO = null;
         if(BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
-            //rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
             rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             orgRule.setCompiledId(rsDTO.getUUID());
         } else if(BusinessRuleStatus.ACTIVE == newStatus) {
-            //rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
             rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             String snapshotName = orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
             rule.setRepositorySnapshotName(snapshotName);
