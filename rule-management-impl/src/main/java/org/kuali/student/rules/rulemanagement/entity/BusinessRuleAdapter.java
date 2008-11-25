@@ -64,7 +64,6 @@ public class BusinessRuleAdapter {
         ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
         ruleDTO.setAnchorTypeKey( rule.getBusinessRuleType().getAnchorTypeKey() );
         ruleDTO.setCompiledId( rule.getCompiledId() );
-        ruleDTO.setCompiledVersionNumber(rule.getCompiledVersionNumber());
         ruleDTO.setDescription( rule.getDescription() );
         ruleDTO.setEffectiveEndTime( rule.getMetaData().getEffectiveDateEnd() );
         ruleDTO.setEffectiveStartTime( rule.getMetaData().getEffectiveDateStart() );
@@ -229,7 +228,6 @@ public class BusinessRuleAdapter {
                 
         rule.setAnchor( ruleInfoDTO.getAnchorValue() );
         rule.setCompiledId(ruleInfoDTO.getCompiledId());
-        rule.setCompiledVersionNumber(ruleInfoDTO.getCompiledVersionNumber());
         rule.setDescription(ruleInfoDTO.getDescription());
         rule.setFailureMessage(ruleInfoDTO.getFailureMessage());
         rule.setName(ruleInfoDTO.getName() );

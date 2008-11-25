@@ -586,7 +586,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     			// Update rule set
     			ruleSet = updateRuleSet(ruleSet);
     			// Checkin rule set to create new version
-    			this.ruleEngineRepository.checkinRuleSet(ruleSet.getUUID(), "Rule set update");
+    			//this.ruleEngineRepository.checkinRuleSet(ruleSet.getUUID(), "Rule set update");
     			// Load rule set to get the new version
 				ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSet.getUUID());
 				log(ruleSet, "***** RuleSet Updated *****");

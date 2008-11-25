@@ -73,19 +73,16 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     	RuleSet ruleSet = null;
     	String ruleSetName = getRuleSetName(businessRule);
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
-        	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, businessRule.getCompiledVersionNumber());
+        	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, 1);
     	} else {
         	ruleSet = ruleSetFactory.createRuleSet(ruleSetName, businessRule.getDescription());
     	}
         addHeader(ruleSet);
         parseRule(ruleSet, businessRule);
         if (logger.isDebugEnabled()) {
-        	logger.debug("BusinessRuleInfoDTO: compiledId,version: "
-        			+businessRule.getCompiledId()
-        			+","
-        			+businessRule.getCompiledVersionNumber()
-        			+ "\n" +
-        			ruleSet.getContent());
+        	logger.debug("BusinessRuleInfoDTO: compiledId: " 
+        			+ businessRule.getCompiledId()
+        			+ "\n" + ruleSet.getContent());
         }
         verifyRule(ruleSet);
         return ruleSet;
@@ -256,8 +253,6 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     private void checkBusinessRule(BusinessRuleInfoDTO businessRule) {
     	if(businessRule == null) {
             throw new RuleSetTranslatorException("BusinessRuleInfoDTO is null");
-    	//} else if(businessRule.getRuleElementList() == null || businessRule.getRuleElementList().isEmpty()) {
-        //    throw new RuleSetTranslatorException("Rule element list is null or empty");
     	}
     }
 

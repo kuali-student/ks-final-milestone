@@ -315,7 +315,6 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule ID            : "+businessRule.getBusinessRuleId());
 	        System.out.println("Business Rule Name          : "+businessRule.getName());
 	        System.out.println("Business Compiled ID        : "+businessRule.getCompiledId());
-	        System.out.println("Business Compiled Version No: "+businessRule.getCompiledVersionNumber());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
 	        System.out.println("RuleSet Name:           "+ruleSet.getName());
@@ -344,7 +343,6 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule ID            : "+businessRule.getBusinessRuleId());
 	        System.out.println("Business Rule Name          : "+businessRule.getName());
 	        System.out.println("Business Compiled ID        : "+businessRule.getCompiledId());
-	        System.out.println("Business Compiled Version No: "+businessRule.getCompiledVersionNumber());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
 	        System.out.println("RuleSet Name:           "+ruleSet.getName());

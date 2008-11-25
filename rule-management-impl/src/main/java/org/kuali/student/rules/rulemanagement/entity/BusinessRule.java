@@ -63,7 +63,6 @@ public class BusinessRule  {
     
     /* Repository Variables */
     private String compiledId;
-    private Long compiledVersionNumber;
     private String repositorySnapshotName;
     
     @Embedded
@@ -274,20 +273,6 @@ public class BusinessRule  {
      */
     public final void setRuleElements(List<RuleElement> elements) {
         this.ruleElements = elements;
-    }
-
-    /**
-     * @return the compiledVersionNumber
-     */
-    public Long getCompiledVersionNumber() {
-        return compiledVersionNumber;
-    }
-
-    /**
-     * @param compiledVersionNumber the compiledVersionNumber to set
-     */
-    public void setCompiledVersionNumber(Long compiledVersionNumber) {
-        this.compiledVersionNumber = compiledVersionNumber;
     }
 
     /**

@@ -282,6 +282,32 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    public void testCreateRuleSetSnapshotVersions() throws Exception {
+    	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
+        assertNotNull(ruleSet1);
+
+        RuleSetDTO snapshot1 = service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
+        assertFalse(ruleSet1.getUUID() == snapshot1.getUUID());
+        assertEquals(2L, snapshot1.getVersionNumber());
+
+        RuleSetDTO snapshot2 = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
+        assertNotNull(snapshot2);
+        assertFalse(ruleSet1.getUUID() == snapshot2.getUUID());
+        assertEquals(2L, snapshot2.getVersionNumber());
+
+        snapshot2 = service.fetchRuleSet(snapshot2.getUUID());
+        assertNotNull(snapshot2);
+        assertEquals(2L, snapshot2.getVersionNumber());
+        
+        RuleSetDTO rebuiltSnapshot1 = service.rebuildRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A rebuilt snapshot");
+        assertFalse(ruleSet1.getUUID() == rebuiltSnapshot1.getUUID());
+        assertEquals(2L, rebuiltSnapshot1.getVersionNumber());
+
+        service.removeRuleSetSnapshot(rebuiltSnapshot1.getUUID(), rebuiltSnapshot1.getSnapshotName());
+        service.removeRuleSet(ruleSet1.getUUID());
+    }
+
+    @Test
     public void testFetchRuleSetSnapshotsByCategory() throws Exception {
         String category = "RuleSetCollection";
         boolean b = service.createCategory("/", category, "A test category 1.0 description");
@@ -714,7 +740,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Update rule's RHS expected value and set rule set UUID
     	businessRule1.setCompiledId(ruleSet1.getUUID()); 
-    	businessRule1.setCompiledVersionNumber(ruleSet1.getVersionNumber());
 		RightHandSideDTO rhs = businessRule1.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("2");
     	// Generate (update) rule set again which creates a new version
@@ -724,8 +749,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	assertNotNull(ruleSet2.getUUID());
     	assertEquals(ruleSet1.getUUID(), ruleSet2.getUUID());
     	assertFalse(ruleSet1.getContent().equals(ruleSet2.getContent()));
-    	assertEquals(2L, ruleSet2.getVersionNumber());
-    	assertFalse(ruleSet1.getVersionNumber() == ruleSet2.getVersionNumber());
+    	assertEquals(1L, ruleSet2.getVersionNumber());
+    	assertEquals(ruleSet1.getVersionNumber(), ruleSet2.getVersionNumber());
 		
     	service.removeRuleSet(ruleSet2.getUUID());
     }
@@ -758,7 +783,6 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Update rule's RHS expected value and set rule set UUID
     	businessRule1.setCompiledId(ruleSet1.getUUID()); 
-    	businessRule1.setCompiledVersionNumber(ruleSet1.getVersionNumber());
 		RightHandSideDTO rhs = businessRule1.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("2"); // which results in false since there's only 1 intersection 
     	// Generate (update) rule set again which creates a new version
@@ -768,8 +792,8 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	assertNotNull(ruleSet2.getUUID());
     	assertEquals(ruleSet1.getUUID(), ruleSet2.getUUID());
     	assertFalse(ruleSet1.getContent().equals(ruleSet2.getContent()));
-    	assertEquals(2L, ruleSet2.getVersionNumber());
-    	assertFalse(ruleSet1.getVersionNumber() == ruleSet2.getVersionNumber());
+    	assertEquals(1L, ruleSet2.getVersionNumber());
+    	assertEquals(ruleSet1.getVersionNumber(), ruleSet2.getVersionNumber());
 		
 		FactContainer fact = execute(ruleSet2, businessRule1); 
         assertFalse(fact.getPropositionContainer().getRuleResult());

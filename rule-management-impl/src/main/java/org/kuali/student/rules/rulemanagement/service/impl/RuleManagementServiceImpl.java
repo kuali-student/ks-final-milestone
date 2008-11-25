@@ -27,7 +27,6 @@ import org.kuali.student.rules.rulemanagement.dao.RuleManagementDAO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDeterminationStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
@@ -67,12 +66,8 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         rule.setBusinessRuleType(brType);
 
         // Compile the business rule
-//        BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-//        container.getBusinessRules().add(businessRuleInfo);
-//        RuleSetDTO rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
         RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
         rule.setCompiledId(rsDTO.getUUID());
-        rule.setCompiledVersionNumber(rsDTO.getVersionNumber());
 
         ruleManagementDao.createBusinessRule(rule);        
         
@@ -100,7 +95,6 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         // Overwrite the incoming values for non updateable attributes
         businessRuleInfo.setName(orgRule.getName());
         businessRuleInfo.setCompiledId(orgRule.getCompiledId());
-        businessRuleInfo.setCompiledVersionNumber(orgRule.getCompiledVersionNumber());
         
         BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
 
@@ -117,22 +111,18 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         rule.setBusinessRuleType(brType);
         
         // Compile the business rule
-        //BusinessRuleContainerDTO container = new BusinessRuleContainerDTO(brType.getBusinessRuleTypeKey().toString(), brType.getDescription());
-        //container.getBusinessRules().add(businessRuleInfo);        
- 
+
         RuleSetDTO rsDTO = null;
         if(BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
             //rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
             rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             orgRule.setCompiledId(rsDTO.getUUID());
-            orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());
         } else if(BusinessRuleStatus.ACTIVE == newStatus) {
             //rsDTO = repository.generateRuleSet(container).getRuleSetList().get(0);
             rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             String snapshotName = orgRule.getCompiledId()+RULE_SNAPSHOT_SUFFIX;
             rule.setRepositorySnapshotName(snapshotName);
             rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), snapshotName, "Activating rule " + orgRule.getName());
-            orgRule.setCompiledVersionNumber(rsDTO.getVersionNumber());            
         } else if(BusinessRuleStatus.RETIRED == newStatus) {
             repository.removeRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getRepositorySnapshotName());
         }

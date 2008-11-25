@@ -124,7 +124,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	sb.append("\nBusiness rule name:                    "+businessRule.getName());
     	sb.append("\nBusiness rule id:                      "+businessRule.getBusinessRuleId());
     	sb.append("\nBusiness rule compiledId:              "+businessRule.getCompiledId());
-    	sb.append("\nBusiness rule compiled version number: "+businessRule.getCompiledVersionNumber());
+//    	sb.append("\nBusiness rule compiled version number: "+businessRule.getCompiledVersionNumber());
     	sb.append("\nBusiness rule anchor type key:         "+businessRule.getAnchorTypeKey());
     	sb.append("\nBusiness rule anchor value:            "+businessRule.getAnchorValue());
     	sb.append("\n**************************************************");
@@ -152,7 +152,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	return new BusinessRuleInfoValue(
 			businessRule.getBusinessRuleId(), 
 			businessRule.getCompiledId(), 
-			businessRule.getCompiledVersionNumber(),
+//			businessRule.getCompiledVersionNumber(),
 			businessRule.getAnchorValue(),
 			businessRule.getAnchorTypeKey());
     }
@@ -278,7 +278,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("Business rule name:                    "+businessRule.getName());
     	this.executionLog.append("Business rule id:                      "+businessRule.getBusinessRuleId());
     	this.executionLog.append("Business rule compiled ID:             "+businessRule.getCompiledId());
-    	this.executionLog.append("Business rule compiled version number: "+businessRule.getCompiledVersionNumber());
+//    	this.executionLog.append("Business rule compiled version number: "+businessRule.getCompiledVersionNumber());
     	this.executionLog.append("Business rule anchor type key:         "+businessRule.getAnchorTypeKey());
     	this.executionLog.append("Business rule anchor value:            "+businessRule.getAnchorValue());
     	this.executionLog.append("Fact container ID:                     " + id);
@@ -467,14 +467,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         
         private String businessruleId; 
         private String compiledId;
-        private Long compiledVersionNumber;
+//        private Long compiledVersionNumber;
         private String anchorValue;
         private String anchorTypeKey;
         
-		public BusinessRuleInfoValue(String businessruleId, String compiledId, Long compiledVersionNumber, String anchorValue, String anchorTypeKey) {
+		public BusinessRuleInfoValue(String businessruleId, String compiledId, 
+//				Long compiledVersionNumber, 
+				String anchorValue, String anchorTypeKey) {
         	this.businessruleId = businessruleId;
         	this.compiledId = compiledId;
-        	this.compiledVersionNumber = compiledVersionNumber;
+//        	this.compiledVersionNumber = compiledVersionNumber;
         	this.anchorValue = anchorValue;
         	this.anchorTypeKey = anchorTypeKey;
         }
@@ -483,7 +485,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
 		public String getCompiledId() { return this.compiledId; }
 
-		public Long getCompiledVersionNumber() { return this.compiledVersionNumber; }
+//		public Long getCompiledVersionNumber() { return this.compiledVersionNumber; }
 
 		public String getAnchorValue() { return this.anchorValue; }
 	    
@@ -492,8 +494,9 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 	    public String getKey() {
 	    	return 
 	    		this.businessruleId + "." + 
-	    		this.compiledId + "." +
-	    		this.compiledVersionNumber;
+	    		this.compiledId; 
+//	    		+ "." +
+//	    		this.compiledVersionNumber;
 	    }
 	    
 	    public String toString() {
