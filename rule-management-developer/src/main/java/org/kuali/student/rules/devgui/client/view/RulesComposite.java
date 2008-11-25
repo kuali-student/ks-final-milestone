@@ -21,7 +21,6 @@ import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
-import org.kuali.student.rules.devgui.client.UserMessageDialog;
 import org.kuali.student.rules.devgui.client.GuiUtil.YieldValueFunctionType;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -1838,9 +1837,9 @@ public class RulesComposite extends Composite {
         
         //first fact criteria fields        
         final HorizontalPanel hpFirstCriteria = new HorizontalPanel();
-    	yvfFirstFactParamOneLabel.setText("1st Key");
+    	yvfFirstFactParamOneLabel.setText("1st Param");
     	yvfFirstFactParamOneLabel.setStyleName("yvf_fields");
-    	yvfFirstFactParamTwoLabel.setText("2nd Key"); 
+    	yvfFirstFactParamTwoLabel.setText("2nd Param"); 
     	yvfFirstFactParamTwoLabel.setStyleName("yvf_fields");
     	yvfFirstStaticFactLabel.setText("Value");
     	yvfFirstStaticFactLabel.setStyleName("yvf_fields");
@@ -1868,9 +1867,9 @@ public class RulesComposite extends Composite {
         yvfSecondFactLineLabel.setStyleName("yvf_fields");
         yvfSecondFactTypeLabel.setText("Fact Type:");
         yvfSecondFactTypeLabel.setStyleName("yvf_fields");
-        yvfSecondFactParamOneLabel.setText("1st Key");
+        yvfSecondFactParamOneLabel.setText("1st Param");
         yvfSecondFactParamOneLabel.setStyleName("yvf_fields");
-        yvfSecondFactParamTwoLabel.setText("2nd Key");
+        yvfSecondFactParamTwoLabel.setText("2nd Param");
         yvfSecondFactParamTwoLabel.setStyleName("yvf_fields");
     	yvfSecondStaticFactLabel.setText("Value");
     	yvfSecondStaticFactLabel.setStyleName("yvf_fields");
