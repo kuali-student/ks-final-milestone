@@ -1,5 +1,7 @@
 package org.kuali.student.rules.integration;
 
+import org.junit.Assert;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +14,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
+import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
@@ -51,9 +57,15 @@ public class ServiceTestClient {
     private static String ruleExecutionServiceName = "RuleExecutionService";
     private static String ruleExecutionServiceInterface = RuleExecutionService.class.getName();
 
+    private static String factServiceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/FactFinderService";
+    private static String factNamespace = "http://student.kuali.org/wsdl/brms/FactFinder";
+    private static String factServiceName = "FactFinderService";
+    private static String factServiceInterface = FactFinderService.class.getName();
+
     private static RuleManagementService ruleManagementService;
     private static RuleRepositoryService ruleRepositoryService;
     private static RuleExecutionService ruleExecutionService;
+    private static FactFinderService factFinderService;
     
 	@BeforeClass
     public static void setUpOnce() throws Exception {
@@ -77,6 +89,13 @@ public class ServiceTestClient {
     			ruleExecutionServiceName, 
     			ruleExecutionServiceInterface, 
     			ruleExecutionServiceURL);
+
+    	factFinderService = (FactFinderService) ServiceFactory.getPort(
+    			factServiceURL + "?wsdl", 
+    			factNamespace, 
+    			factServiceName, 
+    			factServiceInterface, 
+    			factServiceURL);
 	}
 
     @AfterClass
@@ -100,18 +119,28 @@ public class ServiceTestClient {
     /*
      * Builds the fact structure to be used as a criteria
      */
-    private FactStructureDTO buildFactStructureForRuleCriteria() {
+    private FactStructureDTO buildFactStructureForRuleCriteria(boolean staticFact) {
         FactStructureDTO fs = new FactStructureDTO();
 
         fs.setFactStructureId("1");
-        fs.setFactTypeKey("fact.cpr_prereq_criteria");
+        fs.setFactTypeKey("fact.completed_course_list");
         fs.setAnchorFlag(false);
-        fs.setStaticFact(true);
-        fs.setStaticValue("CPR101");
-        fs.setStaticValueDataType(String.class.getName());
+        fs.setStaticFact(staticFact);
+        if (staticFact) {
+	        fs.setStaticValue("CPR101");
+	        fs.setStaticValueDataType(String.class.getName());
+	        Map<String,String> paramVariableMap = new HashMap<String,String>();
+	        fs.setParamValueMap(paramVariableMap);
+        } else {
+		    FactCriteriaTypeInfoDTO factCriteria = new FactCriteriaTypeInfoDTO();
+		    factCriteria.setKey("criteria.completedCourseInfo");
+		    fs.setCriteriaTypeInfo(factCriteria);
 
-        Map<String,String> paramVariableMap = new HashMap<String,String>();
-        fs.setParamValueMap(paramVariableMap);
+		    Map<String, String> paramMap = new HashMap<String, String>();
+		    paramMap.put("factParam.studentId", "student1");
+		    paramMap.put("factParam.clusetId", "PSYC 200");
+		    fs.setParamValueMap(paramMap);
+        }        
 
         return fs;
     }
@@ -119,31 +148,45 @@ public class ServiceTestClient {
     /*
      * Builds the fact structure to be used as a 'rule fact' in an intersection
      */
-    private FactStructureDTO buildFactStructureForIntersection() {
+    private FactStructureDTO buildFactStructureForIntersection(boolean staticFact) {
         FactStructureDTO fs = new FactStructureDTO();
         
         fs.setFactStructureId("2");
-        fs.setFactTypeKey("fact.cpr_prereq_clulist1");
+        fs.setFactTypeKey("fact.completed_course_list");
         fs.setAnchorFlag(false);
-        fs.setStaticFact(true);
-        fs.setStaticValue("CPR101, CPR201, CPR301");
-        fs.setStaticValueDataType(String.class.getName());
-        
-        Map<String,String> paramVariableMap = new HashMap<String,String>();
-        fs.setParamValueMap(paramVariableMap);
-        
+        fs.setStaticFact(staticFact);
+        if (staticFact) {
+        	fs.setStaticValue("CPR101, CPR201, CPR301");
+            fs.setStaticValueDataType(String.class.getName());
+            Map<String,String> paramVariableMap = new HashMap<String,String>();
+            fs.setParamValueMap(paramVariableMap);
+        } else {
+		    FactCriteriaTypeInfoDTO factCriteria = new FactCriteriaTypeInfoDTO();
+		    factCriteria.setKey("criteria.completedCourseInfo");
+		    fs.setCriteriaTypeInfo(factCriteria);
+
+		    Map<String, String> paramMap = new HashMap<String, String>();
+		    paramMap.put("factParam.studentId", "student1");
+		    paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
+		    fs.setParamValueMap(paramMap);
+        }        
         return fs;                
     }
 
     private BusinessRuleInfoDTO generateNewBusinessRuleInfo(String businessRuleId, String ruleName, String anchor) {
+    	return generateNewBusinessRuleInfo(businessRuleId, ruleName, anchor, true);
+    }
+
+    private BusinessRuleInfoDTO generateNewBusinessRuleInfo(
+    		String businessRuleId, String ruleName, String anchor, boolean staticFact) {
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         metaInfo.setCreateTime(new Date());
         metaInfo.setCreateID("Zdenek");
         metaInfo.setUpdateTime(new Date());
         metaInfo.setUpdateID("Len");
      
-        FactStructureDTO fs1 = buildFactStructureForRuleCriteria();
-        FactStructureDTO fs2 = buildFactStructureForIntersection();
+        FactStructureDTO fs1 = buildFactStructureForRuleCriteria(staticFact);
+        FactStructureDTO fs2 = buildFactStructureForIntersection(staticFact);
         
         List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>();
         factStructureList.add(fs1);
@@ -233,7 +276,9 @@ public class ServiceTestClient {
     	try {
     		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID            : "+businessRule2.getBusinessRuleId());
+    		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
+    		
+    		System.out.println("Business Rule ID            : "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Name          : "+businessRule2.getName());
     	} finally {
     		ruleManagementService.deleteBusinessRule("1000");
@@ -250,6 +295,7 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule ID            : "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule Name          : "+businessRule2.getName());
+	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
     		ruleManagementService.deleteBusinessRule("1000");
     	}
@@ -276,6 +322,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet UUID:           "+ruleSet.getUUID());
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
+	        Assert.assertTrue(true);
     	} finally {
     		ruleManagementService.deleteBusinessRule("1000");
     	}
@@ -313,6 +360,63 @@ public class ServiceTestClient {
     public void testCreateBusinessRuleAndExecute() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM100PRE_REQ", "CHEM100");
+
+    	try {
+    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
+	        System.out.println("Business Rule ID            : "+businessRule2.getBusinessRuleId());
+	        System.out.println("Business Rule Name          : "+businessRule2.getName());
+
+	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId);
+	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
+	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
+	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
+	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
+	        System.out.println("Execution log:           "+executionResult.getExecutionLog());
+    	} finally {
+    		ruleManagementService.deleteBusinessRule("1000");
+    	}
+    }
+    
+    @Test
+    public void testFindFactTypes() throws Exception {
+    	System.out.println("\n\n*****  testFindFactTypes  *****");
+    	List<FactTypeInfoDTO> factTypes = factFinderService.findFactTypes();
+    	for(FactTypeInfoDTO factTypeInfo : factTypes) {
+    		System.out.println("Fact type name       : "+factTypeInfo.getName());
+    		System.out.println("Fact type description: "+factTypeInfo.getDescription());
+    		System.out.println("Fact type key        : "+factTypeInfo.getFactTypeKey());
+    	}
+    }
+
+    @Test
+    public void testFetchDynamicFact() throws Exception {
+    	System.out.println("\n\n*****  testFetchDynamicFact  *****");
+        String factTypeKey = "fact.completed_course_list";
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("factParam.studentId", "student1");
+        paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
+        
+        FactStructureDTO factStructureDTO = new FactStructureDTO();
+        factStructureDTO.setFactTypeKey(factTypeKey);
+        factStructureDTO.setParamValueMap(paramMap);
+        
+        FactResultDTO result = factFinderService.fetchFact(factTypeKey, factStructureDTO);
+        
+        Assert.assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
+        Assert.assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        
+        Assert.assertEquals(3, result.getResultList().size());
+        Assert.assertEquals("PSYC 200", result.getResultList().get(0).get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 201", result.getResultList().get(1).get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 202", result.getResultList().get(2).get("resultColumn.cluId"));        
+    }
+    
+    @Test
+    public void testCreateBusinessRuleAndExecute_DynamicFact() throws Exception {
+    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
+    	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM100PRE_REQ", "CHEM100", false);
 
     	try {
     		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);

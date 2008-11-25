@@ -16,8 +16,10 @@ public class FactUtil {
      */
     public static String createCriteriaKey(FactStructureDTO factStructure) {
     	return "FACT" + "." + 
-	    	factStructure.getFactStructureId() + "." + 
-	    	factStructure.getCriteriaTypeInfo().getName();
+	    	factStructure.getFactStructureId()
+	    	+ factStructure.getFactTypeKey()
+	    	+ "." 
+	    	+ (factStructure.getCriteriaTypeInfo() == null ? "CriteriaTypeInfoMissing" : factStructure.getCriteriaTypeInfo().getKey());
     }
 
     /**
@@ -27,7 +29,9 @@ public class FactUtil {
      */
     public static String createFactKey(FactStructureDTO factStructure) {
     	return "FACT" + "." + 
-	    	factStructure.getFactStructureId() + "." + 
-	    	factStructure.getCriteriaTypeInfo().getName();
+	    	factStructure.getFactStructureId() 
+	    	+ factStructure.getFactTypeKey()
+	    	+ "." 
+	    	+ (factStructure.getCriteriaTypeInfo() == null ? "CriteriaTypeInfoMissing" : factStructure.getCriteriaTypeInfo().getKey());
     }
 }
