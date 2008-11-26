@@ -1017,7 +1017,22 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public RuleSet rebuildRuleSetSnapshot(final String ruleSetName, 
+    public void rebuildRuleSetSnapshot(final String ruleSetName, 
+            final String snapshotName) {
+        PackageItem snapshotItem = this.repository.loadPackageSnapshot(ruleSetName, snapshotName);
+        CompilerResultList result = this.compileRuleSet(snapshotItem.getUUID());
+        if (result != null) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < result.size(); i++) {
+                sb.append('\n');
+                sb.append(result.get(i).toString());
+            }
+            sb.append('\n');
+            throw new RuleEngineRepositoryException("Rebuilding snapshot failed: snapshotName=" + snapshotName + sb.toString());
+        }
+    }
+    
+    public RuleSet replaceRuleSetSnapshot(final String ruleSetName, 
             final String snapshotName, final String comment) {
         return createRuleSetSnapshot(ruleSetName, snapshotName, true, comment);
     }
@@ -1542,7 +1557,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                 PackageItem pkg = it.next();
                 String[] snapshots = this.repository.listPackageSnapshots(pkg.getName());
                 for (String snapshotName : snapshots) {
-                    PackageItem snapshotItem = this.repository.loadPackageSnapshot(pkg.getName(), snapshotName);
+                    /*PackageItem snapshotItem = this.repository.loadPackageSnapshot(pkg.getName(), snapshotName);
                     CompilerResultList result = this.compileRuleSet(snapshotItem.getUUID());
                     if (result != null) {
                         StringBuffer sb = new StringBuffer();
@@ -1552,7 +1567,8 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
                         }
                         sb.append('\n');
                         throw new RuleEngineRepositoryException("Rebuilding snapshot failed: snapshotName=" + snapshotName + sb.toString());
-                    }
+                    }*/
+                	rebuildRuleSetSnapshot(pkg.getName(), snapshotName);
                 }
             }
         } catch (RulesRepositoryException e) {

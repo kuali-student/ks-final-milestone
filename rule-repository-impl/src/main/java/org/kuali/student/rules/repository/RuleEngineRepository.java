@@ -553,8 +553,25 @@ public interface RuleEngineRepository {
      * @throws RuleEngineRepositoryException 
      *            Thrown if rule set fails to compile or any other errors occur
      */
-    public RuleSet rebuildRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    public void rebuildRuleSetSnapshot(String ruleSetName, String snapshotName);
 
+    /**
+     * Rebuilds all snapshots in the repository.
+     * 
+     * @throws RuleEngineRepositoryException Thrown if rebuilding snapshots fails
+     */
+    public void rebuildAllSnapshots();
+
+    /**
+     * Replaces a rule set snapshot.
+     * 
+     * @param ruleSetName Rule set name
+     * @param snapshotName Snapshot name
+     * @param comment Snapshot comments
+     * @return
+     */
+    public RuleSet replaceRuleSetSnapshot(String ruleSetName, String snapshotName, String comment);
+    
     /**
      * 
      * Removes a rule set snapshot. 
@@ -735,13 +752,6 @@ public interface RuleEngineRepository {
      * @throws RuleEngineRepositoryException Thrown if loading a snapshot fails
      */
     public RuleSet loadRuleSetSnapshot(String ruleSetName, String snapshotName);
-
-    /**
-     * Rebuilds all snapshots in the repository.
-     * 
-     * @throws RuleEngineRepositoryException Thrown if rebuilding snapshots fails
-     */
-    public void rebuildAllSnapshots();
 
     /**
      * Compiles source code (e.g. A Drools DRL file) and returns a compiled rule engine specific object (e.g. a Drools

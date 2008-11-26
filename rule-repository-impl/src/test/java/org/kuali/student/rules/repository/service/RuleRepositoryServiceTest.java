@@ -299,7 +299,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertNotNull(snapshot2);
         assertEquals(2L, snapshot2.getVersionNumber());
         
-        RuleSetDTO rebuiltSnapshot1 = service.rebuildRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A rebuilt snapshot");
+        RuleSetDTO rebuiltSnapshot1 = service.replaceRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A rebuilt snapshot");
         assertFalse(ruleSet1.getUUID() == rebuiltSnapshot1.getUUID());
         assertEquals(2L, rebuiltSnapshot1.getVersionNumber());
 
@@ -331,9 +331,28 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         		
         service.removeRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
         service.removeRuleSetSnapshot(ruleSet2.getUUID(), "snapshot2");
-        service.removeRuleSet( ruleSet1.getUUID() );
-        service.removeRuleSet( ruleSet2.getUUID() );
+        service.removeRuleSet(ruleSet1.getUUID());
+        service.removeRuleSet(ruleSet2.getUUID());
         service.removeCategory("/"+category);
+    }
+
+    @Test
+    public void testReplaceRuleSetSnapshot() throws Exception {
+    	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
+        assertNotNull(ruleSet1);
+
+        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
+        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
+        assertNotNull(snapshot);
+
+        service.replaceRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "Replace snapshot with new compilation");
+
+		snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
+        assertNotNull(snapshot);
+        assertEquals("snapshot1", snapshot.getSnapshotName());
+
+        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getSnapshotName());
+        service.removeRuleSet(ruleSet1.getUUID());
     }
 
     @Test
@@ -341,17 +360,15 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleSetDTO ruleSet1 = service.createRuleSet(createRuleSet());
         assertNotNull(ruleSet1);
 
-        service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
-        RuleSetDTO snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
-        assertNotNull( snapshot );
+        RuleSetDTO snapshot1 = service.createRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "A new snapshot");
 
-        service.rebuildRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1", "Replace snapshot with new compilation");
+        service.rebuildRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
 
-		snapshot = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
-        assertNotNull( snapshot );
-        assertEquals("snapshot1", snapshot.getSnapshotName());
+        RuleSetDTO snapshot2 = service.fetchRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
 
-        service.removeRuleSetSnapshot(snapshot.getUUID(), snapshot.getSnapshotName());
+        assertTrue(snapshot2.getLastModifiedDate().getTimeInMillis() > snapshot1.getLastModifiedDate().getTimeInMillis());
+
+        service.removeRuleSetSnapshot(snapshot1.getUUID(), snapshot1.getSnapshotName());
         service.removeRuleSet(ruleSet1.getUUID());
     }
 
@@ -368,7 +385,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
         assertTrue(pkg.isValid());
 
         service.removeRuleSetSnapshot(ruleSet1.getUUID(), "snapshot1");
-        service.removeRuleSet( ruleSet1.getUUID() );
+        service.removeRuleSet(ruleSet1.getUUID());
     }
     
     @Test

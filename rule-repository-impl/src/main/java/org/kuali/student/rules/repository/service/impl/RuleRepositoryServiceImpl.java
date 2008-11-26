@@ -343,7 +343,32 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
-     * Rebuilds (recompiles) an existing rule set snapshot and stores it in the repository.
+     * Rebuilds (recompiles) an existing rule set snapshot and in the repository.
+     * 
+     * @param ruleSetUUID Rule set UUID
+     * @param snapshotName Snapshot name
+     * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    public void rebuildRuleSetSnapshot(
+    		final String ruleSetUUID, 
+    		final String snapshotName) 
+    	throws OperationFailedException, InvalidParameterException {
+        try {
+        	RuleSet ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSetUUID);
+        	String ruleSetName = ruleSet.getName();
+	        this.ruleEngineRepository.rebuildRuleSetSnapshot(ruleSetName, snapshotName);
+        } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
+			throw new InvalidParameterException(e.getMessage());
+		}
+    }
+
+    /**
+     * Replaces an existing rule set snapshot in the repository.
      * 
      * @param ruleSetUUID Rule set UUID
      * @param snapshotName Snapshot name
@@ -352,7 +377,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetDTO rebuildRuleSetSnapshot(
+    public RuleSetDTO replaceRuleSetSnapshot(
     		final String ruleSetUUID, 
     		final String snapshotName, 
     		final String comment) 
@@ -360,7 +385,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         try {
         	RuleSet ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSetUUID);
         	String ruleSetName = ruleSet.getName();
-	        RuleSet ruleSetSnapshot = this.ruleEngineRepository.rebuildRuleSetSnapshot(ruleSetName, snapshotName, comment);
+	        RuleSet ruleSetSnapshot = this.ruleEngineRepository.replaceRuleSetSnapshot(ruleSetName, snapshotName, comment);
         	return ruleAdapter.getRuleSetDTO(ruleSetSnapshot);
         } catch(RuleEngineRepositoryException e) {
 			logger.error(e.getMessage(), e);

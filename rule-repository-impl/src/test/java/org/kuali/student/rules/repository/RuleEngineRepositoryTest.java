@@ -359,11 +359,11 @@ public class RuleEngineRepositoryTest {
                 "Snapshot Version 1");
         // replace snapshot
         String expectedCheckinComment = "Snapshot Version 2";
-        brmsRepository.rebuildRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+        brmsRepository.replaceRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                 expectedCheckinComment);
         
         RuleSet ruleSet = brmsRepository.loadRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1");
-        assertEquals( 2, ruleSet.getVersionNumber() );
+        assertEquals( 2L, ruleSet.getVersionNumber() );
         assertEquals( expectedCheckinComment, ruleSet.getCheckinComment() );
     }
     
@@ -372,7 +372,7 @@ public class RuleEngineRepositoryTest {
         createSimpleRuleSet("MyRuleSet");
         
             try {
-            brmsRepository.rebuildRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
+            brmsRepository.replaceRuleSetSnapshot("MyRuleSet", "MyRuleSetSnapshot1", 
                     "Snapshot Version 1");
             fail("Replacing non-existing snapshot should have failed");
         } catch (RuleEngineRepositoryException e) {
@@ -1481,6 +1481,21 @@ public class RuleEngineRepositoryTest {
         long snapshotTime1 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
 
         brmsRepository.rebuildAllSnapshots();
+
+        long snapshotTime2 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
+
+        assertTrue(snapshotTime2 > snapshotTime1);
+    }
+
+    @Test
+    public void testRebuildRuleSetSnapshot() throws Exception {
+        RuleSet ruleSet = createSimpleRuleSet("testRebuildAllSnapshots");
+        
+        brmsRepository.createRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1", "Build snapshot 1");
+
+        long snapshotTime1 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
+
+        brmsRepository.rebuildRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1");
 
         long snapshotTime2 = brmsRepository.loadRuleSetSnapshot("testRebuildAllSnapshots", "SNAPSHOT-1").getLastModifiedDate().getTimeInMillis();
 
