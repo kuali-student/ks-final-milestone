@@ -101,7 +101,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     				"Rule name must must start with a letter. Original rule name: " + 
     				businessRule.getName() + " Adjusted rule name " + businessRuleName);
     	}
-    	return PACKAGE_PREFIX + businessRuleName + businessRule.getBusinessRuleId();
+    	return PACKAGE_PREFIX + businessRuleName + removeInvalidCharacters( businessRule.getBusinessRuleId() );
     }
     
     private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {
