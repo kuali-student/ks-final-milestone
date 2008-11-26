@@ -19,18 +19,14 @@ public class Main implements EntryPoint {
         
         EnumerationGWTClientService.Util.getInstance().fetchEnumertionMeta(new AsyncCallback<List<String>>() {
             public void onFailure(Throwable caught) {
-           
                 throw new RuntimeException("Unable to load enum meta  objects", caught);
             }
-
             public void onSuccess(List<String> stringList) {
                 System.out.println("LOading info");
-                // add the results to the model
                 for (String rInfo : stringList) {
                     RootPanel.get().add(new HTML(rInfo));
                 }
             }
         });
-     
     }
 }
