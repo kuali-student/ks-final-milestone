@@ -13,6 +13,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
@@ -29,6 +30,7 @@ public class RuleIntegrationTest {
 	private static RuleRepositoryService ruleRepositoryService;
 	private static RuleManagementService ruleManagementService;
 	private static RuleExecutionService ruleExecutionService;
+	private static FactFinderService factFinderService;
 
 	private static ApplicationContext testBeanContext;
 	
@@ -37,14 +39,19 @@ public class RuleIntegrationTest {
 	
 	@BeforeClass
     public static void setUpOnce() throws Exception {
-		System.setProperty("ks.test.persistenceLocation", "classpath:META-INF/rulemanagement-persistence.xml");
-		System.setProperty("ks.test.daoImplClasses", "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl|classpath:test-beans.xml");
+		System.setProperty("ks.test.persistenceLocation", 
+				"classpath:META-INF/rulemanagement-persistence.xml");
+				//",classpath:META-INF/factfinder-persistence.xml");
+		System.setProperty("ks.test.daoImplClasses", 
+				"org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl|classpath:test-beans.xml");
+				//",org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl|classpath:fact-data-beans.xml");
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/rulemanagement-mock-service-context.xml");
 		
 		ruleRepositoryService = (RuleRepositoryService) applicationContext.getBean("repository");
 		ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
 		ruleExecutionService = (RuleExecutionService) applicationContext.getBean("ruleExecution");
+		//factFinderService = (FactFinderService) applicationContext.getBean("factFinder");
 
 		testBeanContext = new ClassPathXmlApplicationContext("/test-beans.xml");
 	}
@@ -78,7 +85,7 @@ public class RuleIntegrationTest {
     	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo1;
     	// RuleId "1" already exists in the rule management database 
     	// from pre-loading test-beans.xml so we set the ruleId to "1000"
-    	brInfoDTO.setBusinessRuleId("1000");
+    	//brInfoDTO.setBusinessRuleId("1000");
         brInfoDTO.setName("CHEM100PRE_REQ");
         brInfoDTO.setAnchorValue("CHEM100");
     	
@@ -100,7 +107,7 @@ public class RuleIntegrationTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
         
-        ruleManagementService.deleteBusinessRule("1000");
+        ruleManagementService.deleteBusinessRule(businessRuleId);
     }
 
     @Test
@@ -109,7 +116,7 @@ public class RuleIntegrationTest {
     	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo1;
     	// RuleId "1" already exists in the rule management database 
     	// from pre-loading test-beans.xml so we set the ruleId to "2000"
-    	brInfoDTO.setBusinessRuleId("2000");
+    	//brInfoDTO.setBusinessRuleId("2000");
         brInfoDTO.setName("CHEM200PRE_REQ");
         brInfoDTO.setAnchorValue("CHEM200");
 
@@ -133,7 +140,7 @@ public class RuleIntegrationTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
 
-        ruleManagementService.deleteBusinessRule("2000");
+        ruleManagementService.deleteBusinessRule(businessRuleId);
     }
 
     @Test
@@ -142,7 +149,7 @@ public class RuleIntegrationTest {
     	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo1;
     	// RuleId "1" already exists in the rule management database 
     	// from pre-loading test-beans.xml so we set the ruleId to "3000"
-    	brInfoDTO.setBusinessRuleId("3000");
+    	//brInfoDTO.setBusinessRuleId("3000");
         brInfoDTO.setName("CHEM300PRE_REQ");
         brInfoDTO.setAnchorValue("CHEM300");
 
@@ -168,7 +175,7 @@ public class RuleIntegrationTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
 
-        ruleManagementService.deleteBusinessRule("3000");
+        ruleManagementService.deleteBusinessRule(businessRuleId);
     }
 
     @Test
@@ -176,8 +183,8 @@ public class RuleIntegrationTest {
     	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
     	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo2;
     	// RuleId "1" already exists in the rule management database 
-    	// from pre-loading test-beans.xml so we set the ruleId to "1000"
-    	brInfoDTO.setBusinessRuleId("4000");
+    	// from pre-loading test-beans.xml so we set the ruleId to "4000"
+    	//brInfoDTO.setBusinessRuleId("4000");
         brInfoDTO.setName("CHEM400PRE_REQ");
         brInfoDTO.setAnchorValue("CHEM400");
     	
@@ -199,7 +206,7 @@ public class RuleIntegrationTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
 
-        ruleManagementService.deleteBusinessRule("4000");
+        ruleManagementService.deleteBusinessRule(businessRuleId);
     }
 
     @Test
@@ -207,8 +214,8 @@ public class RuleIntegrationTest {
     	//BusinessRuleInfoDTO brInfoDTO = ruleManagementService.fetchDetailedBusinessRuleInfo("1");
     	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo2;
     	// RuleId "1" already exists in the rule management database 
-    	// from pre-loading test-beans.xml so we set the ruleId to "3000"
-    	brInfoDTO.setBusinessRuleId("5000");
+    	// from pre-loading test-beans.xml so we set the ruleId to "5000"
+    	//brInfoDTO.setBusinessRuleId("5000");
         brInfoDTO.setName("CHEM500PRE_REQ");
         brInfoDTO.setAnchorValue("CHEM500");
 
@@ -234,7 +241,37 @@ public class RuleIntegrationTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
 
-        ruleManagementService.deleteBusinessRule("5000");
+        ruleManagementService.deleteBusinessRule(businessRuleId);
     }
+
+    /*@Test
+    public void testExecuteBusinessRule_DynamicFact_Rule1() throws Exception {
+    	BusinessRuleInfoDTO brInfoDTO = this.businessRuleInfo2;
+    	// RuleId "1" already exists in the rule management database 
+    	// from pre-loading test-beans.xml so we set the ruleId to "6000"
+    	//brInfoDTO.setBusinessRuleId("6000");
+        brInfoDTO.setName("CHEM600PRE_REQ");
+        brInfoDTO.setAnchorValue("CHEM600");
+
+        String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
+        assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
+		
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        assertNotNull(result);
+
+        System.out.println("Execution log:\n" + result.getExecutionLog());
+        System.out.println("Error message:\n" + result.getErrorMessage());
+
+        assertTrue(result.getExecutionResult());
+        assertNotNull(result.getExecutionLog());
+        assertNotNull(result.getReport());
+        assertFalse(result.getReport().isSuccessful());
+        assertNotNull(result.getReport().getFailureMessage());
+        assertNull(result.getReport().getSuccessMessage());
+        System.out.println("Success message: " + result.getReport().getSuccessMessage());
+        System.out.println("Failure message: " + result.getReport().getFailureMessage());
+
+        ruleManagementService.deleteBusinessRule(businessRuleId);
+    }*/
 
 }
