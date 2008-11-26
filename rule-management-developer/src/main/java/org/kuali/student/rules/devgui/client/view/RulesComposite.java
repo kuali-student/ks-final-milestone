@@ -85,13 +85,13 @@ public class RulesComposite extends Composite {
     final String FORM_ROW_HEIGHT = "18px";
 
     // events to be fired to parent controller
-    public static class RulesEvent extends MVCEvent {}
+    public static class RulesEvent extends MVCEvent{}
 
-    public static class RulesAddEvent extends RulesEvent {}
+    public static class RulesAddEvent extends RulesEvent{}
 
-    public static class RulesUpdateEvent extends RulesEvent {}
+    public static class RulesUpdateEvent extends RulesEvent{}
 
-    public static class RulesTestEvent extends RulesEvent {}
+    public static class RulesTestEvent extends RulesEvent{}
 
     // singleton instances of the events
     public static final RulesEvent RULES_EVENT = GWT.create(RulesEvent.class);
@@ -117,7 +117,7 @@ public class RulesComposite extends Composite {
     final SimplePanel simplePanel = new SimplePanel();
     
     // Main rules tab
-    final TextBox businessRuleID = new TextBox();
+    final Label businessRuleID = new Label();
     final Label ruleStatus = new Label();
     final TextBox nameTextBox = new TextBox();
     final TextArea descriptionTextArea = new TextArea();
@@ -217,11 +217,10 @@ public class RulesComposite extends Composite {
     private boolean loadingFactTypeKeyList = false;  //TODO 'loading' icon; also for other drop downs
     private String firstFactTypeKeyListSelectedValue = null;
     private String secondFactTypeKeyListSelectedValue = null;
-    private final String STATUS_NOT_IN_DATABASE = "NOT_IN_DATABASE";
+    private final String STATUS_NOT_STORED_IN_DATABASE = "NOT_STORED_IN_DATABASE";
     private final String EMPTY_AGENDA_TYPE = "drafts";
     private final String EMPTY_LIST_BOX_ITEM = "        ";
     private final String USER_DEFINED_FACT_TYPE_KEY = "STATIC  FACT";
-
 
 
     @Override
@@ -277,12 +276,10 @@ public class RulesComposite extends Composite {
                         return;
                     }
                     
-                    // populate fields based on a rule selected by user
-                    String ruleId = modelObject.getBusinessRuleId();     
-                    
+                    // populate fields based on a rule selected by user                    
                     displayedRuleInfo = modelObject;
                     
-                    DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(ruleId, new AsyncCallback<BusinessRuleInfoDTO>() {
+                    DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(modelObject.getBusinessRuleId(), new AsyncCallback<BusinessRuleInfoDTO>() {
                         
                     	public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -315,7 +312,8 @@ public class RulesComposite extends Composite {
                     }                        
                     
                     //make sure rule has draft status 
-                    displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());                      
+                    displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());  
+                    displayedRuleInfo.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
                    
                     // 3) create new draft rule
                     DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<String>() {
@@ -343,11 +341,11 @@ public class RulesComposite extends Composite {
                             rulesTree.add(ruleInfo);
 
                             loadExistingRule(displayedRule);
-                            // controller.getEventDispatcher().fireEvent(toFire, ruleInfo);
+                            //controller.getEventDispatcher().fireEvent(RulesAddEvent.class, ruleInfo);
                         }
                     });
                     
-                    loadExistingRule(displayedRule);
+                   // loadExistingRule(displayedRule);
                 }
             });
 
@@ -395,6 +393,8 @@ public class RulesComposite extends Composite {
                     
                     // 3) activated Draft will become a rule
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
+                    displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
+                    displayedRuleInfo.setBusinessRuleName(displayedRule.getName());	//remove '[D]'
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
@@ -409,6 +409,9 @@ public class RulesComposite extends Composite {
                     });
                     
                     loadExistingRule(displayedRule);
+                    rulesTree.update(displayedRuleInfo);
+                    
+                    //controller.getEventDispatcher().fireEvent(RulesUpdateEvent.class, displayedRuleInfo);
                 }
             });            
             
@@ -448,6 +451,7 @@ public class RulesComposite extends Composite {
                     
                     //retire Rule
                     displayedRule.setStatus(BusinessRuleStatus.RETIRED.toString());
+                    displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
 
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
@@ -474,12 +478,13 @@ public class RulesComposite extends Composite {
                 	BusinessRuleInfoDTO ruleCopy = displayedRule;
                 	RulesHierarchyInfo ruleInfoCopy = displayedRuleInfo;
                 	ruleCopy.setBusinessRuleId("");
-                	ruleCopy.setStatus(STATUS_NOT_IN_DATABASE);
+                	ruleCopy.setStatus(STATUS_NOT_STORED_IN_DATABASE);
                 	
                 	//now load the draft
                 	loadEmptyRule();
                 	displayedRule = ruleCopy; 
                 	displayedRuleInfo = ruleInfoCopy;
+                	displayedRuleInfo.setStatus(STATUS_NOT_STORED_IN_DATABASE);
                     displayActiveRule();
                 }
             });  
@@ -727,7 +732,7 @@ public class RulesComposite extends Composite {
     	displayedRuleInfo = null;
     	factTypeKeyList = null;
     	firstFactTypeKeyListSelectedValue = null;
-    	setRuleStatus(STATUS_NOT_IN_DATABASE);
+    	setRuleStatus(STATUS_NOT_STORED_IN_DATABASE);
     	populateAgendaAndBusinessRuleTypesListBox();
         updateRulesFormButtons(displayedRule.getStatus()); 
         rulesTree.unSelect();  //clear current rule tree selection      
@@ -760,7 +765,7 @@ public class RulesComposite extends Composite {
     	displayedRule.setStatus(status);
     	ruleStatus.setText(status);
     	 	
-    	if (ruleStatus.getText().equals(STATUS_NOT_IN_DATABASE)) {
+    	if (ruleStatus.getText().equals(STATUS_NOT_STORED_IN_DATABASE)) {
     		ruleStatus.setStylePrimaryName("status-empty");
     	} else if (ruleStatus.getText().equalsIgnoreCase(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
         	ruleStatus.setStylePrimaryName("status-draft");
@@ -779,7 +784,7 @@ public class RulesComposite extends Composite {
     
     private void updateRulesFormButtons(String ruleStatus) {  
     	
-    	if (ruleStatus.equalsIgnoreCase(STATUS_NOT_IN_DATABASE)) {
+    	if (ruleStatus.equalsIgnoreCase(STATUS_NOT_STORED_IN_DATABASE)) {
         	submitDraftButton.setEnabled(true);
         	updateDraftButton.setEnabled(false);        	
         	activateDraftButton.setEnabled(false);        	
@@ -858,9 +863,6 @@ public class RulesComposite extends Composite {
         metaInfo.setUpdateComment(updateCommentTextBox.getText());
         
         displayedRule.setMetaInfo(metaInfo);
-
-    	//TODO remove after Kamal's fix and make businessRuleID a LABEL
-        displayedRule.setBusinessRuleId(businessRuleID.getText());
         
         return true;
     }
@@ -877,7 +879,7 @@ public class RulesComposite extends Composite {
         BusinessRuleInfoDTO newRule = new BusinessRuleInfoDTO();
 
         newRule.setBusinessRuleId("");
-        newRule.setStatus(STATUS_NOT_IN_DATABASE);
+        newRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
         newRule.setName("");
         newRule.setDescription("");
         newRule.setSuccessMessage("");
@@ -930,14 +932,14 @@ public class RulesComposite extends Composite {
         String businessRuleType = GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox);
         String anchor = ruleAnchorTextBox.getText();
         String ruleName = displayedRule.getName();
-                
-        //TODO for now display draft rules in separate branch
+                       
+        //show drafts with other rules for now, marking them with [D]
         displayedRuleInfo = new RulesHierarchyInfo();
-    	displayedRuleInfo.setAgendaType(EMPTY_AGENDA_TYPE);
+    	displayedRuleInfo.setAgendaType(agendaType);
     	displayedRuleInfo.setBusinessRuleType(businessRuleType);
     	displayedRuleInfo.setAnchor(anchor); 
     	displayedRuleInfo.setBusinessRuleName(ruleName);
-    	displayedRuleInfo.setBusinessRuleId(newRuleID);      	
+    	displayedRuleInfo.setBusinessRuleId(newRuleID);     	    	
     }
     
    
@@ -1142,7 +1144,7 @@ public class RulesComposite extends Composite {
     	System.out.println("STATUS: " + getRuleStatus());
     	
     	//if the rule is stored in database i.e. DRAFT_IN_PROGRESS, ACTIVE, RETIRED then we just populate the drop downs
-    	if (getRuleStatus().equals(STATUS_NOT_IN_DATABASE) == false) {
+    	if (getRuleStatus().equals(STATUS_NOT_STORED_IN_DATABASE) == false) {
     		
     		if (ruleAgendaType.isEmpty() || businessRuleType.isEmpty()) {
     			System.out.println("Internal error(1)...");
@@ -1238,7 +1240,7 @@ public class RulesComposite extends Composite {
         rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
         rulesFormTabs.add(addRRulesTestPage(), "Test");
         rulesFormTabs.setSize("90%", "550px");
-        rulesFormTabs.selectTab(1);
+        rulesFormTabs.selectTab(0);
 
         //show buttons
         HorizontalPanel space = new HorizontalPanel();
@@ -1299,17 +1301,15 @@ public class RulesComposite extends Composite {
         // rules form elements
         // **********************************************************
 
-        int ix = 1;
-        
+        int ix = 1;            
         // business rule ID
         final Label ruleID = new Label("ID");
         flexFormTable.setWidget(ix, 0, ruleID);
-        flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
-        flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
+        //flexFormTable.getCellFormatter().setWidth(ix, 1, "200px");
 
         flexFormTable.setWidget(ix, 1, businessRuleID);
-        businessRuleID.setWidth("25%");        
-
+        //businessRuleID.setWidth("50%");  
+        
         // business rule status
         ix++;        
         final Label statusLabel = new Label("Status");
@@ -1318,7 +1318,7 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
 
         flexFormTable.setWidget(ix, 1, ruleStatus);
-        ruleStatus.setWidth("25%");         
+        ruleStatus.setWidth("25%");                           
         
         // Name
         ix++;
@@ -1328,8 +1328,8 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
 
         flexFormTable.setWidget(ix, 1, nameTextBox);
-        nameTextBox.setWidth("50%");
-
+        nameTextBox.setWidth("50%");     
+        
         // Description
         ix++;
         final Label descriptionLabel = new Label("Description");

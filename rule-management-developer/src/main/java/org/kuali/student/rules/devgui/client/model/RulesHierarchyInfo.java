@@ -17,8 +17,17 @@ public class RulesHierarchyInfo implements ModelObject {
     private String businessRuleId;
     private String anchor;
     private String businessRuleName;
+    private String status;
 
-    public String getUniqueId() {
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUniqueId() {
         return businessRuleId;
     }
 

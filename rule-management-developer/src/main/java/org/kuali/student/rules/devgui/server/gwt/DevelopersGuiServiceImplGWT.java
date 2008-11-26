@@ -34,7 +34,7 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
         return serviceImpl.createBusinessRule(businessRuleInfo);
     }
 
-    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
+    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
         return serviceImpl.updateBusinessRule(businessRuleId, businessRuleInfo);
     }
 
@@ -58,12 +58,12 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
     	return serviceImpl.findBusinessRuleTypesByAgendaType(agendaTypeKey);
     }
     
-    public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
-        return serviceImpl.findRulesHierarchyInfo();
+    public List<RulesHierarchyInfo> fetchRulesHierarchyInfo() {
+        return serviceImpl.fetchRulesHierarchyInfo();
     }
 
-    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
-        return serviceImpl.findRuleTypesHierarchyInfo();
+    public List<RuleTypesHierarchyInfo> fetchRuleTypesHierarchyInfo() {
+        return serviceImpl.fetchRuleTypesHierarchyInfo();
     }    
     
     /**

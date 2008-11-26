@@ -8,6 +8,7 @@ import java.util.List;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
+import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleType;
@@ -86,14 +87,14 @@ public class DevelopersGuiController extends Controller {
     	System.out.println("Load Models Data");
     	
         // load rules tree
-        DevelopersGuiService.Util.getInstance().findRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
+        DevelopersGuiService.Util.getInstance().fetchRulesHierarchyInfo(new AsyncCallback<List<RulesHierarchyInfo>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
                 throw new RuntimeException("Unable to load RulesHierarchyInfo objects", caught);
             }
 
             public void onSuccess(List<RulesHierarchyInfo> rulesInfo) {
-            	System.out.println("LOading rules info");
+            	System.out.println("Loading rules info");
                 // add the results to the model
                 for (RulesHierarchyInfo ruleInfo : rulesInfo) {
                     rulesHierarchyInfo.add(ruleInfo);
@@ -109,7 +110,7 @@ public class DevelopersGuiController extends Controller {
         
         // load rule types tree
     	/*
-        DevelopersGuiService.Util.getInstance().findRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
+        DevelopersGuiService.Util.getInstance().fetchRuleTypesHierarchyInfo(new AsyncCallback<List<RuleTypesHierarchyInfo>>() {
             public void onFailure(Throwable caught) {
                 // just rethrow it and let the uncaught exception handler deal with it
                 throw new RuntimeException("Unable to load RuleTypesHierarchyInfo objects", caught);
@@ -134,13 +135,11 @@ public class DevelopersGuiController extends Controller {
     }
 
     private void doEventListenerWiring() {
-
-    // when a business rule is added
-    /*
+    	/*
     RulesHierarchyInfo.addListener(RulesComposite.RULES_ADD_EVENT, new MVCEventListener() {
-    public void onEvent(Class<? extends MVCEvent> event, Object data) {
-    // businessRuleComposite.testForm(((BusinessRuleInfo) data).getName());
-    }
-    });  */
+	    public void onEvent(Class<? extends MVCEvent> event, Object data) {
+	    // businessRuleComposite.testForm(((BusinessRuleInfo) data).getName());
+	    }
+    }); */
     }
 }

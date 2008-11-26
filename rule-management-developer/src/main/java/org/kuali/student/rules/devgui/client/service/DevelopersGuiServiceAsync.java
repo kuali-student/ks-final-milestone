@@ -35,7 +35,7 @@ public interface DevelopersGuiServiceAsync {
     
     public void findBusinessRuleTypesByAgendaType(String agendaTypeKey, AsyncCallback<List<String>> callback);
     
-    public void findRulesHierarchyInfo(AsyncCallback<List<RulesHierarchyInfo>> callback);
+    public void fetchRulesHierarchyInfo(AsyncCallback<List<RulesHierarchyInfo>> callback);
 
-    public void findRuleTypesHierarchyInfo(AsyncCallback<List<RuleTypesHierarchyInfo>> callback);    
+    public void fetchRuleTypesHierarchyInfo(AsyncCallback<List<RuleTypesHierarchyInfo>> callback);    
 }

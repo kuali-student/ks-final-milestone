@@ -4,8 +4,6 @@
 package org.kuali.student.rules.devgui.server.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
@@ -13,21 +11,12 @@ import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
-import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
-import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
-import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
-
-import com.google.gwt.user.client.Random;
 
 /**
  * @author zzraly
@@ -72,7 +61,8 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         //brInfoDTO.setAnchorValue("TEST");
         //brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         
-        //Temporary workaround                    
+        //Temporary workaround  
+    	/*
         List<RuleElementDTO> ruleElementList = businessRuleInfo.getRuleElementList();
         for (RuleElementDTO elem : ruleElementList) {
             if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
@@ -80,7 +70,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             	if (elem.getOperation().equals("(")) elem.setOperation(RuleElementType.LPAREN.toString());
             	if (elem.getOperation().equals(")")) elem.setOperation(RuleElementType.RPAREN.toString());                            
             }
-        }    	
+        } */   	
     	
         try {
             new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
@@ -90,10 +80,11 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return new_rule_id;
     }
 
-    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {
+    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
         StatusDTO rule_update_status = null;
         
-        //Temporary workaround                    
+        //Temporary workaround   
+        /*
         List<RuleElementDTO> ruleElementList = businessRuleInfo.getRuleElementList();
         for (RuleElementDTO elem : ruleElementList) {
             if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
@@ -101,12 +92,13 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             	if (elem.getOperation().equals("(")) elem.setOperation(RuleElementType.LPAREN.toString());
             	if (elem.getOperation().equals(")")) elem.setOperation(RuleElementType.RPAREN.toString());                            
             }
-        }
+        } */
         
         try {
             rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
+        	throw new Exception("Unable to update business rule: " + ex.getMessage());
+            //throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }
         return rule_update_status;
     }
@@ -173,7 +165,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *******************************************************************************************************************/
     
     // populate Business Rule Types tree
-    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo() {
+    public List<RuleTypesHierarchyInfo> fetchRuleTypesHierarchyInfo() {
         List<RuleTypesHierarchyInfo> ruleTypesInfo = new ArrayList<RuleTypesHierarchyInfo>();
 
         // 1. retrieve agendas
@@ -227,7 +219,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     }
 
     // populate rules tree
-    public List<RulesHierarchyInfo> findRulesHierarchyInfo() {
+    public List<RulesHierarchyInfo> fetchRulesHierarchyInfo() {
     	System.out.println("loading rules hierarchy");
         List<RulesHierarchyInfo> rulesInfo = new ArrayList<RulesHierarchyInfo>();
 
@@ -250,7 +242,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             // 3. retrieve business rule types
             List<String> businessRuleTypes = new ArrayList<String>();
             try {
-                System.out.println("DEBUG findRulesHierarchyInfo(): " + agendaTypeKey);
                 businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
             } catch (Exception ex) {
                 throw new RuntimeException("Unable to get business rule types", ex); // TODO
@@ -258,7 +249,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
             // TODO show 'empty' node in the rules tree if none exist?
             if (businessRuleTypes == null) {
-                rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, "", "", "", ""));
+                rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, "", "", "", "", ""));
                 continue;
             }
 
@@ -274,7 +265,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
                 // TODO show 'empty' node in the rules tree if none exist?
                 if (businessRuleIds == null) {
-                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", ""));
+                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", "", ""));
                     System.out.println("DEBUG findRulesHierarchyInfo(): no business rules for Business Rule Type: " + businessRuleTypeKey);
                     continue;
                 }
@@ -289,7 +280,8 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
 
-                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getName(), businessRule.getAnchorValue()));
+                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getName(),
+                    				businessRule.getAnchorValue(), businessRule.getStatus()));
                 }
             }
 
@@ -300,7 +292,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return rulesInfo;
     }
 
-    private RulesHierarchyInfo createHierarchyInfoObject(String agendaType, String businessRuleType, String ruleId, String ruleName, String anchor) {
+    private RulesHierarchyInfo createHierarchyInfoObject(String agendaType, String businessRuleType, String ruleId, String ruleName, String anchor, String status) {
         RulesHierarchyInfo ruleInfo = new RulesHierarchyInfo();
 
         ruleInfo.setAgendaType(agendaType);
@@ -308,6 +300,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         ruleInfo.setBusinessRuleId(ruleId);
         ruleInfo.setBusinessRuleName(ruleName);
         ruleInfo.setAnchor(anchor);
+        ruleInfo.setStatus(status);
 
         return ruleInfo;
     }    

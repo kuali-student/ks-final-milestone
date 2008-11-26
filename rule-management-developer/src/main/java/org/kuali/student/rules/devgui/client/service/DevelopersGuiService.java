@@ -46,7 +46,7 @@ public interface DevelopersGuiService extends RemoteService {
 
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
 
-    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo);
+    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception;
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId);
 
@@ -58,7 +58,7 @@ public interface DevelopersGuiService extends RemoteService {
     
     public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey);
     
-    public List<RulesHierarchyInfo> findRulesHierarchyInfo();
+    public List<RulesHierarchyInfo> fetchRulesHierarchyInfo();
 
-    public List<RuleTypesHierarchyInfo> findRuleTypesHierarchyInfo();    
+    public List<RuleTypesHierarchyInfo> fetchRuleTypesHierarchyInfo();    
 }
