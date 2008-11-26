@@ -5,7 +5,7 @@
 
   <!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
   <inherits name="org.kuali.student.commons.ui.UICommons"/>
-
+  <inherits name='org.kuali.student.enumeration.Enumeration'/>
   <!-- disable warnings -->
   <set-property name="gwt.suppressNonStaticFinalFieldWarnings" value="true" /> 
 
