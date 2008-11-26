@@ -275,7 +275,18 @@ public class BusinessRuleUtil {
         
         // step through rule elements and create a function string
         for (RuleElementDTO ruleElement : ruleElements) {
-            switch (RuleElementType.valueOf(ruleElement.getOperation())) {
+            
+            RuleElementType type = null;
+            
+            if(RuleElementType.LPAREN.getName().equals( ruleElement.getOperation() )) {
+                type = RuleElementType.LPAREN;
+            } else if(RuleElementType.RPAREN.getName().equals( ruleElement.getOperation() )) {
+                type = RuleElementType.RPAREN;
+            } else {
+                type = RuleElementType.valueOf(ruleElement.getOperation()); 
+            }
+            
+            switch (type) {
                 case AND:
                     functionString.append(" " + RuleElementType.AND.getName() + " ");
                     break;
@@ -333,7 +344,7 @@ public class BusinessRuleUtil {
         
         int counter = 1;
         for (RuleElementDTO ruleElement : ruleElements) {
-            if (RuleElementType.valueOf(ruleElement.getOperation()) == RuleElementType.PROPOSITION) {
+            if (RuleElementType.PROPOSITION.toString().equals(ruleElement.getOperation())) {
                 propositionMap.put(PROPOSITION_PREFIX + String.valueOf(counter), ruleElement.getRuleProposition());
                 counter++;
             }

@@ -270,9 +270,9 @@ public class BusinessRuleAdapter {
         element.setDescription( elementDTO.getDescription() );
         
         element.setName( elementDTO.getName() );
-            element.setOperation( RuleElementType.LPAREN );
-        if(RuleElementType.LPAREN.getName().equals( elementDTO.getOperation())) {
             
+        if(RuleElementType.LPAREN.getName().equals( elementDTO.getOperation())) {
+            element.setOperation( RuleElementType.LPAREN );
         } else if(RuleElementType.RPAREN.getName().equals( elementDTO.getOperation())) {
             element.setOperation( RuleElementType.RPAREN );
         } else {
