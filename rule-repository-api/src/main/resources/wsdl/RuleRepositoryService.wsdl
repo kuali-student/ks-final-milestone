@@ -36,20 +36,19 @@
     <xs:element name="removeRuleSet" type="tns:removeRuleSet"/>
     <xs:element name="removeRuleSetSnapshot" type="tns:removeRuleSetSnapshot"/>
     <xs:element name="removeState" type="tns:removeState"/>
+    <xs:element name="replaceRuleSetSnapshot" type="tns:replaceRuleSetSnapshot"/>
+    <xs:element name="replaceRuleSetSnapshotResponse" type="tns:replaceRuleSetSnapshotResponse"/>
     <xs:element name="ruleDTO" type="tns:ruleDTO"/>
-    <xs:complexType name="removeCategory">
+    <xs:complexType name="replaceRuleSetSnapshot">
         <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="comment" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchRuleSetsByCategory">
+    <xs:complexType name="replaceRuleSetSnapshotResponse">
         <xs:sequence>
-            <xs:element minOccurs="0" name="category" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchRuleSetsByCategoryResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="ruleSetDTO">
@@ -118,6 +117,21 @@
         </xs:sequence>
         <xs:attribute name="name" type="xs:string"/>
     </xs:complexType>
+    <xs:complexType name="removeCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchRuleSetsByCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="category" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchRuleSetsByCategoryResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="createRuleSetSnapshot">
         <xs:sequence>
             <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
@@ -140,13 +154,10 @@
         <xs:sequence>
             <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
             <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-            <xs:element minOccurs="0" name="comment" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="rebuildRuleSetSnapshotResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
-        </xs:sequence>
+        <xs:sequence/>
     </xs:complexType>
     <xs:complexType name="fetchCategories">
         <xs:sequence>
@@ -183,7 +194,6 @@
             <xs:element minOccurs="0" name="effectiveEndTime" type="xs:dateTime"/>
             <xs:element minOccurs="0" name="status" type="xs:string"/>
             <xs:element minOccurs="0" name="compiledId" type="xs:string"/>
-            <xs:element minOccurs="0" name="compiledVersionNumber" type="xs:long"/>
             <xs:element minOccurs="0" name="repositorySnapshotName" type="xs:string"/>
             <xs:element minOccurs="0" name="ruleElementList">
                 <xs:complexType>
@@ -449,6 +459,10 @@
     <wsdl:part name="parameters" element="tns:rebuildRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="replaceRuleSetSnapshot">
+    <wsdl:part name="parameters" element="tns:replaceRuleSetSnapshot">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createRuleSet">
     <wsdl:part name="parameters" element="tns:createRuleSet">
     </wsdl:part>
@@ -561,16 +575,20 @@
     <wsdl:part name="parameters" element="tns:fetchRuleSetsByCategoryResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fetchStates">
-    <wsdl:part name="parameters" element="tns:fetchStates">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createCategory">
     <wsdl:part name="parameters" element="tns:createCategory">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchStates">
+    <wsdl:part name="parameters" element="tns:fetchStates">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="removeRuleSetSnapshot">
     <wsdl:part name="parameters" element="tns:removeRuleSetSnapshot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="replaceRuleSetSnapshotResponse">
+    <wsdl:part name="parameters" element="tns:replaceRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="generateRuleSetForBusinessRuleResponse">
@@ -594,6 +612,16 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="RuleRepositoryService">
+    <wsdl:operation name="replaceRuleSetSnapshot">
+      <wsdl:input name="replaceRuleSetSnapshot" message="tns:replaceRuleSetSnapshot">
+    </wsdl:input>
+      <wsdl:output name="replaceRuleSetSnapshotResponse" message="tns:replaceRuleSetSnapshotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="removeCategory">
       <wsdl:input name="removeCategory" message="tns:removeCategory">
     </wsdl:input>
@@ -783,6 +811,21 @@
   </wsdl:portType>
   <wsdl:binding name="RuleRepositoryServiceServiceSoapBinding" type="tns:RuleRepositoryService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="replaceRuleSetSnapshot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="replaceRuleSetSnapshot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="replaceRuleSetSnapshotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="removeCategory">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="removeCategory">

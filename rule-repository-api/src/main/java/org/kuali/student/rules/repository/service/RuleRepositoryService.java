@@ -189,7 +189,7 @@ public interface RuleRepositoryService {
     	throws OperationFailedException, InvalidParameterException;
 
     /**
-     * Rebuilds (recompiles) an existing rule set snapshot and stores it in the repository.
+     * Replaces an existing rule set snapshot in the repository.
      * 
      * @param ruleSetUUID Rule set uuid
      * @param ruleSetName Rule set name
@@ -200,10 +200,23 @@ public interface RuleRepositoryService {
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
     @WebMethod
-    public RuleSetDTO rebuildRuleSetSnapshot(
+    public RuleSetDTO replaceRuleSetSnapshot(
     		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
     		@WebParam(name="snapshotName")String snapshotName, 
     		@WebParam(name="comment")String comment)
+    	throws OperationFailedException, InvalidParameterException;
+
+    /**
+     * Rebuilds (recompiles) an existing rule set snapshot and in the repository.
+     * 
+     * @param ruleSetUUID Rule set UUID
+     * @param snapshotName Snapshot name
+     * @throws OperationFailedException Thrown if rule set fails to compile or any other errors occur
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    public void rebuildRuleSetSnapshot(
+    		@WebParam(name="ruleSetUUID")String ruleSetUUID, 
+    		@WebParam(name="snapshotName")String snapshotName) 
     	throws OperationFailedException, InvalidParameterException;
 
     /**
