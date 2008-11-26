@@ -64,16 +64,14 @@
 
 	<bean id="businessRuleType1"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000009" />
+		<property name="id" value="11223344-1122-1122-1112-100000000009" />
 		<property name="businessRuleTypeKey" value="KUALI_PRE_REQ" />
 		<property name="anchorTypeKey" value="KUALI_COURSE" />
 	</bean>
 
 	<bean id="businessRuleType2"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRuleType">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000010" />
+		<property name="id" value="11223344-1122-1122-1112-100000000010" />
 		<property name="businessRuleTypeKey" value="KUALI_CO_REQ" />
 		<property name="anchorTypeKey" value="KUALI_COURSE" />
 	</bean>
@@ -84,12 +82,10 @@
 	-->
 	<bean id="funcBusRule1"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000001" />
-		<property name="ruleId" value="1" />
+		<!--property name="id" value="11223344-1122-1122-1112-100000000001" /-->
+		<!--property name="ruleId" value="11223344-1122-1122-1112-200000000001" /-->
 		<property name="name" value="Intermediate CPR" />
-		<property name="description"
-			value="enrollment co-requisites for Intermediate CPR 201" />
+		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />
 		<property name="successMessage" value="Rule 1 Success Message" />
 		<property name="failureMessage" value="Rule 1 Failure Message" />
 		<property name="compiledId" value="" />
@@ -107,13 +103,11 @@
 					<property name="operation" value="PROPOSITION" />
 					<property name="ordinalPosition" value="1" />
 					<property name="businessRule" ref="funcBusRule1" />
-					<property name="ruleProposition"
-						ref="ruleProposition1" />
+					<property name="ruleProposition" ref="ruleProposition1" />
 				</bean>
 				<bean id="ruleElement2"
 					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
-					<property name="id"
-						value="11223344-1122-1122-1112-100000000003" />
+					<property name="id" value="11223344-1122-1122-1112-100000000003" />
 					<property name="name" value="PB" />
 					<property name="description" value="" />
 					<property name="operation" value="OR" />
@@ -122,15 +116,13 @@
 				</bean>
 				<bean id="ruleElement3"
 					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
-					<property name="id"
-						value="11223344-1122-1122-1112-100000000004" />
+					<property name="id" value="11223344-1122-1122-1112-100000000004" />
 					<property name="name" value="PC" />
 					<property name="description" value="" />
 					<property name="operation" value="PROPOSITION" />
 					<property name="ordinalPosition" value="3" />
 					<property name="businessRule" ref="funcBusRule1" />
-					<property name="ruleProposition"
-						ref="ruleProposition2" />
+					<property name="ruleProposition" ref="ruleProposition2" />
 				</bean>
 			</list>
 		</property>
@@ -150,11 +142,9 @@
 
 	<bean id="ruleProposition1"
 		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000005" />
+		<property name="id" value="11223344-1122-1122-1112-100000000005" />
 		<property name="name" value="P1" />
-		<property name="description"
-			value="enumeration of required co-requisite courses" />
+		<property name="description" value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
 		<property name="comparisonDataType" value="java.lang.Integer" />
 		<property name="leftHandSide" ref="leftHandSide1" />
@@ -164,11 +154,9 @@
 
 	<bean id="ruleProposition2"
 		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000007" />
+		<property name="id" value="11223344-1122-1122-1112-100000000007" />
 		<property name="name" value="P2" />
-		<property name="description"
-			value="enumeration of required co-requisite courses" />
+		<property name="description" value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
 		<property name="comparisonDataType" value="java.lang.Integer" />
 		<property name="leftHandSide" ref="leftHandSide3" />
@@ -188,8 +176,7 @@
 
 	<bean id="factStructure1"
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000020" />
+		<property name="id" value="11223344-1122-1122-1112-100000000020" />
 		<property name="factStructureId" value="1" />
 		<property name="factTypeKey" value="fact.cpr_prereq_criteria1" />
 		<property name="anchorFlag" value="false" />
@@ -200,8 +187,7 @@
 
 	<bean id="factStructure2"
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000021" />
+		<property name="id" value="11223344-1122-1122-1112-100000000021" />
 		<property name="factStructureId" value="2" />
 		<property name="factTypeKey" value="fact.cpr_prereq_cluset" />
 		<property name="anchorFlag" value="false" />
@@ -212,8 +198,7 @@
 
 	<bean id="factStructure3"
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000022" />
+		<property name="id" value="11223344-1122-1122-1112-100000000022" />
 		<property name="factStructureId" value="3" />
 		<property name="factTypeKey" value="fact.cpr_prereq_criteria2" />
 		<property name="anchorFlag" value="false" />
@@ -224,8 +209,7 @@
 
 	<bean id="yieldValueFunction1"
 		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000006" />
+		<property name="id" value="11223344-1122-1122-1112-100000000006" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
 			<list>
@@ -237,8 +221,7 @@
 
 	<bean id="yieldValueFunction3"
 		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000008" />
+		<property name="id" value="11223344-1122-1122-1112-100000000008" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
 			<list>
@@ -266,9 +249,8 @@
 	-->
 	<bean id="funcBusRule2"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000011" />
-		<property name="ruleId" value="2" />
+		<!--property name="id" value="11223344-1122-1122-1112-100000000011" /-->
+		<!--property name="ruleId" value="11223344-1122-1122-1112-200000000002" /-->
 		<property name="name" value="Freshmen Math" />
 		<property name="description"
 			value="enrollment pre-requisites for Freshman Math 101" />
@@ -282,20 +264,17 @@
 			<list>
 				<bean id="ruleElement4"
 					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
-					<property name="id"
-						value="11223344-1122-1122-1112-100000000012" />
+					<property name="id" value="11223344-1122-1122-1112-100000000012" />
 					<property name="name" value="" />
 					<property name="description" value="" />
 					<property name="operation" value="PROPOSITION" />
 					<property name="ordinalPosition" value="1" />
 					<property name="businessRule" ref="funcBusRule2" />
-					<property name="ruleProposition"
-						ref="ruleProposition3" />
+					<property name="ruleProposition" ref="ruleProposition3" />
 				</bean>
 				<bean id="ruleElement5"
 					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
-					<property name="id"
-						value="11223344-1122-1122-1112-100000000013" />
+					<property name="id" value="11223344-1122-1122-1112-100000000013" />
 					<property name="name" value="" />
 					<property name="description" value="" />
 					<property name="operation" value="AND" />
@@ -304,8 +283,7 @@
 				</bean>
 				<bean id="ruleElement6"
 					class="org.kuali.student.rules.rulemanagement.entity.RuleElement">
-					<property name="id"
-						value="11223344-1122-1122-1112-100000000014" />
+					<property name="id" value="11223344-1122-1122-1112-100000000014" />
 					<property name="name" value="" />
 					<property name="description" value="" />
 					<property name="operation" value="PROPOSITION" />
@@ -323,8 +301,7 @@
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000015" />
 		<property name="name" value="P3" />
-		<property name="description"
-			value="enumeration of required pre-requisite courses" />
+		<property name="description" value="enumeration of required pre-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
 		<property name="comparisonDataType" value="java.lang.Integer" />
 		<property name="leftHandSide" ref="leftHandSide4" />
@@ -334,8 +311,7 @@
 
 	<bean id="ruleProposition4"
 		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000016" />
+		<property name="id" value="11223344-1122-1122-1112-100000000016" />
 		<property name="name" value="P4" />
 		<property name="description" value="credits check" />
 		<property name="failureMessage" value="prop error message" />
@@ -370,8 +346,7 @@
 
 	<bean id="factStructure6"
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000025" />
+		<property name="id" value="11223344-1122-1122-1112-100000000025" />
 		<property name="factStructureId" value="6" />
 		<property name="factTypeKey" value="fact.math_prereq_cluset" />
 		<property name="anchorFlag" value="false" />
@@ -382,8 +357,7 @@
 
 	<bean id="factStructure7"
 		class="org.kuali.student.rules.rulemanagement.entity.FactStructure">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000026" />
+		<property name="id" value="11223344-1122-1122-1112-100000000026" />
 		<property name="factStructureId" value="7" />
 		<property name="factTypeKey" value="fact.math_prereq_gpalist" />
 		<property name="anchorFlag" value="false" />
@@ -394,8 +368,7 @@
 
 	<bean id="yieldValueFunction4"
 		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000017" />
+		<property name="id" value="11223344-1122-1122-1112-100000000017" />
 		<property name="yieldValueFunctionType" value="INTERSECTION" />
 		<property name="facts">
 			<list>
@@ -407,8 +380,7 @@
 
 	<bean id="yieldValueFunction5"
 		class="org.kuali.student.rules.rulemanagement.entity.YieldValueFunction">
-		<property name="id"
-			value="11223344-1122-1122-1112-100000000018" />
+		<property name="id" value="11223344-1122-1122-1112-100000000018" />
 		<property name="yieldValueFunctionType" value="SUM" />
 		<property name="facts">
 			<list>

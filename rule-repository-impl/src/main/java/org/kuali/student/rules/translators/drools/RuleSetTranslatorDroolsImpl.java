@@ -89,7 +89,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     }
     
     /**
-     * Gets the proper rule set name from the <code>businessRule</code>.
+     * Gets the proper ruleset/package name from the <code>businessRule</code>.
      * 
      * @param businessRule Business rule
      * @return Rule set name
@@ -98,10 +98,18 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     	String businessRuleName = removeInvalidCharacters(businessRule.getName());
     	if(!isValidRuleName(businessRuleName)) {
     		throw new RuleSetTranslatorException("Invalid rule name. " +
-    				"Rule name must must start with a letter. Original rule name: " + 
-    				businessRule.getName() + " Adjusted rule name " + businessRuleName);
+    				"Rule name must must start with a letter. Original rule name: '" + 
+    				businessRule.getName() + "'. Adjusted rule name: '" + businessRuleName + "'");
     	}
-    	return PACKAGE_PREFIX + businessRuleName + removeInvalidCharacters( businessRule.getBusinessRuleId() );
+    	String businessRuleTypeKey = removeInvalidCharacters(businessRule.getBusinessRuleTypeKey());
+    	if(!isValidRuleName(businessRuleTypeKey)) {
+    		throw new RuleSetTranslatorException("Invalid rule type key. " +
+    				"Rule type key must must start with a letter. Original rule type key: '" + 
+    				businessRule.getBusinessRuleTypeKey() + "'. Adjusted rule type key: '" + businessRuleTypeKey + "'");
+    	}
+    	String businessRuleId = removeInvalidCharacters(businessRule.getBusinessRuleId());
+    	String name = PACKAGE_PREFIX + businessRuleTypeKey + "_" + businessRuleId + "_" + businessRuleName;
+    	return name;
     }
     
     private void verifyRule(RuleSet ruleSet) throws RuleSetTranslatorException {

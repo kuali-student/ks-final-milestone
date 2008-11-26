@@ -1351,6 +1351,8 @@ public class RuleSetTranslatorTest {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
+        bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
+        bri.setBusinessRuleTypeKey("org_kuali-student.pre req#1&2");
         bri.setName("TestName `~!@#$%^&*()-+={[}]|\\:;\"'<,>.?/ \b\t\n\f\r \' \"");
 
         RuleSet ruleSet = this.generateRuleSet.translate(bri);
@@ -1364,6 +1366,8 @@ public class RuleSetTranslatorTest {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
+        bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
+        bri.setBusinessRuleTypeKey("org_kuali-student.pre req#1&2");
         bri.setName("ABC123456 `~!@#$%^&*()-+= XYZ");
 
         RuleSet ruleSet = this.generateRuleSet.translate(bri);
@@ -1377,9 +1381,11 @@ public class RuleSetTranslatorTest {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
+        bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
+        bri.setBusinessRuleTypeKey("123 kuali-student.pre req#1&2");
         bri.setName("123456 `~!@#$%^&*()-+= XYZ");
 
-        try {
+		try {
         	this.generateRuleSet.translate(bri);
         fail("Translator should have thrown an invalid rule exception");
         } catch(RuleSetTranslatorException e) {

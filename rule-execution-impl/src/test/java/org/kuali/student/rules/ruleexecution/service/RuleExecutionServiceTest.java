@@ -31,7 +31,10 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 	// Automatically loads rule-repository-mock-service-context.xml 
 	// (*-mock-service-context.xml) and auto-wires by type
 	@Client(value="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181")
-    public RuleExecutionService ruleExecutionService; 
+    public RuleExecutionService ruleExecutionService;
+	
+	private static String businessRuleId1;
+	private static String businessRuleId2;
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -47,8 +50,8 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 		ApplicationContext applicationContext = ContextLoader.getCurrentWebApplicationContext();
 
 		RuleManagementService ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
-		ruleManagementService.updateBusinessRule(businessRuleInfo1.getBusinessRuleId(), businessRuleInfo1);
-		ruleManagementService.updateBusinessRule(businessRuleInfo2.getBusinessRuleId(), businessRuleInfo2);
+		businessRuleId1 = ruleManagementService.createBusinessRule(businessRuleInfo1);
+		businessRuleId2 = ruleManagementService.createBusinessRule(businessRuleInfo2);
 
 		//RuleRepositoryService ruleRepositoryService = (RuleRepositoryService) applicationContext.getBean("repository");
 		//System.out.println("\n\n********** "+ruleRepositoryService.fetchRuleSet(ruleManagementService.fetchBusinessRuleInfo(businessRuleInfo1.getBusinessRuleId()).getCompiledId()).getContent());
@@ -75,8 +78,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 
     @Test
     public void testExecuteBusinessRule_StaticFact_TestBeans_Rule1() throws Exception {
-        // Get functional business rule with ruleUId="1" from test-beans.xml
-    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule("1");
+    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1);
         Assert.assertNotNull(result);
 
         Assert.assertTrue(result.getExecutionResult());
@@ -94,8 +96,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 
     @Test
     public void testExecuteBusinessRule_StaticFact_TestBeans_Rule2() throws Exception {
-        // Get functional business rule with ruleUId="2" from test-beans.xml
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule("2");
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId2);
         Assert.assertNotNull(result);
 
         Assert.assertTrue(result.getExecutionResult());

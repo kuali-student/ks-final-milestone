@@ -273,15 +273,16 @@ public class ServiceTestClient {
     	System.out.println("*****  testCreateBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
 
+    	String businessRuleId = null;
     	try {
-    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
     		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     		
     		System.out.println("Business Rule ID            : "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Name          : "+businessRule2.getName());
     	} finally {
-    		ruleManagementService.deleteBusinessRule("1000");
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -290,14 +291,15 @@ public class ServiceTestClient {
     	System.out.println("\n\n*****  testCreateEmptyBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewEmptyBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
 
+    	String businessRuleId = null;
     	try {
-    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
 	        System.out.println("Business Rule ID            : "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule Name          : "+businessRule2.getName());
 	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
-    		ruleManagementService.deleteBusinessRule("1000");
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -306,8 +308,9 @@ public class ServiceTestClient {
     	System.out.println("\n\n*****  testCreateAndFetchBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("1000", "CHEM100PRE_REQ", "CHEM100");
 
+    	String businessRuleId = null;
     	try {
-    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule);
 	        System.out.println("businessRuleId              : "+businessRuleId);
 	        
 	        // fetchDetailedBusinessRuleInfo fails 
@@ -323,7 +326,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
 	        Assert.assertTrue(true);
     	} finally {
-    		ruleManagementService.deleteBusinessRule("1000");
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -332,8 +335,9 @@ public class ServiceTestClient {
     	System.out.println("\n\n*****  testUpdateBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule = generateNewBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
     	
+    	String businessRuleId = null;
     	try {
-    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule);
 	        System.out.println("businessRuleId              : "+businessRuleId);
 	        StatusDTO status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
 	        System.out.println("status                      : "+status);
@@ -350,7 +354,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		ruleManagementService.deleteBusinessRule("1000");
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -359,8 +363,9 @@ public class ServiceTestClient {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM100PRE_REQ", "CHEM100");
 
+    	String businessRuleId = null;
     	try {
-    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule ID            : "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Name          : "+businessRule2.getName());
@@ -373,7 +378,7 @@ public class ServiceTestClient {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        System.out.println("Execution log:           "+executionResult.getExecutionLog());
     	} finally {
-    		ruleManagementService.deleteBusinessRule("1000");
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -416,11 +421,13 @@ public class ServiceTestClient {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("1000", "CHEM100PRE_REQ", "CHEM100", false);
 
+    	String businessRuleId = null;
     	try {
-    		String businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
-    		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID            : "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Name          : "+businessRule2.getName());
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+	        System.out.println("Business Rule ID   : "+businessRule2.getBusinessRuleId());
+	        System.out.println("Business Rule Name : "+businessRule2.getName());
+	        System.out.println("Business Rule Fact Critieria Type : "+businessRule2.getRuleElementList().get(0).getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0).getCriteriaTypeInfo());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId);
 	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
@@ -430,7 +437,7 @@ public class ServiceTestClient {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        System.out.println("Execution log:           "+executionResult.getExecutionLog());
     	} finally {
-    		ruleManagementService.deleteBusinessRule("1000");
+    		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
