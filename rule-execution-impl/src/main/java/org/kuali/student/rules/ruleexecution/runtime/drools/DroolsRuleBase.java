@@ -103,8 +103,8 @@ public class DroolsRuleBase {
             	throw new RuleSetExecutionException("Package name cannot be null or empty");
         }
 
-        if(ruleBaseTypeMap.containsKey(ruleBaseType)) {
-        	ruleBaseTypeMap.get(ruleBaseType).removePackage(packageName);
+        if(ruleBaseTypeMap.containsKey(ruleBaseType) && containsPackage(ruleBaseType, packageName)) {
+    		ruleBaseTypeMap.get(ruleBaseType).removePackage(packageName);
         }
 	}
 	
