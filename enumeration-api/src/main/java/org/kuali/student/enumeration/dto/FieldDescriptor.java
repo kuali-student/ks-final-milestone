@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
     "maxOccurs"
 })
 @XmlRootElement(name = "fieldDescriptor")
-public class FieldDescriptor {
+public class FieldDescriptor implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected String dataType;

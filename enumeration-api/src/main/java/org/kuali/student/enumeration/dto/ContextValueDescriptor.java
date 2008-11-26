@@ -8,7 +8,6 @@
 
 package org.kuali.student.enumeration.dto;
 
-import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -48,7 +47,7 @@ import javax.xml.bind.annotation.XmlType;
     "maxOccurs"
 })
 @XmlRootElement(name = "ContextValueDescriptor")
-public class ContextValueDescriptor {
+public class ContextValueDescriptor implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected String dataType;

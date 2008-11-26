@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "context"
 })
 @XmlRootElement(name = "contexts")
-public class Contexts {
+public class Contexts implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected List<Context> context;

@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "enumerationMeta"
 })
 @XmlRootElement(name = "enumerationMetaList")
-public class EnumerationMetaList {
+public class EnumerationMetaList implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected List<EnumerationMeta> enumerationMeta;

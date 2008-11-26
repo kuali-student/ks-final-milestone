@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "contextValueDescriptor"
 })
 @XmlRootElement(name = "SupportedContexts")
-public class SupportedContexts {
+public class SupportedContexts implements java.io.Serializable {
 
     @XmlElement(name = "ContextValueDescriptor", required = true)
     protected List<ContextValueDescriptor> contextValueDescriptor;

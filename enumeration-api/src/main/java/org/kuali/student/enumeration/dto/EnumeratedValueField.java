@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "fieldDescriptor"
 })
 @XmlRootElement(name = "enumeratedValueField")
-public class EnumeratedValueField {
+public class EnumeratedValueField implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected FieldDescriptor fieldDescriptor;

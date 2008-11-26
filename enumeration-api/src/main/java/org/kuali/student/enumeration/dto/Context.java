@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"value"})
 @XmlRootElement(name = "context")
-public class Context {
+public class Context implements java.io.Serializable {
 
     @XmlElement(required = true)
     protected String value;

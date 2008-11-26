@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlType;
     "supportedContexts"
 })
 @XmlRootElement(name = "enumerationMeta")
-public class EnumerationMeta {
+public class EnumerationMeta implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected String name;

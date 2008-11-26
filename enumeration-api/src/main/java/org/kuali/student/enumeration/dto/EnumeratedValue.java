@@ -8,7 +8,6 @@
 
 package org.kuali.student.enumeration.dto;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,7 +15,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -55,7 +53,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "contexts"
 })
 @XmlRootElement(name = "EnumeratedValue")
-public class EnumeratedValue {
+public class EnumeratedValue implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected String code;
