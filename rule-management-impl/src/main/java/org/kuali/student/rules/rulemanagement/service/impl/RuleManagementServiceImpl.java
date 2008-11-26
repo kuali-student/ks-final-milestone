@@ -53,6 +53,8 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
+        rule.setRuleId(null);
+        
         BusinessRuleType brType = null;
         // Lookup Business Rule Type
         try {
@@ -65,13 +67,16 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
         rule.setBusinessRuleType(brType);
 
+        ruleManagementDao.createBusinessRule(rule);        
+        businessRuleInfo.setBusinessRuleId(rule.getRuleId());
+
         // Compile the business rule
         RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
         rule.setCompiledId(rsDTO.getUUID());
 
-        ruleManagementDao.createBusinessRule(rule);        
-        
-        return rule.getRuleId();
+        ruleManagementDao.updateBusinessRule(rule);
+                        
+        return rule.getRuleId().toString();
     }
 
     @Override
@@ -87,11 +92,24 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         // Check if the rule has already been activated or retired
         BusinessRuleStatus orgStatus = BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus());
         BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getStatus());
-        if( (BusinessRuleStatus.ACTIVE == orgStatus && BusinessRuleStatus.RETIRED != newStatus) || 
-                BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus) {            
-            throw new InvalidParameterException("Cannot update not in progress rules");
+
+        if( BusinessRuleStatus.RETIRED == orgStatus) {            
+            throw new InvalidParameterException("Cannot update RETIRED rules");
+        }
+                                
+        if( BusinessRuleStatus.RETIRED == newStatus && BusinessRuleStatus.ACTIVE != orgStatus) {            
+            throw new InvalidParameterException("Cannot RETIRE non ACTIVE rules");
         }
         
+        if( BusinessRuleStatus.ACTIVE == newStatus && BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus ) {            
+            throw new InvalidParameterException("Cannot ACTIVATE already ACTIVE or RETIRED rules");
+        }
+        
+        if( BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus && BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus ) {            
+            throw new InvalidParameterException("Cannot change status to DRAFT_IN_PROGRESS from ACTIVE or RETIRED rules");
+        }
+        
+                
         // Overwrite the incoming values for non updateable attributes
         businessRuleInfo.setName(orgRule.getName());
         businessRuleInfo.setCompiledId(orgRule.getCompiledId());

@@ -468,7 +468,7 @@
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000032" />
-		<property name="ruleId" value="3" />
+		<property name="ruleId" value="" />
 		<property name="name" value="Cognitive Psychology Pre Req" />
 		<property name="description"
 			value="enrollment pre-requisites for Cognitive Psychology PSYC 300" />

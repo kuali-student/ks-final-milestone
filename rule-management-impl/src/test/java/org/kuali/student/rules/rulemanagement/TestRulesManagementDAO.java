@@ -48,8 +48,8 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.rules.rulemanagement.dao.impl.RuleManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public RuleManagementDAOImpl rulesManagementDAO;
 
-    public static final String ruleId_1 = "1";
-    public static final String ruleId_2 = "2";
+    public static final String ruleId_1 = "11223344-1122-1122-1112-100000000001";
+    public static final String ruleId_2 = "11223344-1122-1122-1112-100000000011";
 
     @Test
     public void testCreateRule() {
@@ -66,7 +66,6 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         metaInfo.setEffectiveDateStart(new Date());
 
         BusinessRule rule = new BusinessRule();
-        rule.setRuleId("103");
         rule.setName("CHEM 100 course prerequisites");
         rule.setDescription("Prerequsite courses required in order to enroll in CHEM 100.");
         rule.setSuccessMessage("Test success message");
@@ -115,7 +114,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
         rulesManagementDAO.createBusinessRule(rule);
 
-        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId("103");
+        BusinessRule newRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId( rule.getRuleId() );
 
         assertEquals(newRule.getId(), rule.getId());
         assertEquals(newRule.getRuleId(), rule.getRuleId());
@@ -135,7 +134,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
 
     @Test
     public void testUpdateRule() {
-        BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingRuleId(ruleId_1);
+        BusinessRule rule = rulesManagementDAO.lookupBusinessRuleUsingId(ruleId_1);
 
         FactStructure factStructure = new FactStructure();
         factStructure.setFactStructureId("1");
@@ -194,7 +193,7 @@ public class TestRulesManagementDAO extends AbstractTransactionalDaoTest {
         
         rulesManagementDAO.updateBusinessRule(rule);
 
-        BusinessRule updatedRule = rulesManagementDAO.lookupBusinessRuleUsingRuleId(rule.getRuleId());
+        BusinessRule updatedRule = rulesManagementDAO.lookupBusinessRuleUsingId(rule.getId());
         assertEquals(updatedRule.getName(), rule.getName());
         assertEquals(2, updatedRule.getRuleElements().size());
         

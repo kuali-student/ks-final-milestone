@@ -268,8 +268,17 @@ public class BusinessRuleAdapter {
         RuleElement element = new RuleElement();
         
         element.setDescription( elementDTO.getDescription() );
+        
         element.setName( elementDTO.getName() );
-        element.setOperation( RuleElementType.valueOf( elementDTO.getOperation() ) );
+            element.setOperation( RuleElementType.LPAREN );
+        if(RuleElementType.LPAREN.getName().equals( elementDTO.getOperation())) {
+            
+        } else if(RuleElementType.RPAREN.getName().equals( elementDTO.getOperation())) {
+            element.setOperation( RuleElementType.RPAREN );
+        } else {
+            element.setOperation( RuleElementType.valueOf( elementDTO.getOperation() ) );
+        }
+                
         element.setOrdinalPosition( elementDTO.getOrdinalPosition() );
         element.setRuleProposition( getRulePropositionEntity( elementDTO.getRuleProposition() ));
         return element;        

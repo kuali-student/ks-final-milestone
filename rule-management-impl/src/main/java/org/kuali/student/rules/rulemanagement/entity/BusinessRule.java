@@ -107,7 +107,10 @@ public class BusinessRule  {
      */
     @PrePersist
     public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
+        this.id = UUIDHelper.genStringUUID(this.id);
+        
+        // TODO: Remove rule Id and just use Id
+        this.ruleId = this.id;        
     }
 
     /**
