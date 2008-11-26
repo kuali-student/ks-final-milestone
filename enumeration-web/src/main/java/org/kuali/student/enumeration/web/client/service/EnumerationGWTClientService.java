@@ -1,6 +1,13 @@
 package org.kuali.student.enumeration.web.client.service;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+
+import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.dto.EnumeratedValueList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -24,4 +31,12 @@ public interface EnumerationGWTClientService extends RemoteService{
         }
     }
     public List<String> fetchEnumertionMeta();
+    
+//    public EnumeratedValueList fetchEnumeration(String enumerationKey,String enumContextKey,String contextValue,Date   contextDate );
+    
+  //  public EnumeratedValue addEnumeratedValue(String enumerationKey,EnumeratedValue value);
+
+    //public EnumeratedValue updateEnumeratedValue(String enumerationKey,String code,EnumeratedValue value);
+
+//    public boolean removeEnumeratedValue(String enumerationKey,String code);
 }

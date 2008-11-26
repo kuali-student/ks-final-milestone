@@ -1,7 +1,10 @@
 package org.kuali.student.enumeration.web.server.gwt;
 
+import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.web.client.service.EnumerationGWTClientService;
 
 
@@ -13,6 +16,22 @@ public class EnumerationGWTClientServiceImplGWT extends RemoteServiceServlet imp
     public List<String> fetchEnumertionMeta() {
         return serviceImpl.fetchEnumertionMeta();
     }
+//    public EnumeratedValueList fetchEnumeration(String enumerationKey,String enumContextKey,String contextValue,Date   contextDate ){
+  //      return serviceImpl.fetchEnumeration(enumerationKey, enumContextKey, contextValue, contextDate);
+    //}
+    
+//    public EnumeratedValue addEnumeratedValue(String enumerationKey,EnumeratedValue value){
+  //      return serviceImpl.addEnumeratedValue(enumerationKey, value);
+    //}
+
+//    public EnumeratedValue updateEnumeratedValue(String enumerationKey,String code,EnumeratedValue value){
+  //      return serviceImpl.updateEnumeratedValue(enumerationKey, code, value);
+    //}
+
+//    public boolean removeEnumeratedValue(String enumerationKey,String code){
+  //      return serviceImpl.removeEnumeratedValue(enumerationKey, code);
+    //}
+    
     /**
      * @return the serviceImpl
      */
