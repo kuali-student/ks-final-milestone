@@ -345,6 +345,7 @@ public class RulesComposite extends Composite {
                             ruleInfo.setBusinessRuleName(displayedRule.getName());
                             ruleInfo.setBusinessRuleId(newRuleID);
                             rulesTree.add(ruleInfo);
+                            displayedRule.setBusinessRuleId(newRuleID);
 
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
