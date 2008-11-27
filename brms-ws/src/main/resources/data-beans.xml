@@ -94,7 +94,6 @@
 			value="enrollment co-requisites for Intermediate CPR 201" />
 		<property name="successMessage" value="Rule 1 Success Message" />
 		<property name="failureMessage" value="Rule 1 Failure Message" />
-		<property name="compiledId" value="111" />
 		<property name="anchor" value="CPR 201" />
 		<property name="businessRuleType" ref="businessRuleType2" />
 		<property name="metaData" ref="ruleMetaData" />
@@ -294,7 +293,6 @@
 			value="enrollment pre-requisites for Freshman Math 101" />
 		<property name="successMessage" value="Rule 2 Success Message" />
 		<property name="failureMessage" value="Rule 2 Failure Message" />
-		<property name="compiledId" value="112" />
 		<property name="anchor" value="MATH 101" />
 		<property name="businessRuleType" ref="businessRuleType1" />
 		<property name="metaData" ref="ruleMetaData" />
@@ -472,7 +470,6 @@
 			value="enrollment pre-requisites for Cognitive Psychology PSYC 300" />
 		<property name="successMessage" value="PSYC 300 pre requirements passed." />
 		<property name="failureMessage" value="PSYC 300 pre requirements failed." />
-		<property name="compiledId" value="" />
 		<property name="anchor" value="PSYC 300" />
 		<property name="businessRuleType" ref="businessRuleType1" />
 		<property name="metaData" ref="ruleMetaData" />
@@ -791,13 +788,13 @@
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
-					<property name="structureKey" value="factParam.clusetId"/>
+					<property name="structureKey" value="factParam.clusetId_psyc_200"/>
 					<!--  In real application it will be a clusetId for PSYC 200 level courses -->
 					<property name="value" value="PSYC 200, PSYC 201, PSYC 202, PSYC 205, PSYC 218, PSYC 263"/>
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
-					<property name="structureKey" value="factParam.excludeCluSet"/>
+					<property name="structureKey" value="factParam.excludeCluSet_ABC"/>
 					<property name="value" value="PSYC 205, PSYC 263"/>
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
