@@ -399,7 +399,7 @@ public class RulesComposite extends Composite {
                     	return;
                     }
                     
-                    rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
+                    //TODO rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
                     
                     // 3) activated Draft will become a rule
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
@@ -419,7 +419,7 @@ public class RulesComposite extends Composite {
                     });
                     
                     loadExistingRule(displayedRule);
-                    rulesTree.update(displayedRuleInfo);
+                    //TODO rulesTree.update(displayedRuleInfo);
                     
                     GuiUtil.showUserDialog("Draft activated.");
                     
