@@ -348,6 +348,7 @@ public class RulesComposite extends Composite {
 
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
+                            GuiUtil.showUserDialog("Initial data submitted. New draft created.");
                         }
                     });
                 }
@@ -379,6 +380,8 @@ public class RulesComposite extends Composite {
                     });
                     
                     loadExistingRule(displayedRule);
+                    
+                    GuiUtil.showUserDialog("Draft updated.");
                 }
             });
       
@@ -416,6 +419,8 @@ public class RulesComposite extends Composite {
                     
                     loadExistingRule(displayedRule);
                     rulesTree.update(displayedRuleInfo);
+                    
+                    GuiUtil.showUserDialog("Draft activated.");
                     
                     //TODO...
                     //controller.getEventDispatcher().fireEvent(RulesUpdateEvent.class, displayedRuleInfo);
@@ -477,6 +482,7 @@ public class RulesComposite extends Composite {
                     });
                     
                     loadExistingRule(displayedRule);
+                    GuiUtil.showUserDialog("Rule retired.");
                 }
             });    
             
@@ -486,18 +492,15 @@ public class RulesComposite extends Composite {
                 	//placeNewDraftInTree("");                	
                 	
                 	//keep original rule values except rule id
-                	BusinessRuleInfoDTO ruleCopy = displayedRule;
-                	RulesHierarchyInfo ruleInfoCopy = displayedRuleInfo;
-                	ruleCopy.setBusinessRuleId("");
-                	ruleCopy.setStatus(STATUS_NOT_STORED_IN_DATABASE);
-                	
-                	//now load the draft
-                	loadEmptyRule();
-                	displayedRule = ruleCopy;
-                	displayedRule.setName("COPY " + displayedRule.getName());
-                	displayedRuleInfo = ruleInfoCopy;
-                	displayedRuleInfo.setStatus(STATUS_NOT_STORED_IN_DATABASE);
-                    displayActiveRule();
+                	displayedRule.setBusinessRuleId("");
+                	businessRuleID.setText("");
+                	displayedRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
+                	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
+                	displayedRule.setName("COPY " + displayedRule.getName());;                                	
+                	nameTextBox.setText(displayedRule.getName());
+                	updateRulesFormButtons(displayedRule.getStatus());
+                	rulesFormTabs.selectTab(0);  
+                	GuiUtil.showUserDialog("Rule copied.");
                 }
             });  
             
