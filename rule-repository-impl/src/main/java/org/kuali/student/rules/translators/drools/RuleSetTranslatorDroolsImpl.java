@@ -69,7 +69,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 	 * @return A rule set
 	 * @throws RuleSetTranslatorException Thrown if translating a rule set fails
 	 */
-    public RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
+    public synchronized RuleSet translate(BusinessRuleInfoDTO businessRule) throws RuleSetTranslatorException {
     	RuleSet ruleSet = null;
     	String ruleSetName = getRuleSetName(businessRule);
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
