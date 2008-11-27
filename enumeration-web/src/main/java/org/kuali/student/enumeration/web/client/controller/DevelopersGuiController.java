@@ -44,7 +44,6 @@ public class DevelopersGuiController extends Controller {
             // initialize our controller's models
             setupModels();
 
-            // retrieve initial data from BRMS service
             loadModelsData();
 
             // set up the tabs, etc
@@ -60,14 +59,11 @@ public class DevelopersGuiController extends Controller {
     }
 
     private void loadModelsData() {
-
-        System.out.println("Load Models Data");
+      System.out.println("Load Models Data");
 
     }
 
     private void doLayout() {
-
-        // tabs.add(rulesVerticalSplitPanel, "Facts");
         tabs.setSize("100%", "900px");
         tabs.selectTab(0);
     }
