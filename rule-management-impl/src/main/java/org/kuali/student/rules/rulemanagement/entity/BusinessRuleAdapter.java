@@ -238,7 +238,7 @@ public class BusinessRuleAdapter {
         metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
         metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
         metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveEndTime());
-        metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveStartTime());
+        metaData.setEffectiveDateStart(ruleInfoDTO.getEffectiveStartTime());
         metaData.setStatus( BusinessRuleStatus.valueOf( ruleInfoDTO.getStatus() ).toString());
         metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
         metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
