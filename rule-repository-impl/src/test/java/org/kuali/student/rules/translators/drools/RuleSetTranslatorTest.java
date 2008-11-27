@@ -82,7 +82,6 @@ public class RuleSetTranslatorTest {
     }
 
     private RulePropositionDTO getRuleProposition(
-    		String yieldValueFunctionType, 
     		String comparisonOperator, 
     		String expectedValue,
     		String comparisonOperatorType,
@@ -249,7 +248,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"cluID-1234",
             			String.class.getName(),
@@ -291,7 +289,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"100.1234567890",
             			BigDecimal.class.getName(),
@@ -336,7 +333,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"cluID-1234",
             			String.class.getName(),
@@ -344,7 +340,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
             			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
             			"75.0",
             			BigDecimal.class.getName(),
@@ -413,7 +408,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"cluID-1234",
             			String.class.getName(),
@@ -421,7 +415,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SIMPLECOMPARABLE.toString(), 
             			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString(),
             			"75.0",
             			BigDecimal.class.getName(),
@@ -461,7 +454,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.MIN.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"75.0",
             			BigDecimal.class.getName(),
@@ -510,7 +502,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.MIN.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"85.0",
             			BigDecimal.class.getName(),
@@ -562,7 +553,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.MIN.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"75.0",
             			BigDecimal.class.getName(),
@@ -600,7 +590,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.MAX.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"85.0",
             			BigDecimal.class.getName(),
@@ -652,7 +641,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.MAX.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"85.0",
             			BigDecimal.class.getName(),
@@ -690,7 +678,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.MAX.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"75.0",
             			BigDecimal.class.getName(),
@@ -740,7 +727,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SUBSET.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -800,7 +786,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SUBSET.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -828,7 +813,7 @@ public class RuleSetTranslatorTest {
     	String anchorValue = "CPR101";
         // DEFINITION: Create rule definition 
 
-    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
 		// EXECUTION: Fact
@@ -839,7 +824,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.INTERSECTION.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -852,7 +836,7 @@ public class RuleSetTranslatorTest {
 
         // Parse and generate functional business rule into Drools rules
         RuleSet ruleSet = this.generateRuleSet.translate(businessRule);
-    	
+
     	String criteriaKey = FactUtil.createCriteriaKey(factStructure1);
     	String factKey = FactUtil.createFactKey(factStructure2);
 
@@ -882,7 +866,7 @@ public class RuleSetTranslatorTest {
     	String anchorValue = "CPR101";
         // DEFINITION: Create rule definition 
 
-    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.SUBSET.toString());
+    	YieldValueFunctionDTO yieldValueFunction = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
 		factStructure1.setStaticFact(true);
@@ -899,7 +883,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.INTERSECTION.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -937,7 +920,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SUM.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"12.0",
             			BigDecimal.class.getName(),
@@ -989,7 +971,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SUM.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"12.0",
             			BigDecimal.class.getName(),
@@ -1027,7 +1008,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.AVERAGE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"80.0",
             			BigDecimal.class.getName(),
@@ -1079,7 +1059,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.AVERAGE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"80.0",
             			BigDecimal.class.getName(),
@@ -1117,7 +1096,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.AVERAGE.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"80.0",
             			BigDecimal.class.getName(),
@@ -1198,7 +1176,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SUBSET.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -1206,7 +1183,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
         		"element-2", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.INTERSECTION.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -1288,7 +1264,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element1 = dtoFactory.createRuleElementDTO(
         		"element-1", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.SUBSET.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
@@ -1296,7 +1271,6 @@ public class RuleSetTranslatorTest {
         RuleElementDTO element2 = dtoFactory.createRuleElementDTO(
         		"element-2", "PROPOSITION", 
         		new Integer(1), getRuleProposition(
-            			YieldValueFunctionType.INTERSECTION.toString(), 
             			ComparisonOperator.EQUAL_TO.toString(),
             			"1",
             			Integer.class.getName(),
