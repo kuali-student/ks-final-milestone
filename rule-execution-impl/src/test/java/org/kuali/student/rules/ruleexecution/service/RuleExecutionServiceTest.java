@@ -17,6 +17,7 @@ import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
+import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
@@ -33,8 +34,10 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 	@Client(value="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl", port="8181")
     public RuleExecutionService ruleExecutionService;
 	
-	private static String businessRuleId1;
-	private static String businessRuleId2;
+	// data-beans.xml - bean id="funcBusRule1"
+	private static String businessRuleId1 = "11223344-1122-1122-1112-100000000001";
+	// data-beans.xml - bean id="funcBusRule2"
+	private static String businessRuleId2 = "11223344-1122-1122-1112-100000000011";
 
     @BeforeClass
     public static void setUpOnce() throws Exception {
@@ -50,12 +53,8 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 		ApplicationContext applicationContext = ContextLoader.getCurrentWebApplicationContext();
 
 		RuleManagementService ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
-		businessRuleId1 = ruleManagementService.createBusinessRule(businessRuleInfo1);
-		businessRuleId2 = ruleManagementService.createBusinessRule(businessRuleInfo2);
-
-		//RuleRepositoryService ruleRepositoryService = (RuleRepositoryService) applicationContext.getBean("repository");
-		//System.out.println("\n\n********** "+ruleRepositoryService.fetchRuleSet(ruleManagementService.fetchBusinessRuleInfo(businessRuleInfo1.getBusinessRuleId()).getCompiledId()).getContent());
-		//System.out.println("\n\n********** "+ruleRepositoryService.fetchRuleSet(ruleManagementService.fetchBusinessRuleInfo(businessRuleInfo2.getBusinessRuleId()).getCompiledId()).getContent());
+		ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
+		ruleManagementService.updateBusinessRule(businessRuleId2, businessRuleInfo2);
     }
 
     @AfterClass

@@ -82,8 +82,8 @@
 	-->
 	<bean id="funcBusRule1"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
-		<!--property name="id" value="11223344-1122-1122-1112-100000000001" /-->
-		<!--property name="ruleId" value="11223344-1122-1122-1112-200000000001" /-->
+		<property name="id" value="11223344-1122-1122-1112-100000000001" />
+		<property name="ruleId" value="11223344-1122-1122-1112-200000000001" />
 		<property name="name" value="Intermediate CPR" />
 		<property name="description" value="enrollment co-requisites for Intermediate CPR 201" />
 		<property name="successMessage" value="Rule 1 Success Message" />
@@ -249,8 +249,8 @@
 	-->
 	<bean id="funcBusRule2"
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
-		<!--property name="id" value="11223344-1122-1122-1112-100000000011" /-->
-		<!--property name="ruleId" value="11223344-1122-1122-1112-200000000002" /-->
+		<property name="id" value="11223344-1122-1122-1112-100000000011" />
+		<property name="ruleId" value="11223344-1122-1122-1112-200000000002" />
 		<property name="name" value="Freshmen Math" />
 		<property name="description"
 			value="enrollment pre-requisites for Freshman Math 101" />
