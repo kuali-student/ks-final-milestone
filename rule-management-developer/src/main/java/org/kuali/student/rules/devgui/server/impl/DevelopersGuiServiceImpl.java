@@ -52,25 +52,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
     	
     	String new_rule_id = null;
-     
-        //BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        //brInfoDTO.setName("Test Rule Name 1111");
-        //brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
-        //brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
-        //brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
-        //brInfoDTO.setAnchorValue("TEST");
-        //brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-        
-        //Temporary workaround  
-    	/*
-        List<RuleElementDTO> ruleElementList = businessRuleInfo.getRuleElementList();
-        for (RuleElementDTO elem : ruleElementList) {
-            if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
-            } else {
-            	if (elem.getOperation().equals("(")) elem.setOperation(RuleElementType.LPAREN.toString());
-            	if (elem.getOperation().equals(")")) elem.setOperation(RuleElementType.RPAREN.toString());                            
-            }
-        } */   	
     	
         try {
             new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
@@ -81,19 +62,9 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     }
 
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
-        StatusDTO rule_update_status = null;
         
-        //Temporary workaround   
-        /*
-        List<RuleElementDTO> ruleElementList = businessRuleInfo.getRuleElementList();
-        for (RuleElementDTO elem : ruleElementList) {
-            if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
-            } else {
-            	if (elem.getOperation().equals("(")) elem.setOperation(RuleElementType.LPAREN.toString());
-            	if (elem.getOperation().equals(")")) elem.setOperation(RuleElementType.RPAREN.toString());                            
-            }
-        } */
-        
+    	StatusDTO rule_update_status = null;
+                
         try {
             rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {

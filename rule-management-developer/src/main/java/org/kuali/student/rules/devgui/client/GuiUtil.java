@@ -73,7 +73,9 @@ public class GuiUtil {
                         continue;
                     }
 
-                    completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " + GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " + prop.getRightHandSide().getExpectedValue() + " ");
+                    completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " +
+                    		GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " +
+                    		prop.getRightHandSide().getExpectedValue() + " ");
                 } else {
                     completeRule.append(token + " ");
                 }
@@ -443,7 +445,7 @@ public class GuiUtil {
         return "";
     }
 
-    public enum YieldValueFunctionType {
+    public enum YieldValueFunctionType {  //DODO  add other types
         INTERSECTION("Intersection (arg1, arg2)"), SUM("Sum (arg)"), AVERAGE("Average (arg)");
 
         private final String symbol;

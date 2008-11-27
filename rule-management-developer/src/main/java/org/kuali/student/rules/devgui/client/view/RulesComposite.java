@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
@@ -115,6 +116,7 @@ public class RulesComposite extends Composite {
     final ScrollPanel rulesScrollPanel = new ScrollPanel();
     final VerticalSplitPanel rulesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
+    final TabPanel rulesFormTabs = new TabPanel();
     
     // Main rules tab
     final Label businessRuleID = new Label();
@@ -157,20 +159,22 @@ public class RulesComposite extends Composite {
     final TextBox yvfSecondFactParamTwoTextBox = new TextBox();     
     
     //Propositions
+    final ListBox propositionsListBox = new ListBox();
+    int selectedPropListBoxIndex = -1;
     final TextBox propNameTextBox = new TextBox();
     final TextBox propDescTextBox = new TextBox();
     final ListBox operatorsListBox = new ListBox();
-    final ListBox propositionsListBox = new ListBox();
     final TextArea completeRuleTextArea = new TextArea();
     final TextArea propCompositionTextArea = new TextArea();
-    final Button validateCompositionButton = new Button("Validate");
+    final Button validateRuleButton = new Button("Validate Rule");
     final TextBox expectedValueTextBox = new TextBox();
     final Label compositionStatusLabel = new Label();
     // Proposition Update, Reset, Add, Delete buttons
     final Button addPropButton = new Button("Add");
     final Button updatePropButton = new Button("Update");
-    final Button deletePropButton = new Button("Delete");
-    final Button cancelPropButton = new Button("Cancel");
+    final Button removePropButton = new Button("Remove");
+    final Button makeCopyPropButton = new Button("Make Copy");
+    final Button cancelPropButton = new Button("Cancel Changes");
 
     // Authoring tab
     final TextBox effectiveStartTimeTextBox = new TextBox();
@@ -206,12 +210,12 @@ public class RulesComposite extends Composite {
     final Button makeNewVersionButton = new Button("Make New Version");
     final Button retireRuleButton = new Button("Retire Rule");    
     final Button copyRuleButton = new Button("Make Rule Copy");
-    final Button cancelButton = new Button("Cancel");     
+    final Button cancelButton = new Button("Cancel Changes");     
     
     //variables representing client internal state
     private BusinessRuleInfoDTO displayedRule = null; // keep copy of business rule so we can update all fields user
     private RulesHierarchyInfo displayedRuleInfo = null; // keep copy of rule meta info
-    private Map<Integer, RulePropositionDTO> definedPropositions = new HashMap<Integer, RulePropositionDTO>();
+    private Map<Integer, RulePropositionDTO> definedPropositions = new TreeMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
     private List<String> factTypeKeyList = null;  // keep copy of current list of factTypeKeys based on business rule type
     private boolean loadingFactTypeKeyList = false;  //TODO 'loading' icon; also for other drop downs
@@ -275,6 +279,8 @@ public class RulesComposite extends Composite {
                         System.out.println("DEBUG: no selection....");
                         return;
                     }
+
+                    //TODO are you sure? esp. if user changed something - your changes will be lost                   
                     
                     // populate fields based on a rule selected by user                    
                     displayedRuleInfo = modelObject;
@@ -302,7 +308,7 @@ public class RulesComposite extends Composite {
                 public void onClick(final Widget sender) {               	                	                                        	                 
                     
                     // 1) update the displayed rule copy with data entered
-                    if (updateDisplayedRuleCopy() == false) {
+                    if (updateCopyOfDisplayedRule() == false) {
                         return;
                     }
                     
@@ -341,11 +347,9 @@ public class RulesComposite extends Composite {
                             rulesTree.add(ruleInfo);
 
                             loadExistingRule(displayedRule);
-                            //controller.getEventDispatcher().fireEvent(RulesAddEvent.class, ruleInfo);
+                            rulesFormTabs.selectTab(0);
                         }
                     });
-                    
-                   // loadExistingRule(displayedRule);
                 }
             });
 
@@ -353,7 +357,7 @@ public class RulesComposite extends Composite {
                 public void onClick(final Widget sender) {                	
                 	
                     // 1) update the draft with data entered
-                    if (updateDisplayedRuleCopy() == false) {
+                    if (updateCopyOfDisplayedRule() == false) {
                         return;
                     }
                    
@@ -382,7 +386,7 @@ public class RulesComposite extends Composite {
                 public void onClick(final Widget sender) {
 
                     // 1) update the active rule with data entered
-                    if (updateDisplayedRuleCopy() == false) {
+                    if (updateCopyOfDisplayedRule() == false) {
                         return;
                     }
 
@@ -391,10 +395,12 @@ public class RulesComposite extends Composite {
                     	return;
                     }
                     
+                    rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
+                    
                     // 3) activated Draft will become a rule
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
-                    displayedRuleInfo.setBusinessRuleName(displayedRule.getName());	//remove '[D]'
+                    displayedRuleInfo.setBusinessRuleName(displayedRule.getName());
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
                         public void onFailure(Throwable caught) {
@@ -411,6 +417,7 @@ public class RulesComposite extends Composite {
                     loadExistingRule(displayedRule);
                     rulesTree.update(displayedRuleInfo);
                     
+                    //TODO...
                     //controller.getEventDispatcher().fireEvent(RulesUpdateEvent.class, displayedRuleInfo);
                 }
             });            
@@ -424,7 +431,7 @@ public class RulesComposite extends Composite {
                     }
 
                     // 2) update the active rule with data entered
-                    if (updateDisplayedRuleCopy() == false) {
+                    if (updateCopyOfDisplayedRule() == false) {
                         return;
                     }
                     
@@ -461,7 +468,11 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(StatusDTO updateStatus) {
-                            System.out.println("Retired rule: " + updateStatus.isSuccess());
+                        	if (updateStatus.isSuccess()) {
+                        		GuiUtil.showUserDialog("Rule retired.");
+                        	} else {
+                        		GuiUtil.showUserDialog("ERROR: Failed to retire rule.");
+                        	}
                         }
                     });
                     
@@ -482,7 +493,8 @@ public class RulesComposite extends Composite {
                 	
                 	//now load the draft
                 	loadEmptyRule();
-                	displayedRule = ruleCopy; 
+                	displayedRule = ruleCopy;
+                	displayedRule.setName("COPY " + displayedRule.getName());
                 	displayedRuleInfo = ruleInfoCopy;
                 	displayedRuleInfo.setStatus(STATUS_NOT_STORED_IN_DATABASE);
                     displayActiveRule();
@@ -500,132 +512,107 @@ public class RulesComposite extends Composite {
             /****************************************************************************************************************
              * listeners for proposition ADD, UPDATE, DELETE, RESET buttons
              ***************************************************************************************************************/
-            propositionsListBox.addClickListener(new ClickListener() {
-                public void onClick(Widget sender) {
+            propositionsListBox.addChangeListener(new ChangeListener() {
+                public void onChange(Widget sender) {
                     ListBox box = ((ListBox) sender);
-                    if (box.getSelectedIndex() == -1) {
+                    int selectedIndex = box.getSelectedIndex();
+                    if (selectedIndex == -1) {
                     	return;
                     }
-                    RulePropositionDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(box.getSelectedIndex())));
+                    
+                    if (definedPropositions.size() > 1) {
+                    	removePropButton.setEnabled(true);
+                    }
+                    
+                    System.out.println("--> LIST BOX CHANGE: selected index:" + selectedIndex);
+                    
+                    //extra check
+                    RulePropositionDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(selectedIndex)));
                     if (selectedRuleElement == null) {
+                    	System.out.println("Selected elemetn NULL?");
                         return;
                     }
+                    //first we need to update the currently edited proposition before we switch to new one (update by default)
+                    if (updateSelectedPropositionDTO(selectedPropListBoxIndex) == false) {
+                    	//propositionsListBox.setSelectedIndex(selectedPropIndex); //revert back to current proposition
+                    	return;  //proposition edits are invalid  TODO - not necessary???
+                    }
+                    
+                    //second we load the selected proposition details
+                    selectedPropListBoxIndex = selectedIndex; 
                     populatePropositionDetails(selectedRuleElement);
                 }
             });
             
+            /* update proposition is by default at this moment...
             updatePropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
                     int selectedProp = propositionsListBox.getSelectedIndex();
-                    if (selectedProp != -1) {
-                        //RulePropositionDTO prop = definedPropositions.get(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
-                        
-                        /*
-                        prop.setName(propNameTextBox.getText());
-                        prop.setDescription(propDescTextBox.getText());
-                        LeftHandSideDTO leftSide = new LeftHandSideDTO();
-                        YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
-                        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
-                        leftSide.setYieldValueFunction(yvf);
-                        prop.setLeftHandSide(leftSide);
-                        RightHandSideDTO rightSide = new RightHandSideDTO();
-                        rightSide.setExpectedValue(expectedValueTextBox.getText());
-                        prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));
-                        prop.setRightHandSide(rightSide);
-                        */
-                        
-                        RulePropositionDTO prop = loadPropositionFromFormFields();
-                        if (prop == null) {  //invalid proposition
-                        	return;
-                        }
-                        
-                        int origPropKey = Integer.parseInt(propositionsListBox.getValue(selectedProp));
-                        definedPropositions.remove(origPropKey);
-                        definedPropositions.put(origPropKey, prop);                        
-                        propositionsListBox.setSelectedIndex(-1);
-                        clearPropositionDetails();
-                        
-                        // update Rule Overview text as well
-                        completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
+                    if (selectedProp != -1) {                        
+                    	updateSelectedProposition();
                     }
                 }
-            });
+            }); */
 
-            deletePropButton.addClickListener(new ClickListener() {
+            addPropButton.addClickListener(new ClickListener() {
+                public void onClick(final Widget sender) {                    
+
+                    //first we need to update the currently edited proposition (update by default)
+                    if (updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex()) == false) {
+                    	return;  //proposition edits are invalid
+                    }                   
+                	                    
+                    int newPropIx = addEmptyPropositionToDTOList();
+                    
+                    //reorganize propositions
+                    updatePropositionListBoxAndDetails(newPropIx);                    
+                }
+            });            
+            
+            removePropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
+                	
+                    if (definedPropositions.size() < 2) {
+                    	removePropButton.setEnabled(false);
+                    	GuiUtil.showUserDialog("Cannot remove last proposition.");
+                    }
+                	
+                	//TODO are you sure? dialog
                     int selectedProp = propositionsListBox.getSelectedIndex();
-                    if (selectedProp != -1) {
+                    if ((selectedProp != -1)){
                         // remove the proposition
                         definedPropositions.remove(Integer.parseInt(propositionsListBox.getValue(selectedProp)));
 
                         // refresh the form
-                        populatePropositionListBoxAndDetails(-1);
-                        updatePropButton.setEnabled(false);
-                        deletePropButton.setEnabled(false);
-                    }
+                        updatePropositionListBoxAndDetails(-1);
+                        //updatePropButton.setEnabled(false);
+                        removePropButton.setEnabled(false);
+                    }                    
                 }
             });
 
             cancelPropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
-                    clearPropositionDetails();
-                    updatePropButton.setEnabled(false);
-                    deletePropButton.setEnabled(false);
+                    //updatePropButton.setEnabled(false);
+                    //removePropButton.setEnabled(false); 
+                    updatePropositionListBoxAndDetails(propositionsListBox.getSelectedIndex());
                 }
             });
 
-            addPropButton.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {                    
-                	 
-                	RulePropositionDTO prop = loadPropositionFromFormFields();
-                    if (prop == null) {  //invalid proposition
-                    	return;
-                    }
-                	
-                	//find the new rule proposition place in the list (at the end)
-                    int max = 0; int ix = 0;
-                    for (Integer key : definedPropositions.keySet()) {
-                    	ix++;
-                        if (key.intValue() > max) {
-                            max = key.intValue();
-                        }
-                    }
-                    max++;
-                    definedPropositions.put(max, prop);
-                    
-                    populatePropositionListBoxAndDetails(ix);
+            propNameTextBox.addFocusListener(new FocusListener() {
+                public void onFocus(final Widget sender) {
+                }
+
+                public void onLostFocus(final Widget sender) {
+                	String propAbreviation = "P" + propositionsListBox.getValue(selectedPropListBoxIndex) +  ":  ";
+                	propositionsListBox.setItemText(selectedPropListBoxIndex, propAbreviation + propNameTextBox.getText());
                 }
             });
+            
 
             /****************************************************************************************************************
              * listeners for YVF drop downs, COMPOSITION and COMPLETE TEXT elements of a rule
              ***************************************************************************************************************/
-            /*  TODO: in future we might need to remove 'Static Fact'option from Fact Types list and instead let user
-        		to select known fact types and then select if it is static or dynamically supplied value
-            yvfFirstFactLookupTypeStatic.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-                    setFactFields(true, true, true);
-                }
-            });
-
-            yvfFirstFactLookupTypeDynamic.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-                    setFactFields(true, false, true);
-                }
-            });            
-
-            yvfSecondFactLookupTypeStatic.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-                    setFactFields(true, true, true);
-                }
-            });
-
-            yvfSecondFactLookupTypeDynamic.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-                    setFactFields(true, false, true);
-                }
-            });              
-              */
 
             // Yield Value Function list box
             yvfListBox.addChangeListener(new ChangeListener() {            	            	
@@ -662,9 +649,16 @@ public class RulesComposite extends Composite {
                 }
             });             
             
-            validateCompositionButton.addClickListener(new ClickListener() {
+            validateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
-                    checkPropositonComposition();
+                	
+                	//first update the DTO of the proposition being edited
+                	updateSelectedPropositionDTO(selectedPropListBoxIndex);
+                	
+                    // check whether the current composition is valid
+                    if (validateRuleComposition() == false) {
+                    	return; //invalid proposition being edited
+                    }
                 }
             });
 
@@ -673,8 +667,14 @@ public class RulesComposite extends Composite {
                 }
 
                 public void onLostFocus(final Widget sender) {
+                	
+                	//first update the DTO of the proposition being edited
+                	updateSelectedPropositionDTO(selectedPropListBoxIndex);                	
+                	
                     // check whether the current composition is valid
-                    checkPropositonComposition();
+                    if (validateRuleComposition() == false) {
+                    	return; //invalid proposition being edited
+                    }
                     
                     // update Rule Overview text as well
                     completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
@@ -729,6 +729,13 @@ public class RulesComposite extends Composite {
     private void loadEmptyRule() {    	
         displayedRule = createEmptyBusinessRule();
     	clearRuleForms();
+        
+        //set an empty proposition
+        ruleComposition = new StringBuffer();
+        definedPropositions.clear();
+        int newPropIx = addEmptyPropositionToDTOList();
+        updatePropositionListBoxAndDetails(newPropIx);
+
     	displayedRuleInfo = null;
     	factTypeKeyList = null;
     	firstFactTypeKeyListSelectedValue = null;
@@ -758,7 +765,7 @@ public class RulesComposite extends Composite {
         }
 
         retrieveFactTypes();
-        displayActiveRule();    	
+        displayActiveRule();  
     }
     
     private void setRuleStatus(String status) {
@@ -822,7 +829,7 @@ public class RulesComposite extends Composite {
         }
     }
    
-    private boolean updateDisplayedRuleCopy() {
+    private boolean updateCopyOfDisplayedRule() {
 
         // set rule basic info
     	displayedRule.setName(nameTextBox.getText());
@@ -838,10 +845,20 @@ public class RulesComposite extends Composite {
     	displayedRule.setEffectiveStartTime(new Date()); // TODO - add to form
     	displayedRule.setEffectiveEndTime(new Date()); // TODO - add to form
 
-        // set rule propositions
+        // validate and then update DTO of the currently edited proposition
+    	if (updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex()) == false) {
+    		return false; //proposition edits are invalid
+    	}
+    	
+    	//now validate each proposition
+        if (validateRuleComposition() == false) {
+        	GuiUtil.showUserDialog("ERROR: Invalid rule composition.");
+        	return false;
+        }
+    	
+    	//
     	ruleComposition = new StringBuffer(propCompositionTextArea.getText());
     	if (ruleComposition != null) {
-    		System.out.println("HERE--");
 	        List<RuleElementDTO> elemList;
 	        try {
 	            elemList = GuiUtil.createRuleElementsFromComposition(ruleComposition.toString(), definedPropositions);
@@ -892,16 +909,6 @@ public class RulesComposite extends Composite {
 		newRule.setEffectiveStartTime(effectiveStartTime);
 		newRule.setEffectiveEndTime(effectiveEndTime);
 
-        // set meta info
-        MetaInfoDTO metaInfo = new MetaInfoDTO();
-        metaInfo.setCreateTime(new Date());
-        metaInfo.setCreateID("");
-        metaInfo.setCreateComment("");
-        metaInfo.setUpdateTime(new Date());
-        metaInfo.setUpdateID("");        
-        metaInfo.setUpdateComment("");
-        newRule.setMetaInfo(metaInfo);
-
         // set rule proposition
         LeftHandSideDTO leftSide = new LeftHandSideDTO();
         RightHandSideDTO rightSide = new RightHandSideDTO();
@@ -924,6 +931,16 @@ public class RulesComposite extends Composite {
         elemList.add(elem);
         newRule.setRuleElementList(elemList);
 
+        // set meta info
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        metaInfo.setCreateTime(new Date());
+        metaInfo.setCreateID("");
+        metaInfo.setCreateComment("");
+        metaInfo.setUpdateTime(new Date());
+        metaInfo.setUpdateID("");        
+        metaInfo.setUpdateComment("");
+        newRule.setMetaInfo(metaInfo);        
+        
         return newRule;
     }    
 
@@ -993,83 +1010,109 @@ public class RulesComposite extends Composite {
         if (ruleComposition.toString().isEmpty()) {
         	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please use at least one defined Proposition.");
             return false;
-        }       
+        }              
+        
+        return true;
         
         // TODO make form read-only while validating/creating/updating the rule???
-        return (GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()).equals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE));
+        //return (GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()).equals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE));
     }
     
 
-    private boolean isYVFFactValid() {
+    private boolean isPropositionValid(RulePropositionDTO prop) {
     	
-		if (factTypeKeyList == null) {
-        	GuiUtil.showUserDialog("ERROR: No Business Rule Type selected.");
+    	if (prop.getName().trim().isEmpty()) {
+        	GuiUtil.showUserDialog("ERROR: Proposition needs name.");
+            return false;     		
+    	}    	
+        
+		//we don't want duplicate names
+		//if (propNameTextBox.getText() TODO
+    	
+    	YieldValueFunctionDTO yvf = prop.getLeftHandSide().getYieldValueFunction();
+    	if (yvf == null) {
+        	GuiUtil.showUserDialog("ERROR: YVF cannot be empty.");
             return false;    		
     	}
     	
-		//we don't want duplicate names
-		//if (propNameTextBox.getText() TODO
-		
-		String yvf = GuiUtil.getListBoxSelectedValue(yvfListBox).trim();
-        if ((yvfListBox.getSelectedIndex() == -1) || (yvf.equals(EMPTY_LIST_BOX_ITEM))) {
+    	String yvfType = yvf.getYieldValueFunctionType();
+    	System.out.println("YVF Type: " + yvfType);
+        if ((yvfType.equals(EMPTY_LIST_BOX_ITEM)) || (yvfType.trim().isEmpty())) {
         	GuiUtil.showUserDialog("ERROR: YVF cannot be empty.");
-            return false;
-        }
-
-        if ((operatorsListBox.getSelectedIndex() == -1)  || (GuiUtil.getListBoxSelectedValue(operatorsListBox).equals(EMPTY_LIST_BOX_ITEM))) {
-        	GuiUtil.showUserDialog("ERROR: Missing Operator.");
-            return false;
-        }
-        
-        if (expectedValueTextBox.getText().isEmpty()) {
-        	GuiUtil.showUserDialog("ERROR: Missing Expected Value.");
             return false;
         }    	
         
+        if ((prop.getComparisonOperatorType() == null) || (prop.getComparisonOperatorType().trim().isEmpty())
+        		|| prop.getComparisonOperatorType().equals(equals(EMPTY_LIST_BOX_ITEM))) {
+        	GuiUtil.showUserDialog("ERROR: Missing Operator.");
+            return false;        	
+        }        
+        
+        if ((prop.getRightHandSide() == null) || prop.getRightHandSide().getExpectedValue().isEmpty()) {
+        	GuiUtil.showUserDialog("ERROR: Missing Expected Value.");
+            return false;
+        }    	        
+            	
         //verify we are not missing first Fact parameters
+        List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
+
         //1. Fact Type cannot be empty
-        if ((firstFactTypeKeyListSelectedValue == null) || (firstFactTypeKeyListSelectedValue.equals(EMPTY_LIST_BOX_ITEM))) {
-        	GuiUtil.showUserDialog("ERROR: Missing 1st Fact Type Key.");
+        if ((factStructureList == null) || (factStructureList.size() == 0)) {
+        	GuiUtil.showUserDialog("ERROR: No Fact Type found.");
+            return false;    		
+    	}
+    	
+        FactStructureDTO firstFact = factStructureList.get(0);
+        System.out.println("key " + firstFact.getFactTypeKey().trim());
+        if ((firstFact == null) || (firstFact.getFactTypeKey().trim().isEmpty()) || (firstFact.getFactTypeKey().trim().equals(EMPTY_LIST_BOX_ITEM))) {
+        	GuiUtil.showUserDialog("ERROR: Missing 1st Fact Type.");
             return false;        	
         }
+        System.out.println("key " + firstFact.getFactTypeKey().trim());
         
         //determine whether we have static or dynamic fact
-        if (firstFactTypeKeyListSelectedValue.equals(USER_DEFINED_FACT_TYPE_KEY)) {
-        	if (yvfFirstStaticFactValue.getText().isEmpty()) {
+        if (firstFact.isStaticFact()) {
+        	if (firstFact.getStaticValue().trim().isEmpty()) {
             	GuiUtil.showUserDialog("ERROR: Missing 1st Fact static value.");
                 return false;
         	}
         } else { //dynamic fact - at least the first one has to be available
+        	/* not required at this moment...
         	if (yvfFirstFactParamOneTextBox.getText().isEmpty() && yvfFirstFactParamTwoTextBox.getText().isEmpty()) {
             	GuiUtil.showUserDialog("ERROR: Missing 1st Fact dynamic key.");
                 return false;
-        	} 	
+        	} 	*/
         }
         
-        System.out.println("YVF: " + yvf + " ** " + YieldValueFunctionType.INTERSECTION.symbol());
-        
-        //if YVF is INTERSECTIOn, check on the second Fact parameters
-        if (yvf.equals(YieldValueFunctionType.INTERSECTION.symbol())) { 
-
+        //if YVF is INTERSECTION, check on the second Fact parameters
+        System.out.println("SYMBOL: " + YieldValueFunctionType.INTERSECTION.symbol());
+        System.out.println("NAME: " + YieldValueFunctionType.INTERSECTION.name());
+        if (yvfType.equals(YieldValueFunctionType.INTERSECTION.name())) { 
+            //1. Fact Type cannot be empty
+            if (factStructureList.size() == 0) {
+            	GuiUtil.showUserDialog("ERROR: Missing 2nd Fact Type.");
+                return false;    		
+        	}
         	
-            if ((secondFactTypeKeyListSelectedValue == null) || (firstFactTypeKeyListSelectedValue.equals(EMPTY_LIST_BOX_ITEM))) {
-            	GuiUtil.showUserDialog("ERROR: Missing 2nd Fact Type Key.");
+            FactStructureDTO secondFact = factStructureList.get(1);
+            if ((secondFact == null) || (secondFact.getFactTypeKey().trim().isEmpty()) || (secondFact.getFactTypeKey().trim().equals(EMPTY_LIST_BOX_ITEM))) {
+            	GuiUtil.showUserDialog("ERROR: Missing 2nd Fact Type.");
                 return false;        	
             }
-                    	
+            
             //determine whether we have static or dynamic fact
-            if (secondFactTypeKeyListSelectedValue.equals(USER_DEFINED_FACT_TYPE_KEY)) {
-            	if (yvfSecondStaticFactValue.getText().isEmpty()) {
+            if (secondFact.isStaticFact()) {
+            	if (secondFact.getStaticValue().trim().isEmpty()) {
                 	GuiUtil.showUserDialog("ERROR: Missing 2nd Fact static value.");
                     return false;
             	}
             } else { //dynamic fact - at least the first one has to be available
-            	if (yvfSecondFactParamOneTextBox.getText().isEmpty() && yvfSecondFactParamTwoTextBox.getText().isEmpty()) {
+            	/* not required at this moment...
+            	if (secondFact.getText().isEmpty() && yvfFirstFactParamTwoTextBox.getText().isEmpty()) {
                 	GuiUtil.showUserDialog("ERROR: Missing 2nd Fact dynamic key.");
                     return false;
-            	} 	
-            }            
-        	
+            	} 	*/
+            }                  	
         }
         
         return true;
@@ -1100,6 +1143,7 @@ public class RulesComposite extends Composite {
         // Clear Propositions TAB
         clearPropositionDetails();
         propositionsListBox.clear();
+        selectedPropListBoxIndex = -1;
         propCompositionTextArea.setText("");
         completeRuleTextArea.setText("");
         expectedValueTextBox.setText("");
@@ -1147,7 +1191,7 @@ public class RulesComposite extends Composite {
     	if (getRuleStatus().equals(STATUS_NOT_STORED_IN_DATABASE) == false) {
     		
     		if (ruleAgendaType.isEmpty() || businessRuleType.isEmpty()) {
-    			System.out.println("Internal error(1)...");
+    			GuiUtil.showUserDialog("ERROR: Agenda Type and Business Rule Type cannot be empty.");
     		}
         	agendaTypesListBox.setEnabled(false);  		
         	GuiUtil.setListBoxSelectionByItemName(agendaTypesListBox, ruleAgendaType);
@@ -1198,6 +1242,8 @@ public class RulesComposite extends Composite {
 
         final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
 
+        rulesFormTabs.selectTab(0);
+        
         // populate Main TAB
         businessRuleID.setText(displayedRule.getBusinessRuleId());
         setRuleStatus(displayedRule.getStatus());
@@ -1212,29 +1258,26 @@ public class RulesComposite extends Composite {
         // populate Propositions TAB
         // populate the proposition details according to first prop selected by default        
         propCompositionTextArea.setText(ruleComposition.toString());
-        populatePropositionListBoxAndDetails(0);
+        updatePropositionListBoxAndDetails(0);
         completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
 
         // populate Authoring TAB
-        /* TODO
-        effectiveStartTimeTextBox.setText(formatter.format(displayedRule.getEffectiveStartTime()));
-        effectiveEndTimeTextBox.setText(formatter.format(displayedRule.getEffectiveEndTime()));
-        createTimeTextBox.setText(formatter.format(displayedRule.getMetaInfo().getCreateTime()));
+        effectiveStartTimeTextBox.setText(formatter.format(new Date())); //TODO displayedRule.getEffectiveStartTime()));
+        effectiveEndTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getEffectiveEndTime()));
+        createTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getMetaInfo().getCreateTime()));
         createUserIdTextBox.setText(displayedRule.getMetaInfo().getCreateID());
         createCommentTextBox.setText(displayedRule.getMetaInfo().getCreateComment());
-        updateTimeTextBox.setText(formatter.format(displayedRule.getMetaInfo().getUpdateTime()));
+        updateTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getMetaInfo().getUpdateTime()));
         updateUserIdTextBox.setText(displayedRule.getMetaInfo().getUpdateID());
         updateCommentTextBox.setText(displayedRule.getMetaInfo().getUpdateComment());
-        */
 
         // populate Test TAB
-        populatePropositionListBoxAndDetailsTest(0);
+        //TODO populatePropositionListBoxAndDetailsTest(0);
         propCompositionTestTextArea.setText(ruleComposition.toString());
         completeRuleTestTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTestTextArea.getText(), definedPropositions));
     }    
     
     private Widget addRulesForm() {
-        TabPanel rulesFormTabs = new TabPanel();
         rulesFormTabs.add(addRulesMainPage(), "Main");
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
@@ -1789,6 +1832,12 @@ public class RulesComposite extends Composite {
         propListPanel.add(propositionsLabel);
         propListPanel.add(propositionsListBox);
 
+        HorizontalPanel hpPropListButtons = new HorizontalPanel();
+        hpPropListButtons.setSpacing(8);
+        hpPropListButtons.add(addPropButton);        
+        hpPropListButtons.add(removePropButton);
+        propListPanel.add(hpPropListButtons);        
+        
         horizontalPanel.add(propListPanel);
 
         // **********************************************************
@@ -1888,10 +1937,8 @@ public class RulesComposite extends Composite {
         flexPropositionDetailsTable.add(hpSecondCriteria);             
 
         HorizontalPanel hpButtons = new HorizontalPanel();
-        hpButtons.setSpacing(8);
-        hpButtons.add(addPropButton);        
-        hpButtons.add(updatePropButton);
-        hpButtons.add(deletePropButton);
+        hpButtons.setSpacing(8);      
+        //hpButtons.add(makeCopyPropButton);
         hpButtons.add(cancelPropButton);
         flexPropositionDetailsTable.add(hpButtons);        
 
@@ -1919,7 +1966,7 @@ public class RulesComposite extends Composite {
         ruleCompositionFlexTable.getFlexCellFormatter().setColSpan(1, 0, 4);
         ruleCompositionFlexTable.getCellFormatter().setHeight(1, 0, "33px");
         ruleCompositionFlexTable.getCellFormatter().setWidth(1, 0, "60%");
-        ruleCompositionFlexTable.setWidget(2, 2, validateCompositionButton);
+        ruleCompositionFlexTable.setWidget(2, 2, validateRuleButton);
 
         // Complete Rule
         final Label completeRuleLabel = new Label("Rule Overview");
@@ -2036,30 +2083,39 @@ public class RulesComposite extends Composite {
     	}
     }
     
-    private void populatePropositionListBoxAndDetails(int selectedPropIx) {
+    private void updatePropositionListBoxAndDetails(int selectedPropIx) {
         String propAbreviation;
 
+        //resequence the propositions again and update both proposition list and details of selected one
         propositionsListBox.clear();
-        int ix = 0;
-        for (Map.Entry<Integer, RulePropositionDTO> prop : definedPropositions.entrySet()) {
-            propAbreviation = "P" + prop.getKey();
-            propositionsListBox.addItem(propAbreviation + ":  " + prop.getValue().getName(), prop.getKey().toString());
+        int ix = -1;
+        for (Map.Entry<Integer, RulePropositionDTO> entry : definedPropositions.entrySet()) {
+            propAbreviation = "P" + entry.getKey() +  ":  ";
+            propositionsListBox.addItem(propAbreviation + entry.getValue().getName(), entry.getKey().toString());
 
-            if (ix == selectedPropIx) {
-                populatePropositionDetails(prop.getValue());
-            }
             ix++;
+            if (ix == selectedPropIx) {
+                populatePropositionDetails(entry.getValue());
+            }
         }
-        propositionsListBox.setSelectedIndex(selectedPropIx);
+
+        //if we are removing a proposition then clear proposition fields but make sure we have
+        //at least one empty proposition
         if (selectedPropIx == -1) {
             clearPropositionDetails();
+            if (ix == -1) {
+            	selectedPropIx = addEmptyPropositionToDTOList();
+            }
         }
+
+        propositionsListBox.setSelectedIndex(selectedPropIx); 
+        selectedPropListBoxIndex = selectedPropIx;
         
         // check whether the current composition is valid
-        checkPropositonComposition();
+        //checkPropositonComposition();
 
         // update Rule Overview text as well
-        completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
+        //completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
     }    
     
     private void populatePropositionListBoxAndDetailsTest(int selectedPropIx) {
@@ -2081,13 +2137,14 @@ public class RulesComposite extends Composite {
     }
 
     private void populatePropositionDetails(RulePropositionDTO prop) {
+    	clearPropositionDetails();
         propNameTextBox.setText(prop.getName());
         propDescTextBox.setText(prop.getDescription());        
         operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorType()));
         expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());        
         populateYVFDetails(prop.getLeftHandSide().getYieldValueFunction(), prop.getName());   
-        updatePropButton.setEnabled(true);
-        deletePropButton.setEnabled(true);
+        //updatePropButton.setEnabled(true);
+        //removePropButton.setEnabled(true);
     }   
     
     private void populateYVFFactTypeLits() {    	    	
@@ -2120,7 +2177,8 @@ public class RulesComposite extends Composite {
         if (factStructureList.size() == 0) {
         	//logger.error(e.getMessage(), e);
         	System.out.println("INVALID STATE: did not find any facts for proposition: '" + propositionName + "'");
-        	return;  //no facts? TODO log error/user message; throw exception
+        	GuiUtil.showUserDialog("ERROR: Missing facts for proposition: '" + propositionName + "'");
+        	return; 
         }        	
     	
         // b) find the fact type mode: static or dynamic
@@ -2147,8 +2205,7 @@ public class RulesComposite extends Composite {
             		yvfFirstFactParamTwoTextBox.setText(GuiUtil.removeFactParamPrefix(key));
             	}            	
             }
-            //TODO: Kamal - assuming no value means execution key? or do I need to query service or FactStructureVariable
-            // can indicate whether it is definition or execution key???
+            //TODO: query Fact Service on whether it is execution/definition key and what type etc.
             System.out.println("Dynamic Fact Map: " + map.toString());        
             System.out.println("Dynamic Fact Type Key: " + firstFact.getFactTypeKey());
             firstFactTypeKeyListSelectedValue = GuiUtil.removeFactTypeKeyPrefix(firstFact.getFactTypeKey());
@@ -2161,6 +2218,7 @@ public class RulesComposite extends Composite {
             if (factStructureList.size() != 2) {
             	//logger.error(e.getMessage(), e);
             	System.out.println("INVALID STATE: did not find 2 facts for INTERSECTION: '" + propositionName + "'");
+            	GuiUtil.showUserDialog("ERROR: Missing second Fact for proposition: '" + propositionName + "'");
             	return;  //no facts? TODO log error/user message; throw exception
             }   
             
@@ -2218,7 +2276,7 @@ public class RulesComposite extends Composite {
     	System.out.println("factTypeKeyList loaded...");
     	populateYVFFactTypeLits();
     }
-    
+
     private void retrieveFactTypes() {
     	if (factTypeKeyList == null) {    	
 	        //load list of factTypeKeys for the given business rule type
@@ -2271,9 +2329,9 @@ public class RulesComposite extends Composite {
         clearYVFFactFields();            
         operatorsListBox.setSelectedIndex(-1);
         expectedValueTextBox.setText("");
-        propositionsListBox.setSelectedIndex(-1);
-        updatePropButton.setEnabled(false);
-        deletePropButton.setEnabled(false);
+        //propositionsListBox.setSelectedIndex(-1);
+        //updatePropButton.setEnabled(false);
+        //removePropButton.setEnabled(false);
     }
     
     private void clearYVFFactFields() {
@@ -2290,22 +2348,44 @@ public class RulesComposite extends Composite {
     	resetYVFFactFields();
     }
            
-    private void checkPropositonComposition() {
+    private boolean validateRuleComposition() {
+    	
+    	//first check that edited proposition is valid
+    	//RulePropositionDTO prop = retrievePropositionDTOFromFormFields();
+        //if (prop == null) {  
+        //	return false;  //invalid proposition
+        //}
+    	    	
+    	//check that every defined proposition is valid
+    	int propIx = -1;
+        for (Map.Entry<Integer, RulePropositionDTO> entry : definedPropositions.entrySet()) {
+        	propIx++;
+        	if (isPropositionValid(entry.getValue()) == false) {
+                selectedPropListBoxIndex = propIx; 
+                propositionsListBox.setSelectedIndex(propIx);
+                populatePropositionDetails(entry.getValue());
+        		return false;
+        	}
+        }    	
+    	
+    	//now check the proposition composition
     	compositionStatusLabel.setText(GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()));
     	if (compositionStatusLabel.getText().equals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE)) {
     		compositionStatusLabel.setStyleName("prop_composition_valid");
-    	} else {
-    		compositionStatusLabel.setStyleName("prop_composition_invalid");
+    		return true;
     	}
+
+   		compositionStatusLabel.setStyleName("prop_composition_invalid");
+   		return false;
     }
     
 
-    private RulePropositionDTO loadPropositionFromFormFields() {
+    private RulePropositionDTO retrievePropositionDTOFromFormFields() {
     	
     	//first verify YVF fact fields are setup correctly and the proposition has necessary data
-    	if (isYVFFactValid() == false) {
-    		return null;
-    	}                	
+    	//if (isYVFFactValid() == false) {
+    	//	return null;
+    	//}                	
 
         // now create a new rule proposition
         RulePropositionDTO prop = new RulePropositionDTO();
@@ -2313,57 +2393,149 @@ public class RulesComposite extends Composite {
         prop.setDescription(propDescTextBox.getText());
         LeftHandSideDTO leftSide = new LeftHandSideDTO();
         YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
-        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
         
-        //store set facts in YVF
-    	List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>(); 
-    	yvf.setFactStructureList(factStructureList);                	
-    	FactStructureDTO firstFact = getBlankFactSturectureDTO();
-    	factStructureList.add(firstFact);
-    	
-        //populate either static or dynamic facts
-        if (firstFactTypeKeyListSelectedValue.equals(USER_DEFINED_FACT_TYPE_KEY)) {
-        	firstFact.setStaticFact(true);
-        	firstFact.setStaticValue(yvfFirstStaticFactValue.getText());
-    	} else {  //dynamic fact...
-    		firstFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(firstFactTypeKeyListSelectedValue));
-    		if (yvfFirstFactParamOneTextBox.getText().isEmpty() == false) {
-    			firstFact.getParamValueMap().put(yvfFirstFactParamOneTextBox.getText(), "");
-    		}
-    		if (yvfFirstFactParamTwoTextBox.getText().isEmpty() == false) {
-    			firstFact.getParamValueMap().put(yvfFirstFactParamTwoTextBox.getText(), "");
-    		}                		                		
+        String yvfType = GuiUtil.getListBoxSelectedValue(yvfListBox).trim();
+        boolean yvfSelected = true;
+        if (yvfType.equals(EMPTY_LIST_BOX_ITEM) || yvfType.length() == 0)
+        {
+        	yvfSelected = false;
+        	yvf = null;
+        }
+        
+    	if (yvfSelected) {         
+	        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
+	        
+	        if (yvf.equals(YieldValueFunctionType.INTERSECTION.name())) {
+	        	prop.setComparisonDataType("java.math.Integer");
+	        } else { //if ((yvf.equals(YieldValueFunctionType.SUM.name()) || (yvf.equals(YieldValueFunctionType..name()) {
+	        	prop.setComparisonDataType("java.math.BigDecimal");
+	        }  
+	        
+	        //store set facts in YVF
+	    	List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>(); 
+	    	yvf.setFactStructureList(factStructureList);                	
+	    	FactStructureDTO firstFact = getBlankFactSturectureDTO();
+	    	factStructureList.add(firstFact);
+    	   	
+	        //populate either static or dynamic facts
+	    	if (firstFactTypeKeyListSelectedValue != null) {
+		        if (firstFactTypeKeyListSelectedValue.trim().equals(USER_DEFINED_FACT_TYPE_KEY)) {
+		        	firstFact.setFactTypeKey("fact.static_key");
+		        	firstFact.setStaticFact(true);
+		        	firstFact.setStaticValue(yvfFirstStaticFactValue.getText());
+		    	} else {  //dynamic fact...
+		    		firstFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(firstFactTypeKeyListSelectedValue));
+		    		if (yvfFirstFactParamOneTextBox.getText().isEmpty() == false) {
+		    			firstFact.getParamValueMap().put(yvfFirstFactParamOneTextBox.getText(), "");
+		    		}
+		    		if (yvfFirstFactParamTwoTextBox.getText().isEmpty() == false) {
+		    			firstFact.getParamValueMap().put(yvfFirstFactParamTwoTextBox.getText(), "");
+		    		}                		                		
+		    	}
+	    	}
+	    	
+	    	// for INTERSECTION we need second fact type                    
+	    	if (GuiUtil.getListBoxSelectedValue(yvfListBox).trim().equals(YieldValueFunctionType.INTERSECTION.symbol())) {
+	        	FactStructureDTO secondFact = getBlankFactSturectureDTO();
+	        	factStructureList.add(secondFact);                    
+	        	
+	            //populate either static or dynamic facts
+		    	if (secondFactTypeKeyListSelectedValue != null) {
+		            if (secondFactTypeKeyListSelectedValue.trim().equals(USER_DEFINED_FACT_TYPE_KEY)) {
+		            	secondFact.setFactTypeKey("fact.static_key");
+		            	secondFact.setStaticFact(true);
+		            	secondFact.setStaticValue(yvfSecondStaticFactValue.getText());
+		        	} else {  //dynamic fact...
+		        		secondFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(secondFactTypeKeyListSelectedValue));
+		        		if (yvfSecondFactParamOneTextBox.getText().isEmpty() == false) {
+		        			secondFact.getParamValueMap().put(yvfSecondFactParamOneTextBox.getText(), "");
+		        		}
+		        		if (yvfSecondFactParamTwoTextBox.getText().isEmpty() == false) {
+		        			secondFact.getParamValueMap().put(yvfSecondFactParamTwoTextBox.getText(), "");
+		        		}                		                		
+		        	}
+		    	}
+	    	}	             	
     	}
     	
-    	// for INTERSECTION we need second fact type                    
-    	if (GuiUtil.getListBoxSelectedValue(yvfListBox).trim().equals(YieldValueFunctionType.INTERSECTION.symbol())) {
-        	FactStructureDTO secondFact = getBlankFactSturectureDTO();
-        	factStructureList.add(secondFact);                    
-        	
-            //populate either static or dynamic facts
-            if (secondFactTypeKeyListSelectedValue.equals(USER_DEFINED_FACT_TYPE_KEY)) {
-            	secondFact.setStaticFact(true);
-            	secondFact.setStaticValue(yvfSecondStaticFactValue.getText());
-        	} else {  //dynamic fact...
-        		secondFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(secondFactTypeKeyListSelectedValue));
-        		if (yvfSecondFactParamOneTextBox.getText().isEmpty() == false) {
-        			secondFact.getParamValueMap().put(yvfSecondFactParamOneTextBox.getText(), "");
-        		}
-        		if (yvfSecondFactParamTwoTextBox.getText().isEmpty() == false) {
-        			secondFact.getParamValueMap().put(yvfSecondFactParamTwoTextBox.getText(), "");
-        		}                		                		
-        	}
-    	}
-        
         //populate rest of the proposition
         leftSide.setYieldValueFunction(yvf);
         prop.setLeftHandSide(leftSide);
         RightHandSideDTO rightSide = new RightHandSideDTO();
         rightSide.setExpectedValue(expectedValueTextBox.getText());
         prop.setRightHandSide(rightSide);
-        prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));    	
+        prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));  
     	
         return prop;
+    }
+    
+    //updates stored proposition DTO because we either committing changes or selected a different proposition or a different rule
+    private boolean updateSelectedPropositionDTO(int selectedPropListIx) {
+    	   	
+        if (selectedPropListIx == -1) { 
+        	return true; //no proposition selected
+        }
+        
+        int origPropKey = new Integer(propositionsListBox.getValue(selectedPropListIx));    	
+        
+    	System.out.println("--> UPDATE prop with key: " + origPropKey + ", ix: " + selectedPropListIx);        
+        
+        RulePropositionDTO selectedRuleElement = definedPropositions.get(origPropKey);
+        if (selectedRuleElement == null) {
+        	System.out.println("null????");
+            return true; //nothing to update
+        }
+    	
+    	RulePropositionDTO newProp = retrievePropositionDTOFromFormFields();
+        //if (prop == null) {  
+        //	return false;  //invalid proposition
+        //}
+        
+        definedPropositions.remove(origPropKey);
+        definedPropositions.put(origPropKey, newProp);                        
+        //propositionsListBox.setSelectedIndex(-1);
+        //clearPropositionDetails();
+        //propositionsListBox.setSelectedIndex(selectedPropListIx);
+        //selectedPropIndex = selectedPropListIx;
+        
+        // update Rule Overview text as well
+        completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));    	
+        
+        return true;
+    }
+   
+    private int addEmptyPropositionToDTOList() {
+        // create an empty rule proposition
+        LeftHandSideDTO leftSide = new LeftHandSideDTO();
+        RightHandSideDTO rightSide = new RightHandSideDTO();
+        RulePropositionDTO prop = new RulePropositionDTO();
+        prop.setName("");
+        prop.setDescription("");
+        prop.setLeftHandSide(leftSide);
+        prop.setComparisonOperatorType("");
+        prop.setRightHandSide(rightSide);
+        prop.setComparisonDataType("");
+        
+    	//finally find the new rule proposition place in the list (at the end)
+        int max = 0; int lastPropIx = -1;
+        for (Integer key : definedPropositions.keySet()) {
+        	lastPropIx++;
+            if (key.intValue() > max) {
+                max = key.intValue();
+            }
+        }
+        max++;
+        lastPropIx++;
+        definedPropositions.put(max, prop); 
+        
+        System.out.println("--> ADDED NEW PROP: key: " + max + ", ix: " + lastPropIx);
+        
+        removePropButton.setEnabled(true);
+        if (lastPropIx == 0) {
+        	removePropButton.setEnabled(false);
+        }
+        
+        return lastPropIx;
     }
     
     private FactStructureDTO getBlankFactSturectureDTO() {
@@ -2371,7 +2543,7 @@ public class RulesComposite extends Composite {
         factStructure.setAnchorFlag(false);
         factStructure.setCriteriaTypeInfo(null);
         factStructure.setFactStructureId("");
-        factStructure.setFactTypeKey("fact.static_key");
+        factStructure.setFactTypeKey("");
         Map<String, String> map = new HashMap<String, String>();
         factStructure.setParamValueMap(map);
         factStructure.setStaticFact(false);
@@ -2385,7 +2557,5 @@ public class RulesComposite extends Composite {
         super.onUnload();
         // unlink the binding as it is no longer needed
         binding.unlink();
-    }    
-
-    
+    }        
 }
