@@ -265,11 +265,11 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     }
 
     private static String removeInvalidCharacters(String s) {
-    	return s.replaceAll(INVALID_CHARACTERS_REGEX, "");
+    	return (s == null ? "" : s.replaceAll(INVALID_CHARACTERS_REGEX, ""));
     }
     
     private static boolean isValidRuleName(String s) {
-    	return s.matches(VALID_RULE_NAME_REGEX);
+    	return (s == null ? true : s.matches(VALID_RULE_NAME_REGEX));
     }
 
 }
