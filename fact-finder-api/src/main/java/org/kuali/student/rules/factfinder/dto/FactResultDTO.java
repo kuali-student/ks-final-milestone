@@ -56,4 +56,12 @@ public class FactResultDTO implements Serializable{
     public void setResultList(List<Map<String, String>> resultList) {
         this.resultList = resultList;
     }
+    
+    /**
+     * Returns fact result type key and the result list.
+     */
+    public String toString() {
+    	return "factResultTypeKey=" + this.factResultTypeInfo.getKey() +
+    		", resultList={" + this.resultList + "}";
+    }
 }
