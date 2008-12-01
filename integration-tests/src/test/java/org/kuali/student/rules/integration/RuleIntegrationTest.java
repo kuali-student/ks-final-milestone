@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.integration;
 
 import static org.junit.Assert.assertEquals;
@@ -92,7 +107,7 @@ public class RuleIntegrationTest {
         String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
         assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
 
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId, null);
         assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
@@ -126,7 +141,7 @@ public class RuleIntegrationTest {
         String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
         assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
 		
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId, null);
         assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
@@ -160,7 +175,7 @@ public class RuleIntegrationTest {
         brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
         ruleManagementService.updateBusinessRule(businessRuleId, brInfoDTO);
         
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId, null);
         assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
@@ -191,7 +206,7 @@ public class RuleIntegrationTest {
         String businessRuleId = ruleManagementService.createBusinessRule(brInfoDTO);
         assertEquals(brInfoDTO.getBusinessRuleId(), businessRuleId);
 
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId, null);
         assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
@@ -226,7 +241,7 @@ public class RuleIntegrationTest {
         brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
         ruleManagementService.updateBusinessRule(businessRuleId, brInfoDTO);
         
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId);
+        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId, null);
         assertNotNull(result);
 
         System.out.println("Execution log:\n" + result.getExecutionLog());
