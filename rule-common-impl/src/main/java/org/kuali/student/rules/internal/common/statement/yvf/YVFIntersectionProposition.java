@@ -61,7 +61,7 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 			String value = criteria.getStaticValue();
 			String dataType = criteria.getStaticValueDataType();
 			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
-				throw new PropositionException("Static value and data type cannot be null or empty");
+				throw new PropositionException("Static value and data type cannot be null or empty. Fact structure id: " + criteria.getFactStructureId());
 			}
 			criteriaSet = getSet(dataType, value);
 		} else {
@@ -77,7 +77,7 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 			String value = fact.getStaticValue();
 			String dataType = fact.getStaticValueDataType();
 			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
-				throw new PropositionException("Static value and data type cannot be null or empty");
+				throw new PropositionException("Static value and data type cannot be null or empty. Fact structure id: "+fact.getFactStructureId());
 			}
 			factSet = getSet(dataType, value);
 		} else {
