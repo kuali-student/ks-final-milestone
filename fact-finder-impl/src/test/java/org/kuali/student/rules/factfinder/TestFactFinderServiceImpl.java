@@ -85,7 +85,7 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         String factTypeKey = "fact.completed_course_list";
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
-        paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
+        //paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
         
         FactStructureDTO factStructureDTO = new FactStructureDTO();
         factStructureDTO.setFactTypeKey(factTypeKey);

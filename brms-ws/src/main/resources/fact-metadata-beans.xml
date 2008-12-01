@@ -10,6 +10,7 @@
 			<list>
 				<ref bean="factType1" />
 				<ref bean="factType2" />
+                <ref bean="factType3" />
 			</list>
 		</property>
 	</bean>
@@ -31,6 +32,15 @@
 		<property name="factResultTypeInfo" ref="factResultType2"/>
 		<property name="factCriteriaTypeInfo" ref="factCriteriaType2"/>
 	</bean>
+
+    <bean id="factType3" 
+        class="org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO">
+        <property name="factTypeKey" value="fact.clusetId"/>
+        <property name="name" value="fact.clusetId"/>
+        <property name="description" value="CLU Identifier"/>
+        <property name="factResultTypeInfo" ref="factResultType3"/>
+        <property name="factCriteriaTypeInfo" ref="factCriteriaType3"/>
+    </bean>
 
 	<bean id="factResultType1"
 		class="org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO">
@@ -72,6 +82,26 @@
 		</property>
 	</bean>
 		
+    <bean id="factResultType3"
+        class="org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO">
+        <property name="key" value="result.courseInfo"/>
+        <property name="name" value="result.courseInfo"/>
+        <property name="description" value="Course information"/>
+        <property name="resultColumnsMap">
+            <map>
+                <entry>
+                    <key><value>resultColumn.cluId</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.cluId"/>
+                        <property name="name" value="resultColumn.cluId"/>
+                        <property name="description" value="Course Name"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+        
 	<bean id="factCriteriaType1"
 		class="org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO">
 		<property name="key" value="criteria.courseCreditInfo"/>
@@ -153,4 +183,30 @@
 			</map>
 		</property>
 	</bean>		
+
+    <bean id="factCriteriaType3"
+        class="org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO">
+        <property name="key" value="criteria.courseInfo"/>
+        <property name="name" value="criteria.courseInfo"/>
+        <property name="description" value="Criteria for retrieving a course by a CLU id"/>
+        <property name="factParamMap">
+            <map>
+                <entry>
+                    <key><value>factParam.clusetId</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactParamDTO">
+                        <property name="key" value="factParam.clusetId"/>
+                        <property name="name" value="factParam.clusetId"/>
+                        <property name="description" value="Cluset for which the credits are required"/>
+                        <property name="dataType" value="java.lang.String"/>
+                        <property name="minLength" value="1"/>
+                        <property name="maxLength" value="99999"/>
+                        <property name="minOccurs" value="1"/>
+                        <property name="maxOccurs" value="1"/>
+                        <property name="validCharacters" value="ABCDEF0123456789,"/>
+                        <property name="defTime" value="DEFINITION"/>                                                                                                                                                                       
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>     
 </beans>

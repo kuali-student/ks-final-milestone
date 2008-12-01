@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.integration;
 
 import org.junit.Assert;
@@ -120,9 +135,8 @@ public class ServiceTestClient {
      */
     private FactStructureDTO buildFactStructureForRuleCriteria(boolean staticFact) {
         FactStructureDTO fs = new FactStructureDTO();
-
         fs.setFactStructureId("1");
-        fs.setFactTypeKey("fact.completed_course_list");
+        fs.setFactTypeKey("fact.clusetId");
         fs.setAnchorFlag(false);
         fs.setStaticFact(staticFact);
         if (staticFact) {
@@ -130,7 +144,6 @@ public class ServiceTestClient {
 	        fs.setStaticValueDataType(String.class.getName());
         } else {
 		    Map<String, String> paramMap = new HashMap<String, String>();
-		    paramMap.put("factParam.studentId", "student1");
 		    paramMap.put("factParam.clusetId", "PSYC 200");
 		    fs.setParamValueMap(paramMap);
         }        
@@ -143,7 +156,6 @@ public class ServiceTestClient {
      */
     private FactStructureDTO buildFactStructureForIntersection(boolean staticFact) {
         FactStructureDTO fs = new FactStructureDTO();
-        
         fs.setFactStructureId("2");
         fs.setFactTypeKey("fact.completed_course_list");
         fs.setAnchorFlag(false);
@@ -154,7 +166,6 @@ public class ServiceTestClient {
         } else {
 		    Map<String, String> paramMap = new HashMap<String, String>();
 		    paramMap.put("factParam.studentId", "student1");
-		    paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
 		    fs.setParamValueMap(paramMap);
         }        
         return fs;                
@@ -366,7 +377,7 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Name:      "+businessRule2.getName());
 
-	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId);
+	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
@@ -417,6 +428,16 @@ public class ServiceTestClient {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
 
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("factParam.studentId", "student1");
+        paramMap.put("factParam.clusetId", "CPR 101, MATH 101, MATH 102");
+
+        FactStructureDTO factStructure1 = new FactStructureDTO();
+        factStructure1.setFactStructureId("xxx");
+        factStructure1.setStaticFact(false);
+        factStructure1.setFactTypeKey("fact.completed_course_list");
+        factStructure1.setParamValueMap(paramMap);
+    	
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
@@ -424,7 +445,7 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Name :     "+businessRule2.getName());
 
-	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId);
+	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure1);
 	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());

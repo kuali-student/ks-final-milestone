@@ -18,6 +18,7 @@ package org.kuali.student.rules.ruleexecution.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
@@ -25,8 +26,10 @@ import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -177,36 +180,131 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
     	return executionResultDTO;
     }
-    
-    private Map<String, Object> getFactMap(BusinessRuleInfoDTO businessRule) throws OperationFailedException, DoesNotExistException {
-    	if (businessRule.getRuleElementList() == null) {
-    		return null;
-    	}
-    	
+
+    private Map<String, Object> createFactMap(BusinessRuleInfoDTO businessRule, FactStructureDTO executionFact) 
+    	throws OperationFailedException, DoesNotExistException {
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
+    	if (businessRule.getRuleElementList() == null) {
+    		return factMap;
+    	}
+    	
     	for(RuleElementDTO ruleElement : businessRule.getRuleElementList()) {
     		RulePropositionDTO ruleProposition = ruleElement.getRuleProposition();
     		if (ruleProposition != null) {
 	    		List<FactStructureDTO> list = ruleProposition.getLeftHandSide().getYieldValueFunction().getFactStructureList();
 	    		if (list != null) {
 		    		for(FactStructureDTO factStructure : list) {
-		    			if (factStructure.isStaticFact()) {
+		    			if (factStructure == null || factStructure.isStaticFact()) {
 		    				continue;
 		    			}
+		    			
+		    			if (executionFact == null) {
+		    				throw new OperationFailedException("Execution fact is null");
+		    			}
+		    			
 		    			String factTypeKey = factStructure.getFactTypeKey();
-		    			FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, factStructure);
-		    	    	String factKey = FactUtil.createFactKey(factStructure);
-		    			factMap.put(factKey, factResult);
+		    			if (factTypeKey == null || factTypeKey.trim().isEmpty()) {
+		    				throw new OperationFailedException("Fact type key is null or empty");
+		    			}
+
+		    			if (logger.isInfoEnabled()) {
+							logger.info("\n***** Create Fact Map *****" +
+									"\nfactStructureId=" + factStructure.getFactStructureId() +
+									"\nfactTypeKey=" + factTypeKey);
+						}
+
+		    			FactTypeInfoDTO factType = this.factFinderService.fetchFactType(factTypeKey);
+		    			Map<String,FactParamDTO> factParamMap = factType.getFactCriteriaTypeInfo().getFactParamMap();
+
+		    			FactStructureDTO executionFactStructure = new FactStructureDTO();
+    					executionFactStructure.setFactTypeKey(factTypeKey);
+		    			FactStructureDTO definitionFactStructure = new FactStructureDTO();
+		    			definitionFactStructure.setFactTypeKey(factTypeKey);
+
+    					//if(executionFact.getFactTypeKey().equals(factTypeKey)) {
+				        Map<String, String> definitionParamMap = new HashMap<String, String>();
+				        Map<String, String> executionParamMap = new HashMap<String, String>();
+		    			for(Entry<String, FactParamDTO> entry : factParamMap.entrySet()) {
+		    				String key = entry.getValue().getKey();
+
+			    			if (logger.isInfoEnabled()) {
+			    				logger.info("Fact criteria type fact param defTime="+entry.getValue().getDefTime() + ", key"+key);
+			    			}
+		    				switch(entry.getValue().getDefTime()) {
+    		    				case EXECUTION: {
+									if (executionFact.getParamValueMap() != null && executionFact.getParamValueMap().containsKey(key)) {
+	    		    					String value = executionFact.getParamValueMap().get(key);
+	    				    			if (logger.isInfoEnabled()) {
+											logger.info("EXECUTION: value="+value);
+	    				    			}
+		    		    				executionParamMap.put(key, value);
+	    		    					break;
+									}
+    		    				}
+    		    				case DEFINITION: {
+									if (factStructure.getParamValueMap() != null && factStructure.getParamValueMap().containsKey(key)) {
+	    	    						String value = factStructure.getParamValueMap().get(key);
+	    				    			if (logger.isInfoEnabled()) {
+											logger.info("DEFINITION: value="+value);
+	    				    			}
+	    	    						definitionParamMap.put(key, value);
+	    		    					break;
+									}
+    		    				}
+    		    				default: throw new OperationFailedException("Invalid definition time constant: " + entry.getValue().getDefTime());
+    		    				}
+		    			}
+	    				if (executionParamMap.size() > 0) {
+	    					executionFactStructure.setFactStructureId(factStructure.getFactStructureId());
+	    					executionFactStructure.setParamValueMap(executionParamMap);
+    						FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, executionFactStructure);
+    		    	    	String factKey = FactUtil.createCriteriaKey(executionFactStructure);
+    		    			factMap.put(factKey, factResult);
+	    				}
+	    				if (definitionParamMap.size() > 0) {
+	    					definitionFactStructure.setFactStructureId(factStructure.getFactStructureId());
+    						definitionFactStructure.setParamValueMap(definitionParamMap);
+    						FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, definitionFactStructure);
+    		    	    	String factKey = FactUtil.createFactKey(definitionFactStructure);
+    		    			factMap.put(factKey, factResult);
+	    				}
 		    		}
 	    		}
     		}
     	}
     	
+		if (logger.isInfoEnabled()) {
+	    	logger.info("\n ***** factMap *****\n"+factMap+"\n");
+		}
+
     	return factMap;
     }
+    
+    /*private Map<String, Object> createExecutionFactMap(List<FactStructureDTO> factStructureList) 
+    	throws OperationFailedException, DoesNotExistException {
+    	Map<String, Object> factMap = new HashMap<String, Object>();
 
-    public AgendaExecutionResultDTO executeAgenda(String agendaId) 
+    	if (factStructureList == null) {
+    		return factMap;
+    	}
+    	
+		for(FactStructureDTO factStructure : factStructureList) {
+			if (factStructure.isStaticFact()) {
+				continue;
+			}
+			String factTypeKey = factStructure.getFactTypeKey();
+			if (factTypeKey != null) {
+				FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, factStructure);
+		    	String factKey = FactUtil.createFactKey(factStructure);
+				factMap.put(factKey, factResult);
+			}
+		}
+    	
+    	return factMap;
+    }*/
+
+    public AgendaExecutionResultDTO executeAgenda(String agendaId, FactStructureDTO factStructure) 
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
     {
     	if (agendaId == null) {
@@ -220,17 +318,19 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	try {
     		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
     			addRuleSet(businessRule);
-    			Map<String, Object> map = getFactMap(businessRule);
+    			//Map<String, Object> map = createCriteriaMap(businessRule);
+    			Map<String, Object> map = createFactMap(businessRule, factStructure);
     			factMap.putAll(map);
     		}
     		AgendaExecutionResult executionResult = this.ruleSetExecutor.execute(agenda, factMap);
     		return createAgendaExecutionResultDTO(executionResult);
     	} catch(RuleSetExecutionException e) {
+    		logger.error(e.getMessage(), e);
     		throw new OperationFailedException(e.getMessage());
     	}
     }
 
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId)
+    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
     	if (businessRuleId == null || businessRuleId.trim().isEmpty()) {
@@ -241,7 +341,13 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 		addRuleSet(businessRule);
     	
-		Map<String, Object> factMap = getFactMap(businessRule);
+		Map<String, Object> factMap = createFactMap(businessRule, factStructure);
+		//Map<String, Object> criteriaFactMap = createCriteriaMap(businessRule);
+		//Map<String, Object> executionFactMap = createExecutionFactMap(null);
+
+		//Map<String, Object> factMap = new HashMap<String, Object>();
+    	//factMap.putAll(criteriaFactMap);
+    	//factMap.putAll(executionFactMap);
 		
         try {
         	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, factMap);
@@ -251,68 +357,4 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		throw new OperationFailedException(e.getMessage());
     	}
     }
-
-    /*private List<Object> getFactList(List<FactResultDTO> facts) {
-		List<Object> factList = new ArrayList<Object>();
-		for(FactResultDTO fact : facts) {
-	    	Map<String, FactResultColumnInfoDTO> columnMetaData = fact.getFactResultTypeInfo().getResultColumnsMap();
-			
-			for( Map<String,String> map : fact.getResultList()) {
-				for(Entry<String, String> entry : map.entrySet()) {
-					// Get only the first column (column 1)
-					String value = (String) entry.getValue();
-					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
-					String dataType = info.getDataType();
-					Object obj = BusinessRuleUtil.convertToDataType(dataType, value);
-					factList.add(obj);
-				}
-			}
-		}
-		return factList;
-    }
-    
-    public ExecutionResultDTO executeRuleSet(RuleSetDTO ruleSet, List<FactResultDTO> facts)
-		throws InvalidParameterException, MissingParameterException, OperationFailedException 
-	{
-		if (ruleSet == null) {
-			throw new MissingParameterException("RuleSet is null");
-		} else if (facts == null) {
-			throw new MissingParameterException("Fact is null");
-		}
-	
-		List<Object> factList = getFactList(facts);
-	
-	    try {
-	    	String ruleBaseType = SimpleExecutor.DEFAULT_RULE_CACHE_KEY;
-	    	this.defaultExecutor.addRuleSet(ruleBaseType, ruleSet);
-			ExecutionResult result =  this.defaultExecutor.execute(ruleBaseType, factList);
-			return createExecutionResultDTO(result);
-		} catch(RuleSetExecutionException e) {
-			logger.error(e.getMessage(), e);
-			throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
-		}
-	}
-
-    public ExecutionResultDTO executeRuleSetByUUID(String ruleSetUUID, List<FactResultDTO> facts)
-		throws InvalidParameterException, MissingParameterException, OperationFailedException 
-	{
-		if (ruleSetUUID == null) {
-			throw new MissingParameterException("RuleSet UUID is null");
-		} else if (facts == null) {
-			throw new MissingParameterException("Fact is null");
-		}
-		
-		List<Object> factList = getFactList(facts);
-		
-	    try {
-	    	RuleSetDTO ruleSet = this.ruleRespositoryService.fetchRuleSet(ruleSetUUID);
-	    	String ruleBaseType = SimpleExecutor.DEFAULT_RULE_CACHE_KEY;
-	    	this.defaultExecutor.addRuleSet(ruleBaseType, ruleSet);
-			ExecutionResult result =  this.defaultExecutor.execute(ruleBaseType, factList);
-			return createExecutionResultDTO(result);
-		} catch(RuleSetExecutionException e) {
-			logger.error(e.getMessage(), e);
-			throw new OperationFailedException("RuleSetExecutionException:" + e.getMessage()+"\n"+e.getCause());
-		}
-	}*/
 }

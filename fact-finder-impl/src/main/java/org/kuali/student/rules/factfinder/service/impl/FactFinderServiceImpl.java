@@ -19,12 +19,16 @@ import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.entity.LUIPerson;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.factfinder.util.FactDataSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.rules.factfinder.service.FactFinderService", serviceName = "FactFinderService", portName = "FactFinderService", targetNamespace = "http://student.kuali.org/wsdl/brms/FactFinder")
 @Transactional
 public class FactFinderServiceImpl implements FactFinderService {
-
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(FactFinderServiceImpl.class);
+    		
     // Hard Code List of Facts
     FactDataSupport factDataSupport;
 
@@ -32,7 +36,13 @@ public class FactFinderServiceImpl implements FactFinderService {
 
     @Override
     public FactResultDTO fetchFact(String factTypeKey, FactStructureDTO factStructure) throws OperationFailedException, DoesNotExistException {
-        FactResultDTO result = new FactResultDTO();
+    	if(logger.isInfoEnabled()) {
+    		logger.info("\n*****  fetchFact  *****\n" +
+    				"factTypeKey="+factTypeKey+
+    				"factStructure.paramValueMap="+
+    				(factStructure == null ? "null" : factStructure.getParamValueMap()));
+    	}
+    	FactResultDTO result = new FactResultDTO();
         
         result.setFactResultTypeInfo(fetchFactType(factTypeKey).getFactResultTypeInfo());
 
@@ -65,6 +75,13 @@ public class FactFinderServiceImpl implements FactFinderService {
                 Map<String, String> resultColumn = new HashMap<String, String>();
                 resultColumn.put("resultColumn.cluId", lpr.getCluId());
                 resultValueList.add(resultColumn);
+            }
+        } else if ("fact.clusetId".equalsIgnoreCase(factTypeKey)) {
+            Map<String, String> resultColumn = new HashMap<String, String>();
+            String[] cluSet = factStructure.getParamValueMap().get("factParam.clusetId").split(",");
+            for(String cluId : cluSet) {
+	            resultColumn.put("resultColumn.cluId", cluId);
+	            resultValueList.add(resultColumn);
             }
         }
 
