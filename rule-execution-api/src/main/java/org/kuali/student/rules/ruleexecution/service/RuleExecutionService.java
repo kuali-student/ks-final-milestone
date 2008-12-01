@@ -27,6 +27,7 @@ import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
@@ -57,7 +58,9 @@ public interface RuleExecutionService {
      * @throws OperationFailedException Thrown if execution fails
 	 */
     @WebMethod
-    public AgendaExecutionResultDTO executeAgenda(@WebParam(name="agenda")String agendaId)
+    public AgendaExecutionResultDTO executeAgenda(
+    		@WebParam(name="agenda")String agendaId, 
+    		@WebParam(name="factStructure")FactStructureDTO factStructure)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -71,34 +74,8 @@ public interface RuleExecutionService {
      * @throws OperationFailedException Thrown if execution fails
      */
     @WebMethod
-    public ExecutionResultDTO executeBusinessRule(@WebParam(name="businessRuleId")String businessRuleId)
+    public ExecutionResultDTO executeBusinessRule(
+    		@WebParam(name="businessRuleId")String businessRuleId, 
+    		@WebParam(name="factStructure")FactStructureDTO factStructure)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Executes a <code>ruleSet</code> with associated <code>fact</code>.
-     * 
-     * @param ruleSet Rule set
-     * @param fact Facts
-     * @return An execution result
-     * @throws InvalidParameterException Thrown if rule set or fact is invalid
-     * @throws MissingParameterException Thrown if rule set or fact is null or empty
-     * @throws OperationFailedException Thrown if execution fails
-     */
-    //@WebMethod
-    //public ExecutionResultDTO executeRuleSet(@WebParam(name="ruleSet")RuleSetDTO ruleSet, @WebParam(name="facts")List<FactResultDTO> facts)
-	//	throws InvalidParameterException, MissingParameterException, OperationFailedException; 
-
-    /**
-     * Executes a rule set by <code>ruleSetUUID</code> with associated <code>fact</code>.
-     * 
-     * @param ruleSetUUID Rule set UUID
-     * @param fact Facts
-     * @return An execution result
-     * @throws InvalidParameterException Thrown if rule set UUID or fact is invalid
-     * @throws MissingParameterException Thrown if rule set UUID or fact is null or empty
-     * @throws OperationFailedException Thrown if execution fails
-     */
-    //@WebMethod
-    //public ExecutionResultDTO executeRuleSetByUUID(@WebParam(name="ruleSetUUID")String ruleSetUUID, @WebParam(name="facts")List<FactResultDTO> facts)
-	//	throws InvalidParameterException, MissingParameterException, OperationFailedException; 
 }
