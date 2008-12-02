@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+    
+    <import resource="classpath:application-ruleexecution-context.xml" />
+
+    <jaxws:endpoint id="ruleExecutionService"
+        implementorClass="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl"
+        implementor="#ruleExecutionServiceImpl" address="/RuleExecutionService" />
+
+<!--
+    <jaxws:endpoint id="ruleRepositoryServiceSecure"
+        implementorClass="org.kuali.student.rules.repository.service.impl.RuleRepositoryServiceImpl"
+        implementor="#ruleRepositoryServiceImpl" address="/RuleRepositoryServiceSecure" />
+        <jaxws:inInterceptors>
+            <bean
+                class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+            <ref bean="wss4jInConfiguration" />
+        </jaxws:inInterceptors>
+        <jaxws:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+        </jaxws:features>
+    </jaxws:endpoint>
+
+    <bean id="wss4jInConfiguration"
+        class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+        <property name="properties">
+            <map>
+                <entry key="action" value="UsernameToken" />
+                <entry key="passwordType" value="PasswordDigest" />
+                <entry>
+                    <key>
+                        <value>passwordCallbackRef</value>
+                    </key>
+                    <ref bean="passwordCallback" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="passwordCallback"
+        class="org.kuali.student.poc.common.cxf.security.SimpleServerPasswordCallback" />
+-->
+</beans>
