@@ -29,6 +29,7 @@ import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.rules.repository.dto.RuleSetContainerDTO;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.repository.dto.RuleSetVerificationResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleContainerDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
@@ -320,5 +321,19 @@ public interface RuleRepositoryService {
      */
     @WebMethod(operationName="generateRuleSetForBusinessRuleContainer")
     public RuleSetContainerDTO generateRuleSetForBusinessRuleContainer(@WebParam(name="businessRuleContainer")BusinessRuleContainerDTO businessRuleContainer) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
+
+    /**
+     * Validates that a business rule can be translated and compiled into an
+     * vendor specific executable rule (E.g. Drools compiled rule).
+     * 
+     * @param businessRule A Business Rule
+     * @return A rule set verification result 
+     * @throws OperationFailedException Thrown if translating/generating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    @WebMethod
+    public RuleSetVerificationResultDTO validateBusinessRule(@WebParam(name="businessRule")BusinessRuleInfoDTO businessRule) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 }
