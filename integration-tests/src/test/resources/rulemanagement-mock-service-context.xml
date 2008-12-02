@@ -8,10 +8,6 @@
 
     <import resource="classpath:META-INF/default-dao-context-test.xml" />
 
-    <import resource="classpath:fact-data-beans.xml" />
-    <import resource="classpath:fact-metadata-beans.xml" />
-
-
     <bean id="loadDataBean"
         class="org.kuali.student.poc.common.test.spring.LoadDataBean">
         <property name="daoAnnotations"
