@@ -68,6 +68,7 @@
 		<spring.version>2.5.4</spring.version>
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
+        <velocity.version>1.4</velocity.version>
 	</properties>
 
 	<profiles>
@@ -444,7 +445,7 @@
 			<dependency>
 				<groupId>velocity</groupId>
 				<artifactId>velocity</artifactId>
-				<version>1.4</version>			
+				<version>${velocity.version}</version>			
 			</dependency>
 			
 		</dependencies>
