@@ -17,6 +17,8 @@
 ## A generic initialization rule template
 ## Generics need Java 1.5 or greater - Must set drools.dialect.java.compiler=ECLIPSE
 
+# Date created $dateTool.get('yyyy-M-d H:m:s z')
+
 #macro (dataType $comparisonDataType)
     #if($comparisonDataType == "java.lang.String")
         $comparisonDataType value${key} = "$rhs";

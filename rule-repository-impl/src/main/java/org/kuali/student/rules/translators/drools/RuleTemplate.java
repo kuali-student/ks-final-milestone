@@ -16,16 +16,19 @@
 package org.kuali.student.rules.translators.drools;
 
 import java.io.StringWriter;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.lucene.document.DateTools;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.tools.generic.DateTool;
 import org.kuali.student.rules.translators.exceptions.RuleSetTranslatorException;
 
 public class RuleTemplate {
-    VelocityContext context;
+    private VelocityContext context;
 
     /**
      * Constructs and initializes a Velocity rule template.
@@ -77,6 +80,7 @@ public class RuleTemplate {
         StringWriter writer = new StringWriter();
 
         context = new VelocityContext(propMap);
+        context.put("dateTool", new DateTool());
         
         try {
             Template template = Velocity.getTemplate(templateFile);
