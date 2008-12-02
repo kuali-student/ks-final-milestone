@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -465,7 +466,7 @@ public class GuiUtil {
         widget.add(space);
     }
 
-    public static Widget addLabelAndField(String labelName, Widget field, String fieldWidth) {
+    public static VerticalPanel addLabelAndFieldVertically(String labelName, Widget field, String fieldWidth) {
         final VerticalPanel vp = new VerticalPanel();
         vp.setWidth("100%");
         final Label label = new Label(labelName);
@@ -476,7 +477,7 @@ public class GuiUtil {
         return vp;
     }
     
-    public static Widget addLabelAndField(Widget label, Widget field, String fieldSize) {
+    public static VerticalPanel addLabelAndFieldVertically(Widget label, Widget field, String fieldSize) {
         final VerticalPanel vp = new VerticalPanel();
         label.setWidth(fieldSize);
         vp.add(label);
@@ -484,6 +485,27 @@ public class GuiUtil {
         vp.add(field);
         return vp;
     }    
+    
+    public static HorizontalPanel addLabelAndFieldHorizontally(String labelName, Widget field, String fieldWidth) {
+        final HorizontalPanel hp = new HorizontalPanel();
+        hp.setHeight("100%");
+        final Label label = new Label(labelName);
+        label.setWidth(fieldWidth);      
+        hp.add(label);
+        field.setWidth(fieldWidth);
+        hp.add(field);
+        return hp;
+    }
+    
+    public static HorizontalPanel addLabelAndFieldHorizontally(Widget label, Widget field, String fieldSize) {
+        final HorizontalPanel hp = new HorizontalPanel();
+        label.setWidth(fieldSize);
+        hp.add(label);
+        field.setWidth(fieldSize);
+        hp.add(field);
+        return hp;
+    }        
+    
     
     public static String removeFactTypeKeyPrefix(String factTypeKey) {
         if (factTypeKey.startsWith(FACT_TYPE_KEY_PREFIX)) {

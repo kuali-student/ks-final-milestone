@@ -44,6 +44,10 @@ a {
    color: black;
  }  
 
+.propositon_bold {
+	font-weight: bold;
+}
+
 a:visited {	
 	color: darkblue; 
 }
