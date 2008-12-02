@@ -16,11 +16,9 @@
 package org.kuali.student.rules.translators.drools;
 
 import java.io.StringWriter;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.lucene.document.DateTools;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
