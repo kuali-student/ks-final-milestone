@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>brms-impl-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>brms-ws</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Kuali Student BRMS - brms-ws</name>
 	<description>Web services</description>
@@ -78,37 +78,37 @@
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-repository-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-repository-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-execution-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-execution-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-management-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>rule-management-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>fact-finder-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>

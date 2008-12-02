@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>brms-impl-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>integration-tests</artifactId>
 	<name>Kuali Student BRMS - integration-tests</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<description>
 		Bridges various components of the Kuali Rule System
 	</description>
@@ -76,27 +76,27 @@
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-common-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-management-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-execution-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>rule-repository-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
         <dependency>
             <groupId>org.kuali.student.brms</groupId>
             <artifactId>fact-finder-impl</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
 	 </dependencies>
 </project>
