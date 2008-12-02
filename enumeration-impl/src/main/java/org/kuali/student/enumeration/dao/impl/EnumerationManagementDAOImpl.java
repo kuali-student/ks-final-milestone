@@ -139,7 +139,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		Query query = entityManager.createQuery(
 	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
 	            "where e.effectiveDate < :contextDate and " +
-	            "e.expirationDate > :contextDate and " +
+	            "(e.expirationDate is null or e.expirationDate > :contextDate) and " +
 	            "e.enumerationKey = :enumerationKey ");
 		 query.setParameter("enumerationKey", enumerationKey);
 		 query.setParameter("contextDate", contextDate);
@@ -172,7 +172,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         Query query = entityManager.createQuery(
                 "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
                 + "where e.effectiveDate < :contextDate and " +
-                "e.expirationDate > :contextDate and " + 
+                "(e.expirationDate is null or e.expirationDate > :contextDate) and " + 
                 "c.contextValue = :contextValue and " + 
                 "c.contextKey = :enumContextKey and " +
                 "e.enumerationKey = :enumKey ");

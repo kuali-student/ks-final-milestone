@@ -145,7 +145,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
         entity2.setEffectiveDate(new Date(baseTime-10000000L));
-        entity2.setExpirationDate(new Date(baseTime+50000000L));
+        //entity2.setExpirationDate(new Date(baseTime+50000000L));
         entity2.setSortKey(1);
         entity2.setValue("Value2");
         
