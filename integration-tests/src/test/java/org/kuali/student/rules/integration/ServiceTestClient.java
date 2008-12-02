@@ -56,22 +56,23 @@ import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
 public class ServiceTestClient {
 
-    private static String ruleManagementServiceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService";
+    private final static String HOST = "http://localhost:8080/brms-ws-0.1.0-SNAPSHOT";
+	private static String ruleManagementServiceURL = HOST+"/services/RuleManagementService";
     private static String ruleManagementNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement";
     private static String ruleManagementServiceName = "RuleManagementService";
     private static String ruleManagementServiceInterface = RuleManagementService.class.getName();
 
-    private static String ruleRepositoryServiceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleRepositoryService";
+    private static String ruleRepositoryServiceURL = HOST+"/services/RuleRepositoryService";
     private static String ruleRepositoryNamespace = "http://student.kuali.org/wsdl/brms/RuleRepository";
     private static String ruleRepositoryServiceName = "RuleRepositoryService";
     private static String ruleRepositoryServiceInterface = RuleRepositoryService.class.getName();
 
-    private static String ruleExecutionServiceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleExecutionService";
+    private static String ruleExecutionServiceURL = HOST+"/services/RuleExecutionService";
     private static String ruleExecutionNamespace = "http://student.kuali.org/wsdl/brms/RuleExecution";
     private static String ruleExecutionServiceName = "RuleExecutionService";
     private static String ruleExecutionServiceInterface = RuleExecutionService.class.getName();
 
-    private static String factServiceURL = "http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/FactFinderService";
+    private static String factServiceURL = HOST+"/services/FactFinderService";
     private static String factNamespace = "http://student.kuali.org/wsdl/brms/FactFinder";
     private static String factServiceName = "FactFinderService";
     private static String factServiceInterface = FactFinderService.class.getName();
@@ -422,7 +423,7 @@ public class ServiceTestClient {
         Assert.assertEquals("PSYC 201", result.getResultList().get(1).get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 202", result.getResultList().get(2).get("resultColumn.cluId"));        
     }
-    
+
     @Test
     public void testCreateBusinessRuleAndExecute_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
@@ -430,7 +431,6 @@ public class ServiceTestClient {
 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
-        //paramMap.put("factParam.clusetId", "CPR 101, MATH 101, MATH 102");
 
         FactStructureDTO factStructure1 = new FactStructureDTO();
         factStructure1.setFactStructureId("xxx");

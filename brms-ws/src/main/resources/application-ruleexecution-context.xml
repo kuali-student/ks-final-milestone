@@ -28,6 +28,12 @@
 
     <bean id="ruleBaseCache"
         class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+        <property name="cache" ref="cache"/>
+    </bean>
+    
+    <bean id="cache"
+        class="org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache">
+        <constructor-arg type="int" value="50"/>
     </bean>
     
     <!--*****************************************-->

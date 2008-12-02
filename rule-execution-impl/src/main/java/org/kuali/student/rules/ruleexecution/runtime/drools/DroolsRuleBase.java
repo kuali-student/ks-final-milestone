@@ -16,24 +16,28 @@
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
 import org.drools.rule.Package;
+import org.kuali.student.rules.ruleexecution.cache.Cache;
+import org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Drools RuleBase cache.
+ * Default cache is an LRU cache with a maximum of 20 entries.
+ */
 public class DroolsRuleBase {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(DroolsRuleBase.class);
 
 	/**
-	 * Map of rule base types.
+	 * Cache of rule base types.
 	 */
-	private final static ConcurrentMap<String,RuleBase> ruleBaseTypeMap = new ConcurrentHashMap<String, RuleBase>();
+	private Cache<String,RuleBase> ruleBaseTypeCache = new MemoryLRUCache<String, RuleBase>(20);
 	
 	/**
 	 * Constructor
@@ -42,10 +46,20 @@ public class DroolsRuleBase {
 	}
 
 	/**
+	 * Sets the rule base cache implementation. 
+	 * Default cache is an LRU cache with a maximum of 20 entries.
+	 * 
+	 * @param cache 
+	 */
+	public void setCache(Cache<String,RuleBase> cache) {
+		this.ruleBaseTypeCache = cache;
+	}
+
+	/**
 	 * Clears the rule base cache.
 	 */
 	public void clearRuleBase() {
-		ruleBaseTypeMap.clear();
+		ruleBaseTypeCache.clear();
 	}
 
 	/**
@@ -54,7 +68,7 @@ public class DroolsRuleBase {
 	 * @param ruleBaseType Rule base type to clear
 	 */
 	public void clearRuleBase(String ruleBaseType) {
-		RuleBase ruleBase = ruleBaseTypeMap.get(ruleBaseType);
+		RuleBase ruleBase = ruleBaseTypeCache.get(ruleBaseType);
 		try {
 			ruleBase.lock();
 			ruleBase = RuleBaseFactory.newRuleBase();
@@ -71,7 +85,7 @@ public class DroolsRuleBase {
      * @return Cache key set
      */
 	public Set<String> getCacheKeySet() {
-    	return ruleBaseTypeMap.keySet();
+    	return ruleBaseTypeCache.keySet();
     }
 
 	/**
@@ -103,13 +117,13 @@ public class DroolsRuleBase {
             	throw new RuleSetExecutionException("Package name cannot be null or empty");
         }
 
-        if(ruleBaseTypeMap.containsKey(ruleBaseType) && containsPackage(ruleBaseType, packageName)) {
-    		ruleBaseTypeMap.get(ruleBaseType).removePackage(packageName);
+        if(ruleBaseTypeCache.containsKey(ruleBaseType) && containsPackage(ruleBaseType, packageName)) {
+    		ruleBaseTypeCache.get(ruleBaseType).removePackage(packageName);
         }
 	}
 	
     public boolean containsPackage(String ruleBaseType, String ruleSetName) {
-    	return (ruleBaseTypeMap.get(ruleBaseType) == null || ruleBaseTypeMap.get(ruleBaseType).getPackage(ruleSetName) == null ? false : true);
+    	return (ruleBaseTypeCache.get(ruleBaseType) == null || ruleBaseTypeCache.get(ruleBaseType).getPackage(ruleSetName) == null ? false : true);
     }
 	/**
 	 * Gets a rule base by rule base type.
@@ -121,7 +135,7 @@ public class DroolsRuleBase {
         if (ruleBaseType == null || ruleBaseType.trim().isEmpty()) {
         	throw new RuleSetExecutionException("Rule base type cannot be null or empty.");
         }
-		return ruleBaseTypeMap.get(ruleBaseType);
+		return ruleBaseTypeCache.get(ruleBaseType);
 	}
 
     /**
@@ -143,11 +157,11 @@ public class DroolsRuleBase {
             //Add package to rulebase (deploy the rule package).
             RuleBase ruleBase = null;
             try {
-            	if (!ruleBaseTypeMap.containsKey(ruleBaseType)) {
+            	if (!ruleBaseTypeCache.containsKey(ruleBaseType)) {
             		ruleBase = RuleBaseFactory.newRuleBase();
-    				ruleBaseTypeMap.put(ruleBaseType, ruleBase);
+    				ruleBaseTypeCache.put(ruleBaseType, ruleBase);
     			} else {
-    				ruleBase = ruleBaseTypeMap.get(ruleBaseType);
+    				ruleBase = ruleBaseTypeCache.get(ruleBaseType);
     			}
             	ruleBase.lock();
             	ruleBase.addPackage(pkg);
