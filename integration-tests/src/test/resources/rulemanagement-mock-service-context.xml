@@ -37,16 +37,6 @@
         <property name="entityManager" ref="entityManagerFactory" />
     </bean-->
 
-    <bean id="factFinder"
-        class="org.kuali.student.rules.factfinder.service.impl.FactFinderServiceImpl">
-        <property name="factDataSupport" ref="factDataSupport" />
-        <!--property name="factFinderDAO" ref="factFinderDAO"/-->
-    </bean>
-
-    <!--bean id="factFinderDAO"
-        class="org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl">
-    </bean--> 
-
     <bean id="ruleExecution"
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
         <property name="ruleSetExecutor"
