@@ -13,8 +13,14 @@
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<context:property-placeholder location="classpath:jdbc.properties" />
-
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="enumerationDataSource"
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
 		destroy-method="close">
@@ -56,7 +62,7 @@
 				<property name="generateDdl" value="${jpa.generateDdl}" />
 			</bean>
 		</property>
-		<property name="enumerationXmlLocation"
+		<property name="persistenceXmlLocation"
 			value="classpath:META-INF/enumeration-persistence.xml" />
 		<property name="dataSource" ref="enumerationDataSource" />
 		<property name="jpaPropertyMap" ref="jpaConfig" />
@@ -88,13 +94,13 @@
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-	<bean id="enumerationManagementDAO"
+	<bean id="enumDAO"
 		class="org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl">
 	</bean>
 
 	<bean id="enumerationServiceImpl"
 		class="org.kuali.student.enumeration.service.impl.EnumerationServiceImpl">
-		<property name="enumerationManagementDAO" ref="enumerationManagementDAO" />
+		<property name="enumDAO" ref="enumDAO" />
 	</bean>
 <!-- <bean id="mapExceptionAdvisor"
 		class="org.kuali.student.poc.common.util.ExceptionMappingAdvice">

@@ -1,24 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<properties>
-		<google.webtoolkit.extrajvmargs>
-			-Xmx512m
-		</google.webtoolkit.extrajvmargs>
-		<gwtVersion>1.5.2</gwtVersion>
-		<jaxws-api.version>2.1</jaxws-api.version>
-	</properties>
 
-
-  <parent>
-    <artifactId>enumeration</artifactId>
-    <groupId>org.kuali.student</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kuali.student</groupId>
   <artifactId>enumeration-web</artifactId>
   <name>enumeration-web</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>Enumeration web module</description>
+
+  <parent>
+    <artifactId>enumeration</artifactId>
+    <groupId>org.kuali.student</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+    <properties>
+        <google.webtoolkit.extrajvmargs>
+            -Xmx512m
+        </google.webtoolkit.extrajvmargs>
+        <gwtVersion>1.5.2</gwtVersion>
+    <!--    <jaxws-api.version>2.1</jaxws-api.version> -->
+    </properties>
 
 	<build>
 		<plugins>

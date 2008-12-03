@@ -17,7 +17,7 @@ import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
 import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
-@PersistenceFileLocation("classpath:META-INF/enumerationmanagement-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
