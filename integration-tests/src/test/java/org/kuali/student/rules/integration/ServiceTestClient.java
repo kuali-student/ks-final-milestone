@@ -267,12 +267,46 @@ public class ServiceTestClient {
     
     @Test
     public void testFindBusinessRuleTypesFromTestBeans() throws Exception {
-    	System.out.println("*****  testLoadBusinessRulesFromTestBeans  *****");
+    	System.out.println("*****  testFindBusinessRuleTypesFromTestBeans  *****");
 
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
 		System.out.println("Business Rule ID1: "+businessRuleIdList1);
 		List<String> businessRuleIdList2 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_CO_REQ");
 		System.out.println("Business Rule ID2: "+businessRuleIdList2);
+    }
+    
+    @Test
+    public void testFindBusinessRuleTypesFromTestBeansAndExecute() throws Exception {
+    	System.out.println("*****  testFindBusinessRuleTypesFromTestBeansAndExecute  *****");
+
+		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
+		List<String> businessRuleIdList2 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_CO_REQ");
+
+		businessRuleIdList1.addAll(businessRuleIdList2);
+		System.out.println("Business Rule ID1: "+businessRuleIdList1);
+		
+        for(String businessRuleId : businessRuleIdList1) {
+    		// Ignore since it has dynamic facts
+    		if (businessRuleId.equals("11223344-1122-1122-1112-100000000032")) {
+    			continue;
+    		}
+    		
+    		System.out.println("Executing Business Rule ID: "+businessRuleId);
+    		
+    		// Update business rule to translate/compile and create a new rule set in the rule repository
+    		BusinessRuleInfoDTO businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+//    		RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRuleInfo.getCompiledId());
+//    		if (ruleSet != null) {
+	    		ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
+//    		}
+    		
+    		ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
+	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
+	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
+	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
+	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
+        }
     }
     
     @Test

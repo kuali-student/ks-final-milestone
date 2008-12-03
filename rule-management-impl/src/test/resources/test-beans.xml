@@ -25,6 +25,12 @@
 
 	<bean id="currentTime" class="java.util.Date" />
 
+    <bean id="startTime" class="java.util.Date" />
+    <bean id="endTime" class="java.util.Date">
+        <!-- 2010-01-01 12:00 -->
+        <property name="time" value="1262376000325"/>
+    </bean>
+
 	<bean id="agendaType1"
 		class="org.kuali.student.rules.rulemanagement.entity.AgendaInfo">
 		<property name="id" value="11223344-1122-1122-1112-100000000030"/>
@@ -146,8 +152,8 @@
 		<property name="createDate" ref="currentTime" />
 		<property name="updateBy" value="Wil" />
 		<property name="updateDate" ref="currentTime" />
-		<property name="effectiveDateStart" ref="currentTime" />
-		<property name="effectiveDateEnd" ref="currentTime" />
+		<property name="effectiveDateStart" ref="startTime" />
+		<property name="effectiveDateEnd" ref="endTime" />
 		<property name="version" value="1.0" />
 		<property name="status" value="DRAFT_IN_PROGRESS" />
 	</bean>
@@ -416,7 +422,7 @@
 		<property name="anchorFlag" value="false" />
 		<property name="staticFact" value="true" />
 		<property name="staticValue" value="2.0, 3.0, 4.0" />
-		<property name="staticValueDataType" value="java.lang.String"/>		
+		<property name="staticValueDataType" value="java.math.BigDecimal"/>		
 		<property name="yieldValueFunction"
 			ref="yieldValueFunction5"/>		
 	</bean>
