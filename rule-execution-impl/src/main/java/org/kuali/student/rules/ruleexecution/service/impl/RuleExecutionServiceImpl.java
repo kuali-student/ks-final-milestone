@@ -32,6 +32,7 @@ import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
+import org.kuali.student.rules.internal.common.entity.FactParamDefTimeKey;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -231,8 +232,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 			    			if (logger.isInfoEnabled()) {
 			    				logger.info("Fact criteria type fact param defTime="+entry.getValue().getDefTime() + ", key"+key);
 			    			}
-		    				switch(entry.getValue().getDefTime()) {
-    		    				case EXECUTION: {
+		    				switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
+    		    				case KUALI_FACT_EXECUTION_TIME_KEY: {
 									if (executionFact.getParamValueMap() != null && executionFact.getParamValueMap().containsKey(key)) {
 	    		    					String value = executionFact.getParamValueMap().get(key);
 	    				    			if (logger.isInfoEnabled()) {
@@ -242,7 +243,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	    		    					break;
 									}
     		    				}
-    		    				case DEFINITION: {
+    		    				case KUALI_FACT_DEFINITION_TIME_KEY: {
 									if (factStructure.getParamValueMap() != null && factStructure.getParamValueMap().containsKey(key)) {
 	    	    						String value = factStructure.getParamValueMap().get(key);
 	    				    			if (logger.isInfoEnabled()) {

@@ -91,7 +91,7 @@
 						<property name="minOccurs" value="1"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789"/>
-						<property name="defTime" value="EXECUTION"/>																																										
+						<property name="defTime" value="KUALI_FACT_EXECUTION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 				<entry>
@@ -106,7 +106,7 @@
 						<property name="minOccurs" value="1"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789,"/>
-						<property name="defTime" value="DEFINITION"/>																																										
+						<property name="defTime" value="KUALI_FACT_DEFINITION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 				<entry>
@@ -121,7 +121,7 @@
 						<property name="minOccurs" value="0"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789,"/>
-						<property name="defTime" value="DEFINITION"/>																																										
+						<property name="defTime" value="KUALI_FACT_DEFINITION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 			</map>		
@@ -147,7 +147,7 @@
 						<property name="minOccurs" value="1"/>
 						<property name="maxOccurs" value="1"/>
 						<property name="validCharacters" value="ABCDEF0123456789"/>
-						<property name="defTime" value="EXECUTION"/>																																										
+						<property name="defTime" value="KUALI_FACT_EXECUTION_TIME_KEY"/>																																										
 					</bean>
 				</entry>
 			</map>

@@ -49,6 +49,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
+import org.kuali.student.rules.internal.common.entity.FactParamDefTimeKey;
 
 @Daos({@Dao(value = "org.kuali.student.rules.factfinder.dao.impl.FactFinderDAOImpl", testDataFile = "classpath:fact-data-beans.xml")})
 @PersistenceFileLocation("classpath:META-INF/factfinder-persistence.xml")
@@ -116,7 +117,7 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         assertTrue(factCriteriaType.getFactParamMap().containsKey("factParam.clusetId"));
         
         FactParamDTO factParam = factCriteriaType.getFactParamMap().get("factParam.excludeCluSet");
-        assertEquals(FactParamDTO.FactParamDefTime.DEFINITION, factParam.getDefTime());
+        assertEquals(FactParamDefTimeKey.KUALI_FACT_DEFINITION_TIME_KEY.toString(), factParam.getDefTime());
     }    
 
     @Test
