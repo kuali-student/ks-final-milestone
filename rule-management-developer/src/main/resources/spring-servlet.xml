@@ -36,6 +36,7 @@
 			      class="org.kuali.student.rules.devgui.server.impl.DevelopersGuiServiceImpl">
 			    <property name="rulesManagementService" ref="rulesManagementClient" />
 			    <property name="factFinderService" ref="factFinderClient" />
+			    <property name="ruleExecutionService" ref="ruleExecutionClient" />
 			</bean>
 		</property>
 	</bean>
@@ -62,6 +63,18 @@
 		     value="{http://student.kuali.org/wsdl/brms/FactFinder}FactFinderService" />
 		 <property name="address"
 		     value="${ks.servicelocation.FactFinderService}" />
+    </bean>    	
+	
+   <bean id="ruleExecutionClient"
+		 class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		 <property name="wsdlLocation"
+		     value="classpath:wsdl/RuleExecutionService.wsdl" />
+		 <property name="serviceEndpointInterface"
+		     value="org.kuali.student.rules.ruleexecution.service.RuleExecutionService" />
+		 <property name="serviceQNameString"
+		     value="{http://student.kuali.org/wsdl/brms/RuleExecution}RuleExecutionService" />
+		 <property name="address"
+		     value="${ks.servicelocation.RuleExecutionService}" />
     </bean>    	
 	
 </beans>

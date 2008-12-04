@@ -9,6 +9,7 @@
 
   <inherits name='org.kuali.student.rules.FactFinder'/>
   <inherits name='org.kuali.student.rules.RuleManagement'/>
+  <inherits name='org.kuali.student.rules.RuleExecution'/>
 
   <!-- disable warnings -->
   <set-property name="gwt.suppressNonStaticFinalFieldWarnings" value="true" /> 

@@ -9,9 +9,12 @@ import java.util.List;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
+import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
@@ -25,6 +28,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     RuleManagementService ruleManagementService;
     FactFinderService factFinderService;
+    RuleExecutionService ruleExecutionService;
     
     /******************************************************************************************************************
      * 
@@ -48,8 +52,19 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *                                                     BUSINESS RULES 
      *
      *******************************************************************************************************************/                  
-    
-    public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
+
+    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure) {
+    	ExecutionResultDTO executionResult;
+    	
+        try {
+            executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to execute rule ID: " + businessRuleId, ex); // TODO
+        }
+        return executionResult;
+    }     
+
+	public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
     	
     	String new_rule_id = null;
     	
@@ -305,4 +320,13 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 	public void setFactFinderService(FactFinderService factFinderService) {
 		this.factFinderService = factFinderService;
 	}    
+
+    public RuleExecutionService getRuleExecutionService() {
+		return ruleExecutionService;
+	}
+
+
+	public void setRuleExecutionService(RuleExecutionService ruleExecutionService) {
+		this.ruleExecutionService = ruleExecutionService;
+	}
 }

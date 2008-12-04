@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
+import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
+import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
@@ -44,6 +46,8 @@ public interface DevelopersGuiService extends RemoteService {
     
     public FactTypeInfoDTO fetchFactType(String factTypeKey);
 
+    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure);    
+    
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
 
     public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception;

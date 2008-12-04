@@ -34,6 +34,7 @@ import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
+import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -86,6 +87,7 @@ public class RulesComposite extends Composite {
 	//final static Logger logger = LoggerFactory.getLogger(RulesComposite.class);
 	
     final String FORM_ROW_HEIGHT = "18px";
+    final long future_date = 1262376000325L;  // 2010-01-01 12:00 
 
     // events to be fired to parent controller
     public static class RulesEvent extends MVCEvent{}
@@ -191,19 +193,13 @@ public class RulesComposite extends Composite {
     // Test Rule tab
     final VerticalPanel propositionsTestPanel = new VerticalPanel();
     final Map<String, TextArea> factValueTest = new TreeMap<String, TextArea>();
-    final List<Map> factValuesTest = new ArrayList<Map>();   
+    final Map<String, Map> factValuesTest = new TreeMap<String, Map>();   
     final List<Map> propFactsTest = new ArrayList<Map>(); 
-    
-    
-    final TextBox yvfTestTextBox = new TextBox();
-    final TextBox propNameTestTextBox = new TextBox();
-    final TextBox propDescTestTextBox = new TextBox();
-    final TextBox operatorsTestTextBox = new TextBox();
-    final ListBox propositionsTestListBox = new ListBox();
+    final Button testRuleButton = new Button("Test Rule");
+    final TextArea testReport = new TextArea();
     final TextArea completeRuleTestTextArea = new TextArea();
     final TextArea propCompositionTestTextArea = new TextArea();
-    final TextBox expectedValueTestTextBox = new TextBox();
-    final Button testRuleButton = new Button("Test");
+    final Label testResult = new Label();
 
     boolean loaded = false;
     
@@ -716,7 +712,34 @@ public class RulesComposite extends Composite {
             
             testRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
-                // TODO let user know if the rule was modified but not activated i.e. they are testing current rule
+                	System.out.println("Rule id: " + displayedRule.getBusinessRuleId());
+                    DevelopersGuiService.Util.getInstance().executeBusinessRule(displayedRule.getBusinessRuleId(), null, new AsyncCallback<ExecutionResultDTO>() {
+                        public void onFailure(Throwable caught) {
+                            // just re-throw it and let the uncaught exception handler deal with it
+                            Window.alert(caught.getMessage());
+                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                        }
+
+                        public void onSuccess(ExecutionResultDTO executionResult) {
+                        	StringBuffer executionLog = new StringBuffer();
+                        	if (executionResult.getExecutionResult()) {
+                        		GuiUtil.showUserDialog("Rule executed.");
+                        		if (executionResult.getReport().isSuccessful()) {
+                        			executionLog.append("\nSUCCESS MESSAGE: " + executionResult.getReport().getSuccessMessage());
+                        		} else {
+                        			executionLog.append("\nFAILURE MESSAGE: " + executionResult.getReport().getFailureMessage());
+                        			executionLog.append("ERROR: " + executionResult.getErrorMessage());
+                        		}          
+                        		testReport.setText(executionResult.getExecutionLog());
+                        	} else {
+                        		GuiUtil.showUserDialog("ERROR: Failed to execute rule.");
+                        		executionLog.append("Failed to execute rule.");
+                        		executionLog.append("ERROR: " + executionResult.getErrorMessage());
+                        	}
+                        	
+                        	testResult.setText(executionLog.toString());
+                        }
+                    });                	
                 }
             });           
 
@@ -872,7 +895,7 @@ public class RulesComposite extends Composite {
     	
     	displayedRule.setAnchorValue(ruleAnchorTextBox.getText());
     	displayedRule.setEffectiveStartTime(new Date()); // TODO - add to form
-    	displayedRule.setEffectiveEndTime(new Date()); // TODO - add to form
+    	displayedRule.setEffectiveEndTime(new Date(future_date)); // TODO - add to form
 
         // update DTO of the currently edited proposition
     	updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex());
@@ -932,7 +955,7 @@ public class RulesComposite extends Composite {
         newRule.setAnchorTypeKey("");
         newRule.setAnchorValue("");
 		Date effectiveStartTime = new Date(); //GuiUtil.createDate(2000, 1, 1, 12, 00);
-		Date effectiveEndTime = new Date(); //GuiUtil.createDate(2010, 1, 1, 12, 00);
+		Date effectiveEndTime = new Date(future_date); //GuiUtil.createDate(2010, 1, 1, 12, 00);
 		newRule.setEffectiveStartTime(effectiveStartTime);
 		newRule.setEffectiveEndTime(effectiveEndTime);
 
@@ -1290,7 +1313,7 @@ public class RulesComposite extends Composite {
 
         // populate Authoring TAB
         effectiveStartTimeTextBox.setText(formatter.format(new Date())); //TODO displayedRule.getEffectiveStartTime()));
-        effectiveEndTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getEffectiveEndTime()));
+        effectiveEndTimeTextBox.setText(formatter.format(new Date(future_date))); //displayedRule.getEffectiveEndTime()));
         createTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getMetaInfo().getCreateTime()));
         createUserIdTextBox.setText(displayedRule.getMetaInfo().getCreateID());
         createCommentTextBox.setText(displayedRule.getMetaInfo().getCreateComment());
@@ -1309,6 +1332,7 @@ public class RulesComposite extends Composite {
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
         rulesFormTabs.add(addRRulesTestPage(), "Test");
+        rulesFormTabs.add(addRRulesTestResultsPage(), "Test Results");
         rulesFormTabs.setSize("90%", "550px");
         rulesFormTabs.selectTab(0);        
 
@@ -1639,98 +1663,45 @@ public class RulesComposite extends Composite {
 
         rulesFormPanel.add(propositionsTestPanel);
         propositionsTestPanel.setSize("100%", "100%");
-
-        // **********************************************************
-        // Propositions details
-        // **********************************************************
-       
-        //displayPropositionsText();
-
         
-        /*
-        final HorizontalPanel hpLeftOpRightSide = new HorizontalPanel();
-        
-        Label yvfLabel = new Label("YVF");
-        yvfLabel.setStyleName("yvf_fields");
-        hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically(yvfLabel, yvfListBox, "200px"));
-        GuiUtil.addSpaceAfterWidget(hpLeftOpRightSide, "15px");
-        hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically("Operator", operatorsListBox, "80px"));
-        GuiUtil.addSpaceAfterWidget(hpLeftOpRightSide, "15px");
-        hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically("Expected Value", expectedValueTextBox, "150px"));                        
-        flexPropositionDetailsTable.add(hpLeftOpRightSide);        
-
-        // Yield Value Function details  
-        resetYVFFactFields();
-        yvfFirstFactParamOneLabel.setText("First Parameter");
-        yvfFirstFactParamTwoLabel.setText("Second Parameter");        
-        
-        //first fact criteria fields        
-        final HorizontalPanel hpFirstCriteria = new HorizontalPanel();
-    	yvfFirstFactParamOneLabel.setText("1st Param");
-    	yvfFirstFactParamOneLabel.setStyleName("yvf_fields");
-    	yvfFirstFactParamTwoLabel.setText("2nd Param"); 
-    	yvfFirstFactParamTwoLabel.setStyleName("yvf_fields");
-    	yvfFirstStaticFactLabel.setText("Value");
-    	yvfFirstStaticFactLabel.setStyleName("yvf_fields");
-    	Label yvfFirstFactLineLabel = new Label("1st YVF Fact:");
-    	yvfFirstFactLineLabel.setStyleName("yvf_fields");
-    	Label yvfFirstFactTypeLabel = new Label("Fact Type:");
-    	yvfFirstFactTypeLabel.setStyleName("yvf_fields");
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically("",yvfFirstFactLineLabel, "100px"));          
-        GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "5px");        
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactTypeLabel, yvfFirstFactTypeListBox, "150px"));
-        //TODO: in future we might need to remove 'Static Fact'option from Fact Types list and instead let user
-        // to select known fact types and then select if it is static or dynamically supplied value
-        //GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "15px");    
-        //hpFirstCriteria.add(GuiUtil.addLabelAndField(yvfFirstFactLookupTypeStatic, yvfFirstFactLookupTypeDynamic, "50px"));
-        GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "15px");        
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactParamOneLabel, yvfFirstFactParamOneTextBox, "150px"));
-        GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "15px");
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactParamTwoLabel, yvfFirstFactParamTwoTextBox, "150px"));
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstStaticFactLabel, yvfFirstStaticFactValue, "250px"));
-        flexPropositionDetailsTable.add(hpFirstCriteria); 
-        
-        //second fact criteria fields
-        final HorizontalPanel hpSecondCriteria = new HorizontalPanel();
-        yvfSecondFactLineLabel.setText("2nd YVF Fact:");
-        yvfSecondFactLineLabel.setStyleName("yvf_fields");
-        yvfSecondFactTypeLabel.setText("Fact Type:");
-        yvfSecondFactTypeLabel.setStyleName("yvf_fields");
-        yvfSecondFactParamOneLabel.setText("1st Param");
-        yvfSecondFactParamOneLabel.setStyleName("yvf_fields");
-        yvfSecondFactParamTwoLabel.setText("2nd Param");
-        yvfSecondFactParamTwoLabel.setStyleName("yvf_fields");
-    	yvfSecondStaticFactLabel.setText("Value");
-    	yvfSecondStaticFactLabel.setStyleName("yvf_fields");
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically("", yvfSecondFactLineLabel, "100px"));
-        GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "5px");
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactTypeLabel, yvfSecondFactTypeListBox, "150px"));
-        //TODO: in future we might need to remove 'Static Fact'option from Fact Types list and instead let user
-        // to select known fact types and then select if it is static or dynamically supplied value        
-        //GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "15px");    
-        //hpSecondCriteria.add(GuiUtil.addLabelAndField(yvfSecondFactLookupTypeStatic, yvfSecondFactLookupTypeDynamic, "50px"));          
-        GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "15px");     
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactParamOneLabel, yvfSecondFactParamOneTextBox, "150px"));
-        GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "15px");       
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactParamTwoLabel, yvfSecondFactParamTwoTextBox, "150px"));
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondStaticFactLabel, yvfSecondStaticFactValue, "250px"));        
-        flexPropositionDetailsTable.add(hpSecondCriteria);             
-
-        HorizontalPanel hpButtons = new HorizontalPanel();
-        hpButtons.setSpacing(8);      
-        //hpButtons.add(makeCopyPropButton);
-        hpButtons.add(cancelPropButton);
-        flexPropositionDetailsTable.add(hpButtons);        
-
-        horizontalPanel.add(flexPropositionDetailsTable);
-        horizontalPanel.setCellHeight(propListPanel, "75%");
-        horizontalPanel.setCellWidth(propListPanel, "180px");
-        verticalPanel.add(horizontalPanel);
-		*/
-
-
         return propositionsFlexTable;
     }
+    
+    private Widget addRRulesTestResultsPage() {
+    	
+        // **********************************************************
+        // set rules form margins
+        // **********************************************************
+        final FlexTable propositionsFlexTable = new FlexTable();
+        propositionsFlexTable.setSize("100%", "100%");
+
+        final SimplePanel topMargin = new SimplePanel();
+        propositionsFlexTable.setWidget(0, 0, topMargin);
+        propositionsFlexTable.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+        propositionsFlexTable.getFlexCellFormatter().setColSpan(0, 0, 2);
+        propositionsFlexTable.getCellFormatter().setHeight(0, 0, "5pix");
+
+        final SimplePanel leftMargin = new SimplePanel();
+        propositionsFlexTable.setWidget(1, 0, leftMargin);
+        propositionsFlexTable.getCellFormatter().setWidth(1, 0, "5pix");
+
+        // **********************************************************
+        // set rules form size
+        // **********************************************************
+        final FormPanel rulesFormPanel = new FormPanel();
+        propositionsFlexTable.setWidget(1, 1, rulesFormPanel);
+        // propositionsFlexTable.getFlexCellFormatter().setColSpan(1, 1, 2);
+        propositionsFlexTable.getCellFormatter().setWidth(1, 1, "100%");
+        propositionsFlexTable.getCellFormatter().setHeight(1, 1, "100%");
+        rulesFormPanel.setSize("100%", "100%");
+        propositionsFlexTable.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
+        
+        testReport.setSize("100%", "550px");
+        
+        rulesFormPanel.add(testReport);
+        
+        return propositionsFlexTable;
+    }    
     
     private void displayPropositionsText() {
         Label ruleCompositionTestLabel = new Label();
@@ -1812,14 +1783,18 @@ public class RulesComposite extends Composite {
                     }       
                     */     		            		
             	}            	            	
-            } // for(facts)       	
-        } //for (propositions)    	
+            } // for(facts)
+            //propFactsTest.put(prop.get)
+        } //for (propositions)  
+        
+        propositionsTestPanel.add(testRuleButton);  
+        propositionsTestPanel.add(GuiUtil.addLabelAndFieldVertically(new Label("Test Results:"), testResult, ""));
     }
     
     
     /******************************************************************************************************************
      * 
-     *                                                     PROPOSITIONS 
+     *                          PROPOSITIONS 
      *
      *******************************************************************************************************************/
 
