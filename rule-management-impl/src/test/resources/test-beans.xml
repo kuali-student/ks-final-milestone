@@ -665,6 +665,7 @@
 			<set>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.studentId"/>
+					<property name="value" value="KUALI_FACT_EXECUTION_TIME_KEY"/>					
 					<property name="factStructure" ref="factStructure312"/>						
 				</bean>
 			</set>
@@ -737,6 +738,7 @@
 			<set>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.studentId"/>
+					<property name="value" value="KUALI_FACT_EXECUTION_TIME_KEY"/>					
 					<property name="factStructure" ref="factStructure322"/>						
 				</bean>
 			</set>
@@ -796,6 +798,7 @@
 			<set>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.studentId"/>
+					<property name="value" value="KUALI_FACT_EXECUTION_TIME_KEY"/>					
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
