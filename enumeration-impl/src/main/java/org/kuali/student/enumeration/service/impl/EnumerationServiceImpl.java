@@ -16,8 +16,10 @@ import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
 import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
 import org.kuali.student.enumeration.service.EnumerationService;
 import org.kuali.student.enumeration.service.impl.util.POJOConverter;
+import org.springframework.transaction.annotation.Transactional;
 
-@WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
+@WebService(endpointInterface = "org.kuali.student.enumeration.service.EnumerationService", serviceName = "EnumerationService", portName = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
+@Transactional
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class EnumerationServiceImpl implements EnumerationService{
     private EnumerationManagementDAO enumDAO;
@@ -29,6 +31,7 @@ public class EnumerationServiceImpl implements EnumerationService{
     public void setEnumDAO(EnumerationManagementDAO enumDAO) {
         this.enumDAO = enumDAO;
     }
+
     public EnumerationMetaList findEnumerationMetas() {
         List<EnumerationMetaEntity> listDAOEntity =  this.enumDAO.findEnumerationMetas();
         
