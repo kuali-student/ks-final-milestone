@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+/*@XmlType(name = "", propOrder = {
     "dataType",
     "minLength",
     "maxLength",
@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlType;
     "minOccurs",
     "maxOccurs"
 })
-@XmlRootElement(name = "fieldDescriptor")
+@XmlRootElement(name = "fieldDescriptor")*/
 public class FieldDescriptor implements java.io.Serializable{
 
     @XmlElement(required = true)

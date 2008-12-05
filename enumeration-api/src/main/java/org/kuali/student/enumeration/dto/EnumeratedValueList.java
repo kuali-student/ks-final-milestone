@@ -37,10 +37,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "enumeratedValue"
-})
-@XmlRootElement(name = "enumeratedValueList")
+//@XmlType(name = "", propOrder = {
+//    "enumeratedValue"
+//})
+//@XmlRootElement(name = "enumeratedValueList")
 public class EnumeratedValueList implements java.io.Serializable{
 
     @XmlElement(name = "EnumeratedValue", required = true)

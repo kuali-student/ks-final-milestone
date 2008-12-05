@@ -37,9 +37,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "enumerationMeta"
-})
+//@XmlType(name = "", propOrder = {
+//    "enumerationMeta"
+//})
 @XmlRootElement(name = "enumerationMetaList")
 public class EnumerationMetaList implements java.io.Serializable{
 

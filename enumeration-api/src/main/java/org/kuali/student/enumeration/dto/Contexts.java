@@ -37,10 +37,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "context"
-})
-@XmlRootElement(name = "contexts")
+//@XmlType(name = "", propOrder = {"context"})
+//@XmlRootElement(name = "contexts")
 public class Contexts implements java.io.Serializable{
 
     @XmlElement(required = true)

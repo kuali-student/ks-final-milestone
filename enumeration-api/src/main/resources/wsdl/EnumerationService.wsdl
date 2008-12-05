@@ -1,11 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions 
-   name="EnumerationService" 
-   targetNamespace="http://student.kuali.org/wsdl/EnumerationService" 
-        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
-         xmlns:tns="http://student.kuali.org/wsdl/EnumerationService" 
-         xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-         xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="EnumerationService" targetNamespace="http://student.kuali.org/wsdl/EnumerationService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/EnumerationService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.dto.enumeration.student.kuali.org" xmlns:tns="http://student.kuali.org/wsdl/EnumerationService" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/EnumerationService">
     <xs:import namespace="http://www.dto.enumeration.student.kuali.org"/>
@@ -28,13 +22,7 @@
             <xs:element minOccurs="0" name="value">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -45,13 +33,7 @@
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -107,13 +89,7 @@
             <xs:element minOccurs="0" name="value">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -124,13 +100,7 @@
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -146,10 +116,7 @@
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:name"/>
-                        <xs:element ref="ns1:desc"/>
-                        <xs:element ref="ns1:enumeratedValueFields"/>
-                        <xs:element ref="ns1:SupportedContexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:enumerationMeta"/>
                     </xs:sequence>
                     <xs:attribute name="key" type="xs:string"/>
                 </xs:complexType>
@@ -201,7 +168,7 @@
     <xs:element name="context">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" name="value" type="xs:string"/>
+                <xs:element name="value" type="xs:string"/>
             </xs:sequence>
             <xs:attribute name="type" type="xs:string"/>
         </xs:complexType>
@@ -257,12 +224,12 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="dataType" type="xs:string"/>
-                <xs:element minOccurs="0" name="minLength" type="xs:int"/>
-                <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+                <xs:element name="minLength" type="xs:int"/>
+                <xs:element name="maxLength" type="xs:int"/>
                 <xs:element minOccurs="0" name="validChars" type="xs:string"/>
                 <xs:element minOccurs="0" name="invalidChars" type="xs:string"/>
-                <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
-                <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+                <xs:element name="minOccurs" type="xs:int"/>
+                <xs:element name="maxOccurs" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

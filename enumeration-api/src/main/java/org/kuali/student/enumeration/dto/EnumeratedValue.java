@@ -43,15 +43,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "code",
-    "abbrevValue",
-    "value",
-    "effectiveDate",
-    "expirationDate",
-    "sortKey",
-    "contexts"
-})
+//@XmlType(name = "", propOrder = {
+//    "code",
+ //   "abbrevValue",
+ //   "value",
+ //   "effectiveDate",
+ //   "expirationDate",
+ //   "sortKey",
+ //   "contexts"
+//})
 @XmlRootElement(name = "EnumeratedValue")
 public class EnumeratedValue implements java.io.Serializable{
 

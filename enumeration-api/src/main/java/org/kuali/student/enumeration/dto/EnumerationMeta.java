@@ -40,13 +40,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "name",
-    "desc",
-    "enumeratedValueFields",
-    "supportedContexts"
-})
-@XmlRootElement(name = "enumerationMeta")
+//@XmlType(name = "", propOrder = {
+//    "name",
+//    "desc",
+//    "enumeratedValueFields",
+//    "supportedContexts"
+//})
+//@XmlRootElement(name = "enumerationMeta")
 public class EnumerationMeta implements java.io.Serializable{
 
     @XmlElement(required = true)

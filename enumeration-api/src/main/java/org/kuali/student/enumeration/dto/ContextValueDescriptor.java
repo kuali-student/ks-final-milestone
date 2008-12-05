@@ -39,14 +39,14 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+/*@XmlType(name = "", propOrder = {
     "dataType",
     "minLength",
     "maxLength",
     "minOccurs",
     "maxOccurs"
 })
-@XmlRootElement(name = "ContextValueDescriptor")
+@XmlRootElement(name = "ContextValueDescriptor")*/
 public class ContextValueDescriptor implements java.io.Serializable{
 
     @XmlElement(required = true)

@@ -18,10 +18,10 @@ public interface EnumerationService {
 
     @WebMethod
     public EnumerationMetaList findEnumerationMetas();
-
+/**
     @WebMethod
     public EnumerationMeta fetchEnumerationMeta(@WebParam(name = "enumerationKey") String enumerationKey);
-    
+    */
     @WebMethod
     public EnumeratedValueList fetchEnumeration(
             @WebParam(name = "enumerationKey") String enumerationKey, 

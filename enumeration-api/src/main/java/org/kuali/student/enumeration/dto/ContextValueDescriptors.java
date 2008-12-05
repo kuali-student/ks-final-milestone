@@ -38,11 +38,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "desc",
-    "contextValueDescriptor"
-})
-@XmlRootElement(name = "ContextValueDescriptors")
+//@XmlType(name = "", propOrder = {
+//    "desc",
+//    "contextValueDescriptor"
+//})
+//@XmlRootElement(name = "ContextValueDescriptors")
 public class ContextValueDescriptors implements java.io.Serializable{
 
     @XmlElement(required = true)

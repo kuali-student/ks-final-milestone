@@ -36,10 +36,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "contextValueDescriptor"
-})
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "", propOrder = {
+//    "contextValueDescriptor"
+//})
 @XmlRootElement(name = "SupportedContexts")
 public class SupportedContexts implements java.io.Serializable {
 
