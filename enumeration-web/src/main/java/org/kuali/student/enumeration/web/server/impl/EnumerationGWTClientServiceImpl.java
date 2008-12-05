@@ -23,7 +23,8 @@ public class EnumerationGWTClientServiceImpl implements EnumerationGWTClientServ
     }
     
     public EnumeratedValue addEnumeratedValue(String enumerationKey,EnumeratedValue value){
-        return enumerationService.addEnumeratedValue(enumerationKey, value);
+    	return enumerationService.addEnumeratedValue(enumerationKey, value);
+
     }
 
     public EnumeratedValue updateEnumeratedValue(String enumerationKey,String code,EnumeratedValue value){
