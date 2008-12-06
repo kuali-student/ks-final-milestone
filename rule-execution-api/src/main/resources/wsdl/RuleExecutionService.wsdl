@@ -12,7 +12,63 @@
     <xs:complexType name="executeAgenda">
         <xs:sequence>
             <xs:element minOccurs="0" name="agenda" type="xs:string"/>
+            <xs:element minOccurs="0" name="factStructure" type="tns:factStructureDTO"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factStructureDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfoDTO"/>
+            <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
+            <xs:element minOccurs="0" name="staticValueDataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="staticValue" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="factStructureId" type="xs:string"/>
+        <xs:attribute name="factTypeKey" type="xs:string"/>
+        <xs:attribute name="staticFact" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="factCriteriaTypeInfoDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="factParamMap" type="tns:factParamList"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:factParamMapEntry"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factParamMapEntry">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="value" type="tns:factParamDTO"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="factParamDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="name" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="dataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="minLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxLength" type="xs:int"/>
+            <xs:element minOccurs="0" name="validCharacters" type="xs:string"/>
+            <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
+            <xs:element minOccurs="0" name="defTime" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="jaxbAttributeList">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:Attribute"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Attribute">
+        <xs:sequence/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="value" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="executeAgendaResponse">
         <xs:sequence>
@@ -44,6 +100,7 @@
     <xs:complexType name="executeBusinessRule">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRuleId" type="xs:string"/>
+            <xs:element minOccurs="0" name="factStructure" type="tns:factStructureDTO"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="executeBusinessRuleResponse">
