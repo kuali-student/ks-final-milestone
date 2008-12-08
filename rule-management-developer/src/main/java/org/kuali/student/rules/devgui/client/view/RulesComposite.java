@@ -1312,12 +1312,12 @@ public class RulesComposite extends Composite {
         completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
 
         // populate Authoring TAB
-        effectiveStartTimeTextBox.setText(formatter.format(new Date())); //TODO displayedRule.getEffectiveStartTime()));
-        effectiveEndTimeTextBox.setText(formatter.format(new Date(future_date))); //displayedRule.getEffectiveEndTime()));
-        createTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getMetaInfo().getCreateTime()));
+        effectiveStartTimeTextBox.setText(formatter.format(displayedRule.getEffectiveStartTime()));
+        effectiveEndTimeTextBox.setText(formatter.format(displayedRule.getEffectiveEndTime()));
+        createTimeTextBox.setText(formatter.format(displayedRule.getMetaInfo().getCreateTime()));
         createUserIdTextBox.setText(displayedRule.getMetaInfo().getCreateID());
         createCommentTextBox.setText(displayedRule.getMetaInfo().getCreateComment());
-        updateTimeTextBox.setText(formatter.format(new Date())); //displayedRule.getMetaInfo().getUpdateTime()));
+        updateTimeTextBox.setText(formatter.format(displayedRule.getMetaInfo().getUpdateTime()));
         updateUserIdTextBox.setText(displayedRule.getMetaInfo().getUpdateID());
         updateCommentTextBox.setText(displayedRule.getMetaInfo().getUpdateComment());
 
