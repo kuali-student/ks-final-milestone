@@ -63,8 +63,9 @@ public class EnumeratedValue implements java.io.Serializable{
     protected String value;
     @XmlElement(required = true)
     protected Date effectiveDate;
+    @XmlElement(required = false)
     protected Date expirationDate;
-    @XmlElement(required = true)
+    @XmlElement(required = false)
     protected int sortKey;
     @XmlElement(required = true)
     protected Contexts contexts;

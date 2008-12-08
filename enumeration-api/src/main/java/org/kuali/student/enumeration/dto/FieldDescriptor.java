@@ -55,12 +55,22 @@ public class FieldDescriptor implements java.io.Serializable{
 
     @XmlElement(required = true)
     protected String dataType;
+    @XmlElement(required = false)
     protected int minLength;
+    @XmlElement(required = false)
     protected int maxLength;
+    @XmlElement(required = false)
     protected String validChars;
+    @XmlElement(required = false)
     protected String invalidChars;
+    @XmlElement(required = false)
     protected int minOccurs;
+    @XmlElement(required = false)
     protected int maxOccurs;
+    @XmlElement(required = false)
+    protected String minValue;
+    @XmlElement(required = false)
+    protected String maxValue;
 
     /**
      * Gets the value of the dataType property.
@@ -230,4 +240,22 @@ public class FieldDescriptor implements java.io.Serializable{
         this.maxOccurs = value;
     }
 
+	public String getMinValue() {
+		return minValue;
+	}
+
+	public void setMinValue(String minValue) {
+		this.minValue = minValue;
+	}
+
+	public String getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(String maxValue) {
+		this.maxValue = maxValue;
+	}
+
+    
+    
 }

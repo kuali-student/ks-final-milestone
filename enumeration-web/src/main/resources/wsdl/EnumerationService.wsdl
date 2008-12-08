@@ -22,13 +22,7 @@
             <xs:element minOccurs="0" name="value">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -39,13 +33,7 @@
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -101,13 +89,7 @@
             <xs:element minOccurs="0" name="value">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -118,13 +100,7 @@
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:code"/>
-                        <xs:element ref="ns1:abbrevValue"/>
-                        <xs:element ref="ns1:value"/>
-                        <xs:element ref="ns1:effectiveDate"/>
-                        <xs:element minOccurs="0" ref="ns1:expirationDate"/>
-                        <xs:element ref="ns1:sortKey"/>
-                        <xs:element ref="ns1:contexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:EnumeratedValue"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -140,10 +116,7 @@
             <xs:element minOccurs="0" name="return">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element ref="ns1:name"/>
-                        <xs:element ref="ns1:desc"/>
-                        <xs:element ref="ns1:enumeratedValueFields"/>
-                        <xs:element ref="ns1:SupportedContexts"/>
+						<xs:element maxOccurs="unbounded" ref="ns1:enumerationMeta"/>
                     </xs:sequence>
                     <xs:attribute name="key" type="xs:string"/>
                 </xs:complexType>

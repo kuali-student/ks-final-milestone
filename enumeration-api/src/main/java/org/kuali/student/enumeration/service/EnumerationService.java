@@ -11,6 +11,7 @@ import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
+import org.springframework.beans.factory.annotation.Required;
 
 @WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -42,5 +43,11 @@ public interface EnumerationService {
     public boolean removeEnumeratedValue(
             @WebParam(name = "enumerationKey")String enumerationKey, 
             @WebParam(name = "code")String code);
+    
+    @WebMethod
+    public EnumerationMeta addEnumerationMeta(@WebParam(name = "enumerationMeta")EnumerationMeta meta);
+    
+    @WebMethod
+    public boolean removeEnumerationMeta(@WebParam(name = "enumerationKey")String enumerationKey);
 
 }

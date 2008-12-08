@@ -36,8 +36,15 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         entity = entityManager.find(EnumerationMetaEntity.class, entity.getId());
         return entity;
     }
-    public void removeEnumerationMeta(EnumerationMetaEntity entity){
-        entityManager.remove(entity);
+    public boolean removeEnumerationMeta(String enumerationKey){
+        boolean removed = false;
+    	EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
+        if(meta != null){
+        	entityManager.remove(meta);
+        	removed = true;
+        }
+    	
+    	return removed;
     }
 
     public EnumerationMetaEntity fetchEnumerationMeta(String enumerationKey) {
@@ -55,10 +62,95 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     }
 
     public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
+        EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
+        //boolean addOK = true;
+        /*
+        List<EnumeratedValueFieldEntity> fields = meta.getEnumeratedValueFieldList();
+        for(EnumeratedValueFieldEntity field: fields){
+        	if(field.getFieldKey().equalsIgnoreCase("code")){
+        		addOK = addOK && validateValue(value.getCode(), field);
+        	}
+        	else if(field.getFieldKey().equalsIgnoreCase("abbrevValue")){
+        		addOK = addOK && validateValue(value.getAbbrevValue(), field);
+        	}
+        	else if(field.getFieldKey().equalsIgnoreCase("value")){
+        		addOK = addOK && validateValue(value.getValue(), field);
+        	}
+        	else if(field.getFieldKey().equalsIgnoreCase("effectiveDate")){
+        		addOK = addOK && validateValue(value.getEffectiveDate(), field);
+        	}
+        	else if(field.getFieldKey().equalsIgnoreCase("expirationDate")){
+        		addOK = addOK && validateValue(value.getExpirationDate(), field);
+        	}
+        	else if(field.getFieldKey().equalsIgnoreCase("sortKey")){
+        		addOK = addOK && validateValue(value.getSortKey(), field);
+        	}
+        	
+        	//it is not ok to add, a validate failed.
+        	if(!addOK){
+        		break;
+        	}
+        }
+        */
+        
         entityManager.persist(value);
         value.setEnumerationKey(enumerationKey);
 
+
+
         return value;
+    }
+    
+    //not used, use in future for validation?
+    private boolean validateValue(String value, EnumeratedValueFieldEntity field){
+    	//boolean validated = true;
+    	
+    	//datatype
+    	if(!field.getDataType().equalsIgnoreCase("string")){
+    		return false;
+    	}
+    	
+    	//maxLength, non-set max length is -1
+    	if(field.getMaxLength() != -1 && field.getMaxLength() < value.length()){
+    		return false;
+    	}
+    	
+    	//minLength, non-set min length is -1
+    	if(field.getMinLength() != -1 && field.getMinLength() > value.length()){
+    		return false;
+    	}
+    	
+    	//??????
+    	if(field.getMaxOccurs() != -1){
+    		return false;
+    	}
+    	
+    	//??????
+    	if(field.getMinOccurs() != -1){
+    		return false;
+    	}
+    	
+    	//validChars, a non-set valid chars field means all characters valid
+    	if(field.getValidChars() != null && !field.getValidChars().equals("")){
+    		char[] valueChars = value.toCharArray();
+    		for(char c: valueChars){
+    			if(field.getValidChars().indexOf(c) == -1){
+    				return false;
+    			}
+    		}
+    	}
+    	
+    	//invalidChars, a non-set invalid chars field means no chars are specified as invalid
+    	if(field.getInvalidChars() != null && !field.getInvalidChars().equals("")){
+    		char[] valueChars = value.toCharArray();
+    		for(char c: valueChars){
+    			if(field.getInvalidChars().indexOf(c) >= 0){
+    				return false;
+    			}
+    		}
+    	}
+    	
+    	return true;
     }
     
     public EnumeratedValueEntity updateEnumeratedValue(String enumerationKey, String code, EnumeratedValueEntity enumeratedValueEntity) {
@@ -107,18 +199,20 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         return returnValue;
     }
     
-    public void removeEnumeratedValue(String enumerationKey, String code) {
+    public boolean removeEnumeratedValue(String enumerationKey, String code) {
         //Query query = entityManager.createQuery("delete from EnumeratedValueEntity e where e.enumerationKey = :key and e.code = :code");
         //query.setParameter("key", enumerationKey);
        // query.setParameter("code", code);
-        List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
+        boolean removed = false;
+    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
         for(EnumeratedValueEntity e: list){
         	if(e.getCode().equals(code)){
         		entityManager.remove(e);
+        		removed = true;
         	}
         }
         //query.executeUpdate();
-        
+        return removed;
     }
     
     
@@ -138,8 +232,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		Query query = entityManager.createQuery(
 	            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
-	            "where e.effectiveDate < :contextDate and " +
-	            "(e.expirationDate is null or e.expirationDate > :contextDate) and " +
+	            "where e.effectiveDate <= :contextDate and " +
+	            "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
 	            "e.enumerationKey = :enumerationKey ");
 		 query.setParameter("enumerationKey", enumerationKey);
 		 query.setParameter("contextDate", contextDate);
@@ -171,8 +265,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
     	
         Query query = entityManager.createQuery(
                 "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " 
-                + "where e.effectiveDate < :contextDate and " +
-                "(e.expirationDate is null or e.expirationDate > :contextDate) and " + 
+                + "where e.effectiveDate <= :contextDate and " +
+                "(e.expirationDate is null or e.expirationDate >= :contextDate) and " + 
                 "c.contextValue = :contextValue and " + 
                 "c.contextKey = :enumContextKey and " +
                 "e.enumerationKey = :enumKey ");

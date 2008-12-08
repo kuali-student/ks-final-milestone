@@ -55,8 +55,6 @@ public class EnumerationMeta implements java.io.Serializable{
     protected String desc;
     @XmlElement(required = true)
     protected EnumeratedValueFields enumeratedValueFields;
-    @XmlElement(name = "SupportedContexts", required = true)
-    protected SupportedContexts supportedContexts;
     @XmlAttribute
     protected String key;
 
@@ -130,30 +128,6 @@ public class EnumerationMeta implements java.io.Serializable{
      */
     public void setEnumeratedValueFields(EnumeratedValueFields value) {
         this.enumeratedValueFields = value;
-    }
-
-    /**
-     * Gets the value of the supportedContexts property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SupportedContexts }
-     *     
-     */
-    public SupportedContexts getSupportedContexts() {
-        return supportedContexts;
-    }
-
-    /**
-     * Sets the value of the supportedContexts property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SupportedContexts }
-     *     
-     */
-    public void setSupportedContexts(SupportedContexts value) {
-        this.supportedContexts = value;
     }
 
     /**

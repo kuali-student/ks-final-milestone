@@ -66,20 +66,14 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         
         enumerationManagementDAO.addEnumerationMeta(entity);
         
-        EnumerationMetaEntity returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
-        assertEquals(returnedEntity.getName(), entity.getName());
-        assertEquals(returnedEntity.getEnumerationKey(), entity.getEnumerationKey());
-        assertEquals(returnedEntity.getEnumerationMetaKeyDesc(), entity.getEnumerationMetaKeyDesc());
-        assertEquals(returnedEntity.getId(), entity.getId());
-        
-        enumerationManagementDAO.removeEnumerationMeta(entity);
+        enumerationManagementDAO.removeEnumerationMeta("Key4");
         List<EnumerationMetaEntity> list = enumerationManagementDAO.findEnumerationMetas();
         for(EnumerationMetaEntity e: list){
         	assertTrue("EnumerationMetaEntity still exists after remove", !e.getEnumerationKey().equals("Key4"));
         }
         
 
-        returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
+        EnumerationMetaEntity returnedEntity = enumerationManagementDAO.fetchEnumerationMeta("Key4");
         assertTrue("EnumerationMetaEntity still exists after remove", returnedEntity == null);
     }
     

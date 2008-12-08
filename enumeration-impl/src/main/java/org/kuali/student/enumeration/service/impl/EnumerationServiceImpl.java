@@ -85,9 +85,7 @@ public class EnumerationServiceImpl implements EnumerationService{
 
 
     public boolean removeEnumeratedValue(String enumerationKey, String code) {
-        enumDAO.removeEnumeratedValue(enumerationKey, code);
-        
-        return true;
+        return enumDAO.removeEnumeratedValue(enumerationKey, code);
     }
 
     public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value) {
@@ -100,4 +98,16 @@ public class EnumerationServiceImpl implements EnumerationService{
         POJOConverter.map(enumeratedValueEntity,value);
         return value;
     }
+
+	public EnumerationMeta addEnumerationMeta(EnumerationMeta meta) {
+		EnumerationMetaEntity metaEntity = new EnumerationMetaEntity();
+		
+		POJOConverter.map(meta, metaEntity);
+		enumDAO.addEnumerationMeta(metaEntity);
+		return meta;
+	}
+
+	public boolean removeEnumerationMeta(String enumerationKey) {
+		return enumDAO.removeEnumerationMeta(enumerationKey);
+	}
 }
