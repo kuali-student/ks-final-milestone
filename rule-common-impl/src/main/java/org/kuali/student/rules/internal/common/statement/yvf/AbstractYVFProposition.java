@@ -26,8 +26,13 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	public Set<E> getSet(String dataType, String stringList) {
 		Set<E> set = new HashSet<E>();
 		for(String value : stringList.split("\\s*,\\s*")) {
-			E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-			set.add(obj);
+			try {
+				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+				set.add(obj);
+			} catch(NumberFormatException e) {
+				logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+				throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
+			}
 		}
 		return set;
 	}
@@ -45,8 +50,13 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 				String value = entry.getValue();
 				FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 				String dataType = info.getDataType();
-				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-				set.add(obj);
+				try {
+					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+					set.add(obj);
+				} catch(NumberFormatException e) {
+					logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+					throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
+				}
 			}
 		}
 		return set;
@@ -56,8 +66,13 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	public List<E> getList(String dataType, String stringList) {
 		List<E> list = new ArrayList<E>();
 		for(String value : stringList.split("\\s*,\\s*")) {
-			E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-			list.add(obj);
+			try {
+				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+				list.add(obj);
+			} catch(NumberFormatException e) {
+				logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+				throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
+			}
 		}
 		return list;
 	}
@@ -72,8 +87,13 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 					String value = (String) entry.getValue();
 					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
-					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-					set.add(obj);
+					try {
+						E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+						set.add(obj);
+					} catch(NumberFormatException e) {
+						logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+						throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
+					}
 				}
 			}
 		}
@@ -88,9 +108,10 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	public Boolean apply() {
 		Boolean b = proposition.apply();
 		if(logger.isDebugEnabled()) {
-			logger.debug("Proposition id="+this.proposition.getId());
-			logger.debug("Proposition name="+this.proposition.getPropositionName());
-			logger.debug("Proposition result="+this.proposition.getResult());
+			logger.debug("apply()"
+					+ "\nProposition id="+this.proposition.getId()
+					+ "\nProposition name="+this.proposition.getPropositionName()
+					+ "\nProposition result="+this.proposition.getResult());
 		}
 		return b;
 	}
