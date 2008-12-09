@@ -39,146 +39,13 @@
     <xs:element name="replaceRuleSetSnapshot" type="tns:replaceRuleSetSnapshot"/>
     <xs:element name="replaceRuleSetSnapshotResponse" type="tns:replaceRuleSetSnapshotResponse"/>
     <xs:element name="ruleDTO" type="tns:ruleDTO"/>
-    <xs:complexType name="replaceRuleSetSnapshot">
+    <xs:element name="translateBusinessRule" type="tns:translateBusinessRule"/>
+    <xs:element name="translateBusinessRuleResponse" type="tns:translateBusinessRuleResponse"/>
+    <xs:element name="validateBusinessRule" type="tns:validateBusinessRule"/>
+    <xs:element name="validateBusinessRuleResponse" type="tns:validateBusinessRuleResponse"/>
+    <xs:complexType name="translateBusinessRule">
         <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-            <xs:element minOccurs="0" name="comment" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="replaceRuleSetSnapshotResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="ruleSetDTO">
-        <xs:complexContent>
-            <xs:extension base="tns:abstractItemDTO">
-                <xs:sequence>
-                    <xs:element minOccurs="0" name="rules" type="tns:ruleMapType"/>
-                    <xs:element minOccurs="0" name="compiledRuleSet" type="xs:base64Binary"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="header" type="xs:string"/>
-                    <xs:element name="snapshot" type="xs:boolean"/>
-                    <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
-                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
-                    <xs:element minOccurs="0" name="sourceContent" type="xs:string"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType abstract="true" name="abstractItemDTO">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="description" type="xs:string"/>
-            <xs:element name="format" type="xs:string"/>
-            <xs:element name="versionNumber" type="xs:long"/>
-            <xs:element minOccurs="0" name="status" type="xs:string"/>
-            <xs:element minOccurs="0" name="versionSnapshotUUID" type="xs:string"/>
-            <xs:element minOccurs="0" name="createdDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="lastModifiedDate" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="checkinComment" type="xs:string"/>
-            <xs:element name="archived" type="xs:boolean"/>
-            <xs:element name="historical" type="xs:boolean"/>
-        </xs:sequence>
-        <xs:attribute name="uuid" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="ruleMapType">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:ruleMapEntryType"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="ruleMapEntryType">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="rule" type="tns:ruleDTO"/>
-        </xs:sequence>
-        <xs:attribute name="name" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="ruleDTO">
-        <xs:complexContent>
-            <xs:extension base="tns:abstractItemDTO">
-                <xs:sequence>
-                    <xs:element minOccurs="0" name="binaryContent" type="xs:base64Binary"/>
-                    <xs:element minOccurs="0" name="content" type="xs:string"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryNameList" type="xs:string"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
-                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
-                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
-                    <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-                    <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="categoryDTO">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="path" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="name" type="xs:string"/>
-    </xs:complexType>
-    <xs:complexType name="removeCategory">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchRuleSetsByCategory">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="category" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchRuleSetsByCategoryResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleSetDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createRuleSetSnapshot">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-            <xs:element minOccurs="0" name="comment" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="createRuleSetSnapshotResponse">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="changeRuleSetState">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-            <xs:element minOccurs="0" name="newState" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="rebuildRuleSetSnapshot">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
-            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="rebuildRuleSetSnapshotResponse">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="fetchCategories">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchCategoriesResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="generateRuleSetForBusinessRuleContainer">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="businessRuleContainer" type="tns:businessRuleContainerDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="businessRuleContainerDTO">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="namespace" type="xs:string"/>
-            <xs:element minOccurs="0" name="description" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleList" type="tns:businessRuleInfoDTO"/>
+            <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfoDTO"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="businessRuleInfoDTO">
@@ -284,7 +151,7 @@
             <xs:element minOccurs="0" name="validCharacters" type="xs:string"/>
             <xs:element minOccurs="0" name="minOccurs" type="xs:int"/>
             <xs:element minOccurs="0" name="maxOccurs" type="xs:int"/>
-            <xs:element minOccurs="0" name="defTime" type="tns:factParamDefTime"/>
+            <xs:element minOccurs="0" name="defTime" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="key" type="xs:string"/>
     </xs:complexType>
@@ -311,6 +178,153 @@
             <xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
             <xs:element minOccurs="0" name="updateID" type="xs:string"/>
             <xs:element minOccurs="0" name="updateComment" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="translateBusinessRuleResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleSetDTO">
+        <xs:complexContent>
+            <xs:extension base="tns:abstractItemDTO">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="rules" type="tns:ruleMapType"/>
+                    <xs:element minOccurs="0" name="compiledRuleSet" type="xs:base64Binary"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="header" type="xs:string"/>
+                    <xs:element name="snapshot" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
+                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="sourceContent" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType abstract="true" name="abstractItemDTO">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="format" type="xs:string"/>
+            <xs:element name="versionNumber" type="xs:long"/>
+            <xs:element minOccurs="0" name="status" type="xs:string"/>
+            <xs:element minOccurs="0" name="versionSnapshotUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="createdDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="lastModifiedDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="checkinComment" type="xs:string"/>
+            <xs:element name="archived" type="xs:boolean"/>
+            <xs:element name="historical" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:attribute name="uuid" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="ruleMapType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" type="tns:ruleMapEntryType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleMapEntryType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="rule" type="tns:ruleDTO"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="ruleDTO">
+        <xs:complexContent>
+            <xs:extension base="tns:abstractItemDTO">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="binaryContent" type="xs:base64Binary"/>
+                    <xs:element minOccurs="0" name="content" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryNameList" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="categoryList" type="tns:categoryDTO"/>
+                    <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ruleSetName" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="categoryDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="path" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="replaceRuleSetSnapshot">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="comment" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="replaceRuleSetSnapshotResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="removeCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchRuleSetsByCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="category" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchRuleSetsByCategoryResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createRuleSetSnapshot">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+            <xs:element minOccurs="0" name="comment" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="createRuleSetSnapshotResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:ruleSetDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="changeRuleSetState">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="newState" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rebuildRuleSetSnapshot">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetUUID" type="xs:string"/>
+            <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rebuildRuleSetSnapshotResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="fetchCategories">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchCategoriesResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="generateRuleSetForBusinessRuleContainer">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleContainer" type="tns:businessRuleContainerDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="businessRuleContainerDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="namespace" type="xs:string"/>
+            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleList" type="tns:businessRuleInfoDTO"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="generateRuleSetForBusinessRuleContainerResponse">
@@ -380,6 +394,22 @@
             <xs:element minOccurs="0" name="snapshotName" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="validateBusinessRule">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfoDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="validateBusinessRuleResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:ruleSetVerificationResultDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleSetVerificationResultDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ruleSetValid" type="xs:boolean"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="messageList" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="createRuleSet">
         <xs:sequence>
             <xs:element minOccurs="0" name="ruleSet" type="tns:ruleSetDTO"/>
@@ -431,12 +461,6 @@
             <xs:element minOccurs="0" name="return" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:simpleType name="factParamDefTime">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="DEFINITION"/>
-            <xs:enumeration value="EXECUTION"/>
-        </xs:restriction>
-    </xs:simpleType>
     <xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
     <xs:complexType name="OperationFailedException">
         <xs:sequence/>
@@ -455,12 +479,12 @@
     </xs:complexType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="rebuildRuleSetSnapshotResponse">
-    <wsdl:part name="parameters" element="tns:rebuildRuleSetSnapshotResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="replaceRuleSetSnapshot">
     <wsdl:part name="parameters" element="tns:replaceRuleSetSnapshot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rebuildRuleSetSnapshotResponse">
+    <wsdl:part name="parameters" element="tns:rebuildRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createRuleSet">
@@ -503,6 +527,10 @@
     <wsdl:part name="parameters" element="tns:fetchRuleSetsByCategory">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="validateBusinessRule">
+    <wsdl:part name="parameters" element="tns:validateBusinessRule">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="OperationFailedException">
     <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
     </wsdl:part>
@@ -517,6 +545,10 @@
   </wsdl:message>
   <wsdl:message name="fetchRuleSetSnapshotsByCategory">
     <wsdl:part name="parameters" element="tns:fetchRuleSetSnapshotsByCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateBusinessRuleResponse">
+    <wsdl:part name="parameters" element="tns:validateBusinessRuleResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchCategoriesResponse">
@@ -555,8 +587,16 @@
     <wsdl:part name="parameters" element="tns:createRuleSetResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="translateBusinessRuleResponse">
+    <wsdl:part name="parameters" element="tns:translateBusinessRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createRuleSetSnapshotResponse">
     <wsdl:part name="parameters" element="tns:createRuleSetSnapshotResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="translateBusinessRule">
+    <wsdl:part name="parameters" element="tns:translateBusinessRule">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="InvalidParameterException">
@@ -591,16 +631,16 @@
     <wsdl:part name="parameters" element="tns:replaceRuleSetSnapshotResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="generateRuleSetForBusinessRuleResponse">
-    <wsdl:part name="parameters" element="tns:generateRuleSetForBusinessRuleResponse">
+  <wsdl:message name="checkinRuleSetResponse">
+    <wsdl:part name="parameters" element="tns:checkinRuleSetResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="checkinRuleSet">
     <wsdl:part name="parameters" element="tns:checkinRuleSet">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="checkinRuleSetResponse">
-    <wsdl:part name="parameters" element="tns:checkinRuleSetResponse">
+  <wsdl:message name="generateRuleSetForBusinessRuleResponse">
+    <wsdl:part name="parameters" element="tns:generateRuleSetForBusinessRuleResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeState">
@@ -612,6 +652,18 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="RuleRepositoryService">
+    <wsdl:operation name="translateBusinessRule">
+      <wsdl:input name="translateBusinessRule" message="tns:translateBusinessRule">
+    </wsdl:input>
+      <wsdl:output name="translateBusinessRuleResponse" message="tns:translateBusinessRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="replaceRuleSetSnapshot">
       <wsdl:input name="replaceRuleSetSnapshot" message="tns:replaceRuleSetSnapshot">
     </wsdl:input>
@@ -752,6 +804,18 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="validateBusinessRule">
+      <wsdl:input name="validateBusinessRule" message="tns:validateBusinessRule">
+    </wsdl:input>
+      <wsdl:output name="validateBusinessRuleResponse" message="tns:validateBusinessRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createRuleSet">
       <wsdl:input name="createRuleSet" message="tns:createRuleSet">
     </wsdl:input>
@@ -821,6 +885,24 @@
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">
         <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="translateBusinessRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="translateBusinessRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="translateBusinessRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
@@ -1034,6 +1116,24 @@
       </wsdl:fault>
       <wsdl:fault name="AlreadyExistsException">
         <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateBusinessRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateBusinessRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateBusinessRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="OperationFailedException">
         <soap:fault name="OperationFailedException" use="literal"/>
