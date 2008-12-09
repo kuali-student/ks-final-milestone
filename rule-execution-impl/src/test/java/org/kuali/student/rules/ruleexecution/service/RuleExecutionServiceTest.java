@@ -125,8 +125,8 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testExecuteBusinessRule_StaticFact_TestBeans_Rule2() throws Exception {
-        ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId2, null);
+    public void testExecuteBusinessRuleTest_StaticFact_TestBeans_Rule2() throws Exception {
+    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRuleTest(businessRuleInfo2, null);
         Assert.assertNotNull(result);
 
         Assert.assertTrue(result.getExecutionResult());

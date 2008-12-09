@@ -16,6 +16,7 @@
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     final static Logger logger = LoggerFactory.getLogger(SimpleExecutorDroolsImpl.class);
 
     /** Drools general utility */
-    private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
+    private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
     /** Drools rule base cache */
     private DroolsRuleBase ruleBaseCache = new DroolsRuleBase();
@@ -53,7 +54,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
     /** Statistics logging */
     private boolean statlogging = false;
     
-    private final static DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
+    private final DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
 
     public SimpleExecutorDroolsImpl() {}
     
@@ -130,6 +131,15 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      */
     public void addRuleSet(String ruleBaseType, RuleSetDTO ruleSet) {
     	Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+    	
+    	if(pkg == null) {
+    		try {
+				pkg = buildPackage(new StringReader(ruleSet.getContent()));
+            } catch(Exception e) {
+                throw new RuleSetExecutionException("Building Drools Package failed",e);
+            }            
+    	}
+    	
         if (!pkg.getName().equals(ruleSet.getName())){
         	throw new RuleSetExecutionException(
         			"Cannot add package to rule base. " +
@@ -207,7 +217,7 @@ public class SimpleExecutorDroolsImpl implements SimpleExecutor {
      * @throws Exception
      */
     private Package buildPackage(Reader source) throws Exception {
-        PackageBuilder builder = new PackageBuilder();
+    	PackageBuilder builder = droolsUtil.createPackageBuilder();
         builder.addPackageFromDrl(source);
         Package pkg = builder.getPackage();
         return pkg;

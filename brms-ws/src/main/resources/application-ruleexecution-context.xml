@@ -36,6 +36,23 @@
         <constructor-arg type="int" value="50"/>
     </bean>
     
+    <bean id="ruleSetExecutorTest"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
+        <property name="enableExecutionLogging" value="true"/>
+        <property name="enableStatLogging" value="false"/>
+        <property name="ruleBaseCache" ref="ruleBaseCacheTest"/>
+    </bean>
+
+    <bean id="ruleBaseCacheTest"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase">
+        <property name="cache" ref="cacheTest"/>
+    </bean>
+    
+    <bean id="cacheTest"
+        class="org.kuali.student.rules.ruleexecution.cache.MemoryLRUCache">
+        <constructor-arg type="int" value="2"/>
+    </bean>
+    
     <!--*****************************************-->
     <!--*          Web Service Clients          *-->
     <!--*****************************************-->
@@ -60,6 +77,7 @@
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
 	        <property name="enableRuleSetCaching" value="false" />
             <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
+            <property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
 	        <property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
             <property name="ruleManagementService" ref="ruleManagementClient"/>
             <property name="factFinderService" ref="factFinderClient"/>

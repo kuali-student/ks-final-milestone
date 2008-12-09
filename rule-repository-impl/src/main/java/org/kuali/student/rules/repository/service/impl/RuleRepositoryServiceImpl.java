@@ -18,8 +18,6 @@ package org.kuali.student.rules.repository.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.poc.common.ws.exceptions.AlreadyExistsException;
@@ -687,7 +685,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      */
     public RuleSetVerificationResultDTO validateBusinessRule(BusinessRuleInfoDTO businessRule) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
-
+		if (businessRule == null) {
+			throw new MissingParameterException("businessRule is null");
+		}
+		
     	try {
     		RuleSet ruleSet = this.ruleSetTranslator.translate(businessRule);
 	    	RuleSetVerificationResult result = ruleSetValidator.verify(ruleSet);
@@ -702,5 +703,35 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 			logger.error(e.getMessage(), e);
         	throw new OperationFailedException(e.getMessage());
         }
+    }
+
+    /**
+     * Translates a business rule into a rule set.
+     * The rule set content contains the vendor specific rule source code
+     * (e.g. Drools source code). 
+     * Rule set is not saved to the rule repository.
+     * 
+     * @param businessRule A Business rule
+     * @return A rule set
+     * @throws OperationFailedException Thrown if translating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    public RuleSetDTO translateBusinessRule(BusinessRuleInfoDTO businessRule) 
+		throws OperationFailedException, MissingParameterException, InvalidParameterException {
+		if (businessRule == null) {
+			throw new MissingParameterException("businessRule is null");
+		}
+		
+		try {
+			RuleSet ruleSet = this.ruleSetTranslator.translate(businessRule);
+			return ruleAdapter.getRuleSetDTO(ruleSet);
+		} catch(IllegalArgumentException e) {
+			logger.error(e.getMessage(), e);
+			throw new InvalidParameterException(e.getMessage());
+		} catch (RuleSetTranslatorException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+		}
     }
 }

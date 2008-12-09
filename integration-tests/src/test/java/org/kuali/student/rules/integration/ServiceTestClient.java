@@ -215,6 +215,7 @@ public class ServiceTestClient {
         reDTO.setRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
+        brInfoDTO.setBusinessRuleId("123");
         brInfoDTO.setName(ruleName);
         brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
@@ -270,13 +271,15 @@ public class ServiceTestClient {
     	System.out.println("*****  testFindBusinessRuleTypesFromTestBeans  *****");
 
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
+		Assert.assertNotNull(businessRuleIdList1);
 		System.out.println("Business Rule ID1: "+businessRuleIdList1);
 		List<String> businessRuleIdList2 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_CO_REQ");
+		Assert.assertNotNull(businessRuleIdList2);
 		System.out.println("Business Rule ID2: "+businessRuleIdList2);
     }
     
     @Test
-    public void testFindBusinessRuleTypesFromTestBeansAndExecute() throws Exception {
+    public void testFindBusinessRuleTypesFromTestBeansAndExecute_StaticFact() throws Exception {
     	System.out.println("*****  testFindBusinessRuleTypesFromTestBeansAndExecute  *****");
 
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
@@ -301,7 +304,8 @@ public class ServiceTestClient {
 //    		}
     		
     		ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
-	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+    		Assert.assertNotNull(executionResult);
+    		System.out.println("Execution result:        "+executionResult.getExecutionResult());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -352,6 +356,7 @@ public class ServiceTestClient {
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        
 	        // fetchDetailedBusinessRuleInfo fails 
@@ -361,11 +366,11 @@ public class ServiceTestClient {
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
+	        Assert.assertNotNull(ruleSet);
 	        System.out.println("RuleSet Name:           "+ruleSet.getName());
 	        System.out.println("RuleSet UUID:           "+ruleSet.getUUID());
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
-	        Assert.assertTrue(true);
     	} finally {
     		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -379,18 +384,22 @@ public class ServiceTestClient {
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        StatusDTO status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+	        Assert.assertNotNull(status);
 	        System.out.println("status:                 "+status);
 	
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+	        Assert.assertNotNull(businessRule);
 	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
 	        System.out.println("Business Rule Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
+	        Assert.assertNotNull(ruleSet);
 	        System.out.println("RuleSet Name:           "+ruleSet.getName());
 	        System.out.println("RuleSet UUID:           "+ruleSet.getUUID());
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
@@ -401,18 +410,20 @@ public class ServiceTestClient {
     }
 
     @Test
-    public void testCreateBusinessRuleAndExecute() throws Exception {
+    public void testCreateBusinessRuleAndExecute_StaticFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100");
 
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
-    		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Name:      "+businessRule2.getName());
+    		BusinessRuleInfoDTO businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
+	        Assert.assertNotNull(businessRule);
+	        System.out.println("Business Rule ID:        "+businessRule.getBusinessRuleId());
+	        System.out.println("Business Rule Name:      "+businessRule.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
+	        Assert.assertNotNull(executionResult);
 	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
@@ -428,6 +439,7 @@ public class ServiceTestClient {
     public void testFindFactTypes() throws Exception {
     	System.out.println("\n\n*****  testFindFactTypes  *****");
     	List<FactTypeInfoDTO> factTypes = factFinderService.findFactTypes();
+        Assert.assertNotNull(factTypes);
     	for(FactTypeInfoDTO factTypeInfo : factTypes) {
     		System.out.println("Fact type name:        "+factTypeInfo.getName());
     		System.out.println("Fact type description: "+factTypeInfo.getDescription());
@@ -448,6 +460,7 @@ public class ServiceTestClient {
         factStructureDTO.setParamValueMap(paramMap);
         
         FactResultDTO result = factFinderService.fetchFact(factTypeKey, factStructureDTO);
+        Assert.assertNotNull(result);
         
         Assert.assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
         Assert.assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
@@ -459,7 +472,7 @@ public class ServiceTestClient {
     }
 
     @Test
-    public void testCreateBusinessRuleAndExecute_DynamicFact() throws Exception {
+    public void testCreateAndExecuteBusinessRule_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
 
@@ -475,11 +488,13 @@ public class ServiceTestClient {
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+            Assert.assertNotNull(businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Name :     "+businessRule2.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure1);
+            Assert.assertNotNull(executionResult);
 	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
@@ -489,6 +504,47 @@ public class ServiceTestClient {
     	} finally {
     		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
+    }
+    
+    @Test
+    public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
+    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
+    	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
+
+        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, null);
+        Assert.assertNotNull(executionResult);
+
+        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+        System.out.println("Execution error message: "+executionResult.getErrorMessage());
+        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
+        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
+        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
+        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+    }
+    
+    @Test
+    public void testCreateAndExecuteBusinessruleTest_DynamicFact() throws Exception {
+    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
+    	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
+
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("factParam.studentId", "student1");
+
+        FactStructureDTO factStructure1 = new FactStructureDTO();
+        factStructure1.setFactStructureId("xxx");
+        factStructure1.setStaticFact(false);
+        factStructure1.setFactTypeKey("fact.completed_course_list");
+        factStructure1.setParamValueMap(paramMap);
+    	
+        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, factStructure1);
+        Assert.assertNotNull(executionResult);
+
+        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+        System.out.println("Execution error message: "+executionResult.getErrorMessage());
+        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
+        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
+        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
+        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     }
     
 }

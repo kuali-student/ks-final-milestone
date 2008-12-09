@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.ruleexecution.service.impl;
 
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import java.util.Map.Entry;
 
 import javax.jws.WebService;
 
+import org.drools.compiler.PackageBuilder;
+import org.drools.rule.Package;
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
@@ -64,6 +67,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     final static Logger logger = LoggerFactory.getLogger(RuleExecutionServiceImpl.class);
     
     private RuleSetExecutor ruleSetExecutor;
+
+    private RuleSetExecutor ruleSetExecutorTest;
     
     private RuleRepositoryService ruleRespositoryService;
 
@@ -73,7 +78,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     
     private boolean ruleSetCachingEnabled = true;
 
-    public void setEnableRuleSetCaching(boolean enableCaching) {
+    public void setEnableRuleSetCaching(final boolean enableCaching) {
     	this.ruleSetCachingEnabled = enableCaching;
     }
     
@@ -91,8 +96,17 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	 * 
 	 * @param ruleSetExecutor Rule execution engine
 	 */
-	public void setRuleSetExecutor(RuleSetExecutor ruleSetExecutor) {
+	public void setRuleSetExecutor(final RuleSetExecutor ruleSetExecutor) {
 		this.ruleSetExecutor = ruleSetExecutor;
+	}
+
+	/**
+     * Sets the rule execution engine used for testing.
+	 * 
+	 * @param ruleSetExecutor Rule execution engine
+	 */
+	public void setRuleSetExecutorTest(final RuleSetExecutor ruleSetExecutor) {
+		this.ruleSetExecutorTest = ruleSetExecutor;
 	}
 
 	/**
@@ -100,7 +114,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	 * 
 	 * @param ruleRespositoryService Rule repository service
 	 */
-	public void setRuleRespositoryService(RuleRepositoryService ruleRespositoryService) {
+	public void setRuleRespositoryService(final RuleRepositoryService ruleRespositoryService) {
 		this.ruleRespositoryService = ruleRespositoryService;
 	}
 
@@ -109,7 +123,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	 * 
 	 * @param ruleManagementService Rule management service
 	 */
-	public void setRuleManagementService(RuleManagementService ruleManagementService) {
+	public void setRuleManagementService(final RuleManagementService ruleManagementService) {
 		this.ruleManagementService = ruleManagementService;
 	}
 
@@ -118,7 +132,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	 * 
 	 * @param factFinderService Fact finder service
 	 */
-	public void setFactFinderService(FactFinderService factFinderService) {
+	public void setFactFinderService(final FactFinderService factFinderService) {
 		this.factFinderService = factFinderService;
 	}
 
@@ -282,30 +296,17 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	return factMap;
     }
     
-    /*private Map<String, Object> createExecutionFactMap(List<FactStructureDTO> factStructureList) 
-    	throws OperationFailedException, DoesNotExistException {
-    	Map<String, Object> factMap = new HashMap<String, Object>();
-
-    	if (factStructureList == null) {
-    		return factMap;
-    	}
-    	
-		for(FactStructureDTO factStructure : factStructureList) {
-			if (factStructure.isStaticFact()) {
-				continue;
-			}
-			String factTypeKey = factStructure.getFactTypeKey();
-			if (factTypeKey != null) {
-				FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, factStructure);
-		    	String factKey = FactUtil.createFactKey(factStructure);
-				factMap.put(factKey, factResult);
-			}
-		}
-    	
-    	return factMap;
-    }*/
-
-    public AgendaExecutionResultDTO executeAgenda(String agendaId, FactStructureDTO factStructure) 
+	/**
+     * Executes an <code>agenda</code> with <code>factStructure</code>.
+	 * 
+     * @param agenda Agenda to execute
+	 * @return Result of executing the agenda
+     * @throws DoesNotExistException Thrown if agenda does not exist
+     * @throws InvalidParameterException Thrown if agenda is invalid
+     * @throws MissingParameterException Thrown if agenda is null or has missing parameters
+     * @throws OperationFailedException Thrown if execution fails
+	 */
+    public AgendaExecutionResultDTO executeAgenda(final String agendaId, final FactStructureDTO factStructure) 
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
     {
     	if (agendaId == null) {
@@ -319,7 +320,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	try {
     		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
     			addRuleSet(businessRule);
-    			//Map<String, Object> map = createCriteriaMap(businessRule);
     			Map<String, Object> map = createFactMap(businessRule, factStructure);
     			factMap.putAll(map);
     		}
@@ -331,7 +331,19 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
     }
 
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure)
+    /**
+     * Executes a business rule by <code>businessRuleId</code> with a 
+     * <code>factStructure</code>.
+     * 
+     * @param businessRule A Business rule
+     * @param factStructure Fact structure for the business rule
+	 * @return Result of executing the business rule
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+     * @throws InvalidParameterException Thrown if business rule id is invalid
+     * @throws MissingParameterException Thrown if business rule id is null or empty
+     * @throws OperationFailedException Thrown if execution fails
+     */
+    public ExecutionResultDTO executeBusinessRule(final String businessRuleId, final FactStructureDTO factStructure)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
     	if (businessRuleId == null || businessRuleId.trim().isEmpty()) {
@@ -343,12 +355,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		addRuleSet(businessRule);
     	
 		Map<String, Object> factMap = createFactMap(businessRule, factStructure);
-		//Map<String, Object> criteriaFactMap = createCriteriaMap(businessRule);
-		//Map<String, Object> executionFactMap = createExecutionFactMap(null);
-
-		//Map<String, Object> factMap = new HashMap<String, Object>();
-    	//factMap.putAll(criteriaFactMap);
-    	//factMap.putAll(executionFactMap);
 		
         try {
         	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, factMap);
@@ -358,4 +364,59 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		throw new OperationFailedException(e.getMessage());
     	}
     }
+
+    /**
+     * Builds a Drools package from <code>source</code>
+     * 
+     * @param source Drools source code
+     * @return A Drools Package
+     * @throws Exception
+     */
+    private Package buildPackage(Reader source) throws Exception {
+        PackageBuilder builder = new PackageBuilder();
+        builder.addPackageFromDrl(source);
+        Package pkg = builder.getPackage();
+        return pkg;
+    }
+
+    /**
+     * <p>Executes a business rule with a <code>factStructure</code> to test that 
+     * it executes properly.<br/> 
+     * <code>factStructure</code> can be null for 
+     * static facts. </p>
+     * <p><b>Note:</b> The business rule is <b>not</b> stored in the rule repository 
+     * <b>nor</b> cached in rule execution memory.</p>
+     * 
+     *  
+     * @param businessRule Functional business rule
+     * @param factStructure Fact structure for the business rule
+	 * @return Result of executing the business rule
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     * @throws OperationFailedException Thrown if business rule translation or execution fails
+     */
+    public ExecutionResultDTO executeBusinessRuleTest(final BusinessRuleInfoDTO businessRule, final FactStructureDTO factStructure)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		if (businessRule == null) {
+			throw new MissingParameterException("businessRule is null");
+		}
+		
+		RuleSetDTO ruleSet = this.ruleRespositoryService.translateBusinessRule(businessRule);
+
+		Map<String, Object> factMap = createFactMap(businessRule, factStructure);
+		
+		try {
+        	this.ruleSetExecutorTest.addRuleSet(businessRule, ruleSet);
+        	ExecutionResult result = this.ruleSetExecutorTest.execute(businessRule, factMap);
+    		return createExecutionResultDTO(result);
+    	} catch(RuleSetExecutionException e) {
+    		logger.error(e.getMessage(), e);
+    		throw new OperationFailedException(e.getMessage());
+    	}
+    	finally {
+    		this.ruleSetExecutorTest.removeRuleSet(businessRule, ruleSet);
+    	}
+    }
+
 }

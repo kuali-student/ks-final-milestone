@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime.drools;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.drools.RuleBase;
 import org.drools.StatelessSession;
+import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
@@ -53,16 +56,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 	/** Class serial version uid */
     private static final long serialVersionUID = 1L;
 
-    private final static DroolsUtil droolsUtil = DroolsUtil.getInstance();
+    private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
     private SimpleExecutorDroolsImpl defaultExecutor = new SimpleExecutorDroolsImpl();
     
     private DroolsRuleBase ruleBaseCache;
 
     // Each rule base must have unique anchors
-    private final static ConcurrentMap<String,String> anchorMap = new ConcurrentHashMap<String,String>();
+    private final ConcurrentMap<String,String> anchorMap = new ConcurrentHashMap<String,String>();
 
-    private final static ConcurrentMap<String,BusinessRuleInfoValue> businessRuleMap = new ConcurrentHashMap<String,BusinessRuleInfoValue>();
+    private final ConcurrentMap<String,BusinessRuleInfoValue> businessRuleMap = new ConcurrentHashMap<String,BusinessRuleInfoValue>();
     
     private boolean logExecution = false;
 
@@ -70,7 +73,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     
     private LoggingStringBuilder executionLog = null;
     
-    private final static DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
+    private final DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
     
     /**
      * Constructs a new rule set executor without a repository.
@@ -99,7 +102,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @return Execution statistics
      */
     public DroolsExecutionStatistics getStatistics() {
-    	return executionStats;
+    	return this.executionStats;
     }
 
     /**
@@ -158,13 +161,38 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     }
 
     /**
+     * Builds a Drools package from <code>source</code>
+     * 
+     * @param source Drools source code
+     * @return A Drools Package
+     * @throws Exception
+     */
+    private Package buildPackage(Reader source) throws Exception {
+    	PackageBuilder builder = this.droolsUtil.createPackageBuilder();
+        builder.addPackageFromDrl(source);
+        Package pkg = builder.getPackage();
+        return pkg;
+    }
+
+    /**
      * Adds a Drools package to the Drools rule base.
      * 
      * @param ruleSet Rule set
      */
     private void addPackage(String ruleBaseType, RuleSetDTO ruleSet) {
-    	Package pkg = droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
-        if (!pkg.getName().equals(ruleSet.getName())){
+    	Package pkg = this.droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
+
+    	if(pkg == null) {
+    		logger.warn("RuleSet has not been compiled: ruleSet UUID="+ruleSet.getUUID());
+    		logger.warn("Compiling RuleSet: ruleSet UUID="+ruleSet.getUUID());
+    		try {
+				pkg = buildPackage(new StringReader(ruleSet.getContent()));
+            } catch(Exception e) {
+                throw new RuleSetExecutionException("Building Drools Package failed",e);
+            }            
+    	}
+    	
+    	if (!pkg.getName().equals(ruleSet.getName())){
         	throw new RuleSetExecutionException(
         			"Cannot add package to rule base. " +
         			"Drools compiled package name '" + pkg.getName() + 
@@ -202,16 +230,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     public void addRuleSet(BusinessRuleInfoDTO businessRule, RuleSetDTO ruleSet) {
     	String ruleBaseType = getRuleTypeKey(businessRule);
     	String anchorKey = getAnchorKey(businessRule);
-    	if(anchorMap.containsKey(anchorKey)) {
+    	if(this.anchorMap.containsKey(anchorKey)) {
     		throw new RuleSetExecutionException(
     				"Rule base already contains a business rule (id="+
     				businessRule.getBusinessRuleId() +
     				") with anchor value '" +businessRule.getAnchorValue() + "'");
     	}
     	addPackage(ruleBaseType, ruleSet);
-    	anchorMap.put(anchorKey, businessRule.getBusinessRuleId());
+    	this.anchorMap.put(anchorKey, businessRule.getBusinessRuleId());
     	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
-    	businessRuleMap.put(value.getKey(), value);
+    	this.businessRuleMap.put(value.getKey(), value);
     }
 
 	/**
@@ -224,19 +252,19 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	String ruleBaseType = businessRule.getBusinessRuleTypeKey();
     	String ruleSetName = ruleSet.getName();
     	String anchorKey = getAnchorKey(businessRule);
-    	anchorMap.remove(anchorKey);
-    	ruleBaseCache.removePackage(ruleBaseType, ruleSetName);
+    	this.anchorMap.remove(anchorKey);
+    	this.ruleBaseCache.removePackage(ruleBaseType, ruleSetName);
     	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
-    	businessRuleMap.remove(value.getKey());
+    	this.businessRuleMap.remove(value.getKey());
     }
 
     /**
      * Clears the rule set cache
      */
     public void clearRuleSetCache() {
-    	ruleBaseCache.clearRuleBase();
-    	anchorMap.clear();
-    	businessRuleMap.clear();
+    	this.ruleBaseCache.clearRuleBase();
+    	this.anchorMap.clear();
+    	this.businessRuleMap.clear();
     }
 
     /**
@@ -249,7 +277,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      */
     public boolean containsRuleSet(BusinessRuleInfoDTO businessRule) {
     	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
-    	return businessRuleMap.containsKey(value.getKey());
+    	return this.businessRuleMap.containsKey(value.getKey());
     }
 
     /**
@@ -367,7 +395,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         }
         
     	//if (logger.isInfoEnabled()) {
-    	//	droolsUtil().logStatistics(executionStats);
+    	//	droolsUtil().logStatistics(this.executionStats);
     	//}
         
         return result;
@@ -423,7 +451,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         }
         if(this.statLogging) {
         	statLogger = new DroolsWorkingMemoryStatisticsLogger(
-        			session, ruleBaseType, executionStats);
+        			session, ruleBaseType, this.executionStats);
         }
         
         List<Object> factList = assembleFacts(fact);
