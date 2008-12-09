@@ -56,17 +56,17 @@ public class FieldDescriptor implements java.io.Serializable{
     @XmlElement(required = true)
     protected String dataType;
     @XmlElement(required = false)
-    protected int minLength;
+    protected Integer minLength;
     @XmlElement(required = false)
-    protected int maxLength;
+    protected Integer maxLength;
     @XmlElement(required = false)
     protected String validChars;
     @XmlElement(required = false)
     protected String invalidChars;
     @XmlElement(required = false)
-    protected int minOccurs;
+    protected Integer minOccurs;
     @XmlElement(required = false)
-    protected int maxOccurs;
+    protected Integer maxOccurs;
     @XmlElement(required = false)
     protected String minValue;
     @XmlElement(required = false)
@@ -104,7 +104,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link Bigint }
      *     
      */
-    public int getMinLength() {
+    public Integer getMinLength() {
         return minLength;
     }
 
@@ -116,7 +116,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link int }
      *     
      */
-    public void setMinLength(int value) {
+    public void setMinLength(Integer value) {
         this.minLength = value;
     }
 
@@ -128,7 +128,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link int }
      *     
      */
-    public int getMaxLength() {
+    public Integer getMaxLength() {
         return maxLength;
     }
 
@@ -140,7 +140,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link int }
      *     
      */
-    public void setMaxLength(int value) {
+    public void setMaxLength(Integer value) {
         this.maxLength = value;
     }
 
@@ -200,7 +200,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link int }
      *     
      */
-    public int getMinOccurs() {
+    public Integer getMinOccurs() {
         return minOccurs;
     }
 
@@ -212,7 +212,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link int }
      *     
      */
-    public void setMinOccurs(int value) {
+    public void setMinOccurs(Integer value) {
         this.minOccurs = value;
     }
 
@@ -224,7 +224,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link Bigint }
      *     
      */
-    public int getMaxOccurs() {
+    public Integer getMaxOccurs() {
         return maxOccurs;
     }
 
@@ -236,7 +236,7 @@ public class FieldDescriptor implements java.io.Serializable{
      *     {@link int }
      *     
      */
-    public void setMaxOccurs(int value) {
+    public void setMaxOccurs(Integer value) {
         this.maxOccurs = value;
     }
 

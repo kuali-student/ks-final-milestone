@@ -54,7 +54,7 @@ public class DozerTest {
         assertEquals(dao.getExpirationDate(), dto.getExpirationDate());
         assertEquals(dao.getValue(), dto.getValue());
         assertEquals(dao.getCode(), dto.getCode());
-        assertEquals(dao.getSortKey(), dto.getSortKey());
+        assertEquals(dao.getSortKey(), dto.getSortKey().intValue());
         
         List<EnumeratedValueEntity> listDao = new ArrayList<EnumeratedValueEntity>();
         listDao.add(dao);
@@ -81,7 +81,7 @@ public class DozerTest {
             assertEquals(daoItem.getExpirationDate(), dtoItem.getExpirationDate());
             assertEquals(daoItem.getValue(), dtoItem.getValue());
             assertEquals(daoItem.getCode(), dtoItem.getCode());
-            assertEquals(daoItem.getSortKey(), dtoItem.getSortKey());
+            assertEquals(daoItem.getSortKey(), dtoItem.getSortKey().intValue());
         	i++;
         }
     }
@@ -113,7 +113,7 @@ public class DozerTest {
         assertEquals(dao.getExpirationDate(), dto.getExpirationDate());
         assertEquals(dao.getValue(), dto.getValue());
         assertEquals(dao.getCode(), dto.getCode());
-        assertEquals(dao.getSortKey(), dto.getSortKey());
+        assertEquals(dao.getSortKey(), dto.getSortKey().intValue());
         
         //context value check
         List<ContextEntity> contexts = dao.getContextEntityList();
@@ -148,7 +148,7 @@ public class DozerTest {
             assertEquals(daoItem.getExpirationDate(), dtoItem.getExpirationDate());
             assertEquals(daoItem.getValue(), dtoItem.getValue());
             assertEquals(daoItem.getCode(), dtoItem.getCode());
-            assertEquals(daoItem.getSortKey(), dtoItem.getSortKey());
+            assertEquals(daoItem.getSortKey(), dtoItem.getSortKey().intValue());
             contexts = daoItem.getContextEntityList();
             assertEquals(contexts.size(), 1);
             c = contexts.get(0);
@@ -269,12 +269,12 @@ public class DozerTest {
     	for(EnumeratedValueField field: fields){
     		fieldDao = dao.getEnumeratedValueFieldList().get(i);
     		assertEquals(fieldDao.getFieldKey(), field.getKey());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
+    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength().intValue());
+    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs());
-    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs());
+    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs().intValue());
+    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
@@ -323,12 +323,12 @@ public class DozerTest {
     	for(EnumeratedValueFieldEntity fieldDao: fields){
     		fieldDto = dto.getEnumeratedValueFields().getEnumeratedValueField().get(i);
     		assertEquals(fieldDao.getFieldKey(), fieldDto.getKey());
-    		assertEquals(fieldDao.getMaxLength(), fieldDto.getFieldDescriptor().getMaxLength());
-    		assertEquals(fieldDao.getMinLength(), fieldDto.getFieldDescriptor().getMinLength());
+    		assertEquals(fieldDao.getMaxLength(), fieldDto.getFieldDescriptor().getMaxLength().intValue());
+    		assertEquals(fieldDao.getMinLength(), fieldDto.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), fieldDto.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), fieldDto.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), fieldDto.getFieldDescriptor().getMaxOccurs());
-    		assertEquals(fieldDao.getMinOccurs(), fieldDto.getFieldDescriptor().getMinOccurs());
+    		assertEquals(fieldDao.getMaxOccurs(), fieldDto.getFieldDescriptor().getMaxOccurs().intValue());
+    		assertEquals(fieldDao.getMinOccurs(), fieldDto.getFieldDescriptor().getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), fieldDto.getFieldDescriptor().getDataType());
     		i++;
     	}

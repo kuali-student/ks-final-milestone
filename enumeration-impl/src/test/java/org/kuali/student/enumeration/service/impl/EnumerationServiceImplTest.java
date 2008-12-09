@@ -142,12 +142,12 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	for(EnumeratedValueField field: fields){
     		fieldDao = dao.getEnumeratedValueFieldList().get(i);
     		assertEquals(fieldDao.getFieldKey(), field.getKey());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
+    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength().intValue());
+    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs());
-    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs());
+    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs().intValue());
+    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
@@ -170,12 +170,12 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	for(EnumeratedValueField field: fields){
     		fieldDao = dao.getEnumeratedValueFieldList().get(i);
     		assertEquals(fieldDao.getFieldKey(), field.getKey());
-    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength());
-    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength());
+    		assertEquals(fieldDao.getMaxLength(), field.getFieldDescriptor().getMaxLength().intValue());
+    		assertEquals(fieldDao.getMinLength(), field.getFieldDescriptor().getMinLength().intValue());
     		assertEquals(fieldDao.getValidChars(), field.getFieldDescriptor().getValidChars());
     		assertEquals(fieldDao.getInvalidChars(), field.getFieldDescriptor().getInvalidChars());
-    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs());
-    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs());
+    		assertEquals(fieldDao.getMaxOccurs(), field.getFieldDescriptor().getMaxOccurs().intValue());
+    		assertEquals(fieldDao.getMinOccurs(), field.getFieldDescriptor().getMinOccurs().intValue());
     		assertEquals(fieldDao.getDataType(), field.getFieldDescriptor().getDataType());
     		i++;
     	}
@@ -273,7 +273,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getCode(), entity1.getCode());
         assertEquals(listItem.getEffectiveDate(), entity1.getEffectiveDate());
         assertEquals(listItem.getExpirationDate(), entity1.getExpirationDate());
-        assertEquals(listItem.getSortKey(), entity1.getSortKey());
+        assertEquals(listItem.getSortKey().intValue(), entity1.getSortKey());
         assertEquals(listItem.getValue(), entity1.getValue());
         int i =0;
         for(Context c: listItem.getContexts().getContext()){
@@ -289,7 +289,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getCode(), entity2.getCode());
         assertEquals(listItem.getEffectiveDate(), entity2.getEffectiveDate());
         assertEquals(listItem.getExpirationDate(), entity2.getExpirationDate());
-        assertEquals(listItem.getSortKey(), entity2.getSortKey());
+        assertEquals(listItem.getSortKey().intValue(), entity2.getSortKey());
         assertEquals(listItem.getValue(), entity2.getValue());
         i =0;
         for(Context c: listItem.getContexts().getContext()){

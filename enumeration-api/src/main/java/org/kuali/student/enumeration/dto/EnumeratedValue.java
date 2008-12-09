@@ -66,7 +66,7 @@ public class EnumeratedValue implements java.io.Serializable{
     @XmlElement(required = false)
     protected Date expirationDate;
     @XmlElement(required = false)
-    protected int sortKey;
+    protected Integer sortKey;
     @XmlElement(required = true)
     protected Contexts contexts;
 
@@ -198,7 +198,7 @@ public class EnumeratedValue implements java.io.Serializable{
      *     {@link BigInteger }
      *     
      */
-    public int getSortKey() {
+    public Integer getSortKey() {
         return sortKey;
     }
 
@@ -210,7 +210,7 @@ public class EnumeratedValue implements java.io.Serializable{
      *     {@link BigInteger }
      *     
      */
-    public void setSortKey(int value) {
+    public void setSortKey(Integer value) {
         this.sortKey = value;
     }
 
