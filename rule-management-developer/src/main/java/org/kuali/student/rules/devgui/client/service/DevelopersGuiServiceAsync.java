@@ -23,6 +23,8 @@ public interface DevelopersGuiServiceAsync {
 
 	public void fetchFactType(String factTypeKey, AsyncCallback<FactTypeInfoDTO> asyncCallback);
 	
+	public void fetchFactTypeList(List<String> factTypeKeys, AsyncCallback<List<FactTypeInfoDTO>> asyncCallback);
+	
     public void executeBusinessRule(String businessRuleId, FactStructureDTO factStructure, AsyncCallback<ExecutionResultDTO> callback);	
 	
     public void createBusinessRule(BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<String> callback);

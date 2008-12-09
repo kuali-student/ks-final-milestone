@@ -46,6 +46,8 @@ public interface DevelopersGuiService extends RemoteService {
     
     public FactTypeInfoDTO fetchFactType(String factTypeKey);
 
+    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys);
+    
     public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure);    
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);

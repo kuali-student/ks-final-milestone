@@ -28,13 +28,17 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
 
     private final DevelopersGuiService serviceImpl = (DevelopersGuiService) BeanFactory.getInstance().getBean("developersGuiService");
 
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure) {
-    	return serviceImpl.executeBusinessRule(businessRuleId, factStructure);
-    }
-    
     public FactTypeInfoDTO fetchFactType(String factTypeKey) {
     	return serviceImpl.fetchFactType(factTypeKey);
     }
+    
+    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys) {
+    	return serviceImpl.fetchFactTypeList(factTypeKeys);
+    }
+
+    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure) {
+    	return serviceImpl.executeBusinessRule(businessRuleId, factStructure);
+    }    
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
         return serviceImpl.createBusinessRule(businessRuleInfo);

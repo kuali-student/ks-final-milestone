@@ -46,6 +46,19 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return factTypeInfo;
     }
     
+    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys) {
+    	List<FactTypeInfoDTO> factTypeInfoList = new ArrayList<FactTypeInfoDTO>();
+    	
+		for (String factTypeKey : factTypeKeys) {
+			try {
+				factTypeInfoList.add(factFinderService.fetchFactType(factTypeKey));
+	        } catch (Exception ex) {
+	            throw new RuntimeException("Unable to fetch Fact Type using Fact Type Key: " + factTypeKey, ex); // TODO
+	        }
+    	}
+        return factTypeInfoList;
+    }
+    
     
     /******************************************************************************************************************
      * 
@@ -55,6 +68,8 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure) {
     	ExecutionResultDTO executionResult;
+    	
+    	System.out.println("EXECUTING: rule id: " + businessRuleId + ", factStructure: " + factStructure);
     	
         try {
             executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure);

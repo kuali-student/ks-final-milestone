@@ -6,6 +6,7 @@ package org.kuali.student.rules.devgui.client;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -437,7 +438,7 @@ public class GuiUtil {
         }
     }
 
-    public static String getYVFSymbol(String yvfTypeText) {
+    public static String getYVFSymbol(String yvfTypeText) {  //TODO: see static claass within YieldValueFunctionType; also for operators...
         for (YieldValueFunctionType yvf : YieldValueFunctionType.values()) {
             if (yvf.toString().equals(yvfTypeText)) {
                 return yvf.symbol();
@@ -445,27 +446,48 @@ public class GuiUtil {
         }
         return "";
     }
-
+    
     public enum YieldValueFunctionType {  //DODO  add other types
-        INTERSECTION("Intersection (arg1, arg2)"), SUM("Sum (arg)"), AVERAGE("Average (arg)");
+        INTERSECTION("Intersection (arg1, arg2)", "java.lang.String"), SUM("Sum (arg)", "java.math.BigDecimal"), AVERAGE("Average (arg)", "java.math.BigDecimal");
 
         private final String symbol;
+        private final String valueDataType;
 
-        YieldValueFunctionType(String symbol) {
+        YieldValueFunctionType(String symbol, String valueDataType) {
             this.symbol = symbol;
+            this.valueDataType = valueDataType;
         }
 
         public String symbol() {
             return symbol;
         }
+
+        public String valueDataType() {
+            return valueDataType;
+        }    
+        
+        public static final String fromSymbol(final String symbol) {
+        	for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {
+	        	if (t.symbol.equals(symbol)) {
+	        		return t.valueDataType;
+	        	}
+        	}
+        	throw new IllegalArgumentException("Unknown Enumeration symbol: " + symbol);  //TODO
+        }
     }
     
-    public static void addSpaceAfterWidget(Panel widget, String width) {
+    public static void addSpaceBesideWidget(Panel widget, String width) {
         final SimplePanel space = new SimplePanel();
         space.setWidth(width);
         widget.add(space);
     }
 
+    public static void addSpaceBelowWidget(Panel widget, String height) {
+        final SimplePanel space = new SimplePanel();
+        space.setHeight(height);
+        widget.add(space);
+    }    
+    
     public static VerticalPanel addLabelAndFieldVertically(String labelName, Widget field, String fieldWidth) {
         final VerticalPanel vp = new VerticalPanel();
         vp.setWidth("100%");
