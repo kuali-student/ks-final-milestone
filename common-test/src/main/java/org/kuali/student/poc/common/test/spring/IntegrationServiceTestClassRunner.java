@@ -41,6 +41,17 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 			logger.debug("contextPath="+this.contextPath);
 		}
 	}
+	
+	private void setProperties() {
+		if (System.getProperty("catalina.base") == null) {
+			System.setProperty("catalina.base", "./target");
+		}
+
+		SystemProperties systemProperties = this.testClass.getAnnotation(SystemProperties.class);
+		for(Property property : systemProperties.properties()) {
+			System.setProperty(property.key(), property.value());
+		}
+	}
 
 	@Override
 	public void run(RunNotifier notifier) {
@@ -51,11 +62,8 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 	
 	private void startServer() {
 		getAnnotations();
+		setProperties();
 		
-		if (System.getProperty("catalina.base") == null) {
-			System.setProperty("catalina.base", "./target");
-		}
-
 		this.server = new Server();
 		Connector connector = new SelectChannelConnector();
 		connector.setPort(this.port);
