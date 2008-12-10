@@ -39,10 +39,18 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 import org.kuali.student.poc.common.test.spring.AbstractIntegrationServiceTest;
 import org.kuali.student.poc.common.test.spring.IntegrationServer;
+import org.kuali.student.poc.common.test.spring.Property;
+import org.kuali.student.poc.common.test.spring.SystemProperties;
 
-@IntegrationServer(port=8080,warPath="../../../brms-ws/target/brms-ws-0.1.0-SNAPSHOT", contextPath="/brms-ws-0.1.0-SNAPSHOT")
+@IntegrationServer(port=9000,warPath="../../../brms-ws/target/brms-ws-0.1.0-SNAPSHOT", contextPath="/brms-ws-0.1.0-SNAPSHOT")
+@SystemProperties(properties={
+	@Property(key="ks.servicelocation.FactFinderService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/FactFinderService"),
+	@Property(key="ks.servicelocation.RuleManagementService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService"),
+	@Property(key="ks.servicelocation.RuleExecutionService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleExecutionService"),
+	@Property(key="ks.servicelocation.RuleRepositoryService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleRepositoryService")
+	})
 public class IntegrationTest extends AbstractIntegrationServiceTest {
-	private final static String HOST = "http://localhost:8080/brms-ws-0.1.0-SNAPSHOT";
+	private final static String HOST = "http://localhost:9000/brms-ws-0.1.0-SNAPSHOT";
 
 	private static String ruleManagementServiceURL = HOST+"/services/RuleManagementService";
     private static String ruleManagementNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement";
@@ -68,10 +76,10 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     private static RuleRepositoryService ruleRepositoryService;
     private static RuleExecutionService ruleExecutionService;
     private static FactFinderService factFinderService;
-    
+
 	@BeforeClass
 	public static void setUpOnce() throws Exception {
-    	ruleManagementService = (RuleManagementService) ServiceFactory.getPort(
+		ruleManagementService = (RuleManagementService) ServiceFactory.getPort(
     			ruleManagementServiceURL + "?wsdl", 
     			ruleManagementNamespace, 
     			ruleManagementServiceName, 
