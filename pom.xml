@@ -30,8 +30,8 @@
 		<module>rule-repository-impl</module>
 		<module>rule-execution-impl</module>
 		<module>fact-finder-impl</module>
-		<!--module>brms-ws</module-->
-        <!--module>integration-tests</module-->
+		<module>brms-ws</module>
+        <module>integration-tests</module>
 	</modules>
 	<build>
 		<plugins>
