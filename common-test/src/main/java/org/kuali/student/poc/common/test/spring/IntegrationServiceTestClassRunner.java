@@ -48,8 +48,10 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 		}
 
 		SystemProperties systemProperties = this.testClass.getAnnotation(SystemProperties.class);
-		for(Property property : systemProperties.properties()) {
-			System.setProperty(property.key(), property.value());
+		if (systemProperties != null) {
+			for(Property property : systemProperties.properties()) {
+				System.setProperty(property.key(), property.value());
+			}
 		}
 	}
 
