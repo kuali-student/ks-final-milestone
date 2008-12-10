@@ -184,6 +184,15 @@ public class GenerateRuleSetPerfTest {
         }
         return ruleBase;
     }
+    
+    private static RuleBase createRuleBase(String drl) throws Exception {
+        RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+        PackageBuilder builder = new PackageBuilder();
+        builder.addPackageFromDrl(new StringReader(drl));
+        Package pkg = builder.getPackage();
+        ruleBase.addPackage(pkg);
+        return ruleBase;
+    }
 
     private void executeStatefulSession(RuleBase ruleBase, FactContainer facts) throws Exception {
         StatefulSession session = null;
@@ -286,5 +295,35 @@ public class GenerateRuleSetPerfTest {
             assertTrue(prop.getRuleResult());
             System.gc();
         }
+    }
+    
+    @Test
+    public void testStatelessSession() throws Exception {
+    	StringBuilder sb = new StringBuilder();
+		sb.append("package org.kuali.Test \n");
+    	for(int i=0; i<10000; i++) {
+    		sb.append("\n");
+    		sb.append("rule \"Rule_" + i +"\" \n");
+			sb.append("    when \n");
+			sb.append("    then \n");
+			sb.append("        Thread.sleep(1); \n");
+			sb.append("end");
+    	}
+    			
+		long startTime1 = System.nanoTime();
+    	RuleBase ruleBase1 = createRuleBase(sb.toString());
+		long endTime1 = System.nanoTime();
+		double executionTime1 = (endTime1-startTime1)/1000000000d;
+		System.out.println("RuleBase Creation Time: "+executionTime1);
+
+    	for(int i=0; i<10; i++) {
+    		System.out.println("Creating session...");
+    		long startTime2 = System.nanoTime();
+    		StatelessSession session = ruleBase1.newStatelessSession();
+    		long endTime2 = System.nanoTime();
+    		double executionTime2 = (endTime2-startTime2)/1000000000d;
+    		System.out.println("Session Creation Time: "+executionTime2);
+    		//session.execute(new Object());
+    	}
     }
 }
