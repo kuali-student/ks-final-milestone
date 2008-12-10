@@ -1,5 +1,7 @@
 package org.kuali.student.poc.common.test.spring;
 
+import java.io.File;
+
 import org.junit.internal.runners.InitializationError;
 import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.runner.notification.RunNotifier;
@@ -27,7 +29,7 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 		testClass = klass;
 	}
 
-	private void getAnnotations() { //throws Exception {
+	private void getAnnotations() {
 		IntegrationServer warClient = this.testClass.getAnnotation(IntegrationServer.class);
 		this.port = warClient.port();
 		this.warPath = warClient.warPath();
@@ -46,7 +48,7 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 		super.run(notifier);
 		stopServer();
 	}
-
+	
 	private void startServer() {
 		getAnnotations();
 		
@@ -59,27 +61,33 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 		connector.setPort(this.port);
 		this.server.setConnectors(new Connector[] { connector });
 
-		// Below line Metro-only; may provide additional debugging info to console
-		//	      com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true;      
+		// Metro: Additional debugging info to console
+		// com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true;      
 
 		String root = IntegrationServiceTestClassRunner.class.getResource("/").getPath();
-		String webAppsPath = root + this.warPath;
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("WebApps Path="+webAppsPath);
-		}
-
-		WebAppContext webAppcontext = new WebAppContext();
-		webAppcontext.setParentLoaderPriority(true);
-		webAppcontext.setContextPath(this.contextPath); // e.g. /brms-ws-0.1.0-SNAPSHOT
-		webAppcontext.setWar(webAppsPath);
-		//webAppcontext.setTempDirectory(new File(root));
-
-		HandlerCollection handlers = new HandlerCollection();
-		handlers.setHandlers(new Handler[] { webAppcontext, new DefaultHandler() });
-		this.server.setHandler(handlers);
+		File webAppsPath = new File(root + this.warPath);
 
 		try {
+		    if(!webAppsPath.isDirectory()) {
+		    	throw new RuntimeException("Webapps directory does not exist. " +
+		    			"Webapps directory must be an exploded (war) directory: " + 
+		    			webAppsPath.getCanonicalPath());
+		    }
+					
+			if (logger.isDebugEnabled()) {
+				logger.debug("WebApps Path="+webAppsPath.getCanonicalPath());
+			}
+	
+			WebAppContext webAppcontext = new WebAppContext();
+			webAppcontext.setParentLoaderPriority(true);
+			webAppcontext.setContextPath(this.contextPath); // e.g. /brms-ws-0.1.0-SNAPSHOT
+			webAppcontext.setWar(webAppsPath.getCanonicalPath());
+			//webAppcontext.setTempDirectory(new File(root));
+	
+			HandlerCollection handlers = new HandlerCollection();
+			handlers.setHandlers(new Handler[] { webAppcontext, new DefaultHandler() });
+			this.server.setHandler(handlers);
+
 			this.server.start();
 		} catch (Exception e) {
 			throw new RuntimeException("Starting Jetty server failed", e);
