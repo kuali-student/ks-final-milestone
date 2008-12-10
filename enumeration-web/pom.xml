@@ -121,17 +121,21 @@
       <version>1.5.3</version>
     </dependency>		 	
 		<dependency>
-			<groupId>org.kuali.student</groupId>
-			<artifactId>enumeration-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<classifier>sources</classifier>
-		</dependency>
+<groupId>org.kuali.student</groupId>
+<artifactId>enumeration-api</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+</dependency>
+<dependency>
+<groupId>org.kuali.student</groupId>
+<artifactId>enumeration-api</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<classifier>sources</classifier>
+</dependency>
 		<dependency>
 			<groupId>org.kuali.student.poc.common</groupId>
 			<artifactId>common-ws</artifactId>
 			<version>0.0.3</version>
 		</dependency>
-	
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
