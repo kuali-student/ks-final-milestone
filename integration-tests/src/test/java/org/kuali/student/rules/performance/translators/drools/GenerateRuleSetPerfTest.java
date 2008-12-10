@@ -301,7 +301,8 @@ public class GenerateRuleSetPerfTest {
     public void testStatelessSession() throws Exception {
     	StringBuilder sb = new StringBuilder();
 		sb.append("package org.kuali.Test \n");
-    	for(int i=0; i<10000; i++) {
+    	// Create 1000 rules
+		for(int i=0; i<1000; i++) {
     		sb.append("\n");
     		sb.append("rule \"Rule_" + i +"\" \n");
 			sb.append("    when \n");
@@ -323,6 +324,7 @@ public class GenerateRuleSetPerfTest {
     		long endTime2 = System.nanoTime();
     		double executionTime2 = (endTime2-startTime2)/1000000000d;
     		System.out.println("Session Creation Time: "+executionTime2);
+    		assertTrue(executionTime2<0.01d);
     		//session.execute(new Object());
     	}
     }
