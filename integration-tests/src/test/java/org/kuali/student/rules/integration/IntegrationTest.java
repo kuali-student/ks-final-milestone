@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.rules.integration;
 
 import java.util.ArrayList;
@@ -42,13 +57,17 @@ import org.kuali.student.poc.common.test.spring.IntegrationServer;
 import org.kuali.student.poc.common.test.spring.Property;
 import org.kuali.student.poc.common.test.spring.SystemProperties;
 
-@IntegrationServer(port=9000,warPath="../../../brms-ws/target/brms-ws-0.1.0-SNAPSHOT", contextPath="/brms-ws-0.1.0-SNAPSHOT")
+// The following system properties are only needed if you want to specify a 
+// server port (port 9000) other than 8080 as defined in 
+// brms-ws/src/main/resources/application.properties, 
+// application-ruleexecution.properties and application-rulerepository.properties
+@IntegrationServer(port=9000, webappPath="../../../brms-ws/target/brms-ws-0.1.0-SNAPSHOT", contextPath="/brms-ws-0.1.0-SNAPSHOT")
 @SystemProperties(properties={
 	@Property(key="ks.servicelocation.FactFinderService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/FactFinderService"),
 	@Property(key="ks.servicelocation.RuleManagementService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService"),
 	@Property(key="ks.servicelocation.RuleExecutionService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleExecutionService"),
 	@Property(key="ks.servicelocation.RuleRepositoryService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleRepositoryService")
-	})
+})
 public class IntegrationTest extends AbstractIntegrationServiceTest {
 	private final static String HOST = "http://localhost:9000/brms-ws-0.1.0-SNAPSHOT";
 
