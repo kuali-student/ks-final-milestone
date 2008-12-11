@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.poc.common.test.spring;
 
 import java.io.File;
@@ -20,9 +35,9 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 
 	private Class<?> testClass;
 	private Server server;
-	private String warPath;
+	private String webAppPath;
 	private String contextPath;
-	private int port = 9000;
+	private int port = 9090;
 
 	public IntegrationServiceTestClassRunner(Class<?> klass) throws InitializationError {
 		super(klass);
@@ -30,14 +45,14 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 	}
 
 	private void getAnnotations() {
-		IntegrationServer warClient = this.testClass.getAnnotation(IntegrationServer.class);
-		this.port = warClient.port();
-		this.warPath = warClient.warPath();
-		this.contextPath = warClient.contextPath();
+		IntegrationServer webapp = this.testClass.getAnnotation(IntegrationServer.class);
+		this.port = webapp.port();
+		this.webAppPath = webapp.webappPath();
+		this.contextPath = webapp.contextPath();
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("port="+this.port);
-			logger.debug("warPath="+this.warPath);
+			logger.debug("webAppPath="+this.webAppPath);
 			logger.debug("contextPath="+this.contextPath);
 		}
 	}
@@ -75,7 +90,7 @@ public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 		// com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump=true;      
 
 		String root = IntegrationServiceTestClassRunner.class.getResource("/").getPath();
-		File webAppsPath = new File(root + this.warPath);
+		File webAppsPath = new File(root + this.webAppPath);
 
 		try {
 		    if(!webAppsPath.isDirectory()) {
