@@ -16,13 +16,18 @@ import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
 import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
 import org.kuali.student.enumeration.service.EnumerationService;
 import org.kuali.student.enumeration.service.impl.util.POJOConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.enumeration.service.EnumerationService", serviceName = "EnumerationService", portName = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
 @Transactional
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class EnumerationServiceImpl implements EnumerationService{
-    private EnumerationManagementDAO enumDAO;
+    
+	final static Logger logger = LoggerFactory.getLogger(EnumerationServiceImpl.class);
+	
+	private EnumerationManagementDAO enumDAO;
     
     public EnumerationManagementDAO getEnumDAO() {
         return enumDAO;
