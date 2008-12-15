@@ -95,7 +95,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 
     public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
     	try{
-	    	EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
+	    	//EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
 	        //boolean addOK = true;
 	        /*
 	        List<EnumeratedValueFieldEntity> fields = meta.getEnumeratedValueFieldList();
@@ -268,7 +268,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		try{
 			Query query = entityManager.createQuery(
-		            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+		            "select e from EnumeratedValueEntity e " +
 		            "where e.enumerationKey = :enumerationKey ");
 			 query.setParameter("enumerationKey", enumerationKey);
 			 list = (List<EnumeratedValueEntity>)query.getResultList();
@@ -285,7 +285,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 		List<EnumeratedValueEntity> list = new ArrayList<EnumeratedValueEntity>();
 		try{
 			Query query = entityManager.createQuery(
-		            "select e from EnumeratedValueEntity e JOIN e.contextEntityList c " +
+		            "select e from EnumeratedValueEntity e " +
 		            "where e.effectiveDate <= :contextDate and " +
 		            "(e.expirationDate is null or e.expirationDate >= :contextDate) and " +
 		            "e.enumerationKey = :enumerationKey ");

@@ -60,6 +60,17 @@ public class MockEnumeratedValueDTOs {
 	}
 	
 	/**
+	 * MockEnumeratedValueDTOs Constructor
+	 * @param initial index value
+	 * @param last index value
+	 */
+	public MockEnumeratedValueDTOs(String valueName) {
+		value = valueName;
+		mockContextDTOs = new MockContextDTOs();
+		enumeratedValues = createEnumeratedValues(0, 10);
+	}
+	
+	/**
 	 * @return the enumeratedValues
 	 */
 	public List<EnumeratedValue> getEnumeratedValues() {

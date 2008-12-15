@@ -10,6 +10,8 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl;
 import org.kuali.student.enumeration.dto.*;
+import org.kuali.student.enumeration.dto.mock.MockEnumeratedValueDTOs;
+import org.kuali.student.enumeration.dto.mock.TestDataGenerator;
 import org.kuali.student.enumeration.entity.ContextEntity;
 import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
 import org.kuali.student.enumeration.entity.EnumeratedValueFieldEntity;
@@ -472,5 +474,35 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 		EnumeratedValueList result = enumService.fetchEnumeration("Key4", "ContextA", "1", new Date(baseTime));
 		List<EnumeratedValue> list = result.getEnumeratedValue();
 		assertTrue(list.isEmpty());
+	}
+	
+	@Test
+	public void testAutoGenerate(){
+		long baseTime = System.currentTimeMillis();
+		enumService.setEnumDAO(enumerationManagementDAO);
+		MockEnumeratedValueDTOs dtos = new MockEnumeratedValueDTOs("Semester");
+		List<EnumeratedValue> values = dtos.getEnumeratedValues();
+		int i = 0;
+		for(EnumeratedValue value: values){
+				enumService.addEnumeratedValue("SemesterEnum", value);
+				i++;
+		}
+		assertEquals(values.size(), 10);
+		assertEquals(i, 10);
+		//TestDataGenerator.generate(enumService);
+		
+		EnumeratedValueList result = enumService.fetchEnumeration("SemesterEnum", null, null, null);
+		List<EnumeratedValue> list = result.getEnumeratedValue();
+		assertEquals(list.size(), 15);
+		for(EnumeratedValue e: list){
+			assertTrue(e.getValue().contains("Semester"));
+		}
+		
+		result = enumService.fetchEnumeration("CityEnum", null, null, null);
+		list = result.getEnumeratedValue();
+		assertEquals(list.size(), 11);
+		for(EnumeratedValue e: list){
+			assertTrue(e.getValue().contains("City"));
+		}
 	}
 }
