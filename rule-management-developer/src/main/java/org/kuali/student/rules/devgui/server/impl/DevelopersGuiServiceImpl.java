@@ -5,6 +5,7 @@ package org.kuali.student.rules.devgui.server.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -18,6 +19,7 @@ import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
@@ -66,15 +68,30 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *
      *******************************************************************************************************************/                  
 
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure) {
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts) {
     	ExecutionResultDTO executionResult;
+    	FactStructureDTO dynamicTestFacts = new FactStructureDTO();
     	
-    	System.out.println("EXECUTING: rule id: " + businessRuleId + ", factStructure: " + factStructure);
+    	System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", facts: " + facts);
+    	
+    	//populate all static and dynamic facts entered in the rule test tab
+        for (RuleElementDTO elem : businessRule.getRuleElementList()) {
+        	if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
+        	List<FactStructureDTO> factStructureList = elem.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+        	for (FactStructureDTO fact : factStructureList) {
+        		String testFactValue = facts.get(fact.getFactStructureId());
+        		if (fact.isStaticFact() && (testFactValue != null)) {
+        			fact.setStaticValue(testFactValue);        			
+        		} else {
+        			//dynamicTestFacts; TODO add to dynamic fact structure
+        		}
+        	}
+        }        	
     	
         try {
-            executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure);
+            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, null);  //TODO dynamic facts
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to execute rule ID: " + businessRuleId, ex); // TODO
+            throw new RuntimeException("Unable to execute rule ID: " + businessRule.getBusinessRuleId(), ex); // TODO
         }
         return executionResult;
     }     
@@ -312,6 +329,14 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     public final RuleManagementService getRuleManagementService() {
         return ruleManagementService;
     }
+    
+    /******************************************************************************************************************
+     * 
+     *                                                     VARIOUS 
+     *
+     *******************************************************************************************************************/        
+    
+
     
     
     /******************************************************************************************************************

@@ -4,6 +4,7 @@
 package org.kuali.student.rules.devgui.server.gwt;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.spring.BeanFactory;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
@@ -36,8 +37,8 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
     	return serviceImpl.fetchFactTypeList(factTypeKeys);
     }
 
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure) {
-    	return serviceImpl.executeBusinessRule(businessRuleId, factStructure);
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts) {
+    	return serviceImpl.executeBusinessRuleTest(businessRule, facts);
     }    
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {

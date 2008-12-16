@@ -20,6 +20,7 @@ import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
+import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
 import org.kuali.student.rules.devgui.client.GuiUtil.YieldValueFunctionType;
@@ -192,9 +193,9 @@ public class RulesComposite extends Composite {
 
     // Test Rule tab
     final VerticalPanel propositionsTestPanel = new VerticalPanel();
-    final Map<String, TextArea> factValueTest = new TreeMap<String, TextArea>();
-    final Map<String, Map> factValuesTest = new TreeMap<String, Map>();   
-    final List<Map> propFactsTest = new ArrayList<Map>(); 
+    final Map<String, TextArea> factWidgetValuesForTest = new TreeMap<String, TextArea>();
+    final Map<String, String> factValuesForTest = new HashMap<String, String>();
+    final List<TextArea> testFactsWidgets = new ArrayList<TextArea>();
     final Button testRuleButton = new Button("Test Rule");
     final TextArea testReport = new TextArea();
     final TextArea completeRuleTestTextArea = new TextArea();
@@ -229,6 +230,7 @@ public class RulesComposite extends Composite {
     private final String EMPTY_AGENDA_TYPE = "drafts";
     private final String EMPTY_LIST_BOX_ITEM = "        ";
     private final String USER_DEFINED_FACT_TYPE_KEY = "STATIC  FACT";
+    private static Integer factStructureTemporaryID = 1;
 
 
     @Override
@@ -705,7 +707,7 @@ public class RulesComposite extends Composite {
 				        	GuiUtil.showUserDialog("ERROR: Invalid rule composition.");
 				        	rulesFormTabs.selectTab(1);
 				        } else {				        
-				        	displayRuleFacts();
+				        	displayTestPageRuleFacts();
 				        }
 					}					
 				}
@@ -714,7 +716,17 @@ public class RulesComposite extends Composite {
             testRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
                 	System.out.println("Rule id: " + displayedRule.getBusinessRuleId());
-                    DevelopersGuiService.Util.getInstance().executeBusinessRule(displayedRule.getBusinessRuleId(), null, new AsyncCallback<ExecutionResultDTO>() {
+                	
+                	//first, retrieve all fact values from test tab, assuming empty fields means use current rule values
+                	for (TextArea widget : testFactsWidgets) {  
+                		if (widget.getText().trim().isEmpty() == false) {
+                			factValuesForTest.put(widget.getName(), widget.getText());
+                		}
+                    }
+                	
+                	//TODO - all dynamic facts have to be available
+                	
+                    DevelopersGuiService.Util.getInstance().executeBusinessRuleTest(displayedRule, factValuesForTest, new AsyncCallback<ExecutionResultDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -1703,8 +1715,11 @@ public class RulesComposite extends Composite {
         return propositionsFlexTable;
     }    
     
-    private void displayRuleFacts() {
+    private void displayTestPageRuleFacts() {
+    	
+    	FactStructureDTO factStructure = new FactStructureDTO();
         Label ruleCompositionTestLabel = new Label();
+        testFactsWidgets.clear();
         
         propositionsTestPanel.clear();
         propositionsTestPanel.setSpacing(2);
@@ -1761,14 +1776,17 @@ public class RulesComposite extends Composite {
         	propPanel.add(factFieldsPanel);
         	GuiUtil.addSpaceBelowWidget(factFieldsPanel, "10px");
         	
+        	//display each fact
             for (FactStructureDTO fact : factStructureList) {            	
             	TextArea factValue = new TextArea();
             	if (fact.isStaticFact()) {
             		factValue.setText(fact.getStaticValue());
-                	factValueTest.put(fact.getFactTypeKey(), factValue);   
+                	factValue.setName(fact.getFactStructureId());
+                	testFactsWidgets.add(factValue);
+                	//factWidgetValuesForTest.put(fact.getFactTypeKey(), factValue);   
                 	VerticalPanel staticFact = GuiUtil.addLabelAndFieldVertically(new Label(" "), new Label("STATIC FACT:"), "");
                 	factFieldsPanel.add(staticFact);
-                	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "5px");
+                	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "5px");                
                 	Widget staticValue = GuiUtil.addLabelAndFieldVertically(GuiUtil.removeFactTypeKeyPrefix(fact.getFactTypeKey()), factValue, "300px");
                 	factFieldsPanel.add(staticValue); 
                 	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "15px");
@@ -2544,7 +2562,7 @@ public class RulesComposite extends Composite {
         FactStructureDTO factStructure = new FactStructureDTO();
         factStructure.setAnchorFlag(false);
         factStructure.setCriteriaTypeInfo(null);
-        factStructure.setFactStructureId("");
+        factStructure.setFactStructureId(Integer.toString(factStructureTemporaryID++));  //java.util.UUID.randomUUID().toString()) or UUIDHelper.genStringUUID());
         factStructure.setFactTypeKey("");
         Map<String, String> map = new HashMap<String, String>();
         factStructure.setParamValueMap(map);

@@ -4,6 +4,7 @@
 package org.kuali.student.rules.devgui.client.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -25,7 +26,7 @@ public interface DevelopersGuiServiceAsync {
 	
 	public void fetchFactTypeList(List<String> factTypeKeys, AsyncCallback<List<FactTypeInfoDTO>> asyncCallback);
 	
-    public void executeBusinessRule(String businessRuleId, FactStructureDTO factStructure, AsyncCallback<ExecutionResultDTO> callback);	
+    public void executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts, AsyncCallback<ExecutionResultDTO> callback);	
 	
     public void createBusinessRule(BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<String> callback);
 

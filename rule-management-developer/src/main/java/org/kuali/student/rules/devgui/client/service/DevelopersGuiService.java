@@ -4,6 +4,7 @@
 package org.kuali.student.rules.devgui.client.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -48,7 +49,7 @@ public interface DevelopersGuiService extends RemoteService {
 
     public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys);
     
-    public ExecutionResultDTO executeBusinessRule(String businessRuleId, FactStructureDTO factStructure);    
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts);    
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
 
