@@ -7,12 +7,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 @Entity
+@Table(name="ContextEntity", uniqueConstraints={@UniqueConstraint(columnNames={"enumerated_value_id", "contextKey", "contextValue"})})
 public class ContextEntity {
     @Id
     String id;
@@ -21,8 +27,9 @@ public class ContextEntity {
     String contextKey;
     String contextValue;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
-    List<EnumeratedValueEntity> enumeratedValueEntityList =new ArrayList<EnumeratedValueEntity>();
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name="enumerated_value_id")
+    EnumeratedValueEntity enumeratedValueEntityList =new EnumeratedValueEntity();
     /**
      * AutoGenerate the id
      */
@@ -53,10 +60,11 @@ public class ContextEntity {
     public void setContextValue(String value) {
         this.contextValue = value;
     }
-    public List<EnumeratedValueEntity> getEnumeratedValueEntityList() {
+    
+    public EnumeratedValueEntity getEnumeratedValueEntity() {
         return enumeratedValueEntityList;
     }
-    public void setEnumeratedValueEntityList(List<EnumeratedValueEntity> enumeratedValueEntityList) {
+    public void setEnumeratedValueEntity(EnumeratedValueEntity enumeratedValueEntityList) {
         this.enumeratedValueEntityList = enumeratedValueEntityList;
     }
     

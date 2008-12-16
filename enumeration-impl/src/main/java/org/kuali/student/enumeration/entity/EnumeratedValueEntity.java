@@ -9,9 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 
@@ -32,7 +34,7 @@ public class EnumeratedValueEntity {
     int sortKey;
     
     //@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY,cascade={CascadeType.ALL})
     List<ContextEntity> contextEntityList =new ArrayList<ContextEntity>();
 
     /**

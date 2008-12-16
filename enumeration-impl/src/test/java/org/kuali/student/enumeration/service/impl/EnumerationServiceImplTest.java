@@ -71,19 +71,29 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity1.setContextKey("country");
         contextEntity1.setContextValue("US");
         
+        ContextEntity contextEntity3 = new ContextEntity();
+        contextEntity3.setContextKey("country");
+        contextEntity3.setContextValue("US");
+        
         ContextEntity contextEntity2 = new ContextEntity();
         contextEntity2.setContextKey("country");
         contextEntity2.setContextValue("CA");
         
+        ContextEntity contextEntity4 = new ContextEntity();
+        contextEntity4.setContextKey("country");
+        contextEntity4.setContextValue("CA");
+        
         entity1.getContextEntityList().add(contextEntity1);
-        entity2.getContextEntityList().add(contextEntity1);
-        contextEntity1.getEnumeratedValueEntityList().add(entity1);
-        contextEntity1.getEnumeratedValueEntityList().add(entity2);
+        contextEntity1.setEnumeratedValueEntity(entity1);
+        
+        entity2.getContextEntityList().add(contextEntity3);
+        contextEntity3.setEnumeratedValueEntity(entity2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        entity4.getContextEntityList().add(contextEntity2);
-        contextEntity2.getEnumeratedValueEntityList().add(entity3);
-        contextEntity2.getEnumeratedValueEntityList().add(entity4);
+        contextEntity2.setEnumeratedValueEntity(entity3);
+     
+        entity4.getContextEntityList().add(contextEntity4);
+        contextEntity4.setEnumeratedValueEntity(entity4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
@@ -227,19 +237,29 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         contextEntity1.setContextKey("country");
         contextEntity1.setContextValue("US");
         
+        ContextEntity contextEntity3 = new ContextEntity();
+        contextEntity3.setContextKey("country");
+        contextEntity3.setContextValue("US");
+        
         ContextEntity contextEntity2 = new ContextEntity();
         contextEntity2.setContextKey("country");
         contextEntity2.setContextValue("CA");
         
+        ContextEntity contextEntity4 = new ContextEntity();
+        contextEntity4.setContextKey("country");
+        contextEntity4.setContextValue("CA");
+        
         entity1.getContextEntityList().add(contextEntity1);
-        entity2.getContextEntityList().add(contextEntity1);
-        contextEntity1.getEnumeratedValueEntityList().add(entity1);
-        contextEntity1.getEnumeratedValueEntityList().add(entity2);
+        contextEntity1.setEnumeratedValueEntity(entity1);
+        
+        entity2.getContextEntityList().add(contextEntity3);
+        contextEntity3.setEnumeratedValueEntity(entity2);
         
         entity3.getContextEntityList().add(contextEntity2);
-        entity4.getContextEntityList().add(contextEntity2);
-        contextEntity2.getEnumeratedValueEntityList().add(entity3);
-        contextEntity2.getEnumeratedValueEntityList().add(entity4);
+        contextEntity2.setEnumeratedValueEntity(entity3);
+     
+        entity4.getContextEntityList().add(contextEntity4);
+        contextEntity4.setEnumeratedValueEntity(entity4);
         
         enumerationManagementDAO.addEnumeratedValue("Key1", entity1);
         enumerationManagementDAO.addEnumeratedValue("Key1", entity2);
