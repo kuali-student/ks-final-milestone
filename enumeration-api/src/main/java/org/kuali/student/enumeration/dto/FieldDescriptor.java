@@ -8,6 +8,9 @@
 
 package org.kuali.student.enumeration.dto;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -255,6 +258,20 @@ public class FieldDescriptor implements java.io.Serializable{
 	public void setMaxValue(String maxValue) {
 		this.maxValue = maxValue;
 	}
+	
+	public Map<String, Object> toMap(){
+    	Map<String, Object> fieldDescMap = new HashMap<String, Object>();
+    	fieldDescMap.put("maxOccurs", maxOccurs);
+    	fieldDescMap.put("maxValue", maxValue);
+    	fieldDescMap.put("maxLength", maxLength);
+    	fieldDescMap.put("minOccurs", minOccurs);
+    	fieldDescMap.put("minValue", minValue);
+    	fieldDescMap.put("minLength", minLength);
+    	fieldDescMap.put("validChars", validChars);
+    	fieldDescMap.put("invalidChars", invalidChars);
+    	fieldDescMap.put("dataType", dataType);
+    	return fieldDescMap;
+    }
 
     
     

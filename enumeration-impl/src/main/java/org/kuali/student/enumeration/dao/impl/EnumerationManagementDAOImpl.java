@@ -51,8 +51,7 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 	        entity = entityManager.find(EnumerationMetaEntity.class, entity.getId());
 		}
 	    catch(Exception e){
-	    	logger.error("addEnumerationMeta query failed.", e);
-			throw new EnumerationException("addEnumerationMeta query failed.", e);
+	    	throw new EnumerationException("addEnumerationMeta query failed.", e);
 	    }
         return entity;
     }
@@ -96,20 +95,8 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
 
     public EnumeratedValueEntity addEnumeratedValue(String enumerationKey, EnumeratedValueEntity value) {
     	try{
-    		ValidationResult result = new ValidationResult();
-	    	EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
-	    	if(meta != null){
-		        result = validateEnumeratedValue(meta, value);
-	    	}
-	        
-	        if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
-		        entityManager.persist(value);
-		        value.setEnumerationKey(enumerationKey);
-	        }
-	        else{
-	        	logger.error("addEnumeratedValue failed because the value failed to pass validation against its enumerationMeta - With Messages: " + result.getMessages());
-	        	throw new IllegalArgumentException("addEnumeratedValue failed because the value failed to pass validation against its enumerationMeta - With Messages: " + result.getMessages());
-	        }
+	        entityManager.persist(value);
+	        value.setEnumerationKey(enumerationKey);
     	}
         catch(Exception e){
         	logger.error("addEnumeratedValue query failed.", e);
@@ -117,37 +104,6 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         }
 
         return value;
-    }
-    
-    private ValidationResult validateEnumeratedValue(EnumerationMetaEntity meta, EnumeratedValueEntity value){
-    	
-    	ValidationResult result = new ValidationResult();
-    	List<EnumeratedValueFieldEntity> fields = meta.getEnumeratedValueFieldList();
-        for(EnumeratedValueFieldEntity field: fields){
-        	if(field.getFieldKey().equalsIgnoreCase("code")){
-        		result = Validator.validate(value.getCode(), field.toMap());
-        	}
-        	else if(field.getFieldKey().equalsIgnoreCase("abbrevValue")){
-        		result = Validator.validate(value.getAbbrevValue(), field.toMap());
-        	}
-        	else if(field.getFieldKey().equalsIgnoreCase("value")){
-        		result = Validator.validate(value.getValue(), field.toMap());
-        	}
-        	else if(field.getFieldKey().equalsIgnoreCase("effectiveDate")){
-        		result = Validator.validate(value.getEffectiveDate(), field.toMap());
-        	}
-        	else if(field.getFieldKey().equalsIgnoreCase("expirationDate")){
-        		result = Validator.validate(value.getExpirationDate(), field.toMap());
-        	}
-        	else if(field.getFieldKey().equalsIgnoreCase("sortKey")){
-        		result = Validator.validate(value.getSortKey(), field.toMap());
-        	}
-        	
-        	if(result.getErrorLevel() == ValidationResult.ErrorLevel.ERROR){
-        		break;
-        	}
-        }
-        return result;
     }
     
     
@@ -163,36 +119,25 @@ public class EnumerationManagementDAOImpl implements EnumerationManagementDAO {
         //query.executeUpdate();
     	EnumeratedValueEntity returnValue = null;
     	try{
-    		ValidationResult result = new ValidationResult();
-	    	EnumerationMetaEntity meta = this.fetchEnumerationMeta(enumerationKey);
-	    	if(meta != null){
-		        result = validateEnumeratedValue(meta, enumeratedValueEntity);
-	    	}
 	        
-	        if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
-		    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
-		        for(EnumeratedValueEntity e: list){
-		        	if(e.getCode().equals(code)){
-		        		e.setCode(enumeratedValueEntity.getCode());
-		        		e.setEffectiveDate(enumeratedValueEntity.getEffectiveDate());
-		        		e.setExpirationDate(enumeratedValueEntity.getExpirationDate());
-		        		e.setEnumerationKey(enumerationKey);
-		        		e.setSortKey(enumeratedValueEntity.getSortKey());
-		        		e.setValue(enumeratedValueEntity.getValue());
-		        		e.setAbbrevValue(enumeratedValueEntity.getAbbrevValue());
-		        		e.setContextEntityList(enumeratedValueEntity.getContextEntityList());
-		        		entityManager.merge(e);
-		        		returnValue = e;
-		        	}
-		        }
+	    	List<EnumeratedValueEntity> list = this.fetchEnumeration(enumerationKey);
+	        for(EnumeratedValueEntity e: list){
+	        	if(e.getCode().equals(code)){
+	        		e.setCode(enumeratedValueEntity.getCode());
+	        		e.setEffectiveDate(enumeratedValueEntity.getEffectiveDate());
+	        		e.setExpirationDate(enumeratedValueEntity.getExpirationDate());
+	        		e.setEnumerationKey(enumerationKey);
+	        		e.setSortKey(enumeratedValueEntity.getSortKey());
+	        		e.setValue(enumeratedValueEntity.getValue());
+	        		e.setAbbrevValue(enumeratedValueEntity.getAbbrevValue());
+	        		e.setContextEntityList(enumeratedValueEntity.getContextEntityList());
+	        		entityManager.merge(e);
+	        		returnValue = e;
+	        	}
 	        }
-	        else{
-	        	logger.error("updateEnumeratedValue failed because the value failed to pass validation against its enumerationMeta - With Messages: " + result.getMessages());
-	        	throw new IllegalArgumentException("updateEnumeratedValue failed because the value failed to pass validation against its enumerationMeta - With Messages: " + result.getMessages());
-	        }
+
     	}
         catch(Exception e){
-        	logger.error("updateEnumeratedValue query failed.", e);
 			throw new EnumerationException("updateEnumeratedValue query failed.", e);
         }
         

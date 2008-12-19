@@ -7,15 +7,20 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.enumeration.EnumerationException;
 import org.kuali.student.enumeration.dao.EnumerationManagementDAO;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.dto.EnumeratedValueField;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
 import org.kuali.student.enumeration.entity.EnumeratedValueEntity;
+import org.kuali.student.enumeration.entity.EnumeratedValueFieldEntity;
 import org.kuali.student.enumeration.entity.EnumerationMetaEntity;
 import org.kuali.student.enumeration.service.EnumerationService;
 import org.kuali.student.enumeration.service.impl.util.POJOConverter;
+import org.kuali.student.enumeration.validator.ValidationResult;
+import org.kuali.student.enumeration.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,14 +50,55 @@ public class EnumerationServiceImpl implements EnumerationService{
         metaList.setEnumerationMeta(listDTOEntity);
         
         return metaList;
-    }    
+    }
     
-    
+    private ValidationResult validateEnumeratedValue(EnumerationMeta meta, EnumeratedValue value){
+    	
+    	ValidationResult result = new ValidationResult();
+    	List<EnumeratedValueField> fields = meta.getEnumeratedValueFields().getEnumeratedValueField();
+        for(EnumeratedValueField field: fields){
+        	if(field.getKey().equalsIgnoreCase("code")){
+        		result = Validator.validate(value.getCode(), field.getFieldDescriptor().toMap());
+        	}
+        	else if(field.getKey().equalsIgnoreCase("abbrevValue")){
+        		result = Validator.validate(value.getAbbrevValue(), field.getFieldDescriptor().toMap());
+        	}
+        	else if(field.getKey().equalsIgnoreCase("value")){
+        		result = Validator.validate(value.getValue(), field.getFieldDescriptor().toMap());
+        	}
+        	else if(field.getKey().equalsIgnoreCase("effectiveDate")){
+        		result = Validator.validate(value.getEffectiveDate(), field.getFieldDescriptor().toMap());
+        	}
+        	else if(field.getKey().equalsIgnoreCase("expirationDate")){
+        		result = Validator.validate(value.getExpirationDate(), field.getFieldDescriptor().toMap());
+        	}
+        	else if(field.getKey().equalsIgnoreCase("sortKey")){
+        		result = Validator.validate(value.getSortKey(), field.getFieldDescriptor().toMap());
+        	}
+        	
+        	if(result.getErrorLevel() == ValidationResult.ErrorLevel.ERROR){
+        		break;
+        	}
+        }
+        return result;
+    }
+     
     public EnumeratedValue addEnumeratedValue(String enumerationKey, EnumeratedValue valueDTO) {
-        EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
-        POJOConverter.map(valueDTO, valueEntity);
-        enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
-        //return what was passed in?
+		ValidationResult result = new ValidationResult();
+    	EnumerationMeta meta = this.fetchEnumerationMeta(enumerationKey);
+    	if(meta != null){
+	        result = this.validateEnumeratedValue(meta, valueDTO);
+    	}
+    	
+    	if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
+    		EnumeratedValueEntity valueEntity = new EnumeratedValueEntity();
+        	POJOConverter.map(valueDTO, valueEntity);
+        	enumDAO.addEnumeratedValue(enumerationKey, valueEntity);
+    	}
+    	else{
+    		throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.getMessages());
+    	}
+
         return valueDTO;
     }
 
@@ -81,9 +127,11 @@ public class EnumerationServiceImpl implements EnumerationService{
     public EnumerationMeta fetchEnumerationMeta(String enumerationKey) {
         
         EnumerationMetaEntity enumerationMetaEntity = enumDAO.fetchEnumerationMeta(enumerationKey);
-        
-        EnumerationMeta enumerationMeta = new EnumerationMeta();  
-        POJOConverter.map(enumerationMetaEntity, enumerationMeta);
+        EnumerationMeta enumerationMeta = null;
+        if(enumerationMetaEntity != null){
+        	enumerationMeta = new EnumerationMeta();
+	        POJOConverter.map(enumerationMetaEntity, enumerationMeta);
+        }
         return enumerationMeta;
     }
 
@@ -95,12 +143,22 @@ public class EnumerationServiceImpl implements EnumerationService{
 
     public EnumeratedValue updateEnumeratedValue(String enumerationKey, String code, EnumeratedValue value) {
         
-        EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();
+		ValidationResult result = new ValidationResult();
+    	EnumerationMeta meta = this.fetchEnumerationMeta(enumerationKey);
+    	if(meta != null){
+	        result = this.validateEnumeratedValue(meta, value);
+    	}
+    	
+    	if(result.getErrorLevel() != ValidationResult.ErrorLevel.ERROR){
+		    EnumeratedValueEntity enumeratedValueEntity = new EnumeratedValueEntity();    
+		    POJOConverter.map(value, enumeratedValueEntity);
+		    enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
+		    POJOConverter.map(enumeratedValueEntity,value);
+    	}
+    	else{
+    		throw new EnumerationException("updateEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.getMessages());
+    	}
         
-        POJOConverter.map(value, enumeratedValueEntity);
-        enumeratedValueEntity =  enumDAO.updateEnumeratedValue(enumerationKey, code, enumeratedValueEntity);
-        
-        POJOConverter.map(enumeratedValueEntity,value);
         return value;
     }
 
