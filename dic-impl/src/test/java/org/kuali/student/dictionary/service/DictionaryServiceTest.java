@@ -3,10 +3,14 @@ package org.kuali.student.dictionary.service;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.dictionary.dto.*;
 import org.kuali.student.dictionary.dto.Enum;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.kuali.student.dictionary.validator.*;
 
 
 public class DictionaryServiceTest {
@@ -74,7 +78,7 @@ public class DictionaryServiceTest {
 						assertTrue("Wrong value for maxOccurs, expected value = 1", maxOccurs == 1);
 						
 						assertTrue("minLength in feildDescriptor is null", minLength != -1);
-						assertTrue("Wrong value for minLength, expected value = 36", minLength == 36);
+						assertTrue("Wrong value for minLength, expected value = 1", minLength == 1);
 						
 						assertTrue("maxLength in feildDescriptor is null", maxLength != -1);
 						assertTrue("Wrong value for maxLength, expected value = 36", maxLength == 36);
@@ -113,6 +117,42 @@ public class DictionaryServiceTest {
 				//System.out.println(contextValue);
 				//assertTrue("value in context is null", contextValue != null);
 				//assertTrue("value is an unexpected type" + contextValue, contextValue.equals("US") || contextValue.equals("CA"));
+			}
+		}
+	}
+	
+	@Test
+	public void testValidator(){
+		DictionaryServiceImpl impl = new DictionaryServiceImpl();
+		ObjectStructure objStruct = impl.fetchObjectStructure("cluInfo");
+		List<Type> types = objStruct.getType();
+		for(Type t: types){
+			if(t.getKey().equals("course")){
+				for(State s: t.getState()){
+					if(s.getKey().equals("proposed")){
+						for(Field f: s.getField()){
+							if(f.getKey().equals("cluId")){
+								Map<String, Object> m = f.getFieldDescriptor().toMap();
+								ValidationResult result = Validator.validate("A", m);
+								assertTrue("Did not pass validation", result.isOk());
+								result = Validator.validate("ABC123", m);
+								assertTrue("Did not pass validation.", result.isOk());
+								result = Validator.validate("ABC123ABC123ABC123ABC123ABC123ABC123", m);
+								assertTrue("Did not pass validation.", result.isOk());
+								result = Validator.validate("hurrrrr", m);
+								assertTrue("Validation error was expected, but passed validation.", result.isError());
+								result = Validator.validate("abc", m);
+								assertTrue("Validation error was expected, but passed validation.", result.isError());
+								result = Validator.validate("", m);
+								assertTrue("Validation error was expected, but passed validation.", result.isError());
+								result = Validator.validate("ABC123ABC123ABC123ABC123ABC123ABC1230", m);
+								assertTrue("Validation error was expected, but passed validation.", result.isError());
+							}
+						}
+						break;
+					}
+				}
+				break;
 			}
 		}
 	}
