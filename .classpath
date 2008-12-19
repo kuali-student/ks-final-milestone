@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="enumeration-services/src/main/resources"/>
-	<classpathentry kind="src" path="enumeration-services/src/test/java"/>
-	<classpathentry kind="src" path="enumeration-api/src/test/java"/>
-	<classpathentry kind="src" path="enumeration-services/src/test/resources"/>
-	<classpathentry kind="src" path="enumeration-impl/src/main/java"/>
-	<classpathentry kind="src" path="enumeration-impl/src/main/resources"/>
-	<classpathentry kind="src" path="enumeration-web/src/main/java"/>
-	<classpathentry kind="src" path="enumeration-api/src/main/java"/>
-	<classpathentry kind="src" path="enumeration-api/src/test/resources"/>
-	<classpathentry kind="src" path="enumeration-impl/src/test/resources"/>
-	<classpathentry kind="src" path="enumeration-web/src/test/resources"/>
-	<classpathentry kind="src" path="enumeration-impl/src/test/java"/>
-	<classpathentry kind="src" path="enumeration-web/src/main/resources"/>
-	<classpathentry kind="src" path="enumeration-web/src/test/java"/>
-	<classpathentry kind="src" path="enumeration-api/src/main/resources"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="src" output="dic-api/target/classes" path="dic-api/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-api/target/classes" path="dic-api/src/main/resources"/>
+	<classpathentry kind="src" output="dic-api/target/test-classes" path="dic-api/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-api/target/test-classes" path="dic-api/src/test/resources"/>
+	<classpathentry kind="src" output="dic-impl/target/classes" path="dic-impl/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-impl/target/classes" path="dic-impl/src/main/resources"/>
+	<classpathentry kind="src" output="dic-impl/target/test-classes" path="dic-impl/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-impl/target/test-classes" path="dic-impl/src/test/resources"/>	
+	<classpathentry kind="src" output="dic-services/target/test-classes" path="dic-services/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-services/target/test-classes" path="dic-services/src/test/resources"/>
+	<classpathentry kind="src" output="dic-web/target/classes" path="dic-web/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-web/target/classes" path="dic-web/src/main/resources"/>
+	<classpathentry kind="src" output="dic-web/target/test-classes" path="dic-web/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="dic-web/target/test-classes" path="dic-web/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
