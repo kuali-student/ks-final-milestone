@@ -12,7 +12,7 @@
   <!-- Specify the app entry point class.                   -->
   <entry-point class="org.kuali.student.enumeration.web.client.Main"/>
   
- <!--  <servlet class="org.kuali.student.enumeration.server.gwt.EnumerationGWTClientServiceImplGWT" path="/GuiService"/>  -->
+  <servlet class="org.kuali.student.enumeration.web.server.gwt.EnumerationGWTServiceImpl" path="/GuiService"/>
   <stylesheet src='Enumeration.css' />
   
 </module>
