@@ -15,6 +15,7 @@ import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDeterminationStructureDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
@@ -228,7 +229,7 @@ public interface RuleManagementService {
      * @throws PermissionDeniedException
      */
     @WebMethod
-    public String createBusinessRule(@WebParam(name = "businessRuleInfo")
+    public BusinessRuleInfoDTO createBusinessRule(@WebParam(name = "businessRuleInfo")
     BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -244,9 +245,9 @@ public interface RuleManagementService {
      * @throws PermissionDeniedException
      */
     @WebMethod
-    public StatusDTO updateBusinessRule(@WebParam(name = "businessRuleId")
+    public BusinessRuleInfoDTO updateBusinessRule(@WebParam(name = "businessRuleId")
     String businessRuleId, @WebParam(name = "businessRuleInfo")
-    BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Deletes a business rule record
@@ -263,4 +264,21 @@ public interface RuleManagementService {
     @WebMethod
     public StatusDTO deleteBusinessRule(@WebParam(name = "businessRuleId")
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * 
+     * This method creates a new version of an existing rule
+     * 
+     * @param businessRuleInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DependentObjectsExistException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    @WebMethod
+    public BusinessRuleInfoDTO createNewVersion(@WebParam(name = "businessRuleInfo")
+    BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;;
 }

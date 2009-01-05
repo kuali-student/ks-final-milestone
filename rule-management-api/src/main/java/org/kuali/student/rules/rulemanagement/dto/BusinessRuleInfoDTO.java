@@ -40,7 +40,10 @@ public class BusinessRuleInfoDTO implements Serializable{
     private String anchorTypeKey;
     
     @XmlElement
-    private String name;
+    private String origName;
+    
+    @XmlElement
+    private String displayName;
     
     @XmlElement
     private String description;
@@ -61,11 +64,11 @@ public class BusinessRuleInfoDTO implements Serializable{
     private String status;
     
     @XmlElement
-    private String compiledId;
+    private Long version;
     
     @XmlElement
-    private String repositorySnapshotName;
-    
+    private String compiledId;
+
     @XmlElement(name = "ruleElement")
     @XmlElementWrapper(name = "ruleElementList")
     private List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
@@ -138,20 +141,35 @@ public class BusinessRuleInfoDTO implements Serializable{
         this.anchorTypeKey = anchorTypeKey;
     }
 
-
     /**
-     * @return the name
+     * @return the origName
      */
-    public String getName() {
-        return name;
+    public String getOrigName() {
+        return origName;
     }
 
 
     /**
-     * @param name the name to set
+     * @param origName the origName to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setOrigName(String origName) {
+        this.origName = origName;
+    }
+
+
+    /**
+     * @return the displayName
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
+
+
+    /**
+     * @param displayName the displayName to set
+     */
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
 
@@ -282,6 +300,21 @@ public class BusinessRuleInfoDTO implements Serializable{
         this.metaInfo = metaInfo;
     }
 
+    /**
+     * @return the version
+     */
+    public Long getVersion() {
+        return version;
+    }
+
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
 
     /**
      * @return the compiledId
@@ -296,19 +329,5 @@ public class BusinessRuleInfoDTO implements Serializable{
      */
     public void setCompiledId(String compiledId) {
         this.compiledId = compiledId;
-    }
-
-    /**
-     * @return the repositorySnapshotName
-     */
-    public String getRepositorySnapshotName() {
-        return repositorySnapshotName;
-    }
-
-    /**
-     * @param repositorySnapshotName the repositorySnapshotName to set
-     */
-    public void setRepositorySnapshotName(String repositorySnapshotName) {
-        this.repositorySnapshotName = repositorySnapshotName;
-    }   
+    }  
 }

@@ -13,11 +13,11 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "updateBusinessRuleResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
+@XmlRootElement(name = "createNewVersionResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "updateBusinessRuleResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
+@XmlType(name = "createNewVersionResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 
-public class UpdateBusinessRuleResponse {
+public class CreateNewVersionResponse {
 
     @XmlElement(name = "return")
     private org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO _return;
