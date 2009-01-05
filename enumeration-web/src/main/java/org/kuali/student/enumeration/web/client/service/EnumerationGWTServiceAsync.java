@@ -9,7 +9,7 @@ import org.kuali.student.enumeration.dto.EnumerationMetaList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface EnumerationGWTClientServiceAsync{
+public interface EnumerationGWTServiceAsync{
     public void fetchEnumerationMetas(AsyncCallback<EnumerationMetaList> callback);
     
     public void fetchEnumeration(String enumerationKey,String enumContextKey,String contextValue,Date contextDate,AsyncCallback<EnumeratedValueList> callback );

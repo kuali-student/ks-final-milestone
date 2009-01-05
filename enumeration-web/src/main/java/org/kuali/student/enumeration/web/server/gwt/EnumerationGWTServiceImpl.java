@@ -5,12 +5,12 @@ import java.util.Date;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
-import org.kuali.student.enumeration.web.client.service.EnumerationGWTClientService;
+import org.kuali.student.enumeration.web.client.service.EnumerationGWTService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class EnumerationGWTClientServiceImplGWT extends RemoteServiceServlet implements EnumerationGWTClientService {
-    private EnumerationGWTClientService serviceImpl;// = (EnumerationGWTClientService) BeanFactory.getInstance().getBean("developersGuiService");
+public class EnumerationGWTServiceImpl extends RemoteServiceServlet implements EnumerationGWTService {
+    private EnumerationGWTService serviceImpl;// = (EnumerationGWTService) BeanFactory.getInstance().getBean("developersGuiService");
 
     public EnumerationMetaList fetchEnumerationMetas() {
         return serviceImpl.fetchEnumerationMetas();
@@ -34,7 +34,7 @@ public class EnumerationGWTClientServiceImplGWT extends RemoteServiceServlet imp
     /**
      * @return the serviceImpl
      */
-    public EnumerationGWTClientService getServiceImpl() {
+    public EnumerationGWTService getServiceImpl() {
         return serviceImpl;
     }
 
@@ -42,7 +42,7 @@ public class EnumerationGWTClientServiceImplGWT extends RemoteServiceServlet imp
      * @param serviceImpl
      *            the serviceImpl to set
      */
-    public void setServiceImpl(EnumerationGWTClientService serviceImpl) {
+    public void setServiceImpl(EnumerationGWTService serviceImpl) {
        this.serviceImpl = serviceImpl;
     }
 

@@ -10,7 +10,7 @@
 		location="classpath:application.properties" />
 
 	<bean id="enumerationGWTClientService"		
-		class="org.kuali.student.enumeration.web.server.impl.EnumerationGWTClientServiceImpl">
+		class="org.kuali.student.enumeration.web.server.impl.EnumerationGWTServiceImpl">
 		<property name="enumerationService" ref="enumerationClient" />	
 		</bean>
 
@@ -27,7 +27,7 @@
     </bean>
 	
 	
-	<!-- Spring to GWT servlet mapping -->
+	<!-- Spring to GWT servlet mapping 
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="urlMap">
 			<map>
@@ -46,12 +46,12 @@
 	</bean>	
 	
 	<bean id="enumerationClientService"
-		class="org.kuali.student.enumeration.web.server.gwt.EnumerationGWTClientServiceImplGWT">
+		class="org.kuali.student.enumeration.web.server.gwt.EnumerationGWTServiceImpl">
 		<property name="serviceImpl">
 			<bean
 			      class="org.kuali.student.enumeration.web.server.impl.EnumerationGWTClientServiceImpl">
 			    <property name="enumerationService" ref="enumerationClient" />
 			</bean>
 		</property>
-	</bean>	
+	</bean>	-->
 </beans>

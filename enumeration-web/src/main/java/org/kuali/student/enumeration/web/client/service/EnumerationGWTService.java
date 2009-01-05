@@ -14,7 +14,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-public interface EnumerationGWTClientService extends RemoteService{
+public interface EnumerationGWTService extends RemoteService{
     /**
      * URI for the service servlet.
      */
@@ -24,8 +24,8 @@ public interface EnumerationGWTClientService extends RemoteService{
      * Utility class used to create instance of the asynchronous service interface.
      */
     public static class Util {
-        public static EnumerationGWTClientServiceAsync getInstance() {
-            EnumerationGWTClientServiceAsync instance = (EnumerationGWTClientServiceAsync) GWT.create(EnumerationGWTClientService.class);
+        public static EnumerationGWTServiceAsync getInstance() {
+            EnumerationGWTServiceAsync instance = (EnumerationGWTServiceAsync) GWT.create(EnumerationGWTService.class);
             ServiceDefTarget target = (ServiceDefTarget) instance;
             target.setServiceEntryPoint(GWT.getModuleBaseURL() + SERVICE_URI);
             return instance;

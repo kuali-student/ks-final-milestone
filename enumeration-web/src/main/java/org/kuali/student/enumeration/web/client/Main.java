@@ -3,7 +3,7 @@ package org.kuali.student.enumeration.web.client;
 
 import org.kuali.student.enumeration.dto.EnumerationMeta;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
-import org.kuali.student.enumeration.web.client.service.EnumerationGWTClientService;
+import org.kuali.student.enumeration.web.client.service.EnumerationGWTService;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,7 +17,7 @@ public class Main implements EntryPoint {
     public void onModuleLoad() {
         
         
-        EnumerationGWTClientService.Util.getInstance().fetchEnumerationMetas(new AsyncCallback<EnumerationMetaList>() {
+        EnumerationGWTService.Util.getInstance().fetchEnumerationMetas(new AsyncCallback<EnumerationMetaList>() {
             public void onFailure(Throwable caught) {
                 throw new RuntimeException("Unable to load enum meta  objects", caught);
             }
