@@ -77,10 +77,13 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     	//populate all static and dynamic facts entered in the rule test tab
         for (RuleElementDTO elem : businessRule.getRuleElementList()) {
         	if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
+            System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", element: " + elem.getName());        	
         	List<FactStructureDTO> factStructureList = elem.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
         	for (FactStructureDTO fact : factStructureList) {
         		String testFactValue = facts.get(fact.getFactStructureId());
+                System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", fact: " + fact.getFactStructureId() + ", value: '" + testFactValue + "'");
         		if (fact.isStaticFact() && (testFactValue != null)) {
+        		    System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", added static fact: " + testFactValue);
         			fact.setStaticValue(testFactValue);        			
         		} else {
         			//dynamicTestFacts; TODO add to dynamic fact structure

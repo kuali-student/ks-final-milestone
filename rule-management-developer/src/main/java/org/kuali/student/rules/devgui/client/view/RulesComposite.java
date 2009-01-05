@@ -700,7 +700,12 @@ public class RulesComposite extends Composite {
 					//show rule facts for test tab
 					if (tabIndex == 3) { //TODO hard coded number
 				        // update DTO of the currently edited proposition
-				    	updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex());
+				    	//updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex());
+				    	
+	                    // 1) update the displayed rule copy with data entered
+	                    if (updateCopyOfDisplayedRule() == false) {
+	                        return;
+	                    }				    	
 				    	
 				    	//now validate each proposition
 				        if (validateRuleComposition() == false) {
@@ -723,6 +728,7 @@ public class RulesComposite extends Composite {
                 	for (TextArea widget : testStaticFactsWidgets) {  
                 		if (widget.getText().trim().isEmpty() == false) {
                 			staticFactValuesForTest.put(widget.getName(), widget.getText());
+                			System.out.println("Adding :" + widget.getName() + " with value " + widget.getText());
                 		}
                     }
                 	
@@ -1106,7 +1112,7 @@ public class RulesComposite extends Composite {
     	}
     	
     	String yvfType = yvf.getYieldValueFunctionType();
-    	System.out.println("YVF Type: " + yvfType);
+    	//System.out.println("YVF Type: " + yvfType);
         if ((yvfType.equals(EMPTY_LIST_BOX_ITEM)) || (yvfType.trim().isEmpty())) {
         	GuiUtil.showUserDialog("ERROR: YVF cannot be empty.");
             return false;
@@ -1133,7 +1139,7 @@ public class RulesComposite extends Composite {
     	}
     	
         FactStructureDTO firstFact = factStructureList.get(0);
-        System.out.println("key " + firstFact.getFactTypeKey().trim());
+        //System.out.println("key " + firstFact.getFactTypeKey().trim());
         if ((firstFact == null) || (firstFact.getFactTypeKey().trim().isEmpty()) || (firstFact.getFactTypeKey().trim().equals(EMPTY_LIST_BOX_ITEM))) {
         	GuiUtil.showUserDialog("ERROR: Missing 1st Fact Type.");
             return false;        	
@@ -1155,8 +1161,8 @@ public class RulesComposite extends Composite {
         }
         
         //if YVF is INTERSECTION, check on the second Fact parameters
-        System.out.println("SYMBOL: " + YieldValueFunctionType.INTERSECTION.symbol());
-        System.out.println("NAME: " + YieldValueFunctionType.INTERSECTION.name());
+        //System.out.println("SYMBOL: " + YieldValueFunctionType.INTERSECTION.symbol());
+        //System.out.println("NAME: " + YieldValueFunctionType.INTERSECTION.name());
         if (yvfType.equals(YieldValueFunctionType.INTERSECTION.name())) { 
             //1. Fact Type cannot be empty
             if (factStructureList.size() == 0) {
@@ -2231,6 +2237,7 @@ public class RulesComposite extends Composite {
         System.out.println("======================================================");
         if (firstFact.isStaticFact()) {
         	//TODO Debug logging  here and elsewhere: 
+            System.out.println("Static fact id: " + firstFact.getFactStructureId()); 
         	System.out.println("Static fact value data type: " + firstFact.getStaticValueDataType());  //TODO use somehow
         	System.out.println("Static fact type key: " + firstFact.getFactTypeKey());
         	System.out.println("Static fact VALUE: " + firstFact.getStaticValue()); 
@@ -2291,7 +2298,7 @@ public class RulesComposite extends Composite {
         //3. set fact type list boxes and their values              
     	setYVFFactFields(GuiUtil.getYVFSymbol(yvfType), firstFact.isStaticFact(), (secondFact == null ? false : secondFact.isStaticFact()));
     	               
-    	//load a new fact type key list if it is missing (because of new business rule
+    	//load a new fact type key list if it is missing (because of new business rule)
     	retrieveFactTypes();
     	
     	System.out.println("factTypeKeyList loaded...");
@@ -2511,7 +2518,7 @@ public class RulesComposite extends Composite {
         
         int origPropKey = new Integer(propositionsListBox.getValue(selectedPropListIx));    	
         
-    	System.out.println("--> UPDATE prop with key: " + origPropKey + ", ix: " + selectedPropListIx);        
+    	//System.out.println("--> UPDATE prop with key: " + origPropKey + ", ix: " + selectedPropListIx);        
         
         RulePropositionDTO selectedRuleElement = definedPropositions.get(origPropKey);
         if (selectedRuleElement == null) {
