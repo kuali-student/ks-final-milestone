@@ -94,12 +94,13 @@
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000001" />
-		<property name="ruleId" value="1" />
-		<property name="name" value="Intermediate CPR" />
+		<property name="origName" value="Intermediate CPR" />
+		<property name="displayName" value="Rule for Intermediate CPR" />
 		<property name="description"
 			value="enrollment co-requisites for Intermediate CPR 201" />
 		<property name="successMessage" value="Rule 1 Success Message" />
 		<property name="failureMessage" value="Rule 1 Failure Message" />
+		<property name="compiledId" value="" />		
 		<property name="anchor" value="CPR 201" />
 		<property name="businessRuleType" ref="businessRuleType2" />
 		<property name="metaData" ref="ruleMetaData" />
@@ -151,7 +152,7 @@
 		<property name="updateDate" ref="currentTime" />
 		<property name="effectiveDateStart" ref="startTime" />
 		<property name="effectiveDateEnd" ref="endTime" />
-		<property name="version" value="1.0" />
+		<property name="version" value="1" />
 		<property name="status" value="DRAFT_IN_PROGRESS" />
 	</bean>
 
@@ -293,12 +294,13 @@
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000011" />
-		<property name="ruleId" value="2" />
-		<property name="name" value="Freshmen Math" />
+		<property name="origName" value="Freshmen Math" />
+		<property name="displayName" value="Rule for Freshmen Math" />
 		<property name="description"
 			value="enrollment pre-requisites for Freshman Math 101" />
 		<property name="successMessage" value="Rule 2 Success Message" />
 		<property name="failureMessage" value="Rule 2 Failure Message" />
+		<property name="compiledId" value="" />
 		<property name="anchor" value="MATH 101" />
 		<property name="businessRuleType" ref="businessRuleType1" />
 		<property name="metaData" ref="ruleMetaData" />
@@ -470,12 +472,13 @@
 		class="org.kuali.student.rules.rulemanagement.entity.BusinessRule">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000032" />
-		<property name="ruleId" value="3" />
-		<property name="name" value="Cognitive Psychology Pre Req" />
+		<property name="origName" value="Cognitive Psychology Pre Req" />
+		<property name="displayName" value="Cognitive Psychology Pre Req" />
 		<property name="description"
 			value="enrollment pre-requisites for Cognitive Psychology PSYC 300" />
 		<property name="successMessage" value="PSYC 300 pre requirements passed." />
 		<property name="failureMessage" value="PSYC 300 pre requirements failed." />
+		<property name="compiledId" value="" />
 		<property name="anchor" value="PSYC 300" />
 		<property name="businessRuleType" ref="businessRuleType1" />
 		<property name="metaData" ref="ruleMetaData" />
