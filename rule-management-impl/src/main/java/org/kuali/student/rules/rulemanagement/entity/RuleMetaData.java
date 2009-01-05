@@ -45,7 +45,7 @@ public class RuleMetaData {
     @Temporal(TemporalType.TIMESTAMP)
     Date effectiveDateEnd;
 
-    String version;
+    Long version;
     String status;
 
     /**
@@ -141,7 +141,7 @@ public class RuleMetaData {
     /**
      * @return the version
      */
-    public final String getVersion() {
+    public final Long getVersion() {
         return version;
     }
 
@@ -149,7 +149,7 @@ public class RuleMetaData {
      * @param version
      *            the version to set
      */
-    public final void setVersion(String version) {
+    public final void setVersion(Long version) {
         this.version = version;
     }
 

@@ -36,7 +36,8 @@ import org.kuali.student.rules.internal.common.entity.AgendaType;
  */
 @Entity
 @Table(name = "AgendaInfo_T")
-@NamedQueries({@NamedQuery(name = "AgendaInfo.findBusinessRuleTypes", query = "SELECT a.businessRuleTypes FROM AgendaInfo a WHERE a.type = :agendaType "), 
+@NamedQueries({@NamedQuery(name = "AgendaInfo.findBusinessRuleTypes", query = "SELECT a.businessRuleTypes FROM AgendaInfo a WHERE a.type = :agendaType "),
+              @NamedQuery(name = "AgendaInfo.findByAgendaType", query = "SELECT a FROM AgendaInfo a WHERE a.type = :agendaType "),
               @NamedQuery(name = "AgendaInfo.findUniqueAgendaTypes", query = "SELECT DISTINCT a.type FROM AgendaInfo a ORDER BY a.type ASC")})
 public class AgendaInfo {
     @Id
@@ -58,7 +59,7 @@ public class AgendaInfo {
      */
     @PrePersist
     public void prePersist() {
-        this.id = UUIDHelper.genStringUUID();
+        this.id = UUIDHelper.genStringUUID(this.id);
     }
     
     /**

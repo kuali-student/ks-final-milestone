@@ -146,15 +146,6 @@ public interface RuleManagementDAO {
     public BusinessRule lookupBusinessRuleUsingId(String id);
 
     /**
-     * Finds BusinessRule in database.
-     * 
-     * @param ruleIdentifier
-     *            ID of a business rule to locate in database.
-     * @return found functional business rule or null if element not found.
-     */
-    public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier);
-
-    /**
      * Finds one or more BusinessRule in database based on given parameters.
      * 
      * @param businessRuleTypeKey

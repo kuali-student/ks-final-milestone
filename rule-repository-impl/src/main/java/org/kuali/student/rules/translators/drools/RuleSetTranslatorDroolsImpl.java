@@ -105,11 +105,11 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      * @return Rule set name
      */
     public static String getRuleSetName(BusinessRuleInfoDTO businessRule) {
-    	String businessRuleName = removeInvalidCharacters(businessRule.getName());
+    	String businessRuleName = removeInvalidCharacters(businessRule.getOrigName());
     	if(!isValidRuleName(businessRuleName)) {
     		throw new RuleSetTranslatorException("Invalid rule name. " +
     				"Rule name must must start with a letter. Original rule name: '" + 
-    				businessRule.getName() + "'. Adjusted rule name: '" + businessRuleName + "'");
+    				businessRule.getOrigName() + "'. Adjusted rule name: '" + businessRuleName + "'");
     	}
     	String businessRuleTypeKey = removeInvalidCharacters(businessRule.getBusinessRuleTypeKey());
     	if(!isValidRuleName(businessRuleTypeKey)) {
@@ -134,7 +134,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         checkBusinessRule(businessRule);
         
         String anchor = businessRule.getAnchorValue();
-        String ruleName = removeInvalidCharacters(businessRule.getName());
+        String ruleName = removeInvalidCharacters(businessRule.getOrigName());
         String ruleDescription = businessRule.getDescription();
         String functionString = BusinessRuleUtil.createAdjustedRuleFunctionString(businessRule);
         Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);

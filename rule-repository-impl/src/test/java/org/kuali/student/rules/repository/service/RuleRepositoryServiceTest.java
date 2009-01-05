@@ -440,7 +440,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     		String anchorValue, List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
     	//bri.setName("MyNewBusinessRule");
-    	bri.setName(ruleName);
+    	bri.setOrigName(ruleName);
     	bri.setDescription("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");

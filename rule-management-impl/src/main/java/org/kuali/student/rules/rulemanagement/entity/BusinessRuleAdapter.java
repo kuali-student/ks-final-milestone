@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
@@ -59,7 +60,7 @@ public class BusinessRuleAdapter {
         
         BusinessRuleInfoDTO ruleDTO = new BusinessRuleInfoDTO();
        
-        ruleDTO.setBusinessRuleId( rule.getRuleId() );
+        ruleDTO.setBusinessRuleId( rule.getId() );
         ruleDTO.setAnchorValue( rule.getAnchor() );
         ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
         ruleDTO.setAnchorTypeKey( rule.getBusinessRuleType().getAnchorTypeKey() );
@@ -68,8 +69,8 @@ public class BusinessRuleAdapter {
         ruleDTO.setEffectiveEndTime( rule.getMetaData().getEffectiveDateEnd() );
         ruleDTO.setEffectiveStartTime( rule.getMetaData().getEffectiveDateStart() );
         ruleDTO.setFailureMessage( rule.getFailureMessage() );
-        ruleDTO.setName( rule.getName() );
-        ruleDTO.setRepositorySnapshotName( rule.getRepositorySnapshotName() );
+        ruleDTO.setOrigName( rule.getOrigName() );
+        ruleDTO.setDisplayName( rule.getDisplayName() );
         
         // Extract the Meta Info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
@@ -88,6 +89,7 @@ public class BusinessRuleAdapter {
         
         ruleDTO.setRuleElementList(elementDTOList);
         ruleDTO.setStatus( rule.getMetaData().getStatus() );
+        ruleDTO.setVersion( rule.getMetaData().getVersion() );
         ruleDTO.setSuccessMessage( rule.getSuccessMessage() );
             
         return ruleDTO;                
@@ -230,10 +232,10 @@ public class BusinessRuleAdapter {
         rule.setCompiledId(ruleInfoDTO.getCompiledId());
         rule.setDescription(ruleInfoDTO.getDescription());
         rule.setFailureMessage(ruleInfoDTO.getFailureMessage());
-        rule.setName(ruleInfoDTO.getName() );
-        rule.setRuleId( ruleInfoDTO.getBusinessRuleId() );
-        rule.setSuccessMessage( ruleInfoDTO.getSuccessMessage() );
-        
+        rule.setOrigName( ruleInfoDTO.getOrigName() );
+        rule.setDisplayName( ruleInfoDTO.getDisplayName() ); 
+        rule.setId( ruleInfoDTO.getBusinessRuleId() );
+        rule.setSuccessMessage( ruleInfoDTO.getSuccessMessage() );                        
         RuleMetaData metaData = new RuleMetaData();
         metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
         metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
@@ -242,6 +244,7 @@ public class BusinessRuleAdapter {
         metaData.setStatus( BusinessRuleStatus.valueOf( ruleInfoDTO.getStatus() ).toString());
         metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
         metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
+        metaData.setVersion(ruleInfoDTO.getVersion());
 
         rule.setMetaData(metaData);
         
@@ -404,7 +407,7 @@ public class BusinessRuleAdapter {
     public static BusinessRule copyBusinessRule(BusinessRule fromRule, BusinessRule toRule) {        
 
         // Copy From rule to To rule with a list of ignore attributes
-        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id","ruleId","name","compiledId","compiledVersionNumber"});        
+        BeanUtils.copyProperties(fromRule, toRule, new String[]{"id","origName","compiledId","businessRuleType"});        
         
         // Now update the parent reference in rule element to change from fromRule to toRule
         for(RuleElement element : fromRule.getRuleElements()) {

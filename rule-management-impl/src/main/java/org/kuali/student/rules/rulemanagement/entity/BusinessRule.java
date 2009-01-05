@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
@@ -34,9 +35,10 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Entity
-@Table(name = "BusinessRule_T")
-@NamedQueries({@NamedQuery(name = "BusinessRule.findByRuleID", query = "SELECT c FROM BusinessRule c WHERE c.ruleId = :ruleID"), 
-               @NamedQuery(name = "BusinessRule.findIdsByBusinessRuleType", query = "SELECT c.ruleId FROM BusinessRule c WHERE c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
+@Table(name = "BusinessRule_T",
+        uniqueConstraints={@UniqueConstraint(columnNames={"id", "version"})}
+       )
+@NamedQueries({@NamedQuery(name = "BusinessRule.findIdsByBusinessRuleType", query = "SELECT c.id FROM BusinessRule c WHERE c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
                @NamedQuery(name = "BusinessRule.findByBusinessRuleTypeAndAnchor", query = "SELECT c FROM BusinessRule c WHERE  c.anchor = :anchor AND c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
                @NamedQuery(name = "BusinessRule.findAnchorsByAnchorType", query = "SELECT a.anchor FROM BusinessRule a WHERE a.businessRuleType.anchorTypeKey = :anchorTypeKey")})
 public class BusinessRule  {
@@ -47,8 +49,12 @@ public class BusinessRule  {
 
     @Id
     private String id;
-
-    private String name;
+    private String firstVersionRuleId;
+    
+    @Column(nullable = false)
+    private String origName;
+    private String displayName;
+    
     private String description;
 
     @ManyToOne    
@@ -58,12 +64,9 @@ public class BusinessRule  {
     private String successMessage;
     private String failureMessage;
 
-    @Column(unique = true, nullable = false)
-    private String ruleId;
     
     /* Repository Variables */
     private String compiledId;
-    private String repositorySnapshotName;
     
     @Embedded
     private RuleMetaData metaData;
@@ -108,9 +111,6 @@ public class BusinessRule  {
     @PrePersist
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
-        
-        // TODO: Remove rule Id and just use Id
-        this.ruleId = this.id;        
     }
 
     /**
@@ -129,18 +129,31 @@ public class BusinessRule  {
     }
 
     /**
-     * @return the name
+     * @return the origName
      */
-    public final String getName() {
-        return name;
+    public String getOrigName() {
+        return origName;
     }
 
     /**
-     * @param name
-     *            the name to set
+     * @param origName the origName to set
      */
-    public final void setName(String name) {
-        this.name = name;
+    public void setOrigName(String origName) {
+        this.origName = origName;
+    }
+
+    /**
+     * @return the displayName
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    /**
+     * @param displayName the displayName to set
+     */
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     /**
@@ -234,21 +247,6 @@ public class BusinessRule  {
     }
 
     /**
-     * @return the ruleId
-     */
-    public final String getRuleId() {
-        return ruleId;
-    }
-
-    /**
-     * @param ruleId
-     *            the ruleId to set
-     */
-    public final void setRuleId(String ruleId) {
-        this.ruleId = ruleId;
-    }
-
-    /**
      * @return the metaData
      */
     public final RuleMetaData getMetaData() {
@@ -279,16 +277,16 @@ public class BusinessRule  {
     }
 
     /**
-     * @return the repositorySnapshotName
+     * @return the firstVersionRuleId
      */
-    public String getRepositorySnapshotName() {
-        return repositorySnapshotName;
+    public String getFirstVersionRuleId() {
+        return firstVersionRuleId;
     }
 
     /**
-     * @param repositorySnapshotName the repositorySnapshotName to set
+     * @param firstVersionRuleId the firstVersionRuleId to set
      */
-    public void setRepositorySnapshotName(String repositorySnapshotName) {
-        this.repositorySnapshotName = repositorySnapshotName;
-    }
+    public void setFirstVersionRuleId(String firstVersionRuleId) {
+        this.firstVersionRuleId = firstVersionRuleId;
+    }        
 }

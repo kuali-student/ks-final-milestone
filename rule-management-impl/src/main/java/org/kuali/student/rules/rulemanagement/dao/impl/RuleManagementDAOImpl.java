@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -58,11 +59,12 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
     @Override
     public java.util.List<AgendaInfo> lookupAgendaInfosByType(AgendaType type) {
         Query query = entityManager.createNamedQuery("AgendaInfo.findByAgendaType");
-        query.setParameter("agendaType", type);
+        query.setParameter("agendaType", type.toString());
         List<AgendaInfo> agendaInfoList = query.getResultList();
         return agendaInfoList;
     }
 
+    //TODO Provide implementation
     @Override
     public AgendaInfo lookupAgendaInfoByTypeAndStructure(AgendaType type, List<AgendaInfoDeterminationStructure> determinationStructureList) {
 
@@ -166,21 +168,18 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
 
     @Override
     public boolean deleteBusinessRule(String ruleId) {
-        entityManager.remove(lookupBusinessRuleUsingRuleId(ruleId));
+        entityManager.remove(lookupBusinessRuleUsingId(ruleId));
         return true;
     }
 
     @Override
     public BusinessRule lookupBusinessRuleUsingId(String id) {
-        return entityManager.find(BusinessRule.class, id);
-    }
-
-    @Override
-    public BusinessRule lookupBusinessRuleUsingRuleId(String ruleIdentifier) {
-        Query query = entityManager.createNamedQuery("BusinessRule.findByRuleID");
-        query.setParameter("ruleID", ruleIdentifier);
-        BusinessRule functionalBusinessRule = (BusinessRule) query.getSingleResult();
-        return functionalBusinessRule;
+        BusinessRule rule = entityManager.find(BusinessRule.class, id);
+        if (null == rule) {
+            throw new NoResultException("No record found for Id:" + id);
+        }
+        
+        return rule;
     }
 
     @Override

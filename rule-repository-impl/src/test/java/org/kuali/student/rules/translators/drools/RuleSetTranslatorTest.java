@@ -1148,7 +1148,7 @@ public class RuleSetTranslatorTest {
 
     private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
-    	bri.setName("MyBusinessRule");
+    	bri.setOrigName("MyBusinessRule");
     	bri.setDescription("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
@@ -1341,7 +1341,7 @@ public class RuleSetTranslatorTest {
         // Create invalid name
         bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
         bri.setBusinessRuleTypeKey("org_kuali-student.pre req#1&2");
-        bri.setName("TestName `~!@#$%^&*()-+={[}]|\\:;\"'<,>.?/ \b\t\n\f\r \' \"");
+        bri.setOrigName("TestName `~!@#$%^&*()-+={[}]|\\:;\"'<,>.?/ \b\t\n\f\r \' \"");
 
         RuleSet ruleSet = ruleSetTranslator.translate(bri);
         String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
@@ -1356,7 +1356,7 @@ public class RuleSetTranslatorTest {
         // Create invalid name
         bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
         bri.setBusinessRuleTypeKey("org_kuali-student.pre req#1&2");
-        bri.setName("ABC123456 `~!@#$%^&*()-+= XYZ");
+        bri.setOrigName("ABC123456 `~!@#$%^&*()-+= XYZ");
 
         RuleSet ruleSet = ruleSetTranslator.translate(bri);
         String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
@@ -1371,7 +1371,7 @@ public class RuleSetTranslatorTest {
         // Create invalid name
         bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
         bri.setBusinessRuleTypeKey("123 kuali-student.pre req#1&2");
-        bri.setName("123456 `~!@#$%^&*()-+= XYZ");
+        bri.setOrigName("123456 `~!@#$%^&*()-+= XYZ");
 
 		try {
         	ruleSetTranslator.translate(bri);
