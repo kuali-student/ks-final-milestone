@@ -31,6 +31,9 @@ public class BusinessRuleInfoDTO implements Serializable{
     private String businessRuleId;
 
     @XmlElement
+    private String firstVersionRuleId;
+        
+    @XmlElement
     private String businessRuleTypeKey;
     
     @XmlElement
@@ -69,6 +72,9 @@ public class BusinessRuleInfoDTO implements Serializable{
     @XmlElement
     private String compiledId;
 
+    @XmlElement
+    private String repositorySnapshotName;
+    
     @XmlElement(name = "ruleElement")
     @XmlElementWrapper(name = "ruleElementList")
     private List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
@@ -329,5 +335,37 @@ public class BusinessRuleInfoDTO implements Serializable{
      */
     public void setCompiledId(String compiledId) {
         this.compiledId = compiledId;
-    }  
+    }
+
+
+    /**
+     * @return the repositorySnapshotName
+     */
+    public String getRepositorySnapshotName() {
+        return repositorySnapshotName;
+    }
+
+
+    /**
+     * @param repositorySnapshotName the repositorySnapshotName to set
+     */
+    public void setRepositorySnapshotName(String repositorySnapshotName) {
+        this.repositorySnapshotName = repositorySnapshotName;
+    }
+
+
+    /**
+     * @return the firstVersionRuleId
+     */
+    public String getFirstVersionRuleId() {
+        return firstVersionRuleId;
+    }
+
+
+    /**
+     * @param firstVersionRuleId the firstVersionRuleId to set
+     */
+    public void setFirstVersionRuleId(String firstVersionRuleId) {
+        this.firstVersionRuleId = firstVersionRuleId;
+    }          
 }
