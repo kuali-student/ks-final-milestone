@@ -154,6 +154,16 @@ public interface RuleManagementDAO {
      */
     public List<BusinessRule> lookupBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor);
 
+    
+    /**
+     * 
+     * This method returns all version of the same rule
+     * 
+     * @param firstVersionId
+     * @return
+     */
+    public List<BusinessRule> lookupAllVersions(String firstVersionId);
+    
     /**
      * 
      * This method returns all Business Rule instances for a given type key of Business Rule

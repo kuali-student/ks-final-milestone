@@ -65,6 +65,12 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             throw new InvalidParameterException("Original name is required for creating a new rule!");
         }
 
+        // Check to see if the status is draft in progress
+        BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getStatus());
+        if (BusinessRuleStatus.RETIRED == newStatus) {
+            throw new InvalidParameterException("Cannot create a RETIRED rule!");
+        }
+                
         // Convert the DTO to Entity
         BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
 
@@ -79,19 +85,30 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         }
         rule.setBusinessRuleType(brType);
 
-        // Set version number to 0
+        // Set version number to 0        
         RuleMetaData metaData = rule.getMetaData();
         metaData.setVersion(0L);
-        rule.setMetaData(metaData);
+        rule.setMetaData(metaData);        
 
         // Create the business rule
         ruleManagementDao.createBusinessRule(rule);
+        
+        // If this is the first rule in the series
+        if(!StringUtils.hasText(businessRuleInfo.getFirstVersionRuleId())) {
+            rule.setFirstVersionRuleId(rule.getId());
+            businessRuleInfo.setFirstVersionRuleId(rule.getFirstVersionRuleId());    
+        }
+        
         businessRuleInfo.setBusinessRuleId(rule.getId());
-
+                
         // Compile the business rule
         RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
         rule.setCompiledId(rsDTO.getUUID());
-
+        String snapshotName = buildSnapshotName(rule.getCompiledId());
+        if (BusinessRuleStatus.ACTIVE == newStatus) {
+            rsDTO = repository.createRuleSetSnapshot(rule.getCompiledId(), snapshotName, "Activating rule " + rule.getOrigName());
+        }
+        
         // Update the rule with the compiledId
         ruleManagementDao.updateBusinessRule(rule);
 
@@ -131,6 +148,16 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         if (BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus && BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus) {
             throw new InvalidParameterException("Cannot change status to DRAFT_IN_PROGRESS from ACTIVE or RETIRED rules");
         }
+        
+        // Check if there is only one active version
+        if (BusinessRuleStatus.ACTIVE == newStatus) {         
+            List<BusinessRule> allVersions = ruleManagementDao.lookupAllVersions(orgRule.getFirstVersionRuleId());
+            for(BusinessRule rule : allVersions) {
+                if(BusinessRuleStatus.ACTIVE == BusinessRuleStatus.valueOf(rule.getMetaData().getStatus())) {
+                    throw new InvalidParameterException("Cannot have multiple rule versions Active simultaneously");
+                }
+            }            
+        }
 
         // Check if read only attributes are being updated
         if (!orgRule.getOrigName().equals(businessRuleInfo.getOrigName())) {
@@ -154,7 +181,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
 
         // Compile the business rule
         RuleSetDTO rsDTO = null;
-        String snapshotName = orgRule.getCompiledId() + RULE_SNAPSHOT_SUFFIX;
+        String snapshotName = buildSnapshotName(orgRule.getCompiledId());
         if (BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
             rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
             orgRule.setCompiledId(rsDTO.getUUID());
@@ -430,7 +457,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             rule1.setVersion(rule1.getVersion() + 1);
             rule1.setOrigName(orgRule.getOrigName() + "_v" + rule1.getVersion() );
             rule1.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-       
+                                  
             // Persist rule2. Watch out for unique key constraint violation     
             try {
                 nextVersion = createBusinessRule(rule1);
@@ -438,8 +465,15 @@ public class RuleManagementServiceImpl implements RuleManagementService {
                 // Should not happen as we have reset the business rule Id
                 throw new OperationFailedException("JPA returning AlreadyExistsException while trying to persist newer version of the rule!");
             }            
+       
+        
         }
 
         return nextVersion;
+    }
+
+
+    private String buildSnapshotName(String ruleId) {
+        return ruleId + RULE_SNAPSHOT_SUFFIX;
     }
 }

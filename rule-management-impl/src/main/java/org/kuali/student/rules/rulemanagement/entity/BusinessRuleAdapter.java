@@ -71,6 +71,8 @@ public class BusinessRuleAdapter {
         ruleDTO.setFailureMessage( rule.getFailureMessage() );
         ruleDTO.setOrigName( rule.getOrigName() );
         ruleDTO.setDisplayName( rule.getDisplayName() );
+        ruleDTO.setFirstVersionRuleId(rule.getFirstVersionRuleId());
+        ruleDTO.setRepositorySnapshotName(rule.getRepositorySnapshotName());
         
         // Extract the Meta Info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
@@ -236,6 +238,9 @@ public class BusinessRuleAdapter {
         rule.setDisplayName( ruleInfoDTO.getDisplayName() ); 
         rule.setId( ruleInfoDTO.getBusinessRuleId() );
         rule.setSuccessMessage( ruleInfoDTO.getSuccessMessage() );                        
+        rule.setRepositorySnapshotName(ruleInfoDTO.getRepositorySnapshotName());
+        rule.setFirstVersionRuleId(ruleInfoDTO.getFirstVersionRuleId());
+        
         RuleMetaData metaData = new RuleMetaData();
         metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
         metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
@@ -245,6 +250,7 @@ public class BusinessRuleAdapter {
         metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
         metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
         metaData.setVersion(ruleInfoDTO.getVersion());
+        
 
         rule.setMetaData(metaData);
         

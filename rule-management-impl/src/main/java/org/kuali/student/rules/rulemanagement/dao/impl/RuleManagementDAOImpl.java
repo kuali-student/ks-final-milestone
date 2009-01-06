@@ -188,8 +188,8 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
         Query query = entityManager.createNamedQuery("BusinessRule.findByBusinessRuleTypeAndAnchor");
         query.setParameter("businessRuleTypeKey", businessRuleTypeKey.toString());
         query.setParameter("anchor", anchor);
-        List<BusinessRule> functionalBusinessRule = query.getResultList();
-        return functionalBusinessRule;
+        List<BusinessRule> functionalBusinessRules = query.getResultList();
+        return functionalBusinessRules;
     }
 
     @SuppressWarnings("unchecked")
@@ -208,5 +208,14 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
         query.setParameter("anchorTypeKey", anchorTypeKey.toString());
         List<String> anchorList = query.getResultList();
         return anchorList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<BusinessRule> lookupAllVersions(String firstVersionId) {
+        Query query = entityManager.createNamedQuery("BusinessRule.findAllVersions");
+        query.setParameter("firstVersionId", firstVersionId);
+        List<BusinessRule> functionalBusinessRules = query.getResultList();
+        return functionalBusinessRules;
     }
 }

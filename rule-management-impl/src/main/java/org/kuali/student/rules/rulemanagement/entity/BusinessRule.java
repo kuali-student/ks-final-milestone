@@ -40,6 +40,7 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
        )
 @NamedQueries({@NamedQuery(name = "BusinessRule.findIdsByBusinessRuleType", query = "SELECT c.id FROM BusinessRule c WHERE c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
                @NamedQuery(name = "BusinessRule.findByBusinessRuleTypeAndAnchor", query = "SELECT c FROM BusinessRule c WHERE  c.anchor = :anchor AND c.businessRuleType.businessRuleTypeKey = :businessRuleTypeKey"),
+               @NamedQuery(name = "BusinessRule.findAllVersions", query = "SELECT c FROM BusinessRule c WHERE  c.firstVersionRuleId = :firstVersionId"),
                @NamedQuery(name = "BusinessRule.findAnchorsByAnchorType", query = "SELECT a.anchor FROM BusinessRule a WHERE a.businessRuleType.anchorTypeKey = :anchorTypeKey")})
 public class BusinessRule  {
     
@@ -67,6 +68,7 @@ public class BusinessRule  {
     
     /* Repository Variables */
     private String compiledId;
+    private String repositorySnapshotName;
     
     @Embedded
     private RuleMetaData metaData;
@@ -288,5 +290,19 @@ public class BusinessRule  {
      */
     public void setFirstVersionRuleId(String firstVersionRuleId) {
         this.firstVersionRuleId = firstVersionRuleId;
-    }        
+    }
+
+    /**
+     * @return the repositorySnapshotName
+     */
+    public String getRepositorySnapshotName() {
+        return repositorySnapshotName;
+    }
+
+    /**
+     * @param repositorySnapshotName the repositorySnapshotName to set
+     */
+    public void setRepositorySnapshotName(String repositorySnapshotName) {
+        this.repositorySnapshotName = repositorySnapshotName;
+    }                
 }
