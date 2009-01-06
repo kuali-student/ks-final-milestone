@@ -4,6 +4,7 @@
 package org.kuali.student.rules.devgui.server.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,8 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts) {
     	ExecutionResultDTO executionResult;
     	FactStructureDTO dynamicTestFacts = new FactStructureDTO();
+    	dynamicTestFacts.setParamValueMap(new HashMap<String, String>());
+    	String testFactValue = null;
     	
     	System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", facts: " + facts);
     	
@@ -80,19 +83,25 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", element: " + elem.getName());        	
         	List<FactStructureDTO> factStructureList = elem.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
         	for (FactStructureDTO fact : factStructureList) {
-        		String testFactValue = facts.get(fact.getFactStructureId());
-                System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", fact: " + fact.getFactStructureId() + ", value: '" + testFactValue + "'");
-        		if (fact.isStaticFact() && (testFactValue != null)) {
+        		if (fact.isStaticFact()) {
+        		    testFactValue = facts.get(fact.getFactStructureId());
         		    System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", added static fact: " + testFactValue);
         			fact.setStaticValue(testFactValue);        			
         		} else {
-        			//dynamicTestFacts; TODO add to dynamic fact structure
+                    Map<String, String> map = fact.getParamValueMap();
+                    for (String key : map.keySet()) {        		    
+                        testFactValue = facts.get(key);
+                        //map.remove(key);
+                        dynamicTestFacts.getParamValueMap().put(key, testFactValue);
+                        System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", added dynamic fact: " + key + " - " + testFactValue);
+                    }
         		}
+                //System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", fact: " + fact.getFactStructureId() + ", value: '" + testFactValue + "'");
         	}
-        }        	
-    	
+        }            
+        
         try {
-            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, null);  //TODO dynamic facts
+            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, (dynamicTestFacts.getParamValueMap().isEmpty() ? null : dynamicTestFacts));  //TODO dynamic facts
         } catch (Exception ex) {
             throw new RuntimeException("Unable to execute rule ID: " + businessRule.getBusinessRuleId(), ex); // TODO
         }

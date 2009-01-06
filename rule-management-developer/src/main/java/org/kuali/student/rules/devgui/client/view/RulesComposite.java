@@ -194,8 +194,8 @@ public class RulesComposite extends Composite {
     // Test Rule tab
     final VerticalPanel propositionsTestPanel = new VerticalPanel();
     final List<TextArea> testStaticFactsWidgets = new ArrayList<TextArea>();    
-    final Map<String, String> staticFactValuesForTest = new HashMap<String, String>();
-    final Map<String, TextArea> testDynamicFactsWidgets = new HashMap<String, TextArea>();
+    final Map<String, String> factValuesForTest = new HashMap<String, String>();
+    final List<TextArea> testDynamicFactsWidgets = new ArrayList<TextArea>();
     final Button testRuleButton = new Button("Test Rule");
     final TextArea testReport = new TextArea();
     final TextArea completeRuleTestTextArea = new TextArea();
@@ -722,25 +722,25 @@ public class RulesComposite extends Composite {
                 public void onClick(final Widget sender) {
                 	System.out.println("Rule id: " + displayedRule.getBusinessRuleId());
                 	
-                	staticFactValuesForTest.clear();
+                	factValuesForTest.clear();
                 	
                 	//first, retrieve all static fact values from test tab, assuming empty fields means use current rule values
                 	for (TextArea widget : testStaticFactsWidgets) {  
                 		if (widget.getText().trim().isEmpty() == false) {
-                			staticFactValuesForTest.put(widget.getName(), widget.getText());
+                			factValuesForTest.put(widget.getName(), widget.getText());
                 			System.out.println("Adding :" + widget.getName() + " with value " + widget.getText());
                 		}
                     }
                 	
                 	//next, retrieve dynamic facts i.e. go through all propositions and update dynamic facts values
-                	/*
-                	for (String key : testDynamicFactsWidgets.keySet()) {  
-                		if (testDynamicFactsWidgets.get(key).getText().trim().isEmpty() == false) {
-                			staticFactValuesForTest.put(widget.getName(), widget.getText());
+                	for (TextArea widget : testDynamicFactsWidgets) {  
+                        if (widget.getText().trim().isEmpty() == false) {
+                			factValuesForTest.put(widget.getName(), widget.getText());
+                            System.out.println("Adding :" + widget.getName() + " with value " + widget.getText());
                 		}
-                    }   */             	
+                    }              	
                 	
-                    DevelopersGuiService.Util.getInstance().executeBusinessRuleTest(displayedRule, staticFactValuesForTest, new AsyncCallback<ExecutionResultDTO>() {
+                    DevelopersGuiService.Util.getInstance().executeBusinessRuleTest(displayedRule, factValuesForTest, new AsyncCallback<ExecutionResultDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -1792,13 +1792,18 @@ public class RulesComposite extends Composite {
         	GuiUtil.addSpaceBelowWidget(factFieldsPanel, "10px");
         	
         	//display each fact
-            for (FactStructureDTO fact : factStructureList) {            	
-            	TextArea factValue = new TextArea();
+        	int argIx = 0;
+            for (FactStructureDTO fact : factStructureList) { 
+                argIx++;
+                Label argLabel = new Label("arg" + argIx + ":");
+                argLabel.setStyleName("propositon_bold");
+            	
             	if (fact.isStaticFact()) {
+            	    TextArea factValue = new TextArea();
             		factValue.setText(fact.getStaticValue());
                 	factValue.setName(fact.getFactStructureId());
                 	testStaticFactsWidgets.add(factValue);
-                	VerticalPanel staticFact = GuiUtil.addLabelAndFieldVertically(new Label(" "), new Label("STATIC FACT:"), "");
+                	VerticalPanel staticFact = GuiUtil.addLabelAndFieldVertically(argLabel, new Label(" "), "");
                 	factFieldsPanel.add(staticFact);
                 	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "5px");                
                 	Widget staticValue = GuiUtil.addLabelAndFieldVertically(GuiUtil.removeFactTypeKeyPrefix(fact.getFactTypeKey()), factValue, "300px");
@@ -1806,22 +1811,37 @@ public class RulesComposite extends Composite {
                 	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "15px");
             	} else {
             		
+            	    //show dynamic fact TYPE
+                    factFieldsPanel.add(GuiUtil.addLabelAndFieldVertically(argLabel, new Label(" "), ""));
+                    GuiUtil.addSpaceBesideWidget(factFieldsPanel, "5px");             	                	                   
+                    
+                    //retrieve individual parameters of this fact
+                    VerticalPanel dynamicFactParam = new VerticalPanel();
+                    GuiUtil.addSpaceBelowWidget(dynamicFactParam, "15px");
                     Map<String, String> map = fact.getParamValueMap();
                     for (String key : map.keySet()) {            		
                     	if (map.get(key) == null) {
                     		continue; //execution key  TODO use fact finder service
                     	}            		
                     	
+                    	System.out.println("DYN. FACT: key - " + key);
+                        System.out.println("DYN. FACT: type - " + fact.getFactTypeKey());
+                    	
+                        TextArea factValue = new TextArea();
 	            		factValue.setText(map.get(key));
 	                	factValue.setName(key);
-	                	testDynamicFactsWidgets.put(fact.getFactTypeKey(), factValue);
-	                	VerticalPanel dynamicFact = GuiUtil.addLabelAndFieldVertically(new Label(" "), new Label(key), "");
-	                	factFieldsPanel.add(dynamicFact);
-	                	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "5px");                
-	                	Widget staticValue = GuiUtil.addLabelAndFieldVertically(GuiUtil.removeFactTypeKeyPrefix(fact.getFactTypeKey()), factValue, "300px");
-	                	factFieldsPanel.add(staticValue); 
-	                	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "15px");            		            		            	          	
-                    }                               		            	
+	                	testDynamicFactsWidgets.add(factValue);  //(fact.getFactTypeKey(), factValue);
+	                	
+	                    Widget dynamicValue = GuiUtil.addLabelAndFieldVertically(key, factValue, "300px");
+	                    dynamicFactParam.add(dynamicValue); 
+	                    GuiUtil.addSpaceBelowWidget(factFieldsPanel, "15px");   	                		                	                         		            		            	          	
+                    }                  
+                    
+                    //now add parameters for this dynamic fact
+                    Widget dynamicFact = GuiUtil.addLabelAndFieldVertically(GuiUtil.removeFactTypeKeyPrefix(fact.getFactTypeKey()), dynamicFactParam, "300px");
+                    factFieldsPanel.add(dynamicFact); 
+                    GuiUtil.addSpaceBesideWidget(dynamicFactParam, "15px");                        
+ 
             	}            	            	
             } // for(facts)
             //propFactsTest.put(prop.get)
