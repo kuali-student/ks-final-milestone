@@ -757,7 +757,7 @@
 		class="org.kuali.student.rules.rulemanagement.entity.RuleProposition">
 		<property name="id"
 			value="11223344-1122-1122-1112-100000000052" />
-		<property name="name" value="P32" />
+		<property name="name" value="P33" />
 		<property name="description"
 			value="6 credits of 200-level Psychology courses (but not 205 or 263)" />
 		<property name="failureMessage" value="Did not met requirements for 6 credits from 200-level Psychology courses." />
