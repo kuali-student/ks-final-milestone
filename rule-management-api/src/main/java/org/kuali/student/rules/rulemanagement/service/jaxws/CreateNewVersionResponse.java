@@ -13,20 +13,20 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "deleteBusinessRuleResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
+@XmlRootElement(name = "createNewVersionResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "deleteBusinessRuleResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
+@XmlType(name = "createNewVersionResponse", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 
-public class DeleteBusinessRuleResponse {
+public class CreateNewVersionResponse {
 
     @XmlElement(name = "return")
-    private org.kuali.student.rules.rulemanagement.dto.StatusDTO _return;
+    private org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO _return;
 
-    public org.kuali.student.rules.rulemanagement.dto.StatusDTO getReturn() {
+    public org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO getReturn() {
         return this._return;
     }
 
-    public void setReturn(org.kuali.student.rules.rulemanagement.dto.StatusDTO new_return)  {
+    public void setReturn(org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO new_return)  {
         this._return = new_return;
     }
 

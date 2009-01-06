@@ -327,7 +327,7 @@ public interface RuleRepositoryService {
      * Validates that a business rule can be translated and compiled into an
      * vendor specific executable rule (E.g. Drools compiled rule).
      * 
-     * @param businessRule A Business Rule
+     * @param businessRule A Business rule
      * @return A rule set verification result 
      * @throws OperationFailedException Thrown if translating/generating rule set fails
 	 * @throws MissingParameterException Thrown if parameter is missing
@@ -335,5 +335,21 @@ public interface RuleRepositoryService {
      */
     @WebMethod
     public RuleSetVerificationResultDTO validateBusinessRule(@WebParam(name="businessRule")BusinessRuleInfoDTO businessRule) 
+    	throws OperationFailedException, MissingParameterException, InvalidParameterException;
+
+    /**
+     * Translates a business rule into a rule set.
+     * The rule set content contains the vendor specific rule source code
+     * (e.g. Drools source code). 
+     * Rule set is not saved to the rule repository.
+     * 
+     * @param businessRule A Business rule
+     * @return A rule set
+     * @throws OperationFailedException Thrown if translating rule set fails
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     */
+    @WebMethod
+    public RuleSetDTO translateBusinessRule(@WebParam(name="businessRule")BusinessRuleInfoDTO businessRule) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException;
 }

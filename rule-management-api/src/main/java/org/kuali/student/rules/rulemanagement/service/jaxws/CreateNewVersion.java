@@ -13,24 +13,14 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.2
  */
 
-@XmlRootElement(name = "updateBusinessRule", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
+@XmlRootElement(name = "createNewVersion", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "updateBusinessRule", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement", propOrder = {"businessRuleId","businessRuleInfo"})
+@XmlType(name = "createNewVersion", namespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
 
-public class UpdateBusinessRule {
+public class CreateNewVersion {
 
-    @XmlElement(name = "businessRuleId")
-    private java.lang.String businessRuleId;
     @XmlElement(name = "businessRuleInfo")
     private org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO businessRuleInfo;
-
-    public java.lang.String getBusinessRuleId() {
-        return this.businessRuleId;
-    }
-
-    public void setBusinessRuleId(java.lang.String newBusinessRuleId)  {
-        this.businessRuleId = newBusinessRuleId;
-    }
 
     public org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO getBusinessRuleInfo() {
         return this.businessRuleInfo;
