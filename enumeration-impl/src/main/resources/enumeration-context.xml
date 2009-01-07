@@ -24,7 +24,7 @@
 	<bean id="enumerationDataSource"
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
 		destroy-method="close">
-		<property name="uniqueResourceName" value="personDataSource" />
+		<property name="uniqueResourceName" value="enumerationDataSource" />
 		<property name="xaDataSourceClassName"
 			value="${jdbc.xaDataSourceClassName}" />
 		<property name="xaProperties">
