@@ -11,7 +11,7 @@ import org.kuali.student.enumeration.service.EnumerationService;
 public class ServiceTest {
     @Test
     public void testContext() {
-        EnumerationService enumerationService;
+       /* EnumerationService enumerationService;
 
         ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
         factory.setServiceClass(EnumerationService.class);
@@ -29,5 +29,6 @@ public class ServiceTest {
         
         EnumerationMetaList list = enumerationService.findEnumerationMetas();
         System.out.println(list.getEnumerationMeta().size());
+    */
     }
 }
