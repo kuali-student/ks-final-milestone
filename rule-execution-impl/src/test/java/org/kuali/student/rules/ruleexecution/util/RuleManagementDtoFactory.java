@@ -76,7 +76,8 @@ public class RuleManagementDtoFactory {
 														 String anchorTypeKey,
 														 String anchorValue) {
 		BusinessRuleInfoDTO dto = new BusinessRuleInfoDTO();
-		dto.setName(name);
+		dto.setOrigName(name);
+		dto.setDisplayName(name);
 		dto.setDescription("Business rule info DTO");
 		dto.setSuccessMessage(successMessage);
 		dto.setFailureMessage(failureMessage);

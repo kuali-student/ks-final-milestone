@@ -455,7 +455,6 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             BusinessRuleInfoDTO rule1 = BusinessRuleAdapter.getBusinessRuleInfoDTO(orgRule);
             rule1.setBusinessRuleId("");
             rule1.setVersion(rule1.getVersion() + 1);
-            rule1.setOrigName(orgRule.getOrigName() + "_v" + rule1.getVersion() );
             rule1.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
                                   
             // Persist rule2. Watch out for unique key constraint violation     

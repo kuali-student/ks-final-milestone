@@ -124,7 +124,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	StringBuilder sb = new StringBuilder();
     	sb.append("\n**************************************************");
     	sb.append("\n"+message);
-    	sb.append("\nBusiness rule name:                    "+businessRule.getName());
+    	sb.append("\nBusiness rule name:                    "+businessRule.getOrigName());
     	sb.append("\nBusiness rule id:                      "+businessRule.getBusinessRuleId());
     	sb.append("\nBusiness rule compiledId:              "+businessRule.getCompiledId());
 //    	sb.append("\nBusiness rule compiled version number: "+businessRule.getCompiledVersionNumber());
@@ -303,7 +303,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("*        Execution Log         *");
     	this.executionLog.append("********************************");
     	this.executionLog.append("----- START -----");
-    	this.executionLog.append("Business rule name:                    "+businessRule.getName());
+    	this.executionLog.append("Business rule name:                    "+businessRule.getOrigName());
     	this.executionLog.append("Business rule id:                      "+businessRule.getBusinessRuleId());
     	this.executionLog.append("Business rule compiled ID:             "+businessRule.getCompiledId());
 //    	this.executionLog.append("Business rule compiled version number: "+businessRule.getCompiledVersionNumber());

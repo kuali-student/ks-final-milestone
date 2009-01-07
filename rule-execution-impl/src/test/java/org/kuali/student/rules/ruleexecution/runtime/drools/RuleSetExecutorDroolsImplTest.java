@@ -132,7 +132,8 @@ public class RuleSetExecutorDroolsImplTest {
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
         brInfoDTO.setBusinessRuleId(businessRuleId);
-        brInfoDTO.setName(ruleName);
+        brInfoDTO.setOrigName(ruleName);
+        brInfoDTO.setDisplayName(ruleName);
         brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
