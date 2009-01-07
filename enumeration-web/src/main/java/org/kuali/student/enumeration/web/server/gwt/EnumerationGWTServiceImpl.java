@@ -1,7 +1,9 @@
 package org.kuali.student.enumeration.web.server.gwt;
 
 import java.util.Date;
+import javax.xml.namespace.QName;
 
+import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
@@ -13,6 +15,15 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class EnumerationGWTServiceImpl extends RemoteServiceServlet implements EnumerationGWTService {
 
 	 EnumerationService enumerationService; 
+	 
+	 public EnumerationGWTServiceImpl() {// Hard coding properties after removing Spring and before Guice
+		 ClientProxyFactoryBean factory = new ClientProxyFactoryBean();
+		 factory.setServiceClass(EnumerationService.class);
+		 factory.setWsdlLocation("classpath:wsdl/EnumerationService.wsdl");
+		 factory.setServiceName(new QName("http://student.kuali.org/wsdl/EnumerationService","EnumerationService"));
+		 factory.setAddress("http://localhost:8787/enumeration-services/EnumerationService");
+		 enumerationService = (EnumerationService) factory.create();
+	 }
 	    public EnumerationMetaList fetchEnumerationMetas() {
 	        
 	        return enumerationService.findEnumerationMetas();

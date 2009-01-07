@@ -32,6 +32,8 @@ public class EnumerationServiceImpl implements EnumerationService{
     
 	final static Logger logger = LoggerFactory.getLogger(EnumerationServiceImpl.class);
 	
+	public EnumerationServiceImpl() {}
+	
 	private EnumerationManagementDAO enumDAO;
     
     public EnumerationManagementDAO getEnumDAO() {
