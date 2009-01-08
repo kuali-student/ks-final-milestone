@@ -499,6 +499,15 @@ public interface RuleEngineRepository {
     public String[] loadStates();
 
     /**
+     * Returns true if the repository contains the specified 
+     * <code>status</code>; otherwise false.
+     * 
+     * @param status Status to check
+     * @return True if repository contains the specified status; otherwise false
+     */
+    public boolean containsStatus(String status);
+
+    /**
      * Changes rule status by uuid.
      * 
      * @param uuid
