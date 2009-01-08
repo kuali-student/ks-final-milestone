@@ -76,7 +76,7 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
 	        }
         }
         
-        String ruleName = modelObject.getBusinessRuleName();
+        String ruleName = modelObject.getBusinessRuleDisplayName();
         if ((ruleName == null) || (ruleName.isEmpty())) {
             return items;
         }

@@ -16,7 +16,7 @@ public class RulesHierarchyInfo implements ModelObject {
     private String businessRuleType;
     private String businessRuleId;
     private String anchor;
-    private String businessRuleName;
+    private String businessRuleDisplayName;
     private String status;
 
     public String getStatus() {
@@ -32,18 +32,18 @@ public class RulesHierarchyInfo implements ModelObject {
     }
 
     /**
-     * @return the businessRuleName
+     * @return the businessRuleDisplayName
      */
-    public final String getBusinessRuleName() {
-        return businessRuleName;
+    public final String getBusinessRuleDisplayName() {
+        return businessRuleDisplayName;
     }
 
     /**
-     * @param businessRuleName
-     *            the businessRuleName to set
+     * @param businessRuleDisplayName
+     *            the businessRuleDisplayName to set
      */
-    public final void setBusinessRuleName(String businessRuleName) {
-        this.businessRuleName = businessRuleName;
+    public final void setBusinessRuleDisplayName(String displayName) {
+        this.businessRuleDisplayName = displayName;
     }
 
     /**
@@ -123,6 +123,6 @@ public class RulesHierarchyInfo implements ModelObject {
 
     @Override
     public final String toString() {
-        return "agendaType: '" + agendaType + "', agendaDeterminationKeysSet: '" + agendaDeterminationKeysSet + "', businessRuleType: '" + businessRuleType + "', businessRuleId: '" + businessRuleId + "', anchor: '" + anchor + "', businessRuleName: '" + businessRuleName;
+        return "agendaType: '" + agendaType + "', agendaDeterminationKeysSet: '" + agendaDeterminationKeysSet + "', businessRuleType: '" + businessRuleType + "', businessRuleId: '" + businessRuleId + "', anchor: '" + anchor + "', businessRuleDisplayName: '" + businessRuleDisplayName;
     }
 }

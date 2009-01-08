@@ -108,29 +108,30 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return executionResult;
     }     
 
+    //returns business rule ID
 	public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
     	
-    	String new_rule_id = null;
+    	String newRuleId = null;
     	
         try {
-            new_rule_id = ruleManagementService.createBusinessRule(businessRuleInfo);
+            newRuleId = ruleManagementService.createBusinessRule(businessRuleInfo).getBusinessRuleId();
         } catch (Exception ex) {
             throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }
-        return new_rule_id;
+        return newRuleId;
     }
 
-    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
+	
+    public void updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
         
-    	StatusDTO rule_update_status = null;
+    	String ruleUpdateStatus = null;
                 
         try {
-            rule_update_status = ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
+            ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
         	throw new Exception("Unable to update business rule: " + ex.getMessage());
             //throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
         }
-        return rule_update_status;
     }
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
@@ -310,7 +311,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
 
-                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getName(),
+                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getDisplayName(),
                     				businessRule.getAnchorValue(), businessRule.getStatus()));
                 }
             }
@@ -328,7 +329,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         ruleInfo.setAgendaType(agendaType);
         ruleInfo.setBusinessRuleType(businessRuleType);
         ruleInfo.setBusinessRuleId(ruleId);
-        ruleInfo.setBusinessRuleName(ruleName);
+        ruleInfo.setBusinessRuleDisplayName(ruleName);
         ruleInfo.setAnchor(anchor);
         ruleInfo.setStatus(status);
 

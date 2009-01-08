@@ -53,7 +53,7 @@ public interface DevelopersGuiService extends RemoteService {
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
 
-    public StatusDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception;
+    public void updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception;
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId);
 

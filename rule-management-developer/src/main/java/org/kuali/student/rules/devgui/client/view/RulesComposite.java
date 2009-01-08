@@ -226,7 +226,7 @@ public class RulesComposite extends Composite {
     private boolean loadingFactTypeKeyList = false;  //TODO 'loading' icon; also for other drop downs
     private String firstFactTypeKeyListSelectedValue = null;
     private String secondFactTypeKeyListSelectedValue = null;
-    private final String STATUS_NOT_STORED_IN_DATABASE = "NOT_STORED_IN_DATABASE";
+    private final String STATUS_NOT_STORED_IN_DATABASE = "TO_BE_ENTERED";
     private final String EMPTY_AGENDA_TYPE = "drafts";
     private final String EMPTY_LIST_BOX_ITEM = "        ";
     private final String USER_DEFINED_FACT_TYPE_KEY = "STATIC  FACT";
@@ -348,7 +348,7 @@ public class RulesComposite extends Composite {
                             ruleInfo.setAgendaType(displayedRuleInfo.getAgendaType());
                             ruleInfo.setBusinessRuleType(displayedRuleInfo.getBusinessRuleType());
                             ruleInfo.setAnchor(displayedRuleInfo.getAnchor());
-                            ruleInfo.setBusinessRuleName(displayedRule.getName());
+                            ruleInfo.setBusinessRuleDisplayName(displayedRule.getDisplayName());
                             ruleInfo.setBusinessRuleId(newRuleID);
                             rulesTree.add(ruleInfo);
                             displayedRule.setBusinessRuleId(newRuleID);
@@ -374,15 +374,15 @@ public class RulesComposite extends Composite {
                     	return;
                     }                                        
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(StatusDTO updateStatus) {
-                            System.out.println("Updated rule DRAFT: " + updateStatus.isSuccess());
+                        public void onSuccess(Void voidObj) {
+                            System.out.println("Updated rule DRAFT");
                         }
                     });
                     
@@ -410,17 +410,17 @@ public class RulesComposite extends Composite {
                     // 3) activated Draft will become a rule
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
-                    displayedRuleInfo.setBusinessRuleName(displayedRule.getName());
+                    displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getDisplayName());
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(StatusDTO updateStatus) {
-                            System.out.println("Activated draft: " + updateStatus.isSuccess());
+                        public void onSuccess(Void voidObj) {
+                            System.out.println("Activated draft");
                         }
                     });
                     
@@ -449,15 +449,15 @@ public class RulesComposite extends Composite {
                     
                     //TODO retire this rule and make a new version - talk to Kamal
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(StatusDTO updateStatus) {
-                            System.out.println("Updated active rule: " + updateStatus.isSuccess());
+                        public void onSuccess(Void voidObj) {
+                            System.out.println("Updated active rule");
                         }
                     });
                     
@@ -472,19 +472,16 @@ public class RulesComposite extends Composite {
                     displayedRule.setStatus(BusinessRuleStatus.RETIRED.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
 
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<StatusDTO>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
+                            GuiUtil.showUserDialog("Rule retired.");
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(StatusDTO updateStatus) {
-                        	if (updateStatus.isSuccess()) {
-                        		GuiUtil.showUserDialog("Rule retired.");
-                        	} else {
-                        		GuiUtil.showUserDialog("ERROR: Failed to retire rule.");
-                        	}
+                        public void onSuccess(Void obj) {
+                        	GuiUtil.showUserDialog("Rule retired.");
                         }
                     });
                     
@@ -503,8 +500,8 @@ public class RulesComposite extends Composite {
                 	businessRuleID.setText("");
                 	displayedRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
                 	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
-                	displayedRule.setName("COPY " + displayedRule.getName());;                                	
-                	nameTextBox.setText(displayedRule.getName());
+                	displayedRule.setDisplayName("COPY " + displayedRule.getDisplayName());;                                	
+                	nameTextBox.setText(displayedRule.getDisplayName());
                 	updateRulesFormButtons(displayedRule.getStatus());
                 	rulesFormTabs.selectTab(0);  
                 	GuiUtil.showUserDialog("Rule copied.");
@@ -910,7 +907,7 @@ public class RulesComposite extends Composite {
     private boolean updateCopyOfDisplayedRule() {
 
         // set rule basic info
-    	displayedRule.setName(nameTextBox.getText());
+    	displayedRule.setDisplayName(nameTextBox.getText());
     	displayedRule.setDescription(descriptionTextArea.getText());
     	displayedRule.setSuccessMessage(successMessageTextArea.getText());
     	displayedRule.setFailureMessage(failureMessageTextArea.getText());
@@ -973,7 +970,7 @@ public class RulesComposite extends Composite {
 
         newRule.setBusinessRuleId("");
         newRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
-        newRule.setName("");
+        newRule.setDisplayName("");
         newRule.setDescription("");
         newRule.setSuccessMessage("");
         newRule.setFailureMessage("");
@@ -1024,14 +1021,14 @@ public class RulesComposite extends Composite {
         String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
         String businessRuleType = GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox);
         String anchor = ruleAnchorTextBox.getText();
-        String ruleName = displayedRule.getName();
+        String ruleName = displayedRule.getDisplayName();
                        
         //show drafts with other rules for now, marking them with [D]
         displayedRuleInfo = new RulesHierarchyInfo();
     	displayedRuleInfo.setAgendaType(agendaType);
     	displayedRuleInfo.setBusinessRuleType(businessRuleType);
     	displayedRuleInfo.setAnchor(anchor); 
-    	displayedRuleInfo.setBusinessRuleName(ruleName);
+    	displayedRuleInfo.setBusinessRuleDisplayName(ruleName);
     	displayedRuleInfo.setBusinessRuleId(newRuleID);     	    	
     }
     
@@ -1045,7 +1042,7 @@ public class RulesComposite extends Composite {
     private boolean isDisplayedRuleValid(String message) {
  	
         // at least one proposition needs to be used
-        if (displayedRule.getName().isEmpty()) {
+        if (displayedRule.getDisplayName().isEmpty()) {
         	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Name.");
             return false;
         }
@@ -1323,7 +1320,7 @@ public class RulesComposite extends Composite {
         // populate Main TAB
         businessRuleID.setText(displayedRule.getBusinessRuleId());
         setRuleStatus(displayedRule.getStatus());
-        nameTextBox.setText(displayedRule.getName());
+        nameTextBox.setText(displayedRule.getDisplayName());
         descriptionTextArea.setText(displayedRule.getDescription());
         successMessageTextArea.setText(displayedRule.getSuccessMessage());
         failureMessageTextArea.setText(displayedRule.getFailureMessage());
