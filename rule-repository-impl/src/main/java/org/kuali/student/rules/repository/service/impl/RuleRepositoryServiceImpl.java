@@ -577,7 +577,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
-     * Changes the rule set state if it has been changed.
+     * Changes the rule set state and rule state if they have been changed.
      * 
      * @param businessRule Business rule
      * @param ruleSet Rule set to change status on
@@ -589,12 +589,20 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     		return;
     	}
 
+    	// Create status in repository if it does not exist
     	if (!this.ruleEngineRepository.containsStatus(businessRule.getStatus())) {
     		this.ruleEngineRepository.createStatus(businessRule.getStatus());
     	}
 
     	if (!businessRule.getStatus().equals(ruleSet.getStatus())) {
+    		// Change rule set status
     		this.ruleEngineRepository.changeRuleSetStatus(ruleSet.getUUID(), businessRule.getStatus());
+    		// Change rule status
+    		for(Rule rule : ruleSet.getRules()) {
+    	    	if (!businessRule.getStatus().equals(rule.getStatus())) {
+	    			this.ruleEngineRepository.changeRuleStatus(rule.getUUID(), businessRule.getStatus());
+    	    	}
+    		}
     	}
     }
 
@@ -613,6 +621,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 		if (businessRule == null) {
 			throw new MissingParameterException("Business rule is null");
 		}
+
 		RuleSet ruleSet = null;
     	try {
     		ruleSet = this.ruleSetTranslator.translate(businessRule);

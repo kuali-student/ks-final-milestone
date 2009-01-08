@@ -669,7 +669,12 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
+    	// Assert rule set
     	assertEquals(BusinessRuleStatus.ACTIVE.toString(), ruleSet1.getStatus());
+    	// Assert rules
+    	for(RuleDTO rule : ruleSet1.getRules().values()) {
+	    	assertEquals(BusinessRuleStatus.ACTIVE.toString(), rule.getStatus());
+    	}
         service.removeRuleSet(ruleSet1.getUUID());
     }
 
