@@ -49,6 +49,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
@@ -656,6 +657,19 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     	assertNotNull(ruleSet1);
     	assertNotNull(ruleSet1.getUUID());
+        service.removeRuleSet(ruleSet1.getUUID());
+    }
+
+    @Test
+    public void testGenerateAndCreateRuleSet_CheckStatus() throws Exception {
+    	BusinessRuleInfoDTO businessRule = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
+        businessRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
+    	// Generate and create new rule set
+    	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule);
+
+    	assertNotNull(ruleSet1);
+    	assertNotNull(ruleSet1.getUUID());
+    	assertEquals(BusinessRuleStatus.ACTIVE.toString(), ruleSet1.getStatus());
         service.removeRuleSet(ruleSet1.getUUID());
     }
 

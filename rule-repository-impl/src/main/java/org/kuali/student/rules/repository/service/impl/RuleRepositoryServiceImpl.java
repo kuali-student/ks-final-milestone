@@ -577,6 +577,28 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     }
 
     /**
+     * Changes the rule set state if it has been changed.
+     * 
+     * @param businessRule Business rule
+     * @param ruleSet Rule set to change status on
+     * @throws RuleEngineRepositoryException
+     */
+    private void changeRuleSetStatus(BusinessRuleInfoDTO businessRule, RuleSet ruleSet)
+    	throws RuleEngineRepositoryException {
+    	if (businessRule.getStatus() == null) {
+    		return;
+    	}
+
+    	if (!this.ruleEngineRepository.containsStatus(businessRule.getStatus())) {
+    		this.ruleEngineRepository.createStatus(businessRule.getStatus());
+    	}
+
+    	if (!businessRule.getStatus().equals(ruleSet.getStatus())) {
+    		this.ruleEngineRepository.changeRuleSetStatus(ruleSet.getUUID(), businessRule.getStatus());
+    	}
+    }
+
+    /**
      * Generates and creates or updates a rule set (rule engine specific source code) 
      * from a <code>BusinessRuleContainerDTO</code>.
      *  
@@ -643,6 +665,15 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
         	throw new OperationFailedException(e.getMessage());
 		}
 
+		// Change rule set status to match business rule status
+		try {
+			changeRuleSetStatus(businessRule, ruleSet);
+			ruleSet = this.ruleEngineRepository.loadRuleSet(ruleSet.getUUID());
+        } catch(RuleEngineRepositoryException e) {
+			logger.error(e.getMessage(), e);
+        	throw new OperationFailedException(e.getMessage());
+		}
+        
 		RuleSetDTO dto = ruleAdapter.getRuleSetDTO(ruleSet);
 		return dto;
     }
