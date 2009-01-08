@@ -209,6 +209,11 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
         throw new RuleEngineRepositoryException("Method Not Implemented");
 	}
 
+	@Override
+	public boolean containsStatus(String status) {
+        throw new RuleEngineRepositoryException("Method Not Implemented");
+	}
+
     @Override
     public byte[] exportRulesRepositoryAsXml() {
         throw new RuleEngineRepositoryException("Method Not Implemented");
