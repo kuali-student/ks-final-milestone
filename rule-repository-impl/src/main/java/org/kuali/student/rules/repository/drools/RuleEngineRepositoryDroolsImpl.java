@@ -933,6 +933,23 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     }
 
     /**
+     * Returns true if the repository contains the specified 
+     * <code>status</code>; otherwise false.
+     * 
+     * @param status Status to check
+     * @return True if repository contains the specified status; otherwise false
+     */
+    public boolean containsStatus(String status) {
+    	String[] states = this.loadStates();
+    	for(String state : states) {
+    		if(state.equals(status)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    /**
      * Changes rule status by uuid.
      * 
      * @param uuid

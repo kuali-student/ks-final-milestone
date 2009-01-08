@@ -1138,6 +1138,24 @@ public class RuleEngineRepositoryTest {
     }
 
     @Test
+    public void testContainsDefaultStatus() throws Exception {
+        assertTrue(brmsRepository.containsStatus("Draft"));
+    }
+    
+    @Test
+    public void testContainsStatus() throws Exception {
+        brmsRepository.createStatus("Active");
+        assertTrue(brmsRepository.containsStatus("Active"));
+    }
+    
+    @Test
+    public void testNotContainsStatus() throws Exception {
+        brmsRepository.createStatus("Active");
+        assertFalse(brmsRepository.containsStatus("active"));
+        assertFalse(brmsRepository.containsStatus("xxx"));
+    }
+    
+    @Test
     public void testLoadDefaultStatus() throws Exception {
         String[] states = brmsRepository.loadStates();
         assertEquals(1, states.length);
