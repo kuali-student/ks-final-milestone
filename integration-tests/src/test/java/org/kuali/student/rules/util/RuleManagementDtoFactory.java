@@ -67,7 +67,7 @@ public class RuleManagementDtoFactory {
 		return dto;
 	}
 
-	public BusinessRuleInfoDTO createBusinessRuleInfoDTO(String name, 
+	public BusinessRuleInfoDTO createBusinessRuleInfoDTO(String displayName, 
 														 String businessRuleId,
 														 String successMessage,
 														 String failureMessage,
@@ -76,7 +76,7 @@ public class RuleManagementDtoFactory {
 														 String anchorTypeKey,
 														 String anchorValue) {
 		BusinessRuleInfoDTO dto = new BusinessRuleInfoDTO();
-		dto.setName(name);
+		dto.setDisplayName(displayName);
 		dto.setDescription("Business rule info DTO");
 		dto.setSuccessMessage(successMessage);
 		dto.setFailureMessage(failureMessage);

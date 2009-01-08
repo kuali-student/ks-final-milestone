@@ -216,7 +216,7 @@ public class ServiceTestClient {
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
         brInfoDTO.setBusinessRuleId("123");
-        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDisplayName(ruleName);
         brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
@@ -244,13 +244,13 @@ public class ServiceTestClient {
     private BusinessRuleInfoDTO generateNewEmptyBusinessRuleInfo(String businessRuleId, String ruleName, String anchor) {
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         metaInfo.setCreateTime(new Date());
-        metaInfo.setCreateID("Zdenek");
+        metaInfo.setCreateID("");
         metaInfo.setUpdateTime(new Date());
-        metaInfo.setUpdateID("Len");
+        metaInfo.setUpdateID("");
      
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
         brInfoDTO.setBusinessRuleId(businessRuleId);
-        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDisplayName(ruleName);
         brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
@@ -320,12 +320,12 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-    		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
+    		Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
     		
     		System.out.println("Business Rule ID:   "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Name: "+businessRule2.getName());
+	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
     	} finally {
     		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -338,11 +338,11 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
 	        System.out.println("Business Rule ID:   "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule Name: "+businessRule2.getName());
-	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
+	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
+	        Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
     	} finally {
     		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -355,14 +355,14 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
 	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Name:     "+businessRule.getName());
+	        System.out.println("Business Rule Display Name:     "+businessRule.getDisplayName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -383,11 +383,11 @@ public class ServiceTestClient {
     	
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
 	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        StatusDTO status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+	        String status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule).getStatus();
 	        Assert.assertNotNull(status);
 	        System.out.println("status:                 "+status);
 	
@@ -395,7 +395,7 @@ public class ServiceTestClient {
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
 	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Name:     "+businessRule.getName());
+	        System.out.println("Business Rule Display Name:     "+businessRule.getDisplayName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -416,11 +416,11 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
     		BusinessRuleInfoDTO businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
 	        System.out.println("Business Rule ID:        "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Name:      "+businessRule.getName());
+	        System.out.println("Business Rule Display Name:      "+businessRule.getDisplayName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 	        Assert.assertNotNull(executionResult);
@@ -487,11 +487,11 @@ public class ServiceTestClient {
     	
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1);
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
             Assert.assertNotNull(businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Name :     "+businessRule2.getName());
+	        System.out.println("Business Rule Display Name :     "+businessRule2.getDisplayName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure1);
             Assert.assertNotNull(executionResult);
