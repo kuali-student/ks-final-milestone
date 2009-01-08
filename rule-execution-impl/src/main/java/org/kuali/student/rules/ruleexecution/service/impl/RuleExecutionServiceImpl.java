@@ -249,14 +249,15 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
 		    				switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
     		    				case KUALI_FACT_EXECUTION_TIME_KEY: {
-    		    					if (executionFact.getParamValueMap() == null ) {
+    				    			if (logger.isInfoEnabled()) {
+										logger.info("EXECUTION: paramValueMap="+executionFact.getParamValueMap());
+    				    			}
+
+    				    			if (executionFact.getParamValueMap() == null ) {
     		    						throw new OperationFailedException(
     		    								"EXECUTION: Parameter value map is null");    		    					
     		    					}
     		    					if (!executionFact.getParamValueMap().containsKey(key)) {
-        				    			if (logger.isInfoEnabled()) {
-    										logger.info("EXECUTION: paramValueMap="+executionFact.getParamValueMap());
-        				    			}
     		    						throw new OperationFailedException(
     		    								"EXECUTION: Key '" + key +
     		    								"' not found in parameter value map: " + key);    		    					
@@ -270,13 +271,14 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		    					break;
     		    				}
     		    				case KUALI_FACT_DEFINITION_TIME_KEY: {
+    				    			if (logger.isInfoEnabled()) {
+										logger.info("DEFINITION: paramValueMap="+factStructure.getParamValueMap());
+    				    			}
+
     		    					if (factStructure.getParamValueMap() == null ) {
     		    						throw new OperationFailedException("DEFINITION: Parameter value map is null");    		    					
     		    					}
     		    					if (!factStructure.getParamValueMap().containsKey(key)) {
-        				    			if (logger.isInfoEnabled()) {
-    										logger.info("DEFINITION: paramValueMap="+factStructure.getParamValueMap());
-        				    			}
     		    						throw new OperationFailedException(
     		    								"DEFINITION: Key '" + key +
     		    								"' not found in parameter value map");    		    					
