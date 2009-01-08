@@ -246,29 +246,51 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 			    			if (logger.isInfoEnabled()) {
 			    				logger.info("Fact criteria type fact param defTime="+entry.getValue().getDefTime() + ", key"+key);
 			    			}
+
 		    				switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
     		    				case KUALI_FACT_EXECUTION_TIME_KEY: {
-									if (executionFact.getParamValueMap() != null && executionFact.getParamValueMap().containsKey(key)) {
-	    		    					String value = executionFact.getParamValueMap().get(key);
-	    				    			if (logger.isInfoEnabled()) {
-											logger.info("EXECUTION: value="+value);
-	    				    			}
-		    		    				executionParamMap.put(key, value);
-	    		    					break;
-									}
+    		    					if (executionFact.getParamValueMap() == null ) {
+    		    						throw new OperationFailedException(
+    		    								"EXECUTION: Parameter value map is null");    		    					
+    		    					}
+    		    					if (!executionFact.getParamValueMap().containsKey(key)) {
+        				    			if (logger.isInfoEnabled()) {
+    										logger.info("EXECUTION: paramValueMap="+executionFact.getParamValueMap());
+        				    			}
+    		    						throw new OperationFailedException(
+    		    								"EXECUTION: Key '" + key +
+    		    								"' not found in parameter value map: " + key);    		    					
+    		    					}
+
+    		    					String value = executionFact.getParamValueMap().get(key);
+    				    			if (logger.isInfoEnabled()) {
+										logger.info("EXECUTION: value="+value);
+    				    			}
+	    		    				executionParamMap.put(key, value);
+    		    					break;
     		    				}
     		    				case KUALI_FACT_DEFINITION_TIME_KEY: {
-									if (factStructure.getParamValueMap() != null && factStructure.getParamValueMap().containsKey(key)) {
-	    	    						String value = factStructure.getParamValueMap().get(key);
-	    				    			if (logger.isInfoEnabled()) {
-											logger.info("DEFINITION: value="+value);
-	    				    			}
-	    	    						definitionParamMap.put(key, value);
-	    		    					break;
-									}
+    		    					if (factStructure.getParamValueMap() == null ) {
+    		    						throw new OperationFailedException("DEFINITION: Parameter value map is null");    		    					
+    		    					}
+    		    					if (!factStructure.getParamValueMap().containsKey(key)) {
+        				    			if (logger.isInfoEnabled()) {
+    										logger.info("DEFINITION: paramValueMap="+factStructure.getParamValueMap());
+        				    			}
+    		    						throw new OperationFailedException(
+    		    								"DEFINITION: Key '" + key +
+    		    								"' not found in parameter value map");    		    					
+    		    					}
+
+    		    					String value = factStructure.getParamValueMap().get(key);
+    				    			if (logger.isInfoEnabled()) {
+										logger.info("DEFINITION: value="+value);
+    				    			}
+    	    						definitionParamMap.put(key, value);
+    		    					break;
     		    				}
     		    				default: throw new OperationFailedException("Invalid definition time constant: " + entry.getValue().getDefTime());
-    		    				}
+    		    			}
 		    			}
 	    				if (executionParamMap.size() > 0) {
 	    					executionFactStructure.setFactStructureId(factStructure.getFactStructureId());
