@@ -473,10 +473,10 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
     /**
      * Loads all states.
      * 
-     * @return Array of all states (statuses)
+     * @return List of all states
      * @throws OperationFailedException Thrown if loading states fails
      */
-    public String[] fetchStates()
+    public List<String> fetchStates()
     	throws OperationFailedException {
         try {
 	    	return this.ruleEngineRepository.loadStates();

@@ -1112,16 +1112,16 @@ public class RuleEngineRepositoryTest {
     public void testCreateAndRemoveStatus() throws Exception {
         brmsRepository.createStatus("Active");
 
-        String[] states = brmsRepository.loadStates();
-        assertEquals(2, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
-        assertEquals("Active", states[1]);
+        List<String> states = brmsRepository.loadStates();
+        assertEquals(2, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
+        assertEquals("Active", states.get(1));
 
         brmsRepository.removeStatus("Active");
         states = brmsRepository.loadStates();
 
-        assertEquals(1, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
+        assertEquals(1, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
     }
 
     @Test
@@ -1129,12 +1129,12 @@ public class RuleEngineRepositoryTest {
         brmsRepository.createStatus("Active");
         brmsRepository.createStatus("Inactive");
 
-        String[] states = brmsRepository.loadStates();
+        List<String> states = brmsRepository.loadStates();
 
-        assertEquals(3, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
-        assertEquals("Active", states[1]);
-        assertEquals("Inactive", states[2]);
+        assertEquals(3, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
+        assertEquals("Active", states.get(1));
+        assertEquals("Inactive", states.get(2));
     }
 
     @Test
@@ -1157,9 +1157,9 @@ public class RuleEngineRepositoryTest {
     
     @Test
     public void testLoadDefaultStatus() throws Exception {
-        String[] states = brmsRepository.loadStates();
-        assertEquals(1, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
+        List<String> states = brmsRepository.loadStates();
+        assertEquals(1, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
     }
 
     @Test

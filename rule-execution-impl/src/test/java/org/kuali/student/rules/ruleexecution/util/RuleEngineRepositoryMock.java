@@ -271,7 +271,7 @@ public class RuleEngineRepositoryMock implements RuleEngineRepository {
     }
 
     @Override
-    public String[] loadStates() {
+    public List<String> loadStates() {
         throw new RuleEngineRepositoryException("Method Not Implemented");
     }
 

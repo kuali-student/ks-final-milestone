@@ -916,19 +916,19 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
     /**
      * Loads all states.
      * 
-     * @return Array of all states (statuses)
+     * @return List of all states
      * @throws RuleEngineRepositoryException Thrown if loading states fails
      */
-    public String[] loadStates() {
+    public List<String> loadStates() {
         try {
             StateItem[] states = this.repository.listStates();
-            String[] result = new String[states.length];
+            List<String> result = new ArrayList<String>(states.length);
             for (int i = 0; i < states.length; i++) {
-                result[i] = states[i].getName();
+                result.add(states[i].getName());
             }
             return result;
         } catch (RulesRepositoryException e) {
-            throw new RuleEngineRepositoryException("Listing states failed", e);
+            throw new RuleEngineRepositoryException("Loading states failed", e);
         }
     }
 
@@ -940,13 +940,7 @@ public class RuleEngineRepositoryDroolsImpl implements RuleEngineRepository {
      * @return True if repository contains the specified status; otherwise false
      */
     public boolean containsStatus(String status) {
-    	String[] states = this.loadStates();
-    	for(String state : states) {
-    		if(state.equals(status)) {
-    			return true;
-    		}
-    	}
-    	return false;
+    	return this.loadStates().contains(status);
     }
     
     /**

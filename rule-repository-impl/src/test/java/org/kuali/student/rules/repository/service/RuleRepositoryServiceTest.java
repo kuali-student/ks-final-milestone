@@ -395,9 +395,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	assertNotNull(uuid);
     	service.removeState("Active");
 
-    	String[] states = service.fetchStates();
-        assertEquals(1, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
+    	List<String> states = service.fetchStates();
+        assertEquals(1, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
     }
     
     @Test
@@ -405,10 +405,10 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	String uuid = service.createState("Active");
     	assertNotNull(uuid);
 
-    	String[] states = service.fetchStates();
-        assertEquals(2, states.length);
-        assertEquals("Draft", states[0]); // default state is Draft
-        assertEquals("Active", states[1]);
+    	List<String> states = service.fetchStates();
+        assertEquals(2, states.size());
+        assertEquals("Draft", states.get(0)); // default state is Draft
+        assertEquals("Active", states.get(1));
     	service.removeState("Active");
     }
     
