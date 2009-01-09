@@ -190,7 +190,8 @@ public interface RuleRepositoryService {
     	throws OperationFailedException, InvalidParameterException;
 
     /**
-     * Replaces an existing rule set snapshot in the repository.
+     * Replaces an existing rule set snapshot with a new rule set snapshot 
+     * in the repository.
      * 
      * @param ruleSetUUID Rule set uuid
      * @param ruleSetName Rule set name
@@ -208,7 +209,7 @@ public interface RuleRepositoryService {
     	throws OperationFailedException, InvalidParameterException;
 
     /**
-     * Rebuilds (recompiles) an existing rule set snapshot and in the repository.
+     * Rebuilds (recompiles) an existing rule set snapshot in the repository.
      * 
      * @param ruleSetUUID Rule set UUID
      * @param snapshotName Snapshot name
