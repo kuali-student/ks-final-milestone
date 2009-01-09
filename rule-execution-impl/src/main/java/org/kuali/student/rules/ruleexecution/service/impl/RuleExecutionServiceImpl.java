@@ -244,7 +244,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		    				String key = entry.getValue().getKey();
 
 			    			if (logger.isInfoEnabled()) {
-			    				logger.info("Fact criteria type fact param defTime="+entry.getValue().getDefTime() + ", key"+key);
+			    				logger.info("Fact param defTime="+entry.getValue().getDefTime() + ", key"+key);
 			    			}
 
 		    				switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
