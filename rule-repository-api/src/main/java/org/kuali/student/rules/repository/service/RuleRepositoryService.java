@@ -260,11 +260,11 @@ public interface RuleRepositoryService {
     /**
      * Loads all states.
      * 
-     * @return Array of all states (statuses)
+     * @return List of all states
      * @throws OperationFailedException Thrown if loading states fails
      */
     @WebMethod
-    public String[] fetchStates() 
+    public List<String> fetchStates() 
     	throws OperationFailedException;
 
     /**
