@@ -303,7 +303,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @return A list of rule sets
      * @throws OperationFailedException Thrown if loading rule set list fails
      */
-    public List<RuleSetDTO> fetchRuleSetsByCategory(String category)
+    public List<RuleSetDTO> fetchRuleSetsByCategory(final String category)
     	throws OperationFailedException {
         try {
 	    	List<RuleSet> list = this.ruleEngineRepository.loadRuleSetsByCategory(category);
@@ -433,7 +433,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      * @param category Category name
      * @return A list of rule sets
      */
-    public List<RuleSetDTO> fetchRuleSetSnapshotsByCategory(String category)
+    public List<RuleSetDTO> fetchRuleSetSnapshotsByCategory(final String category)
 		throws OperationFailedException {
         try {
 	        List<RuleSet> list = this.ruleEngineRepository.loadRuleSetSnapshotsByCategory(category);
@@ -723,7 +723,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetVerificationResultDTO validateBusinessRule(BusinessRuleInfoDTO businessRule) 
+    public RuleSetVerificationResultDTO validateBusinessRule(final BusinessRuleInfoDTO businessRule) 
     	throws OperationFailedException, MissingParameterException, InvalidParameterException {
 		if (businessRule == null) {
 			throw new MissingParameterException("businessRule is null");
@@ -757,7 +757,7 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      */
-    public RuleSetDTO translateBusinessRule(BusinessRuleInfoDTO businessRule) 
+    public RuleSetDTO translateBusinessRule(final BusinessRuleInfoDTO businessRule) 
 		throws OperationFailedException, MissingParameterException, InvalidParameterException {
 		if (businessRule == null) {
 			throw new MissingParameterException("businessRule is null");
