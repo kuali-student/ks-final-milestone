@@ -788,13 +788,13 @@
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
-					<property name="structureKey" value="factParam.clusetId_psyc_200"/>
-					<!--  In real application it will be a clusetId for PSYC 200 level courses -->
+					<property name="structureKey" value="factParam.clusetId"/>
+					<!--  In real application the 'value' will be a specific clusetId for PSYC 200 level courses -->
 					<property name="value" value="PSYC 200, PSYC 201, PSYC 202, PSYC 205, PSYC 218, PSYC 263"/>
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
-					<property name="structureKey" value="factParam.excludeCluSet_ABC"/>
+					<property name="structureKey" value="factParam.excludeCluSet"/>
 					<property name="value" value="PSYC 205, PSYC 263"/>
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
