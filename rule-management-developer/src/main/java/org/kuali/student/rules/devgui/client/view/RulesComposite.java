@@ -127,6 +127,7 @@ public class RulesComposite extends Composite {
     final Label businessRuleID = new Label();
     final Label ruleStatus = new Label();
     final TextBox nameTextBox = new TextBox();
+    final Label originalNameLabel = new Label();
     final TextArea descriptionTextArea = new TextArea();
     final TextArea successMessageTextArea = new TextArea();
     final TextArea failureMessageTextArea = new TextArea();
@@ -182,13 +183,13 @@ public class RulesComposite extends Composite {
     final Button cancelPropButton = new Button("Cancel Changes");
 
     // Authoring tab
-    final TextBox effectiveStartTimeTextBox = new TextBox();
-    final TextBox effectiveEndTimeTextBox = new TextBox();
-    final TextBox createTimeTextBox = new TextBox();
-    final TextBox createUserIdTextBox = new TextBox();
+    final TextBox effectiveDateTextBox = new TextBox();
+    final TextBox expiryDateTextBox = new TextBox();
+    final Label createTimeLabel = new Label();
+    final Label createUserIdLabel = new Label();
     final TextBox createCommentTextBox = new TextBox();
-    final TextBox updateTimeTextBox = new TextBox();
-    final TextBox updateUserIdTextBox = new TextBox();
+    final Label updateTimeLabel = new Label();
+    final Label updateUserIdLabel = new Label();
     final TextBox updateCommentTextBox = new TextBox();
 
     // Test Rule tab
@@ -209,10 +210,10 @@ public class RulesComposite extends Composite {
     }
 
     // main buttons controlling rule life cycle
-    final Button submitDraftButton = new Button("Submit Draft");    
-    final Button updateDraftButton = new Button("Update Draft");
-    final Button activateDraftButton = new Button("Activate Draft");
-    final Button makeNewVersionButton = new Button("Make New Version");
+    final Button submitRuleButton = new Button("Submit Rule");    
+    final Button updateRuleButton = new Button("Update Rule");
+    final Button activateRuleButton = new Button("Activate Rule");
+    final Button createNewVersionButton = new Button("Create New Version");
     final Button retireRuleButton = new Button("Retire Rule");    
     final Button copyRuleButton = new Button("Make Rule Copy");
     final Button cancelButton = new Button("Cancel Changes");     
@@ -270,7 +271,6 @@ public class RulesComposite extends Composite {
             rulesVerticalSplitPanel.setTopWidget(rulesHorizontalSplitPanel);
             rulesVerticalSplitPanel.setBottomWidget(rulesScrollPanel);
             rulesVerticalSplitPanel.setSplitPosition("90%");
-            // simplePanel.setSize("100%", "100%");
             simplePanel.add(rulesVerticalSplitPanel);                   
             
             // add selection event listener to rulesTree widget
@@ -310,7 +310,7 @@ public class RulesComposite extends Composite {
              * listeners for rule CREATE and UPDATE buttons
              ***************************************************************************************************************/
                                              
-            submitDraftButton.addClickListener(new ClickListener() {
+            submitRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {               	                	                                        	                 
                     
                     // 1) update the displayed rule copy with data entered
@@ -319,13 +319,14 @@ public class RulesComposite extends Composite {
                     }
                     
                     // 2) validate draft before submitting - we need at least agenda type and business rule type
-                    if (isDisplayedRuleValid("Cannot submit draft") == false) {
+                    if (isDisplayedRuleValid("Cannot submit rule") == false) {
                     	return;
                     }                        
                     
                     //make sure rule has draft status 
                     displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());  
                     displayedRuleInfo.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+                    displayedRule.getMetaInfo().setCreateTime(new Date());
                    
                     // 3) create new draft rule
                     DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<String>() {
@@ -333,6 +334,10 @@ public class RulesComposite extends Composite {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                            
+                            //now revert the rule status back
+                            displayedRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);  
+                            displayedRuleInfo.setStatus(STATUS_NOT_STORED_IN_DATABASE);                            
                         }
 
                         public void onSuccess(String newRuleID) {
@@ -355,13 +360,13 @@ public class RulesComposite extends Composite {
 
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
-                            GuiUtil.showUserDialog("Initial data submitted. New draft created.");
+                            GuiUtil.showUserDialog("New rule submitted.");
                         }
                     });
                 }
             });
 
-            updateDraftButton.addClickListener(new ClickListener() {
+            updateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {                	
                 	
                     // 1) update the draft with data entered
@@ -370,9 +375,12 @@ public class RulesComposite extends Composite {
                     }
                    
                     // 2) validate draft before update
-                    if (isDisplayedRuleValid("Cannot update draft.") == false) {
+                    if (isDisplayedRuleValid("Cannot update rule.") == false) {
                     	return;
                     }                                        
+                    
+                    // 3) update rule
+                    displayedRule.getMetaInfo().setUpdateTime(new Date());
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
@@ -382,17 +390,15 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(Void voidObj) {
-                            System.out.println("Updated rule DRAFT");
+                            GuiUtil.showUserDialog("Rule updated.");
                         }
                     });
                     
-                    loadExistingRule(displayedRule);
-                    
-                    GuiUtil.showUserDialog("Draft updated.");
+                    loadExistingRule(displayedRule);                                        
                 }
             });
       
-            activateDraftButton.addClickListener(new ClickListener() {
+            activateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
                     // 1) update the active rule with data entered
@@ -401,13 +407,13 @@ public class RulesComposite extends Composite {
                     }
 
                     // 2) validate that the rule entered/changed is correct
-                    if (isDisplayedRuleValid("Cannot activate draft.") == false) {
+                    if (isDisplayedRuleValid("Cannot activate rule.") == false) {
                     	return;
                     }
                     
                     //TODO rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
                     
-                    // 3) activated Draft will become a rule
+                    // 3) rule status changes to ACTIVE
                     displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
                     displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getDisplayName());
@@ -420,21 +426,19 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(Void voidObj) {
-                            System.out.println("Activated draft");
+                            System.out.println("Rule Activated");
                         }
                     });
                     
                     loadExistingRule(displayedRule);
                     //TODO rulesTree.update(displayedRuleInfo);
                     
-                    GuiUtil.showUserDialog("Draft activated.");
-                    
                     //TODO...
                     //controller.getEventDispatcher().fireEvent(RulesUpdateEvent.class, displayedRuleInfo);
                 }
             });            
             
-            makeNewVersionButton.addClickListener(new ClickListener() {
+            createNewVersionButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
 
                     // 1) validate that the rule entered/changed data is correct  
@@ -447,8 +451,7 @@ public class RulesComposite extends Composite {
                         return;
                     }
                     
-                    //TODO retire this rule and make a new version - talk to Kamal
-                    
+                    // 3) create new version of this rule
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -457,7 +460,7 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(Void voidObj) {
-                            System.out.println("Updated active rule");
+                            GuiUtil.showUserDialog("New Rule Version Created.");
                         }
                     });
                     
@@ -467,17 +470,12 @@ public class RulesComposite extends Composite {
             
             retireRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                    
-                    //retire Rule
                     displayedRule.setStatus(BusinessRuleStatus.RETIRED.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
 
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
-                            // just re-throw it and let the uncaught exception handler deal with it
-                            GuiUtil.showUserDialog("Rule retired.");
                             Window.alert(caught.getMessage());
-                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
                         public void onSuccess(Void obj) {
@@ -492,16 +490,16 @@ public class RulesComposite extends Composite {
             
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                	//new draft will be positioned in the tree
-                	//placeNewDraftInTree("");                	
-                	
-                	//keep original rule values except rule id
+                	//keep original rule values except rule id, original rule id, compiled id and original name
                 	displayedRule.setBusinessRuleId("");
+                	displayedRule.setFirstVersionRuleId("");
+                	displayedRule.setCompiledId("");
                 	businessRuleID.setText("");
+                    originalNameLabel.setText("");
+                	displayedRule.setDisplayName("COPY " + displayedRule.getDisplayName()); 
+                    nameTextBox.setText(displayedRule.getDisplayName());                    
                 	displayedRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
-                	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
-                	displayedRule.setDisplayName("COPY " + displayedRule.getDisplayName());;                                	
-                	nameTextBox.setText(displayedRule.getDisplayName());
+                	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);                              	
                 	updateRulesFormButtons(displayedRule.getStatus());
                 	rulesFormTabs.selectTab(0);  
                 	GuiUtil.showUserDialog("Rule copied.");
@@ -546,17 +544,7 @@ public class RulesComposite extends Composite {
                     selectedPropListBoxIndex = selectedIndex; 
                     populatePropositionDetails(selectedRuleElement);
                 }
-            });
-            
-            /* update proposition is by default at this moment...
-            updatePropButton.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {
-                    int selectedProp = propositionsListBox.getSelectedIndex();
-                    if (selectedProp != -1) {                        
-                    	updateSelectedProposition();
-                    }
-                }
-            }); */
+            });           
 
             addPropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {                    
@@ -696,8 +684,6 @@ public class RulesComposite extends Composite {
 				public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
 					//show rule facts for test tab
 					if (tabIndex == 3) { //TODO hard coded number
-				        // update DTO of the currently edited proposition
-				    	//updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex());
 				    	
 	                    // 1) update the displayed rule copy with data entered
 	                    if (updateCopyOfDisplayedRule() == false) {
@@ -867,35 +853,35 @@ public class RulesComposite extends Composite {
     private void updateRulesFormButtons(String ruleStatus) {  
     	
     	if (ruleStatus.equalsIgnoreCase(STATUS_NOT_STORED_IN_DATABASE)) {
-        	submitDraftButton.setEnabled(true);
-        	updateDraftButton.setEnabled(false);        	
-        	activateDraftButton.setEnabled(false);        	
-        	makeNewVersionButton.setEnabled(false); 
+        	submitRuleButton.setEnabled(true);
+        	updateRuleButton.setEnabled(false);        	
+        	activateRuleButton.setEnabled(false);        	
+        	createNewVersionButton.setEnabled(false); 
         	retireRuleButton.setEnabled(false);        	
         	copyRuleButton.setEnabled(false);
         	cancelButton.setEnabled(true);  
         	return;
     	} else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
-        	submitDraftButton.setEnabled(false);  
-        	updateDraftButton.setEnabled(true); 
-        	activateDraftButton.setEnabled(true); 
-        	makeNewVersionButton.setEnabled(false);     	
-        	retireRuleButton.setEnabled(false);        	
+        	submitRuleButton.setEnabled(false);  
+        	updateRuleButton.setEnabled(true); 
+        	activateRuleButton.setEnabled(true); 
+        	createNewVersionButton.setEnabled(false);     	
+        	retireRuleButton.setEnabled(true);        	
         	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true); 
         } else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.ACTIVE.toString())) {
-        	submitDraftButton.setEnabled(false);
-        	updateDraftButton.setEnabled(false);        	
-        	activateDraftButton.setEnabled(false);   
-        	makeNewVersionButton.setEnabled(true);
+        	submitRuleButton.setEnabled(false);
+        	updateRuleButton.setEnabled(false);        	
+        	activateRuleButton.setEnabled(false);   
+        	createNewVersionButton.setEnabled(true);
         	retireRuleButton.setEnabled(true);        	
         	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true);             
         } else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.RETIRED.toString())) {
-        	submitDraftButton.setEnabled(false);
-        	updateDraftButton.setEnabled(false);        	
-        	activateDraftButton.setEnabled(false);   
-        	makeNewVersionButton.setEnabled(false);
+        	submitRuleButton.setEnabled(false);
+        	updateRuleButton.setEnabled(false);        	
+        	activateRuleButton.setEnabled(false);   
+        	createNewVersionButton.setEnabled(false);
         	retireRuleButton.setEnabled(false);        	
         	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true); 
@@ -904,6 +890,7 @@ public class RulesComposite extends Composite {
         }
     }
    
+    //populate displayedRule object with data from rule forms
     private boolean updateCopyOfDisplayedRule() {
 
         // set rule basic info
@@ -917,9 +904,7 @@ public class RulesComposite extends Composite {
     	System.out.println("Anchor Type key:" + ruleAnchorType.getText());
     	
     	displayedRule.setAnchorValue(ruleAnchorTextBox.getText());
-    	displayedRule.setEffectiveStartTime(new Date()); // TODO - add to form
-    	displayedRule.setEffectiveEndTime(new Date(future_date)); // TODO - add to form
-
+    	
         // update DTO of the currently edited proposition
     	updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex());
     	
@@ -942,14 +927,15 @@ public class RulesComposite extends Composite {
 	        displayedRule.setRuleElementList(elemList);
     	}
         
-        // set meta info
+        // set authoring info
         final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
+        displayedRule.setEffectiveStartTime(formatter.parse(effectiveDateTextBox.getText())); 
+        displayedRule.setEffectiveEndTime(formatter.parse(expiryDateTextBox.getText()));
+        
         MetaInfoDTO metaInfo = new MetaInfoDTO();
-        metaInfo.setCreateID(createUserIdTextBox.getText());
-        metaInfo.setCreateTime(new Date()); //TOOD formatter.parse(createTimeTextBox.getText()));
+        //metaInfo.setCreateID(createUserIdTextBox.getText());
         metaInfo.setCreateComment(createCommentTextBox.getText());
-        metaInfo.setUpdateID(updateUserIdTextBox.getText());
-        metaInfo.setUpdateTime(new Date()); //formatter.parse(updateTimeTextBox.getText()));
+        //metaInfo.setUpdateID(updateUserIdTextBox.getText());
         metaInfo.setUpdateComment(updateCommentTextBox.getText());
         
         displayedRule.setMetaInfo(metaInfo);
@@ -971,15 +957,16 @@ public class RulesComposite extends Composite {
         newRule.setBusinessRuleId("");
         newRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
         newRule.setDisplayName("");
+        newRule.setOrigName("");
         newRule.setDescription("");
         newRule.setSuccessMessage("");
         newRule.setFailureMessage("");
         newRule.setBusinessRuleTypeKey("");
         newRule.setAnchorTypeKey("");
         newRule.setAnchorValue("");
-		Date effectiveStartTime = new Date(); //GuiUtil.createDate(2000, 1, 1, 12, 00);
-		Date effectiveEndTime = new Date(future_date); //GuiUtil.createDate(2010, 1, 1, 12, 00);
-		newRule.setEffectiveStartTime(effectiveStartTime);
+		Date effectiveDate = new Date();
+		Date effectiveEndTime = new Date(future_date);
+		newRule.setEffectiveStartTime(effectiveDate);
 		newRule.setEffectiveEndTime(effectiveEndTime);
 
         // set rule proposition
@@ -1006,10 +993,10 @@ public class RulesComposite extends Composite {
 
         // set meta info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
-        metaInfo.setCreateTime(new Date());
+        metaInfo.setCreateTime(null);
         metaInfo.setCreateID("");
         metaInfo.setCreateComment("");
-        metaInfo.setUpdateTime(new Date());
+        metaInfo.setUpdateTime(null);
         metaInfo.setUpdateID("");        
         metaInfo.setUpdateComment("");
         newRule.setMetaInfo(metaInfo);        
@@ -1086,9 +1073,6 @@ public class RulesComposite extends Composite {
         }              
         
         return true;
-        
-        // TODO make form read-only while validating/creating/updating the rule???
-        //return (GuiUtil.validateRuleComposition(propCompositionTextArea.getText(), definedPropositions.keySet()).equals(GuiUtil.COMPOSITION_IS_VALID_MESSAGE));
     }
     
 
@@ -1109,7 +1093,6 @@ public class RulesComposite extends Composite {
     	}
     	
     	String yvfType = yvf.getYieldValueFunctionType();
-    	//System.out.println("YVF Type: " + yvfType);
         if ((yvfType.equals(EMPTY_LIST_BOX_ITEM)) || (yvfType.trim().isEmpty())) {
         	GuiUtil.showUserDialog("ERROR: YVF cannot be empty.");
             return false;
@@ -1136,7 +1119,6 @@ public class RulesComposite extends Composite {
     	}
     	
         FactStructureDTO firstFact = factStructureList.get(0);
-        //System.out.println("key " + firstFact.getFactTypeKey().trim());
         if ((firstFact == null) || (firstFact.getFactTypeKey().trim().isEmpty()) || (firstFact.getFactTypeKey().trim().equals(EMPTY_LIST_BOX_ITEM))) {
         	GuiUtil.showUserDialog("ERROR: Missing 1st Fact Type.");
             return false;        	
@@ -1204,12 +1186,12 @@ public class RulesComposite extends Composite {
     	businessRuleID.setText("");
     	ruleStatus.setText("");
         nameTextBox.setText("");
+        originalNameLabel.setText("");
         descriptionTextArea.setText("");
         successMessageTextArea.setText("");
         failureMessageTextArea.setText("");
         GuiUtil.setListBoxSelectionByItemName(agendaTypesListBox, "");  //unselect agenda type list box
         businessRuleTypesListBox.clear();
-        //populateAgendaAndBusinessRuleTypesListBox();
         ruleAnchorType.setText("");
         ruleAnchorTextBox.setText("");
 
@@ -1223,12 +1205,12 @@ public class RulesComposite extends Composite {
         compositionStatusLabel.setText("");
 
         // Clear Authoring TAB
-        effectiveStartTimeTextBox.setText("");
-        effectiveEndTimeTextBox.setText("");
-        createTimeTextBox.setText("");
-        createUserIdTextBox.setText("");
-        updateTimeTextBox.setText("");
-        updateUserIdTextBox.setText("");
+        effectiveDateTextBox.setText("");
+        expiryDateTextBox.setText("");
+        createTimeLabel.setText("");
+        createUserIdLabel.setText("");
+        updateTimeLabel.setText("");
+        updateUserIdLabel.setText("");
     }    
     
     private void populateAgendaAndBusinessRuleTypesListBox() {
@@ -1312,15 +1294,13 @@ public class RulesComposite extends Composite {
     }         
     
     public void displayActiveRule() {
-
-        final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
-
         rulesFormTabs.selectTab(0);
         
         // populate Main TAB
         businessRuleID.setText(displayedRule.getBusinessRuleId());
         setRuleStatus(displayedRule.getStatus());
         nameTextBox.setText(displayedRule.getDisplayName());
+        originalNameLabel.setText(displayedRule.getOrigName());
         descriptionTextArea.setText(displayedRule.getDescription());
         successMessageTextArea.setText(displayedRule.getSuccessMessage());
         failureMessageTextArea.setText(displayedRule.getFailureMessage());
@@ -1335,13 +1315,13 @@ public class RulesComposite extends Composite {
         completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
 
         // populate Authoring TAB
-        effectiveStartTimeTextBox.setText(formatter.format(displayedRule.getEffectiveStartTime()));
-        effectiveEndTimeTextBox.setText(formatter.format(displayedRule.getEffectiveEndTime()));
-        createTimeTextBox.setText(formatter.format(displayedRule.getMetaInfo().getCreateTime()));
-        createUserIdTextBox.setText(displayedRule.getMetaInfo().getCreateID());
+        effectiveDateTextBox.setText(GuiUtil.formatDate(displayedRule.getEffectiveStartTime()));
+        expiryDateTextBox.setText(GuiUtil.formatDate(displayedRule.getEffectiveEndTime()));
+        createTimeLabel.setText(GuiUtil.formatDate(displayedRule.getMetaInfo().getCreateTime()));
+        createUserIdLabel.setText(displayedRule.getMetaInfo().getCreateID());
         createCommentTextBox.setText(displayedRule.getMetaInfo().getCreateComment());
-        updateTimeTextBox.setText(formatter.format(displayedRule.getMetaInfo().getUpdateTime()));
-        updateUserIdTextBox.setText(displayedRule.getMetaInfo().getUpdateID());
+        updateTimeLabel.setText(GuiUtil.formatDate(displayedRule.getMetaInfo().getUpdateTime()));
+        updateUserIdLabel.setText(displayedRule.getMetaInfo().getUpdateID());
         updateCommentTextBox.setText(displayedRule.getMetaInfo().getUpdateComment());
 
         // populate Test TAB
@@ -1353,7 +1333,7 @@ public class RulesComposite extends Composite {
     private Widget addRulesForm() {
         rulesFormTabs.add(addRulesMainPage(), "Main");
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
-        rulesFormTabs.add(addRRulesMetaDataPage(), "Meta Data");
+        rulesFormTabs.add(addRRulesMetaDataPage(), "Authoring");
         rulesFormTabs.add(addRRulesTestPage(), "Test");
         rulesFormTabs.add(addRRulesTestResultsPage(), "Test Results");
         rulesFormTabs.setSize("90%", "550px");
@@ -1364,10 +1344,10 @@ public class RulesComposite extends Composite {
         space.setWidth("20px");
         HorizontalPanel hp = new HorizontalPanel();
         hp.setSpacing(8);                
-        hp.add(submitDraftButton);
-        hp.add(updateDraftButton);
-        hp.add(activateDraftButton);
-        hp.add(makeNewVersionButton);
+        hp.add(submitRuleButton);
+        hp.add(updateRuleButton);
+        hp.add(activateRuleButton);
+        hp.add(createNewVersionButton);
         hp.add(retireRuleButton);
         hp.add(space);
         hp.add(copyRuleButton);
@@ -1422,10 +1402,7 @@ public class RulesComposite extends Composite {
         // business rule ID
         final Label ruleID = new Label("ID");
         flexFormTable.setWidget(ix, 0, ruleID);
-        //flexFormTable.getCellFormatter().setWidth(ix, 1, "200px");
-
         flexFormTable.setWidget(ix, 1, businessRuleID);
-        //businessRuleID.setWidth("50%");  
         
         // business rule status
         ix++;        
@@ -1446,6 +1423,15 @@ public class RulesComposite extends Composite {
 
         flexFormTable.setWidget(ix, 1, nameTextBox);
         nameTextBox.setWidth("50%");     
+        
+        // Original Name
+        ix++;
+        flexFormTable.setWidget(ix, 0, new Label("Original Name"));
+        flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
+        flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
+
+        flexFormTable.setWidget(ix, 1, originalNameLabel);
+        originalNameLabel.setWidth("50%");        
         
         // Description
         ix++;
@@ -1572,45 +1558,40 @@ public class RulesComposite extends Composite {
         // rules form elements
         // **********************************************************
 
-        // Effective Start Time
-        final Label effectiveStartTimeLabel = new Label("Effective Start Time");
-        flexFormTable.setWidget(2, 0, effectiveStartTimeLabel);
+        // Effective Date
+        flexFormTable.setWidget(2, 0, new Label("Effective Date"));
         flexFormTable.getCellFormatter().setWidth(2, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(2, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(2, 1, effectiveStartTimeTextBox);
-        effectiveStartTimeTextBox.setWidth("30%");
+        flexFormTable.setWidget(2, 1, effectiveDateTextBox);
+        //effectiveDateTextBox.setWidth("30%");
 
-        // Effective End Time
-        final Label effectiveEndTimeLabel = new Label("Effective End Time");
-        flexFormTable.setWidget(3, 0, effectiveEndTimeLabel);
+        // Expiry Date
+        flexFormTable.setWidget(3, 0, new Label("Expiry Date"));
         flexFormTable.getCellFormatter().setWidth(3, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(3, 1, effectiveEndTimeTextBox);
-        effectiveEndTimeTextBox.setWidth("30%");
+        flexFormTable.setWidget(3, 1, expiryDateTextBox);
+        //expiryDateTextBox.setWidth("30%");
 
         // Create Time
-        final Label createTimeLabel = new Label("Create Time");
-        flexFormTable.setWidget(4, 0, createTimeLabel);
+        flexFormTable.setWidget(4, 0, new Label("Create Time"));
         flexFormTable.getCellFormatter().setWidth(4, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(4, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(4, 1, createTimeTextBox);
-        createTimeTextBox.setWidth("30%");
+        flexFormTable.setWidget(4, 1, createTimeLabel);
+        //createTimeLabel.setWidth("30%");
 
         // Create User ID
-        final Label createUserIdLabel = new Label("Create Rule User Id");
-        flexFormTable.setWidget(5, 0, createUserIdLabel);
+        flexFormTable.setWidget(5, 0, new Label("Create Rule User Id"));
         flexFormTable.getCellFormatter().setWidth(5, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(5, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(5, 1, createUserIdTextBox);
-        createUserIdTextBox.setWidth("30%");
+        flexFormTable.setWidget(5, 1, createUserIdLabel);
+        //createUserIdLabel.setWidth("30%");
 
         // Create Comment
-        final Label createCommentLabel = new Label("Create Comment");
-        flexFormTable.setWidget(6, 0, createCommentLabel);
+        flexFormTable.setWidget(6, 0, new Label("Create Comment"));
         flexFormTable.getCellFormatter().setWidth(6, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(6, 0, FORM_ROW_HEIGHT);
 
@@ -1618,26 +1599,23 @@ public class RulesComposite extends Composite {
         createCommentTextBox.setWidth("30%");
 
         // Update Time
-        final Label updateTimeLabel = new Label("Update Time");
-        flexFormTable.setWidget(7, 0, updateTimeLabel);
+        flexFormTable.setWidget(7, 0, new Label("Update Time"));
         flexFormTable.getCellFormatter().setWidth(7, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(7, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(7, 1, updateTimeTextBox);
-        updateTimeTextBox.setWidth("30%");
+        flexFormTable.setWidget(7, 1, updateTimeLabel);
+        //updateTimeLabel.setWidth("30%");
 
         // Update User ID
-        final Label updateUserIdLabel = new Label("Update Rule User Id");
-        flexFormTable.setWidget(8, 0, updateUserIdLabel);
+        flexFormTable.setWidget(8, 0, new Label("Update Rule User Id"));
         flexFormTable.getCellFormatter().setWidth(8, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(8, 0, FORM_ROW_HEIGHT);
 
-        flexFormTable.setWidget(8, 1, updateUserIdTextBox);
-        updateUserIdTextBox.setWidth("30%");
+        flexFormTable.setWidget(8, 1, updateUserIdLabel);
+        //updateUserIdLabel.setWidth("30%");
 
         // Update Comment
-        final Label updateCommentLabel = new Label("Update Comment");
-        flexFormTable.setWidget(9, 0, updateCommentLabel);
+        flexFormTable.setWidget(9, 0, new Label("Update Comment"));
         flexFormTable.getCellFormatter().setWidth(9, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(9, 0, FORM_ROW_HEIGHT);
 
@@ -1678,7 +1656,6 @@ public class RulesComposite extends Composite {
         // **********************************************************
         final FormPanel rulesFormPanel = new FormPanel();
         propositionsFlexTable.setWidget(1, 1, rulesFormPanel);
-        // propositionsFlexTable.getFlexCellFormatter().setColSpan(1, 1, 2);
         propositionsFlexTable.getCellFormatter().setWidth(1, 1, "100%");
         propositionsFlexTable.getCellFormatter().setHeight(1, 1, "100%");
         rulesFormPanel.setSize("100%", "100%");
@@ -1713,7 +1690,6 @@ public class RulesComposite extends Composite {
         // **********************************************************
         final FormPanel rulesFormPanel = new FormPanel();
         propositionsFlexTable.setWidget(1, 1, rulesFormPanel);
-        // propositionsFlexTable.getFlexCellFormatter().setColSpan(1, 1, 2);
         propositionsFlexTable.getCellFormatter().setWidth(1, 1, "100%");
         propositionsFlexTable.getCellFormatter().setHeight(1, 1, "100%");
         rulesFormPanel.setSize("100%", "100%");
@@ -1784,7 +1760,6 @@ public class RulesComposite extends Composite {
         	List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
         	HorizontalPanel factFieldsPanel = new HorizontalPanel();
         	factFieldsPanel.setSpacing(2);
-        	//factFieldsPanel.setWidth("100%");
         	propPanel.add(factFieldsPanel);
         	GuiUtil.addSpaceBelowWidget(factFieldsPanel, "10px");
         	
@@ -1883,7 +1858,6 @@ public class RulesComposite extends Composite {
         // **********************************************************
         final FormPanel rulesFormPanel = new FormPanel();
         propositionsFlexTable.setWidget(1, 1, rulesFormPanel);
-        // propositionsFlexTable.getFlexCellFormatter().setColSpan(1, 1, 2);
         propositionsFlexTable.getCellFormatter().setWidth(1, 1, "100%");
         propositionsFlexTable.getCellFormatter().setHeight(1, 1, "100%");
         rulesFormPanel.setSize("100%", "100%");
@@ -1979,10 +1953,6 @@ public class RulesComposite extends Composite {
         hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically("",yvfFirstFactLineLabel, "100px"));          
         GuiUtil.addSpaceBesideWidget(hpFirstCriteria, "5px");        
         hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactTypeLabel, yvfFirstFactTypeListBox, "150px"));
-        //TODO: in future we might need to remove 'Static Fact'option from Fact Types list and instead let user
-        // to select known fact types and then select if it is static or dynamically supplied value
-        //GuiUtil.addSpaceAfterWidget(hpFirstCriteria, "15px");    
-        //hpFirstCriteria.add(GuiUtil.addLabelAndField(yvfFirstFactLookupTypeStatic, yvfFirstFactLookupTypeDynamic, "50px"));
         GuiUtil.addSpaceBesideWidget(hpFirstCriteria, "15px");        
         hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactParamOneLabel, yvfFirstFactParamOneTextBox, "150px"));
         GuiUtil.addSpaceBesideWidget(hpFirstCriteria, "15px");
@@ -2004,11 +1974,7 @@ public class RulesComposite extends Composite {
     	yvfSecondStaticFactLabel.setStyleName("yvf_fields");
         hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically("", yvfSecondFactLineLabel, "100px"));
         GuiUtil.addSpaceBesideWidget(hpSecondCriteria, "5px");
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactTypeLabel, yvfSecondFactTypeListBox, "150px"));
-        //TODO: in future we might need to remove 'Static Fact'option from Fact Types list and instead let user
-        // to select known fact types and then select if it is static or dynamically supplied value        
-        //GuiUtil.addSpaceAfterWidget(hpSecondCriteria, "15px");    
-        //hpSecondCriteria.add(GuiUtil.addLabelAndField(yvfSecondFactLookupTypeStatic, yvfSecondFactLookupTypeDynamic, "50px"));          
+        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactTypeLabel, yvfSecondFactTypeListBox, "150px"));        
         GuiUtil.addSpaceBesideWidget(hpSecondCriteria, "15px");     
         hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactParamOneLabel, yvfSecondFactParamOneTextBox, "150px"));
         GuiUtil.addSpaceBesideWidget(hpSecondCriteria, "15px");       
@@ -2018,7 +1984,6 @@ public class RulesComposite extends Composite {
 
         HorizontalPanel hpButtons = new HorizontalPanel();
         hpButtons.setSpacing(8);      
-        //hpButtons.add(makeCopyPropButton);
         hpButtons.add(cancelPropButton);
         flexPropositionDetailsTable.add(hpButtons);        
 
@@ -2192,12 +2157,6 @@ public class RulesComposite extends Composite {
 
         propositionsListBox.setSelectedIndex(selectedPropIx); 
         selectedPropListBoxIndex = selectedPropIx;
-        
-        // check whether the current composition is valid
-        //checkPropositonComposition();
-
-        // update Rule Overview text as well
-        //completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
     }    
     
 
@@ -2208,8 +2167,6 @@ public class RulesComposite extends Composite {
         operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorType()));
         expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());        
         populateYVFDetails(prop.getLeftHandSide().getYieldValueFunction(), prop.getName());   
-        //updatePropButton.setEnabled(true);
-        //removePropButton.setEnabled(true);
     }   
     
     
@@ -2242,7 +2199,6 @@ public class RulesComposite extends Composite {
     	// a) get the first fact type
     	List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
         if (factStructureList.size() == 0) {
-        	//logger.error(e.getMessage(), e);
         	System.out.println("INVALID STATE: did not find any facts for proposition: '" + propositionName + "'");
         	GuiUtil.showUserDialog("ERROR: Missing facts for proposition: '" + propositionName + "'");
         	return; 
@@ -2333,8 +2289,6 @@ public class RulesComposite extends Composite {
 	            public void onFailure(Throwable caught) {
 	                // just re-throw it and let the uncaught exception handler deal with it
 	                Window.alert(caught.getMessage());
-	                //loadingFactTypeKeyList = false;
-	                // throw new RuntimeException("Unable to load fact type key list", caught);
 	            }
 	
 	            public void onSuccess(BusinessRuleTypeDTO ruleTypeInfo) {
@@ -2383,9 +2337,6 @@ public class RulesComposite extends Composite {
         clearYVFFactFields();            
         operatorsListBox.setSelectedIndex(-1);
         expectedValueTextBox.setText("");
-        //propositionsListBox.setSelectedIndex(-1);
-        //updatePropButton.setEnabled(false);
-        //removePropButton.setEnabled(false);
     }
     
     
@@ -2403,14 +2354,7 @@ public class RulesComposite extends Composite {
     	resetYVFFactFields();
     }
            
-    private boolean validateRuleComposition() {
-    	
-    	//first check that edited proposition is valid
-    	//RulePropositionDTO prop = retrievePropositionDTOFromFormFields();
-        //if (prop == null) {  
-        //	return false;  //invalid proposition
-        //}
-    	    	
+    private boolean validateRuleComposition() {    	
     	//check that every defined proposition is valid
     	int propIx = -1;
         for (Map.Entry<Integer, RulePropositionDTO> entry : definedPropositions.entrySet()) {
@@ -2435,13 +2379,7 @@ public class RulesComposite extends Composite {
     }
     
 
-    private RulePropositionDTO retrievePropositionDTOFromFormFields() {
-    	
-    	//first verify YVF fact fields are setup correctly and the proposition has necessary data
-    	//if (isYVFFactValid() == false) {
-    	//	return null;
-    	//}                	
-
+    private RulePropositionDTO retrievePropositionDTOFromFormFields() {  	
         // now create a new rule proposition
         RulePropositionDTO prop = new RulePropositionDTO();
         prop.setName(propNameTextBox.getText());
@@ -2534,25 +2472,15 @@ public class RulesComposite extends Composite {
         }
         
         int origPropKey = new Integer(propositionsListBox.getValue(selectedPropListIx));    	
-        
-    	//System.out.println("--> UPDATE prop with key: " + origPropKey + ", ix: " + selectedPropListIx);        
-        
+
         RulePropositionDTO selectedRuleElement = definedPropositions.get(origPropKey);
         if (selectedRuleElement == null) {
             return; //nothing to update
         }
     	
     	RulePropositionDTO newProp = retrievePropositionDTOFromFormFields();
-        //if (prop == null) {  
-        //	return false;  //invalid proposition
-        //}
-        
         definedPropositions.remove(origPropKey);
         definedPropositions.put(origPropKey, newProp);                        
-        //propositionsListBox.setSelectedIndex(-1);
-        //clearPropositionDetails();
-        //propositionsListBox.setSelectedIndex(selectedPropListIx);
-        //selectedPropIndex = selectedPropListIx;
         
         // update Rule Overview text as well
         completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));    	

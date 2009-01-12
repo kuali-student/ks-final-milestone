@@ -15,6 +15,7 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -36,6 +37,7 @@ public class GuiUtil {
     public static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
 	public static final String FACT_TYPE_KEY_PREFIX = "fact.";
+    static final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
     
     /*
      * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
@@ -585,4 +587,11 @@ public class GuiUtil {
 		cal.set(year, month-1, day, hourOfDay, minute, 0);
 		return cal.getTime();
 	} */    
+    
+    public static String formatDate(Date date) {        
+        if (date == null) {
+            return "";
+        }
+        return formatter.format(date);
+    }
 }
