@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<context:property-placeholder
+		location="classpath:application.properties" />
+
+	<bean id="messageGWTClientService"		
+		class="org.kuali.student.message.web.server.impl.MessageGWTServiceImpl">
+		<property name="messageService" ref="messageClient" />	
+		</bean>
+
+   <bean id="messageClient"
+		 class="org.kuali.student.poc.common.ws.beans.JaxWsClientFactoryBean">
+		 <property name="wsdlLocation"
+		     value="classpath:wsdl/MessageService.wsdl" />
+		 <property name="serviceEndpointInterface"
+		     value="org.kuali.student.message.service.MessageService" />
+		 <property name="serviceQNameString"
+		     value="{http://student.kuali.org/wsdl/MessageService}MessageService" />
+		 <property name="address"
+		     value="${ks.servicelocation.MessageService}" />
+    </bean>
+	
+	
+	<!-- Spring to GWT servlet mapping 
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/org.kuali.student.message.web.Main/GuiService">
+				             
+					<ref bean="messageGWTClientController"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="messageGWTClientController"
+		class="org.kuali.student.message.util.server.ServletWrappingController">
+		<property name="servletName"     value="messageClientService" />
+		<property name="servletInstance" ref="messageClientService" />
+	</bean>	
+	
+	<bean id="messageClientService"
+		class="org.kuali.student.message.web.server.gwt.MessageGWTServiceImpl">
+		<property name="serviceImpl">
+			<bean
+			      class="org.kuali.student.message.web.server.impl.MessageGWTClientServiceImpl">
+			    <property name="messageService" ref="messageClient" />
+			</bean>
+		</property>
+	</bean>	-->
+</beans>

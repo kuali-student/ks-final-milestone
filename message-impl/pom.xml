@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.kuali.student</groupId>
+  <artifactId>message-impl</artifactId>
+  <name>message-impl</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>Message impl module</description>
+  
+  <parent>
+    <artifactId>message</artifactId>
+    <groupId>org.kuali.student</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <dependencies>
+  	<dependency>
+      <groupId>net.sf.dozer</groupId>
+      <artifactId>dozer</artifactId>
+      <version>4.2.1</version>
+    </dependency>
+	<dependency>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>message-api</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+    <dependency>
+      <groupId>org.kuali.student.poc.common</groupId>
+      <artifactId>common-test</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  
+</project>

@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="lum-api/target/classes" path="lum-api/src/main/java"/>
-	<classpathentry kind="src" output="lum-api/target/classes" path="lum-api/src/main/resources"/>
-	<classpathentry kind="src" output="lum-impl/target/classes" path="lum-impl/src/main/java"/>
-	<classpathentry kind="src" output="lum-impl/target/classes" path="lum-impl/src/main/resources"/>
-	<classpathentry kind="src" output="lum-impl/target/test-classes" path="lum-impl/src/test/java"/>
-	<classpathentry kind="src" output="lum-impl/target/test-classes" path="lum-impl/src/test/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="message-services/src/main/resources"/>
+	<classpathentry kind="src" path="message-services/src/test/java"/>
+	<classpathentry kind="src" path="message-api/src/test/java"/>
+	<classpathentry kind="src" path="message-services/src/test/resources"/>
+	<classpathentry kind="src" path="message-impl/src/main/java"/>
+	<classpathentry kind="src" path="message-impl/src/main/resources"/>
+	<classpathentry kind="src" path="message-web/src/main/java"/>
+	<classpathentry kind="src" path="message-api/src/main/java"/>
+	<classpathentry kind="src" path="message-api/src/test/resources"/>
+	<classpathentry kind="src" path="message-impl/src/test/resources"/>
+	<classpathentry kind="src" path="message-web/src/test/resources"/>
+	<classpathentry kind="src" path="message-impl/src/test/java"/>
+	<classpathentry kind="src" path="message-web/src/main/resources"/>
+	<classpathentry kind="src" path="message-web/src/test/java"/>
+	<classpathentry kind="src" path="message-api/src/main/resources"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

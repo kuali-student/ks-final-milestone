@@ -1,27 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>ks-lum</artifactId>
+	<groupId>org.kuali.student</groupId>
+	<artifactId>message</artifactId>
 	<packaging>pom</packaging>
+	<name>message</name>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>org.kuali.student.poc.common</groupId>
+		<artifactId>ks-service-pom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
 
 	<modules>
-		<module>lum-api</module>
-		<module>lum-impl</module>
+		<module>message-api</module>
+		<module>message-impl</module>
+		<module>message-services</module>
+		<module>message-web</module>
 	</modules>
-
-	<name>KS Learning Unit Management POM</name>
-	<description>
-		Kuali Student Learning Unit Management POM
-	</description>
-
-	<url>http://kuali.org/communities/ks/</url>
-	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+	
+	<properties>
+			<gwtVersion>1.5.3</gwtVersion>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mvel</groupId>
+			<artifactId>mvel14</artifactId>
+			<version>1.2.21</version>
+		</dependency>
+	  	<dependency>
+	      <groupId>net.sf.dozer</groupId>
+	      <artifactId>dozer</artifactId>
+	      <version>4.2.1</version>
+	    </dependency>
+	    <dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwtVersion}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.commons</groupId>
+			<artifactId>ks-commons-ui</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+	</dependencies>
 
 </project>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<!-- maven-googlewebtoolkit2-plugin 2.0-beta24-SNAPSHOT mergewebxml requires a web.xml file, which can have an empty 
+		web-app element but this file is empty
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<init-param>
+      		<param-name>contextConfigLocation</param-name>
+      		<param-value>classpath:spring-beans.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>messageClientService</servlet-name>
+		<servlet-class>org.kuali.student.message.web.server.gwt.MessageGWTServiceImpl</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/org.kuali.student.message.web.Main/GuiService</url-pattern>
+	</servlet-mapping>
+-->
+</web-app>
