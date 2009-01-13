@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--  MAX ID : 100000000031 -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
 	<bean id="persistList"
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
@@ -102,7 +100,7 @@
 			value="enrollment co-requisites for Intermediate CPR 201" />
 		<property name="successMessage" value="Rule 1 Success Message" />
 		<property name="failureMessage" value="Rule 1 Failure Message" />
-		<property name="compiledId" value="" />
+		<property name="compiledId" value="" />		
 		<property name="anchor" value="CPR 201" />
 		<property name="businessRuleType" ref="businessRuleType2" />
 		<property name="metaData" ref="ruleMetaData" />
@@ -180,7 +178,7 @@
 		<property name="description"
 			value="enumeration of required co-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.java.math.BigDecimal" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide3" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide3" />
@@ -354,7 +352,7 @@
 		<property name="description"
 			value="enumeration of required pre-requisite courses" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.java.math.BigDecimal" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide4" />
 		<property name="operator" value="EQUAL_TO" />
 		<property name="rightHandSide" ref="rightHandSide4" />
@@ -367,7 +365,7 @@
 		<property name="name" value="P4" />
 		<property name="description" value="credits check" />
 		<property name="failureMessage" value="prop error message" />
-		<property name="comparisonDataType" value="java.lang.java.math.BigDecimal" />
+		<property name="comparisonDataType" value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide5" />
 		<property name="operator" value="GREATER_THAN" />
 		<property name="rightHandSide" ref="rightHandSide5" />
@@ -665,7 +663,7 @@
 			<set>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.studentId"/>
-					<property name="value" value="KUALI_FACT_EXECUTION_TIME_KEY"/>					
+					<property name="value" value="student1"/>					
 					<property name="factStructure" ref="factStructure312"/>						
 				</bean>
 			</set>
@@ -738,7 +736,7 @@
 			<set>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.studentId"/>
-					<property name="value" value="KUALI_FACT_EXECUTION_TIME_KEY"/>					
+					<property name="value" value="student2"/>					
 					<property name="factStructure" ref="factStructure322"/>						
 				</bean>
 			</set>
@@ -798,12 +796,12 @@
 			<set>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.studentId"/>
-					<property name="value" value="KUALI_FACT_EXECUTION_TIME_KEY"/>					
+					<property name="value" value="student1"/>
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
 				<bean class="org.kuali.student.rules.rulemanagement.entity.FactStructureVariable">
 					<property name="structureKey" value="factParam.clusetId"/>
-					<!--  In real application it will be a clusetId for PSYC 200 level courses -->
+					<!--  In real application the 'value' will be a specific clusetId for PSYC 200 level courses -->
 					<property name="value" value="PSYC 200, PSYC 201, PSYC 202, PSYC 205, PSYC 218, PSYC 263"/>
 					<property name="factStructure" ref="factStructure331"/>
 				</bean>
