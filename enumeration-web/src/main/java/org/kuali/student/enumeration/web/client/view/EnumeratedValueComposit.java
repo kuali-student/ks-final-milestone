@@ -2,13 +2,18 @@ package org.kuali.student.enumeration.web.client.view;
 
 import org.kuali.student.enumeration.dto.Context;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
+import org.kuali.student.enumeration.web.client.service.EnumerationGWTService;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EnumeratedValueComposit extends Composite {
     FlowPanel content = new FlowPanel();
@@ -23,6 +28,7 @@ public class EnumeratedValueComposit extends Composite {
     FlexTable fieldTable = new FlexTable();
 
     DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd/MM/yyyy");
+    
     public EnumeratedValueComposit() {
         super.initWidget(content);
         content.add(new HTML("abbrevValueBox"));
@@ -47,6 +53,19 @@ public class EnumeratedValueComposit extends Composite {
         fieldTable.setHTML(0, 1, "Value");
         
         content.add(fieldTable);
+        
+        Button addRowToContextTable = new Button("Add Context");
+        content.add(addRowToContextTable);
+        addRowToContextTable.addClickListener(new ClickListener() {
+            public void onClick(Widget arg0) {
+                int rowCount = fieldTable.getRowCount();
+                rowCount = rowCount + 1;
+                fieldTable.setWidget(rowCount, 0, new TextBox());
+                fieldTable.setWidget(rowCount, 1, new TextBox());
+                
+            }
+        });
+        
     }
     public EnumeratedValue getEnumeratedValue(){
         EnumeratedValue value = new EnumeratedValue();
