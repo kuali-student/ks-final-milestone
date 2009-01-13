@@ -29,7 +29,7 @@ public class FetchEnumerationPanel extends FlowPanel {
         HTML contextValue = new HTML("context Value");
         final TextBox contextValueBox = new TextBox();
 
-        HTML contextDate = new HTML("context Date");
+        HTML contextDate = new HTML("context Date (dd/MM/yyyy)");
         final TextBox contextDateBox = new TextBox();
 
         add(enumerationKey);

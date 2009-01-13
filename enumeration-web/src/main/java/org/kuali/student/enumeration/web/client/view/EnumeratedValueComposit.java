@@ -37,10 +37,10 @@ public class EnumeratedValueComposit extends Composite {
         content.add(new HTML("codeBox"));
         content.add(codeBox);
 
-        content.add(new HTML("effectiveDateBox"));
+        content.add(new HTML("effectiveDateBox (dd/MM/yyyy)"));
         content.add(effectiveDateBox);
 
-        content.add(new HTML("expirationDateBox"));
+        content.add(new HTML("expirationDateBox (dd/MM/yyyy)"));
         content.add(expirationDateBox);
 
         content.add(new HTML("sortKeyBox"));
@@ -80,8 +80,12 @@ public class EnumeratedValueComposit extends Composite {
 
         for(int i=1;i<fieldTable.getRowCount();i++){
             Context context  = new Context();
-            context.setType(fieldTable.getText(i, 0));
-            context.setValue(fieldTable.getText(i, 1));
+            
+            TextBox typeBox = (TextBox)fieldTable.getWidget(i, 0);
+            context.setType(typeBox.getText());
+            
+            TextBox valueBox = (TextBox)fieldTable.getWidget(i, 1);
+            context.setValue(valueBox.getText());
         }
         
         return null;
