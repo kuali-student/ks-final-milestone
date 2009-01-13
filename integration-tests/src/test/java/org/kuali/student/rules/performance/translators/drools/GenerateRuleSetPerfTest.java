@@ -297,6 +297,7 @@ public class GenerateRuleSetPerfTest {
         }
     }
     
+    @Ignore
     @Test
     public void testStatelessSession() throws Exception {
     	StringBuilder sb = new StringBuilder();
