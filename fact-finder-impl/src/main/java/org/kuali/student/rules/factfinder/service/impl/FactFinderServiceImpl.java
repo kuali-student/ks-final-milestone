@@ -150,6 +150,8 @@ public class FactFinderServiceImpl implements FactFinderService {
     }
     
     private Set<String> getAsSet(String list) {
+        list = (null == list)? "" : list;
+        
         String[] array = list.split(",");
         Set<String> set = new HashSet<String>();
         
