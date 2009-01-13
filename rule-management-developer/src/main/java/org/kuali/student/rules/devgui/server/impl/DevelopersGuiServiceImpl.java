@@ -20,8 +20,6 @@ import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
 /**
