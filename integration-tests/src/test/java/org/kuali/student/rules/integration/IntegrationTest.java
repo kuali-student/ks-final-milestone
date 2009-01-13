@@ -60,15 +60,15 @@ import org.kuali.student.poc.common.test.spring.SystemProperties;
 // server port (port 9000) other than 8080 as defined in 
 // brms-ws/src/main/resources/application.properties, 
 // application-ruleexecution.properties and application-rulerepository.properties
-@IntegrationServer(port=9000, webappPath="../../../brms-ws/target/brms-ws-0.1.0-SNAPSHOT", contextPath="/brms-ws-0.1.0-SNAPSHOT")
+@IntegrationServer(port=9000, webappPath="../../../brms-ws/target/brms-ws-0.1.0-SNAPSHOT", contextPath="/brms")
 @SystemProperties(properties={
-	@Property(key="ks.servicelocation.FactFinderService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/FactFinderService"),
-	@Property(key="ks.servicelocation.RuleManagementService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService"),
-	@Property(key="ks.servicelocation.RuleExecutionService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleExecutionService"),
-	@Property(key="ks.servicelocation.RuleRepositoryService", value="http://localhost:9000/brms-ws-0.1.0-SNAPSHOT/services/RuleRepositoryService")
+	@Property(key="ks.servicelocation.FactFinderService", value="http://localhost:9000/brms/services/FactFinderService"),
+	@Property(key="ks.servicelocation.RuleManagementService", value="http://localhost:9000/brms/services/RuleManagementService"),
+	@Property(key="ks.servicelocation.RuleExecutionService", value="http://localhost:9000/brms/services/RuleExecutionService"),
+	@Property(key="ks.servicelocation.RuleRepositoryService", value="http://localhost:9000/brms/services/RuleRepositoryService")
 })
 public class IntegrationTest extends AbstractIntegrationServiceTest {
-	private final static String HOST = "http://localhost:9000/brms-ws-0.1.0-SNAPSHOT";
+	private final static String HOST = "http://localhost:9000/brms";
 
 	private static String ruleManagementServiceURL = HOST+"/services/RuleManagementService";
     private static String ruleManagementNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement";
@@ -228,8 +228,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         reDTO.setRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setBusinessRuleId("123");
+        //brInfoDTO.setBusinessRuleId("123");
         brInfoDTO.setDisplayName(ruleName);
+        brInfoDTO.setOrigName(ruleName);
         brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
@@ -262,8 +263,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         metaInfo.setUpdateID("Len");
      
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setBusinessRuleId(businessRuleId);
+        //brInfoDTO.setBusinessRuleId(businessRuleId);
         brInfoDTO.setDisplayName(ruleName);
+        brInfoDTO.setOrigName(ruleName);
         brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
@@ -340,7 +342,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		System.out.println("Business Rule ID:   "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -357,7 +359,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
 	        Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -385,7 +387,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -418,7 +420,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -444,7 +446,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -515,14 +517,15 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
-    
+
     @Test
     public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
+    	businessRule1.setBusinessRuleId("xxx");
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, null);
         Assert.assertNotNull(executionResult);
@@ -539,6 +542,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     public void testCreateAndExecuteBusinessruleTest_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
+    	businessRule1.setBusinessRuleId("xxx");
 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
