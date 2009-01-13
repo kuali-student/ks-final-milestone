@@ -1,6 +1,7 @@
 package org.kuali.student.enumeration.web.client.view;
 
 import org.kuali.student.enumeration.dto.Context;
+import org.kuali.student.enumeration.dto.Contexts;
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.web.client.service.EnumerationGWTService;
 
@@ -59,7 +60,6 @@ public class EnumeratedValueComposit extends Composite {
         addRowToContextTable.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
                 int rowCount = fieldTable.getRowCount();
-                rowCount = rowCount + 1;
                 fieldTable.setWidget(rowCount, 0, new TextBox());
                 fieldTable.setWidget(rowCount, 1, new TextBox());
                 
@@ -81,16 +81,25 @@ public class EnumeratedValueComposit extends Composite {
         for(int i=1;i<fieldTable.getRowCount();i++){
             Context context  = new Context();
             
+            System.out.println(fieldTable.getRowCount());
             TextBox typeBox = (TextBox)fieldTable.getWidget(i, 0);
             context.setType(typeBox.getText());
             
             TextBox valueBox = (TextBox)fieldTable.getWidget(i, 1);
             context.setValue(valueBox.getText());
+            
+            Contexts contexts = new Contexts();
+            contexts.getContext().add(context);
+           
+            value.setContexts(contexts);
         }
         
-        return null;
+        return value;
     }
     public void setEnumeratedValue(EnumeratedValue value) {
+        
+        
+        
         abbrevValueBox.setText(value.getAbbrevValue());
         codeBox.setText(value.getCode());
         effectiveDateBox.setText(dateFormat.format(value.getEffectiveDate()));
@@ -99,8 +108,16 @@ public class EnumeratedValueComposit extends Composite {
         valueBox.setText(value.getValue());
         int rowIndex = 1;
         for (Context context : value.getContexts().getContext()) {
-            fieldTable.setHTML(rowIndex, 0, context.getType());
-            fieldTable.setHTML(rowIndex, 0, context.getValue());
+            
+            TextBox typeBox = new TextBox();
+            typeBox.setText(context.getType());
+            
+
+            TextBox valueBox = new TextBox();
+            valueBox.setText(context.getValue());
+            
+            fieldTable.setWidget(rowIndex, 0, typeBox);
+            fieldTable.setWidget(rowIndex, 1, valueBox);
             rowIndex = rowIndex + 1;
         }
     }

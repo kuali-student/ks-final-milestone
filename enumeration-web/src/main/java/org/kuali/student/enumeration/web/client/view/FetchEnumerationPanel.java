@@ -19,11 +19,14 @@ import com.google.gwt.user.client.ui.Widget;
 public class FetchEnumerationPanel extends FlowPanel {
     HTML messageHTML = new HTML();
 
+    FlowPanel resultPanel = new FlowPanel();
+    
     public FetchEnumerationPanel() {
+        add(messageHTML);
         HTML enumerationKey = new HTML("enumeration Key");
         final TextBox enumerationKeyBox = new TextBox();
 
-        HTML enumContextKey = new HTML("enumContext Key");
+        HTML enumContextKey = new HTML("enumContext Key (Type)");
         final TextBox enumContextKeyBox = new TextBox();
 
         HTML contextValue = new HTML("context Value");
@@ -42,8 +45,11 @@ public class FetchEnumerationPanel extends FlowPanel {
         add(contextDate);
         add(contextDateBox);
 
-        Button button = new Button("fetch");
+        Button button = new Button("fetch Enumeration");
         add(button);
+        
+        add(resultPanel);
+        
         button.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
                 DateTimeFormat fmt = DateTimeFormat.getFormat("dd/MM/yyyy");
@@ -61,19 +67,15 @@ public class FetchEnumerationPanel extends FlowPanel {
                     }
 
                     public void onSuccess(EnumeratedValueList valueList) {
-                        System.out.println("success");
+                        messageHTML.setHTML("Success:"+valueList.getEnumeratedValue().size());
+                        resultPanel.clear();
                         for(EnumeratedValue value: valueList.getEnumeratedValue()){
-                            value.getAbbrevValue();
-                            value.getCode();
-                            value.getEffectiveDate();
-                            value.getExpirationDate();
-                            value.getSortKey();
-                            value.getValue();
-                            for(Context context:value.getContexts().getContext()){
-                                context.getType();
-                                context.getValue();
-                            }
+                            EnumeratedValueComposit composite = new EnumeratedValueComposit();
+                            composite.setEnumeratedValue(value);
+                            resultPanel.add(composite);
                         }
+                        
+                        
                     }
                 });
             }

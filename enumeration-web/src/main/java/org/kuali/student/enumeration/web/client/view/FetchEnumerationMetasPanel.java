@@ -23,24 +23,18 @@ public class FetchEnumerationMetasPanel extends FlowPanel {
                
                 EnumerationGWTService.Util.getInstance().fetchEnumerationMetas(new AsyncCallback<EnumerationMetaList>() {
                     public void onFailure(Throwable caught) {
-                        System.out.println("error");
                         messageHTML.setHTML("Unable to load enum meta objects");
                         throw new RuntimeException("Unable to load enum meta objects", caught);
                     }
                     public void onSuccess(EnumerationMetaList metaList) {
-                        System.out.println("success");
-                        System.out.println("metaList.getEnumerationMeta():"+metaList.getEnumerationMeta().size());
-                        
+                        messageHTML.setHTML("metaList.getEnumerationMeta():"+metaList.getEnumerationMeta().size());
                         for (EnumerationMeta meta : metaList.getEnumerationMeta()) {
                             EnumerationMetaComposite composite = new EnumerationMetaComposite();
-                           
                             composite.setEnumerationMeta(meta);
                             add(composite);
                         }
                     }
                 });
-                
             }});
-
     }
 }

@@ -8,6 +8,7 @@ import javax.jws.WebParam;
 
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
+import org.kuali.student.enumeration.dto.EnumerationMeta;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
 
 import com.google.gwt.core.client.GWT;
@@ -32,6 +33,8 @@ public interface EnumerationGWTService extends RemoteService{
         }
     }
     public EnumerationMetaList fetchEnumerationMetas();
+    
+    public EnumerationMeta addEnumerationMeta(EnumerationMeta meta);
     
     public EnumeratedValueList fetchEnumeration(String enumerationKey,String enumContextKey,String contextValue,Date   contextDate );
     

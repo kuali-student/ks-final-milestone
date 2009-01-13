@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.kuali.student.enumeration.dto.EnumeratedValue;
 import org.kuali.student.enumeration.dto.EnumeratedValueList;
+import org.kuali.student.enumeration.dto.EnumerationMeta;
 import org.kuali.student.enumeration.dto.EnumerationMetaList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface EnumerationGWTServiceAsync{
     public void fetchEnumerationMetas(AsyncCallback<EnumerationMetaList> callback);
+    
+    public void addEnumerationMeta(EnumerationMeta meta, AsyncCallback<EnumerationMeta> callback );
     
     public void fetchEnumeration(String enumerationKey,String enumContextKey,String contextValue,Date contextDate,AsyncCallback<EnumeratedValueList> callback );
     
