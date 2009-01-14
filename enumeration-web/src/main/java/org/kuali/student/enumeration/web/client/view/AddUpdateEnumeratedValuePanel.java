@@ -88,15 +88,16 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
                 dto.setSortKey(1);
                 dto.setValue("v");
                 dto.setAbbrevValue("a");
-                dto.setContexts(new Contexts());
                 
                 //dto context
-                List<Context> dtoContext = new ArrayList();
+                List<Context> dtoContext = new ArrayList<Context>();
                 Context newContext = new Context();
                 newContext.setType("ContextA");
                 newContext.setValue("1");
                 dtoContext.add(newContext);
-                dto.getContexts().setContext(dtoContext);
+                Contexts contexts = new Contexts();
+                contexts.setContext(dtoContext);
+                dto.setContexts(contexts);
                 //add first
                 
                 EnumerationGWTService.Util.getInstance().addEnumeratedValue("Key3", dto, new AsyncCallback<EnumeratedValue>() {
@@ -138,6 +139,7 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
                     }
 
                     public void onSuccess(EnumeratedValue value) {
+                        System.out.println("updated ");
                         messageHTML.setHTML("Success: update");
                         enumerationKeyBox.setText(key);
                         enumeratedValueComposit.setEnumeratedValue(value);

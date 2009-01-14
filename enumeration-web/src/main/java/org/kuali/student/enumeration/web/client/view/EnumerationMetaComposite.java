@@ -34,7 +34,6 @@ public class EnumerationMetaComposite extends Composite {
         content.add(new HTML("KeyBox"));
         content.add(metaKeyBox);
 
-
         fieldTable.setHTML(0, 0, "Key");
         fieldTable.setHTML(0, 1, "Data Type");
         fieldTable.setHTML(0, 2, "InvalidChars");
