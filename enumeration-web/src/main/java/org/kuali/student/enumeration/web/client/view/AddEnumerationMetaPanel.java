@@ -26,8 +26,9 @@ public class AddEnumerationMetaPanel extends FlowPanel{
             public void onClick(Widget arg0) {
                 EnumerationGWTService.Util.getInstance().addEnumerationMeta(enumerationMetaComposite.getEnumerationMeta(),new AsyncCallback<EnumerationMeta>() {
                     public void onFailure(Throwable caught) {
-                        System.out.println("AddEnumerationMetaPanel exception");
+                        System.out.println("AddEnumerationMetaPanel exception+"+caught.getMessage());
                         messageHTML.setHTML("Exception");
+                        
                         throw new RuntimeException("Exception", caught);
                     }
                     public void onSuccess(EnumerationMeta meta) {

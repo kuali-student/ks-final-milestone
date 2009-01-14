@@ -81,12 +81,13 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
             public void onClick(Widget arg0) {
                 EnumerationGWTService.Util.getInstance().updateEnumeratedValue(key, enumeratedValue.getCode(), enumeratedValue, new AsyncCallback<EnumeratedValue>() {
                     public void onFailure(Throwable caught) {
-                        messageHTML.setHTML("error");
+                        messageHTML.setHTML("Update error:"+caught.getMessage());
+                        System.out.println("Update error:"+caught.getMessage());
                         throw new RuntimeException("error", caught);
                     }
 
                     public void onSuccess(EnumeratedValue value) {
-                        messageHTML.setHTML("Error: update");
+                        messageHTML.setHTML("Success: update");
                         enumerationKeyBox.setText(key);
                         enumeratedValueComposit.setEnumeratedValue(value);
                     }
