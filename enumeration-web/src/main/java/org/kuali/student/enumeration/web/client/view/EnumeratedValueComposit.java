@@ -81,7 +81,6 @@ public class EnumeratedValueComposit extends Composite {
         for(int i=1;i<fieldTable.getRowCount();i++){
             Context context  = new Context();
             
-            System.out.println(fieldTable.getRowCount());
             TextBox typeBox = (TextBox)fieldTable.getWidget(i, 0);
             context.setType(typeBox.getText());
             
