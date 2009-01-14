@@ -45,8 +45,8 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 		}
 
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
-		FactStructureDTO criteria = factStructureList.get(0);
-		FactStructureDTO fact = factStructureList.get(1);
+		FactStructureDTO fact = factStructureList.get(0);
+		FactStructureDTO criteria = factStructureList.get(1);
 
 		if (criteria == null) {
 			throw new PropositionException("Criteria fact structure cannot be null");
