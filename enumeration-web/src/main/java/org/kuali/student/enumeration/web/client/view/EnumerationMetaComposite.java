@@ -22,12 +22,13 @@ public class EnumerationMetaComposite extends Composite {
     TextBox metaNameBox = new TextBox();
     TextBox metaDescBox = new TextBox();
     TextBox metaKeyBox = new TextBox();
-    
+
     FlexTable fieldTable = new FlexTable();
+
     public EnumerationMetaComposite() {
         // content.setStyleName("EnumerationMetaComposite");
         initWidget(content);
-        
+
         content.add(new HTML("NameBox"));
         content.add(metaNameBox);
 
@@ -47,14 +48,14 @@ public class EnumerationMetaComposite extends Composite {
         fieldTable.setHTML(0, 7, "getMinOccurs");
         fieldTable.setHTML(0, 8, "getMinValue");
         fieldTable.setHTML(0, 9, "getValidChars");
-        
+
         content.add(fieldTable);
-        
+
         Button addRowToFieldDescriptorTable = new Button("Add FieldDescriptor");
         content.add(addRowToFieldDescriptorTable);
         addRowToFieldDescriptorTable.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
-                int rowCount = fieldTable.getRowCount();
+                final int rowCount = fieldTable.getRowCount();
                 fieldTable.setWidget(rowCount, 0, new TextBox());
                 fieldTable.setWidget(rowCount, 1, new TextBox());
                 fieldTable.setWidget(rowCount, 2, new TextBox());
@@ -65,6 +66,15 @@ public class EnumerationMetaComposite extends Composite {
                 fieldTable.setWidget(rowCount, 7, new TextBox());
                 fieldTable.setWidget(rowCount, 8, new TextBox());
                 fieldTable.setWidget(rowCount, 9, new TextBox());
+
+                Button buttonDelete = new Button();
+                buttonDelete.addClickListener(new ClickListener() {
+                    public void onClick(Widget arg0) {
+                        fieldTable.removeRow(rowCount);
+                    }
+                });
+
+                fieldTable.setWidget(rowCount, 10, buttonDelete);
             }
         });
     }
@@ -77,41 +87,41 @@ public class EnumerationMetaComposite extends Composite {
 
         List<EnumeratedValueField> fieldList = new ArrayList<EnumeratedValueField>();
 
-        for(int i=1;i< fieldTable.getRowCount();i++){
+        for (int i = 1; i < fieldTable.getRowCount(); i++) {
             EnumeratedValueField field = new EnumeratedValueField();
-            TextBox fieldKeyBox = (TextBox)fieldTable.getWidget(i, 0);
+            TextBox fieldKeyBox = (TextBox) fieldTable.getWidget(i, 0);
             field.setKey(fieldKeyBox.getText());
             FieldDescriptor fieldDescriptor = new FieldDescriptor();
-            
-            TextBox fieldDataTypeBox = (TextBox)fieldTable.getWidget(i, 1);
+
+            TextBox fieldDataTypeBox = (TextBox) fieldTable.getWidget(i, 1);
             fieldDescriptor.setDataType(fieldDataTypeBox.getText());
-            
-            TextBox fieldInvalidCharsBox = (TextBox)fieldTable.getWidget(i, 2);
+
+            TextBox fieldInvalidCharsBox = (TextBox) fieldTable.getWidget(i, 2);
             fieldDescriptor.setInvalidChars(fieldInvalidCharsBox.getText());
 
-            TextBox fieldMaxLengthBox = (TextBox)fieldTable.getWidget(i, 3);
+            TextBox fieldMaxLengthBox = (TextBox) fieldTable.getWidget(i, 3);
             fieldDescriptor.setMaxLength(Integer.parseInt(fieldMaxLengthBox.getText()));
 
-            TextBox fieldMaxOccursBox = (TextBox)fieldTable.getWidget(i, 4);
+            TextBox fieldMaxOccursBox = (TextBox) fieldTable.getWidget(i, 4);
             fieldDescriptor.setMaxOccurs(Integer.parseInt(fieldMaxOccursBox.getText()));
 
-            TextBox fieldMaxValueBox = (TextBox)fieldTable.getWidget(i, 5);
+            TextBox fieldMaxValueBox = (TextBox) fieldTable.getWidget(i, 5);
             fieldDescriptor.setMaxValue(fieldMaxValueBox.getText());
 
-            TextBox fieldMinLengthBox = (TextBox)fieldTable.getWidget(i, 6);
+            TextBox fieldMinLengthBox = (TextBox) fieldTable.getWidget(i, 6);
             fieldDescriptor.setMinLength(Integer.parseInt(fieldMinLengthBox.getText()));
-            
-            TextBox fieldMinOccursBox = (TextBox)fieldTable.getWidget(i, 7);
+
+            TextBox fieldMinOccursBox = (TextBox) fieldTable.getWidget(i, 7);
             fieldDescriptor.setMinOccurs(Integer.parseInt(fieldMinOccursBox.getText()));
-            
-            TextBox fieldMinValueBox = (TextBox)fieldTable.getWidget(i, 8);
+
+            TextBox fieldMinValueBox = (TextBox) fieldTable.getWidget(i, 8);
             fieldDescriptor.setMinValue(fieldMinValueBox.getText());
-            
-            TextBox fieldValidCharsBox = (TextBox)fieldTable.getWidget(i, 9);
+
+            TextBox fieldValidCharsBox = (TextBox) fieldTable.getWidget(i, 9);
             fieldDescriptor.setValidChars(fieldValidCharsBox.getText());
 
             field.setFieldDescriptor(fieldDescriptor);
-        
+
             fieldList.add(field);
         }
         EnumeratedValueFields fields = new EnumeratedValueFields();
@@ -147,28 +157,28 @@ public class EnumerationMetaComposite extends Composite {
 
             fieldKeyBox.setText(field.getKey());
             fieldTable.setWidget(rowIndex, 0, fieldKeyBox);
-            
+
             fieldTypeBox.setText(field.getFieldDescriptor().getDataType());
             fieldTable.setWidget(rowIndex, 1, fieldTypeBox);
-            
+
             fieldInvalidCharsBox.setText(field.getFieldDescriptor().getInvalidChars());
             fieldTable.setWidget(rowIndex, 2, fieldInvalidCharsBox);
-            
+
             fieldMaxLengthBox.setText(Integer.toString(field.getFieldDescriptor().getMaxLength()));
             fieldTable.setWidget(rowIndex, 3, fieldMaxLengthBox);
-            
+
             fieldMaxOccursBox.setText(Integer.toString(field.getFieldDescriptor().getMaxOccurs()));
             fieldTable.setWidget(rowIndex, 4, fieldMaxOccursBox);
-            
+
             fieldMaxValueBox.setText(field.getFieldDescriptor().getMaxValue());
             fieldTable.setWidget(rowIndex, 5, fieldMaxValueBox);
-            
+
             fieldMinLengthBox.setText(Integer.toString(field.getFieldDescriptor().getMinLength()));
             fieldTable.setWidget(rowIndex, 6, fieldMinLengthBox);
-            
+
             fieldMinOccursBox.setText(Integer.toString(field.getFieldDescriptor().getMinOccurs()));
             fieldTable.setWidget(rowIndex, 7, fieldMinOccursBox);
-            
+
             fieldMinValueBox.setText(field.getFieldDescriptor().getMinValue());
             fieldTable.setWidget(rowIndex, 8, fieldMinValueBox);
 
