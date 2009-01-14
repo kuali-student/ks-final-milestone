@@ -5,11 +5,14 @@ import org.kuali.student.enumeration.dto.EnumeratedValueFields;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
 import org.kuali.student.enumeration.dto.FieldDescriptor;
 
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EnumerationMetaComposite extends Composite {
     FlowPanel content = new FlowPanel();
@@ -44,6 +47,24 @@ public class EnumerationMetaComposite extends Composite {
         fieldTable.setHTML(0, 9, "getValidChars");
         
         content.add(fieldTable);
+        
+        Button addRowToFieldDescriptorTable = new Button("Add FieldDescriptor");
+        content.add(addRowToFieldDescriptorTable);
+        addRowToFieldDescriptorTable.addClickListener(new ClickListener() {
+            public void onClick(Widget arg0) {
+                int rowCount = fieldTable.getRowCount();
+                fieldTable.setWidget(rowCount, 0, new TextBox());
+                fieldTable.setWidget(rowCount, 1, new TextBox());
+                fieldTable.setWidget(rowCount, 2, new TextBox());
+                fieldTable.setWidget(rowCount, 3, new TextBox());
+                fieldTable.setWidget(rowCount, 4, new TextBox());
+                fieldTable.setWidget(rowCount, 5, new TextBox());
+                fieldTable.setWidget(rowCount, 6, new TextBox());
+                fieldTable.setWidget(rowCount, 7, new TextBox());
+                fieldTable.setWidget(rowCount, 8, new TextBox());
+                fieldTable.setWidget(rowCount, 9, new TextBox());
+            }
+        });
     }
 
     public EnumerationMeta getEnumerationMeta() {

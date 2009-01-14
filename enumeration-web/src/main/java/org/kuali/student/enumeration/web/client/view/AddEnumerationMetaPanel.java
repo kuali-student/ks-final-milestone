@@ -17,7 +17,7 @@ public class AddEnumerationMetaPanel extends FlowPanel{
     HTML messageHTML = new HTML();
     EnumerationMetaComposite enumerationMetaComposite = new EnumerationMetaComposite();
     public AddEnumerationMetaPanel(){
-        Button addButton = new Button("Add");
+        Button addButton = new Button("Add Enumeration Meta");
         add(enumerationMetaComposite);
         add(addButton);
         
