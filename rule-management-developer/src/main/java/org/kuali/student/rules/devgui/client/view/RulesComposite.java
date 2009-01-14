@@ -2416,7 +2416,7 @@ public class RulesComposite extends Composite {
 		        	firstFact.setFactTypeKey("fact.static_key");
 		        	firstFact.setStaticFact(true);
 		        	firstFact.setStaticValue(yvfFirstStaticFactValue.getText());		        		        
-		        	firstFact.setStaticValueDataType(GuiUtil.YieldValueFunctionType.fromSymbol(YieldValueFunctionType.INTERSECTION.symbol()));
+		        	firstFact.setStaticValueDataType(GuiUtil.YieldValueFunctionType.fromSymbol(yvfType));
 		    	} else {  //dynamic fact...
 		    		firstFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(firstFactTypeKeyListSelectedValue));
 		    		if (yvfFirstFactParamOneTextBox.getText().isEmpty() == false) {
