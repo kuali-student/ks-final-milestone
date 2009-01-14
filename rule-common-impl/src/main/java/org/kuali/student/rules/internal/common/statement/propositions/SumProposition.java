@@ -87,7 +87,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         BigDecimal sum = new BigDecimal("0.0");
 
         for (E element : factSet) {
-            sum = sum.add(getDecimalValue(element));
+            sum = sum.add(new BigDecimal(element.toString()));
         }
 
         return sum;
