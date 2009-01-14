@@ -1,4 +1,4 @@
-package org.kuali.student.message.dao.impl;
+package org.kuali.student.message.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,7 +19,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.message.MessageException;
+import org.kuali.student.message.dao.impl.MessageManagementDAOImpl;
 import org.kuali.student.message.dto.Message;
+import org.kuali.student.message.dto.MessageGroupKeyList;
 import org.kuali.student.message.dto.MessageList;
 import org.kuali.student.message.entity.MessageEntity;
 import org.kuali.student.message.service.impl.MessageServiceImpl;
@@ -28,10 +30,12 @@ import org.kuali.student.poc.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 
-@PersistenceFileLocation("classpath:META-INF/message-persistence.xml")
-public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
+@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+public class MessageServiceImplTest extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.message.dao.impl.MessageManagementDAOImpl")
     public MessageManagementDAOImpl messageManagementDAO;
+    
+    private MessageServiceImpl messageService = new MessageServiceImpl();
     
 	private String xmlFile = "/testMessageData.xml";
 	private static final String CONTEXT_NAME = "org.kuali.student.message.dto";
@@ -41,7 +45,8 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
 	
 	@Before
 	public void setUp(){
-    		if(!populated)
+			messageService.setMessageDAO(messageManagementDAO);
+			if(!populated)
     		{
     			
 				try {
@@ -49,9 +54,8 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
 	    			unmarshaller = context.createUnmarshaller();
 	    			MessageList messageList = (MessageList)unmarshaller.unmarshal(MessageServiceImpl.class.getResource(xmlFile));
 	    	        List<Message> messages =  messageList.getMessages();
-	    		    List<MessageEntity> messageEntities =  POJOConverter.mapList(messages, MessageEntity.class);
-	    		    for(MessageEntity me: messageEntities){
-	    		    	messageManagementDAO.addMessage(me);
+	    		    for(Message m: messages){
+	    		    	messageService.addMessage(m);
 	    		    }
 	    		    populated =true;
 	    		}
@@ -62,28 +66,32 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
     		assertEquals(6, messageManagementDAO.getTotalMessages());
 	}
     
-	@Test
-    public void testGetLocales(){
-    	List<String> locales = messageManagementDAO.getLocales();
+    @Test
+    public void testGetLocales()
+    {
+    	messageService.setMessageDAO(messageManagementDAO);
+    	List<String> locales = messageService.getLocales().getLocales();
     	
     	assertEquals(2, locales.size());
     }
     
 	@Test
     public void testGetMessageGroup(){
-    	List<String> groups = messageManagementDAO.getMessageGroups();
+		messageService.setMessageDAO(messageManagementDAO);
+    	List<String> groups = messageService.getMessageGroups().getMessageGroupKeys();
 
     	assertEquals(2, groups.size());
     }
 	
 	@Test
 	public void testGetMessage(){
-		MessageEntity message = messageManagementDAO.getMessage("US", "Address", "State");
+		messageService.setMessageDAO(messageManagementDAO);
+		Message message = messageService.getMessage("US", "Address", "State");
 		assertEquals(message.getLocale(), "US");
 		assertEquals(message.getGroupName(), "Address");
 		assertEquals(message.getId(), "State");
 		assertEquals(message.getValue(), "State:");
-		message = messageManagementDAO.getMessage("CA", "Address", "State");
+		message = messageService.getMessage("CA", "Address", "State");
 		assertEquals(message.getLocale(), "CA");
 		assertEquals(message.getGroupName(), "Address");
 		assertEquals(message.getId(), "State");
@@ -92,61 +100,66 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
 	
 	@Test
 	public void testGetMessages(){
-		List<MessageEntity> messages = messageManagementDAO.getMessages("US", "Address");
+		messageService.setMessageDAO(messageManagementDAO);
+		List<Message> messages = messageService.getMessages("US", "Address").getMessages();
 		assertEquals(2, messages.size());
-		for(MessageEntity me: messages){
-			assertEquals(me.getLocale(), "US");
-			assertEquals(me.getGroupName(), "Address");
+		for(Message m: messages){
+			assertEquals(m.getLocale(), "US");
+			assertEquals(m.getGroupName(), "Address");
 		}
-		messages = messageManagementDAO.getMessages("CA", "Address");
+		messages = messageService.getMessages("CA", "Address").getMessages();
 		assertEquals(2, messages.size());
-		for(MessageEntity me: messages){
-			assertEquals(me.getLocale(), "CA");
-			assertEquals(me.getGroupName(), "Address");
+		for(Message m: messages){
+			assertEquals(m.getLocale(), "CA");
+			assertEquals(m.getGroupName(), "Address");
 		}
-		messages = messageManagementDAO.getMessages("US", "Name");
+		messages = messageService.getMessages("US", "Name").getMessages();
 		assertEquals(1, messages.size());
-		for(MessageEntity me: messages){
-			assertEquals(me.getLocale(), "US");
-			assertEquals(me.getGroupName(), "Name");
+		for(Message m: messages){
+			assertEquals(m.getLocale(), "US");
+			assertEquals(m.getGroupName(), "Name");
 		}
 	}
 	
 	@Test
 	public void testGetMessagesByGroup(){
+		messageService.setMessageDAO(messageManagementDAO);
 		List<String> groupKeys = new ArrayList<String>();
 		groupKeys.add("Address");
 		groupKeys.add("Name");
-		List<MessageEntity> messages = messageManagementDAO.getMessagesByGroups("US", groupKeys);
+		MessageGroupKeyList groupKeyList = new MessageGroupKeyList();
+		groupKeyList.setMessageGroupKeys(groupKeys);
+		List<Message> messages = messageService.getMessagesByGroups("US", groupKeyList).getMessages();
 		assertEquals(3, messages.size());
-		for(MessageEntity me: messages){
-			assertEquals(me.getLocale(), "US");
-			assertTrue(me.getGroupName().equals("Address") || me.getGroupName().equals("Name"));
+		for(Message m: messages){
+			assertEquals(m.getLocale(), "US");
+			assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
 		}
 		
-		messages = messageManagementDAO.getMessagesByGroups("CA", groupKeys);
+		messages = messageService.getMessagesByGroups("CA", groupKeyList).getMessages();
 		assertEquals(3, messages.size());
-		for(MessageEntity me: messages){
-			assertEquals(me.getLocale(), "CA");
-			assertTrue(me.getGroupName().equals("Address") || me.getGroupName().equals("Name"));
+		for(Message m: messages){
+			assertEquals(m.getLocale(), "CA");
+			assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
 		}
 	}
 	
 	@Test
 	public void testUpdateMessage(){
-		MessageEntity me = new MessageEntity();
-		me.setGroupName("Course");
-		me.setLocale("US");
-		me.setId("Grading");
-		me.setValue("Grading Scale");
+		messageService.setMessageDAO(messageManagementDAO);
+		Message m = new Message();
+		m.setGroupName("Course");
+		m.setLocale("US");
+		m.setId("Grading");
+		m.setValue("Grading Scale");
 		
-		messageManagementDAO.updateMessage("US", "Name", "Last", me);
-		MessageEntity result = messageManagementDAO.getMessage("US", "Course", "Grading");
-		assertEquals(result.getLocale(), me.getLocale());
-		assertEquals(result.getId(), me.getId());
-		assertEquals(result.getValue(), me.getValue());
-		assertEquals(result.getGroupName(), me.getGroupName());
-		result = messageManagementDAO.getMessage("US", "Name", "Last");
+		messageService.updateMessage("US", "Name", "Last", m);
+		Message result = messageService.getMessage("US", "Course", "Grading");
+		assertEquals(result.getLocale(), m.getLocale());
+		assertEquals(result.getId(), m.getId());
+		assertEquals(result.getValue(), m.getValue());
+		assertEquals(result.getGroupName(), m.getGroupName());
+		result = messageService.getMessage("US", "Name", "Last");
 		assertTrue(result == null);
 	}
 }

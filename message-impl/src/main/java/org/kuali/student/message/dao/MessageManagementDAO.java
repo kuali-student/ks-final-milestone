@@ -6,7 +6,7 @@ import java.util.List;
 import org.kuali.student.message.entity.MessageEntity;
 
 public interface MessageManagementDAO {
-	public void addMessage(MessageEntity me);
+	public MessageEntity addMessage(MessageEntity me);
 	public int getTotalMessages();
     public List<String> getLocales();
     public List<String> getMessageGroups();

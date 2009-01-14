@@ -35,19 +35,9 @@ public class MessageServiceImpl implements MessageService{
 	
 	private static boolean populated = false;
 	
-	private String xmlFile = "/testMessageData.xml";
-	private static final String CONTEXT_NAME = "org.kuali.student.message.dto";
-	private JAXBContext context;
-	private Unmarshaller unmarshaller;
+
 
 	public MessageServiceImpl() {
-	   if (!populated) {
-	        populate();
-	    }
-	}
-	
-	private synchronized void populate(){
-
 	}
 	
 	private int getMessagesCount(){
@@ -60,27 +50,7 @@ public class MessageServiceImpl implements MessageService{
 
     public void setMessageDAO(MessageManagementDAO messageDAO) {
         this.messageDAO = messageDAO;
-/*		 if (!populated) {
-		        populated = true;
-		        if (messageDAO != null) {
-		    		try {
-		    			context = JAXBContext.newInstance(CONTEXT_NAME);
-		    			unmarshaller = context.createUnmarshaller();
-		    			MessageList messageList = (MessageList)unmarshaller.unmarshal(MessageServiceImpl.class.getResource(xmlFile));
-		    			System.out.println("**************SIZE:" + messageList.getMessages().size() + "    " + messageList.getMessages().get(0).getValue());
-		    	        List<Message> messages =  messageList.getMessages();
-		    		    List<MessageEntity> messageEntities =  POJOConverter.mapList(messages, MessageEntity.class);
-		    		    for(MessageEntity me: messageEntities){
-		    		    	System.out.println("**************VALUE: " + me.getValue());
-		    		    	messageDAO.addMessage(me);
-		    		    }
-		    		}
-		    		catch (JAXBException e) {
-		    				logger.error("Message test data instantiation failed.", e);
-		    				throw new MessageException("Message test data instantiation failed.", e);
-		    		}
-		        }
-		    }*/
+/*		 */
     }
 
 	public LocaleKeyList getLocales() {
@@ -142,6 +112,14 @@ public class MessageServiceImpl implements MessageService{
 	    POJOConverter.map(messageEntity, messageInfo);
 	    
         return messageInfo;
+	}
+
+	public Message addMessage(Message messageInfo) {
+		MessageEntity messageEntity = new MessageEntity();    
+	    POJOConverter.map(messageInfo, messageEntity);
+	    messageEntity =  messageDAO.addMessage(messageEntity);
+	    POJOConverter.map(messageEntity, messageInfo);
+		return messageInfo;
 	}
     
 }

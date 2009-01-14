@@ -43,4 +43,7 @@ public interface MessageService {
 	            @WebParam(name = "messageKey")  String messageKey,
 	            @WebParam(name = "messageInfo") Message messageInfo);
 	    
+	    @WebMethod
+	    public Message addMessage(@WebParam(name = "messageInfo") Message messageInfo);
+	    
 }

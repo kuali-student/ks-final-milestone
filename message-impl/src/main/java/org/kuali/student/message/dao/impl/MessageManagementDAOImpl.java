@@ -31,63 +31,37 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
     
     final static Logger logger = LoggerFactory.getLogger(MessageManagementDAOImpl.class);
     
-	private static boolean populated = false;
-	
-	private String xmlFile = "/testMessageData.xml";
-	private static final String CONTEXT_NAME = "org.kuali.student.message.dto";
-	private JAXBContext context;
-	private Unmarshaller unmarshaller;
-    
     @PersistenceContext(name = "Message")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-		 if (!populated) {
-		        populated = true;
-		        if (entityManager != null) {
-		    		try {
-		    			context = JAXBContext.newInstance(CONTEXT_NAME);
-		    			unmarshaller = context.createUnmarshaller();
-		    			MessageList messageList = (MessageList)unmarshaller.unmarshal(MessageServiceImpl.class.getResource(xmlFile));
-		    			System.out.println("**************SIZE:" + messageList.getMessages().size() + "    " + messageList.getMessages().get(0).getValue());
-		    	        List<Message> messages =  messageList.getMessages();
-		    		    List<MessageEntity> messageEntities =  POJOConverter.mapList(messages, MessageEntity.class);
-		    		    for(MessageEntity me: messageEntities){
-		    		    	System.out.println("**************VALUE: " + me.getValue());
-		    		    	this.addMessage(me);
-		    		    }
-		    		}
-		    		catch (JAXBException e) {
-		    				logger.error("Message test data instantiation failed.", e);
-		    				throw new MessageException("Message test data instantiation failed.", e);
-		    		}
-		        }
-		    }
     }
     
     public EntityManager getEntityManager(){
         return this.entityManager; 
     }
     
-    public void addMessage(MessageEntity me){
+    public MessageEntity addMessage(MessageEntity me){
+    	MessageEntity result = null;
     	try{
 	        entityManager.persist(me);
+	        result = this.getMessage(me.getLocale(), me.getGroupName(), me.getId());
     	}
 		catch(Exception e){
 		    throw new MessageException("adding message data query failed.", e);
 		}
+		return result;
     }
     
     public int getTotalMessages(){
     	int count = 0;
     	try{
 	        Query query = entityManager.createQuery("SELECT COUNT(m) FROM MessageEntity m");
-	        count = Integer.parseInt((String)query.getSingleResult());
+	        count = ((Long)query.getSingleResult()).intValue();
     	}
         catch(Exception e){
 	    	logger.error("count query failed.", e);
 			throw new MessageException("count query failed.", e);
 	    }
-        System.out.println("+++++++++++++++++++++++++++++++Count is " + count);
         return count;
     }
     

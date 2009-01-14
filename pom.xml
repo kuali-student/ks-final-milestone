@@ -59,6 +59,11 @@
 			<artifactId>ks-commons-ui</artifactId>
 			<version>0.0.3</version>
 		</dependency>
+		<dependency>
+	      <groupId>org.kuali.student.poc.common</groupId>
+	      <artifactId>common-test</artifactId>
+	      <version>0.1.0-SNAPSHOT</version>
+	    </dependency>
 	</dependencies>
 
 </project>

@@ -2,14 +2,24 @@ package org.kuali.student.message.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import org.kuali.student.poc.common.util.UUIDHelper;
 @Entity
 public class MessageEntity {
+	 
 	 @Id
+	 private String databaseId;
 	 private String id; 
 	 private String locale;
 	 private String groupName;
 	 private String value;
+	 
+    @PrePersist
+    public void prePersist() {
+        this.databaseId = UUIDHelper.genStringUUID();
+    }
 	 
 	 public String getLocale() {
 		 return locale;
@@ -35,4 +45,14 @@ public class MessageEntity {
 	 public void setValue(String value) {
 		 this.value = value;
 	 }
+	public String getDatabaseId() {
+		return databaseId;
+	}
+	public void setDatabaseId(String databaseId) {
+		this.databaseId = databaseId;
+	}
+	 
+	 
+	 
+	 
 }

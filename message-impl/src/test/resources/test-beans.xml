@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-	<bean id="persistList"
+	<!--<bean id="persistList"
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
@@ -33,6 +33,6 @@
 		<property name="locale" 		value="CA" />
 		<property name="groupName"      value="Address" />
 		<property name="value"          value="address value 3" />
-	</bean>
+	</bean>-->
 	
 </beans>
