@@ -67,7 +67,7 @@ public class EnumerationMetaComposite extends Composite {
                 fieldTable.setWidget(rowCount, 8, new TextBox());
                 fieldTable.setWidget(rowCount, 9, new TextBox());
 
-                Button buttonDelete = new Button();
+                Button buttonDelete = new Button("Delete");
                 buttonDelete.addClickListener(new ClickListener() {
                     public void onClick(Widget arg0) {
                         fieldTable.removeRow(rowCount);
