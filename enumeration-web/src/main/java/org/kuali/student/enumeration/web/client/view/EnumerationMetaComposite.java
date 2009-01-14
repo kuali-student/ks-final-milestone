@@ -1,5 +1,8 @@
 package org.kuali.student.enumeration.web.client.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.enumeration.dto.EnumeratedValueField;
 import org.kuali.student.enumeration.dto.EnumeratedValueFields;
 import org.kuali.student.enumeration.dto.EnumerationMeta;
@@ -72,7 +75,9 @@ public class EnumerationMetaComposite extends Composite {
         meta.setKey(metaKeyBox.getText());
         meta.setName(metaNameBox.getText());
 
-        for(int i=0;i< fieldTable.getRowCount();i++){
+        List<EnumeratedValueField> fieldList = new ArrayList<EnumeratedValueField>();
+
+        for(int i=1;i< fieldTable.getRowCount();i++){
             EnumeratedValueField field = new EnumeratedValueField();
             TextBox fieldKeyBox = (TextBox)fieldTable.getWidget(i, 0);
             field.setKey(fieldKeyBox.getText());
@@ -106,10 +111,12 @@ public class EnumerationMetaComposite extends Composite {
             fieldDescriptor.setValidChars(fieldValidCharsBox.getText());
 
             field.setFieldDescriptor(fieldDescriptor);
-            EnumeratedValueFields fields = new EnumeratedValueFields();
-
-            meta.setEnumeratedValueFields(fields);
+        
+            fieldList.add(field);
         }
+        EnumeratedValueFields fields = new EnumeratedValueFields();
+        fields.setEnumeratedValueField(fieldList);
+        meta.setEnumeratedValueFields(fields);
         return meta;
     }
 

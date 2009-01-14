@@ -17,6 +17,7 @@ public class AddEnumerationMetaPanel extends FlowPanel{
     HTML messageHTML = new HTML();
     EnumerationMetaComposite enumerationMetaComposite = new EnumerationMetaComposite();
     public AddEnumerationMetaPanel(){
+        add(messageHTML);
         Button addButton = new Button("Add Enumeration Meta");
         add(enumerationMetaComposite);
         add(addButton);
@@ -25,10 +26,12 @@ public class AddEnumerationMetaPanel extends FlowPanel{
             public void onClick(Widget arg0) {
                 EnumerationGWTService.Util.getInstance().addEnumerationMeta(enumerationMetaComposite.getEnumerationMeta(),new AsyncCallback<EnumerationMeta>() {
                     public void onFailure(Throwable caught) {
+                        System.out.println("AddEnumerationMetaPanel exception");
                         messageHTML.setHTML("Exception");
                         throw new RuntimeException("Exception", caught);
                     }
                     public void onSuccess(EnumerationMeta meta) {
+                        System.out.println("AddEnumerationMetaPanel success");
                         messageHTML.setHTML("Success:");
                     }
                 });
