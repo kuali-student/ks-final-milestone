@@ -46,7 +46,6 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 		Set<E> set = new HashSet<E>();
 		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
-				// Get only the first column (column 1)
 				String value = entry.getValue();
 				FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 				String dataType = info.getDataType();
@@ -83,7 +82,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 		List<E> set = new ArrayList<E>();
 		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
-				if (entry.getKey().equals("column1")) {
+				//if (entry.getKey().equals("column1")) {
 					String value = (String) entry.getValue();
 					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
@@ -94,7 +93,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 						logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
 						throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
 					}
-				}
+				//}
 			}
 		}
 		return set;
