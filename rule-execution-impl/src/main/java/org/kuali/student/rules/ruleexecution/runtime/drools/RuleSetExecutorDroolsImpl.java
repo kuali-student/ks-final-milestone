@@ -127,7 +127,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	sb.append("\nBusiness rule name:                    "+businessRule.getOrigName());
     	sb.append("\nBusiness rule id:                      "+businessRule.getBusinessRuleId());
     	sb.append("\nBusiness rule compiledId:              "+businessRule.getCompiledId());
-//    	sb.append("\nBusiness rule compiled version number: "+businessRule.getCompiledVersionNumber());
     	sb.append("\nBusiness rule anchor type key:         "+businessRule.getAnchorTypeKey());
     	sb.append("\nBusiness rule anchor value:            "+businessRule.getAnchorValue());
     	sb.append("\n**************************************************");
@@ -155,7 +154,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	return new BusinessRuleInfoValue(
 			businessRule.getBusinessRuleId(), 
 			businessRule.getCompiledId(), 
-//			businessRule.getCompiledVersionNumber(),
 			businessRule.getAnchorValue(),
 			businessRule.getAnchorTypeKey());
     }
@@ -183,7 +181,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	Package pkg = this.droolsUtil.getPackage(ruleSet.getCompiledRuleSet());
 
     	if(pkg == null) {
-    		logger.warn("RuleSet has not been compiled: ruleSet UUID="+ruleSet.getUUID());
+    		logger.warn("RuleSet was not compiled: ruleSet UUID="+ruleSet.getUUID());
     		logger.warn("Compiling RuleSet: ruleSet UUID="+ruleSet.getUUID());
     		try {
 				pkg = buildPackage(new StringReader(ruleSet.getContent()));
@@ -221,7 +219,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     /**
      * Adds or replaces a rule set in the rule set execution cache.
      * This is a convenience method since rule sets are lazily loaded into the 
-     * execution cache when <code>execute>/code> is performed. 
+     * execution cache when <code>execute</code> is performed. 
      * 
      * @param businessRule Functional business rule
      * @param ruleSet Rule set
@@ -234,7 +232,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     		throw new RuleSetExecutionException(
     				"Rule base already contains a business rule (id="+
     				businessRule.getBusinessRuleId() +
-    				") with anchor value '" +businessRule.getAnchorValue() + "'");
+    				") with anchor value '" + businessRule.getAnchorValue() + "'");
     	}
     	addPackage(ruleBaseType, ruleSet);
     	this.anchorMap.put(anchorKey, businessRule.getBusinessRuleId());
@@ -309,15 +307,15 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 //    	this.executionLog.append("Business rule compiled version number: "+businessRule.getCompiledVersionNumber());
     	this.executionLog.append("Business rule anchor type key:         "+businessRule.getAnchorTypeKey());
     	this.executionLog.append("Business rule anchor value:            "+businessRule.getAnchorValue());
-    	this.executionLog.append("Fact container ID:                     " + id);
-    	this.executionLog.append("Execution rule base:                   " + ruleBaseType);
+    	this.executionLog.append("Fact container ID:                     "+id);
+    	this.executionLog.append("Execution rule base:                   "+ruleBaseType);
     	RuleBase ruleBase = ruleBaseCache.getRuleBase(ruleBaseType);
     	if (ruleBase == null) {
     		this.executionLog.append("Packages loaded in rule base:          rule base is null");
     	} else if (ruleBase.getPackages() == null ) {
     		this.executionLog.append("Packages loaded in rule base:          0");
     	} else {
-    		this.executionLog.append("Packages loaded in rule base:          " + ruleBase.getPackages().length);
+    		this.executionLog.append("Packages loaded in rule base:          "+ruleBase.getPackages().length);
 	    	for(Package pkg : ruleBase.getPackages()) {
 	    		this.executionLog.append("\tPackage Name: " + pkg.getName());
 	    	}
@@ -493,7 +491,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	/** Class serial version uid */
         private static final long serialVersionUID = 1L;
         
-        private String businessruleId; 
+        private String businessRuleId; 
         private String compiledId;
 //        private Long compiledVersionNumber;
         private String anchorValue;
@@ -502,14 +500,14 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 		public BusinessRuleInfoValue(String businessruleId, String compiledId, 
 //				Long compiledVersionNumber, 
 				String anchorValue, String anchorTypeKey) {
-        	this.businessruleId = businessruleId;
+        	this.businessRuleId = businessruleId;
         	this.compiledId = compiledId;
 //        	this.compiledVersionNumber = compiledVersionNumber;
         	this.anchorValue = anchorValue;
         	this.anchorTypeKey = anchorTypeKey;
         }
 
-		public String getBusinessruleId() { return this.businessruleId; }
+		public String getBusinessRuleId() { return this.businessRuleId; }
 
 		public String getCompiledId() { return this.compiledId; }
 
@@ -520,11 +518,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         public String getAnchorTypeKey() { return this.anchorTypeKey; }
 
 	    public String getKey() {
-	    	return 
-	    		this.businessruleId + "." + 
-	    		this.compiledId; 
-//	    		+ "." +
-//	    		this.compiledVersionNumber;
+	    	return this.businessRuleId + "." + this.compiledId; 
 	    }
 	    
 	    public String toString() {
