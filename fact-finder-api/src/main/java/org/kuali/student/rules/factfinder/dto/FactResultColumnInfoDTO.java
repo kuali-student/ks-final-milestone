@@ -97,5 +97,9 @@ public class FactResultColumnInfoDTO implements Serializable {
      */
     public void setDataType(String dataType) {
         this.dataType = dataType;
-    }    
+    }
+    
+    public String toString() {
+    	return "[key="+this.key+", name="+this.name+", dataType="+this.dataType+"]";
+    }
 }
