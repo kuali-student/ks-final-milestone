@@ -165,7 +165,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		}
 		} else {
 			RuleSetDTO ruleSet = getRuleSet(businessRule, businessRule.getCompiledId());
-			this.ruleSetExecutor.removeRuleSet(businessRule, ruleSet);
+			this.ruleSetExecutor.clearRuleSetCache();
 			this.ruleSetExecutor.addRuleSet(businessRule, ruleSet);
 		}
 	}
@@ -196,7 +196,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	return executionResultDTO;
     }
 
-    private Map<String, Object> createFactMap(BusinessRuleInfoDTO businessRule, FactStructureDTO executionFact) 
+    private Map<String, Object> createFactMap(BusinessRuleInfoDTO businessRule, Map<String,String> exectionParamMap) 
     	throws OperationFailedException, DoesNotExistException {
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
@@ -214,123 +214,94 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		    				continue;
 		    			}
 		    			
-		    			if (executionFact == null) {
-		    				throw new OperationFailedException("Execution fact is null");
-		    			}
-		    			
 		    			String factTypeKey = factStructure.getFactTypeKey();
 		    			if (factTypeKey == null || factTypeKey.trim().isEmpty()) {
 		    				throw new OperationFailedException("Fact type key is null or empty");
 		    			}
 
-		    			if (logger.isInfoEnabled()) {
-							logger.info("\n***** Create Fact Map *****" +
-									"\nfactStructureId=" + factStructure.getFactStructureId() +
-									"\nfactTypeKey=" + factTypeKey);
-						}
-
 		    			FactTypeInfoDTO factType = this.factFinderService.fetchFactType(factTypeKey);
 		    			Map<String,FactParamDTO> factParamMap = factType.getFactCriteriaTypeInfo().getFactParamMap();
 
-		    			FactStructureDTO executionFactStructure = new FactStructureDTO();
-    					executionFactStructure.setFactTypeKey(factTypeKey);
-		    			FactStructureDTO definitionFactStructure = new FactStructureDTO();
-		    			definitionFactStructure.setFactTypeKey(factTypeKey);
-
-    					//if(executionFact.getFactTypeKey().equals(factTypeKey)) {
-				        Map<String, String> definitionParamMap = new HashMap<String, String>();
-				        Map<String, String> executionParamMap = new HashMap<String, String>();
+				        Map<String, String> paramMap = new HashMap<String, String>();
+				        
 		    			for(Entry<String, FactParamDTO> entry : factParamMap.entrySet()) {
 		    				String key = entry.getValue().getKey();
 
 			    			if (logger.isInfoEnabled()) {
-			    				logger.info("Fact param defTime="+entry.getValue().getDefTime() + ", key"+key);
+			    				logger.info("Fact param defTime="+entry.getValue().getDefTime() + ", key="+key);
+								logger.info("Fact structure paramValueMap="+factStructure.getParamValueMap());
 			    			}
 
-		    				switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
-    		    				case KUALI_FACT_EXECUTION_TIME_KEY: {
-    				    			if (logger.isInfoEnabled()) {
-										logger.info("EXECUTION: paramValueMap="+executionFact.getParamValueMap());
-    				    			}
+							switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
+								case KUALI_FACT_EXECUTION_TIME_KEY: {
+									String value = exectionParamMap.get(key);
+									paramMap.put(key, value);
+									break;
+								}
+								case KUALI_FACT_DEFINITION_TIME_KEY: {
+									String value = factStructure.getParamValueMap().get(key);
+									paramMap.put(key, value);
+									break;
+								}
+								default: throw new OperationFailedException("Invalid definition time constant: " + entry.getValue().getDefTime());
+							}
+	
+	    					/*if (factStructure.getParamValueMap() == null ) {
+	    						throw new OperationFailedException("Fact structure parameter value map is null. " +
+	    								"Fact structure id = " + factStructure.getFactStructureId() +
+	    								", fact type key = " + factTypeKey);    		    					
+	    					}
+	    					if (!factStructure.getParamValueMap().containsKey(key)) {
+	    						throw new OperationFailedException(
+	    								"Key '" + key + "' not found in fact structure parameter value map. " +    		    					
+										"Fact structure id = " + factStructure.getFactStructureId() +
+										", fact type key = " + factTypeKey);    		    					
+	    					}
 
-    				    			if (executionFact.getParamValueMap() == null ) {
-    		    						throw new OperationFailedException(
-    		    								"EXECUTION: Parameter value map is null");    		    					
-    		    					}
-    		    					if (!executionFact.getParamValueMap().containsKey(key)) {
-    		    						throw new OperationFailedException(
-    		    								"EXECUTION: Key '" + key +
-    		    								"' not found in parameter value map: " + key);    		    					
-    		    					}
-
-    		    					String value = executionFact.getParamValueMap().get(key);
-    				    			if (logger.isInfoEnabled()) {
-										logger.info("EXECUTION: value="+value);
-    				    			}
-	    		    				executionParamMap.put(key, value);
-    		    					break;
-    		    				}
-    		    				case KUALI_FACT_DEFINITION_TIME_KEY: {
-    				    			if (logger.isInfoEnabled()) {
-										logger.info("DEFINITION: paramValueMap="+factStructure.getParamValueMap());
-    				    			}
-
-    		    					if (factStructure.getParamValueMap() == null ) {
-    		    						throw new OperationFailedException("DEFINITION: Parameter value map is null");    		    					
-    		    					}
-    		    					if (!factStructure.getParamValueMap().containsKey(key)) {
-    		    						throw new OperationFailedException(
-    		    								"DEFINITION: Key '" + key +
-    		    								"' not found in parameter value map");    		    					
-    		    					}
-
-    		    					String value = factStructure.getParamValueMap().get(key);
-    				    			if (logger.isInfoEnabled()) {
-										logger.info("DEFINITION: value="+value);
-    				    			}
-    	    						definitionParamMap.put(key, value);
-    		    					break;
-    		    				}
-    		    				default: throw new OperationFailedException("Invalid definition time constant: " + entry.getValue().getDefTime());
-    		    			}
+	    					String value = factStructure.getParamValueMap().get(key);
+	    					paramMap.put(key, value);*/
 		    			}
-	    				if (executionParamMap.size() > 0) {
-	    					executionFactStructure.setFactStructureId(factStructure.getFactStructureId());
-	    					executionFactStructure.setParamValueMap(executionParamMap);
-    						FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, executionFactStructure);
-    		    	    	String factKey = FactUtil.createCriteriaKey(executionFactStructure);
-    		    			factMap.put(factKey, factResult);
-	    				}
-	    				if (definitionParamMap.size() > 0) {
-	    					definitionFactStructure.setFactStructureId(factStructure.getFactStructureId());
-    						definitionFactStructure.setParamValueMap(definitionParamMap);
-    						FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, definitionFactStructure);
-    		    	    	String factKey = FactUtil.createFactKey(definitionFactStructure);
-    		    			factMap.put(factKey, factResult);
-	    				}
+
+		    			if (logger.isInfoEnabled()) {
+							logger.info("\n---------- Create Fact Map ----------" +
+									"\nfactStructureId=" + factStructure.getFactStructureId() +
+									"\nfactTypeKey=" + factTypeKey +
+									"\nexecutionParamMap="+paramMap +
+									"\n-----------------------------------------");
+		    			}
+
+				        FactStructureDTO fs = new FactStructureDTO();
+		    			fs.setFactTypeKey(factTypeKey);
+		    			fs.setFactStructureId(factStructure.getFactStructureId());
+		    			fs.setParamValueMap(paramMap);
+						FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, fs);
+		    	    	String factKey = FactUtil.createCriteriaKey(fs);
+		    			factMap.put(factKey, factResult);
 		    		}
 	    		}
     		}
     	}
     	
 		if (logger.isInfoEnabled()) {
-	    	logger.info("\n ***** factMap *****\n"+factMap+"\n");
+	    	logger.info("\n---------- factMap ----------\n"+factMap+"\n");
 		}
 
     	return factMap;
     }
     
 	/**
-     * Executes an <code>agenda</code> with <code>factStructure</code>.
+     * Executes an <code>agenda</code> with <code>exectionParamMap</code>.
+     * <code>exectionParamMap</code> must match the fact criteria type meta data.
 	 * 
      * @param agenda Agenda to execute
+     * @param exectionParamMap Execution fact parameter map
 	 * @return Result of executing the agenda
      * @throws DoesNotExistException Thrown if agenda does not exist
      * @throws InvalidParameterException Thrown if agenda is invalid
      * @throws MissingParameterException Thrown if agenda is null or has missing parameters
      * @throws OperationFailedException Thrown if execution fails
 	 */
-    public AgendaExecutionResultDTO executeAgenda(final String agendaId, final FactStructureDTO factStructure) 
+    public AgendaExecutionResultDTO executeAgenda(final String agendaId, final Map<String,String> exectionParamMap) 
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
     {
     	if (agendaId == null) {
@@ -344,7 +315,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	try {
     		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
     			addRuleSet(businessRule);
-    			Map<String, Object> map = createFactMap(businessRule, factStructure);
+    			Map<String, Object> map = createFactMap(businessRule, exectionParamMap);
     			factMap.putAll(map);
     		}
     		AgendaExecutionResult executionResult = this.ruleSetExecutor.execute(agenda, factMap);
@@ -357,17 +328,19 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     /**
      * Executes a business rule by <code>businessRuleId</code> with a 
-     * <code>factStructure</code>.
+     * <code>exectionParamMap</code>.
+     * <code>exectionParamMap</code> must match the fact criteria type meta data.
+     * <code>exectionParamMap</code> can be null for static facts. </p>
      * 
      * @param businessRule A Business rule
-     * @param factStructure Fact structure for the business rule
+     * @param exectionParamMap Execution fact parameter map
 	 * @return Result of executing the business rule
      * @throws DoesNotExistException Thrown if business rule id does not exist
      * @throws InvalidParameterException Thrown if business rule id is invalid
      * @throws MissingParameterException Thrown if business rule id is null or empty
      * @throws OperationFailedException Thrown if execution fails
      */
-    public ExecutionResultDTO executeBusinessRule(final String businessRuleId, final FactStructureDTO factStructure)
+    public ExecutionResultDTO executeBusinessRule(final String businessRuleId, final Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
     	if (businessRuleId == null || businessRuleId.trim().isEmpty()) {
@@ -378,7 +351,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 		addRuleSet(businessRule);
     	
-		Map<String, Object> factMap = createFactMap(businessRule, factStructure);
+		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
 		
         try {
         	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, factMap);
@@ -404,23 +377,23 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     }
 
     /**
-     * <p>Executes a business rule with a <code>factStructure</code> to test that 
-     * it executes properly.<br/> 
-     * <code>factStructure</code> can be null for 
-     * static facts. </p>
-     * <p><b>Note:</b> The business rule is <b>not</b> stored in the rule repository 
-     * <b>nor</b> cached in rule execution memory.</p>
+     * <p>Executes a business rule with a <code>factStructure</code> to test 
+     * that it executes properly.<br/> 
+     * <code>exectionParamMap</code> must match the fact criteria type meta data.
+     * <code>exectionParamMap</code> can be null for static facts. </p>
+     * <p><b>Note:</b> The business rule is <b>not</b> stored in the 
+     * rule repository <b>nor</b> cached in rule execution memory.</p>
      * 
      *  
      * @param businessRule Functional business rule
-     * @param factStructure Fact structure for the business rule
+     * @param exectionParamMap Execution fact parameter map
 	 * @return Result of executing the business rule
      * @throws DoesNotExistException Thrown if business rule id does not exist
 	 * @throws MissingParameterException Thrown if parameter is missing
      * @throws InvalidParameterException Thrown if method parameters are invalid
      * @throws OperationFailedException Thrown if business rule translation or execution fails
      */
-    public ExecutionResultDTO executeBusinessRuleTest(final BusinessRuleInfoDTO businessRule, final FactStructureDTO factStructure)
+    public ExecutionResultDTO executeBusinessRuleTest(final BusinessRuleInfoDTO businessRule, final Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		if (businessRule == null) {
 			throw new MissingParameterException("businessRule is null");
@@ -428,7 +401,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		
 		RuleSetDTO ruleSet = this.ruleRespositoryService.translateBusinessRule(businessRule);
 
-		Map<String, Object> factMap = createFactMap(businessRule, factStructure);
+		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
 		
 		try {
         	this.ruleSetExecutorTest.addRuleSet(businessRule, ruleSet);

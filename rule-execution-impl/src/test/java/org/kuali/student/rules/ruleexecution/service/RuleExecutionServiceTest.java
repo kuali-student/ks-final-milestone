@@ -165,7 +165,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         
         ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
         
-    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, factStructure1);
+    	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, paramMap);
         Assert.assertNotNull(result);
 
         Assert.assertTrue(result.getExecutionResult());

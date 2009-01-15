@@ -479,12 +479,6 @@ public class ServiceTestClient {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
 
-        FactStructureDTO factStructure1 = new FactStructureDTO();
-        factStructure1.setFactStructureId("xxx");
-        factStructure1.setStaticFact(false);
-        factStructure1.setFactTypeKey("fact.completed_course_list");
-        factStructure1.setParamValueMap(paramMap);
-    	
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
@@ -493,7 +487,7 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
 	        System.out.println("Business Rule Display Name :     "+businessRule2.getDisplayName());
 
-	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, factStructure1);
+	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
             Assert.assertNotNull(executionResult);
 	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
@@ -529,14 +523,8 @@ public class ServiceTestClient {
 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
-
-        FactStructureDTO factStructure1 = new FactStructureDTO();
-        factStructure1.setFactStructureId("xxx");
-        factStructure1.setStaticFact(false);
-        factStructure1.setFactTypeKey("fact.completed_course_list");
-        factStructure1.setParamValueMap(paramMap);
     	
-        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, factStructure1);
+        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, paramMap);
         Assert.assertNotNull(executionResult);
 
         System.out.println("Execution result:        "+executionResult.getExecutionResult());
