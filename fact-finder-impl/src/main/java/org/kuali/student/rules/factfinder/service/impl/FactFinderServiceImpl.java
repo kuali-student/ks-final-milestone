@@ -39,7 +39,7 @@ public class FactFinderServiceImpl implements FactFinderService {
     	if(logger.isInfoEnabled()) {
     		logger.info("\n*****  fetchFact  *****\n" +
     				"factTypeKey="+factTypeKey+
-    				"factStructure.paramValueMap="+
+    				", factStructure.paramValueMap="+
     				(factStructure == null ? "null" : factStructure.getParamValueMap()));
     	}
     	FactResultDTO result = new FactResultDTO();
@@ -54,7 +54,7 @@ public class FactFinderServiceImpl implements FactFinderService {
          * Only Two Fact Type Keys are known currently. TODO: Change the implementation to a more generic one
          */
         if ("fact.earned_credit_list".equalsIgnoreCase(factTypeKey)) {
-            // Get the set of courses for which credit is computed
+        	// Get the set of courses for which credit is computed
             String courseList = factStructure.getParamValueMap().get("factParam.clusetId");
             Set<String> courseSet = getAsSet(courseList);
                         
@@ -63,7 +63,6 @@ public class FactFinderServiceImpl implements FactFinderService {
             Set<String> courseExcludeSet = getAsSet(courseExcludeList);
 
             for (LUIPerson lpr : luiPersonList) {
-
                 if (courseSet.contains(lpr.getCluId()) && !courseExcludeSet.contains(lpr.getCluId())) {
                     Map<String, String> resultColumn = new HashMap<String, String>();
                     resultColumn.put("resultColumn.credit", String.valueOf(lpr.getCredits()));
@@ -86,6 +85,10 @@ public class FactFinderServiceImpl implements FactFinderService {
         }
 
         result.setResultList(resultValueList);
+
+        if(logger.isInfoEnabled()) {
+    		logger.info("resultValueList="+resultValueList);
+    	}
 
         return result;
     }
