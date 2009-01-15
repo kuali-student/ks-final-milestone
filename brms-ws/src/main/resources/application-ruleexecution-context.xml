@@ -75,7 +75,7 @@
 
     <bean id="ruleExecutionServiceImpl"
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
-	        <property name="enableRuleSetCaching" value="false" />
+	        <property name="enableRuleSetCaching" value="true" />
             <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
             <property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
 	        <property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
