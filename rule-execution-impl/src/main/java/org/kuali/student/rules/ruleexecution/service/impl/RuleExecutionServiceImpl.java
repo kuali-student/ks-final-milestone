@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.jws.WebService;
 
@@ -77,6 +79,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     private FactFinderService factFinderService;
     
     private boolean ruleSetCachingEnabled = true;
+    
+    private ConcurrentMap<String, FactResultDTO> factFinderCache = new ConcurrentHashMap<String, FactResultDTO>();
 
     public void setEnableRuleSetCaching(final boolean enableCaching) {
     	this.ruleSetCachingEnabled = enableCaching;
@@ -157,6 +161,14 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		return ruleSet;
 	}
 	
+	/**
+	 * Retrieves an executable rule set from the rule repository service and
+	 * adds the rule set to the rule execution runtime.
+	 * 
+	 * @param businessRule Business rule
+	 * @throws OperationFailedException
+	 * @throws InvalidParameterException
+	 */
 	private void addRuleSet(BusinessRuleInfoDTO businessRule) throws OperationFailedException, InvalidParameterException {
 		if (this.ruleSetCachingEnabled) {
     		if (!this.ruleSetExecutor.containsRuleSet(businessRule)) {
@@ -170,6 +182,14 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		}
 	}
 
+	/**
+	 * Creates the execution result DTO object which contains the rule execution
+	 * log, any error messages, the rule execution result and the rule 
+	 * proposition result.
+	 * 
+	 * @param executionResult Rule Execution result
+	 * @return Rule execution result DTO
+	 */
     private ExecutionResultDTO createExecutionResultDTO(ExecutionResult executionResult) {
     	ExecutionResultDTO dto = new ExecutionResultDTO();
     	dto.setExecutionLog(executionResult.getExecutionLog());
@@ -188,6 +208,12 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	return dto;
     }
 
+    /**
+     * Creates the agenda rule execution result.
+     * 
+     * @param executionResult Agenda execution result
+     * @return Agenda execution result DTO
+     */
     private AgendaExecutionResultDTO createAgendaExecutionResultDTO(AgendaExecutionResult executionResult) {
     	AgendaExecutionResultDTO executionResultDTO = new AgendaExecutionResultDTO();
     	for(ExecutionResult result : executionResult.getExecutionResultList()) {
@@ -196,8 +222,38 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	return executionResultDTO;
     }
 
+    /**
+     * Finds facts from the fact finder service.
+     * Find fact uses execution level caching to keep the data retrieve from
+     * the fact finder consistent in one rule execution.
+     * 
+     * @param factTypeKey Fact type key
+     * @param fs Fact structure
+     * @return Fact result
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    private FactResultDTO findFact(String factTypeKey, FactStructureDTO fs) 
+    	throws OperationFailedException, DoesNotExistException {
+    	if (this.factFinderCache.containsKey(factTypeKey)) {
+    		return this.factFinderCache.get(factTypeKey);
+    	}
+    	FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, fs);
+    	return factResult;
+    }
+
+    /**
+     * Creates a fact map which is used in rule execution.
+     * 
+     * @param businessRule Function business rule
+     * @param exectionParamMap Execution parameter map
+     * @return Map of data facts
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
     private Map<String, Object> createFactMap(BusinessRuleInfoDTO businessRule, Map<String,String> exectionParamMap) 
     	throws OperationFailedException, DoesNotExistException {
+    	this.factFinderCache.clear();
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
     	if (businessRule.getRuleElementList() == null) {
@@ -234,39 +290,47 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
 							switch(FactParamDefTimeKey.valueOf(entry.getValue().getDefTime())) {
 								case KUALI_FACT_EXECUTION_TIME_KEY: {
-									String value = exectionParamMap.get(key);
+			    					if (exectionParamMap == null ) {
+			    						throw new OperationFailedException(
+			    								"EXECUTION KEY: Execution parameter value map is null." +
+			    								"Fact type key = " + factTypeKey);    		    					
+			    					}
+			    					if (!exectionParamMap.containsKey(key)) {
+			    						throw new OperationFailedException(
+			    								"EXECUTION KEY: Key '" + key + "' not found in execution parameter value map. " +    		    					
+												"Fact type key = " + factTypeKey);    		    					
+			    					}
+
+			    					String value = exectionParamMap.get(key);
 									paramMap.put(key, value);
 									break;
 								}
 								case KUALI_FACT_DEFINITION_TIME_KEY: {
+			    					if (factStructure.getParamValueMap() == null ) {
+			    						throw new OperationFailedException("DEFINITION KEY: Fact structure parameter value map is null. " +
+			    								"Fact structure id = " + factStructure.getFactStructureId() +
+			    								", fact type key = " + factTypeKey);    		    					
+			    					}
+			    					if (!factStructure.getParamValueMap().containsKey(key)) {
+			    						throw new OperationFailedException(
+			    								"DEFINITION KEY: Key '" + key + "' not found in fact structure parameter value map. " +    		    					
+												"Fact structure id = " + factStructure.getFactStructureId() +
+												", fact type key = " + factTypeKey);    		    					
+			    					}
+
 									String value = factStructure.getParamValueMap().get(key);
 									paramMap.put(key, value);
 									break;
 								}
 								default: throw new OperationFailedException("Invalid definition time constant: " + entry.getValue().getDefTime());
 							}
-	
-	    					/*if (factStructure.getParamValueMap() == null ) {
-	    						throw new OperationFailedException("Fact structure parameter value map is null. " +
-	    								"Fact structure id = " + factStructure.getFactStructureId() +
-	    								", fact type key = " + factTypeKey);    		    					
-	    					}
-	    					if (!factStructure.getParamValueMap().containsKey(key)) {
-	    						throw new OperationFailedException(
-	    								"Key '" + key + "' not found in fact structure parameter value map. " +    		    					
-										"Fact structure id = " + factStructure.getFactStructureId() +
-										", fact type key = " + factTypeKey);    		    					
-	    					}
-
-	    					String value = factStructure.getParamValueMap().get(key);
-	    					paramMap.put(key, value);*/
 		    			}
 
 		    			if (logger.isInfoEnabled()) {
 							logger.info("\n---------- Create Fact Map ----------" +
 									"\nfactStructureId=" + factStructure.getFactStructureId() +
 									"\nfactTypeKey=" + factTypeKey +
-									"\nexecutionParamMap="+paramMap +
+									"\nparamMap="+paramMap +
 									"\n-----------------------------------------");
 		    			}
 
@@ -274,7 +338,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		    			fs.setFactTypeKey(factTypeKey);
 		    			fs.setFactStructureId(factStructure.getFactStructureId());
 		    			fs.setParamValueMap(paramMap);
-						FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, fs);
+						FactResultDTO factResult = findFact(factTypeKey, fs);
 		    	    	String factKey = FactUtil.createCriteriaKey(fs);
 		    			factMap.put(factKey, factResult);
 		    		}
