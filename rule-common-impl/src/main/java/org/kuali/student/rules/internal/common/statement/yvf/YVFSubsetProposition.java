@@ -84,6 +84,13 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
 			logger.debug("Criteria set="+criteriaSet);
 			logger.debug("Fact set="+factSet);
+			logger.debug("\n---------- YVFSubsetProposition ----------"
+					+ "\nFact static="+fact.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
+					+ "\nCriteria set="+criteriaSet
+					+ "\nFact set="+factSet
+					+ "\n--------------------------------------------------");
 		}
 
 		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet); 

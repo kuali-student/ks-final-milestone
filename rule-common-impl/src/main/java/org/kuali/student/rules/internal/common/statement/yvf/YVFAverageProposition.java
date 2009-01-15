@@ -68,10 +68,14 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 		}
 
 		if(logger.isDebugEnabled()) {
-			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
-			logger.debug("Comparison operator="+comparisonOperator);
-			logger.debug("Expected value="+expectedValue);
-			logger.debug("Fact list="+factList);
+			logger.debug("\n---------- YVFAverageProposition ----------"
+					+ "\nFact static="+fact.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
+					+ "\nComparison operator="+comparisonOperator
+					+ "\nExpected value="+expectedValue
+					+ "\nFact list="+factList
+					+ "\n--------------------------------------------------");
 		}
 
         super.proposition = new AverageProposition<E>(id, propositionName, 

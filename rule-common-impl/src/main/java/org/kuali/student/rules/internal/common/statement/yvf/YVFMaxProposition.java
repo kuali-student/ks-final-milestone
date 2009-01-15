@@ -70,10 +70,14 @@ public class YVFMaxProposition<T extends Comparable<T>> extends AbstractYVFPropo
 		}
 
 		if(logger.isDebugEnabled()) {
-			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
-			logger.debug("Comparison operator="+comparisonOperator);
-			logger.debug("Expected value="+expectedValue);
-			logger.debug("Fact set="+factSet);
+			logger.debug("\n---------- YVFMaxProposition ----------"
+					+ "\nFact static="+fact.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
+					+ "\nComparison operator="+comparisonOperator
+					+ "\nExpected value="+expectedValue
+					+ "\nFact set="+factSet
+					+ "\n--------------------------------------------------");
 		}
 
 		super.proposition = new MaxProposition<T>(id, propositionName, 

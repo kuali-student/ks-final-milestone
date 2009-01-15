@@ -87,11 +87,15 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 		}
 
 		if(logger.isDebugEnabled()) {
-			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
-			logger.debug("Comparison operator="+comparisonOperator);
-			logger.debug("Expected value="+expectedValue);
-			logger.debug("Criteria set="+criteriaSet);
-			logger.debug("Fact set="+factSet);
+			logger.debug("\n---------- YVFIntersectionProposition ----------"
+					+ "\nFact static="+fact.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
+					+ "\nComparison operator="+comparisonOperator
+					+ "\nExpected value="+expectedValue
+					+ "\nCriteria set="+criteriaSet
+					+ "\nFact set="+factSet
+					+ "\n--------------------------------------------------");
 		}
 
 		super.proposition = new IntersectionProposition<E>(id, propositionName, 

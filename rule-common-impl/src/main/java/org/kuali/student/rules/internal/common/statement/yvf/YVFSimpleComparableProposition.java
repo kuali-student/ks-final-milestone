@@ -64,10 +64,14 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 		}
 
 		if(logger.isDebugEnabled()) {
-			logger.debug("Yield value function type="+yvf.getYieldValueFunctionType());
-			logger.debug("Comparison operator="+comparisonOperator);
-			logger.debug("Expected value="+expectedValue);
-			logger.debug("Fact object="+factObject);
+			logger.debug("\n---------- YVFSimpleComparableProposition ----------"
+					+ "\nFact static="+fact.isStaticFact()
+					+ "\nFact key="+FactUtil.createFactKey(fact)
+					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
+					+ "\nComparison operator="+comparisonOperator
+					+ "\nExpected value="+expectedValue
+					+ "\nFact object="+factObject
+					+ "\n--------------------------------------------------");
 		}
 
 		super.proposition = new SimpleComparableProposition<T>(id, propositionName, 
