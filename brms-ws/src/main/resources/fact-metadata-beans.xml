@@ -55,7 +55,7 @@
 						<property name="key" value="resultColumn.credit"/>
 						<property name="name" value="resultColumn.credit"/>
 						<property name="description" value="Credits"/>
-						<property name="dataType" value="java.lang.Number"/>												
+						<property name="dataType" value="java.math.BigDecimal"/>												
 					</bean>
 				</entry>
 			</map>
