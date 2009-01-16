@@ -44,8 +44,8 @@ public class RuleManagementDtoFactory {
 													   LeftHandSideDTO leftHandSide,
 													   RightHandSideDTO rightHandSide) {
 		RulePropositionDTO dto = new RulePropositionDTO();
-		dto.setComparisonDataType(comparisonDataType);
-		dto.setComparisonOperatorType(comparisonOperatorType);
+		dto.setComparisonDataTypeKey(comparisonDataType);
+		dto.setComparisonOperatorTypeKey(comparisonOperatorType);
 		dto.setDescription("Rule proposition DTO");
 		dto.setFailureMessage("Rule proposition failure");
 		dto.setLeftHandSide(leftHandSide);
@@ -61,9 +61,9 @@ public class RuleManagementDtoFactory {
 		RuleElementDTO dto = new RuleElementDTO();
 		dto.setDescription("Rule element DTO");
 		dto.setName(name);
-		dto.setOperation(operation);
+		dto.setBusinessRuleElemnetTypeKey(operation);
 		dto.setOrdinalPosition(ordinalPosition);
-		dto.setRuleProposition(ruleProposition);
+		dto.setBusinessRuleProposition(ruleProposition);
 		return dto;
 	}
 
@@ -76,16 +76,16 @@ public class RuleManagementDtoFactory {
 														 String anchorTypeKey,
 														 String anchorValue) {
 		BusinessRuleInfoDTO dto = new BusinessRuleInfoDTO();
-		dto.setOrigName(name);
-		dto.setDescription("Business rule info DTO");
+		dto.setName(name);
+		dto.setDesc("Business rule info DTO");
 		dto.setSuccessMessage(successMessage);
 		dto.setFailureMessage(failureMessage);
-		dto.setBusinessRuleId(businessRuleId);
+		dto.setId(businessRuleId);
 		//dto.setbusinessRuleInfo = businessRuleInfo;
-		dto.setBusinessRuleTypeKey(businessRuleTypeKey);
+		dto.setType(businessRuleTypeKey);
 		dto.setAnchorTypeKey(anchorTypeKey);
 		dto.setAnchorValue(anchorValue);
-		dto.setRuleElementList(ruleElementList);
+		dto.setBusinessRuleElementList(ruleElementList);
 		return dto;
 	}
 }

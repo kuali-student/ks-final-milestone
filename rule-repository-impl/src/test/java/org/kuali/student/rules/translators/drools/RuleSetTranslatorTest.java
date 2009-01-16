@@ -1122,8 +1122,8 @@ public class RuleSetTranslatorTest {
     	// Set effective and expiry dates
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2001, 1, 1, 12, 00);
-    	businessRule.setEffectiveStartTime(effectiveStartTime);
-    	businessRule.setEffectiveEndTime(effectiveEndTime);
+    	businessRule.setEffectiveDate(effectiveStartTime);
+    	businessRule.setExpirationDate(effectiveEndTime);
 
         // Parse and generate functional business rule into Drools rules
         RuleSet ruleSet = ruleSetTranslator.translate(businessRule);
@@ -1148,19 +1148,19 @@ public class RuleSetTranslatorTest {
 
     private BusinessRuleInfoDTO createBusinessRule(List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
-    	bri.setOrigName("MyBusinessRule");
-    	bri.setDescription("Some business rule");
+    	bri.setName("MyBusinessRule");
+    	bri.setDesc("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
-    	bri.setBusinessRuleId("1");
-    	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
+    	bri.setId("1");
+    	bri.setType("kuali.student.businessrule.typekey.course.corequisites");
     	bri.setAnchorTypeKey("kuali.student.lui.course.id");
     	bri.setAnchorValue("CPR101");
-    	bri.setRuleElementList(ruleElementList);
+    	bri.setBusinessRuleElementList(ruleElementList);
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
-    	bri.setEffectiveStartTime(effectiveStartTime);
-    	bri.setEffectiveEndTime(effectiveEndTime);
+    	bri.setEffectiveDate(effectiveStartTime);
+    	bri.setExpirationDate(effectiveEndTime);
     	return bri;
     }
 
@@ -1168,7 +1168,7 @@ public class RuleSetTranslatorTest {
     	RuleElementDTO re = new RuleElementDTO();
         re.setName("And");
         re.setDescription("And");
-        re.setOperation("AND");
+        re.setBusinessRuleElemnetTypeKey("AND");
         
         return re;
     }
@@ -1339,9 +1339,9 @@ public class RuleSetTranslatorTest {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
-        bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
-        bri.setBusinessRuleTypeKey("org_kuali-student.pre req#1&2");
-        bri.setOrigName("TestName `~!@#$%^&*()-+={[}]|\\:;\"'<,>.?/ \b\t\n\f\r \' \"");
+        bri.setId("11223344-1122-1122-1112-200000000001");
+        bri.setType("org_kuali-student.pre req#1&2");
+        bri.setName("TestName `~!@#$%^&*()-+={[}]|\\:;\"'<,>.?/ \b\t\n\f\r \' \"");
 
         RuleSet ruleSet = ruleSetTranslator.translate(bri);
         String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
@@ -1354,9 +1354,9 @@ public class RuleSetTranslatorTest {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
-        bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
-        bri.setBusinessRuleTypeKey("org_kuali-student.pre req#1&2");
-        bri.setOrigName("ABC123456 `~!@#$%^&*()-+= XYZ");
+        bri.setId("11223344-1122-1122-1112-200000000001");
+        bri.setType("org_kuali-student.pre req#1&2");
+        bri.setName("ABC123456 `~!@#$%^&*()-+= XYZ");
 
         RuleSet ruleSet = ruleSetTranslator.translate(bri);
         String name = RuleSetTranslatorDroolsImpl.getRuleSetName(bri);
@@ -1369,9 +1369,9 @@ public class RuleSetTranslatorTest {
         // Create functional business rule
         BusinessRuleInfoDTO bri = createBusinessRule(null);
         // Create invalid name
-        bri.setBusinessRuleId("11223344-1122-1122-1112-200000000001");
-        bri.setBusinessRuleTypeKey("123 kuali-student.pre req#1&2");
-        bri.setOrigName("123456 `~!@#$%^&*()-+= XYZ");
+        bri.setId("11223344-1122-1122-1112-200000000001");
+        bri.setType("123 kuali-student.pre req#1&2");
+        bri.setName("123456 `~!@#$%^&*()-+= XYZ");
 
 		try {
         	ruleSetTranslator.translate(bri);

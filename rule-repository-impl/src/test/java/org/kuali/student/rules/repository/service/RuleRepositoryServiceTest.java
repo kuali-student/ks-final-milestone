@@ -446,20 +446,20 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     		String anchorValue, List<RuleElementDTO> ruleElementList) {
         BusinessRuleInfoDTO bri = new BusinessRuleInfoDTO();
     	//bri.setName("MyNewBusinessRule");
-    	bri.setOrigName(ruleName);
-    	bri.setDescription("Some business rule");
+    	bri.setName(ruleName);
+    	bri.setDesc("Some business rule");
     	bri.setSuccessMessage("Success message");
     	bri.setFailureMessage("Failure message");
     	//bri.setBusinessRuleId("1");
-    	bri.setBusinessRuleId(ruleId);
-    	bri.setBusinessRuleTypeKey("kuali.student.businessrule.typekey.course.corequisites");
+    	bri.setId(ruleId);
+    	bri.setType("kuali.student.businessrule.typekey.course.corequisites");
     	bri.setAnchorTypeKey("kuali.student.lui.course.id");
     	bri.setAnchorValue(anchorValue);
-    	bri.setRuleElementList(ruleElementList);
+    	bri.setBusinessRuleElementList(ruleElementList);
     	Date effectiveStartTime = createDate(2000, 1, 1, 12, 0, 0);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 0, 0);
-    	bri.setEffectiveStartTime(effectiveStartTime);
-    	bri.setEffectiveEndTime(effectiveEndTime);
+    	bri.setEffectiveDate(effectiveStartTime);
+    	bri.setExpirationDate(effectiveEndTime);
     	return bri;
     }
 
@@ -467,7 +467,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	RuleElementDTO re = new RuleElementDTO();
         re.setName("And");
         re.setDescription("And");
-        re.setOperation("AND");
+        re.setBusinessRuleElemnetTypeKey("AND");
         
         return re;
     }
@@ -584,9 +584,9 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
     private FactContainer execute(RuleSetDTO ruleSet, BusinessRuleInfoDTO bri) throws Exception { 
     	// Proposition 0 - SUBSET 
-    	List<RuleElementDTO> ruleElementList = bri.getRuleElementList();
+    	List<RuleElementDTO> ruleElementList = bri.getBusinessRuleElementList();
     	RuleElementDTO ruleElement1 = ruleElementList.get(0);
-    	List<FactStructureDTO> factList = ruleElement1.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+    	List<FactStructureDTO> factList = ruleElement1.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
     	FactStructureDTO factStructure1 = factList.get(0);
     	FactStructureDTO factStructure2 = factList.get(1);
 
@@ -595,7 +595,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Proposition 2 - INTERSECTION 
     	RuleElementDTO ruleElement2 = ruleElementList.get(2);
-    	List<FactStructureDTO> factList2 = ruleElement2.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+    	List<FactStructureDTO> factList2 = ruleElement2.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
     	FactStructureDTO factStructure3 = factList2.get(0);
     	FactStructureDTO factStructure4 = factList2.get(1);
     	
@@ -668,7 +668,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     @Test
     public void testGenerateAndCreateRuleSet_CheckStatus() throws Exception {
     	BusinessRuleInfoDTO businessRule = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
-        businessRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
+        businessRule.setState(BusinessRuleStatus.ACTIVE.toString());
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule);
 
@@ -748,7 +748,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     @Test
     public void testGenerateAndCreateRuleSet_NullRuleElements() throws Exception {
     	BusinessRuleInfoDTO businessRule1 = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
-    	businessRule1.setRuleElementList(null);
+    	businessRule1.setBusinessRuleElementList(null);
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule1);
 
@@ -760,7 +760,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     @Test
     public void testGenerateAndCreateRuleSet_EmptyRuleElements() throws Exception {
     	BusinessRuleInfoDTO businessRule1 = getBusinessRule("1", "MyNewBusinessRule", "CPR101");
-    	businessRule1.setRuleElementList(new ArrayList<RuleElementDTO>());
+    	businessRule1.setBusinessRuleElementList(new ArrayList<RuleElementDTO>());
     	// Generate and create new rule set
     	RuleSetDTO ruleSet1 = service.generateRuleSetForBusinessRule(businessRule1);
 
@@ -781,7 +781,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Update rule's RHS expected value and set rule set UUID
     	businessRule1.setCompiledId(ruleSet1.getUUID()); 
-		RightHandSideDTO rhs = businessRule1.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
+		RightHandSideDTO rhs = businessRule1.getBusinessRuleElementList().get(2).getBusinessRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("2");
     	// Generate (update) rule set again which creates a new version
     	RuleSetDTO ruleSet2 = service.generateRuleSetForBusinessRule(businessRule1);
@@ -824,7 +824,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	
     	// Update rule's RHS expected value and set rule set UUID
     	businessRule1.setCompiledId(ruleSet1.getUUID()); 
-		RightHandSideDTO rhs = businessRule1.getRuleElementList().get(2).getRuleProposition().getRightHandSide();
+		RightHandSideDTO rhs = businessRule1.getBusinessRuleElementList().get(2).getBusinessRuleProposition().getRightHandSide();
 		rhs.setExpectedValue("2"); // which results in false since there's only 1 intersection 
     	// Generate (update) rule set again which creates a new version
     	RuleSetDTO ruleSet2 = service.generateRuleSetForBusinessRule(businessRule1);

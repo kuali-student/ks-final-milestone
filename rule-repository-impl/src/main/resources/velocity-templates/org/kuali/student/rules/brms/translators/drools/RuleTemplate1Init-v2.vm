@@ -48,8 +48,8 @@ rule "${ruleName}"
         #foreach( $key in $propositionMap.keySet() ) 
        		#set( $proposition = $propositionMap.get($key) )
        		#set( $rhs = $proposition.RightHandSide.ExpectedValue )
-            #set( $comparisonDataType = $proposition.ComparisonDataType )
-       		#set( $operator = $proposition.ComparisonOperatorType )
+            #set( $comparisonDataType = $proposition.ComparisonDataTypeKey )
+       		#set( $operator = $proposition.ComparisonOperatorTypeKey )
     		#set( $yvf = $proposition.LeftHandSide.YieldValueFunction )
             ##set( $yvfDataType = $proposition.LeftHandSide.YieldValueFunction.YieldValueFunctionDataType )
 

@@ -85,7 +85,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     	if (businessRule.getCompiledId() != null && !businessRule.getCompiledId().trim().isEmpty()) {
         	ruleSet = ruleSetFactory.createRuleSet(businessRule.getCompiledId(), ruleSetName, 1);
     	} else {
-        	ruleSet = ruleSetFactory.createRuleSet(ruleSetName, businessRule.getDescription());
+        	ruleSet = ruleSetFactory.createRuleSet(ruleSetName, businessRule.getDesc());
     	}
         addHeader(ruleSet);
         parseRule(ruleSet, businessRule);
@@ -105,19 +105,19 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
      * @return Rule set name
      */
     public static String getRuleSetName(BusinessRuleInfoDTO businessRule) {
-    	String businessRuleName = removeInvalidCharacters(businessRule.getOrigName());
+    	String businessRuleName = removeInvalidCharacters(businessRule.getName());
     	if(!isValidRuleName(businessRuleName)) {
     		throw new RuleSetTranslatorException("Invalid rule name. " +
     				"Rule name must must start with a letter. Original rule name: '" + 
-    				businessRule.getOrigName() + "'. Adjusted rule name: '" + businessRuleName + "'");
+    				businessRule.getName() + "'. Adjusted rule name: '" + businessRuleName + "'");
     	}
-    	String businessRuleTypeKey = removeInvalidCharacters(businessRule.getBusinessRuleTypeKey());
+    	String businessRuleTypeKey = removeInvalidCharacters(businessRule.getType());
     	if(!isValidRuleName(businessRuleTypeKey)) {
     		throw new RuleSetTranslatorException("Invalid rule type key. " +
     				"Rule type key must must start with a letter. Original rule type key: '" + 
-    				businessRule.getBusinessRuleTypeKey() + "'. Adjusted rule type key: '" + businessRuleTypeKey + "'");
+    				businessRule.getType() + "'. Adjusted rule type key: '" + businessRuleTypeKey + "'");
     	}
-    	String businessRuleId = removeInvalidCharacters(businessRule.getBusinessRuleId());
+    	String businessRuleId = removeInvalidCharacters(businessRule.getId());
     	String name = PACKAGE_PREFIX + businessRuleTypeKey + "_" + businessRuleId + "_" + businessRuleName;
     	return name;
     }
@@ -134,12 +134,12 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         checkBusinessRule(businessRule);
         
         String anchor = businessRule.getAnchorValue();
-        String ruleName = removeInvalidCharacters(businessRule.getOrigName());
-        String ruleDescription = businessRule.getDescription();
+        String ruleName = removeInvalidCharacters(businessRule.getName());
+        String ruleDescription = businessRule.getDesc();
         String functionString = BusinessRuleUtil.createAdjustedRuleFunctionString(businessRule);
         Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
-		Date effectiveStartTime = businessRule.getEffectiveStartTime();
-		Date effectiveEndTime = businessRule.getEffectiveEndTime();
+		Date effectiveStartTime = businessRule.getEffectiveDate();
+		Date effectiveEndTime = businessRule.getExpirationDate();
         generateRules(anchor, ruleName, ruleDescription, functionString, 
         		propositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
     }

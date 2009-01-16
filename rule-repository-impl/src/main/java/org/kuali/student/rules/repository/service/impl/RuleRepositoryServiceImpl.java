@@ -586,22 +586,22 @@ public class RuleRepositoryServiceImpl implements RuleRepositoryService {
      */
     private void changeRuleSetStatus(BusinessRuleInfoDTO businessRule, RuleSet ruleSet)
     	throws RuleEngineRepositoryException {
-    	if (businessRule.getStatus() == null) {
+    	if (businessRule.getState() == null) {
     		return;
     	}
 
     	// Create status in repository if it does not exist
-    	if (!this.ruleEngineRepository.containsStatus(businessRule.getStatus())) {
-    		this.ruleEngineRepository.createStatus(businessRule.getStatus());
+    	if (!this.ruleEngineRepository.containsStatus(businessRule.getState())) {
+    		this.ruleEngineRepository.createStatus(businessRule.getState());
     	}
 
-    	if (!businessRule.getStatus().equals(ruleSet.getStatus())) {
+    	if (!businessRule.getState().equals(ruleSet.getStatus())) {
     		// Change rule set status
-    		this.ruleEngineRepository.changeRuleSetStatus(ruleSet.getUUID(), businessRule.getStatus());
+    		this.ruleEngineRepository.changeRuleSetStatus(ruleSet.getUUID(), businessRule.getState());
     		// Change rule status
     		for(Rule rule : ruleSet.getRules()) {
-    	    	if (!businessRule.getStatus().equals(rule.getStatus())) {
-	    			this.ruleEngineRepository.changeRuleStatus(rule.getUUID(), businessRule.getStatus());
+    	    	if (!businessRule.getState().equals(rule.getStatus())) {
+	    			this.ruleEngineRepository.changeRuleStatus(rule.getUUID(), businessRule.getState());
     	    	}
     		}
     	}
