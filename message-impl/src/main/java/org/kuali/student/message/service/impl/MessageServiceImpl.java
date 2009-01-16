@@ -40,10 +40,6 @@ public class MessageServiceImpl implements MessageService{
 	public MessageServiceImpl() {
 	}
 	
-	private int getMessagesCount(){
-		return messageDAO.getTotalMessages();
-	}
-	
     public MessageManagementDAO getMessageDAO() {
         return messageDAO;
     }
@@ -73,52 +69,69 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
-		
 		Message message = null;
-		
-		MessageEntity messageEntity = this.messageDAO.getMessage(localeKey, messageGroupKey, messageKey);
-		if(messageEntity != null){
-			message = new Message();
-			POJOConverter.map(messageEntity, message);
+		if(localeKey == null || messageGroupKey == null || messageKey == null){
+			return null;
+		}
+		else{
+			MessageEntity messageEntity = this.messageDAO.getMessage(localeKey, messageGroupKey, messageKey);
+			if(messageEntity != null){
+				message = new Message();
+				POJOConverter.map(messageEntity, message);
+			}
 		}
 		return message;
 	}
 
-
-
 	public MessageList getMessages(String localeKey, String messageGroupKey) {
-        List<MessageEntity> messages =  this.messageDAO.getMessages(localeKey, messageGroupKey);
-        
-        MessageList messageList = new MessageList();
-        List<Message> messageDTOs =  POJOConverter.mapList(messages, Message.class);
-        messageList.setMessages(messageDTOs);
-		return messageList;
+		if(localeKey == null || messageGroupKey == null){
+			return new MessageList();
+		}
+		else{
+			List<MessageEntity> messages =  this.messageDAO.getMessages(localeKey, messageGroupKey);
+	        
+	        MessageList messageList = new MessageList();
+	        List<Message> messageDTOs =  POJOConverter.mapList(messages, Message.class);
+	        messageList.setMessages(messageDTOs);
+			return messageList;
+		}
 	}
 
 	public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
-		List<MessageEntity> messages =  this.messageDAO.getMessagesByGroups(localeKey, messageGroupKeyList.getMessageGroupKeys());
-		
-        MessageList messageList = new MessageList();
-        List<Message> messageDTOs =  POJOConverter.mapList(messages, Message.class);
-        messageList.setMessages(messageDTOs);
-		return messageList;
+		if(localeKey == null || messageGroupKeyList == null){
+			return new MessageList();
+		}
+		else{
+			List<MessageEntity> messages =  this.messageDAO.getMessagesByGroups(localeKey, messageGroupKeyList.getMessageGroupKeys());
+		    MessageList messageList = new MessageList();
+		    List<Message> messageDTOs =  POJOConverter.mapList(messages, Message.class);
+		    messageList.setMessages(messageDTOs);
+			return messageList;
+		}
 	}
 
 	public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
-
-	    MessageEntity messageEntity = new MessageEntity();    
-	    POJOConverter.map(messageInfo, messageEntity);
-	    messageEntity =  messageDAO.updateMessage(localeKey, messageGroupKey, messageKey, messageEntity);
-	    POJOConverter.map(messageEntity, messageInfo);
-	    
-        return messageInfo;
+		
+		if(localeKey == null || messageGroupKey == null || messageKey == null || messageInfo == null){
+			return null;
+		}
+		else{
+		    MessageEntity messageEntity = new MessageEntity();    
+		    POJOConverter.map(messageInfo, messageEntity);
+		    messageEntity =  messageDAO.updateMessage(localeKey, messageGroupKey, messageKey, messageEntity);
+		    POJOConverter.map(messageEntity, messageInfo);
+		    return messageInfo;
+		}
+        
 	}
 
 	public Message addMessage(Message messageInfo) {
-		MessageEntity messageEntity = new MessageEntity();    
-	    POJOConverter.map(messageInfo, messageEntity);
-	    messageEntity =  messageDAO.addMessage(messageEntity);
-	    POJOConverter.map(messageEntity, messageInfo);
+		if(messageInfo != null)	{
+			MessageEntity messageEntity = new MessageEntity();    
+			POJOConverter.map(messageInfo, messageEntity);
+			messageEntity =  messageDAO.addMessage(messageEntity);
+			POJOConverter.map(messageEntity, messageInfo);
+		}
 		return messageInfo;
 	}
     
