@@ -36,9 +36,6 @@ public class EnumerationMetaPanel extends FlowPanel {
     public EnumerationMetaPanel() {
         add(new HTML("Enum Meta"));
         add(messageHTML);
-
-
-
         addButton.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
                 EnumerationGWTService.Util.getInstance().addEnumerationMeta(getEnumerationMeta(), new AsyncCallback<EnumerationMeta>() {
@@ -54,17 +51,13 @@ public class EnumerationMetaPanel extends FlowPanel {
             }
         });
         fetchEnumerationMetasButton.addClickListener(new ClickListener() {
-
             public void onClick(Widget arg0) {
-
                 EnumerationGWTService.Util.getInstance().fetchEnumerationMetas(new AsyncCallback<EnumerationMetaList>() {
                     public void onFailure(Throwable caught) {
                         messageHTML.setHTML("Unable to load enum meta objects");
                         throw new RuntimeException("Unable to load enum meta objects", caught);
                     }
-
                     public void onSuccess(EnumerationMetaList metaList) {
-                        messageHTML.setHTML("metaList.getEnumerationMeta():" + metaList.getEnumerationMeta().size());
                         listEnumerationMeta(metaList);
                     }
                 });
@@ -183,12 +176,10 @@ public class EnumerationMetaPanel extends FlowPanel {
 
     public void listEnumerationMeta(EnumerationMetaList metaList) {
         metaResultPanel.clear();
-
+        metaResultPanel.add(new HTML("Enumeration Meta List"));
         for (EnumerationMeta meta : metaList.getEnumerationMeta()) {
             DisclosurePanel d = new DisclosurePanel();
-
             d.setHeader(new HTML("Name:" + meta.getName() + " Desc:" + meta.getDesc() + " Key:" + meta.getKey()));
-
             FlexTable staticTable = new FlexTable();
             staticTable.setHTML(0, 0, "Key");
             staticTable.setHTML(0, 1, "Data Type");

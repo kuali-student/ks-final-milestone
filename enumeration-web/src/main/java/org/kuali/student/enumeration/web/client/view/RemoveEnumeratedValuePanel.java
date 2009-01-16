@@ -5,6 +5,7 @@ import org.kuali.student.enumeration.web.client.service.EnumerationGWTService;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -21,12 +22,17 @@ public class RemoveEnumeratedValuePanel extends FlowPanel {
     HTML messageHTML = new HTML();
     public RemoveEnumeratedValuePanel() {
         add(messageHTML);
-        add(new HTML("enumerationKey"));
-        add(keyField);
-        add(new HTML("code"));
-        add(codeField);
         
-        add(removeEnumeratedValueButton);
+        FlexTable layoutTable = new FlexTable();
+        layoutTable.setWidget(0, 0, new HTML("Enum Key"));
+        layoutTable.setWidget(0, 1, keyField);
+        layoutTable.setWidget(0, 2, new HTML("Enum Code"));
+        layoutTable.setWidget(0, 3, codeField);
+        layoutTable.setWidget(0, 4, removeEnumeratedValueButton);
+        
+        add(layoutTable);
+        
+        
         removeEnumeratedValueButton.addClickListener(new ClickListener(){
 
             public void onClick(Widget arg0) {
