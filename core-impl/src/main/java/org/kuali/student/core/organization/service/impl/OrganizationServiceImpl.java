@@ -14,6 +14,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.dto.OrgCriteria;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -33,8 +34,11 @@ import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
+
 public class OrganizationServiceImpl implements OrganizationService {
 
+	private OrganizationDao organizationDao;
+	
 	@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
 			String orgPersonRelationTypeKey,
@@ -576,6 +580,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 			OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public OrganizationDao getOrganizationDao() {
+		return organizationDao;
+	}
+
+	public void setOrganizationDao(OrganizationDao organizationDao) {
+		this.organizationDao = organizationDao;
 	}
 
 }

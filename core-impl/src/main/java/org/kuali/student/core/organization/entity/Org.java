@@ -8,11 +8,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -44,11 +48,20 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgAttribute> attributes;
 	
-	@Column(name = "ORG_TYPE")
-	private String type; 
+	@ManyToOne
+    @JoinColumn(name="ORG_TYPE")
+	private OrgType type; 
 	
 	@Column(name = "ORG_STATE")
 	private String state;
+	
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
 
 	@Override
 	public List<OrgAttribute> getAttributes() {
@@ -111,11 +124,11 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 		this.expirationDate = expirationDate;
 	}
 
-	public String getType() {
+	public OrgType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(OrgType type) {
 		this.type = type;
 	}
 

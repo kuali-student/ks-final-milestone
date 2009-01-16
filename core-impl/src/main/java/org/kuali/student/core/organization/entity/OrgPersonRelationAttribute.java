@@ -5,21 +5,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.kuali.student.core.entity.Attribute;
-
 @Entity
-public class OrgHierarchyAttribute extends Attribute<OrgHierarchy, OrgHierarchyAttributeDef>{
+public class OrgPersonRelationAttribute  extends Attribute<OrgPersonRelation, OrgPersonRelationAttributeDef>{
 
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
-	private OrgHierarchy owner;
-	
+	private OrgPersonRelation owner;
+
 	@Override
-	public OrgHierarchy getOwner() {
+	public OrgPersonRelation getOwner() {
 		return owner;
 	}
 
 	@Override
-	public void setOwner(OrgHierarchy owner) {
-		this.owner=owner;
+	public void setOwner(OrgPersonRelation owner) {
+		this.owner = owner;
 	}
+
 }
