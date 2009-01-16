@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="dic-api/target/classes" path="dic-api/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-api/target/classes" path="dic-api/src/main/resources"/>
-	<classpathentry kind="src" output="dic-api/target/test-classes" path="dic-api/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-api/target/test-classes" path="dic-api/src/test/resources"/>
-	<classpathentry kind="src" output="dic-impl/target/classes" path="dic-impl/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-impl/target/classes" path="dic-impl/src/main/resources"/>
-	<classpathentry kind="src" output="dic-impl/target/test-classes" path="dic-impl/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-impl/target/test-classes" path="dic-impl/src/test/resources"/>	
-	<classpathentry kind="src" output="dic-services/target/test-classes" path="dic-services/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-services/target/test-classes" path="dic-services/src/test/resources"/>
-	<classpathentry kind="src" output="dic-web/target/classes" path="dic-web/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-web/target/classes" path="dic-web/src/main/resources"/>
-	<classpathentry kind="src" output="dic-web/target/test-classes" path="dic-web/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="dic-web/target/test-classes" path="dic-web/src/test/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="common-util/target/classes" path="common-util/src/main/java"/>
+	<classpathentry kind="src" output="common-util/target/test-classes" path="common-util/src/test/java"/>
+	<classpathentry kind="src" output="common-util/target/test-classes" path="common-util/src/test/resources"/>
+	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/java"/>
+	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/java"/>
+	<classpathentry kind="src" output="common-test/target/classes" path="common-test/src/main/resources"/>
+	<classpathentry kind="src" output="common-test/target/test-classes" path="common-test/src/test/resources"/>
+	<classpathentry kind="src" output="core-api/target/clasees" path="core-api/src/main/java"/>
+	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/java"/>
+	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/java"/>
+	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/resources"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
