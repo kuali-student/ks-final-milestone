@@ -152,7 +152,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	private RuleSetDTO getRuleSet(BusinessRuleInfoDTO businessRule, String ruleSetUUID) 
 		throws OperationFailedException, InvalidParameterException {
 		RuleSetDTO ruleSet = null;
-		if (businessRule.getStatus().equals(BusinessRuleStatus.ACTIVE.toString())) {
+		if (businessRule.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
 			String SnapshotName = businessRule.getRepositorySnapshotName();
     		ruleSet = this.ruleRespositoryService.fetchRuleSetSnapshot(ruleSetUUID, SnapshotName);
     	} else {
@@ -256,12 +256,12 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	this.factFinderCache.clear();
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
-    	if (businessRule.getRuleElementList() == null) {
+    	if (businessRule.getBusinessRuleElementList() == null) {
     		return factMap;
     	}
     	
-    	for(RuleElementDTO ruleElement : businessRule.getRuleElementList()) {
-    		RulePropositionDTO ruleProposition = ruleElement.getRuleProposition();
+    	for(RuleElementDTO ruleElement : businessRule.getBusinessRuleElementList()) {
+    		RulePropositionDTO ruleProposition = ruleElement.getBusinessRuleProposition();
     		if (ruleProposition != null) {
 	    		List<FactStructureDTO> list = ruleProposition.getLeftHandSide().getYieldValueFunction().getFactStructureList();
 	    		if (list != null) {

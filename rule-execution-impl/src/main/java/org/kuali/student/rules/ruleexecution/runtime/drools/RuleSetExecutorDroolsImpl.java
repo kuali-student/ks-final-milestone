@@ -124,8 +124,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	StringBuilder sb = new StringBuilder();
     	sb.append("\n**************************************************");
     	sb.append("\n"+message);
-    	sb.append("\nBusiness rule name:                    "+businessRule.getOrigName());
-    	sb.append("\nBusiness rule id:                      "+businessRule.getBusinessRuleId());
+    	sb.append("\nBusiness rule name:                    "+businessRule.getName());
+    	sb.append("\nBusiness rule id:                      "+businessRule.getId());
     	sb.append("\nBusiness rule compiledId:              "+businessRule.getCompiledId());
     	sb.append("\nBusiness rule anchor type key:         "+businessRule.getAnchorTypeKey());
     	sb.append("\nBusiness rule anchor value:            "+businessRule.getAnchorValue());
@@ -141,7 +141,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @return Anchor key
      */
     private String getAnchorKey(BusinessRuleInfoDTO businessRule) {
-    	return businessRule.getBusinessRuleTypeKey() + businessRule.getAnchorValue();
+    	return businessRule.getType() + businessRule.getAnchorValue();
     }
 
     /**
@@ -152,7 +152,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      */
     private BusinessRuleInfoValue getBusinessRuleInfoValue(BusinessRuleInfoDTO businessRule) {
     	return new BusinessRuleInfoValue(
-			businessRule.getBusinessRuleId(), 
+			businessRule.getId(), 
 			businessRule.getCompiledId(), 
 			businessRule.getAnchorValue(),
 			businessRule.getAnchorTypeKey());
@@ -231,11 +231,11 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	if(this.anchorMap.containsKey(anchorKey)) {
     		throw new RuleSetExecutionException(
     				"Rule base already contains a business rule (id="+
-    				businessRule.getBusinessRuleId() +
+    				businessRule.getId() +
     				") with anchor value '" + businessRule.getAnchorValue() + "'");
     	}
     	addPackage(ruleBaseType, ruleSet);
-    	this.anchorMap.put(anchorKey, businessRule.getBusinessRuleId());
+    	this.anchorMap.put(anchorKey, businessRule.getId());
     	BusinessRuleInfoValue value = getBusinessRuleInfoValue(businessRule);
     	this.businessRuleMap.put(value.getKey(), value);
     }
@@ -247,7 +247,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 	 * @param ruleSet Rule set
 	 */
     public void removeRuleSet(BusinessRuleInfoDTO businessRule, RuleSetDTO ruleSet) {
-    	String ruleBaseType = businessRule.getBusinessRuleTypeKey();
+    	String ruleBaseType = businessRule.getType();
     	String ruleSetName = ruleSet.getName();
     	String anchorKey = getAnchorKey(businessRule);
     	this.anchorMap.remove(anchorKey);
@@ -285,7 +285,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @return A key
      */
     private String getRuleTypeKey(BusinessRuleInfoDTO businessRule) {
-        String ruleBaseType = businessRule.getBusinessRuleTypeKey();
+        String ruleBaseType = businessRule.getType();
         return ruleBaseType;
     }
     
@@ -301,8 +301,8 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("*        Execution Log         *");
     	this.executionLog.append("********************************");
     	this.executionLog.append("----- START -----");
-    	this.executionLog.append("Business rule name:                    "+businessRule.getOrigName());
-    	this.executionLog.append("Business rule id:                      "+businessRule.getBusinessRuleId());
+    	this.executionLog.append("Business rule name:                    "+businessRule.getName());
+    	this.executionLog.append("Business rule id:                      "+businessRule.getId());
     	this.executionLog.append("Business rule compiled ID:             "+businessRule.getCompiledId());
 //    	this.executionLog.append("Business rule compiled version number: "+businessRule.getCompiledVersionNumber());
     	this.executionLog.append("Business rule anchor type key:         "+businessRule.getAnchorTypeKey());
@@ -384,7 +384,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
 
         ExecutionResult result = executeRule(ruleBaseType, factContainer);
-        result.setId(businessRule.getBusinessRuleId());
+        result.setId(businessRule.getId());
         try {
 	        PropositionReport report = generateReport(result.getResults());
 	        result.setReport(report);

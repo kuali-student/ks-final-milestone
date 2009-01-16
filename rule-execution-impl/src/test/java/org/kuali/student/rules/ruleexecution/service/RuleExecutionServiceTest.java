@@ -158,7 +158,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         factStructure1.setFactTypeKey(factTypeKey);
         factStructure1.setParamValueMap(paramMap);
 
-        FactStructureDTO fs = businessRuleInfo1.getRuleElementList().get(0).getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
+        FactStructureDTO fs = businessRuleInfo1.getBusinessRuleElementList().get(0).getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0);
         fs.setStaticFact(false);
         fs.setFactTypeKey(factTypeKey);
         fs.setParamValueMap(paramMap);

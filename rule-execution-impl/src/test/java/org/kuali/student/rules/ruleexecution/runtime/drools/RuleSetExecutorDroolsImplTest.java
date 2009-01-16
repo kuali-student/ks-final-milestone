@@ -131,25 +131,24 @@ public class RuleSetExecutorDroolsImplTest {
         metaInfo.setUpdateID("Kamal");
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setBusinessRuleId(businessRuleId);
-        brInfoDTO.setOrigName(ruleName);
-        brInfoDTO.setDisplayName(ruleName);
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setId(businessRuleId);
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
-        brInfoDTO.setBusinessRuleTypeKey("PreReqTypeKey");
+        brInfoDTO.setType("PreReqTypeKey");
 
         //brInfoDTO.setEffectiveStartTime(new Date());
         //brInfoDTO.setEffectiveEndTime(new Date());
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-        brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-        brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        brInfoDTO.setEffectiveDate(effectiveStartTime);
+        brInfoDTO.setExpirationDate(effectiveEndTime);
 
         return brInfoDTO;
     }
@@ -205,7 +204,7 @@ public class RuleSetExecutorDroolsImplTest {
 		try {
 			executor.addRuleSet(brInfoIntersection, ruleSetIntersection);
 			Assert.fail("Rule base already contains a business rule (id="+
-					brInfoIntersection.getBusinessRuleId() +
+					brInfoIntersection.getId() +
     				") with anchor value '" +brInfoIntersection.getAnchorValue() + "'");
 		} catch(RuleSetExecutionException e) {
 			Assert.assertTrue(e.getMessage().startsWith("Rule base already contains a business rule"));
@@ -275,12 +274,12 @@ public class RuleSetExecutorDroolsImplTest {
 		
 		//Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         RuleElementDTO elementAverage = new RuleElementDTO();
-        elementAverage.setOperation(RuleElementType.PROPOSITION.toString());
-        elementAverage.setRuleProposition(propositionAverage);
+        elementAverage.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        elementAverage.setBusinessRuleProposition(propositionAverage);
 
         RuleElementDTO elementIntersection = new RuleElementDTO();
-        elementIntersection.setOperation(RuleElementType.PROPOSITION.toString());
-        elementIntersection.setRuleProposition(propositionIntersection);
+        elementIntersection.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        elementIntersection.setBusinessRuleProposition(propositionIntersection);
 
         List<RuleElementDTO> elementList1 = new ArrayList<RuleElementDTO>();
         elementList1.add(elementAverage);
@@ -289,11 +288,11 @@ public class RuleSetExecutorDroolsImplTest {
 
         // Business rule 1 - Average proposition
         BusinessRuleInfoDTO brInfoAverage = generateNewBusinessRuleInfo("1", "Business Rule - Average", "CPR201");
-        brInfoAverage.setRuleElementList(elementList1);
+        brInfoAverage.setBusinessRuleElementList(elementList1);
 
         // Business rule 2 - Intersection proposition
         BusinessRuleInfoDTO brInfoIntersection = generateNewBusinessRuleInfo("2", "Business Rule - Intersection", "CPR301");
-        brInfoIntersection.setRuleElementList(elementList2);
+        brInfoIntersection.setBusinessRuleElementList(elementList2);
 
 		// Agenda
         RuntimeAgendaDTO agenda = new RuntimeAgendaDTO();
@@ -384,18 +383,18 @@ public class RuleSetExecutorDroolsImplTest {
     			yvfIntersection);
 		//Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         RuleElementDTO element1 = new RuleElementDTO();
-        element1.setOperation(RuleElementType.PROPOSITION.toString());
-        element1.setRuleProposition(propositionAverage);
+        element1.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        element1.setBusinessRuleProposition(propositionAverage);
         RuleElementDTO element2 = new RuleElementDTO();
-        element2.setOperation(RuleElementType.PROPOSITION.toString());
-        element2.setRuleProposition(propositionIntersection);
+        element2.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        element2.setBusinessRuleProposition(propositionIntersection);
 
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(element1);
         elementList.add(element2);
 
         BusinessRuleInfoDTO brInfo = generateNewBusinessRuleInfo("1", "Business Rule", "CPR101");
-        brInfo.setRuleElementList(elementList);
+        brInfo.setBusinessRuleElementList(elementList);
         
         // EXECUTION: Create facts
     	FactResultTypeInfoDTO columnMetaData1 = DroolsTestUtil.createColumnMetaData(BigDecimal.class.getName());
@@ -460,18 +459,18 @@ public class RuleSetExecutorDroolsImplTest {
     			yvfIntersection);
 		//Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
         RuleElementDTO element1 = new RuleElementDTO();
-        element1.setOperation(RuleElementType.PROPOSITION.toString());
-        element1.setRuleProposition(propositionAverage);
+        element1.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        element1.setBusinessRuleProposition(propositionAverage);
         RuleElementDTO element2 = new RuleElementDTO();
-        element2.setOperation(RuleElementType.PROPOSITION.toString());
-        element2.setRuleProposition(propositionIntersection);
+        element2.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        element2.setBusinessRuleProposition(propositionIntersection);
 
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(element1);
         elementList.add(element2);
 
         BusinessRuleInfoDTO brInfo = generateNewBusinessRuleInfo("1", "Business Rule", "CPR101");
-        brInfo.setRuleElementList(elementList);
+        brInfo.setBusinessRuleElementList(elementList);
         
         // EXECUTION: Create facts
     	FactResultTypeInfoDTO columnMetaData1 = DroolsTestUtil.createColumnMetaData(BigDecimal.class.getName());
