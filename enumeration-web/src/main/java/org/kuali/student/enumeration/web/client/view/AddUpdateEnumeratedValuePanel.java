@@ -78,47 +78,7 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
         });
         updateButton.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
-                long baseTime = System.currentTimeMillis();
-                
-                EnumeratedValue dto = new EnumeratedValue();
-                dto.setCode("c");
-                dto.setEffectiveDate(new Date(baseTime-10000000L));
-                dto.setExpirationDate(new Date(baseTime+10000000L));
-                dto.setSortKey(1);
-                dto.setValue("v");
-                dto.setAbbrevValue("a");
-                dto.setContexts(new Contexts());
-                
-                //dto context
-                List<Context> dtoContext = new ArrayList();
-                Context newContext = new Context();
-                newContext.setType("ContextA");
-                newContext.setValue("1");
-                dtoContext.add(newContext);
-                dto.getContexts().setContext(dtoContext);
-                //add first
-                EnumerationGWTService.Util.getInstance().addEnumeratedValue("Key3", dto, new AsyncCallback<EnumeratedValue>() {
-                    public void onFailure(Throwable caught) {
-                        System.out.println("error");
-                        messageHTML.setHTML("error");
-                        throw new RuntimeException("error", caught);
-                    }
-
-                    public void onSuccess(EnumeratedValue value) {
-                        messageHTML.setHTML("Success: Add");
-                        enumerationKeyBox.setText(key);
-                        //enumeratedValueComposit.setEnumeratedValue(value);
-                    }
-                });
-                
-                //update
-                //update currently fails on context updates
-                dto.setCode("newCode");
-                dto.setValue("newValue");
-                dto.getContexts().getContext().get(0).setType("newType");
-                dto.getContexts().getContext().get(0).setValue("newContextValue");
-
-                EnumerationGWTService.Util.getInstance().updateEnumeratedValue("Key3", "c", dto, new AsyncCallback<EnumeratedValue>() {
+          EnumerationGWTService.Util.getInstance().updateEnumeratedValue(key, enumeratedValue.getCode(), enumeratedValue, new AsyncCallback<EnumeratedValue>() {
                     public void onFailure(Throwable caught) {
                         messageHTML.setHTML("Update error:"+caught.getMessage());
                         System.out.println("Update error:"+caught.getMessage());
@@ -131,21 +91,7 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
                         enumeratedValueComposit.setEnumeratedValue(value);
                     }
                 });
-                
- /*               EnumerationGWTService.Util.getInstance().updateEnumeratedValue(key, enumeratedValue.getCode(), enumeratedValue, new AsyncCallback<EnumeratedValue>() {
-                    public void onFailure(Throwable caught) {
-                        messageHTML.setHTML("Update error:"+caught.getMessage());
-                        System.out.println("Update error:"+caught.getMessage());
-                        throw new RuntimeException("error", caught);
-                    }
 
-                    public void onSuccess(EnumeratedValue value) {
-                        messageHTML.setHTML("Success: update");
-                        enumerationKeyBox.setText(key);
-                        enumeratedValueComposit.setEnumeratedValue(value);
-                    }
-                });
-*/
             }
         });
     }
