@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,51 +19,37 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name="KS_ORG_T")
-public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
-	
+@Table(name="KS_ORG_ORG_RELATION_T")
+public class OrgOrgRelation extends MetaEntity implements
+		AttributeOwner<OrgOrgRelationAttribute> {
 	@Id
-	@Column(name = "ORG_ID")
-	private String id; 
+	@Column(name = "ORG_KEY")
+	private String id;
+
+	@ManyToOne
+    @JoinColumn(name="ORG")
+	private Org org;
 	
-	@Column(name = "ORG_LONG_NAME")
-	private String longName; 
-	
-	@Column(name = "ORG_SHORT_NAME")
-	private String shortName; 
-	
-	@Column(name = "ORG_DESC")
-	private String desc; 
-	
+	@ManyToOne
+    @JoinColumn(name="RELATED_ORG")
+    private Org relatedOrg;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
 	private Date effectiveDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
-	private Date expirationDate; 
+	@Column(name = "EXPIR_DT")
+	private Date expirationDate;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<OrgAttribute> attributes;
+	private List<OrgOrgRelationAttribute> attributes;
 	
-	@Column(name = "ORG_TYPE")
-	private String type; 
+	@Column(name = "RELATION_TYPE")
+	private String type;
 	
-	@Column(name = "ORG_STATE")
+	@Column(name = "RELATION_STATE")
 	private String state;
-
-	@Override
-	public List<OrgAttribute> getAttributes() {
-		if(attributes==null){
-			attributes = new ArrayList<OrgAttribute>();
-		}
-		return attributes;
-	}
-
-	@Override
-	public void setAttributes(List<OrgAttribute> attributes) {
-		this.attributes=attributes;
-	}
 
 	public String getId() {
 		return id;
@@ -71,28 +59,20 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 		this.id = id;
 	}
 
-	public String getLongName() {
-		return longName;
+	public Org getOrg() {
+		return org;
 	}
 
-	public void setLongName(String longName) {
-		this.longName = longName;
+	public void setOrg(Org org) {
+		this.org = org;
 	}
 
-	public String getShortName() {
-		return shortName;
+	public Org getRelatedOrg() {
+		return relatedOrg;
 	}
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setRelatedOrg(Org relatedOrg) {
+		this.relatedOrg = relatedOrg;
 	}
 
 	public Date getEffectiveDate() {
@@ -111,6 +91,19 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 		this.expirationDate = expirationDate;
 	}
 
+	@Override
+	public List<OrgOrgRelationAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<OrgOrgRelationAttribute>();
+		}
+		return attributes;
+	}
+
+	@Override
+	public void setAttributes(List<OrgOrgRelationAttribute> attributes) {
+		this.attributes = attributes;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -125,6 +118,6 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 
 	public void setState(String state) {
 		this.state = state;
-	} 
-	
+	}
+
 }

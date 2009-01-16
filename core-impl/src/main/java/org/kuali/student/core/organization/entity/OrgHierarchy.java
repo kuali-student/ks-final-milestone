@@ -8,30 +8,32 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name="KS_ORG_T")
-public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
+@Table(name="KS_ORG_HIERARCHY")
+public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	
 	@Id
-	@Column(name = "ORG_ID")
-	private String id; 
+	@Column(name = "ORG_HIERARCHY_KEY")
+	private String key;
 	
-	@Column(name = "ORG_LONG_NAME")
-	private String longName; 
+	@Column(name = "ORG_HIERARCHY_NAME")
+	private String name; 
 	
-	@Column(name = "ORG_SHORT_NAME")
-	private String shortName; 
-	
-	@Column(name = "ORG_DESC")
+	@Column(name = "ORG_HIERARCHY_DESC")
 	private String desc; 
+
+	@ManyToOne
+    @JoinColumn(name="ROOT_ORG")
+	private Org rootOrg; 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
@@ -39,52 +41,38 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIRATION_DT")
-	private Date expirationDate; 
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<OrgAttribute> attributes;
-	
-	@Column(name = "ORG_TYPE")
-	private String type; 
-	
-	@Column(name = "ORG_STATE")
-	private String state;
+	private Date expirationDate;  
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<OrgHierarchyAttribute> attributes;
+	
 	@Override
-	public List<OrgAttribute> getAttributes() {
+	public List<OrgHierarchyAttribute> getAttributes() {
 		if(attributes==null){
-			attributes = new ArrayList<OrgAttribute>();
+			attributes=new ArrayList<OrgHierarchyAttribute>();
 		}
 		return attributes;
 	}
 
 	@Override
-	public void setAttributes(List<OrgAttribute> attributes) {
+	public void setAttributes(List<OrgHierarchyAttribute> attributes) {
 		this.attributes=attributes;
 	}
 
-	public String getId() {
-		return id;
+	public String getKey() {
+		return key;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
-	public String getLongName() {
-		return longName;
+	public String getName() {
+		return name;
 	}
 
-	public void setLongName(String longName) {
-		this.longName = longName;
-	}
-
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDesc() {
@@ -93,6 +81,14 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public Org getRootOrg() {
+		return rootOrg;
+	}
+
+	public void setRootOrg(Org rootOrg) {
+		this.rootOrg = rootOrg;
 	}
 
 	public Date getEffectiveDate() {
@@ -111,20 +107,4 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 		this.expirationDate = expirationDate;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	} 
-	
 }
