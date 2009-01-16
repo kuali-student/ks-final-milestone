@@ -30,7 +30,7 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	private Org org; 
 	
 	//Foreign Key from external Service
-	@Column(name = "ORG_PERSON_REL_STATE")
+	@Column(name = "PERSON_ID")
 	private String personId; 
 	
 	@Temporal(TemporalType.TIMESTAMP)

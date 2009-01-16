@@ -1,11 +1,13 @@
 package org.kuali.student.core.organization.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.TypeAttributeDef;
 
+@Entity
 public class OrgOrgRelationTypeAttribute extends Attribute<OrgOrgRelationType, TypeAttributeDef>{
 
 	@ManyToOne
