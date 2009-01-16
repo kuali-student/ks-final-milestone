@@ -53,7 +53,11 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
-import com.sun.xml.internal.ws.api.PropertySet$Property;
+import org.kuali.student.poc.common.test.spring.AbstractIntegrationServiceTest;
+import org.kuali.student.poc.common.test.spring.IntegrationServer;
+import org.kuali.student.poc.common.test.spring.SystemProperties;
+import org.kuali.student.poc.common.test.spring.Property;
+
 
 // The following system properties are only needed if you want to specify a 
 // server port (port 9000) other than 8080 as defined in 
