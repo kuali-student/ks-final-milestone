@@ -11,12 +11,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  * Contains meta data about a functional business rule. Since a functional business rule is composed of one or more Rule
@@ -27,23 +31,28 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BusinessRuleInfoDTO implements Serializable{
 
+    private static final long serialVersionUID = 1L;
+
     @XmlAttribute
-    private String businessRuleId;
+    private String id;
 
     @XmlElement
-    private String businessRuleTypeKey;
+    private String originalRuleId;
+        
+    @XmlElement
+    private String type;
     
     @XmlElement
     private String anchorValue;
     
     @XmlElement
     private String anchorTypeKey;
-    
+        
     @XmlElement
     private String name;
     
     @XmlElement
-    private String description;
+    private String desc;
 
     @XmlElement    
     private String successMessage;
@@ -52,58 +61,62 @@ public class BusinessRuleInfoDTO implements Serializable{
     private String failureMessage;
 
     @XmlElement
-    private Date effectiveStartTime;
+    private Date effectiveDate;
     
     @XmlElement
-    private Date effectiveEndTime;
+    private Date expirationDate;
     
     @XmlElement
-    private String status;
-    
+    private String state;
+        
     @XmlElement
     private String compiledId;
-    
+
     @XmlElement
     private String repositorySnapshotName;
     
-    @XmlElement(name = "ruleElement")
-    @XmlElementWrapper(name = "ruleElementList")
-    private List<RuleElementDTO> ruleElementList = new ArrayList<RuleElementDTO>();
+    @XmlElement(name = "businessRuleElement")
+    @XmlElementWrapper(name = "businessRuleElementList")
+    private List<RuleElementDTO> businessRuleElementList = new ArrayList<RuleElementDTO>();
     
+    @XmlElement(name="attribute")
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+    private Map<String, String> attributeList;
 
+    
     @XmlElement
     private MetaInfoDTO metaInfo;
 
 
     /**
-     * @return the businessRuleId
+     * @return the id
      */
-    public String getBusinessRuleId() {
-        return businessRuleId;
+    public String getId() {
+        return id;
     }
 
 
     /**
-     * @param businessRuleId the businessRuleId to set
+     * @param id the id to set
      */
-    public void setBusinessRuleId(String businessRuleId) {
-        this.businessRuleId = businessRuleId;
+    public void setId(String businessRuleId) {
+        this.id = businessRuleId;
     }
 
 
     /**
-     * @return the businessRuleTypeKey
+     * @return the type
      */
-    public String getBusinessRuleTypeKey() {
-        return businessRuleTypeKey;
+    public String getType() {
+        return type;
     }
 
 
     /**
-     * @param businessRuleTypeKey the businessRuleTypeKey to set
+     * @param type the type to set
      */
-    public void setBusinessRuleTypeKey(String businessRuleTypeKey) {
-        this.businessRuleTypeKey = businessRuleTypeKey;
+    public void setType(String type) {
+        this.type = type;
     }
 
 
@@ -138,7 +151,6 @@ public class BusinessRuleInfoDTO implements Serializable{
         this.anchorTypeKey = anchorTypeKey;
     }
 
-
     /**
      * @return the name
      */
@@ -156,18 +168,18 @@ public class BusinessRuleInfoDTO implements Serializable{
 
 
     /**
-     * @return the description
+     * @return the desc
      */
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
 
     /**
-     * @param description the description to set
+     * @param desc the desc to set
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
 
@@ -204,66 +216,65 @@ public class BusinessRuleInfoDTO implements Serializable{
 
 
     /**
-     * @return the effectiveStartTime
+     * @return the effectiveDate
      */
-    public Date getEffectiveStartTime() {
-        return effectiveStartTime;
+    public Date getEffectiveDate() {
+        return effectiveDate;
     }
 
 
     /**
-     * @param effectiveStartTime the effectiveStartTime to set
+     * @param effectiveDate the effectiveDate to set
      */
-    public void setEffectiveStartTime(Date effectiveStartTime) {
-        this.effectiveStartTime = effectiveStartTime;
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
 
     /**
-     * @return the effectiveEndTime
+     * @return the expirationDate
      */
-    public Date getEffectiveEndTime() {
-        return effectiveEndTime;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
 
     /**
-     * @param effectiveEndTime the effectiveEndTime to set
+     * @param expirationDate the expirationDate to set
      */
-    public void setEffectiveEndTime(Date effectiveEndTime) {
-        this.effectiveEndTime = effectiveEndTime;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
 
     /**
-     * @return the status
+     * @return the state
      */
-    public String getStatus() {
-        return status;
+    public String getState() {
+        return state;
     }
 
 
     /**
-     * @param status the status to set
+     * @param state the state to set
      */
-    public void setStatus(String status) {
-        this.status = status;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * @return the businessRuleElementList
+     */
+    public List<RuleElementDTO> getBusinessRuleElementList() {
+        return businessRuleElementList;
     }
 
 
     /**
-     * @return the ruleElementList
+     * @param businessRuleElementList the businessRuleElementList to set
      */
-    public List<RuleElementDTO> getRuleElementList() {
-        return ruleElementList;
-    }
-
-
-    /**
-     * @param ruleElementList the ruleElementList to set
-     */
-    public void setRuleElementList(List<RuleElementDTO> ruleElementList) {
-        this.ruleElementList = ruleElementList;
+    public void setBusinessRuleElementList(List<RuleElementDTO> businessRuleElementList) {
+        this.businessRuleElementList = businessRuleElementList;
     }
 
 
@@ -298,6 +309,7 @@ public class BusinessRuleInfoDTO implements Serializable{
         this.compiledId = compiledId;
     }
 
+
     /**
      * @return the repositorySnapshotName
      */
@@ -305,10 +317,41 @@ public class BusinessRuleInfoDTO implements Serializable{
         return repositorySnapshotName;
     }
 
+
     /**
      * @param repositorySnapshotName the repositorySnapshotName to set
      */
     public void setRepositorySnapshotName(String repositorySnapshotName) {
         this.repositorySnapshotName = repositorySnapshotName;
-    }   
+    }
+
+
+    /**
+     * @return the originalRuleId
+     */
+    public String getOriginalRuleId() {
+        return originalRuleId;
+    }
+
+    /**
+     * @param originalRuleId the originalRuleId to set
+     */
+    public void setOriginalRuleId(String originalRuleId) {
+        this.originalRuleId = originalRuleId;
+    }
+
+    /**
+     * @return the attributeList
+     */
+    public Map<String, String> getAttributeList() {
+        return attributeList;
+    }
+
+
+    /**
+     * @param attributeList the attributeList to set
+     */
+    public void setAttributeList(Map<String, String> attributeList) {
+        this.attributeList = attributeList;
+    }        
 }

@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.kuali.student.brms</groupId>
 		<artifactId>brms-parent-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.brms</groupId>
 	<artifactId>rule-management-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Rule Management API</name>
 	<description />
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.kuali.student.brms</groupId>
 			<artifactId>fact-finder-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 		

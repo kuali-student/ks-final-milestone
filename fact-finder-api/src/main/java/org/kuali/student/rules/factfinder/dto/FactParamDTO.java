@@ -61,7 +61,7 @@ public class FactParamDTO implements Serializable {
     private Integer maxOccurs;
     
     @XmlElement
-    private FactParamDefTime defTime;
+    private String defTime;
 
     /**
      * @return the key
@@ -192,14 +192,14 @@ public class FactParamDTO implements Serializable {
     /**
      * @return the defTime
      */
-    public FactParamDefTime getDefTime() {
+    public String getDefTime() {
         return defTime;
     }
 
     /**
      * @param defTime the defTime to set
      */
-    public void setDefTime(FactParamDefTime defTime) {
+    public void setDefTime(String defTime) {
         this.defTime = defTime;
     }
     

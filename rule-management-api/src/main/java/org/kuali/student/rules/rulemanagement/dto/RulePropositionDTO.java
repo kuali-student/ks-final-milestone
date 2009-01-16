@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RulePropositionDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String name;
     
@@ -33,13 +35,13 @@ public class RulePropositionDTO implements Serializable {
     private String failureMessage;
     
     @XmlElement
-    private String comparisonDataType;
+    private String comparisonDataTypeKey;
     
     @XmlElement
     private LeftHandSideDTO leftHandSide;
     
     @XmlElement
-    private String comparisonOperatorType;
+    private String comparisonOperatorTypeKey;
     
     @XmlElement
     private RightHandSideDTO rightHandSide;
@@ -121,30 +123,31 @@ public class RulePropositionDTO implements Serializable {
     }
 
     /**
-     * @return the comparisonDataType
+     * @return the comparisonDataTypeKey
      */
-    public String getComparisonDataType() {
-        return comparisonDataType;
+    public String getComparisonDataTypeKey() {
+        return comparisonDataTypeKey;
     }
 
     /**
-     * @param comparisonDataType the comparisonDataType to set
+     * @param comparisonDataTypeKey the comparisonDataTypeKey to set
      */
-    public void setComparisonDataType(String comparisonDataType) {
-        this.comparisonDataType = comparisonDataType;
+    public void setComparisonDataTypeKey(String comparisonDataTypeKey) {
+        this.comparisonDataTypeKey = comparisonDataTypeKey;
     }
 
     /**
-     * @return the comparisonOperatorType
+     * @return the comparisonOperatorTypeKey
      */
-    public String getComparisonOperatorType() {
-        return comparisonOperatorType;
+    public String getComparisonOperatorTypeKey() {
+        return comparisonOperatorTypeKey;
     }
 
     /**
-     * @param comparisonOperatorType the comparisonOperatorType to set
+     * @param comparisonOperatorTypeKey the comparisonOperatorTypeKey to set
      */
-    public void setComparisonOperatorType(String comparisonOperatorType) {
-        this.comparisonOperatorType = comparisonOperatorType;
-    }    
+    public void setComparisonOperatorTypeKey(String comparisonOperatorTypeKey) {
+        this.comparisonOperatorTypeKey = comparisonOperatorTypeKey;
+    }
+
 }

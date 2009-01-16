@@ -9,18 +9,14 @@ package org.kuali.student.rules.rulemanagement.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
- * Maps a set of Business Rule Types to form an AgendaInfoDTO and a specif instance of Business Rules form an Agenda for this
+ * Maps a set of Business Rule Types to form an AgendaInfoDTO and a specific instance of Business Rules form an Agenda for this
  * AgendaInfoDTO
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
@@ -28,20 +24,20 @@ import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AgendaInfoDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String agendaTypeKey;
 
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> agendaInfoDeterminationStructure;
+    private AgendaDeterminationInfoDTO agendaDeterminationInfo;
 
     @XmlElement(name = "businessRuletype")
-    @XmlElementWrapper(name = "businessRuleTypeList")
-    private List<BusinessRuleTypeDTO> businessRuleTypeList;
+    @XmlElementWrapper(name = "businessRuleTypeInfoList")
+    private List<BusinessRuleTypeInfoDTO> businessRuleTypeInfoList;
 
     @XmlElement
-    private String orchestration;
+    private String agendaOrchestration;
 
     /**
      * @return the agendaTypeKey
@@ -58,47 +54,45 @@ public class AgendaInfoDTO implements Serializable {
     }
 
     /**
-     * @return the agendaInfoDeterminationStructure
+     * @return the agendaDeterminationInfo
      */
-    public Map<String, String> getAgendaInfoDeterminationStructure() {
-        return agendaInfoDeterminationStructure;
+    public AgendaDeterminationInfoDTO getAgendaDeterminationInfo() {
+        return agendaDeterminationInfo;
     }
 
     /**
-     * @param agendaInfoDeterminationStructure
-     *            the agendaInfoDeterminationStructure to set
+     * @param agendaDeterminationInfo the agendaDeterminationInfo to set
      */
-    public void setAgendaInfoDeterminationStructure(Map<String, String> agendaInfoDeterminationStructure) {
-        this.agendaInfoDeterminationStructure = agendaInfoDeterminationStructure;
+    public void setAgendaDeterminationInfo(AgendaDeterminationInfoDTO agendaDeterminationInfo) {
+        this.agendaDeterminationInfo = agendaDeterminationInfo;
     }
 
     /**
-     * @return the businessRuleTypeList
+     * @return the businessRuleTypeInfoList
      */
-    public List<BusinessRuleTypeDTO> getBusinessRuleTypeList() {
-        return businessRuleTypeList;
+    public List<BusinessRuleTypeInfoDTO> getBusinessRuleTypeInfoList() {
+        return businessRuleTypeInfoList;
     }
 
     /**
-     * @param businessRuleTypeList
-     *            the businessRuleTypeList to set
+     * @param businessRuleTypeInfoList
+     *            the businessRuleTypeInfoList to set
      */
-    public void setBusinessRuleTypeList(List<BusinessRuleTypeDTO> businessRuleTypeList) {
-        this.businessRuleTypeList = businessRuleTypeList;
+    public void setBusinessRuleTypeInfoList(List<BusinessRuleTypeInfoDTO> businessRuleTypeList) {
+        this.businessRuleTypeInfoList = businessRuleTypeList;
     }
 
     /**
-     * @return the orchestration
+     * @return the agendaOrchestration
      */
-    public String getOrchestration() {
-        return orchestration;
+    public String getAgendaOrchestration() {
+        return agendaOrchestration;
     }
 
     /**
-     * @param orchestration
-     *            the orchestration to set
+     * @param agendaOrchestration the agendaOrchestration to set
      */
-    public void setOrchestration(String orchestration) {
-        this.orchestration = orchestration;
+    public void setAgendaOrchestration(String agendaOrchestration) {
+        this.agendaOrchestration = agendaOrchestration;
     }
 }

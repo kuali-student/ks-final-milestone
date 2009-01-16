@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 
@@ -24,8 +25,11 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RuleElementDTO implements Serializable{
 
+    @XmlAttribute
+    private String id;
+    
     @XmlElement
-    private String operation;
+    private String businessRuleElemnetTypeKey;
     
     @XmlElement
     private Integer ordinalPosition;
@@ -37,8 +41,21 @@ public class RuleElementDTO implements Serializable{
     private String description;
     
     @XmlElement
-    private RulePropositionDTO ruleProposition;
+    private RulePropositionDTO businessRuleProposition;
 
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * @return the name
@@ -71,18 +88,17 @@ public class RuleElementDTO implements Serializable{
     }
 
     /**
-     * @return the operation
+     * @return the businessRuleElemnetTypeKey
      */
-    public final String getOperation() {
-        return operation;
+    public String getBusinessRuleElemnetTypeKey() {
+        return businessRuleElemnetTypeKey;
     }
 
     /**
-     * @param operation
-     *            the operation to set
+     * @param businessRuleElemnetTypeKey the businessRuleElemnetTypeKey to set
      */
-    public final void setOperation(String operation) {
-        this.operation = operation;
+    public void setBusinessRuleElemnetTypeKey(String businessRuleElemnetTypeKey) {
+        this.businessRuleElemnetTypeKey = businessRuleElemnetTypeKey;
     }
 
     /**
@@ -99,19 +115,18 @@ public class RuleElementDTO implements Serializable{
     public final void setOrdinalPosition(Integer ordinalPosition) {
         this.ordinalPosition = ordinalPosition;
     }
-    
+
     /**
-     * @return the ruleProposition
+     * @return the businessRuleProposition
      */
-    public final RulePropositionDTO getRuleProposition() {
-        return ruleProposition;
+    public RulePropositionDTO getBusinessRuleProposition() {
+        return businessRuleProposition;
     }
 
     /**
-     * @param ruleProposition
-     *            the ruleProposition to set
+     * @param businessRuleProposition the businessRuleProposition to set
      */
-    public final void setRuleProposition(RulePropositionDTO ruleProposition) {
-        this.ruleProposition = ruleProposition;
+    public void setBusinessRuleProposition(RulePropositionDTO businessRuleProposition) {
+        this.businessRuleProposition = businessRuleProposition;
     }
 }
