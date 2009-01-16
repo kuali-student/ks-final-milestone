@@ -33,6 +33,7 @@ import org.kuali.student.poc.common.test.spring.Dao;
 import org.kuali.student.poc.common.test.spring.Daos;
 import org.kuali.student.poc.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -86,6 +87,9 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
 		ruleManagementService = (RuleManagementService) applicationContext.getBean("ruleManagement");
 		ruleManagementService.updateBusinessRule(businessRuleId1, businessRuleInfo1);
 		ruleManagementService.updateBusinessRule(businessRuleId2, businessRuleInfo2);
+		
+		ruleManagementService.updateBusinessRuleState(businessRuleId1, BusinessRuleStatus.ACTIVE.toString());
+		ruleManagementService.updateBusinessRuleState(businessRuleId2, BusinessRuleStatus.ACTIVE.toString());
     }
 
     @AfterClass
