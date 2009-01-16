@@ -389,6 +389,11 @@ public class RuleManagementServiceImpl implements RuleManagementService {
                 throw new OperationFailedException("Unknown state of the peristed rule!");
         }
 
+        BusinessRuleInfoDTO  ruleInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(orgRule);
+        RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(ruleInfoDTO);
+        orgRule.setCompiledId(rsDTO.getUUID());
+        ruleInfoDTO.setCompiledId(rsDTO.getUUID());
+        
         ruleManagementDao.updateBusinessRule(orgRule);
 
         // Re build the business rule Info
@@ -399,7 +404,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             logger.info(orgRule.toString());
         }
         
-        return businessRuleInfo;
+        return ruleInfoDTO;
     }
 
     @Override
