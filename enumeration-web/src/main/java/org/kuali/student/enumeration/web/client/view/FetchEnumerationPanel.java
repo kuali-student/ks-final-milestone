@@ -11,6 +11,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -20,33 +22,28 @@ public class FetchEnumerationPanel extends FlowPanel {
     HTML messageHTML = new HTML();
 
     FlowPanel resultPanel = new FlowPanel();
-    
+    final TextBox enumerationKeyBox = new TextBox();
+    final TextBox enumContextKeyBox = new TextBox();
+    final TextBox contextValueBox = new TextBox();
+    final TextBox contextDateBox = new TextBox();
+    Button button = new Button("fetch Enumeration");
     public FetchEnumerationPanel() {
         add(messageHTML);
-        HTML enumerationKey = new HTML("enumeration Key");
-        final TextBox enumerationKeyBox = new TextBox();
+        FlexTable layoutTable = new FlexTable();
+        layoutTable.setWidget(0, 0, new HTML("Enum Key"));
+        layoutTable.setWidget(0, 1, enumerationKeyBox);
+        
+        layoutTable.setWidget(0, 2, new HTML("EnumContext Key (Type)"));
+        layoutTable.setWidget(0, 3, enumContextKeyBox);
 
-        HTML enumContextKey = new HTML("enumContext Key (Type)");
-        final TextBox enumContextKeyBox = new TextBox();
+        layoutTable.setWidget(0, 4, new HTML("Context Value"));
+        layoutTable.setWidget(0, 5, contextValueBox);
 
-        HTML contextValue = new HTML("context Value");
-        final TextBox contextValueBox = new TextBox();
+        layoutTable.setWidget(0, 6, new HTML("Context Date (dd/MM/yyyy)"));
+        layoutTable.setWidget(0, 7, contextDateBox);
 
-        HTML contextDate = new HTML("context Date (dd/MM/yyyy)");
-        final TextBox contextDateBox = new TextBox();
-
-        add(enumerationKey);
-        add(enumerationKeyBox);
-        add(enumContextKey);
-        add(enumContextKeyBox);
-
-        add(contextValue);
-        add(contextValueBox);
-        add(contextDate);
-        add(contextDateBox);
-
-        Button button = new Button("fetch Enumeration");
-        add(button);
+        layoutTable.setWidget(0, 8, button);
+        add(layoutTable);
         
         add(resultPanel);
         
@@ -67,18 +64,36 @@ public class FetchEnumerationPanel extends FlowPanel {
                     }
 
                     public void onSuccess(EnumeratedValueList valueList) {
-                        messageHTML.setHTML("Success:"+valueList.getEnumeratedValue().size());
-                        resultPanel.clear();
-                        for(EnumeratedValue value: valueList.getEnumeratedValue()){
-                            EnumeratedValueComposit composite = new EnumeratedValueComposit();
-                            composite.setEnumeratedValue(value);
-                            resultPanel.add(composite);
-                        }
-                        
-                        
+                        listEnumeratedValue(valueList);
                     }
                 });
             }
         });
+    }
+    
+    private void listEnumeratedValue(EnumeratedValueList valueList){
+        resultPanel.clear();
+        messageHTML.setHTML("Success:"+valueList.getEnumeratedValue().size());
+        for(EnumeratedValue value: valueList.getEnumeratedValue()){
+            DisclosurePanel d = new DisclosurePanel();
+            d.setHeader(new HTML("Abbrev:" + value.getAbbrevValue() + " Code:" + value.getCode()));
+            //effectiveDateBox.setText(dateFormat.format(value.getEffectiveDate()));
+            //expirationDateBox.setText(dateFormat.format(value.getExpirationDate()));
+           // sortKeyBox.setText(Integer.toString(value.getSortKey()));
+           // valueBox.setText(value.getValue());
+            resultPanel.add(d);
+            
+            FlexTable fieldTable = new FlexTable();
+            fieldTable.setHTML(0, 0, "Type");
+            fieldTable.setHTML(0, 1, "Value");
+            int rowIndex = 1;
+            
+            for (Context context : value.getContexts().getContext()) {
+                fieldTable.setWidget(rowIndex, 0, new HTML(context.getType()));
+                fieldTable.setWidget(rowIndex, 1, new HTML(context.getValue()));
+                rowIndex = rowIndex + 1;
+            }
+            d.setContent(fieldTable);
+        }
     }
 }

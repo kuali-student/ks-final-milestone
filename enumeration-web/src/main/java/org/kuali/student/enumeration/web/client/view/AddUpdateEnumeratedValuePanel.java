@@ -37,27 +37,9 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
         Button updateButton = new Button("Update Enumerated Value");
         add(updateButton);
 
-        //final String key = enumerationKeyBox.getText(); 
-        final String key = "key";
-        //final EnumeratedValue enumeratedValue = enumeratedValueComposit.getEnumeratedValue();
-        final EnumeratedValue enumeratedValue = new EnumeratedValue();
-       
-        enumeratedValue.setAbbrevValue("value");
-        enumeratedValue.setCode("code");
-        DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd/MM/yyyy");
-        enumeratedValue.setEffectiveDate(dateFormat.parse("11/11/1999"));
-        enumeratedValue.setExpirationDate(dateFormat.parse("12/12/2000"));
+        final String key = enumerationKeyBox.getText(); 
         
-        enumeratedValue.setSortKey(1);
-        enumeratedValue.setValue("value");
-
-        Context context  = new Context();
-        context.setType("t");
-        context.setValue("v");
-        
-        Contexts contexts = new Contexts();
-        contexts.getContext().add(context);
-        enumeratedValue.setContexts(contexts);
+        final EnumeratedValue enumeratedValue = enumeratedValueComposit.getEnumeratedValue();
         
         addButton.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {

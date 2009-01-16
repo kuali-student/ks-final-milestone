@@ -32,9 +32,7 @@ public class RemoveEnumeratedValuePanel extends FlowPanel {
         
         add(layoutTable);
         
-        
         removeEnumeratedValueButton.addClickListener(new ClickListener(){
-
             public void onClick(Widget arg0) {
                 EnumerationGWTService.Util.getInstance().removeEnumeratedValue(keyField.getText(),codeField.getText(), new AsyncCallback<Boolean>() {
                     public void onFailure(Throwable caught) {
@@ -45,13 +43,9 @@ public class RemoveEnumeratedValuePanel extends FlowPanel {
                             messageHTML.setText("removed");
                         }else{
                             messageHTML.setText("not removed");
-                            
                         }
-
                     }
                 });
-                
             }});
-
     }
 }

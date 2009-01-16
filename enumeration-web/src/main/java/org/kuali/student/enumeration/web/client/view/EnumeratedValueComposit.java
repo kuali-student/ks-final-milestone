@@ -29,39 +29,54 @@ public class EnumeratedValueComposit extends Composite {
     FlexTable fieldTable = new FlexTable();
 
     DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd/MM/yyyy");
-    
+    Button addRowToContextTable = new Button("Add Context");
+
     public EnumeratedValueComposit() {
         super.initWidget(content);
-        content.add(new HTML("abbrevValueBox"));
-        content.add(abbrevValueBox);
+        FlexTable layoutTable = new FlexTable();
+        layoutTable.setWidget(0, 0, new HTML("Abbrev Value"));
+        layoutTable.setWidget(0, 1, abbrevValueBox);
 
-        content.add(new HTML("codeBox"));
-        content.add(codeBox);
+        layoutTable.setWidget(0, 2, new HTML("Code"));
+        layoutTable.setWidget(0, 3, codeBox);
 
-        content.add(new HTML("effectiveDateBox (dd/MM/yyyy)"));
-        content.add(effectiveDateBox);
+        layoutTable.setWidget(1, 0, new HTML("Effective Date(dd/MM/yyyy)"));
+        layoutTable.setWidget(1, 1, effectiveDateBox);
 
-        content.add(new HTML("expirationDateBox (dd/MM/yyyy)"));
-        content.add(expirationDateBox);
+        layoutTable.setWidget(1, 2, new HTML("ExpirationDate(dd/MM/yyyy)"));
+        layoutTable.setWidget(1, 3, expirationDateBox);
 
-        content.add(new HTML("sortKeyBox"));
-        content.add(sortKeyBox);
+        layoutTable.setWidget(2, 0, new HTML("Sort Key"));
+        layoutTable.setWidget(2, 1, sortKeyBox);
 
-        content.add(new HTML("Vaue Box"));
-        content.add(valueBox);
+        layoutTable.setWidget(2, 2, new HTML("Vaue Box"));
+        layoutTable.setWidget(2, 3, valueBox);
 
+        content.add(layoutTable);
+        
         fieldTable.setHTML(0, 0, "Type");
         fieldTable.setHTML(0, 1, "Value");
         
         content.add(fieldTable);
         
-        Button addRowToContextTable = new Button("Add Context");
         content.add(addRowToContextTable);
         addRowToContextTable.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
                 int rowCount = fieldTable.getRowCount();
                 fieldTable.setWidget(rowCount, 0, new TextBox());
                 fieldTable.setWidget(rowCount, 1, new TextBox());
+                
+                Button deleteButton = new Button("Delete");
+                fieldTable.setWidget(rowCount, 3, deleteButton);
+                deleteButton.addClickListener(new ClickListener() {
+                    public void onClick(Widget arg0) {
+                        for (int i = 1; i < fieldTable.getRowCount(); i++) {
+                            if (fieldTable.getWidget(i, 3) == arg0) {
+                                fieldTable.removeRow(i);
+                            }
+                        }
+                    }
+                });
                 
             }
         });
@@ -72,10 +87,18 @@ public class EnumeratedValueComposit extends Composite {
         value.setAbbrevValue(abbrevValueBox.getText());
         value.setCode(codeBox.getText());
         
-        value.setEffectiveDate(dateFormat.parse(effectiveDateBox.getText()));
-        value.setExpirationDate(dateFormat.parse(expirationDateBox.getText()));
-        
-        value.setSortKey(Integer.parseInt(sortKeyBox.getText()));
+        if(effectiveDateBox.getText() != null && !effectiveDateBox.getText().equals("")){
+            value.setEffectiveDate(dateFormat.parse(effectiveDateBox.getText()));
+        }
+        if(expirationDateBox.getText() != null && !expirationDateBox.getText().equals("")){
+            value.setExpirationDate(dateFormat.parse(expirationDateBox.getText()));
+        }
+                
+        try{
+            value.setSortKey(Integer.parseInt(sortKeyBox.getText()));
+        }catch(Exception e){
+            value.setSortKey(0);
+        }
         value.setValue(valueBox.getText());
 
         for(int i=1;i<fieldTable.getRowCount();i++){
@@ -96,9 +119,6 @@ public class EnumeratedValueComposit extends Composite {
         return value;
     }
     public void setEnumeratedValue(EnumeratedValue value) {
-        
-        
-        
         abbrevValueBox.setText(value.getAbbrevValue());
         codeBox.setText(value.getCode());
         effectiveDateBox.setText(dateFormat.format(value.getEffectiveDate()));
@@ -120,4 +140,5 @@ public class EnumeratedValueComposit extends Composite {
             rowIndex = rowIndex + 1;
         }
     }
+   
 }
