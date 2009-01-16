@@ -21,7 +21,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 
 /**
- * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, operator and right
+ * Contains meta data about the WHEN part of Drool rules. The Rule Proposition consists of left hand side, comparisonOperatorTypeKey and right
  * hand side of a given rule.
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
@@ -35,13 +35,13 @@ public class RuleProposition {
     private String name;
     private String description;
     private String failureMessage;
-    private String comparisonDataType;
+    private String comparisonDataTypeKey;
     
     @OneToOne(cascade = {CascadeType.ALL} )
     private LeftHandSide leftHandSide;
     
     @Enumerated(EnumType.STRING)
-    private ComparisonOperator operator;
+    private ComparisonOperator comparisonOperatorTypeKey;
     
     @Embedded
     private RightHandSide rightHandSide;
@@ -93,18 +93,17 @@ public class RuleProposition {
     }
 
     /**
-     * @return the operator
+     * @return the comparisonOperatorTypeKey
      */
-    public final ComparisonOperator getOperator() {
-        return operator;
+    public ComparisonOperator getComparisonOperatorTypeKey() {
+        return comparisonOperatorTypeKey;
     }
 
     /**
-     * @param operator
-     *            the operator to set
+     * @param comparisonOperatorTypeKey the comparisonOperatorTypeKey to set
      */
-    public final void setOperator(ComparisonOperator operator) {
-        this.operator = operator;
+    public void setComparisonOperatorTypeKey(ComparisonOperator comparisonOperatorTypeKey) {
+        this.comparisonOperatorTypeKey = comparisonOperatorTypeKey;
     }
 
     /**
@@ -161,16 +160,17 @@ public class RuleProposition {
     }
 
     /**
-     * @return the comparisonDataType
+     * @return the comparisonDataTypeKey
      */
-    public String getComparisonDataType() {
-        return comparisonDataType;
+    public String getComparisonDataTypeKey() {
+        return comparisonDataTypeKey;
     }
 
     /**
-     * @param comparisonDataType the comparisonDataType to set
+     * @param comparisonDataTypeKey the comparisonDataTypeKey to set
      */
-    public void setComparisonDataType(String comparisonDataType) {
-        this.comparisonDataType = comparisonDataType;
-    }    
+    public void setComparisonDataTypeKey(String comparisonDataTypeKey) {
+        this.comparisonDataTypeKey = comparisonDataTypeKey;
+    }
+  
 }

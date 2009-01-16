@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.poc.common.util.UUIDHelper;
+import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 
 /**
  * Contains information about a business rule type
@@ -31,9 +33,9 @@ public class BusinessRuleType {
     @Id
     private String id;
 
-    private String businessRuleTypeKey;
+    private BusinessRuleTypeKey businessRuleTypeKey;
 
-    private String anchorTypeKey;
+    private AnchorTypeKey anchorTypeKey;
 
     private ArrayList<String> factTypeKeyList;
 
@@ -65,7 +67,7 @@ public class BusinessRuleType {
     /**
      * @return the businessRuleTypeKey
      */
-    public String getBusinessRuleTypeKey() {
+    public BusinessRuleTypeKey getBusinessRuleTypeKey() {
         return businessRuleTypeKey;
     }
 
@@ -73,14 +75,14 @@ public class BusinessRuleType {
      * @param businessRuleTypeKey
      *            the businessRuleTypeKey to set
      */
-    public void setBusinessRuleTypeKey(String businessRuleTypeKey) {
+    public void setBusinessRuleTypeKey(BusinessRuleTypeKey businessRuleTypeKey) {
         this.businessRuleTypeKey = businessRuleTypeKey;
     }
 
     /**
      * @return the anchorTypeKey
      */
-    public String getAnchorTypeKey() {
+    public AnchorTypeKey getAnchorTypeKey() {
         return anchorTypeKey;
     }
 
@@ -88,7 +90,7 @@ public class BusinessRuleType {
      * @param anchorTypeKey
      *            the anchorTypeKey to set
      */
-    public void setAnchorTypeKey(String anchorTypeKey) {
+    public void setAnchorTypeKey(AnchorTypeKey anchorTypeKey) {
         this.anchorTypeKey = anchorTypeKey;
     }
 

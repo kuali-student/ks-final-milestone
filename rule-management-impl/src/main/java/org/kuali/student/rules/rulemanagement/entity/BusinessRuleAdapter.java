@@ -9,12 +9,13 @@ import java.util.Set;
 
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
@@ -35,8 +36,29 @@ import org.springframework.beans.BeanUtils;
 public class BusinessRuleAdapter {
     
     
-    public static BusinessRuleTypeDTO getBusinessRuleTypeDTO(BusinessRuleType ruleType) {
-        BusinessRuleTypeDTO ruleTypeDTO = new BusinessRuleTypeDTO();
+    public static AgendaInfoDTO getAgendaInfoDTO(AgendaInfo agendaInfo) {
+        AgendaInfoDTO agendaInfoDTO = new AgendaInfoDTO();
+        
+        agendaInfoDTO.setAgendaTypeKey(agendaInfo.getType());
+        agendaInfoDTO.setAgendaOrchestration(agendaInfo.getAgendaOrchestration());
+
+        AgendaDeterminationInfoDTO agendaDeterminationInfoDTO = new AgendaDeterminationInfoDTO();        
+        agendaDeterminationInfoDTO.setAgendaInfoDeterminationKeyList(agendaInfo.getAgendaDeterminationInfoMap());        
+        agendaInfoDTO.setAgendaDeterminationInfo(agendaDeterminationInfoDTO);
+    
+        List<BusinessRuleTypeInfoDTO> brTypeInfoDTOList = new ArrayList<BusinessRuleTypeInfoDTO>();
+        for(BusinessRuleType brTypeInfo : agendaInfo.getBusinessRuleTypeInfoList()) {
+            brTypeInfoDTOList.add( getBusinessRuleTypeDTO( brTypeInfo ));
+        }
+        
+        agendaInfoDTO.setBusinessRuleTypeInfoList(brTypeInfoDTOList);
+        
+        return agendaInfoDTO;
+    }
+        
+    
+    public static BusinessRuleTypeInfoDTO getBusinessRuleTypeDTO(BusinessRuleType ruleType) {
+        BusinessRuleTypeInfoDTO ruleTypeDTO = new BusinessRuleTypeInfoDTO();
         
         ruleTypeDTO.setAnchorTypeKey(ruleType.getAnchorTypeKey().toString());
         ruleTypeDTO.setBussinessRuleTypeKey(ruleType.getBusinessRuleTypeKey().toString());
@@ -60,18 +82,17 @@ public class BusinessRuleAdapter {
         
         BusinessRuleInfoDTO ruleDTO = new BusinessRuleInfoDTO();
        
-        ruleDTO.setBusinessRuleId( rule.getId() );
+        ruleDTO.setId( rule.getId() );
         ruleDTO.setAnchorValue( rule.getAnchor() );
-        ruleDTO.setBusinessRuleTypeKey( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
-        ruleDTO.setAnchorTypeKey( rule.getBusinessRuleType().getAnchorTypeKey() );
+        ruleDTO.setType( rule.getBusinessRuleType().getBusinessRuleTypeKey().toString() );
+        ruleDTO.setAnchorTypeKey( rule.getBusinessRuleType().getAnchorTypeKey().toString() );
         ruleDTO.setCompiledId( rule.getCompiledId() );
-        ruleDTO.setDescription( rule.getDescription() );
-        ruleDTO.setEffectiveEndTime( rule.getMetaData().getEffectiveDateEnd() );
-        ruleDTO.setEffectiveStartTime( rule.getMetaData().getEffectiveDateStart() );
+        ruleDTO.setDesc( rule.getDescription() );
+        ruleDTO.setEffectiveDate( rule.getMetaData().getEffectiveDate() );
+        ruleDTO.setExpirationDate( rule.getMetaData().getExpirationDate() );
         ruleDTO.setFailureMessage( rule.getFailureMessage() );
-        ruleDTO.setOrigName( rule.getOrigName() );
-        ruleDTO.setDisplayName( rule.getDisplayName() );
-        ruleDTO.setFirstVersionRuleId(rule.getFirstVersionRuleId());
+        ruleDTO.setName( rule.getName() );
+        ruleDTO.setOriginalRuleId(rule.getOriginalRuleId());
         ruleDTO.setRepositorySnapshotName(rule.getRepositorySnapshotName());
         
         // Extract the Meta Info
@@ -83,15 +104,14 @@ public class BusinessRuleAdapter {
         
         ruleDTO.setMetaInfo( metaInfo );
         
-        // Extract the Rule Elments
+        // Extract the Rule Elements
         List<RuleElementDTO> elementDTOList = new ArrayList<RuleElementDTO>();
         for(RuleElement element : rule.getRuleElements() ) {
             elementDTOList.add( getRuleElementDTO( element ) );
         }
         
-        ruleDTO.setRuleElementList(elementDTOList);
-        ruleDTO.setStatus( rule.getMetaData().getStatus() );
-        ruleDTO.setVersion( rule.getMetaData().getVersion() );
+        ruleDTO.setBusinessRuleElementList(elementDTOList);
+        ruleDTO.setState( rule.getState().toString() );
         ruleDTO.setSuccessMessage( rule.getSuccessMessage() );
             
         return ruleDTO;                
@@ -109,14 +129,15 @@ public class BusinessRuleAdapter {
         
         RuleElementDTO elementDTO = new RuleElementDTO();
         
+        elementDTO.setId(element.getId());
         elementDTO.setDescription( element.getDescription() );
         elementDTO.setName( element.getName() );
-        elementDTO.setOperation( element.getOperation().getName() );
+        elementDTO.setBusinessRuleElemnetTypeKey( element.getBusinessRuleElemnetTypeKey().getName() );
         elementDTO.setOrdinalPosition( element.getOrdinalPosition() );
         
         // If we have a proposition
         if(null != element.getRuleProposition()) {
-            elementDTO.setRuleProposition( getRulePropositionDTO( element.getRuleProposition() ) );
+            elementDTO.setBusinessRuleProposition( getRulePropositionDTO( element.getRuleProposition() ) );
         }
         
         return elementDTO;
@@ -133,8 +154,8 @@ public class BusinessRuleAdapter {
         
         RulePropositionDTO propositionDTO = new RulePropositionDTO();
         
-        propositionDTO.setComparisonDataType( proposition.getComparisonDataType() );
-        propositionDTO.setComparisonOperatorType( proposition.getOperator().name() );
+        propositionDTO.setComparisonDataTypeKey( proposition.getComparisonDataTypeKey() );
+        propositionDTO.setComparisonOperatorTypeKey( proposition.getComparisonOperatorTypeKey().name() );
         propositionDTO.setDescription( proposition.getDescription() );
         propositionDTO.setFailureMessage( proposition.getFailureMessage() );
         propositionDTO.setLeftHandSide( getLeftHandSideDTO( proposition.getLeftHandSide() ) );
@@ -232,30 +253,28 @@ public class BusinessRuleAdapter {
                 
         rule.setAnchor( ruleInfoDTO.getAnchorValue() );
         rule.setCompiledId(ruleInfoDTO.getCompiledId());
-        rule.setDescription(ruleInfoDTO.getDescription());
+        rule.setDescription(ruleInfoDTO.getDesc());
         rule.setFailureMessage(ruleInfoDTO.getFailureMessage());
-        rule.setOrigName( ruleInfoDTO.getOrigName() );
-        rule.setDisplayName( ruleInfoDTO.getDisplayName() ); 
-        rule.setId( ruleInfoDTO.getBusinessRuleId() );
+        rule.setName( ruleInfoDTO.getName() ); 
+        rule.setId( ruleInfoDTO.getId() );
         rule.setSuccessMessage( ruleInfoDTO.getSuccessMessage() );                        
         rule.setRepositorySnapshotName(ruleInfoDTO.getRepositorySnapshotName());
-        rule.setFirstVersionRuleId(ruleInfoDTO.getFirstVersionRuleId());
+        rule.setOriginalRuleId(ruleInfoDTO.getOriginalRuleId());
+        rule.setState( BusinessRuleStatus.valueOf( ruleInfoDTO.getState() ));
         
         RuleMetaData metaData = new RuleMetaData();
         metaData.setCreateDate( ruleInfoDTO.getMetaInfo().getCreateTime() );
         metaData.setCreatedBy( ruleInfoDTO.getMetaInfo().getCreateID() );
-        metaData.setEffectiveDateEnd(ruleInfoDTO.getEffectiveEndTime());
-        metaData.setEffectiveDateStart(ruleInfoDTO.getEffectiveStartTime());
-        metaData.setStatus( BusinessRuleStatus.valueOf( ruleInfoDTO.getStatus() ).toString());
+        metaData.setEffectiveDate(ruleInfoDTO.getEffectiveDate());
+        metaData.setExpirationDate(ruleInfoDTO.getExpirationDate());
+        
         metaData.setUpdateBy( ruleInfoDTO.getMetaInfo().getUpdateID());
         metaData.setUpdateDate(ruleInfoDTO.getMetaInfo().getUpdateTime());
-        metaData.setVersion(ruleInfoDTO.getVersion());
         
-
         rule.setMetaData(metaData);
         
         List<RuleElement> elementList = new ArrayList<RuleElement>();
-        for(RuleElementDTO elementDTO : ruleInfoDTO.getRuleElementList()) {
+        for(RuleElementDTO elementDTO : ruleInfoDTO.getBusinessRuleElementList()) {
             RuleElement element = getRuleElementEntity(elementDTO);
             element.setBusinessRule( rule );
             elementList.add( element );
@@ -280,16 +299,16 @@ public class BusinessRuleAdapter {
         
         element.setName( elementDTO.getName() );
             
-        if(RuleElementType.LPAREN.getName().equals( elementDTO.getOperation())) {
-            element.setOperation( RuleElementType.LPAREN );
-        } else if(RuleElementType.RPAREN.getName().equals( elementDTO.getOperation())) {
-            element.setOperation( RuleElementType.RPAREN );
+        if(RuleElementType.LPAREN.getName().equals( elementDTO.getBusinessRuleElemnetTypeKey())) {
+            element.setBusinessRuleElemnetTypeKey( RuleElementType.LPAREN );
+        } else if(RuleElementType.RPAREN.getName().equals( elementDTO.getBusinessRuleElemnetTypeKey())) {
+            element.setBusinessRuleElemnetTypeKey( RuleElementType.RPAREN );
         } else {
-            element.setOperation( RuleElementType.valueOf( elementDTO.getOperation() ) );
+            element.setBusinessRuleElemnetTypeKey( RuleElementType.valueOf( elementDTO.getBusinessRuleElemnetTypeKey() ) );
         }
                 
         element.setOrdinalPosition( elementDTO.getOrdinalPosition() );
-        element.setRuleProposition( getRulePropositionEntity( elementDTO.getRuleProposition() ));
+        element.setRuleProposition( getRulePropositionEntity( elementDTO.getBusinessRuleProposition() ));
         return element;        
     }
 
@@ -308,12 +327,12 @@ public class BusinessRuleAdapter {
         
         RuleProposition ruleProposition = new RuleProposition();
         
-        ruleProposition.setComparisonDataType( rulePropositionDTO.getComparisonDataType() );
+        ruleProposition.setComparisonDataTypeKey( rulePropositionDTO.getComparisonDataTypeKey() );
         ruleProposition.setDescription( rulePropositionDTO.getDescription() );
         ruleProposition.setFailureMessage( rulePropositionDTO.getFailureMessage() );
         ruleProposition.setLeftHandSide( getLeftHandSideEntity( rulePropositionDTO.getLeftHandSide() ));
         ruleProposition.setName( rulePropositionDTO.getName() );
-        ruleProposition.setOperator( ComparisonOperator.valueOf( rulePropositionDTO.getComparisonOperatorType() ));
+        ruleProposition.setComparisonOperatorTypeKey( ComparisonOperator.valueOf( rulePropositionDTO.getComparisonOperatorTypeKey() ));
         ruleProposition.setRightHandSide( getRightHandSideEntity( rulePropositionDTO.getRightHandSide() ) );
         
         return ruleProposition;

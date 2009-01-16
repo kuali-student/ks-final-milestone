@@ -7,7 +7,9 @@ import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +36,11 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
@@ -58,13 +62,118 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     private static final String create_rule_name = "Test rule create";
     
     @Test
+    public void testFindAgendaTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        List<String> agendaTypes = client.findAgendaTypes();
+        assertTrue(agendaTypes.size() == 3);
+        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSE.toString()));
+        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString()));
+        assertTrue(agendaTypes.contains(AgendaType.KUALI_VALIDATE_LUI_PERSON_RELATION.toString()));
+    }
+
+    @Test
+    public void testFindAnchorTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        List<String> anchorTypes = client.findAnchorTypes();
+
+        assertTrue(anchorTypes.size() == 1);
+        assertTrue(anchorTypes.contains(AnchorTypeKey.KUALI_COURSE.toString()));
+    }
+
+    @Test
+    public void testFindAnchorsByAnchorType() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        List<String> anchors = client.findAnchorsByAnchorType(AnchorTypeKey.KUALI_COURSE.toString());
+
+        assertTrue(anchors.size() == 3);
+        assertTrue(anchors.contains("CPR 201"));
+        assertTrue(anchors.contains("MATH 101"));
+        assertTrue(anchors.contains("PSYC 300"));
+    }
+
+    @Test
+    public void testFindBusinessRuleTypeByAgenda() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        List<String> brTypeKeys = client.findBusinessRuleTypesByAgendaType("KUALI_STUDENT_STUDENT_DROPS_COURSE");
+
+        assertTrue(brTypeKeys.size() == 1);
+        assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_PRE_REQ.toString()));
+    }
+
+    @Test
+    public void testFetchAgendaInfoDeterminationStructure() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        AgendaDeterminationInfoDTO adiDTO = client.fetchAgendaInfoDeterminationStructure(AgendaType.KUALI_VALIDATE_LUI_PERSON_RELATION.toString());
+
+        Map<String, String> adiDTOMap = adiDTO.getAgendaDeterminationKeyList();
+
+        assertEquals(adiDTOMap.size(), 3);
+        assertTrue(adiDTOMap.containsKey("agendaDeterminationInfo.luiType"));
+        assertTrue(adiDTOMap.containsKey("agendaDeterminationInfo.luiPersonRelationType"));
+        assertTrue(adiDTOMap.containsKey("agendaDeterminationInfo.relationState"));
+        assertEquals("", adiDTOMap.get("agendaDeterminationInfo.luiType"));
+
+        AgendaDeterminationInfoDTO adiDTO1 = client.fetchAgendaInfoDeterminationStructure(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSE.toString());
+        Map<String, String> adiDTOMap1 = adiDTO1.getAgendaDeterminationKeyList();
+        assertEquals(adiDTOMap1.size(), 0);
+    }
+
+    @Test
+    public void testFetchEmptyAgendaInfoDeterminationStructure() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        AgendaDeterminationInfoDTO adiDTO = client.fetchAgendaInfoDeterminationStructure(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSE.toString());
+        Map<String, String> adiDTOMap = adiDTO.getAgendaDeterminationKeyList();
+        assertEquals(adiDTOMap.size(), 0);
+    }
+    
+    @Test
+    public void testFetchNonExistentAgendaInfo() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+
+        try {
+            AgendaDeterminationInfoDTO adiDTO = client.fetchAgendaInfoDeterminationStructure(AgendaType.KUALI_EMPTY_AGENDA.toString());
+        } catch (DoesNotExistException dne) {
+            assertTrue(true);
+            return;
+        }
+
+        assertTrue(false);
+    }
+
+    @Test
+    public void testFetchAgendaInfo() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        
+        Map<String, String> agendaDeterminationMap = new HashMap<String, String>();
+        agendaDeterminationMap.put("agendaDeterminationInfo.luiType", "course");
+        agendaDeterminationMap.put("agendaDeterminationInfo.luiPersonRelationType", "kuali.student");
+        agendaDeterminationMap.put("agendaDeterminationInfo.relationState", "enrolled");
+        
+        AgendaDeterminationInfoDTO adiDTO = new AgendaDeterminationInfoDTO();
+        adiDTO.setAgendaInfoDeterminationKeyList(agendaDeterminationMap);
+                
+        AgendaInfoDTO aiDTO = client.fetchAgendaInfo(AgendaType.KUALI_VALIDATE_LUI_PERSON_RELATION.toString(),  adiDTO);
+
+        assertEquals(aiDTO.getAgendaTypeKey(), AgendaType.KUALI_VALIDATE_LUI_PERSON_RELATION.toString());
+        assertEquals(aiDTO.getBusinessRuleTypeInfoList().size(), 1);
+        assertEquals(aiDTO.getBusinessRuleTypeInfoList().get(0).getBussinessRuleTypeKey(), BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+    }
+
+
+    @Test
+    public void testFetchEmptyAgendaInfo() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
+        
+        Map<String, String> agendaDeterminationMap = new HashMap<String, String>();
+        AgendaDeterminationInfoDTO adiDTO = new AgendaDeterminationInfoDTO();
+        adiDTO.setAgendaInfoDeterminationKeyList(agendaDeterminationMap);
+                
+        AgendaInfoDTO aiDTO = client.fetchAgendaInfo(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString(),  adiDTO);
+
+        assertEquals(aiDTO.getAgendaTypeKey(), AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString());
+        assertEquals(aiDTO.getBusinessRuleTypeInfoList().size(), 1);
+        assertEquals(aiDTO.getBusinessRuleTypeInfoList().get(0).getBussinessRuleTypeKey(), BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+    }           
+    
+    @Test
     public void testFetchDetailedBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         BusinessRuleInfoDTO brInfoDTO = client.fetchDetailedBusinessRuleInfo(ruleId_1);
-        assertEquals(ruleId_1,  brInfoDTO.getBusinessRuleId());
+        assertEquals(ruleId_1,  brInfoDTO.getId());
         assertEquals("CPR 201", brInfoDTO.getAnchorValue());
-        assertEquals(3, brInfoDTO.getRuleElementList().size());
+        assertEquals(3, brInfoDTO.getBusinessRuleElementList().size());
                 
-        RulePropositionDTO ruleProp = brInfoDTO.getRuleElementList().get(0).getRuleProposition();
+        RulePropositionDTO ruleProp = brInfoDTO.getBusinessRuleElementList().get(0).getBusinessRuleProposition();
         
         List<FactStructureDTO> factStructureList = ruleProp.getLeftHandSide().getYieldValueFunction().getFactStructureList();
         assertEquals(2, factStructureList.size());    
@@ -79,9 +188,9 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     @Test
     public void testFetchBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         BusinessRuleInfoDTO brInfoDTO = client.fetchBusinessRuleInfo(ruleId_1);
-        assertEquals(ruleId_1,  brInfoDTO.getBusinessRuleId());
+        assertEquals(ruleId_1,  brInfoDTO.getId());
         assertEquals("CPR 201", brInfoDTO.getAnchorValue());
-        assertEquals(0, brInfoDTO.getRuleElementList().size());
+        assertEquals(0, brInfoDTO.getBusinessRuleElementList().size());
     }    
 
     @Test
@@ -106,34 +215,8 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testFindAgendaTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-        List<String> agendaTypes = client.findAgendaTypes();
-        assertTrue(agendaTypes.size() == 2);
-        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_ENROLLS_IN_COURSE.toString()));
-        assertTrue(agendaTypes.contains(AgendaType.KUALI_STUDENT_STUDENT_DROPS_COURSE.toString()));
-    }
-    
-    @Test
-    public void testFindAnchorTypes()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
-        List<String> anchorTypes = client.findAnchorTypes();
-
-        assertTrue(anchorTypes.size() == 1);
-        assertTrue(anchorTypes.contains(AnchorTypeKey.KUALI_COURSE.toString()));
-    }
-    
-    @Test
-    public void testFindAnchorsByAnchorType()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
-        List<String> anchors = client.findAnchorsByAnchorType(AnchorTypeKey.KUALI_COURSE.toString());
-        
-        assertTrue(anchors.size() == 3);
-        assertTrue(anchors.contains("CPR 201"));
-        assertTrue(anchors.contains("MATH 101"));
-        assertTrue(anchors.contains("PSYC 300"));
-    }
-
-    @Test
     public void testFetchBusinessRuleType()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
-        BusinessRuleTypeDTO ruleType = client.fetchBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), AnchorTypeKey.KUALI_COURSE.toString());
+        BusinessRuleTypeInfoDTO ruleType = client.fetchBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), AnchorTypeKey.KUALI_COURSE.toString());
         
         assertEquals(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), ruleType.getBussinessRuleTypeKey());
         assertEquals(AnchorTypeKey.KUALI_COURSE.toString(),ruleType.getAnchorTypeKey());
@@ -141,7 +224,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     
     @Test
     public void testFetchFactTypeKey()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
-        BusinessRuleTypeDTO ruleType = client.fetchBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), AnchorTypeKey.KUALI_COURSE.toString());
+        BusinessRuleTypeInfoDTO ruleType = client.fetchBusinessRuleType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString(), AnchorTypeKey.KUALI_COURSE.toString());
         
         assertEquals(2, ruleType.getFactTypeKeyList().size());
         assertEquals("fact.earned_credit_list", ruleType.getFactTypeKeyList().get(0));
@@ -153,40 +236,40 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     public void testCreateBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         // Create Rule Test
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName(create_rule_name);
+        brInfoDTO.setName(create_rule_name);
         BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);
         
-        newBrInfoDTO = client.fetchDetailedBusinessRuleInfo(newBrInfoDTO.getBusinessRuleId());
+        newBrInfoDTO = client.fetchDetailedBusinessRuleInfo(newBrInfoDTO.getId());
         
-        assertEquals(brInfoDTO.getOrigName(), newBrInfoDTO.getOrigName());
-        assertNotNull(newBrInfoDTO.getBusinessRuleId());
+        assertEquals(brInfoDTO.getName(), newBrInfoDTO.getName());
+        assertNotNull(newBrInfoDTO.getId());
         assertNotNull(newBrInfoDTO.getCompiledId());
-        assertEquals(new Long(0), newBrInfoDTO.getVersion());
-        assertEquals(newBrInfoDTO.getFirstVersionRuleId(), newBrInfoDTO.getBusinessRuleId());
+        assertEquals(newBrInfoDTO.getOriginalRuleId(), newBrInfoDTO.getId());
     }
 
     @Test
     public void testCreateActiveBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         // Create Rule Test
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName(create_rule_name + "ACTIVE");
-        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
-        BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);
+        brInfoDTO.setName(create_rule_name + "ACTIVE");
+        brInfoDTO.setState(BusinessRuleStatus.ACTIVE.toString());
         
-        newBrInfoDTO = client.fetchDetailedBusinessRuleInfo(newBrInfoDTO.getBusinessRuleId());
+        try {
+            BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);
+        } catch (InvalidParameterException ipx) {
+            assertTrue(true);
+            return;
+        }
         
-        assertEquals(brInfoDTO.getOrigName(), newBrInfoDTO.getOrigName());
-        assertNotNull(newBrInfoDTO.getBusinessRuleId());
-        assertNotNull(newBrInfoDTO.getCompiledId());
-        assertEquals(new Long(0), newBrInfoDTO.getVersion());
+        assertTrue(false);
     }    
     
     @Test
     public void testCreateRetiredBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         // Create Rule Test
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName(create_rule_name + "RETIRED");
-        brInfoDTO.setStatus(BusinessRuleStatus.RETIRED.toString());
+        brInfoDTO.setName(create_rule_name + "RETIRED");
+        brInfoDTO.setState(BusinessRuleStatus.RETIRED.toString());
         
         try {
             BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);
@@ -202,36 +285,33 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     public void testUpdateBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException {        
 
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName("Test update rule");
+        brInfoDTO.setName("Test update rule");
         BusinessRuleInfoDTO createdBrInfo = client.createBusinessRule(brInfoDTO);
         
         BusinessRuleInfoDTO updateBrInfoDTO = generateUpdatedBusinessRule( generateNewBusinessRuleInfo() );
-        updateBrInfoDTO.setOrigName("Test update rule");
+        updateBrInfoDTO.setName("Test update rule");
         updateBrInfoDTO.setCompiledId(createdBrInfo.getCompiledId());
-        updateBrInfoDTO.setVersion(createdBrInfo.getVersion());
-        updateBrInfoDTO.setBusinessRuleId(createdBrInfo.getBusinessRuleId());
+        updateBrInfoDTO.setId(createdBrInfo.getId());
         
-        BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRule(createdBrInfo.getBusinessRuleId(), updateBrInfoDTO);
+        BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRule(createdBrInfo.getId(), updateBrInfoDTO);
                        
-        assertTrue(updatedBrInfo.getRuleElementList().size() == 3);
-        assertEquals(updatedBrInfo.getStatus(), "DRAFT_IN_PROGRESS");
+        assertTrue(updatedBrInfo.getBusinessRuleElementList().size() == 3);
+        assertEquals(updatedBrInfo.getState(), "DRAFT_IN_PROGRESS");
     }
     
     @Test
     public void testActivateBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName("Activate rule test");
+        brInfoDTO.setName("Activate rule test");
         BusinessRuleInfoDTO createdBrInfo = client.createBusinessRule(brInfoDTO);
 
-        createdBrInfo.setStatus("ACTIVE");      
-        BusinessRuleInfoDTO newBrInfoDTO1 = client.updateBusinessRule(createdBrInfo.getBusinessRuleId(), createdBrInfo);
+        BusinessRuleInfoDTO newBrInfoDTO1 = client.updateBusinessRuleState(createdBrInfo.getId(), BusinessRuleStatus.ACTIVE.toString());
                 
-        assertEquals(newBrInfoDTO1.getStatus(), "ACTIVE");
+        assertEquals(newBrInfoDTO1.getState(), "ACTIVE");
                 
         // Check if the exception is caught when trying to change ACTIVE rule
-        newBrInfoDTO1.setStatus("DRAFT_IN_PROGRESS");        
         try {
-            client.updateBusinessRule(newBrInfoDTO1.getBusinessRuleId(), newBrInfoDTO1);
+            client.updateBusinessRuleState(createdBrInfo.getId(), BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
             fail("Updating business rule from 'ACTIVE' to 'DRAFT_IN_PROGRESS' should have failed");
         } catch (InvalidParameterException ex) {
             // This is an expected exception
@@ -240,18 +320,102 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }   
     
     @Test
+    public void testActivatingMultipleVersion() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
+        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
+        String origName = create_rule_name + "_ma1";
+        brInfoDTO.setName(origName);
+        BusinessRuleInfoDTO rule1 = client.createBusinessRule(brInfoDTO);   
+
+        client.updateBusinessRuleState(rule1.getId(), BusinessRuleStatus.ACTIVE.toString());
+        
+        BusinessRuleInfoDTO rule2 = client.createNewVersion(rule1);
+                
+        assertEquals(origName , rule2.getName());
+        assertEquals(rule1.getBusinessRuleElementList().size(), rule2.getBusinessRuleElementList().size());
+        assertEquals(rule1.getId(), rule2.getOriginalRuleId());
+        assertEquals(rule1.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey(), rule2.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey());
+        
+        Calendar now = new GregorianCalendar();
+        now.add(Calendar.DAY_OF_YEAR, 1);
+        Date dt1 = now.getTime();
+        now.add(Calendar.DAY_OF_YEAR, 2);
+        Date dt2 = now.getTime();
+        
+        rule2.setEffectiveDate(dt1);
+        rule2.setExpirationDate(dt2);
+
+        rule2 = client.updateBusinessRule(rule2.getId(), rule2);
+        
+        BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRuleState(rule2.getId(), BusinessRuleStatus.ACTIVE.toString());
+
+        assertEquals(origName , rule2.getName());
+        assertEquals(BusinessRuleStatus.ACTIVE.toString(), updatedBrInfo.getState());
+        assertEquals(rule1.getBusinessRuleElementList().size(), rule2.getBusinessRuleElementList().size());
+        assertEquals(rule1.getId(), rule2.getOriginalRuleId());
+        assertEquals(rule1.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey(), rule2.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey());
+    }
+
+    
+    @Test
+    public void testActivatingMultipleVersionWithDateConflicts() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
+        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
+        String origName = create_rule_name + "_ma2";
+        brInfoDTO.setName(origName);
+
+        Calendar now = new GregorianCalendar();
+        now.add(Calendar.DAY_OF_YEAR, 1);
+        Date dt1 = now.getTime();
+        now.add(Calendar.DAY_OF_YEAR, 10);
+        Date dt2 = now.getTime();
+        brInfoDTO.setEffectiveDate(dt1);
+        brInfoDTO.setExpirationDate(dt2);
+        
+        BusinessRuleInfoDTO rule1 = client.createBusinessRule(brInfoDTO);   
+
+        client.updateBusinessRuleState(rule1.getId(), BusinessRuleStatus.ACTIVE.toString());
+        
+        BusinessRuleInfoDTO rule2 = client.createNewVersion(rule1);
+                
+        assertEquals(origName , rule2.getName());
+        assertEquals(rule1.getBusinessRuleElementList().size(), rule2.getBusinessRuleElementList().size());
+        assertEquals(rule1.getId(), rule2.getOriginalRuleId());
+        assertEquals(rule1.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey(), rule2.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey());
+        
+        Calendar now1 = new GregorianCalendar();
+        now1.add(Calendar.DAY_OF_YEAR, 3);
+        Date dt3 = now.getTime();
+        now1.add(Calendar.DAY_OF_YEAR, 15);
+        Date dt4 = now.getTime();
+        
+        rule2.setEffectiveDate(dt3);
+        rule2.setExpirationDate(dt4);
+
+        rule2 = client.updateBusinessRule(rule2.getId(), rule2);
+        
+        try {
+            BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRuleState(rule2.getId(), BusinessRuleStatus.ACTIVE.toString());
+        } catch (InvalidParameterException ipx) {
+            assertTrue(true);
+            return;
+        }
+        
+        assertTrue(false);
+    }    
+        
+    
+    @Test
     public void testRetireBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, ReadOnlyException {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName("Retire rule test");
+        brInfoDTO.setName("Retire rule test");
         BusinessRuleInfoDTO createdBrInfo = client.createBusinessRule(brInfoDTO);
         
-        createdBrInfo.setStatus("ACTIVE");     
-        BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRule(createdBrInfo.getBusinessRuleId(), createdBrInfo);
+        createdBrInfo.setState("ACTIVE");     
+        BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRuleState(createdBrInfo.getId(), BusinessRuleStatus.ACTIVE.toString());
 
-        updatedBrInfo.setStatus("RETIRED");
-        BusinessRuleInfoDTO retiredBrInfo = client.updateBusinessRule(updatedBrInfo.getBusinessRuleId(), updatedBrInfo);
+        updatedBrInfo.setState("RETIRED");
+        BusinessRuleInfoDTO retiredBrInfo = client.updateBusinessRuleState(updatedBrInfo.getId(), BusinessRuleStatus.RETIRED.toString());
          
-        assertEquals(retiredBrInfo.getStatus(), "RETIRED");                
+        assertEquals(retiredBrInfo.getState(), "RETIRED");                
     }    
     
     
@@ -268,21 +432,13 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         assertTrue(brTypeKeys.size() == 2);
         assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_CO_REQ.toString()));        
     }
-    
-    @Test
-    public void testFindBusinessRuleTypeByAgenda() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
-        List<String> brTypeKeys = client.findBusinessRuleTypesByAgendaType("KUALI_STUDENT_STUDENT_DROPS_COURSE");
         
-        assertTrue(brTypeKeys.size() == 1);
-        assertTrue(brTypeKeys.contains(BusinessRuleTypeKey.KUALI_PRE_REQ.toString()));
-    }
-    
     @Test
     public void testDeleteBusinessRule()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName("Test delete Rule");
+        brInfoDTO.setName("Test delete Rule");
         BusinessRuleInfoDTO createdRuleInfo = client.createBusinessRule(brInfoDTO);
-        String ruleId = createdRuleInfo.getBusinessRuleId();
+        String ruleId = createdRuleInfo.getId();
         client.deleteBusinessRule(ruleId);
 
         try {
@@ -293,10 +449,24 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
-        BusinessRuleAnchorDTO anchorDTO = new BusinessRuleAnchorDTO();
+    public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, ReadOnlyException {
+        // Activate the rule before fetching the rule
+        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
+        brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        brInfoDTO.setAnchorValue("CPR 202");
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_CO_REQ.toString());
+        
+        Calendar cal = new GregorianCalendar();
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        brInfoDTO.setExpirationDate(cal.getTime());
+        brInfoDTO.setName("Activate rule test");
+        BusinessRuleInfoDTO createdBrInfo = client.createBusinessRule(brInfoDTO);
+                   
+        BusinessRuleInfoDTO newBrInfoDTO1 = client.updateBusinessRuleState(createdBrInfo.getId(), BusinessRuleStatus.ACTIVE.toString());
+                                    
+        BusinessRuleAnchorInfoDTO anchorDTO = new BusinessRuleAnchorInfoDTO();
         anchorDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_CO_REQ.toString());
-        anchorDTO.setAnchorValue("CPR 201");
+        anchorDTO.setAnchorValue("CPR 202");
         anchorDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         
         List<BusinessRuleInfoDTO> rules = client.fetchBusinessRuleInfoByAnchor(anchorDTO);
@@ -305,7 +475,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
         BusinessRuleInfoDTO ruleInfo = rules.get(0);
         
-        assertEquals(ruleId_1, ruleInfo.getBusinessRuleId());        
+        assertEquals(createdBrInfo.getId(), ruleInfo.getId());        
     }
 
     
@@ -325,20 +495,20 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     public void testComplextBusinessRuleCreation()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
         BusinessRuleInfoDTO brInfo = client.fetchDetailedBusinessRuleInfo(ruleId_3);
         
-        assertEquals(ruleId_3, brInfo.getBusinessRuleId());
+        assertEquals(ruleId_3, brInfo.getId());
         assertEquals("PSYC 300", brInfo.getAnchorValue());
         
         
-        List<RuleElementDTO> ruleElements = brInfo.getRuleElementList();
+        List<RuleElementDTO> ruleElements = brInfo.getBusinessRuleElementList();
         assertEquals(11, ruleElements.size());
         
         
-        RulePropositionDTO proposition1 = ruleElements.get(1).getRuleProposition();
-        RulePropositionDTO proposition2 = ruleElements.get(5).getRuleProposition();
-        RulePropositionDTO proposition3 = ruleElements.get(9).getRuleProposition();
+        RulePropositionDTO proposition1 = ruleElements.get(1).getBusinessRuleProposition();
+        RulePropositionDTO proposition2 = ruleElements.get(5).getBusinessRuleProposition();
+        RulePropositionDTO proposition3 = ruleElements.get(9).getBusinessRuleProposition();
         
         RuleElementDTO ruleElementL = ruleElements.get(0);
-        assertEquals(ruleElementL.getOperation(), "(");
+        assertEquals(ruleElementL.getBusinessRuleElemnetTypeKey(), "(");
                 
         assertEquals("INTERSECTION", proposition1.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType());
         assertEquals("INTERSECTION", proposition2.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType());
@@ -373,9 +543,9 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     public void testEmptyRuleCreating()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
 
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName("Empty rule");
+        brInfoDTO.setName("Empty rule");
         // Empty the rule elements
-        brInfoDTO.setRuleElementList(new ArrayList<RuleElementDTO>());
+        brInfoDTO.setBusinessRuleElementList(new ArrayList<RuleElementDTO>());
 
         BusinessRuleInfoDTO createdBrInfo = null;
         try {
@@ -384,31 +554,18 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         }
         
-        BusinessRuleInfoDTO newBrInfoDTO = client.fetchBusinessRuleInfo(createdBrInfo.getBusinessRuleId());
-        assertEquals(0, newBrInfoDTO.getRuleElementList().size());
+        BusinessRuleInfoDTO newBrInfoDTO = client.fetchBusinessRuleInfo(createdBrInfo.getId());
+        assertEquals(0, newBrInfoDTO.getBusinessRuleElementList().size());
         
         assertTrue(true);
     }
 
-    @Test
-    public void testCreateWithEmptyOrigName() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        try {
-            BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-            brInfoDTO.setOrigName("");
-            BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);
-            
-        } catch (InvalidParameterException ex) {
-            // Right behavior
-            return;
-        }               
-        assertTrue(false);        
-    }
-    
+  
     @Test
     public void testCreateWithNonEmptyId() throws AlreadyExistsException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
             BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-            brInfoDTO.setBusinessRuleId("234");
+            brInfoDTO.setId("234");
             BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);                        
 
         } catch (InvalidParameterException ex) {
@@ -422,10 +579,10 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     @Test
     public void testErrorInRepository() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-            brInfoDTO.setOrigName(create_rule_name);
+            brInfoDTO.setName(create_rule_name);
             BusinessRuleInfoDTO newBrInfoDTO = client.createBusinessRule(brInfoDTO);   
 
-            newBrInfoDTO.setBusinessRuleId(null);
+            newBrInfoDTO.setId(null);
             newBrInfoDTO = client.createBusinessRule(brInfoDTO);   
             
             //assertTrue(true);
@@ -433,86 +590,47 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     
     
     @Test
-    public void testCreateNewRuleVersion()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {
+    public void testCreateNewRuleVersion()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
         String origName = create_rule_name + "_version1";
-        brInfoDTO.setOrigName(origName);
+        brInfoDTO.setName(origName);
         BusinessRuleInfoDTO rule1 = client.createBusinessRule(brInfoDTO);   
-
-        Long v1 = rule1.getVersion();
+        
+        rule1 = client.updateBusinessRuleState(rule1.getId(), BusinessRuleStatus.ACTIVE.toString());
         
         BusinessRuleInfoDTO rule2 = client.createNewVersion(rule1);
                 
-        assertEquals(v1, new Long(0));
-        assertEquals(new Long(v1 + 1), new Long(1));
-        assertEquals(origName , rule2.getOrigName());
-        assertEquals(rule1.getRuleElementList().size(), rule2.getRuleElementList().size());
-        assertEquals(rule1.getBusinessRuleId(), rule2.getFirstVersionRuleId());
-        assertEquals(rule1.getRuleElementList().get(0).getOperation(), rule2.getRuleElementList().get(0).getOperation());
+        assertEquals(origName , rule2.getName());
+        assertEquals(rule1.getBusinessRuleElementList().size(), rule2.getBusinessRuleElementList().size());
+        assertEquals(rule1.getId(), rule2.getOriginalRuleId());
+        assertEquals(rule1.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey(), rule2.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey());
     }
 
-    @Test
-    public void testActivatingMultipleVersion() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
-        BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
-        String origName = create_rule_name + "_ma1";
-        brInfoDTO.setOrigName(origName);
-        BusinessRuleInfoDTO rule1 = client.createBusinessRule(brInfoDTO);   
-
-        Long v1 = rule1.getVersion();
-        
-        BusinessRuleInfoDTO rule2 = client.createNewVersion(rule1);
-                
-        assertEquals(v1, new Long(0));
-        assertEquals(new Long(v1 + 1), new Long(1));
-        assertEquals(origName , rule2.getOrigName());
-        assertEquals(rule1.getRuleElementList().size(), rule2.getRuleElementList().size());
-        assertEquals(rule1.getBusinessRuleId(), rule2.getFirstVersionRuleId());
-        assertEquals(rule1.getRuleElementList().get(0).getOperation(), rule2.getRuleElementList().get(0).getOperation());
-                       
-        try {
-            rule2.setStatus(BusinessRuleStatus.ACTIVE.toString());
-            BusinessRuleInfoDTO updatedBrInfo = client.updateBusinessRule(rule2.getBusinessRuleId(), rule2);
-        } catch (InvalidParameterException ipx) {
-            assertTrue(true);
-            return;
-        }
-        
-        assertTrue(false);
-    }
-
-    
+ 
     @Test
     public void testFirstVersionRuleId() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException, ReadOnlyException {
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setStatus(BusinessRuleStatus.ACTIVE.toString());
         String origName = create_rule_name + "_version1";
-        brInfoDTO.setOrigName(origName);
+        brInfoDTO.setName(origName);
         BusinessRuleInfoDTO rule1 = client.createBusinessRule(brInfoDTO);   
-
-        Long v1 = rule1.getVersion();
+ 
+        rule1 = client.updateBusinessRuleState(rule1.getId(), BusinessRuleStatus.ACTIVE.toString());
         
         BusinessRuleInfoDTO rule2 = client.createNewVersion(rule1);
-
-        rule1.setStatus(BusinessRuleStatus.RETIRED.toString());
-        BusinessRuleInfoDTO updatedBrInfo1 = client.updateBusinessRule(rule1.getBusinessRuleId(), rule1);
+        BusinessRuleInfoDTO updatedBrInfo1 = client.updateBusinessRuleState(rule1.getId(), BusinessRuleStatus.RETIRED.toString());
         
-        rule2.setStatus(BusinessRuleStatus.ACTIVE.toString());
-        BusinessRuleInfoDTO updatedBrInfo2 = client.updateBusinessRule(rule2.getBusinessRuleId(), rule2);
+        BusinessRuleInfoDTO updatedBrInfo2 = client.updateBusinessRuleState(rule2.getId(), BusinessRuleStatus.ACTIVE.toString());
                 
         BusinessRuleInfoDTO rule3 = client.createNewVersion(rule2);
                 
-        assertEquals(v1, new Long(0));
-        assertEquals(new Long(v1 + 1), new Long(1));
-        assertEquals(origName , rule2.getOrigName());
-        assertEquals(rule1.getRuleElementList().size(), rule2.getRuleElementList().size());
-        assertEquals(rule1.getBusinessRuleId(), rule2.getFirstVersionRuleId());
-        assertEquals(rule1.getBusinessRuleId(), rule3.getFirstVersionRuleId());
-        assertEquals(rule1.getRuleElementList().get(0).getOperation(), rule2.getRuleElementList().get(0).getOperation());
+        assertEquals(origName , rule2.getName());
+        assertEquals(rule1.getBusinessRuleElementList().size(), rule2.getBusinessRuleElementList().size());
+        assertEquals(rule1.getId(), rule2.getOriginalRuleId());
+        assertEquals(rule1.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey(), rule2.getBusinessRuleElementList().get(0).getBusinessRuleElemnetTypeKey());
+        assertEquals(rule1.getId(), rule3.getOriginalRuleId());
         
-        assertEquals(origName , rule3.getOrigName());
-        assertEquals(rule1.getRuleElementList().size(), rule3.getRuleElementList().size());
+        assertEquals(origName , rule3.getName());
+        assertEquals(rule1.getBusinessRuleElementList().size(), rule3.getBusinessRuleElementList().size());
     }
     
     
@@ -520,10 +638,8 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     public void testCreateNewRuleVersionForInProgress()  throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {
 
         BusinessRuleInfoDTO brInfoDTO = generateNewBusinessRuleInfo();
-        brInfoDTO.setOrigName(create_rule_name + "_version1");
+        brInfoDTO.setName(create_rule_name + "_version1");
         BusinessRuleInfoDTO rule1 = client.createBusinessRule(brInfoDTO);   
-
-        Long v1 = rule1.getVersion();
                 
         try {
             BusinessRuleInfoDTO rule2 = client.createNewVersion(rule1);
@@ -566,33 +682,32 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         rulePropositionDTO.setDescription("Credit Intersection Change");
         rulePropositionDTO.setLeftHandSide(leftHandSideDTO);
         rulePropositionDTO.setRightHandSide(rightHandSideDTO);
-        rulePropositionDTO.setComparisonDataType(Double.class.getName());
-        rulePropositionDTO.setComparisonOperatorType(ComparisonOperator.LESS_THAN.toString());
+        rulePropositionDTO.setComparisonDataTypeKey(Double.class.getName());
+        rulePropositionDTO.setComparisonOperatorTypeKey(ComparisonOperator.LESS_THAN.toString());
 
         RuleElementDTO reDTO = new RuleElementDTO();
         reDTO.setName("Pre-req 1");
         reDTO.setDescription("Pre req check for Math 101");
-        reDTO.setOperation(RuleElementType.PROPOSITION.toString());
-        reDTO.setRuleProposition(rulePropositionDTO);
+        reDTO.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        reDTO.setBusinessRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setOrigName("CHEM100PRE_REQ");
-        brInfoDTO.setDisplayName("CHEM100PRE_REQ_DISPLAY");        
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setName("CHEM100PRE_REQ_DISPLAY");        
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue("CHEM 100");
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
-        brInfoDTO.setEffectiveStartTime(new Date());
-        brInfoDTO.setEffectiveEndTime(new Date());
+        brInfoDTO.setEffectiveDate(new Date());
+        brInfoDTO.setExpirationDate(new Date());
 
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(reDTO);
 
-        brInfoDTO.setRuleElementList(elementList);
+        brInfoDTO.setBusinessRuleElementList(elementList);
         
         return brInfoDTO;
     }
@@ -600,7 +715,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     
     private BusinessRuleInfoDTO generateUpdatedBusinessRule(BusinessRuleInfoDTO brInfoDTO) {
         
-        brInfoDTO.setStatus("DRAFT_IN_PROGRESS");
+        brInfoDTO.setState("DRAFT_IN_PROGRESS");
                 
         // Rule element - I
         YieldValueFunctionDTO yieldValueFunction1 = new YieldValueFunctionDTO();
@@ -628,20 +743,20 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         ruleProposition1.setDescription("Course intersection");
         ruleProposition1.setLeftHandSide(leftHandSide1);
         ruleProposition1.setRightHandSide(rightHandSide1);
-        ruleProposition1.setComparisonDataType(String.class.getName());
-        ruleProposition1.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
+        ruleProposition1.setComparisonDataTypeKey(String.class.getName());
+        ruleProposition1.setComparisonOperatorTypeKey(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
         RuleElementDTO re1 = new RuleElementDTO();
         re1.setName("course.intersection.1.of.cpr101");
         re1.setDescription("Must have 1 of CPR 101");
-        re1.setOperation("PROPOSITION");
-        re1.setRuleProposition(ruleProposition1);
+        re1.setBusinessRuleElemnetTypeKey("PROPOSITION");
+        re1.setBusinessRuleProposition(ruleProposition1);
         
         // Rule Element - II        
         RuleElementDTO re2 = new RuleElementDTO();
         re2.setName("And");
         re2.setDescription("And");
-        re2.setOperation("AND");
+        re2.setBusinessRuleElemnetTypeKey("AND");
                 
         // Rule Element - III
         YieldValueFunctionDTO yieldValueFunction2 = new YieldValueFunctionDTO();
@@ -668,21 +783,21 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         ruleProposition2.setDescription("Course credit summation");
         ruleProposition2.setLeftHandSide(leftHandSide2);
         ruleProposition2.setRightHandSide(rightHandSide2);
-        ruleProposition2.setComparisonDataType(BigDecimal.class.getName());
-        ruleProposition2.setComparisonOperatorType(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
+        ruleProposition2.setComparisonDataTypeKey(BigDecimal.class.getName());
+        ruleProposition2.setComparisonOperatorTypeKey(ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
         RuleElementDTO re3 = new RuleElementDTO();
         re3.setName("course.credits.sum");
         re3.setDescription("Pre req check for CPR 101");
-        re3.setOperation("PROPOSITION");
-        re3.setRuleProposition(ruleProposition2);
+        re3.setBusinessRuleElemnetTypeKey("PROPOSITION");
+        re3.setBusinessRuleProposition(ruleProposition2);
         
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(re1);
         elementList.add(re2);
         elementList.add(re3);
 
-        brInfoDTO.setRuleElementList(elementList);
+        brInfoDTO.setBusinessRuleElementList(elementList);
         
         return brInfoDTO;
     }

@@ -33,8 +33,8 @@ import org.kuali.student.poc.common.util.UUIDHelper;
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Entity
-@Table(name="AgendaInfoDeterminationStructure_T")
-public class AgendaInfoDeterminationStructure {
+@Table(name="AgendaDeterminationInfo_T")
+public class AgendaDeterminationInfo {
 
     @Id
     private String id;

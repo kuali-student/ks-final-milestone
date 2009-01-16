@@ -1,9 +1,13 @@
 package org.kuali.student.rules.rulemanagement.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
@@ -26,19 +30,23 @@ import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.rulemanagement.dao.RuleManagementDAO;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDeterminationStructureDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
-import org.kuali.student.rules.rulemanagement.entity.AgendaInfoDeterminationStructure;
+import org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.rules.rulemanagement.entity.RuleElement;
 import org.kuali.student.rules.rulemanagement.entity.RuleMetaData;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
+import org.kuali.student.rules.translators.drools.RuleSetTranslatorDroolsImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -46,296 +54,46 @@ import org.springframework.util.StringUtils;
 @Transactional
 public class RuleManagementServiceImpl implements RuleManagementService {
 
+    /** SLF4J logging framework */
+    final static Logger logger = LoggerFactory.getLogger(RuleSetTranslatorDroolsImpl.class);
+
     private static final String RULE_SNAPSHOT_SUFFIX = "_SNAPSHOT";
 
     private RuleManagementDAO ruleManagementDao;
 
     private RuleRepositoryService repository;
 
-    @Override
-    public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        // RuleId should not be already set
-        if (StringUtils.hasText(businessRuleInfo.getBusinessRuleId())) {
-            throw new InvalidParameterException("Create business rule cannot have preset value for rule Id!");
-        }
-
-        // OrigName should be provided at the time of creation
-        if (!StringUtils.hasText(businessRuleInfo.getOrigName())) {
-            throw new InvalidParameterException("Original name is required for creating a new rule!");
-        }
-
-        // Check to see if the status is draft in progress
-        BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getStatus());
-        if (BusinessRuleStatus.RETIRED == newStatus) {
-            throw new InvalidParameterException("Cannot create a RETIRED rule!");
-        }
-                
-        // Convert the DTO to Entity
-        BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
-
-        // Lookup Business Rule Type
-        BusinessRuleType brType = null;
-        try {
-            brType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleInfo.getBusinessRuleTypeKey()), AnchorTypeKey.valueOf(businessRuleInfo.getAnchorTypeKey()));
-        } catch (NoResultException nre) {
-            throw new InvalidParameterException("Could not lookup business rule type!");
-        } catch (NonUniqueResultException nure) {
-            throw new InvalidParameterException("Multiple business rule types found!");
-        }
-        rule.setBusinessRuleType(brType);
-
-        // Set version number to 0        
-        RuleMetaData metaData = rule.getMetaData();
-        metaData.setVersion(0L);
-        rule.setMetaData(metaData);        
-
-        // Create the business rule
-        ruleManagementDao.createBusinessRule(rule);
-        
-        // If this is the first rule in the series
-        if(!StringUtils.hasText(businessRuleInfo.getFirstVersionRuleId())) {
-            rule.setFirstVersionRuleId(rule.getId());
-            businessRuleInfo.setFirstVersionRuleId(rule.getFirstVersionRuleId());    
-        }
-        
-        businessRuleInfo.setBusinessRuleId(rule.getId());
-                
-        // Compile the business rule
-        RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
-        rule.setCompiledId(rsDTO.getUUID());
-        String snapshotName = buildSnapshotName(rule.getCompiledId());
-        if (BusinessRuleStatus.ACTIVE == newStatus) {
-            rsDTO = repository.createRuleSetSnapshot(rule.getCompiledId(), snapshotName, "Activating rule " + rule.getOrigName());
-        }
-        
-        // Update the rule with the compiledId
-        ruleManagementDao.updateBusinessRule(rule);
-
-        // Re build the business rule Info
-        businessRuleInfo = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
-
-        return businessRuleInfo;
-    }
-
-    @Override
-    // Update, Publish & Un-publish based on state of the rule
-    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-
-        BusinessRule orgRule = null;
-        try {
-            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
-        } catch (NoResultException nre1) {
-            throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleId);
-        }
-
-        // Check if the rule has already been activated or retired
-        BusinessRuleStatus orgStatus = BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus());
-        BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getStatus());
-
-        if (BusinessRuleStatus.RETIRED == orgStatus) {
-            throw new InvalidParameterException("Cannot update RETIRED rules");
-        }
-
-        if (BusinessRuleStatus.RETIRED == newStatus && BusinessRuleStatus.ACTIVE != orgStatus) {
-            throw new InvalidParameterException("Cannot RETIRE non ACTIVE rules");
-        }
-
-        if (BusinessRuleStatus.ACTIVE == newStatus && BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus) {
-            throw new InvalidParameterException("Cannot ACTIVATE already ACTIVE or RETIRED rules");
-        }
-
-        if (BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus && BusinessRuleStatus.DRAFT_IN_PROGRESS != orgStatus) {
-            throw new InvalidParameterException("Cannot change status to DRAFT_IN_PROGRESS from ACTIVE or RETIRED rules");
-        }
-        
-        // Check if there is only one active version
-        if (BusinessRuleStatus.ACTIVE == newStatus) {         
-            List<BusinessRule> allVersions = ruleManagementDao.lookupAllVersions(orgRule.getFirstVersionRuleId());
-            for(BusinessRule rule : allVersions) {
-                if(BusinessRuleStatus.ACTIVE == BusinessRuleStatus.valueOf(rule.getMetaData().getStatus())) {
-                    throw new InvalidParameterException("Cannot have multiple rule versions Active simultaneously");
-                }
-            }            
-        }
-
-        // Check if read only attributes are being updated
-        if (!orgRule.getOrigName().equals(businessRuleInfo.getOrigName())) {
-            throw new ReadOnlyException("Cannot updated rule's original name!");
-        }
-
-        if (!orgRule.getCompiledId().equals(businessRuleInfo.getCompiledId())) {
-            throw new ReadOnlyException("Cannot updated rule's compiled Id!");
-        }
-
-        if (!orgRule.getBusinessRuleType().getBusinessRuleTypeKey().equals(businessRuleInfo.getBusinessRuleTypeKey())) {
-            throw new ReadOnlyException("Cannot update rule's businkess rule type key!");
-        }
-
-        // Version numbers cannot be updated
-        if (!orgRule.getMetaData().getVersion().equals(businessRuleInfo.getVersion())) {
-            throw new ReadOnlyException("Cannot update rules version number!");
-        }
-
-        BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
-
-        // Compile the business rule
-        RuleSetDTO rsDTO = null;
-        String snapshotName = buildSnapshotName(orgRule.getCompiledId());
-        if (BusinessRuleStatus.DRAFT_IN_PROGRESS == newStatus) {
-            rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
-            orgRule.setCompiledId(rsDTO.getUUID());
-        } else if (BusinessRuleStatus.ACTIVE == newStatus) {
-            rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
-            rsDTO = repository.createRuleSetSnapshot(orgRule.getCompiledId(), snapshotName, "Activating rule " + orgRule.getOrigName());
-        } else if (BusinessRuleStatus.RETIRED == newStatus) {
-            repository.removeRuleSetSnapshot(orgRule.getCompiledId(), snapshotName);
-        }
-
-        // Remove the existing rule elements from the detached object
-        for (RuleElement element : orgRule.getRuleElements()) {
-            ruleManagementDao.deleteRuleElement(element);
-        }
-
-        orgRule.setRuleElements(null);
-        orgRule = BusinessRuleAdapter.copyBusinessRule(rule, orgRule);
-
-        ruleManagementDao.updateBusinessRule(orgRule);
-
-        // Re build the business rule Info
-        businessRuleInfo = BusinessRuleAdapter.getBusinessRuleInfoDTO(orgRule);
-
-        return businessRuleInfo;
-    }
-
-    @Override
-    public StatusDTO deleteBusinessRule(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
-        StatusDTO status = new StatusDTO();
-        status.setSuccess(false);
-
-        BusinessRule orgRule = null;
-
-        try {
-            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
-        } catch (NoResultException nre) {
-            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
-        }
-
-        if (BusinessRuleStatus.ACTIVE == BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus()) || BusinessRuleStatus.RETIRED == BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus())) {
-            throw new OperationFailedException("Cannot delete active or retired rules!");
-        }
-
-        try {
-            repository.removeRuleSet(orgRule.getCompiledId());
-
-            status.setSuccess(ruleManagementDao.deleteBusinessRule(businessRuleId));
-            status.setSuccess(true);
-        } catch (Exception e) {
-            throw new OperationFailedException("Operation failed:" + e.getLocalizedMessage());
-        }
-        return status;
-    }
-
-    @Override
-    public AgendaInfoDTO fetchAgendaInfo(String agendaTypeKey, AgendaInfoDeterminationStructureDTO agendaInfoDeterminationStructure) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public AgendaInfoDeterminationStructureDTO fetchAgendaInfoDeterminationStructure(String agendaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<AgendaInfo> agendaInfoList = ruleManagementDao.lookupAgendaInfosByType(AgendaType.valueOf(agendaTypeKey));
-
-        // Use the first agenda in the list as all of them will have the same agendadeterminiationstructure keys
-        AgendaInfoDeterminationStructureDTO aidDTO = null;
-        if (agendaInfoList.size() > 0) {
-            AgendaInfo agendaInfo = agendaInfoList.get(0);
-
-            aidDTO = new AgendaInfoDeterminationStructureDTO();
-            Map<String, String> structureMap = new HashMap<String, String>();
-
-            for (AgendaInfoDeterminationStructure aidStruct : agendaInfo.getAgendaInfoDeterminationStructureList()) {
-                structureMap.put(aidStruct.getStructureKey(), aidStruct.getValue());
-            }
-
-            aidDTO.setAgendaInfoDeterminationKeyList(structureMap);
-        }
-
-        if (null == aidDTO) {
-            throw new DoesNotExistException("No agendaInfo exists for the given type:" + agendaTypeKey);
-        }
-
-        return aidDTO;
-    }
-
-    @Override
-    public String fetchBusinessRuleEnglish(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return "Rule" + businessRuleId;
-    }
-
-    @Override
-    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        BusinessRule rule = null;
-        try {
-            rule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
-            rule.getRuleElements().size();
-
-            for (RuleElement element : rule.getRuleElements()) {
-                if (RuleElementType.PROPOSITION == element.getOperation()) {
-                    element.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFacts().size();
-                }
-            }
-
-        } catch (NoResultException nre) {
-            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
-        }
-
-        BusinessRuleInfoDTO brInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
-        return brInfoDTO;
-    }
-
-    @Override
-    public BusinessRuleInfoDTO fetchBusinessRuleInfo(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        BusinessRuleInfoDTO brInfoDTO = fetchDetailedBusinessRuleInfo(businessRuleId);
-        brInfoDTO.setRuleElementList(null);
-
-        return brInfoDTO;
-    }
-
-    @Override
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchorList(List<BusinessRuleAnchorDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-        List<BusinessRuleInfoDTO> ruleInfoDTOList = new ArrayList<BusinessRuleInfoDTO>();
-
-        for (BusinessRuleAnchorDTO anchorDTO : businessRuleAnchorInfoList) {
-            List<BusinessRuleInfoDTO> tempInfoList = fetchBusinessRuleInfoByAnchor(anchorDTO);
-            ruleInfoDTOList.addAll(tempInfoList);
-        }
-
-        return ruleInfoDTOList;
-    }
-
-    @Override
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<BusinessRule> ruleList = ruleManagementDao.lookupBusinessRuleUsingAnchor(BusinessRuleTypeKey.valueOf(ruleAnchor.getBusinessRuleTypeKey()), ruleAnchor.getAnchorValue());
-
-        List<BusinessRuleInfoDTO> ruleInfoDTOList = new ArrayList<BusinessRuleInfoDTO>();
-        for (BusinessRule rule : ruleList) {
-            BusinessRuleInfoDTO ruleInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
-            ruleInfoDTOList.add(ruleInfoDTO);
-        }
-
-        return ruleInfoDTOList;
-    }
-
+    private static final int DATE_COMPARE_BUFFER = 5;
+    
     @Override
     public List<String> findAgendaTypes() throws OperationFailedException {
         List<String> result = new ArrayList<String>();
         List<AgendaType> agendaTypeKeyList = ruleManagementDao.lookupUniqueAgendaTypes();
 
         for (AgendaType key : agendaTypeKeyList) {
+            result.add(key.toString());
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> findBusinessRuleTypes() throws OperationFailedException {
+        List<String> result = new ArrayList<String>();
+        List<BusinessRuleTypeKey> brTypeKeyList = ruleManagementDao.lookupUniqueBusinessRuleTypeKeys();
+
+        for (BusinessRuleTypeKey key : brTypeKeyList) {
+            result.add(key.toString());
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<String> result = new ArrayList<String>();
+        List<BusinessRuleTypeKey> brTypeKeyList = ruleManagementDao.lookupBusinessRuleTypeByAgenda(AgendaType.valueOf(agendaTypeKey));
+
+        for (BusinessRuleTypeKey key : brTypeKeyList) {
             result.add(key.toString());
         }
 
@@ -354,6 +112,103 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         return result;
     }
 
+    // Fetch Operations ******************************************************************
+
+    @Override
+    public AgendaDeterminationInfoDTO fetchAgendaInfoDeterminationStructure(String agendaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<AgendaInfo> agendaInfoList = ruleManagementDao.lookupAgendaInfosByType(AgendaType.valueOf(agendaTypeKey));
+
+        // Use the first agenda in the list as all of them will have the same agendadeterminiationstructure keys
+        AgendaDeterminationInfoDTO aidDTO = null;
+        if (agendaInfoList.size() > 0) {
+            AgendaInfo agendaInfo = agendaInfoList.get(0);
+
+            aidDTO = new AgendaDeterminationInfoDTO();
+            Map<String, String> structureMap = new HashMap<String, String>();
+
+            for (AgendaDeterminationInfo aidStruct : agendaInfo.getAgendaDeterminationInfoList()) {
+                structureMap.put(aidStruct.getStructureKey(), "");
+            }
+
+            aidDTO.setAgendaInfoDeterminationKeyList(structureMap);
+        }
+
+        if (null == aidDTO) {
+            throw new DoesNotExistException("No agendaInfo exists for the given type:" + agendaTypeKey);
+        }
+
+        return aidDTO;
+    }
+
+    @Override
+    public AgendaInfoDTO fetchAgendaInfo(String agendaTypeKey, AgendaDeterminationInfoDTO agendaDeterminationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<AgendaInfo> agendaInfoList = ruleManagementDao.lookupAgendaInfosByType(AgendaType.valueOf(agendaTypeKey));
+
+        AgendaInfo resultAgenda = null;
+
+        if (agendaInfoList.size() > 0) {
+
+            Map<String, String> inputAgendaDeterminationMap = agendaDeterminationInfo.getAgendaDeterminationKeyList();
+            Set<String> keyset = inputAgendaDeterminationMap.keySet();
+
+            for (AgendaInfo agenda : agendaInfoList) {
+                Map<String, String> agendaInfoMap = agenda.getAgendaDeterminationInfoMap();
+
+                // Check if all elements in the input key match up
+                boolean matchFound = true;
+                for (String key : keyset) {
+                    String value = agendaInfoMap.get(key);
+                    if (null == value || !value.equals(inputAgendaDeterminationMap.get(key))) {
+                        matchFound = false;
+                        break;
+                    }
+                }
+
+                if (matchFound && null == resultAgenda) {
+                    resultAgenda = agenda;
+                } else if (matchFound && null != resultAgenda) {
+                    throw new OperationFailedException("Multiple agenda's satisfy the determiniation info criteria!");
+                }
+            }
+        } else {
+            throw new DoesNotExistException("No agendaInfo exists for the given type:" + agendaTypeKey);
+        }
+
+        return BusinessRuleAdapter.getAgendaInfoDTO(resultAgenda);
+    }
+
+    @Override
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        BusinessRuleType ruleType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleTypeKey), AnchorTypeKey.valueOf(anchorTypeKey));
+        return BusinessRuleAdapter.getBusinessRuleTypeDTO(ruleType);
+    }
+
+    @Override
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchorList(List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+
+        List<BusinessRuleInfoDTO> ruleInfoDTOList = new ArrayList<BusinessRuleInfoDTO>();
+
+        for (BusinessRuleAnchorInfoDTO anchorDTO : businessRuleAnchorInfoList) {
+            List<BusinessRuleInfoDTO> tempInfoList = fetchBusinessRuleInfoByAnchor(anchorDTO);
+            ruleInfoDTOList.addAll(tempInfoList);
+        }
+
+        return ruleInfoDTOList;
+    }
+
+    @Override
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorInfoDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<BusinessRule> ruleList = ruleManagementDao.lookupCurrentActiveBusinessRuleUsingAnchor(BusinessRuleTypeKey.valueOf(ruleAnchor.getBusinessRuleTypeKey()), ruleAnchor.getAnchorValue());
+
+        List<BusinessRuleInfoDTO> ruleInfoDTOList = new ArrayList<BusinessRuleInfoDTO>();
+        for (BusinessRule rule : ruleList) {
+            BusinessRuleInfoDTO ruleInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
+            ruleInfoDTOList.add(ruleInfoDTO);
+        }
+
+        return ruleInfoDTOList;
+    }
+
     @Override
     public List<String> findAnchorsByAnchorType(String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<String> anchorTypes = ruleManagementDao.lookupAnchorByAnchorType(AnchorTypeKey.valueOf(anchorTypeKey));
@@ -366,33 +221,271 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     @Override
-    public List<String> findBusinessRuleTypes() throws OperationFailedException {
-        List<String> result = new ArrayList<String>();
-        List<BusinessRuleTypeKey> brTypeKeyList = ruleManagementDao.lookupUniqueBusinessRuleTypeKeys();
+    public BusinessRuleInfoDTO fetchBusinessRuleInfo(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        BusinessRuleInfoDTO brInfoDTO = fetchDetailedBusinessRuleInfo(businessRuleId);
+        brInfoDTO.setBusinessRuleElementList(null);
 
-        for (BusinessRuleTypeKey key : brTypeKeyList) {
-            result.add(key.toString());
-        }
-
-        return result;
+        return brInfoDTO;
     }
 
     @Override
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        BusinessRuleType ruleType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleTypeKey), AnchorTypeKey.valueOf(anchorTypeKey));
-        return BusinessRuleAdapter.getBusinessRuleTypeDTO(ruleType);
+    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        BusinessRule rule = null;
+        try {
+            rule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
+            rule.getRuleElements().size();
+
+            for (RuleElement element : rule.getRuleElements()) {
+                if (RuleElementType.PROPOSITION == element.getBusinessRuleElemnetTypeKey()) {
+                    element.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFacts().size();
+                }
+            }
+
+        } catch (NoResultException nre) {
+            logger.error(nre.getMessage(), nre);
+            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
+        }
+
+        BusinessRuleInfoDTO brInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
+        return brInfoDTO;
     }
 
     @Override
-    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> result = new ArrayList<String>();
-        List<BusinessRuleTypeKey> brTypeKeyList = ruleManagementDao.lookupBusinessRuleTypeByAgenda(AgendaType.valueOf(agendaTypeKey));
+    public String fetchBusinessRuleEnglish(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return "Rule" + businessRuleId;
+    }
 
-        for (BusinessRuleTypeKey key : brTypeKeyList) {
-            result.add(key.toString());
+    // Maintenance ----------------------------------------------------
+
+    @Override
+    public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        // RuleId should not be already be set
+        if (StringUtils.hasText(businessRuleInfo.getId())) {
+            throw new InvalidParameterException("Create business rule cannot have preset value for rule Id!");
         }
 
-        return result;
+        // Check to see if the state is draft in progress
+        BusinessRuleStatus newStatus = BusinessRuleStatus.valueOf(businessRuleInfo.getState());
+        if (BusinessRuleStatus.DRAFT_IN_PROGRESS != newStatus) {
+            throw new InvalidParameterException("Cannot create a ACIVE/RETIRED rule!");
+        }
+
+        // Convert the DTO to Entity
+        BusinessRule rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
+
+        // Lookup Business Rule Type
+        BusinessRuleType brType = null;
+        try {
+            brType = ruleManagementDao.lookupRuleTypeByKeyAndAnchorType(BusinessRuleTypeKey.valueOf(businessRuleInfo.getType()), AnchorTypeKey.valueOf(businessRuleInfo.getAnchorTypeKey()));
+        } catch (NoResultException nre) {
+            logger.error(nre.getMessage(), nre);
+            throw new InvalidParameterException("Could not lookup business rule type!");
+        } catch (NonUniqueResultException nure) {
+            logger.error(nure.getMessage(), nure);
+            throw new InvalidParameterException("Multiple business rule types found!");
+        }
+        rule.setBusinessRuleType(brType);
+
+        RuleMetaData metaData = rule.getMetaData();
+        metaData.setCreateDate(new Date());
+        metaData.setUpdateDate(new Date());
+        rule.setMetaData(metaData);
+
+        // Create the business rule
+        ruleManagementDao.createBusinessRule(rule);
+        businessRuleInfo.setId(rule.getId());
+
+        // If this is the first rule in the series
+        if (!StringUtils.hasText(businessRuleInfo.getOriginalRuleId())) {
+            rule.setOriginalRuleId(rule.getId());
+            businessRuleInfo.setOriginalRuleId(rule.getOriginalRuleId());
+        }
+
+        // Compile the business rule
+        RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(businessRuleInfo);
+        rule.setCompiledId(rsDTO.getUUID());
+
+        // Update the rule with the compiledId
+        ruleManagementDao.updateBusinessRule(rule);
+
+        // Re build the business rule Info
+        businessRuleInfo = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
+
+        if (logger.isDebugEnabled()) {
+            logger.info("Rule Created..");
+            logger.info(rule.toString());
+        }
+
+        return businessRuleInfo;
+    }
+
+    @Override
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        BusinessRule orgRule = null;
+        try {
+            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
+        } catch (NoResultException nre1) {
+            logger.error(nre1.getMessage(), nre1);
+            throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleId);
+        }
+
+        // Check if the rule has already been retired
+        BusinessRuleStatus orgState = orgRule.getState();
+        BusinessRuleStatus newState = BusinessRuleStatus.valueOf(businessRuleInfo.getState());
+
+        // Check to see if state is not being modified
+        if (orgState != newState) {
+            throw new ReadOnlyException("State cannot be updated through this method!");
+        }
+
+        // Check if read only attributes are being updated
+        if (!orgRule.getCompiledId().equals(businessRuleInfo.getCompiledId())) {
+            throw new ReadOnlyException("Cannot updated rule's compiled Id!");
+        }
+
+        if (orgRule.getBusinessRuleType().getBusinessRuleTypeKey() != BusinessRuleTypeKey.valueOf(businessRuleInfo.getType())) {
+            throw new ReadOnlyException("Cannot update rule's business rule type key!");
+        }
+
+        BusinessRule rule = null;
+        switch (orgState) {
+            case DRAFT_IN_PROGRESS:
+                rule = BusinessRuleAdapter.getBusinessRuleEntity(businessRuleInfo);
+
+                // Remove the existing rule elements from the detached object
+                for (RuleElement element : orgRule.getRuleElements()) {
+                    ruleManagementDao.deleteRuleElement(element);
+                }
+                orgRule.setRuleElements(null);
+                orgRule = BusinessRuleAdapter.copyBusinessRule(rule, orgRule);
+
+                break;
+            case ACTIVE:
+                /**
+                 * Only allow effective date manipulation for ACTIVE rules
+                 * RULE: If the date change is happening in future and if the date to be changed is in future then allow 
+                 * the change. For safety add DATE_COMPARE_BUFFER minutes to current date
+                 */
+                Calendar now = new GregorianCalendar();
+                now.add(Calendar.MINUTE, DATE_COMPARE_BUFFER);
+                Date nowPlus5Dt = now.getTime();
+                
+                if(orgRule.getMetaData().getEffectiveDate().after(nowPlus5Dt) && businessRuleInfo.getEffectiveDate().after(nowPlus5Dt)) {
+                    orgRule.getMetaData().setEffectiveDate(businessRuleInfo.getEffectiveDate());                    
+                }
+                
+                if(orgRule.getMetaData().getExpirationDate().after(nowPlus5Dt) && businessRuleInfo.getExpirationDate().after(nowPlus5Dt)) {
+                    orgRule.getMetaData().setExpirationDate(businessRuleInfo.getExpirationDate());                    
+                }
+                
+                break;
+            case RETIRED:
+                throw new InvalidParameterException("Cannot update RETIRED rules!");
+            default:
+                logger.error("Unknow state (" + orgState + ") encountered while updating rule");
+                throw new OperationFailedException("Unknown state of the peristed rule!");
+        }
+
+        ruleManagementDao.updateBusinessRule(orgRule);
+
+        // Re build the business rule Info
+        businessRuleInfo = BusinessRuleAdapter.getBusinessRuleInfoDTO(orgRule);
+
+        if (logger.isDebugEnabled()) {
+            logger.info("Rule Updated..");
+            logger.info(orgRule.toString());
+        }
+        
+        return businessRuleInfo;
+    }
+
+    @Override
+    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        BusinessRule orgRule = null;
+        try {
+            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
+        } catch (NoResultException nre1) {
+            logger.error(nre1.getMessage(), nre1);
+            throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleId);
+        }
+
+        BusinessRuleStatus orgState = orgRule.getState();
+        BusinessRuleStatus newState = BusinessRuleStatus.valueOf(brState);
+        
+        if (BusinessRuleStatus.RETIRED == orgState) {
+            throw new InvalidParameterException("Cannot change state for RETIRED rules!");
+        }
+        
+        if(BusinessRuleStatus.RETIRED == newState && BusinessRuleStatus.ACTIVE != orgState) {
+            throw new InvalidParameterException("Cannot RETIRE non ACTIVE rules");
+        }
+        
+        if(BusinessRuleStatus.ACTIVE == newState && BusinessRuleStatus.DRAFT_IN_PROGRESS != orgState) {
+            throw new InvalidParameterException("Cannot ACTIVATE non DRAFT_IN_PROGRESS rules!");
+        }
+
+        if(BusinessRuleStatus.DRAFT_IN_PROGRESS == newState) {
+            throw new InvalidParameterException("Cannot change state to DRAFT_IN_PROGRESS!");
+        }
+        
+        if(orgState == newState) {
+            throw new InvalidParameterException("Only state changes can be performed through this method!");
+        }
+              
+        // Check if there is only one active version for the rules effective time period
+        if (BusinessRuleStatus.ACTIVE == newState) {
+            if (checkForActiveDateOvelapps(orgRule)) {
+                throw new InvalidParameterException("Cannot have multiple rule versions Active simultaneously");
+            }
+        }
+
+        orgRule.setState(newState);
+        
+        // Compile the business rule
+        String snapshotName = buildSnapshotName(orgRule.getId());
+        if (BusinessRuleStatus.ACTIVE == newState) {
+            repository.createRuleSetSnapshot(orgRule.getCompiledId(), snapshotName, "Activating rule " + orgRule.getName());
+            orgRule.setRepositorySnapshotName(snapshotName);
+        } else if (BusinessRuleStatus.RETIRED == newState) {
+            repository.removeRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getRepositorySnapshotName());
+        }
+
+        ruleManagementDao.updateBusinessRule(orgRule);
+
+        // Re build the business rule Info
+        return BusinessRuleAdapter.getBusinessRuleInfoDTO(orgRule);
+    }
+
+    @Override
+    public StatusDTO deleteBusinessRule(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
+        StatusDTO status = new StatusDTO();
+        status.setSuccess(false);
+
+        BusinessRule orgRule = null;
+
+        try {
+            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleId);
+        } catch (NoResultException nre) {
+            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
+        }
+
+        if (BusinessRuleStatus.ACTIVE == orgRule.getState() || BusinessRuleStatus.RETIRED == orgRule.getState()) {
+            throw new OperationFailedException("Cannot delete active or retired rules!");
+        }
+
+        try {
+            repository.removeRuleSet(orgRule.getCompiledId());
+
+            status.setSuccess(ruleManagementDao.deleteBusinessRule(businessRuleId));
+            status.setSuccess(true);
+        } catch (Exception e) {
+            throw new OperationFailedException("Operation failed:" + e.getLocalizedMessage());
+        }
+        return status;
     }
 
     /**
@@ -431,48 +524,70 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         // Check if the rule exists
         BusinessRule orgRule = null;
         try {
-            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleInfo.getBusinessRuleId());
+            orgRule = ruleManagementDao.lookupBusinessRuleUsingId(businessRuleInfo.getId());
         } catch (NoResultException nre1) {
-            throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleInfo.getBusinessRuleId());
+            throw new DoesNotExistException("No rule exists with rule Id:" + businessRuleInfo.getId());
         }
 
         // Check if the rule has already been activated or retired
-        BusinessRuleStatus orgStatus = BusinessRuleStatus.valueOf(orgRule.getMetaData().getStatus());
+        BusinessRuleStatus orgStatus = orgRule.getState();
 
         // Check if the incoming rule is either active or retired
         if (BusinessRuleStatus.RETIRED != orgStatus && BusinessRuleStatus.ACTIVE != orgStatus) {
             throw new InvalidParameterException("New version can be created for only RETIRED/ACTIVE rules");
-        } 
-        
-        // Check if the version in database is same as the incoming rules version
-        if (!businessRuleInfo.getVersion().equals(orgRule.getMetaData().getVersion())) {
-            throw new InvalidParameterException("Vesion number mismatch!");
         }
 
         BusinessRuleInfoDTO nextVersion = null;
         synchronized (this) {
             // Copy the original rule to rule info and then back to remove jpa markers
             BusinessRuleInfoDTO rule1 = BusinessRuleAdapter.getBusinessRuleInfoDTO(orgRule);
-            rule1.setBusinessRuleId("");
-            rule1.setVersion(rule1.getVersion() + 1);
-            rule1.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-                                  
-            // Persist rule2. Watch out for unique key constraint violation     
+            rule1.setId("");
+            rule1.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+            
+            // Remove the id from rule elements
+            for(RuleElementDTO element: rule1.getBusinessRuleElementList()) {
+                element.setId("");
+            }
+            
+            // Persist rule2. Watch out for unique key constraint violation
             try {
                 nextVersion = createBusinessRule(rule1);
             } catch (AlreadyExistsException e) {
+                logger.error(e.getMessage(), e);
                 // Should not happen as we have reset the business rule Id
                 throw new OperationFailedException("JPA returning AlreadyExistsException while trying to persist newer version of the rule!");
-            }            
-       
-        
+            }
         }
 
         return nextVersion;
     }
 
-
     private String buildSnapshotName(String ruleId) {
         return ruleId + RULE_SNAPSHOT_SUFFIX;
     }
+
+    private boolean checkForActiveDateOvelapps(BusinessRule newRule) {
+        boolean result = false;
+        Date stDate = newRule.getMetaData().getEffectiveDate();
+        Date enDate = newRule.getMetaData().getExpirationDate();
+
+        List<BusinessRule> allVersions = ruleManagementDao.lookupAllVersions(newRule.getOriginalRuleId());
+        for (BusinessRule rule : allVersions) {
+            if (BusinessRuleStatus.ACTIVE == rule.getState()) {
+                // Check start date
+                if (rule.getMetaData().getEffectiveDate().compareTo(stDate) >= 0 && rule.getMetaData().getEffectiveDate().compareTo(enDate) <= 0) {
+                    result = true;
+                    break;
+                }
+                // Check end date
+                if (rule.getMetaData().getExpirationDate().compareTo(enDate) <= 0 && rule.getMetaData().getExpirationDate().compareTo(stDate) >= 0) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
 }

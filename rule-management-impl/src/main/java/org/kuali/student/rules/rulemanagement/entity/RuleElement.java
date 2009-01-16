@@ -35,7 +35,7 @@ public class RuleElement {
     @Id
     private String id;
     @Enumerated(EnumType.STRING)
-    private RuleElementType operation;
+    private RuleElementType businessRuleElemnetTypeKey;
     private Integer ordinalPosition;
     private String name;
     private String description;
@@ -102,18 +102,17 @@ public class RuleElement {
     }
 
     /**
-     * @return the operation
+     * @return the businessRuleElemnetTypeKey
      */
-    public final RuleElementType getOperation() {
-        return operation;
+    public RuleElementType getBusinessRuleElemnetTypeKey() {
+        return businessRuleElemnetTypeKey;
     }
 
     /**
-     * @param operation
-     *            the operation to set
+     * @param businessRuleElemnetTypeKey the businessRuleElemnetTypeKey to set
      */
-    public final void setOperation(RuleElementType operation) {
-        this.operation = operation;
+    public void setBusinessRuleElemnetTypeKey(RuleElementType businessRuleElemnetTypeKey) {
+        this.businessRuleElemnetTypeKey = businessRuleElemnetTypeKey;
     }
 
     /**
@@ -159,5 +158,32 @@ public class RuleElement {
      */
     public final void setRuleProposition(RuleProposition ruleProposition) {
         this.ruleProposition = ruleProposition;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("[ID:");
+        sb.append(this.id);
+        sb.append(", ");
+        sb.append("RuleElementType:");
+        sb.append(this.businessRuleElemnetTypeKey.toString());
+        sb.append(", ");
+        sb.append("Name:");
+        sb.append(this.name);
+        if(null != this.ruleProposition) {
+           sb.append(", ");            
+           sb.append("Proposition YVF:");
+           sb.append(this.ruleProposition.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType());
+           sb.append(", ");
+           sb.append("Proposition Operator:");
+           sb.append(this.ruleProposition.getComparisonOperatorTypeKey());
+           sb.append(", ");
+           sb.append("Proposition RHS:");
+           sb.append(this.ruleProposition.getRightHandSide().getExpectedValue());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
