@@ -205,38 +205,38 @@ public class ServiceTestClient {
         rulePropositionDTO.setDescription("Credit Intersection Change");
         rulePropositionDTO.setLeftHandSide(leftHandSideDTO);
         rulePropositionDTO.setRightHandSide(rightHandSideDTO);
-        rulePropositionDTO.setComparisonDataType(Double.class.getName());
-        rulePropositionDTO.setComparisonOperatorType(ComparisonOperator.LESS_THAN.toString());
+        rulePropositionDTO.setComparisonDataTypeKey(Double.class.getName());
+        rulePropositionDTO.setComparisonOperatorTypeKey(ComparisonOperator.LESS_THAN.toString());
 
         RuleElementDTO reDTO = new RuleElementDTO();
         reDTO.setName("Pre-req 1");
         reDTO.setDescription("Pre req check for Math 101");
-        reDTO.setOperation(RuleElementType.PROPOSITION.toString());
-        reDTO.setRuleProposition(rulePropositionDTO);
+        reDTO.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        reDTO.setBusinessRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setBusinessRuleId("123");
-        brInfoDTO.setDisplayName(ruleName);
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setId("123");
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
 
         //brInfoDTO.setEffectiveStartTime(new Date());
         //brInfoDTO.setEffectiveEndTime(new Date());
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-        brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-        brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        brInfoDTO.setEffectiveDate(effectiveStartTime);
+        brInfoDTO.setExpirationDate(effectiveEndTime);
 
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(reDTO);
 
-        brInfoDTO.setRuleElementList(elementList);
+        brInfoDTO.setBusinessRuleElementList(elementList);
         
         return brInfoDTO;
     }
@@ -249,19 +249,19 @@ public class ServiceTestClient {
         metaInfo.setUpdateID("");
      
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setBusinessRuleId(businessRuleId);
-        brInfoDTO.setDisplayName(ruleName);
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setId(businessRuleId);
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
 
 		Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
 		Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-		brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-		brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+		brInfoDTO.setEffectiveDate(effectiveStartTime);
+		brInfoDTO.setExpirationDate(effectiveEndTime);
         
         return brInfoDTO;
     }
@@ -320,12 +320,12 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-    		Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
+    		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     		
-    		System.out.println("Business Rule ID:   "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
+    		System.out.println("Business Rule ID:   "+businessRule2.getId());
+	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
     	} finally {
     		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -338,11 +338,11 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
 	        System.out.println("Business Rule ID:   "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
-	        Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
+	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
+	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
     		ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -355,14 +355,14 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
 	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getDisplayName());
+	        System.out.println("Business Rule ID:       "+businessRule.getId());
+	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -383,19 +383,19 @@ public class ServiceTestClient {
     	
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
 	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        String status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule).getStatus();
+	        String status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule).getState();
 	        Assert.assertNotNull(status);
 	        System.out.println("status:                 "+status);
 	
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
-	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getDisplayName());
+	        System.out.println("Business Rule ID:       "+businessRule.getId());
+	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -416,11 +416,11 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
     		BusinessRuleInfoDTO businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
-	        System.out.println("Business Rule ID:        "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name:      "+businessRule.getDisplayName());
+	        System.out.println("Business Rule ID:        "+businessRule.getId());
+	        System.out.println("Business Rule Display Name:      "+businessRule.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 	        Assert.assertNotNull(executionResult);
@@ -481,11 +481,11 @@ public class ServiceTestClient {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
             Assert.assertNotNull(businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name :     "+businessRule2.getDisplayName());
+	        System.out.println("Business Rule ID:        "+businessRule2.getId());
+	        System.out.println("Business Rule Display Name :     "+businessRule2.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
             Assert.assertNotNull(executionResult);

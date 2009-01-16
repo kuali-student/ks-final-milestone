@@ -52,10 +52,8 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
-import org.kuali.student.poc.common.test.spring.AbstractIntegrationServiceTest;
-import org.kuali.student.poc.common.test.spring.IntegrationServer;
-import org.kuali.student.poc.common.test.spring.Property;
-import org.kuali.student.poc.common.test.spring.SystemProperties;
+
+import com.sun.xml.internal.ws.api.PropertySet$Property;
 
 // The following system properties are only needed if you want to specify a 
 // server port (port 9000) other than 8080 as defined in 
@@ -219,36 +217,35 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         rulePropositionDTO.setDescription("Credit Intersection Change");
         rulePropositionDTO.setLeftHandSide(leftHandSideDTO);
         rulePropositionDTO.setRightHandSide(rightHandSideDTO);
-        rulePropositionDTO.setComparisonDataType(Integer.class.getName());
-        rulePropositionDTO.setComparisonOperatorType(ComparisonOperator.EQUAL_TO.toString());
+        rulePropositionDTO.setComparisonDataTypeKey(Integer.class.getName());
+        rulePropositionDTO.setComparisonOperatorTypeKey(ComparisonOperator.EQUAL_TO.toString());
 
         RuleElementDTO reDTO = new RuleElementDTO();
         reDTO.setName("Pre-req 1");
         reDTO.setDescription("Pre req check for Math 101");
-        reDTO.setOperation(RuleElementType.PROPOSITION.toString());
-        reDTO.setRuleProposition(rulePropositionDTO);
+        reDTO.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        reDTO.setBusinessRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setDisplayName(ruleName);
-        brInfoDTO.setOrigName(ruleName);
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
 
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-        brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-        brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        brInfoDTO.setEffectiveDate(effectiveStartTime);
+        brInfoDTO.setExpirationDate(effectiveEndTime);
 
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(reDTO);
 
-        brInfoDTO.setRuleElementList(elementList);
+        brInfoDTO.setBusinessRuleElementList(elementList);
         
         return brInfoDTO;
     }
@@ -299,36 +296,35 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         rulePropositionDTO.setDescription("Credit Sum Change");
         rulePropositionDTO.setLeftHandSide(leftHandSideDTO);
         rulePropositionDTO.setRightHandSide(rightHandSideDTO);
-        rulePropositionDTO.setComparisonDataType(BigDecimal.class.getName());
-        rulePropositionDTO.setComparisonOperatorType(ComparisonOperator.EQUAL_TO.toString());
+        rulePropositionDTO.setComparisonDataTypeKey(BigDecimal.class.getName());
+        rulePropositionDTO.setComparisonOperatorTypeKey(ComparisonOperator.EQUAL_TO.toString());
 
         RuleElementDTO reDTO = new RuleElementDTO();
         reDTO.setName("Pre-req 1");
         reDTO.setDescription("Pre req check for Math 101");
-        reDTO.setOperation(RuleElementType.PROPOSITION.toString());
-        reDTO.setRuleProposition(rulePropositionDTO);
+        reDTO.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString());
+        reDTO.setBusinessRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setDisplayName(ruleName);
-        brInfoDTO.setOrigName(ruleName);
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
         brInfoDTO.setFailureMessage("Test failure message");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
 
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-        brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-        brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+        brInfoDTO.setEffectiveDate(effectiveStartTime);
+        brInfoDTO.setExpirationDate(effectiveEndTime);
 
         List<RuleElementDTO> elementList = new ArrayList<RuleElementDTO>();
         elementList.add(reDTO);
 
-        brInfoDTO.setRuleElementList(elementList);
+        brInfoDTO.setBusinessRuleElementList(elementList);
         
         return brInfoDTO;
     }
@@ -341,19 +337,18 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         metaInfo.setUpdateID("Len");
      
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setDisplayName(ruleName);
-        brInfoDTO.setOrigName(ruleName);
-        brInfoDTO.setDescription("Prerequsite courses required in order to enroll in CHEM 100");
-        brInfoDTO.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        brInfoDTO.setName(ruleName);
+        brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
+        brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
         brInfoDTO.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
         brInfoDTO.setAnchorValue(anchor);
-        brInfoDTO.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+        brInfoDTO.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
         brInfoDTO.setMetaInfo(metaInfo);
 
 		Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
 		Date effectiveEndTime = createDate(2010, 1, 1, 12, 00);
-		brInfoDTO.setEffectiveStartTime(effectiveStartTime);
-		brInfoDTO.setEffectiveEndTime(effectiveEndTime);
+		brInfoDTO.setEffectiveDate(effectiveStartTime);
+		brInfoDTO.setExpirationDate(effectiveEndTime);
         
         return brInfoDTO;
     }
@@ -409,12 +404,12 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-    		Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
+    		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     		
-    		System.out.println("Business Rule ID:   "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
+    		System.out.println("Business Rule ID:   "+businessRule2.getId());
+	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -427,11 +422,11 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
 	        System.out.println("Business Rule ID:   "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule Display Name: "+businessRule2.getDisplayName());
-	        Assert.assertEquals(businessRule1.getDisplayName(), businessRule2.getDisplayName());
+	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
+	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -444,14 +439,14 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
 	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getDisplayName());
+	        System.out.println("Business Rule ID:       "+businessRule.getId());
+	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -472,19 +467,19 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     	
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
 	        Assert.assertNotNull(businessRuleId);
 	        System.out.println("businessRuleId:         "+businessRuleId);
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        String status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule).getStatus();
+	        String status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule).getState();
 	        Assert.assertNotNull(status);
 	        System.out.println("status:                 "+status);
 	
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
-	        System.out.println("Business Rule ID:       "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getDisplayName());
+	        System.out.println("Business Rule ID:       "+businessRule.getId());
+	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -505,11 +500,11 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
     		BusinessRuleInfoDTO businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
-	        System.out.println("Business Rule ID:        "+businessRule.getBusinessRuleId());
-	        System.out.println("Business Rule Display Name:      "+businessRule.getDisplayName());
+	        System.out.println("Business Rule ID:        "+businessRule.getId());
+	        System.out.println("Business Rule Display Name:      "+businessRule.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 	        Assert.assertNotNull(executionResult);
@@ -570,11 +565,11 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     	String businessRuleId = null;
     	try {
-    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getBusinessRuleId();
+    		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
             Assert.assertNotNull(businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
-	        System.out.println("Business Rule Name:      "+businessRule2.getDisplayName());
+	        System.out.println("Business Rule ID:        "+businessRule2.getId());
+	        System.out.println("Business Rule Name:      "+businessRule2.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
             Assert.assertNotNull(executionResult);
@@ -593,7 +588,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
-    	businessRule1.setBusinessRuleId("xxx");
+    	businessRule1.setId("xxx");
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, null);
         Assert.assertNotNull(executionResult);
@@ -610,7 +605,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     public void testCreateAndExecuteBusinessRuleTest_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateAndExecuteBusinessRuleTest_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRule("CHEM100PRE_REQ", "CHEM100", false);
-    	businessRule1.setBusinessRuleId("xxx");
+    	businessRule1.setId("xxx");
 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
@@ -634,11 +629,11 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Map<String, String> paramMap = new HashMap<String, String>();
 	    paramMap.put("factParam.studentId", "student1");
 
-        String businessRuleId = ruleManagementService.createBusinessRule(businessRule).getBusinessRuleId();
+        String businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
         Assert.assertNotNull(businessRuleId);
 		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-        System.out.println("Business Rule ID:        "+businessRule2.getBusinessRuleId());
-        System.out.println("Business Rule Name:      "+businessRule2.getDisplayName());
+        System.out.println("Business Rule ID:        "+businessRule2.getId());
+        System.out.println("Business Rule Name:      "+businessRule2.getName());
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
         Assert.assertNotNull(executionResult);
