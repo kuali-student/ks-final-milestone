@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AddEnumerationMetaPanel extends FlowPanel {
+public class EnumerationMetaPanel extends FlowPanel {
     HTML messageHTML = new HTML();
     Button addButton = new Button("Add Enumeration Meta");
     Button addRowToFieldDescriptorTable = new Button("Add FieldDescriptor");
@@ -33,7 +33,7 @@ public class AddEnumerationMetaPanel extends FlowPanel {
     FlexTable fieldTable = new FlexTable();
     FlowPanel metaResultPanel = new FlowPanel();
 
-    public AddEnumerationMetaPanel() {
+    public EnumerationMetaPanel() {
         add(new HTML("Enum Meta"));
         add(messageHTML);
 
