@@ -264,7 +264,7 @@ public class BusinessRuleUtil {
      */
     public static String createFunctionalString(BusinessRuleInfoDTO rule) {
 
-        Collection<RuleElementDTO> ruleElements = rule.getRuleElementList();
+        Collection<RuleElementDTO> ruleElements = rule.getBusinessRuleElementList();
 
         int counter = 1;
         StringBuilder functionString = new StringBuilder();
@@ -278,12 +278,12 @@ public class BusinessRuleUtil {
             
             RuleElementType type = null;
             
-            if(RuleElementType.LPAREN.getName().equals( ruleElement.getOperation() )) {
+            if(RuleElementType.LPAREN.getName().equals( ruleElement.getBusinessRuleElemnetTypeKey() )) {
                 type = RuleElementType.LPAREN;
-            } else if(RuleElementType.RPAREN.getName().equals( ruleElement.getOperation() )) {
+            } else if(RuleElementType.RPAREN.getName().equals( ruleElement.getBusinessRuleElemnetTypeKey() )) {
                 type = RuleElementType.RPAREN;
             } else {
-                type = RuleElementType.valueOf(ruleElement.getOperation()); 
+                type = RuleElementType.valueOf(ruleElement.getBusinessRuleElemnetTypeKey()); 
             }
             
             switch (type) {
@@ -336,7 +336,7 @@ public class BusinessRuleUtil {
     public static Map<String, RulePropositionDTO> getRulePropositions(BusinessRuleInfoDTO rule) {
 
         Map<String, RulePropositionDTO> propositionMap = new HashMap<String, RulePropositionDTO>();
-        Collection<RuleElementDTO> ruleElements = rule.getRuleElementList();
+        Collection<RuleElementDTO> ruleElements = rule.getBusinessRuleElementList();
 
         if (ruleElements == null) {
         	return null;
@@ -344,8 +344,8 @@ public class BusinessRuleUtil {
         
         int counter = 1;
         for (RuleElementDTO ruleElement : ruleElements) {
-            if (RuleElementType.PROPOSITION.toString().equals(ruleElement.getOperation())) {
-                propositionMap.put(PROPOSITION_PREFIX + String.valueOf(counter), ruleElement.getRuleProposition());
+            if (RuleElementType.PROPOSITION.toString().equals(ruleElement.getBusinessRuleElemnetTypeKey())) {
+                propositionMap.put(PROPOSITION_PREFIX + String.valueOf(counter), ruleElement.getBusinessRuleProposition());
                 counter++;
             }
         }
