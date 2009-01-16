@@ -32,7 +32,6 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
 					<className>
 						org.kuali.student.lum.atp.service.AtpService
 					</className>
