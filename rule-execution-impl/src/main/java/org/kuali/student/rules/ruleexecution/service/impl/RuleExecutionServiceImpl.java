@@ -82,6 +82,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     
     private ConcurrentMap<String, FactResultDTO> factFinderCache = new ConcurrentHashMap<String, FactResultDTO>();
 
+    private ConcurrentMap<String, FactTypeInfoDTO> factFinderTypeCache = new ConcurrentHashMap<String, FactTypeInfoDTO>();
+    
     public void setEnableRuleSetCaching(final boolean enableCaching) {
     	this.ruleSetCachingEnabled = enableCaching;
     }
@@ -223,7 +225,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     }
 
     /**
-     * Finds facts from the fact finder service.
+     * Finds fact from the fact finder service.
      * Find fact uses execution level caching to keep the data retrieve from
      * the fact finder consistent in one rule execution.
      * 
@@ -233,13 +235,30 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    private FactResultDTO findFact(String factTypeKey, FactStructureDTO fs) 
-    	throws OperationFailedException, DoesNotExistException {
+    private FactResultDTO findFact(String factTypeKey, FactStructureDTO fs) throws OperationFailedException, DoesNotExistException {
     	if (this.factFinderCache.containsKey(factTypeKey)) {
     		return this.factFinderCache.get(factTypeKey);
     	}
     	FactResultDTO factResult = this.factFinderService.fetchFact(factTypeKey, fs);
     	return factResult;
+    }
+    
+    /**
+     * Finds fact type meta data from the fact finder service.
+     * Find fact uses execution level caching to keep the data retrieve from
+     * the fact finder consistent in one rule execution.
+     * 
+     * @param factTypeKey Fact type key
+     * @return  Fact type meta data
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    private FactTypeInfoDTO findFactType(String factTypeKey) throws OperationFailedException, DoesNotExistException {
+		if (this.factFinderTypeCache.containsKey(factTypeKey)) {
+			this.factFinderTypeCache.get(factTypeKey);
+		}
+		FactTypeInfoDTO factType = this.factFinderService.fetchFactType(factTypeKey);
+		return factType;
     }
 
     /**
@@ -253,7 +272,10 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      */
     private Map<String, Object> createFactMap(BusinessRuleInfoDTO businessRule, Map<String,String> exectionParamMap) 
     	throws OperationFailedException, DoesNotExistException {
+    	// Clear execution level fact finder caching
     	this.factFinderCache.clear();
+    	this.factFinderTypeCache.clear();
+    	
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
     	if (businessRule.getBusinessRuleElementList() == null) {
@@ -275,7 +297,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		    				throw new OperationFailedException("Fact type key is null or empty");
 		    			}
 
-		    			FactTypeInfoDTO factType = this.factFinderService.fetchFactType(factTypeKey);
+		    			FactTypeInfoDTO factType = findFactType(factTypeKey);
 		    			Map<String,FactParamDTO> factParamMap = factType.getFactCriteriaTypeInfo().getFactParamMap();
 
 				        Map<String, String> paramMap = new HashMap<String, String>();
