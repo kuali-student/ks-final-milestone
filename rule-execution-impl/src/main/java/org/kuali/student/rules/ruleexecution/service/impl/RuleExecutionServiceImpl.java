@@ -274,7 +274,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	throws OperationFailedException, DoesNotExistException {
     	// Clear execution level fact finder caching
     	this.factFinderCache.clear();
-    	this.factFinderTypeCache.clear();
+    	//this.factFinderTypeCache.clear();
     	
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
