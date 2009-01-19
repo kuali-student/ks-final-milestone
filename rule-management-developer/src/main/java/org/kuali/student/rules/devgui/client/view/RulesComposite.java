@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.kuali.student.commons.ui.messages.client.Messages;
@@ -18,6 +19,8 @@ import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
+import org.kuali.student.commons.ui.validators.client.ValidationResult;
+import org.kuali.student.commons.ui.validators.client.Validator;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.poc.common.util.UUIDHelper;
@@ -367,9 +370,9 @@ public class RulesComposite extends Composite {
             });
 
             updateRuleButton.addClickListener(new ClickListener() {
-                public void onClick(final Widget sender) {                	
-                	
-                    // 1) update the draft with data entered
+                public void onClick(final Widget sender) {
+
+                  // 1) update the draft with data entered
                     if (updateCopyOfDisplayedRule() == false) {
                         return;
                     }
@@ -641,14 +644,12 @@ public class RulesComposite extends Composite {
             
             validateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
-                	
-                	//first update the DTO of the proposition being edited
-                	updateSelectedPropositionDTO(selectedPropListBoxIndex);
-                	
-                    // check whether the current composition is valid
-                    if (validateRuleComposition() == false) {
-                    	return; //invalid proposition being edited
-                    }
+               	   //first update the DTO of the proposition being edited
+               	   updateSelectedPropositionDTO(selectedPropListBoxIndex);
+               	   // check whether the current composition is valid
+               	   if (validateRuleComposition() == false) {
+                       return; //invalid proposition being edited
+              	   }
                 }
             });
 
@@ -786,7 +787,7 @@ public class RulesComposite extends Composite {
             });             
         }
     }
-
+    
     private void loadEmptyRule() {    	
         displayedRule = createEmptyBusinessRule();
     	clearRuleForms();
@@ -1026,7 +1027,70 @@ public class RulesComposite extends Composite {
      *
      *******************************************************************************************************************/        
     
+    private boolean validateRulesMain() {
+      StringBuilder messages = new StringBuilder();
+      boolean valid = true;
+      boolean fieldValid = true;
+
+      // the if statement after each field validation
+      // updates the valid status if valid is still true.
+      // In effect valid status will be false if one or more
+      // of the fields is invalid
+      fieldValid = validate("ruleName", 
+          this.nameTextBox.getText(), messages);
+      if (valid) {
+        valid = fieldValid;
+      }
+      fieldValid = validate("ruleDescription", 
+          this.descriptionTextArea.getText(), messages);
+      if (valid) {
+        valid = fieldValid;
+      }
+      fieldValid = validate("ruleSuccessMessage", 
+          this.successMessageTextArea.getText(), messages);
+      if (valid) {
+        valid = fieldValid;
+      }
+      fieldValid = validate("ruleFailureMessage", 
+          this.failureMessageTextArea.getText(), messages);
+      if (valid) {
+        valid = fieldValid;
+      }
+      fieldValid = validate("ruleAnchor", 
+          this.ruleAnchorTextBox.getText(), messages);
+      if (valid) {
+        valid = fieldValid;
+      }
+      // result = ...
+      if (!valid) {
+        GuiUtil.showUserDialog(messages.toString());
+      }
+      return valid;
+    }
+    
+    private boolean validate(
+        String fieldName, String value, StringBuilder output) {
+      boolean valid = true;
+      Validator v = metadata.getFields()
+          .get(fieldName).getValidatorInstance();
+      ValidationResult vr = v.validate(value, fieldName);
+      if (vr.isError()) {
+        valid = false;
+      }
+      if (!vr.isOk()) {
+        for (String s : vr.getMessages()) {
+          output.append(s);
+          output.append("\n");
+        }
+      }
+      return valid;
+    }
+
     private boolean isDisplayedRuleValid(String message) {
+      
+        if (!validateRulesMain()) {
+            return false;
+        }
  	
         // at least one proposition needs to be used
         if (displayedRule.getDisplayName().isEmpty()) {
@@ -1077,8 +1141,18 @@ public class RulesComposite extends Composite {
     
 
     private boolean isPropositionValid(RulePropositionDTO prop) {
-    	
-    	if (prop.getName().trim().isEmpty()) {
+        StringBuilder messages = new StringBuilder();
+
+        if (!validate("propositionName", 
+            this.propNameTextBox.getText(), messages)) {
+          GuiUtil.showUserDialog(messages.toString());
+        }
+        if (!validate("propositionDescription", 
+            this.propDescTextBox.getText(), messages)) {
+          GuiUtil.showUserDialog(messages.toString());
+        }
+
+        if (prop.getName().trim().isEmpty()) {
         	GuiUtil.showUserDialog("ERROR: Proposition needs name.");
             return false;     		
     	}    	
@@ -1400,13 +1474,13 @@ public class RulesComposite extends Composite {
 
         int ix = 1;            
         // business rule ID
-        final Label ruleID = new Label("ID");
+        final Label ruleID = new Label(messages.get("ruleId"));
         flexFormTable.setWidget(ix, 0, ruleID);
         flexFormTable.setWidget(ix, 1, businessRuleID);
         
         // business rule status
         ix++;        
-        final Label statusLabel = new Label("Status");
+        final Label statusLabel = new Label(messages.get("ruleStatus"));
         flexFormTable.setWidget(ix, 0, statusLabel);
         flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
@@ -1416,7 +1490,7 @@ public class RulesComposite extends Composite {
         
         // Name
         ix++;
-        final Label nameLabel = new Label("Name");
+        final Label nameLabel = new Label(messages.get("ruleName"));
         flexFormTable.setWidget(ix, 0, nameLabel);
         flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
@@ -1426,7 +1500,7 @@ public class RulesComposite extends Composite {
         
         // Original Name
         ix++;
-        flexFormTable.setWidget(ix, 0, new Label("Original Name"));
+        flexFormTable.setWidget(ix, 0, new Label(messages.get("ruleOriginalName")));
         flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
 
@@ -1435,7 +1509,7 @@ public class RulesComposite extends Composite {
         
         // Description
         ix++;
-        final Label descriptionLabel = new Label("Description");
+        final Label descriptionLabel = new Label(messages.get("ruleDescription"));
         flexFormTable.setWidget(ix, 0, descriptionLabel);
         flexFormTable.getCellFormatter().setVerticalAlignment(ix, 0, HasVerticalAlignment.ALIGN_TOP);
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
@@ -1449,7 +1523,7 @@ public class RulesComposite extends Composite {
 
         // Success Message
         ix++;
-        final Label successMessageLabel = new Label("Success Message");
+        final Label successMessageLabel = new Label(messages.get("ruleSuccessMessage"));
         flexFormTable.setWidget(ix, 0, successMessageLabel);
         flexFormTable.getCellFormatter().setVerticalAlignment(ix, 0, HasVerticalAlignment.ALIGN_TOP);
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
@@ -1463,7 +1537,7 @@ public class RulesComposite extends Composite {
 
         // Failure Message
         ix++;
-        final Label failureMessageLabel = new Label("Failure Message");
+        final Label failureMessageLabel = new Label(messages.get("ruleFailureMessage"));
         flexFormTable.setWidget(ix, 0, failureMessageLabel);
         flexFormTable.getCellFormatter().setVerticalAlignment(ix, 0, HasVerticalAlignment.ALIGN_TOP);
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
@@ -1475,7 +1549,7 @@ public class RulesComposite extends Composite {
 
         // Agenda Type
         ix++;
-        final Label agendaTypeLabel = new Label("Agenda Type");
+        final Label agendaTypeLabel = new Label(messages.get("ruleAgendaType"));
         flexFormTable.setWidget(ix, 0, agendaTypeLabel);
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
 
@@ -1484,7 +1558,7 @@ public class RulesComposite extends Composite {
         
         // Business Rule Type
         ix++;
-        final Label businessRuleTypeLabel = new Label("Business Rule Type");
+        final Label businessRuleTypeLabel = new Label(messages.get("businessRuleType"));
         flexFormTable.setWidget(ix, 0, businessRuleTypeLabel);
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
 
@@ -1493,7 +1567,7 @@ public class RulesComposite extends Composite {
 
         // Anchor Type
         ix++;
-        final Label anchorTypeLabel = new Label("Anchor Type:");
+        final Label anchorTypeLabel = new Label(messages.get("ruleAnchorType"));
         flexFormTable.setWidget(ix, 0, anchorTypeLabel);
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
         
@@ -1502,7 +1576,7 @@ public class RulesComposite extends Composite {
         
         // Anchor
         ix++;
-        final Label anchorLabel = new Label("Anchor");
+        final Label anchorLabel = new Label(messages.get("ruleAnchor"));
         flexFormTable.setWidget(ix, 0, anchorLabel);
         flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
@@ -1907,13 +1981,13 @@ public class RulesComposite extends Composite {
         // Proposition Name
         final HorizontalPanel hpPropName = new HorizontalPanel(); 
         hpPropName.setWidth("100%");
-        hpPropName.add(GuiUtil.addLabelAndFieldVertically("Name", propNameTextBox, "50%"));
+        hpPropName.add(GuiUtil.addLabelAndFieldVertically(messages.get("propositionName"), propNameTextBox, "50%"));
         flexPropositionDetailsTable.add(hpPropName);
         
         // Proposition Description
         final HorizontalPanel hpPropDesc = new HorizontalPanel();        
         hpPropDesc.setWidth("100%");        
-        hpPropDesc.add(GuiUtil.addLabelAndFieldVertically("Description", propDescTextBox, "70%"));
+        hpPropDesc.add(GuiUtil.addLabelAndFieldVertically(messages.get("propositionDescription"), propDescTextBox, "70%"));
  
         flexPropositionDetailsTable.add(hpPropDesc);
         
@@ -1930,7 +2004,7 @@ public class RulesComposite extends Composite {
         GuiUtil.addSpaceBesideWidget(hpLeftOpRightSide, "15px");
         hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically("Operator", operatorsListBox, "80px"));
         GuiUtil.addSpaceBesideWidget(hpLeftOpRightSide, "15px");
-        hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically("Expected Value", expectedValueTextBox, "150px"));                        
+        hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically(messages.get("yvfExpectedValue"), expectedValueTextBox, "150px"));                        
         flexPropositionDetailsTable.add(hpLeftOpRightSide);        
 
         // Yield Value Function details  
