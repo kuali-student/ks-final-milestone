@@ -20,7 +20,7 @@ import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebService(endpointInterface = "org.kuali.student.dictionary.service.DictionaryService", serviceName = "DictionaryService", portName = "DictionaryService", targetNamespace = "http://org.kuali.student/dictonary")
+@WebService(endpointInterface = "org.kuali.student.core.dictionary.service.DictionaryService", serviceName = "DictionaryService", portName = "DictionaryService", targetNamespace = "http://org.kuali.student/dictonary")
 public class DictionaryServiceImpl implements DictionaryService {
 
 	private String xmlFile = "/Dictionary.xml";

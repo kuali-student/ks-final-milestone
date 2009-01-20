@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.core.dictionary.dto.Context;
 import org.kuali.student.core.dictionary.dto.Contexts;
 import org.kuali.student.core.dictionary.dto.Enum;
@@ -16,18 +18,21 @@ import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dictionary.validator.Validator;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
 
-public class DictionaryServiceTest {
-	private static final int TOTAL_OBJ = 1;
+public class DictionaryServiceTest extends AbstractServiceTest{
+    @Client(value = "org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl", port = "8181")
+    public DictionaryService client;
+    
+    private static final int TOTAL_OBJ = 1;
 	private static final int TOTAL_CLUINFO_TYPES = 2;
 	
 	@Test
 	public void testGetObjectTypes(){
-		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		List<String> result = impl.getObjectTypes();
+		List<String> result = client.getObjectTypes();
 		assertTrue("Dictionary is null or empty", result != null && result.isEmpty() == false);
 		assertTrue("cluInfo not found in dictionary", result.contains("cluInfo"));
 		assertTrue("ObjectType list has  an unexpected amount of items", result.size() == TOTAL_OBJ);
@@ -35,8 +40,7 @@ public class DictionaryServiceTest {
 	
 	@Test
 	public void testGetObjectStructureForCluInfo(){
-		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		ObjectStructure objStruct = impl.getObjectStructure("cluInfo");
+		ObjectStructure objStruct = client.getObjectStructure("cluInfo");
 		assertTrue("ObjectStructure for cluInfo is null", objStruct != null);
 		List<Type> types = objStruct.getType();
 		assertTrue("ObjectStructure's Types are null or empty", types != null && types.isEmpty() == false);
