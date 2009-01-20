@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.poc.common.test.spring;
+package org.kuali.student.common.test.spring;
 
 import org.junit.runner.RunWith;
 
