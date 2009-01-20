@@ -14,51 +14,54 @@
     <xs:complexType name="executeBusinessRuleTest">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRule" type="tns:businessRuleInfoDTO"/>
-            <xs:element minOccurs="0" name="factStructure" type="tns:factStructureDTO"/>
+            <xs:element minOccurs="0" name="exectionParamMap" type="tns:jaxbAttributeList"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="businessRuleInfoDTO">
         <xs:sequence>
-            <xs:element minOccurs="0" name="businessRuleTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="originalRuleId" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
             <xs:element minOccurs="0" name="anchorValue" type="xs:string"/>
             <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
-            <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="desc" type="xs:string"/>
             <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
-            <xs:element minOccurs="0" name="effectiveStartTime" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="effectiveEndTime" type="xs:dateTime"/>
-            <xs:element minOccurs="0" name="status" type="xs:string"/>
+            <xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="state" type="xs:string"/>
             <xs:element minOccurs="0" name="compiledId" type="xs:string"/>
             <xs:element minOccurs="0" name="repositorySnapshotName" type="xs:string"/>
-            <xs:element minOccurs="0" name="ruleElementList">
+            <xs:element minOccurs="0" name="businessRuleElementList">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="ruleElement" type="tns:ruleElementDTO"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleElement" type="tns:ruleElementDTO"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
+            <xs:element minOccurs="0" name="attribute" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="metaInfo" type="tns:metaInfoDTO"/>
         </xs:sequence>
-        <xs:attribute name="businessRuleId" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="ruleElementDTO">
         <xs:sequence>
-            <xs:element minOccurs="0" name="operation" type="xs:string"/>
+            <xs:element minOccurs="0" name="businessRuleElemnetTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="ordinalPosition" type="xs:int"/>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
-            <xs:element minOccurs="0" name="ruleProposition" type="tns:rulePropositionDTO"/>
+            <xs:element minOccurs="0" name="businessRuleProposition" type="tns:rulePropositionDTO"/>
         </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="rulePropositionDTO">
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
-            <xs:element minOccurs="0" name="comparisonDataType" type="xs:string"/>
+            <xs:element minOccurs="0" name="comparisonDataTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="leftHandSide" type="tns:leftHandSideDTO"/>
-            <xs:element minOccurs="0" name="comparisonOperatorType" type="xs:string"/>
+            <xs:element minOccurs="0" name="comparisonOperatorTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="rightHandSide" type="tns:rightHandSideDTO"/>
         </xs:sequence>
     </xs:complexType>
@@ -83,6 +86,7 @@
         <xs:sequence>
             <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfoDTO"/>
             <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="resultColumnKeyTranslations" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="staticValueDataType" type="xs:string"/>
             <xs:element minOccurs="0" name="staticValue" type="xs:string"/>
@@ -172,7 +176,7 @@
     <xs:complexType name="executeAgenda">
         <xs:sequence>
             <xs:element minOccurs="0" name="agenda" type="xs:string"/>
-            <xs:element minOccurs="0" name="factStructure" type="tns:factStructureDTO"/>
+            <xs:element minOccurs="0" name="exectionParamMap" type="tns:jaxbAttributeList"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="executeAgendaResponse">
@@ -190,7 +194,7 @@
     <xs:complexType name="executeBusinessRule">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRuleId" type="xs:string"/>
-            <xs:element minOccurs="0" name="factStructure" type="tns:factStructureDTO"/>
+            <xs:element minOccurs="0" name="exectionParamMap" type="tns:jaxbAttributeList"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="executeBusinessRuleResponse">
