@@ -11,6 +11,8 @@
 	<classpathentry kind="src" output="core-impl/target/classes" path="core-impl/src/main/java"/>
 	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/java"/>
 	<classpathentry kind="src" output="core-impl/target/test-classes" path="core-impl/src/test/resources"/>
+	<classpathentry kind="src" path="core-impl/src/main/resources"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

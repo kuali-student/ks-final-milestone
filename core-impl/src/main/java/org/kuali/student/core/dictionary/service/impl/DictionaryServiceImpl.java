@@ -62,7 +62,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 					enums = enumerationCache.get(enumerationKey);
 				}
 				else{
-					enums = (EnumeratedValues)unmarshaller.unmarshal(DictionaryServiceImpl.class.getResource("/enums/" + enumerationKey + ".xml"));
+					enums = (EnumeratedValues)unmarshaller.unmarshal(DictionaryServiceImpl.class.getResource("/enum/" + enumerationKey + ".xml"));
 					enumerationCache.put(enumerationKey, enums);
 				}
 				
