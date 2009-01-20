@@ -15,9 +15,9 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getPositionRestrictionsByOrgResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlRootElement(name = "getPositionRestrictionsByOrgResponse", namespace = "http://org.kuali.student/core/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getPositionRestrictionsByOrgResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlType(name = "getPositionRestrictionsByOrgResponse", namespace = "http://org.kuali.student/core/organization")
 
 public class GetPositionRestrictionsByOrgResponse {
 

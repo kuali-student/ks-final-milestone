@@ -15,9 +15,9 @@ import org.kuali.student.core.organization.dto.OrgInfo;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getOrganizationsByIdListResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlRootElement(name = "getOrganizationsByIdListResponse", namespace = "http://org.kuali.student/core/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getOrganizationsByIdListResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlType(name = "getOrganizationsByIdListResponse", namespace = "http://org.kuali.student/core/organization")
 
 public class GetOrganizationsByIdListResponse {
 

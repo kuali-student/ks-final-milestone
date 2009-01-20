@@ -15,9 +15,9 @@ import org.kuali.student.core.validation.dto.ValidationResult;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "validateOrgResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlRootElement(name = "validateOrgResponse", namespace = "http://org.kuali.student/core/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "validateOrgResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlType(name = "validateOrgResponse", namespace = "http://org.kuali.student/core/organization")
 
 public class ValidateOrgResponse {
 

@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getOrganizationResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlRootElement(name = "getOrganizationResponse", namespace = "http://org.kuali.student/core/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getOrganizationResponse", namespace = "http://service.organization.core.student.kuali.org/")
+@XmlType(name = "getOrganizationResponse", namespace = "http://org.kuali.student/core/organization")
 
 public class GetOrganizationResponse {
 
