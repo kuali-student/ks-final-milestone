@@ -105,8 +105,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testGetEnumeration(){
-		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		List<EnumeratedValue> enums = impl.getEnumeration("states", null, null, null);
+		List<EnumeratedValue> enums = client.getEnumeration("states", null, null, null);
 		assertTrue("Enumeration list is null or empty", enums != null && enums.isEmpty() == false);
 		for(EnumeratedValue e: enums){
 			//String key = e.getKey();
@@ -134,8 +133,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testValidator(){
-		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		ObjectStructure objStruct = impl.getObjectStructure("cluInfo");
+		ObjectStructure objStruct = client.getObjectStructure("cluInfo");
 		List<Type> types = objStruct.getType();
 		for(Type t: types){
 			if(t.getKey().equals("course")){
@@ -171,8 +169,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 	@Test
 	public void testGetEnumerationAccuracy(){
 		/*
-		DictionaryServiceImpl impl = new DictionaryServiceImpl();
-		List<EnumeratedValue> enums = impl.getEnumeration("states", "country", "US");
+		List<EnumeratedValue> enums = client.getEnumeration("states", "country", "US");
 		assertTrue("Enumeration list is null or empty", enums != null && enums.isEmpty() == false);
 		for(EnumeratedValue e: enums){
 			e.getCode().equals("MD");
