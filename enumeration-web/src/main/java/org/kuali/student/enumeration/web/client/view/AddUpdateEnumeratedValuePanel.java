@@ -37,33 +37,35 @@ public class AddUpdateEnumeratedValuePanel extends FlowPanel {
         Button updateButton = new Button("Update Enumerated Value");
         add(updateButton);
 
-        final String key = enumerationKeyBox.getText(); 
-        
-        final EnumeratedValue enumeratedValue = enumeratedValueComposit.getEnumeratedValue();
-        
         addButton.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
+                String key = enumerationKeyBox.getText(); 
+                EnumeratedValue enumeratedValue = enumeratedValueComposit.getEnumeratedValue();
                 EnumerationGWTService.Util.getInstance().addEnumeratedValue(key, enumeratedValue, new AsyncCallback<EnumeratedValue>() {
                     public void onFailure(Throwable caught) {
-                        System.out.println("error");
                         messageHTML.setHTML("error");
                         throw new RuntimeException("error", caught);
                     }
 
                     public void onSuccess(EnumeratedValue value) {
                         messageHTML.setHTML("Success: Add");
-                        enumerationKeyBox.setText(key);
-                        enumeratedValueComposit.setEnumeratedValue(value);
+                        enumerationKeyBox.setText("");
+                        //enumeratedValueComposit.setEnumeratedValue(value);
+                        enumeratedValueComposit.clearInput();
                     }
                 });
             }
         });
         updateButton.addClickListener(new ClickListener() {
             public void onClick(Widget arg0) {
+                final String key = enumerationKeyBox.getText(); 
+                
+                final EnumeratedValue enumeratedValue = enumeratedValueComposit.getEnumeratedValue();
+                
+
           EnumerationGWTService.Util.getInstance().updateEnumeratedValue(key, enumeratedValue.getCode(), enumeratedValue, new AsyncCallback<EnumeratedValue>() {
                     public void onFailure(Throwable caught) {
                         messageHTML.setHTML("Update error:"+caught.getMessage());
-                        System.out.println("Update error:"+caught.getMessage());
                         throw new RuntimeException("error", caught);
                     }
 

@@ -49,7 +49,7 @@ public class EnumeratedValueComposit extends Composite {
         layoutTable.setWidget(2, 0, new HTML("Sort Key"));
         layoutTable.setWidget(2, 1, sortKeyBox);
 
-        layoutTable.setWidget(2, 2, new HTML("Vaue Box"));
+        layoutTable.setWidget(2, 2, new HTML("Value Box"));
         layoutTable.setWidget(2, 3, valueBox);
 
         content.add(layoutTable);
@@ -77,30 +77,28 @@ public class EnumeratedValueComposit extends Composite {
                         }
                     }
                 });
-                
             }
         });
-        
     }
     public EnumeratedValue getEnumeratedValue(){
         EnumeratedValue value = new EnumeratedValue();
         value.setAbbrevValue(abbrevValueBox.getText());
         value.setCode(codeBox.getText());
         
+        
         if(effectiveDateBox.getText() != null && !effectiveDateBox.getText().equals("")){
             value.setEffectiveDate(dateFormat.parse(effectiveDateBox.getText()));
+
         }
         if(expirationDateBox.getText() != null && !expirationDateBox.getText().equals("")){
             value.setExpirationDate(dateFormat.parse(expirationDateBox.getText()));
-        }
-                
+        }                
         try{
             value.setSortKey(Integer.parseInt(sortKeyBox.getText()));
         }catch(Exception e){
-            value.setSortKey(0);
+             
         }
         value.setValue(valueBox.getText());
-
         for(int i=1;i<fieldTable.getRowCount();i++){
             Context context  = new Context();
             
@@ -140,5 +138,14 @@ public class EnumeratedValueComposit extends Composite {
             rowIndex = rowIndex + 1;
         }
     }
-   
+   public void clearInput(){
+       abbrevValueBox.setText("");
+       codeBox.setText("");
+       effectiveDateBox.setText("");
+       expirationDateBox.setText("");
+       sortKeyBox.setText("");
+       valueBox.setText("");
+
+       fieldTable.clear();
+   }
 }
