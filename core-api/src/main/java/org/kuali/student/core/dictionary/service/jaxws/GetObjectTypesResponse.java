@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class GetObjectTypesResponse {
 
     @XmlElement(name = "return")
-    private java.util.List _return;
+    private java.util.List<String> _return;
 
-    public java.util.List getReturn() {
+    public java.util.List<String> getReturn() {
         return this._return;
     }
 
-    public void setReturn(java.util.List new_return)  {
+    public void setReturn(java.util.List<String> new_return)  {
         this._return = new_return;
     }
 
