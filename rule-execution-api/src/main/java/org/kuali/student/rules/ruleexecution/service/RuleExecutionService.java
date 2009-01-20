@@ -15,24 +15,23 @@
  */
 package org.kuali.student.rules.ruleexecution.service;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.poc.common.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
-import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
 /**
  * This is the rule execution runtime service interface.
@@ -48,10 +47,12 @@ import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 public interface RuleExecutionService {
 
 	/**
-     * Executes an <code>agenda</code> with <code>fact</code>.
+     * Executes an <code>agenda</code> with <code>exectionParamMap</code>.
+     * <code>exectionParamMap</code> must match the fact criteria type meta data.
 	 * 
      * @param agenda Agenda to execute
-	 * @return An agenda execution result
+     * @param exectionParamMap Execution fact parameter map
+	 * @return Result of executing the agenda
      * @throws DoesNotExistException Thrown if agenda does not exist
      * @throws InvalidParameterException Thrown if agenda is invalid
      * @throws MissingParameterException Thrown if agenda is null or has missing parameters
@@ -60,14 +61,18 @@ public interface RuleExecutionService {
     @WebMethod
     public AgendaExecutionResultDTO executeAgenda(
     		@WebParam(name="agenda")String agendaId, 
-    		@WebParam(name="factStructure")FactStructureDTO factStructure)
+    		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Executes a <code>ruleSet</code> with a <code>fact</code>.
+     * Executes a business rule by <code>businessRuleId</code> with a 
+     * <code>exectionParamMap</code>.
+     * <code>exectionParamMap</code> must match the fact criteria type meta data.
+     * <code>exectionParamMap</code> can be null for static facts. </p>
      * 
-     * @param businessRule Functional business rule
-	 * @return An execution result
+     * @param businessRule A Business rule
+     * @param exectionParamMap Execution fact parameter map
+	 * @return Result of executing the business rule
      * @throws DoesNotExistException Thrown if business rule id does not exist
      * @throws InvalidParameterException Thrown if business rule id is invalid
      * @throws MissingParameterException Thrown if business rule id is null or empty
@@ -76,6 +81,29 @@ public interface RuleExecutionService {
     @WebMethod
     public ExecutionResultDTO executeBusinessRule(
     		@WebParam(name="businessRuleId")String businessRuleId, 
-    		@WebParam(name="factStructure")FactStructureDTO factStructure)
+    		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * <p>Executes a business rule with a <code>factStructure</code> to test 
+     * that it executes properly.<br/> 
+     * <code>exectionParamMap</code> must match the fact criteria type meta data.
+     * <code>exectionParamMap</code> can be null for static facts. </p>
+     * <p><b>Note:</b> The business rule is <b>not</b> stored in the 
+     * rule repository <b>nor</b> cached in rule execution memory.</p>
+     * 
+     *  
+     * @param businessRule Functional business rule
+     * @param exectionParamMap Execution fact parameter map
+	 * @return Result of executing the business rule
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+	 * @throws MissingParameterException Thrown if parameter is missing
+     * @throws InvalidParameterException Thrown if method parameters are invalid
+     * @throws OperationFailedException Thrown if business rule translation or execution fails
+     */
+    @WebMethod
+    public ExecutionResultDTO executeBusinessRuleTest(
+    		@WebParam(name="businessRule")BusinessRuleInfoDTO businessRule, 
+    		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
