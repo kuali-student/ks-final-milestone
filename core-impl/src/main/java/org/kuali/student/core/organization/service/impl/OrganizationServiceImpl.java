@@ -41,7 +41,7 @@ public class OrganizationServiceImpl extends DictionaryServiceImpl implements Or
 
 
 	private OrganizationDao organizationDao;
-	
+
 	@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
 			String orgPersonRelationTypeKey,
@@ -84,6 +84,11 @@ public class OrganizationServiceImpl extends DictionaryServiceImpl implements Or
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub Echo
+		if (orgTypeKey == null) {
+			throw new MissingParameterException("orgTypeKey can not be null");
+		} else if (orgInfo == null) {
+			throw new MissingParameterException("orgInfo can not be null");
+		}
 		orgInfo.setType(orgTypeKey);
 		return orgInfo;
 	}
