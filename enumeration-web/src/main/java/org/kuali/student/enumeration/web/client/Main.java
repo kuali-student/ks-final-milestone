@@ -17,7 +17,7 @@ public class Main implements EntryPoint {
     }
     public void onModuleLoad() {
       RootPanel.get().add(new EnumerationMetaPanel());
-      RootPanel.get().add(new HTML("<HR>asd"));
+      RootPanel.get().add(new HTML("<HR>"));
       RootPanel.get().add(new RemoveEnumeratedValuePanel());
       RootPanel.get().add(new HTML("<HR>"));
       RootPanel.get().add(new FetchEnumerationPanel());
