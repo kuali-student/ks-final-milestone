@@ -1,12 +1,11 @@
 package org.kuali.student.core.organization.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import javax.jws.WebService;
+
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumeration.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -34,7 +33,10 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResult;
+import org.springframework.transaction.annotation.Transactional;
 
+@WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
+@Transactional
 public class OrganizationServiceImpl extends DictionaryServiceImpl implements OrganizationService {
 
 
@@ -81,8 +83,9 @@ public class OrganizationServiceImpl extends DictionaryServiceImpl implements Or
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Auto-generated method stub Echo
+		orgInfo.setType(orgTypeKey);
+		return orgInfo;
 	}
 
 	@Override
