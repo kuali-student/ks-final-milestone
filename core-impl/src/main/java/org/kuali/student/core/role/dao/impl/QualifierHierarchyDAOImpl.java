@@ -5,15 +5,14 @@ import java.util.Map;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
 import org.kuali.student.core.role.entity.Qualifier;
 import org.kuali.student.core.role.entity.QualifierHierarchy;
 import org.kuali.student.core.role.entity.QualifierType;
-import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
 
 public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 
@@ -53,16 +52,16 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         if(q.getParent()==null){
             q.setLeftVisit(1);
             q.setRightVisit(2);
-           
+
         } else {
             q.setLeftVisit(q.getParent().getRightVisit());
             q.setRightVisit(q.getParent().getRightVisit()+1);
         }
         entityManager.persist(q);
-        entityManager.flush();    
+        entityManager.flush();
         return q.getId();
     }
-    
+
     public String createQualifierType(QualifierType qualfierType) {
 
         try {
@@ -79,15 +78,15 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         entityManager.persist(qualifierHierarchy);
         return qualifierHierarchy.getId();
     }
-    
+
     @Override
     public String createQualifierTree(Qualifier root) {
         entityManager.persist(root); // do this to create id for root
         //String id = root.getId();
         QualifierHierarchy qualifierHierarchy = root.getQualifierHierarchy();
-        
+
         walkTree(root, qualifierHierarchy, 0);
-        
+
         String id = root.getId();
         return id;
     }
@@ -102,7 +101,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 
         return root;
     }
-    
+
     @Override
     public Qualifier deleteQualifierNode(Qualifier node) {
         // if(node.getRightVisit()-node.getLeftVisit() != 1)
@@ -160,17 +159,17 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         Query query = entityManager.createQuery("select q from Qualifier q join q.qualifierType qt where qt.name = ?1 and q.name=?2");
         query.setParameter(1, qualifierType);
         query.setParameter(2, qualifierName);
-        
+
         return (Qualifier) query.getSingleResult();
     }
-    
+
     public Qualifier findCompositeQualifierByType(Map<String, String> qualifications) {
         int counter = 1;
         String qualifierFromClause = "";
         String qualifierWhereClause = "";
         String qualifierNames = "";
         String qualifierTypes = "";
-        
+
         for (String qType : qualifications.keySet()) {
             String qValue = qualifications.get(qType);
             qualifierFromClause += ", Qualifier q" + counter;
@@ -179,41 +178,41 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
             qualifierTypes += ",'" + qType + "'";
             counter++;
         }
-        
+
         // leaving this here in case we need to change it again - this took long.
         /*String jpql = "SELECT q FROM Qualifier q" + qualifierFromClause + " join q.qualifierType qt " +
-        		"WHERE " + qualifierWhereClause + 
+        		"WHERE " + qualifierWhereClause +
         		"q.qualifierType=qt.id" + qualifierNames + " and q.qualifierType = " +
         		"(select distinct qt.compositeQualifierType from QualifierType qt where composite=1 and name in (" + qualifierTypes.substring(1) + "))";
         System.err.println("MY STRING " + jpql);*/
-        
+
         Query query = entityManager.createQuery(
                 "SELECT q FROM Qualifier q" + qualifierFromClause + " join q.qualifierType qt " +
                 "WHERE " +  qualifierWhereClause +
                 "q.qualifierType=qt.id" + qualifierNames + " and q.qualifierType = " +
                 "(select distinct qt.compositeQualifierType from QualifierType qt where composite=1 and name in (" + qualifierTypes.substring(1) + "))" );
-        
+
         return (Qualifier) query.getSingleResult();
     }
-    
+
     @Override
     public List<Qualifier> findRootQualifiers(String qhId) {
-    	Query query; 
+    	Query query;
     	if(qhId==null||"".equals(qhId)){
 			query = entityManager.createQuery("SELECT q FROM Qualifier q where q.parent.id IS NULL and q.compositeQualifier IS NULL");
 		}else{
 			query = entityManager.createQuery("SELECT q FROM Qualifier q where q.parent.id IS NULL and q.compositeQualifier IS NULL AND q.qualifierHierarchy.id = :qhId");
 			query.setParameter("qhId", qhId);
 		}
-    	
+
     	return query.getResultList();
     }
-    
+
     @Override
     public Qualifier fetchQualifier(String qualifierId) {
         return entityManager.find(Qualifier.class, qualifierId);
     }
-    
+
     @Override
     public List<Qualifier> findQualifiersAtOrAboveQualifier(Qualifier qualifier) {
         Query query = entityManager.createQuery("select q from Qualifier q where q.leftVisit <= ?1 and q.rightVisit >= ?2 and q.qualifierHierarchy.id = ?3");
@@ -222,7 +221,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         query.setParameter(3, qualifier.getQualifierHierarchy().getId());
         return query.getResultList();
     }
-    
+
     @Override
     public List<Qualifier> findQualifiersAtOrBelowQualifier(Qualifier qualifier){
         Query query = entityManager.createQuery("select q from Qualifier q where q.leftVisit >= ?1 and q.rightVisit <= ?2 and q.qualifierHierarchy.id = ?3");
@@ -231,10 +230,10 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         query.setParameter(3, qualifier.getQualifierHierarchy().getId());
         return query.getResultList();
     }
-    
+
 	@Override
 	public List<Qualifier> findQualifierDirectDescendents(String qid, String qhId) {
-		
+
 		Query query;
 		if(qhId==null||"".equals(qhId)){
 			query = entityManager.createQuery("SELECT q FROM Qualifier q where q.parent.id = :qid");
@@ -242,7 +241,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 			query = entityManager.createQuery("SELECT q FROM Qualifier q where q.parent.id = :qid AND q.qualifierHierarchy.id = :qhId");
 			query.setParameter("qhId", qhId);
 		}
-		
+
 		query.setParameter("qid", qid);
 		return query.getResultList();
 	}
@@ -259,27 +258,27 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 		return query.getResultList();
 	}
 
-	
+
 	@Override
 	public List<QualifierHierarchy> findQualifierHierarchies() {
 		Query query = entityManager.createQuery("SELECT qh FROM QualifierHierarchy qh");
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public QualifierHierarchy fetchQualifierHierarchyByName(String name) {
 	    Query query = entityManager.createQuery("SELECT qh FROM QualifierHierarchy qh where qh.name = :qname");
 	    query.setParameter("qname", name);
-	    
+
 	    return (QualifierHierarchy) query.getSingleResult();
     }
-	
+
 	@Override
 	public QualifierHierarchy fetchQualifierHierarchy(String id) {
         return entityManager.find(QualifierHierarchy.class, id);
 	}
 
-	
+
 	/**
 	 * This method will update the nesting data for the given qualifier.  It assumes that the qualifier has already been persisted
 	 * with a q.leftVisit = q.parent.rightVisit and q.rightVisit = q.leftVisit+1.
@@ -292,7 +291,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 		}
 		String qhId = q.getQualifierHierarchy().getId();
 		int parentRightVisit = q.getParent().getRightVisit();
-		
+
 		Query updateRightVisit = entityManager.createQuery("UPDATE Qualifier q " +
 														   "   SET q.rightVisit = q.rightVisit + 2 " +
 														   " WHERE q.qualifierHierarchy.id = :qhId " +
@@ -301,7 +300,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 		updateRightVisit.setParameter("qhId", qhId);
 		updateRightVisit.setParameter("parentRightVisit", parentRightVisit);
 		updateRightVisit.setParameter("qid", q.getId());
-		
+
 		Query updateLeftVisit = entityManager.createQuery("UPDATE Qualifier q " +
 														  "   SET q.leftVisit = q.leftVisit + 2 " +
 														  " WHERE q.qualifierHierarchy.id = :qhId " +
@@ -310,7 +309,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 		updateLeftVisit.setParameter("qhId", qhId);
 		updateLeftVisit.setParameter("parentRightVisit", parentRightVisit);
 		updateLeftVisit.setParameter("qid", q.getId());
-		
+
 		updateRightVisit.executeUpdate();
 		updateLeftVisit.executeUpdate();
 		entityManager.flush();

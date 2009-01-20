@@ -27,13 +27,13 @@ public class DictionaryServiceImpl implements DictionaryService {
 	private static final String CONTEXT_NAME = "org.kuali.student.core.dictionary.dto";
 	private JAXBContext context;
 	private Unmarshaller unmarshaller;
-	
-	private HashMap<String, EnumeratedValues> enumerationCache = new HashMap();
-	
+
+	private HashMap<String, EnumeratedValues> enumerationCache = new HashMap<String, EnumeratedValues>();
+
 	final static Logger logger = LoggerFactory.getLogger(DictionaryServiceImpl.class);
 
 	private Dictionary dict;
-	
+
 	public DictionaryServiceImpl(){
 		try {
 			context = JAXBContext.newInstance(CONTEXT_NAME);
@@ -45,17 +45,17 @@ public class DictionaryServiceImpl implements DictionaryService {
 				throw new DictionaryException("DictionaryServiceImpl instantiation failed.", e);
 		}
 	}
-	
+
 	public void setXMLFile(String file){
 		xmlFile = file;
 	}
-	
+
     public List<EnumeratedValue> getEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
 		List<EnumeratedValue> eVals = new ArrayList<EnumeratedValue>();
 		try {
 			//JAXBContext jc = JAXBContext.newInstance("org.kuali.student.dictionary.dto");
 			//Unmarshaller u = jc.createUnmarshaller();
-			
+
 			if(enumerationKey != null){
 				EnumeratedValues enums;
 				if(enumerationCache.containsKey(enumerationKey)){
@@ -65,16 +65,16 @@ public class DictionaryServiceImpl implements DictionaryService {
 					enums = (EnumeratedValues)unmarshaller.unmarshal(DictionaryServiceImpl.class.getResource("/enum/" + enumerationKey + ".xml"));
 					enumerationCache.put(enumerationKey, enums);
 				}
-				
-				if(enumContextKey == null || contextValue == null){	
-					for(EnumeratedValue e: enums.getEnumeratedValue()){	
+
+				if(enumContextKey == null || contextValue == null){
+					for(EnumeratedValue e: enums.getEnumeratedValue()){
 						if(enumValidForDate(e, contextDate)){
 							eVals.add(e);
 						}
 					}
 				}
 				else{
-					for(EnumeratedValue e: enums.getEnumeratedValue()){					
+					for(EnumeratedValue e: enums.getEnumeratedValue()){
 						if(enumValidForDate(e, contextDate)){
 							for(Context c: e.getContexts().getContext()){
 								//check context type and value match
@@ -92,10 +92,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 			logger.error("fetchEnumeration failed - possibly an enum xml file is missing", e);
 			throw new DictionaryException("fetchEnumeration failed - possibly an enum xml file is missing", e);
 		}
-		
+
 		return eVals;
     }
-    
+
     private boolean enumValidForDate(EnumeratedValue e, Date contextDate){
     	boolean passesDateCheck = false;
 		if(contextDate == null){
@@ -109,7 +109,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 			else{
 				afterEffective = true;
 			}
-			
+
 			boolean beforeExpiration = false;
 			if(e.getExpirationDate() != null){
 				beforeExpiration = contextDate.before(e.getExpirationDate());
@@ -117,7 +117,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 			else{
 				beforeExpiration = true;
 			}
-			
+
 			if(afterEffective && beforeExpiration){
 				passesDateCheck = true;
 			}
@@ -127,7 +127,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     public ObjectStructure getObjectStructure(String objectTypeKey) {
         ObjectStructure theStruct = null;
-                  
+
         for(ObjectStructure struc: dict.getObjectStructure()){
             if(objectTypeKey.equals(struc.getObjectTypeKey())){
             	theStruct = struc;
@@ -142,7 +142,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         for(ObjectStructure struc: dict.getObjectStructure()){
             types.add(struc.getObjectTypeKey());
         }
-        
+
         return types;
     }
 

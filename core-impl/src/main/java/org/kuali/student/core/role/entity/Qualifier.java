@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -22,39 +21,39 @@ import javax.persistence.Version;
 @Entity
 @Table(name="KR_KIM_QLF")
 public class Qualifier {
-    
+
     @Id
     private String id;
     private String name;
-    
+
     // For compatibility with Rice ORM (OJB)
     @Column(name="OBJ_ID", length=36)
     private String objectId;
-    
+
     @Version
     @Column(name="VER_NBR")
     private int versionNumber;
-    
+
     // Loopback - Represents Tree of Qualifier
     @OneToMany(cascade = {PERSIST,MERGE,REFRESH} , mappedBy = "parent")
     private List<Qualifier> qualifiers = new ArrayList<Qualifier>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Qualifier parent;
-    
+
     // Loopback - Represents Composite Primary keys, where each qualifier in the list is a key
     @OneToMany(cascade = {PERSIST,MERGE,REFRESH}, mappedBy = "compositeQualifier")
     private List<Qualifier> pkQualifiers = new ArrayList<Qualifier>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Qualifier compositeQualifier;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private QualifierType qualifierType;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private QualifierHierarchy qualifierHierarchy;
-    
+
     //for the tree stuff
     int leftVisit,
         rightVisit;
@@ -63,79 +62,79 @@ public class Qualifier {
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID();
     }*/
-    
+
     public String getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getObjectId() {
         return objectId;
     }
-    
+
     public void setObjectId(String objectId) {
         this.objectId = objectId;
     }
-    
+
     public int getVersion() {
         return versionNumber;
     }
-    
+
     public void setVersion(int versionNumber) {
         this.versionNumber = versionNumber;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public List<Qualifier> getQualifiers() {
         if(qualifiers == null) {
             qualifiers = new ArrayList<Qualifier>();
         }
-        
+
         return qualifiers;
     }
-    
+
     public void setQualifiers(List<Qualifier> qualifiers) {
         this.qualifiers = qualifiers;
     }
-    
+
     public Qualifier getParent() {
         return parent;
     }
-    
+
     public void setParent(Qualifier parent) {
         this.parent = parent;
     }
-    
+
     public int getLeftVisit() {
         return leftVisit;
     }
-    
+
     public void setLeftVisit(int leftVisit) {
         this.leftVisit = leftVisit;
     }
-    
+
     public int getRightVisit() {
         return rightVisit;
     }
-    
+
     public void setRightVisit(int rightVisit) {
         this.rightVisit = rightVisit;
     }
-    
+
     public QualifierHierarchy getQualifierHierarchy() {
         return qualifierHierarchy;
     }
-    
+
     public void setQualifierHierarchy(QualifierHierarchy qualifierHierarchy) {
         this.qualifierHierarchy = qualifierHierarchy;
     }
@@ -147,7 +146,7 @@ public class Qualifier {
     public void setQualifierType(QualifierType qualifierType) {
         this.qualifierType = qualifierType;
     }
-    
+
     public List<Qualifier> getPkQualifiers() {
         return pkQualifiers;
     }
@@ -155,11 +154,11 @@ public class Qualifier {
     public void setPkQualifiers(List<Qualifier> pkQualifiers) {
         this.pkQualifiers = pkQualifiers;
     }
-    
+
     public Qualifier getCompositeQualifier() {
         return compositeQualifier;
     }
-    
+
     public void setCompositeQualifier(Qualifier compositeQualifier) {
         this.compositeQualifier = compositeQualifier;
     }
