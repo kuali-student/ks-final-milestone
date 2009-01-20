@@ -3,10 +3,11 @@ package org.kuali.student.core.organization.service;
 import java.util.List;
 
 import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumeration.service.EnumerationService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -30,9 +31,10 @@ import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
+@WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface OrganizationService extends DictionaryService, SearchService{
-
 
     /** 
      * Retrieves the list of organization hierarchies known by this service.
