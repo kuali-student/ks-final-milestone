@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -43,6 +45,19 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	@Column(name = "EXPIRATION_DT")
 	private Date expirationDate;  
 
+	@ManyToMany
+	@JoinTable(
+	        name="KS_ORG_HIERARCHY_ORG_TYPE_T",
+	        joinColumns=
+	            @JoinColumn(name="ORG_HIERARCHY_KEY", referencedColumnName="ORG_HIERARCHY_KEY"),
+	        inverseJoinColumns=
+	            @JoinColumn(name="ORG_TYPE_KEY", referencedColumnName="TYPE_KEY")
+	    )
+	private List<OrgType> organizationTypes;
+	
+	@OneToMany(mappedBy = "orgHierarchy")
+	private List<OrgOrgRelationType> orgOrgRelationTypes;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgHierarchyAttribute> attributes;
 	
@@ -105,6 +120,28 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
+	}
+
+	public List<OrgType> getOrganizationTypes() {
+		if(organizationTypes==null){
+			organizationTypes=new ArrayList<OrgType>();
+		}
+		return organizationTypes;
+	}
+
+	public void setOrganizationTypes(List<OrgType> organizationTypes) {
+		this.organizationTypes = organizationTypes;
+	}
+
+	public List<OrgOrgRelationType> getOrgOrgRelationTypes() {
+		if(orgOrgRelationTypes==null){
+			orgOrgRelationTypes=new ArrayList<OrgOrgRelationType>();
+		}
+		return orgOrgRelationTypes;
+	}
+
+	public void setOrgOrgRelationTypes(List<OrgOrgRelationType> orgOrgRelationTypes) {
+		this.orgOrgRelationTypes = orgOrgRelationTypes;
 	}
 
 }
