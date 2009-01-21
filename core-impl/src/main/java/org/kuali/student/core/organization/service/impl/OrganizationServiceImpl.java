@@ -1,10 +1,12 @@
 package org.kuali.student.core.organization.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.core.dictionary.dto.EnumeratedValue;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -37,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
 @Transactional
-public class OrganizationServiceImpl extends DictionaryServiceImpl implements OrganizationService {
+public class OrganizationServiceImpl implements OrganizationService {
 
 
 	private OrganizationDao organizationDao;
@@ -574,6 +576,39 @@ public class OrganizationServiceImpl extends DictionaryServiceImpl implements Or
 
 	public void setOrganizationDao(OrganizationDao organizationDao) {
 		this.organizationDao = organizationDao;
+	}
+
+	@Override
+	public List<EnumeratedValue> getEnumeration(String enumerationKey,
+			String enumContextKey, String contextValue, Date contextDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectStructure getObjectStructure(String objectTypeKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getObjectTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean validateObject(String objectTypeKey, String stateKey,
+			String info) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean validateStructureData(String objectTypeKey, String stateKey,
+			String info) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
