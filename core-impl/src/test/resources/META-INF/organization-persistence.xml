@@ -11,6 +11,7 @@
 		<class>org.kuali.student.core.entity.TypeAttributeDef</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
+		<class>org.kuali.student.core.entity.TimeAmount</class>
 		
 		<class>org.kuali.student.core.organization.entity.Org</class>
 		<class>org.kuali.student.core.organization.entity.OrgAttribute</class>
@@ -27,6 +28,10 @@
 		<class>org.kuali.student.core.organization.entity.OrgPersonRelationAttribute</class>
 		<class>org.kuali.student.core.organization.entity.OrgPersonRelationAttributeDef</class>
 		<class>org.kuali.student.core.organization.entity.OrgPersonRelationType</class>
+		<class>org.kuali.student.core.organization.entity.OrgPositionRestriction</class>
+		<class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute</class>
+		<class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttributeDef</class>
 		<class>org.kuali.student.core.organization.entity.OrgType</class>
+				
 	</persistence-unit>
 </persistence>
