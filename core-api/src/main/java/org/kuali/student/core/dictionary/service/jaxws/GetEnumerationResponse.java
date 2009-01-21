@@ -15,9 +15,9 @@ import org.kuali.student.core.dictionary.dto.EnumeratedValue;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getEnumerationResponse", namespace = "http://org.kuali.student/dictonary")
+@XmlRootElement(name = "getEnumerationResponse", namespace = "http://org.kuali.student/core/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getEnumerationResponse", namespace = "http://org.kuali.student/dictonary")
+@XmlType(name = "getEnumerationResponse", namespace = "http://org.kuali.student/core/dictionary")
 
 public class GetEnumerationResponse {
 

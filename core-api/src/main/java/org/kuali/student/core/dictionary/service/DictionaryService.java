@@ -1,7 +1,7 @@
 package org.kuali.student.core.dictionary.service;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -11,7 +11,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.core.dictionary.dto.EnumeratedValue;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 
-@WebService(name = "DictionaryService", targetNamespace = "http://org.kuali.student/dictonary")
+@WebService(name = "DictionaryService", targetNamespace = "http://org.kuali.student/core/dictonary")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DictionaryService {
 

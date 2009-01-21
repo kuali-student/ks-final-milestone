@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getObjectStructure", namespace = "http://org.kuali.student/dictonary")
+@XmlRootElement(name = "getObjectStructure", namespace = "http://org.kuali.student/core/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getObjectStructure", namespace = "http://org.kuali.student/dictonary")
+@XmlType(name = "getObjectStructure", namespace = "http://org.kuali.student/core/dictionary")
 
 public class GetObjectStructure {
 

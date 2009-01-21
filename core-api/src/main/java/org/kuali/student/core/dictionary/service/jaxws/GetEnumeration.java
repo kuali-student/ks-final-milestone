@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "getEnumeration", namespace = "http://org.kuali.student/dictonary")
+@XmlRootElement(name = "getEnumeration", namespace = "http://org.kuali.student/core/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getEnumeration", namespace = "http://org.kuali.student/dictonary", propOrder = {"enumerationKey","enumContextKey","contextValue","contextDate"})
+@XmlType(name = "getEnumeration", namespace = "http://org.kuali.student/core/dictionary", propOrder = {"enumerationKey","enumContextKey","contextValue","contextDate"})
 
 public class GetEnumeration {
 
