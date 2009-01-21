@@ -952,6 +952,19 @@
 				</bean>
 			</set>
 		</property>
+		<property name="translationKeySet">
+			<set>
+				<bean
+					class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+					<property name="translationKey"
+						value="resultColumn.credit" />
+					<property name="value"
+						value="earned_credits" />
+					<property name="factStructure"
+						ref="factStructure331" />
+				</bean>
+			</set>
+		</property>
 		<property name="yieldValueFunction" ref="yieldValueFunction33" />
 	</bean>
 

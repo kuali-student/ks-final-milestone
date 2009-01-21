@@ -235,6 +235,17 @@ public class BusinessRuleAdapter {
 	        }
 	        fsDTO.setParamValueMap(paramValueMap);
         }        
+
+        
+        // Extract the translation keys
+        if (fs.getTranslationKeySet() != null) {
+            Map<String, String> translationKeyMap = new HashMap<String, String>();
+            for(FactStructureTranslationKey trKey : fs.getTranslationKeySet()) {
+                translationKeyMap.put( trKey.getTranslationKey(), trKey.getValue() );
+            }
+            fsDTO.setResultColumnKeyTranslations(translationKeyMap);
+        }        
+                
         fsDTO.setCriteriaTypeInfo(null);        
         fsDTO.setFactStructureId(fs.getFactStructureId());        
         fsDTO.setFactTypeKey(fs.getFactTypeKey());        
@@ -417,6 +428,22 @@ public class BusinessRuleAdapter {
 	       }
 	       fs.setParamValueSet(fsParamVarList);
        }       
+
+       
+       // Extract translation kesy
+       Set<FactStructureTranslationKey> fsTranslationKeySet = new HashSet<FactStructureTranslationKey>(); 
+       Map<String,String> translationKeyMap = factDTO.getResultColumnKeyTranslations();
+       if (translationKeyMap != null) {
+           for(String key: translationKeyMap.keySet()) {
+               FactStructureTranslationKey fsKey = new FactStructureTranslationKey();
+               fsKey.setFactStructure(fs);
+               fsKey.setTranslationKey(key);
+               fsKey.setValue((String)factParamVarMap.get(key));
+               fsTranslationKeySet.add(fsKey);
+           }
+           fs.setTranslationKeySet(fsTranslationKeySet);
+       }       
+              
        return fs;
     }
 

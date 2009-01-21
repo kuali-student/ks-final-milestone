@@ -177,14 +177,34 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
         List<FactStructureDTO> factStructureList = ruleProp.getLeftHandSide().getYieldValueFunction().getFactStructureList();
         assertEquals(2, factStructureList.size());    
-        
+
         FactStructureDTO fs1 = factStructureList.get(0);
         assertEquals("CPR 101", fs1.getStaticValue());
 
         FactStructureDTO fs2 = factStructureList.get(1);
-        assertEquals("CPR 101, MATH 101, MATH 102", fs2.getStaticValue());
+        assertEquals("CPR 101, MATH 101, MATH 102", fs2.getStaticValue());        
     }    
 
+    
+    @Test
+    public void testFetcFactTranslationKeys() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+        BusinessRuleInfoDTO brInfoDTO = client.fetchDetailedBusinessRuleInfo(ruleId_3);
+        assertEquals(ruleId_3,  brInfoDTO.getId());
+                
+        RulePropositionDTO ruleProp = brInfoDTO.getBusinessRuleElementList().get(9).getBusinessRuleProposition();
+        assertEquals(ruleProp.getName(), "P33");
+        
+        List<FactStructureDTO> factStructureList = ruleProp.getLeftHandSide().getYieldValueFunction().getFactStructureList();
+        assertEquals(1, factStructureList.size());    
+
+        FactStructureDTO fs1 = factStructureList.get(0);
+        assertEquals("331", fs1.getFactStructureId());
+
+        Map<String, String> translationKeyMap = fs1.getResultColumnKeyTranslations();
+        assertTrue(translationKeyMap.containsKey("resultColumn.credit"));
+        assertTrue(translationKeyMap.containsValue("earned_credits"));
+    }  
+    
     @Test
     public void testFetchBusinessRule() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         BusinessRuleInfoDTO brInfoDTO = client.fetchBusinessRuleInfo(ruleId_1);

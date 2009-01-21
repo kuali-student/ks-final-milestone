@@ -25,18 +25,18 @@ import javax.persistence.Table;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
- * Contains the structureKey values that uniquely identifies fact structure's execution or definition keys
+ * Contains the translationKey values that uniquely identifies fact structure's execution or definition keys
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
 @Entity
-@Table(name="FactStructureVariable_T")
-public class FactStructureVariable {
+@Table(name="FactStructureTranslationKey_T")
+public class FactStructureTranslationKey {
 
     @Id
     private String id;
     
-    private String structureKey; 
+    private String translationKey; 
     
     private String value;
     
@@ -67,17 +67,17 @@ public class FactStructureVariable {
     }
 
     /**
-     * @return the structureKey
+     * @return the translationKey
      */
-    public String getStructureKey() {
-        return structureKey;
+    public String getTranslationKey() {
+        return translationKey;
     }
 
     /**
-     * @param structureKey the structureKey to set
+     * @param translationKey the translationKey to set
      */
-    public void setStructureKey(String key) {
-        this.structureKey = key;
+    public void setTranslationKey(String translationKey) {
+        this.translationKey = translationKey;
     }
 
     /**
