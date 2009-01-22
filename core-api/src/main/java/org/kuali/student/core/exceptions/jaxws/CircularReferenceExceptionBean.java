@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 
-@XmlRootElement(name = "CircularReferenceException", namespace = "http://exceptions.personidentity.wsdl.poc.student.kuali.org/")
+@XmlRootElement(name = "CircularReferenceException", namespace = "http://org.kuali.student/core/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CircularReferenceException", namespace = "http://exceptions.personidentity.wsdl.poc.student.kuali.org/")
+@XmlType(name = "CircularReferenceException", namespace = "http://org.kuali.student/core/exceptions")
 
 public class CircularReferenceExceptionBean {
 

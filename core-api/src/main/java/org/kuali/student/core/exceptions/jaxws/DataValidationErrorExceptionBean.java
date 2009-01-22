@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "MissingParameterException", namespace = "http://student.kuali.org/core/exceptions")
+@XmlRootElement(name = "DataValidationErrorException", namespace = "http://exceptions.core.student.kuali.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MissingParameterException", namespace = "http://student.kuali.org/core/exceptions")
+@XmlType(name = "DataValidationErrorException", namespace = "http://exceptions.core.student.kuali.org/")
 
-public class MissingParameterExceptionBean {
+public class DataValidationErrorExceptionBean {
 
     private java.lang.String message;
 
