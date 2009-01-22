@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "DataValidationErrorException", namespace = "http://exceptions.core.student.kuali.org/")
+@XmlRootElement(name = "DataValidationErrorException", namespace = "http://org.kuali.student/core/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DataValidationErrorException", namespace = "http://exceptions.core.student.kuali.org/")
+@XmlType(name = "DataValidationErrorException", namespace = "http://org.kuali.student/core/exceptions")
 
 public class DataValidationErrorExceptionBean {
 

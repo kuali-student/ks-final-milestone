@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
-@XmlRootElement(name = "VersionMismatchException", namespace = "http://student.kuali.org/core/exceptions")
+@XmlRootElement(name = "VersionMismatchException", namespace = "http://org.kuali.student/core/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "VersionMismatchException", namespace = "http://student.kuali.org/core/exceptions")
+@XmlType(name = "VersionMismatchException", namespace = "http://org.kuali.student/core/exceptions")
 
 public class VersionMismatchExceptionBean {
 
