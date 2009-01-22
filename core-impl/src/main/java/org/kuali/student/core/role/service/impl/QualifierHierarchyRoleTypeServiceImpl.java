@@ -22,7 +22,6 @@ import javax.jws.WebService;
 
 import org.kuali.rice.kim.bo.types.KimAttributesTranslator;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.student.core.role.QualifierHierarchyRoleTypeService;
 import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
 import org.kuali.student.core.role.entity.Qualifier;
@@ -36,7 +35,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @WebService(endpointInterface = "org.kuali.student.core.role.QualifierHierarchyRoleTypeService", serviceName = "QHRoleTypeService", portName = "QHRoleTypeService", targetNamespace = "http://org.kuali.student/core/qhRoleType")
 @Transactional
-public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchyRoleTypeService, KimRoleTypeService {
+
+//TODO: Implement this correctly using KimRoleTypeService
+//public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchyRoleTypeService, KimRoleTypeService {
+public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchyRoleTypeService{
     
     private QualifierHierarchyDAO qualifierHierarchyDAO;
     private String qualifierHierarchyName;
@@ -90,17 +92,14 @@ public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchy
     /**
      * @see org.kuali.rice.kim.service.support.KimRoleTypeService#getMembersThatMatchQualification(java.util.Map, java.util.List)
      */
-    @Override
     public boolean isApplicationRoleType(){
         return false;
     }
     
-    @Override
     public List<String> getPrincipalIdsFromApplicationRole( String namespaceCode, String roleName, AttributeSet qualification ){
         return null;
     }
     
-    @Override
     public List<String> getGroupIdsFromApplicationRole( String namespaceCode, String roleName, AttributeSet qualification ){
     	return null;
     }
@@ -110,7 +109,6 @@ public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchy
      * Assuming you draw your tree with root on top and leaves at the bottom, then down is
      * going from root to leaves.
      */
-    @Override
     public List<AttributeSet> getAllImpliedQualifications(AttributeSet qualification) {
         
         Qualifier foundQualifier = null;
@@ -265,7 +263,6 @@ public class QualifierHierarchyRoleTypeServiceImpl implements QualifierHierarchy
     	return false;
     }
 
-    @Override
     public AttributeSet getValidValues(String arg0) {
         return null;
     }

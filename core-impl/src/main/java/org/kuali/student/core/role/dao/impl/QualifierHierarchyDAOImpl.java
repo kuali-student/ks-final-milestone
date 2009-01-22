@@ -18,7 +18,7 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 
     private static final Logger LOG = Logger.getLogger(QualifierHierarchyDAOImpl.class);
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "Role")
     private EntityManager entityManager;
 
 
