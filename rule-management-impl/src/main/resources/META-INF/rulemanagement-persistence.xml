@@ -14,6 +14,7 @@
       <class>org.kuali.student.rules.internal.common.entity.ComparisonOperator</class>
       <class>org.kuali.student.rules.rulemanagement.entity.FactStructure</class>
       <class>org.kuali.student.rules.rulemanagement.entity.FactStructureVariable</class>
+      <class>org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey</class>
       <class>org.kuali.student.rules.rulemanagement.entity.LeftHandSide</class>
       <class>org.kuali.student.rules.rulemanagement.entity.RightHandSide</class>
       <class>org.kuali.student.rules.rulemanagement.entity.RuleElement</class>
@@ -21,6 +22,6 @@
       <class>org.kuali.student.rules.rulemanagement.entity.RuleMetaData</class>
       <class>org.kuali.student.rules.rulemanagement.entity.RuleProposition</class>
       <class>org.kuali.student.rules.rulemanagement.entity.YieldValueFunction</class>
-      <class>org.kuali.student.rules.internal.common.entity.YieldValueFunctionType</class>          
+      <class>org.kuali.student.rules.internal.common.entity.YieldValueFunctionType</class>
     </persistence-unit>
 </persistence>
