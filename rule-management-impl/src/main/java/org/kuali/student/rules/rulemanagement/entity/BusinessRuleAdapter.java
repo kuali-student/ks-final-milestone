@@ -427,10 +427,10 @@ public class BusinessRuleAdapter {
 	           fsParamVarList.add(fsVar);
 	       }
 	       fs.setParamValueSet(fsParamVarList);
-       }       
+       }
 
        
-       // Extract translation kesy
+       // Extract translation keys
        Set<FactStructureTranslationKey> fsTranslationKeySet = new HashSet<FactStructureTranslationKey>(); 
        Map<String,String> translationKeyMap = factDTO.getResultColumnKeyTranslations();
        if (translationKeyMap != null) {
@@ -438,7 +438,7 @@ public class BusinessRuleAdapter {
                FactStructureTranslationKey fsKey = new FactStructureTranslationKey();
                fsKey.setFactStructure(fs);
                fsKey.setTranslationKey(key);
-               fsKey.setValue((String)factParamVarMap.get(key));
+               fsKey.setValue((String)translationKeyMap.get(key));
                fsTranslationKeySet.add(fsKey);
            }
            fs.setTranslationKeySet(fsTranslationKeySet);
