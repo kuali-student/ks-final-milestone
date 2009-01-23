@@ -11,18 +11,20 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name="KS_TYPE_T")
 public abstract class Type implements AttributeOwner<TypeAttribute> {
 	@Id
 	@Column(name = "TYPE_KEY")
 	private String key;
 
 	private String name;
-	@Column(name = "TYPE_DESC")
+	@Column(name = "TYPE_DESC",length=2000)//TODO what is a good number for these long descriptions?
 	private String desc;
 
 	@Temporal(TemporalType.TIMESTAMP)

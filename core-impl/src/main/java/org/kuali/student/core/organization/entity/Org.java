@@ -34,7 +34,7 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	@Column(name = "ORG_SHORT_NAME")
 	private String shortName; 
 	
-	@Column(name = "ORG_DESC")
+	@Column(name = "ORG_DESC",length=2000)//TODO what is a good number for these long descriptions?
 	private String desc; 
 	
 	@Temporal(TemporalType.TIMESTAMP)

@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name="KS_ORG_HIERARCHY")
+@Table(name="KS_ORG_HIERARCHY_T")
 public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	
 	@Id
@@ -30,7 +30,7 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	@Column(name = "ORG_HIERARCHY_NAME")
 	private String name; 
 	
-	@Column(name = "ORG_HIERARCHY_DESC")
+	@Column(name = "ORG_HIERARCHY_DESC",length=2000)//TODO what is a good number for these long descriptions?
 	private String desc; 
 
 	@ManyToOne

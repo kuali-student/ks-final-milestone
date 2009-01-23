@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.atp.dto.TimeAmountInfo;
@@ -19,6 +20,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
+@Table(name="KS_ORG_POS_RESTR_T")
 public class OrgPositionRestriction extends MetaEntity implements AttributeOwner<OrgPositionRestrictionAttribute>{
 	@Id
 	private String id;
@@ -30,7 +32,7 @@ public class OrgPositionRestriction extends MetaEntity implements AttributeOwner
 	@JoinColumn(name = "PERSON_RELATION_TYPE")
 	private OrgPersonRelationType personRelationType; 
 
-	@Column(name="ORG_POS_RSTRC_DESC")
+	@Column(name="ORG_POS_RSTRC_DESC",length=2000)//TODO what is a good number for these long descriptions?
 	private String desc; 
 	
 	@Column(name="ORG_POS_RSTRC_TITLE")

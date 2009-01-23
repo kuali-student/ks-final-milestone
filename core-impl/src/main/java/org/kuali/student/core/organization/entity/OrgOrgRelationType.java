@@ -28,7 +28,7 @@ public class OrgOrgRelationType implements
 	@Column(name = "OORT_NAME")
 	private String name;
 
-	@Column(name = "OORT_DESC")
+	@Column(name = "OORT_DESC",length=2000)//TODO what is a good number for these long descriptions?
 	private String desc;
 
 	@Column(name = "REV_NAME")

@@ -5,11 +5,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Table(name="KS_ATTR_DEF_T")
 public abstract class AttributeDef {
 	@Id
 	private String id;
@@ -36,6 +38,8 @@ public abstract class AttributeDef {
 	 */
 	@PrePersist
 	public void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
+		if(this.id==null){
+			this.id = UUIDHelper.genStringUUID(this.id);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package org.kuali.student.core.organization.dao;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.BufferedReader;
@@ -12,6 +13,8 @@ import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgAttribute;
+import org.kuali.student.core.organization.entity.OrgAttributeDef;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.springframework.core.io.ClassPathResource;
@@ -69,6 +72,25 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		dao.create(orgHierarchy);
 		
 		assertNotNull(dao.fetch(OrgHierarchy.class, "kuali.org.hierarchy.Curriculum"));
+		
+		//Check the alias attribute
+		Org borgOrg = dao.fetch(Org.class, "2");
+		assertEquals(1,borgOrg.getAttributes().size());
+		assertEquals("Governors",borgOrg.getAttributes().get(0).getValue());
+		
+		OrgAttributeDef alias = new OrgAttributeDef();
+		alias.setId("ks.org.attr.Alias");
+		alias.setName("Alias");
+		em.persist(alias);
+		
+		OrgAttribute borgAlias = new OrgAttribute();
+		borgAlias.setAttrDef(alias);
+		borgAlias.setValue("Governors");
+		borgAlias.setOwner(borgOrg);
+		
+		borgOrg.getAttributes().add(borgAlias);
+		
+		em.persist(borgOrg);
 		
 	}
 }

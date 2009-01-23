@@ -1,7 +1,9 @@
 package org.kuali.student.core.organization.entity;
 
-import org.kuali.student.core.entity.AttributeDef;
+import javax.persistence.Entity;
 
+import org.kuali.student.core.entity.AttributeDef;
+@Entity
 public class OrgHierarchyAttributeDef extends AttributeDef{
 
 }
