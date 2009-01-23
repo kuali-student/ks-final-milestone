@@ -35,9 +35,4 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
         return resultList;
     }
 
-    @Override
-    public OrgHierarchy getOrgHierarchy(String orgHierarchyKey) {
-        OrgHierarchy singleResult = (OrgHierarchy)em.createQuery("select oh from OrgHierarchy oh where key = :key").setParameter("key", orgHierarchyKey).getSingleResult();
-        return singleResult;
-    }
 }

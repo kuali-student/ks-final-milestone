@@ -8,7 +8,6 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 
 public interface OrganizationDao extends CrudDao{
 
-    List<OrgPersonRelation> getAllOrgPersonRelationsByPerson(String personId);
-    List<OrgHierarchy> getOrgHierarchies();
-    OrgHierarchy getOrgHierarchy(String orgHierarchyKey);
+    public List<OrgPersonRelation> getAllOrgPersonRelationsByPerson(String personId);
+    public List<OrgHierarchy> getOrgHierarchies();
 }
