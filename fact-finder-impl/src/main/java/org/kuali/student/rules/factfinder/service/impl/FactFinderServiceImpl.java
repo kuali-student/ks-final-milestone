@@ -50,9 +50,7 @@ public class FactFinderServiceImpl implements FactFinderService {
         List<LUIPerson> luiPersonList = factFinderDAO.lookupByStudentId(studentId);
 
         List<Map<String, String>> resultValueList = new ArrayList<Map<String, String>>();
-
-        Map<String, String> translationKeys = (null == factStructure.getResultColumnKeyTranslations()) ? new HashMap<String, String>() : factStructure.getResultColumnKeyTranslations();
-        
+   
         /*
          * Only Two Fact Type Keys are known currently. 
          * TODO: Change the implementation to a more generic one
@@ -70,7 +68,6 @@ public class FactFinderServiceImpl implements FactFinderService {
                 if (courseSet.contains(lpr.getCluId()) && !courseExcludeSet.contains(lpr.getCluId())) {
                     Map<String, String> resultColumn = new HashMap<String, String>();
                     resultColumn.put("resultColumn.credit", String.valueOf(lpr.getCredits()));
-                    translateResultColumnKeys(resultColumn, translationKeys);
                     resultValueList.add(resultColumn);
                 }
             }
@@ -78,7 +75,6 @@ public class FactFinderServiceImpl implements FactFinderService {
             for (LUIPerson lpr : luiPersonList) {
                 Map<String, String> resultColumn = new HashMap<String, String>();
                 resultColumn.put("resultColumn.cluId", lpr.getCluId());
-                translateResultColumnKeys(resultColumn, translationKeys);
                 resultValueList.add(resultColumn);
             }
         } else if ("fact.clusetId".equalsIgnoreCase(factTypeKey)) {
@@ -86,7 +82,6 @@ public class FactFinderServiceImpl implements FactFinderService {
             String[] cluSet = factStructure.getParamValueMap().get("factParam.clusetId").split(",");
             for(String cluId : cluSet) {
 	            resultColumn.put("resultColumn.cluId", cluId);
-	            translateResultColumnKeys(resultColumn, translationKeys);
 	            resultValueList.add(resultColumn);
             }
         }
@@ -171,32 +166,4 @@ public class FactFinderServiceImpl implements FactFinderService {
         
         return set;
     }
-
-    /**
-     * 
-     * This method translates the column keys based on the translation provided in the FactStructureDTO
-     * 
-     * @param resultMap
-     * @param translationKeyMap
-     * @return
-     */
-    private Map<String, String> translateResultColumnKeys(Map<String, String> resultMap, Map<String, String> translationKeyMap) {
-        Map<String, String> translatedResultMap = new HashMap<String, String>();
-        
-        if(translationKeyMap.size() > 0 ) {
-            Set<String> keySet = resultMap.keySet();        
-            for(String key : keySet) {
-                if(translationKeyMap.containsKey(key)) {
-                    translatedResultMap.put( translationKeyMap.get(key), resultMap.get(key));
-                } else {
-                    translatedResultMap.put(key,  resultMap.get(key));
-                }
-            }
-        } else {
-            translatedResultMap = resultMap;
-        }        
-        
-        return translatedResultMap;
-    }
-
 }
