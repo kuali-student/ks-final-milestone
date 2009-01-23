@@ -40,7 +40,7 @@
 					<logLevel>INFO</logLevel>
 					<!-- defines which page should be launched when run in hosted mode -->
 					<runTarget>
-						org.kuali.student.core.web.organization/Org.html
+						org.kuali.student.core.web.organization.Org/Org.html
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
