@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -215,7 +216,7 @@ public class ServiceTestClient {
         reDTO.setBusinessRuleProposition(rulePropositionDTO);
 
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setId("123");
+        //brInfoDTO.setId("123");
         brInfoDTO.setName(ruleName);
         brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setSuccessMessage("Test success message");
@@ -249,7 +250,7 @@ public class ServiceTestClient {
         metaInfo.setUpdateID("");
      
         BusinessRuleInfoDTO brInfoDTO = new BusinessRuleInfoDTO();
-        brInfoDTO.setId(businessRuleId);
+        //brInfoDTO.setId(businessRuleId);
         brInfoDTO.setName(ruleName);
         brInfoDTO.setDesc("Prerequsite courses required in order to enroll in CHEM 100");
         brInfoDTO.setType(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
@@ -327,7 +328,7 @@ public class ServiceTestClient {
     		System.out.println("Business Rule ID:   "+businessRule2.getId());
 	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -344,7 +345,7 @@ public class ServiceTestClient {
 	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
 	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -372,7 +373,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -405,7 +406,7 @@ public class ServiceTestClient {
 	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
 	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
 
@@ -431,7 +432,7 @@ public class ServiceTestClient {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -445,6 +446,15 @@ public class ServiceTestClient {
     		System.out.println("Fact type description: "+factTypeInfo.getDescription());
     		System.out.println("Fact type key:         "+factTypeInfo.getFactTypeKey());
     	}
+    }
+
+    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
+    	for(Map<String,String> map : set) {
+    		if (map.get(column).equals(value)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     @Test
@@ -466,15 +476,18 @@ public class ServiceTestClient {
         Assert.assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         Assert.assertEquals(3, result.getResultList().size());
-        Assert.assertEquals("PSYC 200", result.getResultList().get(0).get("resultColumn.cluId"));
-        Assert.assertEquals("PSYC 201", result.getResultList().get(1).get("resultColumn.cluId"));
-        Assert.assertEquals("PSYC 202", result.getResultList().get(2).get("resultColumn.cluId"));        
+//        Assert.assertEquals("PSYC 200", result.getResultSet().get(0).get("resultColumn.cluId"));
+//        Assert.assertEquals("PSYC 201", result.getResultSet().get(1).get("resultColumn.cluId"));
+//        Assert.assertEquals("PSYC 202", result.getResultSet().get(2).get("resultColumn.cluId"));        
+        Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
+        Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 201"));
+        Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 202"));
     }
 
     @Test
     public void testCreateAndExecuteBusinessRule_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
-    	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
+    	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM200PRE_REQ", "CHEM200", false);
 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
@@ -496,7 +509,7 @@ public class ServiceTestClient {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     	} finally {
-    		ruleManagementService.deleteBusinessRule(businessRuleId);
+    		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
     
@@ -515,9 +528,9 @@ public class ServiceTestClient {
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     }
-    
+
     @Test
-    public void testCreateAndExecuteBusinessruleTest_DynamicFact() throws Exception {
+    public void testCreateAndExecuteBusinessRuleTest_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
 
