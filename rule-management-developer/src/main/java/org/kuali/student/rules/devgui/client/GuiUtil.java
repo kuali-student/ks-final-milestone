@@ -78,7 +78,7 @@ public class GuiUtil {
                     }
 
                     completeRule.append(prop.getLeftHandSide().getYieldValueFunction().getYieldValueFunctionType() + " " +
-                    		GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + " " +
+                    		GuiUtil.getComparisonOperatorTypeKeySymbol(prop.getComparisonOperatorTypeKey()) + " " +
                     		prop.getRightHandSide().getExpectedValue() + " ");
                 } else {
                     completeRule.append(token + " ");
@@ -120,10 +120,10 @@ public class GuiUtil {
                 RulePropositionDTO prop = definedPropositions.get(new Integer(token.substring(1)));
                 ruleElem.setName(prop.getName());
                 ruleElem.setDescription(prop.getDescription());
-                ruleElem.setOperation(RuleElementType.PROPOSITION.toString()); //TODO RuleElementType.PROPOSITION.getName());
-                ruleElem.setRuleProposition(prop);
+                ruleElem.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString()); //TODO RuleElementType.PROPOSITION.getName());
+                ruleElem.setBusinessRuleProposition(prop);
             } else {
-                ruleElem.setOperation(token);
+                ruleElem.setBusinessRuleElemnetTypeKey(token);
             }
             elemList.add(ruleElem);
         }
@@ -411,7 +411,7 @@ public class GuiUtil {
         }
     }    
 
-    public static String getComparisonOperatorTypeSymbol(String comparisonOperatorTypeText) {
+    public static String getComparisonOperatorTypeKeySymbol(String comparisonOperatorTypeText) {
         for (ComparisonOperator op : ComparisonOperator.values()) {
             if (op.toString().equals(comparisonOperatorTypeText)) {
                 return op.symbol();
@@ -543,10 +543,11 @@ public class GuiUtil {
     }    
     
     public static String removeFactParamPrefix(String factParam) {
-    	final String FACT_PARAM_PREFIX = "factParam.";
+    	// Removed to fix execution of dynamic facts
+    	/*final String FACT_PARAM_PREFIX = "factParam.";
         if (factParam.startsWith(FACT_PARAM_PREFIX)) {
         	factParam = factParam.substring(FACT_PARAM_PREFIX.length());
-        } 
+        } */
         return factParam;
     }
 

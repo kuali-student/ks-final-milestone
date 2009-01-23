@@ -18,7 +18,7 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
@@ -73,17 +73,17 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     	dynamicTestFacts.setParamValueMap(new HashMap<String, String>());
     	String testFactValue = null;
     	
-    	System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", facts: " + facts);
+    	System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", facts: " + facts);
     	
     	//populate all static and dynamic facts entered in the rule test tab
-        for (RuleElementDTO elem : businessRule.getRuleElementList()) {
-        	if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
-            System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", element: " + elem.getName());        	
-        	List<FactStructureDTO> factStructureList = elem.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+        for (RuleElementDTO elem : businessRule.getBusinessRuleElementList()) {
+        	if (elem.getBusinessRuleElemnetTypeKey().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
+            System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", element: " + elem.getName());        	
+        	List<FactStructureDTO> factStructureList = elem.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
         	for (FactStructureDTO fact : factStructureList) {
         		if (fact.isStaticFact()) {
         		    testFactValue = facts.get(fact.getFactStructureId());
-        		    System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", added static fact: " + testFactValue);
+        		    System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", added static fact: " + testFactValue);
         			fact.setStaticValue(testFactValue);        			
         		} else {
                     Map<String, String> map = fact.getParamValueMap();
@@ -91,17 +91,17 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                         testFactValue = facts.get(key);
                         //map.remove(key);
                         dynamicTestFacts.getParamValueMap().put(key, testFactValue);
-                        System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", added dynamic fact: " + key + " - " + testFactValue);
+                        System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", added dynamic fact: " + key + " - " + testFactValue);
                     }
         		}
-                //System.out.println("EXECUTING: rule id: " + businessRule.getBusinessRuleId() + ", fact: " + fact.getFactStructureId() + ", value: '" + testFactValue + "'");
+                //System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", fact: " + fact.getFactStructureId() + ", value: '" + testFactValue + "'");
         	}
         }            
         
         try {
-            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, (dynamicTestFacts.getParamValueMap().isEmpty() ? null : dynamicTestFacts));  //TODO dynamic facts
+            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, dynamicTestFacts.getParamValueMap());  //TODO dynamic facts
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to execute rule ID: " + businessRule.getBusinessRuleId(), ex); // TODO
+            throw new RuntimeException("Unable to execute rule ID: " + businessRule.getId(), ex); // TODO
         }
         return executionResult;
     }     
@@ -112,9 +112,9 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     	String newRuleId = null;
     	
         try {
-            newRuleId = ruleManagementService.createBusinessRule(businessRuleInfo).getBusinessRuleId();
+            newRuleId = ruleManagementService.createBusinessRule(businessRuleInfo).getId();
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
+            throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
         }
         return newRuleId;
     }
@@ -128,7 +128,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
         	throw new Exception("Unable to update business rule: " + ex.getMessage());
-            //throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getBusinessRuleId(), ex); // TODO
+            //throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
         }
     }
 
@@ -145,9 +145,9 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return businessRuleInfo;
     }
 
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
 
-        BusinessRuleTypeDTO businessRuleType;
+        BusinessRuleTypeInfoDTO businessRuleType;
 
         try {
             businessRuleType = ruleManagementService.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
@@ -309,8 +309,8 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
 
-                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getDisplayName(),
-                    				businessRule.getAnchorValue(), businessRule.getStatus()));
+                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getName(),
+                    				businessRule.getAnchorValue(), businessRule.getState()));
                 }
             }
 

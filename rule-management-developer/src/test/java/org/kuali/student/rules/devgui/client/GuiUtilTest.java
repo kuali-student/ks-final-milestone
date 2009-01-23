@@ -40,11 +40,11 @@ public class GuiUtilTest {
         List<RuleElementDTO> elemList = new ArrayList<RuleElementDTO>();
         RuleElementDTO ruleElem = new RuleElementDTO();
         ruleElem.setOrdinalPosition(1);
-        ruleElem.setOperation("PROPOSITION");
-        ruleElem.setRuleProposition(definedPropositions.get(new Integer(1)));
+        ruleElem.setBusinessRuleElemnetTypeKey("PROPOSITION");
+        ruleElem.setBusinessRuleProposition(definedPropositions.get(new Integer(1)));
 
         // ruleElem.setOrdinalPosition(1);
-        // ruleElem.setOperation(token);
+        // ruleElem.setBusinessRuleElemnetTypeKey(token);
 
         elemList.add(ruleElem);
 
@@ -150,7 +150,7 @@ public class GuiUtilTest {
         RightHandSideDTO rightHandSide = new RightHandSideDTO();
         rightHandSide.setExpectedValue("10");
         ruleProp.setLeftHandSide(leftHandSide);
-        ruleProp.setComparisonOperatorType(GuiUtil.ComparisonOperator.EQUAL_TO.name());
+        ruleProp.setComparisonOperatorTypeKey(GuiUtil.ComparisonOperator.EQUAL_TO.name());
         ruleProp.setRightHandSide(rightHandSide);
 
         // populate test data

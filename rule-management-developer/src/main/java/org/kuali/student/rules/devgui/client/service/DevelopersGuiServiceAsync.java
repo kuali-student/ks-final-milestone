@@ -8,12 +8,10 @@ import java.util.Map;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -34,7 +32,7 @@ public interface DevelopersGuiServiceAsync {
 
     public void fetchDetailedBusinessRuleInfo(String ruleId, AsyncCallback<BusinessRuleInfoDTO> callback);
 
-    public void fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey, AsyncCallback<BusinessRuleTypeDTO> callback);
+    public void fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey, AsyncCallback<BusinessRuleTypeInfoDTO> callback);
 
     public void testBusinessRule(String businessRuleId, AsyncCallback<String> callback);
     

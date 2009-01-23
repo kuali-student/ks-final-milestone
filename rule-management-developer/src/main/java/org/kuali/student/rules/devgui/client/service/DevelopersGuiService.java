@@ -8,12 +8,10 @@ import java.util.Map;
 
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -57,7 +55,7 @@ public interface DevelopersGuiService extends RemoteService {
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId);
 
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey);
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey);
 
     public String testBusinessRule(String businessRuleId);
     

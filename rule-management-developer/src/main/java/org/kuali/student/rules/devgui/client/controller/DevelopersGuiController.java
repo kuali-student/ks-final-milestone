@@ -8,7 +8,6 @@ import java.util.List;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
-import org.kuali.student.commons.ui.mvc.client.MVCEventListener;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleType;

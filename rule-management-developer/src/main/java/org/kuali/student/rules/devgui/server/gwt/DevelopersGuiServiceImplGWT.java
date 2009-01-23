@@ -11,12 +11,10 @@ import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.server.impl.DevelopersGuiServiceImpl;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -53,7 +51,7 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
         return serviceImpl.fetchDetailedBusinessRuleInfo(ruleId);
     }
 
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
         return serviceImpl.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
     }
 

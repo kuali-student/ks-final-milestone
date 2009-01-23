@@ -15,7 +15,7 @@ import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -84,7 +84,7 @@ public class RuleTypesComposite extends Composite {
 
     boolean loaded = false;
 
-    private BusinessRuleTypeDTO activeRuleType; // keep copy of business rule type so we can update all fields user can
+    private BusinessRuleTypeInfoDTO activeRuleType; // keep copy of business rule type so we can update all fields user can
 
     // change
 
@@ -122,14 +122,14 @@ public class RuleTypesComposite extends Composite {
                         String businessRuleTypeKey = modelObject.getBusinessRuleTypeKey();
                         String anchorTypeKey = modelObject.getAnchorTypeKey();
                         // populate fields from new selection
-                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(businessRuleTypeKey, anchorTypeKey, new AsyncCallback<BusinessRuleTypeDTO>() {
+                        DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(businessRuleTypeKey, anchorTypeKey, new AsyncCallback<BusinessRuleTypeInfoDTO>() {
                             public void onFailure(Throwable caught) {
                                 // just re-throw it and let the uncaught exception handler deal with it
                                 Window.alert(caught.getMessage());
                                 // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                             }
 
-                            public void onSuccess(BusinessRuleTypeDTO ruleTypeInfo) {
+                            public void onSuccess(BusinessRuleTypeInfoDTO ruleTypeInfo) {
                                 // store selected business rule in temporary object
                                 activeRuleType = ruleTypeInfo;
 

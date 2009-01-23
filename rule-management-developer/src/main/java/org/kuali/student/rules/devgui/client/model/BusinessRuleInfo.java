@@ -10,7 +10,7 @@ public class BusinessRuleInfo extends BusinessRuleInfoDTO {
 
     public int getMaxOrdinalPosition() {
         int max = 0;
-        for (RuleElementDTO elem : this.getRuleElementList()) {
+        for (RuleElementDTO elem : this.getBusinessRuleElementList()) {
             if (elem.getOrdinalPosition() > max) {
                 max = elem.getOrdinalPosition();
             }
@@ -19,8 +19,8 @@ public class BusinessRuleInfo extends BusinessRuleInfoDTO {
     }
 
     public RuleElementDTO getBusinessRuleElement(Integer ordinalPosition) {
-        for (RuleElementDTO elem : this.getRuleElementList()) {
-            if ((elem.getOperation().equals("PROPOSITION")) && (elem.getOrdinalPosition().equals(ordinalPosition))) {
+        for (RuleElementDTO elem : this.getBusinessRuleElementList()) {
+            if ((elem.getBusinessRuleElemnetTypeKey().equals("PROPOSITION")) && (elem.getOrdinalPosition().equals(ordinalPosition))) {
                 return elem;
             }
         }
@@ -28,13 +28,13 @@ public class BusinessRuleInfo extends BusinessRuleInfoDTO {
     }
 
     public void addBusinessRuleElement(RuleElementDTO newElem) {
-        this.getRuleElementList().add(newElem);
+        this.getBusinessRuleElementList().add(newElem);
     }
 
     public void removeBusinessRuleElement(Integer ordinalPosition) {
-        for (RuleElementDTO elem : this.getRuleElementList()) {
+        for (RuleElementDTO elem : this.getBusinessRuleElementList()) {
             if (elem.getOrdinalPosition().equals(ordinalPosition)) {
-                this.getRuleElementList().remove(elem);
+                this.getBusinessRuleElementList().remove(elem);
                 return;
             }
         }

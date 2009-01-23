@@ -4,14 +4,13 @@
 package org.kuali.student.rules.devgui.client.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
+import org.kuali.student.commons.ui.logging.client.Logger;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
@@ -23,42 +22,35 @@ import org.kuali.student.commons.ui.validators.client.ValidationResult;
 import org.kuali.student.commons.ui.validators.client.Validator;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
-import org.kuali.student.poc.common.util.UUIDHelper;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
 import org.kuali.student.rules.devgui.client.GuiUtil.YieldValueFunctionType;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
-import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
-import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
-import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -68,7 +60,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
@@ -80,8 +71,6 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import org.kuali.student.commons.ui.logging.client.Logger;
 
 /**
  * @author Zdenek
@@ -130,7 +119,6 @@ public class RulesComposite extends Composite {
     final Label businessRuleID = new Label();
     final Label ruleStatus = new Label();
     final TextBox nameTextBox = new TextBox();
-    final Label originalNameLabel = new Label();
     final TextArea descriptionTextArea = new TextArea();
     final TextArea successMessageTextArea = new TextArea();
     final TextArea failureMessageTextArea = new TextArea();
@@ -327,7 +315,7 @@ public class RulesComposite extends Composite {
                     }                        
                     
                     //make sure rule has draft status 
-                    displayedRule.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());  
+                    displayedRule.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());  
                     displayedRuleInfo.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
                     displayedRule.getMetaInfo().setCreateTime(new Date());
                    
@@ -339,7 +327,7 @@ public class RulesComposite extends Composite {
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                             
                             //now revert the rule status back
-                            displayedRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);  
+                            displayedRule.setState(STATUS_NOT_STORED_IN_DATABASE);  
                             displayedRuleInfo.setStatus(STATUS_NOT_STORED_IN_DATABASE);                            
                         }
 
@@ -356,10 +344,10 @@ public class RulesComposite extends Composite {
                             ruleInfo.setAgendaType(displayedRuleInfo.getAgendaType());
                             ruleInfo.setBusinessRuleType(displayedRuleInfo.getBusinessRuleType());
                             ruleInfo.setAnchor(displayedRuleInfo.getAnchor());
-                            ruleInfo.setBusinessRuleDisplayName(displayedRule.getDisplayName());
+                            ruleInfo.setBusinessRuleDisplayName(displayedRule.getName());
                             ruleInfo.setBusinessRuleId(newRuleID);
                             rulesTree.add(ruleInfo);
-                            displayedRule.setBusinessRuleId(newRuleID);
+                            displayedRule.setId(newRuleID);
 
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
@@ -385,7 +373,7 @@ public class RulesComposite extends Composite {
                     // 3) update rule
                     displayedRule.getMetaInfo().setUpdateTime(new Date());
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -417,11 +405,11 @@ public class RulesComposite extends Composite {
                     //TODO rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
                     
                     // 3) rule status changes to ACTIVE
-                    displayedRule.setStatus(BusinessRuleStatus.ACTIVE.toString());
+                    displayedRule.setState(BusinessRuleStatus.ACTIVE.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
-                    displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getDisplayName());
+                    displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getName());
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -455,7 +443,7 @@ public class RulesComposite extends Composite {
                     }
                     
                     // 3) create new version of this rule
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -473,10 +461,10 @@ public class RulesComposite extends Composite {
             
             retireRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                    displayedRule.setStatus(BusinessRuleStatus.RETIRED.toString());
+                    displayedRule.setState(BusinessRuleStatus.RETIRED.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
 
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getBusinessRuleId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
                         public void onFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                         }
@@ -493,17 +481,15 @@ public class RulesComposite extends Composite {
             
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                	//keep original rule values except rule id, original rule id, compiled id and original name
-                	displayedRule.setBusinessRuleId("");
-                	displayedRule.setFirstVersionRuleId("");
+                	//keep original rule values except rule id, original rule id, and compiled id
+                	displayedRule.setId("");
                 	displayedRule.setCompiledId("");
                 	businessRuleID.setText("");
-                    originalNameLabel.setText("");
-                	displayedRule.setDisplayName("COPY " + displayedRule.getDisplayName()); 
-                    nameTextBox.setText(displayedRule.getDisplayName());                    
-                	displayedRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
+                    displayedRule.setName("COPY " + displayedRule.getName()); 
+                    nameTextBox.setText(displayedRule.getName());                    
+                	displayedRule.setState(STATUS_NOT_STORED_IN_DATABASE);
                 	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);                              	
-                	updateRulesFormButtons(displayedRule.getStatus());
+                	updateRulesFormButtons(displayedRule.getState());
                 	rulesFormTabs.selectTab(0);  
                 	GuiUtil.showUserDialog("Rule copied.");
                 }
@@ -704,7 +690,7 @@ public class RulesComposite extends Composite {
             
             testRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
-                	System.out.println("Rule id: " + displayedRule.getBusinessRuleId());
+                	System.out.println("Rule id: " + displayedRule.getId());
                 	
                 	factValuesForTest.clear();
                 	
@@ -762,7 +748,7 @@ public class RulesComposite extends Composite {
                 	}
                 	
                 	displayedRuleInfo.setAgendaType(GuiUtil.getListBoxSelectedValue(agendaTypesListBox).trim());
-                	displayedRule.setBusinessRuleTypeKey("");  
+                	displayedRule.setType("");  
                 	displayedRule.setAnchorTypeKey("");
                 	ruleAnchorType.setText("");
                 	populateAgendaAndBusinessRuleTypesListBox();
@@ -778,7 +764,7 @@ public class RulesComposite extends Composite {
                     	ruleAnchorType.setText("");
                     	factTypeKeyList = null;
                     } else {
-                    	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
+                    	displayedRule.setType(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
                     	ruleAnchorType.setText(AnchorTypeKey.KUALI_COURSE.name());  //TODO lookup based on business rule type
                     	displayedRule.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.name());
                     	retrieveFactTypes();
@@ -803,26 +789,26 @@ public class RulesComposite extends Composite {
     	firstFactTypeKeyListSelectedValue = null;
     	setRuleStatus(STATUS_NOT_STORED_IN_DATABASE);
     	populateAgendaAndBusinessRuleTypesListBox();
-        updateRulesFormButtons(displayedRule.getStatus()); 
+        updateRulesFormButtons(displayedRule.getState()); 
         rulesTree.unSelect();  //clear current rule tree selection      
     }    
 
     private void loadExistingRule(BusinessRuleInfoDTO ruleInfo) {
     	
         displayedRule = ruleInfo;
-        updateRulesFormButtons(ruleInfo.getStatus());
+        updateRulesFormButtons(ruleInfo.getState());
       
         // store individual propositions in a temporary list & set Rule Composition text
         int propCount = 1;
         ruleComposition = new StringBuffer();
         definedPropositions = new HashMap<Integer, RulePropositionDTO>();
 
-        for (RuleElementDTO elem : ruleInfo.getRuleElementList()) {
-            if (elem.getOperation().equals(RuleElementType.PROPOSITION.getName())) {
-                definedPropositions.put(propCount, elem.getRuleProposition());
+        for (RuleElementDTO elem : ruleInfo.getBusinessRuleElementList()) {
+            if (elem.getBusinessRuleElemnetTypeKey().equals(RuleElementType.PROPOSITION.getName())) {
+                definedPropositions.put(propCount, elem.getBusinessRuleProposition());
                 ruleComposition.append("P" + (propCount++) + " ");
             } else {
-                ruleComposition.append(elem.getOperation() + " ");
+                ruleComposition.append(elem.getBusinessRuleElemnetTypeKey() + " ");
             }
         }
 
@@ -831,7 +817,7 @@ public class RulesComposite extends Composite {
     }
     
     private void setRuleStatus(String status) {
-    	displayedRule.setStatus(status);
+    	displayedRule.setState(status);
     	ruleStatus.setText(status);
     	 	
     	if (ruleStatus.getText().equals(STATUS_NOT_STORED_IN_DATABASE)) {
@@ -848,7 +834,7 @@ public class RulesComposite extends Composite {
     }
     
     private String getRuleStatus() {
-    	return displayedRule.getStatus();
+    	return displayedRule.getState();
     }
     
     private void updateRulesFormButtons(String ruleStatus) {  
@@ -895,11 +881,11 @@ public class RulesComposite extends Composite {
     private boolean updateCopyOfDisplayedRule() {
 
         // set rule basic info
-    	displayedRule.setDisplayName(nameTextBox.getText());
-    	displayedRule.setDescription(descriptionTextArea.getText());
+    	displayedRule.setName(nameTextBox.getText());
+    	displayedRule.setDesc(descriptionTextArea.getText());
     	displayedRule.setSuccessMessage(successMessageTextArea.getText());
     	displayedRule.setFailureMessage(failureMessageTextArea.getText());
-    	displayedRule.setBusinessRuleTypeKey(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
+    	displayedRule.setType(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
     	displayedRule.setAnchorTypeKey(ruleAnchorType.getText());
     	
     	System.out.println("Anchor Type key:" + ruleAnchorType.getText());
@@ -925,13 +911,13 @@ public class RulesComposite extends Composite {
 	        	GuiUtil.showUserDialog("ERROR: Failed to process defined propositions." + e.getMessage());
 	            return false;
 	        }
-	        displayedRule.setRuleElementList(elemList);
+	        displayedRule.setBusinessRuleElementList(elemList);
     	}
         
         // set authoring info
         final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
-        displayedRule.setEffectiveStartTime(formatter.parse(effectiveDateTextBox.getText())); 
-        displayedRule.setEffectiveEndTime(formatter.parse(expiryDateTextBox.getText()));
+        displayedRule.setEffectiveDate(formatter.parse(effectiveDateTextBox.getText())); 
+        displayedRule.setExpirationDate(formatter.parse(expiryDateTextBox.getText()));
         
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         //metaInfo.setCreateID(createUserIdTextBox.getText());
@@ -955,20 +941,19 @@ public class RulesComposite extends Composite {
 
         BusinessRuleInfoDTO newRule = new BusinessRuleInfoDTO();
 
-        newRule.setBusinessRuleId("");
-        newRule.setStatus(STATUS_NOT_STORED_IN_DATABASE);
-        newRule.setDisplayName("");
-        newRule.setOrigName("");
-        newRule.setDescription("");
+        newRule.setId("");
+        newRule.setState(STATUS_NOT_STORED_IN_DATABASE);
+        newRule.setName("");
+        newRule.setDesc("");
         newRule.setSuccessMessage("");
         newRule.setFailureMessage("");
-        newRule.setBusinessRuleTypeKey("");
+        newRule.setType("");
         newRule.setAnchorTypeKey("");
         newRule.setAnchorValue("");
 		Date effectiveDate = new Date();
 		Date effectiveEndTime = new Date(future_date);
-		newRule.setEffectiveStartTime(effectiveDate);
-		newRule.setEffectiveEndTime(effectiveEndTime);
+		newRule.setEffectiveDate(effectiveDate);
+		newRule.setExpirationDate(effectiveEndTime);
 
         // set rule proposition
         LeftHandSideDTO leftSide = new LeftHandSideDTO();
@@ -977,20 +962,20 @@ public class RulesComposite extends Composite {
         prop.setName("");
         prop.setDescription("");
         prop.setLeftHandSide(leftSide);
-        prop.setComparisonOperatorType("");
+        prop.setComparisonOperatorTypeKey("");
         prop.setRightHandSide(rightSide);
-        prop.setComparisonDataType("");
+        prop.setComparisonDataTypeKey("");
 
         // set rule elements
         List<RuleElementDTO> elemList = new ArrayList<RuleElementDTO>();
         RuleElementDTO elem = new RuleElementDTO();
         elem.setName("");
         elem.setDescription("");
-        elem.setOperation("");
+        elem.setBusinessRuleElemnetTypeKey("");
         elem.setOrdinalPosition(6);
-        elem.setRuleProposition(prop);
+        elem.setBusinessRuleProposition(prop);
         elemList.add(elem);
-        newRule.setRuleElementList(elemList);
+        newRule.setBusinessRuleElementList(elemList);
 
         // set meta info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
@@ -1009,7 +994,7 @@ public class RulesComposite extends Composite {
         String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
         String businessRuleType = GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox);
         String anchor = ruleAnchorTextBox.getText();
-        String ruleName = displayedRule.getDisplayName();
+        String ruleName = displayedRule.getName();
                        
         //show drafts with other rules for now, marking them with [D]
         displayedRuleInfo = new RulesHierarchyInfo();
@@ -1093,13 +1078,13 @@ public class RulesComposite extends Composite {
         }
  	
         // at least one proposition needs to be used
-        if (displayedRule.getDisplayName().isEmpty()) {
+        if (displayedRule.getName().isEmpty()) {
         	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Name.");
             return false;
         }
         
         // at least one proposition needs to be used
-        if (displayedRule.getDescription().isEmpty()) {
+        if (displayedRule.getDesc().isEmpty()) {
         	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Description.");
             return false;
         }     	
@@ -1116,8 +1101,8 @@ public class RulesComposite extends Composite {
             return false;  
     	}
     	
-  		if ((displayedRule.getBusinessRuleTypeKey() == null) || displayedRule.getBusinessRuleTypeKey().equals(EMPTY_LIST_BOX_ITEM) ||
-  				displayedRule.getBusinessRuleTypeKey().isEmpty()) {
+  		if ((displayedRule.getType() == null) || displayedRule.getType().equals(EMPTY_LIST_BOX_ITEM) ||
+  				displayedRule.getType().isEmpty()) {
         	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Business Rule Type.");
             return false;  
     	}  		
@@ -1172,8 +1157,8 @@ public class RulesComposite extends Composite {
             return false;
         }    	
         
-        if ((prop.getComparisonOperatorType() == null) || (prop.getComparisonOperatorType().trim().isEmpty())
-        		|| prop.getComparisonOperatorType().equals(equals(EMPTY_LIST_BOX_ITEM))) {
+        if ((prop.getComparisonOperatorTypeKey() == null) || (prop.getComparisonOperatorTypeKey().trim().isEmpty())
+        		|| prop.getComparisonOperatorTypeKey().equals(equals(EMPTY_LIST_BOX_ITEM))) {
         	GuiUtil.showUserDialog("ERROR: Missing Operator.");
             return false;        	
         }        
@@ -1260,7 +1245,6 @@ public class RulesComposite extends Composite {
     	businessRuleID.setText("");
     	ruleStatus.setText("");
         nameTextBox.setText("");
-        originalNameLabel.setText("");
         descriptionTextArea.setText("");
         successMessageTextArea.setText("");
         failureMessageTextArea.setText("");
@@ -1290,7 +1274,7 @@ public class RulesComposite extends Composite {
     private void populateAgendaAndBusinessRuleTypesListBox() {
     	        	
     	String ruleAgendaType = (displayedRuleInfo == null ? "" : displayedRuleInfo.getAgendaType());
-    	String businessRuleType = (displayedRule == null ? "" : displayedRule.getBusinessRuleTypeKey()); 
+    	String businessRuleType = (displayedRule == null ? "" : displayedRule.getType()); 
     	
     	System.out.println("DEBUG: agenda type:" + ruleAgendaType);     	
     	System.out.println("Business rule type: " + businessRuleType);       	
@@ -1360,8 +1344,8 @@ public class RulesComposite extends Composite {
                 	businessRuleTypesListBox.addItem(businessRuleTypeKey);
                 }
                 
-                if (displayedRule.getBusinessRuleTypeKey().trim().isEmpty() == false) {
-                	GuiUtil.setListBoxSelectionByItemName(businessRuleTypesListBox, displayedRule.getBusinessRuleTypeKey());
+                if (displayedRule.getType().trim().isEmpty() == false) {
+                	GuiUtil.setListBoxSelectionByItemName(businessRuleTypesListBox, displayedRule.getType());
                 }
             }
         });          
@@ -1371,11 +1355,10 @@ public class RulesComposite extends Composite {
         rulesFormTabs.selectTab(0);
         
         // populate Main TAB
-        businessRuleID.setText(displayedRule.getBusinessRuleId());
-        setRuleStatus(displayedRule.getStatus());
-        nameTextBox.setText(displayedRule.getDisplayName());
-        originalNameLabel.setText(displayedRule.getOrigName());
-        descriptionTextArea.setText(displayedRule.getDescription());
+        businessRuleID.setText(displayedRule.getId());
+        setRuleStatus(displayedRule.getState());
+        nameTextBox.setText(displayedRule.getName());
+        descriptionTextArea.setText(displayedRule.getDesc());
         successMessageTextArea.setText(displayedRule.getSuccessMessage());
         failureMessageTextArea.setText(displayedRule.getFailureMessage());
         populateAgendaAndBusinessRuleTypesListBox();
@@ -1389,8 +1372,8 @@ public class RulesComposite extends Composite {
         completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
 
         // populate Authoring TAB
-        effectiveDateTextBox.setText(GuiUtil.formatDate(displayedRule.getEffectiveStartTime()));
-        expiryDateTextBox.setText(GuiUtil.formatDate(displayedRule.getEffectiveEndTime()));
+        effectiveDateTextBox.setText(GuiUtil.formatDate(displayedRule.getEffectiveDate()));
+        expiryDateTextBox.setText(GuiUtil.formatDate(displayedRule.getExpirationDate()));
         createTimeLabel.setText(GuiUtil.formatDate(displayedRule.getMetaInfo().getCreateTime()));
         createUserIdLabel.setText(displayedRule.getMetaInfo().getCreateID());
         createCommentTextBox.setText(displayedRule.getMetaInfo().getCreateComment());
@@ -1497,15 +1480,6 @@ public class RulesComposite extends Composite {
 
         flexFormTable.setWidget(ix, 1, nameTextBox);
         nameTextBox.setWidth("50%");     
-        
-        // Original Name
-        ix++;
-        flexFormTable.setWidget(ix, 0, new Label(messages.get("ruleOriginalName")));
-        flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
-        flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
-
-        flexFormTable.setWidget(ix, 1, originalNameLabel);
-        originalNameLabel.setWidth("50%");        
         
         // Description
         ix++;
@@ -1824,7 +1798,7 @@ public class RulesComposite extends Composite {
         	propIndex.setStyleName("propositon_bold");
         	leftAndRightSide.add(propIndex);
         	leftAndRightSide.add(new Label(GuiUtil.getYVFSymbol(yvf.getYieldValueFunctionType()) + "  "));
-        	leftAndRightSide.add(new Label(GuiUtil.getComparisonOperatorTypeSymbol(prop.getComparisonOperatorType()) + "  "));
+        	leftAndRightSide.add(new Label(GuiUtil.getComparisonOperatorTypeKeySymbol(prop.getComparisonOperatorTypeKey()) + "  "));
         	leftAndRightSide.add(new Label(prop.getRightHandSide().getExpectedValue()));        	
         	propPanel.add(leftRightSidepanel);        	
 
@@ -2238,7 +2212,7 @@ public class RulesComposite extends Composite {
     	clearPropositionDetails();
         propNameTextBox.setText(prop.getName());
         propDescTextBox.setText(prop.getDescription());        
-        operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorType()));
+        operatorsListBox.setSelectedIndex(GuiUtil.getListBoxIndexByName(operatorsListBox, prop.getComparisonOperatorTypeKey()));
         expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());        
         populateYVFDetails(prop.getLeftHandSide().getYieldValueFunction(), prop.getName());   
     }   
@@ -2261,7 +2235,7 @@ public class RulesComposite extends Composite {
     	
         // do not enable YVF fact parameters if no YVF is selected or we don't know the rule type
         if ((yvf == null) || yvfType.equals(EMPTY_LIST_BOX_ITEM) ||
-        	(displayedRule == null) || (displayedRule.getBusinessRuleTypeKey().trim().isEmpty())) {
+        	(displayedRule == null) || (displayedRule.getType().trim().isEmpty())) {
         	resetYVFFactFields();
         	return;	//no selection of YVF yet
         }
@@ -2358,14 +2332,14 @@ public class RulesComposite extends Composite {
 	        //load list of factTypeKeys for the given business rule type
 	        //TODO in proposition form, make indication that the param list boxes are still being loaded...
         	loadingFactTypeKeyList = true;
-    		DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(displayedRule.getBusinessRuleTypeKey(),
-    				displayedRule.getAnchorTypeKey(),new AsyncCallback<BusinessRuleTypeDTO>() {
+    		DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(displayedRule.getType(),
+    				displayedRule.getAnchorTypeKey(),new AsyncCallback<BusinessRuleTypeInfoDTO>() {
 	            public void onFailure(Throwable caught) {
 	                // just re-throw it and let the uncaught exception handler deal with it
 	                Window.alert(caught.getMessage());
 	            }
 	
-	            public void onSuccess(BusinessRuleTypeDTO ruleTypeInfo) {
+	            public void onSuccess(BusinessRuleTypeInfoDTO ruleTypeInfo) {
 	            	Logger.info("Loading fact type key list: " + ruleTypeInfo.getFactTypeKeyList());
 	            	loadingFactTypeKeyList = false;
 	            	factTypeKeyList = new ArrayList<FactTypeInfoDTO>();
@@ -2473,9 +2447,9 @@ public class RulesComposite extends Composite {
 	        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
 	        
 	        if (yvf.equals(YieldValueFunctionType.INTERSECTION.name())) {
-	        	prop.setComparisonDataType("java.math.Integer");
+	        	prop.setComparisonDataTypeKey("java.math.Integer");
 	        } else { //if ((yvf.equals(YieldValueFunctionType.SUM.name()) || (yvf.equals(YieldValueFunctionType..name()) {
-	        	prop.setComparisonDataType("java.math.BigDecimal");
+	        	prop.setComparisonDataTypeKey("java.math.BigDecimal");
 	        }  
 	        
 	        //store set facts in YVF
@@ -2533,7 +2507,7 @@ public class RulesComposite extends Composite {
         RightHandSideDTO rightSide = new RightHandSideDTO();
         rightSide.setExpectedValue(expectedValueTextBox.getText());
         prop.setRightHandSide(rightSide);
-        prop.setComparisonOperatorType(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));  
+        prop.setComparisonOperatorTypeKey(operatorsListBox.getValue(operatorsListBox.getSelectedIndex()));  
     	
         return prop;
     }
@@ -2569,9 +2543,9 @@ public class RulesComposite extends Composite {
         prop.setName("");
         prop.setDescription("");
         prop.setLeftHandSide(leftSide);
-        prop.setComparisonOperatorType("");
+        prop.setComparisonOperatorTypeKey("");
         prop.setRightHandSide(rightSide);
-        prop.setComparisonDataType("");
+        prop.setComparisonDataTypeKey("");
         
     	//finally find the new rule proposition place in the list (at the end)
         int max = 0; int lastPropIx = -1;
