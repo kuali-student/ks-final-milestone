@@ -790,6 +790,16 @@
 				</bean>
 			</set>
 		</property>
+        <property name="translationKeySet">
+            <set>
+                <bean
+                    class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+                    <property name="translationKey" value="key.proposition.column.intersection" />
+                    <property name="value" value="resultColumn.cluId" />
+                    <property name="factStructure" ref="factStructure312" />
+                </bean>
+            </set>
+        </property>
 		<property name="yieldValueFunction" ref="yieldValueFunction31" />
 	</bean>
 
@@ -845,6 +855,16 @@
 		<property name="staticValueDataType" value="java.lang.String" />
 		<property name="staticValue" value="PSYC 201, PSYC 202" />
 		<property name="yieldValueFunction" ref="yieldValueFunction32" />
+        <property name="translationKeySet">
+            <set>
+                <bean
+                    class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+                    <property name="translationKey" value="key.proposition.column.intersection" />
+                    <property name="value" value="resultColumn.cluId" />
+                    <property name="factStructure" ref="factStructure321" />
+                </bean>
+            </set>
+        </property>
 	</bean>
 
 	<bean id="factStructure322"
@@ -869,6 +889,16 @@
 			</set>
 		</property>
 		<property name="yieldValueFunction" ref="yieldValueFunction32" />
+        <property name="translationKeySet">
+            <set>
+                <bean
+                    class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
+                    <property name="translationKey" value="key.proposition.column.intersection" />
+                    <property name="value" value="resultColumn.cluId" />
+                    <property name="factStructure" ref="factStructure322" />
+                </bean>
+            </set>
+        </property>
 	</bean>
 
 	<bean id="rightHandSide32"
@@ -956,12 +986,9 @@
 			<set>
 				<bean
 					class="org.kuali.student.rules.rulemanagement.entity.FactStructureTranslationKey">
-					<property name="translationKey"
-						value="resultColumn.credit" />
-					<property name="value"
-						value="earned_credits" />
-					<property name="factStructure"
-						ref="factStructure331" />
+                    <property name="translationKey" value="key.proposition.column.sum" />
+                    <property name="value" value="resultColumn.credit" />
+					<property name="factStructure" ref="factStructure331" />
 				</bean>
 			</set>
 		</property>

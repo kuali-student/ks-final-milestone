@@ -16,15 +16,15 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFSubsetPropositionTest {
 
-    public Map<String, Object> getFactMap(FactStructureDTO fs1, FactStructureDTO fs2) {
+    public Map<String, Object> getFactMap(FactStructureDTO fs1, FactStructureDTO fs2, String column) {
     	String criteriaKey = FactUtil.createCriteriaKey(fs1);
     	String factKey = FactUtil.createFactKey(fs2);
 
-    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(String.class.getName());
-        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(String.class.getName(), column);
+        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"}, column);
         factResult.setFactResultTypeInfo(columnMetaData1);
 
-    	FactResultDTO factResultCriteria = CommonTestUtil.createFactResult(new String[] {"CPR101"});
+    	FactResultDTO factResultCriteria = CommonTestUtil.createFactResult(new String[] {"CPR101"}, column);
     	factResultCriteria.setFactResultTypeInfo(columnMetaData1);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
@@ -39,10 +39,16 @@ public class YVFSubsetPropositionTest {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.subset.criteria");
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFSubsetProposition.SUBSET_COLUMN_KEY, "resultColumn.cluId");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		FactStructureDTO fs2 = CommonTestUtil.createFactStructure("fact.id.2", "course.subset.fact");
+		fs2.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
 
-		Map<String, Object> factMap = getFactMap(fs1, fs2);
+		Map<String, Object> factMap = getFactMap(fs1, fs2, "resultColumn.cluId");
 		
 		YVFSubsetProposition<String> poposition = new YVFSubsetProposition<String>(
 				"1", "YVFSubsetProposition", yvf, factMap);

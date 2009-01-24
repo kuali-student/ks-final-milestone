@@ -40,6 +40,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
 import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
@@ -140,6 +141,11 @@ public class ServiceTestClient {
         fs.setFactStructureId("1");
         fs.setFactTypeKey("fact.clusetId");
         fs.setAnchorFlag(false);
+
+        Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+        resultColumnKeyMap.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        fs.setResultColumnKeyTranslations(resultColumnKeyMap);
+        
         fs.setStaticFact(staticFact);
         if (staticFact) {
 	        fs.setStaticValue("CPR101");
@@ -161,6 +167,11 @@ public class ServiceTestClient {
         fs.setFactStructureId("2");
         fs.setFactTypeKey("fact.completed_course_list");
         fs.setAnchorFlag(false);
+
+        Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+        resultColumnKeyMap.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        fs.setResultColumnKeyTranslations(resultColumnKeyMap);
+        
         fs.setStaticFact(staticFact);
         if (staticFact) {
         	fs.setStaticValue("CPR101, CPR201, CPR301");
@@ -430,7 +441,8 @@ public class ServiceTestClient {
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+	        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+	        Assert.assertTrue(executionResult.getReport().isSuccessful());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -475,10 +487,7 @@ public class ServiceTestClient {
         Assert.assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
         Assert.assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
-        Assert.assertEquals(3, result.getResultList().size());
-//        Assert.assertEquals("PSYC 200", result.getResultSet().get(0).get("resultColumn.cluId"));
-//        Assert.assertEquals("PSYC 201", result.getResultSet().get(1).get("resultColumn.cluId"));
-//        Assert.assertEquals("PSYC 202", result.getResultSet().get(2).get("resultColumn.cluId"));        
+        Assert.assertEquals(4, result.getResultList().size());
         Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
         Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 201"));
         Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 202"));
@@ -498,7 +507,7 @@ public class ServiceTestClient {
             Assert.assertNotNull(businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule ID:        "+businessRule2.getId());
-	        System.out.println("Business Rule Display Name :     "+businessRule2.getName());
+	        System.out.println("Business Rule Name :     "+businessRule2.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
             Assert.assertNotNull(executionResult);
@@ -507,7 +516,8 @@ public class ServiceTestClient {
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+	        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+	        Assert.assertTrue(executionResult.getReport().isSuccessful());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -517,6 +527,7 @@ public class ServiceTestClient {
     public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
+    	businessRule1.setId("xxx");
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, null);
         Assert.assertNotNull(executionResult);
@@ -526,13 +537,15 @@ public class ServiceTestClient {
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
         System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+        Assert.assertTrue(executionResult.getReport().isSuccessful());
     }
 
     @Test
     public void testCreateAndExecuteBusinessRuleTest_DynamicFact() throws Exception {
     	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100", false);
+    	businessRule1.setId("xxx");
 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
@@ -545,7 +558,8 @@ public class ServiceTestClient {
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
         System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+        Assert.assertTrue(executionResult.getReport().isSuccessful());
     }
     
 }

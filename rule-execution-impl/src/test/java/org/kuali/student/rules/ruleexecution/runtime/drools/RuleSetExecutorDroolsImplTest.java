@@ -41,6 +41,9 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.statement.yvf.YVFAverageProposition;
+import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
+import org.kuali.student.rules.internal.common.statement.yvf.YVFSubsetProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
@@ -247,10 +250,21 @@ public class RuleSetExecutorDroolsImplTest {
     	YieldValueFunctionDTO yvfIntersection = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+
+		Map<String,String> averageResultColumnKey = new HashMap<String, String>();
+		averageResultColumnKey.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, "column1");
+		factStructure1.setResultColumnKeyTranslations(averageResultColumnKey);
+		
 		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
 		
+		Map<String,String> intersectionResultColumnKey = new HashMap<String, String>();
+		intersectionResultColumnKey.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "column1");
+		
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
+		factStructure3.setResultColumnKeyTranslations(intersectionResultColumnKey);
 		FactStructureDTO factStructure4 = createFactStructure("subset.id.3", "course.subset.fact");
+		factStructure4.setResultColumnKeyTranslations(intersectionResultColumnKey);
+
 		yvfIntersection.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
 
     	String factKeyAverage = FactUtil.createFactKey(factStructure1);
@@ -358,10 +372,20 @@ public class RuleSetExecutorDroolsImplTest {
     	YieldValueFunctionDTO yvfIntersection = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+
+		Map<String,String> averageResultColumnKey = new HashMap<String, String>();
+		averageResultColumnKey.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, "column1");
+		factStructure1.setResultColumnKeyTranslations(averageResultColumnKey);
+
 		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
 		
+		Map<String,String> subsetResultColumnKey = new HashMap<String, String>();
+		subsetResultColumnKey.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "column1");
+
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
+		factStructure3.setResultColumnKeyTranslations(subsetResultColumnKey);
 		FactStructureDTO factStructure4 = createFactStructure("subset.id.3", "course.subset.fact");
+		factStructure4.setResultColumnKeyTranslations(subsetResultColumnKey);
 		yvfIntersection.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
 
     	String factKeyAverage = FactUtil.createFactKey(factStructure1);
@@ -434,10 +458,20 @@ public class RuleSetExecutorDroolsImplTest {
     	YieldValueFunctionDTO yvfIntersection = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
+
+		Map<String,String> averageResultColumnKey = new HashMap<String, String>();
+		averageResultColumnKey.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, "column1");
+		factStructure1.setResultColumnKeyTranslations(averageResultColumnKey);
+
 		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
 		
+		Map<String,String> intersectionResultColumnKey = new HashMap<String, String>();
+		intersectionResultColumnKey.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "column1");
+
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
+		factStructure3.setResultColumnKeyTranslations(intersectionResultColumnKey);
 		FactStructureDTO factStructure4 = createFactStructure("subset.id.3", "course.subset.fact");
+		factStructure4.setResultColumnKeyTranslations(intersectionResultColumnKey);
 		yvfIntersection.setFactStructureList(Arrays.asList(factStructure3, factStructure4));
 
     	String factKeyAverage = FactUtil.createFactKey(factStructure1);

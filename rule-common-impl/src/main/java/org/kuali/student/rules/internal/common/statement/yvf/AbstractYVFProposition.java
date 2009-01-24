@@ -30,7 +30,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
 				set.add(obj);
 			} catch(NumberFormatException e) {
-				logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+				logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
 				throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
 			}
 		}
@@ -38,7 +38,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<E> getSet(FactResultDTO factResult) {
+	public Set<E> getSet(FactResultDTO factResult, String column) {
 		if (factResult == null) {
 			throw new PropositionException("FactResultDTO cannot be null");
 		}
@@ -46,15 +46,17 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 		Set<E> set = new HashSet<E>();
 		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
-				String value = entry.getValue();
-				FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
-				String dataType = info.getDataType();
-				try {
-					E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-					set.add(obj);
-				} catch(NumberFormatException e) {
-					logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
-					throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
+				if (entry.getKey().equals(column)) {
+					String value = entry.getValue();
+					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
+					String dataType = info.getDataType();
+					try {
+						E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+						set.add(obj);
+					} catch(NumberFormatException e) {
+						logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
+						throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
+					}
 				}
 			}
 		}
@@ -69,7 +71,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
 				list.add(obj);
 			} catch(NumberFormatException e) {
-				logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+				logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
 				throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
 			}
 		}
@@ -77,26 +79,26 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<E> getList(FactResultDTO factResult) {
+	public List<E> getList(FactResultDTO factResult, String column) {
 		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
-		List<E> set = new ArrayList<E>();
-		for( Map<String,String> map : factResult.getResultList()) {
+		List<E> list = new ArrayList<E>();
+		for(Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
-				//if (entry.getKey().equals("column1")) {
+				if (entry.getKey().equals(column)) {
 					String value = (String) entry.getValue();
 					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
 					try {
 						E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
-						set.add(obj);
+						list.add(obj);
 					} catch(NumberFormatException e) {
-						logger.info("DataType conversion failed. dataType=" + dataType + ", value=", e);
+						logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
 						throw new NumberFormatException(e.getMessage() + ": dataType=" + ", value=");
 					}
-				//}
+				}
 			}
 		}
-		return set;
+		return list;
 	}
 
 	public Proposition getProposition() {

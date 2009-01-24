@@ -29,6 +29,8 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFAverageProposition<E extends Number> extends AbstractYVFProposition<E> {
 
+	public final static String AVERAGE_COLUMN_KEY = "key.proposition.column.average";
+
 	public YVFAverageProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, BigDecimal expectedValue, 
 			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
@@ -64,7 +66,18 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
-			factList = getList(factDTO);
+
+			String column = fact.getResultColumnKeyTranslations().get(AVERAGE_COLUMN_KEY);
+			if (column == null || column.trim().isEmpty()) {
+				throw new PropositionException("Average column not found for key '"+
+						AVERAGE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+			}
+
+			factList = getList(factDTO, column);
+			if (factList == null || factList.isEmpty()) {
+				throw new PropositionException("Facts not found for column '"+
+						column+"'. Fact structure id: " + fact.getFactStructureId());
+			}
 		}
 
 		if(logger.isDebugEnabled()) {

@@ -17,11 +17,11 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFMinPropositionTest {
 
-    public Map<String, Object> getFactMap(FactStructureDTO fs1) {
+    public Map<String, Object> getFactMap(FactStructureDTO fs1, String column) {
     	String factKey = FactUtil.createFactKey(fs1);
 
-    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(BigDecimal.class.getName());
-        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"80","85","90"});
+    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(BigDecimal.class.getName(), column);
+        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"80","85","90"}, column);
         factResult.setFactResultTypeInfo(columnMetaData1);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
@@ -33,10 +33,15 @@ public class YVFMinPropositionTest {
 	@Test
 	public void testMinProposition() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
-		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.min.fact");
-		yvf.setFactStructureList(Arrays.asList(fs1));
+		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.min.fact");
 
-		Map<String, Object> factMap = getFactMap(fs1);
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFMinProposition.MIN_COLUMN_KEY, "resultColumn.credit");
+		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
+
+		yvf.setFactStructureList(Arrays.asList(fs));
+
+		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		YVFMinProposition<BigDecimal> poposition = new YVFMinProposition<BigDecimal>(
 				"1", "YVFMinProposition", 

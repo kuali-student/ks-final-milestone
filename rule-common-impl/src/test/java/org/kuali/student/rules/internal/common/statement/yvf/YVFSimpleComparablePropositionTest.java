@@ -20,11 +20,11 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFSimpleComparablePropositionTest {
 
-    public Map<String, Object> getFactMap(FactStructureDTO fs1, String dataType, String value) {
+    public Map<String, Object> getFactMap(FactStructureDTO fs1, String dataType, String value, String column) {
     	String factKey = FactUtil.createFactKey(fs1);
 
-    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(dataType);
-        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {value});
+    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(dataType, column);
+        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {value}, column);
         factResult.setFactResultTypeInfo(columnMetaData1);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
@@ -37,9 +37,14 @@ public class YVFSimpleComparablePropositionTest {
 	public void testSimpleComparableProposition_BigDecimal() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1));
 
-		Map<String, Object> factMap = getFactMap(fs1, BigDecimal.class.getName(), "80");
+		Map<String, Object> factMap = getFactMap(fs1, BigDecimal.class.getName(), "80", "resultColumn.grade");
 		
 		YVFSimpleComparableProposition<BigDecimal> poposition = new YVFSimpleComparableProposition<BigDecimal>(
 				"1", "YVFSimpleComparableProposition", 
@@ -57,9 +62,14 @@ public class YVFSimpleComparablePropositionTest {
 	public void testSimpleComparableProposition_String() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1));
 
-		Map<String, Object> factMap = getFactMap(fs1, String.class.getName(), "80");
+		Map<String, Object> factMap = getFactMap(fs1, String.class.getName(), "80", "resultColumn.grade");
 		
 		YVFSimpleComparableProposition<String> poposition = new YVFSimpleComparableProposition<String>(
 				"1", "YVFSimpleComparableProposition", 
@@ -77,12 +87,17 @@ public class YVFSimpleComparablePropositionTest {
 	public void testSimpleComparableProposition_Calendar() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1));
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
 		Calendar cal = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
     	String calStr = dateFormat.format(cal.getTime()).toString();
-		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr);
+		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
 		
 		YVFSimpleComparableProposition<Calendar> poposition = new YVFSimpleComparableProposition<Calendar>(
 				"1", "YVFSimpleComparableProposition", 
@@ -100,13 +115,18 @@ public class YVFSimpleComparablePropositionTest {
 	public void testSimpleComparableProposition_Calendar_LessThan() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1));
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
 		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
 		Calendar cal2 = CommonTestUtil.createDate(2100, 1, 1, 1, 0);
     	String calStr = dateFormat.format(cal1.getTime()).toString();
-		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr);
+		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
 		
 		YVFSimpleComparableProposition<Calendar> poposition = new YVFSimpleComparableProposition<Calendar>(
 				"1", "YVFSimpleComparableProposition", 
@@ -124,13 +144,18 @@ public class YVFSimpleComparablePropositionTest {
 	public void testSimpleComparableProposition_Calendar_GreaterThan() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1));
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
 		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
 		Calendar cal2 = CommonTestUtil.createDate(2100, 1, 1, 1, 0);
     	String calStr = dateFormat.format(cal2.getTime()).toString();
-		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr);
+		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
 		
 		YVFSimpleComparableProposition<Calendar> poposition = new YVFSimpleComparableProposition<Calendar>(
 				"1", "YVFSimpleComparableProposition", 

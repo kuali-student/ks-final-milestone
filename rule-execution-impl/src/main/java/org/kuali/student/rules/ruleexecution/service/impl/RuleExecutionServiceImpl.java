@@ -360,6 +360,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		    			fs.setFactTypeKey(factTypeKey);
 		    			fs.setFactStructureId(factStructure.getFactStructureId());
 		    			fs.setParamValueMap(paramMap);
+		    			fs.setResultColumnKeyTranslations(factStructure.getResultColumnKeyTranslations());
 						FactResultDTO factResult = findFact(factTypeKey, fs);
 		    	    	String factKey = FactUtil.createCriteriaKey(fs);
 		    			factMap.put(factKey, factResult);
@@ -367,7 +368,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	    		}
     		}
     	}
-    	
+
 		if (logger.isInfoEnabled()) {
 	    	logger.info("\n---------- factMap ----------\n"+factMap+"\n");
 		}

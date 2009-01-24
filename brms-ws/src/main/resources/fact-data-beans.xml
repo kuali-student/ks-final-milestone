@@ -10,9 +10,10 @@
 			<list>
 	 			<ref bean="lpr1"/>
 	 			<ref bean="lpr2"/> 
-				<ref bean="lpr3"/>
+                <ref bean="lpr3"/>
 				<ref bean="lpr4"/>
-				<ref bean="lpr5"/>								
+				<ref bean="lpr5"/>
+				<ref bean="lpr6"/>								
 			</list>
 		</property>
 	</bean>
@@ -38,16 +39,23 @@
 		<property name="credits" value="3.5"/>
 	</bean>
 	
-	<bean id="lpr4" class="org.kuali.student.rules.factfinder.entity.LUIPerson">
-		<property name="id" value="11223344-1122-1122-1112-200000000004"/>
+    <bean id="lpr4" class="org.kuali.student.rules.factfinder.entity.LUIPerson">
+        <property name="id" value="11223344-1122-1122-1112-200000000004"/>
+        <property name="studentId" value="student1"/>
+        <property name="cluId" value="PSYC 218"/>
+        <property name="credits" value="4.0"/>
+    </bean>
+    
+	<bean id="lpr5" class="org.kuali.student.rules.factfinder.entity.LUIPerson">
+		<property name="id" value="11223344-1122-1122-1112-200000000005"/>
 		<property name="studentId" value="student2"/>
 		<property name="cluId" value="PSYC 200"/>
 		<property name="credits" value="1.5"/>
 	</bean>
 
 
-	<bean id="lpr5" class="org.kuali.student.rules.factfinder.entity.LUIPerson">
-		<property name="id" value="11223344-1122-1122-1112-200000000005"/>
+	<bean id="lpr6" class="org.kuali.student.rules.factfinder.entity.LUIPerson">
+		<property name="id" value="11223344-1122-1122-1112-200000000006"/>
 		<property name="studentId" value="student2"/>
 		<property name="cluId" value="PSYC 300"/>
 		<property name="credits" value="3.0"/>

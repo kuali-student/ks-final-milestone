@@ -22,20 +22,18 @@ public class CommonTestUtil {
         return set;
     }
   
-
 	public static Calendar createDate(int year, int month, int day, int hourOfDay, int minute) {
     	Calendar cal = Calendar.getInstance();
     	cal.set(year, month-1, day, hourOfDay, minute, 0);
     	return cal;
     }
 
-
-	public static FactResultDTO createFactResult(String[] values) {
+	public static FactResultDTO createFactResult(String[] values, String columnName) {
 		FactResultDTO factResult = new FactResultDTO();
 		List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
 		for (String item : values) {
 			Map<String, String> row = new HashMap<String, String>();
-			row.put("column1", item);
+			row.put(columnName, item);
 			resultList.add(row);
 		}
 
@@ -43,10 +41,10 @@ public class CommonTestUtil {
 		return factResult;
 	}
 
-	public static FactResultTypeInfoDTO createColumnMetaData(String dataType) {
+	public static FactResultTypeInfoDTO createColumnMetaData(String dataType, String columnName) {
     	Map<String, FactResultColumnInfoDTO> columnsInfoMap = new HashMap<String, FactResultColumnInfoDTO>();
     	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
-    	columnInfo.setKey("column1");
+    	columnInfo.setKey(columnName);
     	columnInfo.setDataType(dataType);
     	columnsInfoMap.put(columnInfo.getKey(), columnInfo);
     	FactResultTypeInfoDTO typeInfo = new FactResultTypeInfoDTO();

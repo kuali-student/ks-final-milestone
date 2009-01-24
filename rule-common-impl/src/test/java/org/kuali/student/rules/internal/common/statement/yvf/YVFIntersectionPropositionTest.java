@@ -16,15 +16,15 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFIntersectionPropositionTest {
 
-    public Map<String, Object> getFactMap(FactStructureDTO fs1, FactStructureDTO fs2) {
+    public Map<String, Object> getFactMap(FactStructureDTO fs1, FactStructureDTO fs2, String column) {
     	String criteriaKeyIntersection = FactUtil.createCriteriaKey(fs1);
     	String factKeyIntersection = FactUtil.createFactKey(fs2);
 
-    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(String.class.getName());
-        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"});
+    	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(String.class.getName(), column);
+        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"CPR101","MATH101","CHEM101"}, column);
         factResult.setFactResultTypeInfo(columnMetaData1);
 
-    	FactResultDTO factResultCriteria = CommonTestUtil.createFactResult(new String[] {"CPR101","CHEM101"});
+    	FactResultDTO factResultCriteria = CommonTestUtil.createFactResult(new String[] {"CPR101","CHEM101"}, column);
     	factResultCriteria.setFactResultTypeInfo(columnMetaData1);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
@@ -35,23 +35,29 @@ public class YVFIntersectionPropositionTest {
     }
 
 	@Test
-	public void testintersectionProposition() throws Exception {
+	public void testIntersectionProposition() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.intersection.criteria");
+		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+		resultColumnKeyMap.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		FactStructureDTO fs2 = CommonTestUtil.createFactStructure("fact.id.2", "course.intersection.fact");
+		fs2.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
 
-		Map<String, Object> factMap = getFactMap(fs1, fs2);
+		Map<String, Object> factMap = getFactMap(fs1, fs2, "resultColumn.cluId");
 		
-		YVFIntersectionProposition<String> poposition = new YVFIntersectionProposition<String>(
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
 				"1", "YVFIntersectionProposition", 
 				ComparisonOperator.EQUAL_TO, 2, yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(proposition.getReport());
+		Assert.assertNull(proposition.getReport().getFailureMessage());
+		Assert.assertNotNull(proposition.getReport().getSuccessMessage());
 	}
 }

@@ -15,6 +15,8 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFSimpleComparableProposition<T extends Comparable<T>> extends AbstractYVFProposition<T> {
 
+	public final static String SIMPLE_COMPARABLE_COLUMN_KEY = "key.proposition.column.simplecomparable";
+
 	public YVFSimpleComparableProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, T expectedValue, 
 			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
@@ -52,15 +54,30 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+
 			// Get only the first column (column 1)
-			List<Map<String,String>> resultList= factDTO.getResultList();
-			String value = resultList.get(0).entrySet().iterator().next().getValue();
+			//List<Map<String,String>> resultList = factDTO.getResultList();
+			//String value = resultList.get(0).entrySet().iterator().next().getValue();
 			
-			Map<String, FactResultColumnInfoDTO> columnMetaData = factDTO.getFactResultTypeInfo().getResultColumnsMap();
+			//Map<String, FactResultColumnInfoDTO> columnMetaData = factDTO.getFactResultTypeInfo().getResultColumnsMap();
 			// Get only the first column (column 1)
-			FactResultColumnInfoDTO info = columnMetaData.entrySet().iterator().next().getValue();;
-			String dataType = info.getDataType();
-			factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
+			//FactResultColumnInfoDTO info = columnMetaData.entrySet().iterator().next().getValue();
+
+			//String dataType = info.getDataType();
+			//factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
+
+			String column = fact.getResultColumnKeyTranslations().get(SIMPLE_COMPARABLE_COLUMN_KEY);
+			if (column == null || column.trim().isEmpty()) {
+				throw new PropositionException("Intersection fact column not found for key '"+
+						SIMPLE_COMPARABLE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+			}
+
+			List<T> factList = getList(factDTO, column);
+			if (factList == null || factList.isEmpty()) {
+				throw new PropositionException("Facts not found for column '"+column+
+						"'. Fact structure id: " + fact.getFactStructureId());
+			}
+			factObject = factList.get(0);
 		}
 
 		if(logger.isDebugEnabled()) {

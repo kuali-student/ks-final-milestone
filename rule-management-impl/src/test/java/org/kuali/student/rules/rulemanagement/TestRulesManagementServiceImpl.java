@@ -187,7 +187,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
 
     
     @Test
-    public void testFetcFactTranslationKeys() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
+    public void testFetchFactTranslationKeys() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         BusinessRuleInfoDTO brInfoDTO = client.fetchDetailedBusinessRuleInfo(ruleId_3);
         assertEquals(ruleId_3,  brInfoDTO.getId());
                 
@@ -201,8 +201,8 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         assertEquals("331", fs1.getFactStructureId());
 
         Map<String, String> translationKeyMap = fs1.getResultColumnKeyTranslations();
-        assertTrue(translationKeyMap.containsKey("resultColumn.credit"));
-        assertTrue(translationKeyMap.containsValue("earned_credits"));
+        assertTrue(translationKeyMap.containsKey("key.proposition.column.sum"));
+        assertTrue(translationKeyMap.containsValue("resultColumn.credit"));
     }  
     
     @Test

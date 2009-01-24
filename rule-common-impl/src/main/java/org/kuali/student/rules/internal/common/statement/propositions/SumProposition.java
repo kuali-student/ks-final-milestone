@@ -41,7 +41,10 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
     public SumProposition(String id, String propositionName, ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
         super(id, propositionName, operator, expectedValue);
-        this.factSet = (factSet == null ? new ArrayList<E>() : factSet);
+    	if (factSet == null || factSet.size() == 0) {
+    		throw new IllegalArgumentException("Fact set cannot be null");
+    	}
+        this.factSet = factSet;
     }
 
     // ~ Methods ----------------------------------------------------------------

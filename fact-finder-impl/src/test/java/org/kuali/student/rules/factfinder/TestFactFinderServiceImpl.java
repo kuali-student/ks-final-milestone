@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.poc.common.test.spring.AbstractServiceTest;
@@ -57,6 +58,15 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.rules.factfinder.service.impl.FactFinderServiceImpl", port = "8181")
     public FactFinderService client;
 
+    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
+    	for(Map<String,String> map : set) {
+    		if (map.get(column).equals(value)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
     @Test
     public void testFetchFact_EarnedCreditList() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, AlreadyExistsException, PermissionDeniedException {
         
@@ -76,8 +86,9 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         assertEquals(2, result.getResultList().size());
-        assertEquals("2.5", result.getResultList().get(0).get("resultColumn.credit"));
-        assertEquals("3.5", result.getResultList().get(1).get("resultColumn.credit"));        
+        // Can't assume any order of the result list
+        assertTrue(containsResult(result.getResultList(), "resultColumn.credit", "2.5"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.credit", "3.5"));
     }
     
     @Test
@@ -98,9 +109,10 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         assertEquals(3, result.getResultList().size());
-        assertEquals("PSYC 200", result.getResultList().get(0).get("resultColumn.cluId"));
-        assertEquals("PSYC 201", result.getResultList().get(1).get("resultColumn.cluId"));
-        assertEquals("PSYC 202", result.getResultList().get(2).get("resultColumn.cluId"));        
+        // Can't assume any order of the result list
+        assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 201"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 202"));
     }
     
     @Test

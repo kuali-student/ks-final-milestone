@@ -29,6 +29,8 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFMaxProposition<T extends Comparable<T>> extends AbstractYVFProposition<T> {
 
+	public final static String MAX_COLUMN_KEY = "key.proposition.column.min";
+
 	public YVFMaxProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, T expectedValue, 
 			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
@@ -66,7 +68,18 @@ public class YVFMaxProposition<T extends Comparable<T>> extends AbstractYVFPropo
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
-			factSet = getSet(factDTO);
+
+			String column = fact.getResultColumnKeyTranslations().get(MAX_COLUMN_KEY);
+			if (column == null || column.trim().isEmpty()) {
+				throw new PropositionException("Max column not found for key '"+
+						MAX_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+			}
+
+			factSet = getSet(factDTO, column);
+			if (factSet == null || factSet.isEmpty()) {
+				throw new PropositionException("Facts not found for column '"+
+						column+"'. Fact structure id: " + fact.getFactStructureId());
+			}
 		}
 
 		if(logger.isDebugEnabled()) {

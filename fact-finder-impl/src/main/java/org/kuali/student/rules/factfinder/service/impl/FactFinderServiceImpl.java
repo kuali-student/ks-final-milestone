@@ -67,6 +67,7 @@ public class FactFinderServiceImpl implements FactFinderService {
             for (LUIPerson lpr : luiPersonList) {
                 if (courseSet.contains(lpr.getCluId()) && !courseExcludeSet.contains(lpr.getCluId())) {
                     Map<String, String> resultColumn = new HashMap<String, String>();
+                    resultColumn.put("resultColumn.cluId", String.valueOf(lpr.getCluId()));
                     resultColumn.put("resultColumn.credit", String.valueOf(lpr.getCredits()));
                     resultValueList.add(resultColumn);
                 }

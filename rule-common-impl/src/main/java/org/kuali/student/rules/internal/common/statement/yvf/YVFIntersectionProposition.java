@@ -29,6 +29,8 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 
+	public final static String INTERSECTION_COLUMN_KEY = "key.proposition.column.intersection";
+
 	public YVFIntersectionProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, Integer expectedValue, 
 			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
@@ -70,20 +72,43 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 			}
 			String criteriaKey = FactUtil.createCriteriaKey(criteria);
 			FactResultDTO criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
-			criteriaSet = getSet(criteriaDTO);
+
+			String column = criteria.getResultColumnKeyTranslations().get(INTERSECTION_COLUMN_KEY);
+			if (column == null || column.trim().isEmpty()) {
+				throw new PropositionException("Intersection criteria column not found for key '"+
+						INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + criteria.getFactStructureId());
+			}
+
+			criteriaSet = getSet(criteriaDTO, column);
+			if (criteriaSet == null || criteriaSet.isEmpty()) {
+				throw new PropositionException("Criteria facts not found for column '"+column+
+						"'. Fact structure id: " + criteria.getFactStructureId());
+			}
 		}
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
 			String dataType = fact.getStaticValueDataType();
 			if (value == null || value.isEmpty() || dataType == null || dataType.isEmpty()) {
-				throw new PropositionException("Static value and data type cannot be null or empty. Fact structure id: "+fact.getFactStructureId());
+				throw new PropositionException("Static value and data type cannot be null or empty. Fact structure id: "+
+						fact.getFactStructureId());
 			}
 			factSet = getSet(dataType, value);
 		} else {
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
-			factSet = getSet(factDTO);
+
+			String column = fact.getResultColumnKeyTranslations().get(INTERSECTION_COLUMN_KEY);
+			if (column == null || column.trim().isEmpty()) {
+				throw new PropositionException("Intersection fact column not found for key '"+
+						INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+			}
+
+			factSet = getSet(factDTO, column);
+			if (factSet == null || factSet.isEmpty()) {
+				throw new PropositionException("Facts not found for column '"+column+
+						"'. Fact structure id: " + fact.getFactStructureId());
+			}
 		}
 
 		if(logger.isDebugEnabled()) {
@@ -93,6 +118,8 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
 					+ "\nComparison operator="+comparisonOperator
 					+ "\nExpected value="+expectedValue
+					+ "\nCriteria static="+criteria.isStaticFact()
+					+ "\nCriteria key="+FactUtil.createCriteriaKey(criteria)
 					+ "\nCriteria set="+criteriaSet
 					+ "\nFact set="+factSet
 					+ "\n--------------------------------------------------");

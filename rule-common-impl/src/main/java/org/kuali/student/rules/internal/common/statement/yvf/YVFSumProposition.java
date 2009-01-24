@@ -29,6 +29,8 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<E> {
 	
+	public final static String SUM_COLUMN_KEY = "key.proposition.column.sum";
+
 	public YVFSumProposition(String id, String propositionName, 
 			ComparisonOperator comparisonOperator, BigDecimal expectedValue, 
 			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
@@ -66,7 +68,18 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
 			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
-			factList = getList(factDTO);
+
+			String column = fact.getResultColumnKeyTranslations().get(SUM_COLUMN_KEY);
+			if (column == null || column.trim().isEmpty()) {
+				throw new PropositionException("Sum column not found for key '"+
+						SUM_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+			}
+
+			factList = getList(factDTO, column);
+			if (factList == null || factList.isEmpty()) {
+				throw new PropositionException("Facts not found for column '"+
+						column+"'. Fact structure id: " + fact.getFactStructureId());
+			}
 		}
 
 		if(logger.isDebugEnabled()) {
@@ -83,5 +96,4 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
         super.proposition = new SumProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factList); 
 	}
-
 }
