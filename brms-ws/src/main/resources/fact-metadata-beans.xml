@@ -49,6 +49,15 @@
 		<property name="description" value="Persons course credit information"/>
 		<property name="resultColumnsMap">
 			<map>
+                <entry>
+                    <key><value>resultColumn.cluId</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.cluId"/>
+                        <property name="name" value="resultColumn.cluId"/>
+                        <property name="description" value="Course Name"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
 				<entry>
 					<key><value>resultColumn.credit</value></key>
 					<bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
