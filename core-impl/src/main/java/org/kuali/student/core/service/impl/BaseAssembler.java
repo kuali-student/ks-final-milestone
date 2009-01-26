@@ -60,7 +60,7 @@ public class BaseAssembler {
 				attribute.setOwner(owner);
 				attributes.add(attribute);
 			} catch (Exception e) {
-				e.printStackTrace();
+				e.printStackTrace();//TODO Logging
 			}
 		}
 
