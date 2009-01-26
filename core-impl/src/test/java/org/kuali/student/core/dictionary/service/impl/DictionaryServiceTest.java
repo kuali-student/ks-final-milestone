@@ -59,7 +59,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 					FieldDescriptor fd = f.getFieldDescriptor();
 					
 					assertTrue("No field descriptor exists for " + f.getKey(), fd != null);
-					String dataType = fd.getDataType();
+					//String dataType = fd.getDataType();
 					assertTrue("No dataType defined for a fieldDescriptor", fd.getDataType() != null);
 					
 					String name = fd.getName();
@@ -69,7 +69,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 					int minLength = fd.getMinLength();
 					int maxLength = fd.getMaxLength();
 					String validChars = fd.getValidChars();
-					String invalidChars = fd.getInvalidChars();
+					//String invalidChars = fd.getInvalidChars();
 					int minOccurs = fd.getMinOccurs();
 					int maxOccurs = fd.getMaxOccurs();
 					Enum e = fd.getEnum();
@@ -122,7 +122,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 				String contextType = c.getType();
 				assertTrue("type in context is null", contextType != null);
 				assertTrue("type is an unexpected type", contextType.equals("country"));
-				String contextValue = c.getValue();
+				//String contextValue = c.getValue();
 				//TODO: why does this fail?
 				//System.out.println(contextValue);
 				//assertTrue("value in context is null", contextValue != null);
