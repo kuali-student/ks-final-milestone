@@ -6,7 +6,7 @@
 	<inherits name="com.google.gwt.xml.XML" />
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
 	<inherits name="org.kuali.student.core.organization.Organization"/>
-	<entry-point class='org.kuali.student.core.web.organization.client.view.OrgEntryPoint'/>
+	<entry-point class='org.kuali.student.core.organization.web.client.view.OrgEntryPoint'/>
     <extend-property name="locale" values="en"/>
 
 </module>
