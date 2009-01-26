@@ -28,6 +28,9 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgHierarchy;
+import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -141,8 +144,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<OrgHierarchyInfo> getOrgHierarchies()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO flush out exceptions
+		return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
+
 	}
 
 	@Override
@@ -210,8 +214,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Flush out exceptions
+		List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByOrg(orgId);
+		return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
 	}
 
 	@Override
@@ -311,8 +316,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Org> orgs = this.organizationDao.getOrganizationsByIdList(orgIdList);
+		return OrganizationAssembler.toOrgInfos(orgs);
 	}
 
 	@Override

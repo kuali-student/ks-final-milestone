@@ -8,6 +8,8 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.organization.dao.OrganizationDao;
+import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 
 public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements OrganizationDao {
@@ -46,4 +48,25 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
         return resultList;
     }
 
+	@Override
+	public List<Org> getOrganizationsByIdList(List<String> orgIdList) {
+		Query query = em.createQuery("SELECT o FROM Org o " +
+				                     " WHERE o.id IN (:orgIdList)");
+        query.setParameter("orgIdList", orgIdList);
+        @SuppressWarnings("unchecked")
+		List<Org> orgs = query.getResultList(); 
+        return orgs;
+	}
+
+	@Override
+	public List<OrgOrgRelation> getOrgOrgRelationsByOrg(String orgId) {
+		Query query = em.createQuery("SELECT oor FROM OrgOrgRelation oor " +
+        							 " WHERE oor.org.id = :orgId");
+		query.setParameter("orgId", orgId);
+		@SuppressWarnings("unchecked")
+		List<OrgOrgRelation> orgOrgRelations = query.getResultList(); 
+		return orgOrgRelations;
+	}
+
+	
 }

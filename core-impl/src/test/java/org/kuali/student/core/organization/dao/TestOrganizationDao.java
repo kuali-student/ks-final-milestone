@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgAttribute;
 import org.kuali.student.core.organization.entity.OrgAttributeDef;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
+import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.springframework.core.io.ClassPathResource;
 
@@ -93,4 +96,21 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		em.persist(borgOrg);
 		
 	}
+	
+	@Test
+	public void getOrganizationsByIdList(){
+		List<String> orgIdList = new ArrayList<String>();
+		orgIdList.add("2");
+		orgIdList.add("3");
+		orgIdList.add("4");
+		List<Org> orgs = dao.getOrganizationsByIdList(orgIdList);
+		assertEquals(3,orgs.size());
+	}
+	
+	@Test
+	public void getOrgOrgRelationsByOrg(){
+		List<OrgOrgRelation> orgOrgRelations = dao.getOrgOrgRelationsByOrg("60");
+		assertEquals(5,orgOrgRelations.size());
+	}
+	
 }
