@@ -32,7 +32,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	
 	@Test
 	public void TestFinds() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		OrgInfo result = client.createOrganization("ks.org.foo", new OrgInfo());
+	    //Test Finds
+	    OrgInfo result = client.createOrganization("ks.org.foo", new OrgInfo());
 		assertEquals("ks.org.foo",result.getType());
 
 		List<OrgHierarchyInfo> orgHierarchyInfos = client.getOrgHierarchies();
