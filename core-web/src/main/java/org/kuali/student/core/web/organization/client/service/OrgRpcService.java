@@ -4,7 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-public interface OrgRpcService extends RemoteService /* , OrganizationService */{
+public interface OrgRpcService extends RemoteService, OrgRemoteService {
 	
 	public static final String SERVICE_URI = "OrgRpcService";
 
