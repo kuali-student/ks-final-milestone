@@ -61,6 +61,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Dozer for Enumeration Service, maybe more services -->
+		<dependency>
+		  <groupId>net.sf.dozer</groupId>
+		  <artifactId>dozer</artifactId>
+		  <version>4.2.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>
