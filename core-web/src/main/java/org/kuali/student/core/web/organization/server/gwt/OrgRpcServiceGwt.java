@@ -6,6 +6,7 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.web.organization.client.service.OrgRpcService;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -13,7 +14,7 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 
 	private static final long serialVersionUID = 1L;
 
-	private OrgRpcService serviceImpl;
+	private OrgRpcService serviceImpl= (OrgRpcService) new FileSystemXmlApplicationContext("classpath:spring-beans.xml").getBean("orgRpcService");
 
 	public OrgRpcService getServiceImpl() {
 		return serviceImpl;
