@@ -39,7 +39,8 @@ import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
-import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
+import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
@@ -58,7 +59,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
     
-    private SimpleExecutorDroolsImpl defaultExecutor = new SimpleExecutorDroolsImpl();
+    private ReportBuilder reportBuilder;
     
     private DroolsRuleBase ruleBaseCache;
 
@@ -76,7 +77,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     private final DroolsExecutionStatistics executionStats = DroolsExecutionStatistics.getInstance();
     
     /**
-     * Constructs a new rule set executor without a repository.
+     * Constructs a new rule set executor.
      */
     public RuleSetExecutorDroolsImpl() {
     	this.logExecution = false;
@@ -113,7 +114,16 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     public void setRuleBaseCache(DroolsRuleBase ruleBase) {
     	this.ruleBaseCache = ruleBase;
     }
-    
+
+    /**
+     *	Sets the report builder.
+     * 
+     * @param reportBuilder Report builder
+     */
+    public void setReportBuilder(ReportBuilder reportBuilder) {
+    	this.reportBuilder = reportBuilder;
+    }
+
     /**
      * Logs a business rule.
      * 
@@ -386,7 +396,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         ExecutionResult result = executeRule(ruleBaseType, factContainer);
         result.setId(businessRule.getId());
         try {
-	        PropositionReport report = generateReport(result.getResults());
+	        PropositionReport report = createReport(result.getResults());
 	        result.setReport(report);
         } catch(RuleSetExecutionException e) {
         	result.setErrorMessage(e.getMessage());
@@ -405,13 +415,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param facts Facts for the proposition reports
      * @return A proposition report
      */
-    private PropositionReport generateReport(List<?> facts) throws RuleSetExecutionException {
-        GenerateRuleReport ruleReportBuilder = new GenerateRuleReport(defaultExecutor);
+    private PropositionReport createReport(List<?> facts) throws RuleSetExecutionException {
         for(int i=0; i<facts.size(); i++) {
             Object obj = facts.get(i);
             if (obj instanceof FactContainer) {
                 FactContainer fc = (FactContainer) obj;
-                return ruleReportBuilder.execute(fc.getPropositionContainer());
+                return this.reportBuilder.execute(fc.getPropositionContainer());
            }
         }
         return null;

@@ -43,16 +43,18 @@ import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFAverageProposition;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
-import org.kuali.student.rules.internal.common.statement.yvf.YVFSubsetProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsTestUtil;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
+import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
@@ -69,13 +71,16 @@ public class RuleSetExecutorDroolsImplTest {
 
 	/** Rule set executor interface */
 	private static RuleSetExecutor executor = new RuleSetExecutorDroolsImpl();
-    private static DroolsRuleBase ruleBase = new DroolsRuleBase();
+	private static SimpleExecutor simpleExecutor = new SimpleExecutorDroolsImpl();
+	private static DroolsRuleBase ruleBase = new DroolsRuleBase();
 
     private final RuleManagementDtoFactory dtoFactory = RuleManagementDtoFactory.getInstance();
     
     @BeforeClass
     public static void setUpOnce() throws Exception {
-    	((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
+        ReportBuilder reportBuilder = new RuleReportBuilder(simpleExecutor);
+        ((RuleSetExecutorDroolsImpl)executor).setReportBuilder(reportBuilder);
+        ((RuleSetExecutorDroolsImpl)executor).setEnableExecutionLogging(true);
     	((RuleSetExecutorDroolsImpl)executor).setRuleBaseCache(ruleBase);
     }
 

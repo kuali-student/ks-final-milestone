@@ -18,6 +18,7 @@ package org.kuali.student.rules.ruleexecution.runtime;
 import java.util.Map;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
+import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 
@@ -56,6 +57,13 @@ public interface RuleSetExecutor {
      */
     public void clearRuleSetCache();
     
+    /**
+     *	Sets the report builder.
+     * 
+     * @param reportBuilder Report builder
+     */
+    public void setReportBuilder(ReportBuilder reportBuilder);
+
     /**
      * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
      * returns a list of execution results {@link ExecutionResult}.</p>

@@ -24,6 +24,7 @@
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="true"/>
         <property name="ruleBaseCache" ref="ruleBaseCache"/>
+        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleBaseCache"
@@ -36,11 +37,21 @@
         <constructor-arg type="int" value="50"/>
     </bean>
     
+    <bean id="reportBuilder"
+        class="org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder">
+        <constructor-arg ref="simpleExecutor" />
+    </bean>
+    
+    <bean id="simpleExecutor"
+        class="org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl">
+    </bean>
+    
     <bean id="ruleSetExecutorTest"
         class="org.kuali.student.rules.ruleexecution.runtime.drools.RuleSetExecutorDroolsImpl">
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="false"/>
         <property name="ruleBaseCache" ref="ruleBaseCacheTest"/>
+        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleBaseCacheTest"

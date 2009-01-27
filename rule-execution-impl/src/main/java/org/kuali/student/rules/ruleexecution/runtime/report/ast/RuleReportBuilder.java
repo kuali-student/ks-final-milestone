@@ -27,11 +27,12 @@ import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.
  */
-public class GenerateRuleReport {
+public class RuleReportBuilder implements ReportBuilder {
     private HashMap<String, Boolean> nodeValueMap;
     private HashMap<String, String> nodeMessageMap;
     private boolean ruleResult;
@@ -44,7 +45,7 @@ public class GenerateRuleReport {
 
     private SimpleExecutor executor;
     
-    public GenerateRuleReport(SimpleExecutor executor) {
+    public RuleReportBuilder(SimpleExecutor executor) {
         this.executor = executor;
     	setup();
     }
@@ -72,7 +73,7 @@ public class GenerateRuleReport {
             this.executor.execute(treeNodes);
 
         } catch (Throwable t) {
-            throw new RuleSetExecutionException( "Generating rule report failed: " + t.getMessage(), t );
+            throw new RuleSetExecutionException("Generating rule report failed: " + t.getMessage(), t);
         }
 
         // This is the final rule report message
@@ -122,9 +123,9 @@ public class GenerateRuleReport {
      * Setup default rule sets
      */
     private void setup() {
-        Reader source1 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
+        Reader source1 = new InputStreamReader(RuleReportBuilder.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
         this.executor.addRuleSet(SUCCESS_MESSAGE_LOGGER, source1);
-        Reader source2 = new InputStreamReader(GenerateRuleReport.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
+        Reader source2 = new InputStreamReader(RuleReportBuilder.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
         this.executor.addRuleSet(FAILURE_MESSAGE_LOGGER, source2);
     }
 }

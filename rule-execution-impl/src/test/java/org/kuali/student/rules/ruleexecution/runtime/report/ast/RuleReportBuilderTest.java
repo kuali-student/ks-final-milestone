@@ -14,9 +14,9 @@ import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
 import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
-import org.kuali.student.rules.ruleexecution.runtime.report.ast.GenerateRuleReport;
+import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
 
-public class GenerateRuleReportTest {
+public class RuleReportBuilderTest {
 
 	private String functionalRuleString;
 
@@ -30,7 +30,7 @@ public class GenerateRuleReportTest {
 	private PropositionReport propositionReportC = new PropositionReport();
 	private PropositionReport propositionReportD = new PropositionReport();
 
-	private GenerateRuleReport generateRuleReport;
+	private RuleReportBuilder generateRuleReport;
     private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
 	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
 
@@ -47,7 +47,7 @@ public class GenerateRuleReportTest {
 
 	@Before
 	public void setUp() throws Exception {
-	    this.generateRuleReport = new GenerateRuleReport(executor);
+	    this.generateRuleReport = new RuleReportBuilder(executor);
 	}
 	
 	@After
