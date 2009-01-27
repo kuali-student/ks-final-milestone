@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.kuali.student.commons.ui.logging.client.Logger;
 import org.kuali.student.commons.ui.messages.client.Messages;
@@ -28,6 +29,7 @@ import org.kuali.student.rules.devgui.client.GuiUtil.YieldValueFunctionType;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
+import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
@@ -131,31 +133,17 @@ public class RulesComposite extends Composite {
     //YVF - for now, hard code the number of parameters (1 or 2) and number of facts (up to 2)
     final ListBox yvfListBox = new ListBox();
     
-    //first FACT line
-    final ListBox yvfFirstFactTypeListBox = new ListBox();
-    //final RadioButton yvfFirstFactLookupTypeStatic = new RadioButton("firstFactLookupType", "static", true);
-    //final RadioButton yvfFirstFactLookupTypeDynamic = new RadioButton("firstFactLookupType", "dynamic", true);    
-    final Label yvfFirstStaticFactLabel = new Label();	//'value'
-    final TextArea yvfFirstStaticFactValue = new TextArea();
-    final Label yvfFirstFactParamOneLabel = new Label();	//'1st Key'
-    final TextBox yvfFirstFactParamOneTextBox = new TextBox();
-    final Label yvfFirstFactParamTwoLabel = new Label();	//'2nd Key'
-    final TextBox yvfFirstFactParamTwoTextBox = new TextBox();        
-    
-    //second FACT line
-    final Label yvfSecondFactLineLabel = new Label();	//'1st Fact'
-    final Label yvfSecondFactTypeLabel = new Label();	//'Fact Type:'
-    final ListBox yvfSecondFactTypeListBox = new ListBox();	
-    //final RadioButton yvfSecondFactLookupTypeStatic = new RadioButton("secondFactLookupType", "static", true);
-    //final RadioButton yvfSecondFactLookupTypeDynamic = new RadioButton("secondFactLookupType", "dynamic", true);    
-    final Label yvfSecondStaticFactLabel = new Label();  //'value'
-    final TextArea yvfSecondStaticFactValue = new TextArea();
-    final Label yvfSecondFactParamOneLabel = new Label();	//'1st Key'
-    final TextBox yvfSecondFactParamOneTextBox = new TextBox();    
-    final Label yvfSecondFactParamTwoLabel = new Label();	//'2nd Key'
-    final TextBox yvfSecondFactParamTwoTextBox = new TextBox();     
+    //YVF Facts   
+    final VerticalPanel factDetailsPanel = new VerticalPanel(); 
+    final Map<String, Widget> factTypes = new HashMap<String, Widget>();   
+    final Map<String, String> factTypeSelectedValues = new HashMap<String, String>(); 
+    final Map<String, List<TextArea>> factTypeParams = new HashMap<String, List<TextArea>>();
+    final Map<String, VerticalPanel> factParamsPanel = new HashMap<String, VerticalPanel>();  
+    private List<FactTypeInfoDTO> definedFactTypesList = null;  // keep copy of current list of factTypeKeys based on business rule type
+    private boolean loadingFactTypeKeyList = false;  //TODO 'loading' icon; also for other drop downs          
     
     //Propositions
+    final VerticalPanel propositionDetailsPanel = new VerticalPanel(); 
     final ListBox propositionsListBox = new ListBox();
     int selectedPropListBoxIndex = -1;
     final TextBox propNameTextBox = new TextBox();
@@ -214,10 +202,6 @@ public class RulesComposite extends Composite {
     private RulesHierarchyInfo displayedRuleInfo = null; // keep copy of rule meta info
     private Map<Integer, RulePropositionDTO> definedPropositions = new TreeMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
-    private List<FactTypeInfoDTO> factTypeKeyList = null;  // keep copy of current list of factTypeKeys based on business rule type
-    private boolean loadingFactTypeKeyList = false;  //TODO 'loading' icon; also for other drop downs
-    private String firstFactTypeKeyListSelectedValue = null;
-    private String secondFactTypeKeyListSelectedValue = null;
     private final String STATUS_NOT_STORED_IN_DATABASE = "TO_BE_ENTERED";
     private final String EMPTY_AGENDA_TYPE = "drafts";
     private final String EMPTY_LIST_BOX_ITEM = "        ";
@@ -481,11 +465,12 @@ public class RulesComposite extends Composite {
             
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                	//keep original rule values except rule id, original rule id, and compiled id
+                	//keep original rule values except rule id, original rule id, compiled id and original name
                 	displayedRule.setId("");
+                	displayedRule.setOriginalRuleId("");
                 	displayedRule.setCompiledId("");
                 	businessRuleID.setText("");
-                    displayedRule.setName("COPY " + displayedRule.getName()); 
+                	displayedRule.setName("COPY " + displayedRule.getName()); 
                     nameTextBox.setText(displayedRule.getName());                    
                 	displayedRule.setState(STATUS_NOT_STORED_IN_DATABASE);
                 	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);                              	
@@ -598,35 +583,9 @@ public class RulesComposite extends Composite {
                 public void onChange(final Widget sender) {
                 	//TODO: are you sure? dialog
                 	clearYVFFactFields();
-                	setYVFFactFields(GuiUtil.getListBoxSelectedValue(yvfListBox), false, false);
+                	setYVFFactFields(yvfListBox.getValue(yvfListBox.getSelectedIndex())); //yvfListBox));                	                	
                 }
-            });            
-            
-            yvfFirstFactTypeListBox.addChangeListener(new ChangeListener() {
-                public void onChange(final Widget sender) {
-                	firstFactTypeKeyListSelectedValue = GuiUtil.getListBoxSelectedValue(yvfFirstFactTypeListBox);
-                	if (firstFactTypeKeyListSelectedValue.equals(EMPTY_LIST_BOX_ITEM)) {
-                		setFirstFactParamFields(false, false, false);
-                	} else if (firstFactTypeKeyListSelectedValue.equals(USER_DEFINED_FACT_TYPE_KEY)) {
-                		setFirstFactParamFields(true, true, true);
-                	} else {
-                		setFirstFactParamFields(true, true, false);
-                	} 
-                }
-            });            
-
-            yvfSecondFactTypeListBox.addChangeListener(new ChangeListener() {
-                public void onChange(final Widget sender) {
-                	secondFactTypeKeyListSelectedValue = GuiUtil.getListBoxSelectedValue(yvfSecondFactTypeListBox);                	
-                	if (secondFactTypeKeyListSelectedValue.equals(EMPTY_LIST_BOX_ITEM)) {
-                		setSecondFactParamFields(false, false, false);
-                	} else if (secondFactTypeKeyListSelectedValue.equals(USER_DEFINED_FACT_TYPE_KEY)) {
-                		setSecondFactParamFields(true, true, true);
-                	} else {
-                		setSecondFactParamFields(true, true, false);
-                	}
-                }
-            });             
+            });                                        
             
             validateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
@@ -762,7 +721,7 @@ public class RulesComposite extends Composite {
                     	//we need to clear related Anchor Type
                     	displayedRule.setAnchorTypeKey("");
                     	ruleAnchorType.setText("");
-                    	factTypeKeyList = null;
+                    	definedFactTypesList = null;
                     } else {
                     	displayedRule.setType(GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox).trim());
                     	ruleAnchorType.setText(AnchorTypeKey.KUALI_COURSE.name());  //TODO lookup based on business rule type
@@ -773,7 +732,7 @@ public class RulesComposite extends Composite {
             });             
         }
     }
-    
+
     private void loadEmptyRule() {    	
         displayedRule = createEmptyBusinessRule();
     	clearRuleForms();
@@ -785,8 +744,7 @@ public class RulesComposite extends Composite {
         updatePropositionListBoxAndDetails(newPropIx);
 
     	displayedRuleInfo = null;
-    	factTypeKeyList = null;
-    	firstFactTypeKeyListSelectedValue = null;
+    	definedFactTypesList = null;
     	setRuleStatus(STATUS_NOT_STORED_IN_DATABASE);
     	populateAgendaAndBusinessRuleTypesListBox();
         updateRulesFormButtons(displayedRule.getState()); 
@@ -794,10 +752,10 @@ public class RulesComposite extends Composite {
     }    
 
     private void loadExistingRule(BusinessRuleInfoDTO ruleInfo) {
-    	
+       
         displayedRule = ruleInfo;
         updateRulesFormButtons(ruleInfo.getState());
-      
+        
         // store individual propositions in a temporary list & set Rule Composition text
         int propCount = 1;
         ruleComposition = new StringBuffer();
@@ -812,8 +770,8 @@ public class RulesComposite extends Composite {
             }
         }
 
-        retrieveFactTypes();
         displayActiveRule();  
+        //retrieveFactTypes();
     }
     
     private void setRuleStatus(String status) {
@@ -1056,6 +1014,7 @@ public class RulesComposite extends Composite {
     private boolean validate(
         String fieldName, String value, StringBuilder output) {
       boolean valid = true;
+      /* TODO
       Validator v = metadata.getFields()
           .get(fieldName).getValidatorInstance();
       ValidationResult vr = v.validate(value, fieldName);
@@ -1067,7 +1026,7 @@ public class RulesComposite extends Composite {
           output.append(s);
           output.append("\n");
         }
-      }
+      } */
       return valid;
     }
 
@@ -1479,7 +1438,7 @@ public class RulesComposite extends Composite {
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);
 
         flexFormTable.setWidget(ix, 1, nameTextBox);
-        nameTextBox.setWidth("50%");     
+        nameTextBox.setWidth("50%");           
         
         // Description
         ix++;
@@ -1931,6 +1890,7 @@ public class RulesComposite extends Composite {
         // **********************************************************
         final VerticalPanel propListPanel = new VerticalPanel();
         final Label propositionsLabel = new Label("Propositions");
+        propositionsLabel.setStyleName("propositon_bold");        
         propListPanel.add(propositionsLabel);
         propListPanel.add(propositionsListBox);
 
@@ -1946,24 +1906,23 @@ public class RulesComposite extends Composite {
         // Propositions details
         // **********************************************************
         final SimplePanel propDetailsBorder = new SimplePanel();
-        final VerticalPanel flexPropositionDetailsTable = new VerticalPanel();
-        flexPropositionDetailsTable.setWidth("100%");
-        flexPropositionDetailsTable.setSpacing(5);
-        propDetailsBorder.add(flexPropositionDetailsTable);
+        propositionDetailsPanel.setWidth("100%");
+        propositionDetailsPanel.setSpacing(5);
+        propDetailsBorder.add(propositionDetailsPanel);
        
 
         // Proposition Name
         final HorizontalPanel hpPropName = new HorizontalPanel(); 
         hpPropName.setWidth("100%");
         hpPropName.add(GuiUtil.addLabelAndFieldVertically(messages.get("propositionName"), propNameTextBox, "50%"));
-        flexPropositionDetailsTable.add(hpPropName);
+        propositionDetailsPanel.add(hpPropName);
         
         // Proposition Description
         final HorizontalPanel hpPropDesc = new HorizontalPanel();        
         hpPropDesc.setWidth("100%");        
         hpPropDesc.add(GuiUtil.addLabelAndFieldVertically(messages.get("propositionDescription"), propDescTextBox, "70%"));
  
-        flexPropositionDetailsTable.add(hpPropDesc);
+        propositionDetailsPanel.add(hpPropDesc);
         
         //add proposition left, operator and right hand side  
         yvfListBox.addItem(EMPTY_LIST_BOX_ITEM );
@@ -1979,63 +1938,20 @@ public class RulesComposite extends Composite {
         hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically("Operator", operatorsListBox, "80px"));
         GuiUtil.addSpaceBesideWidget(hpLeftOpRightSide, "15px");
         hpLeftOpRightSide.add(GuiUtil.addLabelAndFieldVertically(messages.get("yvfExpectedValue"), expectedValueTextBox, "150px"));                        
-        flexPropositionDetailsTable.add(hpLeftOpRightSide);        
-
-        // Yield Value Function details  
-        resetYVFFactFields();
-        yvfFirstFactParamOneLabel.setText("First Parameter");
-        yvfFirstFactParamTwoLabel.setText("Second Parameter");        
+        propositionDetailsPanel.add(hpLeftOpRightSide);            
         
-        //first fact criteria fields        
-        final HorizontalPanel hpFirstCriteria = new HorizontalPanel();
-    	yvfFirstFactParamOneLabel.setText("1st Param");
-    	yvfFirstFactParamOneLabel.setStyleName("yvf_fields");
-    	yvfFirstFactParamTwoLabel.setText("2nd Param"); 
-    	yvfFirstFactParamTwoLabel.setStyleName("yvf_fields");
-    	yvfFirstStaticFactLabel.setText("Value");
-    	yvfFirstStaticFactLabel.setStyleName("yvf_fields");
-    	Label yvfFirstFactLineLabel = new Label("Arg1:");
-    	yvfFirstFactLineLabel.setStyleName("yvf_fields");
-    	Label yvfFirstFactTypeLabel = new Label("Fact Type:");
-    	yvfFirstFactTypeLabel.setStyleName("yvf_fields");
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically("",yvfFirstFactLineLabel, "100px"));          
-        GuiUtil.addSpaceBesideWidget(hpFirstCriteria, "5px");        
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactTypeLabel, yvfFirstFactTypeListBox, "150px"));
-        GuiUtil.addSpaceBesideWidget(hpFirstCriteria, "15px");        
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactParamOneLabel, yvfFirstFactParamOneTextBox, "150px"));
-        GuiUtil.addSpaceBesideWidget(hpFirstCriteria, "15px");
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstFactParamTwoLabel, yvfFirstFactParamTwoTextBox, "150px"));
-        hpFirstCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfFirstStaticFactLabel, yvfFirstStaticFactValue, "250px"));
-        flexPropositionDetailsTable.add(hpFirstCriteria); 
+        final HorizontalPanel hpYVFFactTypes = new HorizontalPanel();
+        propositionDetailsPanel.add(hpYVFFactTypes);                         
         
-        //second fact criteria fields
-        final HorizontalPanel hpSecondCriteria = new HorizontalPanel();
-        yvfSecondFactLineLabel.setText("Arg2:");
-        yvfSecondFactLineLabel.setStyleName("yvf_fields");
-        yvfSecondFactTypeLabel.setText("Fact Type:");
-        yvfSecondFactTypeLabel.setStyleName("yvf_fields");
-        yvfSecondFactParamOneLabel.setText("1st Param");
-        yvfSecondFactParamOneLabel.setStyleName("yvf_fields");
-        yvfSecondFactParamTwoLabel.setText("2nd Param");
-        yvfSecondFactParamTwoLabel.setStyleName("yvf_fields");
-    	yvfSecondStaticFactLabel.setText("Value");
-    	yvfSecondStaticFactLabel.setStyleName("yvf_fields");
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically("", yvfSecondFactLineLabel, "100px"));
-        GuiUtil.addSpaceBesideWidget(hpSecondCriteria, "5px");
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactTypeLabel, yvfSecondFactTypeListBox, "150px"));        
-        GuiUtil.addSpaceBesideWidget(hpSecondCriteria, "15px");     
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactParamOneLabel, yvfSecondFactParamOneTextBox, "150px"));
-        GuiUtil.addSpaceBesideWidget(hpSecondCriteria, "15px");       
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondFactParamTwoLabel, yvfSecondFactParamTwoTextBox, "150px"));
-        hpSecondCriteria.add(GuiUtil.addLabelAndFieldVertically(yvfSecondStaticFactLabel, yvfSecondStaticFactValue, "250px"));        
-        flexPropositionDetailsTable.add(hpSecondCriteria);             
-
+        factDetailsPanel.setSpacing(5);
+        propositionDetailsPanel.add(factDetailsPanel);
+        
         HorizontalPanel hpButtons = new HorizontalPanel();
         hpButtons.setSpacing(8);      
         hpButtons.add(cancelPropButton);
-        flexPropositionDetailsTable.add(hpButtons);        
+        propositionDetailsPanel.add(hpButtons);        
 
-        horizontalPanel.add(flexPropositionDetailsTable);
+        horizontalPanel.add(propositionDetailsPanel);
         horizontalPanel.setCellHeight(propListPanel, "75%");
         horizontalPanel.setCellWidth(propListPanel, "180px");
         verticalPanel.add(horizontalPanel);
@@ -2047,6 +1963,7 @@ public class RulesComposite extends Composite {
         ruleCompositionFlexTable.setSize("100%", "100%");
 
         final Label propCompositionLabel = new Label("Rule Composition");
+        propCompositionLabel.setStyleName("propositon_bold");   
         ruleCompositionFlexTable.setWidget(0, 0, propCompositionLabel);
         ruleCompositionFlexTable.getCellFormatter().setHeight(0, 0, FORM_ROW_HEIGHT);
         final Label propCompositionStatusLabel = new Label("Status:");
@@ -2063,6 +1980,7 @@ public class RulesComposite extends Composite {
 
         // Complete Rule
         final Label completeRuleLabel = new Label("Rule Overview");
+        completeRuleLabel.setStyleName("propositon_bold");         
         ruleCompositionFlexTable.setWidget(3, 0, completeRuleLabel);
         ruleCompositionFlexTable.getCellFormatter().setHeight(3, 0, FORM_ROW_HEIGHT);
 
@@ -2077,111 +1995,12 @@ public class RulesComposite extends Composite {
         verticalPanel.setCellHeight(horizontalPanel, "200px");
 
         return propositionsFlexTable;
-    }    
-    
-   
-    private void setFirstFactParamFields(boolean visible, boolean enabled, boolean staticFact) {
-    	boolean staticVisible = false;
-    	boolean dynamicVisible = false;
-    	
-    	if (visible) {
-	    	if (staticFact) {
-	    		staticVisible = true;    		
-	    	} else {
-	    		dynamicVisible = true;
-	    	}
-    	}
-    	
-    	yvfFirstFactParamOneLabel.setVisible(dynamicVisible);
-    	yvfFirstFactParamTwoLabel.setVisible(dynamicVisible);
-    	yvfFirstFactParamOneTextBox.setVisible(dynamicVisible);
-    	yvfFirstFactParamTwoTextBox.setVisible(dynamicVisible);
-    	yvfFirstStaticFactLabel.setVisible(staticVisible);
-    	yvfFirstStaticFactValue.setVisible(staticVisible);
-    	yvfFirstFactParamOneTextBox.setEnabled(enabled);
-    	yvfFirstFactParamTwoTextBox.setEnabled(enabled);
-    	yvfFirstStaticFactValue.setEnabled(enabled);    	
-    }
-    
-    private void setSecondFactParamFields(boolean visible, boolean enabled, boolean staticFact) {
-    	boolean staticVisible = false;
-    	boolean dynamicVisible = false;
-    	
-    	if (visible) {
-	    	if (staticFact) {
-	    		staticVisible = true;    		
-	    	} else {
-	    		dynamicVisible = true;
-	    	}
-    	}
-    	
-    	yvfSecondFactParamOneLabel.setVisible(dynamicVisible);
-    	yvfSecondFactParamTwoLabel.setVisible(dynamicVisible);
-    	yvfSecondFactParamOneTextBox.setVisible(dynamicVisible);
-    	yvfSecondFactParamTwoTextBox.setVisible(dynamicVisible);
-    	yvfSecondStaticFactLabel.setVisible(staticVisible);
-    	yvfSecondStaticFactValue.setVisible(staticVisible);
-    	yvfSecondFactParamOneTextBox.setEnabled(enabled);
-    	yvfSecondFactParamTwoTextBox.setEnabled(enabled);
-    	yvfSecondStaticFactValue.setEnabled(enabled);    	
-    }
-    
-    private void resetYVFFactFields() {
-    	//no YVF selected from a list box and facts will be by default dynamic
-    	setYVFFactFields(null, false, false);
-    }
-         
-    private void setYVFFactFields(String yvfType, boolean firstFactStatic, boolean secondFactStatic) {
-    	
-    	boolean firstFactTypeListVisible = true;
-    	boolean secondFactTypeListVisible = true;
-    	
-    	if (yvfType != null) {
-    		yvfType = yvfType.trim();
-    	}
-    	
-    	if (firstFactTypeKeyListSelectedValue == null) {
-    		firstFactTypeListVisible = false;
-    	}
-    	
-    	if (secondFactTypeKeyListSelectedValue == null) {
-    		secondFactTypeListVisible = false;
-    	}
-    	
-    	yvfFirstFactTypeListBox.setEnabled(false);
-    	yvfFirstFactTypeListBox.setVisible(true);
-    	
-        yvfSecondFactLineLabel.setVisible(false);
-        yvfSecondFactTypeLabel.setVisible(false);        
-    	yvfSecondFactTypeListBox.setEnabled(false);    		
-		yvfSecondFactTypeListBox.setVisible(false);
-    	
-    	if ((yvfType == null) || (yvfType.length() == 0) || yvfType.equals(EMPTY_LIST_BOX_ITEM)) {
-    		setFirstFactParamFields(false, false, firstFactStatic);
-    		setSecondFactParamFields(false, false, secondFactStatic);
-    	} else {
-        	yvfFirstFactTypeListBox.setEnabled(true);
-    		if (yvfType.equals(YieldValueFunctionType.INTERSECTION.symbol())) {    		
-	        	//Intersection is assumed to have 2 parameters
-	    		setFirstFactParamFields(firstFactTypeListVisible, true, firstFactStatic);
-	    		setSecondFactParamFields(secondFactTypeListVisible, true, secondFactStatic); 
-	        	yvfSecondFactTypeListBox.setEnabled(true);    		
-	    		yvfSecondFactTypeListBox.setVisible(true);
-	            yvfSecondFactLineLabel.setVisible(true);
-	            yvfSecondFactTypeLabel.setVisible(true);	    		
-    		} else {    	
-		    	//for other YVF functions, show only the first parameter
-				setFirstFactParamFields(firstFactTypeListVisible, true, firstFactStatic);
-				setSecondFactParamFields(false, false, secondFactStatic);		
-    		}
-    	}
-    }
-    
+    }                
     
     private void updatePropositionListBoxAndDetails(int selectedPropIx) {
         String propAbreviation;
 
-        //resequence the propositions again and update both proposition list and details of selected one
+        //re-sequence the propositions again and update both proposition list and details of selected one
         propositionsListBox.clear();
         int ix = -1;
         for (Map.Entry<Integer, RulePropositionDTO> entry : definedPropositions.entrySet()) {
@@ -2216,17 +2035,7 @@ public class RulesComposite extends Composite {
         expectedValueTextBox.setText(prop.getRightHandSide().getExpectedValue());        
         populateYVFDetails(prop.getLeftHandSide().getYieldValueFunction(), prop.getName());   
     }   
-    
-    
-    private void populateYVFFactTypeLits() {    	    	
-    	GuiUtil.setListBoxSelectionByItemName(yvfFirstFactTypeListBox, firstFactTypeKeyListSelectedValue);
-    	
-    	//populate second box only if it is applicable:
-    	if (secondFactTypeKeyListSelectedValue != null) {
-    		GuiUtil.setListBoxSelectionByItemName(yvfSecondFactTypeListBox, secondFactTypeKeyListSelectedValue);
-    	}
-    }
-    
+       
     
     //ASSUMPTION: all proposition are stored in VALID state in both GUI and in the Rule Management service
     private void populateYVFDetails(YieldValueFunctionDTO yvf, String propositionName) {   	
@@ -2236,7 +2045,6 @@ public class RulesComposite extends Composite {
         // do not enable YVF fact parameters if no YVF is selected or we don't know the rule type
         if ((yvf == null) || yvfType.equals(EMPTY_LIST_BOX_ITEM) ||
         	(displayedRule == null) || (displayedRule.getType().trim().isEmpty())) {
-        	resetYVFFactFields();
         	return;	//no selection of YVF yet
         }
         
@@ -2244,7 +2052,10 @@ public class RulesComposite extends Composite {
         GuiUtil.setListBoxSelectionByItemName(yvfListBox, yvfType);        
         
     	//2. show static or dynamic fact fields based on selection in Fact Type list box if any
-    	// a) get the first fact type
+        // a) clear up the currently defined fields that hold facts
+        factDetailsPanel.clear();
+        
+    	// b) get the first fact type
     	List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
         if (factStructureList.size() == 0) {
         	System.out.println("INVALID STATE: did not find any facts for proposition: '" + propositionName + "'");
@@ -2252,84 +2063,140 @@ public class RulesComposite extends Composite {
         	return; 
         }        	
     	
-        // b) find the fact type mode: static or dynamic
-        FactStructureDTO firstFact = factStructureList.get(0);
-        FactStructureDTO secondFact = null;
-        System.out.println("======================================================");
-        if (firstFact.isStaticFact()) {
-        	//TODO Debug logging  here and elsewhere: 
-            System.out.println("Static fact id: " + firstFact.getFactStructureId()); 
-        	System.out.println("Static fact value data type: " + firstFact.getStaticValueDataType());  //TODO use somehow
-        	System.out.println("Static fact type key: " + firstFact.getFactTypeKey());
-        	System.out.println("Static fact VALUE: " + firstFact.getStaticValue()); 
-        	firstFactTypeKeyListSelectedValue = USER_DEFINED_FACT_TYPE_KEY;
-        	yvfFirstStaticFactValue.setText(firstFact.getStaticValue());
-    	} else {
-            Map<String, String> map = firstFact.getParamValueMap();
-            int ix = 0;
-            for (String key : map.keySet()) {
-            	if (map.get(key) == null) {
-            		continue; //execution key
-            	}
-            	if (ix++ == 0) {
-            		 yvfFirstFactParamOneTextBox.setText(GuiUtil.removeFactParamPrefix(key));
-            	} else {
-            		yvfFirstFactParamTwoTextBox.setText(GuiUtil.removeFactParamPrefix(key));
-            	}            	
-            }
-            //TODO: query Fact Service on whether it is execution/definition key and what type etc.
-            System.out.println("Dynamic Fact Map: " + map.toString());        
-            System.out.println("Dynamic Fact Type Key: " + firstFact.getFactTypeKey());
-            firstFactTypeKeyListSelectedValue = GuiUtil.removeFactTypeKeyPrefix(firstFact.getFactTypeKey());
-    	}
-        System.out.println("======================================================");
-    	
-    	// for INTERSECTION we need two fact types
-        secondFactTypeKeyListSelectedValue = null; //assume we don't have second FACT
-    	if (yvfType.equals(YieldValueFunctionType.INTERSECTION.name())) {
-            if (factStructureList.size() != 2) {
-            	//logger.error(e.getMessage(), e);
-            	System.out.println("INVALID STATE: did not find 2 facts for INTERSECTION: '" + propositionName + "'");
-            	GuiUtil.showUserDialog("ERROR: Missing second Fact for proposition: '" + propositionName + "'");
-            	return;  //no facts? TODO log error/user message; throw exception
-            }   
+        // c) show facts of the YVF
+        int numberOfYVFFacts = GuiUtil.YieldValueFunctionType.getNumberOfFactsFromName(yvf.getYieldValueFunctionType());
+        
+        if (numberOfYVFFacts != factStructureList.size()) {
+            System.out.println("INVALID STATE: number of facts (" + factStructureList.size() + ") found in YVF entity " + yvf.getYieldValueFunctionType() +
+                    " is not equal to number of expected facts (" + numberOfYVFFacts);
+            GuiUtil.showUserDialog("ERROR: Number of facts available and required for YVF not the same.");
+            return;             
+        }       
+               
+        String factID;
+        factTypes.clear();
+        factTypeParams.clear();
+        factTypeSelectedValues.clear();
+        
+        //for each FACT TYPE, show fact types drop down and list of individual fact parameters
+        for (int i = 1; i <= numberOfYVFFacts; i++) {
+            FactStructureDTO fact = factStructureList.get(i-1);
+            factID = Integer.toString(i);
+
+            System.out.println("======================================================");
+            System.out.println("Structure id: " + fact.getFactStructureId());           
+            System.out.println("Fact type key: " + fact.getFactTypeKey());
             
-            //retrieve data from second fact
-            secondFact = factStructureList.get(1);
-            if (secondFact.isStaticFact()) {		        
-		    	secondFactTypeKeyListSelectedValue = USER_DEFINED_FACT_TYPE_KEY;
-		    	yvfSecondStaticFactValue.setText(secondFact.getStaticValue());
-            } else {            	
-                Map<String, String> map = secondFact.getParamValueMap();
-                int ix = 0;
-                for (String key : map.keySet()) {
-                	if (map.get(key) == null) {
-                		continue; //execution key
-                	}
-                	if (ix++ == 0) {
-                		 yvfSecondFactParamOneTextBox.setText(GuiUtil.removeFactParamPrefix(key));
-                	} else {
-                		yvfSecondFactParamTwoTextBox.setText(GuiUtil.removeFactParamPrefix(key));
-                	}            	
-                }                
-                secondFactTypeKeyListSelectedValue = GuiUtil.removeFactTypeKeyPrefix(secondFact.getFactTypeKey());
-            }            
-    	}
-    	
-        //3. set fact type list boxes and their values              
-    	setYVFFactFields(GuiUtil.getYVFSymbol(yvfType), firstFact.isStaticFact(), (secondFact == null ? false : secondFact.isStaticFact()));
-    	               
-    	//load a new fact type key list if it is missing (because of new business rule)
-    	retrieveFactTypes();
-    	
-    	System.out.println("factTypeKeyList loaded...");
-    	populateYVFFactTypeLits();
+            //for given FACT of YVF, create a new panel that will show FACT TYPE listbox and fact parameters
+            VerticalPanel yvfFactPanel = new VerticalPanel();
+            yvfFactPanel.setSpacing(5);
+            factDetailsPanel.add(yvfFactPanel);            
+            
+            ListBox factType = new ListBox(); 
+            factType.setName(factID);
+            factType.setEnabled(false); //disable before list loaded             
+            factType.addChangeListener(new ChangeListener() {
+                public void onChange(final Widget sender) {
+                    ListBox factTypeListBox = (ListBox) sender;
+                    String selectedFactType = GuiUtil.getListBoxSelectedValue(factTypeListBox);
+                    String factID = factTypeListBox.getName();
+                    VerticalPanel vp = factParamsPanel.get(factID);
+                    vp.clear();                                      
+                    factTypeParams.remove(factID);  //remove defined fact params for this fact
+                    
+                    List<TextArea> factTypeParamList = new ArrayList<TextArea>();
+                    if (selectedFactType.equals(USER_DEFINED_FACT_TYPE_KEY)) {
+                        TextArea staticFactValueTextBox = new TextArea();
+                        factTypeParamList.add(staticFactValueTextBox);              
+                        vp.add(GuiUtil.addLabelAndFieldHorizontally(new Label("- static fact value"), staticFactValueTextBox, "250px")); 
+                    } else {
+                        for (FactTypeInfoDTO factTypeInfo : definedFactTypesList) {                                                        
+                            if (!factTypeInfo.getFactTypeKey().equals(GuiUtil.addFactTypeKeyPrefix(selectedFactType))) continue;   
+                                                                           
+                            //go through each key and set it up for given fact type
+                            Map<String, FactParamDTO> definedParamValueMap = factTypeInfo.getFactCriteriaTypeInfo().getFactParamMap();  
+                            for (String key : definedParamValueMap.keySet()) {
+                                FactParamDTO factParam = definedParamValueMap.get(key); 
+                                
+                                //execution time keys don't have values
+                                if (factParam.getDefTime().equals("KUALI_FACT_EXECUTION_TIME_KEY")) {
+                                    vp.add(new Label("- " + GuiUtil.removeFactParamPrefix(factParam.getName()))); 
+                                    continue;
+                                }                                
+                           
+                                TextArea factParamValue = new TextArea();    
+                                factParamValue.setName(factParam.getName());
+                                factTypeParamList.add(factParamValue);                  
+                                vp.add(GuiUtil.addLabelAndFieldHorizontally(new Label("- " + GuiUtil.removeFactParamPrefix(factParam.getName())), factParamValue, "250px"));
+                            }
+                        }
+                    }
+                    factTypeParams.put(factID, factTypeParamList);
+                    System.out.println("Setting selected fact type: " + selectedFactType);
+                    factTypeSelectedValues.put(factID, selectedFactType);
+                }
+            });      
+            
+            //FACTx label
+            Label factLabel = new Label("Fact" + factID);
+            factLabel.setStyleName("yvf_fields");   
+            
+            //FACT TYPEs drop down list                     
+            //factType.addItem((fact.isStaticFact() ? USER_DEFINED_FACT_TYPE_KEY : GuiUtil.removeFactTypeKeyPrefix(fact.getFactTypeKey())));
+            factTypeSelectedValues.put(factID, fact.isStaticFact() ? USER_DEFINED_FACT_TYPE_KEY : GuiUtil.removeFactTypeKeyPrefix(fact.getFactTypeKey()));
+            factTypes.put(factID, factType);
+            yvfFactPanel.add(GuiUtil.addLabelAndFieldHorizontally(factLabel, factType, "150px"));
+            
+            //create indentation
+            VerticalPanel vp = new VerticalPanel();
+            factParamsPanel.put(factID, vp);
+            HorizontalPanel hp = new HorizontalPanel();
+            factDetailsPanel.add(hp);
+            SimplePanel space = new SimplePanel();
+            space.setWidth("30px");
+            hp.add(space);
+            hp.add(vp);
+
+            List<TextArea> factTypeParamList = new ArrayList<TextArea>();            
+            
+            //STATIC FACT goes beside the FACT TYPE drop down
+            if (fact.isStaticFact()) {
+                System.out.println("Static fact value data type: " + fact.getStaticValueDataType());  //TODO use somehow
+                System.out.println("Static fact VALUE: " + fact.getStaticValue()); 
+                
+                TextArea staticFactValueTextBox = new TextArea();
+                staticFactValueTextBox.setText(fact.getStaticValue());
+                factTypeParamList.add(staticFactValueTextBox);              
+                vp.add(GuiUtil.addLabelAndFieldHorizontally(new Label("- static fact value"), staticFactValueTextBox, "250px"));                
+            } else {                                     
+                //it is a dynamic fact
+                Map<String, String> map = fact.getParamValueMap();
+                for (Entry<String, String> entry : map.entrySet()) {
+                    if (entry.getValue().equals("KUALI_FACT_EXECUTION_TIME_KEY")) { //execution key
+                        //factTypeParamList.add(executionKeyWidget);                                       
+                        vp.add(new Label("- " + GuiUtil.removeFactParamPrefix(entry.getKey())));                   
+                        System.out.println("Dynamic Execution Key: " + entry.getKey());
+                        continue;
+                    }
+                                                    
+                    TextArea factParamValue = new TextArea();
+                    factParamValue.setName(entry.getKey());
+                    factParamValue.setText(entry.getValue());
+                    factTypeParamList.add(factParamValue);                  
+                    vp.add(GuiUtil.addLabelAndFieldHorizontally(new Label("- " + GuiUtil.removeFactParamPrefix(entry.getKey())), factParamValue, "250px"));
+                }
+            }
+            factTypeParams.put(factID, factTypeParamList);                        
+        }
+            	   	
+        //set fact type list boxes and their values
+        retrieveFactTypes();
     }
     
 
     private void retrieveFactTypes() {
-    	if (factTypeKeyList == null) {    	
-	        //load list of factTypeKeys for the given business rule type
+    	if (definedFactTypesList == null) {    	
+	        //load list of factTypes for the given business rule type
 	        //TODO in proposition form, make indication that the param list boxes are still being loaded...
         	loadingFactTypeKeyList = true;
     		DevelopersGuiService.Util.getInstance().fetchBusinessRuleType(displayedRule.getType(),
@@ -2342,41 +2209,41 @@ public class RulesComposite extends Composite {
 	            public void onSuccess(BusinessRuleTypeInfoDTO ruleTypeInfo) {
 	            	Logger.info("Loading fact type key list: " + ruleTypeInfo.getFactTypeKeyList());
 	            	loadingFactTypeKeyList = false;
-	            	factTypeKeyList = new ArrayList<FactTypeInfoDTO>();
-	            	
-	            	yvfFirstFactTypeListBox.clear();
-	            	yvfSecondFactTypeListBox.clear();
-	            	yvfFirstFactTypeListBox.addItem(EMPTY_LIST_BOX_ITEM);
-	            	yvfFirstFactTypeListBox.addItem(USER_DEFINED_FACT_TYPE_KEY);
-	            	yvfSecondFactTypeListBox.addItem(EMPTY_LIST_BOX_ITEM);
-	            	yvfSecondFactTypeListBox.addItem(USER_DEFINED_FACT_TYPE_KEY);	            	
-	            	for (String factTypeKey : ruleTypeInfo.getFactTypeKeyList()) {
-	            		factTypeKey = GuiUtil.removeFactTypeKeyPrefix(factTypeKey); 	            		
-		                yvfFirstFactTypeListBox.addItem(factTypeKey);
-		                yvfSecondFactTypeListBox.addItem(factTypeKey);
-	            	}	            	
-	            	
-	            	populateYVFFactTypeLits(); 
-	            	
+	            	definedFactTypesList = new ArrayList<FactTypeInfoDTO>();
+	            		            	
 	                //get fact type info for each fact type from the fact service	            	
         			DevelopersGuiService.Util.getInstance().fetchFactTypeList(ruleTypeInfo.getFactTypeKeyList(),
         																	new AsyncCallback<List<FactTypeInfoDTO>>() {
         	            public void onFailure(Throwable caught) {
-        	                // just re-throw it and let the uncaught exception handler deal with it
         	                Window.alert(caught.getMessage());
-        	                //loadingFactTypeKeyList = false;
-        	                // throw new RuntimeException("Unable to load fact type key list", caught);
         	            }
         	
         	            public void onSuccess(List<FactTypeInfoDTO> factTypeInfo) {        	            	
-        	            	factTypeKeyList = factTypeInfo;
+        	            	definedFactTypesList = factTypeInfo;
+        	            	populateYVFFactTypeLists();
         	            }
         	        });   
 	            }
-	        });        	
-    	}    	
+	        });
+    		return;
+    	}
+    	populateYVFFactTypeLists();
     }
     
+    //once we retrieve all Fact Types from Fact Service, we can populate all Fact Types drop down lists
+    private void populateYVFFactTypeLists() {    
+        for (String key : factTypes.keySet()) {
+            ListBox factTypeListBox = (ListBox) factTypes.get(key);
+            factTypeListBox.clear();
+            factTypeListBox.addItem(USER_DEFINED_FACT_TYPE_KEY);
+            for (FactTypeInfoDTO factTypeInfo : definedFactTypesList) {
+                factTypeListBox.addItem(GuiUtil.removeFactTypeKeyPrefix(factTypeInfo.getFactTypeKey()));                                                
+            }
+            System.out.println("Setting fact type list box to: " + factTypeSelectedValues.get(key));
+            GuiUtil.setListBoxSelectionByItemName(factTypeListBox, factTypeSelectedValues.get(key));
+            factTypeListBox.setEnabled(true);
+        }        
+    }
     
     private void clearPropositionDetails() {
         propNameTextBox.setText("");
@@ -2389,19 +2256,34 @@ public class RulesComposite extends Composite {
     
     
     private void clearYVFFactFields() {
-    	firstFactTypeKeyListSelectedValue = null;
-    	secondFactTypeKeyListSelectedValue = null;
-    	GuiUtil.setListBoxSelectionByItemName(yvfFirstFactTypeListBox, "");    	
-    	yvfFirstFactParamOneTextBox.setText("");
-    	yvfFirstFactParamTwoTextBox.setText("");
-    	yvfFirstStaticFactValue.setText("");
-    	GuiUtil.setListBoxSelectionByItemName(yvfSecondFactTypeListBox, "");
-    	yvfSecondFactParamOneTextBox.setText("");
-    	yvfSecondFactParamTwoTextBox.setText("");
-    	yvfSecondStaticFactValue.setText("");    	
-    	resetYVFFactFields();
+        factTypes.clear();
+        factTypeParams.clear();
+        factParamsPanel.clear();
+        factTypeSelectedValues.clear();
+        factDetailsPanel.clear();
     }
            
+    private void setYVFFactFields(String yvfType) {
+        if ((yvfType == null) || (yvfType.length() == 0) || yvfType.equals(EMPTY_LIST_BOX_ITEM)) {
+            clearYVFFactFields();
+        } else {           
+            YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+            yvf.setYieldValueFunctionType(yvfType);
+            List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>(); 
+            yvf.setFactStructureList(factStructureList); 
+            int numberOfYVFFacts = GuiUtil.YieldValueFunctionType.getNumberOfFactsFromName(yvfType);
+            for (int i = 0; i < numberOfYVFFacts; i++) {            
+                FactStructureDTO fact = getBlankFactSturectureDTO();
+                factStructureList.add(fact);                           
+                fact.setFactTypeKey("fact.static_key");
+                fact.setStaticFact(true);
+                fact.setStaticValue("");                             
+                fact.setStaticValueDataType(GuiUtil.YieldValueFunctionType.getValueDataTypeFromSymbol(GuiUtil.getYVFSymbol(yvfType)));
+            }
+            populateYVFDetails(yvf, "temporary");
+        }                
+    }
+    
     private boolean validateRuleComposition() {    	
     	//check that every defined proposition is valid
     	int propIx = -1;
@@ -2443,6 +2325,7 @@ public class RulesComposite extends Composite {
         	yvf = null;
         }
         
+        //for given YVF, retrieve facts
     	if (yvfSelected) {         
 	        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
 	        
@@ -2454,51 +2337,69 @@ public class RulesComposite extends Composite {
 	        
 	        //store set facts in YVF
 	    	List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>(); 
-	    	yvf.setFactStructureList(factStructureList);                	
-	    	FactStructureDTO firstFact = getBlankFactSturectureDTO();
-	    	factStructureList.add(firstFact);    	   	
+	    	yvf.setFactStructureList(factStructureList); 
 	    	
-	        //populate either static or dynamic facts
-	    	if (firstFactTypeKeyListSelectedValue != null) {
-		        if (firstFactTypeKeyListSelectedValue.trim().equals(USER_DEFINED_FACT_TYPE_KEY)) {
-		        	firstFact.setFactTypeKey("fact.static_key");
-		        	firstFact.setStaticFact(true);
-		        	firstFact.setStaticValue(yvfFirstStaticFactValue.getText());		        		        
-		        	firstFact.setStaticValueDataType(GuiUtil.YieldValueFunctionType.fromSymbol(yvfType));
-		    	} else {  //dynamic fact...
-		    		firstFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(firstFactTypeKeyListSelectedValue));
-		    		if (yvfFirstFactParamOneTextBox.getText().isEmpty() == false) {
-		    			firstFact.getParamValueMap().put(yvfFirstFactParamOneTextBox.getText(), "");
-		    		}
-		    		if (yvfFirstFactParamTwoTextBox.getText().isEmpty() == false) {
-		    			firstFact.getParamValueMap().put(yvfFirstFactParamTwoTextBox.getText(), "");
-		    		}                		                		
-		    	}
-	    	}
-	    	
-	    	// for INTERSECTION we need second fact type                    
-	    	if (GuiUtil.getListBoxSelectedValue(yvfListBox).trim().equals(YieldValueFunctionType.INTERSECTION.symbol())) {
-	        	FactStructureDTO secondFact = getBlankFactSturectureDTO();
-	        	factStructureList.add(secondFact);                    
-	        	
-	            //populate either static or dynamic facts
-		    	if (secondFactTypeKeyListSelectedValue != null) {
-		            if (secondFactTypeKeyListSelectedValue.trim().equals(USER_DEFINED_FACT_TYPE_KEY)) {
-		            	secondFact.setFactTypeKey("fact.static_key");
-		            	secondFact.setStaticFact(true);
-		            	secondFact.setStaticValue(yvfSecondStaticFactValue.getText());
-		            	secondFact.setStaticValueDataType(GuiUtil.YieldValueFunctionType.fromSymbol(YieldValueFunctionType.INTERSECTION.symbol()));
-		        	} else {  //dynamic fact...
-		        		secondFact.setFactTypeKey(GuiUtil.addFactTypeKeyPrefix(secondFactTypeKeyListSelectedValue));
-		        		if (yvfSecondFactParamOneTextBox.getText().isEmpty() == false) {
-		        			secondFact.getParamValueMap().put(yvfSecondFactParamOneTextBox.getText(), "");
-		        		}
-		        		if (yvfSecondFactParamTwoTextBox.getText().isEmpty() == false) {
-		        			secondFact.getParamValueMap().put(yvfSecondFactParamTwoTextBox.getText(), "");
-		        		}                		                		
-		        	}
-		    	}
-	    	}	             	
+	    	String factID;
+	    	ListBox factType;
+	    	List<TextArea> factParameters;
+	    	int numberOfYVFFacts = GuiUtil.YieldValueFunctionType.getNumberOfFactsFromName(yvf.getYieldValueFunctionType());
+	    	System.out.println("************** RETRIEVING FACTS FROM GUI ************************");
+	        for (int i = 1; i <= numberOfYVFFacts; i++) {
+	            factID = Integer.toString(i);
+	            
+	            FactStructureDTO fact = getBlankFactSturectureDTO();
+	            factStructureList.add(fact);
+	            factType = (ListBox) factTypes.get(factID);            
+	            factParameters = factTypeParams.get(factID);
+	            
+	            String selectedFactType = GuiUtil.getListBoxSelectedValue(factType);
+	            System.out.println("-> Fact Type (" + factID + "): " + selectedFactType);
+	            
+	            if (selectedFactType.trim().equals(USER_DEFINED_FACT_TYPE_KEY)) {
+	                System.out.println("-> STATIC FACT: " + factParameters.get(0).getText());
+                    fact.setFactTypeKey("fact.static_key");
+                    fact.setStaticFact(true);
+                    fact.setStaticValue(factParameters.get(0).getText());                             
+                    fact.setStaticValueDataType(GuiUtil.YieldValueFunctionType.getValueDataTypeFromSymbol(yvfType));	                
+	            }
+	            else
+	            {
+	                for (FactTypeInfoDTO factTypeInfo : definedFactTypesList) {	                
+	                    if (!factTypeInfo.getFactTypeKey().equals(GuiUtil.addFactTypeKeyPrefix(selectedFactType))) continue;
+	                    
+	                    System.out.println("-> DYNAMIC FACT: " + factTypeInfo.getFactCriteriaTypeInfo().getFactParamMap());	                
+	                    fact.setFactTypeKey(factTypeInfo.getFactTypeKey());
+	                    fact.setCriteriaTypeInfo(factTypeInfo.getFactCriteriaTypeInfo());
+	                    Map<String, FactParamDTO> definedParamValueMap = factTypeInfo.getFactCriteriaTypeInfo().getFactParamMap();
+	                    Map<String, String> newParamValueMap = new HashMap<String, String>();
+	                    
+	                    //go through each key and set it up for given fact type
+	                    for (String key : definedParamValueMap.keySet()) {
+	                        FactParamDTO factParam = definedParamValueMap.get(key);
+	                        
+	                        //execution time keys don't have values
+	                        if (factParam.getDefTime().equals("KUALI_FACT_EXECUTION_TIME_KEY")) {
+	                            newParamValueMap.put(key, "KUALI_FACT_EXECUTION_TIME_KEY");
+	                            System.out.println("-> EXEC FACT ENTERED: " + key);
+	                            continue;
+	                        }
+	                    
+	                        //for definition time, retrieve value from GUI (TODO: error if empty?)
+	                        for (TextArea factParamField : factParameters) {
+	                            System.out.println("Fact param: " + factParamField.getName() + " - " + factParamField.getText());
+	                            //String factParamName = GuiUtil.addFactParamPrefix(factParamField.getName());
+	                            if (factParamField.getName().equals(factParam.getName())) {
+	                                newParamValueMap.put(key, factParamField.getText());
+	                                System.out.println("-> FACT ENTERED: " + key + " - " + factParamField.getText());
+	                            }
+	                        }  	                        
+	                        
+	                    }	                    	                    
+	                    
+	                    fact.setParamValueMap(newParamValueMap);
+	                } 	            
+	            }
+	        }	    	  	   		    	             	
     	}
     	
         //populate rest of the proposition
@@ -2557,10 +2458,7 @@ public class RulesComposite extends Composite {
         }
         max++;
         lastPropIx++;
-        definedPropositions.put(max, prop); 
-        
-        System.out.println("--> ADDED NEW PROP: key: " + max + ", ix: " + lastPropIx);
-        
+        definedPropositions.put(max, prop);         
         removePropButton.setEnabled(true);
         if (lastPropIx == 0) {
         	removePropButton.setEnabled(false);

@@ -37,6 +37,7 @@ public class GuiUtil {
     public static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
 	public static final String FACT_TYPE_KEY_PREFIX = "fact.";
+    public static final String FACT_PARAM_PREFIX = "factParam.";
     static final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
     
     /*
@@ -450,14 +451,16 @@ public class GuiUtil {
     }
     
     public enum YieldValueFunctionType {  //DODO  add other types
-        INTERSECTION("Intersection (arg1, arg2)", "java.lang.String"), SUM("Sum (arg)", "java.math.BigDecimal"), AVERAGE("Average (arg)", "java.math.BigDecimal");
+        INTERSECTION("Intersection (fact1, fact2)", "java.lang.String", 2), SUM("Sum (fact)", "java.math.BigDecimal", 1), AVERAGE("Average (fact)", "java.math.BigDecimal", 1);
 
         private final String symbol;
         private final String valueDataType;
+        private final int numberOfFacts;
 
-        YieldValueFunctionType(String symbol, String valueDataType) {
+        YieldValueFunctionType(String symbol, String valueDataType, int numberOfFacts) {
             this.symbol = symbol;
             this.valueDataType = valueDataType;
+            this.numberOfFacts = numberOfFacts;
         }
 
         public String symbol() {
@@ -466,16 +469,31 @@ public class GuiUtil {
 
         public String valueDataType() {
             return valueDataType;
-        }    
+        }  
         
-        public static final String fromSymbol(final String symbol) {
+        public int numberOfFacts() {
+            return numberOfFacts;
+        }
+        
+        public static final String getValueDataTypeFromSymbol(final String symbol) {
         	for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {
 	        	if (t.symbol.equals(symbol)) {
 	        		return t.valueDataType;
 	        	}
         	}
         	throw new IllegalArgumentException("Unknown Enumeration symbol: " + symbol);  //TODO
-        }
+        }              
+
+        public static final int getNumberOfFactsFromName(final String name) {
+            System.out.println("Name: '"+name+"'");
+            for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {
+                System.out.println("name: '"+t.name()+"'");
+                if (t.name().equals(name.trim())) {
+                    return t.numberOfFacts;
+                }
+            }
+            throw new IllegalArgumentException("Unknown Enumeration name: " + name);  //TODO
+        }       
     }
     
     public static void addSpaceBesideWidget(Panel widget, String width) {
@@ -523,8 +541,10 @@ public class GuiUtil {
     
     public static HorizontalPanel addLabelAndFieldHorizontally(Widget label, Widget field, String fieldSize) {
         final HorizontalPanel hp = new HorizontalPanel();
-        label.setWidth(fieldSize);
+        //hp.setSpacing(5);
+        //label.setWidth(fieldSize);
         hp.add(label);
+        addSpaceBesideWidget(hp, "5px");
         field.setWidth(fieldSize);
         hp.add(field);
         return hp;
@@ -541,15 +561,19 @@ public class GuiUtil {
     public static String addFactTypeKeyPrefix(String factTypeKey) {
         return FACT_TYPE_KEY_PREFIX + factTypeKey;
     }    
+   
     
     public static String removeFactParamPrefix(String factParam) {
     	// Removed to fix execution of dynamic facts
-    	/*final String FACT_PARAM_PREFIX = "factParam.";
         if (factParam.startsWith(FACT_PARAM_PREFIX)) {
         	factParam = factParam.substring(FACT_PARAM_PREFIX.length());
-        } */
+        } 
         return factParam;
     }
+    
+    public static String addFactParamPrefix(String factParam) {
+        return FACT_PARAM_PREFIX + factParam;
+    }   
 
     public static void showUserDialog(String message) {
     	MyDialog box = new MyDialog(message);
