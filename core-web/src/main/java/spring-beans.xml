@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:simple="http://cxf.apache.org/simple"
+	xsi:schemaLocation="
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
+	
+	<bean id="organizationService" class="org.kuali.student.core.web.organization.server.impl.OrgRpcServiceImpl">
+		<property name="service" ref="orgClient" />
+	</bean>
+
+
+	<!-- Service Clients -->	
+	<bean id="orgClient"
+		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation"
+			value="classpath:wsdl/OrgService.wsdl" />
+		<property name="serviceEndpointInterface"
+			value="org.kuali.student.core.organization.service.OrganizationService" />
+		<property name="serviceQNameString"
+			value="{http://org.kuali.student/core/organization}OrganizationService" />
+	 	<property name="address"
+			value="http://localhost:8181/Service/Service" />
+	</bean>
+</beans>
