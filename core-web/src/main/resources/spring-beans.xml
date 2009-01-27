@@ -8,7 +8,7 @@
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 	
-	<bean id="organizationService" class="org.kuali.student.core.web.organization.server.impl.OrgRpcServiceImpl">
+	<bean id="organizationService" class="org.kuali.student.core.organization.web.server.impl.OrgRpcServiceImpl">
 		<property name="service" ref="orgClient" />
 	</bean>
 
@@ -17,7 +17,7 @@
 	<bean id="orgClient"
 		class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation"
-			value="classpath:wsdl/OrgService.wsdl" />
+			value="http://localhost:8181/Service/Service?wsdl" />
 		<property name="serviceEndpointInterface"
 			value="org.kuali.student.core.organization.service.OrganizationService" />
 		<property name="serviceQNameString"
