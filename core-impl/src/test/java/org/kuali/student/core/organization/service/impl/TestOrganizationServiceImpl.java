@@ -20,6 +20,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 
@@ -29,18 +30,23 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", port = "8181")
 	public OrganizationService client;
 
-	
+
+	@Test
+	public void createOrganization() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+	    OrgInfo result = client.createOrganization("ks.org.foo", new OrgInfo());
+		assertEquals("ks.org.foo",result.getType());
+	}
+
 	@Test
 	public void TestFinds() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 	    //Test Finds
-	    OrgInfo result = client.createOrganization("ks.org.foo", new OrgInfo());
-		assertEquals("ks.org.foo",result.getType());
-
 		List<OrgHierarchyInfo> orgHierarchyInfos = client.getOrgHierarchies();
 		assertEquals(2,orgHierarchyInfos.size());
-		
+
 		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("60");
 		assertEquals(5,orgOrgRelationInfos.size());
-		
+
+		List<OrgPersonRelationInfo> orgPersonRelationInfos = client.getAllOrgPersonRelationsByOrg("68");
+		assertEquals(2, orgPersonRelationInfos.size());
 	}
 }

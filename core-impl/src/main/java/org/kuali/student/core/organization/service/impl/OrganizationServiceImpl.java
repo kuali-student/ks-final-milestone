@@ -31,6 +31,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -120,8 +121,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgPersonRelationInfos(organizationDao.getAllOrgPersonRelationsByOrg(orgId));
 	}
 
 	@Override
@@ -276,8 +276,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelation> relations = organizationDao.getAllOrgPersonRelationsByOrg(orgId);
+		return OrganizationAssembler.toOrgPersonRelationInfos(relations);
 	}
 
 	@Override

@@ -6,9 +6,11 @@ import java.util.List;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -58,6 +60,28 @@ public class OrganizationAssembler extends BaseAssembler{
 		return orgInfo;
 	}
 
+	public static List<OrgPersonRelationInfo> toOrgPersonRelationInfos(List<OrgPersonRelation> relations) {
+		List<OrgPersonRelationInfo> relationInfos = new ArrayList<OrgPersonRelationInfo>(relations.size());
+		for (OrgPersonRelation relation : relations) {
+			relationInfos.add(toOrgPersonRelationInfo(relation));
+		}
+		return relationInfos;
+	}
+
+	public static OrgPersonRelationInfo toOrgPersonRelationInfo(OrgPersonRelation relation) {
+		OrgPersonRelationInfo relationInfo = new OrgPersonRelationInfo();
+
+		BeanUtils.copyProperties(relation, relationInfo, new String[] { "type",
+				"attributes", "metaInfo", "orgId"});
+
+		relationInfo.setOrgId(relation.getOrg().getId());
+		relationInfo.setAttributes(toAttributeMap(relation.getAttributes()));
+		relationInfo.setMetaInfo(toMetaInfo(relation.getMeta(), relation.getVersionInd()));
+		relationInfo.setType(relation.getType().getKey());
+		relationInfo.setId(relation.getId());
+		return relationInfo;
+	}
+
 	public static List<OrgOrgRelationInfo> toOrgOrgRelationInfos(
 			List<OrgOrgRelation> orgOrgRelations) {
 		List<OrgOrgRelationInfo> orgOrgRelationInfo = new ArrayList<OrgOrgRelationInfo>();
@@ -80,10 +104,10 @@ public class OrganizationAssembler extends BaseAssembler{
 		orgOrgRelationInfo.setType(orgOrgRelation.getType().getKey());
 		orgOrgRelationInfo.setOrgId(orgOrgRelation.getOrg().getId());
 		orgOrgRelationInfo.setRelatedOrgId(orgOrgRelation.getRelatedOrg().getId());
-		
+
 		return orgOrgRelationInfo;
 	}
-	
-	
+
+
 
 }
