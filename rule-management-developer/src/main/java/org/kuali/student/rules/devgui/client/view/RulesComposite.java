@@ -35,6 +35,7 @@ import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
+import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
@@ -2341,7 +2342,7 @@ public class RulesComposite extends Composite {
 	        
 	        //store set facts in YVF
 	    	List<FactStructureDTO> factStructureList = new ArrayList<FactStructureDTO>(); 
-	    	yvf.setFactStructureList(factStructureList); 
+	    	yvf.setFactStructureList(factStructureList); 	    	               	
 	    	
 	    	String factID;
 	    	ListBox factType;
@@ -2377,6 +2378,11 @@ public class RulesComposite extends Composite {
 	                    Map<String, FactParamDTO> definedParamValueMap = factTypeInfo.getFactCriteriaTypeInfo().getFactParamMap();
 	                    Map<String, String> newParamValueMap = new HashMap<String, String>();
 	                    
+	                    Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
+	                    System.out.println("Setting processing column: " + GuiUtil.YieldValueFunctionType.getProcessingColumnFromSymbol(yvfType));
+	                    resultColumnKeyMap.put(GuiUtil.YieldValueFunctionType.getProcessingColumnFromSymbol(yvfType), "resultColumn.cluId");
+	                    fact.setResultColumnKeyTranslations(resultColumnKeyMap);    	                    
+	                    
 	                    //go through each key and set it up for given fact type
 	                    for (String key : definedParamValueMap.keySet()) {
 	                        FactParamDTO factParam = definedParamValueMap.get(key);
@@ -2396,8 +2402,7 @@ public class RulesComposite extends Composite {
 	                                newParamValueMap.put(key, factParamField.getText());
 	                                System.out.println("-> FACT ENTERED: " + key + " - " + factParamField.getText());
 	                            }
-	                        }  	                        
-	                        
+	                        }  	         	                        	                        
 	                    }	                    	                    
 	                    
 	                    fact.setParamValueMap(newParamValueMap);

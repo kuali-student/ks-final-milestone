@@ -450,16 +450,20 @@ public class GuiUtil {
     }
     
     public enum YieldValueFunctionType {  //DODO  add other types
-        INTERSECTION("Intersection (fact1, fact2)", "java.lang.String", 2), SUM("Sum (fact)", "java.math.BigDecimal", 1), AVERAGE("Average (fact)", "java.math.BigDecimal", 1);
+        INTERSECTION("Intersection (fact1, fact2)", "java.lang.String", 2, "key.proposition.column.intersection"),
+        SUM("Sum (fact)", "java.math.BigDecimal", 1, "key.proposition.column.sum"),
+        AVERAGE("Average (fact)", "java.math.BigDecimal", 1, "key.proposition.column.average");
 
         private final String symbol;
         private final String valueDataType;
         private final int numberOfFacts;
+        private final String processingColumn;
 
-        YieldValueFunctionType(String symbol, String valueDataType, int numberOfFacts) {
+        YieldValueFunctionType(String symbol, String valueDataType, int numberOfFacts, String processingColumn) {
             this.symbol = symbol;
             this.valueDataType = valueDataType;
             this.numberOfFacts = numberOfFacts;
+            this.processingColumn = processingColumn;
         }
 
         public String symbol() {
@@ -474,6 +478,10 @@ public class GuiUtil {
             return numberOfFacts;
         }
         
+        public String processingColumn() {
+            return processingColumn;
+        }
+        
         public static final String getValueDataTypeFromSymbol(final String symbol) {
         	for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {
 	        	if (t.symbol.equals(symbol)) {
@@ -483,6 +491,15 @@ public class GuiUtil {
         	throw new IllegalArgumentException("Unknown Enumeration symbol: " + symbol);  //TODO
         }              
 
+        public static final String getProcessingColumnFromSymbol(final String symbol) {
+            for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {
+                if (t.symbol.equals(symbol)) {
+                    return t.processingColumn;
+                }
+            }
+            throw new IllegalArgumentException("Unknown Enumeration symbol: " + symbol);  //TODO
+        }          
+        
         public static final int getNumberOfFactsFromName(final String name) {
             System.out.println("Name: '"+name+"'");
             for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {

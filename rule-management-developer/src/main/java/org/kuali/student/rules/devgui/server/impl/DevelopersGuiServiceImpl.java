@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
@@ -73,14 +74,17 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     	dynamicTestFacts.setParamValueMap(new HashMap<String, String>());
     	String testFactValue = null;
     	
-    	System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", facts: " + facts);
+    	System.out.println("----> EXECUTING: rule id: " + businessRule.getId() + ", facts: " + facts);
     	
     	//populate all static and dynamic facts entered in the rule test tab
         for (RuleElementDTO elem : businessRule.getBusinessRuleElementList()) {
         	if (elem.getBusinessRuleElemnetTypeKey().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
             System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", element: " + elem.getName());        	
         	List<FactStructureDTO> factStructureList = elem.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
-        	for (FactStructureDTO fact : factStructureList) {
+        	for (FactStructureDTO fact : factStructureList) {        	     	    
+        	    
+        	    System.out.println("key: " + fact.getResultColumnKeyTranslations());
+        	    
         		if (fact.isStaticFact()) {
         		    testFactValue = facts.get(fact.getFactStructureId());
         		    System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", added static fact: " + testFactValue);
