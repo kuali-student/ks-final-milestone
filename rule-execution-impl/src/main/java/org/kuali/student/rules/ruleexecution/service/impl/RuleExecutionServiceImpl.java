@@ -15,7 +15,6 @@
  */
 package org.kuali.student.rules.ruleexecution.service.impl;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +25,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.jws.WebService;
 
-import org.drools.compiler.PackageBuilder;
-import org.drools.rule.Package;
 import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
@@ -463,20 +460,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     		logger.error(e.getMessage(), e);
     		throw new OperationFailedException(e.getMessage());
     	}
-    }
-
-    /**
-     * Builds a Drools package from <code>source</code>
-     * 
-     * @param source Drools source code
-     * @return A Drools Package
-     * @throws Exception
-     */
-    private Package buildPackage(Reader source) throws Exception {
-        PackageBuilder builder = new PackageBuilder();
-        builder.addPackageFromDrl(source);
-        Package pkg = builder.getPackage();
-        return pkg;
     }
 
     /**
