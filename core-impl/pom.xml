@@ -20,8 +20,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<!-- 
-				Setting forkMode to always. Multiple dao tests using Spring 
+				<!--
+				Setting forkMode to always. Multiple dao tests using Spring
 				junit class runner doesn't play nice with each other
 				-->
 				<configuration>
@@ -59,13 +59,12 @@
 			<artifactId>ks-jta</artifactId>
 			<type>pom</type>
 			<scope>test</scope>
-		</dependency>
+  		</dependency>
 
 		<!-- Dozer for Enumeration Service, maybe more services -->
 		<dependency>
 		  <groupId>net.sf.dozer</groupId>
 		  <artifactId>dozer</artifactId>
-		  <version>4.2.1</version>
 		</dependency>
 
 	</dependencies>
