@@ -1,0 +1,16 @@
+.info {
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	z-index: 99999999;
+	padding: 5px,5px,5px, 5px;
+	width: 250px;
+	background-color: #fbf4f7;
+	margin: 40px, 20px, 0px,0px; 
+}
+
+.info-titleLabel {
+	color: red;
+	font: bold 14px tahoma, arial, verdana, sans-serif;
+	margin: 5px 5px 5px 5px;
+}
