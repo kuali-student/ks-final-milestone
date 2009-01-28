@@ -111,7 +111,7 @@ public class OrgCreatePanel extends Composite{
     }
 
     protected void createOrgRelations(){
-        vPanel.add(new SectionLabel("Organizations"));
+        vPanel.add(new SectionLabel("Relationships"));
         vPanel.add( new OrgRelationWidget());
     }
 }
