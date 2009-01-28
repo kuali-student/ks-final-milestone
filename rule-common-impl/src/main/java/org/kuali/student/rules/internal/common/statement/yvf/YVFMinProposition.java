@@ -54,6 +54,7 @@ public class YVFMinProposition<T extends Comparable<T>> extends AbstractYVFPropo
 		}
 
 		Set<T> factSet = null;
+		FactResultDTO factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -62,12 +63,13 @@ public class YVFMinProposition<T extends Comparable<T>> extends AbstractYVFPropo
 				throw new PropositionException("Static value and data type cannot be null or empty");
 			}
 			factSet = getSet(dataType, value);
+			factDTO = createStaticFactResult(dataType, value);
 		} else {
 			if (factMap == null || factMap.isEmpty()) {
 				throw new PropositionException("Fact map cannot be null or empty");
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
-			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factDTO = (FactResultDTO) factMap.get(factKey);
 
 			String column = fact.getResultColumnKeyTranslations().get(MIN_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
@@ -95,5 +97,6 @@ public class YVFMinProposition<T extends Comparable<T>> extends AbstractYVFPropo
 
         super.proposition = new MinProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
+        getReport().setFactResult(factDTO);
 	}
 }

@@ -16,6 +16,7 @@
 package org.kuali.student.rules.ruleexecution.service.impl;
 
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,14 @@ import org.kuali.student.rules.factfinder.service.FactFinderService;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.FactParamDefTimeKey;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
+import org.kuali.student.rules.ruleexecution.dto.RuleReportDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
@@ -187,27 +190,40 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	/**
 	 * Creates the execution result DTO object which contains the rule execution
 	 * log, any error messages, the rule execution result and the rule 
-	 * proposition result.
+	 * proposition results.
 	 * 
 	 * @param executionResult Rule Execution result
 	 * @return Rule execution result DTO
 	 */
     private ExecutionResultDTO createExecutionResultDTO(ExecutionResult executionResult) {
-    	ExecutionResultDTO dto = new ExecutionResultDTO();
-    	dto.setExecutionLog(executionResult.getExecutionLog());
-    	dto.setErrorMessage(executionResult.getErrorMessage());
-    	dto.setExecutionResult(executionResult.getExecutionResult());
+    	ExecutionResultDTO exeDTO = new ExecutionResultDTO();
+    	exeDTO.setExecutionLog(executionResult.getExecutionLog());
+    	exeDTO.setErrorMessage(executionResult.getErrorMessage());
+    	exeDTO.setExecutionResult(executionResult.getExecutionResult());
     	
-    	PropositionReportDTO reportDTO = new PropositionReportDTO();
-    	PropositionReport report = executionResult.getReport();
+    	RuleReportDTO reportDTO = new RuleReportDTO();
+    	RuleReport report = executionResult.getReport();
     	if (report != null) {
+    		List<PropositionReportDTO> propositionReportList = new ArrayList<PropositionReportDTO>();
+    		for(PropositionReport propositionReport : report.getPropositionReports()) {
+	    		PropositionReportDTO prDTO = new PropositionReportDTO();
+	    		prDTO.setPropositionName(propositionReport.getPropositionName());
+	    		prDTO.setPropositionType(propositionReport.getPropositionType().toString());
+	    		prDTO.setSuccessful(propositionReport.isSuccessful());
+	    		prDTO.setFailureMessage(propositionReport.getFailureMessage());
+	    		prDTO.setSuccessMessage(propositionReport.getSuccessMessage());
+	    		prDTO.setCriteriaResult(propositionReport.getCriteriaResult());
+	    		prDTO.setFactResult(propositionReport.getFactResult());
+	    		propositionReportList.add(prDTO);
+	    	}
 	    	reportDTO.setSuccessful(report.isSuccessful());
 	    	reportDTO.setFailureMessage(report.getFailureMessage());
 	    	reportDTO.setSuccessMessage(report.getSuccessMessage());
+	    	reportDTO.setPropositionReports(propositionReportList);
     	}
-    	dto.setReport(reportDTO);
+    	exeDTO.setReport(reportDTO);
     	
-    	return dto;
+    	return exeDTO;
     }
 
     /**

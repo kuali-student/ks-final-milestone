@@ -17,6 +17,7 @@ package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,7 +25,9 @@ import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
+import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
@@ -56,7 +59,7 @@ public class RuleReportBuilder implements ReportBuilder {
      * @param propContainer Contains a list of propositions
      * @return The proposition container <code>propContainer</code> with a report
      */
-    public PropositionReport execute(PropositionContainer propContainer) {
+    public RuleReport execute(PropositionContainer propContainer) {
         BinaryTree ASTtree = null;
         ruleResult = propContainer.getRuleResult();
 
@@ -71,14 +74,13 @@ public class RuleReportBuilder implements ReportBuilder {
 
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
             this.executor.execute(treeNodes);
-
         } catch (Throwable t) {
             throw new RuleSetExecutionException("Generating rule report failed: " + t.getMessage(), t);
         }
 
         // This is the final rule report message
         String message = ASTtree.getRoot().getNodeMessage();
-        PropositionReport ruleReport = propContainer.getRuleReport();
+        RuleReport ruleReport = propContainer.getRuleReport();
         ruleReport.setSuccessful(ruleResult);
 
         if (ruleResult == true) {
@@ -88,6 +90,18 @@ public class RuleReportBuilder implements ReportBuilder {
         }
 
         propContainer.setRuleReport(ruleReport);
+        List<PropositionReport> propositionReportList = new ArrayList<PropositionReport>();
+        for(Proposition prop : propContainer.getPropositionMap().values()) {
+        	PropositionReport propositionReport = new PropositionReport(prop.getPropositionName(), prop.getType());
+        	propositionReport.setSuccessful(prop.getResult());
+        	propositionReport.setFailureMessage(prop.getReport().getFailureMessage());
+        	propositionReport.setSuccessMessage(prop.getReport().getSuccessMessage());
+        	propositionReport.setCriteriaResult(prop.getReport().getCriteriaResult());
+        	propositionReport.setFactResult(prop.getReport().getFactResult());
+        	propositionReportList.add(propositionReport);
+        }
+        ruleReport.setPropositionReports(propositionReportList);
+        
         return ruleReport;
     }
 

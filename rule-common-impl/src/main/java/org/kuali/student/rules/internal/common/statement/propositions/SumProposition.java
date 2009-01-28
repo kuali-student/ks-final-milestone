@@ -16,7 +16,6 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -40,7 +39,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     }
 
     public SumProposition(String id, String propositionName, ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
-        super(id, propositionName, operator, expectedValue);
+        super(id, propositionName, PropositionType.SUM, operator, expectedValue);
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
@@ -67,7 +66,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
      */
     @Override
     protected void cacheReport(String format, Object... args) {
-        if (result) {
+    	if (result) {
             report.setSuccessMessage("Sum constraint fulfilled");
             return;
         }
@@ -96,37 +95,7 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         return sum;
     }
 
-    /**
-     * This method converts a given value of any Number type to big decimal
-     * 
-     * @param value
-     * @return
-     */
-    private BigDecimal getDecimalValue(Object value) {
-        BigDecimal decimalValue = null;
-
-        if (value instanceof java.lang.String) {
-            decimalValue = new BigDecimal((java.lang.String) value);
-        } else if (value instanceof java.math.BigDecimal) {
-            decimalValue = (java.math.BigDecimal) value;
-        } else if (value instanceof java.lang.Byte || value instanceof java.lang.Short
-                || value instanceof java.lang.Integer || value instanceof java.lang.Long) {
-            decimalValue = BigDecimal.valueOf(((java.lang.Number) value).longValue());
-        } else if (value instanceof java.lang.Float || value instanceof java.lang.Double) {
-            decimalValue = BigDecimal.valueOf(((java.lang.Number) value).doubleValue());
-        } else if (value instanceof java.lang.Number) {
-            decimalValue = BigDecimal.valueOf(((java.lang.Number) value).doubleValue());
-        }
-
-        // If value is none of the above type then throw exception
-        if (null == decimalValue) {
-            throw new IllegalArgumentException("Value cannot be converted to BigDecimal");
-        }
-
-        return decimalValue;
-    }
-
-    /**
+	/**
      * @return the factSet
      */
     public List<E> getFactSet() {

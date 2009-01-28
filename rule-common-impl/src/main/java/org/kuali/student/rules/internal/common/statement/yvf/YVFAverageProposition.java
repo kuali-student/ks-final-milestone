@@ -52,6 +52,7 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 		}
 
 		List<E> factList = null;
+		FactResultDTO factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -60,12 +61,13 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 				throw new PropositionException("Static value and data type cannot be null or empty");
 			}
 			factList = getList(dataType, value);
+			factDTO = createStaticFactResult(dataType, value);
 		} else {
 			if (factMap == null || factMap.isEmpty()) {
 				throw new PropositionException("Fact map cannot be null or empty");
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
-			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factDTO = (FactResultDTO) factMap.get(factKey);
 
 			String column = fact.getResultColumnKeyTranslations().get(AVERAGE_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
@@ -91,7 +93,8 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 					+ "\n--------------------------------------------------");
 		}
 
-        super.proposition = new AverageProposition<E>(id, propositionName, 
+		super.proposition = new AverageProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factList); 
+        getReport().setFactResult(factDTO);
 	}
 }

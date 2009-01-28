@@ -12,6 +12,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
@@ -22,7 +23,7 @@ public class YVFAveragePropositionTest {
     	String factKey = FactUtil.createFactKey(fs1);
 
     	FactResultTypeInfoDTO columnMetaData1 = CommonTestUtil.createColumnMetaData(BigDecimal.class.getName(), column);
-        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"80","85","90"}, column);
+        FactResultDTO factResult = CommonTestUtil.createFactResult(new String[] {"80","95","80"}, column);
         factResult.setFactResultTypeInfo(columnMetaData1);
 
         Map<String, Object> factMap = new HashMap<String, Object>();
@@ -30,6 +31,36 @@ public class YVFAveragePropositionTest {
         
         return factMap;
     }
+
+	@Test
+	public void testAverageProposition_StaticFact() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.average.fact");
+		fs.setStaticFact(true);
+		fs.setStaticValueDataType(BigDecimal.class.getName());
+		fs.setStaticValue("80,95,80");
+		
+		yvf.setFactStructureList(Arrays.asList(fs));
+
+		YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
+				"1", "YVFAverageProposition", 
+				ComparisonOperator.EQUAL_TO, new BigDecimal(85),
+				yvf, null);
+
+		PropositionReport report = proposition.getReport();
+
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getFactResult());
+
+		FactResultDTO fact = report.getFactResult();
+		Assert.assertEquals(3, fact.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "95"));
+	}
 
 	@Test
 	public void testAverageProposition_True() throws Exception {
@@ -49,11 +80,19 @@ public class YVFAveragePropositionTest {
 				ComparisonOperator.EQUAL_TO, new BigDecimal(85),
 				yvf, factMap);
 
+		PropositionReport report = proposition.getReport();
+		
 		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
-		Assert.assertNotNull(proposition.getReport());
-		Assert.assertNull(proposition.getReport().getFailureMessage());
-		Assert.assertNotNull(proposition.getReport().getSuccessMessage());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getFactResult());
+
+		FactResultDTO fact = report.getFactResult();
+		Assert.assertEquals(3, fact.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "95"));
 	}
 
 	@Test
@@ -74,11 +113,18 @@ public class YVFAveragePropositionTest {
 				ComparisonOperator.EQUAL_TO, new BigDecimal(888),
 				yvf, factMap);
 
+		PropositionReport report = proposition.getReport();
+
 		Assert.assertFalse(proposition.apply());
 		Assert.assertFalse(proposition.getResult());
-		Assert.assertNotNull(proposition.getReport());
-		Assert.assertNotNull(proposition.getReport().getFailureMessage());
-		Assert.assertNull(proposition.getReport().getSuccessMessage());
+		Assert.assertNotNull(report);
+		Assert.assertNotNull(report.getFailureMessage());
+		Assert.assertNull(report.getSuccessMessage());
+
+		FactResultDTO fact = report.getFactResult();
+		Assert.assertEquals(3, fact.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "95"));
 	}
 
 	@Test
@@ -95,11 +141,11 @@ public class YVFAveragePropositionTest {
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		try {
-		YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-				"1", "YVFAverageProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(888),
-				yvf, factMap);
-		Assert.fail("YVFAverageProposition should have thrown a PropositionException for resultColumn.xxx");
+			YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
+					"1", "YVFAverageProposition", 
+					ComparisonOperator.EQUAL_TO, new BigDecimal(888),
+					yvf, factMap);
+			Assert.fail("YVFAverageProposition should have thrown a PropositionException for resultColumn.xxx");
 		} catch(PropositionException e) {
 			Assert.assertTrue(true);
 		}
@@ -119,11 +165,11 @@ public class YVFAveragePropositionTest {
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		try {
-		YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-				"1", "YVFAverageProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(888),
-				yvf, factMap);
-		Assert.fail("YVFAverageProposition should have thrown a PropositionException for a null column");
+			YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
+					"1", "YVFAverageProposition", 
+					ComparisonOperator.EQUAL_TO, new BigDecimal(888),
+					yvf, factMap);
+			Assert.fail("YVFAverageProposition should have thrown a PropositionException for a null column");
 		} catch(PropositionException e) {
 			Assert.assertTrue(true);
 		}

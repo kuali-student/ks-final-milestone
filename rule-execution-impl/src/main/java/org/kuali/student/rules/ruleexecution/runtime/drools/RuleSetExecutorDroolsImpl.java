@@ -28,7 +28,7 @@ import org.drools.RuleBase;
 import org.drools.StatelessSession;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -40,7 +40,6 @@ import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecut
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
 import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
-import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
@@ -396,7 +395,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         ExecutionResult result = executeRule(ruleBaseType, factContainer);
         result.setId(businessRule.getId());
         try {
-	        PropositionReport report = createReport(result.getResults());
+	        RuleReport report = createReport(result.getResults());
 	        result.setReport(report);
         } catch(RuleSetExecutionException e) {
         	result.setErrorMessage(e.getMessage());
@@ -415,7 +414,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      * @param facts Facts for the proposition reports
      * @return A proposition report
      */
-    private PropositionReport createReport(List<?> facts) throws RuleSetExecutionException {
+    private RuleReport createReport(List<?> facts) throws RuleSetExecutionException {
         for(int i=0; i<facts.size(); i++) {
             Object obj = facts.get(i);
             if (obj instanceof FactContainer) {

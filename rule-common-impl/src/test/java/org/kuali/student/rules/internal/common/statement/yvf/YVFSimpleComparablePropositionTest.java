@@ -13,6 +13,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
@@ -34,6 +35,34 @@ public class YVFSimpleComparablePropositionTest {
     }
 
 	@Test
+	public void testSimpleComparableProposition_BigDecimal_StaticFact() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
+		fs1.setStaticFact(true);
+		fs1.setStaticValueDataType(BigDecimal.class.getName());
+		fs1.setStaticValue("80");
+
+		yvf.setFactStructureList(Arrays.asList(fs1));
+
+		YVFSimpleComparableProposition<BigDecimal> proposition = new YVFSimpleComparableProposition<BigDecimal>(
+				"1", "YVFSimpleComparableProposition", 
+				ComparisonOperator.EQUAL_TO, new BigDecimal(80),
+				yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFMaxProposition.STATIC_FACT_COLUMN, "80"));
+	}
+
+	@Test
 	public void testSimpleComparableProposition_BigDecimal() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
@@ -46,16 +75,22 @@ public class YVFSimpleComparablePropositionTest {
 
 		Map<String, Object> factMap = getFactMap(fs1, BigDecimal.class.getName(), "80", "resultColumn.grade");
 		
-		YVFSimpleComparableProposition<BigDecimal> poposition = new YVFSimpleComparableProposition<BigDecimal>(
+		YVFSimpleComparableProposition<BigDecimal> proposition = new YVFSimpleComparableProposition<BigDecimal>(
 				"1", "YVFSimpleComparableProposition", 
 				ComparisonOperator.EQUAL_TO, new BigDecimal(80),
 				yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		PropositionReport report = proposition.getReport();
+		
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.grade", "80"));
 	}
 
 	@Test
@@ -71,16 +106,22 @@ public class YVFSimpleComparablePropositionTest {
 
 		Map<String, Object> factMap = getFactMap(fs1, String.class.getName(), "80", "resultColumn.grade");
 		
-		YVFSimpleComparableProposition<String> poposition = new YVFSimpleComparableProposition<String>(
+		YVFSimpleComparableProposition<String> proposition = new YVFSimpleComparableProposition<String>(
 				"1", "YVFSimpleComparableProposition", 
 				ComparisonOperator.EQUAL_TO, "80",
 				yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		PropositionReport report = proposition.getReport();
+		
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.grade", "80"));
 	}
 
 	@Test
@@ -99,16 +140,22 @@ public class YVFSimpleComparablePropositionTest {
     	String calStr = dateFormat.format(cal.getTime()).toString();
 		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
 		
-		YVFSimpleComparableProposition<Calendar> poposition = new YVFSimpleComparableProposition<Calendar>(
+		YVFSimpleComparableProposition<Calendar> proposition = new YVFSimpleComparableProposition<Calendar>(
 				"1", "YVFSimpleComparableProposition", 
 				ComparisonOperator.EQUAL_TO, cal,
 				yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		PropositionReport report = proposition.getReport();
+		
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
 	}
 
 	@Test
@@ -128,16 +175,22 @@ public class YVFSimpleComparablePropositionTest {
     	String calStr = dateFormat.format(cal1.getTime()).toString();
 		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
 		
-		YVFSimpleComparableProposition<Calendar> poposition = new YVFSimpleComparableProposition<Calendar>(
+		YVFSimpleComparableProposition<Calendar> proposition = new YVFSimpleComparableProposition<Calendar>(
 				"1", "YVFSimpleComparableProposition", 
 				ComparisonOperator.LESS_THAN, cal2,
 				yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		PropositionReport report = proposition.getReport();
+		
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
 	}
 
 	@Test
@@ -157,15 +210,21 @@ public class YVFSimpleComparablePropositionTest {
     	String calStr = dateFormat.format(cal2.getTime()).toString();
 		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
 		
-		YVFSimpleComparableProposition<Calendar> poposition = new YVFSimpleComparableProposition<Calendar>(
+		YVFSimpleComparableProposition<Calendar> proposition = new YVFSimpleComparableProposition<Calendar>(
 				"1", "YVFSimpleComparableProposition", 
 				ComparisonOperator.GREATER_THAN, cal1,
 				yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		PropositionReport report = proposition.getReport();
+		
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(1, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
 	}
 }

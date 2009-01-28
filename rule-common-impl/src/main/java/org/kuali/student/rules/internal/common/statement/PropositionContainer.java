@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 
 /**
  * PropositionContainer is a representation of the functional business rule and is composed of the
@@ -34,7 +34,7 @@ public class PropositionContainer {
     protected String functionalRuleString;
     protected Map<String,Proposition> propositionMap = new HashMap<String, Proposition>();
     protected Boolean ruleResult = false;
-    protected PropositionReport ruleReport = new PropositionReport();
+    protected RuleReport ruleReport = new RuleReport();
     
     /**
      * @return the functionalRuleString
@@ -109,14 +109,14 @@ public class PropositionContainer {
     /**
      * @return the report
      */
-    public PropositionReport getRuleReport() {
+    public RuleReport getRuleReport() {
         return ruleReport;
     }
 
     /**
      * @param report the report to set
      */
-    public void setRuleReport(PropositionReport ruleReport) {
+    public void setRuleReport(RuleReport ruleReport) {
         this.ruleReport = ruleReport;
     }
 }

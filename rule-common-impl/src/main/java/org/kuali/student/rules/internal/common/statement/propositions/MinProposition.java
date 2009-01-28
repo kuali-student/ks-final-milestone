@@ -12,7 +12,7 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
     }
     
     public MinProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
-        super(id, propositionName, operator, expectedValue);
+        super(id, propositionName, PropositionType.MIN, operator, expectedValue);
         this.fact = fact;
 	}
 
@@ -40,5 +40,4 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
         String advice = String.format(format, max);
         report.setFailureMessage(advice);
     }
-
 }

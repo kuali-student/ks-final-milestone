@@ -30,10 +30,12 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
     						  BigDecimal expectedValue, 
     						  List<E> factSet) {
     	super(id, propositionName, operator, expectedValue, factSet);
+    	super.propositionType = PropositionType.AVERAGE;
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
     	listSize = new BigDecimal(factSet.size());
+    	super.propositionType = PropositionType.AVERAGE;
     }
 
     @Override
@@ -62,4 +64,5 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
         String advice = String.format(format, needed.toString());
         report.setFailureMessage(advice);
     }
+
 }

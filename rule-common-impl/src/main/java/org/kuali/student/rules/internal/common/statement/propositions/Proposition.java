@@ -56,4 +56,10 @@ public interface Proposition {
 	 * @return Proposition id
 	 */
 	public String getId();
+	
+	/**
+	 * Returns the proposition type.
+	 * @return Proposition type
+	 */
+	public PropositionType getType();
 }

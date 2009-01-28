@@ -6,10 +6,10 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.rules.factfinder.dto.FactCriteriaTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
@@ -35,7 +35,45 @@ public class YVFSubsetPropositionTest {
     }
 
 	@Test
-	public void testSubSetProposition() throws Exception {
+	public void testSubSetProposition_StaticFact() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.subset.criteria");
+		fs1.setStaticFact(true);
+		fs1.setStaticValueDataType(String.class.getName());
+		fs1.setStaticValue("CPR101");
+
+		FactStructureDTO fs2 = CommonTestUtil.createFactStructure("fact.id.2", "course.subset.fact");
+		fs2.setStaticFact(true);
+		fs2.setStaticValueDataType(String.class.getName());
+		fs2.setStaticValue("CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFSubsetProposition<String> proposition = new YVFSubsetProposition<String>(
+				"1", "YVFSubsetProposition", yvf, null);
+
+		PropositionReport report = proposition.getReport();
+
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO criteriaResult = report.getCriteriaResult();
+		Assert.assertEquals(1, criteriaResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "CPR101"));
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(3, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "MATH101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "CHEM101"));
+	}
+
+	@Test
+	public void testSubSetProposition_True() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.subset.criteria");
@@ -50,13 +88,25 @@ public class YVFSubsetPropositionTest {
 
 		Map<String, Object> factMap = getFactMap(fs1, fs2, "resultColumn.cluId");
 		
-		YVFSubsetProposition<String> poposition = new YVFSubsetProposition<String>(
+		YVFSubsetProposition<String> proposition = new YVFSubsetProposition<String>(
 				"1", "YVFSubsetProposition", yvf, factMap);
 
-		Assert.assertTrue(poposition.apply());
-		Assert.assertTrue(poposition.getResult());
-		Assert.assertNotNull(poposition.getReport());
-		Assert.assertNull(poposition.getReport().getFailureMessage());
-		Assert.assertNotNull(poposition.getReport().getSuccessMessage());
+		PropositionReport report = proposition.getReport();
+
+		Assert.assertTrue(proposition.apply());
+		Assert.assertTrue(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertNull(report.getFailureMessage());
+		Assert.assertNotNull(report.getSuccessMessage());
+
+		FactResultDTO criteriaResult = report.getCriteriaResult();
+		Assert.assertEquals(1, criteriaResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), "resultColumn.cluId", "CPR101"));
+
+		FactResultDTO factResult = report.getFactResult();
+		Assert.assertEquals(3, factResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "MATH101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "CHEM101"));
 	}
 }

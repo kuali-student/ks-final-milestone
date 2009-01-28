@@ -33,10 +33,11 @@ public abstract class AbstractProposition<T> implements Proposition {
     protected Boolean result = false;
     protected String id;
     protected String propositionName;
-    protected PropositionReport report = new PropositionReport();
+    protected PropositionReport report;
     protected ComparisonOperator operator;
     protected T expectedValue;
-
+    protected PropositionType propositionType;
+    
     // ~ Constructors -----------------------------------------------------------
     public AbstractProposition() {
         super();
@@ -47,11 +48,13 @@ public abstract class AbstractProposition<T> implements Proposition {
      * 
      * @param propositionName
      */
-    public AbstractProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue) {
+    public AbstractProposition(String id, String propositionName, PropositionType type, ComparisonOperator operator, T expectedValue) {
         this.id = id;
         this.propositionName = propositionName;
+        this.propositionType = type;
         this.operator = operator;
         this.expectedValue = expectedValue;
+        this.report = new PropositionReport(propositionName, type);
     }
 
     protected Boolean checkTruthValue(Comparable<T> computedValue, T expectedValue) {
@@ -151,7 +154,15 @@ public abstract class AbstractProposition<T> implements Proposition {
         return propositionName;
     }
 
-    /**
+	/**
+	 * Returns the proposition type.
+	 * @return Proposition type
+	 */
+	public PropositionType getType() {
+		return this.propositionType;
+	}
+
+	/**
      * @param propositionName
      *            the propositionName to set
      */
@@ -204,10 +215,11 @@ public abstract class AbstractProposition<T> implements Proposition {
         this.expectedValue = expectedValue;
     }
 
-    public String toString() {
+	public String toString() {
     	return "Proposition[id=" + this.id 
     		+ ", propositionName=" + this.propositionName
-    		+ ", type=" + this.getClass().getSimpleName()
+    		+ ", propositionType=" + this.propositionType
+    		+ ", class=" + this.getClass().getSimpleName()
     		+ ", result="+this.result + "]";
     }
 }

@@ -39,12 +39,15 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.yvf.AbstractYVFProposition;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFSumProposition;
 import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -630,6 +633,30 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
+        
+        // Test proposition reports
+        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
+
+        PropositionReportDTO prDTO = executionResult.getReport().getPropositionReports().get(0);
+        
+        Assert.assertEquals("P1", prDTO.getPropositionName());
+        Assert.assertTrue(prDTO.isSuccessful());
+        
+        // Test criteria facts
+        Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
+        Assert.assertEquals(1, criteriaRowMap.size());
+        Assert.assertEquals("CPR101", criteriaRowMap.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+
+        // Test facts
+        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
+        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
+        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
+        Assert.assertEquals(1, factRowMap1.size());
+        Assert.assertEquals(1, factRowMap2.size());
+        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals("CPR101", factRowMap1.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR201", factRowMap2.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR301", factRowMap3.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
     }
 
     @Test
@@ -651,6 +678,30 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
+
+        // Test proposition reports
+        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
+        
+        PropositionReportDTO prDTO = executionResult.getReport().getPropositionReports().get(0);
+        
+        Assert.assertEquals("P1", prDTO.getPropositionName());
+        Assert.assertTrue(prDTO.isSuccessful());
+        
+        // Test criteria facts
+        Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
+		Assert.assertEquals(1, criteriaRowMap.size());
+        Assert.assertEquals("PSYC 200", criteriaRowMap.get("resultColumn.cluId"));
+
+        // Test facts
+        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
+        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
+        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
+        Assert.assertEquals(1, factRowMap1.size());
+        Assert.assertEquals(1, factRowMap2.size());
+        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
     }
 
     @Test
@@ -680,6 +731,15 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertTrue(executionResult.getReport().isSuccessful());
     }
 
+	private PropositionReportDTO getProposition(List<PropositionReportDTO> list, String name) {
+		for(PropositionReportDTO report : list) {
+			if(report.getPropositionName().equals(name)) {
+				return report;
+			}
+		}
+		return null;
+	}
+    
     @Test
     public void testCreateAndExecuteComplexBusinessRule_DynamicFact2() throws Exception {
     	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact2  *****");
@@ -697,6 +757,41 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertNotNull(executionResult);
         System.out.println("Execution result:        "+executionResult.getExecutionResult());
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
+
+        // Test proposition reports
+        Assert.assertEquals(3, executionResult.getReport().getPropositionReports().size());
+
+        Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P1").isSuccessful());
+        Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P2").isSuccessful());
+        Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P3").isSuccessful());
+
+        Assert.assertEquals("INTERSECTION", getProposition(executionResult.getReport().getPropositionReports(), "P1").getPropositionType());
+        Assert.assertEquals("INTERSECTION", getProposition(executionResult.getReport().getPropositionReports(), "P2").getPropositionType());
+        Assert.assertEquals("SUM", getProposition(executionResult.getReport().getPropositionReports(), "P3").getPropositionType());
+
+        PropositionReportDTO prP1 = getProposition(executionResult.getReport().getPropositionReports(), "P1");
+
+        Assert.assertEquals("P1", prP1.getPropositionName());
+        Assert.assertTrue(prP1.isSuccessful());
+
+        // Test criteria facts
+        Map<String,String> criteriaRowMap = prP1.getCriteriaResult().getResultList().get(0);
+		Assert.assertEquals(1, criteriaRowMap.size());
+        Assert.assertEquals("PSYC 200", criteriaRowMap.get(AbstractYVFProposition.STATIC_FACT_COLUMN));
+
+        // Test facts - Assume rows are ordered
+        Map<String,String> factRowMap1 = prP1.getFactResult().getResultList().get(0);
+        Map<String,String> factRowMap2 = prP1.getFactResult().getResultList().get(1);
+        Map<String,String> factRowMap3 = prP1.getFactResult().getResultList().get(2);
+        Map<String,String> factRowMap4 = prP1.getFactResult().getResultList().get(3);
+        Assert.assertEquals(1, factRowMap1.size());
+        Assert.assertEquals(1, factRowMap2.size());
+        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals(1, factRowMap4.size());
+        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 218", factRowMap4.get("resultColumn.cluId"));
     }
 
 }

@@ -61,4 +61,12 @@ public class CommonTestUtil {
 	    return factStructure1;
     }
 
+	public static boolean containsResult(List<Map<String,String>> list, String column, String value) {
+    	for(Map<String,String> map : list) {
+    		if (map.get(column).equals(value)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 }

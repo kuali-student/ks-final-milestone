@@ -52,6 +52,8 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 
 		Set<E> criteriaSet = null;
 		Set<E> factSet = null;
+		FactResultDTO criteriaDTO = null;
+		FactResultDTO factDTO = null;
 		
 		if (criteria.isStaticFact()) {
 			String value = criteria.getStaticValue();
@@ -60,12 +62,13 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 				throw new PropositionException("Static value and data type cannot be null or empty");
 			}
 			criteriaSet = getSet(dataType, value);
+			criteriaDTO = createStaticFactResult(dataType, value);
 		} else {
 			if (factMap == null || factMap.isEmpty()) {
 				throw new PropositionException("Fact map cannot be null or empty");
 			}
 			String criteriaKey = FactUtil.createCriteriaKey(criteria);
-			FactResultDTO criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
+			criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
 
 			String column = criteria.getResultColumnKeyTranslations().get(SUBSET_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
@@ -87,9 +90,10 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 				throw new PropositionException("Static value and data type cannot be null or empty");
 			}
 			factSet = getSet(dataType, value);
+			factDTO = createStaticFactResult(dataType, value);
 		} else {
 	    	String factKey = FactUtil.createFactKey(fact);
-			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factDTO = (FactResultDTO) factMap.get(factKey);
 
 			String column = fact.getResultColumnKeyTranslations().get(SUBSET_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
@@ -118,6 +122,8 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 		}
 
 		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet); 
+        getReport().setCriteriaResult(criteriaDTO);
+        getReport().setFactResult(factDTO);
 	}
 	
 }

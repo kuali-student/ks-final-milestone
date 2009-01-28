@@ -1,23 +1,23 @@
 package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
-import org.kuali.student.rules.ruleexecution.runtime.drools.util.DroolsUtil;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
 
 public class RuleReportBuilderTest {
-
 	private String functionalRuleString;
 
 	private IntersectionProposition<String> subsetPropA = new IntersectionProposition<String>("A1", "A", null, null, null, null );
@@ -25,12 +25,12 @@ public class RuleReportBuilderTest {
 	private IntersectionProposition<String> subsetPropC = new IntersectionProposition<String>("C1", "C", null, null, null, null );
 	private IntersectionProposition<String> subsetPropD = new IntersectionProposition<String>("D1", "D", null, null, null, null );
 
-	private PropositionReport propositionReportA = new PropositionReport();
-	private PropositionReport propositionReportB = new PropositionReport();
-	private PropositionReport propositionReportC = new PropositionReport();
-	private PropositionReport propositionReportD = new PropositionReport();
+	private PropositionReport propositionReportA = new PropositionReport("A", PropositionType.INTERSECTION);
+	private PropositionReport propositionReportB = new PropositionReport("B", PropositionType.INTERSECTION);
+	private PropositionReport propositionReportC = new PropositionReport("C", PropositionType.INTERSECTION);
+	private PropositionReport propositionReportD = new PropositionReport("D", PropositionType.INTERSECTION);
 
-	private RuleReportBuilder generateRuleReport;
+	private RuleReportBuilder ruleReportBuilder;
     private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
 	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
 
@@ -47,13 +47,22 @@ public class RuleReportBuilderTest {
 
 	@Before
 	public void setUp() throws Exception {
-	    this.generateRuleReport = new RuleReportBuilder(executor);
+	    this.ruleReportBuilder = new RuleReportBuilder(executor);
 	}
 	
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	private PropositionReport getProposition(List<PropositionReport> list, String name) {
+		for(PropositionReport report : list) {
+			if(report.getPropositionName().equals(name)) {
+				return report;
+			}
+		}
+		return null;
+	}
+    
 	@Test
 	public void testExecuteRuleFailureMessage1()
 	{
@@ -85,10 +94,15 @@ public class RuleReportBuilderTest {
 	    
 	    String expected = "Need MATH 200";
 	    
-	    PropositionReport ruleReport = generateRuleReport.execute(pc);
+	    RuleReport ruleReport = ruleReportBuilder.execute(pc);
 	    String actual = ruleReport.getFailureMessage();
 	    
-        assertEquals(expected, actual);
+	    Assert.assertEquals(expected, actual);
+        Assert.assertEquals(4, ruleReport.getPropositionReports().size());
+        Assert.assertFalse(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "B").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "C").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
 	}
 	
 	@Test
@@ -124,10 +138,15 @@ public class RuleReportBuilderTest {
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
         
-	    PropositionReport ruleReport = generateRuleReport.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.execute(pc);
         String actual = ruleReport.getFailureMessage();
         
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(4, ruleReport.getPropositionReports().size());
+        Assert.assertFalse(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "B").isSuccessful());
+        Assert.assertFalse(getProposition(ruleReport.getPropositionReports(), "C").isSuccessful());
+        Assert.assertFalse(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
 	}
 	
 	@Test
@@ -161,12 +180,17 @@ public class RuleReportBuilderTest {
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
         
-	    PropositionReport ruleReport = generateRuleReport.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.execute(pc);
         String actual = ruleReport.getSuccessMessage();
         
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(4, ruleReport.getPropositionReports().size());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "B").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "C").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
     }
-    
+	
     @Test
     public void testExecuteRuleSuccessMessage2()
     {
@@ -200,10 +224,15 @@ public class RuleReportBuilderTest {
         
         String expected = "Have MATH 200 OR Have English 6000";
         
-	    PropositionReport ruleReport = generateRuleReport.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.execute(pc);
         String actual = ruleReport.getSuccessMessage();
         
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(4, ruleReport.getPropositionReports().size());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "A").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "B").isSuccessful());
+        Assert.assertFalse(getProposition(ruleReport.getPropositionReports(), "C").isSuccessful());
+        Assert.assertTrue(getProposition(ruleReport.getPropositionReports(), "D").isSuccessful());
     }
 
 }

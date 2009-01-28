@@ -1,6 +1,7 @@
 package org.kuali.student.rules.internal.common.statement.yvf;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,10 @@ import java.util.Map.Entry;
 
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
+import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.slf4j.Logger;
@@ -20,8 +23,42 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(AbstractYVFProposition.class);
 
-    protected Proposition proposition;
+	public final static String STATIC_FACT_COLUMN = "static.column";
+
+	protected Proposition proposition;
 	
+    /**
+     * Creates a fact result. This method is usually called from static facts.
+     * 
+     * @param columnDataType Column data type
+     * @param factList Comma separated list of values
+     * @return Fact result
+     */
+    public FactResultDTO createStaticFactResult(String columnDataType, String factList) {
+    	FactResultDTO factResult = new FactResultDTO();
+    	
+    	FactResultTypeInfoDTO factResultTypeInfo = new FactResultTypeInfoDTO();
+    	Map<String, FactResultColumnInfoDTO> columnMap = new HashMap<String, FactResultColumnInfoDTO>();
+    	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
+    	columnInfo.setKey(STATIC_FACT_COLUMN);
+    	columnInfo.setDescription("Static Fact Column");
+    	columnInfo.setDataType(columnDataType);
+    	columnInfo.setName(STATIC_FACT_COLUMN);
+    	columnMap.put(columnInfo.getKey(), columnInfo);
+    	factResultTypeInfo.setResultColumnsMap(columnMap);
+    	factResult.setFactResultTypeInfo(factResultTypeInfo);
+
+    	List<Map<String,String>> resultList = new ArrayList<Map<String,String>>();
+		for(String value : factList.split("\\s*,\\s*")) {
+    		Map<String,String> row = new HashMap<String, String>();
+    		row.put(STATIC_FACT_COLUMN, value);
+    		resultList.add(row);
+    	}
+    	
+    	factResult.setResultList(resultList);
+    	return factResult;
+    }
+
 	@SuppressWarnings("unchecked")
 	public Set<E> getSet(String dataType, String stringList) {
 		Set<E> set = new HashSet<E>();
@@ -136,10 +173,16 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	public Boolean getResult() {
 		return this.proposition.getResult();
 	}
+	
+	@Override
+	public PropositionType getType() {
+		return this.proposition.getType();
+	}
 
     public String toString() {
     	return "YVFProposition[id=" + this.proposition.getId() 
     		+ ", propositionName=" + this.proposition.getPropositionName() 
+    		+ ", type=" + this.proposition.getType() 
     		+ ", result="+this.proposition.getResult() + "]";
     }
 }

@@ -54,6 +54,7 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 		}
 
 		List<E> factList = null;
+		FactResultDTO factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -62,12 +63,13 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 				throw new PropositionException("Static value and data type cannot be null or empty");
 			}
 			factList = getList(dataType, value);
+			factDTO = createStaticFactResult(dataType, value);
 		} else {
 			if (factMap == null || factMap.isEmpty()) {
 				throw new PropositionException("Fact map cannot be null or empty");
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
-			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factDTO = (FactResultDTO) factMap.get(factKey);
 
 			String column = fact.getResultColumnKeyTranslations().get(SUM_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
@@ -95,5 +97,6 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 
         super.proposition = new SumProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factList); 
+        getReport().setFactResult(factDTO);
 	}
 }

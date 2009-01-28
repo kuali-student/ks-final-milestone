@@ -40,6 +40,7 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 		}
 
 		T factObject = null;
+		FactResultDTO factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -48,12 +49,13 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 				throw new PropositionException("Static value and data type cannot be null or empty");
 			}
 			factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
+			factDTO = createStaticFactResult(dataType, value);
 		} else {
 			if (factMap == null || factMap.isEmpty()) {
 				throw new PropositionException("Fact map cannot be null or empty");
 			}
 	    	String factKey = FactUtil.createFactKey(fact);
-			FactResultDTO factDTO = (FactResultDTO) factMap.get(factKey);
+			factDTO = (FactResultDTO) factMap.get(factKey);
 
 			// Get only the first column (column 1)
 			//List<Map<String,String>> resultList = factDTO.getResultList();
@@ -93,5 +95,6 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 
 		super.proposition = new SimpleComparableProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factObject); 
+        getReport().setFactResult(factDTO);
 	}
 }

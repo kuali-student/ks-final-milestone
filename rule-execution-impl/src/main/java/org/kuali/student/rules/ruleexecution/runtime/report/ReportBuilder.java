@@ -1,7 +1,7 @@
 package org.kuali.student.rules.ruleexecution.runtime.report;
 
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 
 public interface ReportBuilder {
     /**
@@ -10,5 +10,5 @@ public interface ReportBuilder {
      * @param propContainer Contains a list of propositions
      * @return The proposition container <code>propContainer</code> with a report
      */
-    public PropositionReport execute(PropositionContainer propContainer);
+    public RuleReport execute(PropositionContainer propContainer);
 }

@@ -357,12 +357,16 @@ public class RuleSetExecutorDroolsImplTest {
         Assert.assertNotNull(result1.getResults());
         Assert.assertTrue(result1.getExecutionResult());
         Assert.assertTrue(result1.getReport().isSuccessful());
+        Assert.assertEquals(1, result1.getReport().getPropositionReports().size());
+        Assert.assertTrue(result1.getReport().getPropositionReports().get(0).isSuccessful());
 
         ExecutionResult result2 = executionResult.getExecutionResultList().get(1);
         Assert.assertEquals("2", result2.getId());
         Assert.assertNotNull(result2.getResults());
         Assert.assertTrue(result2.getExecutionResult());
         Assert.assertTrue(result2.getReport().isSuccessful());
+        Assert.assertEquals(1, result2.getReport().getPropositionReports().size());
+        Assert.assertTrue(result2.getReport().getPropositionReports().get(0).isSuccessful());
 	}
 
 	@Test
@@ -449,6 +453,9 @@ public class RuleSetExecutorDroolsImplTest {
         Assert.assertNotNull(result.getResults());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertTrue(result.getReport().isSuccessful());
+        Assert.assertEquals(2, result.getReport().getPropositionReports().size());
+        Assert.assertTrue(result.getReport().getPropositionReports().get(0).isSuccessful());
+        Assert.assertTrue(result.getReport().getPropositionReports().get(1).isSuccessful());
 	}
 
 	@Test

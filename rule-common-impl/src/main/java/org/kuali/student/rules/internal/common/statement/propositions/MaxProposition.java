@@ -12,7 +12,7 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
     }
 
     public MaxProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
-        super(id, propositionName, operator, expectedValue);
+        super(id, propositionName, PropositionType.MAX, operator, expectedValue);
         this.fact = fact;
 	}
 
@@ -40,5 +40,4 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
         String advice = String.format(format, max);
         report.setFailureMessage(advice);
     }
-
 }

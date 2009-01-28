@@ -17,14 +17,14 @@ package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
 
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 
 public class ExecutionResult {
 	
 	private String id;
 	private Boolean executionResult = Boolean.FALSE;
 	private List<Object> resultList;
-	private PropositionReport report;
+	private RuleReport report;
 	private String executionLog;
 	private String errorMessage;
 	
@@ -63,11 +63,11 @@ public class ExecutionResult {
 		this.executionResult = executionResult;
 	}
 
-	public PropositionReport getReport() {
+	public RuleReport getReport() {
 		return report;
 	}
 
-	public void setReport(final PropositionReport report) {
+	public void setReport(final RuleReport report) {
 		this.report = report;
 	}
 
