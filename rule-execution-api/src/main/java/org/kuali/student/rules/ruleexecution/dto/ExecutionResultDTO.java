@@ -30,7 +30,7 @@ public class ExecutionResultDTO implements java.io.Serializable {
 	private Boolean executionResult = null;
 
     @XmlElement
-	private PropositionReportDTO propositionReport;
+	private RuleReportDTO report;
 
     @XmlElement
 	private String executionLog;
@@ -60,12 +60,12 @@ public class ExecutionResultDTO implements java.io.Serializable {
 		this.executionResult = executionResult;
 	}
 
-	public PropositionReportDTO getReport() {
-		return propositionReport;
+	public RuleReportDTO getReport() {
+		return this.report;
 	}
 
-	public void setReport(final PropositionReportDTO report) {
-		this.propositionReport = report;
+	public void setReport(final RuleReportDTO report) {
+		this.report = report;
 	}
 	
 	public String getErrorMessage() {
@@ -78,6 +78,6 @@ public class ExecutionResultDTO implements java.io.Serializable {
 	
 	public String toString() {
 		return "ExecutionResultDTO[executionResult=" + this.executionResult 
-			+ ", propositionReport=" + this.propositionReport + "]";
+			+ ", report=" + this.report + "]";
  	}
 }

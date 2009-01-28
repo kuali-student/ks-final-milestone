@@ -15,11 +15,12 @@ import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
 import org.kuali.student.poc.common.ws.exceptions.PermissionDeniedException;
+import org.kuali.student.poc.common.ws.exceptions.ReadOnlyException;
 import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDeterminationStructureDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 
 @WebService(name = "RuleManagementService", targetNamespace = "http://student.kuali.org/wsdl/brms/RuleManagement")
@@ -81,7 +82,7 @@ public interface RuleManagementService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public AgendaInfoDeterminationStructureDTO fetchAgendaInfoDeterminationStructure(@WebParam(name = "agendaTypeKey")
+    public AgendaDeterminationInfoDTO fetchAgendaInfoDeterminationStructure(@WebParam(name = "agendaTypeKey")
     String agendaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -97,8 +98,8 @@ public interface RuleManagementService {
      */
     @WebMethod
     public AgendaInfoDTO fetchAgendaInfo(@WebParam(name = "agendaTypeKey")
-    String agendaTypeKey, @WebParam(name = "agendaInfoDeterminationStructure")
-    AgendaInfoDeterminationStructureDTO agendaInfoDeterminationStructure) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    String agendaTypeKey, @WebParam(name = "agendaDeterminationInfo")
+    AgendaDeterminationInfoDTO agendaDeterminationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method retieves the business rule type for given type key and anchor type
@@ -108,7 +109,7 @@ public interface RuleManagementService {
      * @return
      */
     @WebMethod
-    public BusinessRuleTypeDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String businessRuleTypeKey, String anchorTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method retrieves a list of business rules associated with a given business rule type and anchor
@@ -121,7 +122,7 @@ public interface RuleManagementService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorInfoDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of business rules associated with a given list of business rule type and anchor
@@ -136,7 +137,7 @@ public interface RuleManagementService {
      */
     @WebMethod
     public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchorList(@WebParam(name = "businessRuleAnchorInfoList")
-    List<BusinessRuleAnchorDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of anchor values associated with a given anchor type key
@@ -228,7 +229,7 @@ public interface RuleManagementService {
      * @throws PermissionDeniedException
      */
     @WebMethod
-    public String createBusinessRule(@WebParam(name = "businessRuleInfo")
+    public BusinessRuleInfoDTO createBusinessRule(@WebParam(name = "businessRuleInfo")
     BusinessRuleInfoDTO businessRuleInfo) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -244,10 +245,30 @@ public interface RuleManagementService {
      * @throws PermissionDeniedException
      */
     @WebMethod
-    public StatusDTO updateBusinessRule(@WebParam(name = "businessRuleId")
+    public BusinessRuleInfoDTO updateBusinessRule(@WebParam(name = "businessRuleId")
     String businessRuleId, @WebParam(name = "businessRuleInfo")
-    BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
+    /**
+     * 
+     * This method should be used to update the state 
+     * 
+     * @param businessRuleId
+     * @param brState
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    @WebMethod
+    public BusinessRuleInfoDTO updateBusinessRuleState(@WebParam(name = "businessRuleId")
+    String businessRuleId, @WebParam(name = "brState")
+    String brState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    
     /**
      * Deletes a business rule record
      * 
@@ -263,4 +284,21 @@ public interface RuleManagementService {
     @WebMethod
     public StatusDTO deleteBusinessRule(@WebParam(name = "businessRuleId")
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * 
+     * This method creates a new version of an existing rule
+     * 
+     * @param businessRuleInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DependentObjectsExistException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    @WebMethod
+    public BusinessRuleInfoDTO createNewVersion(@WebParam(name = "businessRuleInfo")
+    BusinessRuleInfoDTO businessRuleInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;;
 }

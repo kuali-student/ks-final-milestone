@@ -46,7 +46,12 @@ public class FactStructureDTO implements Serializable {
                     
     @XmlElement
     private Boolean anchorFlag; 
- 
+
+    @XmlElement
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
+    Map<String, String> resultColumnKeyTranslations;
+    
+    
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)    
     Map<String, String> paramValueMap;
@@ -164,5 +169,19 @@ public class FactStructureDTO implements Serializable {
 
 	public void setStaticValueDataType(String staticValueDataType) {
 		this.staticValueDataType = staticValueDataType;
-	}    
+	}
+
+    /**
+     * @return the resultColumnKeyTranslations
+     */
+    public Map<String, String> getResultColumnKeyTranslations() {
+        return resultColumnKeyTranslations;
+    }
+
+    /**
+     * @param resultColumnKeyTranslations the resultColumnKeyTranslations to set
+     */
+    public void setResultColumnKeyTranslations(Map<String, String> resultColumnKeyTranslation) {
+        this.resultColumnKeyTranslations = resultColumnKeyTranslation;
+    }    	
 }
