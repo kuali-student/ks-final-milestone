@@ -357,14 +357,15 @@ public class RulesComposite extends Composite {
                     // 3) update rule
                     displayedRule.getMetaInfo().setUpdateTime(new Date());
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(Void voidObj) {
+                        public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
+                            displayedRule = updatedBusRule;
                             GuiUtil.showUserDialog("Rule updated.");
                         }
                     });
@@ -393,14 +394,15 @@ public class RulesComposite extends Composite {
                     displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
                     displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getName());
                     
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(Void voidObj) {
+                        public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
+                            displayedRule = updatedBusRule;
                             System.out.println("Rule Activated");
                         }
                     });
@@ -427,14 +429,15 @@ public class RulesComposite extends Composite {
                     }
                     
                     // 3) create new version of this rule
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(Void voidObj) {
+                        public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
+                            displayedRule = updatedBusRule;
                             GuiUtil.showUserDialog("New Rule Version Created.");
                         }
                     });
@@ -448,12 +451,13 @@ public class RulesComposite extends Composite {
                     displayedRule.setState(BusinessRuleStatus.RETIRED.toString());
                     displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
 
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<Void>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                         }
 
-                        public void onSuccess(Void obj) {
+                        public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
+                            displayedRule = updatedBusRule;
                         	GuiUtil.showUserDialog("Rule retired.");
                         }
                     });

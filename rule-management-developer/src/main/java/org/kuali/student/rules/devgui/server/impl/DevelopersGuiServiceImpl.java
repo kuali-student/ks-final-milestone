@@ -120,16 +120,16 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     }
 
 	
-    public void updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
         
     	String ruleUpdateStatus = null;
                 
         try {
-            ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
+            return ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
         	throw new Exception("Unable to update business rule: " + ex.getMessage());
             //throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
-        }
+        }        
     }
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {

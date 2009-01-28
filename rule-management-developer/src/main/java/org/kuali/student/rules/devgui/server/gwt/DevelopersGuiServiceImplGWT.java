@@ -43,8 +43,8 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
         return serviceImpl.createBusinessRule(businessRuleInfo);
     }
 
-    public void updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
-        serviceImpl.updateBusinessRule(businessRuleId, businessRuleInfo);
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
+        return serviceImpl.updateBusinessRule(businessRuleId, businessRuleInfo);
     }
 
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
