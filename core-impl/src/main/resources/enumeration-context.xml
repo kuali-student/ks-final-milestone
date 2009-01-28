@@ -20,7 +20,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="enumerationDataSource"
 		class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
 		destroy-method="close">
@@ -95,11 +95,11 @@
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<bean id="enumDAO"
-		class="org.kuali.student.enumeration.dao.impl.EnumerationManagementDAOImpl">
+		class="org.kuali.student.core.enumeration.dao.impl.EnumerationManagementDAOImpl">
 	</bean>
 
 	<bean id="enumerationServiceImpl"
-		class="org.kuali.student.enumeration.service.impl.EnumerationServiceImpl">
+		class="org.kuali.student.core.enumeration.service.impl.EnumerationServiceImpl">
 		<property name="enumDAO" ref="enumDAO" />
 	</bean>
 <!-- <bean id="mapExceptionAdvisor"
@@ -122,5 +122,5 @@
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
- -->	
+ -->
 </beans>
