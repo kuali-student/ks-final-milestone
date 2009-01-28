@@ -39,7 +39,6 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.statement.yvf.AbstractYVFProposition;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFSumProposition;
