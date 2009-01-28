@@ -32,6 +32,7 @@ import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -335,8 +336,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPositionRestriction> restrictions = organizationDao.getPositionRestrictionsByOrg(orgId);
+		return OrganizationAssembler.toOrgPositionRestrictionInfos(restrictions);
 	}
 
 	@Override

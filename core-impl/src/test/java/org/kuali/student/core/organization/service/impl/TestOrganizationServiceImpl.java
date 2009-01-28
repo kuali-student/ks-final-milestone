@@ -21,6 +21,7 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 
@@ -48,5 +49,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		List<OrgPersonRelationInfo> orgPersonRelationInfos = client.getAllOrgPersonRelationsByOrg("68");
 		assertEquals(2, orgPersonRelationInfos.size());
+
+		List<OrgPositionRestrictionInfo>  orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("19");
+		assertEquals(6, orgPositionRestrictionInfos.size());
 	}
 }

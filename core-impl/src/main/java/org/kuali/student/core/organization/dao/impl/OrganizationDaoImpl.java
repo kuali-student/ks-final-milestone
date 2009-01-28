@@ -11,6 +11,7 @@ import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
 public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements OrganizationDao {
 
@@ -54,7 +55,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 				                     " WHERE o.id IN (:orgIdList)");
         query.setParameter("orgIdList", orgIdList);
         @SuppressWarnings("unchecked")
-		List<Org> orgs = query.getResultList(); 
+		List<Org> orgs = query.getResultList();
         return orgs;
 	}
 
@@ -64,9 +65,18 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
         							 " WHERE oor.org.id = :orgId");
 		query.setParameter("orgId", orgId);
 		@SuppressWarnings("unchecked")
-		List<OrgOrgRelation> orgOrgRelations = query.getResultList(); 
+		List<OrgOrgRelation> orgOrgRelations = query.getResultList();
 		return orgOrgRelations;
 	}
 
-	
+	@Override
+	public List<OrgPositionRestriction> getPositionRestrictionsByOrg(
+			String orgId) {
+		Query query = em.createNamedQuery("findOrgPositionRestrictions");
+		query.setParameter("orgId", orgId);
+		@SuppressWarnings("unchecked")
+		List<OrgPositionRestriction> orgPositionRestrictions = query.getResultList();
+		return orgPositionRestrictions;
+
+	}
 }

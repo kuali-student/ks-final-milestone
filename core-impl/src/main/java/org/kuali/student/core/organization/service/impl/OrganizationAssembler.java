@@ -7,10 +7,12 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -108,6 +110,25 @@ public class OrganizationAssembler extends BaseAssembler{
 		return orgOrgRelationInfo;
 	}
 
+	public static OrgPositionRestrictionInfo toOrgPositionRestrictionInfo(OrgPositionRestriction restriction) {
+		OrgPositionRestrictionInfo restrictionInfo = new OrgPositionRestrictionInfo();
 
+		BeanUtils.copyProperties(restriction, restrictionInfo, new String[] { "attributes", "metaInfo","orgId","personRelationType" });
+
+		restrictionInfo.setOrgId(restriction.getOrg().getId());
+		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
+		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionInd()));
+		restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getKey());
+
+		return restrictionInfo;
+
+	}
+	public static List<OrgPositionRestrictionInfo> toOrgPositionRestrictionInfos(List<OrgPositionRestriction> restrictions) {
+		List<OrgPositionRestrictionInfo> restrictionInfos = new ArrayList<OrgPositionRestrictionInfo>(restrictions.size());
+		for (OrgPositionRestriction restriction : restrictions) {
+			restrictionInfos.add(toOrgPositionRestrictionInfo(restriction));
+		}
+		return restrictionInfos;
+	}
 
 }
