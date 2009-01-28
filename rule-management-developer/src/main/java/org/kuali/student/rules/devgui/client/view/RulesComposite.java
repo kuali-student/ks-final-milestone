@@ -1335,12 +1335,12 @@ public class RulesComposite extends Composite {
         completeRuleTextArea.setText(GuiUtil.assembleRuleFromComposition(propCompositionTextArea.getText(), definedPropositions));
 
         // populate Authoring TAB
-        effectiveDateTextBox.setText(GuiUtil.formatDate(displayedRule.getEffectiveDate()));
-        expiryDateTextBox.setText(GuiUtil.formatDate(displayedRule.getExpirationDate()));
-        createTimeLabel.setText(GuiUtil.formatDate(displayedRule.getMetaInfo().getCreateTime()));
+        effectiveDateTextBox.setText(formatDate(displayedRule.getEffectiveDate()));
+        expiryDateTextBox.setText(formatDate(displayedRule.getExpirationDate()));
+        createTimeLabel.setText(formatDate(displayedRule.getMetaInfo().getCreateTime()));
         createUserIdLabel.setText(displayedRule.getMetaInfo().getCreateID());
         createCommentTextBox.setText(displayedRule.getMetaInfo().getCreateComment());
-        updateTimeLabel.setText(GuiUtil.formatDate(displayedRule.getMetaInfo().getUpdateTime()));
+        updateTimeLabel.setText(formatDate(displayedRule.getMetaInfo().getUpdateTime()));
         updateUserIdLabel.setText(displayedRule.getMetaInfo().getUpdateID());
         updateCommentTextBox.setText(displayedRule.getMetaInfo().getUpdateComment());
 
@@ -2486,6 +2486,13 @@ public class RulesComposite extends Composite {
         return factStructure;
     }
     
+    public static String formatDate(Date date) {        
+        DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
+        if (date == null) {
+            return "";
+        }
+        return formatter.format(date);
+    }    
     
     @Override
     protected void onUnload() {

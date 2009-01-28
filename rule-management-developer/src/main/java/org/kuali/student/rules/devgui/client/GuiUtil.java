@@ -38,7 +38,6 @@ public class GuiUtil {
     public static final char PROPOSITION_PREFIX = 'P';
 	public static final String FACT_TYPE_KEY_PREFIX = "fact.";
     public static final String FACT_PARAM_PREFIX = "factParam.";
-    static final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
     
     /*
      * Creates a string of text that represents the complete rule, including details on each proposition (left, operator and right hand side)
@@ -612,11 +611,4 @@ public class GuiUtil {
 		cal.set(year, month-1, day, hourOfDay, minute, 0);
 		return cal.getTime();
 	} */    
-    
-    public static String formatDate(Date date) {        
-        if (date == null) {
-            return "";
-        }
-        return formatter.format(date);
-    }
 }
