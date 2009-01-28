@@ -38,8 +38,9 @@ public class FactFinderServiceImpl implements FactFinderService {
     public FactResultDTO fetchFact(String factTypeKey, FactStructureDTO factStructure) throws OperationFailedException, DoesNotExistException {
     	if(logger.isInfoEnabled()) {
     		logger.info("\n---------- fetchFact ----------\n" +
-    				"factTypeKey="+factTypeKey+
-    				", factStructure.paramValueMap="+
+    				"factStructureId="+factStructure.getFactStructureId()+
+    				"\nfactTypeKey="+factTypeKey+
+    				"\nfactStructure.paramValueMap="+
     				(factStructure == null ? "null" : factStructure.getParamValueMap())+
     				"\n-----------------------------------------");
     	}
