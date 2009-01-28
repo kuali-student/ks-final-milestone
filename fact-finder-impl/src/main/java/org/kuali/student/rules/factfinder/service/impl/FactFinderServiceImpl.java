@@ -37,10 +37,11 @@ public class FactFinderServiceImpl implements FactFinderService {
     @Override
     public FactResultDTO fetchFact(String factTypeKey, FactStructureDTO factStructure) throws OperationFailedException, DoesNotExistException {
     	if(logger.isInfoEnabled()) {
-    		logger.info("\n*****  fetchFact  *****\n" +
+    		logger.info("\n---------- fetchFact ----------\n" +
     				"factTypeKey="+factTypeKey+
     				", factStructure.paramValueMap="+
-    				(factStructure == null ? "null" : factStructure.getParamValueMap()));
+    				(factStructure == null ? "null" : factStructure.getParamValueMap())+
+    				"\n-----------------------------------------");
     	}
     	FactResultDTO result = new FactResultDTO();
         
