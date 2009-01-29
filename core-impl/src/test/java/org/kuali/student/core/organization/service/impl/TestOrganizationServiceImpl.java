@@ -3,6 +3,7 @@ package org.kuali.student.core.organization.service.impl;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import javax.print.attribute.Size2DSyntax;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -83,4 +84,9 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(12, orgOrgRelationTypeInfos.size());
 	}
 
+	@Test
+	public void getAllOrgPersonRelationsByPerson() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<OrgPersonRelationInfo> orgPersonRelationsByPerson = client.getAllOrgPersonRelationsByPerson("KIM-1");
+		assertEquals(2, orgPersonRelationsByPerson.size());
+	}
 }
