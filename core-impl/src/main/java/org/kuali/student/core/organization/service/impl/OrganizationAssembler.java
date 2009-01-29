@@ -160,4 +160,22 @@ public class OrganizationAssembler extends BaseAssembler{
 		}
 		return oprtys;
 	}
+
+	public static OrgOrgRelationTypeInfo toOrgOrgRelationTypeInfo(OrgOrgRelationType orgOrgRelationType) {
+		OrgOrgRelationTypeInfo orgOrgRelationTypeInfo = new OrgOrgRelationTypeInfo();
+		BeanUtils.copyProperties(orgOrgRelationType, orgOrgRelationTypeInfo, new String[] { "attributes", "orgHierarchy"});
+
+		orgOrgRelationTypeInfo.setAttributes(toAttributeMap(orgOrgRelationType.getAttributes()));
+		orgOrgRelationTypeInfo.setOrgHierarchyKey(orgOrgRelationType.getOrgHierarchy().getKey());
+		return orgOrgRelationTypeInfo;
+	}
+
+	public static List<OrgOrgRelationTypeInfo> toOrgOrgRelationTypeInfos(List<OrgOrgRelationType> orgOrgRelationTypes) {
+		List<OrgOrgRelationTypeInfo> orgOrgRelationTypeInfos = new ArrayList<OrgOrgRelationTypeInfo>(orgOrgRelationTypes.size());
+		for (OrgOrgRelationType orgOrgRelationType : orgOrgRelationTypes) {
+			orgOrgRelationTypeInfos.add(toOrgOrgRelationTypeInfo(orgOrgRelationType));
+		}
+
+		return orgOrgRelationTypeInfos;
+	}
 }

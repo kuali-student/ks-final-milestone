@@ -31,6 +31,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
@@ -174,15 +175,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgOrgRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgOrgRelationTypeInfo((OrgOrgRelationType) organizationDao.fetch(OrgOrgRelationType.class, orgOrgRelationTypeKey));
 	}
 
 	@Override
 	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.find(OrgOrgRelationType.class);
+		return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
 	}
 
 	@Override
@@ -190,8 +190,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgHierarchyKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgHierarchy(orgHierarchyKey);
+		return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
 	}
 
 	@Override

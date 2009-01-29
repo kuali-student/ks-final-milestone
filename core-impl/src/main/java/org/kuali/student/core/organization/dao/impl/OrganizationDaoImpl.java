@@ -8,8 +8,10 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.organization.dao.OrganizationDao;
+import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
@@ -88,5 +90,15 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		@SuppressWarnings("unchecked")
 		List<String> descendants = query.getResultList();
 		return descendants;
+	}
+
+	@Override
+	public List<OrgOrgRelationType> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyKey) {
+		Query query = em.createNamedQuery("OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy");
+		query.setParameter("orgHierarchy", orgHierarchyKey);
+		@SuppressWarnings("unchecked")
+		List<OrgOrgRelationType> orgOrgRelationTypes = query.getResultList();
+		return orgOrgRelationTypes;
+
 	}
 }

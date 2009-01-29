@@ -20,6 +20,7 @@ import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
@@ -59,8 +60,27 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		OrgTypeInfo orgTypeInfo = client.getOrgType("kuali.org.Division");
 		assertEquals(orgTypeInfo.getKey(), "kuali.org.Division");
-		
+
 		List<String> descendants = client.getAllDescendants("4", "kuali.org.hierarchy.Main");
 		assertEquals(8,descendants.size());
 	}
+
+	@Test
+	public void getOrgOrgRelationTypes() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<OrgOrgRelationTypeInfo> orgOrgRelationTypeInfos = client.getOrgOrgRelationTypes();
+		assertEquals(13, orgOrgRelationTypeInfos.size());
+	}
+
+	@Test
+	public void getOrgOrgRelationType() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		OrgOrgRelationTypeInfo orgOrgRelationTypeInfo = client.getOrgOrgRelationType("kuali.org.Report");
+		assertEquals(orgOrgRelationTypeInfo.getKey(), "kuali.org.Report");
+	}
+
+	@Test
+	public void getOrgOrgRelationTypesForOrgHierarchy() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<OrgOrgRelationTypeInfo> orgOrgRelationTypeInfos = client.getOrgOrgRelationTypesForOrgHierarchy("kuali.org.hierarchy.Main");
+		assertEquals(12, orgOrgRelationTypeInfos.size());
+	}
+
 }

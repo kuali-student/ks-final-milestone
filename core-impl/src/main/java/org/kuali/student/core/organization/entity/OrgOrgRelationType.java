@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,6 +21,9 @@ import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
 @Table(name = "KS_ORG_ORG_REL_TYPE_T")
+@NamedQueries({
+	@NamedQuery(name="OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy", query="SELECT oort FROM OrgOrgRelationType oort WHERE oort.orgHierarchy.key = :orgHierarchy")
+})
 public class OrgOrgRelationType implements
 		AttributeOwner<OrgOrgRelationTypeAttribute> {
 	@Id
