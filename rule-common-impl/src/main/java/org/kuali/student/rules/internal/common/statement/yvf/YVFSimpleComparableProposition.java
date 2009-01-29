@@ -3,7 +3,6 @@ package org.kuali.student.rules.internal.common.statement.yvf;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
