@@ -26,14 +26,14 @@ public class OrganizationAssembler extends BaseAssembler{
 
 	public static List<OrgHierarchyInfo> toOrgHierarchyInfos(
 			List<OrgHierarchy> orgHierarchys) {
-		List<OrgHierarchyInfo> orgHierarchyInfos = new ArrayList<OrgHierarchyInfo>();
+		List<OrgHierarchyInfo> orgHierarchyInfos = new ArrayList<OrgHierarchyInfo>(orgHierarchys.size());
 		for(OrgHierarchy orgHierarchy:orgHierarchys){
 			orgHierarchyInfos.add(toOrgHierarchyInfo(orgHierarchy));
 		}
 		return orgHierarchyInfos;
 	}
 
-	private static OrgHierarchyInfo toOrgHierarchyInfo(OrgHierarchy orgHierarchy) {
+	public static OrgHierarchyInfo toOrgHierarchyInfo(OrgHierarchy orgHierarchy) {
 		OrgHierarchyInfo orgHierarchyInfo = new OrgHierarchyInfo();
 
 		BeanUtils.copyProperties(orgHierarchy, orgHierarchyInfo, new String[] { "rootOrgId",
@@ -47,7 +47,7 @@ public class OrganizationAssembler extends BaseAssembler{
 	}
 
 	public static List<OrgInfo> toOrgInfos(List<Org> orgs) {
-		List<OrgInfo> orgInfos = new ArrayList<OrgInfo>();
+		List<OrgInfo> orgInfos = new ArrayList<OrgInfo>(orgs.size());
 		for(Org org:orgs){
 			orgInfos.add(toOrgInfo(org));
 		}

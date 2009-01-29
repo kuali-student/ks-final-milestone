@@ -157,8 +157,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public OrgHierarchyInfo getOrgHierarchy(String orgHierarchyKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgHierarchyInfo((OrgHierarchy) organizationDao.fetch(OrgHierarchy.class, orgHierarchyKey));
 	}
 
 	@Override
