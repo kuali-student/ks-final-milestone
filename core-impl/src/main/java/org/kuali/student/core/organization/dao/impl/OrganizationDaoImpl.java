@@ -72,7 +72,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 	@Override
 	public List<OrgPositionRestriction> getPositionRestrictionsByOrg(
 			String orgId) {
-		Query query = em.createNamedQuery("findOrgPositionRestrictions");
+		Query query = em.createNamedQuery("OrgPositionRestriction.findOrgPositionRestrictions");
 		query.setParameter("orgId", orgId);
 		@SuppressWarnings("unchecked")
 		List<OrgPositionRestriction> orgPositionRestrictions = query.getResultList();

@@ -6,13 +6,17 @@ import java.util.List;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.service.impl.BaseAssembler;
@@ -134,11 +138,7 @@ public class OrganizationAssembler extends BaseAssembler{
 	}
 
 	public static OrgTypeInfo toOrgTypeInfo(OrgType orgType) {
-		OrgTypeInfo orgTypeInfo = new OrgTypeInfo();
-		BeanUtils.copyProperties(orgType, orgTypeInfo, new String[] { "attributes" });
-
-		orgTypeInfo.setAttributes(toAttributeMap(orgType.getAttributes()));
-		return orgTypeInfo;
+		return toGenericTypeInfo(OrgTypeInfo.class, orgType);
 	}
 
 	public static List<OrgTypeInfo> toOrgTypeInfos(List<OrgType> orgTypes) {
@@ -147,5 +147,17 @@ public class OrganizationAssembler extends BaseAssembler{
 			orgTypeInfos.add(toOrgTypeInfo(orgType));
 		}
 		return orgTypeInfos;
+	}
+
+	public static OrgPersonRelationTypeInfo toOrgPersonRelationTypeInfo(OrgPersonRelationType orgPersonRelationType) {
+		return toGenericTypeInfo(OrgPersonRelationTypeInfo.class, orgPersonRelationType);
+	}
+
+	public static List<OrgPersonRelationTypeInfo> toOrgPersonRelationTypeInfos(List<OrgPersonRelationType> orgPersonRelationTypes) {
+		List<OrgPersonRelationTypeInfo> oprtys = new ArrayList<OrgPersonRelationTypeInfo>(orgPersonRelationTypes.size());
+		for (OrgPersonRelationType type : orgPersonRelationTypes) {
+			oprtys.add(toOrgPersonRelationTypeInfo(type));
+		}
+		return oprtys;
 	}
 }
