@@ -18,4 +18,5 @@ public interface OrgRemoteService {
     public List<OrgHierarchyInfo> getOrgHierarchies();
     public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList);
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId);
+    public List<String> getAllDescendants(String orgId, String orgHierarchy);
 }

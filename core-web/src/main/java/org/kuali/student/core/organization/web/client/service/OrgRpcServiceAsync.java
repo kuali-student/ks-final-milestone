@@ -12,4 +12,5 @@ public interface OrgRpcServiceAsync {
     public void getOrgHierarchies(AsyncCallback<List<OrgHierarchyInfo>> callback); 
     public void getOrganizationsByIdList(List<String> orgIdList, AsyncCallback<List<OrgInfo> > callback);
     public void getOrgOrgRelationsByOrg(String orgId, AsyncCallback<List<OrgOrgRelationInfo>> callback);
+    public void getAllDescendants(String orgId, String orgHierarchy, AsyncCallback<List<String>> callback);
 }

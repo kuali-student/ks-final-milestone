@@ -15,9 +15,13 @@
  */
 package org.kuali.student.core.organization.web.client.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
 import com.google.gwt.user.client.Window;
@@ -27,7 +31,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -40,33 +44,25 @@ import com.google.gwt.user.client.ui.Widget;
 public class OrgLocatePanel extends Composite{
 
     VerticalPanel vPanel = new VerticalPanel();
-    HorizontalPanel hPanel = new HorizontalPanel();
+    HorizontalPanel browsePanel = new HorizontalPanel();
+       
+    SimplePanel results = new SimplePanel();
+       
+    String activeHierarchyId;
     
-    FlexTable resultTable = new FlexTable();
+    Map<String, String> orgRootHierarchy = new HashMap<String,String>();
     
+        
     public OrgLocatePanel(){
         super.initWidget(vPanel);
     }
   
-
-    protected void onLoad(){
-        Label label = new Label();
-        
-        label.setText("Browse Organizations");
-        label.setStyleName("info");
-
-        OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
-            public void onFailure(Throwable caught) {
-                Window.alert(caught.getMessage());
-            }
-
-            public void onSuccess(List<OrgHierarchyInfo> result) {
-                buildOrgResults(result);
-            }
-            
-        });
+    protected void onLoad(){        
         vPanel.add(createLocateMenu());
+        vPanel.add(new SectionLabel("Browse Organizations"));
+        vPanel.add(results);
         
+        getBrowseResults();
     }
     
     private Widget createLocateMenu(){
@@ -77,16 +73,92 @@ public class OrgLocatePanel extends Composite{
         return fTable;
     }
     
-    private void buildOrgResults(List<OrgHierarchyInfo> result) {
-        // TODO Auto-generated method stub
-        resultTable.clear();
-        int i = 0;
-        for(OrgHierarchyInfo orgHInfo:result){
-            resultTable.setWidget(i, 0, new Label(orgHInfo.getName()));
-            i++;
-        }
-        
+    private void getBrowseResults() {
+        OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(List<OrgHierarchyInfo> result) {
+                List<String> orgRootIds = new ArrayList<String>();               
+                for(OrgHierarchyInfo orgHInfo:result){
+                    orgRootIds.add(orgHInfo.getRootOrgId());
+                    orgRootHierarchy.put(orgHInfo.getRootOrgId(), orgHInfo.getKey());
+                }                
+                
+                getOrgList(orgRootIds);
+            }
+        });
+
+        results.setWidget(browsePanel);
+    }
+    
+    protected void getOrgList(List<String> orgIds){
+        OrgRpcService.Util.getInstance().getOrganizationsByIdList(orgIds, new AsyncCallback<List<OrgInfo>>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(List<OrgInfo> result) {
+     
+                FlexTable resultTable = new FlexTable();
+                int i = 0;
+                for(OrgInfo orgInfo:result){ 
+                    resultTable.setWidget(i, 0, getOrgLink(orgInfo));
+                    i++;
+                }
+                browsePanel.add(resultTable);
+            }
+        });
     }
 
+    protected void getOrgChildren(String orgId){
+        OrgRpcService.Util.getInstance().getAllDescendants(orgId, activeHierarchyId, new AsyncCallback<List<String>>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(List<String> result) {
+                getOrgList(result);
+            }
+        });
+    }
     
+    protected Widget getOrgLink(OrgInfo org){
+        OrgLink orgLink = new OrgLink(org.getLongName(), "viewOrg");
+        orgLink.setOrgId(org.getId());
+        
+        orgLink.addClickListener(new ClickListener(){           
+            public void onClick(Widget sender) {
+                removeWidgetsRight(sender.getParent());
+                String orgId = ((OrgLink)sender).getOrgId();
+                if (orgRootHierarchy.containsKey(orgId)){
+                    activeHierarchyId = orgRootHierarchy.get(orgId);
+                }
+                getOrgChildren(((OrgLink)sender).getOrgId());
+        }});
+        
+        return orgLink;
+    }
+    
+    protected void removeWidgetsRight(Widget w){
+        for (int i=browsePanel.getWidgetCount()-1; i > browsePanel.getWidgetIndex(w);i--){
+            browsePanel.remove(i);
+        }
+    }
+    
+    public class OrgLink extends Hyperlink{
+        String orgId;
+        
+        public OrgLink(String name, String targetHistoryToken){
+            super(name, targetHistoryToken);
+        }
+        
+        public String getOrgId() {
+            return orgId;
+        }
+        public void setOrgId(String orgId) {
+            this.orgId = orgId;
+        }
+    }
 }

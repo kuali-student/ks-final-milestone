@@ -83,4 +83,25 @@ public class OrgRpcServiceImpl implements OrgRpcService{
 			}
 			return null;
 		}
+
+        @Override
+        public List<String> getAllDescendants(String orgId, String orgHierarchy) {
+            // TODO Will Gomes - THIS METHOD NEEDS JAVADOCS
+            try {
+                return service.getAllDescendants(orgId, orgHierarchy);
+            } catch (InvalidParameterException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (MissingParameterException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (OperationFailedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (PermissionDeniedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
 }

@@ -35,5 +35,9 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 	public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId) {
 		return serviceImpl.getOrgOrgRelationsByOrg(orgId);
 	}
+
+    public List<String> getAllDescendants(String orgId, String orgHierarchy) {
+        return serviceImpl.getAllDescendants(orgId, orgHierarchy);
+    }
 	
 }
