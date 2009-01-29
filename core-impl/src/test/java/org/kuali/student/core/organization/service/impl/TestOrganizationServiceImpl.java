@@ -22,6 +22,7 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 
@@ -52,5 +53,11 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		List<OrgPositionRestrictionInfo>  orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("19");
 		assertEquals(6, orgPositionRestrictionInfos.size());
+
+		List<OrgTypeInfo> orgTypeinfos = client.getOrgTypes();
+		assertEquals(17, orgTypeinfos.size());
+
+		OrgTypeInfo orgTypeInfo = client.getOrgType("kuali.org.Division");
+		assertEquals(orgTypeInfo.getKey(), "kuali.org.Division");
 	}
 }

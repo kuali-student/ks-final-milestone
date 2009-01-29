@@ -33,6 +33,7 @@ import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -294,14 +295,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public OrgTypeInfo getOrgType(String orgTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgTypeInfo((OrgType) organizationDao.fetch(OrgType.class, orgTypeKey));
 	}
 
 	@Override
 	public List<OrgTypeInfo> getOrgTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgTypeInfos(organizationDao.find(OrgType.class));
 	}
 
 	@Override

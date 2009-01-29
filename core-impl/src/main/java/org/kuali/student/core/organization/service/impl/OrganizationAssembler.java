@@ -8,11 +8,13 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
@@ -131,4 +133,19 @@ public class OrganizationAssembler extends BaseAssembler{
 		return restrictionInfos;
 	}
 
+	public static OrgTypeInfo toOrgTypeInfo(OrgType orgType) {
+		OrgTypeInfo orgTypeInfo = new OrgTypeInfo();
+		BeanUtils.copyProperties(orgType, orgTypeInfo, new String[] { "attributes" });
+
+		orgTypeInfo.setAttributes(toAttributeMap(orgType.getAttributes()));
+		return orgTypeInfo;
+	}
+
+	public static List<OrgTypeInfo> toOrgTypeInfos(List<OrgType> orgTypes) {
+		List<OrgTypeInfo> orgTypeInfos = new ArrayList<OrgTypeInfo>(orgTypes.size());
+		for (OrgType orgType : orgTypes) {
+			orgTypeInfos.add(toOrgTypeInfo(orgType));
+		}
+		return orgTypeInfos;
+	}
 }
