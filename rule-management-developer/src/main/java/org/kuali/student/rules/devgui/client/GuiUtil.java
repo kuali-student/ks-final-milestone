@@ -64,7 +64,6 @@ public class GuiUtil {
         try {
             while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
                 counter++;
-                // System.out.println("Comp Token read:" + token);
                 composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
                 if (token.charAt(0) == PROPOSITION_PREFIX) {
                     prop = definedPropositions.get(new Integer(token.substring(1)));
@@ -112,7 +111,6 @@ public class GuiUtil {
         while (((token = getNextTokenFromComposition(composition)) != null) && (counter < 100)) {
             counter++;
             token = token.trim();
-            System.out.println("Comp Token read: '" + token + "'");
             RuleElementDTO ruleElem = new RuleElementDTO();
             ruleElem.setOrdinalPosition(counter);
             composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
@@ -203,7 +201,6 @@ public class GuiUtil {
         ArrayList<Integer> listedPropositionIds = new ArrayList<Integer>();
         for (String token : tokens) {
             token = token.trim();
-            // System.out.println("Validate Token read:" + token);
             if (!token.isEmpty() && ((token.charAt(0) == PROPOSITION_PREFIX) || (token.charAt(0) == PROPOSITION_PREFIX))) {
 
                 try {
@@ -501,9 +498,7 @@ public class GuiUtil {
         }          
         
         public static final int getNumberOfFactsFromName(final String name) {
-            System.out.println("Name: '"+name+"'");
             for (final YieldValueFunctionType t : EnumSet.allOf(YieldValueFunctionType.class)) {
-                System.out.println("name: '"+t.name()+"'");
                 if (t.name().equals(name.trim())) {
                     return t.numberOfFacts;
                 }

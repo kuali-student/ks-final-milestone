@@ -37,6 +37,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -683,6 +684,28 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(ExecutionResultDTO executionResult) {
                         	StringBuffer executionLog = new StringBuffer();
+                        	
+                        	StringBuffer reportText = new StringBuffer();
+                        	List<PropositionReportDTO> propositionReports = executionResult.getReport().getPropositionReports();                        	
+                        	for (PropositionReportDTO report : propositionReports) {
+                        	    reportText.append("\nProposition Name: " + report.getPropositionName() + "\n");
+                        	    reportText.append("Proposition Type: " + report.getPropositionType() + "\n");                        	    
+                        	    if ((report.getFailureMessage() != null) && (report.getFailureMessage().length() > 0)) {
+                        	        reportText.append("Failure Message: " + report.getFailureMessage() + "\n");  
+                        	    }
+                                
+                                if ((report.getSuccessMessage() != null) && (report.getSuccessMessage().length() > 0)) {
+                                    reportText.append("Success Message: " + report.getSuccessMessage() + "\n");  
+                                }     
+                                if (report.getCriteriaResult() != null) {
+                                    reportText.append("\nFact: " + report.getCriteriaResult() + "\n");
+                                }
+                                if (report.getFactResult() != null) {
+                                    reportText.append("\nFact: " + report.getFactResult() + "\n");
+                                }
+                        	    reportText.append("\n------------------------------------------------------------------------" + "\n");                        	    
+                        	}
+                        	
                         	if (executionResult.getExecutionResult()) {
                         		GuiUtil.showUserDialog("Rule executed.");
                         		if (executionResult.getReport().isSuccessful()) {
@@ -690,13 +713,14 @@ public class RulesComposite extends Composite {
                         		} else {
                         			executionLog.append("\nFAILURE: " + executionResult.getReport().getFailureMessage());
                         		}          
-                        		testReport.setText(executionResult.getExecutionLog());
+                        		reportText.append("\n\n\n   DETAIL EXECUTION REPORT\n\n" + executionResult.getExecutionLog());
                         	} else {
                         		GuiUtil.showUserDialog("ERROR: Failed to execute rule.");
                         		executionLog.append("\nFailed to execute rule.");
                         		executionLog.append("\nERROR: " + executionResult.getErrorMessage());
                         	}
                         	
+                            testReport.setText(reportText.toString());
                         	testResult.setText(executionLog.toString());
                         }
                     });                	
@@ -1163,8 +1187,6 @@ public class RulesComposite extends Composite {
         }
         
         //if YVF is INTERSECTION, check on the second Fact parameters
-        //System.out.println("SYMBOL: " + YieldValueFunctionType.INTERSECTION.symbol());
-        //System.out.println("NAME: " + YieldValueFunctionType.INTERSECTION.name());
         if (yvfType.equals(YieldValueFunctionType.INTERSECTION.name())) { 
             //1. Fact Type cannot be empty
             if (factStructureList.size() == 0) {

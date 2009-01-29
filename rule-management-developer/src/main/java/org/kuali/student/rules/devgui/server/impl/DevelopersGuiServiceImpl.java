@@ -81,13 +81,11 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         	if (elem.getBusinessRuleElemnetTypeKey().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
             System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", element: " + elem.getName());        	
         	List<FactStructureDTO> factStructureList = elem.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
-        	for (FactStructureDTO fact : factStructureList) {        	     	    
-        	    
-        	    System.out.println("key: " + fact.getResultColumnKeyTranslations());
-        	    
+        	for (FactStructureDTO fact : factStructureList) {        	     	            	    
+        	    //System.out.println("key: " + fact.getResultColumnKeyTranslations());        	    
         		if (fact.isStaticFact()) {
         		    testFactValue = facts.get(fact.getFactStructureId());
-        		    System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", added static fact: " + testFactValue);
+        		    System.out.println("-- Added static fact: " + testFactValue);
         			fact.setStaticValue(testFactValue);        			
         		} else {
                     Map<String, String> map = fact.getParamValueMap();
@@ -95,10 +93,9 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                         testFactValue = facts.get(key);
                         //map.remove(key);
                         dynamicTestFacts.getParamValueMap().put(key, testFactValue);
-                        System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", added dynamic fact: " + key + " - " + testFactValue);
+                        System.out.println("-- Added dynamic fact: " + key + " - " + testFactValue);
                     }
-        		}
-                //System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", fact: " + fact.getFactStructureId() + ", value: '" + testFactValue + "'");
+        		}                
         	}
         }            
         
