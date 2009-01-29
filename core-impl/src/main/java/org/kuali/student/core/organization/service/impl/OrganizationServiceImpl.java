@@ -114,8 +114,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public List<String> getAllDescendants(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Exception Handling
+		List<String> descendants = this.organizationDao.getAllDescendants(orgId, orgHierarchy);
+		return descendants;
 	}
 
 	@Override

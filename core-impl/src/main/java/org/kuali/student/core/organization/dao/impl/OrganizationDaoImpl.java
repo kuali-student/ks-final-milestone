@@ -79,4 +79,14 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		return orgPositionRestrictions;
 
 	}
+
+	@Override
+	public List<String> getAllDescendants(String orgId, String orgHierarchy) {
+		Query query = em.createNamedQuery("OrgOrgRelation.getAllDescendants");
+		query.setParameter("orgId", orgId);
+		query.setParameter("orgHierarchy", orgHierarchy);
+		@SuppressWarnings("unchecked")
+		List<String> descendants = query.getResultList();
+		return descendants;
+	}
 }

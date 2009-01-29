@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -22,6 +24,14 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KS_ORG_ORG_RELATION_T")
+@NamedQueries(
+		{
+			@NamedQuery(name="OrgOrgRelation.getAllDescendants", 
+					   query="SELECT oor.relatedOrg.id FROM OrgOrgRelation oor " +
+				 		     " WHERE oor.org.id = :orgId " +
+				 			 "   AND oor.type.orgHierarchy.key = :orgHierarchy")
+		}
+)
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
 	@Id

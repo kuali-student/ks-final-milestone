@@ -59,5 +59,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		OrgTypeInfo orgTypeInfo = client.getOrgType("kuali.org.Division");
 		assertEquals(orgTypeInfo.getKey(), "kuali.org.Division");
+		
+		List<String> descendants = client.getAllDescendants("60", "kuali.org.hierarchy.Main");
+		assertEquals(5,descendants.size());
 	}
 }
