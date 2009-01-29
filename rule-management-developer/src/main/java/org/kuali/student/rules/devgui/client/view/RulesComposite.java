@@ -2331,13 +2331,15 @@ public class RulesComposite extends Composite {
         }
         
         //for given YVF, retrieve facts
+        String processingColumn;
     	if (yvfSelected) {         
 	        yvf.setYieldValueFunctionType(yvfListBox.getValue(yvfListBox.getSelectedIndex()));
-	        
-	        if (yvf.equals(YieldValueFunctionType.INTERSECTION.name())) {
+	        if (yvf.getYieldValueFunctionType().equals(YieldValueFunctionType.INTERSECTION.name())) {
 	        	prop.setComparisonDataTypeKey("java.math.Integer");
+	        	processingColumn = "resultColumn.cluId";
 	        } else { //if ((yvf.equals(YieldValueFunctionType.SUM.name()) || (yvf.equals(YieldValueFunctionType..name()) {
 	        	prop.setComparisonDataTypeKey("java.math.BigDecimal");
+	        	processingColumn = "resultColumn.credit";
 	        }  
 	        
 	        //store set facts in YVF
@@ -2379,9 +2381,9 @@ public class RulesComposite extends Composite {
 	                    Map<String, String> newParamValueMap = new HashMap<String, String>();
 	                    
 	                    Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-	                    System.out.println("Setting processing column: " + GuiUtil.YieldValueFunctionType.getProcessingColumnFromSymbol(yvfType));
-	                    resultColumnKeyMap.put(GuiUtil.YieldValueFunctionType.getProcessingColumnFromSymbol(yvfType), "resultColumn.cluId");
-	                    fact.setResultColumnKeyTranslations(resultColumnKeyMap);    	                    
+	                    resultColumnKeyMap.put(GuiUtil.YieldValueFunctionType.getProcessingColumnFromSymbol(yvfType), processingColumn);
+	                    fact.setResultColumnKeyTranslations(resultColumnKeyMap);    	
+	                    System.out.println("FACT STRUCTURE ID: " + fact.getFactStructureId());
 	                    
 	                    //go through each key and set it up for given fact type
 	                    for (String key : definedParamValueMap.keySet()) {
