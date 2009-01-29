@@ -70,7 +70,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
     public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) {
     	ExecutionResultDTO executionResult;
-    	FactStructureDTO dynamicTestFacts = new FactStructureDTO();
     	String testFactValue = null;
     	
     	System.out.println("----> EXECUTING: rule id: " + businessRule.getId() + ", definition time facts: " + definitionTimeFacts);
@@ -109,31 +108,31 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     }     
 
     //returns business rule ID
-	public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {
-    	
-    	String newRuleId = null;
-    	
+	public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {    	
         try {
-            newRuleId = ruleManagementService.createBusinessRule(businessRuleInfo).getId();
+            return ruleManagementService.createBusinessRule(businessRuleInfo);
         } catch (Exception ex) {
             throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
         }
-        return newRuleId;
     }
 
 	
-    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {
-        
-    	String ruleUpdateStatus = null;
-                
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {                        
         try {
             return ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
-        	throw new Exception("Unable to update business rule: " + ex.getMessage());
-            //throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
+        	throw new RuntimeException("Unable to update business rule ID: " + businessRuleInfo.getId() + ex.getMessage());
         }        
     }
 
+    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState) {                        
+        try {
+            return ruleManagementService.updateBusinessRuleState(businessRuleId, brState);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unable to update state of business rule ID: " + businessRuleId + ex.getMessage());
+        }        
+    }    
+    
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
 
         BusinessRuleInfoDTO businessRuleInfo;

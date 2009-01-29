@@ -49,10 +49,12 @@ public interface DevelopersGuiService extends RemoteService {
     
     public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts);    
     
-    public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
+    public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
 
-    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception;
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo);
 
+    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState);
+    
     public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId);
 
     public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey);

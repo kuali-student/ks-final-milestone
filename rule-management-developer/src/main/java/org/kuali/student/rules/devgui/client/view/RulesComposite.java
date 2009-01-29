@@ -307,7 +307,7 @@ public class RulesComposite extends Composite {
                     displayedRule.getMetaInfo().setCreateTime(new Date());
                    
                     // 3) create new draft rule
-                    DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<String>() {
+                    DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -318,9 +318,13 @@ public class RulesComposite extends Composite {
                             displayedRuleInfo.setStatus(STATUS_NOT_STORED_IN_DATABASE);                            
                         }
 
-                        public void onSuccess(String newRuleID) {
-                            System.out.println("Created new rule: " + newRuleID);
-
+                        public void onSuccess(BusinessRuleInfoDTO newBusinessRule) {
+                            String newRuleID = newBusinessRule.getId();
+                            System.out.println("Created new rule with ID: " + newRuleID);
+                            System.out.println("Created new rule with compiled ID: " + newBusinessRule.getCompiledId());
+                            
+                            displayedRule = newBusinessRule;
+                            
                             // update the model
                             RulesEvent toFire = RULES_ADD_EVENT;
 
@@ -334,7 +338,6 @@ public class RulesComposite extends Composite {
                             ruleInfo.setBusinessRuleDisplayName(displayedRule.getName());
                             ruleInfo.setBusinessRuleId(newRuleID);
                             rulesTree.add(ruleInfo);
-                            displayedRule.setId(newRuleID);
 
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
@@ -360,6 +363,8 @@ public class RulesComposite extends Composite {
                     // 3) update rule
                     displayedRule.getMetaInfo().setUpdateTime(new Date());
                     
+                    System.out.println("BEFORE updated rule compile ID: " + displayedRule.getCompiledId());
+                    
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
@@ -369,6 +374,7 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
+                            System.out.println("AFTER updated rule compile ID: " + displayedRule.getCompiledId());
                             GuiUtil.showUserDialog("Rule updated.");
                         }
                     });
@@ -392,12 +398,7 @@ public class RulesComposite extends Composite {
                     
                     //TODO rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
                     
-                    // 3) rule status changes to ACTIVE
-                    displayedRule.setState(BusinessRuleStatus.ACTIVE.toString());
-                    displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
-                    displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getName());
-                    
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRuleState(displayedRule.getId(), BusinessRuleStatus.ACTIVE.toString(), new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -406,7 +407,13 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
-                            System.out.println("Rule Activated");
+                            
+                            // 3) rule status changes to ACTIVE
+                            displayedRule.setState(BusinessRuleStatus.ACTIVE.toString());
+                            displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
+                            displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getName());
+                            
+                            GuiUtil.showUserDialog("Rule Activated");
                         }
                     });
                     
@@ -451,16 +458,18 @@ public class RulesComposite extends Composite {
             
             retireRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                    displayedRule.setState(BusinessRuleStatus.RETIRED.toString());
-                    displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
 
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
+                    DevelopersGuiService.Util.getInstance().updateBusinessRuleState(displayedRule.getId(), BusinessRuleStatus.RETIRED.toString(), new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             Window.alert(caught.getMessage());
                         }
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
+                            
+                            //displayedRule.setState(BusinessRuleStatus.RETIRED.toString());
+                            displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
+                            
                         	GuiUtil.showUserDialog("Rule retired.");
                         }
                     });
@@ -472,15 +481,23 @@ public class RulesComposite extends Composite {
             
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
-                	//keep original rule values except rule id, original rule id, compiled id and original name
+                	//keep original rule values except rule id, original rule id, compiled id and name
                 	displayedRule.setId("");
                 	displayedRule.setOriginalRuleId("");
                 	displayedRule.setCompiledId("");
                 	businessRuleID.setText("");
-                	displayedRule.setName("COPY " + displayedRule.getName()); 
+                	displayedRule.setName("COPY OF " + displayedRule.getName()); 
                     nameTextBox.setText(displayedRule.getName());                    
                 	displayedRule.setState(STATUS_NOT_STORED_IN_DATABASE);
-                	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);                              	
+                	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
+                    MetaInfoDTO metaInfo = new MetaInfoDTO();
+                    metaInfo.setCreateTime(null);
+                    metaInfo.setCreateID("");
+                    metaInfo.setCreateComment("");
+                    metaInfo.setUpdateTime(null);
+                    metaInfo.setUpdateID("");        
+                    metaInfo.setUpdateComment("");
+                	displayedRule.setMetaInfo(metaInfo);
                 	updateRulesFormButtons(displayedRule.getState());
                 	rulesFormTabs.selectTab(0);  
                 	GuiUtil.showUserDialog("Rule copied.");
@@ -1447,7 +1464,7 @@ public class RulesComposite extends Composite {
         
         // business rule status
         ix++;        
-        final Label statusLabel = new Label(messages.get("ruleStatus"));
+        final Label statusLabel = new Label(messages.get("ruleState"));
         flexFormTable.setWidget(ix, 0, statusLabel);
         flexFormTable.getCellFormatter().setWidth(ix, 0, "200px");
         flexFormTable.getCellFormatter().setHeight(ix, 0, FORM_ROW_HEIGHT);

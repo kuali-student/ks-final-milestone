@@ -26,10 +26,12 @@ public interface DevelopersGuiServiceAsync {
 	
     public void executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts, AsyncCallback<ExecutionResultDTO> callback);	
 	
-    public void createBusinessRule(BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<String> callback);
+    public void createBusinessRule(BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<BusinessRuleInfoDTO> callback);
 
     public void updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<BusinessRuleInfoDTO> callback);
 
+    public void updateBusinessRuleState(String businessRuleId, String brState, AsyncCallback<BusinessRuleInfoDTO> callback);
+    
     public void fetchDetailedBusinessRuleInfo(String ruleId, AsyncCallback<BusinessRuleInfoDTO> callback);
 
     public void fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey, AsyncCallback<BusinessRuleTypeInfoDTO> callback);
