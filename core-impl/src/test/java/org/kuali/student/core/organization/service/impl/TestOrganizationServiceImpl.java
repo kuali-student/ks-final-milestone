@@ -45,8 +45,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		List<OrgHierarchyInfo> orgHierarchyInfos = client.getOrgHierarchies();
 		assertEquals(2,orgHierarchyInfos.size());
 
-		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("60");
-		assertEquals(5,orgOrgRelationInfos.size());
+		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("4");
+		assertEquals(8,orgOrgRelationInfos.size());
 
 		List<OrgPersonRelationInfo> orgPersonRelationInfos = client.getAllOrgPersonRelationsByOrg("68");
 		assertEquals(2, orgPersonRelationInfos.size());
@@ -60,7 +60,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		OrgTypeInfo orgTypeInfo = client.getOrgType("kuali.org.Division");
 		assertEquals(orgTypeInfo.getKey(), "kuali.org.Division");
 		
-		List<String> descendants = client.getAllDescendants("60", "kuali.org.hierarchy.Main");
-		assertEquals(5,descendants.size());
+		List<String> descendants = client.getAllDescendants("4", "kuali.org.hierarchy.Main");
+		assertEquals(8,descendants.size());
 	}
 }
