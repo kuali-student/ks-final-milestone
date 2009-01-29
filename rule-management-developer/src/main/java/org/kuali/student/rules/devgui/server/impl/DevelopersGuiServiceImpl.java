@@ -68,39 +68,40 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *
      *******************************************************************************************************************/                  
 
-    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts) {
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) {
     	ExecutionResultDTO executionResult;
     	FactStructureDTO dynamicTestFacts = new FactStructureDTO();
-    	dynamicTestFacts.setParamValueMap(new HashMap<String, String>());
     	String testFactValue = null;
     	
-    	System.out.println("----> EXECUTING: rule id: " + businessRule.getId() + ", facts: " + facts);
+    	System.out.println("----> EXECUTING: rule id: " + businessRule.getId() + ", definition time facts: " + definitionTimeFacts);
     	
     	//populate all static and dynamic facts entered in the rule test tab
         for (RuleElementDTO elem : businessRule.getBusinessRuleElementList()) {
         	if (elem.getBusinessRuleElemnetTypeKey().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
             System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", element: " + elem.getName());        	
         	List<FactStructureDTO> factStructureList = elem.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
-        	for (FactStructureDTO fact : factStructureList) {        	     	            	    
-        	    //System.out.println("key: " + fact.getResultColumnKeyTranslations());        	    
+        	for (FactStructureDTO fact : factStructureList) {        	     	            	        	    
         		if (fact.isStaticFact()) {
-        		    testFactValue = facts.get(fact.getFactStructureId());
+        		    testFactValue = definitionTimeFacts.get(fact.getFactStructureId());
         		    System.out.println("-- Added static fact: " + testFactValue);
         			fact.setStaticValue(testFactValue);        			
-        		} else {
+        		} else {        		           		    
                     Map<String, String> map = fact.getParamValueMap();
-                    for (String key : map.keySet()) {        		    
-                        testFactValue = facts.get(key);
-                        //map.remove(key);
-                        dynamicTestFacts.getParamValueMap().put(key, testFactValue);
-                        System.out.println("-- Added dynamic fact: " + key + " - " + testFactValue);
+                    Map<String, String> mapCopy = new HashMap<String, String>(map);
+                    for (String key : mapCopy.keySet()) {
+                        if (executionTimeFacts.containsKey(key)) continue;  //we don't populate execution time facts in the rule structure
+                        map.remove(key);
+                        map.put(key, definitionTimeFacts.get(key));
+                        System.out.println("-- Added dynamic fact: " + key + " - " + definitionTimeFacts.get(key));
                     }
         		}                
         	}
-        }            
+        }           
+        
+        System.out.println("-- Added execution time facts: " + executionTimeFacts);
         
         try {
-            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, dynamicTestFacts.getParamValueMap());  //TODO dynamic facts
+            executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, executionTimeFacts);  //TODO dynamic facts
         } catch (Exception ex) {
             throw new RuntimeException("Unable to execute rule ID: " + businessRule.getId(), ex); // TODO
         }

@@ -175,9 +175,10 @@ public class RulesComposite extends Composite {
 
     // Test Rule tab
     final VerticalPanel propositionsTestPanel = new VerticalPanel();
-    final List<TextArea> testStaticFactsWidgets = new ArrayList<TextArea>();    
-    final Map<String, String> factValuesForTest = new HashMap<String, String>();
-    final List<TextArea> testDynamicFactsWidgets = new ArrayList<TextArea>();
+    final Map<String, String> definitionFactValuesForTest = new HashMap<String, String>();
+    final Map<String, String> executionFactValuesForTest = new HashMap<String, String>();
+    final List<TextArea> testDefinitionTimeFactsWidgets = new ArrayList<TextArea>();
+    final List<TextArea> testExecutionTimeFactsWidgets = new ArrayList<TextArea>();
     final Button testRuleButton = new Button("Test Rule");
     final TextArea testReport = new TextArea();
     final TextArea completeRuleTestTextArea = new TextArea();
@@ -507,9 +508,7 @@ public class RulesComposite extends Composite {
                     
                     if (definedPropositions.size() > 1) {
                     	removePropButton.setEnabled(true);
-                    }
-                    
-                    System.out.println("--> LIST BOX CHANGE: selected index:" + selectedIndex);
+                    }                   
                     
                     //extra check
                     RulePropositionDTO selectedRuleElement = definedPropositions.get(new Integer(box.getValue(selectedIndex)));
@@ -655,27 +654,27 @@ public class RulesComposite extends Composite {
             
             testRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
-                	System.out.println("Rule id: " + displayedRule.getId());
                 	
-                	factValuesForTest.clear();
+                    definitionFactValuesForTest.clear();
+                    executionFactValuesForTest.clear();
                 	
-                	//first, retrieve all static fact values from test tab, assuming empty fields means use current rule values
-                	for (TextArea widget : testStaticFactsWidgets) {  
+                	//first, retrieve all definition time fact values from test tab, assuming empty fields means use current rule values
+                	for (TextArea widget : testDefinitionTimeFactsWidgets) {  
                 		if (widget.getText().trim().isEmpty() == false) {
-                			factValuesForTest.put(widget.getName(), widget.getText());
-                			System.out.println("Adding :" + widget.getName() + " with value " + widget.getText());
+                		    definitionFactValuesForTest.put(widget.getName(), widget.getText());
+                			System.out.println("Adding definition time fact:" + widget.getName() + " with value " + widget.getText());
                 		}
                     }
                 	
                 	//next, retrieve dynamic facts i.e. go through all propositions and update dynamic facts values
-                	for (TextArea widget : testDynamicFactsWidgets) {  
-                        if (widget.getText().trim().isEmpty() == false) {
-                			factValuesForTest.put(widget.getName(), widget.getText());
-                            System.out.println("Adding :" + widget.getName() + " with value " + widget.getText());
+                	for (TextArea widget : testExecutionTimeFactsWidgets) {  
+                        if ((widget.getText().trim().isEmpty() == false) && (executionFactValuesForTest.containsKey(widget.getName()) == false)) {                                                                                   
+                            executionFactValuesForTest.put(widget.getName(), widget.getText());
+                            System.out.println("Adding execution time fact:" + widget.getName() + " with value " + widget.getText());
                 		}
-                    }              	
+                    }              	                
                 	
-                    DevelopersGuiService.Util.getInstance().executeBusinessRuleTest(displayedRule, factValuesForTest, new AsyncCallback<ExecutionResultDTO>() {
+                    DevelopersGuiService.Util.getInstance().executeBusinessRuleTest(displayedRule, definitionFactValuesForTest, executionFactValuesForTest, new AsyncCallback<ExecutionResultDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
@@ -698,7 +697,7 @@ public class RulesComposite extends Composite {
                                     reportText.append("Success Message: " + report.getSuccessMessage() + "\n");  
                                 }     
                                 if (report.getCriteriaResult() != null) {
-                                    reportText.append("\nFact: " + report.getCriteriaResult() + "\n");
+                                    reportText.append("\nCriteria: " + report.getCriteriaResult() + "\n");
                                 }
                                 if (report.getFactResult() != null) {
                                     reportText.append("\nFact: " + report.getFactResult() + "\n");
@@ -1170,7 +1169,6 @@ public class RulesComposite extends Composite {
         	GuiUtil.showUserDialog("ERROR: Missing 1st Fact Type.");
             return false;        	
         }
-        System.out.println("key " + firstFact.getFactTypeKey().trim());
         
         //determine whether we have static or dynamic fact
         if (firstFact.isStaticFact()) {
@@ -1738,10 +1736,9 @@ public class RulesComposite extends Composite {
     
     private void displayTestPageRuleFacts() {
     	
-    	FactStructureDTO factStructure = new FactStructureDTO();
         Label ruleCompositionTestLabel = new Label();
-        testStaticFactsWidgets.clear();
-        testDynamicFactsWidgets.clear();
+        testDefinitionTimeFactsWidgets.clear();
+        testExecutionTimeFactsWidgets.clear();
         
         propositionsTestPanel.clear();
         propositionsTestPanel.setSpacing(2);
@@ -1806,9 +1803,9 @@ public class RulesComposite extends Composite {
             	
             	if (fact.isStaticFact()) {
             	    TextArea factValue = new TextArea();
-            		factValue.setText(fact.getStaticValue());
-                	factValue.setName(fact.getFactStructureId());
-                	testStaticFactsWidgets.add(factValue);
+                    factValue.setName(fact.getFactStructureId());
+                    factValue.setText(fact.getStaticValue());                        
+                    testDefinitionTimeFactsWidgets.add(factValue);
                 	VerticalPanel staticFact = GuiUtil.addLabelAndFieldVertically(argLabel, new Label(" "), "");
                 	factFieldsPanel.add(staticFact);
                 	GuiUtil.addSpaceBesideWidget(factFieldsPanel, "5px");                
@@ -1830,13 +1827,20 @@ public class RulesComposite extends Composite {
                     		continue; //execution key  TODO use fact finder service
                     	}            		
                     	
-                    	System.out.println("DYN. FACT: key - " + key);
-                        System.out.println("DYN. FACT: type - " + fact.getFactTypeKey());
-                    	
                         TextArea factValue = new TextArea();
-	            		factValue.setText(map.get(key));
-	                	factValue.setName(key);
-	                	testDynamicFactsWidgets.add(factValue);  //(fact.getFactTypeKey(), factValue);
+                        factValue.setName(key);
+                        if (key.equals("factParam.studentId")) {
+                            factValue.setText("student1"); 
+                        } else {
+                            factValue.setText(map.get(key));                            
+                        }
+	            		
+                        if (isExecutionTimeKey(fact.getFactTypeKey(), key))
+                        {
+                            testExecutionTimeFactsWidgets.add(factValue);
+                        } else {
+                            testDefinitionTimeFactsWidgets.add(factValue);                            
+                        }                                                
 	                	
 	                    Widget dynamicValue = GuiUtil.addLabelAndFieldVertically(key, factValue, "300px");
 	                    dynamicFactParam.add(dynamicValue); 
@@ -2218,9 +2222,18 @@ public class RulesComposite extends Composite {
             	   	
         //set fact type list boxes and their values
         retrieveFactTypes();
+    }    
+
+    private boolean isExecutionTimeKey(String factType, String unknownKey) {
+        for (FactTypeInfoDTO factTypeInfo : definedFactTypesList) {                                                        
+            if (!factTypeInfo.getFactTypeKey().equals(factType)) continue;                                                              
+            Map<String, FactParamDTO> definedParamValueMap = factTypeInfo.getFactCriteriaTypeInfo().getFactParamMap();  
+            FactParamDTO factParam = definedParamValueMap.get(unknownKey); 
+            return factParam.getDefTime().equals("KUALI_FACT_EXECUTION_TIME_KEY");
+        }
+        return false;
     }
     
-
     private void retrieveFactTypes() {
     	if (definedFactTypesList == null) {    	
 	        //load list of factTypes for the given business rule type

@@ -35,8 +35,8 @@ public class DevelopersGuiServiceImplGWT extends RemoteServiceServlet implements
     	return serviceImpl.fetchFactTypeList(factTypeKeys);
     }
 
-    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts) {
-    	return serviceImpl.executeBusinessRuleTest(businessRule, facts);
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) {
+    	return serviceImpl.executeBusinessRuleTest(businessRule, definitionTimeFacts, executionTimeFacts);
     }    
     
     public String createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {

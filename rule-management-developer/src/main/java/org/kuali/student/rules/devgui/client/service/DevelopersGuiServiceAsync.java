@@ -24,7 +24,7 @@ public interface DevelopersGuiServiceAsync {
 	
 	public void fetchFactTypeList(List<String> factTypeKeys, AsyncCallback<List<FactTypeInfoDTO>> asyncCallback);
 	
-    public void executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> facts, AsyncCallback<ExecutionResultDTO> callback);	
+    public void executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts, AsyncCallback<ExecutionResultDTO> callback);	
 	
     public void createBusinessRule(BusinessRuleInfoDTO businessRuleInfo, AsyncCallback<String> callback);
 
