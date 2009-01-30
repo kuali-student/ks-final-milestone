@@ -419,7 +419,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		
     		ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
     		Assert.assertNotNull(executionResult);
-    		System.out.println("Execution result:        "+executionResult.getExecutionResult());
+    		System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -538,7 +538,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 	        Assert.assertNotNull(executionResult);
-	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+	        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -603,7 +603,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
             Assert.assertNotNull(executionResult);
-	        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+	        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
 	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -653,7 +653,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, null);
         Assert.assertNotNull(executionResult);
 
-        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
         System.out.println("Execution error message: "+executionResult.getErrorMessage());
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
         System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -702,7 +702,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, paramMap);
         Assert.assertNotNull(executionResult);
 
-        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
         System.out.println("Execution error message: "+executionResult.getErrorMessage());
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
         System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -757,7 +757,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
         Assert.assertNotNull(executionResult);
-        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
         System.out.println("Execution error message: "+executionResult.getErrorMessage());
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
         System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
@@ -799,7 +799,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
 
         Assert.assertNotNull(executionResult);
-        System.out.println("Execution result:        "+executionResult.getExecutionResult());
+        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 
         // Test proposition reports

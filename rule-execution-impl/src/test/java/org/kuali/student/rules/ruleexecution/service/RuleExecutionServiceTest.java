@@ -115,7 +115,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, null);
         Assert.assertNotNull(result);
 
-        Assert.assertTrue(result.getExecutionResult());
+        Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
         Assert.assertTrue(result.getReport().isSuccessful());
@@ -133,7 +133,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRuleTest(businessRuleInfo2, null);
         Assert.assertNotNull(result);
 
-        Assert.assertTrue(result.getExecutionResult());
+        Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
         Assert.assertFalse(result.getReport().isSuccessful());
@@ -172,7 +172,7 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, paramMap);
         Assert.assertNotNull(result);
 
-        Assert.assertTrue(result.getExecutionResult());
+        Assert.assertTrue(result.isExecutionSuccessful());
         Assert.assertNotNull(result.getExecutionLog());
         Assert.assertNotNull(result.getReport());
         Assert.assertTrue(result.getReport().isSuccessful());

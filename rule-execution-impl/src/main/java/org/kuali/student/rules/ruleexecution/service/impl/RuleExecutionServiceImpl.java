@@ -197,7 +197,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	ExecutionResultDTO exeDTO = new ExecutionResultDTO();
     	exeDTO.setExecutionLog(executionResult.getExecutionLog());
     	exeDTO.setErrorMessage(executionResult.getErrorMessage());
-    	exeDTO.setExecutionResult(executionResult.getExecutionResult());
+    	exeDTO.setExecutionSuccessful(executionResult.getExecutionResult());
     	
     	RuleReportDTO reportDTO = new RuleReportDTO();
     	RuleReport report = executionResult.getReport();
