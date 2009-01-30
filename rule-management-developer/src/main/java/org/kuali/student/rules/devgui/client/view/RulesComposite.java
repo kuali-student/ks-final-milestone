@@ -722,7 +722,7 @@ public class RulesComposite extends Composite {
                         	    reportText.append("\n------------------------------------------------------------------------" + "\n");                        	    
                         	}
                         	
-                        	if (executionResult.getExecutionResult()) {
+                        	if (executionResult.isExecutionSuccessful()) {
                         		GuiUtil.showUserDialog("Rule executed.");
                         		if (executionResult.getReport().isSuccessful()) {
                         			executionLog.append("\nSUCCESS: " + executionResult.getReport().getSuccessMessage());
