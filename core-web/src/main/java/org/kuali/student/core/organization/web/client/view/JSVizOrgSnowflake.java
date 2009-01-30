@@ -21,6 +21,10 @@ package org.kuali.student.core.organization.web.client.view;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.netthreads.gwt.jsviz.client.DOMEx;
 import com.netthreads.gwt.jsviz.client.DataGraphNode;
 import com.netthreads.gwt.jsviz.client.EdgeProperties;
@@ -102,8 +106,7 @@ public class JSVizOrgSnowflake implements IGraphRender
      * view - callback hooked into jsviz code
      *  
      */
-    @SuppressWarnings("deprecation")
-	public Element view(DataGraphNode dataNode, SnowflakeNode modelNode)
+    public Element view(DataGraphNode dataNode, SnowflakeNode modelNode)
     {
     	Element nodeElement = null;
     	
@@ -122,14 +125,18 @@ public class JSVizOrgSnowflake implements IGraphRender
         }
         else
         {
-            nodeElement = DOM.createElement("div");
+        	Label label=new Label(dataNode.getNodeName());
+        	final String nodeName = dataNode.getNodeName();
+        	final String nodeId = dataNode.getNodeId();
+        	label.addClickListener(new ClickListener(){
+				public void onClick(Widget sender) {
+					Window.alert("Clicked "+ nodeName + " with id: " + nodeId);
+				}
+        	});
+        	nodeElement = label.getElement();
+            
             DOM.setStyleAttribute(nodeElement, "position", "absolute");
-            //DOM.setStyleAttribute(nodeElement, "width", "20px");
-            //DOM.setStyleAttribute(nodeElement, "height", "20px");
-
-            //DOM.setStyleAttribute(nodeElement, "backgroundImage", "url('"+randomCircle()+"')");
-            DOM.setAttribute(nodeElement, "innerHTML", "<img width=\"1\" height=\"1\"/>"+dataNode.getNodeName());
-
+            panel.add(label);
             EventHandler eventHandler = EventHandler.create(panel.getLayout(), modelNode);
             JavaScriptObjectHelper.setAttribute(nodeElement, "onmousedown", eventHandler);
         }
@@ -150,14 +157,15 @@ public class JSVizOrgSnowflake implements IGraphRender
         {
         	properties.setStroke(dataNodeSrc.getColor());
         	properties.setStrokeWidth("2px");
-        	properties.setStrokeDashArray("2,4");
+        	properties.setStrokeDashArray("1,1");
+        	assert(false);
 		} 
         else 
-		{
-        	properties.setPixelColor(dataNodeSrc.getColor());
-        	properties.setPixelWidth("4px");
-        	properties.setPixelHeight("4px");
-        	properties.setPixels(16);
+		{        	
+//        	properties.setPixelColor("#000000");
+//        	properties.setPixelWidth("1px");
+//        	properties.setPixelHeight("1px");
+        	
 		}
         
         return properties;
