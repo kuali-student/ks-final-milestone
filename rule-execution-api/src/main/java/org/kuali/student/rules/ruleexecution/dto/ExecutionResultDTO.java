@@ -52,11 +52,11 @@ public class ExecutionResultDTO implements java.io.Serializable {
 		return this.executionLog;
 	}
 
-	public Boolean getExecutionResult() {
+	public Boolean isExecutionSuccessful() {
 		return executionResult;
 	}
 
-	public void setExecutionResult(final Boolean executionResult) {
+	public void setExecutionSuccessful(final Boolean executionResult) {
 		this.executionResult = executionResult;
 	}
 
