@@ -20,6 +20,8 @@ import org.kuali.student.core.organization.entity.OrgAttribute;
 import org.kuali.student.core.organization.entity.OrgAttributeDef;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgOrgRelationAttribute;
+import org.kuali.student.core.organization.entity.OrgOrgRelationAttributeDef;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
@@ -221,5 +223,56 @@ public class OrganizationAssembler extends BaseAssembler{
 		org.setType(orgType);
 
 		return org;
+	}
+
+	public static OrgOrgRelation toOrgOrgRelation(boolean isUpdate,
+			OrgOrgRelationInfo orgOrgRelationInfo,
+			OrganizationDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+		OrgOrgRelation orgOrgRelation;
+		if (isUpdate) {
+			orgOrgRelation = dao.fetch(OrgOrgRelation.class, orgOrgRelationInfo.getId());
+			if (orgOrgRelation == null) {
+				throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgOrgRelationInfo.getId());
+			}
+			if (!String.valueOf(orgOrgRelation.getVersionInd()).equals(orgOrgRelationInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("OrgOrgRelation to be updated is not the current version");
+			}
+		} else {
+			orgOrgRelation = new OrgOrgRelation();
+		}
+
+		// Copy all basic properties
+		BeanUtils.copyProperties(orgOrgRelationInfo, orgOrgRelation, new String[] { "type",
+				"attributes", "metaInfo", "org", "relatedOrg" });
+
+		// Copy Attributes
+		orgOrgRelation.setAttributes(toGenericAttributes(OrgOrgRelationAttributeDef.class,
+				OrgOrgRelationAttribute.class, orgOrgRelationInfo.getAttributes(), orgOrgRelation, dao));
+
+		// Search for and copy the org
+		Org org = dao.fetch(Org.class, orgOrgRelationInfo.getOrgId());
+		if (org == null) {
+			throw new InvalidParameterException(
+					"Org does not exist for id: " + orgOrgRelationInfo.getOrgId());
+		}
+		orgOrgRelation.setOrg(org);
+
+		// Search for and copy the related org
+		Org relatedOrg = dao.fetch(Org.class, orgOrgRelationInfo.getRelatedOrgId());
+		if (relatedOrg == null) {
+			throw new InvalidParameterException(
+					"RelatedOrg does not exist for id: " + orgOrgRelationInfo.getRelatedOrgId());
+		}
+		orgOrgRelation.setRelatedOrg(relatedOrg);
+		
+		// Search for and copy the type
+		OrgOrgRelationType orgOrgRelationType = dao.fetch(OrgOrgRelationType.class, orgOrgRelationInfo.getType());
+		if (orgOrgRelationType == null) {
+			throw new InvalidParameterException(
+					"OrgOrgRelationType does not exist for id: " + orgOrgRelationInfo.getType());
+		}
+		orgOrgRelation.setType(orgOrgRelationType);
+
+		return orgOrgRelation;
 	}
 }

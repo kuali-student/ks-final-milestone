@@ -71,8 +71,38 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (relatedOrgId == null) {
+			throw new MissingParameterException("relatedOrgId can not be null");
+		} else if (orgOrgRelationTypeKey == null) {
+			throw new MissingParameterException("orgOrgRelationTypeKey can not be null");
+		} else if (orgOrgRelationInfo == null) {
+			throw new MissingParameterException("orgOrgRelationInfo can not be null");
+		}
+		
+		//Set all the values on OrgOrgRelationInfo
+		orgOrgRelationInfo.setOrgId(orgId);
+		orgOrgRelationInfo.setRelatedOrgId(relatedOrgId);
+		orgOrgRelationInfo.setType(orgOrgRelationTypeKey);
+		
+		OrgOrgRelation orgOrgRelation = null;
+		
+		//Create a new persistence entity from the orgInfo
+		try {
+			orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(false, orgOrgRelationInfo, organizationDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
+		
+		//Persist the orgOrgRelation
+		organizationDao.create(orgOrgRelation);
+		
+		//Copy back to an orgInfo and return
+		OrgOrgRelationInfo createdOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(orgOrgRelation);
+		return createdOrgOrgRelationInfo;
 	}
 
 	@Override
