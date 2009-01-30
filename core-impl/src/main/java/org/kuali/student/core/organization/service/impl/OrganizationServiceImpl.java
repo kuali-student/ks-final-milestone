@@ -92,14 +92,33 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub Echo
+
+		//Check Missing params
 		if (orgTypeKey == null) {
 			throw new MissingParameterException("orgTypeKey can not be null");
 		} else if (orgInfo == null) {
 			throw new MissingParameterException("orgInfo can not be null");
 		}
+		
+		//Set all the values on orgInfo
 		orgInfo.setType(orgTypeKey);
-		return orgInfo;
+		
+		Org org = null;
+		
+		//Create a new persistence entity from the orgInfo
+		try {
+			org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
+		
+		//Persist the org
+		organizationDao.create(org);
+		
+		//Copy back to an orgInfo and return
+		OrgInfo createdOrgInfo = OrganizationAssembler.toOrgInfo(org);
+		return createdOrgInfo;
+	
 	}
 
 	@Override
@@ -107,8 +126,22 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(orgId==null){
+			throw new MissingParameterException("orgId can not be null");
+		}
+		
+		Org org = organizationDao.fetch(Org.class, orgId);
+		
+		if(org==null){
+			throw new DoesNotExistException("Org does not exist for id: "+orgId);
+		}
+		
+		organizationDao.delete(org);
+		
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		return statusInfo;
 	}
 
 	@Override

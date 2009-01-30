@@ -3,6 +3,10 @@ package org.kuali.student.core.organization.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -12,6 +16,8 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgAttribute;
+import org.kuali.student.core.organization.entity.OrgAttributeDef;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
@@ -86,7 +92,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		relationInfo.setAttributes(toAttributeMap(relation.getAttributes()));
 		relationInfo.setMetaInfo(toMetaInfo(relation.getMeta(), relation.getVersionInd()));
 		relationInfo.setType(relation.getType().getKey());
-		relationInfo.setId(relation.getId());
+		//relationInfo.setId(relation.getId());
 		return relationInfo;
 	}
 
@@ -181,5 +187,39 @@ public class OrganizationAssembler extends BaseAssembler{
 		}
 
 		return orgOrgRelationTypeInfos;
+	}
+
+	public static Org toOrg(boolean isUpdate, OrgInfo orgInfo, OrganizationDao dao)
+			throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
+		Org org;
+		if (isUpdate) {
+			org = dao.fetch(Org.class, orgInfo.getId());
+			if (org == null) {
+				throw new DoesNotExistException("Org does not exist for id: " + orgInfo.getId());
+			}
+			if (!String.valueOf(org.getVersionInd()).equals(orgInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("Org to be updated is not the current version");
+			}
+		} else {
+			org = new Org();
+		}
+
+		// Copy all basic properties
+		BeanUtils.copyProperties(orgInfo, org, new String[] { "type",
+				"attributes", "metaInfo", "orgPersonRelationTypes" });
+
+		// Copy Attributes
+		org.setAttributes(toGenericAttributes(OrgAttributeDef.class,
+				OrgAttribute.class, orgInfo.getAttributes(), org, dao));
+
+		// Search for and copy the type
+		OrgType orgType = dao.fetch(OrgType.class, orgInfo.getType());
+		if (orgType == null) {
+			throw new InvalidParameterException(
+					"OrgType does not exist for id: " + orgInfo.getType());
+		}
+		org.setType(orgType);
+
+		return org;
 	}
 }
