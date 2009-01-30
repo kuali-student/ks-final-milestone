@@ -66,6 +66,30 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		
 	}
 
+	@Test
+	public void testCreateOrgPersonRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		
+		OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
+		orgPersonRelationInfo.setState("Active");
+		orgPersonRelationInfo.setEffectiveDate(df.parse("20090101"));
+		orgPersonRelationInfo.setExpirationDate(df.parse("21001231"));
+		orgPersonRelationInfo.setOrgId("");
+		orgPersonRelationInfo.setPersonId("");
+		orgPersonRelationInfo.setType("");
+		
+		OrgPersonRelationInfo createdOPRInfo = client.createOrgPersonRelation("28", "KIM-12345", "kuali.org.PersonRelation.Dean", orgPersonRelationInfo);
+		
+		//Validate all fields
+		assertEquals("Active",createdOPRInfo.getState());
+		assertEquals(df.parse("20090101"),createdOPRInfo.getEffectiveDate());
+		assertEquals(df.parse("21001231"),createdOPRInfo.getExpirationDate());
+		assertEquals("28",createdOPRInfo.getOrgId());
+		assertEquals("KIM-12345",createdOPRInfo.getPersonId());
+		assertEquals("kuali.org.PersonRelation.Dean",createdOPRInfo.getType());
+		assertNotNull(createdOPRInfo.getId());
+	}
+	
 	@Test 
 	public void testCreateDeleteOrgOrgRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");

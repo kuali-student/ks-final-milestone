@@ -11,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -53,6 +55,15 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	@Column(name = "ORG_PERSON_REL_STATE")
 	private String state; 
 
+	
+	/**
+	 * AutoGenerate the Id
+	 */
+	@PrePersist
+	public void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
 	
 	@Override
 	public List<OrgPersonRelationAttribute> getAttributes() {

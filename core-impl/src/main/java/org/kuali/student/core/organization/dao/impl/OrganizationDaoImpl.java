@@ -100,4 +100,14 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		return orgOrgRelationTypes;
 
 	}
+
+	@Override
+	public boolean validatePositionRestriction(String orgId,
+			String orgPersonRelationTypeKey) {
+		Query query = em.createNamedQuery("OrgPositionRestriction.validatePositionRestriction");
+		query.setParameter("orgId", orgId);
+		query.setParameter("orgPersonRelationTypeKey", orgPersonRelationTypeKey);
+		Long valid = (Long)query.getSingleResult();
+		return valid.intValue()>0;
+	}
 }

@@ -100,7 +100,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		//Persist the orgOrgRelation
 		organizationDao.create(orgOrgRelation);
 		
-		//Copy back to an orgInfo and return
+		//Copy back to an OrgOrgRelationInfo and return
 		OrgOrgRelationInfo createdOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(orgOrgRelation);
 		return createdOrgOrgRelationInfo;
 	}
@@ -113,8 +113,43 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (personId == null) {
+			throw new MissingParameterException("personId can not be null");
+		} else if (orgPersonRelationTypeKey == null) {
+			throw new MissingParameterException("orgPersonRelationTypeKey can not be null");
+		} else if (orgPersonRelationInfo == null) {
+			throw new MissingParameterException("orgPersonRelationInfo can not be null");
+		}
+		
+		//Make sure that only valid org person relations are done
+		if(!organizationDao.validatePositionRestriction(orgId,orgPersonRelationTypeKey)){
+			throw new InvalidParameterException("There is no Position for this relationship");
+		}
+		
+		//Set all the values on OrgOrgRelationInfo
+		orgPersonRelationInfo.setOrgId(orgId);
+		orgPersonRelationInfo.setPersonId(personId);
+		orgPersonRelationInfo.setType(orgPersonRelationTypeKey);
+		
+		OrgPersonRelation orgPersonRelation = null;
+		
+		//Create a new persistence entity from the orgInfo
+		try {
+			orgPersonRelation = OrganizationAssembler.toOrgPersonRelation(false, orgPersonRelationInfo, organizationDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
+		
+		//Persist the orgPersonRelation
+		organizationDao.create(orgPersonRelation);
+		
+		//Copy back to an orgPersonRelationInfo and return
+		OrgPersonRelationInfo createdOrgPersonRelationInfo = OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation);
+		return createdOrgPersonRelationInfo;
 	}
 
 	@Override
