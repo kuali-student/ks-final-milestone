@@ -33,6 +33,7 @@ import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -334,7 +335,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
-		return null;
+		OrgPersonRelation opr = organizationDao.fetch(OrgPersonRelation.class, orgPersonRelationId);
+		return OrganizationAssembler.toOrgPersonRelationInfo(opr);
 	}
 
 	@Override
@@ -343,14 +345,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+		OrgPersonRelationType oprt = organizationDao.fetch(OrgPersonRelationType.class, orgPersonRelationTypeKey);
+		return OrganizationAssembler.toOrgPersonRelationTypeInfo(oprt);
 	}
 
 	@Override
 	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes()
 			throws OperationFailedException {
 		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
+		return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
 	}
 
 	@Override
@@ -359,6 +363,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
