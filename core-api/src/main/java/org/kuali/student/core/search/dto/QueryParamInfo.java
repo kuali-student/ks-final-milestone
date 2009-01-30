@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso(org.kuali.student.core.dictionary.dto.FieldDescriptor.class)
 public class QueryParamInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlElement(namespace="http://org.kuali.student/core/dictionary")
