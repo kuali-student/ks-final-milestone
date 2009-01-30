@@ -35,7 +35,7 @@ public class YVFSimpleComparablePropositionTest {
     }
 
 	@Test
-	public void testSimpleComparableProposition_BigDecimal_StaticFact() throws Exception {
+	public void testSimpleComparableProposition_BigDecimal_StaticFact_False() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 		fs1.setStaticFact(true);
@@ -46,24 +46,28 @@ public class YVFSimpleComparablePropositionTest {
 
 		YVFSimpleComparableProposition<BigDecimal> proposition = new YVFSimpleComparableProposition<BigDecimal>(
 				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(80),
+				ComparisonOperator.EQUAL_TO, new BigDecimal(90),
 				yvf, null);
 
 		PropositionReport report = proposition.getReport();
 		
-		Assert.assertTrue(proposition.apply());
-		Assert.assertTrue(proposition.getResult());
+		Assert.assertFalse(proposition.apply());
+		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getFailureMessage());
+		Assert.assertNull(report.getSuccessMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFMaxProposition.STATIC_FACT_COLUMN, "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSimpleComparableProposition.STATIC_FACT_COLUMN, "80"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFSimpleComparableProposition.STATIC_FACT_COLUMN, "false"));
 	}
 
 	@Test
-	public void testSimpleComparableProposition_BigDecimal() throws Exception {
+	public void testSimpleComparableProposition_BigDecimal_False() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 
@@ -77,20 +81,24 @@ public class YVFSimpleComparablePropositionTest {
 		
 		YVFSimpleComparableProposition<BigDecimal> proposition = new YVFSimpleComparableProposition<BigDecimal>(
 				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(80),
+				ComparisonOperator.EQUAL_TO, new BigDecimal(90),
 				yvf, factMap);
 
 		PropositionReport report = proposition.getReport();
 		
-		Assert.assertTrue(proposition.apply());
-		Assert.assertTrue(proposition.getResult());
+		Assert.assertFalse(proposition.apply());
+		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
-		Assert.assertNull(report.getFailureMessage());
-		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertNotNull(report.getFailureMessage());
+		Assert.assertNull(report.getSuccessMessage());
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.grade", "80"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.grade", "false"));
 	}
 
 	@Test
@@ -122,6 +130,10 @@ public class YVFSimpleComparablePropositionTest {
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.grade", "80"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.grade", "true"));
 	}
 
 	@Test
@@ -156,6 +168,10 @@ public class YVFSimpleComparablePropositionTest {
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.date", "true"));
 	}
 
 	@Test
@@ -191,6 +207,10 @@ public class YVFSimpleComparablePropositionTest {
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.date", "true"));
 	}
 
 	@Test
@@ -226,5 +246,9 @@ public class YVFSimpleComparablePropositionTest {
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.date", "true"));
 	}
 }

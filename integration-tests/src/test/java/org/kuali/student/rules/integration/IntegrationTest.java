@@ -144,6 +144,15 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     public void tearDown() throws Exception {
     }
 
+    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
+    	for(Map<String,String> map : set) {
+    		if (map.get(column).equals(value)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
     private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
     	Calendar cal = Calendar.getInstance();
     	cal.set(year, month-1, day, hourOfDay, minute, 0);
@@ -552,22 +561,12 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     	}
     }
 
-    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
-    	for(Map<String,String> map : set) {
-    		if (map.get(column).equals(value)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-
     @Test
     public void testFetchDynamicFact() throws Exception {
     	System.out.println("\n\n*****  testFetchDynamicFact  *****");
         String factTypeKey = "fact.completed_course_list";
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
-        paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
         
         FactStructureDTO factStructureDTO = new FactStructureDTO();
         factStructureDTO.setFactTypeKey(factTypeKey);
@@ -588,7 +587,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testCreateAndExecuteBusinessRule_DynamicFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
+    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRule_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRule("CHEM200PRE_REQ", "CHEM200", false);
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -611,6 +610,35 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
 	        Assert.assertTrue(executionResult.getReport().isSuccessful());
+
+
+	        // Test proposition reports
+	        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
+	        
+	        PropositionReportDTO prDTO = executionResult.getReport().getPropositionReports().get(0);
+	        
+	        Assert.assertEquals("P1", prDTO.getPropositionName());
+	        Assert.assertTrue(prDTO.isSuccessful());
+	        
+	        // Test criteria facts
+	        Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
+			Assert.assertEquals(1, criteriaRowMap.size());
+	        Assert.assertEquals("PSYC 200", criteriaRowMap.get("resultColumn.cluId"));
+
+	        // Test facts
+	        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
+	        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
+	        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
+	        Assert.assertEquals(1, factRowMap1.size());
+	        Assert.assertEquals(1, factRowMap2.size());
+	        Assert.assertEquals(1, factRowMap3.size());
+	        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
+	        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
+	        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
+
+			FactResultDTO propositionResult1 = prDTO.getPropositionResult();
+	        Assert.assertEquals(1, propositionResult1.getResultList().size());
+			Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -618,7 +646,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
+    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRuleTest_StaticFact  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
     	businessRule1.setId("xxx");
 
@@ -656,6 +684,10 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals("CPR101", factRowMap1.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
         Assert.assertEquals("CPR201", factRowMap2.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
         Assert.assertEquals("CPR301", factRowMap3.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+
+		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
+        Assert.assertEquals(1, propositionResult1.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CPR101"));
     }
 
     @Test
@@ -701,6 +733,10 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
+
+		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
+        Assert.assertEquals(1, propositionResult1.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
     }
 
     @Test
@@ -728,6 +764,15 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
+        
+        Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P1").isSuccessful());
+        Assert.assertEquals("SUM", getProposition(executionResult.getReport().getPropositionReports(), "P1").getPropositionType());
+
+        PropositionReportDTO prP1 = getProposition(executionResult.getReport().getPropositionReports(), "P1");
+        
+		FactResultDTO propositionResult1 = prP1.getPropositionResult();
+        Assert.assertEquals(1, propositionResult1.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.credit", "6.0"));
     }
 
 	private PropositionReportDTO getProposition(List<PropositionReportDTO> list, String name) {
@@ -739,7 +784,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		return null;
 	}
     
-    @Test
+	@Test
     public void testCreateAndExecuteComplexBusinessRule_DynamicFact2() throws Exception {
     	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact2  *****");
     	String businessRuleId = "11223344-1122-1122-1112-100000000032";
@@ -769,6 +814,8 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals("SUM", getProposition(executionResult.getReport().getPropositionReports(), "P3").getPropositionType());
 
         PropositionReportDTO prP1 = getProposition(executionResult.getReport().getPropositionReports(), "P1");
+        PropositionReportDTO prP2 = getProposition(executionResult.getReport().getPropositionReports(), "P2");
+        PropositionReportDTO prP3 = getProposition(executionResult.getReport().getPropositionReports(), "P3");
 
         Assert.assertEquals("P1", prP1.getPropositionName());
         Assert.assertTrue(prP1.isSuccessful());
@@ -791,6 +838,18 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 218", factRowMap4.get("resultColumn.cluId"));
-    }
 
+		FactResultDTO propositionResult1 = prP1.getPropositionResult();
+        Assert.assertEquals(1, propositionResult1.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
+
+		FactResultDTO propositionResult2 = prP2.getPropositionResult();
+        Assert.assertEquals(2, propositionResult2.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult2.getResultList(), "resultColumn.cluId", "PSYC 201"));
+		Assert.assertTrue(containsResult(propositionResult2.getResultList(), "resultColumn.cluId", "PSYC 202"));
+
+		FactResultDTO propositionResult3 = prP3.getPropositionResult();
+        Assert.assertEquals(1, propositionResult3.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult3.getResultList(), "resultColumn.credit", "13.0"));
+    }
 }

@@ -52,7 +52,7 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 		}
 
 		List<E> factList = null;
-		FactResultDTO factDTO = null;
+		factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -69,16 +69,16 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			String column = fact.getResultColumnKeyTranslations().get(AVERAGE_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
+			factColumn = fact.getResultColumnKeyTranslations().get(AVERAGE_COLUMN_KEY);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Average column not found for key '"+
 						AVERAGE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
-			factList = getList(factDTO, column);
+			factList = getList(factDTO, factColumn);
 			if (factList == null || factList.isEmpty()) {
 				throw new PropositionException("Facts not found for column '"+
-						column+"'. Fact structure id: " + fact.getFactStructureId());
+						factColumn+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 		}
 
@@ -95,6 +95,5 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 
 		super.proposition = new AverageProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factList); 
-        getReport().setFactResult(factDTO);
 	}
 }

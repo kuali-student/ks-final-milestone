@@ -19,17 +19,20 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+    	Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
     public void testSimpleComparableProposition_Double() throws Exception {
+    	Double number = new Double("100.1");
     	SimpleComparableProposition<Double> comparableProp = new SimpleComparableProposition<Double>(
     			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, new Double("100.1"), new Double(100d));
+    			ComparisonOperator.LESS_THAN, number, new Double(100d));
 
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -41,6 +44,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -52,6 +56,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -63,6 +68,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -75,6 +81,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -88,6 +95,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -101,6 +109,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -113,6 +122,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -126,6 +136,7 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
     
     @Test
@@ -139,7 +150,6 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertTrue(result);
+		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
     }
-    
-
 }

@@ -1,5 +1,6 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -18,11 +19,14 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
 
     @Override
     public Boolean apply() {
-    	T max = Collections.min(this.fact);
+    	T min = Collections.min(this.fact);
 
-        result = checkTruthValue(max, super.expectedValue);
+        result = checkTruthValue(min, super.expectedValue);
 
-        cacheReport("Minimum not met: %s", max.toString(), super.expectedValue);
+        cacheReport("Minimum not met: %s", min.toString(), super.expectedValue);
+
+        resultValues = new ArrayList<T>();
+        resultValues.add(min);
 
         return result;
     }

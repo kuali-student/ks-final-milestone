@@ -66,14 +66,19 @@ public class YVFIntersectionPropositionTest {
 
 		FactResultDTO criteriaResult = report.getCriteriaResult();
 		Assert.assertEquals(2, criteriaResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "CPR101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "CHEM101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CHEM101"));
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(3, factResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "CPR101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "MATH101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "CHEM101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "MATH101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CHEM101"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(2, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CHEM101"));
 	}
 
 	@Test
@@ -114,5 +119,10 @@ public class YVFIntersectionPropositionTest {
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "CPR101"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "MATH101"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "CHEM101"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(2, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.cluId", "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.cluId", "CHEM101"));
 	}
 }

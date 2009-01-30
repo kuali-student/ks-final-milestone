@@ -13,24 +13,27 @@ public class SumPropositionTest {
 
     @Test
     public void testSumTrue() throws Exception {
-
+    	BigDecimal number = new BigDecimal(12.0);
         SumProposition<BigDecimal> prop = new SumProposition<BigDecimal>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(12.0), creditList);
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, creditList);
 
         Boolean result = prop.apply();
 
         Assert.assertTrue(result);
+        Assert.assertTrue(number.compareTo((BigDecimal) prop.getResultValues().iterator().next())==0);
     }
 
     @Test
     public void testSumFalse() throws Exception {
+    	BigDecimal number = new BigDecimal(12.0);
         SumProposition<BigDecimal> prop = new SumProposition<BigDecimal>(
         		"A-1", "A",
-                ComparisonOperator.LESS_THAN, new BigDecimal(12.0), creditList);
+                ComparisonOperator.LESS_THAN, number, creditList);
 
         Boolean result = prop.apply();
 
         Assert.assertFalse(result);
+        Assert.assertTrue(number.compareTo((BigDecimal) prop.getResultValues().iterator().next())==0);
     }
 }

@@ -13,17 +13,20 @@ public class AveragePropositionTest {
 
     @Test
     public void testAverageTrue() throws Exception {
-        AverageProposition<BigDecimal> prop = new AverageProposition<BigDecimal>(
+    	BigDecimal number = new BigDecimal(80.0);
+    	AverageProposition<BigDecimal> prop = new AverageProposition<BigDecimal>(
         		"A-1", "A",
-                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(80.0), gradeList);
+                ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList);
 
         Boolean result = prop.apply();
 
         Assert.assertTrue(result);
+        Assert.assertTrue(number.compareTo((BigDecimal) prop.getResultValues().iterator().next())==0);
     }
 
     @Test
     public void testAverageFalse() throws Exception {
+    	BigDecimal number = new BigDecimal(80.0);
     	AverageProposition<BigDecimal> prop = new AverageProposition<BigDecimal>(
     			"A-1", "A",
                 ComparisonOperator.EQUAL_TO, new BigDecimal(70.0), gradeList);
@@ -31,6 +34,7 @@ public class AveragePropositionTest {
         Boolean result = prop.apply();
 
         Assert.assertFalse(result);
+        Assert.assertTrue(number.compareTo((BigDecimal) prop.getResultValues().iterator().next())==0);
     }
 
 }

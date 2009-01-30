@@ -1,6 +1,7 @@
 package org.kuali.student.rules.internal.common.statement.yvf;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +71,10 @@ public class YVFSubsetPropositionTest {
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "CPR101"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "MATH101"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "CHEM101"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFSubsetProposition.STATIC_FACT_COLUMN, "CPR101"));
 	}
 
 	@Test
@@ -108,5 +113,9 @@ public class YVFSubsetPropositionTest {
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "CPR101"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "MATH101"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.cluId", "CHEM101"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.cluId", "CPR101"));
 	}
 }

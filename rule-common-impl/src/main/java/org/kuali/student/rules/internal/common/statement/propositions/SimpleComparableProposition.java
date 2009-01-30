@@ -15,13 +15,17 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 
 /**
  * A constraint that compares a constrained property (fact) to a given criterion. The threshold may be defined as minimum or
  * maximum.
  * 
- * @param <E>
+ * @param <T>
  *            the type being constrained.
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  * @author Kuali Student Team (len.kuali@gmail.com)
@@ -30,7 +34,8 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     // ~ Instance fields --------------------------------------------------------
 
     T fact;
-
+    List<Boolean> resultValues;
+    
     // ~ Constructors -----------------------------------------------------------
 
     public SimpleComparableProposition() {
@@ -52,9 +57,12 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     public Boolean apply() {
         sanityCheck();
 
-        result = checkTruthValue(fact, super.expectedValue);
+        result = checkTruthValue(this.fact, super.expectedValue);
 
         cacheReport("%s NOT %s %s");
+
+        this.resultValues = new ArrayList<Boolean>();
+        this.resultValues.add(result);
 
         return result;
     }
@@ -91,5 +99,14 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
      */
     public void setFact(T fact) {
         this.fact = fact;
+    }
+
+    /**
+     * Gets results of proposition computation.
+     * 
+     * @return Proposition computation results
+     */
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 }

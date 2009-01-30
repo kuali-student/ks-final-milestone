@@ -16,6 +16,7 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -55,6 +56,9 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         result = checkTruthValue(sum, super.expectedValue);
 
         cacheReport("Sum is short by %s", sum, super.expectedValue);
+
+        resultValues = new ArrayList<BigDecimal>();
+        resultValues.add(sum);
 
         return result;
     }

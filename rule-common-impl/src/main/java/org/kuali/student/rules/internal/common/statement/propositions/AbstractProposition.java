@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.Collection;
 import java.util.Comparator;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -37,6 +38,7 @@ public abstract class AbstractProposition<T> implements Proposition {
     protected ComparisonOperator operator;
     protected T expectedValue;
     protected PropositionType propositionType;
+    protected Collection<T> resultValues;
     
     // ~ Constructors -----------------------------------------------------------
     public AbstractProposition() {
@@ -213,6 +215,15 @@ public abstract class AbstractProposition<T> implements Proposition {
      */
     public void setExpectedValue(T expectedValue) {
         this.expectedValue = expectedValue;
+    }
+
+    /**
+     * Gets results of proposition computation.
+     * 
+     * @return Proposition computation results
+     */
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 
 	public String toString() {

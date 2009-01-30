@@ -19,6 +19,7 @@ public class SubsetPropositionTest {
         Boolean result = prop.apply();
 
         Assert.assertTrue(result);
+        Assert.assertTrue(prop.getResultValues().contains("CHEM101"));
     }
 
     @Test
@@ -29,6 +30,7 @@ public class SubsetPropositionTest {
         Boolean result = prop.apply();
 
         Assert.assertFalse(result);
+        Assert.assertEquals(0, prop.getResultValues().size());
     }
 
 }

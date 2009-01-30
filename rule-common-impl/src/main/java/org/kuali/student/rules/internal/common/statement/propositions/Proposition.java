@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.Collection;
+
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
@@ -62,4 +64,11 @@ public interface Proposition {
 	 * @return Proposition type
 	 */
 	public PropositionType getType();
+
+	/**
+	 * Returns the values of the proposition result.
+	 * 
+	 * @return Proposition result values
+	 */
+	public Collection<?> getResultValues();	
 }

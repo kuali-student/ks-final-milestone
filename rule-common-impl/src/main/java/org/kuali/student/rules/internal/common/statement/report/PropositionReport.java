@@ -15,6 +15,9 @@
  */
 package org.kuali.student.rules.internal.common.statement.report;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 
@@ -60,6 +63,11 @@ public class PropositionReport {
      * Facts used in the proposition
      */
     private FactResultDTO facts;
+
+    /**
+     * Result of proposition execution
+     */
+    private FactResultDTO propositionResult;
 
     /**
      * Constructor.
@@ -164,6 +172,24 @@ public class PropositionReport {
 	 */
 	public void setCriteriaResult(FactResultDTO criteria) {
 		this.criteria = criteria;
+	}
+
+	/**
+	 * Returns the proposition execution result.
+	 * 
+	 * @return Proposition execution result
+	 */
+	public FactResultDTO getPropositionResult() {
+		return propositionResult;
+	}
+
+	/**
+	 * Sets the proposition execution result.
+	 * 
+	 * @param result Proposition execution result
+	 */
+	public void setPropositionResult(FactResultDTO result) {
+		this.propositionResult = result;
 	}
 
 	public String toString() {

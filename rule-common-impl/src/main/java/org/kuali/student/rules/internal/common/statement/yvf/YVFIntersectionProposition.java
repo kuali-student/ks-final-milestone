@@ -58,8 +58,8 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 
 		Set<E> criteriaSet = null;
 		Set<E> factSet = null;
-		FactResultDTO criteriaDTO = null;
-		FactResultDTO factDTO = null;
+		criteriaDTO = null;
+		factDTO = null;
 
 		if (criteria.isStaticFact()) {
 			String value = criteria.getStaticValue();
@@ -102,15 +102,15 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			String column = fact.getResultColumnKeyTranslations().get(INTERSECTION_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
+			factColumn = fact.getResultColumnKeyTranslations().get(INTERSECTION_COLUMN_KEY);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Intersection fact column not found for key '"+
 						INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
-			factSet = getSet(factDTO, column);
+			factSet = getSet(factDTO, factColumn);
 			if (factSet == null || factSet.isEmpty()) {
-				throw new PropositionException("Facts not found for column '"+column+
+				throw new PropositionException("Facts not found for column '"+factColumn+
 						"'. Fact structure id: " + fact.getFactStructureId());
 			}
 		}
@@ -131,8 +131,6 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 
 		super.proposition = new IntersectionProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, criteriaSet, factSet); 
-        getReport().setCriteriaResult(criteriaDTO);
-        getReport().setFactResult(factDTO);
 	}
 	
 }

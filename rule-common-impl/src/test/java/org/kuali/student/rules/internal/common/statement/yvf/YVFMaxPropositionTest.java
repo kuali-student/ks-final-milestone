@@ -41,9 +41,10 @@ public class YVFMaxPropositionTest {
 
 		yvf.setFactStructureList(Arrays.asList(fs));
 
+		BigDecimal expectedValue = new BigDecimal(90);
 		YVFMaxProposition<BigDecimal> proposition = new YVFMaxProposition<BigDecimal>(
 				"1", "YVFMaxProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(90),
+				ComparisonOperator.EQUAL_TO, expectedValue,
 				yvf, null);
 
 		PropositionReport report = proposition.getReport();
@@ -59,6 +60,10 @@ public class YVFMaxPropositionTest {
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFMaxProposition.STATIC_FACT_COLUMN, "80"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFMaxProposition.STATIC_FACT_COLUMN, "85"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFMaxProposition.STATIC_FACT_COLUMN, "90"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "90"));
 	}
 
 	@Test
@@ -74,9 +79,10 @@ public class YVFMaxPropositionTest {
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
+		BigDecimal expectedValue = new BigDecimal(90);
 		YVFMaxProposition<BigDecimal> proposition = new YVFMaxProposition<BigDecimal>(
 				"1", "YVFMaxProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(90),
+				ComparisonOperator.EQUAL_TO, expectedValue,
 				yvf, factMap);
 
 		PropositionReport report = proposition.getReport();
@@ -92,5 +98,9 @@ public class YVFMaxPropositionTest {
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.credit", "80"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.credit", "85"));
 		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.credit", "90"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.credit", "90"));
 	}
 }

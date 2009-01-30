@@ -54,7 +54,7 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 		}
 
 		List<E> factList = null;
-		FactResultDTO factDTO = null;
+		factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -71,16 +71,16 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			String column = fact.getResultColumnKeyTranslations().get(SUM_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
+			factColumn = fact.getResultColumnKeyTranslations().get(SUM_COLUMN_KEY);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Sum column not found for key '"+
 						SUM_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
-			factList = getList(factDTO, column);
+			factList = getList(factDTO, factColumn);
 			if (factList == null || factList.isEmpty()) {
 				throw new PropositionException("Facts not found for column '"+
-						column+"'. Fact structure id: " + fact.getFactStructureId());
+						factColumn+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 		}
 
@@ -97,6 +97,5 @@ public class YVFSumProposition<E extends Number> extends AbstractYVFProposition<
 
         super.proposition = new SumProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factList); 
-        getReport().setFactResult(factDTO);
 	}
 }

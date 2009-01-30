@@ -39,7 +39,7 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 		}
 
 		T factObject = null;
-		FactResultDTO factDTO = null;
+		factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -67,15 +67,15 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 			//String dataType = info.getDataType();
 			//factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 
-			String column = fact.getResultColumnKeyTranslations().get(SIMPLE_COMPARABLE_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
+			factColumn = fact.getResultColumnKeyTranslations().get(SIMPLE_COMPARABLE_COLUMN_KEY);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Intersection fact column not found for key '"+
 						SIMPLE_COMPARABLE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
-			List<T> factList = getList(factDTO, column);
+			List<T> factList = getList(factDTO, factColumn);
 			if (factList == null || factList.isEmpty()) {
-				throw new PropositionException("Facts not found for column '"+column+
+				throw new PropositionException("Facts not found for column '"+factColumn+
 						"'. Fact structure id: " + fact.getFactStructureId());
 			}
 			factObject = factList.get(0);
@@ -94,6 +94,5 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 
 		super.proposition = new SimpleComparableProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factObject); 
-        getReport().setFactResult(factDTO);
 	}
 }

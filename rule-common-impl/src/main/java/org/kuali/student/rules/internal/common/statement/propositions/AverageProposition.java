@@ -16,6 +16,7 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
@@ -44,6 +45,9 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
         result = checkTruthValue(average, super.expectedValue);
 
         cacheReport("Average is short by %s", average, super.expectedValue);
+
+        resultValues = new ArrayList<BigDecimal>();
+        resultValues.add(average);
 
         return result;
     }

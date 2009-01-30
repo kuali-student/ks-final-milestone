@@ -52,8 +52,8 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 
 		Set<E> criteriaSet = null;
 		Set<E> factSet = null;
-		FactResultDTO criteriaDTO = null;
-		FactResultDTO factDTO = null;
+		criteriaDTO = null;
+		factDTO = null;
 		
 		if (criteria.isStaticFact()) {
 			String value = criteria.getStaticValue();
@@ -95,16 +95,16 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			String column = fact.getResultColumnKeyTranslations().get(SUBSET_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
+			factColumn = fact.getResultColumnKeyTranslations().get(SUBSET_COLUMN_KEY);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Subset column not found for key '"+
 						SUBSET_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
-			factSet = getSet(factDTO, column);
+			factSet = getSet(factDTO, factColumn);
 			if (factSet == null || factSet.isEmpty()) {
 				throw new PropositionException("Facts not found for column '"+
-						column+"'. Fact structure id: " + fact.getFactStructureId());
+						factColumn+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 		}
 		
@@ -122,8 +122,6 @@ public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
 		}
 
 		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet); 
-        getReport().setCriteriaResult(criteriaDTO);
-        getReport().setFactResult(factDTO);
 	}
 	
 }

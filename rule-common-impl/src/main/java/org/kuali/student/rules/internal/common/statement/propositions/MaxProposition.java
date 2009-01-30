@@ -1,5 +1,6 @@
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -23,6 +24,9 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
         result = checkTruthValue(max, super.expectedValue);
 
         cacheReport("Maximum not met: %s", max.toString(), super.expectedValue);
+
+        resultValues = new ArrayList<T>();
+        resultValues.add(max);
 
         return result;
     }

@@ -1,6 +1,7 @@
 package org.kuali.student.rules.internal.common.statement.yvf;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,14 +20,51 @@ import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractYVFProposition<E> implements Proposition {
+public abstract class AbstractYVFProposition<T> implements Proposition {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(AbstractYVFProposition.class);
 
 	public final static String STATIC_FACT_COLUMN = "static.column";
 
 	protected Proposition proposition;
+
+	protected FactResultDTO criteriaDTO = null;
+	protected FactResultDTO factDTO = null;
+	protected String factColumn = STATIC_FACT_COLUMN;
 	
+	public FactResultColumnInfoDTO getFactResultColumnInfo(FactResultDTO factResult, String columnKey) {
+		if (factResult == null) {
+			throw new PropositionException("FactResultDTO cannot be null");
+		}
+		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
+		return columnMetaData.get(columnKey);
+    }
+
+    public FactResultDTO createFactResult(FactResultColumnInfoDTO columnInfo, Collection<?> factList) {
+    	FactResultDTO factResult = new FactResultDTO();
+    	FactResultTypeInfoDTO factResultTypeInfo = new FactResultTypeInfoDTO();
+    	Map<String, FactResultColumnInfoDTO> columnMap = new HashMap<String, FactResultColumnInfoDTO>();
+
+    	FactResultColumnInfoDTO newColumnInfo = new FactResultColumnInfoDTO();
+    	newColumnInfo.setKey(columnInfo.getKey());
+    	newColumnInfo.setDescription(columnInfo.getDescription());
+    	newColumnInfo.setDataType(columnInfo.getDataType());
+    	newColumnInfo.setName(columnInfo.getName());
+    	columnMap.put(newColumnInfo.getKey(), newColumnInfo);
+    	factResultTypeInfo.setResultColumnsMap(columnMap);
+    	factResult.setFactResultTypeInfo(factResultTypeInfo);
+
+    	List<Map<String,String>> resultList = new ArrayList<Map<String,String>>();
+		for(Object value : factList) {
+    		Map<String,String> row = new HashMap<String, String>();
+    		row.put(columnInfo.getKey(), value.toString());
+    		resultList.add(row);
+    	}
+    	
+    	factResult.setResultList(resultList);
+    	return factResult;
+    }
+
     /**
      * Creates a fact result. This method is usually called from static facts.
      * 
@@ -60,11 +98,11 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
     }
 
 	@SuppressWarnings("unchecked")
-	public Set<E> getSet(String dataType, String stringList) {
-		Set<E> set = new HashSet<E>();
+	public Set<T> getSet(String dataType, String stringList) {
+		Set<T> set = new HashSet<T>();
 		for(String value : stringList.split("\\s*,\\s*")) {
 			try {
-				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+				T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 				set.add(obj);
 			} catch(NumberFormatException e) {
 				logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
@@ -75,12 +113,12 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<E> getSet(FactResultDTO factResult, String column) {
+	public Set<T> getSet(FactResultDTO factResult, String column) {
 		if (factResult == null) {
 			throw new PropositionException("FactResultDTO cannot be null");
 		}
 		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
-		Set<E> set = new HashSet<E>();
+		Set<T> set = new HashSet<T>();
 		for( Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals(column)) {
@@ -88,7 +126,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
 					try {
-						E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+						T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 						set.add(obj);
 					} catch(NumberFormatException e) {
 						logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
@@ -101,11 +139,11 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<E> getList(String dataType, String stringList) {
-		List<E> list = new ArrayList<E>();
+	public List<T> getList(String dataType, String stringList) {
+		List<T> list = new ArrayList<T>();
 		for(String value : stringList.split("\\s*,\\s*")) {
 			try {
-				E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+				T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 				list.add(obj);
 			} catch(NumberFormatException e) {
 				logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
@@ -116,9 +154,9 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<E> getList(FactResultDTO factResult, String column) {
+	public List<T> getList(FactResultDTO factResult, String column) {
 		Map<String, FactResultColumnInfoDTO> columnMetaData = factResult.getFactResultTypeInfo().getResultColumnsMap();
-		List<E> list = new ArrayList<E>();
+		List<T> list = new ArrayList<T>();
 		for(Map<String,String> map : factResult.getResultList()) {
 			for(Entry<String, String> entry : map.entrySet()) {
 				if (entry.getKey().equals(column)) {
@@ -126,7 +164,7 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 					FactResultColumnInfoDTO info = columnMetaData.get(entry.getKey());
 					String dataType = info.getDataType();
 					try {
-						E obj = (E) BusinessRuleUtil.convertToDataType(dataType, value);
+						T obj = (T) BusinessRuleUtil.convertToDataType(dataType, value);
 						list.add(obj);
 					} catch(NumberFormatException e) {
 						logger.error("DataType conversion failed. dataType=" + dataType + ", value=", e);
@@ -151,6 +189,11 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 					+ "\nProposition name="+this.proposition.getPropositionName()
 					+ "\nProposition result="+this.proposition.getResult());
 		}
+		FactResultColumnInfoDTO columnInfo = getFactResultColumnInfo(factDTO, factColumn);
+		FactResultDTO factResult = createFactResult(columnInfo, this.proposition.getResultValues());
+		this.proposition.getReport().setPropositionResult(factResult);
+		this.proposition.getReport().setCriteriaResult(criteriaDTO);
+		this.proposition.getReport().setFactResult(factDTO);
 		return b;
 	}
 	
@@ -177,6 +220,11 @@ public abstract class AbstractYVFProposition<E> implements Proposition {
 	@Override
 	public PropositionType getType() {
 		return this.proposition.getType();
+	}
+
+	@Override
+	public Collection<?> getResultValues() {
+		return this.proposition.getResultValues();
 	}
 
     public String toString() {

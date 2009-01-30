@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,12 +28,13 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  *            the type of elements being constrained
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
-public class IntersectionProposition<E> extends AbstractProposition<Integer> {
+public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
 
-    Set<E> criteriaSet;
-    Set<E> factSet;
+    Set<T> criteriaSet;
+    Set<T> factSet;
+    Collection<?> resultValues;
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -41,23 +43,25 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
     }
 
     public IntersectionProposition(String id, String propositionName, ComparisonOperator operator, Integer expectedValue,
-            Set<E> criteriaSet, Set<E> factSet) {
+            Set<T> criteriaSet, Set<T> factSet) {
         super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue);
         this.criteriaSet = criteriaSet;
-        this.factSet = (factSet == null ? new HashSet<E>() : factSet);
+        this.factSet = (factSet == null ? new HashSet<T>() : factSet);
     }
 
     // ~ Methods ----------------------------------------------------------------
 
     @Override
     public Boolean apply() {
-        Set<E> met = and();
-        Integer count = met.size();
+        Set<T> met = and();
+        Integer count = Integer.valueOf(met.size());
 
         result = checkTruthValue(count, super.expectedValue);
 
         cacheReport("%d of %s is still required", count, super.expectedValue);
 
+        this.resultValues = met;
+        
         return result;
     }
 
@@ -76,7 +80,7 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
         }
 
         // TODO: Use the operator to compute exact message
-        Set<E> unMet = andNot();
+        Set<T> unMet = andNot();
         int needed = expectedValue - count;
         String advice = String.format(format, needed, unMet.toString());
         report.setFailureMessage(advice);
@@ -87,8 +91,8 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
      * 
      * @return the intersection
      */
-    public Set<E> and() {
-        Set<E> rval = new HashSet<E>(factSet);
+    public Set<T> and() {
+        Set<T> rval = new HashSet<T>(factSet);
         rval.retainAll(criteriaSet);
 
         return rval;
@@ -99,8 +103,8 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
      * 
      * @return
      */
-    public Set<E> andNot() {
-        HashSet<E> rval = new HashSet<E>(criteriaSet);
+    public Set<T> andNot() {
+        HashSet<T> rval = new HashSet<T>(criteriaSet);
         rval.removeAll(factSet);
 
         return rval;
@@ -109,7 +113,7 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
     /**
      * @return the criteriaSet
      */
-    public Set<E> getCriteriaSet() {
+    public Set<T> getCriteriaSet() {
         return criteriaSet;
     }
 
@@ -117,14 +121,14 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
      * @param criteriaSet
      *            the criteriaSet to set
      */
-    public void setCriteriaSet(Set<E> criteriaSet) {
-        this.criteriaSet = new HashSet<E>(criteriaSet);
+    public void setCriteriaSet(Set<T> criteriaSet) {
+        this.criteriaSet = new HashSet<T>(criteriaSet);
     }
 
     /**
      * @return the factSet
      */
-    public Set<E> getFactSet() {
+    public Set<T> getFactSet() {
         return factSet;
     }
 
@@ -132,7 +136,11 @@ public class IntersectionProposition<E> extends AbstractProposition<Integer> {
      * @param factSet
      *            the factSet to set
      */
-    public void setFactSet(Set<E> factSet) {
-        this.factSet = new HashSet<E>(factSet);
+    public void setFactSet(Set<T> factSet) {
+        this.factSet = new HashSet<T>(factSet);
+    }
+
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 }

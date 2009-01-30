@@ -54,7 +54,7 @@ public class YVFMaxProposition<T extends Comparable<T>> extends AbstractYVFPropo
 		}
 
 		Set<T> factSet = null;
-		FactResultDTO factDTO = null;
+		factDTO = null;
 
 		if (fact.isStaticFact()) {
 			String value = fact.getStaticValue();
@@ -71,16 +71,16 @@ public class YVFMaxProposition<T extends Comparable<T>> extends AbstractYVFPropo
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			String column = fact.getResultColumnKeyTranslations().get(MAX_COLUMN_KEY);
-			if (column == null || column.trim().isEmpty()) {
+			factColumn = fact.getResultColumnKeyTranslations().get(MAX_COLUMN_KEY);
+			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Max column not found for key '"+
 						MAX_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
-			factSet = getSet(factDTO, column);
+			factSet = getSet(factDTO, factColumn);
 			if (factSet == null || factSet.isEmpty()) {
 				throw new PropositionException("Facts not found for column '"+
-						column+"'. Fact structure id: " + fact.getFactStructureId());
+						factColumn+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 		}
 
@@ -97,6 +97,5 @@ public class YVFMaxProposition<T extends Comparable<T>> extends AbstractYVFPropo
 
 		super.proposition = new MaxProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet); 
-        getReport().setFactResult(factDTO);
 	}
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.internal.common.statement.propositions;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     Set<E> criteriaSet;
     Set<E> factSet;
+    Collection<?> resultValues;
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -55,6 +57,8 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         result = checkTruthValue(count, super.expectedValue);
 
         cacheReport("%d of %s is still required", count, super.expectedValue);
+
+        this.resultValues = met;
 
         return result;
     }
@@ -132,5 +136,9 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
      */
     public void setFactSet(Set<E> factSet) {
         this.factSet = new HashSet<E>(factSet);
+    }
+
+    public Collection<?> getResultValues() {
+    	return this.resultValues;
     }
 }

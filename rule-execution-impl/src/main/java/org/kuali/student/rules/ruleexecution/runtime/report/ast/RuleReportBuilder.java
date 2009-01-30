@@ -98,6 +98,7 @@ public class RuleReportBuilder implements ReportBuilder {
         	propositionReport.setSuccessMessage(prop.getReport().getSuccessMessage());
         	propositionReport.setCriteriaResult(prop.getReport().getCriteriaResult());
         	propositionReport.setFactResult(prop.getReport().getFactResult());
+        	propositionReport.setPropositionResult(prop.getReport().getPropositionResult());
         	propositionReportList.add(propositionReport);
         }
         ruleReport.setPropositionReports(propositionReportList);

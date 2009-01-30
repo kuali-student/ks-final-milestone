@@ -2,6 +2,7 @@ package org.kuali.student.rules.internal.common.statement.yvf;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +45,10 @@ public class YVFSumPropositionTest {
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
+		BigDecimal expectedValue = new BigDecimal(255);
 		YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
 				"1", "YVFSumProposition", 
-				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(255),
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, expectedValue,
 				yvf, factMap);
 
 		PropositionReport report = proposition.getReport();
@@ -60,8 +62,12 @@ public class YVFSumPropositionTest {
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "80"));
-		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "95"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFSumProposition.STATIC_FACT_COLUMN, "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFSumProposition.STATIC_FACT_COLUMN, "95"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFSumProposition.STATIC_FACT_COLUMN, "255.0"));
 	}
     
 	@Test
@@ -77,9 +83,10 @@ public class YVFSumPropositionTest {
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
+		BigDecimal expectedValue = new BigDecimal(255);
 		YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
 				"1", "YVFSumProposition", 
-				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(255),
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, expectedValue,
 				yvf, factMap);
 
 		PropositionReport report = proposition.getReport();
@@ -95,6 +102,10 @@ public class YVFSumPropositionTest {
 		Assert.assertEquals(3, fact.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "80"));
 		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "95"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.credit", "255.0"));
 	}
 
 	@Test
@@ -126,6 +137,10 @@ public class YVFSumPropositionTest {
 		Assert.assertEquals(3, fact.getResultList().size());
 		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "80"));
 		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), "resultColumn.credit", "95"));
+
+		FactResultDTO propositionResult = report.getPropositionResult();
+        Assert.assertEquals(1, propositionResult.getResultList().size());
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), "resultColumn.credit", "255.0"));
 	}
 
 	@Test

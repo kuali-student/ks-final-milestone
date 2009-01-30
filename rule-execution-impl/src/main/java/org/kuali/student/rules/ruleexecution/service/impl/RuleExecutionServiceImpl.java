@@ -16,6 +16,7 @@
 package org.kuali.student.rules.ruleexecution.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,6 +212,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 	    		prDTO.setSuccessMessage(propositionReport.getSuccessMessage());
 	    		prDTO.setCriteriaResult(propositionReport.getCriteriaResult());
 	    		prDTO.setFactResult(propositionReport.getFactResult());
+    			prDTO.setPropositionResult(propositionReport.getPropositionResult());
 	    		propositionReportList.add(prDTO);
 	    	}
 	    	reportDTO.setSuccessful(report.isSuccessful());

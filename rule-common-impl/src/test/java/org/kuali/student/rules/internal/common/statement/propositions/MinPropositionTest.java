@@ -23,50 +23,59 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains("1"));
     }
 
     @Test
     public void testMinProposition_BigDecimal() throws Exception {
+    	BigDecimal number = new BigDecimal(75.0);
     	MinProposition<BigDecimal> minProp = new MinProposition<BigDecimal>(
     			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, new BigDecimal(75.0), gradeList);
+    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList);
 
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+        Assert.assertTrue(number.compareTo((BigDecimal) minProp.getResultValues().iterator().next())==0);
     }
 
     @Test
     public void testMinProposition_Double() throws Exception {
+    	Double number = new Double(1.1);
     	MinProposition<Double> minProp = new MinProposition<Double>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Double(1.1), Arrays.asList(new Double[]{new Double(1.1), new Double(2.2), new Double(3.3)}));
+    			ComparisonOperator.EQUAL_TO, number, Arrays.asList(new Double[]{new Double(1.1), new Double(2.2), new Double(3.3)}));
 
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(number));
     }
 
     @Test
     public void testMinProposition_Integer() throws Exception {
+    	Integer number = new Integer(1);
     	MinProposition<Integer> minProp = new MinProposition<Integer>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Integer(1), Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}));
+    			ComparisonOperator.EQUAL_TO, number, Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}));
 
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(number));
     }
 
     @Test
     public void testMinProposition_Long() throws Exception {
+    	Long number = new Long(1);
     	MinProposition<Long> minProp = new MinProposition<Long>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new Long(1), Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
+    			ComparisonOperator.EQUAL_TO, number, Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
 
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(number));
     }
 
     @Test
@@ -81,6 +90,7 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(cal1));
     }
 
     @Test
@@ -95,6 +105,7 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(cal1));
     }
 
     @Test
@@ -109,6 +120,7 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertFalse(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(cal1));
     }
 
     @Test
@@ -123,6 +135,7 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(cal1.getTime()));
     }
 
     @Test
@@ -137,6 +150,7 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertTrue(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(cal1.getTime()));
     }
 
     @Test
@@ -151,5 +165,6 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertFalse(result);
+    	Assert.assertTrue(minProp.getResultValues().contains(cal1.getTime()));
     }
 }

@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,6 +44,7 @@ import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -52,7 +52,6 @@ import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 
@@ -125,6 +124,15 @@ public class ServiceTestClient {
     
     @After
     public void tearDown() throws Exception {
+    }
+
+    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
+    	for(Map<String,String> map : set) {
+    		if (map.get(column).equals(value)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     private Date createDate(int year, int month, int day, int hourOfDay, int minute) {
@@ -337,7 +345,7 @@ public class ServiceTestClient {
     		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     		
     		System.out.println("Business Rule ID:   "+businessRule2.getId());
-	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
+	        System.out.println("Business Rule Name: "+businessRule2.getName());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -353,7 +361,7 @@ public class ServiceTestClient {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
 	        System.out.println("Business Rule ID:   "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
+	        System.out.println("Business Rule Name: "+businessRule2.getName());
 	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
@@ -374,7 +382,7 @@ public class ServiceTestClient {
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        System.out.println("Business Rule ID:       "+businessRule.getId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
+	        System.out.println("Business Rule Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -407,7 +415,7 @@ public class ServiceTestClient {
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
 	        System.out.println("Business Rule ID:       "+businessRule.getId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
+	        System.out.println("Business Rule Name:     "+businessRule.getName());
 	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
@@ -432,7 +440,7 @@ public class ServiceTestClient {
     		BusinessRuleInfoDTO businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
 	        System.out.println("Business Rule ID:        "+businessRule.getId());
-	        System.out.println("Business Rule Display Name:      "+businessRule.getName());
+	        System.out.println("Business Rule Name:      "+businessRule.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 	        Assert.assertNotNull(executionResult);
@@ -460,22 +468,12 @@ public class ServiceTestClient {
     	}
     }
 
-    private boolean containsResult(List<Map<String,String>> set, String column, String value) {
-    	for(Map<String,String> map : set) {
-    		if (map.get(column).equals(value)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-
     @Test
     public void testFetchDynamicFact() throws Exception {
     	System.out.println("\n\n*****  testFetchDynamicFact  *****");
         String factTypeKey = "fact.completed_course_list";
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
-        paramMap.put("factParam.clusetId", "PSYC 200,PSYC 201,PSYC 202");
         
         FactStructureDTO factStructureDTO = new FactStructureDTO();
         factStructureDTO.setFactTypeKey(factTypeKey);
@@ -495,7 +493,7 @@ public class ServiceTestClient {
 
     @Test
     public void testCreateAndExecuteBusinessRule_DynamicFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute_DynamicFact  *****");
+    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRule_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM200PRE_REQ", "CHEM200", false);
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -518,6 +516,34 @@ public class ServiceTestClient {
 	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
 	        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
 	        Assert.assertTrue(executionResult.getReport().isSuccessful());
+
+	        // Test proposition reports
+	        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
+	        
+	        PropositionReportDTO prDTO = executionResult.getReport().getPropositionReports().get(0);
+	        
+	        Assert.assertEquals("P1", prDTO.getPropositionName());
+	        Assert.assertTrue(prDTO.isSuccessful());
+	        
+	        // Test criteria facts
+	        Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
+			Assert.assertEquals(1, criteriaRowMap.size());
+	        Assert.assertEquals("PSYC 200", criteriaRowMap.get("resultColumn.cluId"));
+
+	        // Test facts
+	        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
+	        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
+	        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
+	        Assert.assertEquals(1, factRowMap1.size());
+	        Assert.assertEquals(1, factRowMap2.size());
+	        Assert.assertEquals(1, factRowMap3.size());
+	        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
+	        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
+	        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
+
+			FactResultDTO propositionResult1 = prDTO.getPropositionResult();
+	        Assert.assertEquals(1, propositionResult1.getResultList().size());
+			Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -525,7 +551,7 @@ public class ServiceTestClient {
     
     @Test
     public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
+    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRuleTest_StaticFact  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
     	businessRule1.setId("xxx");
 
@@ -539,6 +565,34 @@ public class ServiceTestClient {
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
+
+        // Test proposition reports
+        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
+
+        PropositionReportDTO prDTO = executionResult.getReport().getPropositionReports().get(0);
+        
+        Assert.assertEquals("P1", prDTO.getPropositionName());
+        Assert.assertTrue(prDTO.isSuccessful());
+        
+        // Test criteria facts
+        Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
+        Assert.assertEquals(1, criteriaRowMap.size());
+        Assert.assertEquals("CPR101", criteriaRowMap.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+
+        // Test facts
+        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
+        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
+        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
+        Assert.assertEquals(1, factRowMap1.size());
+        Assert.assertEquals(1, factRowMap2.size());
+        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals("CPR101", factRowMap1.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR201", factRowMap2.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR301", factRowMap3.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+
+		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
+        Assert.assertEquals(1, propositionResult1.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CPR101"));
     }
 
     @Test
@@ -560,6 +614,34 @@ public class ServiceTestClient {
         System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
+
+        // Test proposition reports
+        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
+        
+        PropositionReportDTO prDTO = executionResult.getReport().getPropositionReports().get(0);
+        
+        Assert.assertEquals("P1", prDTO.getPropositionName());
+        Assert.assertTrue(prDTO.isSuccessful());
+        
+        // Test criteria facts
+        Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
+		Assert.assertEquals(1, criteriaRowMap.size());
+        Assert.assertEquals("PSYC 200", criteriaRowMap.get("resultColumn.cluId"));
+
+        // Test facts
+        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
+        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
+        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
+        Assert.assertEquals(1, factRowMap1.size());
+        Assert.assertEquals(1, factRowMap2.size());
+        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
+        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
+
+		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
+        Assert.assertEquals(1, propositionResult1.getResultList().size());
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), "resultColumn.cluId", "PSYC 200"));
     }
     
 }
