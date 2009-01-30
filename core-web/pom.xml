@@ -158,6 +158,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>com.netthreads</groupId>
+			<artifactId>gwt-jsviz</artifactId>
+			<version>0.0.2a</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
