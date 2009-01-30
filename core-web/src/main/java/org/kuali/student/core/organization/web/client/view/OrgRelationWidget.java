@@ -95,8 +95,14 @@ public class OrgRelationWidget extends Composite{
         relatedOrgId = relatedOrg.getText();
         orgRelationInfo.setRelatedOrgId(relatedOrgId);
 
-        orgRelationInfo.setEffectiveDate(dateFmt.parse(orgEffectiveDate.getText()));
-        orgRelationInfo.setExpirationDate(dateFmt.parse(orgEffectiveDate.getText()));               
+        try{
+            orgRelationInfo.setEffectiveDate(dateFmt.parse(orgEffectiveDate.getText()));
+        } catch (Exception e){
+        }
+        try {
+            orgRelationInfo.setExpirationDate(dateFmt.parse(orgEffectiveDate.getText()));
+        } catch (Exception e) {
+        }
         
         return orgRelationInfo;
     }
