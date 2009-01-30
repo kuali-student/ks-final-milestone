@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
 import com.google.gwt.user.client.Window;
@@ -69,6 +68,7 @@ public class OrgPositionWidget extends Composite {
         posMinRelation = new TextBox();
         posMaxRelation = new TextBox();
         posDuration = new TextBox();
+        atpDurationType = new TextBox();
         
         fTable.setWidget(0,0, new Label("Position"));
         fTable.setWidget(0,1, posTypeDropDown);
@@ -96,11 +96,18 @@ public class OrgPositionWidget extends Composite {
         orgPosRestriction.setDesc(posDesc.getText());
         
         TimeAmountInfo durationTimeAmtInfo = new TimeAmountInfo();
-        durationTimeAmtInfo.setAtpDurationTypeKey(atpDurationType.getText());       
-        durationTimeAmtInfo.setTimeQuantity(Integer.valueOf(posDuration.getText()));      
+        durationTimeAmtInfo.setAtpDurationTypeKey(atpDurationType.getText());
+        try {
+            durationTimeAmtInfo.setTimeQuantity(Integer.valueOf(posDuration.getText()));            
+        } catch (NumberFormatException e) {
+        }      
 
         orgPosRestriction.setStdDuration(durationTimeAmtInfo);        
-        orgPosRestriction.setMinNumRelations(Integer.valueOf(posMinRelation.getText()));
+        try {
+            orgPosRestriction.setMinNumRelations(Integer.valueOf(posMinRelation.getText()));
+        } catch (NumberFormatException e) {
+
+        }
         orgPosRestriction.setMaxNumRelations(posMaxRelation.getText());
                
         return orgPosRestriction;        
