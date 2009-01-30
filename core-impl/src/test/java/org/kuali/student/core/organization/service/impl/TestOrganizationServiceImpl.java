@@ -2,6 +2,8 @@ package org.kuali.student.core.organization.service.impl;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.junit.Test;
@@ -35,9 +37,32 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 
 	@Test
-	public void createOrganization() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-	    OrgInfo result = client.createOrganization("ks.org.foo", new OrgInfo());
-		assertEquals("ks.org.foo",result.getType());
+	public void testCreateDeleteOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException {
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		
+		OrgInfo orgInfo = new OrgInfo();
+		orgInfo.setDesc("Description for new OrgInfo");
+		orgInfo.setLongName("TestOrgLongName");
+		orgInfo.setShortName("TestOrgShortName");
+		orgInfo.setState("Active");
+		orgInfo.setType("");//set as a param
+		orgInfo.setEffectiveDate(df.parse("20090101"));
+		orgInfo.setExpirationDate(df.parse("21001231"));
+		orgInfo.getAttributes().put("Alias", "OrgAlias");
+		
+		OrgInfo createOrg = client.createOrganization("kuali.org.Program", orgInfo);
+		
+		//Validate all fields
+		assertEquals("Description for new OrgInfo",createOrg.getDesc());
+		assertEquals("TestOrgLongName",createOrg.getLongName());
+		assertEquals("TestOrgShortName",createOrg.getShortName());
+		assertEquals("Active",createOrg.getState());
+		assertEquals("kuali.org.Program",createOrg.getType());
+		assertEquals(df.parse("20090101"),createOrg.getEffectiveDate());
+		assertEquals(df.parse("21001231"),createOrg.getExpirationDate());
+		assertEquals("OrgAlias",createOrg.getAttributes().get("Alias"));
+		
+		
 	}
 
 	@Test
@@ -50,8 +75,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(8,orgOrgRelationInfos.size());
 
 		List<OrgPersonRelationInfo> orgPersonRelationInfos = client.getAllOrgPersonRelationsByOrg("68");
-		// should be 2; foreign-key constraint problem
-		assertEquals(1, orgPersonRelationInfos.size());
+
+		assertEquals(2, orgPersonRelationInfos.size());
 
 		List<OrgPositionRestrictionInfo>  orgPositionRestrictionInfos = client.getPositionRestrictionsByOrg("19");
 		assertEquals(6, orgPositionRestrictionInfos.size());
