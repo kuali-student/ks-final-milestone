@@ -15,9 +15,20 @@
  */
 package org.kuali.student.core.organization.web.client.view;
 
+import java.util.List;
+
+import org.kuali.student.core.atp.dto.TimeAmountInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
+import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.web.client.service.OrgRpcService;
+
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -30,17 +41,19 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class OrgPositionWidget extends Composite {
 
-    TextBox posKey;
+    ListBox posTypeDropDown;
+    TextBox posTitle;
     TextArea posDesc;
-    TextBox posEffectiveDate;
-    TextBox posExpirationDate;
     TextBox posMinRelation;
     TextBox posDuration;
     TextBox posMaxRelation;
+    TextBox atpDurationType;
 
-    FlexTable fTable = null;
-    
+    FlexTable fTable = null;     
+   
     SimplePanel root = new SimplePanel();
+    
+    String orgType;
     
     public OrgPositionWidget(){
         super.initWidget(root);
@@ -48,34 +61,66 @@ public class OrgPositionWidget extends Composite {
     
     protected void onLoad(){
         fTable = new FlexTable();
-        posKey = new TextBox();
+        posTypeDropDown = new ListBox();
+        loadPersonRelationTypes();
+        
+        posTitle = new TextBox();
         posDesc = new TextArea();
-        posEffectiveDate = new TextBox();
-        posExpirationDate = new TextBox();
         posMinRelation = new TextBox();
         posMaxRelation = new TextBox();
         posDuration = new TextBox();
         
         fTable.setWidget(0,0, new Label("Position"));
-        fTable.setWidget(0,1, posKey);
+        fTable.setWidget(0,1, posTypeDropDown);
         
-        fTable.setWidget(1,0, new Label("Description"));
-        fTable.setWidget(1,1, posDesc);
-        
-        fTable.setWidget(2,0, new Label("Effective date"));
-        fTable.setWidget(2,1,posEffectiveDate);
-        
-        fTable.setWidget(3,0, new Label("Expiration date"));
-        fTable.setWidget(3,1, posExpirationDate);
-        
+        fTable.setWidget(1,0, new Label("Title"));
+        fTable.setWidget(1,1, posTitle);
+
+        fTable.setWidget(2,0, new Label("Description"));
+        fTable.setWidget(2,1, posDesc);
+               
         fTable.setWidget(4,0, new Label("Min people"));
         fTable.setWidget(4,1, posMinRelation);
 
         fTable.setWidget(5,0, new Label("Max people"));
         fTable.setWidget(5,1, posMaxRelation);
-        
+
         root.add(fTable);
     }
-  
+
+    public OrgPositionRestrictionInfo getPositionRestrictionInfo(){
+        OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
+        
+        orgPosRestriction.setOrgPersonRelationTypeKey(posTypeDropDown.getValue(posTypeDropDown.getSelectedIndex()));
+        orgPosRestriction.setTitle(posTitle.getText());
+        orgPosRestriction.setDesc(posDesc.getText());
+        
+        TimeAmountInfo durationTimeAmtInfo = new TimeAmountInfo();
+        durationTimeAmtInfo.setAtpDurationTypeKey(atpDurationType.getText());       
+        durationTimeAmtInfo.setTimeQuantity(Integer.valueOf(posDuration.getText()));      
+
+        orgPosRestriction.setStdDuration(durationTimeAmtInfo);        
+        orgPosRestriction.setMinNumRelations(Integer.valueOf(posMinRelation.getText()));
+        orgPosRestriction.setMaxNumRelations(posMaxRelation.getText());
+               
+        return orgPosRestriction;        
+    }
     
+    protected void loadPersonRelationTypes(){
+        OrgRpcService.Util.getInstance().getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(List<OrgPersonRelationTypeInfo> posTypes) {
+                posTypeDropDown.addItem("Select", "");
+                posTypeDropDown.setSelectedIndex(0);
+
+                for(OrgPersonRelationTypeInfo posType:posTypes){
+                    posTypeDropDown.addItem(posType.getName(),posType.getKey());
+                }
+            }
+        });        
+    }
+        
 }

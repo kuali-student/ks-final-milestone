@@ -15,6 +15,15 @@
  */
 package org.kuali.student.core.organization.web.client.view;
 
+import java.util.List;
+
+import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
+import org.kuali.student.core.organization.web.client.service.OrgRpcService;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -31,11 +40,13 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class OrgRelationWidget extends Composite{
 
-    TextBox orgName = null;
-    ListBox orgRelationType = null;
+    TextBox relatedOrg = null;
+    ListBox orgRelTypeDropDown = null;
     TextBox orgEffectiveDate = null;
     TextBox orgExpirationDate = null;
     TextArea orgNote = null;
+    
+    String relatedOrgId;
     
     FlexTable fTable = null;
     
@@ -47,17 +58,20 @@ public class OrgRelationWidget extends Composite{
     
     protected void onLoad(){
         fTable = new FlexTable();
-        orgName = new TextBox();
-        orgRelationType = new ListBox();
+        relatedOrg = new TextBox();
+        
+        orgRelTypeDropDown = new ListBox();
+        loadOrgRelationTypes();
+        
         orgEffectiveDate = new TextBox();
         orgExpirationDate = new TextBox();
         orgNote = new TextArea();
         
         fTable.setWidget(0,0, new Label("Organization"));
-        fTable.setWidget(0,1, orgName);
+        fTable.setWidget(0,1, relatedOrg);
         
         fTable.setWidget(1,0, new Label("Relationship"));
-        fTable.setWidget(1,1, orgRelationType);
+        fTable.setWidget(1,1, orgRelTypeDropDown);
         
         fTable.setWidget(2,0, new Label("Effective date"));
         fTable.setWidget(2,1, orgEffectiveDate);
@@ -69,6 +83,39 @@ public class OrgRelationWidget extends Composite{
         fTable.setWidget(4,1, orgNote);
         
         root.add(fTable);
+    }
+    
+    public OrgOrgRelationInfo getOrgOrgRelationInfo(){
+        DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
+        
+        OrgOrgRelationInfo orgRelationInfo = new OrgOrgRelationInfo();        
+        orgRelationInfo.setType(orgRelTypeDropDown.getValue(orgRelTypeDropDown.getSelectedIndex()));
+        
+        //TODO: This should lookup orgId based on related org name
+        relatedOrgId = relatedOrg.getText();
+        orgRelationInfo.setRelatedOrgId(relatedOrgId);
+
+        orgRelationInfo.setEffectiveDate(dateFmt.parse(orgEffectiveDate.getText()));
+        orgRelationInfo.setExpirationDate(dateFmt.parse(orgEffectiveDate.getText()));               
+        
+        return orgRelationInfo;
+    }
+    
+    protected void loadOrgRelationTypes(){
+        OrgRpcService.Util.getInstance().getOrgOrgRelationTypes(new AsyncCallback<List<OrgOrgRelationTypeInfo>>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(List<OrgOrgRelationTypeInfo> orgRelTypes) {
+                orgRelTypeDropDown.addItem("Select", "");
+                orgRelTypeDropDown.setSelectedIndex(0);
+
+                for(OrgOrgRelationTypeInfo orgRelType:orgRelTypes){
+                    orgRelTypeDropDown.addItem(orgRelType.getName(),orgRelType.getKey());
+                }
+            }
+        });                
     }
     
 }
