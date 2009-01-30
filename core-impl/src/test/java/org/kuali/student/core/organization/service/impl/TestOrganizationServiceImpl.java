@@ -1,6 +1,7 @@
 package org.kuali.student.core.organization.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,10 +62,34 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(df.parse("20090101"),createOrg.getEffectiveDate());
 		assertEquals(df.parse("21001231"),createOrg.getExpirationDate());
 		assertEquals("OrgAlias",createOrg.getAttributes().get("Alias"));
-		
+		assertNotNull(createOrg.getId());
 		
 	}
 
+	@Test 
+	public void testCreateDeleteOrgOrgRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		
+		OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
+		orgOrgRelationInfo.setState("Active");
+		orgOrgRelationInfo.setEffectiveDate(df.parse("20090101"));
+		orgOrgRelationInfo.setExpirationDate(df.parse("21001231"));
+		orgOrgRelationInfo.setOrgId("");
+		orgOrgRelationInfo.setRelatedOrgId("");
+		orgOrgRelationInfo.setType("");
+		
+		OrgOrgRelationInfo createdOORInfo = client.createOrgOrgRelation("16", "17", "kuali.org.Part", orgOrgRelationInfo);
+		
+		//Validate all fields
+		assertEquals("Active",createdOORInfo.getState());
+		assertEquals(df.parse("20090101"),createdOORInfo.getEffectiveDate());
+		assertEquals(df.parse("21001231"),createdOORInfo.getExpirationDate());
+		assertEquals("16",createdOORInfo.getOrgId());
+		assertEquals("17",createdOORInfo.getRelatedOrgId());
+		assertEquals("kuali.org.Part",createdOORInfo.getType());
+		assertNotNull(createdOORInfo.getId());
+	}
+	
 	@Test
 	public void TestFinds() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 	    //Test Finds
