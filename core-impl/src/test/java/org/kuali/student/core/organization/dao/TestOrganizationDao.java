@@ -168,9 +168,8 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	
 	@Test
 	public void getAllOrgPersonRelationsByOrg(){
-		// TODO - should be 2 once foreign key problem with test data is solved
 		List<OrgPersonRelation> orgPersonRelations = dao.getAllOrgPersonRelationsByOrg("68");
-		assertEquals(1, orgPersonRelations.size());
+		assertEquals(2, orgPersonRelations.size());
 	}
 	
 	@Test
