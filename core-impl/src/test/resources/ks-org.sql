@@ -87,8 +87,6 @@ insert into SERVICETEST.KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EX
 /
 
 
-
-
 //ORGS
 insert into SERVICETEST.KS_ORG_T (ORG_ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VERSIONIND, ORG_DESC, EFFECTIVE_DT, EXPIRATION_DT, ORG_LONG_NAME, ORG_SHORT_NAME, ORG_STATE, ORG_TYPE) values ('1', 'TESTUSER', '2009-01-22 00:00:00.0', 'TESTUSER', '2009-01-22 00:00:00.0', 1, '', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Kuali University System', 'KUSystem', 'Active', 'kuali.org.CorporateEntity')
 /
@@ -467,6 +465,58 @@ insert into SERVICETEST.KS_ORG_ORG_REL_TYPE_T (OORT_KEY, OORT_DESC, EFFECTIVE_DT
 insert into SERVICETEST.KS_ORG_ORG_REL_TYPE_T (OORT_KEY, OORT_DESC, EFFECTIVE_DT, EXPIR_DT, OORT_NAME, REV_DESC, REV_NAME, ORG_HIERARCHY) values ('kuali.org.Subcommittee', 'Indicates this is a subcommittee of another committee or organization', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Subcommittee', 'has as a subcommittee ', 'has as a subcommittee ', 'kuali.org.hierarchy.Main')
 /
 insert into SERVICETEST.KS_ORG_ORG_REL_TYPE_T (OORT_KEY, OORT_DESC, EFFECTIVE_DT, EXPIR_DT, OORT_NAME, REV_DESC, REV_NAME, ORG_HIERARCHY) values ('kuali.org.CurriculumChild', 'Indicates that one organization is the child of another organization in the curriculum Hierarchy', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Curriculum Child', 'is parent of', 'is parent of', 'kuali.org.hierarchy.Curriculum')
+/
+
+//ORG PERSON RELATION TYPE
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.President', 'President', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'President', 'has as President', 'has as President')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.EVPP', 'Executive VP and Provost', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Executive Vice President and Provost' , 'has as Executive Vice President and Provost', 'has as Executive Vice President and Provost')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.ViceChancellor', 'Vice Chancellor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Vice Chancellor', 'has as Vice Chancellor', 'has as Vice Chancellor')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.VicePresident', 'Vice President', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Vice President', 'has as Vice President', 'has as Vice President')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AssocDean', 'Associate Dean', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Dean', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AssocProvost', 'Associate Provost','2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Provost', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Chancellor', 'Chancellor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Chancellor', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Dean', 'Dean', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Dean', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.ExecutiveOfficer', 'Executive Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Executive Officer', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AdministrativeOfficer', 'Administrative Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Officer', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Director', 'Director', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Director', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Head', 'Head', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Head', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Ex-Officio', 'Ex-Officio Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Ex-Officio Member', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AdminMember', 'Administrative Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Member', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AdminAssistant', 'Administrative Assistant', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Assistant', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Member', 'Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Member', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Registrar', 'Registrar', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Registrar', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AssocRegistrar', 'Associate Registrar', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Registrar', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Chair', 'Chair', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Chair', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Co-Chair', 'Co-Chair', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Co-Chair', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Officer', 'Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Officer', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Treasurer', 'Treasurer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Treasurer', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Secretary', 'Secretary', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Secretary', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Coordinator', 'Coordinator', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Coordinator', '', '')
+/
+insert into SERVICETEST.KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Rep', 'Representative of a constituency', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Representative of a constituency', '', '')
 /
 
 //ORG POSITION RESTRICTION
@@ -1217,7 +1267,8 @@ insert into SERVICETEST.KS_ORG_PERSON_REL_T (ORG_PERSON_REL_ID, ORG, PERSON_ID, 
 /
 insert into SERVICETEST.KS_ORG_PERSON_REL_T (ORG_PERSON_REL_ID, ORG, PERSON_ID, EFFECTIVE_DT, EXPIRATION_DT, ORG_PERSON_REL_TYPE, ORG_PERSON_REL_STATE, VERSIONIND) values ('3', '147', 'KIM-3', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'kuali.org.PersonRelation.Coordinator', 'Active', 1)
 /
-insert into SERVICETEST.KS_ORG_PERSON_REL_T (ORG_PERSON_REL_ID, ORG, PERSON_ID, EFFECTIVE_DT, EXPIRATION_DT, ORG_PERSON_REL_TYPE, ORG_PERSON_REL_STATE, VERSIONIND) values ('4', '68', 'KIM-4', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0','kuali.org.PersonRelation.Professor', 'Active', 1)
-/
+// TODO - Uncoment and figure out "INSERT on table 'KS_ORG_PERSON_REL_T' caused a violation of foreign key constraint 'FK24EF9836D00EC436' for key (kuali.org.PersonRelation.Professor) ..."
+// insert into SERVICETEST.KS_ORG_PERSON_REL_T (ORG_PERSON_REL_ID, ORG, PERSON_ID, EFFECTIVE_DT, EXPIRATION_DT, ORG_PERSON_REL_TYPE, ORG_PERSON_REL_STATE, VERSIONIND) values ('4', '68', 'KIM-4', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0','kuali.org.PersonRelation.Professor', 'Active', 1)
+// /
 insert into SERVICETEST.KS_ORG_PERSON_REL_T (ORG_PERSON_REL_ID, ORG, PERSON_ID, EFFECTIVE_DT, EXPIRATION_DT, ORG_PERSON_REL_TYPE, ORG_PERSON_REL_STATE, VERSIONIND) values ('5', '53', 'KIM-1', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0','kuali.org.PersonRelation.Head', 'Active', 1)
 /

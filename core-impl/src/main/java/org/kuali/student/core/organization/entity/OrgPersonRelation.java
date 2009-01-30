@@ -31,7 +31,13 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	
 	//Foreign Key from external Service
 	@Column(name = "PERSON_ID")
+	// @ManyToOne
+    // @JoinColumn(name="PERSON_ID")
 	private String personId; 
+	
+	@ManyToOne
+    @JoinColumn(name = "ORG_PERSON_REL_TYPE")
+	private OrgPersonRelationType orgPersonRelationType; 
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
@@ -43,10 +49,6 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPersonRelationAttribute> attributes;
-	
-	@ManyToOne
-    @JoinColumn(name="ORG_PERSON_REL_TYPE")
-	private OrgPersonRelationType type; 
 	
 	@Column(name = "ORG_PERSON_REL_STATE")
 	private String state; 
@@ -106,11 +108,11 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	}
 
 	public OrgPersonRelationType getType() {
-		return type;
+		return orgPersonRelationType;
 	}
 
 	public void setType(OrgPersonRelationType type) {
-		this.type = type;
+		this.orgPersonRelationType = type;
 	}
 
 	public String getState() {

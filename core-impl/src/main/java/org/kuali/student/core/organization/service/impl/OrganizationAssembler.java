@@ -124,7 +124,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		restrictionInfo.setOrgId(restriction.getOrg().getId());
 		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
 		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionInd()));
-		restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getKey());
+		// restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getKey());
 
 		return restrictionInfo;
 
@@ -150,7 +150,11 @@ public class OrganizationAssembler extends BaseAssembler{
 	}
 
 	public static OrgPersonRelationTypeInfo toOrgPersonRelationTypeInfo(OrgPersonRelationType orgPersonRelationType) {
-		return toGenericTypeInfo(OrgPersonRelationTypeInfo.class, orgPersonRelationType);
+		OrgPersonRelationTypeInfo orgPersonRelationTypeInfo = new OrgPersonRelationTypeInfo();
+		BeanUtils.copyProperties(orgPersonRelationType, orgPersonRelationTypeInfo, new String[] { "attributes", "orgHierarchy"});
+
+		orgPersonRelationTypeInfo.setAttributes(toAttributeMap(orgPersonRelationType.getAttributes()));
+		return orgPersonRelationTypeInfo;
 	}
 
 	public static List<OrgPersonRelationTypeInfo> toOrgPersonRelationTypeInfos(List<OrgPersonRelationType> orgPersonRelationTypes) {
