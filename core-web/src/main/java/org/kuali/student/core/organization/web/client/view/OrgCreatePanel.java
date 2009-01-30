@@ -16,14 +16,12 @@
 package org.kuali.student.core.organization.web.client.view;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.DockPanel.DockLayoutConstant;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 

@@ -46,5 +46,17 @@ public class OrgMain extends Composite {
         vPanel.add(new OrgMenu(workPanel));
         vPanel.add(workPanel);
         
+//        String nodeXML=
+//        	"<root root='true' fixed='true' color='#cccccc' nodeName='Faculty of Arts'> "+
+//			"	<node nodeName='Kuali University'> "+
+//			"		<node nodeName='Faculty of Medicine'></node> "+
+//			"		<node nodeName='Faculty of Science'></node> "+
+//			"		<node nodeName='Faculty of Law'></node> "+
+//			"	</node> "+
+//			"	<node nodeName='English Department'></node> "+
+//			"	<node nodeName='Faculty Senate'></node> "+
+//			"</root>";
+//
+//        vPanel.add(new OrgSnowflakePanel(nodeXML));
     }
 }
