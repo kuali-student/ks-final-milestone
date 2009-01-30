@@ -181,7 +181,8 @@
             <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="criteria" type="tns:factResultDTO"/>
-            <xs:element minOccurs="0" name="facts" type="tns:factResultDTO"/>
+            <xs:element minOccurs="0" name="fact" type="tns:factResultDTO"/>
+            <xs:element minOccurs="0" name="propositionResult" type="tns:factResultDTO"/>
         </xs:sequence>
         <xs:attribute name="propositionName" type="xs:string"/>
         <xs:attribute name="propositionType" type="xs:string"/>

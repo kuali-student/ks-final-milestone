@@ -15,6 +15,8 @@
  */
 package org.kuali.student.rules.ruleexecution.dto;
 
+import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -60,9 +62,15 @@ public class PropositionReportDTO implements java.io.Serializable {
      * Facts used in the proposition
      */
     @XmlElement
-    private FactResultDTO facts;
+    private FactResultDTO fact;
 
     /**
+     * Result of proposition execution
+     */
+    @XmlElement
+    private FactResultDTO propositionResult;
+
+	/**
      * Constructor
      */
     public PropositionReportDTO() {
@@ -133,7 +141,7 @@ public class PropositionReportDTO implements java.io.Serializable {
      * @return Facts
      */
     public FactResultDTO getFactResult() {
-		return facts;
+		return fact;
 	}
 
     /**
@@ -142,7 +150,7 @@ public class PropositionReportDTO implements java.io.Serializable {
      * @param facts Facts
      */
 	public void setFactResult(FactResultDTO facts) {
-		this.facts = facts;
+		this.fact = facts;
 	}
 
 	/**
@@ -179,6 +187,24 @@ public class PropositionReportDTO implements java.io.Serializable {
 	 */
 	public void setPropositionType(String propositionType) {
 		this.propositionType = propositionType;
+	}
+
+	/**
+	 * Returns the proposition execution results.
+	 * 
+	 * @return Proposition execution results
+	 */
+    public FactResultDTO getPropositionResult() {
+		return propositionResult;
+	}
+
+    /**
+	 * Sets the proposition execution results.
+     * 
+     * @param propositionResult Proposition execution results
+     */
+	public void setPropositionResult(FactResultDTO propositionResult) {
+		this.propositionResult = propositionResult;
 	}
 
 	public String toString() {
