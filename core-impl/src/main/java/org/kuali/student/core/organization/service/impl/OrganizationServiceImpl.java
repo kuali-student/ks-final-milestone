@@ -406,8 +406,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public OrgInfo getOrganization(String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgInfo(organizationDao.fetch(Org.class, orgId));
 	}
 
 	@Override

@@ -171,11 +171,15 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(orgHierarchyInfo.getKey(), "kuali.org.hierarchy.Curriculum");
 	}
 
-
 	@Test
 	public void getOrgPersonRelationTypesForOrgType() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgPersonRelationTypeInfo> orgPersonRelationsByOrgType = client.getOrgPersonRelationTypesForOrgType("kuali.org.School");
 		assertEquals(2, orgPersonRelationsByOrgType.size());
 	}
 
+	@Test
+	public void getOrganization() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		OrgInfo org = client.getOrganization("42");
+		assertEquals(org.getId(), "42");
+	}
 }
