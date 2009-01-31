@@ -111,7 +111,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		Long valid = (Long)query.getSingleResult();
 		return valid.intValue()>0;
 	}
-	
+
 	@Override
 	public List<OrgPersonRelationType> getOrgPersonRelationTypesForOrgType(String orgTypeKey) {
 		Query query = em.createNamedQuery("OrgPersonRelationType.getOrgPersonRelationTypesForOrgType");
@@ -119,7 +119,14 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		@SuppressWarnings("unchecked")
 		List<OrgPersonRelationType> orgRelationTypes = query.getResultList();
 		return orgRelationTypes;
-
 	}
 
+	@Override
+	public List<OrgOrgRelation> getOrgOrgRelationsByIdList(List<String> orgOrgRelationIdList) {
+		Query query = em.createNamedQuery("OrgOrgRelationInfo.getOrgOrgRelationsByIdList");
+		query.setParameter("idList", orgOrgRelationIdList);
+		@SuppressWarnings("unchecked")
+		List<OrgOrgRelation> orgRelationTypes = query.getResultList();
+		return orgRelationTypes;
+	}
 }

@@ -22,4 +22,5 @@ public interface OrganizationDao extends CrudDao{
 	public List<OrgOrgRelationType> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyKey);
 	public boolean validatePositionRestriction(String orgId, String orgPersonRelationTypeKey);
 	public List<OrgPersonRelationType> getOrgPersonRelationTypesForOrgType(String orgTypeKey);
+	public List<OrgOrgRelation> getOrgOrgRelationsByIdList(List<String> orgOrgRelationIdList);
 }

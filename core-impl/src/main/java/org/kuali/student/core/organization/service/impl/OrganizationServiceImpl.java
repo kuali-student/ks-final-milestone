@@ -306,8 +306,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			List<String> orgOrgRelationIdList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByIdList(orgOrgRelationIdList);
+		return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
 	}
 
 	@Override

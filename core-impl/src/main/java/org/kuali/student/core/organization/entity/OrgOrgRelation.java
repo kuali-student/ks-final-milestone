@@ -24,14 +24,12 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KS_ORG_ORG_RELATION_T")
-@NamedQueries(
-		{
-			@NamedQuery(name="OrgOrgRelation.getAllDescendants", 
-					   query="SELECT oor.relatedOrg.id FROM OrgOrgRelation oor " +
-				 		     " WHERE oor.org.id = :orgId " +
-				 			 "   AND oor.type.orgHierarchy.key = :orgHierarchy")
-		}
-)
+@NamedQueries({
+			@NamedQuery(name = "OrgOrgRelation.getAllDescendants", query = "SELECT oor.relatedOrg.id FROM OrgOrgRelation oor "
+				+ " WHERE oor.org.id = :orgId "
+				+ "   AND oor.type.orgHierarchy.key = :orgHierarchy"),
+			@NamedQuery(name="OrgOrgRelationInfo.getOrgOrgRelationsByIdList", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)")
+})
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
 	@Id
@@ -41,7 +39,7 @@ public class OrgOrgRelation extends MetaEntity implements
 	@ManyToOne
     @JoinColumn(name="ORG")
 	private Org org;
-	
+
 	@ManyToOne
     @JoinColumn(name="RELATED_ORG")
     private Org relatedOrg;
@@ -49,18 +47,18 @@ public class OrgOrgRelation extends MetaEntity implements
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
 	private Date effectiveDate;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgOrgRelationAttribute> attributes;
-	
+
 	@ManyToOne
     @JoinColumn(name="RELATION_TYPE")
 	private OrgOrgRelationType type;
-	
+
 	@Column(name = "RELATION_STATE")
 	private String state;
 
@@ -71,7 +69,7 @@ public class OrgOrgRelation extends MetaEntity implements
 	public void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
-	
+
 	public String getId() {
 		return id;
 	}

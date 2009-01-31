@@ -2,9 +2,11 @@ package org.kuali.student.core.organization.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -181,5 +183,24 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	public void getOrganization() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		OrgInfo org = client.getOrganization("42");
 		assertEquals(org.getId(), "42");
+	}
+
+	@Test
+	public void getOrgOrgRelationsByIdList() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<String> idList = new ArrayList<String>(2);
+		idList.add("3");
+		idList.add("15");
+		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByIdList(idList);
+		assertEquals(2, orgOrgRelationInfos.size());
+
+		idList.add("-1");
+		orgOrgRelationInfos = client.getOrgOrgRelationsByIdList(idList);
+		assertEquals(2, orgOrgRelationInfos.size());
+
+		idList = new ArrayList<String>(2);
+		idList.add("-1");
+		idList.add("-2");
+		orgOrgRelationInfos = client.getOrgOrgRelationsByIdList(idList);
+		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 	}
 }
