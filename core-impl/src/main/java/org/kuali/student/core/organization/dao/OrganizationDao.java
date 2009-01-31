@@ -7,6 +7,7 @@ import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
 public interface OrganizationDao extends CrudDao{
@@ -19,6 +20,6 @@ public interface OrganizationDao extends CrudDao{
 	public List<OrgPositionRestriction> getPositionRestrictionsByOrg(String orgId);
 	public List<String> getAllDescendants(String orgId, String orgHierarchy);
 	public List<OrgOrgRelationType> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyKey);
-	public boolean validatePositionRestriction(String orgId,
-			String orgPersonRelationTypeKey);
+	public boolean validatePositionRestriction(String orgId, String orgPersonRelationTypeKey);
+	public List<OrgPersonRelationType> getOrgPersonRelationTypesForOrgType(String orgTypeKey);
 }

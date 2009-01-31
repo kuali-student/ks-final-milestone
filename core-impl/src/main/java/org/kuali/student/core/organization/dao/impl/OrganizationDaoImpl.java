@@ -12,6 +12,7 @@ import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
 public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements OrganizationDao {
@@ -110,4 +111,15 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		Long valid = (Long)query.getSingleResult();
 		return valid.intValue()>0;
 	}
+	
+	@Override
+	public List<OrgPersonRelationType> getOrgPersonRelationTypesForOrgType(String orgTypeKey) {
+		Query query = em.createNamedQuery("OrgPersonRelationType.getOrgPersonRelationTypesForOrgType");
+		query.setParameter("orgTypeKey", orgTypeKey);
+		@SuppressWarnings("unchecked")
+		List<OrgPersonRelationType> orgRelationTypes = query.getResultList();
+		return orgRelationTypes;
+
+	}
+
 }

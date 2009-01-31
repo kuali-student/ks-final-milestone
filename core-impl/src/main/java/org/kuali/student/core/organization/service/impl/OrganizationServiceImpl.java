@@ -72,7 +72,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		
+
 		//Check Missing params
 		if (orgId == null) {
 			throw new MissingParameterException("orgId can not be null");
@@ -83,24 +83,24 @@ public class OrganizationServiceImpl implements OrganizationService {
 		} else if (orgOrgRelationInfo == null) {
 			throw new MissingParameterException("orgOrgRelationInfo can not be null");
 		}
-		
+
 		//Set all the values on OrgOrgRelationInfo
 		orgOrgRelationInfo.setOrgId(orgId);
 		orgOrgRelationInfo.setRelatedOrgId(relatedOrgId);
 		orgOrgRelationInfo.setType(orgOrgRelationTypeKey);
-		
+
 		OrgOrgRelation orgOrgRelation = null;
-		
+
 		//Create a new persistence entity from the orgInfo
 		try {
 			orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(false, orgOrgRelationInfo, organizationDao);
 		} catch (DoesNotExistException e) {
 		} catch (VersionMismatchException e) {
 		}
-		
+
 		//Persist the orgOrgRelation
 		organizationDao.create(orgOrgRelation);
-		
+
 		//Copy back to an OrgOrgRelationInfo and return
 		OrgOrgRelationInfo createdOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(orgOrgRelation);
 		return createdOrgOrgRelationInfo;
@@ -114,7 +114,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		
+
 		//Check Missing params
 		if (orgId == null) {
 			throw new MissingParameterException("orgId can not be null");
@@ -125,29 +125,29 @@ public class OrganizationServiceImpl implements OrganizationService {
 		} else if (orgPersonRelationInfo == null) {
 			throw new MissingParameterException("orgPersonRelationInfo can not be null");
 		}
-		
+
 		//Make sure that only valid org person relations are done
 		if(!organizationDao.validatePositionRestriction(orgId,orgPersonRelationTypeKey)){
 			throw new InvalidParameterException("There is no Position for this relationship");
 		}
-		
+
 		//Set all the values on OrgOrgRelationInfo
 		orgPersonRelationInfo.setOrgId(orgId);
 		orgPersonRelationInfo.setPersonId(personId);
 		orgPersonRelationInfo.setType(orgPersonRelationTypeKey);
-		
+
 		OrgPersonRelation orgPersonRelation = null;
-		
+
 		//Create a new persistence entity from the orgInfo
 		try {
 			orgPersonRelation = OrganizationAssembler.toOrgPersonRelation(false, orgPersonRelationInfo, organizationDao);
 		} catch (DoesNotExistException e) {
 		} catch (VersionMismatchException e) {
 		}
-		
+
 		//Persist the orgPersonRelation
 		organizationDao.create(orgPersonRelation);
-		
+
 		//Copy back to an orgPersonRelationInfo and return
 		OrgPersonRelationInfo createdOrgPersonRelationInfo = OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation);
 		return createdOrgPersonRelationInfo;
@@ -165,26 +165,26 @@ public class OrganizationServiceImpl implements OrganizationService {
 		} else if (orgInfo == null) {
 			throw new MissingParameterException("orgInfo can not be null");
 		}
-		
+
 		//Set all the values on orgInfo
 		orgInfo.setType(orgTypeKey);
-		
+
 		Org org = null;
-		
+
 		//Create a new persistence entity from the orgInfo
 		try {
 			org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
 		} catch (DoesNotExistException e) {
 		} catch (VersionMismatchException e) {
 		}
-		
+
 		//Persist the org
 		organizationDao.create(org);
-		
+
 		//Copy back to an orgInfo and return
 		OrgInfo createdOrgInfo = OrganizationAssembler.toOrgInfo(org);
 		return createdOrgInfo;
-	
+
 	}
 
 	@Override
@@ -192,19 +192,19 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		
+
 		if(orgId==null){
 			throw new MissingParameterException("orgId can not be null");
 		}
-		
+
 		Org org = organizationDao.fetch(Org.class, orgId);
-		
+
 		if(org==null){
 			throw new DoesNotExistException("Org does not exist for id: "+orgId);
 		}
-		
+
 		organizationDao.delete(org);
-		
+
 		StatusInfo statusInfo = new StatusInfo();
 		statusInfo.setSuccess(true);
 		return statusInfo;
@@ -334,7 +334,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		OrgPersonRelation opr = organizationDao.fetch(OrgPersonRelation.class, orgPersonRelationId);
 		return OrganizationAssembler.toOrgPersonRelationInfo(opr);
 	}
@@ -344,7 +343,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 		OrgPersonRelationType oprt = organizationDao.fetch(OrgPersonRelationType.class, orgPersonRelationTypeKey);
 		return OrganizationAssembler.toOrgPersonRelationTypeInfo(oprt);
 	}
@@ -352,7 +350,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
 		List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
 		return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
 	}
@@ -362,9 +359,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		
-		return null;
+		List<OrgPersonRelationType> oprts = organizationDao.getOrgPersonRelationTypesForOrgType(orgTypeKey);
+		return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
 	}
 
 	@Override

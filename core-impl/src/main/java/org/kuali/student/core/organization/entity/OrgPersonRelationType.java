@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -18,7 +20,10 @@ import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
 @Table(name = "KS_ORG_PERSON_REL_TYPE_T")
-public class OrgPersonRelationType 
+@NamedQueries({
+	@NamedQuery(name="OrgPersonRelationType.getOrgPersonRelationTypesForOrgType", query="SELECT oprt FROM OrgPersonRelationType oprt JOIN oprt.organizationTypes ot WHERE ot.key = :orgTypeKey")
+})
+public class OrgPersonRelationType
 	implements AttributeOwner<OrgPersonRelationTypeAttribute> {
 	/*
 	 * Assuming that that we don't need Attributes on this type
@@ -47,7 +52,7 @@ public class OrgPersonRelationType
 
 	@OneToMany(mappedBy = "orgPersonRelationType")
 	private List<OrgPersonRelation> orgPersonRelations;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
 	private Date effectiveDate;
@@ -127,7 +132,7 @@ public class OrgPersonRelationType
 	public void setKey(String key) {
 		this.key = key;
 	}
-	
+
 	public List<Org> getOrganizations() {
 		if (null == organizations){
 			organizations = new ArrayList<Org>();

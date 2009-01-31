@@ -25,6 +25,7 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -40,7 +41,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testCreateDeleteOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		
+
 		OrgInfo orgInfo = new OrgInfo();
 		orgInfo.setDesc("Description for new OrgInfo");
 		orgInfo.setLongName("TestOrgLongName");
@@ -50,9 +51,9 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgInfo.setEffectiveDate(df.parse("20090101"));
 		orgInfo.setExpirationDate(df.parse("21001231"));
 		orgInfo.getAttributes().put("Alias", "OrgAlias");
-		
+
 		OrgInfo createOrg = client.createOrganization("kuali.org.Program", orgInfo);
-		
+
 		//Validate all fields
 		assertEquals("Description for new OrgInfo",createOrg.getDesc());
 		assertEquals("TestOrgLongName",createOrg.getLongName());
@@ -63,13 +64,13 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(df.parse("21001231"),createOrg.getExpirationDate());
 		assertEquals("OrgAlias",createOrg.getAttributes().get("Alias"));
 		assertNotNull(createOrg.getId());
-		
+
 	}
 
 	@Test
 	public void testCreateOrgPersonRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		
+
 		OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
 		orgPersonRelationInfo.setState("Active");
 		orgPersonRelationInfo.setEffectiveDate(df.parse("20090101"));
@@ -77,9 +78,9 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgPersonRelationInfo.setOrgId("");
 		orgPersonRelationInfo.setPersonId("");
 		orgPersonRelationInfo.setType("");
-		
+
 		OrgPersonRelationInfo createdOPRInfo = client.createOrgPersonRelation("28", "KIM-12345", "kuali.org.PersonRelation.Dean", orgPersonRelationInfo);
-		
+
 		//Validate all fields
 		assertEquals("Active",createdOPRInfo.getState());
 		assertEquals(df.parse("20090101"),createdOPRInfo.getEffectiveDate());
@@ -89,11 +90,11 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals("kuali.org.PersonRelation.Dean",createdOPRInfo.getType());
 		assertNotNull(createdOPRInfo.getId());
 	}
-	
-	@Test 
+
+	@Test
 	public void testCreateDeleteOrgOrgRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		
+
 		OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
 		orgOrgRelationInfo.setState("Active");
 		orgOrgRelationInfo.setEffectiveDate(df.parse("20090101"));
@@ -101,9 +102,9 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgOrgRelationInfo.setOrgId("");
 		orgOrgRelationInfo.setRelatedOrgId("");
 		orgOrgRelationInfo.setType("");
-		
+
 		OrgOrgRelationInfo createdOORInfo = client.createOrgOrgRelation("16", "17", "kuali.org.Part", orgOrgRelationInfo);
-		
+
 		//Validate all fields
 		assertEquals("Active",createdOORInfo.getState());
 		assertEquals(df.parse("20090101"),createdOORInfo.getEffectiveDate());
@@ -113,7 +114,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals("kuali.org.Part",createdOORInfo.getType());
 		assertNotNull(createdOORInfo.getId());
 	}
-	
+
 	@Test
 	public void TestFinds() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 	    //Test Finds
@@ -169,4 +170,12 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		OrgHierarchyInfo orgHierarchyInfo = client.getOrgHierarchy("kuali.org.hierarchy.Curriculum");
 		assertEquals(orgHierarchyInfo.getKey(), "kuali.org.hierarchy.Curriculum");
 	}
+
+
+	@Test
+	public void getOrgPersonRelationTypesForOrgType() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<OrgPersonRelationTypeInfo> orgPersonRelationsByOrgType = client.getOrgPersonRelationTypesForOrgType("kuali.org.School");
+		assertEquals(2, orgPersonRelationsByOrgType.size());
+	}
+
 }
