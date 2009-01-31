@@ -304,7 +304,6 @@ public class RulesComposite extends Composite {
                     //make sure rule has draft status 
                     displayedRule.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());  
                     displayedRuleInfo.setStatus(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-                    displayedRule.getMetaInfo().setCreateTime(new Date());
                    
                     // 3) create new draft rule
                     DevelopersGuiService.Util.getInstance().createBusinessRule(displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
@@ -361,25 +360,19 @@ public class RulesComposite extends Composite {
                     }                                        
                     
                     // 3) update rule
-                    displayedRule.getMetaInfo().setUpdateTime(new Date());
-                    
-                    System.out.println("BEFORE updated rule compile ID: " + displayedRule.getCompiledId());
+                    displayedRule.getMetaInfo().setUpdateTime(new Date());                   
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
-                            // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
-                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
-                            System.out.println("AFTER updated rule compile ID: " + displayedRule.getCompiledId());
+                            loadExistingRule(displayedRule);                             
                             GuiUtil.showUserDialog("Rule updated.");
                         }
-                    });
-                    
-                    loadExistingRule(displayedRule);                                        
+                    });                                                           
                 }
             });
       
@@ -395,33 +388,24 @@ public class RulesComposite extends Composite {
                     if (isDisplayedRuleValid("Cannot activate rule.") == false) {
                     	return;
                     }
-                    
-                    //TODO rulesTree.remove(displayedRuleInfo); //TODO fire update event instead
-                    
+             
                     DevelopersGuiService.Util.getInstance().updateBusinessRuleState(displayedRule.getId(), BusinessRuleStatus.ACTIVE.toString(), new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
-                            // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
-                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
                             
                             // 3) rule status changes to ACTIVE
-                            displayedRule.setState(BusinessRuleStatus.ACTIVE.toString());
+                            //displayedRule.setState(BusinessRuleStatus.ACTIVE.toString());
                             displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
                             displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getName());
+                            loadExistingRule(displayedRule);
                             
                             GuiUtil.showUserDialog("Rule Activated");
                         }
                     });
-                    
-                    loadExistingRule(displayedRule);
-                    //TODO rulesTree.update(displayedRuleInfo);
-                    
-                    //TODO...
-                    //controller.getEventDispatcher().fireEvent(RulesUpdateEvent.class, displayedRuleInfo);
                 }
             });            
             
@@ -436,23 +420,30 @@ public class RulesComposite extends Composite {
                     // 2) update the active rule with data entered
                     if (updateCopyOfDisplayedRule() == false) {
                         return;
-                    }
+                    }            
                     
-                    // 3) create new version of this rule
-                    DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
+                    // 3) create a new rule version as a copy of existing rule
+                    BusinessRuleInfoDTO newRuleVersion = createRuleCopy(displayedRule);
+                    String origRuleId = newRuleVersion.getId();
+                    initializeRuleCopy(newRuleVersion, newRuleVersion.getName());
+                    newRuleVersion.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
+                    newRuleVersion.setOriginalRuleId(origRuleId);
+                    
+                    // 3) create new version of this rule                    
+                    DevelopersGuiService.Util.getInstance().createBusinessRule(newRuleVersion, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
                             // just re-throw it and let the uncaught exception handler deal with it
                             Window.alert(caught.getMessage());
                             // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
                         }
 
-                        public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
-                            displayedRule = updatedBusRule;
+                        public void onSuccess(BusinessRuleInfoDTO newRuleVersion) {
+                            displayedRule = newRuleVersion;                           
+                            
+                            loadExistingRule(displayedRule);                            
                             GuiUtil.showUserDialog("New Rule Version Created.");
                         }
-                    });
-                    
-                    loadExistingRule(displayedRule);
+                    });                    
                 }
             });            
             
@@ -469,37 +460,20 @@ public class RulesComposite extends Composite {
                             
                             //displayedRule.setState(BusinessRuleStatus.RETIRED.toString());
                             displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
-                            
-                        	GuiUtil.showUserDialog("Rule retired.");
+                            loadExistingRule(displayedRule);
+
+                            GuiUtil.showUserDialog("Rule retired.");
                         }
-                    });
-                    
-                    loadExistingRule(displayedRule);
-                    GuiUtil.showUserDialog("Rule retired.");
+                    });                    
                 }
             });    
             
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
                 	//keep original rule values except rule id, original rule id, compiled id and name
-                	displayedRule.setId("");
-                	displayedRule.setOriginalRuleId("");
-                	displayedRule.setCompiledId("");
-                	businessRuleID.setText("");
-                	displayedRule.setName("COPY OF " + displayedRule.getName()); 
-                    nameTextBox.setText(displayedRule.getName());                    
-                	displayedRule.setState(STATUS_NOT_STORED_IN_DATABASE);
-                	ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
-                    MetaInfoDTO metaInfo = new MetaInfoDTO();
-                    metaInfo.setCreateTime(null);
-                    metaInfo.setCreateID("");
-                    metaInfo.setCreateComment("");
-                    metaInfo.setUpdateTime(null);
-                    metaInfo.setUpdateID("");        
-                    metaInfo.setUpdateComment("");
-                	displayedRule.setMetaInfo(metaInfo);
-                	updateRulesFormButtons(displayedRule.getState());
-                	rulesFormTabs.selectTab(0);  
+                    initializeRuleCopy(displayedRule, "COPY OF " + displayedRule.getName());
+                    ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
+                    loadExistingRule(displayedRule); 
                 	GuiUtil.showUserDialog("Rule copied.");
                 }
             });  
@@ -778,6 +752,23 @@ public class RulesComposite extends Composite {
         }
     }
 
+    private void initializeRuleCopy(BusinessRuleInfoDTO copiedRule, String newRuleName) {
+        copiedRule.setId("");
+        copiedRule.setOriginalRuleId("");
+        copiedRule.setCompiledId("");
+        copiedRule.setName(newRuleName);                     
+        copiedRule.setState(STATUS_NOT_STORED_IN_DATABASE);
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        metaInfo.setCreateTime(null);
+        metaInfo.setCreateID("");
+        metaInfo.setCreateComment("");
+        metaInfo.setUpdateTime(null);
+        metaInfo.setUpdateID("");        
+        metaInfo.setUpdateComment("");
+        copiedRule.setMetaInfo(metaInfo);
+        updateRulesFormButtons(displayedRule.getState());        
+    }
+    
     private void loadEmptyRule() {    	
         displayedRule = createEmptyBusinessRule();
     	clearRuleForms();
@@ -816,7 +807,6 @@ public class RulesComposite extends Composite {
         }
 
         displayActiveRule();  
-        //retrieveFactTypes();
     }
     
     private void setRuleStatus(String status) {
@@ -856,7 +846,7 @@ public class RulesComposite extends Composite {
         	updateRuleButton.setEnabled(true); 
         	activateRuleButton.setEnabled(true); 
         	createNewVersionButton.setEnabled(false);     	
-        	retireRuleButton.setEnabled(true);        	
+        	retireRuleButton.setEnabled(false);        	
         	copyRuleButton.setEnabled(true);
         	cancelButton.setEnabled(true); 
         } else if (ruleStatus.equalsIgnoreCase(BusinessRuleStatus.ACTIVE.toString())) {
@@ -975,7 +965,7 @@ public class RulesComposite extends Composite {
         elem.setName("");
         elem.setDescription("");
         elem.setBusinessRuleElemnetTypeKey("");
-        elem.setOrdinalPosition(6);
+        elem.setOrdinalPosition(0);
         elem.setBusinessRuleProposition(prop);
         elemList.add(elem);
         newRule.setBusinessRuleElementList(elemList);
@@ -992,6 +982,69 @@ public class RulesComposite extends Composite {
         
         return newRule;
     }    
+    
+    private BusinessRuleInfoDTO createRuleCopy(BusinessRuleInfoDTO originalRule) {
+
+        BusinessRuleInfoDTO newRule = new BusinessRuleInfoDTO();
+
+        newRule.setId(originalRule.getId());
+        newRule.setState(originalRule.getState());
+        newRule.setName(originalRule.getName());
+        newRule.setDesc(originalRule.getDesc());
+        newRule.setSuccessMessage(originalRule.getSuccessMessage());
+        newRule.setFailureMessage(originalRule.getFailureMessage());
+        newRule.setType(originalRule.getType());
+        newRule.setAnchorTypeKey(originalRule.getAnchorTypeKey());
+        newRule.setAnchorValue(originalRule.getAnchorValue());
+        newRule.setEffectiveDate(originalRule.getEffectiveDate());
+        newRule.setExpirationDate(originalRule.getExpirationDate());
+        
+        // set meta info
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        MetaInfoDTO originalMetaInfo = originalRule.getMetaInfo();
+        metaInfo.setCreateTime(originalMetaInfo.getCreateTime());
+        metaInfo.setCreateID(originalMetaInfo.getCreateID());
+        metaInfo.setCreateComment(originalMetaInfo.getCreateComment());
+        metaInfo.setUpdateTime(originalMetaInfo.getUpdateTime());
+        metaInfo.setUpdateID(originalMetaInfo.getUpdateID());        
+        metaInfo.setUpdateComment(originalMetaInfo.getUpdateComment());
+        newRule.setMetaInfo(metaInfo);        
+        
+        // set rule proposition
+        List<RuleElementDTO> newElementList = new ArrayList<RuleElementDTO>();
+        newRule.setBusinessRuleElementList(newElementList);
+        for (RuleElementDTO originalRuleElement : originalRule.getBusinessRuleElementList()) {
+            RuleElementDTO newRuleElement = new RuleElementDTO();
+            newElementList.add(newRuleElement);
+            newRuleElement.setId(originalRuleElement.getId());
+            newRuleElement.setName(originalRuleElement.getName());
+            newRuleElement.setDescription(originalRuleElement.getDescription());
+            newRuleElement.setOrdinalPosition(originalRuleElement.getOrdinalPosition());
+            newRuleElement.setBusinessRuleElemnetTypeKey(originalRuleElement.getBusinessRuleElemnetTypeKey());
+            
+            //if the element is a proposition, then copy the proposition as well
+            RulePropositionDTO originalProposition = originalRuleElement.getBusinessRuleProposition();            
+            if (originalProposition == null) continue;
+            
+            RulePropositionDTO newProposition = new RulePropositionDTO();
+            newRuleElement.setBusinessRuleProposition(newProposition);
+            newProposition.setName(originalProposition.getName());
+            newProposition.setDescription(originalProposition.getDescription());
+            newProposition.setFailureMessage(originalProposition.getFailureMessage());
+            newProposition.setComparisonDataTypeKey(originalProposition.getComparisonDataTypeKey());
+            newProposition.setComparisonOperatorTypeKey(originalProposition.getComparisonOperatorTypeKey());
+            
+            LeftHandSideDTO leftSide = new LeftHandSideDTO();
+            leftSide.setYieldValueFunction(originalProposition.getLeftHandSide().getYieldValueFunction());
+            newProposition.setLeftHandSide(leftSide);
+            
+            RightHandSideDTO rightSide = new RightHandSideDTO();
+            rightSide.setExpectedValue(originalProposition.getRightHandSide().getExpectedValue());
+            newProposition.setRightHandSide(rightSide);            
+        }        
+        
+        return newRule;
+    }      
 
     private void placeNewDraftInTree(String newRuleID) {
         String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);

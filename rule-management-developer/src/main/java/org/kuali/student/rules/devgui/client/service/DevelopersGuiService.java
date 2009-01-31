@@ -43,27 +43,27 @@ public interface DevelopersGuiService extends RemoteService {
         }
     }
     
-    public FactTypeInfoDTO fetchFactType(String factTypeKey);
+    public FactTypeInfoDTO fetchFactType(String factTypeKey) throws Exception;
 
-    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys);
+    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys) throws Exception;
     
-    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts);    
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) throws Exception;    
     
-    public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo);
+    public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws Exception;
 
-    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo);
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception;
 
-    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState);
+    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState) throws Exception;
     
-    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId);
+    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) throws Exception;
 
-    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey);
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) throws Exception;
 
-    public String testBusinessRule(String businessRuleId);
+    public String testBusinessRule(String businessRuleId) throws Exception;
     
-    public List<String> findAgendaTypes();
+    public List<String> findAgendaTypes() throws Exception;
     
-    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey);
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws Exception;
     
     public List<RulesHierarchyInfo> fetchRulesHierarchyInfo();
 

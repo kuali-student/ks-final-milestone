@@ -38,24 +38,24 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *
      *******************************************************************************************************************/    
  
-    public FactTypeInfoDTO fetchFactType(String factTypeKey) {
+    public FactTypeInfoDTO fetchFactType(String factTypeKey) throws Exception {
     	FactTypeInfoDTO factTypeInfo;
     	try {
     		factTypeInfo = factFinderService.fetchFactType(factTypeKey);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to fetch Fact Type using Fact Type Key: " + factTypeKey, ex); // TODO
+            throw new Exception("Unable to fetch Fact Type using Fact Type Key: " + factTypeKey, ex); // TODO
         }
         return factTypeInfo;
     }
     
-    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys) {
+    public List<FactTypeInfoDTO> fetchFactTypeList(List<String> factTypeKeys) throws Exception {
     	List<FactTypeInfoDTO> factTypeInfoList = new ArrayList<FactTypeInfoDTO>();
     	
 		for (String factTypeKey : factTypeKeys) {
 			try {
 				factTypeInfoList.add(factFinderService.fetchFactType(factTypeKey));
 	        } catch (Exception ex) {
-	            throw new RuntimeException("Unable to fetch Fact Type using Fact Type Key: " + factTypeKey, ex); // TODO
+	            throw new Exception("Unable to fetch Fact Type using Fact Type Key: " + factTypeKey, ex); // TODO
 	        }
     	}
         return factTypeInfoList;
@@ -68,7 +68,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
      *
      *******************************************************************************************************************/                  
 
-    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) {
+    public ExecutionResultDTO executeBusinessRuleTest(BusinessRuleInfoDTO businessRule, Map<String, String> definitionTimeFacts, Map<String, String> executionTimeFacts) throws Exception {
     	ExecutionResultDTO executionResult;
     	String testFactValue = null;
     	
@@ -102,58 +102,71 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         try {
             executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, executionTimeFacts);  //TODO dynamic facts
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to execute rule ID: " + businessRule.getId(), ex); // TODO
+            throw new Exception("Unable to execute rule ID: " + businessRule.getId(), ex); // TODO
         }
         return executionResult;
     }     
 
     //returns business rule ID
-	public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) {    	
+	public BusinessRuleInfoDTO createBusinessRule(BusinessRuleInfoDTO businessRuleInfo) throws Exception {    	
         try {
             return ruleManagementService.createBusinessRule(businessRuleInfo);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
+            throw new Exception("Unable to create business rule ID: " + businessRuleInfo.getId(), ex); // TODO
         }
     }
 
 	
-    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) {                        
+    public BusinessRuleInfoDTO updateBusinessRule(String businessRuleId, BusinessRuleInfoDTO businessRuleInfo) throws Exception {                        
         try {
             return ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
         } catch (Exception ex) {
-        	throw new RuntimeException("Unable to update business rule ID: " + businessRuleInfo.getId() + ex.getMessage());
+        	throw new Exception("Unable to update business rule ID: " + businessRuleInfo.getId() + "\n" + ex.getMessage());
         }        
     }
 
-    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState) {                        
+    public BusinessRuleInfoDTO updateBusinessRuleState(String businessRuleId, String brState) throws Exception {
+        BusinessRuleInfoDTO businessRuleInfo;
+        
+        try {
+            businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+        } catch (Exception ex) {
+            throw new Exception("Unable to get detailed business rule info", ex);
+        }
+
+        //if the rule was not compiled (e.g. this is a rule loaded from data beans, then first update the rule before updating its state
+        if ((businessRuleInfo.getCompiledId() == null) || (businessRuleInfo.getCompiledId().length() == 0)) {
+            updateBusinessRule(businessRuleId, businessRuleInfo);
+        }
+        
         try {
             return ruleManagementService.updateBusinessRuleState(businessRuleId, brState);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to update state of business rule ID: " + businessRuleId + ex.getMessage());
+            throw new Exception("Unable to update state of business rule ID: " + businessRuleId + "\n" + ex.getMessage());
         }        
     }    
     
-    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) {
+    public BusinessRuleInfoDTO fetchDetailedBusinessRuleInfo(String ruleId) throws Exception {
 
         BusinessRuleInfoDTO businessRuleInfo;
 
         try {
             businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(ruleId);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to get detailed business rule info", ex);
+            throw new Exception("Unable to get detailed business rule info", ex);
         }
 
         return businessRuleInfo;
     }
 
-    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) {
+    public BusinessRuleTypeInfoDTO fetchBusinessRuleType(String ruleTypeKey, String anchorTypeKey) throws Exception {
 
         BusinessRuleTypeInfoDTO businessRuleType;
 
         try {
             businessRuleType = ruleManagementService.fetchBusinessRuleType(ruleTypeKey, anchorTypeKey);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to get agenda types", ex);
+            throw new Exception("Unable to get agenda types", ex);
         }
 
         return businessRuleType;
@@ -163,25 +176,25 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         return "TEST result"; // TODO
     }
     
-    public List<String> findAgendaTypes() {
+    public List<String> findAgendaTypes() throws Exception {
     	
         List<String> agendaTypes = new ArrayList<String>();
         try {
             agendaTypes = ruleManagementService.findAgendaTypes();
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to find agenda types", ex); // TODO
+            throw new Exception("Unable to find agenda types", ex); // TODO
         }
         
         return agendaTypes;
     }
      
-    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) {
+    public List<String> findBusinessRuleTypesByAgendaType(String agendaTypeKey) throws Exception {
     	
         List<String> businessRuleTypes = new ArrayList<String>();
         try {
         	businessRuleTypes = ruleManagementService.findBusinessRuleTypesByAgendaType(agendaTypeKey);
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to find Business Rule Types based on Agenda Key:" + agendaTypeKey, ex); // TODO
+            throw new Exception("Unable to find Business Rule Types based on Agenda Key:" + agendaTypeKey, ex); // TODO
         }
         
         return businessRuleTypes;
