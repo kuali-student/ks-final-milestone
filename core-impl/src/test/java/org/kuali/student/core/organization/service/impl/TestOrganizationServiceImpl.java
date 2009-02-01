@@ -260,4 +260,24 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		orgOrgRelationInfos = client.getOrgOrgRelationsByIdList(idList);
 		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 	}
+	
+	@Test
+	public void getOrgPersonRelationsByIdList() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<String> idList = new ArrayList<String>(2);
+		idList.add("2");
+		idList.add("3");
+		List<OrgPersonRelationInfo> orgOrgRelationInfos = client.getOrgPersonRelationsByIdList(idList);
+		assertEquals(2, orgOrgRelationInfos.size());
+
+		idList.add("-1");
+		orgOrgRelationInfos = client.getOrgPersonRelationsByIdList(idList);
+		assertEquals(2, orgOrgRelationInfos.size());
+
+		idList = new ArrayList<String>(2);
+		idList.add("-1");
+		idList.add("-2");
+		orgOrgRelationInfos = client.getOrgPersonRelationsByIdList(idList);
+		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
+	}
+
 }

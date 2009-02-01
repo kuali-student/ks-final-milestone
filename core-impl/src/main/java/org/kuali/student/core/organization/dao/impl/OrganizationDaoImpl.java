@@ -127,4 +127,12 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		List<OrgOrgRelation> orgRelationTypes = query.getResultList();
 		return orgRelationTypes;
 	}
+	public List<OrgPersonRelation> getOrgPersonRelationsByIdList(List<String> orgPersonRelationIdList) {
+			Query query = em
+				.createNamedQuery("OrgPersonRelation.getOrgPersonRelationsByIdList");
+		query.setParameter("idList", orgPersonRelationIdList);
+		@SuppressWarnings("unchecked")
+		List<OrgPersonRelation> orgRelations = query.getResultList();
+		return orgRelations;
+	}
 }
