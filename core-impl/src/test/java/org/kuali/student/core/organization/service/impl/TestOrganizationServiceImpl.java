@@ -136,7 +136,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void getAllOrgPersonRelationsByOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgPersonRelationInfo> orgPersonRelationInfos = client.getAllOrgPersonRelationsByOrg("68");
-		assertEquals(2, orgPersonRelationInfos.size());
+		assertEquals(3, orgPersonRelationInfos.size());
 
 		orgPersonRelationInfos = client.getAllOrgPersonRelationsByOrg("-1");
 		assertTrue(orgPersonRelationInfos == null || orgPersonRelationInfos.size() == 0);
@@ -177,7 +177,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		descendants = client.getAllDescendants("-1", "kuali.org.hierarchy.Main");
 		assertTrue(descendants == null || descendants.size() == 0);
 		
-		descendants = client.getAllDescendants("-1", "Star.Trek");
+		descendants = client.getAllDescendants("-1", "-1");
 		assertTrue(descendants == null || descendants.size() == 0);
 	}
 
@@ -209,7 +209,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void getAllOrgPersonRelationsByPerson() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgPersonRelationInfo> orgPersonRelationsByPerson = client.getAllOrgPersonRelationsByPerson("KIM-1");
-		assertEquals(2, orgPersonRelationsByPerson.size());
+		assertEquals(3, orgPersonRelationsByPerson.size());
 		
 		orgPersonRelationsByPerson = client.getAllOrgPersonRelationsByPerson("Homer");
 		assertTrue(orgPersonRelationsByPerson == null || orgPersonRelationsByPerson.size() == 0);
@@ -283,7 +283,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void getOrgPersonRelationsByPerson() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgPersonRelationInfo> orgOrgRelationInfos = client.getOrgPersonRelationsByPerson("KIM-1", "68");
-		assertEquals(1, orgOrgRelationInfos.size());
+		assertEquals(2, orgOrgRelationInfos.size());
 
 		orgOrgRelationInfos = client.getOrgPersonRelationsByPerson("KIM-1", "-1");
 		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
