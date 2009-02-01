@@ -25,7 +25,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
     @Override
     public List<OrgPersonRelation> getAllOrgPersonRelationsByPerson(String personId) {
-        Query query = em.createQuery("select distinct opr from OrgPersonRelation opr where personId = :personId");
+        Query query = em.createNamedQuery("OrgPersonRelation.getAllOrgPersonRelationsByPerson");
         query.setParameter("personId", personId);
         @SuppressWarnings("unchecked")
         List<OrgPersonRelation> resultList = query.getResultList();
@@ -34,7 +34,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
     @Override
     public List<OrgPersonRelation> getAllOrgPersonRelationsByOrg(String orgId) {
-        Query query = em.createQuery("select distinct opr from OrgPersonRelation opr join opr.org o where o.id = :orgId");
+        Query query = em.createNamedQuery("OrgPersonRelation.getAllOrgPersonRelationsByOrg");
         query.setParameter("orgId", orgId);
         @SuppressWarnings("unchecked")
         List<OrgPersonRelation> resultList = query.getResultList();
@@ -43,7 +43,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
     @Override
     public List<String> getPersonIdsForOrgByRelationType(String orgId, String orgPersonRelationTypeKey) {
-        Query query = em.createQuery("select distinct opr.personId from OrgPersonRelation opr join opr.org o join opr.orgPersonRelationType t where o.id = :orgId and t.key = :orgPersonRelationTypeKey");
+        Query query = em.createNamedQuery("OrgPersonRelationType.getPersonIdsForOrgByRelationType");
         query.setParameter("orgId", orgId);
         query.setParameter("orgPersonRelationTypeKey", orgPersonRelationTypeKey);
         @SuppressWarnings("unchecked")
@@ -53,8 +53,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
 	@Override
 	public List<Org> getOrganizationsByIdList(List<String> orgIdList) {
-		Query query = em.createQuery("SELECT o FROM Org o " +
-				                     " WHERE o.id IN (:orgIdList)");
+		Query query = em.createNamedQuery("Org.getOrganizationsByIdList");
         query.setParameter("orgIdList", orgIdList);
         @SuppressWarnings("unchecked")
 		List<Org> orgs = query.getResultList();
@@ -63,8 +62,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
 	@Override
 	public List<OrgOrgRelation> getOrgOrgRelationsByOrg(String orgId) {
-		Query query = em.createQuery("SELECT oor FROM OrgOrgRelation oor " +
-        							 " WHERE oor.org.id = :orgId");
+		Query query = em.createNamedQuery("OrgOrgRelationInfo.OrgOrgRelationInfo");
 		query.setParameter("orgId", orgId);
 		@SuppressWarnings("unchecked")
 		List<OrgOrgRelation> orgOrgRelations = query.getResultList();

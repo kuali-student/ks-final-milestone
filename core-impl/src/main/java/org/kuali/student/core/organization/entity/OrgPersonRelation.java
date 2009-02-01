@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -22,40 +24,45 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KS_ORG_PERSON_REL_T")
+@NamedQueries({
+	@NamedQuery(name="OrgPersonRelation.getAllOrgPersonRelationsByOrg", query="SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
+	@NamedQuery(name="OrgPersonRelation.getAllOrgPersonRelationsByPerson", query="SELECT distinct opr FROM OrgPersonRelation opr WHERE personId = :personId")
+})
+
 public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgPersonRelationAttribute>{
 	@Id
 	@Column(name = "ORG_PERSON_REL_ID")
-	private String id; 
-	
+	private String id;
+
 	@ManyToOne
     @JoinColumn(name="ORG")
-	private Org org; 
-	
+	private Org org;
+
 	//Foreign Key from external Service
 	@Column(name = "PERSON_ID")
 	// @ManyToOne
     // @JoinColumn(name="PERSON_ID")
-	private String personId; 
-	
+	private String personId;
+
 	@ManyToOne
     @JoinColumn(name = "ORG_PERSON_REL_TYPE")
-	private OrgPersonRelationType orgPersonRelationType; 
-	
+	private OrgPersonRelationType orgPersonRelationType;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
 	private Date effectiveDate;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIRATION_DT")
-	private Date expirationDate; 
-	
+	private Date expirationDate;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPersonRelationAttribute> attributes;
-	
-	@Column(name = "ORG_PERSON_REL_STATE")
-	private String state; 
 
-	
+	@Column(name = "ORG_PERSON_REL_STATE")
+	private String state;
+
+
 	/**
 	 * AutoGenerate the Id
 	 */
@@ -63,8 +70,8 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	public void prePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
-	
-	
+
+
 	@Override
 	public List<OrgPersonRelationAttribute> getAttributes() {
 		if(attributes==null){
