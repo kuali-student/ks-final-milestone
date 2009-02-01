@@ -27,7 +27,8 @@ import org.kuali.student.core.entity.MetaEntity;
 @NamedQueries({
 	@NamedQuery(name="OrgPersonRelation.getAllOrgPersonRelationsByOrg", query="SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
 	@NamedQuery(name="OrgPersonRelation.getAllOrgPersonRelationsByPerson", query="SELECT distinct opr FROM OrgPersonRelation opr WHERE personId = :personId"),
-	@NamedQuery(name="OrgPersonRelation.getOrgPersonRelationsByIdList", query="SELECT  opr FROM OrgPersonRelation opr WHERE id IN (:idList)")
+	@NamedQuery(name="OrgPersonRelation.getOrgPersonRelationsByIdList", query="SELECT  opr FROM OrgPersonRelation opr WHERE id IN (:idList)"),
+	@NamedQuery(name="OrgPersonRelation.getOrgPersonRelationsByPerson", query="SELECT  opr FROM OrgPersonRelation opr WHERE personId = :personId AND org.id = :orgId")
 })
 
 public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgPersonRelationAttribute>{

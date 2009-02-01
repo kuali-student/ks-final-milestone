@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.organization.dao.OrganizationDao;
+import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
@@ -127,12 +128,24 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		List<OrgOrgRelation> orgRelationTypes = query.getResultList();
 		return orgRelationTypes;
 	}
+
+	@Override
 	public List<OrgPersonRelation> getOrgPersonRelationsByIdList(List<String> orgPersonRelationIdList) {
-			Query query = em
-				.createNamedQuery("OrgPersonRelation.getOrgPersonRelationsByIdList");
+		Query query = em.createNamedQuery("OrgPersonRelation.getOrgPersonRelationsByIdList");
 		query.setParameter("idList", orgPersonRelationIdList);
 		@SuppressWarnings("unchecked")
 		List<OrgPersonRelation> orgRelations = query.getResultList();
+		return orgRelations;
+	}
+
+	@Override
+	public List<OrgPersonRelation> getOrgPersonRelationsByPerson(String personId, String orgId) {
+		Query query = em.createNamedQuery("OrgPersonRelation.getOrgPersonRelationsByPerson");
+		query.setParameter("personId", personId);
+		query.setParameter("orgId", orgId);
+		@SuppressWarnings("unchecked")
+		List<OrgPersonRelation> orgRelations = query.getResultList();
+
 		return orgRelations;
 	}
 }
