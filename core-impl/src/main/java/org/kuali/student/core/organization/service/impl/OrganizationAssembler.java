@@ -44,6 +44,10 @@ public class OrganizationAssembler extends BaseAssembler{
 	}
 
 	public static OrgHierarchyInfo toOrgHierarchyInfo(OrgHierarchy orgHierarchy) {
+		if (orgHierarchy == null) {
+			return null;
+		}
+		
 		OrgHierarchyInfo orgHierarchyInfo = new OrgHierarchyInfo();
 
 		BeanUtils.copyProperties(orgHierarchy, orgHierarchyInfo, new String[] { "rootOrgId",
@@ -65,6 +69,10 @@ public class OrganizationAssembler extends BaseAssembler{
 	}
 
 	public static OrgInfo toOrgInfo(Org org) {
+		if (org == null) {
+			return null;
+		}
+		
 		OrgInfo orgInfo = new OrgInfo();
 
 		BeanUtils.copyProperties(org, orgInfo, new String[] { "type",
@@ -176,6 +184,10 @@ public class OrganizationAssembler extends BaseAssembler{
 	}
 
 	public static OrgOrgRelationTypeInfo toOrgOrgRelationTypeInfo(OrgOrgRelationType orgOrgRelationType) {
+		if (orgOrgRelationType == null) {
+			return null;
+		}
+		
 		OrgOrgRelationTypeInfo orgOrgRelationTypeInfo = new OrgOrgRelationTypeInfo();
 		BeanUtils.copyProperties(orgOrgRelationType, orgOrgRelationTypeInfo, new String[] { "attributes", "orgHierarchy"});
 
