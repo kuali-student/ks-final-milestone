@@ -291,7 +291,6 @@ public class OrgCreatePanel extends Composite{
         
                     public void onSuccess(List<OrgPositionRestrictionInfo> orgPositions) {                   
                         for (OrgPositionRestrictionInfo orgPos:orgPositions){
-                            Window.alert(orgPos.getOrgPersonRelationTypeKey());
                             OrgPositionWidget orgPositionWidget = new OrgPositionWidget();
                             orgPositionWidget.setOrgPositionRestrictionInfo(orgPos);
                             vPositions.add(orgPositionWidget);
