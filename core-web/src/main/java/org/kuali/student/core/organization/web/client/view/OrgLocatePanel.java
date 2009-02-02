@@ -28,6 +28,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -139,6 +140,8 @@ public class OrgLocatePanel extends Composite{
         
         Hyperlink orgLink;
         Hyperlink orgEditLbl;
+        Hyperlink orgAddRelLbl;
+        Hyperlink orgAddPosLbl;
         String orgId;
         
         public OrgWidget(OrgInfo orgInfo){
@@ -156,18 +159,42 @@ public class OrgLocatePanel extends Composite{
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");
             orgEditLbl.setStyleName("action");
-            orgEditLbl.addClickListener(new ClickListener(){
+            orgEditLbl.addClickListener(new OrgActionClickListener(orgId, OrgCreatePanel.CREATE_ORG_ALL));
+            
+            orgAddPosLbl = new Hyperlink("(+)org pos", "addPosRel");
+            orgAddPosLbl.setStyleName("action");
+            orgAddPosLbl.addClickListener(new OrgActionClickListener(orgId, OrgCreatePanel.CREATE_ORG_POSITIONS));
 
-                public void onClick(Widget sender) {
-                    SimplePanel workPanel  = (SimplePanel)vPanel.getParent().getParent();
-                    OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL);
-                    orgCreatePanel.setOrgId(orgId);
-                    workPanel.setWidget(orgCreatePanel);
-                }                
-            });
+            orgAddRelLbl = new Hyperlink("(+)org rel", "addOrgRel");
+            orgAddRelLbl.setStyleName("action");
+            orgAddRelLbl.addClickListener(new OrgActionClickListener(orgId, OrgCreatePanel.CREATE_ORG_RELATIONS));
+
+            FlexTable ft = new FlexTable();
+            ft.setWidget(0, 1, orgEditLbl);
+            ft.setWidget(0, 2, orgAddRelLbl);
+            ft.setWidget(0, 3, orgAddPosLbl);
             
             vOrgPanel.add(orgLink);
-            vOrgPanel.add(orgEditLbl);
+            vOrgPanel.add(ft);
         }        
+    }
+    
+    public class OrgActionClickListener implements ClickListener{
+
+        String orgPanelType;
+        String orgId;
+        
+        public OrgActionClickListener(String orgId, String orgPanelType){
+            this.orgPanelType = orgPanelType;
+            this.orgId = orgId;
+        }
+        
+        public void onClick(Widget sender) {
+            SimplePanel workPanel  = (SimplePanel)vPanel.getParent().getParent();
+            OrgCreatePanel orgCreatePanel = new OrgCreatePanel(orgPanelType);
+            orgCreatePanel.setOrgId(orgId);
+            workPanel.setWidget(orgCreatePanel);            
+        }
+
     }
 }

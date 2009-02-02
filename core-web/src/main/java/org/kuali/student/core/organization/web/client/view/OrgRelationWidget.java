@@ -17,6 +17,7 @@ package org.kuali.student.core.organization.web.client.view;
 
 import java.util.List;
 
+import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
@@ -40,13 +41,13 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class OrgRelationWidget extends Composite{
 
-    TextBox relatedOrg = null;
+    TextBox relatedOrgName = null;
+    TextBox relatedOrgId = null;
     ListBox orgRelTypeDropDown = null;
     TextBox orgEffectiveDate = null;
     TextBox orgExpirationDate = null;
     TextArea orgNote = null;
     
-    String relatedOrgId;
     String orgRelType;
     
     FlexTable fTable = null;
@@ -56,7 +57,8 @@ public class OrgRelationWidget extends Composite{
     public OrgRelationWidget(){
         super.initWidget(root);
 
-        relatedOrg = new TextBox();
+        relatedOrgName = new TextBox();
+        relatedOrgId = new TextBox();
         orgRelTypeDropDown = new ListBox();
         orgEffectiveDate = new TextBox();
         orgExpirationDate = new TextBox();
@@ -70,19 +72,22 @@ public class OrgRelationWidget extends Composite{
         loadOrgRelationTypes();        
         
         fTable.setWidget(0,0, new Label("Organization"));
-        fTable.setWidget(0,1, relatedOrg);
+        fTable.setWidget(0,1, relatedOrgName);
         
-        fTable.setWidget(1,0, new Label("Relationship"));
-        fTable.setWidget(1,1, orgRelTypeDropDown);
+        fTable.setWidget(1,0, new Label("Organization Id"));
+        fTable.setWidget(1,1, relatedOrgId);
+
+        fTable.setWidget(2,0, new Label("Relationship"));
+        fTable.setWidget(2,1, orgRelTypeDropDown);
         
-        fTable.setWidget(2,0, new Label("Effective date"));
-        fTable.setWidget(2,1, orgEffectiveDate);
+        fTable.setWidget(3,0, new Label("Effective date"));
+        fTable.setWidget(3,1, orgEffectiveDate);
         
-        fTable.setWidget(3,0, new Label("Expiration date"));
-        fTable.setWidget(3,1, orgExpirationDate);
+        fTable.setWidget(4,0, new Label("Expiration date"));
+        fTable.setWidget(4,1, orgExpirationDate);
         
-        fTable.setWidget(4,0, new Label("Note"));
-        fTable.setWidget(4,1, orgNote);
+        fTable.setWidget(5,0, new Label("Note"));
+        fTable.setWidget(5,1, orgNote);
         
         root.add(fTable);
     }
@@ -91,10 +96,11 @@ public class OrgRelationWidget extends Composite{
         DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
         
         OrgOrgRelationInfo orgRelationInfo = new OrgOrgRelationInfo();        
+        orgRelationInfo.setId(relatedOrgId.getText());
         orgRelationInfo.setType(orgRelTypeDropDown.getValue(orgRelTypeDropDown.getSelectedIndex()));
         
         //TODO: This should lookup orgId based on related org name
-        relatedOrgId = relatedOrg.getText();
+        String relatedOrgId = relatedOrgName.getText();
         orgRelationInfo.setRelatedOrgId(relatedOrgId);
 
         try{
@@ -112,8 +118,19 @@ public class OrgRelationWidget extends Composite{
     public void setOrgOrgRelationInfo(OrgOrgRelationInfo orgRelationInfo){
         DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
                
+        relatedOrgId.setText(orgRelationInfo.getId());
         orgRelType = orgRelationInfo.getType();
-        relatedOrg.setText(orgRelationInfo.getRelatedOrgId());
+        
+        OrgRpcService.Util.getInstance().getOrganization(orgRelationInfo.getRelatedOrgId(), 
+                new AsyncCallback<OrgInfo>(){
+
+                    public void onFailure(Throwable caught) {
+                    }
+
+                    public void onSuccess(OrgInfo orgInfo) {
+                        relatedOrgName.setText(orgInfo.getLongName());                       
+                    }            
+        });
 
         try{
             orgEffectiveDate.setText(dateFmt.format(orgRelationInfo.getEffectiveDate()));

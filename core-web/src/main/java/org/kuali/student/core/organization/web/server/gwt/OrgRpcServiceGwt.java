@@ -40,8 +40,6 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
             serviceImpl = (OrgRpcService) new FileSystemXmlApplicationContext("classpath:spring-beans.xml").getBean("orgRpcService");
         }
     }
-
-	
 	
 	public OrgRpcService getServiceImpl() {
 		return serviceImpl;

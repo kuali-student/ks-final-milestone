@@ -53,6 +53,7 @@ public class OrgPositionWidget extends Composite {
     SimplePanel root = new SimplePanel();
     
     String posType;
+    String posId;
     String orgType;
     
     public OrgPositionWidget(){
@@ -92,6 +93,7 @@ public class OrgPositionWidget extends Composite {
     public OrgPositionRestrictionInfo getPositionRestrictionInfo(){
         OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
         
+        orgPosRestriction.setId(posId);
         orgPosRestriction.setOrgPersonRelationTypeKey(posTypeDropDown.getValue(posTypeDropDown.getSelectedIndex()));
         orgPosRestriction.setTitle(posTitle.getText());
         orgPosRestriction.setDesc(posDesc.getText());
@@ -115,6 +117,7 @@ public class OrgPositionWidget extends Composite {
     }
     
     protected void setOrgPositionRestrictionInfo(OrgPositionRestrictionInfo orgPosRestriction){
+        posId = orgPosRestriction.getId();
         posType = orgPosRestriction.getOrgPersonRelationTypeKey();
         posTitle.setText(orgPosRestriction.getTitle());
         posDesc.setText(orgPosRestriction.getDesc());
