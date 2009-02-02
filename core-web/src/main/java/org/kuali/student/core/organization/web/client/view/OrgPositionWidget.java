@@ -52,24 +52,25 @@ public class OrgPositionWidget extends Composite {
    
     SimplePanel root = new SimplePanel();
     
+    String posType;
     String orgType;
     
     public OrgPositionWidget(){
         super.initWidget(root);
-    }
-    
-    protected void onLoad(){
-        fTable = new FlexTable();
-        posTypeDropDown = new ListBox();
-        loadPersonRelationTypes();
         
         posTitle = new TextBox();
         posDesc = new TextArea();
         posMinRelation = new TextBox();
         posMaxRelation = new TextBox();
         posDuration = new TextBox();
-        atpDurationType = new TextBox();
-        
+        atpDurationType = new TextBox();        
+    }
+       
+    protected void onLoad(){
+        fTable = new FlexTable();
+        posTypeDropDown = new ListBox();
+        loadPersonRelationTypes();
+               
         fTable.setWidget(0,0, new Label("Position"));
         fTable.setWidget(0,1, posTypeDropDown);
         
@@ -113,6 +114,15 @@ public class OrgPositionWidget extends Composite {
         return orgPosRestriction;        
     }
     
+    protected void setOrgPositionRestrictionInfo(OrgPositionRestrictionInfo orgPosRestriction){
+        posType = orgPosRestriction.getOrgPersonRelationTypeKey();
+        posTitle.setText(orgPosRestriction.getTitle());
+        posDesc.setText(orgPosRestriction.getDesc());
+        posDuration.setText(orgPosRestriction.getStdDuration().getTimeQuantity().toString());
+        posMinRelation.setText(orgPosRestriction.getMinNumRelations().toString());       
+        posMaxRelation.setText(orgPosRestriction.getMaxNumRelations());        
+    }
+    
     protected void loadPersonRelationTypes(){
         OrgRpcService.Util.getInstance().getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
             public void onFailure(Throwable caught) {
@@ -121,13 +131,17 @@ public class OrgPositionWidget extends Composite {
 
             public void onSuccess(List<OrgPersonRelationTypeInfo> posTypes) {
                 posTypeDropDown.addItem("Select", "");
-                posTypeDropDown.setSelectedIndex(0);
-
-                for(OrgPersonRelationTypeInfo posType:posTypes){
-                    posTypeDropDown.addItem(posType.getName(),posType.getKey());
+               
+                int i =0;
+                for(OrgPersonRelationTypeInfo posTypeInfo:posTypes){
+                    i++;
+                    posTypeDropDown.addItem(posTypeInfo.getName(),posTypeInfo.getKey());
+                    if (posTypeInfo.getKey().equals(posType)){
+                        posTypeDropDown.setSelectedIndex(i);
+                    }
                 }
             }
         });        
     }
-        
+     
 }

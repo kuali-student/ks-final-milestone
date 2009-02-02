@@ -39,6 +39,7 @@ public class OrgMenu extends Composite{
     Hyperlink locateOrg = new Hyperlink("Organization", "locateOrg");
     Hyperlink createOrg = new Hyperlink("Organization", "createOrg");
     Hyperlink createPos = new Hyperlink("Positions", "createPos");
+    Hyperlink modifyOrg = new Hyperlink("Organization", "modifyPos");
     
     public OrgMenu(SimplePanel workPanel){
         super.initWidget(fTable);
@@ -60,6 +61,12 @@ public class OrgMenu extends Composite{
             public void onClick(Widget sender) {
                 workPanel.setWidget(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_POSITIONS));
         }});
+    
+        modifyOrg.addClickListener(new ClickListener(){
+            public void onClick(Widget sender) {
+                workPanel.setWidget(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL));
+        }});
+        
                     
         fTable.setWidget(0,0, new SectionLabel("Create"));       
         fTable.setWidget(1,0, createPos);
@@ -67,7 +74,7 @@ public class OrgMenu extends Composite{
         
         fTable.setWidget(0,1, new SectionLabel("Modify Existing"));
         fTable.setWidget(1,1, new Hyperlink("Position", "modifyPos"));
-        fTable.setWidget(2,1, new Hyperlink("Organization", "modifyOrg"));
+        fTable.setWidget(2,1, modifyOrg);
                
         fTable.setWidget(0,2, new SectionLabel("Administer Existing"));
         

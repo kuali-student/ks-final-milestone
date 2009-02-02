@@ -47,6 +47,7 @@ public class OrgRelationWidget extends Composite{
     TextArea orgNote = null;
     
     String relatedOrgId;
+    String orgRelType;
     
     FlexTable fTable = null;
     
@@ -54,18 +55,19 @@ public class OrgRelationWidget extends Composite{
     
     public OrgRelationWidget(){
         super.initWidget(root);
+
+        relatedOrg = new TextBox();
+        orgRelTypeDropDown = new ListBox();
+        orgEffectiveDate = new TextBox();
+        orgExpirationDate = new TextBox();
+        orgNote = new TextArea();
+        
     }
     
     protected void onLoad(){
         fTable = new FlexTable();
-        relatedOrg = new TextBox();
-        
-        orgRelTypeDropDown = new ListBox();
-        loadOrgRelationTypes();
-        
-        orgEffectiveDate = new TextBox();
-        orgExpirationDate = new TextBox();
-        orgNote = new TextArea();
+
+        loadOrgRelationTypes();        
         
         fTable.setWidget(0,0, new Label("Organization"));
         fTable.setWidget(0,1, relatedOrg);
@@ -107,6 +109,22 @@ public class OrgRelationWidget extends Composite{
         return orgRelationInfo;
     }
     
+    public void setOrgOrgRelationInfo(OrgOrgRelationInfo orgRelationInfo){
+        DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
+               
+        orgRelType = orgRelationInfo.getType();
+        relatedOrg.setText(orgRelationInfo.getRelatedOrgId());
+
+        try{
+            orgEffectiveDate.setText(dateFmt.format(orgRelationInfo.getEffectiveDate()));
+        } catch (Exception e){
+        }
+        try {
+            orgExpirationDate.setText(dateFmt.format(orgRelationInfo.getExpirationDate()));
+        } catch (Exception e) {
+        }   
+    }
+    
     protected void loadOrgRelationTypes(){
         OrgRpcService.Util.getInstance().getOrgOrgRelationTypes(new AsyncCallback<List<OrgOrgRelationTypeInfo>>(){
             public void onFailure(Throwable caught) {
@@ -115,10 +133,14 @@ public class OrgRelationWidget extends Composite{
 
             public void onSuccess(List<OrgOrgRelationTypeInfo> orgRelTypes) {
                 orgRelTypeDropDown.addItem("Select", "");
-                orgRelTypeDropDown.setSelectedIndex(0);
 
-                for(OrgOrgRelationTypeInfo orgRelType:orgRelTypes){
-                    orgRelTypeDropDown.addItem(orgRelType.getName(),orgRelType.getKey());
+                int i = 0;
+                for(OrgOrgRelationTypeInfo orgRelTypeInfo:orgRelTypes){
+                    i++;
+                    orgRelTypeDropDown.addItem(orgRelTypeInfo.getName(),orgRelTypeInfo.getKey());
+                    if (orgRelTypeInfo.getKey().equals(orgRelType)){
+                        orgRelTypeDropDown.setSelectedIndex(i);
+                    }
                 }
             }
         });                

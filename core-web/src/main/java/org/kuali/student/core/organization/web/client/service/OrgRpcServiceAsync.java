@@ -17,12 +17,14 @@ public interface OrgRpcServiceAsync {
     public void createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo, AsyncCallback<OrgOrgRelationInfo> callback);
 
     public void getOrgHierarchies(AsyncCallback<List<OrgHierarchyInfo>> callback); 
+    public void getOrganization(String orgId, AsyncCallback<OrgInfo> callback);
     public void getOrganizationsByIdList(List<String> orgIdList, AsyncCallback<List<OrgInfo> > callback);
     public void getOrgOrgRelationsByOrg(String orgId, AsyncCallback<List<OrgOrgRelationInfo>> callback);
     public void getAllDescendants(String orgId, String orgHierarchy, AsyncCallback<List<String>> callback);
     public void getOrgOrgRelationTypes(AsyncCallback<List<OrgOrgRelationTypeInfo>> callback);
     public void getOrgPersonRelationTypes(AsyncCallback<List<OrgPersonRelationTypeInfo>> callback);
     public void getOrgTypes(AsyncCallback<List<OrgTypeInfo>> callback);
+    public void getPositionRestrictionsByOrg(String orgId, AsyncCallback<List<OrgPositionRestrictionInfo>> callback);
     
     public void addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo, AsyncCallback<OrgPositionRestrictionInfo> callback);
 }

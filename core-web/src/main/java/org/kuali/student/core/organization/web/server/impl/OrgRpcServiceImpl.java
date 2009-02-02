@@ -209,5 +209,43 @@ public class OrgRpcServiceImpl implements OrgRpcService{
         return null;
     }
 
+
+    public OrgInfo getOrganization(String orgId) {
+        try {
+            return service.getOrganization(orgId);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId) {
+        try {
+            return service.getPositionRestrictionsByOrg(orgId);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
             
 }

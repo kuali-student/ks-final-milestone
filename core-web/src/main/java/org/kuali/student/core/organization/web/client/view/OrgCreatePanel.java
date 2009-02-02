@@ -52,7 +52,8 @@ public class OrgCreatePanel extends Composite{
     public static final String CREATE_ORG_RELATIONS = "Organizations";
     
     String type;
-    String orgId;
+    String orgId = null;
+    String orgType = null;
     
     ListBox orgTypeDropDown;
     TextBox orgName;
@@ -103,15 +104,13 @@ public class OrgCreatePanel extends Composite{
     protected void getOrganization(){
         FlexTable fTable = new FlexTable();
         
-        orgTypeDropDown = new ListBox();
-        loadOrgTypes();
-        
+        orgTypeDropDown = new ListBox();      
         orgName = new TextBox();
         orgAbbrev = new TextBox();
         orgDesc = new TextArea();
         orgEffectiveDate = new TextBox();
         orgExpirationDate = new TextBox();
-        
+               
         fTable.setWidget(0,0, new Label("Type"));
         fTable.setWidget(0,1, orgTypeDropDown);
         
@@ -132,6 +131,12 @@ public class OrgCreatePanel extends Composite{
 
         vPanel.add(new SectionLabel("Organization"));
         vPanel.add(fTable);
+        
+        if (orgId != null){
+            populateOrgInfo();
+        }
+        
+        populateOrgTypes();
     }
     
     
@@ -139,8 +144,13 @@ public class OrgCreatePanel extends Composite{
         vPanel.add(new SectionLabel("Positions"));
         
         vPositions = new VerticalPanel();
-        vPositions.add( new OrgPositionWidget());
         
+        if (orgId != null){
+            populateOrgPositions();
+        }
+
+        vPositions.add(new OrgPositionWidget());
+            
         vPanel.add(vPositions);
     }
 
@@ -148,6 +158,11 @@ public class OrgCreatePanel extends Composite{
         vPanel.add(new SectionLabel("Relationships"));
 
         vRelations = new VerticalPanel();
+        
+        if (orgId != null){
+            populateOrgRelations();
+        }
+        
         vRelations.add( new OrgRelationWidget());
         
         vPanel.add(vRelations);
@@ -189,7 +204,7 @@ public class OrgCreatePanel extends Composite{
         OrgPositionWidget orgPosWidget = (OrgPositionWidget)vPositions.getWidget(0);
         OrgPositionRestrictionInfo orgPosRestrictionInfo = orgPosWidget.getPositionRestrictionInfo();
         
-        if (orgPosRestrictionInfo.getTitle() != null){
+        if (orgPosRestrictionInfo.getTitle().length() > 0){
             orgPosRestrictionInfo.setOrgId(orgId);
             OrgRpcService.Util.getInstance().addPositionRestrictionToOrg(orgPosRestrictionInfo,
                     new AsyncCallback<OrgPositionRestrictionInfo>(){
@@ -207,7 +222,7 @@ public class OrgCreatePanel extends Composite{
         OrgRelationWidget orgRelationWidget = (OrgRelationWidget)vRelations.getWidget(0);
         OrgOrgRelationInfo orgRelationInfo = orgRelationWidget.getOrgOrgRelationInfo();
         
-        if (orgRelationInfo.getRelatedOrgId() != null){
+        if (orgRelationInfo.getRelatedOrgId().length() > 0){
             OrgRpcService.Util.getInstance().createOrgOrgRelation(orgRelationInfo, 
                     new AsyncCallback<OrgOrgRelationInfo>(){
                 public void onFailure(Throwable caught) {
@@ -221,7 +236,7 @@ public class OrgCreatePanel extends Composite{
         }
     }
     
-    protected void loadOrgTypes(){
+    protected void populateOrgTypes(){
         OrgRpcService.Util.getInstance().getOrgTypes(new AsyncCallback<List<OrgTypeInfo>>(){
                 public void onFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -229,12 +244,87 @@ public class OrgCreatePanel extends Composite{
 
                 public void onSuccess(List<OrgTypeInfo> orgTypes) {
                     orgTypeDropDown.addItem("Select", "");
-                    orgTypeDropDown.setSelectedIndex(0);
-
-                    for(OrgTypeInfo orgType:orgTypes){
-                        orgTypeDropDown.addItem(orgType.getName(),orgType.getKey());
+                    int i=0;
+                    for(OrgTypeInfo orgTypeInfo:orgTypes){
+                        i++;
+                        orgTypeDropDown.addItem(orgTypeInfo.getName(),orgTypeInfo.getKey());
+                        if (orgTypeInfo.getKey().equals(orgType)){
+                            orgTypeDropDown.setSelectedIndex(i);
+                        }
                     }
                 }
           });
     }
+
+    protected void populateOrgInfo(){
+        OrgRpcService.Util.getInstance().getOrganization(orgId, new AsyncCallback<OrgInfo>(){
+            public void onFailure(Throwable caught) {
+                Window.alert(caught.getMessage());
+            }
+
+            public void onSuccess(OrgInfo orgInfo) {
+                DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");                
+                
+                orgType = orgInfo.getType();
+                orgName.setText(orgInfo.getLongName());
+                orgAbbrev.setText(orgInfo.getShortName());
+                orgDesc.setText(orgInfo.getDesc());
+                try{
+                    orgEffectiveDate.setText(dateFmt.format(orgInfo.getEffectiveDate()));
+                } catch (Exception e) {
+                }
+                try {
+                    orgExpirationDate.setText(dateFmt.format(orgInfo.getExpirationDate()));
+                } catch (Exception e) {
+                }                
+            }            
+        });
+    }
+
+    protected void populateOrgPositions(){
+        OrgRpcService.Util.getInstance().getPositionRestrictionsByOrg(orgId, 
+                new AsyncCallback<List<OrgPositionRestrictionInfo>>(){
+        
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+        
+                    public void onSuccess(List<OrgPositionRestrictionInfo> orgPositions) {                   
+                        for (OrgPositionRestrictionInfo orgPos:orgPositions){
+                            Window.alert(orgPos.getOrgPersonRelationTypeKey());
+                            OrgPositionWidget orgPositionWidget = new OrgPositionWidget();
+                            orgPositionWidget.setOrgPositionRestrictionInfo(orgPos);
+                            vPositions.add(orgPositionWidget);
+                        }
+                    }            
+        });
+    }
+    
+    protected void populateOrgRelations(){
+        OrgRpcService.Util.getInstance().getOrgOrgRelationsByOrg(orgId, 
+                new AsyncCallback<List<OrgOrgRelationInfo>>(){
+
+                    public void onFailure(Throwable caught) {
+                        Window.alert(caught.getMessage());
+                    }
+
+                    public void onSuccess(List<OrgOrgRelationInfo> orgRelations) {                   
+                        for (OrgOrgRelationInfo orgRelationInfo:orgRelations){
+                            OrgRelationWidget orgRelationWidget = new OrgRelationWidget();
+                            orgRelationWidget.setOrgOrgRelationInfo(orgRelationInfo);
+                            vRelations.add(orgRelationWidget);
+                        }
+                    }            
+            });        
+    }
+    
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+ 
+    
 }

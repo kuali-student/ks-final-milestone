@@ -23,12 +23,14 @@ public interface OrgRemoteService {
     public OrgOrgRelationInfo createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
     
     public List<OrgHierarchyInfo> getOrgHierarchies();
+    public OrgInfo getOrganization(String orgId);
     public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList);
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId);
     public List<String> getAllDescendants(String orgId, String orgHierarchy);
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes();
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes();
     public List<OrgTypeInfo> getOrgTypes();
+    public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId);    
     
     public OrgPositionRestrictionInfo addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
 }

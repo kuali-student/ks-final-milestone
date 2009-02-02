@@ -14,3 +14,15 @@
 	font: bold 14px tahoma, arial, verdana, sans-serif;
 	margin: 5px 5px 5px 5px;
 }
+
+.action a:link {
+	font: bold 12px tahoma, arial, verdana, sans-serif;
+	text-decoration: none;
+	margin: 10px;
+}
+
+.action a:hover {
+	font: bold 12px tahoma, arial, verdana, sans-serif;
+	text-decoration: none;
+	margin: 10px;
+}

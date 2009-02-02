@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -52,12 +53,14 @@ public class OrgLocatePanel extends Composite{
     
     Map<String, String> orgRootHierarchy = new HashMap<String,String>();
     
+    boolean loaded = false;
+    
         
     public OrgLocatePanel(){
         super.initWidget(vPanel);
     }
   
-    protected void onLoad(){        
+    protected void onLoad(){
         vPanel.add(createLocateMenu());
         vPanel.add(new SectionLabel("Browse Organizations"));
         vPanel.add(results);
@@ -104,7 +107,7 @@ public class OrgLocatePanel extends Composite{
                 FlexTable resultTable = new FlexTable();
                 int i = 0;
                 for(OrgInfo orgInfo:result){ 
-                    resultTable.setWidget(i, 0, getOrgLink(orgInfo));
+                    resultTable.setWidget(i, 0, new OrgWidget(orgInfo));
                     i++;
                 }
                 browsePanel.add(resultTable);
@@ -124,41 +127,47 @@ public class OrgLocatePanel extends Composite{
         });
     }
     
-    protected Widget getOrgLink(OrgInfo org){
-        OrgLink orgLink = new OrgLink(org.getLongName(), "viewOrg");
-        orgLink.setOrgId(org.getId());
-        
-        orgLink.addClickListener(new ClickListener(){           
-            public void onClick(Widget sender) {
-                removeWidgetsRight(sender.getParent());
-                String orgId = ((OrgLink)sender).getOrgId();
-                if (orgRootHierarchy.containsKey(orgId)){
-                    activeHierarchyId = orgRootHierarchy.get(orgId);
-                }
-                getOrgChildren(((OrgLink)sender).getOrgId());
-        }});
-        
-        return orgLink;
-    }
-    
+       
     protected void removeWidgetsRight(Widget w){
         for (int i=browsePanel.getWidgetCount()-1; i > browsePanel.getWidgetIndex(w);i--){
             browsePanel.remove(i);
         }
     }
     
-    public class OrgLink extends Hyperlink{
+    public class OrgWidget extends Composite{
+        VerticalPanel vOrgPanel = new VerticalPanel(); 
+        
+        Hyperlink orgLink;
+        Hyperlink orgEditLbl;
         String orgId;
         
-        public OrgLink(String name, String targetHistoryToken){
-            super(name, targetHistoryToken);
-        }
-        
-        public String getOrgId() {
-            return orgId;
-        }
-        public void setOrgId(String orgId) {
-            this.orgId = orgId;
-        }
+        public OrgWidget(OrgInfo orgInfo){
+            orgId = orgInfo.getId();
+            super.initWidget(vOrgPanel);
+            orgLink = new Hyperlink(orgInfo.getLongName(), "viewOrg");
+            orgLink.addClickListener(new ClickListener(){           
+                public void onClick(Widget sender) {
+                    removeWidgetsRight(vOrgPanel.getParent().getParent());
+                    if (orgRootHierarchy.containsKey(orgId)){
+                        activeHierarchyId = orgRootHierarchy.get(orgId);
+                    }
+                    getOrgChildren(orgId);
+            }});
+            
+            orgEditLbl = new Hyperlink("Edit", "editOrg");
+            orgEditLbl.setStyleName("action");
+            orgEditLbl.addClickListener(new ClickListener(){
+
+                public void onClick(Widget sender) {
+                    SimplePanel workPanel  = (SimplePanel)vPanel.getParent().getParent();
+                    OrgCreatePanel orgCreatePanel = new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL);
+                    orgCreatePanel.setOrgId(orgId);
+                    workPanel.setWidget(orgCreatePanel);
+                }                
+            });
+            
+            vOrgPanel.add(orgLink);
+            vOrgPanel.add(orgEditLbl);
+        }        
     }
 }
