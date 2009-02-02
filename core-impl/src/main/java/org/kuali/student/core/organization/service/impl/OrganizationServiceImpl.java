@@ -297,8 +297,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgType(orgTypeKey);
+		return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
 	}
 
 	@Override

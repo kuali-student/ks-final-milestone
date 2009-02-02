@@ -8,7 +8,6 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.core.organization.dao.OrganizationDao;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
@@ -63,7 +62,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
 	@Override
 	public List<OrgOrgRelation> getOrgOrgRelationsByOrg(String orgId) {
-		Query query = em.createNamedQuery("OrgOrgRelationInfo.OrgOrgRelationInfo");
+		Query query = em.createNamedQuery("OrgOrgRelation.OrgOrgRelation");
 		query.setParameter("orgId", orgId);
 		@SuppressWarnings("unchecked")
 		List<OrgOrgRelation> orgOrgRelations = query.getResultList();
@@ -122,7 +121,7 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
 	@Override
 	public List<OrgOrgRelation> getOrgOrgRelationsByIdList(List<String> orgOrgRelationIdList) {
-		Query query = em.createNamedQuery("OrgOrgRelationInfo.getOrgOrgRelationsByIdList");
+		Query query = em.createNamedQuery("OrgOrgRelation.getOrgOrgRelationsByIdList");
 		query.setParameter("idList", orgOrgRelationIdList);
 		@SuppressWarnings("unchecked")
 		List<OrgOrgRelation> orgRelationTypes = query.getResultList();
@@ -148,4 +147,17 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
 		return orgRelations;
 	}
+
+	@Override
+	public List<OrgOrgRelationType> getOrgOrgRelationTypesForOrgType(String orgTypeKey) {
+
+		// TODO Check query, not sure if matching against right orgKeyType value
+		Query query = em.createNamedQuery("OrgOrgRelationType.getOrgOrgRelationTypesForOrgType");
+		query.setParameter("orgTypeKey", orgTypeKey);
+		@SuppressWarnings("unchecked")
+		List<OrgOrgRelationType> orgOrgRelations = query.getResultList();
+
+		return orgOrgRelations;
+	}
+
 }

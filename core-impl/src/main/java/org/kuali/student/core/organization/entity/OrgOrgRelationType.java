@@ -22,7 +22,8 @@ import org.kuali.student.core.entity.AttributeOwner;
 @Entity
 @Table(name = "KS_ORG_ORG_REL_TYPE_T")
 @NamedQueries({
-	@NamedQuery(name="OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy", query="SELECT oort FROM OrgOrgRelationType oort WHERE oort.orgHierarchy.key = :orgHierarchy")
+	@NamedQuery(name="OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy", query="SELECT oort FROM OrgOrgRelationType oort WHERE oort.orgHierarchy.key = :orgHierarchy"),
+	@NamedQuery(name="OrgOrgRelationType.getOrgOrgRelationTypesForOrgType", query="SELECT DISTINCT oort FROM OrgOrgRelation oor JOIN oor.org org JOIN oor.type oort WHERE org.type.key = :orgTypeKey")
 })
 public class OrgOrgRelationType implements
 		AttributeOwner<OrgOrgRelationTypeAttribute> {
