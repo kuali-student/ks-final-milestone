@@ -7,11 +7,12 @@ import javax.persistence.Query;
 
 import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.entity.AttributeDef;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 
 public abstract class AbstractCrudDaoImpl implements CrudDao {
 
 	protected EntityManager em;
-	
+
 	public EntityManager getEm() {
 		return em;
 	}
@@ -25,13 +26,13 @@ public abstract class AbstractCrudDaoImpl implements CrudDao {
 	public <T> T fetch(Class<T> clazz, String key) {
 		return em.find(clazz, key);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> find(Class<T> clazz){
-		
+
 		String className = clazz.getSimpleName();
-		
+
 		Query q = em.createQuery("SELECT x FROM "+className+" x");
 		return (List<T>) q.getResultList();
 	}
@@ -41,7 +42,7 @@ public abstract class AbstractCrudDaoImpl implements CrudDao {
 	public <T extends AttributeDef> T fetchAttributeDefByName(Class<T> clazz, String attributeName) {
 
 		String className = clazz.getSimpleName();
-		
+
 		Query q = em.createQuery("SELECT attrDef FROM "+className+" attrDef WHERE attrDef.name = :attributeName");
 		q.setParameter("attributeName", attributeName);
 
@@ -55,16 +56,19 @@ public abstract class AbstractCrudDaoImpl implements CrudDao {
 	}
 
 	@Override
-	public <T> void delete(Class<T> clazz, String key) {
+	public <T> void delete(Class<T> clazz, String key) throws DoesNotExistException {
 		T entity = em.find(clazz, key);
+		if (entity == null) {
+			throw new DoesNotExistException("No such key '" + key + "' for " + clazz);
+		}
 		em.remove(entity);
 	}
 
 	@Override
 	public void delete(Object entity) {
-		em.remove(entity);	
+		em.remove(entity);
 	}
-	
+
 	@Override
 	public <T> T update(T entity) {
 		T updated =  em.merge(entity);

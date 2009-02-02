@@ -325,8 +325,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String relatedOrgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByRelatedOrg(relatedOrgId);
+		return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
 	}
 
 	@Override
@@ -469,8 +469,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (orgOrgRelationId == null) {
+			throw new MissingParameterException("orgOrgRelationId can not be null");
+		}
+		organizationDao.delete(OrgOrgRelation.class, orgOrgRelationId);
+		return new StatusInfo();
 	}
 
 	@Override
@@ -478,8 +481,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (orgPersonRelationId == null) {
+			throw new MissingParameterException("orgPersonRelationId can not be null");
+		}
+		organizationDao.delete(OrgPersonRelation.class, orgPersonRelationId);
+		return new StatusInfo();
 	}
 
 	@Override

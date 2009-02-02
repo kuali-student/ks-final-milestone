@@ -160,4 +160,15 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		return orgOrgRelations;
 	}
 
+	@Override
+	public List<OrgOrgRelation> getOrgOrgRelationsByRelatedOrg(String relatedOrgId) {
+		Query query = em.createNamedQuery("OrgOrgRelation.getOrgOrgRelationsByRelatedOrg");
+		query.setParameter("relatedOrgId", relatedOrgId);
+		@SuppressWarnings("unchecked")
+		List<OrgOrgRelation> orgOrgRelations = query.getResultList();
+
+		return orgOrgRelations;
+
+	}
+
 }

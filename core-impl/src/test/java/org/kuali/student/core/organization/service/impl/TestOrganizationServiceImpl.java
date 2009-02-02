@@ -32,6 +32,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.core.dto.StatusInfo;
 
 
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -263,6 +264,15 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
+	public void getOrgOrgRelationsByRelatedOrg() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByRelatedOrg("16");
+		assertEquals(1, orgOrgRelationInfos.size());
+
+		orgOrgRelationInfos = client.getOrgOrgRelationsByRelatedOrg("-1");
+		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
+	}
+
+	@Test
 	public void getOrgPersonRelationsByIdList() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<String> idList = new ArrayList<String>(2);
 		idList.add("2");
@@ -305,4 +315,56 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertTrue(orgOrgRelationTypeInfos == null || orgOrgRelationTypeInfos.size() == 0);
 	}
 
+	/*
+	 * Test delete operations
+	 */
+	@Test
+	public void removeOrgOrgRelation() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		StatusInfo si;
+		try {
+			si = client.removeOrgOrgRelation("16");
+			assertTrue(si.getSuccess());
+		} catch (DoesNotExistException e) {
+			assertTrue(false);
+		}
+
+		try {
+			si = client.removeOrgOrgRelation("16");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
+		try {
+			si = client.removeOrgOrgRelation(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void removeOrgPersonRelation() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		StatusInfo si;
+		try {
+			si = client.removeOrgPersonRelation("4");
+			assertTrue(si.getSuccess());
+		} catch (DoesNotExistException e) {
+			assertTrue(false);
+		}
+
+		try {
+			si = client.removeOrgPersonRelation("4");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
+		try {
+			si = client.removeOrgPersonRelation(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+	}
 }
