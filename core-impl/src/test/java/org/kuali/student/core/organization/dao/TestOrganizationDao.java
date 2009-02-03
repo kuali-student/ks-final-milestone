@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgAttribute;
 import org.kuali.student.core.organization.entity.OrgAttributeDef;
@@ -51,7 +52,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	}
 	
 	@Test
-	public void testCreateOrganization() {
+	public void testCreateOrganization() throws DoesNotExistException{
 		
 		OrgType orgType= new OrgType();
 		orgType.setKey("kuali.org.CorporateEntity");
@@ -97,7 +98,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	}
 	
 	@Test
-	public void testDeleteOrganization() {
+	public void testDeleteOrganization() throws DoesNotExistException{
 		
 		OrgType orgType= new OrgType();
 		orgType.setKey("kauli.org.TestOrgTypeKey1");
