@@ -3,7 +3,6 @@ package org.kuali.student.core.organization.dao;
 import java.util.List;
 
 import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
