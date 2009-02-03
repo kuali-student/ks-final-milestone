@@ -13,6 +13,7 @@ import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.devgui.client.model.BusinessRuleType;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
+import org.kuali.student.rules.devgui.client.model.RulesVersionInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.devgui.client.view.RuleTypesComposite;
 import org.kuali.student.rules.devgui.client.view.RulesComposite;
@@ -31,6 +32,7 @@ public class DevelopersGuiController extends Controller {
     final Model<BusinessRuleType> businessRuleType = new Model<BusinessRuleType>();
     final Model<RulesHierarchyInfo> rulesHierarchyInfo = new Model<RulesHierarchyInfo>();
     final Model<RuleTypesHierarchyInfo> ruleTypesHierarchyInfo = new Model<RuleTypesHierarchyInfo>();
+    final Model<RulesVersionInfo> rulesVersionInfo = new Model<RulesVersionInfo>();
 
     final TabPanel tabs = new TabPanel();
     final RulesComposite businessRuleComposite = new RulesComposite();
@@ -79,6 +81,7 @@ public class DevelopersGuiController extends Controller {
         super.initializeModel(BusinessRuleType.class, businessRuleType);
         super.initializeModel(RulesHierarchyInfo.class, rulesHierarchyInfo);
         super.initializeModel(RuleTypesHierarchyInfo.class, ruleTypesHierarchyInfo);
+        super.initializeModel(RulesVersionInfo.class, rulesVersionInfo);
     }
 
     private void loadModelsData() {

@@ -19,15 +19,17 @@ import org.kuali.student.commons.ui.mvc.client.MVC;
 import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
-import org.kuali.student.commons.ui.validators.client.ValidationResult;
-import org.kuali.student.commons.ui.validators.client.Validator;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.commons.ui.widgets.tables.ModelTable;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
+import org.kuali.student.commons.ui.widgets.tables.PagingModelTable;
+import org.kuali.student.rules.devgui.client.DateRange;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
 import org.kuali.student.rules.devgui.client.GuiUtil.YieldValueFunctionType;
 import org.kuali.student.rules.devgui.client.controller.DevelopersGuiController;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
+import org.kuali.student.rules.devgui.client.model.RulesVersionInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
@@ -58,6 +60,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -67,8 +70,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
+import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
@@ -100,6 +105,9 @@ public class RulesComposite extends Composite {
     public static final RulesAddEvent RULES_ADD_EVENT = GWT.create(RulesAddEvent.class);
     public static final RulesUpdateEvent RULES_UPDATE_EVENT = GWT.create(RulesUpdateEvent.class);
     public static final RulesTestEvent RULES_REMOVE_EVENT = GWT.create(RulesTestEvent.class);
+    public static final java.util.Date ALPHA_DATE = new java.util.Date(0, 0, 1, 0, 0, 0);
+    public static final java.util.Date OMEGA_DATE = new java.util.Date(2100, 0, 1, 0, 0, 0);
+    public static final DateTimeFormat df = DateTimeFormat.getShortDateFormat();
 
     // controller and metadata to be looked up externally
     Controller controller;
@@ -109,6 +117,7 @@ public class RulesComposite extends Composite {
     // class that binds a widget to a model, instantiation is deferred
     // until application state is guaranteed to be ready
     ModelBinding<RulesHierarchyInfo> binding;
+    ModelBinding<RulesVersionInfo> versionInfoBinding;
 
     // widgets used for Rules forms.....
     final BusinessRulesTree rulesTree = new BusinessRulesTree(); // used to browse Rules
@@ -118,6 +127,11 @@ public class RulesComposite extends Composite {
     final VerticalSplitPanel rulesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
     final TabPanel rulesFormTabs = new TabPanel();
+    
+    // Rule Version tab
+//    final Grid rulesVersionsGrid = new Grid();
+    final BusinessRulesVersionTable rulesVersionsTable = new BusinessRulesVersionTable();
+    final TextArea activeTimeGapsTextArea = new TextArea();
     
     // Main rules tab
     final Label businessRuleID = new Label();
@@ -201,8 +215,9 @@ public class RulesComposite extends Composite {
     final Button cancelButton = new Button("Cancel Changes");     
     
     //variables representing client internal state
+    private RulesHierarchyInfo displayedRulesGroup = null; // keep copy of rule group info
     private BusinessRuleInfoDTO displayedRule = null; // keep copy of business rule so we can update all fields user
-    private RulesHierarchyInfo displayedRuleInfo = null; // keep copy of rule meta info
+    private RulesVersionInfo displayedRuleInfo = null; // keep copy of rule meta info
     private Map<Integer, RulePropositionDTO> definedPropositions = new TreeMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
     private final String STATUS_NOT_STORED_IN_DATABASE = "TO_BE_ENTERED";
@@ -210,7 +225,6 @@ public class RulesComposite extends Composite {
     private final String EMPTY_LIST_BOX_ITEM = "        ";
     private final String USER_DEFINED_FACT_TYPE_KEY = "STATIC  FACT";
     private static Integer factStructureTemporaryID = 1;
-
 
     @Override
     protected void onLoad() {
@@ -227,6 +241,9 @@ public class RulesComposite extends Composite {
             // bind the list to the parent controller's Model of BusinessRuleInfo objects
             Model<RulesHierarchyInfo> model = (Model<RulesHierarchyInfo>) controller.getModel(RulesHierarchyInfo.class);
             binding = new ModelBinding<RulesHierarchyInfo>(model, rulesTree);
+            Model<RulesVersionInfo> rulesVersionModel = (Model<RulesVersionInfo>) controller.getModel(RulesVersionInfo.class);
+            versionInfoBinding = new ModelBinding<RulesVersionInfo>
+                (rulesVersionModel, rulesVersionsTable);
 
             // initialize client internal state
             loadEmptyRule();
@@ -249,41 +266,56 @@ public class RulesComposite extends Composite {
             rulesVerticalSplitPanel.setTopWidget(rulesHorizontalSplitPanel);
             rulesVerticalSplitPanel.setBottomWidget(rulesScrollPanel);
             rulesVerticalSplitPanel.setSplitPosition("90%");
-            simplePanel.add(rulesVerticalSplitPanel);                   
+            simplePanel.add(rulesVerticalSplitPanel);
             
-            // add selection event listener to rulesTree widget
-            rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
-            	
-            	//user click on rules tree to select or deselect rules
-                public void onSelect(RulesHierarchyInfo modelObject) {
+            rulesVersionsTable.addSelectionListener(new ModelTableSelectionListener<RulesVersionInfo>() {
+                public void onSelect(RulesVersionInfo modelObject) {
+                    // populate rule based on the selected rule version
+                    // clears out the previous rule display
+//                  //TODO are you sure? esp. if user changed something - your changes will be lost                   
+                  // selection was cleared so remove current active rule
+                  if (modelObject == null) {                        
+                      loadEmptyRule();
+                      System.out.println("DEBUG: no selection....");
+                      return;
+                  }
 
-                	// selection was cleared so remove current active rule
-                    if (modelObject == null) {                        
-                        loadEmptyRule();
-                        System.out.println("DEBUG: no selection....");
-                        return;
-                    }
+                  //TODO are you sure? esp. if user changed something - your changes will be lost                   
+                  
+                  // populate fields based on a rule selected by user                    
+                  displayedRuleInfo = modelObject;
+                  
+                  DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(modelObject.getBusinessRuleId(), new AsyncCallback<BusinessRuleInfoDTO>() {
+                      
+                    public void onFailure(Throwable caught) {
+                          // just re-throw it and let the uncaught exception handler deal with it
+                          Window.alert(caught.getMessage());
+                          // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
+                      }
 
-                    //TODO are you sure? esp. if user changed something - your changes will be lost                   
-                    
-                    // populate fields based on a rule selected by user                    
-                    displayedRuleInfo = modelObject;
-                    
-                    DevelopersGuiService.Util.getInstance().fetchDetailedBusinessRuleInfo(modelObject.getBusinessRuleId(), new AsyncCallback<BusinessRuleInfoDTO>() {
-                        
-                    	public void onFailure(Throwable caught) {
-                            // just re-throw it and let the uncaught exception handler deal with it
-                            Window.alert(caught.getMessage());
-                            // throw new RuntimeException("Unable to load BusinessRuleInfo objects", caught);
-                        }
-
-                        public void onSuccess(BusinessRuleInfoDTO ruleInfo) {
-                        	loadExistingRule(ruleInfo);
-                        }
-                    });                    
+                      public void onSuccess(BusinessRuleInfoDTO ruleInfo) {
+                        loadExistingRule(ruleInfo);
+                      }
+                  });                    
                 }
             });
-
+            
+            // TODO add selection event listener to rulesTree widget
+            rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
+//            	
+//            	//user click on rules tree to select or deselect rules
+                public void onSelect(RulesHierarchyInfo modelObject) {
+                    // populate ruleVersions based on the rule version group selected
+                    // clears out the previous rule display
+//                  //TODO are you sure? esp. if user changed something - your changes will be lost                   
+                    loadEmptyRule();
+                    clearVersionsDisplay();
+                    displayedRulesGroup = modelObject;
+                    loadVersionGroup(displayedRulesGroup);
+                    rulesFormTabs.selectTab(0);
+                }
+            });
+            
             /****************************************************************************************************************
              * listeners for rule CREATE and UPDATE buttons
              ***************************************************************************************************************/
@@ -330,13 +362,26 @@ public class RulesComposite extends Composite {
                             placeNewDraftInTree(newRuleID);
                             
                             // fire the event and the updated modelobject to the parent controller
-                            RulesHierarchyInfo ruleInfo = new RulesHierarchyInfo();
+                            RulesVersionInfo ruleInfo = new RulesVersionInfo();
                             ruleInfo.setAgendaType(displayedRuleInfo.getAgendaType());
                             ruleInfo.setBusinessRuleType(displayedRuleInfo.getBusinessRuleType());
                             ruleInfo.setAnchor(displayedRuleInfo.getAnchor());
                             ruleInfo.setBusinessRuleDisplayName(displayedRule.getName());
                             ruleInfo.setBusinessRuleId(newRuleID);
-                            rulesTree.add(ruleInfo);
+                            List<RulesHierarchyInfo> treeItems = rulesTree.getItems();
+                            boolean groupExists = false;
+                            for (RulesHierarchyInfo treeItem : treeItems) {
+                                if (treeItem.getGroupAnchor() != null &&
+                                        treeItem.getGroupAnchor()
+                                        .equals(ruleInfo.getAnchor())) {
+                                    groupExists = true;
+                                }
+                            }
+                            if (!groupExists) {
+                                RulesHierarchyInfo newGroup = new RulesHierarchyInfo();
+                                newGroup.add(ruleInfo);
+                                rulesTree.add(newGroup);
+                            }
 
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
@@ -726,7 +771,7 @@ public class RulesComposite extends Composite {
                 public void onChange(final Widget sender) {
                 	//changing agenda type will  the business rule type and related Anchor Key
                 	if (displayedRuleInfo == null) {
-                		displayedRuleInfo = new RulesHierarchyInfo();
+                		displayedRuleInfo = new RulesVersionInfo();
                 	}
                 	
                 	displayedRuleInfo.setAgendaType(GuiUtil.getListBoxSelectedValue(agendaTypesListBox).trim());
@@ -754,6 +799,13 @@ public class RulesComposite extends Composite {
                 }
             });             
         }
+    }
+    
+    private void clearVersionsDisplay() {
+        int numRows = 0;
+        displayedRulesGroup = null;
+        rulesVersionsTable.clear();
+        activeTimeGapsTextArea.setText("");
     }
 
     private void initializeRuleCopy(BusinessRuleInfoDTO copiedRule, String newRuleName) {
@@ -811,6 +863,37 @@ public class RulesComposite extends Composite {
         }
 
         displayActiveRule();  
+    }
+    
+    private void loadVersionGroup(RulesHierarchyInfo rulesGroup) {
+        // only attempt to load the selected group if user has actually selected a group
+        if (rulesGroup == null) return;
+        displayedRulesGroup = rulesGroup;
+        List<RulesVersionInfo> versions = rulesGroup.getVersions();
+        for (RulesVersionInfo version : versions) {
+            rulesVersionsTable.add(version);
+        }
+        List<DateRange> activeTimeGaps = 
+            getActiveTimeGaps(displayedRulesGroup);
+        if (activeTimeGaps != null) {
+            StringBuilder message = new StringBuilder("");
+            for (DateRange activeTimeGap : activeTimeGaps) {
+                message.append("From ");
+                if (activeTimeGap.getStartDate().compareTo(ALPHA_DATE) == 0) {
+                    message.append("beginning");
+                } else {
+                    message.append(df.format(activeTimeGap.getStartDate()));
+                }
+                message.append(" to ");
+                if (activeTimeGap.getEndDate().compareTo(OMEGA_DATE) == 0) {
+                    message.append("end");
+                } else {
+                    message.append(df.format(activeTimeGap.getEndDate()));
+                }
+                message.append("\n");
+            }
+            activeTimeGapsTextArea.setText(message.toString());
+        }
     }
     
     private void setRuleStatus(String status) {
@@ -1056,7 +1139,7 @@ public class RulesComposite extends Composite {
         String ruleName = displayedRule.getName();
                        
         //show drafts with other rules for now, marking them with [D]
-        displayedRuleInfo = new RulesHierarchyInfo();
+        displayedRuleInfo = new RulesVersionInfo();
     	displayedRuleInfo.setAgendaType(agendaType);
     	displayedRuleInfo.setBusinessRuleType(businessRuleType);
     	displayedRuleInfo.setAnchor(anchor); 
@@ -1445,6 +1528,7 @@ public class RulesComposite extends Composite {
     }    
     
     private Widget addRulesForm() {
+        rulesFormTabs.add(addRulesVersionPage(),"Versions");
         rulesFormTabs.add(addRulesMainPage(), "Main");
         rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
         rulesFormTabs.add(addRRulesMetaDataPage(), "Authoring");
@@ -1475,6 +1559,47 @@ public class RulesComposite extends Composite {
 
         return rulesFormVerticalPanel;
     }    
+    
+    private Widget addRulesVersionPage() {
+        final FlexTable rulesVersionFlexTable = new FlexTable();
+        rulesVersionFlexTable.setTitle("Versioning");
+        rulesVersionFlexTable.setSize("100%", "100%");
+
+        final SimplePanel topMargin = new SimplePanel();
+        rulesVersionFlexTable.setWidget(0, 0, topMargin);
+        rulesVersionFlexTable.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+        rulesVersionFlexTable.getFlexCellFormatter().setColSpan(0, 0, 2);
+        rulesVersionFlexTable.getCellFormatter().setHeight(0, 0, "5pix");
+
+        final SimplePanel leftMargin = new SimplePanel();
+        rulesVersionFlexTable.setWidget(1, 0, leftMargin);
+        rulesVersionFlexTable.getCellFormatter().setWidth(1, 0, "5pix");
+        
+        // **********************************************************
+        // set version page size
+        // **********************************************************
+        final FormPanel versionPanel = new FormPanel();
+        rulesVersionFlexTable.setWidget(1, 1, versionPanel);
+        rulesVersionFlexTable.getCellFormatter().setWidth(1, 1, "100%");
+        versionPanel.setWidth("100%");
+        rulesVersionFlexTable.getCellFormatter().setVerticalAlignment(1, 1, HasVerticalAlignment.ALIGN_TOP);
+
+        final VerticalPanel ruleVersionVerticalPanel = new VerticalPanel();
+        ruleVersionVerticalPanel.setSize("100%", "100%");
+
+        // **********************************************************
+        // The versions gap analysis
+        // **********************************************************
+        final HorizontalPanel timeGapsFieldPanel = new HorizontalPanel(); 
+        timeGapsFieldPanel.setWidth("100%");
+        activeTimeGapsTextArea.setSize("75%", "93px");
+        timeGapsFieldPanel.add(GuiUtil.addLabelAndFieldVertically(messages.get("versionTimeGap"), 
+                activeTimeGapsTextArea, "50%"));
+        ruleVersionVerticalPanel.add(rulesVersionsTable);
+        ruleVersionVerticalPanel.add(timeGapsFieldPanel);
+        versionPanel.add(ruleVersionVerticalPanel);
+        return rulesVersionFlexTable;
+    }
       
     private Widget addRulesMainPage() {
 
@@ -2585,6 +2710,41 @@ public class RulesComposite extends Composite {
         }
         
         return lastPropIx;
+    }
+    
+    private List<DateRange> getActiveTimeGaps(RulesHierarchyInfo rulesGroup) {
+        ArrayList<DateRange> result = null;
+        DateRange allRange = null;
+        List<RulesVersionInfo> ruleVersions = null;
+        List<DateRange> ruleVersionRanges = null;
+        DateRange[] arrRuleVersionRanges = null;
+        if (rulesGroup == null) return null;
+        result = new ArrayList<DateRange>();
+        allRange = new DateRange(ALPHA_DATE, OMEGA_DATE);
+        ruleVersions = rulesGroup.getVersions();
+        ruleVersionRanges = new ArrayList<DateRange>();
+        if (ruleVersions == null) return null;
+        for (RulesVersionInfo ruleVersion : ruleVersions) {
+            if (ruleVersion.getStatus() != null &&
+                    ruleVersion.getStatus().equals())
+            java.util.Date effectiveDate =
+                (ruleVersion.getEffectiveDate() == null)?
+                        ALPHA_DATE : ruleVersion.getEffectiveDate();
+            java.util.Date expiryDate =
+                (ruleVersion.getExpirationDate() == null)?
+                        OMEGA_DATE : ruleVersion.getExpirationDate();
+            ruleVersionRanges.add(
+                new DateRange(
+                        effectiveDate,
+                        expiryDate));
+        }
+        if (ruleVersionRanges != null && !ruleVersionRanges.isEmpty()) {
+            arrRuleVersionRanges = new DateRange[ruleVersionRanges.size()];
+            arrRuleVersionRanges = ruleVersionRanges.toArray(
+                    arrRuleVersionRanges);
+        }
+        allRange.excludeRanges(arrRuleVersionRanges, result);
+        return result;
     }
     
     

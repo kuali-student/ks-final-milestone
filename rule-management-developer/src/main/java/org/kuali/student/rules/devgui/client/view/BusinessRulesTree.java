@@ -40,7 +40,7 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
         final List<String> items = new ArrayList<String>();
        
         //remove "KUALI_" from the Agenda Type since it is given and makes the string too long
-        String agendaType = modelObject.getAgendaType();
+        String agendaType = modelObject.getGroupAgendaType();
         if (agendaType.startsWith("KUALI_")) {
         	agendaType = agendaType.substring(6);
         }
@@ -50,7 +50,7 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
         }
         items.add(agendaType);
 
-        String ruleType = modelObject.getBusinessRuleType();
+        String ruleType = modelObject.getGroupBusinessRuleType();
         if (ruleType.startsWith("KUALI_")) {
         	ruleType = ruleType.substring(6);
         }        
@@ -60,7 +60,7 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
         }
         items.add(ruleType);
 
-        String anchor = modelObject.getAnchor();
+        String anchor = modelObject.getGroupAnchor();
         if ((anchor == null) || (anchor.isEmpty())) {
             return items;
         }
@@ -68,15 +68,18 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
 
         //determine if status will change the way rule is displayed
         String prefix = "";
-        if (modelObject.getStatus() != null) {
-	        if (modelObject.getStatus().equals(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
+        if (modelObject.getGroupStatus() != null) {
+            if (modelObject.getVersions() != null &&
+                    modelObject.getVersions().size() > 1) {
+                prefix = "[M] "; 
+            } else if (modelObject.getGroupStatus().equals(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
 	        	prefix = "[D] ";
-	        } else if (modelObject.getStatus().equals(BusinessRuleStatus.RETIRED.toString())) {
+	        } else if (modelObject.getGroupStatus().equals(BusinessRuleStatus.RETIRED.toString())) {
 	        	prefix = "[R] ";
 	        }
         }
         
-        String ruleName = modelObject.getBusinessRuleDisplayName();
+        String ruleName = modelObject.getGroupBusinessRuleDisplayName();
         if ((ruleName == null) || (ruleName.isEmpty())) {
             return items;
         }

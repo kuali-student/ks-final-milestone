@@ -3,7 +3,9 @@
  */
 package org.kuali.student.rules.devgui.server.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import java.util.Map;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
+import org.kuali.student.rules.devgui.client.model.RulesVersionInfo;
 import org.kuali.student.rules.devgui.client.service.DevelopersGuiService;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
@@ -31,6 +34,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     RuleManagementService ruleManagementService;
     FactFinderService factFinderService;
     RuleExecutionService ruleExecutionService;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSS");
     
     /******************************************************************************************************************
      * 
@@ -326,7 +330,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
             // TODO show 'empty' node in the rules tree if none exist?
             if (businessRuleTypes == null) {
-                rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, "", "", "", "", ""));
+                rulesInfo.add(createRulesHierarchyInfoObject(agendaTypeKey, "", "", "", "", "", "", null, null, ""));
                 continue;
             }
 
@@ -342,24 +346,38 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
                 // TODO show 'empty' node in the rules tree if none exist?
                 if (businessRuleIds == null) {
-                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", "", ""));
+                    rulesInfo.add(createRulesHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", "", "", "", null, null, ""));
                     System.out.println("DEBUG findRulesHierarchyInfo(): no business rules for Business Rule Type: " + businessRuleTypeKey);
                     continue;
                 }
 
                 // 5. go through individual business rules
                 BusinessRuleInfoDTO businessRule;
+                Map<String, RulesHierarchyInfo> versionGroups = new HashMap<String, RulesHierarchyInfo>();
                 for (String businessRuleId : businessRuleIds) {
-
+                    RulesVersionInfo rulesVersionInfo = null;
+                    RulesHierarchyInfo versionGroup = null;
                     try {
                         businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
                     } catch (Exception ex) {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
-
-                    rulesInfo.add(createHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, businessRuleId, businessRule.getName(),
-                    				businessRule.getAnchorValue(), businessRule.getState()));
+                    rulesVersionInfo = createRulesVersionInfoObject(agendaTypeKey, 
+                            businessRuleTypeKey, businessRuleId, businessRule.getOriginalRuleId(),
+                            businessRule.getName(), businessRule.getAnchorValue(), 
+                            businessRule.getState(),
+                            businessRule.getEffectiveDate(),
+                            businessRule.getExpirationDate(),
+                            dateFormat.format(businessRule.getEffectiveDate()));
+                    versionGroup = versionGroups.get(rulesVersionInfo.getBusinessRuleOriginalId());
+                    if (versionGroup == null) {
+                        versionGroup = new RulesHierarchyInfo();
+                    }
+                    versionGroup.add(rulesVersionInfo);
+                    versionGroups.put(rulesVersionInfo.getBusinessRuleOriginalId(), versionGroup);
                 }
+                // Adds the groups into rulesInfo
+                rulesInfo.addAll(versionGroups.values());
             }
 
             System.out.println("DEBUG: rule info:" + rulesInfo.toString());
@@ -368,18 +386,51 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         System.out.println("Finished loading rule info");
         return rulesInfo;
     }
+    
+    private RulesHierarchyInfo createRulesHierarchyInfoObject(
+            String agendaType, 
+            String businessRuleType, 
+            String ruleId,
+            String originalRuleId,
+            String ruleName, 
+            String anchor, 
+            String status,
+            Date effectiveDate,
+            Date expiryDate,
+            String effectiveDateString) {
+        RulesHierarchyInfo rulesHierarchyInfo = new RulesHierarchyInfo();
+        rulesHierarchyInfo.add(createRulesVersionInfoObject(
+                agendaType, businessRuleType, ruleId, originalRuleId,
+                ruleName, anchor, status, effectiveDate, expiryDate, 
+                effectiveDateString));
+        return rulesHierarchyInfo;
+    }
 
-    private RulesHierarchyInfo createHierarchyInfoObject(String agendaType, String businessRuleType, String ruleId, String ruleName, String anchor, String status) {
-        RulesHierarchyInfo ruleInfo = new RulesHierarchyInfo();
+    private RulesVersionInfo createRulesVersionInfoObject(
+            String agendaType, 
+            String businessRuleType, 
+            String ruleId,
+            String originalRuleId,
+            String ruleName, 
+            String anchor, 
+            String status,
+            Date effectiveDate,
+            Date expirationDate,
+            String effectiveDateString) {
+        RulesVersionInfo rulesVersionInfo = new RulesVersionInfo();
 
-        ruleInfo.setAgendaType(agendaType);
-        ruleInfo.setBusinessRuleType(businessRuleType);
-        ruleInfo.setBusinessRuleId(ruleId);
-        ruleInfo.setBusinessRuleDisplayName(ruleName);
-        ruleInfo.setAnchor(anchor);
-        ruleInfo.setStatus(status);
+        rulesVersionInfo.setAgendaType(agendaType);
+        rulesVersionInfo.setBusinessRuleType(businessRuleType);
+        rulesVersionInfo.setBusinessRuleId(ruleId);
+        rulesVersionInfo.setBusinessRuleOriginalId(originalRuleId);
+        rulesVersionInfo.setBusinessRuleDisplayName(ruleName);
+        rulesVersionInfo.setAnchor(anchor);
+        rulesVersionInfo.setStatus(status);
+        rulesVersionInfo.setEffectiveDate(effectiveDate);
+        rulesVersionInfo.setExpirationDateDate(expirationDate);
+        rulesVersionInfo.setEffectiveDateString(effectiveDateString);
 
-        return ruleInfo;
+        return rulesVersionInfo;
     }    
     
     /**

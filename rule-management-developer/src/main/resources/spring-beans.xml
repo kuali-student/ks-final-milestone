@@ -47,7 +47,7 @@
 		 <property name="serviceQNameString"
 		     value="{http://student.kuali.org/wsdl/brms/RuleExecution}RuleExecutionService" />
 		 <property name="address"
-		     value="${ks.servicelocation.RuleExecutionService}" />
+		     value="http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleExecutionService" />
     </bean>        
 	
 </beans>

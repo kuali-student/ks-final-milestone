@@ -3,6 +3,10 @@
  */
 package org.kuali.student.rules.devgui.client.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 
 /**
@@ -11,118 +15,141 @@ import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 public class RulesHierarchyInfo implements ModelObject {
     private static final long serialVersionUID = 123123142351351L;
 
-    private String agendaType;
-    private String agendaDeterminationKeysSet;
-    private String businessRuleType;
-    private String businessRuleId;
-    private String anchor;
-    private String businessRuleDisplayName;
-    private String status;
 
-    public String getStatus() {
-		return status;
-	}
+    private List<RulesVersionInfo> group;
+    // The item that will be shown on GUI
+    private RulesVersionInfo keyItem;
+    
+    public RulesHierarchyInfo() {
+        group = new ArrayList<RulesVersionInfo>();
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getUniqueId() {
+        return getGroupBusinessRuleOriginalId();
+    }
+    
+    /**
+     * Gets the key used in this group of rule versions
+     * @return
+     */
+    public String getGroupAnchor() {
+        return (keyItem == null || keyItem.getAnchor() == null)? null :
+            keyItem.getAnchor();
+    }
 
-	public String getUniqueId() {
-        return businessRuleId;
+    public void add(RulesVersionInfo rulesVersionInfo) {
+        String originalId = getGroupBusinessRuleOriginalId();
+        if (originalId != null && !rulesVersionInfo.getBusinessRuleOriginalId().equals(originalId)) {
+            throw new 
+            IllegalArgumentException(
+                    "Cannot add item with a different originalId in" +
+                    "this group with anchor " + originalId);
+        }
+        if (keyItem == null) {
+            keyItem = rulesVersionInfo;
+        } else {
+            if (rulesVersionInfo.getEffectiveDateString()
+                    .compareTo(keyItem.getEffectiveDateString())
+                    < 0) {
+                keyItem = rulesVersionInfo;
+            }
+        }
+        group.add(rulesVersionInfo);
+    }
+        
+    public String getGroupDisplayName() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getBusinessRuleDisplayName();
+        return result;
+    }
+    
+    public String getGroupStatus() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getStatus();
+        return result;
     }
 
     /**
      * @return the businessRuleDisplayName
      */
-    public final String getBusinessRuleDisplayName() {
-        return businessRuleDisplayName;
-    }
-
-    /**
-     * @param businessRuleDisplayName
-     *            the businessRuleDisplayName to set
-     */
-    public final void setBusinessRuleDisplayName(String displayName) {
-        this.businessRuleDisplayName = displayName;
+    public final String getGroupBusinessRuleDisplayName() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getBusinessRuleDisplayName();
+        return result;
     }
 
     /**
      * @return the agendaType
      */
-    public final String getAgendaType() {
-        return agendaType;
-    }
-
-    /**
-     * @param agendaType
-     *            the agendaType to set
-     */
-    public final void setAgendaType(String agendaType) {
-        this.agendaType = agendaType;
+    public final String getGroupAgendaType() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getAgendaType();
+        return result;
     }
 
     /**
      * @return the agendaDeterminationKeysSet
      */
-    public final String getAgendaDeterminationKeysSet() {
-        return agendaDeterminationKeysSet;
-    }
-
-    /**
-     * @param agendaDeterminationKeysSet
-     *            the agendaDeterminationKeysSet to set
-     */
-    public final void setAgendaDeterminationKeysSet(String agendaDeterminationKeysSet) {
-        this.agendaDeterminationKeysSet = agendaDeterminationKeysSet;
+    public final String getGroupAgendaDeterminationKeysSet() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getAgendaDeterminationKeysSet();
+        return result;
     }
 
     /**
      * @return the businessRuleType
      */
-    public final String getBusinessRuleType() {
-        return businessRuleType;
-    }
-
-    /**
-     * @param businessRuleType
-     *            the businessRuleType to set
-     */
-    public final void setBusinessRuleType(String businessRuleType) {
-        this.businessRuleType = businessRuleType;
+    public final String getGroupBusinessRuleType() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getBusinessRuleType();
+        return result;
     }
 
     /**
      * @return the businessRuleId
      */
-    public final String getBusinessRuleId() {
-        return businessRuleId;
+    public final String getGroupBusinessRuleId() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getBusinessRuleId();
+        return result;
     }
 
-    /**
-     * @param businessRuleId
-     *            the businessRuleId to set
-     */
-    public final void setBusinessRuleId(String businessRuleId) {
-        this.businessRuleId = businessRuleId;
+    public String getGroupBusinessRuleOriginalId() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getBusinessRuleOriginalId();
+        return result;
     }
 
-    /**
-     * @return the anchor
-     */
-    public final String getAnchor() {
-        return anchor;
+    public String getGroupEffectiveDateString() {
+        String result = "";
+        if (keyItem == null) return null;
+        result = keyItem.getEffectiveDateString();
+        return result;
     }
-
-    /**
-     * @param anchor
-     *            the anchor to set
-     */
-    public final void setAnchor(String anchor) {
-        this.anchor = anchor;
+    
+    public List<RulesVersionInfo> getVersions() {
+        return group;
     }
-
+    
     @Override
     public final String toString() {
-        return "agendaType: '" + agendaType + "', agendaDeterminationKeysSet: '" + agendaDeterminationKeysSet + "', businessRuleType: '" + businessRuleType + "', businessRuleId: '" + businessRuleId + "', anchor: '" + anchor + "', businessRuleDisplayName: '" + businessRuleDisplayName;
+        String result =
+            "agendaType: '" + getGroupAgendaType() + 
+            "', agendaDeterminationKeysSet: '" + getGroupAgendaDeterminationKeysSet() + 
+            "', businessRuleType: '" + getGroupBusinessRuleType() + 
+            "', businessRuleId: '" + getGroupBusinessRuleId() + 
+            "', anchor: '" + getGroupAnchor() + 
+            "', businessRuleDisplayName: '" + getGroupBusinessRuleDisplayName() + 
+            "', effectiveDateString: '" + getGroupEffectiveDateString();
+        return result;
     }
+
 }
