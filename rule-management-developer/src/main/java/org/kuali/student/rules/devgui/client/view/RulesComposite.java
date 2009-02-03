@@ -161,7 +161,7 @@ public class RulesComposite extends Composite {
     final Button updatePropButton = new Button("Update");
     final Button removePropButton = new Button("Remove");
     final Button makeCopyPropButton = new Button("Make Copy");
-    final Button cancelPropButton = new Button("Cancel Changes");
+    //final Button cancelPropButton = new Button("Cancel Changes");
 
     // Authoring tab
     final TextBox effectiveDateTextBox = new TextBox();
@@ -551,13 +551,14 @@ public class RulesComposite extends Composite {
                 }
             });
 
+            /*
             cancelPropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
                     //updatePropButton.setEnabled(false);
                     //removePropButton.setEnabled(false); 
                     updatePropositionListBoxAndDetails(propositionsListBox.getSelectedIndex());
                 }
-            });
+            }); */
 
             propNameTextBox.addFocusListener(new FocusListener() {
                 public void onFocus(final Widget sender) {
@@ -618,7 +619,7 @@ public class RulesComposite extends Composite {
              ***************************************************************************************************************/
 
             rulesFormTabs.addTabListener(new TabListener() {
-
+                
 				public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
 					return true;
 				}
@@ -693,6 +694,9 @@ public class RulesComposite extends Composite {
                                 if (report.getFactResult() != null) {
                                     reportText.append("\nFact: " + report.getFactResult() + "\n");
                                 }
+                                
+                                reportText.append("\nProposition result: " + report.getPropositionResult().getResultList());
+                                
                         	    reportText.append("\n------------------------------------------------------------------------" + "\n");                        	    
                         	}
                         	
@@ -709,7 +713,7 @@ public class RulesComposite extends Composite {
                         		executionLog.append("\nFailed to execute rule.");
                         		executionLog.append("\nERROR: " + executionResult.getErrorMessage());
                         	}
-                        	
+
                             testReport.setText(reportText.toString());
                         	testResult.setText(executionLog.toString());
                         }
@@ -930,6 +934,7 @@ public class RulesComposite extends Composite {
      *
      *******************************************************************************************************************/             
     
+    //WITHIN NEW CLASS
     private BusinessRuleInfoDTO createEmptyBusinessRule() {
 
         BusinessRuleInfoDTO newRule = new BusinessRuleInfoDTO();
@@ -943,10 +948,8 @@ public class RulesComposite extends Composite {
         newRule.setType("");
         newRule.setAnchorTypeKey("");
         newRule.setAnchorValue("");
-		Date effectiveDate = new Date();
-		Date effectiveEndTime = new Date(future_date);
-		newRule.setEffectiveDate(effectiveDate);
-		newRule.setExpirationDate(effectiveEndTime);
+		newRule.setEffectiveDate(new Date());
+		newRule.setExpirationDate(new Date(future_date));
 
         // set rule proposition
         LeftHandSideDTO leftSide = new LeftHandSideDTO();
@@ -1302,7 +1305,7 @@ public class RulesComposite extends Composite {
         descriptionTextArea.setText("");
         successMessageTextArea.setText("");
         failureMessageTextArea.setText("");
-        GuiUtil.setListBoxSelectionByItemName(agendaTypesListBox, "");  //unselect agenda type list box
+        GuiUtil.setListBoxSelectionByItemName(agendaTypesListBox, "");  //deselect agenda type list box
         businessRuleTypesListBox.clear();
         ruleAnchorType.setText("");
         ruleAnchorTextBox.setText("");
@@ -2047,10 +2050,11 @@ public class RulesComposite extends Composite {
         factDetailsPanel.setSpacing(5);
         propositionDetailsPanel.add(factDetailsPanel);
         
+        /*
         HorizontalPanel hpButtons = new HorizontalPanel();
         hpButtons.setSpacing(8);      
         hpButtons.add(cancelPropButton);
-        propositionDetailsPanel.add(hpButtons);        
+        propositionDetailsPanel.add(hpButtons); */        
 
         horizontalPanel.add(propositionDetailsPanel);
         horizontalPanel.setCellHeight(propListPanel, "75%");

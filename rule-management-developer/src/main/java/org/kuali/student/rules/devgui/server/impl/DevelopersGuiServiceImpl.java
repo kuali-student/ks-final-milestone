@@ -79,21 +79,55 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         	if (elem.getBusinessRuleElemnetTypeKey().equals(RuleElementType.PROPOSITION.getName()) == false) continue;
             System.out.println("EXECUTING: rule id: " + businessRule.getId() + ", element: " + elem.getName());        	
         	List<FactStructureDTO> factStructureList = elem.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList();
+        	List<FactStructureDTO> factStructureListAdjusted = new ArrayList<FactStructureDTO>();
+        	int ix = 0;
+        	      //assumption is that at least one fact is type of criteria and has to be stored first in the list
+        	boolean criteriaAdded = false;
         	for (FactStructureDTO fact : factStructureList) {        	     	            	        	    
-        		if (fact.isStaticFact()) {
+        		if (fact.isStaticFact()) {        		    
         		    testFactValue = definitionTimeFacts.get(fact.getFactStructureId());
-        		    System.out.println("-- Added static fact: " + testFactValue);
-        			fact.setStaticValue(testFactValue);        			
+        		    System.out.println("-- Added static fact ("+fact.getFactStructureId()+"): " + testFactValue);
+        			fact.setStaticValue(testFactValue);    
+        			if (factStructureList.size() > 1) {
+        			    if (criteriaAdded) {
+        			        factStructureListAdjusted.add(ix++, fact);
+        			    } else {
+                            criteriaAdded = true;
+                            factStructureListAdjusted.add(0, fact);
+                            if (ix == 0) ix++;
+        			    }    			    
+        			}
         		} else {        		           		    
                     Map<String, String> map = fact.getParamValueMap();
                     Map<String, String> mapCopy = new HashMap<String, String>(map);
+                    boolean foundExecutionKey = false;
                     for (String key : mapCopy.keySet()) {
-                        if (executionTimeFacts.containsKey(key)) continue;  //we don't populate execution time facts in the rule structure
+                        System.out.println("-- Added dynamic fact ("+fact.getFactStructureId()+"):: " + key + " - " + definitionTimeFacts.get(key));
+                        if (executionTimeFacts.containsKey(key)) {
+                            foundExecutionKey = true;
+                            continue;  //we don't populate execution time facts in the rule structure
+                        }
                         map.remove(key);
                         map.put(key, definitionTimeFacts.get(key));
-                        System.out.println("-- Added dynamic fact: " + key + " - " + definitionTimeFacts.get(key));
+                    }
+                    if (factStructureList.size() > 1) {
+                        if (criteriaAdded) {
+                            factStructureListAdjusted.add(ix++, fact);
+                        } else {
+                            if (foundExecutionKey) {
+                                if (ix == 0) ix++;
+                                factStructureListAdjusted.add(ix++, fact); 
+                            } else {
+                                criteriaAdded = true;
+                                factStructureListAdjusted.add(0, fact);
+                                if (ix == 0) ix++;
+                            }
+                        }
                     }
         		}                
+        	}
+        	if (factStructureList.size() > 1) {
+        	    elem.getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().setFactStructureList(factStructureListAdjusted);
         	}
         }           
         
