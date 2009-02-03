@@ -393,6 +393,10 @@ public class RuleManagementServiceImpl implements RuleManagementService {
         RuleSetDTO rsDTO = repository.generateRuleSetForBusinessRule(ruleInfoDTO);
         orgRule.setCompiledId(rsDTO.getUUID());
         ruleInfoDTO.setCompiledId(rsDTO.getUUID());
+
+        RuleMetaData metaData = orgRule.getMetaData();
+        metaData.setUpdateDate(new Date());
+        orgRule.setMetaData(metaData);
         
         ruleManagementDao.updateBusinessRule(orgRule);
 
@@ -459,6 +463,10 @@ public class RuleManagementServiceImpl implements RuleManagementService {
             repository.removeRuleSetSnapshot(orgRule.getCompiledId(), orgRule.getRepositorySnapshotName());
         }
 
+        RuleMetaData metaData = orgRule.getMetaData();
+        metaData.setUpdateDate(new Date());
+        orgRule.setMetaData(metaData);
+        
         ruleManagementDao.updateBusinessRule(orgRule);
 
         // Re build the business rule Info
