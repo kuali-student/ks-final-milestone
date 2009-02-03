@@ -3,7 +3,6 @@ package org.kuali.student.core.organization.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +15,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -32,7 +32,6 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.dto.StatusInfo;
 
 
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
