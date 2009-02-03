@@ -33,4 +33,5 @@ public interface OrgRemoteService {
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId);    
     
     public OrgPositionRestrictionInfo addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
+    public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels);
 }

@@ -17,9 +17,13 @@ public class OrgSnowflakePanel extends Composite{
 	}
 
       protected void onLoad(){        
-        IGraphRender render = new JSVizOrgSnowflake(nodeXML);
-        JSVizPanel graphPanel= new JSVizPanel("400", "300", render);
+        this.setHeight("200");
+    	  IGraphRender render = new JSVizOrgSnowflake(nodeXML);
+        
+        JSVizPanel graphPanel= new JSVizPanel("50", "50", render);
+        graphPanel.getElement().setId("PANEL ID");
         vPanel.add(graphPanel);
+        vPanel.setBorderWidth(2);
     }
 
 }

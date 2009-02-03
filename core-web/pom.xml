@@ -30,7 +30,7 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>mergewebxml</goal>
+							<!-- <goal>mergewebxml</goal> -->
 							<goal>compile</goal>
 						</goals>
 					</execution>
@@ -55,9 +55,9 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.0</version>
-				<configuration>
-					<webXml>target/web.xml</webXml>
-				</configuration>
+				<!-- <configuration>
+					<webXml>WEB-INF/web.xml</webXml>
+				</configuration>-->
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -90,17 +90,27 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>ks.use.jaxws</name>
-							<value>true</value>
-						</property>
-					</systemProperties>
-				</configuration>
-			</plugin>
+		      <artifactId>maven-antrun-plugin</artifactId>
+		      <executions>
+		        <execution>
+		          <phase>process-classes</phase>
+		          <configuration>
+		            <tasks>
+		              <copy todir="${project.build.outputDirectory}/../tomcat/webapps/ROOT">
+		                <fileset dir="${project.build.outputDirectory}/../ks-core-web-0.0.1-SNAPSHOT">
+		                  <exclude name="**/*-aux/*" />
+		                  <exclude name="META-INF" />
+		                  <exclude name="WEB-INF" />
+		                </fileset>
+		              </copy>
+		            </tasks>
+		          </configuration>
+		          <goals>
+		            <goal>run</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>			
 		</plugins>
 	</build>
 	

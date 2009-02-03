@@ -24,7 +24,9 @@ public interface OrgRpcServiceAsync {
     public void getOrgOrgRelationTypes(AsyncCallback<List<OrgOrgRelationTypeInfo>> callback);
     public void getOrgPersonRelationTypes(AsyncCallback<List<OrgPersonRelationTypeInfo>> callback);
     public void getOrgTypes(AsyncCallback<List<OrgTypeInfo>> callback);
+    public void getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels, AsyncCallback<String> ccallback);
+
     public void getPositionRestrictionsByOrg(String orgId, AsyncCallback<List<OrgPositionRestrictionInfo>> callback);
-    
+
     public void addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo, AsyncCallback<OrgPositionRestrictionInfo> callback);
 }

@@ -13,7 +13,6 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
@@ -209,6 +208,54 @@ public class OrgRpcServiceImpl implements OrgRpcService{
         return null;
     }
 
+	public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
+		//first get the Org info
+		String displayTree=null;
+		try {
+			OrgInfo org = service.getOrganization(orgId);
+			displayTree="<root root='true' fixed='true' nodeName='"+org.getLongName()+"' " +
+					    " nodeId='"+org.getId()+"'>";
+			displayTree+=parseDescendantsForDisplay(orgId,orgHierarchy,maxLevels,0);
+			displayTree+="</root>";
+		} catch (DoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return displayTree;
+	}
+
+	private String parseDescendantsForDisplay(String orgId, String orgHierarchy, int maxLevels, int currLevel) {
+		String displayTree="";
+		if(currLevel<maxLevels){
+			try {
+				List<String> orgIds=service.getAllDescendants(orgId, orgHierarchy);
+				if(orgIds!=null){
+					for(String currentOrgId:orgIds){
+						OrgInfo org = service.getOrganization(currentOrgId);
+						displayTree+="<node nodeName='"+org.getShortName()+"' nodeId='"+org.getId()+"'>";
+						displayTree+=parseDescendantsForDisplay(currentOrgId, orgHierarchy, maxLevels, currLevel+1);
+						displayTree+="</node>";
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		}
+		return displayTree;
+	}
 
     public OrgInfo getOrganization(String orgId) {
         try {

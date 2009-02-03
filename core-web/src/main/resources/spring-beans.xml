@@ -7,11 +7,33 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
+
+	<!-- Spring to GWT servlet mapping -->
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/org.kuali.student.core.organization.web.OrgEntry/OrgRpcService">
+					<ref bean="orgRpcServiceGwtController"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
 	
-	<bean id="orgRpcService" class="org.kuali.student.core.organization.web.server.impl.OrgRpcServiceImpl">
+	<!-- Controllers -->
+	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="orgRpcServiceGwt"/>
+		<property name="servletInstance" ref="orgRpcServiceGwt"/>
+	</bean>
+	
+	<!-- GWT Servlets -->
+	<bean id="orgRpcServiceGwt" class="org.kuali.student.core.organization.web.server.gwt.OrgRpcServiceGwt">
+		<property name="serviceImpl" ref="orgRpcServiceImpl"/>
+	</bean>
+	
+	<!-- Service Implementations -->
+	<bean id="orgRpcServiceImpl" class="org.kuali.student.core.organization.web.server.impl.OrgRpcServiceImpl">
 		<property name="service" ref="orgClient" />
 	</bean>
-
 
 	<!-- Service Clients -->	
 	<bean id="orgClient"
@@ -25,4 +47,5 @@
 	 	<property name="address"
 			value="http://localhost:8181/Service/Service" />
 	</bean>
+	
 </beans>

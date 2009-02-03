@@ -2,9 +2,6 @@ package org.kuali.student.core.organization.web.server.gwt;
 
 import java.util.List;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -13,9 +10,6 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -24,22 +18,6 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 	private static final long serialVersionUID = 1L;
 
 	private OrgRpcService serviceImpl;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        
-        try{
-            WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());        
-            serviceImpl = (OrgRpcService)wac.getBean("orgRpcService");
-        } catch (Exception e){
-        }
-
-        //This is only for hosted mode.
-        if (serviceImpl == null){
-            serviceImpl = (OrgRpcService) new FileSystemXmlApplicationContext("classpath:spring-beans.xml").getBean("orgRpcService");
-        }
-    }
 	
 	public OrgRpcService getServiceImpl() {
 		return serviceImpl;
@@ -97,6 +75,9 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId) {
         return serviceImpl.getPositionRestrictionsByOrg(orgId);
     }
-       
+           
+	public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
+		return serviceImpl.getOrgDisplayTree(orgId, orgHierarchy, maxLevels);
+	}
 	
 }
