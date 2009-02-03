@@ -23,8 +23,12 @@ public abstract class AbstractCrudDaoImpl implements CrudDao {
 
 
 	@Override
-	public <T> T fetch(Class<T> clazz, String key) {
-		return em.find(clazz, key);
+	public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException {
+		T entity = em.find(clazz, key);
+		if (entity == null) {
+			throw new DoesNotExistException("No entity for key '" + key + "' found for " + clazz);
+		}
+		return entity;
 	}
 
 	@SuppressWarnings("unchecked")

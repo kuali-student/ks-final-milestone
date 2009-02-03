@@ -119,6 +119,9 @@ public class OrganizationAssembler extends BaseAssembler{
 
 	public static OrgOrgRelationInfo toOrgOrgRelationInfo(
 			OrgOrgRelation orgOrgRelation) {
+		if (orgOrgRelation == null) {
+			return null;
+		}
 		OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
 
 		BeanUtils.copyProperties(orgOrgRelation, orgOrgRelationInfo, new String[] { "type",

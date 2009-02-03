@@ -264,8 +264,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (orgOrgRelationId == null) {
+			throw new MissingParameterException("orgOrgRelationId can not be null");
+		}
+
+		return OrganizationAssembler.toOrgOrgRelationInfo((OrgOrgRelation) organizationDao.fetch(OrgOrgRelation.class, orgOrgRelationId));
+
 	}
 
 	@Override

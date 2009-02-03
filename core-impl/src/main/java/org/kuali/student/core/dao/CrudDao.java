@@ -6,7 +6,7 @@ import org.kuali.student.core.entity.AttributeDef;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 
 public interface CrudDao {
-	public <T> T fetch(Class<T> clazz, String key);
+	public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException;
 
 	public <T extends AttributeDef> T fetchAttributeDefByName(Class<T> clazz,
 			String attributeName);
