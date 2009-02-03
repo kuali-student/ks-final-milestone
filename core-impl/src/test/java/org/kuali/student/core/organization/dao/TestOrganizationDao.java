@@ -98,7 +98,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	}
 	
 	@Test
-	public void testDeleteOrganization() throws DoesNotExistException{
+	public void testDeleteOrganizationByReference() {
 		
 		OrgType orgType= new OrgType();
 		orgType.setKey("kauli.org.TestOrgTypeKey1");
@@ -129,7 +129,11 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		
 		String orgID = org.getId();
 		
-		assertNotNull(org = dao.fetch(Org.class, orgID));
+		try {
+			assertNotNull(org = dao.fetch(Org.class, orgID));
+		} catch (DoesNotExistException dnee) {
+			fail("TestOrganizationDao#fetch(Org.class, <id>) failed: " + dnee.getMessage());
+		}
 		assertEquals(2, org.getAttributes().size());
 		List<String> attrIDs = new ArrayList<String>();
 		for (int i = 0; i < 2; i++) {
@@ -137,12 +141,82 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		}
 		dao.delete(org);
 		
-		assertNull(dao.fetch(Org.class, orgID));
+		try {
+			assertNull(dao.fetch(Org.class, orgID));
+			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+		} catch (DoesNotExistException dnee) {}
 		
 		// make sure Attrs were deleted
-		for (String id : attrIDs) {
-			assertNull(dao.fetch(OrgAttribute.class, id));
+		try {
+			for (String id : attrIDs) {
+				assertNull(dao.fetch(OrgAttribute.class, id));
+			}
+			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+		} catch (DoesNotExistException dnee) {}
+	}
+	
+	@Test
+	public void testDeleteOrganizationByKey() {
+		
+		OrgType orgType= new OrgType();
+		orgType.setKey("kauli.org.TestOrgTypeKey1");
+		orgType.setName("Test OrgType 1");
+		orgType.setDesc("A test OrgType");
+		
+		Org org = new Org();
+		org.setType(orgType);
+		org.setShortName("TestOrg1");
+		org.setDesc("Test Org 1");
+		
+		OrgAttribute orgAttr1 = new OrgAttribute();
+		orgAttr1.setValue("orgAttr1Value");
+		OrgAttribute orgAttr2 = new OrgAttribute();
+		orgAttr1.setValue("orgAttr2Value");
+		
+		org.setAttributes(Arrays.asList(new OrgAttribute[] { orgAttr1, orgAttr2 } ));
+		
+		OrgHierarchy orgHierarchy = new OrgHierarchy();
+		orgHierarchy.setKey("kuali.org.TestOrgHierarchy1");
+		orgHierarchy.setName("TestOrgHeir1");
+		orgHierarchy.setDesc("Test Organizational Hierarchy 1");
+		orgHierarchy.setRootOrg(org);
+		
+		dao.create(orgType);
+		dao.create(org);
+		dao.create(orgHierarchy);
+		
+		String orgID = org.getId();
+		
+		String orgTypeID = orgType.getKey();
+		
+		try {
+			assertNotNull(org = dao.fetch(Org.class, orgID));
+		} catch (DoesNotExistException e) {
+			fail("TestOrganizationDao#fetch(Org.class, <id>) failed: " + e.getMessage());
 		}
+		assertEquals(2, org.getAttributes().size());
+		List<String> attrIDs = new ArrayList<String>();
+		for (int i = 0; i < 2; i++) {
+			attrIDs.add(org.getAttributes().get(i).getId());
+		}
+		try {
+			dao.delete(Org.class, orgID);
+		} catch (DoesNotExistException e) {
+			fail("TestOrganizationDao#deleteOrganizationByKey failed: " + e.getMessage());
+		}
+		
+		try {
+			// assertNull(dao.fetch(Org.class, orgID));
+			dao.fetch(Org.class, orgID);
+			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+		} catch (DoesNotExistException dnee) { }
+		// make sure Attrs were deleted
+		try {
+			for (String id : attrIDs) {
+				assertNull(dao.fetch(OrgAttribute.class, id));
+			}
+			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+		} catch (DoesNotExistException dnee) {}
 	}
 	
 	@Test
@@ -164,13 +238,13 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	@Test
 	public void getAllOrgPersonRelationsByPerson(){
 		List<OrgPersonRelation> orgPersonRelations = dao.getAllOrgPersonRelationsByPerson("KIM-1");
-		assertEquals(2, orgPersonRelations.size());
+		assertEquals(3, orgPersonRelations.size());
 	}
 	
 	@Test
 	public void getAllOrgPersonRelationsByOrg(){
 		List<OrgPersonRelation> orgPersonRelations = dao.getAllOrgPersonRelationsByOrg("68");
-		assertEquals(2, orgPersonRelations.size());
+		assertEquals(3, orgPersonRelations.size());
 	}
 	
 	@Test
