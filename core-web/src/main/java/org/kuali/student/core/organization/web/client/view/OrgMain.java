@@ -42,7 +42,9 @@ public class OrgMain extends Composite {
     public void onLoad(){
         vPanel.setWidth("100%");
 
-        vPanel.add(new Label("Organization Management"));
+        Label pageTitle = new Label("Organization Management");
+        pageTitle.setStyleName("page-title");
+        vPanel.add(pageTitle);
         vPanel.add(new OrgMenu(workPanel));
         vPanel.add(workPanel);
         
