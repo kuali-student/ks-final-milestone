@@ -17,8 +17,6 @@
 	
 	<properties>
 		<google.webtoolkit.extrajvmargs>-Xmx512m</google.webtoolkit.extrajvmargs>
-		<gwtVersion>1.5.3</gwtVersion>
-		<jaxws-api.version>2.1</jaxws-api.version>
 	</properties>
 	
 	<build>
@@ -62,55 +60,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.google.gwt</groupId>
-									<artifactId>gwt-dev</artifactId>
-									<version>${gwtVersion}</version>
-									<classifier>
-										${platform}-libs
-									</classifier>
-									<type>zip</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>
-										${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}
-									</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
-			<plugin>
-		      <artifactId>maven-antrun-plugin</artifactId>
-		      <executions>
-		        <execution>
-		          <phase>process-classes</phase>
-		          <configuration>
-		            <tasks>
-		              <copy todir="${project.build.outputDirectory}/../tomcat/webapps/ROOT">
-		                <fileset dir="${project.build.outputDirectory}/../ks-core-web-0.0.1-SNAPSHOT">
-		                  <exclude name="**/*-aux/*" />
-		                  <exclude name="META-INF" />
-		                  <exclude name="WEB-INF" />
-		                </fileset>
-		              </copy>
-		            </tasks>
-		          </configuration>
-		          <goals>
-		            <goal>run</goal>
-		          </goals>
-		        </execution>
-		      </executions>
-		    </plugin>			
 		</plugins>
 	</build>
 	
@@ -139,38 +89,25 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+ 		
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>${gwtVersion}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>${gwtVersion}</version>
 			<classifier>${platform}-libs</classifier>
 			<type>zip</type>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>${gwtVersion}</version>
 			<classifier>${platform}</classifier>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>${gwtVersion}</version>
-			<scope>runtime</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>junit</artifactId>
-					<groupId>com.google.gwt</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.netthreads</groupId>
@@ -179,69 +116,4 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>ks.ui.external.repositories</id>
-			<activation>
-				<property>
-					<name>!ks.use.proxy</name>
-				</property>
-			</activation>
-			<repositories>
-				<repository>
-					<id>gwt-maven</id>
-					<url>
-						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
-					</url>
-				</repository>
-			</repositories>
-
-			<pluginRepositories>
-				<pluginRepository>
-					<id>gwt-maven</id>
-					<url>
-						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
-					</url>
-				</pluginRepository>
-			</pluginRepositories>
-
-		</profile>
-		<profile>
-			<id>gwt-dev-windows</id>
-			<properties>
-				<platform>windows</platform>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<os>
-					<family>Windows</family>
-				</os>
-			</activation>
-		</profile>
-		<profile>
-			<id>gwt-dev-mac</id>
-			<properties>
-				<platform>mac</platform>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-		</profile>
-		<profile>
-			<id>gwt-dev-linux</id>
-			<properties>
-				<platform>linux</platform>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-				<os>
-					<name>Linux</name>
-				</os>
-			</activation>
-		</profile>
-
-	</profiles>
 </project>
