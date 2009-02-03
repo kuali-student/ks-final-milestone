@@ -2725,8 +2725,11 @@ public class RulesComposite extends Composite {
         ruleVersionRanges = new ArrayList<DateRange>();
         if (ruleVersions == null) return null;
         for (RulesVersionInfo ruleVersion : ruleVersions) {
-            if (ruleVersion.getStatus() != null &&
-                    ruleVersion.getStatus().equals(BusinessRuleStatus.ACTIVE)) {
+            String strStatus = (ruleVersion.getStatus() == null)? "" :
+                ruleVersion.getStatus();
+            BusinessRuleStatus status =
+                BusinessRuleStatus.valueOf(strStatus);
+            if (status == BusinessRuleStatus.ACTIVE) {
                 java.util.Date effectiveDate =
                     (ruleVersion.getEffectiveDate() == null)?
                             ALPHA_DATE : ruleVersion.getEffectiveDate();
