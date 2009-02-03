@@ -2726,17 +2726,18 @@ public class RulesComposite extends Composite {
         if (ruleVersions == null) return null;
         for (RulesVersionInfo ruleVersion : ruleVersions) {
             if (ruleVersion.getStatus() != null &&
-                    ruleVersion.getStatus().equals())
-            java.util.Date effectiveDate =
-                (ruleVersion.getEffectiveDate() == null)?
-                        ALPHA_DATE : ruleVersion.getEffectiveDate();
-            java.util.Date expiryDate =
-                (ruleVersion.getExpirationDate() == null)?
-                        OMEGA_DATE : ruleVersion.getExpirationDate();
-            ruleVersionRanges.add(
-                new DateRange(
-                        effectiveDate,
-                        expiryDate));
+                    ruleVersion.getStatus().equals(BusinessRuleStatus.ACTIVE)) {
+                java.util.Date effectiveDate =
+                    (ruleVersion.getEffectiveDate() == null)?
+                            ALPHA_DATE : ruleVersion.getEffectiveDate();
+                java.util.Date expiryDate =
+                    (ruleVersion.getExpirationDate() == null)?
+                            OMEGA_DATE : ruleVersion.getExpirationDate();
+                ruleVersionRanges.add(
+                        new DateRange(
+                                effectiveDate,
+                                expiryDate));
+            }
         }
         if (ruleVersionRanges != null && !ruleVersionRanges.isEmpty()) {
             arrRuleVersionRanges = new DateRange[ruleVersionRanges.size()];
