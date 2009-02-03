@@ -31,7 +31,8 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 
     // ~ Instance fields --------------------------------------------------------
-
+	private Set<T> met;
+	
     Set<T> criteriaSet;
     Set<T> factSet;
     Collection<?> resultValues;
@@ -53,12 +54,12 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 
     @Override
     public Boolean apply() {
-        Set<T> met = and();
+        this.met = and();
         Integer count = Integer.valueOf(met.size());
 
         result = checkTruthValue(count, super.expectedValue);
 
-        cacheReport("%d of %s is still required", count, super.expectedValue);
+        cacheReport("%d of %s is still required");
 
         this.resultValues = met;
         
@@ -72,17 +73,45 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
      */
     @Override
     protected void cacheReport(String format, Object... args) {
-        Integer count = (Integer) args[0];
-        Integer expectedValue = (Integer) args[1];
+        Integer count = met.size();
+        Integer expectedValue = (Integer) super.expectedValue;
         if (result) {
             report.setSuccessMessage("Intersection constraint fulfilled");
             return;
         }
 
-        // TODO: Use the operator to compute exact message
         Set<T> unMet = andNot();
         int needed = expectedValue - count;
-        String advice = String.format(format, needed, unMet.toString());
+        String advice = "No advice given";
+        if (needed == 0 && super.operator == ComparisonOperator.NOT_EQUAL_TO) {
+    		advice = String.format("Found %d course(s) %s but expected not %d", count, met.toString(), expectedValue);
+        }
+        else if (needed < 0) {
+            switch(super.operator) {
+            	case EQUAL_TO:
+            		advice = String.format("Found %d course(s) %s but expected only %d", count, met.toString(), expectedValue);
+            		break;
+            	case LESS_THAN_OR_EQUAL_TO:
+	        		advice = String.format("Found %d course(s) %s but expected only %d or less", count, met.toString(), expectedValue);
+	        		break;
+            	case LESS_THAN:
+	        		advice = String.format("Found %d course(s) %s but expected less than %d", count, met.toString(), expectedValue);
+	        		break;
+        		default:
+            }
+        } else if (expectedValue > count) {
+            switch(super.operator) {
+	        	case GREATER_THAN_OR_EQUAL_TO:
+	        		advice = String.format("Found %d course(s) %s but expected %d or more", count, met.toString(), expectedValue);
+	        		break;
+	        	case GREATER_THAN:
+	        		advice = String.format("Found %d course(s) %s but expected more than %d", count, met.toString(), expectedValue);
+	        		break;
+    		default:
+        }
+        } else {
+	        advice = String.format(format, needed, unMet.toString());
+        }
         report.setFailureMessage(advice);
     }
 

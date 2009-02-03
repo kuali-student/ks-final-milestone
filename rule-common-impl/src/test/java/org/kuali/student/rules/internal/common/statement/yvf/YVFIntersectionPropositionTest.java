@@ -35,21 +35,22 @@ public class YVFIntersectionPropositionTest {
         
         return factMap;
     }
+    
+    private FactStructureDTO createStaticFactStructure(String factStructureId, String criteriaTypeName, String facts) {
+		FactStructureDTO fs = CommonTestUtil.createFactStructure(factStructureId, criteriaTypeName);
+		fs.setStaticFact(true);
+		fs.setStaticValueDataType(String.class.getName());
+		fs.setStaticValue(facts);
+		return fs;
+    }
 
 	@Test
-	public void testIntersectionProposition_StaticFact() throws Exception {
+	public void testIntersectionProposition_StaticFact_Success() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 
-		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.intersection.criteria");
-		fs1.setStaticFact(true);
-		fs1.setStaticValueDataType(String.class.getName());
-		fs1.setStaticValue("CPR101,CHEM101");
-
-		FactStructureDTO fs2 = CommonTestUtil.createFactStructure("fact.id.2", "course.intersection.fact");
-		fs2.setStaticFact(true);
-		fs2.setStaticValueDataType(String.class.getName());
-		fs2.setStaticValue("CPR101,MATH101,CHEM101");
-
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,CHEM101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+			
 		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
 
 		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
@@ -63,6 +64,7 @@ public class YVFIntersectionPropositionTest {
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
 		Assert.assertNotNull(report.getSuccessMessage());
+		Assert.assertEquals("Intersection constraint fulfilled", report.getSuccessMessage());
 
 		FactResultDTO criteriaResult = report.getCriteriaResult();
 		Assert.assertEquals(2, criteriaResult.getResultList().size());
@@ -82,7 +84,133 @@ public class YVFIntersectionPropositionTest {
 	}
 
 	@Test
-	public void testIntersectionProposition() throws Exception {
+	public void testIntersectionProposition_StaticFact_Failure_Equals() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,MATH101,CHEM101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
+				"1", "YVFIntersectionProposition", 
+				ComparisonOperator.EQUAL_TO, 2, yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		proposition.apply();
+		Assert.assertFalse(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2", report.getFailureMessage());
+	}
+
+	@Test
+	public void testIntersectionProposition_StaticFact_Failure_LessThanOrEquals() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,MATH101,CHEM101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
+				"1", "YVFIntersectionProposition", 
+				ComparisonOperator.LESS_THAN_OR_EQUAL_TO, 2, yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		proposition.apply();
+		Assert.assertFalse(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2 or less", report.getFailureMessage());
+	}
+
+	@Test
+	public void testIntersectionProposition_StaticFact_Failure_LessThan() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,MATH101,CHEM101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
+				"1", "YVFIntersectionProposition", 
+				ComparisonOperator.LESS_THAN, 2, yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		proposition.apply();
+		Assert.assertFalse(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected less than 2", report.getFailureMessage());
+	}
+
+	@Test
+	public void testIntersectionProposition_StaticFact_Failure_NotEqual() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,MATH101,CHEM101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
+				"1", "YVFIntersectionProposition", 
+				ComparisonOperator.NOT_EQUAL_TO, 3, yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		proposition.apply();
+		Assert.assertFalse(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected not 3", report.getFailureMessage());
+	}
+
+	@Test
+	public void testIntersectionProposition_StaticFact_Failure_GreaterThan() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,MATH101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
+				"1", "YVFIntersectionProposition", 
+				ComparisonOperator.GREATER_THAN, 3, yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		proposition.apply();
+		Assert.assertFalse(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected more than 3", report.getFailureMessage());
+	}
+
+	@Test
+	public void testIntersectionProposition_StaticFact_Failure_GreaterThanOrEqual() throws Exception {
+		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
+
+		FactStructureDTO fs1 = createStaticFactStructure("fact.id.1", "course.intersection.criteria", "CPR101,MATH101");
+		FactStructureDTO fs2 = createStaticFactStructure("fact.id.2", "course.intersection.fact", "CPR101,MATH101,CHEM101");
+
+		yvf.setFactStructureList(Arrays.asList(fs1, fs2));
+
+		YVFIntersectionProposition<String> proposition = new YVFIntersectionProposition<String>(
+				"1", "YVFIntersectionProposition", 
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, 3, yvf, null);
+
+		PropositionReport report = proposition.getReport();
+		
+		proposition.apply();
+		Assert.assertFalse(proposition.getResult());
+		Assert.assertNotNull(report);
+		Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected 3 or more", report.getFailureMessage());
+	}
+
+	@Test
+	public void testIntersectionProposition_DynamicFact() throws Exception {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.intersection.criteria");
