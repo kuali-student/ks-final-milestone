@@ -407,7 +407,8 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		
         for(String businessRuleId : businessRuleIdList1) {
     		// Ignore since it has dynamic facts
-    		if (businessRuleId.equals("11223344-1122-1122-1112-100000000032")) {
+    		if (businessRuleId.equals("11223344-1122-1122-1112-100000000032") ||
+    		        businessRuleId.equals("11223344-1122-1122-1112-100000000041")) {
     			continue;
     		}
     		
