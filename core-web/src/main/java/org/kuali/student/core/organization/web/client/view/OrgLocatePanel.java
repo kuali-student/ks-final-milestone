@@ -153,6 +153,9 @@ public class OrgLocatePanel extends Composite{
                         activeHierarchyId = orgRootHierarchy.get(orgId);
                     }
                     getOrgChildren(orgId);
+                    VerticalPanel mainPanel = (VerticalPanel)vOrgPanel.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+                    mainPanel.remove(3);
+                    mainPanel.add(new OrgChartWidget(orgId,activeHierarchyId,3));
             }});
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");

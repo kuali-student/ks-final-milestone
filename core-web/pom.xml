@@ -146,9 +146,9 @@
 			<artifactId>gwt-servlet</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.netthreads</groupId>
-			<artifactId>gwt-jsviz</artifactId>
-			<version>0.0.2a</version>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-visualization</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 

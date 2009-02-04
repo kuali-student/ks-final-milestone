@@ -213,10 +213,8 @@ public class OrgRpcServiceImpl implements OrgRpcService{
 		String displayTree=null;
 		try {
 			OrgInfo org = service.getOrganization(orgId);
-			displayTree="<root root='true' fixed='true' nodeName='"+org.getLongName()+"' " +
-					    " nodeId='"+org.getId()+"'>";
+			displayTree=org.getId()+","+org.getLongName()+",";
 			displayTree+=parseDescendantsForDisplay(orgId,orgHierarchy,maxLevels,0);
-			displayTree+="</root>";
 		} catch (DoesNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -237,17 +235,18 @@ public class OrgRpcServiceImpl implements OrgRpcService{
 		return displayTree;
 	}
 
-	private String parseDescendantsForDisplay(String orgId, String orgHierarchy, int maxLevels, int currLevel) {
+	private String parseDescendantsForDisplay(String parentOrgId, String orgHierarchy, int maxLevels, int currLevel) {
 		String displayTree="";
 		if(currLevel<maxLevels){
 			try {
-				List<String> orgIds=service.getAllDescendants(orgId, orgHierarchy);
+				List<String> orgIds=service.getAllDescendants(parentOrgId, orgHierarchy);
 				if(orgIds!=null){
 					for(String currentOrgId:orgIds){
 						OrgInfo org = service.getOrganization(currentOrgId);
-						displayTree+="<node nodeName='"+org.getShortName()+"' nodeId='"+org.getId()+"'>";
+						displayTree+="|"+org.getId()+","+org.getLongName()+","+parentOrgId;
+					}
+					for(String currentOrgId:orgIds){
 						displayTree+=parseDescendantsForDisplay(currentOrgId, orgHierarchy, maxLevels, currLevel+1);
-						displayTree+="</node>";
 					}
 				}
 			} catch (Exception e) {
