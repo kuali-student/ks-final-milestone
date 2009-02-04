@@ -150,6 +150,17 @@
 			<artifactId>gwt-visualization</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
+		<!-- 
+			Jax-ws impl dependency so client isn't created using jaxws bundled w/jdk 1.6,
+			which has problems finding exception beans. 
+		-->
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-cxf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>pom</type>
+		</dependency>
 	</dependencies>
 
 </project>
