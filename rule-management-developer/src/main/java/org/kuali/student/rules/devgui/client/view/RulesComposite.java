@@ -670,7 +670,7 @@ public class RulesComposite extends Composite {
 
 				public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
 					//show rule facts for test tab
-					if (tabIndex == 3) { //TODO hard coded number
+					if (tabIndex == 4) { //TODO hard coded number
 				    	
 	                    // 1) update the displayed rule copy with data entered
 	                    if (updateCopyOfDisplayedRule() == false) {

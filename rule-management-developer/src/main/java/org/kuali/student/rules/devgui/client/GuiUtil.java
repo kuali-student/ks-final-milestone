@@ -446,10 +446,14 @@ public class GuiUtil {
         return "";
     }
     
-    public enum YieldValueFunctionType {  //DODO  add other types
+    public enum YieldValueFunctionType {
+        SIMPLECOMPARABLE("Simple Comparable (fact)", "java.lang.String", 1, "key.proposition.column.simplecomparable"),
         INTERSECTION("Intersection (fact1, fact2)", "java.lang.String", 2, "key.proposition.column.intersection"),
+        SUBSET("Subset (fact1, fact2)", "java.lang.String", 2, "key.proposition.column.intersection"),
         SUM("Sum (fact)", "java.math.BigDecimal", 1, "key.proposition.column.sum"),
-        AVERAGE("Average (fact)", "java.math.BigDecimal", 1, "key.proposition.column.average");
+        AVERAGE("Average (fact)", "java.math.BigDecimal", 1, "key.proposition.column.average"),
+        MIN("Min (fact)", "java.math.BigDecimal", 1, "key.proposition.column.min"),
+        MAX("Max (fact)", "java.math.BigDecimal", 1, "key.proposition.column.max");
 
         private final String symbol;
         private final String valueDataType;
@@ -560,8 +564,7 @@ public class GuiUtil {
         hp.add(field);
         return hp;
     }        
-    
-    
+      
     public static String removeFactTypeKeyPrefix(String factTypeKey) {
         if (factTypeKey.startsWith(FACT_TYPE_KEY_PREFIX)) {
         	factTypeKey = factTypeKey.substring(FACT_TYPE_KEY_PREFIX.length());
@@ -573,7 +576,6 @@ public class GuiUtil {
         return FACT_TYPE_KEY_PREFIX + factTypeKey;
     }    
    
-    
     public static String removeFactParamPrefix(String factParam) {
     	// Removed to fix execution of dynamic facts
         if (factParam.startsWith(FACT_PARAM_PREFIX)) {
@@ -609,6 +611,7 @@ public class GuiUtil {
       });
       
       VerticalPanel dialogContents = new VerticalPanel();
+      dialogContents.setSize("20px", "20px");
       dialogContents.setSpacing(4);
       setWidget(dialogContents);      
       dialogContents.add(ok);
