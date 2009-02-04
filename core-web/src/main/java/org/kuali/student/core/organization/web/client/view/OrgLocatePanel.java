@@ -44,7 +44,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class OrgLocatePanel extends Composite{
 
     VerticalPanel vPanel = new VerticalPanel();
-    HorizontalPanel browsePanel = new HorizontalPanel();
+    VerticalPanel browsePanel;
+    
+    SimplePanel orgChart;
+    HorizontalPanel orgList;
        
     SimplePanel results = new SimplePanel();
        
@@ -53,7 +56,6 @@ public class OrgLocatePanel extends Composite{
     Map<String, String> orgRootHierarchy = new HashMap<String,String>();
     
     boolean loaded = false;
-    
         
     public OrgLocatePanel(){
         super.initWidget(vPanel);
@@ -76,6 +78,9 @@ public class OrgLocatePanel extends Composite{
     }
     
     private void getBrowseResults() {
+        browsePanel = new VerticalPanel();
+        orgList = new HorizontalPanel();
+        orgChart = new SimplePanel();
         OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -92,6 +97,8 @@ public class OrgLocatePanel extends Composite{
             }
         });
 
+        browsePanel.add(orgList);
+        browsePanel.add(orgChart);
         results.setWidget(browsePanel);
     }
     
@@ -109,7 +116,7 @@ public class OrgLocatePanel extends Composite{
                     resultTable.setWidget(i, 0, new OrgWidget(orgInfo));
                     i++;
                 }
-                browsePanel.add(resultTable);
+                orgList.add(resultTable);
             }
         });
     }
@@ -128,8 +135,8 @@ public class OrgLocatePanel extends Composite{
     
        
     protected void removeWidgetsRight(Widget w){
-        for (int i=browsePanel.getWidgetCount()-1; i > browsePanel.getWidgetIndex(w);i--){
-            browsePanel.remove(i);
+        for (int i=orgList.getWidgetCount()-1; i > orgList.getWidgetIndex(w);i--){
+            orgList.remove(i);
         }
     }
     
@@ -153,9 +160,7 @@ public class OrgLocatePanel extends Composite{
                         activeHierarchyId = orgRootHierarchy.get(orgId);
                     }
                     getOrgChildren(orgId);
-                    VerticalPanel mainPanel = (VerticalPanel)vOrgPanel.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
-                    mainPanel.remove(3);
-                    mainPanel.add(new OrgChartWidget(orgId,activeHierarchyId,3));
+                    orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,3)));
             }});
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");
