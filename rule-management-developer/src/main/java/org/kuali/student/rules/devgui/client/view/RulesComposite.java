@@ -468,10 +468,9 @@ public class RulesComposite extends Composite {
                     
                     // 3) create a new rule version as a copy of existing rule
                     BusinessRuleInfoDTO newRuleVersion = createRuleCopy(displayedRule);
-                    String origRuleId = newRuleVersion.getOriginalRuleId();
                     initializeRuleCopy(newRuleVersion, newRuleVersion.getName());
                     newRuleVersion.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
-                    newRuleVersion.setOriginalRuleId(origRuleId);
+                    newRuleVersion.setOriginalRuleId(displayedRule.getOriginalRuleId());
                     
                     // 3) create new version of this rule                    
                     DevelopersGuiService.Util.getInstance().createBusinessRule(newRuleVersion, new AsyncCallback<BusinessRuleInfoDTO>() {
@@ -841,12 +840,12 @@ public class RulesComposite extends Composite {
         displayActiveRule();  
     }
     
-    private void initializeRuleCopy(BusinessRuleInfoDTO copiedRule, String newRuleName) {
-        copiedRule.setId("");
-        copiedRule.setOriginalRuleId("");
-        copiedRule.setCompiledId("");
-        copiedRule.setName(newRuleName);                     
-        copiedRule.setState(STATUS_NOT_STORED_IN_DATABASE);
+    private void initializeRuleCopy(BusinessRuleInfoDTO rule, String newRuleName) {
+        rule.setId("");
+        rule.setOriginalRuleId("");
+        rule.setCompiledId("");
+        rule.setName(newRuleName);                     
+        rule.setState(STATUS_NOT_STORED_IN_DATABASE);
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         metaInfo.setCreateTime(null);
         metaInfo.setCreateID("");
@@ -854,7 +853,7 @@ public class RulesComposite extends Composite {
         metaInfo.setUpdateTime(null);
         metaInfo.setUpdateID("");        
         metaInfo.setUpdateComment("");
-        copiedRule.setMetaInfo(metaInfo);
+        rule.setMetaInfo(metaInfo);
         updateRulesFormButtons(displayedRule.getState());        
     }
        
@@ -1706,6 +1705,7 @@ public class RulesComposite extends Composite {
 
         BusinessRuleInfoDTO newRule = new BusinessRuleInfoDTO();
         newRule.setId(originalRule.getId());
+        newRule.setOriginalRuleId(originalRule.getOriginalRuleId());
         newRule.setState(originalRule.getState());
         newRule.setName(originalRule.getName());
         newRule.setDesc(originalRule.getDesc());
