@@ -468,7 +468,7 @@ public class RulesComposite extends Composite {
                     
                     // 3) create a new rule version as a copy of existing rule
                     BusinessRuleInfoDTO newRuleVersion = createRuleCopy(displayedRule);
-                    String origRuleId = newRuleVersion.getId();
+                    String origRuleId = newRuleVersion.getOriginalRuleId();
                     initializeRuleCopy(newRuleVersion, newRuleVersion.getName());
                     newRuleVersion.setState(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString());
                     newRuleVersion.setOriginalRuleId(origRuleId);
