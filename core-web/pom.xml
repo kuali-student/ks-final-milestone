@@ -5,7 +5,7 @@
 	<groupId>org.kuali.student.core</groupId>
 	<artifactId>ks-core-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>KS Core-Web</name>
 	<description>KS core-web</description>
 
@@ -50,13 +50,49 @@
 					<extraJvmArgs>-Xmx512m</extraJvmArgs>
 				</configuration>
 			</plugin>
+
 			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.0</version>
-				<!-- <configuration>
-					<webXml>WEB-INF/web.xml</webXml>
-				</configuration>-->
-			</plugin>
+		      <artifactId>maven-antrun-plugin</artifactId>
+		      <executions>
+		        <execution>
+		          <phase>process-classes</phase>
+		          <configuration>
+		            <tasks>
+		              <copy todir="${project.build.outputDirectory}/../tomcat/webapps/ROOT">
+		                <fileset dir="${project.build.outputDirectory}/../${project.build.finalName}">
+		                  <exclude name="**/*-aux/*" />
+		                  <exclude name="META-INF" />
+		                  <exclude name="WEB-INF" />
+		                </fileset>
+		              </copy>
+		            </tasks>
+		          </configuration>
+		          <goals>
+		            <goal>run</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>			
+
+			<!-- Create additional jar file of gwt classes -->	
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-jar-plugin</artifactId>
+		        <executions>
+		          <execution>
+		            <goals>
+		              <goal>jar</goal>
+		            </goals>
+					<configuration>
+              			<classifier>classes</classifier>
+						<includes>
+				            <include>**/*.class</include>
+						</includes>
+            		</configuration>
+		          </execution>
+		        </executions>
+			</plugin>        
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
