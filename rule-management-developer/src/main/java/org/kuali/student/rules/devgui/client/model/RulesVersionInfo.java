@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 public class RulesVersionInfo implements ModelObject {
     
@@ -17,9 +18,6 @@ public class RulesVersionInfo implements ModelObject {
     private String status;
     private java.util.Date effectiveDate;
     private java.util.Date expirationDate;
-    // use formatted date string for dates here since GWT does not directly
-    // support SimpleDateFormat.
-    private String effectiveDateString;
     
     public String getUniqueId() {
         return getBusinessRuleId();
@@ -148,12 +146,16 @@ public class RulesVersionInfo implements ModelObject {
         this.expirationDate = expirationDate;
     }
 
-    public String getEffectiveDateString() {
-        return effectiveDateString;
-    }
-
-    public void setEffectiveDateString(String effectiveDateString) {
-        this.effectiveDateString = effectiveDateString;
+    public void setValuesFromDTO(BusinessRuleInfoDTO businessRuleInfoDTO) {
+        setAgendaType(businessRuleInfoDTO.getAnchorTypeKey());
+        setStatus(businessRuleInfoDTO.getState());
+        setBusinessRuleId(businessRuleInfoDTO.getId());
+        setBusinessRuleOriginalId(businessRuleInfoDTO.getOriginalRuleId());
+        setAnchor(businessRuleInfoDTO.getAnchorTypeKey());
+        setBusinessRuleDisplayName(businessRuleInfoDTO.getName());
+        setStatus(businessRuleInfoDTO.getState());
+        setEffectiveDate(businessRuleInfoDTO.getEffectiveDate());
+        setExpirationDateDate(businessRuleInfoDTO.getExpirationDate());
     }
 
     @Override
@@ -166,8 +168,7 @@ public class RulesVersionInfo implements ModelObject {
             "', anchor: '" + anchor + 
             "', businessRuleDisplayName: '" + businessRuleDisplayName +
             "', effectiveDate: '" + effectiveDate +
-            ";, expirationDate: '" + expirationDate +
-            "', effectiveDateString: '" + effectiveDateString;
+            ";, expirationDate: '" + expirationDate;
         return result;
     }
 

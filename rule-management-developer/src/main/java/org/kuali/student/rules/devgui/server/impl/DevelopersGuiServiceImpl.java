@@ -34,7 +34,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
     RuleManagementService ruleManagementService;
     FactFinderService factFinderService;
     RuleExecutionService ruleExecutionService;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSS");
     
     /******************************************************************************************************************
      * 
@@ -330,7 +329,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
             // TODO show 'empty' node in the rules tree if none exist?
             if (businessRuleTypes == null) {
-                rulesInfo.add(createRulesHierarchyInfoObject(agendaTypeKey, "", "", "", "", "", "", null, null, ""));
+                rulesInfo.add(createRulesHierarchyInfoObject(agendaTypeKey, "", "", "", "", "", "", null, null));
                 continue;
             }
 
@@ -346,7 +345,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
 
                 // TODO show 'empty' node in the rules tree if none exist?
                 if (businessRuleIds == null) {
-                    rulesInfo.add(createRulesHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", "", "", "", null, null, ""));
+                    rulesInfo.add(createRulesHierarchyInfoObject(agendaTypeKey, businessRuleTypeKey, "", "", "", "", "", null, null));
                     System.out.println("DEBUG findRulesHierarchyInfo(): no business rules for Business Rule Type: " + businessRuleTypeKey);
                     continue;
                 }
@@ -367,8 +366,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                             businessRule.getName(), businessRule.getAnchorValue(), 
                             businessRule.getState(),
                             businessRule.getEffectiveDate(),
-                            businessRule.getExpirationDate(),
-                            dateFormat.format(businessRule.getEffectiveDate()));
+                            businessRule.getExpirationDate());
                     versionGroup = versionGroups.get(rulesVersionInfo.getBusinessRuleOriginalId());
                     if (versionGroup == null) {
                         versionGroup = new RulesHierarchyInfo();
@@ -396,13 +394,11 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             String anchor, 
             String status,
             Date effectiveDate,
-            Date expiryDate,
-            String effectiveDateString) {
+            Date expiryDate) {
         RulesHierarchyInfo rulesHierarchyInfo = new RulesHierarchyInfo();
         rulesHierarchyInfo.add(createRulesVersionInfoObject(
                 agendaType, businessRuleType, ruleId, originalRuleId,
-                ruleName, anchor, status, effectiveDate, expiryDate, 
-                effectiveDateString));
+                ruleName, anchor, status, effectiveDate, expiryDate));
         return rulesHierarchyInfo;
     }
 
@@ -415,8 +411,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
             String anchor, 
             String status,
             Date effectiveDate,
-            Date expirationDate,
-            String effectiveDateString) {
+            Date expirationDate) {
         RulesVersionInfo rulesVersionInfo = new RulesVersionInfo();
 
         rulesVersionInfo.setAgendaType(agendaType);
@@ -428,7 +423,6 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         rulesVersionInfo.setStatus(status);
         rulesVersionInfo.setEffectiveDate(effectiveDate);
         rulesVersionInfo.setExpirationDateDate(expirationDate);
-        rulesVersionInfo.setEffectiveDateString(effectiveDateString);
 
         return rulesVersionInfo;
     }    

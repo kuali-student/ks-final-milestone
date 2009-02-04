@@ -42,14 +42,14 @@ public class RulesHierarchyInfo implements ModelObject {
         if (originalId != null && !rulesVersionInfo.getBusinessRuleOriginalId().equals(originalId)) {
             throw new 
             IllegalArgumentException(
-                    "Cannot add item with a different originalId in" +
-                    "this group with anchor " + originalId);
+                    "Cannot add item with a different originalId in " +
+                    "this group with originalId " + originalId);
         }
         if (keyItem == null) {
             keyItem = rulesVersionInfo;
         } else {
-            if (rulesVersionInfo.getEffectiveDateString()
-                    .compareTo(keyItem.getEffectiveDateString())
+            if (rulesVersionInfo.getEffectiveDate()
+                    .compareTo(keyItem.getEffectiveDate())
                     < 0) {
                 keyItem = rulesVersionInfo;
             }
@@ -128,13 +128,6 @@ public class RulesHierarchyInfo implements ModelObject {
         return result;
     }
 
-    public String getGroupEffectiveDateString() {
-        String result = "";
-        if (keyItem == null) return null;
-        result = keyItem.getEffectiveDateString();
-        return result;
-    }
-    
     public List<RulesVersionInfo> getVersions() {
         return group;
     }
@@ -147,8 +140,7 @@ public class RulesHierarchyInfo implements ModelObject {
             "', businessRuleType: '" + getGroupBusinessRuleType() + 
             "', businessRuleId: '" + getGroupBusinessRuleId() + 
             "', anchor: '" + getGroupAnchor() + 
-            "', businessRuleDisplayName: '" + getGroupBusinessRuleDisplayName() + 
-            "', effectiveDateString: '" + getGroupEffectiveDateString();
+            "', businessRuleDisplayName: '" + getGroupBusinessRuleDisplayName();
         return result;
     }
 

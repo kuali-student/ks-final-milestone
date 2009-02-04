@@ -481,8 +481,13 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(BusinessRuleInfoDTO newRuleVersion) {
+                            //TODO uncomment this once the different original id problem is sorted out
+                            RulesVersionInfo newRulesVersionInfo = new RulesVersionInfo();
+                            newRulesVersionInfo.setValuesFromDTO(newRuleVersion);
+                            displayedRulesGroup.add(newRulesVersionInfo);
                             displayedRule = newRuleVersion;                           
-                            
+                            rulesVersionsTable.add(newRulesVersionInfo);
+                            rulesVersionsTable.select(newRulesVersionInfo);
                             loadExistingRule(displayedRule);                            
                             GuiUtil.showUserDialog("New Rule Version Created.");
                         }
@@ -2079,7 +2084,7 @@ public class RulesComposite extends Composite {
       
     private Widget addRulesVersionPage() {
         final FlexTable rulesVersionFlexTable = new FlexTable();
-        rulesVersionFlexTable.setTitle("Versioning");
+        rulesVersionFlexTable.setTitle("Versions");
         rulesVersionFlexTable.setSize("100%", "100%");
 
         final SimplePanel topMargin = new SimplePanel();
@@ -2112,6 +2117,7 @@ public class RulesComposite extends Composite {
         activeTimeGapsTextArea.setSize("75%", "93px");
         timeGapsFieldPanel.add(GuiUtil.addLabelAndFieldVertically(messages.get("versionTimeGap"), 
                 activeTimeGapsTextArea, "50%"));
+        rulesVersionsTable.setRowsPerPage(5);
         ruleVersionVerticalPanel.add(rulesVersionsTable);
         ruleVersionVerticalPanel.add(timeGapsFieldPanel);
         versionPanel.add(ruleVersionVerticalPanel);
