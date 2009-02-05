@@ -1,22 +1,38 @@
 package org.kuali.student.common.test.spring;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.jta.JtaTransactionManager;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
  * This test class will load your dao and gives you access to the shared
@@ -100,6 +116,11 @@ public abstract class AbstractTransactionalDaoTest {
 	@PersistenceContext
 	protected EntityManager em;
 
+	@Autowired
+	private JtaTransactionManager jtaTxManager;	
+	
+	
+	private static boolean preloadedData=false;
 	/**
 	 * Loads the application context defined in the &#064;Dao testDataFile
 	 * attribute. Then uses the EntityManager em to persist the beans in
@@ -120,6 +141,39 @@ public abstract class AbstractTransactionalDaoTest {
 				}
 			}
 		}
+	}
+	
+	@BeforeTransaction
+	public void preLoadData() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, IOException {
+		if(!preloadedData){
+			preloadedData=true;
+			
+			for (Field f : this.getClass().getDeclaredFields()) {
+				if (f.isAnnotationPresent(Dao.class)) {
+					Dao dao = f.getAnnotation(Dao.class);
+					if (dao.testSqlFile().length() > 0) {
+						File sqlFile;
+					    if(dao.testSqlFile().startsWith("classpath:")){
+					 	   sqlFile = new ClassPathResource(dao.testSqlFile().substring("classpath:".length())).getFile();
+					    }else{
+					    	sqlFile = new File(dao.testSqlFile());
+					    }
+						BufferedReader in
+						   = new BufferedReader(new FileReader(sqlFile));
+						String ln;
+						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
+						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
+						while((ln=in.readLine())!=null){
+							if(!ln.startsWith("/")&&!ln.isEmpty()){
+								em.createNativeQuery(ln).executeUpdate();
+							}
+						}
+						jtaTxManager.commit(txStatus);
+					}
+				}
+			}
+		}
+		
 	}
 
 	/**
