@@ -44,7 +44,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
     }
 
     public abstract List<String> getPath(T modelObject);
-
+    
     public void add(T modelObject) {
         List<String> path = getPath(modelObject);
         Iterator<String> itr = path.iterator();
@@ -150,7 +150,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         String rootKey = itr.next();
         ItemMap<T> map = index.get(rootKey);
 
-        remove(path.iterator(), map);
+        remove(itr, map);
         if (map.index.size() == 0) {
             index.remove(rootKey);
             tree.removeItem(map.item);
@@ -173,6 +173,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
     public void select(T modelObject) {
         TreeItem item = getTreeItem(modelObject);
         if (item != null) {
+            tree.setSelectedItem(item, false);
             item.setSelected(true);
         }
         tree.ensureSelectedItemVisible();
@@ -186,7 +187,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         remove(modelObject);
         add(modelObject);
     }
-
+    
     private T getModelObject(TreeItem item) {
         List<String> path = getItemPath(item);
         ItemMap<T> map = null;
