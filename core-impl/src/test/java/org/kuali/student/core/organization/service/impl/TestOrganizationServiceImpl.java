@@ -15,6 +15,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -116,6 +117,35 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals("17",createdOORInfo.getRelatedOrgId());
 		assertEquals("kuali.org.Part",createdOORInfo.getType());
 		assertNotNull(createdOORInfo.getId());
+	}
+	
+	@Test
+	public void testAddPositionRestriction() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		
+		TimeAmountInfo stdDuration = new TimeAmountInfo();
+		stdDuration.setAtpDurationTypeKey("ks.foreign.atp.key");
+		stdDuration.setTimeQuantity(new Integer(123456));
+		
+		OrgPositionRestrictionInfo orgPositionRestrictionInfo = new OrgPositionRestrictionInfo();
+		orgPositionRestrictionInfo.setDesc("Description For Position Restriction");
+		orgPositionRestrictionInfo.setMaxNumRelations("2345");
+		orgPositionRestrictionInfo.setMinNumRelations(2);
+		orgPositionRestrictionInfo.setStdDuration(stdDuration);
+		orgPositionRestrictionInfo.setTitle("Title for PositionRestriction");
+		orgPositionRestrictionInfo.setOrgId("");
+		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey("");
+		
+		OrgPositionRestrictionInfo created = client.addPositionRestrictionToOrg("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo);
+		
+		//validate fields
+		assertEquals("Description For Position Restriction",created.getDesc());
+		assertEquals("2345",created.getMaxNumRelations());
+		assertEquals(new Integer(2),created.getMinNumRelations());
+		assertEquals("ks.foreign.atp.key",created.getStdDuration().getAtpDurationTypeKey());
+		assertEquals(new Integer(123456),created.getStdDuration().getTimeQuantity());
+		assertEquals("Title for PositionRestriction",created.getTitle());
+		assertEquals("1",created.getOrgId());
+		assertEquals("kuali.org.PersonRelation.Treasurer",created.getOrgPersonRelationTypeKey());
 	}
 
 	@Test

@@ -28,6 +28,8 @@ import org.kuali.student.core.organization.entity.OrgPersonRelationAttribute;
 import org.kuali.student.core.organization.entity.OrgPersonRelationAttributeDef;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute;
+import org.kuali.student.core.organization.entity.OrgPositionRestrictionAttributeDef;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
@@ -145,7 +147,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		restrictionInfo.setOrgId(restriction.getOrg().getId());
 		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
 		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionInd()));
-		// restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getKey());
+		restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getKey());
 
 		return restrictionInfo;
 
@@ -344,5 +346,48 @@ public class OrganizationAssembler extends BaseAssembler{
 		orgPersonRelation.setType(orgPersonRelationType);
 
 		return orgPersonRelation;
+	}
+
+	public static OrgPositionRestriction toOrgPositionRestriction(boolean isUpdate,
+			OrgPositionRestrictionInfo orgPositionRestrictionInfo,
+			OrganizationDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+		OrgPositionRestriction orgPositionRestriction;
+		if (isUpdate) {
+			orgPositionRestriction = dao.fetch(OrgPositionRestriction.class, orgPositionRestrictionInfo.getId());
+			if (orgPositionRestriction == null) {
+				throw new DoesNotExistException("OrgPositionRestriction does not exist for id: " + orgPositionRestrictionInfo.getId());
+			}
+			if (!String.valueOf(orgPositionRestriction.getVersionInd()).equals(orgPositionRestrictionInfo.getMetaInfo().getVersionInd())){
+				throw new VersionMismatchException("OrgPositionRestriction to be updated is not the current version");
+			}
+		} else {
+			orgPositionRestriction = new OrgPositionRestriction();
+		}
+
+		// Copy all basic properties
+		BeanUtils.copyProperties(orgPositionRestrictionInfo, orgPositionRestriction, new String[] { "personRelationType",
+				"attributes", "metaInfo", "org" });
+
+		// Copy Attributes
+		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttributeDef.class,
+				OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));
+
+		// Search for and copy the org
+		Org org = dao.fetch(Org.class, orgPositionRestrictionInfo.getOrgId());
+		if (org == null) {
+			throw new InvalidParameterException(
+					"Org does not exist for id: " + orgPositionRestrictionInfo.getOrgId());
+		}
+		orgPositionRestriction.setOrg(org);
+
+		// Search for and copy the type
+		OrgPersonRelationType orgPersonRelationType = dao.fetch(OrgPersonRelationType.class, orgPositionRestrictionInfo.getOrgPersonRelationTypeKey());
+		if (orgPersonRelationType == null) {
+			throw new InvalidParameterException(
+					"OrgPersonRelationType does not exist for id: " + orgPositionRestrictionInfo.getOrgPersonRelationTypeKey());
+		}
+		orgPositionRestriction.setPersonRelationType(orgPersonRelationType);
+
+		return orgPositionRestriction;
 	}
 }

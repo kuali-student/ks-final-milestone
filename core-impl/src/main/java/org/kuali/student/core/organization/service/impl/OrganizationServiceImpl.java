@@ -60,8 +60,35 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (orgPersonRelationTypeKey == null) {
+			throw new MissingParameterException("orgPersonRelationTypeKey can not be null");
+		} else if (orgPositionRestrictionInfo == null) {
+			throw new MissingParameterException("orgPositionRestrictionInfo can not be null");
+		}
+		
+		//Set all the values on OrgOrgRelationInfo
+		orgPositionRestrictionInfo.setOrgId(orgId);
+		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
+
+		OrgPositionRestriction orgPositionRestriction = null;
+		
+		//Create a new persistence entity from the Info
+		try {
+			orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(false, orgPositionRestrictionInfo, organizationDao);
+		} catch (DoesNotExistException e) {
+		} catch (VersionMismatchException e) {
+		}
+		
+		//Persist the positionRestriction
+		organizationDao.create(orgPositionRestriction);
+
+		//Copy back to an OrgOrgRelationInfo and return
+		OrgPositionRestrictionInfo createdOrgPositionRestrictionInfo = OrganizationAssembler.toOrgPositionRestrictionInfo(orgPositionRestriction);
+		return createdOrgPositionRestrictionInfo;
 	}
 
 	@Override
