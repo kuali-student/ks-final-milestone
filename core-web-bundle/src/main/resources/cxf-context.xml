@@ -16,10 +16,12 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 		implementorClass="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl"
 		implementor="#orgServiceImpl" address="/OrgService" />
 
+	<!-- 
 	<cxf:bus>
 		<cxf:features>
 			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
+	-->
 
 </beans>
