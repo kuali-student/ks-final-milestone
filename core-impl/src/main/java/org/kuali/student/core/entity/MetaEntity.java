@@ -18,19 +18,32 @@ public abstract class MetaEntity {
 	private Meta meta;
 	
 	@PrePersist
-	public void prePersist(){
+	public final void prePersist(){
 		if(meta==null){
 			meta = new Meta();
 		}
 		meta.setCreateTime(new Date());
 		meta.setUpdateTime(new Date());
 		//TODO Also set the create and update user id from context
+		
+		onPrePersist();
 	}
 	
 	@PreUpdate
-	public void preUpdate(){
+	public final void preUpdate(){
 		meta.setUpdateTime(new Date());
 		//TODO Also set the update user id from context
+		
+		onPreUpdate();
+	}
+	
+
+	//Override this to add additional functionality for the PrePersist Lifecycle
+	protected void onPrePersist() {
+	}
+	
+	//Override this to add additional functionality for the PreUpdate Lifecycle
+	protected void onPreUpdate() {
 	}
 	
 	public long getVersionInd() {

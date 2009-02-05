@@ -3,6 +3,7 @@ package org.kuali.student.core.organization.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -43,7 +45,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 
 	@Test
-	public void testCreateDeleteOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException {
+	public void testCreateUpdateOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
 		OrgInfo orgInfo = new OrgInfo();
@@ -69,6 +71,40 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals("OrgAlias",createOrg.getAttributes().get("Alias"));
 		assertNotNull(createOrg.getId());
 
+		OrgInfo updateInfo = client.getOrganization(createOrg.getId());
+		updateInfo.setDesc("Updated Description for new OrgInfo");
+		updateInfo.setLongName("Updated TestOrgLongName");
+		updateInfo.setShortName("Updated TestOrgShortName");
+		updateInfo.setState("Updated Active");
+		updateInfo.setType("kuali.org.College");
+		updateInfo.setEffectiveDate(df.parse("20090111"));
+		updateInfo.setExpirationDate(df.parse("21001211"));
+		updateInfo.getAttributes().put("Alias", "Updated OrgAlias");
+		
+		OrgInfo updated=null;
+		try {
+			updated = client.updateOrganization(updateInfo.getId(), updateInfo);
+		} catch (VersionMismatchException e) {
+			fail("Should not throw VersionMismatchException");
+		}
+		
+		//Validate
+		assertEquals("Updated Description for new OrgInfo",updated.getDesc());
+		assertEquals("Updated TestOrgLongName",updated.getLongName());
+		assertEquals("Updated TestOrgShortName",updated.getShortName());
+		assertEquals("Updated Active",updated.getState());
+		assertEquals("kuali.org.College",updated.getType());
+		assertEquals(df.parse("20090111"),updated.getEffectiveDate());
+		assertEquals(df.parse("21001211"),updated.getExpirationDate());
+		assertEquals("Updated OrgAlias",updated.getAttributes().get("Alias"));
+		
+		//Check version mismatch
+		try {
+			client.updateOrganization(updateInfo.getId(), updateInfo);
+			fail("Should throw VersionMismatchException");
+		} catch (VersionMismatchException e) {
+		}
+		
 	}
 
 	@Test
