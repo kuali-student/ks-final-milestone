@@ -184,12 +184,12 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     @Override
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchorList(List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleByAnchorList(List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<BusinessRuleInfoDTO> ruleInfoDTOList = new ArrayList<BusinessRuleInfoDTO>();
 
         for (BusinessRuleAnchorInfoDTO anchorDTO : businessRuleAnchorInfoList) {
-            List<BusinessRuleInfoDTO> tempInfoList = fetchBusinessRuleInfoByAnchor(anchorDTO);
+            List<BusinessRuleInfoDTO> tempInfoList = fetchBusinessRuleByAnchor(anchorDTO);
             ruleInfoDTOList.addAll(tempInfoList);
         }
 
@@ -197,7 +197,7 @@ public class RuleManagementServiceImpl implements RuleManagementService {
     }
 
     @Override
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorInfoDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleByAnchor(BusinessRuleAnchorInfoDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<BusinessRule> ruleList = ruleManagementDao.lookupCurrentActiveBusinessRuleUsingAnchor(BusinessRuleTypeKey.valueOf(ruleAnchor.getBusinessRuleTypeKey()), ruleAnchor.getAnchorValue());
 
         List<BusinessRuleInfoDTO> ruleInfoDTOList = new ArrayList<BusinessRuleInfoDTO>();
