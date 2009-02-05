@@ -1,15 +1,14 @@
 package org.kuali.student.core.organization.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -22,35 +21,12 @@ import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgType;
-import org.springframework.core.io.ClassPathResource;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl")
+	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql")
 	public OrganizationDao dao;
 
-	private boolean preloaded = false;
-	
-	private void loadSql(String sql){
-		em.createNativeQuery(sql).executeUpdate();
-	}
-	
-	@Before
-	public void loadOrgTestData() throws IOException {
-		if(!preloaded){
-			ClassPathResource cpr = new ClassPathResource("ks-org.sql");
-			BufferedReader in
-			   = new BufferedReader(new FileReader(cpr.getFile()));
-			String ln;
-			while((ln=in.readLine())!=null){
-				if(!ln.startsWith("/")&&!ln.isEmpty()){
-					loadSql(ln);
-				}
-			}
-			preloaded=true;
-		}
-	}
-	
 	@Test
 	public void testCreateOrganization() throws DoesNotExistException{
 		
@@ -187,7 +163,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		
 		String orgID = org.getId();
 		
-		String orgTypeID = orgType.getKey();
+		//String orgTypeID = orgType.getKey();
 		
 		try {
 			assertNotNull(org = dao.fetch(Org.class, orgID));
