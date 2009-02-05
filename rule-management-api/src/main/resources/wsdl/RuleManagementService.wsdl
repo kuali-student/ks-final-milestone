@@ -12,13 +12,13 @@
     <xs:element name="fetchAgendaInfoDeterminationStructure" type="tns:fetchAgendaInfoDeterminationStructure"/>
     <xs:element name="fetchAgendaInfoDeterminationStructureResponse" type="tns:fetchAgendaInfoDeterminationStructureResponse"/>
     <xs:element name="fetchAgendaInfoResponse" type="tns:fetchAgendaInfoResponse"/>
+    <xs:element name="fetchBusinessRuleByAnchor" type="tns:fetchBusinessRuleByAnchor"/>
+    <xs:element name="fetchBusinessRuleByAnchorList" type="tns:fetchBusinessRuleByAnchorList"/>
+    <xs:element name="fetchBusinessRuleByAnchorListResponse" type="tns:fetchBusinessRuleByAnchorListResponse"/>
+    <xs:element name="fetchBusinessRuleByAnchorResponse" type="tns:fetchBusinessRuleByAnchorResponse"/>
     <xs:element name="fetchBusinessRuleEnglish" type="tns:fetchBusinessRuleEnglish"/>
     <xs:element name="fetchBusinessRuleEnglishResponse" type="tns:fetchBusinessRuleEnglishResponse"/>
     <xs:element name="fetchBusinessRuleInfo" type="tns:fetchBusinessRuleInfo"/>
-    <xs:element name="fetchBusinessRuleInfoByAnchor" type="tns:fetchBusinessRuleInfoByAnchor"/>
-    <xs:element name="fetchBusinessRuleInfoByAnchorList" type="tns:fetchBusinessRuleInfoByAnchorList"/>
-    <xs:element name="fetchBusinessRuleInfoByAnchorListResponse" type="tns:fetchBusinessRuleInfoByAnchorListResponse"/>
-    <xs:element name="fetchBusinessRuleInfoByAnchorResponse" type="tns:fetchBusinessRuleInfoByAnchorResponse"/>
     <xs:element name="fetchBusinessRuleInfoResponse" type="tns:fetchBusinessRuleInfoResponse"/>
     <xs:element name="fetchBusinessRuleType" type="tns:fetchBusinessRuleType"/>
     <xs:element name="fetchBusinessRuleTypeResponse" type="tns:fetchBusinessRuleTypeResponse"/>
@@ -47,7 +47,7 @@
     </xs:complexType>
     <xs:complexType name="findBusinessRuleIdsByBusinessRuleTypeResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="updateBusinessRuleState">
@@ -130,6 +130,7 @@
         <xs:sequence>
             <xs:element minOccurs="0" name="criteriaTypeInfo" type="tns:factCriteriaTypeInfoDTO"/>
             <xs:element minOccurs="0" name="anchorFlag" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="resultColumnKeyTranslations" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="paramValueMap" type="tns:jaxbAttributeList"/>
             <xs:element minOccurs="0" name="staticValueDataType" type="xs:string"/>
             <xs:element minOccurs="0" name="staticValue" type="xs:string"/>
@@ -236,7 +237,7 @@
     </xs:complexType>
     <xs:complexType name="findAnchorTypesResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="updateBusinessRule">
@@ -250,29 +251,12 @@
             <xs:element minOccurs="0" name="return" type="tns:businessRuleInfoDTO"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchBusinessRuleInfoByAnchorList">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleAnchorInfoList" type="tns:businessRuleAnchorInfoDTO"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="businessRuleAnchorInfoDTO">
-        <xs:sequence>
-            <xs:element minOccurs="0" name="businessRuleTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>
-            <xs:element minOccurs="0" name="anchorValue" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="fetchBusinessRuleInfoByAnchorListResponse">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:businessRuleInfoDTO"/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="findBusinessRuleTypes">
         <xs:sequence/>
     </xs:complexType>
     <xs:complexType name="findBusinessRuleTypesResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="fetchBusinessRuleEnglish">
@@ -292,7 +276,7 @@
     </xs:complexType>
     <xs:complexType name="findBusinessRuleTypesByAgendaTypeResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="findAnchorsByAnchorType">
@@ -302,7 +286,7 @@
     </xs:complexType>
     <xs:complexType name="findAnchorsByAnchorTypeResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="fetchBusinessRuleType">
@@ -339,12 +323,19 @@
             <xs:element minOccurs="0" name="return" type="tns:businessRuleInfoDTO"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchBusinessRuleInfoByAnchor">
+    <xs:complexType name="fetchBusinessRuleByAnchorList">
         <xs:sequence>
-            <xs:element minOccurs="0" name="arg0" type="tns:businessRuleAnchorInfoDTO"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:businessRuleAnchorInfoDTO"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="fetchBusinessRuleInfoByAnchorResponse">
+    <xs:complexType name="businessRuleAnchorInfoDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorValue" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchBusinessRuleByAnchorListResponse">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:businessRuleInfoDTO"/>
         </xs:sequence>
@@ -379,6 +370,16 @@
             <xs:element minOccurs="0" name="agendaOrchestration" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="fetchBusinessRuleByAnchor">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:businessRuleAnchorInfoDTO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="fetchBusinessRuleByAnchorResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:businessRuleInfoDTO"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="createNewVersion">
         <xs:sequence>
             <xs:element minOccurs="0" name="businessRuleInfo" type="tns:businessRuleInfoDTO"/>
@@ -404,7 +405,7 @@
     </xs:complexType>
     <xs:complexType name="findAgendaTypesResponse">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
         </xs:sequence>
     </xs:complexType>
     <xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
@@ -451,10 +452,6 @@
   </wsdl:message>
   <wsdl:message name="AlreadyExistsException">
     <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchBusinessRuleInfoByAnchorList">
-    <wsdl:part name="parameters" element="tns:fetchBusinessRuleInfoByAnchorList">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="fetchBusinessRuleTypeResponse">
@@ -505,16 +502,8 @@
     <wsdl:part name="parameters" element="tns:deleteBusinessRuleResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fetchBusinessRuleInfoByAnchor">
-    <wsdl:part name="parameters" element="tns:fetchBusinessRuleInfoByAnchor">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="fetchDetailedBusinessRuleInfo">
     <wsdl:part name="parameters" element="tns:fetchDetailedBusinessRuleInfo">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchBusinessRuleInfoByAnchorListResponse">
-    <wsdl:part name="parameters" element="tns:fetchBusinessRuleInfoByAnchorListResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateBusinessRuleState">
@@ -531,6 +520,10 @@
   </wsdl:message>
   <wsdl:message name="updateBusinessRule">
     <wsdl:part name="parameters" element="tns:updateBusinessRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchBusinessRuleByAnchorResponse">
+    <wsdl:part name="parameters" element="tns:fetchBusinessRuleByAnchorResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="ReadOnlyException">
@@ -561,6 +554,10 @@
     <wsdl:part name="parameters" element="tns:createNewVersionResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchBusinessRuleByAnchorListResponse">
+    <wsdl:part name="parameters" element="tns:fetchBusinessRuleByAnchorListResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="findAnchorTypesResponse">
     <wsdl:part name="parameters" element="tns:findAnchorTypesResponse">
     </wsdl:part>
@@ -573,16 +570,16 @@
     <wsdl:part name="parameters" element="tns:fetchBusinessRuleEnglishResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchBusinessRuleByAnchor">
+    <wsdl:part name="parameters" element="tns:fetchBusinessRuleByAnchor">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="fetchAgendaInfo">
     <wsdl:part name="parameters" element="tns:fetchAgendaInfo">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createNewVersion">
     <wsdl:part name="parameters" element="tns:createNewVersion">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fetchBusinessRuleInfoByAnchorResponse">
-    <wsdl:part name="parameters" element="tns:fetchBusinessRuleInfoByAnchorResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteBusinessRule">
@@ -601,6 +598,10 @@
     <wsdl:part name="parameters" element="tns:findBusinessRuleTypesResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="fetchBusinessRuleByAnchorList">
+    <wsdl:part name="parameters" element="tns:fetchBusinessRuleByAnchorList">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="fetchBusinessRuleType">
     <wsdl:part name="parameters" element="tns:fetchBusinessRuleType">
     </wsdl:part>
@@ -609,12 +610,12 @@
     <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fetchBusinessRuleEnglish">
-    <wsdl:part name="parameters" element="tns:fetchBusinessRuleEnglish">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createBusinessRule">
     <wsdl:part name="parameters" element="tns:createBusinessRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fetchBusinessRuleEnglish">
+    <wsdl:part name="parameters" element="tns:fetchBusinessRuleEnglish">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateBusinessRuleResponse">
@@ -732,20 +733,6 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fetchBusinessRuleInfoByAnchorList">
-      <wsdl:input name="fetchBusinessRuleInfoByAnchorList" message="tns:fetchBusinessRuleInfoByAnchorList">
-    </wsdl:input>
-      <wsdl:output name="fetchBusinessRuleInfoByAnchorListResponse" message="tns:fetchBusinessRuleInfoByAnchorListResponse">
-    </wsdl:output>
-      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
-    </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
-    </wsdl:fault>
-      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="findBusinessRuleTypes">
       <wsdl:input name="findBusinessRuleTypes" message="tns:findBusinessRuleTypes">
     </wsdl:input>
@@ -824,10 +811,10 @@
       <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fetchBusinessRuleInfoByAnchor">
-      <wsdl:input name="fetchBusinessRuleInfoByAnchor" message="tns:fetchBusinessRuleInfoByAnchor">
+    <wsdl:operation name="fetchBusinessRuleByAnchorList">
+      <wsdl:input name="fetchBusinessRuleByAnchorList" message="tns:fetchBusinessRuleByAnchorList">
     </wsdl:input>
-      <wsdl:output name="fetchBusinessRuleInfoByAnchorResponse" message="tns:fetchBusinessRuleInfoByAnchorResponse">
+      <wsdl:output name="fetchBusinessRuleByAnchorListResponse" message="tns:fetchBusinessRuleByAnchorListResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -842,6 +829,20 @@
       <wsdl:input name="fetchAgendaInfo" message="tns:fetchAgendaInfo">
     </wsdl:input>
       <wsdl:output name="fetchAgendaInfoResponse" message="tns:fetchAgendaInfoResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="fetchBusinessRuleByAnchor">
+      <wsdl:input name="fetchBusinessRuleByAnchor" message="tns:fetchBusinessRuleByAnchor">
+    </wsdl:input>
+      <wsdl:output name="fetchBusinessRuleByAnchorResponse" message="tns:fetchBusinessRuleByAnchorResponse">
     </wsdl:output>
       <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
     </wsdl:fault>
@@ -1054,27 +1055,6 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fetchBusinessRuleInfoByAnchorList">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fetchBusinessRuleInfoByAnchorList">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="fetchBusinessRuleInfoByAnchorListResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="InvalidParameterException">
-        <soap:fault name="InvalidParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="MissingParameterException">
-        <soap:fault name="MissingParameterException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="DoesNotExistException">
-        <soap:fault name="DoesNotExistException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="OperationFailedException">
-        <soap:fault name="OperationFailedException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="fetchBusinessRuleEnglish">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="fetchBusinessRuleEnglish">
@@ -1192,6 +1172,27 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="fetchBusinessRuleByAnchorList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="fetchBusinessRuleByAnchorList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchBusinessRuleByAnchorListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="fetchAgendaInfo">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="fetchAgendaInfo">
@@ -1213,12 +1214,12 @@
         <soap:fault name="OperationFailedException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fetchBusinessRuleInfoByAnchor">
+    <wsdl:operation name="fetchBusinessRuleByAnchor">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fetchBusinessRuleInfoByAnchor">
+      <wsdl:input name="fetchBusinessRuleByAnchor">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="fetchBusinessRuleInfoByAnchorResponse">
+      <wsdl:output name="fetchBusinessRuleByAnchorResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="InvalidParameterException">

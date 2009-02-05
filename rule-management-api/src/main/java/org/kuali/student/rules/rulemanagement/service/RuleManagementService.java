@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.management.InvalidApplicationException;
@@ -122,7 +123,7 @@ public interface RuleManagementService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchor(BusinessRuleAnchorInfoDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleByAnchor(BusinessRuleAnchorInfoDTO ruleAnchor) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of business rules associated with a given list of business rule type and anchor
@@ -136,8 +137,7 @@ public interface RuleManagementService {
      * @throws OperationFailedException
      */
     @WebMethod
-    public List<BusinessRuleInfoDTO> fetchBusinessRuleInfoByAnchorList(@WebParam(name = "businessRuleAnchorInfoList")
-    List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<BusinessRuleInfoDTO> fetchBusinessRuleByAnchorList(List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of anchor values associated with a given anchor type key
