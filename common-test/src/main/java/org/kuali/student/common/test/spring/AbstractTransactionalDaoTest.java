@@ -9,11 +9,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -144,7 +139,7 @@ public abstract class AbstractTransactionalDaoTest {
 	}
 	
 	@BeforeTransaction
-	public void preLoadData() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException, IOException {
+	public void preLoadData() throws IOException  {
 		if(!preloadedData){
 			preloadedData=true;
 			
@@ -163,12 +158,18 @@ public abstract class AbstractTransactionalDaoTest {
 						String ln;
 						TransactionDefinition txDefinition = new DefaultTransactionDefinition() ;
 						TransactionStatus txStatus = jtaTxManager.getTransaction(txDefinition);
-						while((ln=in.readLine())!=null){
-							if(!ln.startsWith("/")&&!ln.isEmpty()){
-								em.createNativeQuery(ln).executeUpdate();
+						try {
+							while((ln=in.readLine())!=null){
+								if(!ln.startsWith("/")&&!ln.isEmpty()){
+									em.createNativeQuery(ln).executeUpdate();
+								}
 							}
+							jtaTxManager.commit(txStatus);
+						} catch (IOException e) {
+							e.printStackTrace();
+							jtaTxManager.rollback(txStatus);
 						}
-						jtaTxManager.commit(txStatus);
+
 					}
 				}
 			}
