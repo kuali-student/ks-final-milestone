@@ -147,11 +147,12 @@ public class RulesVersionInfo implements ModelObject {
     }
 
     public void setValuesFromDTO(BusinessRuleInfoDTO businessRuleInfoDTO) {
-        setAgendaType(businessRuleInfoDTO.getAnchorTypeKey());
+        setBusinessRuleType(businessRuleInfoDTO.getType());
+        setBusinessRuleId(businessRuleInfoDTO.getId());
         setStatus(businessRuleInfoDTO.getState());
         setBusinessRuleId(businessRuleInfoDTO.getId());
         setBusinessRuleOriginalId(businessRuleInfoDTO.getOriginalRuleId());
-        setAnchor(businessRuleInfoDTO.getAnchorTypeKey());
+        setAnchor(businessRuleInfoDTO.getAnchorValue());
         setBusinessRuleDisplayName(businessRuleInfoDTO.getName());
         setStatus(businessRuleInfoDTO.getState());
         setEffectiveDate(businessRuleInfoDTO.getEffectiveDate());

@@ -41,9 +41,9 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
        
         //remove "KUALI_" from the Agenda Type since it is given and makes the string too long
         String agendaType = modelObject.getGroupAgendaType();
-        if (agendaType.startsWith("KUALI_")) {
-        	agendaType = agendaType.substring(6);
-        }
+//        if (agendaType.startsWith("KUALI_")) {
+//        	agendaType = agendaType.substring(6);
+//        }
         
         if ((agendaType == null) || (agendaType.isEmpty())) {
             return items;
@@ -51,9 +51,9 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
         items.add(agendaType);
 
         String ruleType = modelObject.getGroupBusinessRuleType();
-        if (ruleType.startsWith("KUALI_")) {
-        	ruleType = ruleType.substring(6);
-        }        
+//        if (ruleType.startsWith("KUALI_")) {
+//        	ruleType = ruleType.substring(6);
+//        }        
         
         if ((ruleType == null) || (ruleType.isEmpty())) {
             return items;
@@ -66,25 +66,25 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
         }
         items.add(anchor);
 
-        //determine if status will change the way rule is displayed
-        String prefix = "";
-        if (modelObject.getGroupStatus() != null) {
-            if (modelObject.getVersions() != null &&
-                    modelObject.getVersions().size() > 1) {
-                prefix = "[M] "; 
-            } else if (modelObject.getGroupStatus().equals(BusinessRuleStatus.DRAFT_IN_PROGRESS.toString())) {
-	        	prefix = "[D] ";
-	        } else if (modelObject.getGroupStatus().equals(BusinessRuleStatus.RETIRED.toString())) {
-	        	prefix = "[R] ";
-	        }
-        }
-        
         String ruleName = modelObject.getGroupBusinessRuleDisplayName();
         if ((ruleName == null) || (ruleName.isEmpty())) {
             return items;
         }
-        items.add(prefix + ruleName);
+        items.add(ruleName);
 
         return items;
     }
+
+    /**
+     * Reason to override the SimpleTree's update method is that
+     * the update method of the superclass does not select the
+     * model item once it is updated.  Using the superclass's update
+     * will result in the selected node to appear unselected.
+     */
+    @Override
+    public void update(RulesHierarchyInfo modelObject) {
+        super.update(modelObject);
+        super.select(modelObject);
+    }
+    
 }

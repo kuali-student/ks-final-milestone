@@ -39,7 +39,9 @@ public class RulesHierarchyInfo implements ModelObject {
 
     public void add(RulesVersionInfo rulesVersionInfo) {
         String originalId = getGroupBusinessRuleOriginalId();
-        if (originalId != null && !rulesVersionInfo.getBusinessRuleOriginalId().equals(originalId)) {
+        if (originalId != null &&
+                rulesVersionInfo.getBusinessRuleOriginalId() != null &&
+                !rulesVersionInfo.getBusinessRuleOriginalId().equals(originalId)) {
             throw new 
             IllegalArgumentException(
                     "Cannot add item with a different originalId in " +

@@ -212,7 +212,7 @@ public class RulesComposite extends Composite {
     final Button cancelButton = new Button("Cancel Changes");     
     
     //variables representing client internal state
-    private RulesHierarchyInfo displayedRulesGroup = null; // keep copy of rule group info    
+    private Model<RulesHierarchyInfo> displayedRulesGroup = null; // keep copy of rule group info    
     private BusinessRuleInfoDTO displayedRule = null; // keep copy of business rule so we can update all fields user
     private RulesVersionInfo displayedRuleInfo = null; // keep copy of rule meta info
     private Map<Integer, RulePropositionDTO> definedPropositions = new TreeMap<Integer, RulePropositionDTO>();
@@ -237,6 +237,7 @@ public class RulesComposite extends Composite {
 
             // bind the list to the parent controller's Model of BusinessRuleInfo objects
             Model<RulesHierarchyInfo> model = (Model<RulesHierarchyInfo>) controller.getModel(RulesHierarchyInfo.class);
+            displayedRulesGroup = model;
             binding = new ModelBinding<RulesHierarchyInfo>(model, rulesTree);
             Model<RulesVersionInfo> rulesVersionModel = (Model<RulesVersionInfo>) controller.getModel(RulesVersionInfo.class);
             versionInfoBinding = new ModelBinding<RulesVersionInfo>(rulesVersionModel, rulesVersionsTable);
@@ -308,9 +309,7 @@ public class RulesComposite extends Composite {
                     // clears out the previous rule display
                     //TODO are you sure? esp. if user changed something - your changes will be lost                   
                     loadEmptyRule();
-                    clearVersionsDisplay();
-                    displayedRulesGroup = modelObject;
-                    loadVersionGroup(displayedRulesGroup);
+                    loadVersionGroup(modelObject);
                     rulesFormTabs.selectTab(0);
                 }
             });            
@@ -353,35 +352,43 @@ public class RulesComposite extends Composite {
                             System.out.println("Created new rule with ID: " + newRuleID);
                             System.out.println("Created new rule with compiled ID: " + newBusinessRule.getCompiledId());
                             
-                            displayedRule = newBusinessRule;
                             
                             // update the model
-                            RulesEvent toFire = RULES_ADD_EVENT;
+                            displayedRule = newBusinessRule;
+                            displayedRuleInfo = new RulesVersionInfo();
+                            displayedRuleInfo.setValuesFromDTO(newBusinessRule);
+                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            displayedRuleInfo.setAgendaType(agendaType);
 
-                            placeNewDraftInTree(newRuleID);
-                            
-                            // fire the event and the updated modelobject to the parent controller
-                            RulesVersionInfo ruleInfo = new RulesVersionInfo();
-                            ruleInfo.setAgendaType(displayedRuleInfo.getAgendaType());
-                            ruleInfo.setBusinessRuleType(displayedRuleInfo.getBusinessRuleType());
-                            ruleInfo.setAnchor(displayedRuleInfo.getAnchor());
-                            ruleInfo.setBusinessRuleDisplayName(displayedRule.getName());
-                            ruleInfo.setBusinessRuleId(newRuleID);
-                            List<RulesHierarchyInfo> treeItems = rulesTree.getItems();
-                            boolean groupExists = false;
-                            for (RulesHierarchyInfo treeItem : treeItems) {
-                                if (treeItem.getGroupAnchor() != null &&
-                                        treeItem.getGroupAnchor()
-                                        .equals(ruleInfo.getAnchor())) {
-                                    groupExists = true;
-                                }
-                            }
-                            if (!groupExists) {
-                                RulesHierarchyInfo newGroup = new RulesHierarchyInfo();
-                                newGroup.add(ruleInfo);
-                                rulesTree.add(newGroup);
-                            }
-
+                            // fire the event and the updated model object to the parent controller
+                            RulesHierarchyInfo targetGroup = null;
+                            targetGroup = new RulesHierarchyInfo();
+                            targetGroup.add(displayedRuleInfo);
+                            displayedRulesGroup.add(targetGroup);
+                            loadVersionGroup(targetGroup);
+                            // might not be necessary to loop through ALL rule groups
+                            // since the submitted rule is always in a new group (i.e. has a
+                            // new originalId
+//                            List<RulesHierarchyInfo> treeItems = rulesTree.getItems();
+//                            for (RulesHierarchyInfo treeItem : treeItems) {
+//                                if (treeItem.getUniqueId() != null &&
+//                                        treeItem.getUniqueId()
+//                                        .equals(displayedRuleInfo.getBusinessRuleOriginalId())) {
+//                                    targetGroup = treeItem;
+//                                }
+//                            }
+//                            if (targetGroup == null) {
+//                                // create new group and add to tree if the group does not already exist
+//                                // select the new group and new version
+//                                targetGroup = new RulesHierarchyInfo();
+//                                targetGroup.add(displayedRuleInfo);
+//                                displayedRulesGroup.add(targetGroup);
+//                                loadVersionGroup(targetGroup);
+//                            } else {
+//                                targetGroup.add(displayedRuleInfo);
+//                                loadVersionGroup(targetGroup);
+//                            }
+                            rulesVersionsTable.select(displayedRuleInfo);
                             loadExistingRule(displayedRule);
                             rulesFormTabs.selectTab(0);
                             GuiUtil.showUserDialog("New rule submitted.");
@@ -412,7 +419,14 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
+                            // update the model
                             displayedRule = updatedBusRule;
+                            displayedRuleInfo.setValuesFromDTO(updatedBusRule);
+                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            displayedRuleInfo.setAgendaType(agendaType);
+
+                            displayedRulesGroup.update(rulesTree.getSelection());
+                            loadVersionGroup(rulesTree.getSelection());
                             loadExistingRule(displayedRule);                             
                             GuiUtil.showUserDialog("Rule updated.");
                         }
@@ -440,11 +454,12 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
-                            
-                            // 3) rule status changes to ACTIVE
-                            //displayedRule.setState(BusinessRuleStatus.ACTIVE.toString());
-                            displayedRuleInfo.setStatus(BusinessRuleStatus.ACTIVE.toString());
-                            displayedRuleInfo.setBusinessRuleDisplayName(displayedRule.getName());
+                            displayedRuleInfo.setValuesFromDTO(updatedBusRule);
+                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            displayedRuleInfo.setAgendaType(agendaType);
+
+                            displayedRulesGroup.update(rulesTree.getSelection());
+                            loadVersionGroup(rulesTree.getSelection());
                             loadExistingRule(displayedRule);
                             
                             GuiUtil.showUserDialog("Rule Activated");
@@ -481,14 +496,18 @@ public class RulesComposite extends Composite {
                         }
 
                         public void onSuccess(BusinessRuleInfoDTO newRuleVersion) {
-                            //TODO uncomment this once the different original id problem is sorted out
-                            RulesVersionInfo newRulesVersionInfo = new RulesVersionInfo();
-                            newRulesVersionInfo.setValuesFromDTO(newRuleVersion);
-                            displayedRulesGroup.add(newRulesVersionInfo);
-                            displayedRule = newRuleVersion;                           
-                            rulesVersionsTable.add(newRulesVersionInfo);
-                            rulesVersionsTable.select(newRulesVersionInfo);
-                            loadExistingRule(displayedRule);                            
+                            displayedRule = newRuleVersion;
+                            displayedRuleInfo = new RulesVersionInfo();
+                            displayedRuleInfo.setValuesFromDTO(newRuleVersion);
+                            String agendaType = rulesTree.getSelection().getGroupAgendaType();
+                            displayedRuleInfo.setAgendaType(agendaType);
+                            RulesHierarchyInfo selectedGroup = rulesTree.getSelection();
+                            selectedGroup.add(displayedRuleInfo);
+
+                            displayedRulesGroup.update(rulesTree.getSelection());
+                            loadVersionGroup(rulesTree.getSelection());
+                            rulesVersionsTable.select(displayedRuleInfo);
+                            loadExistingRule(displayedRule);
                             GuiUtil.showUserDialog("New Rule Version Created.");
                         }
                     });                    
@@ -505,11 +524,14 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
-                            
-                            //displayedRule.setState(BusinessRuleStatus.RETIRED.toString());
-                            displayedRuleInfo.setStatus(BusinessRuleStatus.RETIRED.toString());
-                            loadExistingRule(displayedRule);
+                            displayedRuleInfo.setValuesFromDTO(updatedBusRule);
+                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            displayedRuleInfo.setAgendaType(agendaType);
 
+                            displayedRulesGroup.update(rulesTree.getSelection());
+                            loadVersionGroup(rulesTree.getSelection());
+                            loadExistingRule(displayedRule);
+                            
                             GuiUtil.showUserDialog("Rule retired.");
                         }
                     });                    
@@ -969,22 +991,21 @@ public class RulesComposite extends Composite {
     }
    
     private void clearVersionsDisplay() {
-        int numRows = 0;
-        displayedRulesGroup = null;
         rulesVersionsTable.clear();
         activeTimeGapsTextArea.setText("");
     }
     
     private void loadVersionGroup(RulesHierarchyInfo rulesGroup) {
         // only attempt to load the selected group if user has actually selected a group
+        clearVersionsDisplay();
         if (rulesGroup == null) return;
-        displayedRulesGroup = rulesGroup;
+        displayedRulesGroup.update(rulesGroup);
         List<RulesVersionInfo> versions = rulesGroup.getVersions();
         for (RulesVersionInfo version : versions) {
             rulesVersionsTable.add(version);
         }
         List<DateRange> activeTimeGaps = 
-            getActiveTimeGaps(displayedRulesGroup);
+            getActiveTimeGaps(rulesGroup);
         if (activeTimeGaps != null) {
             StringBuilder message = new StringBuilder("");
             for (DateRange activeTimeGap : activeTimeGaps) {
@@ -1005,21 +1026,6 @@ public class RulesComposite extends Composite {
             activeTimeGapsTextArea.setText(message.toString());
         }
     }    
-    
-    private void placeNewDraftInTree(String newRuleID) {
-        String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
-        String businessRuleType = GuiUtil.getListBoxSelectedValue(businessRuleTypesListBox);
-        String anchor = ruleAnchorTextBox.getText();
-        String ruleName = displayedRule.getName();
-                       
-        //show drafts with other rules for now, marking them with [D]
-        displayedRuleInfo = new RulesVersionInfo();
-    	displayedRuleInfo.setAgendaType(agendaType);
-    	displayedRuleInfo.setBusinessRuleType(businessRuleType);
-    	displayedRuleInfo.setAnchor(anchor); 
-    	displayedRuleInfo.setBusinessRuleDisplayName(ruleName);
-    	displayedRuleInfo.setBusinessRuleId(newRuleID);     	    	
-    }
     
    
     /******************************************************************************************************************
