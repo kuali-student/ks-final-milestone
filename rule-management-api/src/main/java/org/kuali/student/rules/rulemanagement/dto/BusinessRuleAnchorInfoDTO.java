@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * Maps a set of Business Rule Types to form an AgendaInfoDTO and a specif instance of Business Rules form an Agenda for this
+ * Maps a set of Business Rule Types to form an AgendaInfoDTO and a specify instance of Business Rules form an Agenda for this
  * AgendaInfoDTO
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
