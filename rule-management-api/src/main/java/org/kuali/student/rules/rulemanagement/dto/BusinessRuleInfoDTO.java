@@ -353,5 +353,9 @@ public class BusinessRuleInfoDTO implements Serializable{
      */
     public void setAttributeList(Map<String, String> attributeList) {
         this.attributeList = attributeList;
-    }        
+    }
+    
+    public String toString() {
+    	return "[id="+this.id+", name="+this.name+", compiledId="+this.compiledId+"]";
+    }
 }
