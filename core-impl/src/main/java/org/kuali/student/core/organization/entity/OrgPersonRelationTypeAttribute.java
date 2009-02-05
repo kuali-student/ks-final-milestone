@@ -11,7 +11,7 @@ import org.kuali.student.core.entity.Attribute;
 import org.kuali.student.core.entity.TypeAttributeDef;
 
 @Entity
-@Table(name="KS_ORG_PERSON_RELATION_TYPE_ATTR_T")
+@Table(name="KS_ORG_PERS_REL_TYPE_ATTR_T")
 public class OrgPersonRelationTypeAttribute extends Attribute<OrgPersonRelationType, TypeAttributeDef>{
 
 	@Id

@@ -1226,10 +1226,10 @@ insert into KS_ORG_PERSON_REL_T (ORG_PERSON_REL_ID, ORG, PERSON_ID, EFFECTIVE_DT
 
 
 //
-insert into KS_ORG_TYPE_ORG_PERSON_RELATION_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.Department', 'kuali.org.PersonRelation.Professor')
+insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.Department', 'kuali.org.PersonRelation.Professor')
 /
-insert into KS_ORG_TYPE_ORG_PERSON_RELATION_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Head')
+insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Head')
 /
-insert into KS_ORG_TYPE_ORG_PERSON_RELATION_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Professor')
+insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Professor')
 /
 

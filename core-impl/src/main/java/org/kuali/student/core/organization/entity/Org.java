@@ -61,7 +61,7 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	
 	@ManyToMany
 	@JoinTable(
-	        name="KS_ORG_ORG_PERSON_RELATION_TYPE_T",
+	        name="KS_ORG_ORG_PERS_REL_TYPE_T",
 	        joinColumns=
 	            @JoinColumn(name="ORG_KEY", referencedColumnName="ORG_ID"),
 	        inverseJoinColumns=

@@ -12,7 +12,7 @@ import org.kuali.student.core.entity.Type;
 public class OrgType extends Type {
 	@ManyToMany
 	@JoinTable(
-	        name="KS_ORG_TYPE_ORG_PERSON_RELATION_TYPE_T",
+	        name="KS_ORG_TYPE_ORG_PERS_RL_TYPE_T",
 	        joinColumns=
 	            @JoinColumn(name="ORG_TYPE_KEY", referencedColumnName="TYPE_KEY"),
 	        inverseJoinColumns=
