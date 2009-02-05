@@ -60,7 +60,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
     private static final String ruleId_3 = "11223344-1122-1122-1112-100000000032";
     
     private static final String create_rule_name = "Test rule create";
-/*    
+    
     @Test
     public void testFindAgendaTypes() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException {
         List<String> agendaTypes = client.findAgendaTypes();
@@ -467,7 +467,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
             assertTrue(true);
         }                        
     }
-*/
+
     @Test
     public void testFetchBusinessRuleByAnchor()  throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException, ReadOnlyException {
         // Activate the rule before fetching the rule
@@ -542,7 +542,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
      * @throws PermissionDeniedException
      * @throws AlreadyExistsException
      */
-/*    @Test
+    @Test
     public void testComplextBusinessRuleCreation()   throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, PermissionDeniedException, AlreadyExistsException {
         BusinessRuleInfoDTO brInfo = client.fetchDetailedBusinessRuleInfo(ruleId_3);
         
@@ -701,7 +701,7 @@ public class TestRulesManagementServiceImpl extends AbstractServiceTest {
         
         assertTrue(false);
     }
-*/    
+    
     
     private BusinessRuleInfoDTO generateNewBusinessRuleInfo() {
         MetaInfoDTO metaInfo = new MetaInfoDTO();
