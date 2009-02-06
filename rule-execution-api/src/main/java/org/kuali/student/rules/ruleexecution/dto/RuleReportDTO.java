@@ -35,7 +35,7 @@ public class RuleReportDTO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private boolean successful = false;
+    private Boolean successful = false;
 
     @XmlElement
     private String successMessage;
@@ -56,7 +56,7 @@ public class RuleReportDTO implements java.io.Serializable {
 	 * Returns true if report is successful.
 	 * @return True if report is successful; otherwise false
 	 */
-    public boolean isSuccessful() {
+    public Boolean isSuccessful() {
 		return successful;
 	}
 	
@@ -64,7 +64,7 @@ public class RuleReportDTO implements java.io.Serializable {
 	 * Set success to true if report is successful; other wise set t false.
      * @param success True if report is successful; other false
      */
-	public void setSuccessful(final boolean success) {
+	public void setSuccessful(final Boolean success) {
 		this.successful = success;
 	}
 

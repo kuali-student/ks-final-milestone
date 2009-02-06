@@ -16,10 +16,19 @@ public class AgendaExecutionResultDTO {
 	private String id;
 
     @XmlElement
-    private Boolean executionResult = Boolean.FALSE;
+    private Boolean executionSuccessful = Boolean.FALSE;
+
+    @XmlElement
+    private Boolean agendaReportSuccessful = Boolean.FALSE;
 
     @XmlElement
     private List<ExecutionResultDTO> executionResultList = new ArrayList<ExecutionResultDTO>();
+
+    @XmlElement
+    private String successMessageSummary;
+
+    @XmlElement
+    private String failureMessageSummary;
 
     /**
      * Constructor
@@ -34,12 +43,12 @@ public class AgendaExecutionResultDTO {
 		this.id = id;
 	}
 
-	public Boolean getExecutionResult() {
-		return executionResult;
+	public Boolean isExecutionSuccessful() {
+		return this.executionSuccessful;
 	}
 
-	public void setExecutionResult(Boolean executionResult) {
-		this.executionResult = executionResult;
+	public void setExecutionSuccessful(Boolean executionSuccessful) {
+		this.executionSuccessful = executionSuccessful;
 	}
 
 	public void addExecutionResult(ExecutionResultDTO executionResult) {
@@ -52,6 +61,30 @@ public class AgendaExecutionResultDTO {
 
 	public void setExecutionResultList(List<ExecutionResultDTO> executionResultList) {
 		this.executionResultList = executionResultList;
+	}
+
+	public String getSuccessMessageSummary() {
+		return successMessageSummary;
+	}
+
+	public void setSuccessMessageSummary(String successMessageSummary) {
+		this.successMessageSummary = successMessageSummary;
+	}
+
+	public String getFailureMessageSummary() {
+		return failureMessageSummary;
+	}
+
+	public void setFailureMessageSummary(String failureMessageSummary) {
+		this.failureMessageSummary = failureMessageSummary;
+	}
+
+	public Boolean isAgendaReportSuccessful() {
+		return agendaReportSuccessful;
+	}
+
+	public void setAgendaReportSuccessful(Boolean agendaReportSuccessful) {
+		this.agendaReportSuccessful = agendaReportSuccessful;
 	}
 
 }
