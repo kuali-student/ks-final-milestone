@@ -17,6 +17,7 @@ package org.kuali.student.core.organization.web.client.view;
 
 import java.util.List;
 
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
@@ -30,6 +31,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -54,6 +57,7 @@ public class OrgCreatePanel extends Composite{
     String type;
     String orgId = null;
     String orgType = null;
+    String orgVersion = null;
     
     ListBox orgTypeDropDown;
     TextBox orgName;
@@ -64,8 +68,9 @@ public class OrgCreatePanel extends Composite{
     TextBox orgEffectiveDate;
     TextBox orgExpirationDate;
     
+    VerticalPanel vOrganization;
     VerticalPanel vPositions;
-    VerticalPanel vRelations;
+    VerticalPanel vRelations;    
     
     boolean loaded = false;
     
@@ -77,7 +82,7 @@ public class OrgCreatePanel extends Composite{
     
 
     protected void onLoad(){
-        //vPanel.setWidth("100%");
+        vPanel.setWidth("100%");
         //vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
         if (!loaded){
             loaded = true;
@@ -92,6 +97,11 @@ public class OrgCreatePanel extends Composite{
             }
             
             Button btnCreateOrg = new Button("Create");
+            
+            if (orgId != null){
+                btnCreateOrg.setText("Update");
+            }
+            
             btnCreateOrg.addClickListener(new ClickListener(){
                 public void onClick(Widget sender) {
                     vPanel.clear();
@@ -111,6 +121,8 @@ public class OrgCreatePanel extends Composite{
     }
     
     protected void getOrganization(){
+        vOrganization = new VerticalPanel();
+        
         FlexTable fTable = new FlexTable();
         
         orgTypeDropDown = new ListBox();      
@@ -138,8 +150,13 @@ public class OrgCreatePanel extends Composite{
         fTable.setWidget(5,0, new Label("Expiration Date"));
         fTable.setWidget(5,1, orgExpirationDate);    
 
+        vOrganization.setWidth("100%");
+        vOrganization.setStyleName("ks-section");
+        vOrganization.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+        vOrganization.add(fTable);
+        
         vPanel.add(new SectionLabel("Organization"));
-        vPanel.add(fTable);
+        vPanel.add(vOrganization);
         
         if (orgId != null){
             populateOrgInfo();
@@ -153,13 +170,16 @@ public class OrgCreatePanel extends Composite{
         vPanel.add(new SectionLabel("Positions"));
         
         vPositions = new VerticalPanel();
+        vPositions.setStyleName("ks-section");
+        vPositions.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
         
         if (orgId != null && bShowAll){
             populateOrgPositions();
+        } else {
+            vPositions.add(new OrgPositionWidget());
+            vPositions.add(getPositionLink());            
         }
-
-        vPositions.add(new OrgPositionWidget());
-            
+         
         vPanel.add(vPositions);
     }
 
@@ -167,13 +187,16 @@ public class OrgCreatePanel extends Composite{
         vPanel.add(new SectionLabel("Relationships"));
 
         vRelations = new VerticalPanel();
+        vRelations.setStyleName("ks-section");
+        vRelations.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
         
         if (orgId != null && bShowAll){
             populateOrgRelations();
+        } else {        
+            vRelations.add( new OrgRelationWidget());
+            vRelations.add(getRelationLink());
         }
-        
-        vRelations.add( new OrgRelationWidget());
-        
+              
         vPanel.add(vRelations);
 
     }
@@ -182,7 +205,11 @@ public class OrgCreatePanel extends Composite{
         DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
         
         OrgInfo orgInfo = new OrgInfo();
-               
+        
+        MetaInfo orgMetaInfo = new MetaInfo();
+        orgMetaInfo.setVersionInd(orgVersion);
+        orgInfo.setMetaInfo(orgMetaInfo);
+        
         orgInfo.setType(orgTypeDropDown.getValue((orgTypeDropDown.getSelectedIndex())));        
         orgInfo.setDesc(orgDesc.getText());
         orgInfo.setLongName(orgName.getText());
@@ -209,47 +236,89 @@ public class OrgCreatePanel extends Composite{
                     vPanel.add(new Label("Org created with id: " + orgId));
                 }
             });
+        } else {
+            orgInfo.setId(orgId);
+            OrgRpcService.Util.getInstance().updateOrganization(orgInfo,new AsyncCallback<OrgInfo>(){
+                public void onFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                }
+    
+                public void onSuccess(OrgInfo result) {
+                    savePositions();
+                    saveRelations();
+                    vPanel.add(new Label("Organization saved"));
+                }
+            });            
         }
     }
     
     protected void savePositions(){
-        OrgPositionWidget orgPosWidget = (OrgPositionWidget)vPositions.getWidget(0);
-        OrgPositionRestrictionInfo orgPosRestrictionInfo = orgPosWidget.getPositionRestrictionInfo();
-        
-        if (orgPosRestrictionInfo.getTitle().length() > 0){
-            if (orgPosRestrictionInfo.getId() == null){
+        //Only every other widget is a orgPositionWidget
+        int widgetCount = vPositions.getWidgetCount();
+        for (int i=0; i < widgetCount && widgetCount > 1; i+=2){            
+            OrgPositionWidget orgPosWidget = (OrgPositionWidget)vPositions.getWidget(i);
+            OrgPositionRestrictionInfo orgPosRestrictionInfo = orgPosWidget.getPositionRestrictionInfo();
+            
+            if (orgPosRestrictionInfo.getTitle().length() > 0){
                 orgPosRestrictionInfo.setOrgId(orgId);
-                OrgRpcService.Util.getInstance().addPositionRestrictionToOrg(orgPosRestrictionInfo,
-                        new AsyncCallback<OrgPositionRestrictionInfo>(){
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-        
-                    public void onSuccess(OrgPositionRestrictionInfo result) {
-                        vPanel.add(new Label("Org position created with id: " + result.getId()));                    
-                    }
-                });
+                if (orgPosRestrictionInfo.getId() == null){
+                    OrgRpcService.Util.getInstance().addPositionRestrictionToOrg(orgPosRestrictionInfo,
+                            new AsyncCallback<OrgPositionRestrictionInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(OrgPositionRestrictionInfo result) {
+                            vPanel.add(new Label("Org position created with id: " + result.getId()));                    
+                        }
+                    });
+                } else {
+                    OrgRpcService.Util.getInstance().updatePositionRestrictionForOrg(orgPosRestrictionInfo,
+                            new AsyncCallback<OrgPositionRestrictionInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(OrgPositionRestrictionInfo result) {
+                            vPanel.add(new Label("Org position updated for: " + result.getId()));                    
+                        }
+                    });                    
+                }
             }
         }
     }
     
     protected void saveRelations(){
-        OrgRelationWidget orgRelationWidget = (OrgRelationWidget)vRelations.getWidget(0);
-        OrgOrgRelationInfo orgRelationInfo = orgRelationWidget.getOrgOrgRelationInfo();
-        
-        if (orgRelationInfo.getRelatedOrgId().length() > 0){
-            if (orgRelationInfo.getId() == null){
-                orgRelationInfo.setOrgId(orgId);
-                OrgRpcService.Util.getInstance().createOrgOrgRelation(orgRelationInfo, 
-                        new AsyncCallback<OrgOrgRelationInfo>(){
-                    public void onFailure(Throwable caught) {
-                        Window.alert(caught.getMessage());
-                    }
-        
-                    public void onSuccess(OrgOrgRelationInfo result) {
-                        vPanel.add(new Label("Org relation created with id: " + result.getId()));
-                    }
-                });
+        int widgetCount = vRelations.getWidgetCount();
+        for (int i=0; i < widgetCount && widgetCount > 1; i+=2){        
+            OrgRelationWidget orgRelationWidget = (OrgRelationWidget)vRelations.getWidget(i);
+            OrgOrgRelationInfo orgRelationInfo = orgRelationWidget.getOrgOrgRelationInfo();
+            
+            if (orgRelationInfo.getRelatedOrgId().length() > 0){
+                orgRelationInfo.setOrgId(orgId);                
+                if (orgRelationInfo.getId() == null){
+                    OrgRpcService.Util.getInstance().createOrgOrgRelation(orgRelationInfo, 
+                            new AsyncCallback<OrgOrgRelationInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(OrgOrgRelationInfo result) {
+                            vPanel.add(new Label("Org relation created with id: " + result.getId()));
+                        }
+                    });
+                } else {
+                    OrgRpcService.Util.getInstance().updateOrgOrgRelation(orgRelationInfo, 
+                            new AsyncCallback<OrgOrgRelationInfo>(){
+                        public void onFailure(Throwable caught) {
+                            Window.alert(caught.getMessage());
+                        }
+            
+                        public void onSuccess(OrgOrgRelationInfo result) {
+                            vPanel.add(new Label("Org relation updated for id: " + result.getId()));
+                        }
+                    });
+                }
             }
         }
     }
@@ -283,6 +352,7 @@ public class OrgCreatePanel extends Composite{
             public void onSuccess(OrgInfo orgInfo) {
                 DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");                
                 
+                orgVersion = orgInfo.getMetaInfo().getVersionInd();
                 orgType = orgInfo.getType();
                 orgName.setText(orgInfo.getLongName());
                 orgAbbrev.setText(orgInfo.getShortName());
@@ -308,11 +378,17 @@ public class OrgCreatePanel extends Composite{
                     }
         
                     public void onSuccess(List<OrgPositionRestrictionInfo> orgPositions) {                   
+                        int i = 0;
                         for (OrgPositionRestrictionInfo orgPos:orgPositions){
+                            if ( i > 0){
+                                vPositions.add(new HTML("<hr/>"));
+                            }
                             OrgPositionWidget orgPositionWidget = new OrgPositionWidget();
                             orgPositionWidget.setOrgPositionRestrictionInfo(orgPos);
                             vPositions.add(orgPositionWidget);
+                            i++;
                         }
+                        vPositions.add(getPositionLink());
                     }            
         });
     }
@@ -326,15 +402,52 @@ public class OrgCreatePanel extends Composite{
                     }
 
                     public void onSuccess(List<OrgOrgRelationInfo> orgRelations) {                   
+                        int i = 0;
                         for (OrgOrgRelationInfo orgRelationInfo:orgRelations){
+                            if ( i > 0){
+                                vRelations.add(new HTML("<hr/>"));
+                            }
                             OrgRelationWidget orgRelationWidget = new OrgRelationWidget();
                             orgRelationWidget.setOrgOrgRelationInfo(orgRelationInfo);
                             vRelations.add(orgRelationWidget);
+                            i++;
                         }
+                        vRelations.add(getRelationLink());
                     }            
             });        
     }
     
+    protected Hyperlink getPositionLink(){
+        Hyperlink addPositionLink = new Hyperlink("(+)add position", "addPos");
+        addPositionLink.setStyleName("action");
+        addPositionLink.addClickListener(new ClickListener(){
+            public void onClick(Widget sender) {
+                if (vPositions.getWidgetCount() > 1){
+                    vPositions.insert(new HTML("<hr/>"), vPositions.getWidgetCount()-1);
+                }
+                vPositions.insert(new OrgPositionWidget(), vPositions.getWidgetCount()-1);
+            }
+        });
+        
+        return addPositionLink;
+    }
+    
+    
+    protected Hyperlink getRelationLink(){
+        Hyperlink addRelationLink = new Hyperlink("(+)add relation", "addRelation");
+        addRelationLink.setStyleName("action");
+        addRelationLink.addClickListener(new ClickListener(){
+            public void onClick(Widget sender) {
+                if (vRelations.getWidgetCount() > 1){
+                    vRelations.insert(new HTML("<hr/>"), vRelations.getWidgetCount()-1);
+                }
+                vRelations.insert(new OrgRelationWidget(), vRelations.getWidgetCount()-1);
+            }
+        });
+        
+        return addRelationLink; 
+    }
+
     public String getOrgId() {
         return orgId;
     }

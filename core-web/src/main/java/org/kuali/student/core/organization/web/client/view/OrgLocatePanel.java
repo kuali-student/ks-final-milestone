@@ -62,6 +62,7 @@ public class OrgLocatePanel extends Composite{
     }
   
     protected void onLoad(){
+        vPanel.setWidth("100%");
         vPanel.add(createLocateMenu());
         vPanel.add(new SectionLabel("Browse Organizations"));
         vPanel.add(results);
@@ -70,16 +71,25 @@ public class OrgLocatePanel extends Composite{
     }
     
     private Widget createLocateMenu(){
+        VerticalPanel locateMenuPanel = new VerticalPanel();
+        locateMenuPanel.setWidth("100%");
+        locateMenuPanel.setStyleName("ks-section");
+        
         FlexTable fTable = new FlexTable();
         fTable.setWidget(0,0, new SectionLabel("Search"));       
         fTable.setWidget(0,1, new SectionLabel("Browse"));      
         
-        return fTable;
+        locateMenuPanel.add(fTable);
+        
+        return locateMenuPanel;
     }
     
     private void getBrowseResults() {
         browsePanel = new VerticalPanel();
+        browsePanel.setStyleName("ks-section");
+        
         orgList = new HorizontalPanel();
+
         orgChart = new SimplePanel();
         OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
             public void onFailure(Throwable caught) {

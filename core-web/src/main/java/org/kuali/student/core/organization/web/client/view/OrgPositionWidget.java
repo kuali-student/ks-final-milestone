@@ -18,19 +18,26 @@ package org.kuali.student.core.organization.web.client.view;
 import java.util.List;
 
 import org.kuali.student.core.atp.dto.TimeAmountInfo;
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -47,33 +54,41 @@ public class OrgPositionWidget extends Composite {
     TextBox posDuration;
     TextBox posMaxRelation;
     TextBox atpDurationType;
+    HTML divider = new HTML("<hr/>");
 
     FlexTable fTable = null;     
    
-    SimplePanel root = new SimplePanel();
+    DockPanel root = new DockPanel();
     
     String posType;
     String posId;
+    String posVersion;
     String orgType;
-    
+       
     public OrgPositionWidget(){
         super.initWidget(root);
         
+        posTypeDropDown = new ListBox();
         posTitle = new TextBox();
         posDesc = new TextArea();
         posMinRelation = new TextBox();
         posMaxRelation = new TextBox();
         posDuration = new TextBox();
         atpDurationType = new TextBox();        
+
     }
        
     protected void onLoad(){
         fTable = new FlexTable();
-        posTypeDropDown = new ListBox();
+
         loadPersonRelationTypes();
                
         fTable.setWidget(0,0, new Label("Position"));
         fTable.setWidget(0,1, posTypeDropDown);
+        
+        if (posId != null){
+            fTable.setWidget(0,2, getRemoveLink());
+        }
         
         fTable.setWidget(1,0, new Label("Title"));
         fTable.setWidget(1,1, posTitle);
@@ -87,13 +102,25 @@ public class OrgPositionWidget extends Composite {
         fTable.setWidget(5,0, new Label("Max people"));
         fTable.setWidget(5,1, posMaxRelation);
 
-        root.add(fTable);
+       
+        root.setWidth("50%");
+        root.add(divider, DockPanel.NORTH);
+        root.add(fTable,DockPanel.CENTER);
+        root.setCellHorizontalAlignment(fTable, DockPanel.ALIGN_CENTER);
+        root.setStyleName("ks-position");
+        
+        divider.setVisible(false);
     }
 
     public OrgPositionRestrictionInfo getPositionRestrictionInfo(){
         OrgPositionRestrictionInfo orgPosRestriction = new OrgPositionRestrictionInfo();
         
         orgPosRestriction.setId(posId);
+        
+        MetaInfo posMetaInfo = new MetaInfo();
+        posMetaInfo.setVersionInd(posVersion);        
+        orgPosRestriction.setMetaInfo(posMetaInfo);
+        
         orgPosRestriction.setOrgPersonRelationTypeKey(posTypeDropDown.getValue(posTypeDropDown.getSelectedIndex()));
         orgPosRestriction.setTitle(posTitle.getText());
         orgPosRestriction.setDesc(posDesc.getText());
@@ -118,12 +145,24 @@ public class OrgPositionWidget extends Composite {
     
     protected void setOrgPositionRestrictionInfo(OrgPositionRestrictionInfo orgPosRestriction){
         posId = orgPosRestriction.getId();
+        posVersion = orgPosRestriction.getMetaInfo().getVersionInd();
         posType = orgPosRestriction.getOrgPersonRelationTypeKey();
         posTitle.setText(orgPosRestriction.getTitle());
         posDesc.setText(orgPosRestriction.getDesc());
-        posDuration.setText(orgPosRestriction.getStdDuration().getTimeQuantity().toString());
-        posMinRelation.setText(orgPosRestriction.getMinNumRelations().toString());       
-        posMaxRelation.setText(orgPosRestriction.getMaxNumRelations());        
+        //TODO: Need to fix this
+        try{
+            posDuration.setText(String.valueOf(orgPosRestriction.getStdDuration().getTimeQuantity()));
+        } catch (Exception e){
+        }
+        try {
+            posMinRelation.setText(orgPosRestriction.getMinNumRelations().toString());
+        } catch (Exception e) {
+            posMinRelation.setText("");
+            // TODO: handle exception
+        }
+        posMaxRelation.setText(orgPosRestriction.getMaxNumRelations()); 
+        
+        posTypeDropDown.setEnabled(false);
     }
     
     protected void loadPersonRelationTypes(){
@@ -147,4 +186,21 @@ public class OrgPositionWidget extends Composite {
         });        
     }
      
+    protected Widget getRemoveLink(){
+        Hyperlink hLink = new Hyperlink("(-)remove","");
+        hLink.setStyleName("action");
+        
+        hLink.addClickListener(new ClickListener(){
+
+            public void onClick(Widget sender) {
+                //TODO: Add call to remove position
+            }            
+        });
+        
+        return hLink;
+    }
+    
+    public void setDividerEnabled(boolean visible){
+        divider.setVisible(visible);
+    }
 }

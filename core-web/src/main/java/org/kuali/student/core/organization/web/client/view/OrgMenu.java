@@ -16,10 +16,10 @@
 package org.kuali.student.core.organization.web.client.view;
 
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class OrgMenu extends Composite{
+public class OrgMenu extends VerticalPanel{
     FlexTable fTable = new FlexTable();
     
     boolean loaded = false;
@@ -42,7 +42,8 @@ public class OrgMenu extends Composite{
     Hyperlink modifyOrg = new Hyperlink("Organization", "modifyPos");
     
     public OrgMenu(SimplePanel workPanel){
-        super.initWidget(fTable);
+        this.add(fTable);
+        this.setStyleName("ks-section");
         this.workPanel = workPanel;
     }
 

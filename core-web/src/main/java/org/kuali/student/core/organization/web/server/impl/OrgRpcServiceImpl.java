@@ -9,6 +9,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -288,6 +289,72 @@ public class OrgRpcServiceImpl implements OrgRpcService{
         } catch (PermissionDeniedException e) {
             e.printStackTrace();
         } catch (OperationFailedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public OrgInfo updateOrganization(OrgInfo orgInfo) {
+        try {
+            return service.updateOrganization(orgInfo.getId(), orgInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        } 
+        return null;
+    }
+
+
+    public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo) {
+        try {
+            return service.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        } 
+        return null;
+    }
+
+    @Override
+    public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo) {
+        try {
+            return service.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
             e.printStackTrace();
         }
         return null;

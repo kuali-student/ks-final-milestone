@@ -17,6 +17,7 @@ package org.kuali.student.core.organization.web.client.view;
 
 import java.util.List;
 
+import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
@@ -48,7 +49,9 @@ public class OrgRelationWidget extends Composite{
     TextBox orgExpirationDate = null;
     TextArea orgNote = null;
     
+    String orgRelId = null;
     String orgRelType;
+    String orgRelVersion;
     
     FlexTable fTable = null;
     
@@ -96,19 +99,24 @@ public class OrgRelationWidget extends Composite{
         DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
         
         OrgOrgRelationInfo orgRelationInfo = new OrgOrgRelationInfo();        
-        orgRelationInfo.setId(relatedOrgId.getText());
+        
+        orgRelationInfo.setId(orgRelId);
+        
+        MetaInfo orgRelMetaInfo = new MetaInfo();
+        orgRelMetaInfo.setVersionInd(orgRelVersion);
+        orgRelationInfo.setMetaInfo(orgRelMetaInfo);
+        
         orgRelationInfo.setType(orgRelTypeDropDown.getValue(orgRelTypeDropDown.getSelectedIndex()));
         
         //TODO: This should lookup orgId based on related org name
-        String relatedOrgId = relatedOrgName.getText();
-        orgRelationInfo.setRelatedOrgId(relatedOrgId);
+        orgRelationInfo.setRelatedOrgId(relatedOrgId.getText());
 
         try{
             orgRelationInfo.setEffectiveDate(dateFmt.parse(orgEffectiveDate.getText()));
         } catch (Exception e){
         }
         try {
-            orgRelationInfo.setExpirationDate(dateFmt.parse(orgEffectiveDate.getText()));
+            orgRelationInfo.setExpirationDate(dateFmt.parse(orgExpirationDate.getText()));
         } catch (Exception e) {
         }
         
@@ -118,8 +126,10 @@ public class OrgRelationWidget extends Composite{
     public void setOrgOrgRelationInfo(OrgOrgRelationInfo orgRelationInfo){
         DateTimeFormat dateFmt = DateTimeFormat.getFormat("MM/dd/yyyy");
                
-        relatedOrgId.setText(orgRelationInfo.getId());
+        relatedOrgId.setText(orgRelationInfo.getRelatedOrgId());
+        orgRelId = orgRelationInfo.getId();
         orgRelType = orgRelationInfo.getType();
+        orgRelVersion = orgRelationInfo.getMetaInfo().getVersionInd();
         
         OrgRpcService.Util.getInstance().getOrganization(orgRelationInfo.getRelatedOrgId(), 
                 new AsyncCallback<OrgInfo>(){
@@ -131,6 +141,9 @@ public class OrgRelationWidget extends Composite{
                         relatedOrgName.setText(orgInfo.getLongName());                       
                     }            
         });
+        
+        relatedOrgId.setEnabled(false);
+        relatedOrgName.setEnabled(false);
 
         try{
             orgEffectiveDate.setText(dateFmt.format(orgRelationInfo.getEffectiveDate()));

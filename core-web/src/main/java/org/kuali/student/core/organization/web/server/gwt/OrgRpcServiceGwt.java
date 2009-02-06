@@ -79,5 +79,18 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
 	public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
 		return serviceImpl.getOrgDisplayTree(orgId, orgHierarchy, maxLevels);
 	}
+
+    public OrgInfo updateOrganization(OrgInfo orgInfo) {
+        return serviceImpl.updateOrganization(orgInfo); 
+    }
+
+    public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo) {
+        return serviceImpl.updatePositionRestrictionForOrg(orgPositionRestrictionInfo);
+    }
+
+    public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo) {
+        return serviceImpl.updateOrgOrgRelation(orgOrgRelationInfo);
+    }
+	
 	
 }

@@ -2,6 +2,15 @@ package org.kuali.student.core.organization.web.client.service;
 
 import java.util.List;
 
+import javax.jws.WebParam;
+
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -30,8 +39,12 @@ public interface OrgRemoteService {
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes();
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes();
     public List<OrgTypeInfo> getOrgTypes();
-    public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId);    
-    
+    public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId);
+       
     public OrgPositionRestrictionInfo addPositionRestrictionToOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
     public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels);
+
+    public OrgInfo updateOrganization(OrgInfo orgInfo);
+    public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(OrgPositionRestrictionInfo orgPositionRestrictionInfo);
+    public OrgOrgRelationInfo updateOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo);
 }
