@@ -5,6 +5,7 @@ import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
@@ -13,13 +14,14 @@ import com.google.gwt.visualization.client.visualizations.OrgChart;
 import com.google.gwt.visualization.client.visualizations.OrgChart.Options;
 
 public class OrgChartWidget extends Composite {
-	SimplePanel root = new SimplePanel();
+	ScrollPanel root = new ScrollPanel();
 	String orgId;
 	String hierarchyId;
 	int maxLevels;
 	
 	public OrgChartWidget(String orgId, String hierarchyId, int maxLevels) {
 		super.initWidget(root);
+		root.setStyleName("ks-orgChart");
 		this.orgId=orgId;
 		this.hierarchyId=hierarchyId;
 		this.maxLevels=maxLevels;

@@ -5,11 +5,13 @@ BODY
 	margin-top: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
+	text-align: center;
 }
 
 .ks-main {	
 	width: 800px;
-	padding-left: 5px;	
+	padding-left: 5px;
+	margin:0 auto;
 }
 
 .gwt-TextBox {
@@ -67,6 +69,15 @@ BODY
 	margin-bottom: 20px;
 	padding: 5px;
 	background-color: #e8e8e8; 
+}
+
+.ks-orgChart{
+	width: 1024px; 
+	border-style: solid;
+	border-color: #ae1c27;
+	border-width: 1;
+	background: #FFFFFF;
+	padding: 5px;	
 }
 
 .ks-position {		

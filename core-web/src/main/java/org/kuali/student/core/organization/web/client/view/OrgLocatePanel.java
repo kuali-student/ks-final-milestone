@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,7 +44,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class OrgLocatePanel extends Composite{
 
-    VerticalPanel vPanel = new VerticalPanel();
+    VerticalPanel root = new VerticalPanel();
     VerticalPanel browsePanel;
     
     SimplePanel orgChart;
@@ -58,14 +59,14 @@ public class OrgLocatePanel extends Composite{
     boolean loaded = false;
         
     public OrgLocatePanel(){
-        super.initWidget(vPanel);
+        super.initWidget(root);
     }
   
     protected void onLoad(){
-        vPanel.setWidth("100%");
-        vPanel.add(createLocateMenu());
-        vPanel.add(new SectionLabel("Browse Organizations"));
-        vPanel.add(results);
+        root.setWidth("100%");
+        root.add(createLocateMenu());
+        root.add(new SectionLabel("Browse Organizations"));
+        root.add(results);
         
         getBrowseResults();
     }
@@ -87,10 +88,12 @@ public class OrgLocatePanel extends Composite{
     private void getBrowseResults() {
         browsePanel = new VerticalPanel();
         browsePanel.setStyleName("ks-section");
+        browsePanel.setWidth("100%");
         
-        orgList = new HorizontalPanel();
-
+        orgList = new HorizontalPanel();        
         orgChart = new SimplePanel();
+        orgChart.setVisible(false);
+        
         OrgRpcService.Util.getInstance().getOrgHierarchies(new AsyncCallback<List<OrgHierarchyInfo>>(){
             public void onFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -108,7 +111,14 @@ public class OrgLocatePanel extends Composite{
         });
 
         browsePanel.add(orgList);
-        browsePanel.add(orgChart);
+
+        //wrap org chart in vertical panel
+        VerticalPanel vPanel = new VerticalPanel();
+        vPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+        vPanel.setWidth("100%");
+        vPanel.add(orgChart);        
+        browsePanel.add(vPanel);
+        
         results.setWidget(browsePanel);
     }
     
@@ -171,6 +181,7 @@ public class OrgLocatePanel extends Composite{
                     }
                     getOrgChildren(orgId);
                     orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,3)));
+                    orgChart.setVisible(true);
             }});
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");
@@ -206,7 +217,7 @@ public class OrgLocatePanel extends Composite{
         }
         
         public void onClick(Widget sender) {
-            SimplePanel workPanel  = (SimplePanel)vPanel.getParent().getParent();
+            SimplePanel workPanel  = (SimplePanel)root.getParent().getParent();
             OrgCreatePanel orgCreatePanel = new OrgCreatePanel(orgPanelType);
             orgCreatePanel.setOrgId(orgId);
             workPanel.setWidget(orgCreatePanel);            
