@@ -1,5 +1,6 @@
 package org.kuali.student.rules.ruleexecution.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,7 +19,7 @@ public class AgendaExecutionResultDTO {
     private Boolean executionResult = Boolean.FALSE;
 
     @XmlElement
-    private List<ExecutionResultDTO> executionResultList;
+    private List<ExecutionResultDTO> executionResultList = new ArrayList<ExecutionResultDTO>();
 
     /**
      * Constructor

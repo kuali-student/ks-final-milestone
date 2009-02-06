@@ -15,6 +15,7 @@
  */
 package org.kuali.student.rules.ruleexecution.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebMethod;
@@ -28,9 +29,9 @@ import org.kuali.student.poc.common.ws.exceptions.DoesNotExistException;
 import org.kuali.student.poc.common.ws.exceptions.InvalidParameterException;
 import org.kuali.student.poc.common.ws.exceptions.MissingParameterException;
 import org.kuali.student.poc.common.ws.exceptions.OperationFailedException;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 /**
@@ -60,9 +61,9 @@ public interface RuleExecutionService {
 	 */
     @WebMethod
     public AgendaExecutionResultDTO executeAgenda(
-    		@WebParam(name="agenda")String agendaId, 
-    		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
-    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+			@WebParam(name="businessRuleAnchorInfoList") List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList,
+			@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Executes a business rule by <code>businessRuleId</code> with a 
