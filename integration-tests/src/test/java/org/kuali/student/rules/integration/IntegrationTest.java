@@ -33,7 +33,6 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
-import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
@@ -50,8 +49,6 @@ import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
-import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
@@ -61,7 +58,6 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
-
 import org.kuali.student.poc.common.test.spring.AbstractIntegrationServiceTest;
 import org.kuali.student.poc.common.test.spring.IntegrationServer;
 import org.kuali.student.poc.common.test.spring.SystemProperties;
@@ -808,6 +804,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
         System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
 
+        Assert.assertTrue(executionResult.isExecutionSuccessful());
+        Assert.assertTrue(executionResult.getReport().isSuccessful());
+
         // Test proposition reports
         Assert.assertEquals(3, executionResult.getReport().getPropositionReports().size());
 
@@ -861,12 +860,14 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	@Test
 	public void testCreateAndExecuteAgenda_OneBusinessRule() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact2  *****");
+    	System.out.println("\n\n*****  testCreateAndExecuteAgenda_OneBusinessRule  *****");
     	// Update business rule to create a compiled/executable rule
     	String businessRuleId = "11223344-1122-1122-1112-100000000011";
     	BusinessRuleInfoDTO businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-    	businessRule = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
-    	businessRule = ruleManagementService.updateBusinessRuleState(businessRuleId, BusinessRuleStatus.ACTIVE.toString());
+    	if (!businessRule.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
+	    	businessRule = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+	    	businessRule = ruleManagementService.updateBusinessRuleState(businessRuleId, BusinessRuleStatus.ACTIVE.toString());
+    	}
 
 //        Map<String, String> agendaDeterminationMap = new HashMap<String, String>();
 //        agendaDeterminationMap.put("agendaDeterminationInfo.luiType", "course");
@@ -889,10 +890,14 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         exectionParamMap.put("factParam.studentId", "student1");
 
 		AgendaExecutionResultDTO agendaExecutionResult = ruleExecutionService.executeAgenda(businessRuleAnchorInfoList, exectionParamMap);
-        
-        Assert.assertTrue(agendaExecutionResult.getExecutionResult());
+
+        Assert.assertTrue(agendaExecutionResult.isExecutionSuccessful());
+        Assert.assertFalse(agendaExecutionResult.isAgendaReportSuccessful());
         Assert.assertNotNull(agendaExecutionResult);
         Assert.assertEquals(1, agendaExecutionResult.getExecutionResultList().size());
+
+        Assert.assertEquals("Sum is short by 3.0", agendaExecutionResult.getFailureMessageSummary());
+        Assert.assertNull(agendaExecutionResult.getSuccessMessageSummary());
 
         // This agenda only has one rule
         ExecutionResultDTO ruleResult = agendaExecutionResult.getExecutionResultList().get(0);
@@ -913,5 +918,64 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		Assert.assertFalse(propositionReport2.isSuccessful());
 		Assert.assertEquals(YieldValueFunctionType.SUM.toString(), propositionReport2.getPropositionType());
 		Assert.assertEquals("Sum is short by 3.0", propositionReport2.getFailureMessage());
+	}
+
+	@Test
+	public void testCreateAndExecuteAgenda_TwoBusinessRule() throws Exception {
+    	System.out.println("\n\n*****  testCreateAndExecuteAgenda_TwoBusinessRule  *****");
+    	// Update business rule to change state to ACTIVE and compile an executable rule
+    	String businessRuleId1 = "11223344-1122-1122-1112-100000000011";
+    	BusinessRuleInfoDTO businessRule1 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId1);
+    	if (!businessRule1.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
+	    	businessRule1 = ruleManagementService.updateBusinessRule(businessRuleId1, businessRule1);
+	    	businessRule1 = ruleManagementService.updateBusinessRuleState(businessRuleId1, BusinessRuleStatus.ACTIVE.toString());
+    	}
+    	// Update business rule to change state to ACTIVE and compile an executable rule
+    	String businessRuleId2 = "11223344-1122-1122-1112-100000000032";
+    	BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId2);
+    	if (!businessRule2.getState().equals(BusinessRuleStatus.ACTIVE.toString())) {
+	    	businessRule2 = ruleManagementService.updateBusinessRule(businessRuleId2, businessRule2);
+	    	businessRule2 = ruleManagementService.updateBusinessRuleState(businessRuleId2, BusinessRuleStatus.ACTIVE.toString());
+    	}
+
+        List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList = new ArrayList<BusinessRuleAnchorInfoDTO>();
+        
+        BusinessRuleAnchorInfoDTO anchorInfo1 = new BusinessRuleAnchorInfoDTO();
+        anchorInfo1.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        anchorInfo1.setAnchorValue("MATH 101");
+        anchorInfo1.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        businessRuleAnchorInfoList.add(anchorInfo1);
+
+        BusinessRuleAnchorInfoDTO anchorInfo2 = new BusinessRuleAnchorInfoDTO();
+        anchorInfo2.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        anchorInfo2.setAnchorValue("PSYC 300");
+        anchorInfo2.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        businessRuleAnchorInfoList.add(anchorInfo2);
+        
+        Map<String, String> exectionParamMap = new HashMap<String, String>();
+        exectionParamMap.put("factParam.studentId", "student1");
+
+		AgendaExecutionResultDTO agendaExecutionResult = ruleExecutionService.executeAgenda(businessRuleAnchorInfoList, exectionParamMap);
+
+        Assert.assertTrue(agendaExecutionResult.isExecutionSuccessful());
+        Assert.assertFalse(agendaExecutionResult.isAgendaReportSuccessful());
+        Assert.assertNotNull(agendaExecutionResult);
+        // This agenda has 2 business rules
+        Assert.assertEquals(2, agendaExecutionResult.getExecutionResultList().size());
+
+        Assert.assertNotNull(agendaExecutionResult.getSuccessMessageSummary());
+        Assert.assertNotNull(agendaExecutionResult.getFailureMessageSummary());
+        Assert.assertEquals("Sum is short by 3.0", agendaExecutionResult.getFailureMessageSummary());
+        Assert.assertEquals("Intersection constraint fulfilled OR Intersection constraint fulfilled OR Sum constraint fulfilled", agendaExecutionResult.getSuccessMessageSummary());
+
+        // Rule 1
+        ExecutionResultDTO ruleResult1 = agendaExecutionResult.getExecutionResultList().get(0);
+        Assert.assertTrue(ruleResult1.isExecutionSuccessful());
+        Assert.assertFalse(ruleResult1.getReport().isSuccessful());
+
+        // Rule 2
+        ExecutionResultDTO ruleResult2 = agendaExecutionResult.getExecutionResultList().get(1);
+        Assert.assertTrue(ruleResult2.isExecutionSuccessful());
+        Assert.assertTrue(ruleResult2.getReport().isSuccessful());
 	}
 }

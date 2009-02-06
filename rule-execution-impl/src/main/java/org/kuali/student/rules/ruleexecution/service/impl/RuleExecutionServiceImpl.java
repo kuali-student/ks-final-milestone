@@ -16,7 +16,6 @@
 package org.kuali.student.rules.ruleexecution.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,18 +46,13 @@ import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.ruleexecution.dto.RuleReportDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
-import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -227,6 +221,51 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	exeDTO.setReport(reportDTO);
     	
     	return exeDTO;
+    }
+
+    private AgendaExecutionResultDTO createAgendaExecutionResult(List<ExecutionResultDTO> executionResultList) {
+    	AgendaExecutionResultDTO agendaExecutionResult = new AgendaExecutionResultDTO();
+
+    	// Clear execution level fact finder caching
+    	this.factFinderCache.clear();
+    	//this.factFinderTypeCache.clear();
+
+    	StringBuilder successMessageSummary = new StringBuilder();
+    	StringBuilder failureMessageSummary = new StringBuilder();
+    	Boolean reportSucccessful = Boolean.TRUE;
+    	Boolean executionSucccessful = Boolean.TRUE;
+    	
+    	for(ExecutionResultDTO executionResult : executionResultList) {
+    		agendaExecutionResult.addExecutionResult(executionResult);
+    		reportSucccessful = reportSucccessful && executionResult.getReport().isSuccessful();
+    		executionSucccessful = executionSucccessful && executionResult.isExecutionSuccessful();
+    		String success = executionResult.getReport().getSuccessMessage();
+    		if(success != null && !success.trim().isEmpty()) {
+	    		successMessageSummary.append(executionResult.getReport().getSuccessMessage());
+	    		successMessageSummary.append("\n");
+    		}
+    		String failure = executionResult.getReport().getFailureMessage();
+    		if(failure != null && !failure.trim().isEmpty()) {
+	    		failureMessageSummary.append(executionResult.getReport().getFailureMessage());
+	    		failureMessageSummary.append("\n");
+    		}
+    	}
+
+    	successMessageSummary.trimToSize();
+		if (successMessageSummary != null && successMessageSummary.length() > 0) {
+			String success = successMessageSummary.substring(0, successMessageSummary.length()-1);
+			agendaExecutionResult.setSuccessMessageSummary(success);
+		}
+		failureMessageSummary.trimToSize();
+		if (failureMessageSummary != null && failureMessageSummary.length() > 0) {
+			String failure = failureMessageSummary.substring(0, failureMessageSummary.length()-1);
+			agendaExecutionResult.setFailureMessageSummary(failure);
+		}
+
+		agendaExecutionResult.setAgendaReportSuccessful(reportSucccessful);
+        agendaExecutionResult.setExecutionSuccessful(executionSucccessful);
+
+    	return agendaExecutionResult;
     }
 
     /**
@@ -407,20 +446,17 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	// Retrieve ACTIVE business rule
     	List<BusinessRuleInfoDTO> businessRuleInfoList = this.ruleManagementService.fetchBusinessRuleByAnchorList(businessRuleAnchorInfoList);
 
-    	AgendaExecutionResultDTO agendaExecutionResult = new AgendaExecutionResultDTO();
-
-    	// Clear execution level fact finder caching
+    	// Clear execution level fact finder cache
     	this.factFinderCache.clear();
     	//this.factFinderTypeCache.clear();
 
+    	List<ExecutionResultDTO> executionResultList = new ArrayList<ExecutionResultDTO>();
     	for(BusinessRuleInfoDTO businessRule : businessRuleInfoList) {
 	 		ExecutionResultDTO executionResult = executeBusinessRule(businessRule.getId(), executionParamMap);
-    		agendaExecutionResult.addExecutionResult(executionResult);
+	 		executionResultList.add(executionResult);
     	}
 
-        agendaExecutionResult.setExecutionResult(Boolean.TRUE);
-    	
-    	return agendaExecutionResult;
+    	return createAgendaExecutionResult(executionResultList);
 	}
 
     /**
@@ -448,7 +484,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 		addRuleSet(businessRule);
     	
-    	// Clear execution level fact finder caching
+    	// Clear execution level fact finder cache
     	this.factFinderCache.clear();
     	//this.factFinderTypeCache.clear();
 		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
