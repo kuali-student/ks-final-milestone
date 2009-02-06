@@ -2,11 +2,14 @@ package org.kuali.student.common.ws;
 
 import java.util.Enumeration;
 import java.util.Properties;
+
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -27,33 +30,36 @@ public class ServletWrappingController extends AbstractController implements
 	private String beanName;
 	private Servlet servletInstance;
 
+	private static org.apache.log4j.Logger log = Logger.getLogger(ServletWrappingController.class);
+
+	
 	public void setServletClass(Class<? extends Servlet> servletClass) {
-		System.out.print("setServletClass : " + servletClass);
+		log.info("setServletClass : " + servletClass);
 		this.servletClass = servletClass;
 	}
 
 	public void setServletName(String servletName) {
-		System.out.print("setServletName : " + servletName);
+		log.info("setServletName : " + servletName);
 		this.servletName = servletName;
 	}
 
 	public void setInitParameters(Properties initParameters) {
-		System.out.print("setInitParameters : " + initParameters);
+		log.info("setInitParameters : " + initParameters);
 		this.initParameters = initParameters;
 	}
 
 	public void setBeanName(String name) {
-		System.out.print("setBeanName : " + name);
+		log.info("setBeanName : " + name);
 		this.beanName = name;
 	}
 
 	public void setServletInstance(Servlet servletInstance) {
-		System.out.print("setServletInstance : " + servletInstance);
+		log.info("setServletInstance : " + servletInstance);
 		this.servletInstance = servletInstance;
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		System.out.print("afterPropertiesSet");
+		log.info("afterPropertiesSet");
 		if (this.servletInstance == null) {
 			throw new IllegalArgumentException("servletInstance is required");
 		}
@@ -70,13 +76,19 @@ public class ServletWrappingController extends AbstractController implements
 
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		System.out.print("handleRequestInternal");
-		this.servletInstance.service(request, response);
+		log.info("handleRequestInternal");
+		try{
+			this.servletInstance.service(request, response);
+		}catch(Exception e){
+			log.error(e.getMessage());
+			throw e;
+		}
+		
 		return null;
 	}
 
 	public void destroy() {
-		System.out.print("destroy");
+		log.info("destroy");
 		this.servletInstance.destroy();
 	}
 
