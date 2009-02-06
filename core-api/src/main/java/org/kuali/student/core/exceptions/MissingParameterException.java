@@ -1,12 +1,10 @@
 package org.kuali.student.core.exceptions;
 
-import javax.xml.ws.WebFault;
-
-@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.MissingParameterExceptionBean")
+//@WebFault(faultBean="org.kuali.student.core.exceptions.jaxws.MissingParameterExceptionBean")
 public class MissingParameterException extends Exception {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -17,5 +15,4 @@ public class MissingParameterException extends Exception {
     public MissingParameterException(String message) {
         super(message);
     }
-
 }

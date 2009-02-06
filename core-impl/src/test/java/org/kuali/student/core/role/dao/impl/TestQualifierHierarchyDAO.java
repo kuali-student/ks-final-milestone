@@ -2,21 +2,18 @@ package org.kuali.student.core.role.dao.impl;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.core.role.entity.Qualifier;
-import org.kuali.student.core.role.entity.QualifierHierarchy;
-import org.kuali.student.core.role.entity.QualifierType;
-import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
-import org.kuali.student.core.role.dao.QualifierHierarchyDAOLoader;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.springframework.test.annotation.Rollback;
+import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
+import org.kuali.student.core.role.dao.QualifierHierarchyDAOLoader;
+import org.kuali.student.core.role.entity.Qualifier;
+import org.kuali.student.core.role.entity.QualifierHierarchy;
 
 @PersistenceFileLocation("classpath:META-INF/role-persistence.xml")
 public class TestQualifierHierarchyDAO extends AbstractTransactionalDaoTest {

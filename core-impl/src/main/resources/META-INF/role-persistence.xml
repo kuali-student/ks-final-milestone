@@ -7,5 +7,7 @@
 		<class>org.kuali.student.core.role.entity.Qualifier</class>
 		<class>org.kuali.student.core.role.entity.QualifierHierarchy</class>
 		<class>org.kuali.student.core.role.entity.QualifierType</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

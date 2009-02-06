@@ -9,9 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,6 +25,9 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KS_ORG_T")
+@NamedQueries({
+	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)")
+})
 public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	
 	@Id
@@ -52,14 +58,24 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
     @JoinColumn(name="ORG_TYPE")
 	private OrgType type; 
 	
+	@ManyToMany
+	@JoinTable(
+	        name="KS_ORG_ORG_PERS_REL_TYPE_T",
+	        joinColumns=
+	            @JoinColumn(name="ORG_KEY", referencedColumnName="ORG_ID"),
+	        inverseJoinColumns=
+	            @JoinColumn(name="ORG_PERSON_RELATION_TYPE_KEY", referencedColumnName="OPRT_KEY")
+	    )
+	private List<OrgPersonRelationType> orgPersonRelationTypes;
+
 	@Column(name = "ORG_STATE")
 	private String state;
 	
 	/**
 	 * AutoGenerate the Id
 	 */
-	@PrePersist
-	public void prePersist() {
+	@Override
+	public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 
@@ -140,4 +156,14 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 		this.state = state;
 	} 
 	
+	public List<OrgPersonRelationType> getOrgPersonRelationTypes() {
+		if (null == orgPersonRelationTypes) {
+			orgPersonRelationTypes = new ArrayList<OrgPersonRelationType>();
+		}
+		return orgPersonRelationTypes;
+	}
+
+	public void setOrgPersonRelationTypes(List<OrgPersonRelationType> orgPersonRelationTypes) {
+		this.orgPersonRelationTypes = orgPersonRelationTypes;
+	}
 }

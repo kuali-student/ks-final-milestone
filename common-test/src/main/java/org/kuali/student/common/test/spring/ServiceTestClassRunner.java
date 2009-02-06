@@ -143,7 +143,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			if (daos != null) {
 				int i = 1;
 				for (Dao dao : daos.value()) {
-					daoImpls += dao.value() + "|" + dao.testDataFile();
+					daoImpls += dao.value() + "|" + dao.testDataFile() +"|" + dao.testSqlFile()  ;
 					if (i < daos.value().length) {
 						daoImpls += ",";
 					}

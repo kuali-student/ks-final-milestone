@@ -1,5 +1,6 @@
 package org.kuali.student.core.organization.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,16 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationCriteria;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgHierarchy;
+import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgOrgRelationType;
+import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelationType;
+import org.kuali.student.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -52,8 +62,34 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (orgPersonRelationTypeKey == null) {
+			throw new MissingParameterException("orgPersonRelationTypeKey can not be null");
+		} else if (orgPositionRestrictionInfo == null) {
+			throw new MissingParameterException("orgPositionRestrictionInfo can not be null");
+		}
+		
+		//Set all the values on OrgOrgRelationInfo
+		orgPositionRestrictionInfo.setOrgId(orgId);
+		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
+
+		OrgPositionRestriction orgPositionRestriction = null;
+		
+		//Create a new persistence entity from the Info
+		try {
+			orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(false, orgPositionRestrictionInfo, organizationDao);
+		} catch (VersionMismatchException e) {
+		}
+		
+		//Persist the positionRestriction
+		organizationDao.create(orgPositionRestriction);
+
+		//Copy back to an OrgOrgRelationInfo and return
+		OrgPositionRestrictionInfo createdOrgPositionRestrictionInfo = OrganizationAssembler.toOrgPositionRestrictionInfo(orgPositionRestriction);
+		return createdOrgPositionRestrictionInfo;
 	}
 
 	@Override
@@ -64,8 +100,37 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (relatedOrgId == null) {
+			throw new MissingParameterException("relatedOrgId can not be null");
+		} else if (orgOrgRelationTypeKey == null) {
+			throw new MissingParameterException("orgOrgRelationTypeKey can not be null");
+		} else if (orgOrgRelationInfo == null) {
+			throw new MissingParameterException("orgOrgRelationInfo can not be null");
+		}
+
+		//Set all the values on OrgOrgRelationInfo
+		orgOrgRelationInfo.setOrgId(orgId);
+		orgOrgRelationInfo.setRelatedOrgId(relatedOrgId);
+		orgOrgRelationInfo.setType(orgOrgRelationTypeKey);
+
+		OrgOrgRelation orgOrgRelation = null;
+
+		//Create a new persistence entity from the orgInfo
+		try {
+			orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(false, orgOrgRelationInfo, organizationDao);
+		} catch (VersionMismatchException e) {
+		}
+
+		//Persist the orgOrgRelation
+		organizationDao.create(orgOrgRelation);
+
+		//Copy back to an OrgOrgRelationInfo and return
+		OrgOrgRelationInfo createdOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(orgOrgRelation);
+		return createdOrgOrgRelationInfo;
 	}
 
 	@Override
@@ -76,8 +141,42 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (personId == null) {
+			throw new MissingParameterException("personId can not be null");
+		} else if (orgPersonRelationTypeKey == null) {
+			throw new MissingParameterException("orgPersonRelationTypeKey can not be null");
+		} else if (orgPersonRelationInfo == null) {
+			throw new MissingParameterException("orgPersonRelationInfo can not be null");
+		}
+
+		//Make sure that only valid org person relations are done
+		if(!organizationDao.validatePositionRestriction(orgId,orgPersonRelationTypeKey)){
+			throw new InvalidParameterException("There is no Position for this relationship");
+		}
+
+		//Set all the values on OrgOrgRelationInfo
+		orgPersonRelationInfo.setOrgId(orgId);
+		orgPersonRelationInfo.setPersonId(personId);
+		orgPersonRelationInfo.setType(orgPersonRelationTypeKey);
+
+		OrgPersonRelation orgPersonRelation = null;
+
+		//Create a new persistence entity from the orgInfo
+		try {
+			orgPersonRelation = OrganizationAssembler.toOrgPersonRelation(false, orgPersonRelationInfo, organizationDao);
+		} catch (VersionMismatchException e) {
+		}
+
+		//Persist the orgPersonRelation
+		organizationDao.create(orgPersonRelation);
+
+		//Copy back to an orgPersonRelationInfo and return
+		OrgPersonRelationInfo createdOrgPersonRelationInfo = OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation);
+		return createdOrgPersonRelationInfo;
 	}
 
 	@Override
@@ -85,14 +184,34 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub Echo
+
+		//Check Missing params
 		if (orgTypeKey == null) {
 			throw new MissingParameterException("orgTypeKey can not be null");
 		} else if (orgInfo == null) {
 			throw new MissingParameterException("orgInfo can not be null");
 		}
+
+		//Set all the values on orgInfo
 		orgInfo.setType(orgTypeKey);
-		return orgInfo;
+
+		Org org = null;
+
+		//Create a new persistence entity from the orgInfo
+		try {
+			org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
+		} catch (DoesNotExistException e) {
+			//TODO DoesNotExistException exception should be thrown by the service?
+		} catch (VersionMismatchException e) {
+		}
+
+		//Persist the org
+		organizationDao.create(org);
+
+		//Copy back to an orgInfo and return
+		OrgInfo createdOrgInfo = OrganizationAssembler.toOrgInfo(org);
+		return createdOrgInfo;
+
 	}
 
 	@Override
@@ -100,16 +219,31 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if(orgId==null){
+			throw new MissingParameterException("orgId can not be null");
+		}
+
+		Org org = organizationDao.fetch(Org.class, orgId);
+
+		if(org==null){
+			throw new DoesNotExistException("Org does not exist for id: "+orgId);
+		}
+
+		organizationDao.delete(org);
+
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		return statusInfo;
 	}
 
 	@Override
 	public List<String> getAllDescendants(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Exception Handling
+		List<String> descendants = this.organizationDao.getAllDescendants(orgId, orgHierarchy);
+		return descendants;
 	}
 
 	@Override
@@ -117,8 +251,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgPersonRelationInfos(organizationDao.getAllOrgPersonRelationsByOrg(orgId));
 	}
 
 	@Override
@@ -126,8 +259,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String personId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelation> orgPersonRelationInfo = organizationDao.getAllOrgPersonRelationsByPerson(personId);
+		return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelationInfo);
 	}
 
 	@Override
@@ -141,16 +274,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<OrgHierarchyInfo> getOrgHierarchies()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO flush out exceptions
+		return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
+
 	}
 
 	@Override
 	public OrgHierarchyInfo getOrgHierarchy(String orgHierarchyKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgHierarchyInfo(organizationDao.fetch(OrgHierarchy.class, orgHierarchyKey));
 	}
 
 	@Override
@@ -158,8 +291,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (orgOrgRelationId == null) {
+			throw new MissingParameterException("orgOrgRelationId can not be null");
+		}
+
+		return OrganizationAssembler.toOrgOrgRelationInfo(organizationDao.fetch(OrgOrgRelation.class, orgOrgRelationId));
+
 	}
 
 	@Override
@@ -167,15 +304,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgOrgRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgOrgRelationTypeInfo(organizationDao.fetch(OrgOrgRelationType.class, orgOrgRelationTypeKey));
 	}
 
 	@Override
 	public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.find(OrgOrgRelationType.class);
+		return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
 	}
 
 	@Override
@@ -183,8 +319,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgHierarchyKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgHierarchy(orgHierarchyKey);
+		return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
 	}
 
 	@Override
@@ -192,8 +328,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgType(orgTypeKey);
+		return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
 	}
 
 	@Override
@@ -201,8 +337,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			List<String> orgOrgRelationIdList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByIdList(orgOrgRelationIdList);
+		return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
 	}
 
 	@Override
@@ -210,8 +346,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Flush out exceptions
+		List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByOrg(orgId);
+		return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
 	}
 
 	@Override
@@ -219,8 +356,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String relatedOrgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByRelatedOrg(relatedOrgId);
+		return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
 	}
 
 	@Override
@@ -228,8 +365,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		OrgPersonRelation opr = organizationDao.fetch(OrgPersonRelation.class, orgPersonRelationId);
+		return OrganizationAssembler.toOrgPersonRelationInfo(opr);
 	}
 
 	@Override
@@ -237,15 +374,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		OrgPersonRelationType oprt = organizationDao.fetch(OrgPersonRelationType.class, orgPersonRelationTypeKey);
+		return OrganizationAssembler.toOrgPersonRelationTypeInfo(oprt);
 	}
 
 	@Override
 	public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
+		return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
 	}
 
 	@Override
@@ -253,8 +390,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelationType> oprts = organizationDao.getOrgPersonRelationTypesForOrgType(orgTypeKey);
+		return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
 	}
 
 	@Override
@@ -262,8 +399,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			List<String> orgPersonRelationIdList) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelation> oprts = organizationDao.getOrgPersonRelationsByIdList(orgPersonRelationIdList);
+		return OrganizationAssembler.toOrgPersonRelationInfos(oprts);
 	}
 
 	@Override
@@ -271,8 +408,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelation> relations = organizationDao.getAllOrgPersonRelationsByOrg(orgId);
+		return OrganizationAssembler.toOrgPersonRelationInfos(relations);
 	}
 
 	@Override
@@ -280,30 +417,27 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String personId, String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPersonRelation> oprts = organizationDao.getOrgPersonRelationsByPerson(personId, orgId);
+		return OrganizationAssembler.toOrgPersonRelationInfos(oprts);
 	}
 
 	@Override
 	public OrgTypeInfo getOrgType(String orgTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgTypeInfo(organizationDao.fetch(OrgType.class, orgTypeKey));
 	}
 
 	@Override
 	public List<OrgTypeInfo> getOrgTypes() throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgTypeInfos(organizationDao.find(OrgType.class));
 	}
 
 	@Override
 	public OrgInfo getOrganization(String orgId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return OrganizationAssembler.toOrgInfo(organizationDao.fetch(Org.class, orgId));
 	}
 
 	@Override
@@ -311,8 +445,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Org> orgs = this.organizationDao.getOrganizationsByIdList(orgIdList);
+		return OrganizationAssembler.toOrgInfos(orgs);
 	}
 
 	@Override
@@ -330,8 +464,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, PermissionDeniedException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<OrgPositionRestriction> restrictions = organizationDao.getPositionRestrictionsByOrg(orgId);
+		return OrganizationAssembler.toOrgPositionRestrictionInfos(restrictions);
 	}
 
 	@Override
@@ -366,8 +500,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (orgOrgRelationId == null) {
+			throw new MissingParameterException("orgOrgRelationId can not be null");
+		}
+		organizationDao.delete(OrgOrgRelation.class, orgOrgRelationId);
+		return new StatusInfo();
 	}
 
 	@Override
@@ -375,8 +512,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		if (orgPersonRelationId == null) {
+			throw new MissingParameterException("orgPersonRelationId can not be null");
+		}
+		organizationDao.delete(OrgPersonRelation.class, orgPersonRelationId);
+		return new StatusInfo();
 	}
 
 	@Override
@@ -431,8 +571,28 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		//Check Missing params
+		if (orgOrgRelationId == null) {
+			throw new MissingParameterException("orgOrgRelationId can not be null");
+		} else if (orgOrgRelationInfo == null) {
+			throw new MissingParameterException("relatedOrgId can not be null");
+		}
+
+		//Set all the values on OrgOrgRelationInfo
+		orgOrgRelationInfo.setId(orgOrgRelationId);
+		
+		OrgOrgRelation orgOrgRelation = null;
+		
+		//Update the persistence entity from the Info
+		orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(true, orgOrgRelationInfo, organizationDao);
+
+		//Update the orgOrgRelation
+		OrgOrgRelation updatedOrgOrgRelation = organizationDao.update(orgOrgRelation);
+
+		//Copy back to an OrgOrgRelationInfo and return
+		OrgOrgRelationInfo updatedOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(updatedOrgOrgRelation);
+		return updatedOrgOrgRelationInfo;
+		
 	}
 
 	@Override
@@ -443,8 +603,32 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		//Check Missing params
+		if (orgPersonRelationId == null) {
+			throw new MissingParameterException("orgPersonRelationId can not be null");
+		} else if (orgPersonRelationInfo == null) {
+			throw new MissingParameterException("orgPersonRelationInfo can not be null");
+		}
+
+		//Make sure that only valid org person relations are done
+		if(!organizationDao.validatePositionRestriction(orgPersonRelationInfo.getOrgId(),orgPersonRelationInfo.getType())){
+			throw new InvalidParameterException("There is no Position for this relationship");
+		}
+
+		//Set all the values on OrgPersonRelationInfo
+		orgPersonRelationInfo.setId(orgPersonRelationId);
+
+		OrgPersonRelation orgPersonRelation = null;
+
+		//Update persistence entity from the orgInfo
+		orgPersonRelation = OrganizationAssembler.toOrgPersonRelation(true, orgPersonRelationInfo, organizationDao);
+
+		//Update the orgPersonRelation
+		orgPersonRelation = organizationDao.update(orgPersonRelation);
+
+		//Copy back to an orgPersonRelationInfo and return
+		OrgPersonRelationInfo createdOrgPersonRelationInfo = OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation);
+		return createdOrgPersonRelationInfo;
 	}
 
 	@Override
@@ -453,8 +637,29 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (orgInfo == null) {
+			throw new MissingParameterException("orgInfo can not be null");
+		}
+
+		//Set all the values on orgInfo
+		orgInfo.setId(orgId);
+
+		Org org = null;
+
+		//Update persistence entity from the orgInfo
+		org = OrganizationAssembler.toOrg(true, orgInfo, organizationDao);
+		
+		//Update the org
+		Org updatedOrg = organizationDao.update(org);
+
+		//Copy back to an orgInfo and return
+		OrgInfo updatedOrgInfo = OrganizationAssembler.toOrgInfo(updatedOrg);
+		return updatedOrgInfo;
+
 	}
 
 	@Override
@@ -465,8 +670,31 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (orgPersonRelationTypeKey == null) {
+			throw new MissingParameterException("orgPersonRelationTypeKey can not be null");
+		} else if (orgPositionRestrictionInfo == null) {
+			throw new MissingParameterException("orgPositionRestrictionInfo can not be null");
+		}
+		
+		//Set all the values on OrgOrgRelationInfo
+		orgPositionRestrictionInfo.setOrgId(orgId);
+		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
+
+		OrgPositionRestriction orgPositionRestriction = null;
+		
+		//Update persistence entity from the Info
+		orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(true, orgPositionRestrictionInfo, organizationDao);
+	
+		//Update the positionRestriction
+		OrgPositionRestriction updated = organizationDao.update(orgPositionRestriction);
+
+		//Copy back to an OrgOrgRelationInfo and return
+		OrgPositionRestrictionInfo updatedOrgPositionRestrictionInfo = OrganizationAssembler.toOrgPositionRestrictionInfo(updated);
+		return updatedOrgPositionRestrictionInfo;
 	}
 
 	@Override
@@ -609,6 +837,32 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String info) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<OrgTreeInfo> getOrgTree(String rootOrgId,
+			String orgHierarchyId, int maxLevels) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		
+		List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
+		Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
+		results.add(new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName()));
+		results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
+		return results;
+	}
+
+	private List<OrgTreeInfo> parseOrgTree(String rootOrgId,
+			String orgHierarchyId, int maxLevels, int currentLevel) {
+		List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
+		if(maxLevels==0||currentLevel<maxLevels){
+			List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId);
+			for(OrgTreeInfo orgTreeInfo:orgTreeInfos){
+				results.addAll(parseOrgTree(orgTreeInfo.getOrgId(),orgHierarchyId, maxLevels, currentLevel+1));
+			}
+			results.addAll(orgTreeInfos);
+		}
+		return results;
 	}
 
 }

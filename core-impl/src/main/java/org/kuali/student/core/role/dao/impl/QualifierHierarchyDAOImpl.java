@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.core.role.dao.QualifierHierarchyDAO;
 import org.kuali.student.core.role.entity.Qualifier;
 import org.kuali.student.core.role.entity.QualifierHierarchy;
@@ -16,7 +15,7 @@ import org.kuali.student.core.role.entity.QualifierType;
 
 public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 
-    private static final Logger LOG = Logger.getLogger(QualifierHierarchyDAOImpl.class);
+    //private static final Logger LOG = Logger.getLogger(QualifierHierarchyDAOImpl.class);
 
     @PersistenceContext(unitName = "Role")
     private EntityManager entityManager;
@@ -195,7 +194,8 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         return (Qualifier) query.getSingleResult();
     }
 
-    @Override
+
+	@Override
     public List<Qualifier> findRootQualifiers(String qhId) {
     	Query query;
     	if(qhId==null||"".equals(qhId)){
@@ -205,7 +205,9 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 			query.setParameter("qhId", qhId);
 		}
 
-    	return query.getResultList();
+        @SuppressWarnings("unchecked")
+    	List<Qualifier> resultList = query.getResultList();
+		return resultList;
     }
 
     @Override
@@ -219,7 +221,9 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         query.setParameter(1, qualifier.getLeftVisit());
         query.setParameter(2, qualifier.getRightVisit());
         query.setParameter(3, qualifier.getQualifierHierarchy().getId());
-        return query.getResultList();
+        @SuppressWarnings("unchecked")
+    	List<Qualifier> resultList = query.getResultList();
+		return resultList;
     }
 
     @Override
@@ -228,7 +232,9 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
         query.setParameter(1, qualifier.getLeftVisit());
         query.setParameter(2, qualifier.getRightVisit());
         query.setParameter(3, qualifier.getQualifierHierarchy().getId());
-        return query.getResultList();
+        @SuppressWarnings("unchecked")
+    	List<Qualifier> resultList = query.getResultList();
+		return resultList;
     }
 
 	@Override
@@ -243,7 +249,9 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 		}
 
 		query.setParameter("qid", qid);
-		return query.getResultList();
+        @SuppressWarnings("unchecked")
+    	List<Qualifier> resultList = query.getResultList();
+		return resultList;
 	}
 
 
@@ -255,14 +263,18 @@ public class QualifierHierarchyDAOImpl implements QualifierHierarchyDAO {
 	@Override
 	public List<QualifierType> findQualifierTypes() {
 		Query query = entityManager.createQuery("SELECT qt FROM QualifierType qt");
-		return query.getResultList();
+        @SuppressWarnings("unchecked")
+    	List<QualifierType> resultList = query.getResultList();
+		return resultList;
 	}
 
 
 	@Override
 	public List<QualifierHierarchy> findQualifierHierarchies() {
 		Query query = entityManager.createQuery("SELECT qh FROM QualifierHierarchy qh");
-		return query.getResultList();
+        @SuppressWarnings("unchecked")
+    	List<QualifierHierarchy> resultList = query.getResultList();
+		return resultList;
 	}
 
 	@Override

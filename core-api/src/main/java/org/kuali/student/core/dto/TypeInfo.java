@@ -13,23 +13,23 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class TypeInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
 	@XmlElement
-	private String name; 
+	private String name;
 	@XmlElement
-	private String desc; 
+	private String desc;
 
 	@XmlElement
-	private Date effectiveDate; 
+	private Date effectiveDate;
 	@XmlElement
-	private Date expirationDate; 
+	private Date expirationDate;
 	@XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
 	private Map<String, String> attributes;
 	@XmlAttribute
-	private String key; 
+	private String key;
 	public String getName(){
 		return name;
 	}
