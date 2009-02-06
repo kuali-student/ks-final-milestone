@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -180,7 +179,7 @@ public class OrgLocatePanel extends Composite{
                         activeHierarchyId = orgRootHierarchy.get(orgId);
                     }
                     getOrgChildren(orgId);
-                    orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,3)));
+                    orgChart.setWidget((new OrgChartWidget(orgId,activeHierarchyId,0)));
                     orgChart.setVisible(true);
             }});
             

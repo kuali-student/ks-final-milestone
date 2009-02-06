@@ -16,6 +16,7 @@ import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
@@ -209,52 +210,21 @@ public class OrgRpcServiceImpl implements OrgRpcService{
         return null;
     }
 
-	public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
-		//first get the Org info
-		String displayTree=null;
+	public List<OrgTreeInfo> getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
 		try {
-			OrgInfo org = service.getOrganization(orgId);
-			displayTree=org.getId()+","+org.getLongName()+",";
-			displayTree+=parseDescendantsForDisplay(orgId,orgHierarchy,maxLevels,0);
+			return service.getOrgTree(orgId, orgHierarchy, maxLevels);
 		} catch (DoesNotExistException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidParameterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MissingParameterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (OperationFailedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (PermissionDeniedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return displayTree;
-	}
-
-	private String parseDescendantsForDisplay(String parentOrgId, String orgHierarchy, int maxLevels, int currLevel) {
-		String displayTree="";
-		if(currLevel<maxLevels){
-			try {
-				List<String> orgIds=service.getAllDescendants(parentOrgId, orgHierarchy);
-				if(orgIds!=null){
-					for(String currentOrgId:orgIds){
-						OrgInfo org = service.getOrganization(currentOrgId);
-						displayTree+="|"+org.getId()+","+org.getLongName()+","+parentOrgId;
-					}
-					for(String currentOrgId:orgIds){
-						displayTree+=parseDescendantsForDisplay(currentOrgId, orgHierarchy, maxLevels, currLevel+1);
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-		}
-		return displayTree;
+		return null;
 	}
 
     public OrgInfo getOrganization(String orgId) {

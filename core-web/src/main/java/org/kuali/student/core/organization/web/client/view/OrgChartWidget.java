@@ -1,12 +1,14 @@
 package org.kuali.student.core.organization.web.client.view;
 
+import java.util.List;
+
+import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
@@ -31,32 +33,26 @@ public class OrgChartWidget extends Composite {
         Runnable onLoadCallback = new Runnable() {
             public void run() {
                 	
-            	OrgRpcService.Util.getInstance().getOrgDisplayTree(orgId, hierarchyId, maxLevels, new AsyncCallback<String>(){
+            	OrgRpcService.Util.getInstance().getOrgDisplayTree(orgId, hierarchyId, maxLevels, new AsyncCallback<List<OrgTreeInfo> >(){
  
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
 					}
 
-					public void onSuccess(String result) {
+					public void onSuccess(List<OrgTreeInfo>  results) {
 						DataTable data = DataTable.create();
 	                    data.addColumn(ColumnType.STRING, "Name");
 	                    data.addColumn(ColumnType.STRING, "Manager");
 
 						int lineCount=0;
-		               	//Result format is nodeId,nodeName,parentNodeId|nodeId,nodeName,parentNodeId|nodeId,nodeName,parentNodeId
-						for(String line:result.split("\\|")){
+
+						for(OrgTreeInfo orgTreeInfo:results){
 		               		
-							String[] values = line.split(",");
-		               		
-							String nodeId=values[0];
-		               		String nodeName=values[1];
-		               				               		
 		               		data.addRow();
-							data.setCell(lineCount, 0, nodeId, nodeName, null);
+							data.setCell(lineCount, 0, orgTreeInfo.getOrgId(), orgTreeInfo.getDisplayName(), null);
 			                
-							if(lineCount>0){
-			                	String nodeParentId=values[2];
-			                	data.setCell(lineCount, 1, nodeParentId, null, null);		               		
+							if(orgTreeInfo.getParentId()!=null && !"".equals(orgTreeInfo.getParentId())){
+			                	data.setCell(lineCount, 1, orgTreeInfo.getParentId(), null, null);		               		
 			                }
 			                
 							lineCount++;

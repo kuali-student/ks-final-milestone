@@ -8,6 +8,7 @@ import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
@@ -76,7 +77,7 @@ public class OrgRpcServiceGwt extends RemoteServiceServlet implements OrgRpcServ
         return serviceImpl.getPositionRestrictionsByOrg(orgId);
     }
            
-	public String getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
+	public List<OrgTreeInfo> getOrgDisplayTree(String orgId, String orgHierarchy, int maxLevels) {
 		return serviceImpl.getOrgDisplayTree(orgId, orgHierarchy, maxLevels);
 	}
 
