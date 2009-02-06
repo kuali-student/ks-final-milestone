@@ -51,7 +51,11 @@ import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleTypeInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
@@ -226,20 +230,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     }
 
     /**
-     * Creates the agenda rule execution result.
-     * 
-     * @param executionResult Agenda execution result
-     * @return Agenda execution result DTO
-     */
-    private AgendaExecutionResultDTO createAgendaExecutionResultDTO(AgendaExecutionResult executionResult) {
-    	AgendaExecutionResultDTO executionResultDTO = new AgendaExecutionResultDTO();
-    	for(ExecutionResult result : executionResult.getExecutionResultList()) {
-    		executionResultDTO.addExecutionResult(createExecutionResultDTO(result));
-    	}
-    	return executionResultDTO;
-    }
-
-    /**
      * Finds fact from the fact finder service.
      * Find fact uses execution level caching to keep the data retrieve from
      * the fact finder consistent in one rule execution.
@@ -287,9 +277,6 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
      */
     private Map<String, Object> createFactMap(BusinessRuleInfoDTO businessRule, Map<String,String> exectionParamMap) 
     	throws OperationFailedException, DoesNotExistException {
-    	// Clear execution level fact finder caching
-    	this.factFinderCache.clear();
-    	//this.factFinderTypeCache.clear();
     	
     	Map<String, Object> factMap = new HashMap<String, Object>();
 
@@ -377,8 +364,11 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		    			fs.setParamValueMap(paramMap);
 		    			fs.setResultColumnKeyTranslations(factStructure.getResultColumnKeyTranslations());
 						FactResultDTO factResult = findFact(factTypeKey, fs);
-		    	    	String factKey = FactUtil.createCriteriaKey(fs);
-		    			factMap.put(factKey, factResult);
+		    	    	String factKey = FactUtil.createFactKey(fs);
+		    			if(factMap.containsKey(factKey)) {
+		    				throw new OperationFailedException("Fact map alreay contains key '"+factKey+"'");
+		    			}
+		    	    	factMap.put(factKey, factResult);
 		    		}
 	    		}
     		}
@@ -392,41 +382,46 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     }
     
 	/**
-     * Executes an <code>agenda</code> with <code>exectionParamMap</code>.
-     * <code>exectionParamMap</code> must match the fact criteria type meta data.
+     * <p>Executes an agenda (list of business rules) with 
+     * <code>businessRuleAnchorInfoList</code> and <code>exectionParamMap</code>.
+     * </p>
+     * <code>businessRuleAnchorInfoList</code> contains all the information 
+     * to get actual business rule to execute.
+     * </br>
+     * <code>exectionParamMap</code> must match the fact criteria type 
+     * meta data for the business rules.
 	 * 
-     * @param agenda Agenda to execute
+     * @param businessRuleAnchorInfoList Business rule anchor list
      * @param exectionParamMap Execution fact parameter map
 	 * @return Result of executing the agenda
-     * @throws DoesNotExistException Thrown if agenda does not exist
-     * @throws InvalidParameterException Thrown if agenda is invalid
-     * @throws MissingParameterException Thrown if agenda is null or has missing parameters
+     * @throws DoesNotExistException Thrown if business rules do not exist
+     * @throws InvalidParameterException Thrown if parameters are invalid
+     * @throws MissingParameterException Thrown if parameters are missing parameters
      * @throws OperationFailedException Thrown if execution fails
 	 */
-    public AgendaExecutionResultDTO executeAgenda(final String agendaId, final Map<String,String> exectionParamMap) 
-    	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
-    {
-    	if (agendaId == null) {
-    		throw new MissingParameterException("Agenda is null");
+    public AgendaExecutionResultDTO executeAgenda(
+    		final List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList,
+    		final Map<String,String> executionParamMap)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+	{
+    	// Retrieve ACTIVE business rule
+    	List<BusinessRuleInfoDTO> businessRuleInfoList = this.ruleManagementService.fetchBusinessRuleByAnchorList(businessRuleAnchorInfoList);
+
+    	AgendaExecutionResultDTO agendaExecutionResult = new AgendaExecutionResultDTO();
+
+    	// Clear execution level fact finder caching
+    	this.factFinderCache.clear();
+    	//this.factFinderTypeCache.clear();
+
+    	for(BusinessRuleInfoDTO businessRule : businessRuleInfoList) {
+	 		ExecutionResultDTO executionResult = executeBusinessRule(businessRule.getId(), executionParamMap);
+    		agendaExecutionResult.addExecutionResult(executionResult);
     	}
 
-    	// Retrieve runtime agenda from rule management
-    	RuntimeAgendaDTO agenda = null;
-		Map<String, Object> factMap = new HashMap<String, Object>();
+        agendaExecutionResult.setExecutionResult(Boolean.TRUE);
     	
-    	try {
-    		for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
-    			addRuleSet(businessRule);
-    			Map<String, Object> map = createFactMap(businessRule, exectionParamMap);
-    			factMap.putAll(map);
-    		}
-    		AgendaExecutionResult executionResult = this.ruleSetExecutor.execute(agenda, factMap);
-    		return createAgendaExecutionResultDTO(executionResult);
-    	} catch(RuleSetExecutionException e) {
-    		logger.error(e.getMessage(), e);
-    		throw new OperationFailedException(e.getMessage());
-    	}
-    }
+    	return agendaExecutionResult;
+	}
 
     /**
      * Executes a business rule by <code>businessRuleId</code> with a 
@@ -453,6 +448,9 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 		addRuleSet(businessRule);
     	
+    	// Clear execution level fact finder caching
+    	this.factFinderCache.clear();
+    	//this.factFinderTypeCache.clear();
 		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
 		
         try {

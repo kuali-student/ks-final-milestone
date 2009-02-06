@@ -33,6 +33,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 import org.kuali.student.rules.factfinder.service.FactFinderService;
+import org.kuali.student.rules.internal.common.entity.AgendaType;
 import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
@@ -45,9 +46,13 @@ import org.kuali.student.rules.internal.common.statement.yvf.YVFSumProposition;
 import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
+import org.kuali.student.rules.ruleexecution.dto.AgendaExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.ruleexecution.dto.PropositionReportDTO;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
+import org.kuali.student.rules.rulemanagement.dto.AgendaDeterminationInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.AgendaInfoDTO;
+import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.MetaInfoDTO;
@@ -408,7 +413,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         for(String businessRuleId : businessRuleIdList1) {
     		// Ignore since it has dynamic facts
     		if (businessRuleId.equals("11223344-1122-1122-1112-100000000032") ||
-    		        businessRuleId.equals("11223344-1122-1122-1112-100000000041")) {
+    		    businessRuleId.equals("11223344-1122-1122-1112-100000000041")) {
     			continue;
     		}
     		
@@ -853,4 +858,60 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals(1, propositionResult3.getResultList().size());
 		Assert.assertTrue(containsResult(propositionResult3.getResultList(), "resultColumn.credit", "13.0"));
     }
+
+	@Test
+	public void testCreateAndExecuteAgenda_OneBusinessRule() throws Exception {
+    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact2  *****");
+    	// Update business rule to create a compiled/executable rule
+    	String businessRuleId = "11223344-1122-1122-1112-100000000011";
+    	BusinessRuleInfoDTO businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+    	businessRule = ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+    	businessRule = ruleManagementService.updateBusinessRuleState(businessRuleId, BusinessRuleStatus.ACTIVE.toString());
+
+//        Map<String, String> agendaDeterminationMap = new HashMap<String, String>();
+//        agendaDeterminationMap.put("agendaDeterminationInfo.luiType", "course");
+//        agendaDeterminationMap.put("agendaDeterminationInfo.luiPersonRelationType", "kuali.student");
+//        agendaDeterminationMap.put("agendaDeterminationInfo.relationState", "enrolled");
+//        
+//        AgendaDeterminationInfoDTO adiDTO = new AgendaDeterminationInfoDTO();
+//        adiDTO.setAgendaInfoDeterminationKeyList(agendaDeterminationMap);
+//		
+//        AgendaInfoDTO aiDTO = ruleManagementService.fetchAgendaInfo(AgendaType.KUALI_VALIDATE_LUI_PERSON_RELATION.toString(),  adiDTO);
+        
+        List<BusinessRuleAnchorInfoDTO> businessRuleAnchorInfoList = new ArrayList<BusinessRuleAnchorInfoDTO>();
+        BusinessRuleAnchorInfoDTO anchorInfo = new BusinessRuleAnchorInfoDTO();
+        anchorInfo.setBusinessRuleTypeKey(BusinessRuleTypeKey.KUALI_PRE_REQ.toString());
+        anchorInfo.setAnchorValue("MATH 101");
+        anchorInfo.setAnchorTypeKey(AnchorTypeKey.KUALI_COURSE.toString());
+        businessRuleAnchorInfoList.add(anchorInfo);
+        
+        Map<String, String> exectionParamMap = new HashMap<String, String>();
+        exectionParamMap.put("factParam.studentId", "student1");
+
+		AgendaExecutionResultDTO agendaExecutionResult = ruleExecutionService.executeAgenda(businessRuleAnchorInfoList, exectionParamMap);
+        
+        Assert.assertTrue(agendaExecutionResult.getExecutionResult());
+        Assert.assertNotNull(agendaExecutionResult);
+        Assert.assertEquals(1, agendaExecutionResult.getExecutionResultList().size());
+
+        // This agenda only has one rule
+        ExecutionResultDTO ruleResult = agendaExecutionResult.getExecutionResultList().get(0);
+
+        Assert.assertEquals("Sum is short by 3.0", ruleResult.getReport().getFailureMessage());
+		Assert.assertEquals(2, ruleResult.getReport().getPropositionReports().size());
+		
+		// First proposition
+		PropositionReportDTO propositionReport1 = ruleResult.getReport().getPropositionReports().get(0);
+		
+		Assert.assertTrue(propositionReport1.isSuccessful());
+		Assert.assertEquals(YieldValueFunctionType.INTERSECTION.toString(), propositionReport1.getPropositionType());
+		Assert.assertEquals("Intersection constraint fulfilled", propositionReport1.getSuccessMessage());
+		
+		// Second proposition
+		PropositionReportDTO propositionReport2 = ruleResult.getReport().getPropositionReports().get(1);
+
+		Assert.assertFalse(propositionReport2.isSuccessful());
+		Assert.assertEquals(YieldValueFunctionType.SUM.toString(), propositionReport2.getPropositionType());
+		Assert.assertEquals("Sum is short by 3.0", propositionReport2.getFailureMessage());
+	}
 }

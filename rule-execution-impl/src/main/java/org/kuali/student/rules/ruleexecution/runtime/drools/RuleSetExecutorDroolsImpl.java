@@ -33,7 +33,6 @@ import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
-import org.kuali.student.rules.ruleexecution.runtime.AgendaExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
@@ -43,7 +42,6 @@ import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.util.CurrentDateTime;
 import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
@@ -345,27 +343,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	this.executionLog.append("********************************");
     	this.executionLog.append("*   Execution Result Objects   *");
     	this.executionLog.append("********************************");
-    }
-
-    /**
-     * <p>Executes an <code>agenda</code> with a map of <code>facts</code> and 
-     * returns a list of execution results {@link ExecutionResult}.</p>
-     * <p>The {@link ExecutionResult}'s id is set to the 
-     * {@link BusinessRuleInfoDTO}'s business rule id.</p>
-     * 
-     * @param agenda Agenda to execute
-     * @param facts List of Facts for the <code>agenda</code>
-     * @return Result of executing the <code>agenda</code>
-     */
-    public synchronized AgendaExecutionResult execute(RuntimeAgendaDTO agenda, Map<String, Object> factMap) {
-        logger.info("Executing agenda: businessRules="+agenda.getBusinessRules());
-        AgendaExecutionResult agendaExecutionResult = new AgendaExecutionResult();
-        for(BusinessRuleInfoDTO businessRule : agenda.getBusinessRules()) {
-            ExecutionResult result = execute(businessRule, factMap);
-            agendaExecutionResult.addExecutionResult(result);
-        }
-        agendaExecutionResult.setExecutionResult(Boolean.TRUE);
-        return agendaExecutionResult;
     }
 
     /**

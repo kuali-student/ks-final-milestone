@@ -248,7 +248,7 @@ public class RuleSetExecutorDroolsImplTest {
 		Assert.assertTrue(executor.containsRuleSet(brInfoAverage));
 	}
 	
-	@Test
+	/*@Test
     public void testExecuteAgenda() throws Exception {
 		// Create functional business rule
 		YieldValueFunctionDTO yvfAverage = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.AVERAGE.toString());
@@ -367,7 +367,7 @@ public class RuleSetExecutorDroolsImplTest {
         Assert.assertTrue(result2.getReport().isSuccessful());
         Assert.assertEquals(1, result2.getReport().getPropositionReports().size());
         Assert.assertTrue(result2.getReport().getPropositionReports().get(0).isSuccessful());
-	}
+	}*/
 
 	@Test
     public void testExecuteAverageIntersectionProposition_DroolsRuleSet() throws Exception {
