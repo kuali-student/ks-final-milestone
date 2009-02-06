@@ -42,7 +42,12 @@ a {
 .status-retired {
    background-color: #A9A9A9;
    color: black;
- }  
+ }
+ 
+.selected-version {
+	font-family: Arial, sans-serif;
+	font-size: 10px;
+}  
 
 .propositon_bold {
 	font-weight: bold;

@@ -85,6 +85,7 @@ public class RulesComposite extends Composite {
 
 	//final static Logger logger = LoggerFactory.getLogger(RulesComposite.class);
 	
+    public static final DateTimeFormat dateFormatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
     final String FORM_ROW_HEIGHT = "18px";
     final long future_date = 1262376000325L;  // 2010-01-01 12:00 
 
@@ -102,7 +103,6 @@ public class RulesComposite extends Composite {
     public static final RulesAddEvent RULES_ADD_EVENT = GWT.create(RulesAddEvent.class);
     public static final RulesUpdateEvent RULES_UPDATE_EVENT = GWT.create(RulesUpdateEvent.class);
     public static final RulesTestEvent RULES_REMOVE_EVENT = GWT.create(RulesTestEvent.class);
-    public static final DateTimeFormat df = DateTimeFormat.getShortDateFormat();    
 
     // controller and meta data to be looked up externally
     Controller controller;
@@ -121,6 +121,7 @@ public class RulesComposite extends Composite {
     final ScrollPanel rulesScrollPanel = new ScrollPanel();
     final VerticalSplitPanel rulesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
+    final Label selectedVersionLabel = new Label("");
     final TabPanel rulesFormTabs = new TabPanel();
     
     // Rule Version tab
@@ -269,6 +270,7 @@ public class RulesComposite extends Composite {
             	
             	//user click on rules tree to select or deselect rules
                 public void onSelect(RulesVersionInfo modelObject) {
+                    System.out.println("rulesVersionsTable listener.onSelect()");
                     // populate rule based on the selected rule version
                     // clears out the previous rule display
                     //TODO are you sure? esp. if user changed something - your changes will be lost
@@ -295,7 +297,23 @@ public class RulesComposite extends Composite {
                         public void onSuccess(BusinessRuleInfoDTO ruleInfo) {
                         	loadExistingRule(ruleInfo);
                         }
-                    });                    
+                    });
+                    System.out.println("rulesVersionsTable listener.onSelect() setting selectedVersionLabel to \"\"");
+                    selectedVersionLabel.setText("");
+                    if (displayedRuleInfo != null) {
+                        StringBuilder displayedVersion =
+                            new StringBuilder();
+                        displayedVersion.append(
+                                displayedRuleInfo.getStatus()).append("\n").
+                                append(displayedRuleInfo.getAgendaType()).append("\n").
+                                append(displayedRuleInfo.getAgendaType()).append("\n").
+                                append(displayedRuleInfo.getAnchor()).append("\n").
+                                append(displayedRuleInfo.getBusinessRuleDisplayName()).append("\n").
+                                append(dateFormatter.format(displayedRuleInfo.getEffectiveDate()));           
+                        System.out.println("rulesVersionsTable listener.onSelect() setting " +
+                        		"selectedVersionLabel to " + displayedVersion);
+                        selectedVersionLabel.setText(displayedVersion.toString());
+                    }
                 }
             });
 
@@ -304,12 +322,38 @@ public class RulesComposite extends Composite {
              
                 //user click on rules tree to select or deselect rules
                 public void onSelect(RulesHierarchyInfo modelObject) {
+                    System.out.println("rulesTree listener.onSelect()");
                     // populate ruleVersions based on the rule version group selected
                     // clears out the previous rule display
-                    //TODO are you sure? esp. if user changed something - your changes will be lost                   
+                    //TODO are you sure? esp. if user changed something - your changes will be lost
+                    if (modelObject == null) {
+                        return;
+                    }
                     loadEmptyRule();
                     loadVersionGroup(modelObject);
                     rulesFormTabs.selectTab(0);
+                    if (displayedRuleInfo == null &&
+                            modelObject != null &&
+                            modelObject.getVersions() != null &&
+                            modelObject.getVersions().size() == 1) {
+                        rulesVersionsTable.select(modelObject.getVersions().get(0));
+                    }
+                    System.out.println("rulesTree listener.onSelect() setting selectedVersionLabel to \"\"");
+                    selectedVersionLabel.setText("");
+                    if (displayedRuleInfo != null) {
+                        StringBuilder displayedVersion =
+                            new StringBuilder();
+                        displayedVersion.append(
+                                displayedRuleInfo.getStatus()).append("\n").
+                                append(displayedRuleInfo.getAgendaType()).append("\n").
+                                append(displayedRuleInfo.getAgendaType()).append("\n").
+                                append(displayedRuleInfo.getAnchor()).append("\n").
+                                append(displayedRuleInfo.getBusinessRuleDisplayName()).append("\n").
+                                append(dateFormatter.format(displayedRuleInfo.getEffectiveDate()));           
+                        System.out.println("rulesVersionsTable listener.onSelect() setting " +
+                                "selectedVersionLabel to " + displayedVersion);
+                        selectedVersionLabel.setText(displayedVersion.toString());
+                    }
                 }
             });            
             
@@ -319,6 +363,7 @@ public class RulesComposite extends Composite {
                                              
             submitRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {               	                	                                        	                 
+                    System.out.println("submitRuleButton listener.onClick()");
                     
                     // 1) update the displayed rule copy with data entered
                     if (updateCopyOfDisplayedRule() == false) {
@@ -399,6 +444,7 @@ public class RulesComposite extends Composite {
 
             updateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
+                    System.out.println("updateRuleButton listener.onClick()");
 
                   // 1) update the draft with data entered
                     if (updateCopyOfDisplayedRule() == false) {
@@ -434,6 +480,7 @@ public class RulesComposite extends Composite {
       
             activateRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
+                    System.out.println("activateRuleButton listener.onClick()");
 
                     // 1) update the active rule with data entered
                     if (updateCopyOfDisplayedRule() == false) {
@@ -469,6 +516,7 @@ public class RulesComposite extends Composite {
             
             createNewVersionButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
+                    System.out.println("createNewVersionButton listener.onClick()");
 
                     // 1) validate that the rule entered/changed data is correct  
                     if (isDisplayedRuleValid("Cannot make a new rule version.") == false) {
@@ -516,6 +564,7 @@ public class RulesComposite extends Composite {
             
             retireRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
+                    System.out.println("retireRuleButton listener.onClick()");
 
                     DevelopersGuiService.Util.getInstance().updateBusinessRuleState(displayedRule.getId(), BusinessRuleStatus.RETIRED.toString(), new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
@@ -541,18 +590,21 @@ public class RulesComposite extends Composite {
             
             copyRuleButton.addClickListener(new ClickListener() {  
                 public void onClick(final Widget sender) {
+                    System.out.println("copyRuleButton listener.onClick()");
                 	//keep original rule values except rule id, original rule id, compiled id and name
                     initializeRuleCopy(displayedRule, "COPY OF " + displayedRule.getName());
                     displayedRuleInitialCopy = createRuleCopy(displayedRule);
                     ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
                     loadExistingRule(displayedRule); 
                 	GuiUtil.showUserDialog("Rule copied.");
+                    selectedVersionLabel.setText("Copied Version.");
                 }
             });  
             
             //  rule in order to create a new rule or void changes to the existing rule
             cancelButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
+                    System.out.println("cancelButton listener.onClick()");
                     // TODO "Are you sure?' dialog -> see ui common package for widget
                 	loadEmptyRule();
                 }
@@ -563,6 +615,7 @@ public class RulesComposite extends Composite {
              ***************************************************************************************************************/
             propositionsListBox.addChangeListener(new ChangeListener() {
                 public void onChange(Widget sender) {
+                    System.out.println("propositionsListBox listener.onChange()");
                     ListBox box = ((ListBox) sender);
                     int selectedIndex = box.getSelectedIndex();
                     if (selectedIndex == -1) {
@@ -590,6 +643,7 @@ public class RulesComposite extends Composite {
 
             addPropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {                    
+                    System.out.println("addPropButton listener.onClick()");
 
                     //first we need to update the currently edited proposition (update by default)
                     updateSelectedPropositionDTO(propositionsListBox.getSelectedIndex());                  
@@ -603,6 +657,7 @@ public class RulesComposite extends Composite {
             
             removePropButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {
+                    System.out.println("removePropButton listener.onClick()");
                 	
                     if (definedPropositions.size() < 2) {
                     	removePropButton.setEnabled(false);
@@ -983,9 +1038,8 @@ public class RulesComposite extends Composite {
     	}
         
         // set authoring info
-        final DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
-        displayedRule.setEffectiveDate(formatter.parse(effectiveDateTextBox.getText())); 
-        displayedRule.setExpirationDate(formatter.parse(expiryDateTextBox.getText()));
+        displayedRule.setEffectiveDate(dateFormatter.parse(effectiveDateTextBox.getText())); 
+        displayedRule.setExpirationDate(dateFormatter.parse(expiryDateTextBox.getText()));
         
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         //metaInfo.setCreateID(createUserIdTextBox.getText());
@@ -1020,13 +1074,13 @@ public class RulesComposite extends Composite {
                 if (activeTimeGap.getStartDate().compareTo(GuiUtil.ALPHA_DATE) == 0) {
                     message.append("beginning");
                 } else {
-                    message.append(df.format(activeTimeGap.getStartDate()));
+                    message.append(dateFormatter.format(activeTimeGap.getStartDate()));
                 }
                 message.append(" to ");
                 if (activeTimeGap.getEndDate().compareTo(GuiUtil.OMEGA_DATE) == 0) {
                     message.append("end");
                 } else {
-                    message.append(df.format(activeTimeGap.getEndDate()));
+                    message.append(dateFormatter.format(activeTimeGap.getEndDate()));
                 }
                 message.append("\n");
             }
@@ -1921,7 +1975,7 @@ public class RulesComposite extends Composite {
     }    
     
     public static String formatDate(Date date) {        
-        DateTimeFormat formatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
+        DateTimeFormat formatter = dateFormatter;
         if (date == null) {
             return "";
         }
@@ -2131,6 +2185,12 @@ public class RulesComposite extends Composite {
 
         final VerticalPanel rulesFormVerticalPanel = new VerticalPanel();
         rulesFormVerticalPanel.setSpacing(5);
+        HorizontalPanel selectedVersionPanel = new HorizontalPanel();
+        selectedVersionPanel.setSpacing(5);
+        selectedVersionLabel.setStyleName("selected-version");
+        selectedVersionPanel.add(new Label("Version Selected:"));
+        selectedVersionPanel.add(selectedVersionLabel);
+        rulesFormVerticalPanel.add(selectedVersionPanel);
         rulesFormVerticalPanel.add(rulesFormTabs);
         rulesFormVerticalPanel.add(hp);
         rulesFormVerticalPanel.setSize("100%", "500");
@@ -2164,6 +2224,7 @@ public class RulesComposite extends Composite {
 
         final VerticalPanel ruleVersionVerticalPanel = new VerticalPanel();
         ruleVersionVerticalPanel.setSize("100%", "100%");
+        ruleVersionVerticalPanel.setSpacing(10);
 
         // **********************************************************
         // The versions gap analysis

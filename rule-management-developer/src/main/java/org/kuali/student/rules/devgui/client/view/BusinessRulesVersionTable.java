@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import org.kuali.student.commons.ui.widgets.tables.ModelTableColumn;
 import org.kuali.student.commons.ui.widgets.tables.PagingModelTable;
+import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.model.RulesVersionInfo;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -11,8 +12,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class BusinessRulesVersionTable extends PagingModelTable<RulesVersionInfo> {
 
+    public static final DateTimeFormat dateFormatter = DateTimeFormat.getFormat("HH:mm MMM d, yyyy");
     private boolean loaded = false;
-    DateTimeFormat df = DateTimeFormat.getShortDateFormat();
 
     @Override
     public void onLoad() {
@@ -57,7 +58,7 @@ public class BusinessRulesVersionTable extends PagingModelTable<RulesVersionInfo
                     return comparator;
                 }
                 public String getColumnValue(RulesVersionInfo modelObject) {
-                    return df.format(modelObject.getEffectiveDate());
+                    return dateFormatter.format(modelObject.getEffectiveDate());
                 }
                 public Widget getColumnWidget(RulesVersionInfo modelObject) {
                     return null;
@@ -79,7 +80,7 @@ public class BusinessRulesVersionTable extends PagingModelTable<RulesVersionInfo
                     return comparator;
                 }
                 public String getColumnValue(RulesVersionInfo modelObject) {
-                    return df.format(modelObject.getExpirationDate());
+                    return dateFormatter.format(modelObject.getExpirationDate());
                 }
                 public Widget getColumnWidget(RulesVersionInfo modelObject) {
                     return null;
