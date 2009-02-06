@@ -357,7 +357,7 @@ public class RulesComposite extends Composite {
                             displayedRule = newBusinessRule;
                             displayedRuleInfo = new RulesVersionInfo();
                             displayedRuleInfo.setValuesFromDTO(newBusinessRule);
-                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
 
                             // fire the event and the updated model object to the parent controller
@@ -422,7 +422,7 @@ public class RulesComposite extends Composite {
                             // update the model
                             displayedRule = updatedBusRule;
                             displayedRuleInfo.setValuesFromDTO(updatedBusRule);
-                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
 
                             displayedRulesGroup.update(rulesTree.getSelection());
@@ -455,7 +455,7 @@ public class RulesComposite extends Composite {
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
                             displayedRuleInfo.setValuesFromDTO(updatedBusRule);
-                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
 
                             displayedRulesGroup.update(rulesTree.getSelection());
@@ -525,7 +525,7 @@ public class RulesComposite extends Composite {
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
                             displayedRuleInfo.setValuesFromDTO(updatedBusRule);
-                            String agendaType = GuiUtil.getListBoxSelectedValue(agendaTypesListBox);
+                            String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
 
                             displayedRulesGroup.update(rulesTree.getSelection());
