@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.rules.devgui.client.GregorianCalendar;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.model.RuleTypesHierarchyInfo;
 import org.kuali.student.rules.devgui.client.model.RulesHierarchyInfo;
@@ -135,6 +136,10 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
         }           
         
         System.out.println("-- Added execution time facts: " + executionTimeFacts);
+        
+        //in order for rule to be executed, we need to set the effective/expiration dates around current date
+        businessRule.setEffectiveDate(new Date());
+        businessRule.setExpirationDate(GuiUtil.OMEGA_DATE);
         
         try {
             executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule, executionTimeFacts);  //TODO dynamic facts

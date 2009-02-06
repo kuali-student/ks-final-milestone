@@ -34,6 +34,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GuiUtil {
 
+    public static final java.util.Date ALPHA_DATE = new GregorianCalendar(0, 0, 1, 0, 0, 0).getTime();
+    public static final java.util.Date OMEGA_DATE = new GregorianCalendar(2100, 0, 1, 0, 0, 0).getTime();
     public static final String COMPOSITION_IS_VALID_MESSAGE = "Composition is valid";
     public static final char PROPOSITION_PREFIX = 'P';
 	public static final String FACT_TYPE_KEY_PREFIX = "fact.";

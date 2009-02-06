@@ -102,8 +102,6 @@ public class RulesComposite extends Composite {
     public static final RulesAddEvent RULES_ADD_EVENT = GWT.create(RulesAddEvent.class);
     public static final RulesUpdateEvent RULES_UPDATE_EVENT = GWT.create(RulesUpdateEvent.class);
     public static final RulesTestEvent RULES_REMOVE_EVENT = GWT.create(RulesTestEvent.class);
-    public static final java.util.Date ALPHA_DATE = new java.util.Date(0, 0, 1, 0, 0, 0);
-    public static final java.util.Date OMEGA_DATE = new java.util.Date(2100, 0, 1, 0, 0, 0);
     public static final DateTimeFormat df = DateTimeFormat.getShortDateFormat();    
 
     // controller and meta data to be looked up externally
@@ -214,6 +212,7 @@ public class RulesComposite extends Composite {
     //variables representing client internal state
     private Model<RulesHierarchyInfo> displayedRulesGroup = null; // keep copy of rule group info    
     private BusinessRuleInfoDTO displayedRule = null; // keep copy of business rule so we can update all fields user
+    private BusinessRuleInfoDTO displayedRuleInitialCopy = null; //keep the rule initial copy, give user warning if they made changes
     private RulesVersionInfo displayedRuleInfo = null; // keep copy of rule meta info
     private Map<Integer, RulePropositionDTO> definedPropositions = new TreeMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
@@ -352,9 +351,10 @@ public class RulesComposite extends Composite {
                             System.out.println("Created new rule with ID: " + newRuleID);
                             System.out.println("Created new rule with compiled ID: " + newBusinessRule.getCompiledId());
                             
+                            displayedRule = newBusinessRule;
+                            displayedRuleInitialCopy = createRuleCopy(newBusinessRule);
                             
                             // update the model
-                            displayedRule = newBusinessRule;
                             displayedRuleInfo = new RulesVersionInfo();
                             displayedRuleInfo.setValuesFromDTO(newBusinessRule);
                             String agendaType = rulesTree.getSelection().getGroupAgendaType();
@@ -408,10 +408,7 @@ public class RulesComposite extends Composite {
                     // 2) validate draft before update
                     if (isDisplayedRuleValid("Cannot update rule.") == false) {
                     	return;
-                    }                                        
-                    
-                    // 3) update rule
-                    displayedRule.getMetaInfo().setUpdateTime(new Date());                   
+                    }                                                                            
                     
                     DevelopersGuiService.Util.getInstance().updateBusinessRule(displayedRule.getId(), displayedRule, new AsyncCallback<BusinessRuleInfoDTO>() {
                         public void onFailure(Throwable caught) {
@@ -421,6 +418,7 @@ public class RulesComposite extends Composite {
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             // update the model
                             displayedRule = updatedBusRule;
+                            displayedRuleInitialCopy = createRuleCopy(updatedBusRule);
                             displayedRuleInfo.setValuesFromDTO(updatedBusRule);
                             String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
@@ -454,6 +452,7 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
+                            displayedRuleInitialCopy = createRuleCopy(updatedBusRule);                           
                             displayedRuleInfo.setValuesFromDTO(updatedBusRule);
                             String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
@@ -497,6 +496,7 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO newRuleVersion) {
                             displayedRule = newRuleVersion;
+                            displayedRuleInitialCopy = createRuleCopy(newRuleVersion);							
                             displayedRuleInfo = new RulesVersionInfo();
                             displayedRuleInfo.setValuesFromDTO(newRuleVersion);
                             String agendaType = rulesTree.getSelection().getGroupAgendaType();
@@ -524,6 +524,7 @@ public class RulesComposite extends Composite {
 
                         public void onSuccess(BusinessRuleInfoDTO updatedBusRule) {
                             displayedRule = updatedBusRule;
+                            displayedRuleInitialCopy = createRuleCopy(updatedBusRule);
                             displayedRuleInfo.setValuesFromDTO(updatedBusRule);
                             String agendaType = rulesTree.getSelection().getGroupAgendaType();
                             displayedRuleInfo.setAgendaType(agendaType);
@@ -542,6 +543,7 @@ public class RulesComposite extends Composite {
                 public void onClick(final Widget sender) {
                 	//keep original rule values except rule id, original rule id, compiled id and name
                     initializeRuleCopy(displayedRule, "COPY OF " + displayedRule.getName());
+                    displayedRuleInitialCopy = createRuleCopy(displayedRule);
                     ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
                     loadExistingRule(displayedRule); 
                 	GuiUtil.showUserDialog("Rule copied.");
@@ -748,27 +750,31 @@ public class RulesComposite extends Composite {
                         	StringBuffer executionLog = new StringBuffer();
                         	
                         	StringBuffer reportText = new StringBuffer();
-                        	List<PropositionReportDTO> propositionReports = executionResult.getReport().getPropositionReports();                        	
-                        	for (PropositionReportDTO report : propositionReports) {
-                        	    reportText.append("\nProposition Name: " + report.getPropositionName() + "\n");
-                        	    reportText.append("Proposition Type: " + report.getPropositionType() + "\n");                        	    
-                        	    if ((report.getFailureMessage() != null) && (report.getFailureMessage().length() > 0)) {
-                        	        reportText.append("Failure Message: " + report.getFailureMessage() + "\n");  
-                        	    }
-                                
-                                if ((report.getSuccessMessage() != null) && (report.getSuccessMessage().length() > 0)) {
-                                    reportText.append("Success Message: " + report.getSuccessMessage() + "\n");  
-                                }     
-                                if (report.getCriteriaResult() != null) {
-                                    reportText.append("\nCriteria: " + report.getCriteriaResult() + "\n");
-                                }
-                                if (report.getFactResult() != null) {
-                                    reportText.append("\nFact: " + report.getFactResult() + "\n");
-                                }
-                                
-                                reportText.append("\nProposition result: " + report.getPropositionResult().getResultList());
-                                
-                        	    reportText.append("\n------------------------------------------------------------------------" + "\n");                        	    
+                        	
+                        	List<PropositionReportDTO> propositionReports = executionResult.getReport().getPropositionReports(); 
+                        	if (propositionReports != null) {
+                            	for (PropositionReportDTO report : propositionReports) {
+                            	    reportText.append("\nProposition Name: " + report.getPropositionName() + "\n");
+                            	    System.out.println("PROPOSITION TYPE: " + report.getPropositionType());
+                            	    reportText.append("Proposition Type: " + report.getPropositionType() + "\n");                        	    
+                            	    if ((report.getFailureMessage() != null) && (report.getFailureMessage().length() > 0)) {
+                            	        reportText.append("Failure Message: " + report.getFailureMessage() + "\n");  
+                            	    }
+                                    
+                                    if ((report.getSuccessMessage() != null) && (report.getSuccessMessage().length() > 0)) {
+                                        reportText.append("Success Message: " + report.getSuccessMessage() + "\n");  
+                                    }     
+                                    if (report.getCriteriaResult() != null) {
+                                        reportText.append("\nCriteria: " + report.getCriteriaResult() + "\n");
+                                    }
+                                    if (report.getFactResult() != null) {
+                                        reportText.append("\nFact: " + report.getFactResult() + "\n");
+                                    }
+                                    
+                                    reportText.append("\nProposition result: " + report.getPropositionResult().getResultList());
+                                    
+                            	    reportText.append("\n------------------------------------------------------------------------" + "\n");                        	    
+                            	} 
                         	}
                         	
                         	if (executionResult.isExecutionSuccessful()) {
@@ -792,10 +798,10 @@ public class RulesComposite extends Composite {
                 }
             });           
 
-            //agenda type can be changed ONLY if draft is in STATE_NOT_IN_DATABASE
+            //agenda type can be changed ONLY if rule is in STATE_NOT_IN_DATABASE
             agendaTypesListBox.addChangeListener(new ChangeListener() {
                 public void onChange(final Widget sender) {
-                	//changing agenda type will  the business rule type and related Anchor Key
+                	//changing agenda type will empty the business rule type and related Anchor Key
                 	if (displayedRuleInfo == null) {
                         displayedRuleInfo = new RulesVersionInfo();
                 	}
@@ -808,7 +814,7 @@ public class RulesComposite extends Composite {
                 }
             });  
             
-            //business rule type can be changed ONLY if draft is in STATE_NOT_IN_DATABASE
+            //business rule type can be changed ONLY if rule is in STATE_NOT_IN_DATABASE
             businessRuleTypesListBox.addChangeListener(new ChangeListener() {
                 public void onChange(final Widget sender) {                	
                     if (businessRuleTypesListBox.getSelectedIndex() == 0) {
@@ -842,12 +848,13 @@ public class RulesComposite extends Composite {
         setRuleStatus(STATUS_NOT_STORED_IN_DATABASE);
         populateAgendaAndBusinessRuleTypesListBox();
         updateRulesFormButtons(displayedRule.getState()); 
-        rulesTree.unSelect();  //clear current rule tree selection      
+        rulesTree.unSelect();  //clear current rule tree selection  
     }    
 
     private void loadExistingRule(BusinessRuleInfoDTO ruleInfo) {
        
         displayedRule = ruleInfo;
+        displayedRuleInitialCopy = createRuleCopy(ruleInfo);
         updateRulesFormButtons(ruleInfo.getState());
         
         // store individual propositions in a temporary list & set Rule Composition text
@@ -1010,13 +1017,13 @@ public class RulesComposite extends Composite {
             StringBuilder message = new StringBuilder("");
             for (DateRange activeTimeGap : activeTimeGaps) {
                 message.append("From ");
-                if (activeTimeGap.getStartDate().compareTo(ALPHA_DATE) == 0) {
+                if (activeTimeGap.getStartDate().compareTo(GuiUtil.ALPHA_DATE) == 0) {
                     message.append("beginning");
                 } else {
                     message.append(df.format(activeTimeGap.getStartDate()));
                 }
                 message.append(" to ");
-                if (activeTimeGap.getEndDate().compareTo(OMEGA_DATE) == 0) {
+                if (activeTimeGap.getEndDate().compareTo(GuiUtil.OMEGA_DATE) == 0) {
                     message.append("end");
                 } else {
                     message.append(df.format(activeTimeGap.getEndDate()));
@@ -1034,7 +1041,8 @@ public class RulesComposite extends Composite {
      *
      *******************************************************************************************************************/        
     
-    private boolean validateRulesMain() {
+    //TODO validate all fields of the rule or should the validate happen when given field is changed?
+    private boolean validateRuleFields() {
       StringBuilder messages = new StringBuilder();
       boolean valid = true;
       boolean fieldValid = true;
@@ -1043,28 +1051,23 @@ public class RulesComposite extends Composite {
       // updates the valid status if valid is still true.
       // In effect valid status will be false if one or more
       // of the fields is invalid
-      fieldValid = validate("ruleName", 
-          this.nameTextBox.getText(), messages);
+      fieldValid = validateField("ruleName", this.nameTextBox.getText(), messages);
       if (valid) {
         valid = fieldValid;
       }
-      fieldValid = validate("ruleDescription", 
-          this.descriptionTextArea.getText(), messages);
+      fieldValid = validateField("ruleDescription", this.descriptionTextArea.getText(), messages);
       if (valid) {
         valid = fieldValid;
       }
-      fieldValid = validate("ruleSuccessMessage", 
-          this.successMessageTextArea.getText(), messages);
+      fieldValid = validateField("ruleSuccessMessage", this.successMessageTextArea.getText(), messages);
       if (valid) {
         valid = fieldValid;
       }
-      fieldValid = validate("ruleFailureMessage", 
-          this.failureMessageTextArea.getText(), messages);
+      fieldValid = validateField("ruleFailureMessage", this.failureMessageTextArea.getText(), messages);
       if (valid) {
         valid = fieldValid;
       }
-      fieldValid = validate("ruleAnchor", 
-          this.ruleAnchorTextBox.getText(), messages);
+      fieldValid = validateField("ruleAnchor", this.ruleAnchorTextBox.getText(), messages);
       if (valid) {
         valid = fieldValid;
       }
@@ -1075,8 +1078,7 @@ public class RulesComposite extends Composite {
       return valid;
     }
     
-    private boolean validate(
-        String fieldName, String value, StringBuilder output) {
+    private boolean validateField(String fieldName, String value, StringBuilder output) {
       boolean valid = true;
       Validator v = metadata.getFields()
           .get(fieldName).getValidatorInstance();
@@ -1095,51 +1097,39 @@ public class RulesComposite extends Composite {
     
     private boolean isDisplayedRuleValid(String message) {
       
-        if (!validateRulesMain()) {
+        if (!validateRuleFields()) {
             return false;
-        }
- 	
-        // at least one proposition needs to be used
-        if (displayedRule.getName().isEmpty()) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Name.");
-            return false;
-        }
-        
-        // at least one proposition needs to be used
-        if (displayedRule.getDesc().isEmpty()) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please enter Rule Description.");
-            return false;
-        }     	
+        }    	
         
         if (displayedRuleInfo == null) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Agenda Type.");
+        	GuiUtil.showUserDialog(message + "\n" + "Agenda Type cannot be empty.");
             return false;        	
         }
     	
     	//all rules need Agenda Type, Business Rule Type
   		if ((displayedRuleInfo.getAgendaType() == null) || displayedRuleInfo.getAgendaType().equals(EMPTY_LIST_BOX_ITEM) ||
   				displayedRuleInfo.getAgendaType().isEmpty()) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Agenda Type.");
+        	GuiUtil.showUserDialog(message + "\n" + "Agenda Type cannot be empty.");
             return false;  
     	}
     	
   		if ((displayedRule.getType() == null) || displayedRule.getType().equals(EMPTY_LIST_BOX_ITEM) ||
   				displayedRule.getType().isEmpty()) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please select Business Rule Type.");
+        	GuiUtil.showUserDialog(message + "\n" + "Business Rule Type cannot be empty.");
             return false;  
     	}  		
   		
         ruleComposition = new StringBuffer(propCompositionTextArea.getText());
 
-        // each rule should have at least one proposition
+        // rule should have at least one proposition
         if ((definedPropositions == null) || (definedPropositions.size() == 0)) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please add at least one Proposition.");
+        	GuiUtil.showUserDialog(message + "\n" + "Rule has to have at least one Proposition.");
             return false;
         }
 
         // at least one proposition needs to be used
         if (ruleComposition.toString().isEmpty()) {
-        	GuiUtil.showUserDialog(message + "\n" + "ERROR: Please use at least one defined Proposition.");
+        	GuiUtil.showUserDialog(message + "\n" + "Rule Proposition has to be part of rule composition.");
             return false;
         }              
         
@@ -1149,12 +1139,10 @@ public class RulesComposite extends Composite {
     private boolean isPropositionValid(RulePropositionDTO prop) {
         StringBuilder messages = new StringBuilder();
 
-        if (!validate("propositionName", 
-            this.propNameTextBox.getText(), messages)) {
+        if (!validateField("propositionName", this.propNameTextBox.getText(), messages)) {
           GuiUtil.showUserDialog(messages.toString());
         }
-        if (!validate("propositionDescription", 
-            this.propDescTextBox.getText(), messages)) {
+        if (!validateField("propositionDescription", this.propDescTextBox.getText(), messages)) {
           GuiUtil.showUserDialog(messages.toString());
         }
 
@@ -1727,7 +1715,7 @@ public class RulesComposite extends Composite {
         newRule.setAnchorValue(originalRule.getAnchorValue());
         newRule.setEffectiveDate(originalRule.getEffectiveDate());
         newRule.setExpirationDate(originalRule.getExpirationDate());
-        
+
         // set meta info
         MetaInfoDTO metaInfo = new MetaInfoDTO();
         MetaInfoDTO originalMetaInfo = originalRule.getMetaInfo();
@@ -1789,6 +1777,68 @@ public class RulesComposite extends Composite {
         return factStructure;
     }    
     
+    private boolean areRulesTheSame(BusinessRuleInfoDTO originalRule, BusinessRuleInfoDTO currentRule) {
+
+        if (!originalRule.getId().equals(currentRule.getId())) return false;
+        return true;
+        /*
+        newRule.setOriginalRuleId(originalRule.getOriginalRuleId());
+        newRule.setState(originalRule.getState());
+        newRule.setName(originalRule.getName());
+        newRule.setDesc(originalRule.getDesc());
+        newRule.setSuccessMessage(originalRule.getSuccessMessage());
+        newRule.setFailureMessage(originalRule.getFailureMessage());
+        newRule.setType(originalRule.getType());
+        newRule.setAnchorTypeKey(originalRule.getAnchorTypeKey());
+        newRule.setAnchorValue(originalRule.getAnchorValue());
+        newRule.setEffectiveDate(originalRule.getEffectiveDate());
+        newRule.setExpirationDate(originalRule.getExpirationDate());
+
+        // set meta info
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        MetaInfoDTO originalMetaInfo = originalRule.getMetaInfo();
+        metaInfo.setCreateTime(originalMetaInfo.getCreateTime());
+        metaInfo.setCreateID(originalMetaInfo.getCreateID());
+        metaInfo.setCreateComment(originalMetaInfo.getCreateComment());
+        metaInfo.setUpdateTime(originalMetaInfo.getUpdateTime());
+        metaInfo.setUpdateID(originalMetaInfo.getUpdateID());        
+        metaInfo.setUpdateComment(originalMetaInfo.getUpdateComment());
+        newRule.setMetaInfo(metaInfo);        
+        
+        // set rule proposition
+        List<RuleElementDTO> newElementList = new ArrayList<RuleElementDTO>();
+        newRule.setBusinessRuleElementList(newElementList);
+        for (RuleElementDTO originalRuleElement : originalRule.getBusinessRuleElementList()) {
+            RuleElementDTO newRuleElement = new RuleElementDTO();
+            newElementList.add(newRuleElement);
+            newRuleElement.setId(originalRuleElement.getId());
+            newRuleElement.setName(originalRuleElement.getName());
+            newRuleElement.setDescription(originalRuleElement.getDescription());
+            newRuleElement.setOrdinalPosition(originalRuleElement.getOrdinalPosition());
+            newRuleElement.setBusinessRuleElemnetTypeKey(originalRuleElement.getBusinessRuleElemnetTypeKey());
+            
+            //if the element is a proposition, then copy the proposition as well
+            RulePropositionDTO originalProposition = originalRuleElement.getBusinessRuleProposition();            
+            if (originalProposition == null) continue;
+            
+            RulePropositionDTO newProposition = new RulePropositionDTO();
+            newRuleElement.setBusinessRuleProposition(newProposition);
+            newProposition.setName(originalProposition.getName());
+            newProposition.setDescription(originalProposition.getDescription());
+            newProposition.setFailureMessage(originalProposition.getFailureMessage());
+            newProposition.setComparisonDataTypeKey(originalProposition.getComparisonDataTypeKey());
+            newProposition.setComparisonOperatorTypeKey(originalProposition.getComparisonOperatorTypeKey());
+            
+            LeftHandSideDTO leftSide = new LeftHandSideDTO();
+            leftSide.setYieldValueFunction(originalProposition.getLeftHandSide().getYieldValueFunction());
+            newProposition.setLeftHandSide(leftSide);
+            
+            RightHandSideDTO rightSide = new RightHandSideDTO();
+            rightSide.setExpectedValue(originalProposition.getRightHandSide().getExpectedValue());
+            newProposition.setRightHandSide(rightSide);            
+        }           */
+    }
+    
     private void retrieveFactTypes() {
         if (definedFactTypesList == null) {     
             //load list of factTypes for the given business rule type
@@ -1849,7 +1899,7 @@ public class RulesComposite extends Composite {
         DateRange[] arrRuleVersionRanges = null;
         if (rulesGroup == null) return null;
         result = new ArrayList<DateRange>();
-        allRange = new DateRange(ALPHA_DATE, OMEGA_DATE);
+        allRange = new DateRange(GuiUtil.ALPHA_DATE, GuiUtil.OMEGA_DATE);
         ruleVersions = rulesGroup.getVersions();
         ruleVersionRanges = new ArrayList<DateRange>();
         if (ruleVersions == null) return null;
@@ -1857,8 +1907,8 @@ public class RulesComposite extends Composite {
             String strStatus = (ruleVersion.getStatus() == null)? "" : ruleVersion.getStatus();
             BusinessRuleStatus status = BusinessRuleStatus.valueOf(strStatus);
             if (status == BusinessRuleStatus.ACTIVE) { 
-                java.util.Date effectiveDate = ((ruleVersion.getEffectiveDate() == null)? ALPHA_DATE : ruleVersion.getEffectiveDate());
-                java.util.Date expiryDate = (ruleVersion.getExpirationDate() == null)? OMEGA_DATE : ruleVersion.getExpirationDate();
+                java.util.Date effectiveDate = ((ruleVersion.getEffectiveDate() == null)? GuiUtil.ALPHA_DATE : ruleVersion.getEffectiveDate());
+                java.util.Date expiryDate = (ruleVersion.getExpirationDate() == null)? GuiUtil.OMEGA_DATE : ruleVersion.getExpirationDate();
                 ruleVersionRanges.add(new DateRange(effectiveDate, expiryDate));
             }
         }
@@ -2725,7 +2775,7 @@ public class RulesComposite extends Composite {
                             testDefinitionTimeFactsWidgets.add(factValue);                            
                         }                                                
                         
-                        Widget dynamicValue = GuiUtil.addLabelAndFieldVertically(key, factValue, "300px");
+                        Widget dynamicValue = GuiUtil.addLabelAndFieldVertically(GuiUtil.removeFactParamPrefix(key), factValue, "300px");
                         dynamicFactParam.add(dynamicValue); 
                         GuiUtil.addSpaceBelowWidget(factFieldsPanel, "15px");                                                                                                                                   
                     }                  
