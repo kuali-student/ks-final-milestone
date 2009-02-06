@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.visualization.client.AjaxLoader;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.events.Handler;
+import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.OrgChart;
 import com.google.gwt.visualization.client.visualizations.OrgChart.Options;
 
@@ -40,7 +42,7 @@ public class OrgChartWidget extends Composite {
 					}
 
 					public void onSuccess(List<OrgTreeInfo>  results) {
-						DataTable data = DataTable.create();
+						final DataTable data = DataTable.create();
 	                    data.addColumn(ColumnType.STRING, "Name");
 	                    data.addColumn(ColumnType.STRING, "Manager");
 
@@ -59,7 +61,17 @@ public class OrgChartWidget extends Composite {
 		               	}
 						
 	                    Options orgChartOpts = Options.create();
-	                    OrgChart o = new OrgChart(data, orgChartOpts);
+	                    final OrgChart o = new OrgChart(data, orgChartOpts);
+	                    
+	                    Handler.addHandler(o, "select", new SelectHandler(){
+
+							public void onSelect(SelectEvent event) {
+								String s = data.getFormattedValue(o.getSelections().get(0).getRow(), 0);
+								String id = data.getValueString(o.getSelections().get(0).getRow(), 0);
+								Window.alert(s+" "+id);
+							}
+	                    	
+	                    });
 	                    
 	                    root.add(o);
 	                    	                    
