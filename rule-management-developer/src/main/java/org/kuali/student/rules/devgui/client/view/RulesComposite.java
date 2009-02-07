@@ -60,12 +60,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
@@ -194,6 +196,10 @@ public class RulesComposite extends Composite {
     final TextArea completeRuleTestTextArea = new TextArea();
     final TextArea propCompositionTestTextArea = new TextArea();
     final Label testResult = new Label();
+    
+    final PopupPanel treePopupMessage = new PopupPanel(true);
+    final VerticalPanel treePopupMessagePanel = new VerticalPanel();
+    final HTML treePopupMessageHTML = new HTML();
 
     boolean loaded = false;
     
@@ -263,7 +269,12 @@ public class RulesComposite extends Composite {
             rulesVerticalSplitPanel.setTopWidget(rulesHorizontalSplitPanel);
             rulesVerticalSplitPanel.setBottomWidget(rulesScrollPanel);
             rulesVerticalSplitPanel.setSplitPosition("90%");
-            simplePanel.add(rulesVerticalSplitPanel);                   
+            simplePanel.add(rulesVerticalSplitPanel);
+            
+            // set style of popup message label
+            treePopupMessagePanel.setStyleName("businessRulesTree_popup");
+            treePopupMessage.setWidget(treePopupMessagePanel);
+            treePopupMessagePanel.add(treePopupMessageHTML);
             
             // add selection event listener to rulesTree widget
             rulesVersionsTable.addSelectionListener(new ModelTableSelectionListener<RulesVersionInfo>() {
@@ -318,7 +329,7 @@ public class RulesComposite extends Composite {
             });
 
             // TODO add selection event listener to rulesTree widget
-            rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
+            rulesTree.addBusinessRuleTreeListener(new BusinessRuleTreeListener() {
              
                 //user click on rules tree to select or deselect rules
                 public void onSelect(RulesHierarchyInfo modelObject) {
@@ -354,6 +365,41 @@ public class RulesComposite extends Composite {
                                 "selectedVersionLabel to " + displayedVersion);
                         selectedVersionLabel.setText(displayedVersion.toString());
                     }
+                }
+
+                public void onTreeItemMouseOver(RulesHierarchyInfo item, int x, int y) {
+                    System.out.println("mouse overed item");
+                    int numVersions = 0;
+                    List<RulesVersionInfo> activeVersions = item.getActiveVersions();
+                    StringBuilder message = new StringBuilder();
+                    if (item != null && item.getVersions() != null) {
+                        numVersions = item.getVersions().size();
+                    }
+                    message.append("# of versions: ").append(Integer.toString(numVersions)).append("<br/>");
+                    if (activeVersions != null && !activeVersions.isEmpty()) {
+                        message.append("Active version exists").append("<br/>");
+                        message.append("Expiry Dates are:").append("<br/>");
+                        message.append("<table>");
+                        for (RulesVersionInfo activeVersion : activeVersions) {
+                            java.util.Date expiryDate = (activeVersion.getExpirationDate() == null)? 
+                                    GuiUtil.OMEGA_DATE : activeVersion.getExpirationDate();
+                            String expiryDateString = dateFormatter.format(expiryDate);
+                            message.append("<tr>");
+                            message.append("<td>&nbsp;&nbsp;&nbsp;<td/>");
+                            message.append("<td><font class=\"businessRulesTree_popupmessage\">").append(expiryDateString).append("<font/><td/>");
+                            message.append("</tr>");
+                        }
+                        message.append("</table>");
+                    } else {
+                        message.append("No Active Version").append("<br/>");
+                    }
+                    treePopupMessageHTML.setHTML(message.toString());
+                    treePopupMessage.setPopupPosition(x, y+30);
+                    treePopupMessage.show();
+                }
+                
+                public void onMouseOut() {
+                    treePopupMessage.hide();
                 }
             });            
             
@@ -1948,29 +1994,25 @@ public class RulesComposite extends Composite {
     private List<DateRange> getActiveTimeGaps(RulesHierarchyInfo rulesGroup) {
         ArrayList<DateRange> result = null;
         DateRange allRange = null;
-        List<RulesVersionInfo> ruleVersions = null;
-        List<DateRange> ruleVersionRanges = null;
-        DateRange[] arrRuleVersionRanges = null;
+        List<RulesVersionInfo> activeVersions = null;
+        List<DateRange> activeVersionRanges = null;
+        DateRange[] arrActiveVersionRanges = null;
         if (rulesGroup == null) return null;
         result = new ArrayList<DateRange>();
         allRange = new DateRange(GuiUtil.ALPHA_DATE, GuiUtil.OMEGA_DATE);
-        ruleVersions = rulesGroup.getVersions();
-        ruleVersionRanges = new ArrayList<DateRange>();
-        if (ruleVersions == null) return null;
-        for (RulesVersionInfo ruleVersion : ruleVersions) {
-            String strStatus = (ruleVersion.getStatus() == null)? "" : ruleVersion.getStatus();
-            BusinessRuleStatus status = BusinessRuleStatus.valueOf(strStatus);
-            if (status == BusinessRuleStatus.ACTIVE) { 
-                java.util.Date effectiveDate = ((ruleVersion.getEffectiveDate() == null)? GuiUtil.ALPHA_DATE : ruleVersion.getEffectiveDate());
-                java.util.Date expiryDate = (ruleVersion.getExpirationDate() == null)? GuiUtil.OMEGA_DATE : ruleVersion.getExpirationDate();
-                ruleVersionRanges.add(new DateRange(effectiveDate, expiryDate));
-            }
+        activeVersions = rulesGroup.getActiveVersions();
+        activeVersionRanges = new ArrayList<DateRange>();
+        if (activeVersions == null) return null;
+        for (RulesVersionInfo activeVersion : activeVersions) {
+            java.util.Date effectiveDate = ((activeVersion.getEffectiveDate() == null)? GuiUtil.ALPHA_DATE : activeVersion.getEffectiveDate());
+            java.util.Date expiryDate = (activeVersion.getExpirationDate() == null)? GuiUtil.OMEGA_DATE : activeVersion.getExpirationDate();
+            activeVersionRanges.add(new DateRange(effectiveDate, expiryDate));
         }
-        if (ruleVersionRanges != null && !ruleVersionRanges.isEmpty()) {
-            arrRuleVersionRanges = new DateRange[ruleVersionRanges.size()];
-            arrRuleVersionRanges = ruleVersionRanges.toArray(arrRuleVersionRanges);
+        if (activeVersionRanges != null && !activeVersionRanges.isEmpty()) {
+            arrActiveVersionRanges = new DateRange[activeVersionRanges.size()];
+            arrActiveVersionRanges = activeVersionRanges.toArray(arrActiveVersionRanges);
         }
-        allRange.excludeRanges(arrRuleVersionRanges, result);
+        allRange.excludeRanges(arrActiveVersionRanges, result);
         return result;
     }    
     

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
+import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 
 /**
  * @author zzraly
@@ -132,6 +133,30 @@ public class RulesHierarchyInfo implements ModelObject {
 
     public List<RulesVersionInfo> getVersions() {
         return group;
+    }
+    
+    public List<RulesVersionInfo> getActiveVersions() {
+        List<RulesVersionInfo> activeVersions = new ArrayList<RulesVersionInfo>();
+        if (group != null) {
+            for (RulesVersionInfo version : group) {
+                String status = (version == null || version.getStatus() == null)? "" :
+                    version.getStatus();
+                status = (status == null)? "" : status;
+                if (status.equals(BusinessRuleStatus.ACTIVE.name())) {
+                    activeVersions.add(version);
+                }
+            }
+        }
+        return activeVersions;
+    }
+    
+    public boolean isActiveVersionExist() {
+        boolean result = false;
+        List<RulesVersionInfo> activeVersions = getActiveVersions();
+        if (activeVersions != null && !activeVersions.isEmpty()) {
+            result = true;
+        }
+        return result;
     }
     
     @Override

@@ -47,7 +47,18 @@ a {
 .selected-version {
 	font-family: Arial, sans-serif;
 	font-size: 10px;
-}  
+}
+
+.businessRulesTree_popup {
+	background-color: white;
+	border: 1px solid #87b3ff;
+	font-size: 10px;
+	padding: 5px;
+}
+
+.businessRulesTree_popupmessage {
+	font-size: 10px;
+}
 
 .propositon_bold {
 	font-weight: bold;
