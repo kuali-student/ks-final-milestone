@@ -202,7 +202,10 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         return map.modelObject;
     }
 
-    private TreeItem getTreeItem(T modelObject) {
+    // This method was private but this is now made public 
+    // because subclasses need this method to implement mouse over
+    // events.  See BusinessRulesTree in brms-web project.
+    public TreeItem getTreeItem(T modelObject) {
         List<String> path = getPath(modelObject);
         Iterator<String> itr = path.iterator();
         String rootKey = itr.next();
