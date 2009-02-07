@@ -134,17 +134,18 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         checkBusinessRule(businessRule);
         
         String anchor = businessRule.getAnchorValue();
+        String anchorTypeKey = businessRule.getAnchorTypeKey();
         String ruleName = removeInvalidCharacters(businessRule.getName());
         String ruleDescription = businessRule.getDesc();
         String functionString = BusinessRuleUtil.createAdjustedRuleFunctionString(businessRule);
         Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
 		Date effectiveStartTime = businessRule.getEffectiveDate();
 		Date effectiveEndTime = businessRule.getExpirationDate();
-        generateRules(anchor, ruleName, ruleDescription, functionString, 
+        generateRules(anchor, anchorTypeKey, ruleName, ruleDescription, functionString, 
         		propositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
     }
 
-    public void generateRules(String anchor, String ruleName, 
+    public void generateRules(String anchor, String anchorTypeKey, String ruleName, 
     						  String ruleDescription, String functionString,
     						  Map<String, RulePropositionDTO> functionalPropositionMap, 
     						  RuleSet ruleSet,
@@ -152,17 +153,17 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     						  Date effectiveEndTime) {
         String initRuleName = ruleName+"_INIT";
         String uuid = UUID.randomUUID().toString();
-        String rule1Source = generateRule1InitSourceCode(anchor, initRuleName, uuid, 
+        String rule1Source = generateRule1InitSourceCode(anchor, anchorTypeKey, initRuleName, uuid, 
         		functionString, functionalPropositionMap, 
         		effectiveStartTime, effectiveEndTime);
         addRule(initRuleName, ruleDescription, ruleSet, rule1Source, effectiveStartTime, effectiveEndTime);
 
-        String rule2Source = generateRule2SourceCode(anchor, ruleName, uuid,
+        String rule2Source = generateRule2SourceCode(anchor, anchorTypeKey, ruleName, uuid,
         		functionString, functionalPropositionMap);
         addRule(ruleName, ruleDescription, ruleSet, rule2Source, effectiveStartTime, effectiveEndTime);
     }
 
-    private String generateRule1InitSourceCode(String anchor, 
+    private String generateRule1InitSourceCode(String anchor, String anchorTypeKey,
     										   String ruleName,
     										   String uuid,
     										   String functionString,
@@ -180,6 +181,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         List<String> symbols = function.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
         velocityContextMap.put("anchor", anchor);
+        velocityContextMap.put("anchorTypeKey", anchorTypeKey);
         velocityContextMap.put("ruleName", ruleName);
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
@@ -193,7 +195,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE1_INIT, velocityContextMap);
     }
 
-    private String generateRule2SourceCode(String anchor, 
+    private String generateRule2SourceCode(String anchor, String anchorTypeKey,
     									   String ruleName, 
     									   String uuid,
     									   String functionString,
@@ -205,6 +207,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         List<String> symbols = function.getSymbols();
         Map<String, Object> velocityContextMap = new HashMap<String, Object>();
         velocityContextMap.put("anchor", anchor);
+        velocityContextMap.put("anchorTypeKey", anchorTypeKey);
         velocityContextMap.put("ruleName", ruleName);
         velocityContextMap.put("propositionMap", functionalPropositionMap);
         velocityContextMap.put("functionSymbols", symbols);
@@ -215,13 +218,14 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
         return velocityRuleTemplate.process(VELOCITY_RULE_TEMPLATE2, velocityContextMap);
     }
     
-    public RuleSet createRuleSet(String anchor, String packageName, String description, 
+    public RuleSet createRuleSet(String anchor, String anchorTypeKey, 
+    							 String packageName, String description, 
     							 String ruleName, String functionString,
     							 Map<String, RulePropositionDTO> functionalPropositionMap,
     							 Date effectiveStartTime, Date effectiveEndTime) {
         RuleSet ruleSet = ruleSetFactory.createRuleSet(packageName, description);
         addHeader(ruleSet);
-        generateRules(anchor, ruleName, "A rule description", functionString, 
+        generateRules(anchor, anchorTypeKey, ruleName, "A rule description", functionString, 
         		functionalPropositionMap, ruleSet, effectiveStartTime, effectiveEndTime);
         return ruleSet;
     }

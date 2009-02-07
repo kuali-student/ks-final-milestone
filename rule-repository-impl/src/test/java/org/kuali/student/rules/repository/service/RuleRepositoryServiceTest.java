@@ -642,7 +642,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 
         //Map<String, YieldValueFunctionDTO> yvfMap = getYvfMap(businessRule);
     	Map<String, RulePropositionDTO> propMap = BusinessRuleUtil.getRulePropositions(bri);
-        FactContainer facts =  new FactContainer(""+System.nanoTime(), bri.getAnchorValue(), propMap, factMap);
+        FactContainer facts =  new FactContainer(""+System.nanoTime(), bri.getAnchorValue(), bri.getAnchorTypeKey(), propMap, factMap);
 
         // Execute rule
         // Execute Drools rule set source code

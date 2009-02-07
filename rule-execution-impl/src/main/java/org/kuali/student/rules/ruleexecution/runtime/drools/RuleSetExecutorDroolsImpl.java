@@ -360,6 +360,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     	String ruleBaseType = getRuleTypeKey(businessRule);
         String id = ""+System.nanoTime();
         String anchor = businessRule.getAnchorValue();
+        String anchorTypeKey = businessRule.getAnchorTypeKey();
 
         if(this.logExecution) {
             startLogging(businessRule, ruleBaseType, id);
@@ -367,7 +368,7 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
         
     	Map<String, RulePropositionDTO> propositionMap = BusinessRuleUtil.getRulePropositions(businessRule);
     	
-        FactContainer factContainer =  new FactContainer(id, anchor, propositionMap, factMap);
+        FactContainer factContainer =  new FactContainer(id, anchor, anchorTypeKey, propositionMap, factMap);
 
         ExecutionResult result = executeRule(ruleBaseType, factContainer);
         result.setId(businessRule.getId());

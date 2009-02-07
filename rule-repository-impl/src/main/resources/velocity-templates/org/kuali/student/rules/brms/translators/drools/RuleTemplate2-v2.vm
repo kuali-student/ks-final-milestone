@@ -18,7 +18,7 @@
 
 rule "${ruleName}"
     when
-        factContainer : FactContainer( anchor == "${anchor}", state == FactContainer.State.DONE, prop : propositionContainer)
+        factContainer : FactContainer( anchor == "${anchor}", anchorTypeKey == "${anchorTypeKey}", state == FactContainer.State.DONE, prop : propositionContainer)
 #foreach($symbol in $functionSymbols)
 #if($symbol != "+" && $symbol != "*" && $symbol != "(" && $symbol != ")" )
         $symbol : Proposition( id == "${symbol}-${uuid}" )

@@ -32,7 +32,7 @@ rule "${ruleName}"
     lock-on-active true
 
     when 
-        container : FactContainer( anchor == "${anchor}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
+        container : FactContainer( anchor == "${anchor}", anchorTypeKey == "${anchorTypeKey}", state == FactContainer.State.INIT, propositionMap : propositionMap, prop : propositionContainer, factMap : factMap )
         //Only run rule when: currentDate >= effectiveStartTime AND currentDate < effectiveEndTime
         CurrentDateTime( currentDateAsLong >= $effectiveStartTime && currentDateAsLong < $effectiveEndTime )
     then
@@ -41,6 +41,7 @@ rule "${ruleName}"
         if (logger.isDebugEnabled()) {
             logger.debug("id="+container.getId());
             logger.debug("anchor="+container.getAnchor());
+            logger.debug("anchorTypeKey="+container.getAnchorTypeKey());
             logger.debug("factMap="+factMap);
         }
 

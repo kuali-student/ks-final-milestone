@@ -66,6 +66,7 @@ public class GenerateRuleSetPerfTest {
 
     private final static String PROPOSITION_NAME = "co-requisites";
     private final static String ANCHOR_ID = "TestRuleAnchor";
+    private final static String ANCHOR_TYPE_KEY = "KUALI_COURSE";
     private final static String FACT_ID_1 = "fact1";
 
     @Before
@@ -132,7 +133,7 @@ public class GenerateRuleSetPerfTest {
         Date effectiveStartTime = createDate(2000, 1, 1, 12, 00);
     	Date effectiveEndTime = createDate(2100, 1, 1, 12, 00);
 
-        RuleSet ruleSet = generateRuleSet.createRuleSet(ANCHOR_ID, "TestPackageName", "A package", ruleName,
+        RuleSet ruleSet = generateRuleSet.createRuleSet(ANCHOR_ID, ANCHOR_TYPE_KEY, "TestPackageName", "A package", ruleName,
                 functionString, propositionMap, effectiveStartTime, effectiveEndTime);
         return ruleSet;
     }
@@ -236,7 +237,7 @@ public class GenerateRuleSetPerfTest {
 
             Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
             factMap.put(factId1, createFacts(100));
-            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, null, factMap);
+            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, ANCHOR_TYPE_KEY, null, factMap);
 
             long start = System.currentTimeMillis();
             RuleBase ruleBase = createRuleBase(ruleSetList);
@@ -277,7 +278,7 @@ public class GenerateRuleSetPerfTest {
 
             Map<String,Set<String>> factMap = new HashMap<String,Set<String>>(1);
             factMap.put(factId1, createFacts(100));
-            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, null, factMap);
+            FactContainer facts = new FactContainer(""+System.nanoTime(), ANCHOR_ID, ANCHOR_TYPE_KEY, null, factMap);
 
             long start = System.currentTimeMillis();
             RuleBase ruleBase = createRuleBase(ruleSetList);

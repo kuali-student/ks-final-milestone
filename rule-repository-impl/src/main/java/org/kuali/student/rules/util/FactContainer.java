@@ -26,6 +26,7 @@ public class FactContainer implements java.io.Serializable {
 
     private String id;
     private String anchor;
+    private String anchorTypeKey;
     Map<String, RulePropositionDTO> propositionMap;
     private PropositionContainer propositionContainer = new PropositionContainer();
     private Map<String, ?> factMap;
@@ -33,9 +34,10 @@ public class FactContainer implements java.io.Serializable {
     
     public enum State {INIT,DONE};
 
-    public FactContainer(String id, String anchor, Map<String, RulePropositionDTO> propositionMap, Map<String, ?> factMap) {
+    public FactContainer(String id, String anchor, String anchorTypeKey, Map<String, RulePropositionDTO> propositionMap, Map<String, ?> factMap) {
         this.id = id;
         this.anchor = anchor;
+        this.anchorTypeKey = anchorTypeKey;
         this.propositionMap = propositionMap;
         this.factMap = factMap;
     }
@@ -46,6 +48,10 @@ public class FactContainer implements java.io.Serializable {
     
     public String getAnchor() {
         return this.anchor;
+    }
+    
+    public String getAnchorTypeKey() {
+        return this.anchorTypeKey;
     }
     
     public Map<String, RulePropositionDTO> getPropositionMap() {
@@ -69,6 +75,7 @@ public class FactContainer implements java.io.Serializable {
     }
     
     public String toString() {
-    	return "FactContainer[id=" + this.id + ", anchor='" + this.anchor + "']";
+    	return "FactContainer[id=" + this.id + ", anchor='" + this.anchor + 
+    		"', anchorTypeKey='"+this.anchorTypeKey+"']";
     }
 }
