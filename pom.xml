@@ -153,6 +153,10 @@
 						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
 					</url>
 				</pluginRepository>
+				<pluginRepository>
+					<id>ks-snapshot</id>
+					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+				</pluginRepository>
 			</pluginRepositories>
 		</profile>
 		
