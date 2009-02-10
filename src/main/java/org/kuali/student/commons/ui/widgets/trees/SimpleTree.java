@@ -15,6 +15,8 @@ import org.kuali.student.commons.ui.mvc.client.model.ModelObject;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -26,6 +28,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
     final Map<String, ItemMap<T>> index = new HashMap<String, ItemMap<T>>();
     final List<T> items = new ArrayList<T>();
     private final Set<ModelTableSelectionListener<T>> listeners = new HashSet<ModelTableSelectionListener<T>>();
+    private final Set<TreeMouseOverListener<T>>mouseOverlisteners = new HashSet<TreeMouseOverListener<T>>();
     boolean loaded = false;
 
     public SimpleTree() {
@@ -202,10 +205,7 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
         return map.modelObject;
     }
 
-    // This method was private but this is now made public 
-    // because subclasses need this method to implement mouse over
-    // events.  See BusinessRulesTree in brms-web project.
-    public TreeItem getTreeItem(T modelObject) {
+    private TreeItem getTreeItem(T modelObject) {
         List<String> path = getPath(modelObject);
         Iterator<String> itr = path.iterator();
         String rootKey = itr.next();
@@ -255,6 +255,16 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
     }
 
     /**
+     * Adds a ModelTableSelectionListener to be fired when the selected item changes
+     * 
+     * @param listener
+     *            the listener to add
+     */
+    public void addMouseOverListener(TreeMouseOverListener<T> mouseOverListener) {
+        mouseOverlisteners.add(mouseOverListener);
+    }
+
+    /**
      * Removes a selection change listener
      * 
      * @param listener
@@ -281,4 +291,52 @@ public abstract class SimpleTree<T extends ModelObject> extends Composite implem
             listener.onSelect(modelObject);
         }
     }
+    
+    protected void fireMouseOver(T modelObject,
+            int x, int y) {
+        for (TreeMouseOverListener<T> mouseOverlistener : mouseOverlisteners) {
+            mouseOverlistener.onTreeItemMouseOver(modelObject, x, y);
+        }
+    }
+    
+    protected void fireMouseOut() {
+        for (TreeMouseOverListener<T> mouseOverlistener : mouseOverlisteners) {
+            mouseOverlistener.onMouseOut();
+        }
+    }
+        
+    
+    @Override
+    public void onBrowserEvent(Event event) {
+        super.onBrowserEvent(event);
+        int eventType = DOM.eventGetType(event);
+        switch(eventType) {
+            case Event.ONMOUSEOVER: {
+                com.google.gwt.user.client.Element element = 
+                    DOM.eventGetTarget(event);
+                List<T> items = getItems();
+                T mouseOverredItem = null;
+                int xPosition = 0;
+                int yPosition = 0;
+                for (T item : items) {
+                    TreeItem treeItem = getTreeItem(item);
+                    if (treeItem.getElement().isOrHasChild(element)) {
+                        mouseOverredItem = item;
+                        xPosition = element.getAbsoluteLeft();
+                        yPosition = element.getAbsoluteTop();
+                    }
+                }
+                if (mouseOverredItem != null) {
+                    fireMouseOver(mouseOverredItem, 
+                            xPosition, yPosition);
+                }
+                break;
+            }
+            case Event.ONMOUSEOUT: {
+                fireMouseOut();
+            }
+        }
+
+    }
+
 }
