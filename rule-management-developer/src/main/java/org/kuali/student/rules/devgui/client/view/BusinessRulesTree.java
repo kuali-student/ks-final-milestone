@@ -20,10 +20,9 @@ import com.google.gwt.user.client.ui.TreeItem;
 /**
  * @author zzraly
  */
-public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> implements ModelTableSelectionListener<RulesHierarchyInfo> {
+public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> {
     
     boolean loaded = false;
-    private Set <BusinessRuleTreeListener> listeners = new HashSet<BusinessRuleTreeListener>(); 
 
     /**
      * @param loaded
@@ -41,12 +40,6 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> implements
         if (!loaded) {
             loaded = true;
         }
-        super.addSelectionListener(this);
-    }
-    
-    public void addSelectionListener(ModelTableSelectionListener<RulesHierarchyInfo> listener) {
-        throw new java.lang.IllegalArgumentException(
-                "addBusinessRuleTreeListener(BusinessRuleTreeListener listener) method should be used instead");
     }
     
     @Override
@@ -101,65 +94,4 @@ public class BusinessRulesTree extends SimpleTree<RulesHierarchyInfo> implements
         super.select(modelObject);
     }
 
-    public void onSelect(RulesHierarchyInfo modelObject) {
-        fireSelection(getSelection());
-    }
-    
-    protected void fireSelection(RulesHierarchyInfo modelObject) {
-        for (BusinessRuleTreeListener listener : listeners) {
-            listener.onSelect(modelObject);
-        }
-    }
-
-    protected void fireMouseOver(RulesHierarchyInfo modelObject,
-            int x, int y) {
-        for (BusinessRuleTreeListener listener : listeners) {
-            listener.onTreeItemMouseOver(modelObject, x, y);
-        }
-    }
-    
-    protected void fireMouseOut() {
-        for (BusinessRuleTreeListener listener : listeners) {
-            listener.onMouseOut();
-        }
-    }
-        
-    
-    @Override
-    public void onBrowserEvent(Event event) {
-        super.onBrowserEvent(event);
-        int eventType = DOM.eventGetType(event);
-        switch(eventType) {
-            case Event.ONMOUSEOVER: {
-                com.google.gwt.user.client.Element element = 
-                    DOM.eventGetTarget(event);
-                List<RulesHierarchyInfo> items = getItems();
-                RulesHierarchyInfo mouseOverredItem = null;
-                int xPosition = 0;
-                int yPosition = 0;
-                for (RulesHierarchyInfo item : items) {
-                    TreeItem treeItem = getTreeItem(item);
-                    if (treeItem.getElement().isOrHasChild(element)) {
-                        mouseOverredItem = item;
-                        xPosition = element.getAbsoluteLeft();
-                        yPosition = element.getAbsoluteTop();
-                    }
-                }
-                if (mouseOverredItem != null) {
-                    fireMouseOver(mouseOverredItem, 
-                            xPosition, yPosition);
-                }
-                break;
-            }
-            case Event.ONMOUSEOUT: {
-                fireMouseOut();
-            }
-        }
-
-    }
-
-    public void addBusinessRuleTreeListener(BusinessRuleTreeListener listener) {
-        listeners.add(listener);
-    }
-    
 }

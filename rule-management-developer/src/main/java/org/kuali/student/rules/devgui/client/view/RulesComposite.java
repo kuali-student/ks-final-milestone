@@ -23,6 +23,7 @@ import org.kuali.student.commons.ui.validators.client.ValidationResult;
 import org.kuali.student.commons.ui.validators.client.Validator;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
+import org.kuali.student.commons.ui.widgets.trees.TreeMouseOverListener;
 import org.kuali.student.rules.devgui.client.DateRange;
 import org.kuali.student.rules.devgui.client.GuiUtil;
 import org.kuali.student.rules.devgui.client.IllegalRuleFormatException;
@@ -312,10 +313,9 @@ public class RulesComposite extends Composite {
                     copiedVersionIndicator.setText("");
                 }
             });
-
+            
             // TODO add selection event listener to rulesTree widget
-            rulesTree.addBusinessRuleTreeListener(new BusinessRuleTreeListener() {
-             
+            rulesTree.addSelectionListener(new ModelTableSelectionListener<RulesHierarchyInfo>() {
                 //user click on rules tree to select or deselect rules
                 public void onSelect(RulesHierarchyInfo modelObject) {
                     System.out.println("rulesTree listener.onSelect()");
@@ -335,7 +335,9 @@ public class RulesComposite extends Composite {
                     }
                     copiedVersionIndicator.setText("");
                 }
-
+            });
+            
+            rulesTree.addMouseOverListener(new TreeMouseOverListener<RulesHierarchyInfo>() {
                 public void onTreeItemMouseOver(RulesHierarchyInfo item, int x, int y) {
                     System.out.println("mouse overed item");
                     int numVersions = 0;
