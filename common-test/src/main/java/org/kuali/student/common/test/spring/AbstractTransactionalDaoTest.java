@@ -45,7 +45,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * <p>
  * &#064;Dao defines the Dao implementation class, and an optional application
  * context that contains a list of beans that should be persisted. The list bean
- * should be called "persistList"
+ * should be called "persistList". A sql file that should be loaded can also be defined here with the
+ * testSqlFile parameter.  This should be a sql file.
  * <p>
  * This test class is &#064;Transactional, so all tests will be rolled back.
  * That means the data you load will be in the same state for each test.
