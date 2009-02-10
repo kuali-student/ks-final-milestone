@@ -2244,7 +2244,7 @@ public class RulesComposite extends Composite {
         activeTimeGapsTextArea.setSize("75%", "93px");
         timeGapsFieldPanel.add(GuiUtil.addLabelAndFieldVertically(messages.get("versionTimeGap"), 
                 activeTimeGapsTextArea, "50%"));
-        rulesVersionsTable.setRowsPerPage(5);
+        rulesVersionsTable.setRowsPerPage(3);
 //        ruleVersionVerticalPanel.add(rulesVersionsTable);
         ruleVersionVerticalPanel.add(timeGapsFieldPanel);
         versionPanel.add(ruleVersionVerticalPanel);
