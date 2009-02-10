@@ -469,14 +469,14 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	public void removeOrgPersonRelation() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		StatusInfo si;
 		try {
-			si = client.removeOrgPersonRelation("4");
+			si = client.removeOrgPersonRelation("5");
 			assertTrue(si.getSuccess());
 		} catch (DoesNotExistException e) {
 			assertTrue(false);
 		}
 
 		try {
-			si = client.removeOrgPersonRelation("4");
+			si = client.removeOrgPersonRelation("5");
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
@@ -490,5 +490,13 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		}
 	}
 
+	@Test
+	public void getOrgPersonIdsByRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		List<String> result = client.getPersonIdsForOrgByRelationType("68", "kuali.org.PersonRelation.Professor");
+		assertEquals(2, result.size());
+		result = client.getPersonIdsForOrgByRelationType("147", "kuali.org.PersonRelation.Coordinator");
+		assertEquals(1, result.size());
+		assertEquals("KIM-3", result.get(0));
+	}
 	
 }

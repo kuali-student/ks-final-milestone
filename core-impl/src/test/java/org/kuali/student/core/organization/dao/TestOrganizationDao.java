@@ -282,6 +282,9 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 				"147", "kuali.org.PersonRelation.Coordinator");
 		assertEquals(1, orgPersonRelations.size());
 		assertEquals("KIM-3", orgPersonRelations.get(0));
+		orgPersonRelations = dao.getPersonIdsForOrgByRelationType(
+				"68", "kuali.org.PersonRelation.Professor");
+		assertEquals(2, orgPersonRelations.size());
 	}
 
 	@Test

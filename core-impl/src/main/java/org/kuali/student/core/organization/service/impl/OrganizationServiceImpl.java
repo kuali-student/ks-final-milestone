@@ -454,8 +454,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		return organizationDao.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationTypeKey);
 	}
 
 	@Override
