@@ -17,13 +17,22 @@
 		<class>org.kuali.student.lum.lu.entity.CluAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluAttributeDef</class>
 		<class>org.kuali.student.lum.lu.entity.CluCluRelation</class>
+		<class>org.kuali.student.lum.lu.entity.CluSet</class>
+		<class>org.kuali.student.lum.lu.entity.LearningObjective</class>
+		<class>org.kuali.student.lum.lu.entity.LuDocumentRelation</class>
+		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.Lui</class>
 		<class>org.kuali.student.lum.lu.entity.LuiAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuiAttributeDef</class>
 		<class>org.kuali.student.lum.lu.entity.LuiLuiRelation</class>
 		<class>org.kuali.student.lum.lu.entity.LuLuRelationType</class>
+		<class>org.kuali.student.lum.lu.entity.LuStatement</class>
+		<class>org.kuali.student.lum.lu.entity.LuStatementType</class>
 		<class>org.kuali.student.lum.lu.entity.LuType</class>
-
+		<class>org.kuali.student.lum.lu.entity.RequiredComponent</class>
+		<class>org.kuali.student.lum.lu.entity.RequiredComponentType</class>
+		<class>org.kuali.student.lum.lu.entity.ResourceType</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>		
 	</persistence-unit>
 </persistence>

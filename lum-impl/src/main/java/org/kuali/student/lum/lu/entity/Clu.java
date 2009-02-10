@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,6 +30,14 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name="LU_TYPE_ID")
 	private LuType luType;
 	
+	@OneToMany(mappedBy="clu")
+	private List<LearningObjective> learningObjectives;
+
+	@OneToMany(mappedBy="clu")
+	private List<LearningObjective> resourceTypes;
+	
+	@ManyToMany(mappedBy="clus")
+	List<CluSet> cluSets;
 	
 	@Override
 	public List<CluAttribute> getAttributes() {
@@ -57,5 +66,21 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
 	public void setLuType(LuType luType) {
 		this.luType = luType;
+	}
+
+	public List<LearningObjective> getLearningObjectives() {
+		return learningObjectives;
+	}
+
+	public void setLearningObjectives(List<LearningObjective> learningObjectives) {
+		this.learningObjectives = learningObjectives;
+	}
+
+	public List<LearningObjective> getResourceTypes() {
+		return resourceTypes;
+	}
+
+	public void setResourceTypes(List<LearningObjective> resourceTypes) {
+		this.resourceTypes = resourceTypes;
 	}
 }
