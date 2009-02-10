@@ -123,7 +123,7 @@ public class RulesComposite extends Composite {
     final ScrollPanel rulesScrollPanel = new ScrollPanel();
     final VerticalSplitPanel rulesVerticalSplitPanel = new VerticalSplitPanel();
     final SimplePanel simplePanel = new SimplePanel();
-    final Label selectedVersionLabel = new Label("");
+    final Label copiedVersionIndicator = new Label("");
     final TabPanel rulesFormTabs = new TabPanel();
     
     // Rule Version tab
@@ -309,22 +309,6 @@ public class RulesComposite extends Composite {
                         	loadExistingRule(ruleInfo);
                         }
                     });
-                    System.out.println("rulesVersionsTable listener.onSelect() setting selectedVersionLabel to \"\"");
-                    selectedVersionLabel.setText("");
-                    if (displayedRuleInfo != null) {
-                        StringBuilder displayedVersion =
-                            new StringBuilder();
-                        displayedVersion.append(
-                                displayedRuleInfo.getStatus()).append("\n").
-                                append(displayedRuleInfo.getAgendaType()).append("\n").
-                                append(displayedRuleInfo.getAgendaType()).append("\n").
-                                append(displayedRuleInfo.getAnchor()).append("\n").
-                                append(displayedRuleInfo.getBusinessRuleDisplayName()).append("\n").
-                                append(dateFormatter.format(displayedRuleInfo.getEffectiveDate()));           
-                        System.out.println("rulesVersionsTable listener.onSelect() setting " +
-                        		"selectedVersionLabel to " + displayedVersion);
-                        selectedVersionLabel.setText(displayedVersion.toString());
-                    }
                 }
             });
 
@@ -342,28 +326,11 @@ public class RulesComposite extends Composite {
                     }
                     loadEmptyRule();
                     loadVersionGroup(modelObject);
-                    rulesFormTabs.selectTab(0);
                     if (displayedRuleInfo == null &&
                             modelObject != null &&
                             modelObject.getVersions() != null &&
                             modelObject.getVersions().size() == 1) {
                         rulesVersionsTable.select(modelObject.getVersions().get(0));
-                    }
-                    System.out.println("rulesTree listener.onSelect() setting selectedVersionLabel to \"\"");
-                    selectedVersionLabel.setText("");
-                    if (displayedRuleInfo != null) {
-                        StringBuilder displayedVersion =
-                            new StringBuilder();
-                        displayedVersion.append(
-                                displayedRuleInfo.getStatus()).append("\n").
-                                append(displayedRuleInfo.getAgendaType()).append("\n").
-                                append(displayedRuleInfo.getAgendaType()).append("\n").
-                                append(displayedRuleInfo.getAnchor()).append("\n").
-                                append(displayedRuleInfo.getBusinessRuleDisplayName()).append("\n").
-                                append(dateFormatter.format(displayedRuleInfo.getEffectiveDate()));           
-                        System.out.println("rulesVersionsTable listener.onSelect() setting " +
-                                "selectedVersionLabel to " + displayedVersion);
-                        selectedVersionLabel.setText(displayedVersion.toString());
                     }
                 }
 
@@ -481,7 +448,6 @@ public class RulesComposite extends Composite {
 //                            }
                             rulesVersionsTable.select(displayedRuleInfo);
                             loadExistingRule(displayedRule);
-                            rulesFormTabs.selectTab(0);
                             GuiUtil.showUserDialog("New rule submitted.");
                         }
                     });
@@ -643,7 +609,7 @@ public class RulesComposite extends Composite {
                     ruleStatus.setText(STATUS_NOT_STORED_IN_DATABASE);
                     loadExistingRule(displayedRule); 
                 	GuiUtil.showUserDialog("Rule copied.");
-                    selectedVersionLabel.setText("Copied Version.");
+                    copiedVersionIndicator.setText("Copied Version.");
                 }
             });  
             
@@ -2167,7 +2133,6 @@ public class RulesComposite extends Composite {
     }         
     
     public void displayActiveRule() {
-        rulesFormTabs.selectTab(0);
         
         // populate Main TAB
         businessRuleID.setText(displayedRule.getId());
@@ -2229,9 +2194,10 @@ public class RulesComposite extends Composite {
         rulesFormVerticalPanel.setSpacing(5);
         HorizontalPanel selectedVersionPanel = new HorizontalPanel();
         selectedVersionPanel.setSpacing(5);
-        selectedVersionLabel.setStyleName("selected-version");
-        selectedVersionPanel.add(new Label("Version Selected:"));
-        selectedVersionPanel.add(selectedVersionLabel);
+        copiedVersionIndicator.setStyleName("copied-version");
+//        selectedVersionPanel.add(new Label("Version Selected:"));
+        selectedVersionPanel.add(rulesVersionsTable);
+        selectedVersionPanel.add(copiedVersionIndicator);
         rulesFormVerticalPanel.add(selectedVersionPanel);
         rulesFormVerticalPanel.add(rulesFormTabs);
         rulesFormVerticalPanel.add(hp);
@@ -2277,7 +2243,7 @@ public class RulesComposite extends Composite {
         timeGapsFieldPanel.add(GuiUtil.addLabelAndFieldVertically(messages.get("versionTimeGap"), 
                 activeTimeGapsTextArea, "50%"));
         rulesVersionsTable.setRowsPerPage(5);
-        ruleVersionVerticalPanel.add(rulesVersionsTable);
+//        ruleVersionVerticalPanel.add(rulesVersionsTable);
         ruleVersionVerticalPanel.add(timeGapsFieldPanel);
         versionPanel.add(ruleVersionVerticalPanel);
         return rulesVersionFlexTable;
