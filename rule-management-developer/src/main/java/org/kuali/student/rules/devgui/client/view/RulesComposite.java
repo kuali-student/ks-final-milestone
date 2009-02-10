@@ -309,6 +309,7 @@ public class RulesComposite extends Composite {
                         	loadExistingRule(ruleInfo);
                         }
                     });
+                    copiedVersionIndicator.setText("");
                 }
             });
 
@@ -332,6 +333,7 @@ public class RulesComposite extends Composite {
                             modelObject.getVersions().size() == 1) {
                         rulesVersionsTable.select(modelObject.getVersions().get(0));
                     }
+                    copiedVersionIndicator.setText("");
                 }
 
                 public void onTreeItemMouseOver(RulesHierarchyInfo item, int x, int y) {
