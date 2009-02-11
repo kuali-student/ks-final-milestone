@@ -1,4 +1,4 @@
-package org.kuali.student.core.organization.web.client.service;
+package org.kuali.student.core.organization.ui.client.service;
 
 import java.util.List;
 

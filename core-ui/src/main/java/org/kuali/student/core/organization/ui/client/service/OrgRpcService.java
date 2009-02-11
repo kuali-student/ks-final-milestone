@@ -1,4 +1,4 @@
-package org.kuali.student.core.organization.web.client.service;
+package org.kuali.student.core.organization.ui.client.service;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;

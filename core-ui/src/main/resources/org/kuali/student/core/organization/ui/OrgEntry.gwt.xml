@@ -8,7 +8,7 @@
 	<inherits name="org.kuali.student.core.organization.Organization"/>
 	<inherits name="com.google.gwt.visualization.Visualization"/>
 	
-	<entry-point class='org.kuali.student.core.organization.web.client.view.OrgEntryPoint'/>
+	<entry-point class='org.kuali.student.core.organization.ui.client.view.OrgEntryPoint'/>
     <extend-property name="locale" values="en"/>
 	<stylesheet src="KualiStudent.css" />    
 </module>

@@ -1,4 +1,4 @@
-package org.kuali.student.core.organization.web.client.view;
+package org.kuali.student.core.organization.ui.client.view;
 
 
 import com.google.gwt.core.client.EntryPoint;

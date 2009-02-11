@@ -33,13 +33,13 @@
 
 	<servlet>
 		<servlet-name>orgRpcServiceGwt</servlet-name>
-		<servlet-class>org.kuali.student.core.organization.web.server.gwt.OrgRpcServiceGwt</servlet-class>
+		<servlet-class>org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>/org.kuali.student.core.organization.web.OrgEntry/OrgRpcService</url-pattern>
+		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService</url-pattern>
 	</servlet-mapping>
 
 </web-app>

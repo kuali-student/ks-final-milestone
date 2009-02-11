@@ -24,14 +24,14 @@
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<!-- defines which page should be launched when run in hosted mode -->
-					<startupUrl>org.kuali.student.core.organization.web.OrgEntry/OrgEntry.html</startupUrl>
+					<startupUrl>org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.html</startupUrl>
 					<runTarget>
-						org.kuali.student.core.organization.web.OrgEntry
+						org.kuali.student.core.organization.ui.OrgEntry
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
 						<param>
-							org.kuali.student.core.organization.web.OrgEntry
+							org.kuali.student.core.organization.ui.OrgEntry
 						</param>
 						<!-- add any other GWT modules in your project that are required -->
 					</compileTargets>
@@ -45,7 +45,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-web</artifactId>
+			<artifactId>ks-core-ui</artifactId>
 			<classifier>classes</classifier>
 			<type>jar</type>
 			<version>0.0.1-SNAPSHOT</version>
@@ -97,7 +97,7 @@
 		<!--  Sources for GWT Compile -->
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
-			<artifactId>ks-core-web</artifactId>
+			<artifactId>ks-core-ui</artifactId>
 			<classifier>sources</classifier>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>

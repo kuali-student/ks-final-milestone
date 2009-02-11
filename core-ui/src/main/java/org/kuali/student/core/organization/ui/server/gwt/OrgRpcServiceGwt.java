@@ -1,4 +1,4 @@
-package org.kuali.student.core.organization.web.server.gwt;
+package org.kuali.student.core.organization.ui.server.gwt;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
-import org.kuali.student.core.organization.web.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

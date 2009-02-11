@@ -1,9 +1,9 @@
-package org.kuali.student.core.organization.web.client.view;
+package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.core.organization.web.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.core.organization.web.client.view;
+package org.kuali.student.core.organization.ui.client.view;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
-import org.kuali.student.core.organization.web.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;

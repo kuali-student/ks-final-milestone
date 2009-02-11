@@ -12,7 +12,7 @@
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="urlMap">
 			<map>
-				<entry key="/org.kuali.student.core.organization.web.OrgEntry/OrgRpcService">
+				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
 				</entry>
 			</map>
@@ -26,12 +26,12 @@
 	</bean>
 	
 	<!-- GWT Servlets -->
-	<bean id="orgRpcServiceGwt" class="org.kuali.student.core.organization.web.server.gwt.OrgRpcServiceGwt">
+	<bean id="orgRpcServiceGwt" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcServiceGwt">
 		<property name="serviceImpl" ref="orgRpcServiceImpl"/>
 	</bean>
 	
 	<!-- Service Implementations -->
-	<bean id="orgRpcServiceImpl" class="org.kuali.student.core.organization.web.server.impl.OrgRpcServiceImpl">
+	<bean id="orgRpcServiceImpl" class="org.kuali.student.core.organization.ui.server.impl.OrgRpcServiceImpl">
 		<property name="service" ref="orgClient" />
 	</bean>
 

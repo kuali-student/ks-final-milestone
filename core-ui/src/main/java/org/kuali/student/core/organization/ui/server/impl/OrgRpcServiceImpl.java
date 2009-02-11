@@ -1,4 +1,4 @@
-package org.kuali.student.core.organization.web.server.impl;
+package org.kuali.student.core.organization.ui.server.impl;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.organization.web.client.service.OrgRpcService;
+import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 
 public class OrgRpcServiceImpl implements OrgRpcService{
 
