@@ -202,6 +202,14 @@ public class RulesComposite extends Composite {
     final VerticalPanel treePopupMessagePanel = new VerticalPanel();
     final HTML treePopupMessageHTML = new HTML();
 
+    // rule widgets for tabs
+    Widget rulesVersionPage;
+    Widget rulesMainPage;
+    Widget rulesPropositionPage;
+    Widget rulesMetaDataPage;
+    Widget rulesTestPage;
+    Widget rulesTestResultsPage;
+    
     boolean loaded = false;
     
     public RulesComposite() {
@@ -311,6 +319,7 @@ public class RulesComposite extends Composite {
                         }
                     });
                     copiedVersionIndicator.setText("");
+                    setRuleEditingTabsVisability(true);
                 }
             });
             
@@ -332,6 +341,9 @@ public class RulesComposite extends Composite {
                             modelObject.getVersions() != null &&
                             modelObject.getVersions().size() == 1) {
                         rulesVersionsTable.select(modelObject.getVersions().get(0));
+                    } else {
+                        rulesVersionsTable.select(null);
+                        setRuleEditingTabsVisability(false);
                     }
                     copiedVersionIndicator.setText("");
                 }
@@ -2171,12 +2183,13 @@ public class RulesComposite extends Composite {
     }    
     
     private Widget addRulesForm() {
-        rulesFormTabs.add(addRulesVersionPage(),"Versions");        
-        rulesFormTabs.add(addRulesMainPage(), "Main");
-        rulesFormTabs.add(addRulesPropositionPage(), "Propositions");
-        rulesFormTabs.add(addRRulesMetaDataPage(), "Authoring");
-        rulesFormTabs.add(addRRulesTestPage(), "Test");
-        rulesFormTabs.add(addRRulesTestResultsPage(), "Test Results");
+        rulesVersionPage = addRulesVersionPage();
+        rulesMainPage = addRulesMainPage();
+        rulesPropositionPage = addRulesPropositionPage();
+        rulesMetaDataPage = addRRulesMetaDataPage();
+        rulesTestPage = addRRulesTestPage();
+        rulesTestResultsPage = addRRulesTestResultsPage();
+        rulesFormTabs.add(rulesVersionPage,"Versions");        
         rulesFormTabs.setSize("90%", "550px");
         rulesFormTabs.selectTab(0);        
 
@@ -2738,7 +2751,39 @@ public class RulesComposite extends Composite {
         rulesFormPanel.add(testReport);
         
         return propositionsFlexTable;
-    }    
+    }
+    
+    private void setRuleEditingTabsVisability(boolean visible) {
+        if (visible) {
+            // only adds the tabs if they are not already visible
+            addTab(rulesMainPage, "Main");
+            addTab(rulesPropositionPage, "Propositions");
+            addTab(rulesMetaDataPage, "Authoring");
+            addTab(rulesTestPage, "Test");
+            addTab(rulesTestResultsPage, "Test Results");
+        } else {
+            removeTab(rulesMainPage);
+            removeTab(rulesPropositionPage);
+            removeTab(rulesMetaDataPage);
+            removeTab(rulesTestPage);
+            removeTab(rulesTestResultsPage);
+            rulesFormTabs.selectTab(rulesFormTabs.getWidgetIndex(rulesVersionPage));
+        }
+    }
+    
+    private void removeTab(Widget tabWidget) {
+        int tabWidgetIndex = rulesFormTabs.getWidgetIndex(tabWidget);
+        if (tabWidgetIndex >= 0) {
+            rulesFormTabs.remove(tabWidgetIndex);
+        }
+    }
+    
+    private void addTab(Widget tabWidget, String tabText) {
+        int tabWidgetIndex = rulesFormTabs.getWidgetIndex(tabWidget);
+        if (tabWidgetIndex < 0) {
+            rulesFormTabs.add(tabWidget, tabText);
+        }
+    }
     
     private void displayTestPageRuleFacts() {
         
