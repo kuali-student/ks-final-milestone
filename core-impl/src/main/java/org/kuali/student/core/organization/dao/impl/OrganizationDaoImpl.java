@@ -180,21 +180,31 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		query.setParameter("orgHierarchyId",orgHierarchyId);
 		@SuppressWarnings("unchecked")
 		List<OrgTreeInfo> orgTreeInfos = query.getResultList();
-		
+
 		return orgTreeInfos;
+	}
+
+	@Override
+	public boolean hasOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey) {
+		Query query = em.createNamedQuery("OrgPersonRelationType.hasOrgPersonRelation");
+		query.setParameter("orgId", orgId);
+		query.setParameter("personId", personId);
+		query.setParameter("orgPersonRelationTypeKey", orgPersonRelationTypeKey);
+		Long valid = (Long)query.getSingleResult();
+		return valid.intValue()>0;
 	}
 
 	@Override
 	public boolean hasOrgOrgRelation(String orgId, String comparisonOrgId,
 			String orgOrgRelationTypeKey) {
-		
+
 		Query query = em.createNamedQuery("OrgOrgRelation.hasOrgOrgRelation");
 		query.setParameter("orgId",orgId);
 		query.setParameter("comparisonOrgId",comparisonOrgId);
 		query.setParameter("orgOrgRelationTypeKey",orgOrgRelationTypeKey);
-		
+
 		Long relationCount = (Long)query.getSingleResult();
-		
+
 		return relationCount>0;
 	}
 

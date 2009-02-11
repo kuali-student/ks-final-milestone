@@ -1233,3 +1233,6 @@ insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYP
 insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Professor')
 /
 
+// Org Person Relation Type
+insert into KS_ORG_ORG_PERS_REL_TYPE_T (ORG_KEY, ORG_PERSON_RELATION_TYPE_KEY) VALUES ('68', 'kuali.org.PersonRelation.Head')
+/

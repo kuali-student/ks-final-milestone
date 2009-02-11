@@ -430,6 +430,49 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertTrue(orgOrgRelationTypeInfos == null || orgOrgRelationTypeInfos.size() == 0);
 	}
 
+	@Test
+	public void hasOrgPersonRelation() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		Boolean hasRelation = client.hasOrgPersonRelation("68", "KIM-1", "kuali.org.PersonRelation.Head");
+		assertNotNull(hasRelation);
+		assertTrue(hasRelation);
+
+		hasRelation = client.hasOrgPersonRelation("68x", "KIM-1", "kuali.org.PersonRelation.Head");
+		assertNotNull(hasRelation);
+		assertFalse(hasRelation);
+
+		hasRelation = client.hasOrgPersonRelation("68", "KIM--1", "kuali.org.PersonRelation.Head");
+		assertNotNull(hasRelation);
+		assertFalse(hasRelation);
+		
+		hasRelation = client.hasOrgPersonRelation("68", "KIM-1", "kuali.org.PersonRelation.HeadTTT");
+		assertNotNull(hasRelation);
+		assertFalse(hasRelation);
+		
+		
+		try {
+			hasRelation = client.hasOrgPersonRelation(null, "KIM-1", "kuali.org.PersonRelation.Head");
+			assertFalse(true);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+
+		try {
+			hasRelation = client.hasOrgPersonRelation("68", null, "kuali.org.PersonRelation.Head");
+			assertFalse(true);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+
+		try {
+			hasRelation = client.hasOrgPersonRelation("68", "KIM-1", null);
+			assertFalse(true);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+
+		
+	}
+
 	
 	@Test 
 	public void testGetOrgTreeInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -496,6 +539,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 	}
+
 
 	@Test
 	public void getOrgPersonIdsByRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

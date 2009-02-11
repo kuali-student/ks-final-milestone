@@ -22,7 +22,8 @@ import org.kuali.student.core.entity.AttributeOwner;
 @Table(name = "KS_ORG_PERSON_REL_TYPE_T")
 @NamedQueries({
 	@NamedQuery(name="OrgPersonRelationType.getOrgPersonRelationTypesForOrgType", query="SELECT oprt FROM OrgPersonRelationType oprt JOIN oprt.organizationTypes ot WHERE ot.key = :orgTypeKey"),
-	@NamedQuery(name="OrgPersonRelationType.getPersonIdsForOrgByRelationType", query="SELECT DISTINCT opr.personId FROM OrgPersonRelation opr JOIN opr.org o JOIN opr.orgPersonRelationType t WHERE o.id = :orgId AND t.key = :orgPersonRelationTypeKey")
+	@NamedQuery(name="OrgPersonRelationType.getPersonIdsForOrgByRelationType", query="SELECT DISTINCT opr.personId FROM OrgPersonRelation opr JOIN opr.org o JOIN opr.orgPersonRelationType t WHERE o.id = :orgId AND t.key = :orgPersonRelationTypeKey"),
+	@NamedQuery(name="OrgPersonRelationType.hasOrgPersonRelation", query="SELECT COUNT(oprt) FROM OrgPersonRelationType oprt JOIN oprt.orgPersonRelations relations JOIN oprt.organizations orgs WHERE relations.personId = :personId AND orgs.id = :orgId AND oprt.key = :orgPersonRelationTypeKey")
 })
 public class OrgPersonRelationType
 	implements AttributeOwner<OrgPersonRelationTypeAttribute> {
