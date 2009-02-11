@@ -1,6 +1,5 @@
 package org.kuali.student.rules.ruleexecution.runtime.drools.logging;
 
-import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
