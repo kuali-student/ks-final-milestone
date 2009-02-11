@@ -99,25 +99,16 @@
 	</bean>
 
 	
-	<!-- Preloaded beans -->
-
-<!-- 
-	<import resource="classpath:data-beans.xml" />
-
-	<bean id="preloadBeans"
-		class="org.kuali.student.poc.common.util.jpa.LoadJpaBeanListener">
-		<property name="loadJpaBean">
-			<bean
-				class="org.kuali.student.poc.common.util.jpa.LoadJpaBean" />
-		</property>
+	<!-- Preloaded data -->
+	<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+		<property name="jtaTxManager" ref="JtaTxManager"/>
 		<property name="preloadMap">
 			<map>
-				<entry key="Scat">
-					<ref bean="scatBeanPreloadList" />
+				<entry key="Organization">
+					<value>classpath:ks-org.sql</value>
 				</entry>
 			</map>
 		</property>
 	</bean>
--->	
 	
 </beans>
