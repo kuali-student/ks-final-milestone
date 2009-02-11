@@ -202,6 +202,22 @@ public interface RuleManagementService {
     String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     * Retrieves a high level view of the business rule associated with a given business rule Id. This method only populates
+     * a limited number of fields with in BusinessRulesInfoDTO.  For detailed view use the web method fetchDetailedBusinessRuleInfo
+     * 
+     * @param business
+     *            rule Id
+     * @return brief view of business rule info
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @WebMethod
+    public BusinessRuleInfoDTO fetchBriefBusinessRuleInfo(@WebParam(name = "businessRuleId")
+    String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
      * Retrieves all the english language representation of the business rule associated with a given business rule Id.
      * 
      * @param business
