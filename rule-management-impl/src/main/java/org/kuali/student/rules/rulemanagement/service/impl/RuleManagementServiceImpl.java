@@ -38,7 +38,6 @@ import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.StatusDTO;
 import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
 import org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo;
-import org.kuali.student.rules.rulemanagement.entity.BriefBusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
@@ -241,21 +240,6 @@ public class RuleManagementServiceImpl implements RuleManagementService {
                     element.getRuleProposition().getLeftHandSide().getYieldValueFunction().getFacts().size();
                 }
             }
-
-        } catch (NoResultException nre) {
-            logger.error(nre.getMessage(), nre);
-            throw new DoesNotExistException("No rule exists with Id: " + businessRuleId);
-        }
-
-        BusinessRuleInfoDTO brInfoDTO = BusinessRuleAdapter.getBusinessRuleInfoDTO(rule);
-        return brInfoDTO;
-    }
-
-    @Override
-    public BusinessRuleInfoDTO fetchBriefBusinessRuleInfo(String businessRuleId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        BriefBusinessRule rule = null;
-        try {
-            rule = ruleManagementDao.lookupBriefBusinessRuleUsingId(businessRuleId);
 
         } catch (NoResultException nre) {
             logger.error(nre.getMessage(), nre);
