@@ -15,12 +15,12 @@
  */
 package org.kuali.student.core.organization.web.client.view;
 
-import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -48,23 +48,23 @@ public class OrgMenu extends VerticalPanel{
     }
 
     protected void onLoad(){
-        locateOrg.addClickListener(new ClickListener(){           
-            public void onClick(Widget sender) {
+        locateOrg.addClickHandler(new ClickHandler(){           
+            public void onClick(ClickEvent event) {
                 workPanel.setWidget(new OrgLocatePanel());
         }});
 
-        createOrg.addClickListener(new ClickListener(){           
-            public void onClick(Widget sender) {
+        createOrg.addClickHandler(new ClickHandler(){           
+            public void onClick(ClickEvent event) {
                 workPanel.setWidget(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL));
         }});
         
-        createPos.addClickListener(new ClickListener(){
-            public void onClick(Widget sender) {
+        createPos.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
                 workPanel.setWidget(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_POSITIONS));
         }});
     
-        modifyOrg.addClickListener(new ClickListener(){
-            public void onClick(Widget sender) {
+        modifyOrg.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
                 workPanel.setWidget(new OrgCreatePanel(OrgCreatePanel.CREATE_ORG_ALL));
         }});
         

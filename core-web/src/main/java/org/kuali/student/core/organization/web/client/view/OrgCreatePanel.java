@@ -24,11 +24,12 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -38,7 +39,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
@@ -102,8 +102,8 @@ public class OrgCreatePanel extends Composite{
                 btnCreateOrg.setText("Update");
             }
             
-            btnCreateOrg.addClickListener(new ClickListener(){
-                public void onClick(Widget sender) {
+            btnCreateOrg.addClickHandler(new ClickHandler(){
+                public void onClick(ClickEvent event) {
                     vPanel.clear();
                     
                     if (type.equals(CREATE_ORG_ALL)){
@@ -420,8 +420,8 @@ public class OrgCreatePanel extends Composite{
     protected Hyperlink getPositionLink(){
         Hyperlink addPositionLink = new Hyperlink("(+)add position", "addPos");
         addPositionLink.setStyleName("action");
-        addPositionLink.addClickListener(new ClickListener(){
-            public void onClick(Widget sender) {
+        addPositionLink.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
                 if (vPositions.getWidgetCount() > 1){
                     vPositions.insert(new HTML("<hr/>"), vPositions.getWidgetCount()-1);
                 }
@@ -436,8 +436,8 @@ public class OrgCreatePanel extends Composite{
     protected Hyperlink getRelationLink(){
         Hyperlink addRelationLink = new Hyperlink("(+)add relation", "addRelation");
         addRelationLink.setStyleName("action");
-        addRelationLink.addClickListener(new ClickListener(){
-            public void onClick(Widget sender) {
+        addRelationLink.addClickHandler(new ClickHandler(){
+            public void onClick(ClickEvent event) {
                 if (vRelations.getWidgetCount() > 1){
                     vRelations.insert(new HTML("<hr/>"), vRelations.getWidgetCount()-1);
                 }

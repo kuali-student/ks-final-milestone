@@ -24,9 +24,10 @@ import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -172,8 +173,8 @@ public class OrgLocatePanel extends Composite{
             orgId = orgInfo.getId();
             super.initWidget(vOrgPanel);
             orgLink = new Hyperlink(orgInfo.getLongName(), "viewOrg");
-            orgLink.addClickListener(new ClickListener(){           
-                public void onClick(Widget sender) {
+            orgLink.addClickHandler(new ClickHandler(){           
+                public void onClick(ClickEvent event) {
                     removeWidgetsRight(vOrgPanel.getParent().getParent());
                     if (orgRootHierarchy.containsKey(orgId)){
                         activeHierarchyId = orgRootHierarchy.get(orgId);
@@ -185,15 +186,15 @@ public class OrgLocatePanel extends Composite{
             
             orgEditLbl = new Hyperlink("Edit", "editOrg");
             orgEditLbl.setStyleName("action");
-            orgEditLbl.addClickListener(new OrgActionClickListener(orgId, OrgCreatePanel.CREATE_ORG_ALL));
+            orgEditLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_ALL));
             
             orgAddPosLbl = new Hyperlink("(+)org pos", "addPosRel");
             orgAddPosLbl.setStyleName("action");
-            orgAddPosLbl.addClickListener(new OrgActionClickListener(orgId, OrgCreatePanel.CREATE_ORG_POSITIONS));
+            orgAddPosLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_POSITIONS));
 
             orgAddRelLbl = new Hyperlink("(+)org rel", "addOrgRel");
             orgAddRelLbl.setStyleName("action");
-            orgAddRelLbl.addClickListener(new OrgActionClickListener(orgId, OrgCreatePanel.CREATE_ORG_RELATIONS));
+            orgAddRelLbl.addClickHandler(new OrgActionClickHandler(orgId, OrgCreatePanel.CREATE_ORG_RELATIONS));
 
             FlexTable ft = new FlexTable();
             ft.setWidget(0, 1, orgEditLbl);
@@ -205,17 +206,17 @@ public class OrgLocatePanel extends Composite{
         }        
     }
     
-    public class OrgActionClickListener implements ClickListener{
+    public class OrgActionClickHandler implements ClickHandler{
 
         String orgPanelType;
         String orgId;
         
-        public OrgActionClickListener(String orgId, String orgPanelType){
+        public OrgActionClickHandler(String orgId, String orgPanelType){
             this.orgPanelType = orgPanelType;
             this.orgId = orgId;
         }
         
-        public void onClick(Widget sender) {
+        public void onClick(ClickEvent event) {
             SimplePanel workPanel  = (SimplePanel)root.getParent().getParent();
             OrgCreatePanel orgCreatePanel = new OrgCreatePanel(orgPanelType);
             orgCreatePanel.setOrgId(orgId);

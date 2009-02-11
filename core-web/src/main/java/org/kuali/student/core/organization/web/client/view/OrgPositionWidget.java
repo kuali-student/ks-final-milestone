@@ -23,9 +23,10 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.web.client.service.OrgRpcService;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -188,9 +189,9 @@ public class OrgPositionWidget extends Composite {
         Hyperlink hLink = new Hyperlink("(-)remove","");
         hLink.setStyleName("action");
         
-        hLink.addClickListener(new ClickListener(){
+        hLink.addClickHandler(new ClickHandler(){
 
-            public void onClick(Widget sender) {
+            public void onClick(ClickEvent event) {
                 //TODO: Add call to remove position
             }            
         });
