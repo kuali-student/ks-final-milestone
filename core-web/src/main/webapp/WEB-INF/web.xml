@@ -11,11 +11,11 @@
 		</init-param>
 	</servlet>
 	
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>orgRpcServiceGwt</servlet-name>
 		<servlet-class>org.kuali.student.core.organization.web.server.gwt.OrgRpcServiceGwt</servlet-class>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
+	</servlet> -->
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
