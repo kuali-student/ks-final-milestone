@@ -20,20 +20,13 @@
 			<plugin>
 				<groupId>com.totsp.gwt</groupId>
 				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-				<version>2.0.1-beta25-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<!-- defines which page should be launched when run in hosted mode -->
+					<startupUrl>org.kuali.student.core.organization.web.OrgEntry/OrgEntry.html</startupUrl>
 					<runTarget>
-						org.kuali.student.core.organization.web.OrgEntry/OrgEntry.html
+						org.kuali.student.core.organization.web.OrgEntry
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
@@ -93,6 +86,11 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.3.0</version>
 		</dependency>
 				 		
 

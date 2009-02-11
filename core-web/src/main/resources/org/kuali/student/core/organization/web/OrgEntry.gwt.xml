@@ -10,6 +10,5 @@
 	
 	<entry-point class='org.kuali.student.core.organization.web.client.view.OrgEntryPoint'/>
     <extend-property name="locale" values="en"/>
-	<servlet class="org.kuali.student.core.organization.web.server.gwt.OrgRpcServiceGwt" path="/OrgRpcService"/>
 	<stylesheet src="KualiStudent.css" />    
 </module>

@@ -24,21 +24,13 @@
 			<plugin>
 				<groupId>com.totsp.gwt</groupId>
 				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-				<version>2.0.1-beta25-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<goals>
-							<!-- <goal>mergewebxml</goal> -->
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
 					<!-- defines which page should be launched when run in hosted mode -->
+					<startupUrl>org.kuali.student.core.organization.web.OrgEntry/OrgEntry.html</startupUrl>
 					<runTarget>
-						org.kuali.student.core.organization.web.OrgEntry/OrgEntry.html
+						org.kuali.student.core.organization.web.OrgEntry
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
@@ -50,29 +42,6 @@
 					<extraJvmArgs>-Xmx512m</extraJvmArgs>
 				</configuration>
 			</plugin>
-
-			<plugin>
-		      <artifactId>maven-antrun-plugin</artifactId>
-		      <executions>
-		        <execution>
-		          <phase>process-classes</phase>
-		          <configuration>
-		            <tasks>
-		              <copy todir="${project.build.outputDirectory}/../tomcat/webapps/ROOT">
-		                <fileset dir="${project.build.outputDirectory}/../${project.build.finalName}">
-		                  <exclude name="**/*-aux/*" />
-		                  <exclude name="META-INF" />
-		                  <exclude name="WEB-INF" />
-		                </fileset>
-		              </copy>
-		            </tasks>
-		          </configuration>
-		          <goals>
-		            <goal>run</goal>
-		          </goals>
-		        </execution>
-		      </executions>
-		    </plugin>			
 
 			<!-- Create additional jar file of gwt classes -->	
 			<plugin>
