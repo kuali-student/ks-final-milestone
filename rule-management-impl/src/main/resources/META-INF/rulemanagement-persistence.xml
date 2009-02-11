@@ -9,6 +9,7 @@
       <class>org.kuali.student.rules.internal.common.entity.AgendaType</class>
       <class>org.kuali.student.rules.internal.common.entity.AnchorTypeKey</class>
       <class>org.kuali.student.rules.rulemanagement.entity.BusinessRule</class>
+      <class>org.kuali.student.rules.rulemanagement.entity.BriefBusinessRule</class>
       <class>org.kuali.student.rules.rulemanagement.entity.BusinessRuleType</class>
       <class>org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey</class>
       <class>org.kuali.student.rules.internal.common.entity.ComparisonOperator</class>

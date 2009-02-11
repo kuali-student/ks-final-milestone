@@ -23,6 +23,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.dao.RuleManagementDAO;
 import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
 import org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo;
+import org.kuali.student.rules.rulemanagement.entity.BriefBusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.rules.rulemanagement.entity.RuleElement;
@@ -178,7 +179,17 @@ public class RuleManagementDAOImpl implements RuleManagementDAO {
         
         return rule;
     }
-
+    
+    @Override
+    public BriefBusinessRule lookupBriefBusinessRuleUsingId(String id) {
+        BriefBusinessRule briefRule = entityManager.find(BriefBusinessRule.class, id);
+        if (null == briefRule) {
+            throw new NoResultException("No record found for Id:" + id);
+        }
+        
+        return briefRule;
+    }
+    
     @Override
     @SuppressWarnings(value = {"unchecked"})
     public List<BusinessRule> lookupBusinessRuleUsingAnchor(BusinessRuleTypeKey businessRuleTypeKey, String anchor) {

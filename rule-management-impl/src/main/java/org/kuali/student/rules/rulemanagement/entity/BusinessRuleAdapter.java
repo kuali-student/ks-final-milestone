@@ -117,6 +117,35 @@ public class BusinessRuleAdapter {
         return ruleDTO;                
     }
     
+    public static BusinessRuleInfoDTO getBusinessRuleInfoDTO(BriefBusinessRule rule) {
+        if(null == rule) {
+            return null;
+        }
+        
+        BusinessRuleInfoDTO ruleDTO = new BusinessRuleInfoDTO();
+       
+        ruleDTO.setId( rule.getId() );
+        ruleDTO.setAnchorValue( rule.getAnchor() );
+        ruleDTO.setEffectiveDate( rule.getMetaData().getEffectiveDate() );
+        ruleDTO.setExpirationDate( rule.getMetaData().getExpirationDate() );
+        ruleDTO.setName( rule.getName() );
+        ruleDTO.setOriginalRuleId(rule.getOriginalRuleId());
+        
+        // Extract the Meta Info
+        MetaInfoDTO metaInfo = new MetaInfoDTO();
+        metaInfo.setCreateID( rule.getMetaData().getCreatedBy() );
+        metaInfo.setUpdateID( rule.getMetaData().getUpdateBy() );
+        metaInfo.setCreateTime( rule.getMetaData().getCreateDate() );
+        metaInfo.setUpdateTime( rule.getMetaData().getUpdateDate() );
+        
+        ruleDTO.setMetaInfo( metaInfo );
+        
+        // Extract the Rule Elements
+        ruleDTO.setState( rule.getState().toString() );
+            
+        return ruleDTO;                
+    }
+    
  
     /**
      * 

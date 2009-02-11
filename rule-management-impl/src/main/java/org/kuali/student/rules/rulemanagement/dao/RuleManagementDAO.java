@@ -14,6 +14,7 @@ import org.kuali.student.rules.internal.common.entity.AnchorTypeKey;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.rulemanagement.entity.AgendaInfo;
 import org.kuali.student.rules.rulemanagement.entity.AgendaDeterminationInfo;
+import org.kuali.student.rules.rulemanagement.entity.BriefBusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleType;
 import org.kuali.student.rules.rulemanagement.entity.RuleElement;
@@ -144,6 +145,15 @@ public interface RuleManagementDAO {
      * @return found functional business rule or null if element not found.
      */
     public BusinessRule lookupBusinessRuleUsingId(String id);
+
+    /**
+     * Finds Brief version of BusinessRule in database.
+     * 
+     * @param id
+     *            ID of a business rule to locate in database
+     * @return found functional business rule or null if element not found.
+     */
+    public BriefBusinessRule lookupBriefBusinessRuleUsingId(String id);
 
     /**
      * Finds one or more BusinessRule in database based on given parameters.
