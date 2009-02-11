@@ -184,4 +184,18 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		return orgTreeInfos;
 	}
 
+	@Override
+	public boolean hasOrgOrgRelation(String orgId, String comparisonOrgId,
+			String orgOrgRelationTypeKey) {
+		
+		Query query = em.createNamedQuery("OrgOrgRelation.hasOrgOrgRelation");
+		query.setParameter("orgId",orgId);
+		query.setParameter("comparisonOrgId",comparisonOrgId);
+		query.setParameter("orgOrgRelationTypeKey",orgOrgRelationTypeKey);
+		
+		Long relationCount = (Long)query.getSingleResult();
+		
+		return relationCount>0;
+	}
+
 }

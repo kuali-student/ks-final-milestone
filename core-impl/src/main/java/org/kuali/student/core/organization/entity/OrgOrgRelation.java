@@ -34,8 +34,13 @@ import org.kuali.student.core.entity.MetaEntity;
 					   query="SELECT NEW org.kuali.student.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) " +
 					   		"   FROM OrgOrgRelation oor " +
 					   		"  WHERE oor.org.id = :orgId " +
-					   		"    AND oor.type.orgHierarchy.key = :orgHierarchyId ")
-			
+					   		"    AND oor.type.orgHierarchy.key = :orgHierarchyId "),
+			@NamedQuery(name="OrgOrgRelation.hasOrgOrgRelation", 
+					   query="SELECT COUNT(oor) " +
+					   		 "  FROM OrgOrgRelation oor " +
+					   		 " WHERE oor.org.id = :orgId " +
+					   		 "   AND oor.relatedOrg.id = :comparisonOrgId " +
+					   		 "   AND oor.type.key = :orgOrgRelationTypeKey")
 })
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {

@@ -472,8 +472,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgOrgRelationTypeKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		//Check Missing params
+		if (orgId == null) {
+			throw new MissingParameterException("orgId can not be null");
+		} else if (comparisonOrgId == null) {
+			throw new MissingParameterException("comparisonOrgId can not be null");
+		} else if (orgOrgRelationTypeKey == null) {
+			throw new MissingParameterException("orgOrgRelationTypeKey can not be null");
+		}
+		boolean result = organizationDao.hasOrgOrgRelation(orgId, comparisonOrgId,
+				orgOrgRelationTypeKey);
+		return new Boolean(result);
 	}
 
 	@Override

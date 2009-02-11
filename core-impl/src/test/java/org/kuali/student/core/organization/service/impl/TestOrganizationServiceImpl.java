@@ -1,6 +1,7 @@
 package org.kuali.student.core.organization.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -435,6 +436,12 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		List<OrgTreeInfo> results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 1);
 		assertEquals(9,results.size());
 
+	}
+	
+	@Test
+	public void testHasOrgOrgRelation() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		assertTrue(client.hasOrgOrgRelation("15", "28", "kuali.org.Part"));
+		assertFalse(client.hasOrgOrgRelation("1", "15", "kuali.org.Part"));
 	}
 	
 	/*
