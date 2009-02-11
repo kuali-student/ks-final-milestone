@@ -362,7 +362,7 @@ public class DevelopersGuiServiceImpl implements DevelopersGuiService {
                     RulesVersionInfo rulesVersionInfo = null;
                     RulesHierarchyInfo versionGroup = null;
                     try {
-                        businessRule = ruleManagementService.fetchBriefBusinessRuleInfo(businessRuleId);
+                        businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
                     } catch (Exception ex) {
                         throw new RuntimeException("Unable to get business rule hame", ex); // TODO
                     }
