@@ -15,7 +15,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class TypeInfo implements Serializable {
+public abstract class TypeInfo implements Serializable, Idable, HasAttributes {
 	@XmlElement
 	private String name;
 	@XmlElement
@@ -67,6 +67,12 @@ public abstract class TypeInfo implements Serializable {
 		return key;
 	}
 	public void setKey(String key){
+		this.key = key;
+	}
+	public String getId(){
+		return key;
+	}
+	public void setId(String key){
 		this.key = key;
 	}
 }
