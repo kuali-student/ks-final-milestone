@@ -26,7 +26,6 @@
 				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>process-classes</phase>
 						<goals>
 							<goal>compile</goal>
 						</goals>

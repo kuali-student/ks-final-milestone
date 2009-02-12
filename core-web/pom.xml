@@ -20,6 +20,13 @@
 			<plugin>
 				<groupId>com.totsp.gwt</groupId>
 				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<gwtVersion>${gwtVersion}</gwtVersion>
 					<logLevel>INFO</logLevel>
