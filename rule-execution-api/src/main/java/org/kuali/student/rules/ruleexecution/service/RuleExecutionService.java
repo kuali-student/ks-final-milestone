@@ -86,6 +86,25 @@ public interface RuleExecutionService {
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     * Executes a business rule by <code>businessRuleId</code> with a 
+     * <code>exectionParamMap</code>. Returns true if rule was successful; 
+     * otherwise false if rule failed.
+     * 
+     * @param businessRuleId A Business rule id
+     * @param exectionParamMap Execution fact parameter map
+     * @return True if rule was successful; otherwise false if rule failed
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+     * @throws InvalidParameterException Thrown if business rule id is invalid
+     * @throws MissingParameterException Thrown if business rule id is null or empty
+     * @throws OperationFailedException Thrown if execution fails
+     */
+//    @WebMethod
+//    public Boolean executeBusinessRuleWithNoReport(
+//    		@WebParam(name="businessRuleId")String businessRuleId, 
+//    		@WebParam(name="exectionParamMap") @XmlJavaTypeAdapter(value=JaxbAttributeMapListAdapter.class, type=Map.class) Map<String,String> exectionParamMap)
+//		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
      * <p>Executes a business rule with a <code>factStructure</code> to test 
      * that it executes properly.<br/> 
      * <code>exectionParamMap</code> must match the fact criteria type meta data.

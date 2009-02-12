@@ -169,7 +169,7 @@
     </xs:complexType>
     <xs:complexType name="ruleReportDTO">
         <xs:sequence>
-            <xs:element name="successful" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="successful" type="xs:boolean"/>
             <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="propositionReportList" type="tns:propositionReportDTO"/>
@@ -222,8 +222,15 @@
     </xs:complexType>
     <xs:complexType name="executeAgenda">
         <xs:sequence>
-            <xs:element minOccurs="0" name="agenda" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="businessRuleAnchorInfoList" type="tns:businessRuleAnchorInfoDTO"/>
             <xs:element minOccurs="0" name="exectionParamMap" type="tns:jaxbAttributeList"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="businessRuleAnchorInfoDTO">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="businessRuleTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorTypeKey" type="xs:string"/>
+            <xs:element minOccurs="0" name="anchorValue" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="executeAgendaResponse">
@@ -234,8 +241,11 @@
     <xs:complexType name="agendaExecutionResultDTO">
         <xs:sequence>
             <xs:element minOccurs="0" name="id" type="xs:string"/>
-            <xs:element minOccurs="0" name="executionResult" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="executionSuccessful" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="agendaReportSuccessful" type="xs:boolean"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="executionResultList" type="tns:executionResultDTO"/>
+            <xs:element minOccurs="0" name="successMessageSummary" type="xs:string"/>
+            <xs:element minOccurs="0" name="failureMessageSummary" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="executeBusinessRule">
