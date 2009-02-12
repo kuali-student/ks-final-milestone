@@ -25,11 +25,12 @@ import org.kuali.student.core.entity.MetaEntity;
 @NamedQueries(
 		{
 			@NamedQuery(name="OrgPositionRestriction.findOrgPositionRestrictions", query="SELECT opr FROM OrgPositionRestriction opr WHERE opr.org.id = :orgId"),
-			@NamedQuery(name="OrgPositionRestriction.validatePositionRestriction", 
+			@NamedQuery(name="OrgPositionRestriction.validatePositionRestriction",
 					   query="SELECT COUNT(opr) " +
 					   		"   FROM OrgPositionRestriction opr " +
 					   		"  WHERE opr.org.id = :orgId " +
-					   		"    AND opr.personRelationType.key = :orgPersonRelationTypeKey")
+					   		"    AND opr.personRelationType.key = :orgPersonRelationTypeKey"),
+			@NamedQuery(name="OrgPositionRestriction.getPositionRestrictionByOrgAndPersonRelationTypeKey", query="SELECT opr FROM OrgPositionRestriction opr JOIN opr.personRelationType oprt WHERE opr.org.id = :orgId AND oprt.key = :orgPersonRelationTypeKey")
 		}
 )
 public class OrgPositionRestriction extends MetaEntity implements AttributeOwner<OrgPositionRestrictionAttribute>{

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.persistence.NoResultException;
 
 import org.kuali.student.core.dictionary.dto.EnumeratedValue;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
@@ -71,19 +72,19 @@ public class OrganizationServiceImpl implements OrganizationService {
 		} else if (orgPositionRestrictionInfo == null) {
 			throw new MissingParameterException("orgPositionRestrictionInfo can not be null");
 		}
-		
+
 		//Set all the values on OrgOrgRelationInfo
 		orgPositionRestrictionInfo.setOrgId(orgId);
 		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
 
 		OrgPositionRestriction orgPositionRestriction = null;
-		
+
 		//Create a new persistence entity from the Info
 		try {
 			orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(false, orgPositionRestrictionInfo, organizationDao);
 		} catch (VersionMismatchException e) {
 		}
-		
+
 		//Persist the positionRestriction
 		organizationDao.create(orgPositionRestriction);
 
@@ -220,9 +221,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 
-		if(orgId==null){
-			throw new MissingParameterException("orgId can not be null");
-		}
+		checkForMissingParameter(orgId, "orgId");
 
 		Org org = organizationDao.fetch(Org.class, orgId);
 
@@ -497,7 +496,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		} else if (orgPersonRelationTypeKey == null) {
 			throw new MissingParameterException("orgPersonRelationTypeKey can not be null");
 		}
-		return organizationDao.hasOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey);		
+		return organizationDao.hasOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey);
 	}
 
 	@Override
@@ -538,8 +537,20 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgPersonRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+		checkForMissingParameter(orgId, "orgId");
+		checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+		OrgPositionRestriction opr = null;
+		try {
+			opr = organizationDao.getPositionRestrictionByOrgAndPersonRelationTypeKey(orgId, orgPersonRelationTypeKey);
+			if (opr == null) {
+				throw new DoesNotExistException();
+			}
+		} catch (NoResultException e) {
+			throw new DoesNotExistException();
+		}
+		organizationDao.delete(opr);
+		return new StatusInfo();
 	}
 
 	@Override
@@ -594,9 +605,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		//Set all the values on OrgOrgRelationInfo
 		orgOrgRelationInfo.setId(orgOrgRelationId);
-		
+
 		OrgOrgRelation orgOrgRelation = null;
-		
+
 		//Update the persistence entity from the Info
 		orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(true, orgOrgRelationInfo, organizationDao);
 
@@ -606,7 +617,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		//Copy back to an OrgOrgRelationInfo and return
 		OrgOrgRelationInfo updatedOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(updatedOrgOrgRelation);
 		return updatedOrgOrgRelationInfo;
-		
+
 	}
 
 	@Override
@@ -651,7 +662,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		
+
 		//Check Missing params
 		if (orgId == null) {
 			throw new MissingParameterException("orgId can not be null");
@@ -666,7 +677,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		//Update persistence entity from the orgInfo
 		org = OrganizationAssembler.toOrg(true, orgInfo, organizationDao);
-		
+
 		//Update the org
 		Org updatedOrg = organizationDao.update(org);
 
@@ -684,7 +695,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		
+
 		//Check Missing params
 		if (orgId == null) {
 			throw new MissingParameterException("orgId can not be null");
@@ -693,16 +704,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 		} else if (orgPositionRestrictionInfo == null) {
 			throw new MissingParameterException("orgPositionRestrictionInfo can not be null");
 		}
-		
+
 		//Set all the values on OrgOrgRelationInfo
 		orgPositionRestrictionInfo.setOrgId(orgId);
 		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
 
 		OrgPositionRestriction orgPositionRestriction = null;
-		
+
 		//Update persistence entity from the Info
 		orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(true, orgPositionRestrictionInfo, organizationDao);
-	
+
 		//Update the positionRestriction
 		OrgPositionRestriction updated = organizationDao.update(orgPositionRestriction);
 
@@ -858,7 +869,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgHierarchyId, int maxLevels) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		
+
 		List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
 		Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
 		results.add(new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName()));
@@ -878,5 +889,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 		return results;
 	}
+
+	/**
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForMissingParameter(String param, String paramName)
+			throws MissingParameterException {
+		if (param == null) {
+			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
 
 }
