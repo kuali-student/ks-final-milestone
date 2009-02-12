@@ -211,6 +211,7 @@ public class RulesComposite extends Composite {
     Widget rulesTestResultsPage;
     
     boolean loaded = false;
+    boolean editRuleTabsVisible = false;
     
     public RulesComposite() {
         super.initWidget(simplePanel);
@@ -223,7 +224,8 @@ public class RulesComposite extends Composite {
     final Button createNewVersionButton = new Button("Create New Version");
     final Button retireRuleButton = new Button("Retire Rule");    
     final Button copyRuleButton = new Button("Make Rule Copy");
-    final Button cancelButton = new Button("Cancel Changes");     
+    final Button cancelButton = new Button("Cancel Changes");
+    final Button newRuleButton = new Button("New Rule");
     
     //variables representing client internal state
     private Model<RulesHierarchyInfo> displayedRulesGroup = null; // keep copy of rule group info    
@@ -232,6 +234,7 @@ public class RulesComposite extends Composite {
     private RulesVersionInfo displayedRuleInfo = null; // keep copy of rule meta info
     private Map<Integer, RulePropositionDTO> definedPropositions = new TreeMap<Integer, RulePropositionDTO>();
     private StringBuffer ruleComposition;
+    private final String STATUS_INITIAL_STATE = "STATUS_INITIAL_STATE";
     private final String STATUS_NOT_STORED_IN_DATABASE = "TO_BE_ENTERED";
     private final String EMPTY_LIST_BOX_ITEM = "        ";
     private final String USER_DEFINED_FACT_TYPE_KEY = "STATIC  FACT";
@@ -389,7 +392,18 @@ public class RulesComposite extends Composite {
             /****************************************************************************************************************
              * listeners for rule RULE VERSIONING buttons
              ***************************************************************************************************************/
-                                             
+
+            newRuleButton.addClickListener(new ClickListener() {
+                public void onClick(Widget sender) {
+                    System.out.println("newRuleButton listener.onClick()");
+                    //keep original rule values except rule id, original rule id, compiled id and name
+                    displayedRuleInitialCopy = createRuleCopy(displayedRule);
+                    copiedVersionIndicator.setText("New Rule.");
+                    setRuleEditingTabsVisability(true);
+                    loadNewRule();
+                }
+            });
+            
             submitRuleButton.addClickListener(new ClickListener() {
                 public void onClick(final Widget sender) {               	                	                                        	                 
                     System.out.println("submitRuleButton listener.onClick()");
@@ -915,6 +929,11 @@ public class RulesComposite extends Composite {
             });             
         }
     }
+    
+    private void loadNewRule() {
+        loadEmptyRule();
+        updateRulesFormButtons(STATUS_NOT_STORED_IN_DATABASE); 
+    }
 
     private void loadEmptyRule() {      
         displayedRule = createEmptyBusinessRule();
@@ -930,7 +949,7 @@ public class RulesComposite extends Composite {
         definedFactTypesList = null;
         setRuleStatus(STATUS_NOT_STORED_IN_DATABASE);
         populateAgendaAndBusinessRuleTypesListBox();
-        updateRulesFormButtons(displayedRule.getState()); 
+        updateRulesFormButtons(STATUS_INITIAL_STATE); 
         rulesTree.unSelect();  //clear current rule tree selection  
     }    
 
@@ -992,8 +1011,17 @@ public class RulesComposite extends Composite {
     }
        
     private void updateRulesFormButtons(String ruleStatus) {  
-    	
-    	if (ruleStatus.equalsIgnoreCase(STATUS_NOT_STORED_IN_DATABASE)) {
+    
+        if (ruleStatus.equalsIgnoreCase(STATUS_INITIAL_STATE)) {
+            submitRuleButton.setEnabled(false);
+            updateRuleButton.setEnabled(false);         
+            activateRuleButton.setEnabled(false);           
+            createNewVersionButton.setEnabled(false); 
+            retireRuleButton.setEnabled(false);         
+            copyRuleButton.setEnabled(false);
+            cancelButton.setEnabled(true);  
+            return;
+        } else if (ruleStatus.equalsIgnoreCase(STATUS_NOT_STORED_IN_DATABASE)) {
         	submitRuleButton.setEnabled(true);
         	updateRuleButton.setEnabled(false);        	
         	activateRuleButton.setEnabled(false);        	
@@ -2196,16 +2224,20 @@ public class RulesComposite extends Composite {
         //show buttons
         HorizontalPanel space = new HorizontalPanel();
         space.setWidth("20px");
-        HorizontalPanel hp = new HorizontalPanel();
-        hp.setSpacing(8);                
-        hp.add(submitRuleButton);
-        hp.add(updateRuleButton);
-        hp.add(activateRuleButton);
-        hp.add(createNewVersionButton);
-        hp.add(retireRuleButton);
-        hp.add(space);
-        hp.add(copyRuleButton);
-        hp.add(cancelButton);     
+        HorizontalPanel hp1 = new HorizontalPanel();
+        HorizontalPanel hp2 = new HorizontalPanel();
+        hp1.setSpacing(8);
+        hp1.add(updateRuleButton);
+        hp1.add(activateRuleButton);
+        hp1.add(createNewVersionButton);
+        hp1.add(retireRuleButton);
+        hp1.add(space);
+        hp1.add(copyRuleButton);
+        hp1.add(cancelButton);
+        
+        hp2.setSpacing(8);
+        hp2.add(newRuleButton);
+        hp2.add(submitRuleButton);
 
         final VerticalPanel rulesFormVerticalPanel = new VerticalPanel();
         rulesFormVerticalPanel.setSpacing(5);
@@ -2217,7 +2249,8 @@ public class RulesComposite extends Composite {
         selectedVersionPanel.add(copiedVersionIndicator);
         rulesFormVerticalPanel.add(selectedVersionPanel);
         rulesFormVerticalPanel.add(rulesFormTabs);
-        rulesFormVerticalPanel.add(hp);
+        rulesFormVerticalPanel.add(hp1);
+        rulesFormVerticalPanel.add(hp2);
         rulesFormVerticalPanel.setSize("100%", "500");
 
         return rulesFormVerticalPanel;
@@ -2761,6 +2794,7 @@ public class RulesComposite extends Composite {
             addTab(rulesMetaDataPage, "Authoring");
             addTab(rulesTestPage, "Test");
             addTab(rulesTestResultsPage, "Test Results");
+            editRuleTabsVisible = true;
         } else {
             removeTab(rulesMainPage);
             removeTab(rulesPropositionPage);
@@ -2768,6 +2802,7 @@ public class RulesComposite extends Composite {
             removeTab(rulesTestPage);
             removeTab(rulesTestResultsPage);
             rulesFormTabs.selectTab(rulesFormTabs.getWidgetIndex(rulesVersionPage));
+            editRuleTabsVisible = false;
         }
     }
     
