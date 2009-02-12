@@ -3,6 +3,7 @@ package org.kuali.student.ui.kitchensink.client;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.busywidgetshade.BusyWidgetShadeExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -56,6 +57,7 @@ public class KitchenSinkMain extends Composite {
         
         VerticalPanel ksCommons = initGroup("KS Common Widgets");
         initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
+        initExample(ksCommons, new ButtonExampleDescriptor());
     }
     
     private VerticalPanel initGroup(String groupName) {
