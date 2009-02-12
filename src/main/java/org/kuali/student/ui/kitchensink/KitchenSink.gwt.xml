@@ -3,13 +3,12 @@
 	<inherits name="com.google.gwt.user.User"/>
 	
 	<!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
-	<inherits name="org.kuali.student.commons.ui.UICommons"/>
+	<inherits name="org.kuali.student.core.ui.CoreUI"/>
     
 
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="org.kuali.student.ui.kitchensink.client.KitchenSinkEntryPoint"/>
 	
-	<stylesheet src="GWT-default.css"/>
 	<stylesheet src="KitchenSink.css"/>
 	<stylesheet src="examplecss/MyExampleWidget.css"/>
 	<stylesheet src="examplecss/CSSLayoutExample.css"/>

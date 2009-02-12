@@ -1,11 +1,11 @@
 package org.kuali.student.ui.kitchensink.client;
 
-import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.busywidgetshade.BusyWidgetShadeExampleDescriptor;
 
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class KitchenSinkMain extends Controller {
+public class KitchenSinkMain extends Composite {
     final HorizontalPanel panel = new HorizontalPanel();
     final SimplePanel leftPanel = new SimplePanel();
     final SimplePanel rightPanel = new SimplePanel();
