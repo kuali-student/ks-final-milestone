@@ -62,7 +62,7 @@
 					<configuration>
               			<classifier>classes</classifier>
 						<includes>
-				            <include>**/*.class</include>
+				            <include>**/org/kuali/student/**/*.class</include>
 						</includes>
             		</configuration>
 		          </execution>
