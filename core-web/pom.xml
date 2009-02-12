@@ -3,11 +3,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.core</groupId>
-	<artifactId>ks-core-web-bundle</artifactId>
+	<artifactId>ks-core-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>KS Core-Web Bundle</name>
-	<description>KS Core Web Bundle</description>
+	<name>KS Core-Web</name>
+	<description>KS Core Web</description>
 
 	<parent>
 		<groupId>org.kuali.student.core</groupId>

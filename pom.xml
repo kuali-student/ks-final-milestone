@@ -40,7 +40,7 @@
 		<module>core-api</module>
 		<module>core-impl</module>
 		<module>core-ui</module>
-		<module>core-web-bundle</module>
+		<module>core-web</module>
 	</modules>
 
 	<scm>
