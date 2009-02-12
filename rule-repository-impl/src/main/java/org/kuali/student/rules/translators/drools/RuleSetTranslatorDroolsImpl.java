@@ -237,7 +237,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
 		ruleSet.addHeader("import org.slf4j.LoggerFactory;");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.entity.*");
         ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.*");
-        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.yvf.*");
+        ruleSet.addHeader("import org.kuali.student.rules.internal.common.statement.propositions.rules.*");
         ruleSet.addHeader("import org.kuali.student.rules.rulemanagement.dto.*");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer");
         ruleSet.addHeader("import org.kuali.student.rules.util.FactContainer.State");

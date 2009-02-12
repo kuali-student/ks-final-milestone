@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.List;
 import java.util.Map;
@@ -10,27 +10,28 @@ import org.kuali.student.rules.internal.common.statement.exceptions.PropositionE
 import org.kuali.student.rules.internal.common.statement.propositions.SimpleComparableProposition;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSimpleComparableProposition<T extends Comparable<T>> extends AbstractYVFProposition<T> {
+public class SimpleComparableRuleProposition<T extends Comparable<T>> extends AbstractRuleProposition<T> {
 
 	public final static String SIMPLE_COMPARABLE_COLUMN_KEY = "key.proposition.column.simplecomparable";
 
-	public YVFSimpleComparableProposition(String id, String propositionName, 
-			ComparisonOperator comparisonOperator, T expectedValue, 
-			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
+	public SimpleComparableRuleProposition(String id, String propositionName, 
+			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
 		if (id == null || id.isEmpty()) {
 			throw new PropositionException("Proposition id cannot be null");
 		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
-		} else if (comparisonOperator == null) {
-			throw new PropositionException("Comparison operator name cannot be null");
-		} else if (expectedValue == null) {
+		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
+			throw new PropositionException("Comparison operator cannot be null");
+		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
 			throw new PropositionException("Expected value cannot be null");
-		} else if (yvf == null) {
-			throw new PropositionException("Yield value function cannot be null");
+		} else if (ruleProposition == null) {
+			throw new PropositionException("Rule proposition cannot be null");
 		}
 
+		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO fact = factStructureList.get(0);
 
@@ -80,6 +81,10 @@ public class YVFSimpleComparableProposition<T extends Comparable<T>> extends Abs
 			}
 			factObject = factList.get(0);
 		}
+
+		ComparisonOperator comparisonOperator = ComparisonOperator.valueOf(ruleProposition.getComparisonOperatorTypeKey()); 
+		@SuppressWarnings("unchecked")
+		T expectedValue = (T) BusinessRuleUtil.convertToDataType(ruleProposition.getComparisonDataTypeKey(), ruleProposition.getRightHandSide().getExpectedValue());
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("\n---------- YVFSimpleComparableProposition ----------"

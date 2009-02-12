@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.List;
 import java.util.Map;
@@ -25,27 +25,28 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
+public class IntersectionRuleProposition<E> extends AbstractRuleProposition<E> {
 
 	public final static String INTERSECTION_COLUMN_KEY = "key.proposition.column.intersection";
 
-	public YVFIntersectionProposition(String id, String propositionName, 
-			ComparisonOperator comparisonOperator, Integer expectedValue, 
-			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
+	public IntersectionRuleProposition(String id, String propositionName, 
+			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
 		if (id == null || id.isEmpty()) {
 			throw new PropositionException("Proposition id cannot be null");
 		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
-		} else if (comparisonOperator == null) {
-			throw new PropositionException("Comparison operator name cannot be null");
-		} else if (expectedValue == null) {
+		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
+			throw new PropositionException("Comparison operator cannot be null");
+		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
 			throw new PropositionException("Expected value cannot be null");
-		} else if (yvf == null) {
-			throw new PropositionException("Yield value function cannot be null");
+		} else if (ruleProposition == null) {
+			throw new PropositionException("Rule proposition cannot be null");
 		}
 
+		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO criteria = factStructureList.get(0);
 		FactStructureDTO fact = factStructureList.get(1);
@@ -114,6 +115,9 @@ public class YVFIntersectionProposition<E> extends AbstractYVFProposition<E> {
 						"'. Fact structure id: " + fact.getFactStructureId());
 			}
 		}
+
+		ComparisonOperator comparisonOperator = ComparisonOperator.valueOf(ruleProposition.getComparisonOperatorTypeKey()); 
+		Integer expectedValue = Integer.valueOf(ruleProposition.getRightHandSide().getExpectedValue());
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("\n---------- YVFIntersectionProposition ----------"

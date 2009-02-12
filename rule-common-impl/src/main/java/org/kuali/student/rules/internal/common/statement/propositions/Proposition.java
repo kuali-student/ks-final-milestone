@@ -34,6 +34,13 @@ public interface Proposition {
 	 */
 	public Boolean apply();
 	
+    /**
+     * Builds a proposition report.
+     * 
+     * @return Proposition report
+     */
+	public PropositionReport buildReport();
+    
 	/**
 	 * Returns the cached value of apply method's result
 	 * @return <code>true</code> if the constraint is met.

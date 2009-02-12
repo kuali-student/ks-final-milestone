@@ -12,6 +12,10 @@ import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
+import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class CommonTestUtil {
 	public static List<BigDecimal> createList(String list) {
@@ -27,6 +31,23 @@ public class CommonTestUtil {
     	cal.set(year, month-1, day, hourOfDay, minute, 0);
     	return cal;
     }
+
+	public static RulePropositionDTO createRuleProposition(YieldValueFunctionDTO yvf, String expectedValue, String comparisonOperator) {
+		return createRuleProposition(yvf, expectedValue, comparisonOperator, null);
+	}
+	
+	public static RulePropositionDTO createRuleProposition(YieldValueFunctionDTO yvf, String expectedValue, String comparisonOperator, String comparisonDataType) {
+		RulePropositionDTO ruleProposition = new RulePropositionDTO();
+		LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
+		ruleProposition.setLeftHandSide(leftHandSide);
+		ruleProposition.setComparisonOperatorTypeKey(comparisonOperator);
+		ruleProposition.setComparisonDataTypeKey(comparisonDataType);
+		leftHandSide.setYieldValueFunction(yvf);
+		RightHandSideDTO rightHandSide = new RightHandSideDTO();
+		rightHandSide.setExpectedValue(expectedValue);
+		ruleProposition.setRightHandSide(rightHandSide);
+		return ruleProposition;
+	}
 
 	public static FactResultDTO createFactResult(String[] values, String columnName) {
 		FactResultDTO factResult = new FactResultDTO();

@@ -39,9 +39,9 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.yvf.AbstractYVFProposition;
-import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
-import org.kuali.student.rules.internal.common.statement.yvf.YVFSumProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.AbstractRuleProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SumRuleProposition;
 import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
@@ -170,7 +170,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         fs.setAnchorFlag(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
         
         fs.setStaticFact(staticFact);
@@ -196,7 +196,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         fs.setAnchorFlag(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
         
         fs.setStaticFact(staticFact);
@@ -288,7 +288,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         fs.setStaticFact(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(YVFSumProposition.SUM_COLUMN_KEY, "resultColumn.credit");
+        resultColumnKeyMap.put(SumRuleProposition.SUM_COLUMN_KEY, "resultColumn.credit");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -539,6 +539,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        System.out.println("Business Rule Display Name:      "+businessRule.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
+
 	        Assert.assertNotNull(executionResult);
 	        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
 	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
@@ -550,7 +551,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
     }
-    
+
     @Test
     public void testFindFactTypes() throws Exception {
     	System.out.println("\n\n*****  testFindFactTypes  *****");
@@ -674,7 +675,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         // Test criteria facts
         Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
         Assert.assertEquals(1, criteriaRowMap.size());
-        Assert.assertEquals("CPR101", criteriaRowMap.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR101", criteriaRowMap.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
 
         // Test facts
         Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
@@ -683,13 +684,13 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals(1, factRowMap1.size());
         Assert.assertEquals(1, factRowMap2.size());
         Assert.assertEquals(1, factRowMap3.size());
-        Assert.assertEquals("CPR101", factRowMap1.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
-        Assert.assertEquals("CPR201", factRowMap2.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
-        Assert.assertEquals("CPR301", factRowMap3.get(YVFIntersectionProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR101", factRowMap1.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR201", factRowMap2.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR301", factRowMap3.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
 
 		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
         Assert.assertEquals(1, propositionResult1.getResultList().size());
-		Assert.assertTrue(containsResult(propositionResult1.getResultList(), YVFIntersectionProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CPR101"));
     }
 
     @Test
@@ -785,10 +786,29 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		}
 		return null;
 	}
-    
+
+	/*@Test
+    public void testCreateAndExecuteComplexBusinessRuleWithNoReport_DynamicFact2() throws Exception {
+    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRuleWithNoReport_DynamicFact2  *****");
+    	String businessRuleId = "11223344-1122-1122-1112-100000000032";
+
+        Map<String, String> paramMap = new HashMap<String, String>();
+	    paramMap.put("factParam.studentId", "student1");
+
+    	BusinessRuleInfoDTO businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+    	ruleManagementService.updateBusinessRule(businessRuleId, businessRule);
+    	businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+
+    	Boolean executionResult1 = ruleExecutionService.executeBusinessRuleWithNoReport(businessRuleId, paramMap);
+
+        Assert.assertNotNull(executionResult1);
+        Assert.assertTrue(executionResult1);
+        System.out.println("Execution result:        "+executionResult1);
+	}*/
+
 	@Test
-    public void testCreateAndExecuteComplexBusinessRule_DynamicFact2() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact2  *****");
+    public void testCreateAndExecuteComplexBusinessRule_DynamicFact3() throws Exception {
+    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact3  *****");
     	String businessRuleId = "11223344-1122-1122-1112-100000000032";
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -828,7 +848,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         // Test criteria facts
         Map<String,String> criteriaRowMap = prP1.getCriteriaResult().getResultList().get(0);
 		Assert.assertEquals(1, criteriaRowMap.size());
-        Assert.assertEquals("PSYC 200", criteriaRowMap.get(AbstractYVFProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("PSYC 200", criteriaRowMap.get(AbstractRuleProposition.STATIC_FACT_COLUMN));
 
         // Test facts - Assume rows are ordered
         Map<String,String> factRowMap1 = prP1.getFactResult().getResultList().get(0);

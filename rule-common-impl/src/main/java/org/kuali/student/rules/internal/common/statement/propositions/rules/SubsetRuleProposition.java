@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.List;
 import java.util.Map;
@@ -24,22 +24,24 @@ import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSubsetProposition<E> extends AbstractYVFProposition<E> {
+public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 
 	public final static String SUBSET_COLUMN_KEY = "key.proposition.column.subset";
 
-	public YVFSubsetProposition(String id, String propositionName, 
-			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
+	public SubsetRuleProposition(String id, String propositionName, 
+			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
 		if (id == null || id.isEmpty()) {
 			throw new PropositionException("Proposition id cannot be null");
 		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
-		} else if (yvf == null) {
-			throw new PropositionException("Yield value function cannot be null");
+		} else if (ruleProposition == null) {
+			throw new PropositionException("Rule proposition cannot be null");
 		}
 
+		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO criteria = factStructureList.get(0);
 		FactStructureDTO fact = factStructureList.get(1);

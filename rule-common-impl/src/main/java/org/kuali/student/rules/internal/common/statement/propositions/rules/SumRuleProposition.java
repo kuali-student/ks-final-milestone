@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,27 +23,30 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
-import org.kuali.student.rules.internal.common.statement.propositions.AverageProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFAverageProposition<E extends Number> extends AbstractYVFProposition<E> {
+public class SumRuleProposition<E extends Number> extends AbstractRuleProposition<E> {
+	
+	public final static String SUM_COLUMN_KEY = "key.proposition.column.sum";
 
-	public final static String AVERAGE_COLUMN_KEY = "key.proposition.column.average";
-
-	public YVFAverageProposition(String id, String propositionName, 
-			ComparisonOperator comparisonOperator, BigDecimal expectedValue, 
-			YieldValueFunctionDTO yvf, Map<String, ?> factMap) {
-		if (propositionName == null || propositionName.isEmpty()) {
+	public SumRuleProposition(String id, String propositionName, 
+			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
 			throw new PropositionException("Proposition name cannot be null");
-		} else if (comparisonOperator == null) {
-			throw new PropositionException("Comparison operator name cannot be null");
-		} else if (expectedValue == null) {
+		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
+			throw new PropositionException("Comparison operator cannot be null");
+		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
 			throw new PropositionException("Expected value cannot be null");
-		} else if (yvf == null) {
-			throw new PropositionException("Yield value function cannot be null");
+		} else if (ruleProposition == null) {
+			throw new PropositionException("Rule proposition cannot be null");
 		}
 
+		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
 		FactStructureDTO fact = factStructureList.get(0);
 
@@ -69,10 +72,10 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			factColumn = fact.getResultColumnKeyTranslations().get(AVERAGE_COLUMN_KEY);
+			factColumn = fact.getResultColumnKeyTranslations().get(SUM_COLUMN_KEY);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
-				throw new PropositionException("Average column not found for key '"+
-						AVERAGE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+				throw new PropositionException("Sum column not found for key '"+
+						SUM_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
 			factList = getList(factDTO, factColumn);
@@ -82,8 +85,11 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 			}
 		}
 
+		ComparisonOperator comparisonOperator = ComparisonOperator.valueOf(ruleProposition.getComparisonOperatorTypeKey()); 
+		BigDecimal expectedValue = new BigDecimal(ruleProposition.getRightHandSide().getExpectedValue());
+
 		if(logger.isDebugEnabled()) {
-			logger.debug("\n---------- YVFAverageProposition ----------"
+			logger.debug("\n---------- YVFSumProposition ----------"
 					+ "\nFact static="+fact.isStaticFact()
 					+ "\nFact key="+FactUtil.createFactKey(fact)
 					+ "\nYield value function type="+yvf.getYieldValueFunctionType()
@@ -93,7 +99,7 @@ public class YVFAverageProposition<E extends Number> extends AbstractYVFProposit
 					+ "\n--------------------------------------------------");
 		}
 
-		super.proposition = new AverageProposition<E>(id, propositionName, 
+        super.proposition = new SumProposition<E>(id, propositionName, 
         		comparisonOperator, expectedValue, factList); 
 	}
 }

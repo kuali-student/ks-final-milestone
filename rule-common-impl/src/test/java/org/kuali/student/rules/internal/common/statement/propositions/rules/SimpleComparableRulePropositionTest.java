@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -13,13 +13,15 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SimpleComparableRuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSimpleComparablePropositionTest {
+public class SimpleComparableRulePropositionTest {
 
     public Map<String, Object> getFactMap(FactStructureDTO fs1, String dataType, String value, String column) {
     	String factKey = FactUtil.createFactKey(fs1);
@@ -43,15 +45,16 @@ public class YVFSimpleComparablePropositionTest {
 		fs1.setStaticValue("80");
 
 		yvf.setFactStructureList(Arrays.asList(fs1));
+		BigDecimal expectedValue = new BigDecimal(90);
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, expectedValue.toString(), ComparisonOperator.EQUAL_TO.toString(), BigDecimal.class.getName());
 
-		YVFSimpleComparableProposition<BigDecimal> proposition = new YVFSimpleComparableProposition<BigDecimal>(
-				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(90),
-				yvf, null);
+		SimpleComparableRuleProposition<BigDecimal> proposition = new SimpleComparableRuleProposition<BigDecimal>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, null);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 		
-		Assert.assertFalse(proposition.apply());
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
@@ -59,11 +62,11 @@ public class YVFSimpleComparablePropositionTest {
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), YVFSimpleComparableProposition.STATIC_FACT_COLUMN, "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), SimpleComparableRuleProposition.STATIC_FACT_COLUMN, "80"));
 
 		FactResultDTO propositionResult = report.getPropositionResult();
         Assert.assertEquals(1, propositionResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFSimpleComparableProposition.STATIC_FACT_COLUMN, "false"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), SimpleComparableRuleProposition.STATIC_FACT_COLUMN, "false"));
 	}
 
 	@Test
@@ -72,21 +75,22 @@ public class YVFSimpleComparablePropositionTest {
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
+		resultColumnKeyMap.put(SimpleComparableRuleProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
 		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs1));
+		BigDecimal expectedValue = new BigDecimal(90);
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, expectedValue.toString(), ComparisonOperator.EQUAL_TO.toString(), BigDecimal.class.getName());
 
 		Map<String, Object> factMap = getFactMap(fs1, BigDecimal.class.getName(), "80", "resultColumn.grade");
 		
-		YVFSimpleComparableProposition<BigDecimal> proposition = new YVFSimpleComparableProposition<BigDecimal>(
-				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(90),
-				yvf, factMap);
+		SimpleComparableRuleProposition<BigDecimal> proposition = new SimpleComparableRuleProposition<BigDecimal>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 		
-		Assert.assertFalse(proposition.apply());
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
@@ -107,21 +111,22 @@ public class YVFSimpleComparablePropositionTest {
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
+		resultColumnKeyMap.put(SimpleComparableRuleProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.grade");
 		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs1));
+		String expectedValue = "80";
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, expectedValue, ComparisonOperator.EQUAL_TO.toString(), String.class.getName());
 
 		Map<String, Object> factMap = getFactMap(fs1, String.class.getName(), "80", "resultColumn.grade");
 		
-		YVFSimpleComparableProposition<String> proposition = new YVFSimpleComparableProposition<String>(
-				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.EQUAL_TO, "80",
-				yvf, factMap);
+		SimpleComparableRuleProposition<String> proposition = new SimpleComparableRuleProposition<String>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 		
-		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -142,7 +147,7 @@ public class YVFSimpleComparablePropositionTest {
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
+		resultColumnKeyMap.put(SimpleComparableRuleProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
 		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs1));
@@ -151,15 +156,16 @@ public class YVFSimpleComparablePropositionTest {
 		Calendar cal = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
     	String calStr = dateFormat.format(cal.getTime()).toString();
 		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
-		
-		YVFSimpleComparableProposition<Calendar> proposition = new YVFSimpleComparableProposition<Calendar>(
-				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.EQUAL_TO, cal,
-				yvf, factMap);
 
-		PropositionReport report = proposition.getReport();
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, calStr, ComparisonOperator.EQUAL_TO.toString(), Calendar.class.getName());
 		
-		Assert.assertTrue(proposition.apply());
+		SimpleComparableRuleProposition<Calendar> proposition = new SimpleComparableRuleProposition<Calendar>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
+
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
+		
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -180,7 +186,7 @@ public class YVFSimpleComparablePropositionTest {
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
+		resultColumnKeyMap.put(SimpleComparableRuleProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
 		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs1));
@@ -188,17 +194,19 @@ public class YVFSimpleComparablePropositionTest {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
 		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
 		Calendar cal2 = CommonTestUtil.createDate(2100, 1, 1, 1, 0);
-    	String calStr = dateFormat.format(cal1.getTime()).toString();
-		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
+    	String calStr1 = dateFormat.format(cal1.getTime()).toString();
+    	String calStr2 = dateFormat.format(cal2.getTime()).toString();
+		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr1, "resultColumn.date");
 		
-		YVFSimpleComparableProposition<Calendar> proposition = new YVFSimpleComparableProposition<Calendar>(
-				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.LESS_THAN, cal2,
-				yvf, factMap);
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, calStr2, ComparisonOperator.LESS_THAN.toString(), Calendar.class.getName());
+		
+		SimpleComparableRuleProposition<Calendar> proposition = new SimpleComparableRuleProposition<Calendar>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 		
-		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -206,7 +214,7 @@ public class YVFSimpleComparablePropositionTest {
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr1));
 
 		FactResultDTO propositionResult = report.getPropositionResult();
         Assert.assertEquals(1, propositionResult.getResultList().size());
@@ -219,7 +227,7 @@ public class YVFSimpleComparablePropositionTest {
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.comparable.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSimpleComparableProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
+		resultColumnKeyMap.put(SimpleComparableRuleProposition.SIMPLE_COMPARABLE_COLUMN_KEY, "resultColumn.date");
 		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs1));
@@ -227,17 +235,19 @@ public class YVFSimpleComparablePropositionTest {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessRuleUtil.ISO_TIMESTAMP_FORMAT);
 		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
 		Calendar cal2 = CommonTestUtil.createDate(2100, 1, 1, 1, 0);
-    	String calStr = dateFormat.format(cal2.getTime()).toString();
-		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr, "resultColumn.date");
+    	String calStr1 = dateFormat.format(cal1.getTime()).toString();
+    	String calStr2 = dateFormat.format(cal2.getTime()).toString();
+		Map<String, Object> factMap = getFactMap(fs1, java.util.Calendar.class.getName(), calStr2, "resultColumn.date");
 		
-		YVFSimpleComparableProposition<Calendar> proposition = new YVFSimpleComparableProposition<Calendar>(
-				"1", "YVFSimpleComparableProposition", 
-				ComparisonOperator.GREATER_THAN, cal1,
-				yvf, factMap);
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(
+				yvf, calStr1, ComparisonOperator.GREATER_THAN.toString(), Calendar.class.getName());
+		
+		SimpleComparableRuleProposition<Calendar> proposition = new SimpleComparableRuleProposition<Calendar>(
+				"1", "SimpleComparableRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 		
-		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -245,7 +255,7 @@ public class YVFSimpleComparablePropositionTest {
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(1, factResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), "resultColumn.date", calStr2));
 
 		FactResultDTO propositionResult = report.getPropositionResult();
         Assert.assertEquals(1, propositionResult.getResultList().size());

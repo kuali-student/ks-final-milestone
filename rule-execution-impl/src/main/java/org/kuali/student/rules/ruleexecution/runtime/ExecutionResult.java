@@ -17,14 +17,11 @@ package org.kuali.student.rules.ruleexecution.runtime;
 
 import java.util.List;
 
-import org.kuali.student.rules.internal.common.statement.report.RuleReport;
-
 public class ExecutionResult {
 	
 	private String id;
 	private Boolean executionResult = Boolean.FALSE;
 	private List<Object> resultList;
-	private RuleReport report;
 	private String executionLog;
 	private String errorMessage;
 	
@@ -35,7 +32,7 @@ public class ExecutionResult {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -63,24 +60,16 @@ public class ExecutionResult {
 		this.executionResult = executionResult;
 	}
 
-	public RuleReport getReport() {
-		return report;
-	}
-
-	public void setReport(final RuleReport report) {
-		this.report = report;
-	}
-
 	public String getErrorMessage() {
 		return errorMessage;
 	}
 
-	public void setErrorMessage(String errorMessage) {
+	public void setErrorMessage(final String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
 	
 	public String toString() {
-		return "ExecutionResult[executionResult=" + this.executionResult 
-			+ ", report=" + this.report + "]";
+		return "ExecutionResult[id="+this.id+
+			", executionResult=" + this.executionResult + "]";
  	}
 }

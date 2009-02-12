@@ -32,6 +32,7 @@
         <property name="ruleSetExecutorTest" ref="ruleSetExecutor" />
         <property name="ruleRespositoryService" ref="repository" />
         <property name="ruleManagementService" ref="ruleManagement" />
+        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleSetExecutor"
@@ -39,7 +40,6 @@
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="true"/>
         <property name="ruleBaseCache" ref="ruleBaseCache"/>
-        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleBaseCache"

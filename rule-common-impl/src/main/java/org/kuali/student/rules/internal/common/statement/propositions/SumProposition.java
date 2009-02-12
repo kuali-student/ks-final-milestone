@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * A constraint that specifies that sum of a list of values is less than the required amount.
@@ -30,7 +31,7 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  */
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
     // ~ Instance fields --------------------------------------------------------
-
+	private BigDecimal sum;
     List<E> factSet;
 
     // ~ Constructors -----------------------------------------------------------
@@ -51,11 +52,9 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
     @Override
     public Boolean apply() {
-        BigDecimal sum = sum();
+        sum = sum();
 
         result = checkTruthValue(sum, super.expectedValue);
-
-        cacheReport("Sum is short by %s", sum, super.expectedValue);
 
         resultValues = new ArrayList<BigDecimal>();
         resultValues.add(sum);
@@ -69,19 +68,17 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    protected void cacheReport(String format, Object... args) {
+    public PropositionReport buildReport() {
     	if (result) {
             report.setSuccessMessage("Sum constraint fulfilled");
-            return;
+            return report;
         }
-
-        BigDecimal sum = (BigDecimal) args[0];
-        BigDecimal expectedValue = (BigDecimal) args[1];
 
         // TODO: Use the operator to compute exact message
         BigDecimal needed = expectedValue.subtract(sum);
-        String advice = String.format(format, needed.toString());
+        String advice = String.format("Sum is short by %s", needed.toString());
         report.setFailureMessage(advice);
+        return report;
     }
 
     /**

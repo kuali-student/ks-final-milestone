@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -12,12 +12,14 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.AverageRuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFAveragePropositionTest {
+public class AverageRulePropositionTest {
 
     public Map<String, Object> getFactMap(FactStructureDTO fs1, String column) {
     	String factKey = FactUtil.createFactKey(fs1);
@@ -40,17 +42,16 @@ public class YVFAveragePropositionTest {
 		fs.setStaticValueDataType(BigDecimal.class.getName());
 		fs.setStaticValue("80,95,80");
 		
-		yvf.setFactStructureList(Arrays.asList(fs));
-
 		BigDecimal expectedValue = new BigDecimal(85);
-		YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-				"1", "YVFAverageProposition", 
-				ComparisonOperator.EQUAL_TO, expectedValue,
-				yvf, null);
+		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, expectedValue.toString(), ComparisonOperator.EQUAL_TO.toString());
 
-		PropositionReport report = proposition.getReport();
+		AverageRuleProposition<BigDecimal> proposition = new AverageRuleProposition<BigDecimal>(
+				"1", "AverageRuleProposition", ruleProposition, null);
 
-		Assert.assertTrue(proposition.apply());
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
+
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -59,12 +60,12 @@ public class YVFAveragePropositionTest {
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "80"));
-		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "95"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), AverageRuleProposition.STATIC_FACT_COLUMN, "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), AverageRuleProposition.STATIC_FACT_COLUMN, "95"));
 
 		FactResultDTO propositionResult = report.getPropositionResult();
         Assert.assertEquals(1, propositionResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFAverageProposition.STATIC_FACT_COLUMN, "85.0"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), AverageRuleProposition.STATIC_FACT_COLUMN, "85.0"));
 	}
 
 	@Test
@@ -73,21 +74,20 @@ public class YVFAveragePropositionTest {
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.average.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, "resultColumn.credit");
+		resultColumnKeyMap.put(AverageRuleProposition.AVERAGE_COLUMN_KEY, "resultColumn.credit");
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(85).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
-		YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-				"1", "YVFAverageProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(85),
-				yvf, factMap);
+		AverageRuleProposition<BigDecimal> proposition = new AverageRuleProposition<BigDecimal>(
+				"1", "AverageRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 		
-		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -110,21 +110,20 @@ public class YVFAveragePropositionTest {
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.average.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, "resultColumn.credit");
+		resultColumnKeyMap.put(AverageRuleProposition.AVERAGE_COLUMN_KEY, "resultColumn.credit");
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(888).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
-		YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-				"1", "YVFAverageProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(888),
-				yvf, factMap);
+		AverageRuleProposition<BigDecimal> proposition = new AverageRuleProposition<BigDecimal>(
+				"1", "AverageRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 
-		Assert.assertFalse(proposition.apply());
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
@@ -146,19 +145,18 @@ public class YVFAveragePropositionTest {
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.average.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, "resultColumn.xxx");
+		resultColumnKeyMap.put(AverageRuleProposition.AVERAGE_COLUMN_KEY, "resultColumn.xxx");
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(888).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		try {
-			YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-					"1", "YVFAverageProposition", 
-					ComparisonOperator.EQUAL_TO, new BigDecimal(888),
-					yvf, factMap);
-			Assert.fail("YVFAverageProposition should have thrown a PropositionException for resultColumn.xxx");
+			AverageRuleProposition<BigDecimal> proposition = new AverageRuleProposition<BigDecimal>(
+					"1", "AverageRuleProposition", ruleProposition, factMap);
+			Assert.fail("AverageRuleProposition should have thrown a PropositionException for resultColumn.xxx");
 		} catch(PropositionException e) {
 			Assert.assertTrue(true);
 		}
@@ -170,19 +168,18 @@ public class YVFAveragePropositionTest {
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.average.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFAverageProposition.AVERAGE_COLUMN_KEY, null);
+		resultColumnKeyMap.put(AverageRuleProposition.AVERAGE_COLUMN_KEY, null);
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(888).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		try {
-			YVFAverageProposition<BigDecimal> proposition = new YVFAverageProposition<BigDecimal>(
-					"1", "YVFAverageProposition", 
-					ComparisonOperator.EQUAL_TO, new BigDecimal(888),
-					yvf, factMap);
-			Assert.fail("YVFAverageProposition should have thrown a PropositionException for a null column");
+			AverageRuleProposition<BigDecimal> proposition = new AverageRuleProposition<BigDecimal>(
+					"1", "AverageRuleProposition", ruleProposition, factMap);
+			Assert.fail("AverageRuleProposition should have thrown a PropositionException for a null column");
 		} catch(PropositionException e) {
 			Assert.assertTrue(true);
 		}

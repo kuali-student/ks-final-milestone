@@ -125,7 +125,9 @@ public abstract class AbstractProposition<T> implements Proposition {
 
     public abstract Boolean apply();
 
-    protected abstract void cacheReport(String format, Object... args);
+    //protected abstract void cacheReport(String format, Object... args);
+
+    public abstract PropositionReport buildReport();
 
     /**
      * @return the result

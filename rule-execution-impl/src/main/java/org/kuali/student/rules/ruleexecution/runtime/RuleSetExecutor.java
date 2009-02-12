@@ -18,7 +18,6 @@ package org.kuali.student.rules.ruleexecution.runtime;
 import java.util.Map;
 
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
-import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 
 public interface RuleSetExecutor {
@@ -55,13 +54,6 @@ public interface RuleSetExecutor {
      * Clears the rule set cache.
      */
     public void clearRuleSetCache();
-    
-    /**
-     *	Sets the report builder.
-     * 
-     * @param reportBuilder Report builder
-     */
-    public void setReportBuilder(ReportBuilder reportBuilder);
 
     /**
      * Executes a business rule <code>businessRule</code> in a rule set <code>ruleSet</code>.

@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 public class AverageProposition<E extends Number> extends SumProposition<E> {
-
+	private BigDecimal average;
     private BigDecimal listSize;
     
 	public AverageProposition(String id, 
@@ -40,11 +41,9 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
 
     @Override
     public Boolean apply() {
-        BigDecimal average = sum().divide(listSize);
+        average = sum().divide(listSize);
 
         result = checkTruthValue(average, super.expectedValue);
-
-        cacheReport("Average is short by %s", average, super.expectedValue);
 
         resultValues = new ArrayList<BigDecimal>();
         resultValues.add(average);
@@ -53,19 +52,17 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
     }
 
     @Override
-    protected void cacheReport(String format, Object... args) {
+    public PropositionReport buildReport() {
         if (result) {
             report.setSuccessMessage("Average constraint fulfilled");
-            return;
+            return report;
         }
 
-        BigDecimal sum = (BigDecimal) args[0];
-        BigDecimal expectedValue = (BigDecimal) args[1];
-
         // TODO: Use the operator to compute exact message
-        BigDecimal needed = expectedValue.subtract(sum);
-        String advice = String.format(format, needed.toString());
+        BigDecimal needed = expectedValue.subtract(average);
+        String advice = String.format("Average is short by %s", needed.toString());
         report.setFailureMessage(advice);
+        return report;
     }
 
 }

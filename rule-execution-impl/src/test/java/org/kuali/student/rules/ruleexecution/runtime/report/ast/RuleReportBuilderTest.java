@@ -12,14 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.statement.propositions.AverageProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.MaxProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.MinProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
-import org.kuali.student.rules.internal.common.statement.propositions.SimpleComparableProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.SumProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
@@ -29,31 +22,31 @@ import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilde
 public class RuleReportBuilderTest {
 	private String functionalRuleString;
 
-	private IntersectionProposition<String> intersectionPropA = new IntersectionProposition<String>("A1", "A", null, null, null, null);
-	private IntersectionProposition<String> intersectionPropB = new IntersectionProposition<String>("B1", "B", null, null, null, null);
-	private IntersectionProposition<String> intersectionPropC = new IntersectionProposition<String>("C1", "C", null, null, null, null);
-	private IntersectionProposition<String> intersectionPropD = new IntersectionProposition<String>("D1", "D", null, null, null, null);
+	private PropositionMock intersectionPropA ;
+	private PropositionMock intersectionPropB;
+	private PropositionMock intersectionPropC;
+	private PropositionMock intersectionPropD;
 
 	private PropositionReport propositionReportA = new PropositionReport("A", PropositionType.INTERSECTION);
 	private PropositionReport propositionReportB = new PropositionReport("B", PropositionType.INTERSECTION);
 	private PropositionReport propositionReportC = new PropositionReport("C", PropositionType.INTERSECTION);
 	private PropositionReport propositionReportD = new PropositionReport("D", PropositionType.INTERSECTION);
 
-	private AverageProposition<Double> averageProp;
-	private IntersectionProposition<String> intersectionProp;
-	private MaxProposition<Double> maxProp;
-	private MinProposition<Double> minProp;
-	private SimpleComparableProposition<Double> simpleComparableProp;
-	private SubsetProposition<String> subsetProp;
-	private SumProposition<Double> sumProp;
-
-	private PropositionReport averageReport;
-	private PropositionReport intersectionReport;
-	private PropositionReport maxReport;
-	private PropositionReport minReport;
-	private PropositionReport simpleComparableReport;
-	private PropositionReport subsetReport;
-	private PropositionReport sumReport;
+	private PropositionMock averageProp = new PropositionMock("Average", "A");
+	private PropositionMock intersectionProp = new PropositionMock("Intersection", "B");
+	private PropositionMock maxProp = new PropositionMock("Max", "C");
+	private PropositionMock minProp = new PropositionMock("Min", "D");
+	private PropositionMock simpleComparableProp = new PropositionMock("SimpleComparable", "E");
+	private PropositionMock subsetProp = new PropositionMock("Subset", "F");
+	private PropositionMock sumProp = new PropositionMock("Sum", "G");
+	
+	private PropositionReport averageReport = new PropositionReport("A", PropositionType.AVERAGE);
+	private PropositionReport intersectionReport = new PropositionReport("B", PropositionType.INTERSECTION);
+	private PropositionReport maxReport = new PropositionReport("C", PropositionType.MAX);
+	private PropositionReport minReport = new PropositionReport("D", PropositionType.MIN);
+	private PropositionReport simpleComparableReport = new PropositionReport("E", PropositionType.SIMPLECOMPARABLE);
+	private PropositionReport subsetReport = new PropositionReport("F", PropositionType.SUBSET);
+	private PropositionReport sumReport = new PropositionReport("G", PropositionType.SUM);
 
 	private RuleReportBuilder ruleReportBuilder;
     private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
@@ -74,6 +67,9 @@ public class RuleReportBuilderTest {
 	public void setUp() throws Exception {
 	    this.ruleReportBuilder = new RuleReportBuilder(executor);
 
+		Set<String> criteriaSet = new HashSet<String>();
+		criteriaSet.add("ENGL100");
+	    
 		Set<String> factSet = new HashSet<String>();
 	    factSet.add("ENGL100");
 	    factSet.add("ENGL200");
@@ -84,21 +80,10 @@ public class RuleReportBuilderTest {
 	    factList.add(new Double(85));
 	    factList.add(new Double(90));
 
-		averageProp = new AverageProposition<Double>("Average", "A", null, null, factList);
-		intersectionProp = new IntersectionProposition<String>("Intersection", "B", null, null, null, null);
-		maxProp = new MaxProposition<Double>("Max", "C", null, null, factList);
-		minProp = new MinProposition<Double>("Min", "D", null, null, factList);
-		simpleComparableProp = new SimpleComparableProposition<Double>("SimpleComparable", "E", null, null, null);
-		subsetProp = new SubsetProposition<String>("Subset", "F", factSet, factSet);
-		sumProp = new SumProposition<Double>("Sum", "G", null, null, factList);
-
-		averageReport = new PropositionReport("A", PropositionType.AVERAGE);
-		intersectionReport = new PropositionReport("B", PropositionType.INTERSECTION);
-		maxReport = new PropositionReport("C", PropositionType.MAX);
-		minReport = new PropositionReport("D", PropositionType.MIN);
-		simpleComparableReport = new PropositionReport("E", PropositionType.SIMPLECOMPARABLE);
-		subsetReport = new PropositionReport("F", PropositionType.SUBSET);
-		sumReport = new PropositionReport("G", PropositionType.SUM);
+	    intersectionPropA = new PropositionMock("A1", "A");
+	    intersectionPropB = new PropositionMock("B1", "B");
+	    intersectionPropC = new PropositionMock("C1", "C");
+	    intersectionPropD = new PropositionMock("D1", "D");
 	}
 	
 	@After
@@ -145,7 +130,7 @@ public class RuleReportBuilderTest {
 	    
 	    String expected = "Need MATH 200";
 	    
-	    RuleReport ruleReport = ruleReportBuilder.execute(pc);
+	    RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
 	    String actual = ruleReport.getFailureMessage();
 	    
 	    Assert.assertEquals(expected, actual);
@@ -188,7 +173,7 @@ public class RuleReportBuilderTest {
         
         String expected = "Need MATH 200 OR Need 15 credits or more of 1st year science OR Need English 6000";
         
-        RuleReport ruleReport = ruleReportBuilder.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getFailureMessage();
         
         Assert.assertEquals(expected, actual);
@@ -230,7 +215,7 @@ public class RuleReportBuilderTest {
         
         String expected = "Have MATH 200 AND Have MATH 110 AND Have 15 credits or more of 1st year science AND Have English 6000";
         
-        RuleReport ruleReport = ruleReportBuilder.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getSuccessMessage();
         
         Assert.assertEquals(expected, actual);
@@ -273,7 +258,7 @@ public class RuleReportBuilderTest {
         
         String expected = "Have MATH 200 OR Have English 6000";
         
-        RuleReport ruleReport = ruleReportBuilder.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getSuccessMessage();
         
         Assert.assertEquals(expected, actual);
@@ -328,7 +313,7 @@ public class RuleReportBuilderTest {
         
         String expected = "Have a minimum average of 80 AND Have English 200";
         
-        RuleReport ruleReport = ruleReportBuilder.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getSuccessMessage();
 
         System.out.println("Rule Report: "+actual);
@@ -387,7 +372,7 @@ public class RuleReportBuilderTest {
         
         String expected = "Need English 100 OR Need English 200 OR Need 15 credits or more of 1st year science";
         
-        RuleReport ruleReport = ruleReportBuilder.execute(pc);
+        RuleReport ruleReport = ruleReportBuilder.buildReport(pc);
         String actual = ruleReport.getFailureMessage();
 
         System.out.println("Rule Report: "+actual);

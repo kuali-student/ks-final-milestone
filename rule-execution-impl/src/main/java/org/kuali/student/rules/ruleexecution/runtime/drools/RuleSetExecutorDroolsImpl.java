@@ -28,7 +28,6 @@ import org.drools.RuleBase;
 import org.drools.StatelessSession;
 import org.drools.compiler.PackageBuilder;
 import org.drools.rule.Package;
-import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
@@ -38,7 +37,6 @@ import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsExecutionStatistics;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryLogger;
 import org.kuali.student.rules.ruleexecution.runtime.drools.logging.DroolsWorkingMemoryStatisticsLogger;
-import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.rules.ruleexecution.util.LoggingStringBuilder;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
@@ -55,8 +53,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
     private static final long serialVersionUID = 1L;
 
     private final DroolsUtil droolsUtil = DroolsUtil.getInstance();
-    
-    private ReportBuilder reportBuilder;
     
     private DroolsRuleBase ruleBaseCache;
 
@@ -110,15 +106,6 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
      */
     public void setRuleBaseCache(DroolsRuleBase ruleBase) {
     	this.ruleBaseCache = ruleBase;
-    }
-
-    /**
-     *	Sets the report builder.
-     * 
-     * @param reportBuilder Report builder
-     */
-    public void setReportBuilder(ReportBuilder reportBuilder) {
-    	this.reportBuilder = reportBuilder;
     }
 
     /**
@@ -372,35 +359,12 @@ public class RuleSetExecutorDroolsImpl implements RuleSetExecutor {
 
         ExecutionResult result = executeRule(ruleBaseType, factContainer);
         result.setId(businessRule.getId());
-        try {
-	        RuleReport report = createReport(result.getResults());
-	        result.setReport(report);
-        } catch(RuleSetExecutionException e) {
-        	result.setErrorMessage(e.getMessage());
-        }
         
     	//if (logger.isInfoEnabled()) {
     	//	droolsUtil().logStatistics(this.executionStats);
     	//}
         
         return result;
-    }
-
-    /**
-     * Generates a proposition report.
-     * 
-     * @param facts Facts for the proposition reports
-     * @return A proposition report
-     */
-    private RuleReport createReport(List<?> facts) throws RuleSetExecutionException {
-        for(int i=0; i<facts.size(); i++) {
-            Object obj = facts.get(i);
-            if (obj instanceof FactContainer) {
-                FactContainer fc = (FactContainer) obj;
-                return this.reportBuilder.execute(fc.getPropositionContainer());
-           }
-        }
-        return null;
     }
 
     /**

@@ -52,8 +52,8 @@ import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.yvf.YVFIntersectionProposition;
-import org.kuali.student.rules.internal.common.statement.yvf.YVFSubsetProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SubsetRuleProposition;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.util.DroolsUtil;
@@ -494,7 +494,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
     	YieldValueFunctionDTO yieldValueFunction2 = dtoFactory.createYieldValueFunctionDTO(null, YieldValueFunctionType.INTERSECTION.toString());
 		
 		Map<String,String> subsetResultColumnKey = new HashMap<String, String>();
-		subsetResultColumnKey.put(YVFSubsetProposition.SUBSET_COLUMN_KEY, "column1");
+		subsetResultColumnKey.put(SubsetRuleProposition.SUBSET_COLUMN_KEY, "column1");
 
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
 		factStructure1.setResultColumnKeyTranslations(subsetResultColumnKey);
@@ -504,7 +504,7 @@ public class RuleRepositoryServiceTest extends AbstractServiceTest {
 		yieldValueFunction1.setFactStructureList(Arrays.asList(factStructure1, factStructure2));
 		
 		Map<String,String> intersectionResultColumnKey = new HashMap<String, String>();
-		intersectionResultColumnKey.put(YVFIntersectionProposition.INTERSECTION_COLUMN_KEY, "column1");
+		intersectionResultColumnKey.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "column1");
 
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.3", "course.subset.criteria");
 		factStructure3.setResultColumnKeyTranslations(intersectionResultColumnKey);

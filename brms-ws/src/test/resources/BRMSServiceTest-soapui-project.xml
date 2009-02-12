@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project name="BRMSServiceTest" soapui-version="2.0.2" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@projectRoot">C:\util\eclipse\kuali_workspace\kuali_rule_phase3_workspace\brms-impl-dev\brms-ws\src\test\resources</con:setting></con:settings><con:interface name="RuleManagementServiceServiceSoapBinding" bindingName="{http://student.kuali.org/poc/wsdl/brms/rulemanagement}RuleManagementServiceServiceSoapBinding" soapVersion="1_1" definition="file:C:\java_tools\Kuali\brms-api-dev\rule-management-api\target\generated\wsdl\RuleManagementService.wsdl"><con:settings/><con:endpoints><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="createBusinessRule" bindingOperationName="createBusinessRule" inputName="createBusinessRule" outputName="createBusinessRuleResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+<con:soapui-project name="BRMSServiceTest" soapui-version="2.0.2" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@projectRoot">C:\util\eclipse\kuali_workspace\kuali_rule_phase3_workspace\brms-impl-dev\brms-ws\src\test\resources</con:setting></con:settings><con:interface name="RuleManagementServiceServiceSoapBinding" bindingName="{http://student.kuali.org/poc/wsdl/brms/rulemanagement}RuleManagementServiceServiceSoapBinding" soapVersion="1_1" definition="file:C:\java_tools\Kuali\brms-api-dev\rule-management-api\target\generated\wsdl\RuleManagementService.wsdl"><con:settings/><con:endpoints><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="createBusinessRule" bindingOperationName="createBusinessRule" inputName="createBusinessRule" outputName="createBusinessRuleResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
    <soapenv:Header>
    </soapenv:Header>
    <soapenv:Body>
@@ -48,7 +48,7 @@
          </businessRuleInfo>
       </rul:createBusinessRule>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="deleteBusinessRule" bindingOperationName="deleteBusinessRule" inputName="deleteBusinessRule" outputName="deleteBusinessRuleResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="deleteBusinessRule" bindingOperationName="deleteBusinessRule" inputName="deleteBusinessRule" outputName="deleteBusinessRuleResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:deleteBusinessRule>
@@ -56,7 +56,7 @@
          <businessRuleId>2</businessRuleId>
       </rul:deleteBusinessRule>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchAgendaInfo" bindingOperationName="fetchAgendaInfo" inputName="fetchAgendaInfo" outputName="fetchAgendaInfoResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchAgendaInfo" bindingOperationName="fetchAgendaInfo" inputName="fetchAgendaInfo" outputName="fetchAgendaInfoResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchAgendaInfo>
@@ -72,7 +72,7 @@
          </agendaInfoDeterminationStructure>
       </rul:fetchAgendaInfo>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchAgendaInfoDeterminationStructure" bindingOperationName="fetchAgendaInfoDeterminationStructure" inputName="fetchAgendaInfoDeterminationStructure" outputName="fetchAgendaInfoDeterminationStructureResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchAgendaInfoDeterminationStructure" bindingOperationName="fetchAgendaInfoDeterminationStructure" inputName="fetchAgendaInfoDeterminationStructure" outputName="fetchAgendaInfoDeterminationStructureResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchAgendaInfoDeterminationStructure>
@@ -80,7 +80,7 @@
          <agendaTypeKey>?</agendaTypeKey>
       </rul:fetchAgendaInfoDeterminationStructure>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleEnglish" bindingOperationName="fetchBusinessRuleEnglish" inputName="fetchBusinessRuleEnglish" outputName="fetchBusinessRuleEnglishResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleEnglish" bindingOperationName="fetchBusinessRuleEnglish" inputName="fetchBusinessRuleEnglish" outputName="fetchBusinessRuleEnglishResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchBusinessRuleEnglish>
@@ -88,7 +88,7 @@
          <businessRuleId>?</businessRuleId>
       </rul:fetchBusinessRuleEnglish>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleInfo" bindingOperationName="fetchBusinessRuleInfo" inputName="fetchBusinessRuleInfo" outputName="fetchBusinessRuleInfoResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleInfo" bindingOperationName="fetchBusinessRuleInfo" inputName="fetchBusinessRuleInfo" outputName="fetchBusinessRuleInfoResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchBusinessRuleInfo>
@@ -96,7 +96,7 @@
          <businessRuleId>3</businessRuleId>
       </rul:fetchBusinessRuleInfo>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleInfoByAnchor" bindingOperationName="fetchBusinessRuleInfoByAnchor" inputName="fetchBusinessRuleInfoByAnchor" outputName="fetchBusinessRuleInfoByAnchorResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleInfoByAnchor" bindingOperationName="fetchBusinessRuleInfoByAnchor" inputName="fetchBusinessRuleInfoByAnchor" outputName="fetchBusinessRuleInfoByAnchorResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchBusinessRuleInfoByAnchor>
@@ -111,22 +111,22 @@
          </arg0>
       </rul:fetchBusinessRuleInfoByAnchor>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleInfoByAnchorList" bindingOperationName="fetchBusinessRuleInfoByAnchorList" inputName="fetchBusinessRuleInfoByAnchorList" outputName="fetchBusinessRuleInfoByAnchorListResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleInfoByAnchorList" bindingOperationName="fetchBusinessRuleInfoByAnchorList" inputName="fetchBusinessRuleInfoByAnchorList" outputName="fetchBusinessRuleInfoByAnchorListResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchBusinessRuleInfoByAnchorList>
          <!--Optional:-->
          <businessRuleAnchorInfoList>
             <!--Optional:-->
-            <businessRuleTypeKey>?</businessRuleTypeKey>
+            <businessRuleTypeKey>KUALI_PRE_REQ</businessRuleTypeKey>
             <!--Optional:-->
-            <anchorTypeKey>?</anchorTypeKey>
+            <anchorTypeKey>KUALI_COURSE</anchorTypeKey>
             <!--Optional:-->
-            <anchorValue>?</anchorValue>
+            <anchorValue>MATH 101</anchorValue>
          </businessRuleAnchorInfoList>
       </rul:fetchBusinessRuleInfoByAnchorList>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleType" bindingOperationName="fetchBusinessRuleType" inputName="fetchBusinessRuleType" outputName="fetchBusinessRuleTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchBusinessRuleType" bindingOperationName="fetchBusinessRuleType" inputName="fetchBusinessRuleType" outputName="fetchBusinessRuleTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchBusinessRuleType>
@@ -136,7 +136,7 @@
          <arg1>KUALI_COURSE</arg1>
       </rul:fetchBusinessRuleType>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchDetailedBusinessRuleInfo" bindingOperationName="fetchDetailedBusinessRuleInfo" inputName="fetchDetailedBusinessRuleInfo" outputName="fetchDetailedBusinessRuleInfoResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchDetailedBusinessRuleInfo" bindingOperationName="fetchDetailedBusinessRuleInfo" inputName="fetchDetailedBusinessRuleInfo" outputName="fetchDetailedBusinessRuleInfoResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:fetchDetailedBusinessRuleInfo>
@@ -144,12 +144,12 @@
          <businessRuleId>3</businessRuleId>
       </rul:fetchDetailedBusinessRuleInfo>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findAgendaTypes" bindingOperationName="findAgendaTypes" inputName="findAgendaTypes" outputName="findAgendaTypesResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findAgendaTypes" bindingOperationName="findAgendaTypes" inputName="findAgendaTypes" outputName="findAgendaTypesResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:findAgendaTypes/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findAnchorsByAnchorType" bindingOperationName="findAnchorsByAnchorType" inputName="findAnchorsByAnchorType" outputName="findAnchorsByAnchorTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findAnchorsByAnchorType" bindingOperationName="findAnchorsByAnchorType" inputName="findAnchorsByAnchorType" outputName="findAnchorsByAnchorTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:findAnchorsByAnchorType>
@@ -157,12 +157,12 @@
          <anchorTypeKey>?</anchorTypeKey>
       </rul:findAnchorsByAnchorType>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findAnchorTypes" bindingOperationName="findAnchorTypes" inputName="findAnchorTypes" outputName="findAnchorTypesResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findAnchorTypes" bindingOperationName="findAnchorTypes" inputName="findAnchorTypes" outputName="findAnchorTypesResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:findAnchorTypes/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findBusinessRuleIdsByBusinessRuleType" bindingOperationName="findBusinessRuleIdsByBusinessRuleType" inputName="findBusinessRuleIdsByBusinessRuleType" outputName="findBusinessRuleIdsByBusinessRuleTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findBusinessRuleIdsByBusinessRuleType" bindingOperationName="findBusinessRuleIdsByBusinessRuleType" inputName="findBusinessRuleIdsByBusinessRuleType" outputName="findBusinessRuleIdsByBusinessRuleTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:findBusinessRuleIdsByBusinessRuleType>
@@ -170,12 +170,12 @@
          <businessRuleTypeKey>?</businessRuleTypeKey>
       </rul:findBusinessRuleIdsByBusinessRuleType>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findBusinessRuleTypes" bindingOperationName="findBusinessRuleTypes" inputName="findBusinessRuleTypes" outputName="findBusinessRuleTypesResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findBusinessRuleTypes" bindingOperationName="findBusinessRuleTypes" inputName="findBusinessRuleTypes" outputName="findBusinessRuleTypesResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:findBusinessRuleTypes/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findBusinessRuleTypesByAgendaType" bindingOperationName="findBusinessRuleTypesByAgendaType" inputName="findBusinessRuleTypesByAgendaType" outputName="findBusinessRuleTypesByAgendaTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="findBusinessRuleTypesByAgendaType" bindingOperationName="findBusinessRuleTypesByAgendaType" inputName="findBusinessRuleTypesByAgendaType" outputName="findBusinessRuleTypesByAgendaTypeResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:findBusinessRuleTypesByAgendaType>
@@ -183,7 +183,7 @@
          <agendaTypeKey>KUALI_STUDENT_STUDENT_DROPS_COURSE</agendaTypeKey>
       </rul:findBusinessRuleTypesByAgendaType>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="updateBusinessRule" bindingOperationName="updateBusinessRule" inputName="updateBusinessRule" outputName="updateBusinessRuleResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.0.1-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
+</soapenv:Envelope>]]></con:request></con:call></con:operation><con:operation isOneWay="false" action="" name="updateBusinessRule" bindingOperationName="updateBusinessRule" inputName="updateBusinessRule" outputName="updateBusinessRuleResponse" receivesAttachments="false" sendsAttachments="false"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/brms-ws-0.1.0-SNAPSHOT/services/RuleManagementService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rul="http://student.kuali.org/poc/wsdl/brms/rulemanagement">
    <soapenv:Header/>
    <soapenv:Body>
       <rul:updateBusinessRule>

@@ -48,12 +48,14 @@ import org.kuali.student.rules.ruleexecution.dto.RuleReportDTO;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.ExecutionResult;
 import org.kuali.student.rules.ruleexecution.runtime.RuleSetExecutor;
+import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.rules.ruleexecution.service.RuleExecutionService;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleAnchorInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.service.RuleManagementService;
+import org.kuali.student.rules.util.FactContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +84,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     private ConcurrentMap<String, FactResultDTO> factFinderCache = new ConcurrentHashMap<String, FactResultDTO>();
 
     private ConcurrentMap<String, FactTypeInfoDTO> factFinderTypeCache = new ConcurrentHashMap<String, FactTypeInfoDTO>();
+
+    private ReportBuilder reportBuilder;
     
     public void setEnableRuleSetCaching(final boolean enableCaching) {
     	this.ruleSetCachingEnabled = enableCaching;
@@ -141,7 +145,16 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		this.factFinderService = factFinderService;
 	}
 
-	/**
+    /**
+     *	Sets the report builder.
+     * 
+     * @param reportBuilder Report builder
+     */
+    public void setReportBuilder(ReportBuilder reportBuilder) {
+    	this.reportBuilder = reportBuilder;
+    }
+
+    /**
 	 * Gets a rule set from the repository from rule set UUID.
 	 * 
 	 * @param businessRule Business rule
@@ -183,6 +196,23 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 		}
 	}
 
+    /**
+     * Creates a proposition report.
+     * 
+     * @param facts Facts for the proposition reports
+     * @return A proposition report
+     */
+    private RuleReport createReport(List<?> facts) {
+        for(int i=0; i<facts.size(); i++) {
+            Object obj = facts.get(i);
+            if (obj instanceof FactContainer) {
+                FactContainer fc = (FactContainer) obj;
+                return this.reportBuilder.buildReport(fc.getPropositionContainer());
+           }
+        }
+        return null;
+    }
+
 	/**
 	 * Creates the execution result DTO object which contains the rule execution
 	 * log, any error messages, the rule execution result and the rule 
@@ -198,7 +228,8 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	exeDTO.setExecutionSuccessful(executionResult.getExecutionResult());
     	
     	RuleReportDTO reportDTO = new RuleReportDTO();
-    	RuleReport report = executionResult.getReport();
+    	RuleReport report = createReport(executionResult.getResults());
+    		
     	if (report != null) {
     		List<PropositionReportDTO> propositionReportList = new ArrayList<PropositionReportDTO>();
     		for(PropositionReport propositionReport : report.getPropositionReports()) {
@@ -452,7 +483,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     	List<ExecutionResultDTO> executionResultList = new ArrayList<ExecutionResultDTO>();
     	for(BusinessRuleInfoDTO businessRule : businessRuleInfoList) {
-	 		ExecutionResultDTO executionResult = executeBusinessRule(businessRule.getId(), executionParamMap);
+	 		ExecutionResultDTO executionResult = executeRule(businessRule.getId(), executionParamMap);
 	 		executionResultList.add(executionResult);
     	}
 
@@ -461,11 +492,11 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
 
     /**
      * Executes a business rule by <code>businessRuleId</code> with a 
-     * <code>exectionParamMap</code>.
+     * <code>exectionParamMap</code> and returns an execution report.
      * <code>exectionParamMap</code> must match the fact criteria type meta data.
      * <code>exectionParamMap</code> can be null for static facts. </p>
      * 
-     * @param businessRule A Business rule
+     * @param businessRuleId A Business rule id
      * @param exectionParamMap Execution fact parameter map
 	 * @return Result of executing the business rule
      * @throws DoesNotExistException Thrown if business rule id does not exist
@@ -476,6 +507,29 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     public ExecutionResultDTO executeBusinessRule(final String businessRuleId, final Map<String,String> exectionParamMap)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
 	{
+    	// Clear execution level fact finder cache
+    	this.factFinderCache.clear();
+    	//this.factFinderTypeCache.clear();
+
+    	return executeRule(businessRuleId, exectionParamMap);
+	}
+
+    /**
+     * Executes a business rule.
+     * 
+     * @param businessRuleId A Business rule id
+     * @param exectionParamMap Execution fact parameter map
+	 * @return Result of executing the business rule
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+     * @throws InvalidParameterException Thrown if business rule id is invalid
+     * @throws MissingParameterException Thrown if business rule id is null or empty
+     * @throws OperationFailedException Thrown if execution fails
+     */
+    private ExecutionResultDTO executeRule(
+    			final String businessRuleId, 
+    			final Map<String,String> exectionParamMap)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
+	{
     	if (businessRuleId == null || businessRuleId.trim().isEmpty()) {
     		throw new MissingParameterException("Business rule id is null or empty");
     	}
@@ -483,10 +537,7 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	// Retrieve business rule
     	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 		addRuleSet(businessRule);
-    	
-    	// Clear execution level fact finder cache
-    	this.factFinderCache.clear();
-    	//this.factFinderTypeCache.clear();
+
 		Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
 		
         try {
@@ -498,6 +549,53 @@ public class RuleExecutionServiceImpl implements RuleExecutionService {
     	}
     }
 
+    /**
+     * Executes a business rule by <code>businessRuleId</code> with a 
+     * <code>exectionParamMap</code>. Returns true if rule was successful; 
+     * otherwise false if rule failed.
+     * 
+     * @param businessRuleId A Business rule id
+     * @param exectionParamMap Execution fact parameter map
+     * @return True if rule was successful; otherwise false if rule failed
+     * @throws DoesNotExistException Thrown if business rule id does not exist
+     * @throws InvalidParameterException Thrown if business rule id is invalid
+     * @throws MissingParameterException Thrown if business rule id is null or empty
+     * @throws OperationFailedException Thrown if execution fails
+     */
+    /*public Boolean executeBusinessRuleWithNoReport(final String businessRuleId, final Map<String,String> exectionParamMap)
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException 
+	{
+    	if (businessRuleId == null || businessRuleId.trim().isEmpty()) {
+    		throw new MissingParameterException("Business rule id is null or empty");
+    	}
+
+    	// Retrieve business rule
+    	BusinessRuleInfoDTO businessRule = this.ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
+		addRuleSet(businessRule);
+
+    	// Clear execution level fact finder cache
+    	this.factFinderCache.clear();
+    	//this.factFinderTypeCache.clear();
+
+    	Map<String, Object> factMap = createFactMap(businessRule, exectionParamMap);
+		
+        try {
+        	ExecutionResult result = this.ruleSetExecutor.execute(businessRule, factMap);
+    		List<Object> results =  result.getResults();
+	        for(int i=0; i<results.size(); i++) {
+	            Object obj = results.get(i);
+	            if (obj instanceof FactContainer) {
+	                FactContainer fc = (FactContainer) obj;
+	                return fc.getPropositionContainer().getRuleResult();
+	           }
+	        }
+	        return Boolean.FALSE;
+    	} catch(RuleSetExecutionException e) {
+    		logger.error(e.getMessage(), e);
+    		throw new OperationFailedException(e.getMessage());
+    	}
+	}*/
+    
     /**
      * <p>Executes a business rule with a <code>factStructure</code> to test 
      * that it executes properly.<br/> 

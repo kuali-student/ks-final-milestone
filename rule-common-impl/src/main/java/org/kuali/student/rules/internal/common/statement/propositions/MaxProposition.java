@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 public class MaxProposition<T extends Comparable<T>> extends AbstractProposition<T> {
-    private Collection<T> fact;
+    private T max;
+	private Collection<T> fact;
 
     public MaxProposition() {
     }
@@ -19,11 +21,9 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
 
     @Override
     public Boolean apply() {
-    	T max = Collections.max(this.fact);
+    	max = Collections.max(this.fact);
 
         result = checkTruthValue(max, super.expectedValue);
-
-        cacheReport("Maximum not met: %s", max.toString(), super.expectedValue);
 
         resultValues = new ArrayList<T>();
         resultValues.add(max);
@@ -32,16 +32,15 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
     }
 
     @Override
-    protected void cacheReport(String format, Object... args) {
+    public PropositionReport buildReport() {
         if (result) {
             report.setSuccessMessage("Maximum constraint fulfilled");
-            return;
+            return report;
         }
 
-        String max = (String) args[0];
-
         // TODO: Use the operator to compute exact message
-        String advice = String.format(format, max);
+        String advice = String.format("Maximum not met: %s", this.max);
         report.setFailureMessage(advice);
+        return report;
     }
 }

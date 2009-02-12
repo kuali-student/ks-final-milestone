@@ -24,7 +24,6 @@
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="true"/>
         <property name="ruleBaseCache" ref="ruleBaseCache"/>
-        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleBaseCache"
@@ -51,7 +50,6 @@
         <property name="enableExecutionLogging" value="true"/>
         <property name="enableStatLogging" value="false"/>
         <property name="ruleBaseCache" ref="ruleBaseCacheTest"/>
-        <property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
     <bean id="ruleBaseCacheTest"
@@ -86,12 +84,13 @@
 
     <bean id="ruleExecutionServiceImpl"
         class="org.kuali.student.rules.ruleexecution.service.impl.RuleExecutionServiceImpl">
-	        <property name="enableRuleSetCaching" value="true" />
-            <property name="ruleSetExecutor" ref="ruleSetExecutor"/>
-            <property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
-	        <property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
-            <property name="ruleManagementService" ref="ruleManagementClient"/>
-            <property name="factFinderService" ref="factFinderClient"/>
+		<property name="enableRuleSetCaching" value="true" />
+		<property name="ruleSetExecutor" ref="ruleSetExecutor"/>
+		<property name="ruleSetExecutorTest" ref="ruleSetExecutorTest"/>
+		<property name="ruleRespositoryService" ref="ruleRepositoryClient"/>
+		<property name="ruleManagementService" ref="ruleManagementClient"/>
+		<property name="factFinderService" ref="factFinderClient"/>
+		<property name="reportBuilder" ref="reportBuilder"/>
     </bean>
 
 </beans>

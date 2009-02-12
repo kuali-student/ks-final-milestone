@@ -3,6 +3,7 @@ package org.kuali.student.rules.internal.common.statement.propositions;
 import java.util.Collection;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 public class StatisticsProposition<T extends Number> extends AbstractProposition<Double> {
@@ -24,26 +25,20 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
 		
 		result = checkTruthValue(computedValue, super.expectedValue);
 
-        cacheReport("Statistics %1$s not met, calculate value is %2$s expected:  %3$s", 
-        		function, computedValue, super.expectedValue);
-
         return result;
 	}
 
 	@Override
-	protected void cacheReport(String format, Object... args) {
-		StatFunction f = (StatFunction) args[0];
+    public PropositionReport buildReport() {
         if (result) {
-            report.setSuccessMessage("Statistics " + f + " constraint fulfilled");
-            return;
+            report.setSuccessMessage("Statistics " + function + " constraint fulfilled");
+            return report;
         }
 
-        Double calculatedValue = (Double) args[1];
-        Double expectedValue = (Double) args[2];
-
         // TODO: Use the operator to compute exact message
-        String advice = String.format(format, f, calculatedValue, expectedValue);
+        String advice = String.format("Statistics %1$s not met, calculate value is %2$s expected:  %3$s", function, computedValue, super.expectedValue);
         report.setFailureMessage(advice);
+        return report;
 	}
 	
 	public Double getComputedValue() {

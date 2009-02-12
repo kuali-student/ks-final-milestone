@@ -1,8 +1,7 @@
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,12 +12,14 @@ import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.SumRuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
-public class YVFSumPropositionTest {
+public class SumRulePropositionTest {
 
     public Map<String, Object> getFactMap(FactStructureDTO fs1, String column) {
     	String factKey = FactUtil.createFactKey(fs1);
@@ -41,19 +42,18 @@ public class YVFSumPropositionTest {
 		fs.setStaticValueDataType(BigDecimal.class.getName());
 		fs.setStaticValue("80,95,80");
 		
+		BigDecimal expectedValue = new BigDecimal(255);
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, expectedValue.toString(), ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
-		BigDecimal expectedValue = new BigDecimal(255);
-		YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
-				"1", "YVFSumProposition", 
-				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, expectedValue,
-				yvf, factMap);
+		SumRuleProposition<BigDecimal> proposition = new SumRuleProposition<BigDecimal>(
+				"1", "SumRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 
-		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -62,12 +62,12 @@ public class YVFSumPropositionTest {
 
 		FactResultDTO fact = report.getFactResult();
 		Assert.assertEquals(3, fact.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFSumProposition.STATIC_FACT_COLUMN, "80"));
-		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), YVFSumProposition.STATIC_FACT_COLUMN, "95"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), SumRuleProposition.STATIC_FACT_COLUMN, "80"));
+		Assert.assertTrue(CommonTestUtil.containsResult(fact.getResultList(), SumRuleProposition.STATIC_FACT_COLUMN, "95"));
 
 		FactResultDTO propositionResult = report.getPropositionResult();
         Assert.assertEquals(1, propositionResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), YVFSumProposition.STATIC_FACT_COLUMN, "255.0"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), SumRuleProposition.STATIC_FACT_COLUMN, "255.0"));
 	}
     
 	@Test
@@ -76,22 +76,21 @@ public class YVFSumPropositionTest {
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.sum.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSumProposition.SUM_COLUMN_KEY, "resultColumn.credit");
+		resultColumnKeyMap.put(SumRuleProposition.SUM_COLUMN_KEY, "resultColumn.credit");
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 		
+		BigDecimal expectedValue = new BigDecimal(255);
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, expectedValue.toString(), ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
-		BigDecimal expectedValue = new BigDecimal(255);
-		YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
-				"1", "YVFSumProposition", 
-				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, expectedValue,
-				yvf, factMap);
+		SumRuleProposition<BigDecimal> proposition = new SumRuleProposition<BigDecimal>(
+				"1", "SumRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 
-		Assert.assertTrue(proposition.apply());
 		Assert.assertTrue(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNull(report.getFailureMessage());
@@ -113,20 +112,20 @@ public class YVFSumPropositionTest {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.sum.fact");
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSumProposition.SUM_COLUMN_KEY, "resultColumn.credit");
+		resultColumnKeyMap.put(SumRuleProposition.SUM_COLUMN_KEY, "resultColumn.credit");
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(111).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
-		YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
-				"1", "YVFSumProposition", 
-				ComparisonOperator.EQUAL_TO, new BigDecimal(111),
-				yvf, factMap);
+		SumRuleProposition<BigDecimal> proposition = new SumRuleProposition<BigDecimal>(
+				"1", "SumRuleProposition", ruleProposition, factMap);
 
-		PropositionReport report = proposition.getReport();
+		proposition.apply();
+		PropositionReport report = proposition.buildReport();
 
-		Assert.assertFalse(proposition.apply());
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
@@ -148,18 +147,18 @@ public class YVFSumPropositionTest {
 		YieldValueFunctionDTO yvf = new YieldValueFunctionDTO();
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.sum.fact");
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSumProposition.SUM_COLUMN_KEY, "resultColumn.xxx");
+		resultColumnKeyMap.put(SumRuleProposition.SUM_COLUMN_KEY, "resultColumn.xxx");
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
+
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(111).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		try {
-			YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
-					"1", "YVFSumProposition", 
-					ComparisonOperator.EQUAL_TO, new BigDecimal(111),
-					yvf, factMap);
-			Assert.fail("YVFSumProposition should have thrown a PropositionException for resultColumn.xxx");
+			SumRuleProposition<BigDecimal> proposition = new SumRuleProposition<BigDecimal>(
+					"1", "SumRuleProposition",  ruleProposition, factMap);
+			Assert.fail("SumRuleProposition should have thrown a PropositionException for resultColumn.xxx");
 		} catch(PropositionException e) {
 			Assert.assertTrue(true);
 		}
@@ -171,19 +170,18 @@ public class YVFSumPropositionTest {
 		FactStructureDTO fs = CommonTestUtil.createFactStructure("fact.id.1", "course.sum.fact");
 
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(YVFSumProposition.SUM_COLUMN_KEY, null);
+		resultColumnKeyMap.put(SumRuleProposition.SUM_COLUMN_KEY, null);
 		fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		yvf.setFactStructureList(Arrays.asList(fs));
+		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(111).toString(), ComparisonOperator.EQUAL_TO.toString());
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		
 		try {
-			YVFSumProposition<BigDecimal> proposition = new YVFSumProposition<BigDecimal>(
-					"1", "YVFSumProposition", 
-					ComparisonOperator.EQUAL_TO, new BigDecimal(111),
-					yvf, factMap);
-			Assert.fail("YVFSumProposition should have thrown a PropositionException for a null column");
+			SumRuleProposition<BigDecimal> proposition = new SumRuleProposition<BigDecimal>(
+					"1", "SumRuleProposition", ruleProposition, factMap);
+			Assert.fail("SumRuleProposition should have thrown a PropositionException for a null column");
 		} catch(PropositionException e) {
 			Assert.assertTrue(true);
 		}

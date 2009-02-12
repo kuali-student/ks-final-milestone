@@ -1,4 +1,4 @@
-package org.kuali.student.rules.internal.common.statement.yvf;
+package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,9 +20,9 @@ import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractYVFProposition<T> implements Proposition {
+public abstract class AbstractRuleProposition<T> implements Proposition {
     /** SLF4J logging framework */
-    final static Logger logger = LoggerFactory.getLogger(AbstractYVFProposition.class);
+    final static Logger logger = LoggerFactory.getLogger(AbstractRuleProposition.class);
 
 	public final static String STATIC_FACT_COLUMN = "static.column";
 
@@ -197,6 +197,11 @@ public abstract class AbstractYVFProposition<T> implements Proposition {
 		return b;
 	}
 	
+	@Override
+	public PropositionReport buildReport() {
+		return this.proposition.buildReport();
+	}
+
 	@Override
 	public String getId() {
 		return this.proposition.getId();

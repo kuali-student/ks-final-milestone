@@ -109,7 +109,7 @@ public class DroolsTestUtil {
 		"import org.slf4j.LoggerFactory; \n" +
 		"import org.kuali.student.rules.internal.common.entity.*; \n" +
 		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.yvf.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.propositions.rules.*; \n" +
 		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
 		"import org.kuali.student.rules.util.FactContainer; \n" +
 		"import org.kuali.student.rules.util.FactContainer.State; \n" +
@@ -130,25 +130,23 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP1 = \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\"; \n" +
 		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
-		"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
+		//"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
         
-		"        YVFAverageProposition<java.math.BigDecimal> yvfPropositionP1 = new YVFAverageProposition<java.math.BigDecimal>( \n" +
-		"            uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new BigDecimal(80.0),  \n" +
-		"            yvfP1, factMap ); \n" +
-		"        yvfPropositionP1.apply(); \n" +
-		"        prop.addProposition(yvfPropositionP1.getProposition()); \n" +
-		"        insert(yvfPropositionP1.getProposition()); \n" +
+		"        AverageRuleProposition<java.math.BigDecimal> propositionP1 = new AverageRuleProposition<java.math.BigDecimal>( \n" +
+		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
+		"        propositionP1.apply(); \n" +
+		"        prop.addProposition(propositionP1.getProposition()); \n" +
+		"        insert(propositionP1.getProposition()); \n" +
 		"\n" +
 		"        String uuidP2 = \"P2-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
 		"        RulePropositionDTO rulePropositionP2 = (RulePropositionDTO) propositionMap.get(\"P2\"); \n" +
-		"        YieldValueFunctionDTO yvfP2 = rulePropositionP2.getLeftHandSide().getYieldValueFunction(); \n" +
+		//"        YieldValueFunctionDTO yvfP2 = rulePropositionP2.getLeftHandSide().getYieldValueFunction(); \n" +
 		"\n" +
-		"        YVFIntersectionProposition<java.lang.Integer> yvfPropositionP2 = new YVFIntersectionProposition<java.lang.Integer>( \n" +
-		"            uuidP2, \"P2\", ComparisonOperator.EQUAL_TO, new Integer(1),  \n" +
-		"            yvfP2, factMap ); \n" +
-		"        yvfPropositionP2.apply(); \n" +
-		"        prop.addProposition(yvfPropositionP2.getProposition()); \n" +
-		"        insert(yvfPropositionP2.getProposition()); \n" +
+		"        IntersectionRuleProposition<java.lang.Integer> propositionP2 = new IntersectionRuleProposition<java.lang.Integer>( \n" +
+		"            uuidP2, \"P2\", rulePropositionP2, factMap ); \n" +
+		"        propositionP2.apply(); \n" +
+		"        prop.addProposition(propositionP2.getProposition()); \n" +
+		"        insert(propositionP2.getProposition()); \n" +
 		
 		"end \n" +
 
@@ -187,7 +185,7 @@ public class DroolsTestUtil {
 		"import org.slf4j.LoggerFactory; \n" +
 		"import org.kuali.student.rules.internal.common.entity.*; \n" +
 		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.yvf.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.propositions.rules.*; \n" +
 		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
 		"import org.kuali.student.rules.util.FactContainer; \n" +
 		"import org.kuali.student.rules.util.FactContainer.State; \n" +
@@ -208,14 +206,13 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP1 = \"P1-1fbc3af5-6b2f-445e-be85-719669e88dc3\"; \n" +
 		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
-		"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
+		//"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
         
-		"        YVFAverageProposition<java.math.BigDecimal> yvfPropositionP1 = new YVFAverageProposition<java.math.BigDecimal>( \n" +
-		"            uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new BigDecimal(80.0),  \n" +
-		"            yvfP1, factMap ); \n" +
-		"        yvfPropositionP1.apply(); \n" +
-		"        prop.addProposition(yvfPropositionP1.getProposition()); \n" +
-		"        insert(yvfPropositionP1.getProposition()); \n" +
+		"        AverageRuleProposition<java.math.BigDecimal> propositionP1 = new AverageRuleProposition<java.math.BigDecimal>( \n" +
+		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
+		"        propositionP1.apply(); \n" +
+		"        prop.addProposition(propositionP1.getProposition()); \n" +
+		"        insert(propositionP1.getProposition()); \n" +
 		
 		"end \n" +
 
@@ -249,7 +246,7 @@ public class DroolsTestUtil {
 		"import org.slf4j.LoggerFactory; \n" +
 		"import org.kuali.student.rules.internal.common.entity.*; \n" +
 		"import org.kuali.student.rules.internal.common.statement.propositions.*; \n" +
-		"import org.kuali.student.rules.internal.common.statement.yvf.*; \n" +
+		"import org.kuali.student.rules.internal.common.statement.propositions.rules.*; \n" +
 		"import org.kuali.student.rules.rulemanagement.dto.*; \n" +
 		"import org.kuali.student.rules.util.FactContainer; \n" +
 		"import org.kuali.student.rules.util.FactContainer.State; \n" +
@@ -270,14 +267,13 @@ public class DroolsTestUtil {
 		"\n" +
 		"        String uuidP1 = \"P1-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
 		"        RulePropositionDTO rulePropositionP1 = (RulePropositionDTO) propositionMap.get(\"P1\"); \n" +
-		"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
+		//"        YieldValueFunctionDTO yvfP1 = rulePropositionP1.getLeftHandSide().getYieldValueFunction(); \n" +
 		"\n" +
-		"        YVFIntersectionProposition<java.lang.Integer> yvfPropositionP1 = new YVFIntersectionProposition<java.lang.Integer>( \n" +
-		"            uuidP1, \"P1\", ComparisonOperator.EQUAL_TO, new Integer(1),  \n" +
-		"            yvfP1, factMap ); \n" +
-		"        yvfPropositionP1.apply(); \n" +
-		"        prop.addProposition(yvfPropositionP1.getProposition()); \n" +
-		"        insert(yvfPropositionP1.getProposition()); \n" +
+		"        IntersectionRuleProposition<java.lang.Integer> propositionP1 = new IntersectionRuleProposition<java.lang.Integer>( \n" +
+		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
+		"        propositionP1.apply(); \n" +
+		"        prop.addProposition(propositionP1.getProposition()); \n" +
+		"        insert(propositionP1.getProposition()); \n" +
 		"end \n" +
 
 		"rule \"CPR301\" \n" +

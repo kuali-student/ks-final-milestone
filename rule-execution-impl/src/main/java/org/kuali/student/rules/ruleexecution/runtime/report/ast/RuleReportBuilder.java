@@ -18,6 +18,7 @@ package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class RuleReportBuilder implements ReportBuilder {
      * @param propContainer Contains a list of propositions
      * @return The proposition container <code>propContainer</code> with a report
      */
-    public RuleReport execute(PropositionContainer propContainer) {
+    public RuleReport buildReport(PropositionContainer propContainer) {
         BinaryTree ASTtree = null;
         ruleResult = propContainer.getRuleResult();
 
@@ -78,7 +79,7 @@ public class RuleReportBuilder implements ReportBuilder {
             throw new RuleSetExecutionException("Generating rule report failed: " + t.getMessage(), t);
         }
 
-        // This is the final rule report message
+        // This is the final rule report message summary
         String message = ASTtree.getRoot().getNodeMessage();
         RuleReport ruleReport = propContainer.getRuleReport();
         ruleReport.setSuccessful(ruleResult);
@@ -90,20 +91,19 @@ public class RuleReportBuilder implements ReportBuilder {
         }
 
         propContainer.setRuleReport(ruleReport);
-        List<PropositionReport> propositionReportList = new ArrayList<PropositionReport>();
-        for(Proposition prop : propContainer.getPropositionMap().values()) {
-        	PropositionReport propositionReport = new PropositionReport(prop.getPropositionName(), prop.getType());
-        	propositionReport.setSuccessful(prop.getResult());
-        	propositionReport.setFailureMessage(prop.getReport().getFailureMessage());
-        	propositionReport.setSuccessMessage(prop.getReport().getSuccessMessage());
-        	propositionReport.setCriteriaResult(prop.getReport().getCriteriaResult());
-        	propositionReport.setFactResult(prop.getReport().getFactResult());
-        	propositionReport.setPropositionResult(prop.getReport().getPropositionResult());
-        	propositionReportList.add(propositionReport);
-        }
+        List<PropositionReport> propositionReportList = createPropositionReport(propContainer.getPropositions());
         ruleReport.setPropositionReports(propositionReportList);
         
         return ruleReport;
+    }
+    
+    private List<PropositionReport> createPropositionReport(Collection<Proposition> propositionList) {
+        List<PropositionReport> propositionReportList = new ArrayList<PropositionReport>();
+        for(Proposition prop : propositionList) {
+        	prop.getReport().setSuccessful(prop.getResult());
+        	propositionReportList.add(prop.buildReport());
+        }
+        return propositionReportList;
     }
 
     private void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult) {
@@ -122,7 +122,7 @@ public class RuleReportBuilder implements ReportBuilder {
             Boolean value = propContainer.getProposition(var).getResult();
             nodeValueMap.put(var, value);
 
-            PropositionReport report = propContainer.getProposition(var).getReport();
+            PropositionReport report = propContainer.getProposition(var).buildReport();
             String message = "Rule execution result undefined";
 
             if (ruleResult == true) {

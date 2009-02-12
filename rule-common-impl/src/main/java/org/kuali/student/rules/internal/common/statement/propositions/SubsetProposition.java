@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -30,7 +31,8 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  */
 public class SubsetProposition<E> extends AbstractProposition<Integer> {
     // ~ Instance fields --------------------------------------------------------
-
+	private Set<E> met;
+	
     Set<E> criteriaSet;
     Set<E> factSet;
     Collection<?> resultValues;
@@ -51,12 +53,9 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     @Override
     public Boolean apply() {
-        Set<E> met = and();
-        Integer count = met.size();
+        this.met = and();
 
-        result = checkTruthValue(count, super.expectedValue);
-
-        cacheReport("%d of %s is still required", count, super.expectedValue);
+        result = checkTruthValue(met.size(), super.expectedValue);
 
         this.resultValues = met;
 
@@ -69,19 +68,20 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    protected void cacheReport(String format, Object... args) {
-        Integer count = (Integer) args[0];
-        Integer expectedValue = (Integer) args[1];
+    public PropositionReport buildReport() {
+        Integer count = met.size();
+
         if (result) {
             report.setSuccessMessage("Subset constraint fulfilled");
-            return;
+            return report;
         }
 
         // TODO: Use the operator to compute exact message
         Set<E> unMet = andNot();
-        int needed = expectedValue - count;
-        String advice = String.format(format, needed, unMet.toString());
+        int needed = super.expectedValue - count;
+        String advice = String.format("%d of %s is still required", needed, unMet.toString());
         report.setFailureMessage(advice);
+        return report;
     }
 
     /**

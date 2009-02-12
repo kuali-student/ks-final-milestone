@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * A constraint that compares a constrained property (fact) to a given criterion. The threshold may be defined as minimum or
@@ -59,8 +60,6 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
 
         result = checkTruthValue(this.fact, super.expectedValue);
 
-        cacheReport("%s NOT %s %s");
-
         this.resultValues = new ArrayList<Boolean>();
         this.resultValues.add(result);
 
@@ -71,14 +70,14 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    protected void cacheReport(String format, Object... args) {
+    public PropositionReport buildReport() {
         if (result) {
             report.setSuccessMessage("Comparison met");
         } else {
-            String rpt = String.format(format, fact, operator, super.expectedValue);
+            String rpt = String.format("%s NOT %s %s", fact, operator, super.expectedValue);
             report.setFailureMessage(rpt);
         }
-
+        return report;
     }
 
     private void sanityCheck() {

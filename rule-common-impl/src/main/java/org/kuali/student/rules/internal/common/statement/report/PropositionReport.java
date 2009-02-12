@@ -195,6 +195,6 @@ public class PropositionReport {
 	public String toString() {
     	return "PropositionReport[name="+this.name+
     		", type="+this.type+
-    		"successful=" + successful + "]";
+    		", successful=" + successful + "]";
     }
 }

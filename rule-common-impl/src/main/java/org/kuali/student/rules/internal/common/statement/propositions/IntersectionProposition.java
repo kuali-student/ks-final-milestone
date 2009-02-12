@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -59,8 +60,6 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 
         result = checkTruthValue(count, super.expectedValue);
 
-        cacheReport("%d of %s is still required");
-
         this.resultValues = met;
         
         return result;
@@ -72,12 +71,12 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    protected void cacheReport(String format, Object... args) {
+    public PropositionReport buildReport() {
         Integer count = met.size();
         Integer expectedValue = (Integer) super.expectedValue;
         if (result) {
             report.setSuccessMessage("Intersection constraint fulfilled");
-            return;
+            return report;
         }
 
         Set<T> unMet = andNot();
@@ -85,8 +84,7 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
         String advice = "No advice given";
         if (needed == 0 && super.operator == ComparisonOperator.NOT_EQUAL_TO) {
     		advice = String.format("Found %d course(s) %s but expected not %d", count, met.toString(), expectedValue);
-        }
-        else if (needed < 0) {
+        } else if (needed < 0) {
             switch(super.operator) {
             	case EQUAL_TO:
             		advice = String.format("Found %d course(s) %s but expected only %d", count, met.toString(), expectedValue);
@@ -107,12 +105,13 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 	        	case GREATER_THAN:
 	        		advice = String.format("Found %d course(s) %s but expected more than %d", count, met.toString(), expectedValue);
 	        		break;
-    		default:
-        }
+	    		default:
+	        }
         } else {
-	        advice = String.format(format, needed, unMet.toString());
+	        advice = String.format("%d of %s is still required", needed, unMet.toString());
         }
         report.setFailureMessage(advice);
+        return report;
     }
 
     /**

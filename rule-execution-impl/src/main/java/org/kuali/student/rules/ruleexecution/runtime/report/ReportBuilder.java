@@ -10,5 +10,5 @@ public interface ReportBuilder {
      * @param propContainer Contains a list of propositions
      * @return The proposition container <code>propContainer</code> with a report
      */
-    public RuleReport execute(PropositionContainer propContainer);
+    public RuleReport buildReport(PropositionContainer propContainer);
 }

@@ -18,7 +18,6 @@ package org.kuali.student.rules.ruleexecution.service;
 import org.junit.Assert;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -36,7 +35,6 @@ import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.BusinessRuleStatus;
 import org.kuali.student.rules.ruleexecution.dto.ExecutionResultDTO;
 import org.kuali.student.rules.rulemanagement.dto.BusinessRuleInfoDTO;
-import org.kuali.student.rules.rulemanagement.dto.RuntimeAgendaDTO;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRule;
 import org.kuali.student.rules.rulemanagement.entity.BusinessRuleAdapter;
 import org.kuali.student.rules.rulemanagement.entity.FactStructure;
@@ -104,12 +102,6 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
     public void tearDown() throws Exception {
     }
     
-    @Test
-    public void testExecuteAgenda() throws Exception {
-    	RuntimeAgendaDTO agenda = null;
-    	List<?> facts = null;
-    }
-
     @Test
     public void testExecuteBusinessRule_StaticFact_TestBeans_Rule1() throws Exception {
     	ExecutionResultDTO result = ruleExecutionService.executeBusinessRule(businessRuleId1, null);
@@ -184,5 +176,4 @@ public class RuleExecutionServiceTest extends AbstractServiceTest {
         System.out.println("Success message: " + result.getReport().getSuccessMessage());
         System.out.println("Failure message: " + result.getReport().getFailureMessage());
     }
-
 }

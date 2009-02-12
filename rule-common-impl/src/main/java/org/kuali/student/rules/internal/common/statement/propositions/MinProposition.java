@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
 public class MinProposition<T extends Comparable<T>> extends AbstractProposition<T> {
-    private Collection<T> fact;
+    private T min;
+	private Collection<T> fact;
 
     public MinProposition() {
     }
@@ -19,11 +21,9 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
 
     @Override
     public Boolean apply() {
-    	T min = Collections.min(this.fact);
+    	min = Collections.min(this.fact);
 
         result = checkTruthValue(min, super.expectedValue);
-
-        cacheReport("Minimum not met: %s", min.toString(), super.expectedValue);
 
         resultValues = new ArrayList<T>();
         resultValues.add(min);
@@ -32,16 +32,15 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
     }
 
     @Override
-    protected void cacheReport(String format, Object... args) {
+    public PropositionReport buildReport() {
         if (result) {
             report.setSuccessMessage("Minimum constraint fulfilled");
-            return;
+            return report;
         }
 
-        String max = (String) args[0];
-
         // TODO: Use the operator to compute exact message
-        String advice = String.format(format, max);
+        String advice = String.format("Minimum not met: %s", this.min);
         report.setFailureMessage(advice);
+        return report;
     }
 }
