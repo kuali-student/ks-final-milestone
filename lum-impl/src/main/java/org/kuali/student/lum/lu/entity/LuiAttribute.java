@@ -9,7 +9,7 @@ import org.kuali.student.core.entity.Attribute;
 
 @Entity
 @Table(name = "KS_LUI_ATTR_T")
-public class LuiAttribute extends Attribute<Lui, LuiAttributeDef> {
+public class LuiAttribute extends Attribute<Lui> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
 	private Lui owner;

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 @Entity
 @Table(name="KS_CLU_ATTR_T")
-public class CluAttribute extends Attribute<Clu, CluAttributeDef> {
+public class CluAttribute extends Attribute<Clu> {
 	
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
