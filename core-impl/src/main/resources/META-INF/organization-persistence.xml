@@ -28,10 +28,12 @@
 		<class>org.kuali.student.core.organization.entity.OrgPersonRelationAttribute</class>
 		<class>org.kuali.student.core.organization.entity.OrgPersonRelationAttributeDef</class>
 		<class>org.kuali.student.core.organization.entity.OrgPersonRelationType</class>
+		<class>org.kuali.student.core.organization.entity.OrgPersonRelationTypeAttribute</class>		
 		<class>org.kuali.student.core.organization.entity.OrgPositionRestriction</class>
 		<class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute</class>
 		<class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttributeDef</class>
 		<class>org.kuali.student.core.organization.entity.OrgType</class>
-				
+		
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>		
 	</persistence-unit>
 </persistence>

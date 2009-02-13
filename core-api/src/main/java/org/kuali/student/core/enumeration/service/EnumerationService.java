@@ -1,29 +1,52 @@
 package org.kuali.student.core.enumeration.service;
 
 import java.util.Date;
-import java.util.List;
 
+import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.core.enumeration.dto.EnumeratedValue;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.enumeration.dto.EnumeratedValueList;
+import org.kuali.student.core.enumeration.dto.EnumerationMeta;
+import org.kuali.student.core.enumeration.dto.EnumerationMetaList;
 
+@WebService(name = "EnumerationService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationService")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerationService {
-    /** 
-     * Retrieves the list of enumeration values for a particular enumeration with a certain context for a particular date. The values returned should be those where the supplied date is between the effective and expiration dates. Certain enumerations may not support this functionality.
-     * @param enumerationKey identifier of the enumeration
-     * @param contextType identifier of the enumeration context type
-     * @param contextValue value of the enumeration context
-     * @param contextDate date and time to get the enumeration for
-     * @return list of enumerated codes and values
-     * @throws DoesNotExistException enumerationKey not found
-     * @throws InvalidParameterException invalid enumerationKey, contextType, contextValue, contextDate
-     * @throws MissingParameterException missing enumerationKey, contextType, contextValue, contextDate
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<EnumeratedValue> getEnumeration(@WebParam(name="enumerationKey")String enumerationKey, @WebParam(name="contextType")String contextType, @WebParam(name="contextValue")String contextValue, @WebParam(name="contextDate")Date contextDate) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    @WebMethod
+    public EnumerationMetaList findEnumerationMetas();
+
+    @WebMethod
+    public EnumerationMeta fetchEnumerationMeta(@WebParam(name = "enumerationKey") String enumerationKey);
+
+    @WebMethod
+    public EnumeratedValueList fetchEnumeration(
+            @WebParam(name = "enumerationKey") String enumerationKey, 
+            @WebParam(name = "enumContextKey") String enumContextKey, 
+            @WebParam(name = "contextValue")   String contextValue, 
+            @WebParam(name = "contextDate") Date   contextDate );
+    
+    @WebMethod
+    public EnumeratedValue addEnumeratedValue(
+            @WebParam(name = "enumerationKey")String enumerationKey, 
+            @WebParam(name = "value")EnumeratedValue value);
+    @WebMethod
+    public EnumeratedValue updateEnumeratedValue(
+            @WebParam(name = "enumerationKey")String enumerationKey, 
+            @WebParam(name = "code")String code, 
+            @WebParam(name = "value")EnumeratedValue value);
+    @WebMethod
+    public boolean removeEnumeratedValue(
+            @WebParam(name = "enumerationKey")String enumerationKey, 
+            @WebParam(name = "code")String code);
+    
+    @WebMethod
+    public EnumerationMeta addEnumerationMeta(@WebParam(name = "enumerationMeta")EnumerationMeta meta);
+    
+    @WebMethod
+    public boolean removeEnumerationMeta(@WebParam(name = "enumerationKey")String enumerationKey);
 
 }

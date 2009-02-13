@@ -8,6 +8,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.enumerable.service.EnumerableService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -26,6 +27,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationCriteria;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
@@ -34,7 +36,7 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 @WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface OrganizationService extends DictionaryService, SearchService{
+public interface OrganizationService extends DictionaryService, SearchService, EnumerableService{
 
     /** 
      * Retrieves the list of organization hierarchies known by this service.
@@ -648,4 +650,18 @@ public interface OrganizationService extends DictionaryService, SearchService{
 	 */
     public StatusInfo removePositionRestrictionFromOrg(@WebParam(name="orgId")String orgId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /**
+     * Finds a list of all orgs in the org hierarchy starting at the root org and going down maxLevels of the tree
+     * @param rootOrgId 
+     * @param orgHierarchyId
+     * @param maxLevels the max number of levels in the tree to return. If set to 0 returns all nodes in the tree
+     * @return List of OrgTreeInfo in
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<OrgTreeInfo> getOrgTree(@WebParam(name="rootOrgId")String rootOrgId,@WebParam(name="orgHierarchyId")String orgHierarchyId, @WebParam(name="maxLevels")int maxLevels) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;;
 }

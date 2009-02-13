@@ -21,7 +21,8 @@ import org.junit.runner.RunWith;
  * &#064;Daos is a list of &#064;Dao annotations. These define the Dao
  * implementation classes, and an optional application context that contains a
  * list of beans that should be persisted. The list bean should be called
- * "persistList"
+ * "persistList". A sql file that should be loaded can also be defined here with the
+ * testSqlFile parameter.  This should be a sql file.
  * <p>
  * &#064;Client requires the name of the service implementation class which
  * should be annotated with the &#064;WebService and have the targetNamespace

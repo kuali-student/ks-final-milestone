@@ -11,7 +11,7 @@ import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QueryParamInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@XmlElement
+	@XmlElement(namespace="http://org.kuali.student/core/dictionary")
 	private FieldDescriptor fieldDescriptor; 
 	@XmlAttribute
 	private String key; 

@@ -1,5 +1,8 @@
 package org.kuali.student.common.test.spring;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -35,13 +39,32 @@ public class LoadDataBean implements ApplicationContextAware{
                 invokeDataLoader(split[0]);
                 
                 // Load data bean file for this dao
-                if (split.length > 1) {
+                if (split.length > 1&& !split[1].isEmpty()) {
 				    String testDataFile = split[1];
+				   
 					ApplicationContext ac = new FileSystemXmlApplicationContext(
 							testDataFile);
 					for (Object bean : (List<?>) ac.getBean("persistList")) {
 						if(!em.contains(bean)){
 							em.persist(bean);
+						}
+					}
+				} 				    				
+                // Load sql file for this dao
+                if (split.length > 2&& !split[2].isEmpty()) {
+				    String testDataFile = split[2];
+				    File sqlFile;
+				    if(testDataFile.startsWith("classpath:")){
+				 	   sqlFile = new ClassPathResource(testDataFile.substring("classpath:".length())).getFile();
+				    }else{
+				    	sqlFile = new File(testDataFile);
+				    }
+					BufferedReader in
+					   = new BufferedReader(new FileReader(sqlFile));
+					String ln;
+					while((ln=in.readLine())!=null){
+						if(!ln.startsWith("/")&&!ln.isEmpty()){
+							em.createNativeQuery(ln).executeUpdate();
 						}
 					}
 				} 				    				

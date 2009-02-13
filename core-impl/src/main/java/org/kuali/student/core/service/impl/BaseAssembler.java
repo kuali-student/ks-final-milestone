@@ -60,7 +60,7 @@ public class BaseAssembler {
 				attribute.setOwner(owner);
 				attributes.add(attribute);
 			} catch (Exception e) {
-				e.printStackTrace();
+				e.printStackTrace();//TODO Logging
 			}
 		}
 
@@ -80,6 +80,10 @@ public class BaseAssembler {
 	 */
 	public static <T extends TypeInfo, S extends Type> T toGenericTypeInfo(
 			Class<T> typeInfoClass, S typeEntity) {
+		if (typeEntity == null) {
+			return null;
+		}
+		
 		T typeInfo;
 		try {
 			// Create a new TypeInfo based on the <T> class and copy the

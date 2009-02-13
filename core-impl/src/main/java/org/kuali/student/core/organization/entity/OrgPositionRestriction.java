@@ -10,8 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
@@ -21,44 +22,55 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KS_ORG_POS_RESTR_T")
+@NamedQueries(
+		{
+			@NamedQuery(name="OrgPositionRestriction.findOrgPositionRestrictions", query="SELECT opr FROM OrgPositionRestriction opr WHERE opr.org.id = :orgId"),
+			@NamedQuery(name="OrgPositionRestriction.validatePositionRestriction",
+					   query="SELECT COUNT(opr) " +
+					   		"   FROM OrgPositionRestriction opr " +
+					   		"  WHERE opr.org.id = :orgId " +
+					   		"    AND opr.personRelationType.key = :orgPersonRelationTypeKey"),
+			@NamedQuery(name="OrgPositionRestriction.getPositionRestrictionByOrgAndPersonRelationTypeKey", query="SELECT opr FROM OrgPositionRestriction opr JOIN opr.personRelationType oprt WHERE opr.org.id = :orgId AND oprt.key = :orgPersonRelationTypeKey")
+		}
+)
 public class OrgPositionRestriction extends MetaEntity implements AttributeOwner<OrgPositionRestrictionAttribute>{
 	@Id
 	private String id;
 	@ManyToOne
 	@JoinColumn(name = "ORG")
-	private Org org; 
+	private Org org;
 
 	@ManyToOne
 	@JoinColumn(name = "PERSON_RELATION_TYPE")
-	private OrgPersonRelationType personRelationType; 
+	private OrgPersonRelationType personRelationType;
 
 	@Column(name="ORG_POS_RSTRC_DESC",length=2000)//TODO what is a good number for these long descriptions?
-	private String desc; 
-	
+	private String desc;
+
 	@Column(name="ORG_POS_RSTRC_TITLE")
-	private String title; 
-	
+	private String title;
+
 	@Embedded
-	private TimeAmountInfo stdDuration; 
+	private TimeAmountInfo stdDuration;
 
 	@Column(name="MIN_NUM_RSTNS")
-	private Integer minNumRelations; 
+	private Integer minNumRelations;
 
 	@Column(name="MAX_NUM_RSTNS")
-	private String maxNumRelations; 
+	private String maxNumRelations;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<OrgPositionRestrictionAttribute> attributes;
-	
-	
+
+
 	/**
 	 * AutoGenerate the Id
 	 */
-	@PrePersist
-	public void prePersist() {
+	@Override
+	public void onPrePersist() {
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -120,6 +132,6 @@ public class OrgPositionRestriction extends MetaEntity implements AttributeOwner
 		this.personRelationType = personRelationType;
 	}
 
-	
-	
+
+
 }

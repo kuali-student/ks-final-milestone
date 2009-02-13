@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.2.1.v200811281800]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>common-test/src/test/resources/cache-mock-service-context.xml</config>
+		<config>common-test/src/main/resources/META-INF/cxf-context.xml</config>
+		<config>common-test/src/main/resources/META-INF/default-dao-context-test.xml</config>
+		<config>common-test/src/main/resources/META-INF/default-manager-context-test.xml</config>
+		<config>common-test/src/main/resources/META-INF/default-service-context-test.xml</config>
+		<config>core-impl/src/main/resources/enumeration-context.xml</config>
+		<config>core-impl/src/test/resources/enumeration-test-beans.xml</config>
+		<config>common-test/src/test/resources/META-INF/load-my-beans.xml</config>
+		<config>core-web/src/main/resources/spring-beans.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

@@ -33,20 +33,22 @@
 		<module>ks-metro</module>
 		<module>ks-eclipselink</module>
 		<module>ks-hibernate</module>
-		<module>ks-jta</module>	
+		<module>ks-jta</module>
 		<module>common-util</module>
+		<module>common-ui</module>
 		<module>common-test</module>
 		<module>core-api</module>
 		<module>core-impl</module>
+		<module>core-ui</module>
 		<module>core-web</module>
 	</modules>
 
 	<scm>
 		<connection>
-			scm:svn:https://test.kuali.org/svn/student/sandbox/team2/ks-core/branches/ks-core-dev
+			scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev
 		</connection>
 		<developerConnection>
-			scm:svn:https://test.kuali.org/svn/student/sandbox/team2/ks-core/branches/ks-core-dev
+			scm:svn:https://test.kuali.org/svn/student/ks-core/branches/ks-core-dev
 		</developerConnection>
 	</scm>
 
@@ -69,7 +71,8 @@
 
 	<properties>
 		<atomikos.version>3.4.1</atomikos.version>
-		<cxf.version>2.1.3</cxf.version>
+		<cxf.version>2.1.4</cxf.version>
+		<gwtVersion>1.6.0</gwtVersion>
 		<jaxws-api.version>2.1</jaxws-api.version>
 		<jaxws.version>2.1.5</jaxws.version>
 		<metro.version>1.4</metro.version>
@@ -77,9 +80,12 @@
 		<spring.version>2.5.4</spring.version>
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
+		<dozer.version>4.4</dozer.version>
 	</properties>
 
 	<profiles>
+		
+		<!-- External Repository Profiles -->
 		<profile>
 			<id>external.repositories</id>
 			<activation>
@@ -120,6 +126,12 @@
 						http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo
 					</url>
 				</repository>
+				<repository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</repository>
 			</repositories>
 
 			<pluginRepositories>
@@ -136,8 +148,56 @@
 						http://people.apache.org/repo/m2-incubating-repository
 					</url>
 				</pluginRepository>
+				<pluginRepository>
+					<id>gwt-maven</id>
+					<url>
+						http://gwt-maven.googlecode.com/svn/trunk/mavenrepo
+					</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>ks-snapshot</id>
+					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+				</pluginRepository>
 			</pluginRepositories>
 		</profile>
+		
+		<!-- GWT Profiles - Dev environment properties -->
+		<profile>
+			<id>gwt-dev-windows</id>
+			<properties>
+				<platform>windows</platform>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-mac</id>
+			<properties>
+				<platform>mac</platform>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+		</profile>
+		<profile>
+			<id>gwt-dev-linux</id>
+			<properties>
+				<platform>linux</platform>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<name>Linux</name>
+				</os>
+			</activation>
+		</profile>		
 	</profiles>
 
 	<build>
@@ -148,6 +208,7 @@
 				<version>1.0-beta-2</version>
 			</extension>
 		</extensions>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -168,31 +229,76 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-java2ws-plugin</artifactId>
-				<version>${cxf.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-rt-frontend-jaxws</artifactId>
-						<version>${cxf.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-rt-frontend-simple</artifactId>
-						<version>${cxf.version}</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<genWsdl>true</genWsdl>
-					<genWrapperbean>true</genWrapperbean>
-					<verbose>true</verbose>
-					<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
-				</configuration>
-			</plugin>
+			</plugin>				
 		</plugins>
+		
+		<pluginManagement>
+			<plugins>
+				<!-- CXF Java2WS Default Configuration -->
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-java2ws-plugin</artifactId>
+					<version>${cxf.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.cxf</groupId>
+							<artifactId>cxf-rt-frontend-jaxws</artifactId>
+							<version>${cxf.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.apache.cxf</groupId>
+							<artifactId>cxf-rt-frontend-simple</artifactId>
+							<version>${cxf.version}</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<genWsdl>true</genWsdl>
+						<genWrapperbean>true</genWrapperbean>
+						<verbose>true</verbose>
+						<argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+					</configuration>
+				</plugin>
+	
+				<!-- GWT Dependency Configuration -->
+				<plugin>
+					<groupId>com.totsp.gwt</groupId>
+					<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+					<version>2.0.1-ks26</version>
+				</plugin>
+
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>unpack</id>
+							<phase>compile</phase>
+							<goals>
+								<goal>unpack</goal>
+							</goals>
+							<configuration>
+								<artifactItems>
+									<artifactItem>
+										<groupId>com.google.gwt</groupId>
+										<artifactId>gwt-dev</artifactId>
+										<version>${gwtVersion}</version>
+										<classifier>
+											${platform}-libs
+										</classifier>
+										<type>zip</type>
+										<overWrite>false</overWrite>
+										<outputDirectory>
+											${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}
+										</outputDirectory>
+									</artifactItem>
+								</artifactItems>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>				
+		</pluginManagement>		
 	</build>
 
 	<distributionManagement>
@@ -222,7 +328,7 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derby</artifactId>
@@ -236,7 +342,7 @@
 				<version>${jetty.version}</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 
 			<dependency>
 				<artifactId>servlet-api</artifactId>
@@ -345,6 +451,11 @@
 				<artifactId>spring-web</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 
 			<!-- Metro Dependencies -->
 			<dependency>
@@ -352,6 +463,12 @@
 				<artifactId>webservices-rt</artifactId>
 				<version>${metro.version}</version>
 			</dependency>
+
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
 
 			<dependency>
 				<groupId>org.jvnet.jax-ws-commons.spring</groupId>
@@ -423,7 +540,7 @@
 					<exclusion>
 						<groupId>org.apache.geronimo.specs</groupId>
 						<artifactId>geronimo-javamail_1.4_spec</artifactId>
-					</exclusion>				
+					</exclusion>
 					<exclusion>
 						<groupId>org.apache.geronimo.specs</groupId>
 						<artifactId>geronimo-jaxws_2.1_spec</artifactId>
@@ -443,7 +560,7 @@
 					<exclusion>
 						<groupId>javax.xml.soap</groupId>
 						<artifactId>saaj-api</artifactId>
-					</exclusion>					
+					</exclusion>
 					<exclusion>
 						<groupId>com.sun.xml.messaging.saaj</groupId>
 						<artifactId>saaj-impl</artifactId>
@@ -451,8 +568,8 @@
 					<exclusion>
 						<groupId>org.codehaus.woodstox</groupId>
 						<artifactId>wstx-asl</artifactId>
-					</exclusion>					
-				</exclusions>				
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
@@ -464,7 +581,7 @@
 						<artifactId>jaxb-api</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>				
+			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-tools-common</artifactId>
@@ -478,11 +595,11 @@
 						<groupId>javax.xml.soap</groupId>
 						<artifactId>saaj-api</artifactId>
 					</exclusion>
-				
+
 					<exclusion>
 						<groupId>org.apache.velocity</groupId>
 						<artifactId>velocity</artifactId>
-					</exclusion>										
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -507,22 +624,22 @@
 					<exclusion>
 						<groupId>org.apache.geronimo.specs</groupId>
 						<artifactId>geronimo-stax-api_1.0_spec</artifactId>
-					</exclusion>					
+					</exclusion>
 					<exclusion>
 						<groupId>javax.xml.soap</groupId>
 						<artifactId>saaj-api</artifactId>
 					</exclusion>
-				</exclusions>					
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-bindings-soap</artifactId>
-				<version>${cxf.version}</version>			
+				<version>${cxf.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.apache.geronimo.specs</groupId>
 						<artifactId>geronimo-javamail_1.4_spec</artifactId>
-					</exclusion>				
+					</exclusion>
 					<exclusion>
 						<groupId>org.apache.geronimo.specs</groupId>
 						<artifactId>geronimo-activation_1.1_spec</artifactId>
@@ -530,12 +647,14 @@
 					<exclusion>
 						<groupId>javax.xml.bind</groupId>
 						<artifactId>jaxb-api</artifactId>
-					</exclusion>					
+					</exclusion>
+					<!-- GWT hosted not working if this is excluded
 					<exclusion>
 						<groupId>org.codehaus.woodstox</groupId>
 						<artifactId>wstx-asl</artifactId>
 					</exclusion>
-				</exclusions>				
+					-->
+				</exclusions>
 			</dependency>
 
 
@@ -596,7 +715,7 @@
 				<artifactId>ks-jta</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<type>pom</type>
-			</dependency>		
+			</dependency>
 			<dependency>
 				<groupId>org.kuali.student.core</groupId>
 				<artifactId>ks-cxf</artifactId>
@@ -620,7 +739,42 @@
 				<artifactId>ks-hibernate</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<type>pom</type>
-			</dependency>			
+			</dependency>
+			
+			<!-- GWT Dependencies -->
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwtVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-dev</artifactId>
+				<version>${gwtVersion}</version>
+				<classifier>${platform}-libs</classifier>
+				<type>zip</type>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-dev</artifactId>
+				<version>${gwtVersion}</version>
+				<classifier>${platform}</classifier>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>${gwtVersion}</version>
+				<scope>runtime</scope>
+				<exclusions>
+					<exclusion>
+						<artifactId>junit</artifactId>
+						<groupId>com.google.gwt</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>						
 		</dependencies>
 	</dependencyManagement>
 

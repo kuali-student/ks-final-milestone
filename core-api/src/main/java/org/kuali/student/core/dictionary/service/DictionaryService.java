@@ -1,6 +1,5 @@
 package org.kuali.student.core.dictionary.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -10,7 +9,6 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kuali.student.core.dictionary.dto.EnumeratedValue;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 
 @WebService(name = "DictionaryService", targetNamespace = "http://org.kuali.student/core/dictonary")
@@ -26,14 +24,6 @@ public interface DictionaryService {
     @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectStructure", targetNamespace="http://org.kuali.student/core/dictonary")    
     @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetObjectStructureResponse", targetNamespace="http://org.kuali.student/core/dictonary")
     public ObjectStructure getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey);
-
-    @WebMethod
-    @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetEnumeration", targetNamespace="http://org.kuali.student/core/dictonary")
-    @ResponseWrapper(className="org.kuali.student.core.dictionary.service.jaxws.GetEnumerationResponse", targetNamespace="http://org.kuali.student/core/dictonary")    
-    public List<EnumeratedValue> getEnumeration(@WebParam(name = "enumerationKey") String enumerationKey, 
-            @WebParam(name = "enumContextKey") String enumContextKey, 
-            @WebParam(name = "contextValue") String contextValue,
-            @WebParam(name = "contextDate") Date contextDate);
 
     @WebMethod
     @RequestWrapper(className="org.kuali.student.core.dictionary.service.jaxws.ValidateObject", targetNamespace="http://org.kuali.student/core/dictonary")    
