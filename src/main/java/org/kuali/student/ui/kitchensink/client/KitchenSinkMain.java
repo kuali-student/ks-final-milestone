@@ -6,6 +6,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.busywidgetshade.BusyWid
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -62,6 +63,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new ButtonExampleDescriptor());
         initExample(ksCommons, new CheckBoxExampleDescriptor());
         initExample(ksCommons, new DatePickerExampleDescriptor());
+        initExample(ksCommons, new DisclosureSectionExampleDescriptor());
     }
     
     private VerticalPanel initGroup(String groupName) {
