@@ -32,6 +32,9 @@ public class RulePropositionDTO implements Serializable {
     private String description;
     
     @XmlElement
+    private String successMessage;
+    
+    @XmlElement
     private String failureMessage;
     
     @XmlElement
@@ -108,6 +111,24 @@ public class RulePropositionDTO implements Serializable {
     }
 
     /**
+     * Returns the success message.
+     * 
+     * @return Success message
+     */
+	public String getSuccessMessage() {
+		return successMessage;
+	}
+
+	/**
+     * Sets the success message.
+	 * 
+	 * @param successMessage Success message
+	 */
+	public void setSuccessMessage(String successMessage) {
+		this.successMessage = successMessage;
+	}
+
+    /**
      * @return the failureMessage
      */
     public final String getFailureMessage() {
@@ -149,5 +170,4 @@ public class RulePropositionDTO implements Serializable {
     public void setComparisonOperatorTypeKey(String comparisonOperatorTypeKey) {
         this.comparisonOperatorTypeKey = comparisonOperatorTypeKey;
     }
-
 }

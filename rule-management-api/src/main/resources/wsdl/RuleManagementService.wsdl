@@ -102,6 +102,7 @@
         <xs:sequence>
             <xs:element minOccurs="0" name="name" type="xs:string"/>
             <xs:element minOccurs="0" name="description" type="xs:string"/>
+            <xs:element minOccurs="0" name="successMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="failureMessage" type="xs:string"/>
             <xs:element minOccurs="0" name="comparisonDataTypeKey" type="xs:string"/>
             <xs:element minOccurs="0" name="leftHandSide" type="tns:leftHandSideDTO"/>
