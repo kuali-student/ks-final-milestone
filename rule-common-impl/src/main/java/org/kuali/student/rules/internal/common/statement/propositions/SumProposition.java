@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that specifies that sum of a list of values is less than the required amount.
@@ -31,6 +32,12 @@ import org.kuali.student.rules.internal.common.statement.report.PropositionRepor
  */
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
     // ~ Instance fields --------------------------------------------------------
+    public final static String DEFAULT_SUCCESS_MESSAGE = "Sum constraint fulfilled";
+    public final static String DEFAULT_FAILURE_MESSAGE = "Sum is short by #needed#";
+    
+    public final static String SUM_REPORT_MESSAGE_TOKEN = "sum";
+    public final static String NEEDED_REPORT_MESSAGE_TOKEN = "needed";
+    
 	private BigDecimal sum;
     List<E> factSet;
 
@@ -40,8 +47,10 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         super();
     }
 
-    public SumProposition(String id, String propositionName, ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
-        super(id, propositionName, PropositionType.SUM, operator, expectedValue);
+    public SumProposition(String id, String propositionName, 
+    		ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet,
+    		RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.SUM, operator, expectedValue, ruleProposition);
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
@@ -69,15 +78,11 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
      */
     @Override
     public PropositionReport buildReport() {
-    	if (result) {
-            report.setSuccessMessage("Sum constraint fulfilled");
-            return report;
-        }
-
+        addMessageToken(SUM_REPORT_MESSAGE_TOKEN, sum.toString());
         // TODO: Use the operator to compute exact message
         BigDecimal needed = expectedValue.subtract(sum);
-        String advice = String.format("Sum is short by %s", needed.toString());
-        report.setFailureMessage(advice);
+        addMessageToken(NEEDED_REPORT_MESSAGE_TOKEN, needed.toString());
+        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
         return report;
     }
 

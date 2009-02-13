@@ -98,6 +98,6 @@ public class SimpleComparableRuleProposition<T extends Comparable<T>> extends Ab
 		}
 
 		super.proposition = new SimpleComparableProposition<T>(id, propositionName, 
-        		comparisonOperator, expectedValue, factObject); 
+        		comparisonOperator, expectedValue, factObject, ruleProposition); 
 	}
 }

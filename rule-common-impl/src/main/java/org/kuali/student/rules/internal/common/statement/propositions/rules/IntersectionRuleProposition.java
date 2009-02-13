@@ -134,7 +134,7 @@ public class IntersectionRuleProposition<E> extends AbstractRuleProposition<E> {
 		}
 
 		super.proposition = new IntersectionProposition<E>(id, propositionName, 
-        		comparisonOperator, expectedValue, criteriaSet, factSet); 
+        		comparisonOperator, expectedValue, criteriaSet, factSet, ruleProposition); 
 	}
 	
 }

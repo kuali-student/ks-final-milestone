@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -30,6 +31,15 @@ import org.kuali.student.rules.internal.common.statement.report.PropositionRepor
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
 public class IntersectionProposition<T> extends AbstractProposition<Integer> {
+
+    public final static String DEFAULT_SUCCESS_MESSAGE = "Intersection constraint fulfilled";
+    public final static String DEFAULT_FAILURE_MESSAGE = "#needed# of #unmetSet# is still required";
+
+    public final static String NEEDED_REPORT_TEMPLATE_TOKEN = "needed";
+    public final static String MET_COUNT_REPORT_TEMPLATE_TOKEN = "metCount";
+    public final static String UNMET_COUNT_REPORT_TEMPLATE_TOKEN = "unmetCount";
+    public final static String MET_REPORT_TEMPLATE_TOKEN = "metSet";
+    public final static String UNMET_REPORT_TEMPLATE_TOKEN = "unmetSet";
 
     // ~ Instance fields --------------------------------------------------------
 	private Set<T> met;
@@ -44,9 +54,10 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
         super();
     }
 
-    public IntersectionProposition(String id, String propositionName, ComparisonOperator operator, Integer expectedValue,
-            Set<T> criteriaSet, Set<T> factSet) {
-        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue);
+    public IntersectionProposition(String id, String propositionName, 
+    		ComparisonOperator operator, Integer expectedValue,
+            Set<T> criteriaSet, Set<T> factSet, RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue, ruleProposition);
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<T>() : factSet);
     }
@@ -74,13 +85,22 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
     public PropositionReport buildReport() {
         Integer count = met.size();
         Integer expectedValue = (Integer) super.expectedValue;
-        if (result) {
-            report.setSuccessMessage("Intersection constraint fulfilled");
-            return report;
-        }
+        addMessageToken(MET_COUNT_REPORT_TEMPLATE_TOKEN, Integer.toString(met.size()));
+        addMessageToken(MET_REPORT_TEMPLATE_TOKEN, met.toString());
 
         Set<T> unMet = andNot();
-        int needed = expectedValue - count;
+        Integer needed = expectedValue - count;
+        addMessageToken(NEEDED_REPORT_TEMPLATE_TOKEN, needed.toString());
+        addMessageToken(UNMET_COUNT_REPORT_TEMPLATE_TOKEN, Integer.toString(unMet.size()));
+        addMessageToken(UNMET_REPORT_TEMPLATE_TOKEN, unMet.toString());
+
+        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
+        return report;
+        
+        /*if (result) {
+	        report.setSuccessMessage("Intersection constraint fulfilled");
+	        return report;
+	    }
         String advice = "No advice given";
         if (needed == 0 && super.operator == ComparisonOperator.NOT_EQUAL_TO) {
     		advice = String.format("Found %d course(s) %s but expected not %d", count, met.toString(), expectedValue);
@@ -111,7 +131,7 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 	        advice = String.format("%d of %s is still required", needed, unMet.toString());
         }
         report.setFailureMessage(advice);
-        return report;
+        return report;*/
     }
 
     /**

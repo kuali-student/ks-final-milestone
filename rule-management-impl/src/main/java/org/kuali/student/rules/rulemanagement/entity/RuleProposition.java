@@ -34,6 +34,7 @@ public class RuleProposition {
     private String id;
     private String name;
     private String description;
+    private String successMessage;
     private String failureMessage;
     private String comparisonDataTypeKey;
     
@@ -145,6 +146,24 @@ public class RuleProposition {
     }
 
     /**
+     * Returns the success message.
+     * 
+     * @return Success message
+     */
+	public String getSuccessMessage() {
+		return successMessage;
+	}
+
+	/**
+	 * Sets the success message.
+	 * 
+	 * @param successMessage Success message
+	 */
+	public void setSuccessMessage(String successMessage) {
+		this.successMessage = successMessage;
+	}
+
+    /**
      * @return the failureMessage
      */
     public final String getFailureMessage() {
@@ -172,5 +191,4 @@ public class RuleProposition {
     public void setComparisonDataTypeKey(String comparisonDataTypeKey) {
         this.comparisonDataTypeKey = comparisonDataTypeKey;
     }
-  
 }

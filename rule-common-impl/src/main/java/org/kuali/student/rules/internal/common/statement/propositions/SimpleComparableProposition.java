@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that compares a constrained property (fact) to a given criterion. The threshold may be defined as minimum or
@@ -37,14 +38,20 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     T fact;
     List<Boolean> resultValues;
     
+    public final static String DEFAULT_SUCCESS_MESSAGE = "Comparison constraint fulfilled";
+    public final static String DEFAULT_FAILURE_MESSAGE = "#fact# not #operator# #expectedValue#";
+
+    public final static String FACT_REPORT_TEMPLATE_TOKEN = "fact";
+
     // ~ Constructors -----------------------------------------------------------
 
     public SimpleComparableProposition() {
         super();
     }
 
-    public SimpleComparableProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, T fact) {
-        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue);
+    public SimpleComparableProposition(String id, String propositionName, 
+    		ComparisonOperator operator, T expectedValue, T fact, RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue, ruleProposition);
 
         this.fact = fact;
     }
@@ -71,13 +78,10 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
      */
     @Override
     public PropositionReport buildReport() {
-        if (result) {
-            report.setSuccessMessage("Comparison met");
-        } else {
-            String rpt = String.format("%s NOT %s %s", fact, operator, super.expectedValue);
-            report.setFailureMessage(rpt);
-        }
-        return report;
+        String s = getTypeAsString(this.fact);
+    	addMessageToken(FACT_REPORT_TEMPLATE_TOKEN, s);
+        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
+    	return report;
     }
 
     private void sanityCheck() {

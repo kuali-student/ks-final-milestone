@@ -102,6 +102,6 @@ public class MinRuleProposition<T extends Comparable<T>> extends AbstractRulePro
 		}
 
         super.proposition = new MinProposition<T>(id, propositionName, 
-        		comparisonOperator, expectedValue, factSet); 
+        		comparisonOperator, expectedValue, factSet, ruleProposition); 
 	}
 }

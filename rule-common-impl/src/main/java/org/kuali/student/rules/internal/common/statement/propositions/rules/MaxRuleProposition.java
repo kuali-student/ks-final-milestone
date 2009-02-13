@@ -102,6 +102,6 @@ public class MaxRuleProposition<T extends Comparable<T>> extends AbstractRulePro
 		}
 
 		super.proposition = new MaxProposition<T>(id, propositionName, 
-        		comparisonOperator, expectedValue, factSet); 
+        		comparisonOperator, expectedValue, factSet, ruleProposition); 
 	}
 }

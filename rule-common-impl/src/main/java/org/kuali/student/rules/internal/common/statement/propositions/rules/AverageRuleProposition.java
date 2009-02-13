@@ -98,6 +98,6 @@ public class AverageRuleProposition<E extends Number> extends AbstractRulePropos
 		}
 
 		super.proposition = new AverageProposition<E>(id, propositionName, 
-				comparisonOperator, expectedValue, factList); 
+				comparisonOperator, expectedValue, factList, ruleProposition); 
 	}
 }

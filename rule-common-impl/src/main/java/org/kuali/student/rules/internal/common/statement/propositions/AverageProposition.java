@@ -21,17 +21,25 @@ import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class AverageProposition<E extends Number> extends SumProposition<E> {
 	private BigDecimal average;
     private BigDecimal listSize;
     
+    public final static String DEFAULT_SUCCESS_MESSAGE = "Average constraint fulfilled";
+    public final static String DEFAULT_FAILURE_MESSAGE = "Average of #average# is short by #needed#";
+    
+    public final static String AVERAGE_REPORT_TEMPLATE_TOKEN = "average";
+    public final static String NEEDED_REPORT_TEMPLATE_TOKEN = "needed";
+    
 	public AverageProposition(String id, 
 							  String propositionName, 
     						  ComparisonOperator operator, 
     						  BigDecimal expectedValue, 
-    						  List<E> factSet) {
-    	super(id, propositionName, operator, expectedValue, factSet);
+    						  List<E> factSet,
+    						  RulePropositionDTO ruleProposition) {
+    	super(id, propositionName, operator, expectedValue, factSet, ruleProposition);
     	super.propositionType = PropositionType.AVERAGE;
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
@@ -53,16 +61,11 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
 
     @Override
     public PropositionReport buildReport() {
-        if (result) {
-            report.setSuccessMessage("Average constraint fulfilled");
-            return report;
-        }
-
         // TODO: Use the operator to compute exact message
+        addMessageToken(AVERAGE_REPORT_TEMPLATE_TOKEN, average.toString());
         BigDecimal needed = expectedValue.subtract(average);
-        String advice = String.format("Average is short by %s", needed.toString());
-        report.setFailureMessage(advice);
-        return report;
+        addMessageToken(NEEDED_REPORT_TEMPLATE_TOKEN, needed.toString());
+        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
+		return report;
     }
-
 }

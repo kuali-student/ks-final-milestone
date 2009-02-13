@@ -20,7 +20,7 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 public class CommonTestUtil {
 	public static List<BigDecimal> createList(String list) {
     	List<BigDecimal> set = new ArrayList<BigDecimal>();
-        for( String s : list.split(",") ) {
+        for(String s : list.split(",")) {
         	set.add(new BigDecimal(s.trim()));
         }
         return set;
@@ -29,6 +29,7 @@ public class CommonTestUtil {
 	public static Calendar createDate(int year, int month, int day, int hourOfDay, int minute) {
     	Calendar cal = Calendar.getInstance();
     	cal.set(year, month-1, day, hourOfDay, minute, 0);
+    	cal.set(Calendar.MILLISECOND, 0);
     	return cal;
     }
 

@@ -4,21 +4,27 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class MaxPropositionTest {
     private List<BigDecimal> gradeList = CommonTestUtil.createList("85.0,75.0,80.0");
 
-    @Test
+	private RulePropositionDTO ruleProposition = new RulePropositionDTO();
+
+	@Test
     public void testMaxProposition_String() throws Exception {
     	MaxProposition<String> maxProp = new MaxProposition<String>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, new String("333"), Arrays.asList(new String[]{"1", "22", "333"}));
+    			ComparisonOperator.EQUAL_TO, 
+    			new String("333"), Arrays.asList(new String[]{"1", "22", "333"}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -31,7 +37,8 @@ public class MaxPropositionTest {
     	BigDecimal number = new BigDecimal(85.0);
     	MaxProposition<BigDecimal> maxProp = new MaxProposition<BigDecimal>(
     			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList);
+    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -44,7 +51,9 @@ public class MaxPropositionTest {
     	Double number = new Double(3.3);
     	MaxProposition<Double> maxProp = new MaxProposition<Double>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, number, Arrays.asList(new Double[]{new Double(1.1), new Double(2.2), new Double(3.3)}));
+    			ComparisonOperator.EQUAL_TO, number, 
+    			Arrays.asList(new Double[]{new Double(1.1), new Double(2.2), new Double(3.3)}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -57,7 +66,9 @@ public class MaxPropositionTest {
     	Integer number = new Integer(3);
     	MaxProposition<Integer> maxProp = new MaxProposition<Integer>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, number, Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}));
+    			ComparisonOperator.EQUAL_TO, number, 
+    			Arrays.asList(new Integer[]{new Integer(1), new Integer(2), new Integer(3)}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -70,7 +81,9 @@ public class MaxPropositionTest {
     	Long number = new Long(3);
     	MaxProposition<Long> maxProp = new MaxProposition<Long>(
     			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, number, Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}));
+    			ComparisonOperator.EQUAL_TO, number, 
+    			Arrays.asList(new Long[]{new Long(1), new Long(2), new Long(3)}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -85,7 +98,8 @@ public class MaxPropositionTest {
     	MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO, cal2, 
-    			Arrays.asList(new Calendar[]{cal1, cal2}));
+    			Arrays.asList(new Calendar[]{cal1, cal2}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -100,7 +114,8 @@ public class MaxPropositionTest {
     	MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
     			"A-1", "A",
     			ComparisonOperator.LESS_THAN, cal1, 
-    			Arrays.asList(new Calendar[]{cal1, cal2}));
+    			Arrays.asList(new Calendar[]{cal1, cal2}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -115,7 +130,8 @@ public class MaxPropositionTest {
     	MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
     			"A-1", "A",
     			ComparisonOperator.GREATER_THAN, cal1, 
-    			Arrays.asList(new Calendar[]{cal1, cal2}));
+    			Arrays.asList(new Calendar[]{cal1, cal2}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -130,7 +146,8 @@ public class MaxPropositionTest {
     	MaxProposition<Date> maxProp = new MaxProposition<Date>(
     			"A-1", "A",
     			ComparisonOperator.EQUAL_TO, cal2.getTime(), 
-    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}));
+    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -145,7 +162,8 @@ public class MaxPropositionTest {
     	MaxProposition<Date> maxProp = new MaxProposition<Date>(
     			"A-1", "A",
     			ComparisonOperator.LESS_THAN, cal1.getTime(), 
-    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}));
+    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
@@ -160,11 +178,93 @@ public class MaxPropositionTest {
     	MaxProposition<Date> maxProp = new MaxProposition<Date>(
     			"A-1", "A",
     			ComparisonOperator.GREATER_THAN, cal1.getTime(), 
-    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}));
+    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}),
+    			ruleProposition);
 
     	Boolean result = maxProp.apply();
 
     	Assert.assertTrue(result);
     	Assert.assertTrue(maxProp.getResultValues().contains(cal2.getTime()));
+    }
+
+    @Test
+    public void testMaxProposition_BigDecimal_SuccessMessage() throws Exception {
+    	BigDecimal number = new BigDecimal(85.0);
+    	MaxProposition<BigDecimal> maxProp = new MaxProposition<BigDecimal>(
+    			"A-1", "A",
+    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
+    			ruleProposition);
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertTrue(result);
+        Assert.assertEquals(MaxProposition.DEFAULT_SUCCESS_MESSAGE, maxProp.getReport().getSuccessMessage());
+    }
+
+    @Test
+    public void testMaxProposition_BigDecimal_FailureMessage() throws Exception {
+    	BigDecimal number = new BigDecimal(95.0);
+    	MaxProposition<BigDecimal> maxProp = new MaxProposition<BigDecimal>(
+    			"A-1", "A",
+    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
+    			ruleProposition);
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertFalse(result);
+        Assert.assertEquals("Maximum not met. Maximum found: 85.0", maxProp.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testMaxProposition_Date_LessThan_FailureMessage() throws Exception {
+		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
+		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
+    	MaxProposition<Date> maxProp = new MaxProposition<Date>(
+    			"A-1", "A",
+    			ComparisonOperator.LESS_THAN, cal1.getTime(), 
+    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}),
+    			ruleProposition);
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertFalse(result);
+        Assert.assertEquals("Maximum not met. Maximum found: 2010-01-01T01:00:00.000-0800", maxProp.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testMaxProposition_Calendar_LessThan_FailureMessage() throws Exception {
+		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
+		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
+    	MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
+    			"A-1", "A",
+    			ComparisonOperator.LESS_THAN, cal1, 
+    			Arrays.asList(new Calendar[]{cal1, cal2}),
+    			ruleProposition);
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertFalse(result);
+        Assert.assertEquals("Maximum not met. Maximum found: 2010-01-01T01:00:00.000-0800", maxProp.getReport().getFailureMessage());
+    }
+
+    @Test
+    public void testMaxProposition_GregorianCalendar_LessThan_FailureMessage() throws Exception {
+		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
+		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
+		GregorianCalendar gregCal1 = new GregorianCalendar();
+		gregCal1.setTime(cal1.getTime());
+		GregorianCalendar gregCal2 = new GregorianCalendar();
+		gregCal2.setTime(cal2.getTime());
+
+		MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
+    			"A-1", "A",
+    			ComparisonOperator.LESS_THAN, gregCal1, 
+    			Arrays.asList(new Calendar[]{gregCal1, gregCal2}),
+    			ruleProposition);
+
+    	Boolean result = maxProp.apply();
+
+    	Assert.assertFalse(result);
+        Assert.assertEquals("Maximum not met. Maximum found: 2010-01-01T01:00:00.000-0800", maxProp.getReport().getFailureMessage());
     }
 }

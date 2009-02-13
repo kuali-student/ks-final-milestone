@@ -916,13 +916,13 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertNotNull(agendaExecutionResult);
         Assert.assertEquals(1, agendaExecutionResult.getExecutionResultList().size());
 
-        Assert.assertEquals("Sum is short by 3.0", agendaExecutionResult.getFailureMessageSummary());
+        Assert.assertEquals("Credit check failed. Sum is short by 3.0", agendaExecutionResult.getFailureMessageSummary());
         Assert.assertNull(agendaExecutionResult.getSuccessMessageSummary());
 
         // This agenda only has one rule
         ExecutionResultDTO ruleResult = agendaExecutionResult.getExecutionResultList().get(0);
 
-        Assert.assertEquals("Sum is short by 3.0", ruleResult.getReport().getFailureMessage());
+        Assert.assertEquals("Credit check failed. Sum is short by 3.0", ruleResult.getReport().getFailureMessage());
 		Assert.assertEquals(2, ruleResult.getReport().getPropositionReports().size());
 		
 		// First proposition
@@ -930,14 +930,14 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 		
 		Assert.assertTrue(propositionReport1.isSuccessful());
 		Assert.assertEquals(YieldValueFunctionType.INTERSECTION.toString(), propositionReport1.getPropositionType());
-		Assert.assertEquals("Intersection constraint fulfilled", propositionReport1.getSuccessMessage());
+		Assert.assertEquals("Pre-requisite course requirement met: [MATH 100]", propositionReport1.getSuccessMessage());
 		
 		// Second proposition
 		PropositionReportDTO propositionReport2 = ruleResult.getReport().getPropositionReports().get(1);
 
 		Assert.assertFalse(propositionReport2.isSuccessful());
 		Assert.assertEquals(YieldValueFunctionType.SUM.toString(), propositionReport2.getPropositionType());
-		Assert.assertEquals("Sum is short by 3.0", propositionReport2.getFailureMessage());
+		Assert.assertEquals("Credit check failed. Sum is short by 3.0", propositionReport2.getFailureMessage());
 	}
 
 	@Test
@@ -985,7 +985,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
         Assert.assertNotNull(agendaExecutionResult.getSuccessMessageSummary());
         Assert.assertNotNull(agendaExecutionResult.getFailureMessageSummary());
-        Assert.assertEquals("Sum is short by 3.0", agendaExecutionResult.getFailureMessageSummary());
+        Assert.assertEquals("Credit check failed. Sum is short by 3.0", agendaExecutionResult.getFailureMessageSummary());
         Assert.assertEquals("Intersection constraint fulfilled OR Intersection constraint fulfilled OR Sum constraint fulfilled", agendaExecutionResult.getSuccessMessageSummary());
 
         // Rule 1

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 public class StatisticsProposition<T extends Number> extends AbstractProposition<Double> {
@@ -13,8 +14,10 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
     
     public enum StatFunction { MAX, MEAN, MIN, STANDARD_DEVIATION, SUM, SUM_OF_SQUARES, VARIANCE };
     
-    public StatisticsProposition(String id, String propositionName, ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact) {
-        super(id, propositionName, null, operator, expectedValue);
+    public StatisticsProposition(String id, String propositionName, 
+    		ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact,
+    		RulePropositionDTO ruleProposition) {
+        super(id, propositionName, null, operator, expectedValue, ruleProposition);
         this.fact = fact;
         this.function = function;
     }

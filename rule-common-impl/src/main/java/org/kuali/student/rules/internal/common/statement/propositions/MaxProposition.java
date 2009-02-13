@@ -6,16 +6,24 @@ import java.util.Collections;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class MaxProposition<T extends Comparable<T>> extends AbstractProposition<T> {
     private T max;
 	private Collection<T> fact;
 
+    public final static String DEFAULT_SUCCESS_MESSAGE = "Maximum constraint fulfilled";
+    public final static String DEFAULT_FAILURE_MESSAGE = "Maximum not met. Maximum found: #max#";
+
+    public final static String MAX_REPORT_TEMPLATE_TOKEN = "max";
+
     public MaxProposition() {
     }
 
-    public MaxProposition(String id, String propositionName, ComparisonOperator operator, T expectedValue, Collection<T> fact) {
-        super(id, propositionName, PropositionType.MAX, operator, expectedValue);
+    public MaxProposition(String id, String propositionName, 
+    		ComparisonOperator operator, T expectedValue, Collection<T> fact,
+    		RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.MAX, operator, expectedValue, ruleProposition);
         this.fact = fact;
 	}
 
@@ -33,14 +41,10 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
 
     @Override
     public PropositionReport buildReport() {
-        if (result) {
-            report.setSuccessMessage("Maximum constraint fulfilled");
-            return report;
-        }
-
         // TODO: Use the operator to compute exact message
-        String advice = String.format("Maximum not met: %s", this.max);
-        report.setFailureMessage(advice);
+        String maxStr = getTypeAsString(this.max);
+        addMessageToken(MAX_REPORT_TEMPLATE_TOKEN, maxStr);
+        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
         return report;
     }
 }

@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -37,14 +38,21 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     Set<E> factSet;
     Collection<?> resultValues;
 
+    public final static String DEFAULT_SUCCESS_MESSAGE = "Subset constraint fulfilled";
+    public final static String DEFAULT_FAILURE_MESSAGE = "#needed# of #unmetSet# is still required";
+
+    public final static String NEEDED_REPORT_TEMPLATE_TOKEN = "needed";
+    public final static String UNMET_REPORT_TEMPLATE_TOKEN = "unmetSet";
+
     // ~ Constructors -----------------------------------------------------------
 
     public SubsetProposition() {
         super();
     }
 
-    public SubsetProposition(String id, String propositionName, Set<E> criteriaSet, Set<E> factSet) {
-        super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
+    public SubsetProposition(String id, String propositionName, 
+    		Set<E> criteriaSet, Set<E> factSet, RulePropositionDTO ruleProposition) {
+        super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()), ruleProposition);
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }
@@ -69,18 +77,14 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
      */
     @Override
     public PropositionReport buildReport() {
-        Integer count = met.size();
-
-        if (result) {
-            report.setSuccessMessage("Subset constraint fulfilled");
-            return report;
-        }
-
         // TODO: Use the operator to compute exact message
+        Integer count = met.size();
         Set<E> unMet = andNot();
-        int needed = super.expectedValue - count;
-        String advice = String.format("%d of %s is still required", needed, unMet.toString());
-        report.setFailureMessage(advice);
+        Integer needed = super.expectedValue - count;
+        addMessageToken(NEEDED_REPORT_TEMPLATE_TOKEN, needed.toString());
+        addMessageToken(UNMET_REPORT_TEMPLATE_TOKEN, unMet.toString());
+        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
+		reportBuilt = Boolean.TRUE;
         return report;
     }
 

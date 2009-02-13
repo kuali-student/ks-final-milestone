@@ -35,7 +35,6 @@ import org.springframework.beans.BeanUtils;
  */
 public class BusinessRuleAdapter {
     
-    
     public static AgendaInfoDTO getAgendaInfoDTO(AgendaInfo agendaInfo) {
         AgendaInfoDTO agendaInfoDTO = new AgendaInfoDTO();
         
@@ -151,12 +150,12 @@ public class BusinessRuleAdapter {
      * @return
      */
     public static RulePropositionDTO getRulePropositionDTO(RuleProposition proposition) {
-        
         RulePropositionDTO propositionDTO = new RulePropositionDTO();
         
         propositionDTO.setComparisonDataTypeKey( proposition.getComparisonDataTypeKey() );
         propositionDTO.setComparisonOperatorTypeKey( proposition.getComparisonOperatorTypeKey().name() );
         propositionDTO.setDescription( proposition.getDescription() );
+        propositionDTO.setSuccessMessage( proposition.getSuccessMessage() );
         propositionDTO.setFailureMessage( proposition.getFailureMessage() );
         propositionDTO.setLeftHandSide( getLeftHandSideDTO( proposition.getLeftHandSide() ) );
         propositionDTO.setName( proposition.getName() );
@@ -340,6 +339,7 @@ public class BusinessRuleAdapter {
         
         ruleProposition.setComparisonDataTypeKey( rulePropositionDTO.getComparisonDataTypeKey() );
         ruleProposition.setDescription( rulePropositionDTO.getDescription() );
+        ruleProposition.setSuccessMessage( rulePropositionDTO.getSuccessMessage() );
         ruleProposition.setFailureMessage( rulePropositionDTO.getFailureMessage() );
         ruleProposition.setLeftHandSide( getLeftHandSideEntity( rulePropositionDTO.getLeftHandSide() ));
         ruleProposition.setName( rulePropositionDTO.getName() );
@@ -446,7 +446,6 @@ public class BusinessRuleAdapter {
               
        return fs;
     }
-
         
     /**
      * 

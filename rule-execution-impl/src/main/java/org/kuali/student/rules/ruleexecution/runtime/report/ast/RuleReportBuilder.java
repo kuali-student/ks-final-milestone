@@ -76,7 +76,7 @@ public class RuleReportBuilder implements ReportBuilder {
             List<BooleanNode> treeNodes = ASTtree.getAllNodes();
             this.executor.execute(treeNodes);
         } catch (Throwable t) {
-            throw new RuleSetExecutionException("Generating rule report failed: " + t.getMessage(), t);
+            throw new RuleSetExecutionException("Building rule report failed: " + t.getMessage(), t);
         }
 
         // This is the final rule report message summary

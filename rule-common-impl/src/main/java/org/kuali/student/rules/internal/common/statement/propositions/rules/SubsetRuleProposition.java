@@ -123,7 +123,7 @@ public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 					+ "\n--------------------------------------------------");
 		}
 
-		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet); 
+		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet, ruleProposition); 
 	}
 	
 }

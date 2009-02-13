@@ -100,6 +100,6 @@ public class SumRuleProposition<E extends Number> extends AbstractRulePropositio
 		}
 
         super.proposition = new SumProposition<E>(id, propositionName, 
-        		comparisonOperator, expectedValue, factList); 
+        		comparisonOperator, expectedValue, factList, ruleProposition); 
 	}
 }
