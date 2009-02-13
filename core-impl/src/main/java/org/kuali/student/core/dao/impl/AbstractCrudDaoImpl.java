@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.entity.AttributeDef;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 
 public abstract class AbstractCrudDaoImpl implements CrudDao {
@@ -39,18 +38,6 @@ public abstract class AbstractCrudDaoImpl implements CrudDao {
 
 		Query q = em.createQuery("SELECT x FROM "+className+" x");
 		return (List<T>) q.getResultList();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends AttributeDef> T fetchAttributeDefByName(Class<T> clazz, String attributeName) {
-
-		String className = clazz.getSimpleName();
-
-		Query q = em.createQuery("SELECT attrDef FROM "+className+" attrDef WHERE attrDef.name = :attributeName");
-		q.setParameter("attributeName", attributeName);
-
-		return (T) q.getSingleResult();
 	}
 
 	@Override

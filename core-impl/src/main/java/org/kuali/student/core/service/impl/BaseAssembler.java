@@ -9,7 +9,6 @@ import org.kuali.student.core.dao.CrudDao;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.TypeInfo;
 import org.kuali.student.core.entity.Attribute;
-import org.kuali.student.core.entity.AttributeDef;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.Meta;
 import org.kuali.student.core.entity.Type;
@@ -19,19 +18,19 @@ import org.springframework.beans.BeanUtils;
 public class BaseAssembler {
 	
 	protected static Map<String,String> toAttributeMap(
-			List<? extends Attribute<?, ?>> attributes) {
+			List<? extends Attribute<?>> attributes) {
 
 		Map<String,String> attributeInfos = new HashMap<String,String>();
 
-		for (Attribute<?, ?> attribute : attributes) {
-			attributeInfos.put(attribute.getAttrDef().getName(), attribute.getValue());
+		for (Attribute<?> attribute : attributes) {
+			attributeInfos.put(attribute.getName(), attribute.getValue());
 		}
 
 		return attributeInfos;
 	}
 
-	protected static <A extends Attribute<O, D>, O extends AttributeOwner<A>, D extends AttributeDef> List<A> toGenericAttributes(
-			Class<D> attributeDefClass, Class<A> attributeClass,
+	protected static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(
+			Class<A> attributeClass,
 			Map<String,String> attributeMap, O owner, CrudDao dao)
 			throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();
@@ -43,20 +42,12 @@ public class BaseAssembler {
 		owner.getAttributes().clear();
 
 		for (Map.Entry<String,String> attributeEntry : attributeMap.entrySet()) {
-			// Look up the attribute definition
-			D attributeDef = dao.fetchAttributeDefByName(attributeDefClass,
-					attributeEntry.getKey());
-
-			if (attributeDef == null) {
-				throw new InvalidParameterException("Invalid Attribute : "
-						+ attributeEntry.getKey());
-			}
 
 			A attribute;
 			try {
 				attribute = attributeClass.newInstance();
+				attribute.setName(attributeEntry.getKey());
 				attribute.setValue(attributeEntry.getValue());
-				attribute.setAttrDef(attributeDef);
 				attribute.setOwner(owner);
 				attributes.add(attribute);
 			} catch (Exception e) {

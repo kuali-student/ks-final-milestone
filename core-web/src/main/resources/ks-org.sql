@@ -1138,76 +1138,72 @@ insert into KS_ORG_ORG_RELATION_T (ORG_KEY, CREATEID, CREATETIME, UPDATEID, UPDA
 /
 
 
-//Attribute definitions
-insert into KS_ATTR_DEF_T (DTYPE, ID, NAME) values ('OrgAttributeDef', 'ks.org.attr.alias', 'Alias')
-/
-
 //ORG attributes
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('2', 'Governors', 'ks.org.attr.alias', '2')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('2', 'Governors', 'ks.org.attr.Alias', '2')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('4', 'KU', 'ks.org.attr.alias', '4')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('4', 'KU', 'ks.org.attr.Alias', '4')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('11', 'Fundraising, Endowment Management', 'ks.org.attr.alias', '11')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('11', 'Fundraising, Endowment Management', 'ks.org.attr.Alias', '11')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('18', 'Research', 'ks.org.attr.alias', '18')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('18', 'Research', 'ks.org.attr.Alias', '18')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('19', 'EVPP', 'ks.org.attr.alias', '19')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('19', 'EVPP', 'ks.org.attr.Alias', '19')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('20', 'CFO, COO', 'ks.org.attr.alias', '20')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('20', 'CFO, COO', 'ks.org.attr.Alias', '20')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('26', 'The Graduate School or Program', 'ks.org.attr.alias', '26')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('26', 'The Graduate School or Program', 'ks.org.attr.Alias', '26')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('28', 'Faculty of Arts&Hum', 'ks.org.attr.alias', '28')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('28', 'Faculty of Arts&Hum', 'ks.org.attr.Alias', '28')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('29', 'Faculty of BSOS', 'ks.org.attr.alias', '29')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('29', 'Faculty of BSOS', 'ks.org.attr.Alias', '29')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('32', 'The B-School', 'ks.org.attr.alias', '32')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('32', 'The B-School', 'ks.org.attr.Alias', '32')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('33', 'The Ed-School', 'ks.org.attr.alias', '33')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('33', 'The Ed-School', 'ks.org.attr.Alias', '33')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('34', 'Med-School', 'ks.org.attr.alias', '34')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('34', 'Med-School', 'ks.org.attr.Alias', '34')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('39', 'Continuing Eduction, Non-Credit, Not for Credit', 'ks.org.attr.alias', '39')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('39', 'Continuing Eduction, Non-Credit, Not for Credit', 'ks.org.attr.Alias', '39')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('40', 'Distance Learning', 'ks.org.attr.alias', '40')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('40', 'Distance Learning', 'ks.org.attr.Alias', '40')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('41', 'Experimental, International, Experiential, Alternative', 'ks.org.attr.alias', '41')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('41', 'Experimental, International, Experiential, Alternative', 'ks.org.attr.Alias', '41')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('46', 'Exchange, Non-Institute', 'ks.org.attr.alias', '46')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('46', 'Exchange, Non-Institute', 'ks.org.attr.Alias', '46')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('47', 'International, Foreign Exchange', 'ks.org.attr.alias', '47')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('47', 'International, Foreign Exchange', 'ks.org.attr.Alias', '47')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('49', 'Women''s Studies (old)', 'ks.org.attr.alias', '49')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('49', 'Women''s Studies (old)', 'ks.org.attr.Alias', '49')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('51', 'FA', 'ks.org.attr.alias', '51')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('51', 'FA', 'ks.org.attr.Alias', '51')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('57', 'PolySci', 'ks.org.attr.alias', '57')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('57', 'PolySci', 'ks.org.attr.Alias', '57')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('58', 'Psych', 'ks.org.attr.alias', '58')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('58', 'Psych', 'ks.org.attr.Alias', '58')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('59', 'Socs', 'ks.org.attr.alias', '59')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('59', 'Socs', 'ks.org.attr.Alias', '59')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('61', 'Chem E', 'ks.org.attr.alias', '61')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('61', 'Chem E', 'ks.org.attr.Alias', '61')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('63', 'Mech E', 'ks.org.attr.alias', '63')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('63', 'Mech E', 'ks.org.attr.Alias', '63')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('64', 'Comp Sci', 'ks.org.attr.alias', '64')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('64', 'Comp Sci', 'ks.org.attr.Alias', '64')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('66', 'Biochem', 'ks.org.attr.alias', '66')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('66', 'Biochem', 'ks.org.attr.Alias', '66')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('132', 'Alma Mater Society', 'ks.org.attr.alias', '132')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('132', 'Alma Mater Society', 'ks.org.attr.Alias', '132')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('133', 'Graduate and Professional Student Society', 'ks.org.attr.alias', '133')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('133', 'Graduate and Professional Student Society', 'ks.org.attr.Alias', '133')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('134', 'Faculty', 'ks.org.attr.alias', '134')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('134', 'Faculty', 'ks.org.attr.Alias', '134')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('141', 'The Curriculum Committee', 'ks.org.attr.alias', '141')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('141', 'The Curriculum Committee', 'ks.org.attr.Alias', '141')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('142', 'Curriculumn Coordinators', 'ks.org.attr.alias', '142')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('142', 'Curriculumn Coordinators', 'ks.org.attr.Alias', '142')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('171', 'Geology CIC', 'ks.org.attr.alias', '171')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('171', 'Geology CIC', 'ks.org.attr.Alias', '171')
 /
-insert into KS_ORG_ATTR_T (ID, VALUE, ATTR_DEF, OWNER) values ('1', 'KU System', 'ks.org.attr.alias', '1')
+insert into KS_ORG_ATTR_T (ID, ATTR_VALUE, ATTR_NAME, OWNER) values ('1', 'KU System', 'ks.org.attr.Alias', '1')
 /
 
 //ORG Person Relation
@@ -1233,3 +1229,6 @@ insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYP
 insert into KS_ORG_TYPE_ORG_PERS_RL_TYPE_T (ORG_TYPE_KEY,ORG_PERSON_RELATION_TYPE_KEY) VALUES ('kuali.org.School', 'kuali.org.PersonRelation.Professor')
 /
 
+// Org Person Relation Type
+insert into KS_ORG_ORG_PERS_REL_TYPE_T (ORG_KEY, ORG_PERSON_RELATION_TYPE_KEY) VALUES ('68', 'kuali.org.PersonRelation.Head')
+/

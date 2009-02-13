@@ -19,7 +19,6 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgAttribute;
-import org.kuali.student.core.organization.entity.OrgAttributeDef;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
@@ -98,13 +97,8 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals(1, borgOrg.getAttributes().size());
 		assertEquals("Governors", borgOrg.getAttributes().get(0).getValue());
 
-		OrgAttributeDef alias = new OrgAttributeDef();
-		alias.setId("ks.org.attr.Alias");
-		alias.setName("Alias");
-		em.persist(alias);
-
 		OrgAttribute borgAlias = new OrgAttribute();
-		borgAlias.setAttrDef(alias);
+		borgAlias.setName("Alias");
 		borgAlias.setValue("Governors");
 		borgAlias.setOwner(borgOrg);
 

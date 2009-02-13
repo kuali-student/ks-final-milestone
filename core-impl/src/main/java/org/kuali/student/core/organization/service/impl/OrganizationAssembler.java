@@ -17,19 +17,15 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgAttribute;
-import org.kuali.student.core.organization.entity.OrgAttributeDef;
 import org.kuali.student.core.organization.entity.OrgHierarchy;
 import org.kuali.student.core.organization.entity.OrgOrgRelation;
 import org.kuali.student.core.organization.entity.OrgOrgRelationAttribute;
-import org.kuali.student.core.organization.entity.OrgOrgRelationAttributeDef;
 import org.kuali.student.core.organization.entity.OrgOrgRelationType;
 import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationAttribute;
-import org.kuali.student.core.organization.entity.OrgPersonRelationAttributeDef;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute;
-import org.kuali.student.core.organization.entity.OrgPositionRestrictionAttributeDef;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
@@ -230,8 +226,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "orgPersonRelationTypes" });
 
 		// Copy Attributes
-		org.setAttributes(toGenericAttributes(OrgAttributeDef.class,
-				OrgAttribute.class, orgInfo.getAttributes(), org, dao));
+		org.setAttributes(toGenericAttributes(OrgAttribute.class, orgInfo.getAttributes(), org, dao));
 
 		// Search for and copy the type
 		OrgType orgType = dao.fetch(OrgType.class, orgInfo.getType());
@@ -265,8 +260,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "org", "relatedOrg" });
 
 		// Copy Attributes
-		orgOrgRelation.setAttributes(toGenericAttributes(OrgOrgRelationAttributeDef.class,
-				OrgOrgRelationAttribute.class, orgOrgRelationInfo.getAttributes(), orgOrgRelation, dao));
+		orgOrgRelation.setAttributes(toGenericAttributes(OrgOrgRelationAttribute.class, orgOrgRelationInfo.getAttributes(), orgOrgRelation, dao));
 
 		// Search for and copy the org
 		Org org = dao.fetch(Org.class, orgOrgRelationInfo.getOrgId());
@@ -316,8 +310,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "org", "personId" });
 
 		// Copy Attributes
-		orgPersonRelation.setAttributes(toGenericAttributes(OrgPersonRelationAttributeDef.class,
-				OrgPersonRelationAttribute.class, orgPersonRelationInfo.getAttributes(), orgPersonRelation, dao));
+		orgPersonRelation.setAttributes(toGenericAttributes(OrgPersonRelationAttribute.class, orgPersonRelationInfo.getAttributes(), orgPersonRelation, dao));
 
 		// Search for and copy the org
 		Org org = dao.fetch(Org.class, orgPersonRelationInfo.getOrgId());
@@ -369,8 +362,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "org" });
 
 		// Copy Attributes
-		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttributeDef.class,
-				OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));
+		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));
 
 		// Search for and copy the org
 		Org org = dao.fetch(Org.class, orgPositionRestrictionInfo.getOrgId());
