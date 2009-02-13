@@ -377,4 +377,10 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("VPStudentsOffice", orgOrgRelations.get(0).getOrg().getShortName());
 		assertEquals("UndergraduateProgram", orgOrgRelations.get(1).getOrg().getShortName());
 	}
+	
+	@Test
+	public void getAncestors() {
+		List<String> ancestors = dao.getAncestors("26", "kuali.org.hierarchy.Main");
+		assertEquals(2, ancestors.size());
+	}
 }

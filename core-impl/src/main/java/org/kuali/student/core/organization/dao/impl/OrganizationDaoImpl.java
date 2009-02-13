@@ -1,5 +1,6 @@
 package org.kuali.student.core.organization.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -89,6 +90,22 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 		@SuppressWarnings("unchecked")
 		List<String> descendants = query.getResultList();
 		return descendants;
+	}
+
+	@Override
+	public List<String> getAncestors(String orgId, String orgHierarchy) {
+		List<String> orgList = new ArrayList<String>();
+		// No way to do recursive queries in Derby (yet), so when we want
+		// all ancestors, we'll have to do this a less efficient way
+		Query query = em.createNamedQuery("OrgOrgRelation.getAncestors");
+		query.setParameter("orgId", orgId);
+		query.setParameter("orgHierarchy", orgHierarchy);
+		@SuppressWarnings("unchecked")
+		List<String> result = query.getResultList();
+		if (result.size() > 0) {
+			orgList.addAll(result);
+		}
+		return orgList;
 	}
 
 	@Override
@@ -207,7 +224,6 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 
 		return relationCount>0;
 	}
-
 	@Override
 	public OrgPositionRestriction getPositionRestrictionByOrgAndPersonRelationTypeKey(String orgId, String orgPersonRelationTypeKey) {
 		Query query = em.createNamedQuery("OrgPositionRestriction.getPositionRestrictionByOrgAndPersonRelationTypeKey");
