@@ -3,7 +3,6 @@ package org.kuali.student.core.organization.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
@@ -47,21 +46,12 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
 @Transactional
 public class OrganizationServiceImpl implements OrganizationService {
-	@Autowired
-	private MessageSource messageSource;
-	private Locale locale;
 
-	public void setMessageSource (MessageSource messageSource) {
-		this.messageSource = messageSource;
-		locale = Locale.getDefault();
-	}
 
 	private OrganizationDao organizationDao;
 
@@ -951,11 +941,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 	 * @param parameter name
 	 * @throws MissingParameterException
 	 */
-	private final void checkForMissingParameter(Object param, String paramName)
+	private void checkForMissingParameter(Object param, String paramName)
 			throws MissingParameterException {
 		if (param == null) {
-			String msg = messageSource.getMessage("OrganizationService.missingParameter", new String[] {paramName}, locale);
-			throw new MissingParameterException(msg);
+			throw new MissingParameterException(paramName + " can not be null");
 		}
 	}
 

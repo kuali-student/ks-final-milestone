@@ -27,6 +27,9 @@ import org.kuali.student.core.entity.MetaEntity;
 			@NamedQuery(name = "OrgOrgRelation.getAllDescendants", query = "SELECT oor.relatedOrg.id FROM OrgOrgRelation oor "
 				+ " WHERE oor.org.id = :orgId "
 				+ "   AND oor.type.orgHierarchy.key = :orgHierarchy"),
+			@NamedQuery(name = "OrgOrgRelation.getAncestors", query = "SELECT oor.org.id FROM OrgOrgRelation oor "
+				+ " WHERE oor.relatedOrg.id = :orgId "
+				+ "   AND oor.type.orgHierarchy.key = :orgHierarchy"),
 			@NamedQuery(name="OrgOrgRelation.getOrgOrgRelationsByIdList", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)"),
 			@NamedQuery(name="OrgOrgRelation.OrgOrgRelation", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.org.id = :orgId"),
 			@NamedQuery(name="OrgOrgRelation.getOrgOrgRelationsByRelatedOrg", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId"),

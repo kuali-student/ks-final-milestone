@@ -9,8 +9,8 @@
   </configuration>
 
  <mapping>
-    <class-a>org.kuali.student.core.enumeration.entity.ContextEntity</class-a>
-    <class-b>org.kuali.student.core.enumeration.dto.Context</class-b>
+    <class-a>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class-a>
+    <class-b>org.kuali.student.core.enumerationmanagement.dto.Context</class-b>
       <field>
         <a>contextKey</a>
         <b>type</b>
@@ -23,8 +23,8 @@
 
  
   <mapping>
-    <class-a>org.kuali.student.core.enumeration.entity.EnumeratedValueEntity</class-a>
-    <class-b>org.kuali.student.core.enumeration.dto.EnumeratedValue</class-b>
+    <class-a>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity</class-a>
+    <class-b>org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue</class-b>
       <field>
         <a>contextEntityList</a>
         <b>contexts.context</b>
@@ -32,8 +32,8 @@
   </mapping>
   
    <mapping>
-    <class-a>org.kuali.student.core.enumeration.entity.EnumeratedValueFieldEntity</class-a>
-    <class-b>org.kuali.student.core.enumeration.dto.EnumeratedValueField</class-b>
+    <class-a>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueFieldEntity</class-a>
+    <class-b>org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueField</class-b>
 
       <field>
         <a>fieldKey</a>
@@ -90,8 +90,8 @@
   
   
     <mapping>
-    <class-a>org.kuali.student.core.enumeration.entity.EnumerationMetaEntity</class-a>
-    <class-b>org.kuali.student.core.enumeration.dto.EnumerationMeta</class-b>
+    <class-a>org.kuali.student.core.enumerationmanagement.entity.EnumerationMetaEntity</class-a>
+    <class-b>org.kuali.student.core.enumerationmanagement.dto.EnumerationMeta</class-b>
       <field>
         <a>enumeratedValueFieldList</a>
         <b>enumeratedValueFields.enumeratedValueField</b>

@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="KS_TYPE_ATTR_T")
-public class TypeAttribute extends Attribute<Type, TypeAttributeDef> {
+public class TypeAttribute extends Attribute<Type> {
 
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
