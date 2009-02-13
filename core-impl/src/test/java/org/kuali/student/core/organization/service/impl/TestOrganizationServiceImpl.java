@@ -265,6 +265,22 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 
 	@Test
+	public void getAncestors() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<String> ancestors = client.getAncestors("26", "kuali.org.hierarchy.Main");
+		assertEquals(2,ancestors.size());
+
+		ancestors = client.getAncestors("2", "Star.Trek");
+		assertTrue(ancestors == null || ancestors.size() == 0);
+
+		ancestors = client.getAncestors("-1", "kuali.org.hierarchy.Main");
+		assertTrue(ancestors == null || ancestors.size() == 0);
+
+		ancestors = client.getAncestors("-1", "-1");
+		assertTrue(ancestors == null || ancestors.size() == 0);
+	}
+
+
+	@Test
 	public void getOrgOrgRelationTypes() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<OrgOrgRelationTypeInfo> orgOrgRelationTypeInfos = client.getOrgOrgRelationTypes();
 		assertNotNull(orgOrgRelationTypeInfos);

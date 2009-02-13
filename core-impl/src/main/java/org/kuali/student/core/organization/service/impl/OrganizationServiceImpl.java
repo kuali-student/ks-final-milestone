@@ -256,11 +256,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public List<String> getAncestors(String orgId, String orgHierarchy)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(orgId, "orgId");
 		checkForMissingParameter(orgHierarchy, "orgHierarchy");
 
-		return null;
+		List<String> ancestors = this.organizationDao.getAncestors(orgId, orgHierarchy);
+		return ancestors;
 	}
 
 	@Override
