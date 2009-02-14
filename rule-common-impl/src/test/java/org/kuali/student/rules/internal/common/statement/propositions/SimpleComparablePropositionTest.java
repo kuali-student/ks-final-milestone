@@ -7,6 +7,7 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -192,7 +193,9 @@ public class SimpleComparablePropositionTest {
     	Boolean result = comparableProp.apply();
 
         Assert.assertFalse(result);
-        Assert.assertEquals("2010-01-01T01:00:00.000-0800 not EQUAL_TO 2000-01-01T01:00:00.000-0800", comparableProp.getReport().getFailureMessage());
+    	String date1 = "2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
+    	String date2 = "2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
+    	String expected = date1 + " not EQUAL_TO " + date2;
+        Assert.assertEquals(expected, comparableProp.getReport().getFailureMessage());
     }
-    
 }

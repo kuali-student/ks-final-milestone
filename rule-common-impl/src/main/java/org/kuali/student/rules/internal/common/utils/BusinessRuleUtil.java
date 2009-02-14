@@ -27,7 +27,9 @@ public class BusinessRuleUtil {
     public static final char PROPOSITION_PREFIX = 'P';
     //public static final String CALENDAR_DATE_FORMAT = "yyyy.MM.dd-HH.mm.ss.SSS";
     public static final String ISO_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
+    private static final SimpleDateFormat isoDateFormat = new SimpleDateFormat(ISO_TIMESTAMP_FORMAT);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
+	private static final Date date = new Date();
 
     /*
      * Validates rule composed of propositions e.g. P1, e.g. (P1), e.g. P1 OR P2 AND P3, e.g. (P1 AND P2 OR P3) etc.
@@ -497,7 +499,7 @@ public class BusinessRuleUtil {
      */
     public static Date convertDate(String value) {
     	try {
-			return dateFormat.parse(value);
+			return isoDateFormat.parse(value);
 		} catch (ParseException e) {
 			throw new RuntimeException("Data type conversion error", e);
 		}
@@ -511,6 +513,16 @@ public class BusinessRuleUtil {
      * @return
      */
     public static String formatDate(Date date) {
+    	return isoDateFormat.format(date).toString();
+    }
+
+    public static String formatDate(Date date, String pattern) {
+    	dateFormat.applyPattern(pattern);
+    	return dateFormat.format(date).toString();
+    }
+    
+    public static String getDefaultIsoTimeZone() {
+    	dateFormat.applyPattern("Z");
     	return dateFormat.format(date).toString();
     }
 }

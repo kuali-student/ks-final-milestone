@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -17,6 +18,7 @@ public class MaxPropositionTest {
     private List<BigDecimal> gradeList = CommonTestUtil.createList("85.0,75.0,80.0");
 
 	private RulePropositionDTO ruleProposition = new RulePropositionDTO();
+	private Date date = new Date();
 
 	@Test
     public void testMaxProposition_String() throws Exception {
@@ -228,7 +230,8 @@ public class MaxPropositionTest {
     	Boolean result = maxProp.apply();
 
     	Assert.assertFalse(result);
-        Assert.assertEquals("Maximum not met. Maximum found: 2010-01-01T01:00:00.000-0800", maxProp.getReport().getFailureMessage());
+    	String expected = "Maximum not met. Maximum found: 2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
+        Assert.assertEquals(expected, maxProp.getReport().getFailureMessage());
     }
 
     @Test
@@ -242,9 +245,9 @@ public class MaxPropositionTest {
     			ruleProposition);
 
     	Boolean result = maxProp.apply();
-
+    	String expected = "Maximum not met. Maximum found: 2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
     	Assert.assertFalse(result);
-        Assert.assertEquals("Maximum not met. Maximum found: 2010-01-01T01:00:00.000-0800", maxProp.getReport().getFailureMessage());
+        Assert.assertEquals(expected, maxProp.getReport().getFailureMessage());
     }
 
     @Test
@@ -264,7 +267,8 @@ public class MaxPropositionTest {
 
     	Boolean result = maxProp.apply();
 
+    	String expected = "Maximum not met. Maximum found: 2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
     	Assert.assertFalse(result);
-        Assert.assertEquals("Maximum not met. Maximum found: 2010-01-01T01:00:00.000-0800", maxProp.getReport().getFailureMessage());
+        Assert.assertEquals(expected, maxProp.getReport().getFailureMessage());
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -228,7 +229,8 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertFalse(result);
-        Assert.assertEquals("Minimum not met. Minimum found: 2000-01-01T01:00:00.000-0800", minProp.getReport().getFailureMessage());
+    	String expected = "Minimum not met. Minimum found: 2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
+        Assert.assertEquals(expected, minProp.getReport().getFailureMessage());
     }
 
     @Test
@@ -244,7 +246,8 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertFalse(result);
-        Assert.assertEquals("Minimum not met. Minimum found: 2000-01-01T01:00:00.000-0800", minProp.getReport().getFailureMessage());
+    	String expected = "Minimum not met. Minimum found: 2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
+        Assert.assertEquals(expected, minProp.getReport().getFailureMessage());
     }
 
     @Test
@@ -265,6 +268,7 @@ public class MinPropositionTest {
     	Boolean result = minProp.apply();
 
     	Assert.assertFalse(result);
-        Assert.assertEquals("Minimum not met. Minimum found: 2000-01-01T01:00:00.000-0800", minProp.getReport().getFailureMessage());
+    	String expected = "Minimum not met. Minimum found: 2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
+        Assert.assertEquals(expected, minProp.getReport().getFailureMessage());
     }
 }
