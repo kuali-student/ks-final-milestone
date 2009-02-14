@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<MessageList>
-         <message locale="US" groupName="Address" id="City">
-            <value>Enter the US city where you live:</value>
-         </message>
-         <message locale="US" groupName="Address" id="State">
-            <value>State:</value>
-         </message>
-</MessageList>
