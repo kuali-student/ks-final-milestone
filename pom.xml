@@ -155,8 +155,8 @@
 					</url>
 				</pluginRepository>
 				<pluginRepository>
-					<id>ks-snapshot</id>
-					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
+					<id>ks-public</id>
+					<url>http://archiva.kuali.umd.edu/repository/public</url>
 				</pluginRepository>
 			</pluginRepositories>
 		</profile>
