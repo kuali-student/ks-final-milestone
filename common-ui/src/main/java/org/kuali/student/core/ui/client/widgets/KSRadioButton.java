@@ -65,7 +65,7 @@ public class KSRadioButton extends RadioButton{
 		this.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
-				if(KSRadioButton.this.isChecked()){
+				if(KSRadioButton.this.getValue()){
 					KSRadioButton.this.addStyleName(KSStyles.KS_RADIO_CHECKED_STYLE);
 				}
 				else{
