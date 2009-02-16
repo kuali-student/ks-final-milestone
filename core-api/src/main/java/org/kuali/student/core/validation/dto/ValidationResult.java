@@ -23,6 +23,15 @@ public class ValidationResult implements Serializable {
 
     ErrorLevel errorLevel = ErrorLevel.OK;
     List<String> messages = new ArrayList<String>();
+    String key = null;
+    
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     /**
      * Adds an message to the result. If the error level is greater than the current error level, then the specified error

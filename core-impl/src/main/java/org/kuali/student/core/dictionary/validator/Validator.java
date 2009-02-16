@@ -11,10 +11,18 @@ import org.slf4j.LoggerFactory;
 
 import org.kuali.student.core.validation.dto.ValidationResult;
 
+/**
+ * @deprecated use org.kuali.student.common.validator.Validator instead
+ */
+@Deprecated
 public class Validator {
 	
 	final static Logger logger = LoggerFactory.getLogger(Validator.class);
 	
+	/**
+	 * @deprecated use org.kuali.student.common.validator.Validator instead
+	 */
+	@Deprecated
 	public static ValidationResult validate(Object value, Map<String, Object> fieldDesc){
 		ValidationResult result = new ValidationResult();
 		
