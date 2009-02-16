@@ -10,23 +10,24 @@
 	<name>KS Parent POM</name>
 	<description>Kuali Student Parent POM</description>
 
-	<url>http://kuali.org/communities/ks/</url>
+	<url>http://student.kuali.org/site/core/${project.version}</url>
+	
 	<licenses>
 		<license>
 			<name>
-				The Kuali Foundation Educational Community License 1.0
+				Educational Community License 2.0
 			</name>
 			<url>
-				https://test.kuali.org/confluence/display/KULDOC/The+Kuali+Foundation+ECL
+				http://www.osedu.org/licenses/ECL-2.0/
 			</url>
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
+	
 	<ciManagement>
 		<system>continuum</system>
-		<url>http://kuali.umd.edu/continuum</url>
+		<url>http://continuum.kuali.umd.edu</url>
 	</ciManagement>
-
 
 	<modules>
 		<module>ks-cxf</module>
@@ -81,6 +82,11 @@
 		<derby.version>10.4.2.0</derby.version>
 		<jetty.version>6.1.6</jetty.version>
 		<dozer.version>4.4</dozer.version>
+		
+		<!-- plugin versions -->
+		<cobertura.plugin.version>2.2</cobertura.plugin.version>
+		<javadoc.plugin.version>2.4</javadoc.plugin.version>
+		<site.plugin.version>2.0-beta-7</site.plugin.version>
 	</properties>
 
 	<profiles>
@@ -136,17 +142,8 @@
 
 			<pluginRepositories>
 				<pluginRepository>
-					<id>codehaussandbox</id>
-					<url>http://snapshots.repository.codehaus.org</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-				</pluginRepository>
-				<pluginRepository>
-					<id>apache.incubating</id>
-					<url>
-						http://people.apache.org/repo/m2-incubating-repository
-					</url>
+					<id>ks.snapshot.plugin</id>
+					<url>http://archiva.kuali.umd.edu/repository/snapshot</url>
 				</pluginRepository>
 				<pluginRepository>
 					<id>gwt-maven</id>
@@ -316,7 +313,90 @@
 				dav:http://archiva.kuali.umd.edu/repository/snapshot
 			</url>
 		</snapshotRepository>
+		<site>
+			<id>ks.site</id>
+			<url> 
+				dav:https://www.kuali.org:8443/student/site/core/${project.version}
+			</url>
+		</site>
 	</distributionManagement>
+
+	<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${site.plugin.version}</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
+				<configuration>
+					<!-- this takes forever to complete, enable as needed -->
+					<!-- 
+					<dependencyLocationsEnabled>
+						false
+					</dependencyLocationsEnabled>
+					-->
+				</configuration>
+			</plugin>
+ 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${javadoc.plugin.version}</version>
+				
+				<configuration>
+					<maxmemory>256m</maxmemory>
+					<aggregate>true</aggregate>
+					<show>private</show>
+					<source>1.6</source>
+					<links>
+						<link>http://cxf.apache.org/javadoc/2.1/</link>
+						<link>
+							http://java.sun.com/javase/6/docs/api/
+						</link>
+						<link>
+							http://java.sun.com/javaee/5/docs/api/
+						</link>
+						<link>
+							http://static.springframework.org/spring/docs/2.5.x/api/
+						</link>
+						<link>
+							http://ehcache.sourceforge.net/javadoc/
+						</link>
+					</links>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+
+			</plugin>
+ 			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura.plugin.version}</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<!-- 
+						<format>xml</format>
+						-->
+					</formats>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
 
 	<dependencyManagement>
 		<dependencies>
