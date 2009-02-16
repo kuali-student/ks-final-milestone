@@ -92,7 +92,7 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>			
@@ -100,6 +100,17 @@
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>			
+		</dependency>		
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<classifier>sources</classifier>
 		</dependency>
