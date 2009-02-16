@@ -15,8 +15,8 @@ public abstract class SelectItemWidget extends Composite {
 		this.listItems = listItems;
 	}
 	
-	public abstract void selectItem(int index);
-	public abstract void deSelectItem(int index);
-	public abstract List<Integer> getSelectedItems();
+	public abstract void selectItem(String id);
+	public abstract void deSelectItem(String id);
+	public abstract List<String> getSelectedItems();
 	
 }
