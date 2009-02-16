@@ -52,7 +52,7 @@ public class GuiUtil {
      * @throws OperationFailedException
      * 
      */
-    public static String assembleRuleFromComposition(String composition, Map<Integer, RulePropositionDTO> definedPropositions) {
+    public static String assembleRuleFromComposition(String composition, Map<Integer, RuleElementDTO> definedPropositions) {
         RuleElementDTO elem;
         RulePropositionDTO prop;
         String token;
@@ -68,7 +68,7 @@ public class GuiUtil {
                 counter++;
                 composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
                 if (token.charAt(0) == PROPOSITION_PREFIX) {
-                    prop = definedPropositions.get(new Integer(token.substring(1)));
+                    prop = definedPropositions.get(new Integer(token.substring(1))).getBusinessRuleProposition();
 
                     // check that the proposition defined in Rule Composition exists (this should not happen since Rule
                     // Composition should be verified
@@ -102,7 +102,7 @@ public class GuiUtil {
      * @throws OperationFailedException
      * 
      */
-    public static List<RuleElementDTO> createRuleElementsFromComposition(String composition, Map<Integer, RulePropositionDTO> definedPropositions) throws IllegalRuleFormatException {
+    public static List<RuleElementDTO> createRuleElementsFromComposition(String composition, Map<Integer, RuleElementDTO> definedPropositions) throws IllegalRuleFormatException {
 
         String token;
         int counter = 0;
@@ -117,11 +117,12 @@ public class GuiUtil {
             ruleElem.setOrdinalPosition(counter);
             composition = composition.substring(composition.toUpperCase().indexOf(token, 0) + token.length());
             if (token.charAt(0) == PROPOSITION_PREFIX) {
-                RulePropositionDTO prop = definedPropositions.get(new Integer(token.substring(1)));
-                ruleElem.setName(prop.getName());
-                ruleElem.setDescription(prop.getDescription());
+                RuleElementDTO newElem = definedPropositions.get(new Integer(token.substring(1)));
+                ruleElem.setId(newElem.getId());
+                ruleElem.setName(newElem.getName());
+                ruleElem.setDescription(newElem.getDescription());                
                 ruleElem.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString()); //TODO RuleElementType.PROPOSITION.getName());
-                ruleElem.setBusinessRuleProposition(prop);
+                ruleElem.setBusinessRuleProposition(newElem.getBusinessRuleProposition());
             } else {
                 ruleElem.setBusinessRuleElemnetTypeKey(token);
             }
@@ -131,8 +132,8 @@ public class GuiUtil {
         // This should not happen as rule suppose to be checked before calling this function
         // TODO: log into screen log text box
 
-        // }
-
+        // }        
+        
         return elemList;
     }
 

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.rulemanagement.dto.LeftHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RightHandSideDTO;
 import org.kuali.student.rules.rulemanagement.dto.RuleElementDTO;
@@ -24,7 +25,7 @@ public class GuiUtilTest {
     @Test
     public void testAssembleRuleFromComposition_singleProposition() {
 
-        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
 
         assertEquals("A", GuiUtil.assembleRuleFromComposition("A", definedPropositions));
         assertEquals("INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1", definedPropositions));
@@ -35,18 +36,9 @@ public class GuiUtilTest {
     // @Test
     public void testCreateRuleElementsFromComposition_singleProposition() {
 
-        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
-
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
         List<RuleElementDTO> elemList = new ArrayList<RuleElementDTO>();
-        RuleElementDTO ruleElem = new RuleElementDTO();
-        ruleElem.setOrdinalPosition(1);
-        ruleElem.setBusinessRuleElemnetTypeKey("PROPOSITION");
-        ruleElem.setBusinessRuleProposition(definedPropositions.get(new Integer(1)));
-
-        // ruleElem.setOrdinalPosition(1);
-        // ruleElem.setBusinessRuleElemnetTypeKey(token);
-
-        elemList.add(ruleElem);
+        elemList.add(definedPropositions.get(new Integer(1)));
 
         assertEquals(elemList, GuiUtil.createRuleElementsFromComposition("P1", definedPropositions));
         assertEquals("INTERSECTION = 10", GuiUtil.createRuleElementsFromComposition(" P1 ", definedPropositions));
@@ -56,7 +48,7 @@ public class GuiUtilTest {
     @Test
     public void testAssembleRuleFromComposition_twoPropositions() {
 
-        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
 
         assertEquals("INTERSECTION = 10 AND INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("P1 AND P2", definedPropositions));
         assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 )", GuiUtil.assembleRuleFromComposition("(P1 AND P2)", definedPropositions));
@@ -65,7 +57,7 @@ public class GuiUtilTest {
     @Test
     public void testAssembleRuleFromComposition_threePropositions() {
 
-        Map<Integer, RulePropositionDTO> definedPropositions = createTestPropositions();
+        Map<Integer, RuleElementDTO> definedPropositions = createTestPropositions();
 
         assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
         assertEquals("( INTERSECTION = 10 AND INTERSECTION = 10 ) OR INTERSECTION = 10", GuiUtil.assembleRuleFromComposition("(P1 AND P2) OR P3", definedPropositions));
@@ -139,8 +131,8 @@ public class GuiUtilTest {
         assertEquals("Expected 'Px' but found 'OR' in 'OR P2...'", GuiUtil.validateRuleComposition(" OR P2 AND P3", definedPropositions3));
     }
 
-    private static Map<Integer, RulePropositionDTO> createTestPropositions() {
-        Map<Integer, RulePropositionDTO> definedPropositions = new HashMap<Integer, RulePropositionDTO>();
+    private static Map<Integer, RuleElementDTO> createTestPropositions() {
+        Map<Integer, RuleElementDTO> definedPropositions = new HashMap<Integer, RuleElementDTO>();
 
         RulePropositionDTO ruleProp = new RulePropositionDTO();
         LeftHandSideDTO leftHandSide = new LeftHandSideDTO();
@@ -152,13 +144,22 @@ public class GuiUtilTest {
         ruleProp.setLeftHandSide(leftHandSide);
         ruleProp.setComparisonOperatorTypeKey(GuiUtil.ComparisonOperator.EQUAL_TO.name());
         ruleProp.setRightHandSide(rightHandSide);
+        
+        //create empty fule element
+        RuleElementDTO newElem = new RuleElementDTO();
+        newElem.setId("");
+        newElem.setName("");
+        newElem.setDescription("");
+        newElem.setOrdinalPosition(1);
+        newElem.setBusinessRuleElemnetTypeKey(RuleElementType.PROPOSITION.toString()); 
+        newElem.setBusinessRuleProposition(ruleProp);
 
         // populate test data
-        definedPropositions.put(1, ruleProp);
-        definedPropositions.put(2, ruleProp);
-        definedPropositions.put(3, ruleProp);
-        definedPropositions.put(4, ruleProp);
-        definedPropositions.put(5, ruleProp);
+        definedPropositions.put(1, newElem);
+        definedPropositions.put(2, newElem);
+        definedPropositions.put(3, newElem);
+        definedPropositions.put(4, newElem);
+        definedPropositions.put(5, newElem);
 
         return definedPropositions;
     }
