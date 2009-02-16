@@ -35,6 +35,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.student.core</groupId>
+			<artifactId>ks-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.student.core</groupId>
 			<artifactId>ks-core-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
