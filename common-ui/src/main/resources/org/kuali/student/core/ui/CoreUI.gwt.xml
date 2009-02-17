@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name="com.google.gwt.user.User"/>
+	
+	<inherits name="org.kuali.student.core.messages.Message"/>
+ 
+  	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
+  	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
+  	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+  	
+	<!--  <inherits name='org.gwt.mosaic.Mosaic' />
+	<stylesheet src="gwt/standard/Mosaic.css" /> -->
+	
+  	<stylesheet src="CoreUI.css"/>  	
+  	
+    
+</module>

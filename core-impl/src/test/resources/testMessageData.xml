@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<MessageList>
+         <message locale="US" groupName="Address" id="City">
+            <value>Enter the US city where you live:</value>
+         </message>
+         <message locale="US" groupName="Address" id="State">
+            <value>State:</value>
+         </message>
+         <message locale="US" groupName="Name" id="Last">
+            <value>Enter your last name:</value>
+         </message>
+         <message locale="CA" groupName="Address" id="City">
+            <value>Enter the Canadian city where you live:</value>
+         </message>
+         <message locale="CA" groupName="Address" id="State">
+            <value>Province:</value>
+         </message>
+         <message locale="CA" groupName="Name" id="Last">
+            <value>Enter your surName:</value>
+         </message>
+</MessageList>
