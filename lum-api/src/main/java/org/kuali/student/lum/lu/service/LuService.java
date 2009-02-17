@@ -24,7 +24,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
