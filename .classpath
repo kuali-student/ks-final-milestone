@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="lu-api/src/main/java" output="lu-api/target/classes"/>
-	<classpathentry kind="src" path="lu-api/src/main/resources" output="lu-api/target/classes"/>
-	<classpathentry kind="src" path="luipersonrelation-api/src/main/java" output="luipersonrelation-api/target/classes"/>
-	<classpathentry kind="src" path="luipersonrelation-api/src/main/resources" output="luipersonrelation-api/target/classes"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="lum-api/src/main/java"/>
+	<classpathentry kind="src" path="lum-api/src/main/resources"/>
+	<classpathentry kind="src" path="lum-impl/src/main/java"/>
+	<classpathentry kind="src" path="lum-impl/src/main/resources"/>
+	<classpathentry kind="src" path="lum-impl/src/test/java"/>
+	<classpathentry kind="src" path="lum-impl/src/test/resources"/>
+	<classpathentry kind="src" path="lum-ui/src/main/java"/>
+	<classpathentry kind="src" path="lum-ui/src/main/resources"/>
+	<classpathentry kind="src" path="lum-ui/src/test/resources"/>
+	<classpathentry kind="src" path="lum-web/src/main/resources"/>
+	<classpathentry kind="src" path="lum-web/src/main/webapp"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
