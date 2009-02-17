@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,130 +25,135 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuStatementInfo implements Serializable {
+public class LuStatementInfo implements Serializable, Idable, HasAttributes {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String name;
+	@XmlElement
+	private String name;
 
-    @XmlElement
-    private String desc;
+	@XmlElement
+	private String desc;
 
-    @XmlElement
-    private String operator;
+	@XmlElement
+	private String operator;
 
-    @XmlElement
-    private List<String> luStatementIds;
+	@XmlElement
+	private List<String> luStatementIds;
 
-    @XmlElement
-    private List<String> reqComponentIds;
+	@XmlElement
+	private List<String> reqComponentIds;
 
-    @XmlElement
-    private Map<String,String> attributes;
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
+	@XmlElement
+	private MetaInfo metaInfo;
 
-    @XmlAttribute
-    private String type;
+	@XmlAttribute
+	private String type;
 
-    @XmlAttribute
-    private String state;
+	@XmlAttribute
+	private String state;
 
-    @XmlAttribute
-    private String id;
+	@XmlAttribute
+	private String id;
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDesc() {
-        return desc;
-    }
+	public String getDesc() {
+		return desc;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public String getOperator() {
-        return operator;
-    }
+	public String getOperator() {
+		return operator;
+	}
 
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 
-    public List<String> getLuStatementIds() {
-        if (luStatementIds == null) {
-            luStatementIds = new ArrayList<String>();
-        }
-        return luStatementIds;
-    }
+	public List<String> getLuStatementIds() {
+		if (luStatementIds == null) {
+			luStatementIds = new ArrayList<String>();
+		}
+		return luStatementIds;
+	}
 
-    public void setLuStatementIds(List<String> luStatementIds) {
-        this.luStatementIds = luStatementIds;
-    }
+	public void setLuStatementIds(List<String> luStatementIds) {
+		this.luStatementIds = luStatementIds;
+	}
 
-    public List<String> getReqComponentIds() {
-        if (reqComponentIds == null) {
-            reqComponentIds = new ArrayList<String>();
-        }
-        return reqComponentIds;
-    }
+	public List<String> getReqComponentIds() {
+		if (reqComponentIds == null) {
+			reqComponentIds = new ArrayList<String>();
+		}
+		return reqComponentIds;
+	}
 
-    public void setReqComponentIds(List<String> reqComponentIds) {
-        this.reqComponentIds = reqComponentIds;
-    }
+	public void setReqComponentIds(List<String> reqComponentIds) {
+		this.reqComponentIds = reqComponentIds;
+	}
 
-    public Map<String,String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String,String>();
-        }
-        return attributes;
-    }
+	public Map<String, String> getAttributes() {
+		if (attributes == null) {
+			attributes = new HashMap<String, String>();
+		}
+		return attributes;
+	}
 
-    public void setAttributes(Map<String,String> attributes) {
-        this.attributes = attributes;
-    }
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
+	}
 
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
+	public MetaInfo getMetaInfo() {
+		return metaInfo;
+	}
 
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.metaInfo = metaInfo;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 }

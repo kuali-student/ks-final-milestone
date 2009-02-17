@@ -24,12 +24,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichText;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuDocRelationInfo implements Serializable {
+public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,6 +56,7 @@ public class LuDocRelationInfo implements Serializable {
     private Date expirationDate;
 
     @XmlElement
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
     @XmlElement

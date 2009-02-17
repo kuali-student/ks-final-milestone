@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,124 +24,129 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluCluRelationInfo implements Serializable {
+public class CluCluRelationInfo implements Serializable, Idable, HasAttributes {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String cluId;
+	@XmlElement
+	private String cluId;
 
-    @XmlElement
-    private String relatedCluId;
+	@XmlElement
+	private String relatedCluId;
 
-    @XmlElement
-    private Boolean isCluRelationRequired;
+	@XmlElement
+	private Boolean isCluRelationRequired;
 
-    @XmlElement
-    private Date effectiveDate;
+	@XmlElement
+	private Date effectiveDate;
 
-    @XmlElement
-    private Date expirationDate;
+	@XmlElement
+	private Date expirationDate;
 
-    @XmlElement
-    private Map<String,String> attributes;
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
+	@XmlElement
+	private MetaInfo metaInfo;
 
-    @XmlAttribute
-    private String type;
+	@XmlAttribute
+	private String type;
 
-    @XmlAttribute
-    private String state;
+	@XmlAttribute
+	private String state;
 
-    @XmlAttribute
-    private String id;
+	@XmlAttribute
+	private String id;
 
-    public String getCluId() {
-        return cluId;
-    }
+	public String getCluId() {
+		return cluId;
+	}
 
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
+	public void setCluId(String cluId) {
+		this.cluId = cluId;
+	}
 
-    public String getRelatedCluId() {
-        return relatedCluId;
-    }
+	public String getRelatedCluId() {
+		return relatedCluId;
+	}
 
-    public void setRelatedCluId(String relatedCluId) {
-        this.relatedCluId = relatedCluId;
-    }
+	public void setRelatedCluId(String relatedCluId) {
+		this.relatedCluId = relatedCluId;
+	}
 
-    public Boolean getIsCluRelationRequired() {
-        return isCluRelationRequired;
-    }
+	public Boolean getIsCluRelationRequired() {
+		return isCluRelationRequired;
+	}
 
-    public void setIsCluRelationRequired(Boolean isCluRelationRequired) {
-        this.isCluRelationRequired = isCluRelationRequired;
-    }
+	public void setIsCluRelationRequired(Boolean isCluRelationRequired) {
+		this.isCluRelationRequired = isCluRelationRequired;
+	}
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 
-    public Map<String,String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String,String>();
-        }
-        return attributes;
-    }
+	public Map<String, String> getAttributes() {
+		if (attributes == null) {
+			attributes = new HashMap<String, String>();
+		}
+		return attributes;
+	}
 
-    public void setAttributes(Map<String,String> attributes) {
-        this.attributes = attributes;
-    }
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
+	}
 
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
+	public MetaInfo getMetaInfo() {
+		return metaInfo;
+	}
 
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.metaInfo = metaInfo;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 }

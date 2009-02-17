@@ -24,9 +24,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LrTypeInfo implements Serializable {
+public class LrTypeInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,6 +48,7 @@ public class LrTypeInfo implements Serializable {
     private Date expirationDate;
 
     @XmlElement
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
     @XmlAttribute
@@ -98,4 +104,14 @@ public class LrTypeInfo implements Serializable {
     public void setKey(String key) {
         this.key = key;
     }
+
+	@Override
+	public String getId() {
+		return key;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.key=id;
+	}
 }

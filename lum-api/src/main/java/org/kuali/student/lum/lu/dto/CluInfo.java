@@ -11,13 +11,18 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.atp.dto.TimeAmountInfo;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichText;
-import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluInfo implements Serializable {
+public class CluInfo implements Serializable, Idable, HasAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,7 +63,7 @@ public class CluInfo implements Serializable {
 	private Date expirationDate;
 
 	@XmlElement
-	private TimeAmount stdDuration;
+	private TimeAmountInfo stdDuration;
 
 	@XmlElement
 	private boolean canCreateLui;
@@ -103,6 +108,7 @@ public class CluInfo implements Serializable {
 	private CluAccounting accountingInfo;
 
 	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
 	private Map<String, String> attributes;
 
 	@XmlElement
@@ -233,11 +239,11 @@ public class CluInfo implements Serializable {
 		this.expirationDate = expirationDate;
 	}
 
-	public TimeAmount getStdDuration() {
+	public TimeAmountInfo getStdDuration() {
 		return stdDuration;
 	}
 
-	public void setStdDuration(TimeAmount stdDuration) {
+	public void setStdDuration(TimeAmountInfo stdDuration) {
 		this.stdDuration = stdDuration;
 	}
 

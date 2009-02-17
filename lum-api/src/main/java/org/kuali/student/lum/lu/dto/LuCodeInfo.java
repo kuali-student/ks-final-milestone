@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,69 +23,84 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuCodeInfo implements Serializable {
+public class LuCodeInfo implements Serializable, Idable, HasAttributes {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String desc;
+	@XmlElement
+	private String desc;
 
-    @XmlElement
-    private String value;
+	@XmlElement
+	private String value;
 
-    @XmlElement
-    private Map<String,String> attributes;
+	@XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+	private Map<String, String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
+	@XmlElement
+	private MetaInfo metaInfo;
 
-    @XmlAttribute
-    private String key;
+	@XmlAttribute
+	private String key;
 
-    public String getDesc() {
-        return desc;
-    }
+	public String getDesc() {
+		return desc;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public Map<String,String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String,String>();
-        }
-        return attributes;
-    }
+	public Map<String, String> getAttributes() {
+		if (attributes == null) {
+			attributes = new HashMap<String, String>();
+		}
+		return attributes;
+	}
 
-    public void setAttributes(Map<String,String> attributes) {
-        this.attributes = attributes;
-    }
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
+	}
 
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
+	public MetaInfo getMetaInfo() {
+		return metaInfo;
+	}
 
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.metaInfo = metaInfo;
+	}
 
-    public String getKey() {
-        return key;
-    }
+	public String getKey() {
+		return key;
+	}
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	@Override
+	public String getId() {
+		return key;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.key = id;
+	}
 }

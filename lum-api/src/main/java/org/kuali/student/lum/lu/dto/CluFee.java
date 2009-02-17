@@ -22,13 +22,18 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluFee implements Serializable {
+public class CluFee implements Serializable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
 
     public Map<String,String> getAttributes() {

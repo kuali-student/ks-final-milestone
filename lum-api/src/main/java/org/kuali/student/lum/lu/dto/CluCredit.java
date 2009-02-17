@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.core.atp.dto.TimeAmountInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluCredit implements Serializable {
@@ -32,7 +32,7 @@ public class CluCredit implements Serializable {
     private String repeatCount;
 
     @XmlElement
-    private TimeAmount repeatTime;
+    private TimeAmountInfo repeatTime;
 
     @XmlElement
     private String repeatUnits;
@@ -47,16 +47,16 @@ public class CluCredit implements Serializable {
     private Integer instructorUnits;
 
     @XmlElement
-    private TimeAmount minTimeToComplete;
+    private TimeAmountInfo minTimeToComplete;
 
     @XmlElement
-    private TimeAmount maxTimeToComplete;
+    private TimeAmountInfo maxTimeToComplete;
 
     @XmlElement
-    private TimeAmount maxAllowableInactivity;
+    private TimeAmountInfo maxAllowableInactivity;
 
     @XmlElement
-    private TimeAmount maxTimeResultsRecognized;
+    private TimeAmountInfo maxTimeResultsRecognized;
 
     public String getRepeatCount() {
         return repeatCount;
@@ -66,11 +66,11 @@ public class CluCredit implements Serializable {
         this.repeatCount = repeatCount;
     }
 
-    public TimeAmount getRepeatTime() {
+    public TimeAmountInfo getRepeatTime() {
         return repeatTime;
     }
 
-    public void setRepeatTime(TimeAmount repeatTime) {
+    public void setRepeatTime(TimeAmountInfo repeatTime) {
         this.repeatTime = repeatTime;
     }
 
@@ -106,35 +106,35 @@ public class CluCredit implements Serializable {
         this.instructorUnits = instructorUnits;
     }
 
-    public TimeAmount getMinTimeToComplete() {
+    public TimeAmountInfo getMinTimeToComplete() {
         return minTimeToComplete;
     }
 
-    public void setMinTimeToComplete(TimeAmount minTimeToComplete) {
+    public void setMinTimeToComplete(TimeAmountInfo minTimeToComplete) {
         this.minTimeToComplete = minTimeToComplete;
     }
 
-    public TimeAmount getMaxTimeToComplete() {
+    public TimeAmountInfo getMaxTimeToComplete() {
         return maxTimeToComplete;
     }
 
-    public void setMaxTimeToComplete(TimeAmount maxTimeToComplete) {
+    public void setMaxTimeToComplete(TimeAmountInfo maxTimeToComplete) {
         this.maxTimeToComplete = maxTimeToComplete;
     }
 
-    public TimeAmount getMaxAllowableInactivity() {
+    public TimeAmountInfo getMaxAllowableInactivity() {
         return maxAllowableInactivity;
     }
 
-    public void setMaxAllowableInactivity(TimeAmount maxAllowableInactivity) {
+    public void setMaxAllowableInactivity(TimeAmountInfo maxAllowableInactivity) {
         this.maxAllowableInactivity = maxAllowableInactivity;
     }
 
-    public TimeAmount getMaxTimeResultsRecognized() {
+    public TimeAmountInfo getMaxTimeResultsRecognized() {
         return maxTimeResultsRecognized;
     }
 
-    public void setMaxTimeResultsRecognized(TimeAmount maxTimeResultsRecognized) {
+    public void setMaxTimeResultsRecognized(TimeAmountInfo maxTimeResultsRecognized) {
         this.maxTimeResultsRecognized = maxTimeResultsRecognized;
     }
 }
