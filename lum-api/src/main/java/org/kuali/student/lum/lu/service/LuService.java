@@ -15,16 +15,15 @@
  */
 package org.kuali.student.lum.lu.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.enumerable.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.service.EnumerableService;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
@@ -40,9 +39,7 @@ import org.kuali.student.core.rules.dto.ReqComponentInfo;
 import org.kuali.student.core.rules.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
@@ -64,114 +61,7 @@ import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 
 @WebService(name = "LuService", targetNamespace = "http://student.kuali.org/lum/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuService {
-    /** 
-     * Retrieves the list of Object Types used that are known by this service. Examples cluinfo,...
-     * @return list of Objects
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getObjectTypes() throws OperationFailedException;
-
-    /** 
-     * Retrieves the basic Dictionary information about a particular object Structure. Including all variations based on a certain Type and State. Example: Given that a Clu is of type Course and in the state of Proposed, tell which fields are read only, mandatory, not applicable, have enumerations available, etc.
-     * @param objectTypeKey The identifier of the Object
-     * @return objectStructure
-     * @throws DoesNotExistException objectTypeKey not found
-     * @throws InvalidParameterException invalid objectTypeKey
-     * @throws MissingParameterException missing objectTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public ObjectStructure getObjectStructure(@WebParam(name="objectTypeKey")String objectTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of Enumeration Values for a particular Enumeration with a certain Context for a particular date. The values returned should be those where the supplied date is between the effective and expiration dates. Certain enumerations may not support this functionality.
-     * @param enumerationKey Identifier for the Enumeration
-     * @param contextType Identifier for the enumeration context type
-     * @param contextValue Value for the enumeration context
-     * @param contextDate date and time to get the enumeration for
-     * @return list of Codes and Values
-     * @throws DoesNotExistException enumerationKey not found
-     * @throws InvalidParameterException invalid enumerationKey, contextType, contextValue, contextDate
-     * @throws MissingParameterException missing enumerationKey, contextType, contextValue, contextDate
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<EnumeratedValue> getEnumeration(@WebParam(name="enumerationKey")String enumerationKey, @WebParam(name="contextType")String contextType, @WebParam(name="contextValue")String contextValue, @WebParam(name="contextDate")Date contextDate) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of searches known by this service
-     * @return list of search information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException;
-
-    /** 
-     * Retrieves meta information about a particular search
-     * @param searchTypeKey search identifier
-     * @return list of search information
-     * @throws DoesNotExistException specified search type not found
-     * @throws InvalidParameterException invalid searchTypeKey
-     * @throws MissingParameterException searchTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey")String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of searches which return results in the specified format
-     * @param searchResultTypeKey search result identifier
-     * @return list of search information
-     * @throws DoesNotExistException specified search result type not found
-     * @throws InvalidParameterException invalid searchResultTypeKey
-     * @throws MissingParameterException searchResultTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey")String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of searches which use criteria in the specified format
-     * @param searchCriteriaTypeKey search criteria identifier
-     * @return list of search information
-     * @throws DoesNotExistException specified search criteria type not found
-     * @throws InvalidParameterException invalid searchCriteriaTypeKey
-     * @throws MissingParameterException searchCriteriaTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey")String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of search results known by this service. Search results describe the return structure for a search.
-     * @return list of search information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException;
-
-    /** 
-     * Retrieves meta information about a particular search result. Search results describe the return structure for a search.
-     * @param searchResultTypeKey search result identifier
-     * @return search result information
-     * @throws DoesNotExistException specified search result type not found
-     * @throws InvalidParameterException invalid searchResultTypeKey
-     * @throws MissingParameterException searchResultTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey")String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of search criteria structures known by this service
-     * @return list of search criteria information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException;
-
-    /** 
-     * Retrieves meta information about a particular search criteria
-     * @param searchCriteriaTypeKey search criteria identifier
-     * @return search criteria information
-     * @throws DoesNotExistException specified search criteria type not found
-     * @throws InvalidParameterException invalid searchCriteriaTypeKey
-     * @throws MissingParameterException searchCriteriaTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey")String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+public interface LuService extends DictionaryService, EnumerableService, SearchService {
 
     /** 
      * Retrieves the list of LU types
