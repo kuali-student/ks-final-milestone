@@ -6,16 +6,13 @@
 	<persistence-unit name="Lu" transaction-type="JTA">
 		<class>org.kuali.student.core.entity.Type</class>
 		<class>org.kuali.student.core.entity.Attribute</class>
-		<class>org.kuali.student.core.entity.AttributeDef</class>
 		<class>org.kuali.student.core.entity.TypeAttribute</class>
-		<class>org.kuali.student.core.entity.TypeAttributeDef</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 		
 		<class>org.kuali.student.lum.lu.entity.Clu</class>
 		<class>org.kuali.student.lum.lu.entity.CluAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluAttributeDef</class>
 		<class>org.kuali.student.lum.lu.entity.CluCluRelation</class>
 		<class>org.kuali.student.lum.lu.entity.CluSet</class>
 		<class>org.kuali.student.lum.lu.entity.LearningObjective</class>
@@ -23,7 +20,6 @@
 		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.Lui</class>
 		<class>org.kuali.student.lum.lu.entity.LuiAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuiAttributeDef</class>
 		<class>org.kuali.student.lum.lu.entity.LuiLuiRelation</class>
 		<class>org.kuali.student.lum.lu.entity.LuLuRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.LuStatement</class>

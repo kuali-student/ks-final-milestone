@@ -27,6 +27,7 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.validation.dto.ValidationResult;
+import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCriteria;
@@ -50,6 +51,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LuServiceImpl implements LuService {
 
+	private LuDao luDao;
+	
 	@Override
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
@@ -1232,6 +1235,14 @@ public class LuServiceImpl implements LuService {
 			OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public LuDao getLuDao() {
+		return luDao;
+	}
+
+	public void setLuDao(LuDao luDao) {
+		this.luDao = luDao;
 	}
 
 }
