@@ -22,7 +22,7 @@ public class AddEnumeratedValue {
     @XmlElement(name = "enumerationKey")
     private java.lang.String enumerationKey;
     @XmlElement(name = "value")
-    private org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue value;
+    private org.kuali.student.core.enumerable.dto.EnumeratedValue value;
 
     public java.lang.String getEnumerationKey() {
         return this.enumerationKey;
@@ -32,11 +32,11 @@ public class AddEnumeratedValue {
         this.enumerationKey = newEnumerationKey;
     }
 
-    public org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue getValue() {
+    public org.kuali.student.core.enumerable.dto.EnumeratedValue getValue() {
         return this.value;
     }
 
-    public void setValue(org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue newValue)  {
+    public void setValue(org.kuali.student.core.enumerable.dto.EnumeratedValue newValue)  {
         this.value = newValue;
     }
 

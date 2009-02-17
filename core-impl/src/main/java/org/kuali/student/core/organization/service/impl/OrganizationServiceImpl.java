@@ -7,9 +7,9 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
-import org.kuali.student.core.dictionary.dto.EnumeratedValue;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
@@ -797,8 +797,21 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
-		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+//		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+//		
+//		JAXBContext context;
+//		try {
+//			context = JAXBContext.newInstance(SearchTypeInfo.class);
+//			Unmarshaller unmarshaller = context.createUnmarshaller();
+//			ClassPathResource cpr = new ClassPathResource("organization-searchTypeInfo.xml");
+//			SearchTypeInfo s = (SearchTypeInfo)unmarshaller.unmarshal(cpr.getFile());
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
+		
 		return null;
 	}
 

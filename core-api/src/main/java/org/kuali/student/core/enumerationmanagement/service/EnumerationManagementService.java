@@ -7,8 +7,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueList;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValues;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMeta;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaList;
 
@@ -23,7 +23,7 @@ public interface EnumerationManagementService {
     public EnumerationMeta fetchEnumerationMeta(@WebParam(name = "enumerationKey") String enumerationKey);
 
     @WebMethod
-    public EnumeratedValueList fetchEnumeration(
+    public EnumeratedValues fetchEnumeration(
             @WebParam(name = "enumerationKey") String enumerationKey, 
             @WebParam(name = "enumContextKey") String enumContextKey, 
             @WebParam(name = "contextValue")   String contextValue, 

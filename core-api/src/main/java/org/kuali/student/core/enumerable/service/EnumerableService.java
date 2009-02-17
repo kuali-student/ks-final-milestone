@@ -10,7 +10,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kuali.student.core.dictionary.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 @WebService(name = "EnumerableService", targetNamespace = "http://student.kuali.org/core/enumerable")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerableService {

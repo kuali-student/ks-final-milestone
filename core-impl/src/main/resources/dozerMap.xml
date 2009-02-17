@@ -10,7 +10,7 @@
 
  <mapping>
     <class-a>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class-a>
-    <class-b>org.kuali.student.core.enumerationmanagement.dto.Context</class-b>
+    <class-b>org.kuali.student.core.dictionary.dto.Context</class-b>
       <field>
         <a>contextKey</a>
         <b>type</b>
@@ -24,7 +24,7 @@
  
   <mapping>
     <class-a>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity</class-a>
-    <class-b>org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue</class-b>
+    <class-b>org.kuali.student.core.enumerable.dto.EnumeratedValue</class-b>
       <field>
         <a>contextEntityList</a>
         <b>contexts.context</b>

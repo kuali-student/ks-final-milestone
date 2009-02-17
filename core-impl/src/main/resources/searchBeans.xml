@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension file:///C:/dev/ks/ks-core/core-impl/src/main/resources/search-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+	<search:fieldDescriptor id="org.fieldDescriptor.orgType"
+		xmlns="http://student.kuali.org/xsd/search-extension">
+		<name>OrgType</name>
+		<desc>String to be matched against OrganizationType</desc>
+		<search:dataType>string</search:dataType>
+		<search:minLength>1</search:minLength>
+		<search:maxLength>50</search:maxLength>
+		<search:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZ.</search:validChars>
+		<search:minOccurs>1</search:minOccurs>
+		<search:maxOccurs>1</search:maxOccurs>
+	</search:fieldDescriptor>
+	<search:queryParam id="org.queryParam.orgType"
+		xmlns="http://student.kuali.org/xsd/search-extension">
+		<fieldDescriptorRef ref="org.fieldDescriptor.orgType" />
+	</search:queryParam>
+	<search:searchCriteria id="org.searchCriteria.orgByOrgType" xmlns="http://student.kuali.org/xsd/search-extension">
+		<search:name>OrgByOrgTypeCriteria</search:name>
+		<search:desc>OrgByOrgTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<search:queryParamRef ref="org.queryParam.orgType"></search:queryParamRef>
+		</search:queryParams>
+	</search:searchCriteria>
+</beans>

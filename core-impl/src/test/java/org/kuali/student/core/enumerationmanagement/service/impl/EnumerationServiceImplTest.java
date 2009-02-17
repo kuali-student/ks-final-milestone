@@ -13,16 +13,16 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.core.dictionary.dto.Context;
+import org.kuali.student.core.dictionary.dto.Contexts;
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValues;
 import org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl;
-import org.kuali.student.core.enumerationmanagement.dto.Context;
-import org.kuali.student.core.enumerationmanagement.dto.Contexts;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueField;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueFields;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueList;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMeta;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaList;
-import org.kuali.student.core.enumerationmanagement.dto.FieldDescriptor;
 import org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
 import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
@@ -276,25 +276,25 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         enumerationManagementDAO.addEnumeratedValue("Key1", entity4);
         enumService.setEnumDAO(enumerationManagementDAO);
         
-        EnumeratedValueList result = enumService.fetchEnumeration("Key1", "country", "US", new Date(baseTime));
-        List<EnumeratedValue> list = result.getEnumeratedValue();
+        EnumeratedValues result = enumService.fetchEnumeration("Key1", "country", "US", new Date(baseTime));
+        List<EnumeratedValue> list = result.getEnumeratedValues();
         assertEquals(list.size(), 2);
         
         result =  
         	enumService.fetchEnumeration("Key1", null, null, null);
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 4);
         
         result =  
         	enumService.fetchEnumeration("Key1" , "country", "CA", null);
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 2);
         
 
         
         result =  
         	enumService.fetchEnumeration("Key1" , "country", "US", null);
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 2);
         
         //testing accuracy
@@ -332,31 +332,31 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         
         result =  
         	enumService.fetchEnumeration("Key1", null, null, new Date(baseTime));
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 4);
         
         result =  
         	enumService.fetchEnumeration("Key1", null, null, new Date(baseTime+40000000L));
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 2);
         
         result =  
         	enumService.fetchEnumeration("Key1" , "country", "US", new Date(baseTime+40000000L));
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 1);
         
         result =  
         	enumService.fetchEnumeration("Key1" , "country", "CA", new Date(baseTime+40000000L));
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 1);
         
         result =  
         	enumService.fetchEnumeration("Key1" , "country", "CA", new Date(baseTime));
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertEquals(list.size(), 2);
         
         result = enumService.fetchEnumeration(null, null, null, null);
-        list = result.getEnumeratedValue();
+        list = result.getEnumeratedValues();
         assertTrue(list.isEmpty());
         
 	}
@@ -384,8 +384,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dtoContext.add(newContext);
         dto.getContexts().setContext(dtoContext);
 		enumService.addEnumeratedValue("Key2", dto);
-		EnumeratedValueList result = enumService.fetchEnumeration("Key2", "ContextA", "1", new Date(baseTime));
-		List<EnumeratedValue> list = result.getEnumeratedValue();
+		EnumeratedValues result = enumService.fetchEnumeration("Key2", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValue> list = result.getEnumeratedValues();
 		assertEquals(list.size(), 1);
 		EnumeratedValue listItem = list.get(0);
 		
@@ -428,8 +428,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.getContexts().setContext(dtoContext);
         //add first
 		enumService.addEnumeratedValue("Key3", dto);
-		EnumeratedValueList result = enumService.fetchEnumeration("Key3", "ContextA", "1", new Date(baseTime));
-		List<EnumeratedValue> list = result.getEnumeratedValue();
+		EnumeratedValues result = enumService.fetchEnumeration("Key3", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValue> list = result.getEnumeratedValues();
 		assertEquals(list.size(), 1);
 		EnumeratedValue listItem = list.get(0);
 		
@@ -456,7 +456,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         enumService.updateEnumeratedValue("Key3", "c", dto);
 		
         result = enumService.fetchEnumeration("Key3", "newType", "newContextValue", new Date(baseTime));
-		list = result.getEnumeratedValue();
+		list = result.getEnumeratedValues();
 		assertEquals(list.size(), 1);
 		listItem = list.get(0);
 		
@@ -500,8 +500,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         //add first
 		enumService.addEnumeratedValue("Key4", dto);
 		enumService.removeEnumeratedValue("Key4", "c");
-		EnumeratedValueList result = enumService.fetchEnumeration("Key4", "ContextA", "1", new Date(baseTime));
-		List<EnumeratedValue> list = result.getEnumeratedValue();
+		EnumeratedValues result = enumService.fetchEnumeration("Key4", "ContextA", "1", new Date(baseTime));
+		List<EnumeratedValue> list = result.getEnumeratedValues();
 		assertTrue(list.isEmpty());
 	}
 	
@@ -512,15 +512,15 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 
 		DataGenerator.generate(enumService);
 		
-		EnumeratedValueList result = enumService.fetchEnumeration("SemesterEnum", null, null, null);
-		List<EnumeratedValue> list = result.getEnumeratedValue();
+		EnumeratedValues result = enumService.fetchEnumeration("SemesterEnum", null, null, null);
+		List<EnumeratedValue> list = result.getEnumeratedValues();
 		assertEquals(list.size(), 10);
 		for(EnumeratedValue e: list){
 			assertTrue(e.getValue().contains("Semester"));
 		}
 		
 		result = enumService.fetchEnumeration("CityEnum", null, null, null);
-		list = result.getEnumeratedValue();
+		list = result.getEnumeratedValues();
 		assertEquals(list.size(), 10);
 		for(EnumeratedValue e: list){
 			assertTrue(e.getValue().contains("City"));

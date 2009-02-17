@@ -7,11 +7,11 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValues;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueField;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueList;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMeta;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMetaList;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
@@ -103,8 +103,8 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         return valueDTO;
     }
 
-    public EnumeratedValueList fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
-        EnumeratedValueList enumeratedValueListDTO = new EnumeratedValueList();
+    public EnumeratedValues fetchEnumeration(String enumerationKey, String enumContextKey, String contextValue, Date contextDate) {
+        EnumeratedValues enumeratedValuesDTO = new EnumeratedValues();
         List<EnumeratedValueEntity> enumeratedValueEntityList = new ArrayList<EnumeratedValueEntity>();
         if(enumerationKey != null && enumContextKey != null && contextValue != null && contextDate != null){
         	enumeratedValueEntityList = enumDAO.fetchEnumerationWithContextAndDate(enumerationKey, enumContextKey, contextValue, contextDate);
@@ -121,8 +121,8 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         
         List<EnumeratedValue> enumeratedValueList = POJOConverter.mapList(enumeratedValueEntityList, EnumeratedValue.class);
         
-        enumeratedValueListDTO.setEnumeratedValue(enumeratedValueList);
-        return enumeratedValueListDTO;
+        enumeratedValuesDTO.setEnumeratedValues(enumeratedValueList);
+        return enumeratedValuesDTO;
     }
 
     public EnumerationMeta fetchEnumerationMeta(String enumerationKey) {

@@ -14,6 +14,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.kuali.student.core.dictionary.dto.ContextValueDescriptor;
+
 
 /**
  * <p>Java class for anonymous complex type.

@@ -7,14 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.core.enumerationmanagement.dto.Context;
-import org.kuali.student.core.enumerationmanagement.dto.ContextValueDescriptor;
-import org.kuali.student.core.enumerationmanagement.dto.Contexts;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue;
+import org.kuali.student.core.dictionary.dto.Context;
+import org.kuali.student.core.dictionary.dto.ContextValueDescriptor;
+import org.kuali.student.core.dictionary.dto.Contexts;
+import org.kuali.student.core.dictionary.dto.FieldDescriptor;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueField;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueFields;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationMeta;
-import org.kuali.student.core.enumerationmanagement.dto.FieldDescriptor;
 import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
 import org.kuali.student.core.enumerationmanagement.entity.ContextMetaEntity;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValueEntity;
@@ -211,10 +211,10 @@ public class DozerTest {
     	
     	POJOConverter.map(dao, dto);
     	assertEquals(dao.getDataType(), dto.getDataType());
-    	assertEquals(dao.getMaxLength(), dto.getMaxLength());
-    	assertEquals(dao.getMinLength(), dto.getMinLength());
-    	assertEquals(dao.getMinOccurs(), dto.getMinOccurs());
-    	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
+    	assertEquals(new Integer(dao.getMaxLength()), dto.getMaxLength());
+    	assertEquals(new Integer(dao.getMinLength()), dto.getMinLength());
+    	assertEquals(new Integer(dao.getMinOccurs()), dto.getMinOccurs());
+    	assertEquals(new Integer(dao.getMaxOccurs()), dto.getMaxOccurs());
     	
     }
 	@Test
@@ -230,10 +230,10 @@ public class DozerTest {
     	
     	POJOConverter.map(dto, dao);
     	assertEquals(dao.getDataType(), dto.getDataType());
-    	assertEquals(dao.getMaxLength(), dto.getMaxLength());
-    	assertEquals(dao.getMinLength(), dto.getMinLength());
-    	assertEquals(dao.getMinOccurs(), dto.getMinOccurs());
-    	assertEquals(dao.getMaxOccurs(), dto.getMaxOccurs());
+    	assertEquals(new Integer(dao.getMaxLength()), dto.getMaxLength());
+    	assertEquals(new Integer(dao.getMinLength()), dto.getMinLength());
+    	assertEquals(new Integer(dao.getMinOccurs()), dto.getMinOccurs());
+    	assertEquals(new Integer(dao.getMaxOccurs()), dto.getMaxOccurs());
     }
 	@Test
     public void testDAOtoDTOEnumerationMeta(){

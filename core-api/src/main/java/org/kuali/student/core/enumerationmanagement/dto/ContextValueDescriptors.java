@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.core.dictionary.dto.ContextValueDescriptor;
+
 
 /**
  * <p>Java class for anonymous complex type.

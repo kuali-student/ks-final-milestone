@@ -24,7 +24,7 @@ public class UpdateEnumeratedValue {
     @XmlElement(name = "code")
     private java.lang.String code;
     @XmlElement(name = "value")
-    private org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue value;
+    private org.kuali.student.core.enumerable.dto.EnumeratedValue value;
 
     public java.lang.String getEnumerationKey() {
         return this.enumerationKey;
@@ -42,11 +42,11 @@ public class UpdateEnumeratedValue {
         this.code = newCode;
     }
 
-    public org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue getValue() {
+    public org.kuali.student.core.enumerable.dto.EnumeratedValue getValue() {
         return this.value;
     }
 
-    public void setValue(org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue newValue)  {
+    public void setValue(org.kuali.student.core.enumerable.dto.EnumeratedValue newValue)  {
         this.value = newValue;
     }
 

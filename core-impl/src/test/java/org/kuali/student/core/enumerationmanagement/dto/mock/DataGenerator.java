@@ -2,7 +2,7 @@ package org.kuali.student.core.enumerationmanagement.dto.mock;
 
 import java.util.List;
 
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl;
 
 public class DataGenerator{

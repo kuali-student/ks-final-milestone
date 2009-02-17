@@ -18,8 +18,8 @@ package org.kuali.student.core.enumerationmanagement.dto.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.enumerationmanagement.dto.Context;
-import org.kuali.student.core.enumerationmanagement.dto.Contexts;
+import org.kuali.student.core.dictionary.dto.Context;
+import org.kuali.student.core.dictionary.dto.Contexts;
 
 /**
  * Creates a Contexts (List) of Context DTOs, use to initialize database for testing 

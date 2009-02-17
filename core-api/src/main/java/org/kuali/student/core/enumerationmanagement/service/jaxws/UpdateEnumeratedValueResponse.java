@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class UpdateEnumeratedValueResponse {
 
     @XmlElement(name = "return")
-    private org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue _return;
+    private org.kuali.student.core.enumerable.dto.EnumeratedValue _return;
 
-    public org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue getReturn() {
+    public org.kuali.student.core.enumerable.dto.EnumeratedValue getReturn() {
         return this._return;
     }
 
-    public void setReturn(org.kuali.student.core.enumerationmanagement.dto.EnumeratedValue new_return)  {
+    public void setReturn(org.kuali.student.core.enumerable.dto.EnumeratedValue new_return)  {
         this._return = new_return;
     }
 

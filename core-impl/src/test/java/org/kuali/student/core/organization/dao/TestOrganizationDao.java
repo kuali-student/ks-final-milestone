@@ -37,33 +37,6 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		List<OrgTreeInfo> orgTreeInfos = dao.getOrgTreeInfo("4", "kuali.org.hierarchy.Main");
 		assertEquals(8,orgTreeInfos.size());
 	}
-	
-//	@Test
-//	@Rollback(false)
-//	public void createNestedData(){
-//		List<OrgHierarchy> ohs = dao.find(OrgHierarchy.class);
-//		for(OrgHierarchy oh:ohs){
-//			updateNested(oh.getRootOrg().getId(),oh.getKey(),1,new HashSet<String>());
-//		}
-//		
-//	}
-//	
-//	private long updateNested(String orgId, String orgHierarchy, long i,
-//			HashSet<String> visited) {
-//		long curr = i;
-//		for(OrgOrgRelation oor:dao.getOrgOrgRelationsByOrg(orgId)){
-//			if(oor.getType().getOrgHierarchy().getKey().equals(orgHierarchy)&&!visited.contains(oor.getId())){
-//				visited.add(oor.getId());
-//				curr++;
-//				oor.setLeft(String.valueOf(curr));
-//				curr = updateNested(oor.getRelatedOrg().getId(), orgHierarchy, curr,visited)+1;
-//				oor.setRight(String.valueOf(curr));
-//				dao.update(oor);
-//				em.flush();
-//			}
-//		}
-//		return curr;
-//	}
 
 	@Test
 	public void testCreateOrganization() throws DoesNotExistException {

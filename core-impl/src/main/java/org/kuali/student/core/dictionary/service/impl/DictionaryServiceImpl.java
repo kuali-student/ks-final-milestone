@@ -13,10 +13,10 @@ import javax.xml.bind.Unmarshaller;
 import org.kuali.student.core.dictionary.DictionaryException;
 import org.kuali.student.core.dictionary.dto.Context;
 import org.kuali.student.core.dictionary.dto.Dictionary;
-import org.kuali.student.core.dictionary.dto.EnumeratedValue;
-import org.kuali.student.core.dictionary.dto.EnumeratedValues;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,14 +68,14 @@ public class DictionaryServiceImpl implements DictionaryService {
 				}
 
 				if(enumContextKey == null || contextValue == null){
-					for(EnumeratedValue e: enums.getEnumeratedValue()){
+					for(EnumeratedValue e: enums.getEnumeratedValues()){
 						if(enumValidForDate(e, contextDate)){
 							eVals.add(e);
 						}
 					}
 				}
 				else{
-					for(EnumeratedValue e: enums.getEnumeratedValue()){
+					for(EnumeratedValue e: enums.getEnumeratedValues()){
 						if(enumValidForDate(e, contextDate)){
 							for(Context c: e.getContexts().getContext()){
 								//check context type and value match

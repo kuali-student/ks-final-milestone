@@ -10,6 +10,9 @@ package org.kuali.student.core.dictionary.dto;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
+import org.kuali.student.core.enumerable.dto.EnumeratedValue;
+import org.kuali.student.core.enumerable.dto.EnumeratedValues;
+
 
 /**
  * This object contains factory methods for each 
