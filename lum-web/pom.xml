@@ -1,18 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>ks-lum</artifactId>
+	<artifactId>ks-lum-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>KS LUM-Aggregate</name>
-	<description>KS Learning Unit Management Aggregate POM</description>
-	<packaging>pom</packaging>
+	<packaging>war</packaging>
+	<name>KS Lum-Web</name>
+	<description>KS Learning Unit Management-web</description>
 
-	<modules>
-		<module>lum-api</module>
-		<module>lum-impl</module>
-		<module>lum-ui</module>
-		<module>lum-web</module>
-	</modules>
-
+	<parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
 </project>
