@@ -65,7 +65,54 @@ public class Validator {
     }
 
     private void validateLong(Object value, Map<String, String> fieldDesc, ValidationResult result) {
-        // TODO implement this
+        Long v = null;
+        Integer minOccurs = getInteger("minOccurs", fieldDesc);
+
+        if (value == null) {
+            if (minOccurs != null && minOccurs > 0) {
+                result.addError(messages.get("validation.required"));
+            }
+            return;
+        }
+
+        if (value instanceof Number) {
+            v = ((Number) value).longValue();
+        } else {
+            String s = value.toString().trim();
+            if (s.equals("")) {
+                if (minOccurs != null && minOccurs > 0) {
+                    result.addError(messages.get("validation.required"));
+                }
+                return;
+            } else {
+                try {
+                    v = Long.valueOf(value.toString());
+                } catch (Exception e) {
+                    result.addError(messages.get("validation.mustBeInteger"));
+                }
+            }
+        }
+
+        if (result.isOk()) {
+            Long maxValue = getLong("maxValue", fieldDesc);
+            Long minValue = getLong("minValue", fieldDesc);
+
+            if (maxValue != null && minValue != null) {
+                // validate range
+                if (v > maxValue || v < minValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.outOfRange"), fieldDesc));
+                }
+            } else if (maxValue != null) {
+                if (v > maxValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.maxValueFailed"), fieldDesc));
+                }
+            } else if (minValue != null) {
+                if (v < minValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.minValueFailed"), fieldDesc));
+                }
+            }
+        }
+
     }
 
     private void validateInteger(Object value, Map<String, String> fieldDesc, ValidationResult result) {
@@ -99,7 +146,7 @@ public class Validator {
 
         if (result.isOk()) {
             Integer maxValue = getInteger("maxValue", fieldDesc);
-            Integer minValue = getInteger("maxValue", fieldDesc);
+            Integer minValue = getInteger("minValue", fieldDesc);
 
             if (maxValue != null && minValue != null) {
                 // validate range
@@ -150,7 +197,7 @@ public class Validator {
 
         if (result.isOk()) {
             Date maxValue = getDate("maxValue", fieldDesc);
-            Date minValue = getDate("maxValue", fieldDesc);
+            Date minValue = getDate("minValue", fieldDesc);
 
             if (maxValue != null && minValue != null) {
                 // validate range
@@ -198,23 +245,27 @@ public class Validator {
         }
 
         // validChars, a non-set valid chars field means all characters valid (other than those in invalid)
-        String validChars = ((String) fieldDesc.get("validChars")).trim();
-        if (validChars != null && !validChars.equals("")) {
-            char[] valueChars = s.toCharArray();
-            for (char c : valueChars) {
-                if (validChars.indexOf(c) == -1) {
-                    result.addError(MessageUtils.interpolate(messages.get("validation.validCharsFailed"), fieldDesc));
+        if(fieldDesc.get("validChars") != null) {
+            String validChars = ((String) fieldDesc.get("validChars")).trim();
+            if (!validChars.equals("")) {
+                char[] valueChars = s.toCharArray();
+                for (char c : valueChars) {
+                    if (validChars.indexOf(c) == -1) {
+                        result.addError(MessageUtils.interpolate(messages.get("validation.validCharsFailed"), fieldDesc));
+                    }
                 }
+    
             }
-
         }
         // invalidChars, a non-set invalid chars field means no chars are specified as invalid
-        String invalidChars = ((String) fieldDesc.get("invalidChars")).trim();
-        if (invalidChars != null && !invalidChars.equals("")) {
-            char[] valueChars = s.toCharArray();
-            for (char c : valueChars) {
-                if (invalidChars.indexOf(c) >= 0) {
-                    result.addError(MessageUtils.interpolate(messages.get("validation.invalidCharsFailed"), fieldDesc));
+        if(fieldDesc.get("invalidChars") != null) {
+            String invalidChars = ((String) fieldDesc.get("invalidChars")).trim();
+            if (!invalidChars.equals("")) {
+                char[] valueChars = s.toCharArray();
+                for (char c : valueChars) {
+                    if (invalidChars.indexOf(c) >= 0) {
+                        result.addError(MessageUtils.interpolate(messages.get("validation.invalidCharsFailed"), fieldDesc));
+                    }
                 }
             }
         }
@@ -226,6 +277,15 @@ public class Validator {
         String s = m.get(key);
         if (s != null && s.trim().length() > 0) {
             result = Integer.valueOf(s.trim());
+        }
+        return result;
+    }
+
+    private Long getLong(String key, Map<String, String> m) {
+        Long result = null;
+        String s = m.get(key);
+        if (s != null && s.trim().length() > 0) {
+            result = Long.valueOf(s.trim());
         }
         return result;
     }

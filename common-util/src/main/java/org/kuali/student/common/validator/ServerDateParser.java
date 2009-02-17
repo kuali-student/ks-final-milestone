@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ServerDateParser implements DateParser {
-    SimpleDateFormat[] formats = {new SimpleDateFormat("yyyy-MM-dd"), new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss,SSS")};
+    SimpleDateFormat[] formats = {new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"), new SimpleDateFormat("yyyy-MM-dd")};
     
     public Date parseDate(String input) {
         Date result = null;
