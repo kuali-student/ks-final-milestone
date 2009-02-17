@@ -60,9 +60,9 @@ import org.kuali.student.lum.lu.dto.LuiCriteria;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.entity.LuLuRelationType;
 
-@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/core/lu")
+
+@WebService(name = "LuService", targetNamespace = "http://student.kuali.org/lum/lu")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuService {
     /** 
@@ -196,7 +196,7 @@ public interface LuService {
      * @return list of LU to LU relation type information
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LuLuRelationTypeInfo> getLuLuRelationTypes() throws OperationFailedException;
+    public List<LuLuRelationTypeInfo> getLuLuRelationTypeInfos() throws OperationFailedException;
 
     /** 
      * Retrieves the LU to LU relation type
@@ -204,7 +204,7 @@ public interface LuService {
      * @return LU to LU relation type information
      * @throws OperationFailedException unable to complete request
 	 */
-    public LuLuRelationTypeInfo getLuLuRelationType(@WebParam(name="luLuRelationTypeKey")String luLuRelationTypeKey) throws OperationFailedException;
+    public LuLuRelationTypeInfo getLuLuRelationTypeInfo(@WebParam(name="luLuRelationTypeKey")String luLuRelationTypeKey) throws OperationFailedException;
 
     /** 
      * Retrieves the list of allowed relation types between the two specified LU Types
@@ -216,7 +216,7 @@ public interface LuService {
      * @throws MissingParameterException missing luTypeKey, relatedLuTypeKey
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getAllowedLuLuRelationTypesForLuType(@WebParam(name="luTypeKey")String luTypeKey, @WebParam(name="relatedLuTypeKey")String relatedLuTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getAllowedLuLuRelationTypeInfosForLuType(@WebParam(name="luTypeKey")String luTypeKey, @WebParam(name="relatedLuTypeKey")String relatedLuTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of learning result types known by this service
@@ -508,7 +508,7 @@ public interface LuService {
      * @throws MissingParameterException missing cluId, relatedCluId
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getAllowedLuLuRelationTypesByCluId(@WebParam(name="cluId")String cluId, @WebParam(name="relatedCluId")String relatedCluId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getAllowedLuLuRelationTypeInfosByCluId(@WebParam(name="cluId")String cluId, @WebParam(name="relatedCluId")String relatedCluId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of allowed relation types between the two specified LUIs
@@ -520,7 +520,7 @@ public interface LuService {
      * @throws MissingParameterException missing luiId, relatedLuiId
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getAllowedLuLuRelationTypesByLuiId(@WebParam(name="luiId")String luiId, @WebParam(name="relatedLuiId")String relatedLuiId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getAllowedLuLuRelationTypeInfosByLuiId(@WebParam(name="luiId")String luiId, @WebParam(name="relatedLuiId")String relatedLuiId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of CLU information for the CLUs related to a specified CLU Id with a certain LU to LU relation type (getRelatedClusByCluId from the other direction)
@@ -532,7 +532,7 @@ public interface LuService {
      * @throws MissingParameterException missing relatedCluId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<CluInfo> getClusByRelation(@WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<CluInfo> getClusByRelation(@WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of CLU Ids for the specified related CLU Id and LU to LU relation type (getRelatedCluIdsByCluId from the other direction)
@@ -544,7 +544,7 @@ public interface LuService {
      * @throws MissingParameterException missing relatedCluId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getCluIdsByRelation(@WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getCluIdsByRelation(@WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of LUI information for the LUIs related to the specified LUI Id with a certain LU to LU relation type (getRelatedLuisByLuiId from the other direction)
@@ -556,7 +556,7 @@ public interface LuService {
      * @throws MissingParameterException missing relatedLuiId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LuiInfo> getLuisByRelation(@WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getLuisByRelation(@WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of LUI Ids for the specified related LUI Id and LU to LU relation type (getRelatedLuiIdsByLuiId from the other direction)
@@ -568,7 +568,7 @@ public interface LuService {
      * @throws MissingParameterException missing relatedLuiId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getLuiIdsByRelation(@WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiIdsByRelation(@WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of related CLU information for the specified CLU Id and LU to LU relation type (getClusByRelation from the other direction)
@@ -580,7 +580,7 @@ public interface LuService {
      * @throws MissingParameterException missing cluId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<CluInfo> getRelatedClusByCluId(@WebParam(name="cluId")String cluId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<CluInfo> getRelatedClusByCluId(@WebParam(name="cluId")String cluId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of related CLU Ids for the specified CLU Id and LU to LU relation type (getCluIdsByRelation from the other direction)
@@ -592,7 +592,7 @@ public interface LuService {
      * @throws MissingParameterException missing cluId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getRelatedCluIdsByCluId(@WebParam(name="cluId")String cluId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getRelatedCluIdsByCluId(@WebParam(name="cluId")String cluId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of related LUI information for the specified LUI Id and LU to LU relation type (getLuisByRelation from the other direction)
@@ -604,7 +604,7 @@ public interface LuService {
      * @throws MissingParameterException missing luiId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<LuiInfo> getRelatedLuisByLuiId(@WebParam(name="luiId")String luiId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getRelatedLuisByLuiId(@WebParam(name="luiId")String luiId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the list of related LUI Ids for the specified LUI Id and LU to LU relation type. (getLuiIdsByRelation from the other direction)
@@ -616,7 +616,7 @@ public interface LuService {
      * @throws MissingParameterException missing luiId, luLuRelationType
      * @throws OperationFailedException unable to complete request
 	 */
-    public List<String> getRelatedLuiIdsByLuiId(@WebParam(name="luiId")String luiId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getRelatedLuiIdsByLuiId(@WebParam(name="luiId")String luiId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the relationship information between CLUs for a particular Relation instance
@@ -1187,7 +1187,7 @@ public interface LuService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public CluCluRelationInfo createCluCluRelation(@WebParam(name="cluId")String cluId, @WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType, @WebParam(name="cluCluRelationInfo")CluCluRelationInfo cluCluRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CluCluRelationInfo createCluCluRelation(@WebParam(name="cluId")String cluId, @WebParam(name="relatedCluId")String relatedCluId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType, @WebParam(name="cluCluRelationInfo")CluCluRelationInfo cluCluRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a relationship between two CLUs
@@ -1232,7 +1232,7 @@ public interface LuService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
 	 */
-    public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name="luiId")String luiId, @WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationType luLuRelationType, @WebParam(name="luiLuiRelationInfo")LuiLuiRelationInfo luiLuiRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name="luiId")String luiId, @WebParam(name="relatedLuiId")String relatedLuiId, @WebParam(name="luLuRelationType")LuLuRelationTypeInfo luLuRelationType, @WebParam(name="luiLuiRelationInfo")LuiLuiRelationInfo luiLuiRelationInfo) throws AlreadyExistsException, CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a relationship between two LUIs
