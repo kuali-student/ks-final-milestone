@@ -9,8 +9,10 @@ import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerEx
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.help.HelpExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButtonExampleDescriptor;
 
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -71,6 +73,9 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new DropDownExampleDescriptor());
         initExample(ksCommons, new HelpExampleDescriptor());
         initExample(ksCommons, new InfoPopupExampleDescriptor());
+        initExample(ksCommons, new LabelExampleDescriptor());
+        initExample(ksCommons, new ListBoxExampleDescriptor());
+        initExample(ksCommons, new RadioButtonExampleDescriptor());
     }
     
     private VerticalPanel initGroup(String groupName) {
