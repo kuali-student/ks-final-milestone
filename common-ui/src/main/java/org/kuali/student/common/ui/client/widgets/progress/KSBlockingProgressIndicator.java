@@ -2,6 +2,9 @@ package org.kuali.student.common.ui.client.widgets.progress;
 
 import java.util.LinkedList;
 
+import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -11,46 +14,26 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Bsmith
  *
  */
-public class BlockingProgressIndicator{
+public class KSBlockingProgressIndicator{
 	private static LinkedList<BlockingTask> tasks = new LinkedList<BlockingTask>();
 	
 	private static final VerticalPanel mainPanel = new VerticalPanel();
 	private static final VerticalPanel listPanel = new VerticalPanel();
 	private static final VerticalPanel headerPanel = new VerticalPanel();
 	
-	private static final ModalPopupPanel popupIndicator = new ModalPopupPanel();
+	private static KSModalPopupPanel popupIndicator = new KSModalPopupPanel();
 	
 	private static boolean initialized = false;
 	
 	public static void initialize(){
-
-		headerPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		Label title = new Label("Processing...");
-		title.addStyleName("KS-Label");
-		headerPanel.addStyleName("KS-Blocking-Task-Header");
-		headerPanel.add(title);
 		
-//		headerPanel.add(new Button("Add", new ClickHandler(){
-//
-//			public void onClick(ClickEvent event) {
-//				addTask(new BlockingTask("New Task"));
-//				
-//			}}));
-//		
-//		headerPanel.add(new Button("Remove", new ClickHandler(){
-//
-//			public void onClick(ClickEvent event) {
-//				removeTask(tasks.getFirst());
-//				
-//		}}));
-		listPanel.addStyleName("KS-Blocking-Task-List");
 		
-		mainPanel.addStyleName("KS-Mouse-Normal");
-		mainPanel.addStyleName("KS-Blocking-Task-Main");
-		mainPanel.add(headerPanel);
 		mainPanel.add(listPanel);
 		
+		popupIndicator.addHeader("Processing...");
+		
 		popupIndicator.add(mainPanel);
+		setupDefaultStyle();
 		initialized = true;
 	}
 	
@@ -92,6 +75,13 @@ public class BlockingProgressIndicator{
 	
 	private static void hideIndicator() {
 		popupIndicator.hide();
+	}
+	
+	private static  void setupDefaultStyle(){
+		popupIndicator.addStyleName(KSStyles.KS_BLOCKING_TASK_WINDOW);
+		listPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_LIST);
+		mainPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_MAIN);
+		mainPanel.addStyleName(KSStyles.KS_MOUSE_NORMAL);
 	}
 
 }
