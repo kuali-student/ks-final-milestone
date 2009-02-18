@@ -13,6 +13,7 @@ public class ServerDateParser implements DateParser {
         for (SimpleDateFormat format : formats) {
                 try {
                     result = format.parse(input);
+//                    System.out.printf("format: %s -> %s%n",format.toPattern(),result); // keeping this here in case I need to debug Java Date/Time again
                 } catch (ParseException e) {
                     // just eat it
                 }

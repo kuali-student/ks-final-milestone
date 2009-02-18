@@ -3,11 +3,13 @@ package org.kuali.student.common.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import junit.framework.Assert;
 
@@ -434,6 +436,10 @@ public class ValidatorTest {
         Validator validator = new Validator();
         validator.addMessages(messages);
         validator.setDateParser(new ServerDateParser());
+        SimpleDateFormat[] formats = ((ServerDateParser)validator.getDateParser()).formats;
+        for (SimpleDateFormat format : formats) {
+            format.setTimeZone(TimeZone.getTimeZone("GMT-0500"));
+        }
         
         Map<String,String> fieldDesc = new HashMap<String,String>();
         fieldDesc.put("dataType", "date");
@@ -448,7 +454,7 @@ public class ValidatorTest {
         //test string dates, these are defined by ServerDateParser strings, so check those
         validate = validator.validate("keyValue", stringToTest, fieldDesc);
         assertEquals(ErrorLevel.OK, validate.getErrorLevel());
-        validate = validator.validate("keyValue", "09-01-25", fieldDesc);
+        validate = validator.validate("keyValue", "09-01-25", fieldDesc); //AD 9 was a good year, but did January even exist then?
         assertEquals(ErrorLevel.OK, validate.getErrorLevel());
         validate = validator.validate("keyValue", "2001-07-04T12:08:56.235-0700", fieldDesc);
         assertEquals(ErrorLevel.OK, validate.getErrorLevel());
