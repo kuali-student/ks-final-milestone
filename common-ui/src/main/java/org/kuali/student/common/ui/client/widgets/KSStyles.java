@@ -5,8 +5,8 @@ public interface KSStyles {
 	public static final String KS_BUTTON_STYLE = "KS-Button";
 	public static final String KS_BUTTON_HOVER_STYLE = "KS-Button-Hover";
 	public static final String KS_BUTTON_FOCUS_STYLE = "KS-Button-Focus";
+	public static final String KS_BUTTON_CLICK_STYLE = "KS-Button-Click";
 	public static final String KS_LABEL_STYLE = "KS-Label";
-	//public static final String KS_LABEL_HOVER_STYLE = "KS-Label-Hover";
 	public static final String KS_CHECKBOX_STYLE = "KS-Checkbox";
 	public static final String KS_CHECKBOX_CHECKED_STYLE = "KS-Checkbox-Checked";
 	public static final String KS_CHECKBOX_HOVER_STYLE = "KS-Checkbox-Hover";
@@ -43,7 +43,18 @@ public interface KSStyles {
 	public static final String KS_DISCLOSURE_OPEN_HEADER_STYLE = "KS-Disclosure-Header-Open";
 	public static final String KS_DISCLOSURE_OPEN_CONTENTPANEL_STYLE = "KS-Disclosure-Content-Open";
 	public static final String KS_MOUSE_WAIT = "KS-Mouse-Wait";
+	public static final String KS_MOUSE_NORMAL = "KS-Mouse-Normal";
 	public static final String KS_DISCLOSURE_SECTION_PANEL = "KS-Disclosure-Section";
-	public static final String KS_DISCLOSURE_OPEN_SECTION_PANEL = "KS-Disclosure-Section-Open";	
+	public static final String KS_DISCLOSURE_OPEN_SECTION_PANEL = "KS-Disclosure-Section-Open";
+	public static final String KS_ACCORDION_TITLEBAR_HOVER = "KS-Accordion-Titlebar-Hover";
+	public static final String KS_ACCORDION_TITLEBAR = "KS-Accordion-Titlebar";
+	public static final String KS_ACCORDION_TITLEBAR_OPEN = "KS-Accordion-Titlebar-Open";
+	public static final String KS_ACCORDION_TITLEBAR_FOCUS = "KS-Accordion-Titlebar-Focus";
+	public static final String KS_ACCORDION_WIDGETPANEL = "KS-Accordion-WidgetPanel";
+	public static final String KS_ACCORDION = "KS-Accordion";
+	public static final String KS_BLOCKING_TASK_LIST = "KS-Blocking-Task-List";
+	public static final String KS_BLOCKING_TASK_WINDOW = "KS-Blocking-Task-Window";
+	public static final String KS_BLOCKING_TASK_MAIN = "KS-Blocking-Task-Main";
+	
 	
 }
