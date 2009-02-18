@@ -8,15 +8,15 @@ import com.google.gwt.user.client.ui.Image;
 
 public class DisclosureSectionExample extends Composite {
 
-    final HorizontalPanel panel = new HorizontalPanel();
-    final KSDisclosureSection ksSection = new KSDisclosureSection("Click here");
+    final HorizontalPanel main = new HorizontalPanel();
+    final KSDisclosureSection section = new KSDisclosureSection("Click here");
 
     public DisclosureSectionExample() {
         
-        ksSection.add(new Image("images/flowers.jpg"));
+        section.add(new Image("images/flowers.jpg"));
         
-        panel.add(ksSection);
+        main.add(section);
 
-        super.initWidget(panel);
+        super.initWidget(main);
     }
 }

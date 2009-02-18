@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class DatePickerExampleDescriptor extends KitchenSinkExample {
     public DatePickerExampleDescriptor() {
         super();
-        super.addResource("java", "DatePickerExample.java", "kscommons/datepicker/DatePickerExample.java", "Example usage of DatePicker.");
+        super.addResource("java", "DatePickerExample.java", "kscommons/datepicker/DatePickerExample.java", "Example usage of KSDatePicker.");
     }
     public String getDescription() {       
         return "DatePicker is used to facilitate the selection of a date for entry into a text field.";
@@ -18,7 +18,7 @@ public class DatePickerExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "DatePicker";
+        return "KSDatePicker";
     }
 
 }

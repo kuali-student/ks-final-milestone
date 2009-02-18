@@ -7,10 +7,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class DropDownExampleDescriptor extends KitchenSinkExample {
     public DropDownExampleDescriptor() {
         super();
-        super.addResource("java", "DropDownExample.java", "kscommons/dropdown/DropDownExample.java", "Example usage of Drop Down List.");
+        super.addResource("java", "DropDownExample.java", "kscommons/dropdown/DropDownExample.java", "Example usage of KSDropDown.");
     }
     public String getDescription() {       
-        return "Drop Down list allows a user to select one item from a pre-populated list. May be configured to allow multiple selections.";
+        return "* DropDown is a widget that presents a list of choices to the user, either as a list box or as a drop-down list.";
     }
 
     public Widget getExampleWidget() {
@@ -18,7 +18,7 @@ public class DropDownExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "Drop Down List";
+        return "KSDropDown";
     }
 
 }

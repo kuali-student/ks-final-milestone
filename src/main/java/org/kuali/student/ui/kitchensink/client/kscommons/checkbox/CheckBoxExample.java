@@ -1,13 +1,12 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.checkbox;
 
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CheckBoxExample extends Composite {
@@ -21,22 +20,26 @@ public class CheckBoxExample extends Composite {
 
     StringBuffer sb = new StringBuffer();
 
-    final VerticalPanel panel = new VerticalPanel();
-    final KSCheckBox ksCheckBox1 = new KSCheckBox(CHECK_BOX_1);
-    final KSCheckBox ksCheckBox2 = new KSCheckBox(CHECK_BOX_2);
-    final KSCheckBox ksCheckBox3 = new KSCheckBox(CHECK_BOX_3);
+    final VerticalPanel main = new VerticalPanel();
+    final KSCheckBox checkBox1 = GWT.create(KSCheckBox.class);
+    final KSCheckBox checkBox2 = GWT.create(KSCheckBox.class);
+    final KSCheckBox checkBox3 = GWT.create(KSCheckBox.class);
 
     public CheckBoxExample() {
+        
+        checkBox1.setText(CHECK_BOX_1);
+        checkBox2.setText(CHECK_BOX_2);
+        checkBox3.setText(CHECK_BOX_3);
 
-        ksCheckBox1.addClickHandler(new MyClickHandler());
-        ksCheckBox2.addClickHandler(new MyClickHandler());
-        ksCheckBox3.addClickHandler(new MyClickHandler());
+        checkBox1.addClickHandler(new MyClickHandler());
+        checkBox2.addClickHandler(new MyClickHandler());
+        checkBox3.addClickHandler(new MyClickHandler());
 
-        panel.add(ksCheckBox1);
-        panel.add(ksCheckBox2);
-        panel.add(ksCheckBox3);
+        main.add(checkBox1);
+        main.add(checkBox2);
+        main.add(checkBox3);
 
-        super.initWidget(panel);
+        super.initWidget(main);
     }
 
     public class MyClickHandler implements ClickHandler  {

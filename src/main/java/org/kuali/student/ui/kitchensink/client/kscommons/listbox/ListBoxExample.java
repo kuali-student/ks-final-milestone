@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSListBox;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
@@ -18,17 +19,19 @@ public class ListBoxExample extends Composite {
     final VerticalPanel main = new VerticalPanel();
     final CaptionPanel panel1 = new CaptionPanel("Single select");
     final CaptionPanel panel2 = new CaptionPanel("Multi select");
-    final KSListBox ksListBox1 ;
-    final KSListBox ksListBox2 ;
+
+    final KSListBox listBox1 = GWT.create(KSListBox.class);
+    final KSListBox listBox2 = GWT.create(KSListBox.class);
+    
     List<String> institutionList = new ArrayList<String>();
     StringBuffer sb = new StringBuffer("You Have selected < ");
 
     public ListBoxExample() { 
 
-        loadList();
+        loadLists();
 
-        ksListBox1 = new KSListBox(institutionList, false);
-        ksListBox1.addChangeHandler(new ChangeHandler() {
+        listBox1.setMultipleSelect(false);
+        listBox1.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
                 ListBox lb = (ListBox)arg0.getSource();
@@ -37,28 +40,28 @@ public class ListBoxExample extends Composite {
 
             }});
 
-        ksListBox2 = new KSListBox(institutionList, true);
-        
-        // Doesn't quite work yet!
-//        ksListBox2.addChangeHandler(new ChangeHandler() {
-//            @Override
-//            public void onChange(ChangeEvent arg0) {
-//
-//                ListBox lb = (ListBox)arg0.getSource();
-//                if (lb.getSelectedIndex() >= 0) {
-//                    for (int i = 0; i < lb.getItemCount(); i++) {
-//                        if (lb.isItemSelected(i))
-//                            sb.append(lb.getValue(i).trim());
-//                            sb.append(" ");
-//                    }
-//                }
-//                sb.append(" >");
-//                Window.alert( sb.toString() );
-//
-//            }});
+        listBox2.setMultipleSelect(true);
 
-        panel1.add(ksListBox1);
-        panel2.add(ksListBox2);
+        // Doesn't quite work yet!
+//      ksListBox2.addChangeHandler(new ChangeHandler() {
+//      @Override
+//      public void onChange(ChangeEvent arg0) {
+
+//      ListBox lb = (ListBox)arg0.getSource();
+//      if (lb.getSelectedIndex() >= 0) {
+//      for (int i = 0; i < lb.getItemCount(); i++) {
+//      if (lb.isItemSelected(i))
+//      sb.append(lb.getValue(i).trim());
+//      sb.append(" ");
+//      }
+//      }
+//      sb.append(" >");
+//      Window.alert( sb.toString() );
+
+//      }});
+
+        panel1.add(listBox1);
+        panel2.add(listBox2);
 
         main.add(panel1);
         main.add(panel2);
@@ -66,7 +69,7 @@ public class ListBoxExample extends Composite {
         super.initWidget(main);
     }
 
-    private void loadList() {
+    private void loadLists() {
         institutionList.add("University of British Columbia");
         institutionList.add("Florida State University");
         institutionList.add("Naval Postgraduate School");
@@ -78,5 +81,9 @@ public class ListBoxExample extends Composite {
         institutionList.add("University of Washington");
         institutionList.add("Carnegie Mellon University");
 
+        for (String s : institutionList) {
+            listBox1.addItem(s);
+            listBox2.addItem(s);    
+        }
     }
 }

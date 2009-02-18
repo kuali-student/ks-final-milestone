@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
@@ -14,15 +15,16 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class DropDownExample extends Composite {
 
-    final HorizontalPanel panel = new HorizontalPanel();
-    final KSDropDown ksDropDown = new KSDropDown();
+    final HorizontalPanel main = new HorizontalPanel();
     List<String> institutionList = new ArrayList<String>();
+      
+    final KSDropDown dropDown = GWT.create(KSDropDown.class);
 
     public DropDownExample() {
         
         loadList();
-        ksDropDown.populateDropDown(institutionList);
-        ksDropDown.addChangeHandler(new ChangeHandler() {
+        dropDown.populateDropDown(institutionList);
+        dropDown.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
                 ListBox lb = (ListBox)arg0.getSource();
@@ -30,9 +32,9 @@ public class DropDownExample extends Composite {
                 Window.alert("You picked <" + lb.getItemText(i) + ">");
                 
             }});
-        panel.add(ksDropDown);
+        main.add(dropDown);
 
-        super.initWidget(panel);
+        super.initWidget(main);
     }
 
     private void loadList() {

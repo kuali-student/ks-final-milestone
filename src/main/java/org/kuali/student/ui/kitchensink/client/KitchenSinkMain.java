@@ -9,10 +9,15 @@ import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerEx
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.help.HelpExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButtonExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.stackpanel.StackPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.textbox.TextBoxExampleDescriptor;
 
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -71,11 +76,17 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new DatePickerExampleDescriptor());
         initExample(ksCommons, new DisclosureSectionExampleDescriptor());
         initExample(ksCommons, new DropDownExampleDescriptor());
-        initExample(ksCommons, new HelpExampleDescriptor());
+//        initExample(ksCommons, new HelpExampleDescriptor());
+//        initExample(ksCommons, new HelpLinkExampleDescriptor());
         initExample(ksCommons, new InfoPopupExampleDescriptor());
         initExample(ksCommons, new LabelExampleDescriptor());
         initExample(ksCommons, new ListBoxExampleDescriptor());
+//        initExample(ksCommons, new ModalPopupPanelExampleDescriptor());
         initExample(ksCommons, new RadioButtonExampleDescriptor());
+        initExample(ksCommons, new RichEditorExampleDescriptor());
+        initExample(ksCommons, new StackPanelExampleDescriptor());
+        initExample(ksCommons, new TextAreaExampleDescriptor());
+        initExample(ksCommons, new TextBoxExampleDescriptor());
     }
     
     private VerticalPanel initGroup(String groupName) {

@@ -7,10 +7,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class RadioButtonExampleDescriptor extends KitchenSinkExample {
     public RadioButtonExampleDescriptor() {
         super();
-        super.addResource("java", "RadioButtonExample.java", "kscommons/radiobutton/RadioButtonExample.java", "Example usage of Radio Button.");
+        super.addResource("java", "RadioButtonExample.java", "kscommons/radiobutton/RadioButtonExample.java", "Example usage of KSRadioButton.");
     }
     public String getDescription() {       
-        return "RadioButton is used to allow users to indicate a single option"; 
+        return "RadioButton is a mutually-exclusive selection radio button widget"; 
     }
 
     public Widget getExampleWidget() {
@@ -18,7 +18,7 @@ public class RadioButtonExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "Radio Button";
+        return "KSRadioButton";
     }
 
 }
