@@ -3,7 +3,7 @@ package org.kuali.student.ui.kitchensink.client.kscommons.listbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.ui.client.widgets.KSListBox;
+import org.kuali.student.common.ui.client.widgets.KSListBox;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

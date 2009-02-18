@@ -2,8 +2,8 @@ package org.kuali.student.ui.kitchensink.client.kscommons.datepicker;
 
 import java.util.Date;
 
-import org.kuali.student.core.ui.client.widgets.KSDatePicker;
-import org.kuali.student.core.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

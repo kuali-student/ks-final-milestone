@@ -1,6 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection;
 
-import org.kuali.student.core.ui.client.widgets.KSDisclosureSection;
+import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;

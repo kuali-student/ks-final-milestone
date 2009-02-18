@@ -3,7 +3,7 @@ package org.kuali.student.ui.kitchensink.client.kscommons.dropdown;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

@@ -1,7 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.help;
 
-import org.kuali.student.core.ui.client.widgets.KSButton;
-import org.kuali.student.core.ui.client.widgets.KSHelp;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSHelp;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

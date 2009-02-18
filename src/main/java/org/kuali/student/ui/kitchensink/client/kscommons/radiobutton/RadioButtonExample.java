@@ -1,6 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.radiobutton;
 
-import org.kuali.student.core.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;

@@ -1,7 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.checkbox;
 
-import org.kuali.student.core.ui.client.widgets.KSButton;
-import org.kuali.student.core.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

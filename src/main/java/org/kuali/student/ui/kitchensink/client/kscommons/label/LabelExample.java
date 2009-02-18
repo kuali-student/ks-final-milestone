@@ -1,6 +1,6 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.label;
 
-import org.kuali.student.core.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
