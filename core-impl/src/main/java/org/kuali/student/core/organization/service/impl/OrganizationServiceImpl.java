@@ -527,12 +527,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String orgHierarchy) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(orgId, "orgId");
 		checkForMissingParameter(descendantOrgId, "descendantOrgId");
 		checkForMissingParameter(orgHierarchy, "orgHierarchy");
-
-		return null;
+		
+		// get ancestors of the descendant, as it will be more efficient in most cases
+		List<String> ancestors = organizationDao.getAncestors(descendantOrgId, orgHierarchy);
+		boolean result = ancestors.contains(orgId);
+		return new Boolean(result);
 	}
 
 	@Override

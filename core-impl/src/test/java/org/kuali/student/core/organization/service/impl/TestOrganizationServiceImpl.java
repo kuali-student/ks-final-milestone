@@ -282,6 +282,13 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertTrue(ancestors == null || ancestors.size() == 0);
 	}
 
+	
+	@Test
+	public void isDescendant() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		assertTrue(client.isDescendant("1", "26", "kuali.org.hierarchy.Main"));
+		assertTrue(client.isDescendant("19", "26", "kuali.org.hierarchy.Main"));
+		assertFalse(client.isDescendant("5", "26", "kuali.org.hierarchy.Main"));
+	}
 
 	@Test
 	public void getOrgOrgRelationTypes() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
@@ -525,16 +532,14 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		try {
 			si = client.removeOrgOrgRelation("16");
-			assertTrue(false);
+			fail("OrganizationService.removeOrgOrgRelation() of a deleted OrgOrgRelation did not throw DoesNotExistException as expected");
 		} catch (DoesNotExistException e) {
-			assertTrue(true);
 		}
 
 		try {
 			si = client.removeOrgOrgRelation(null);
-			assertTrue(false);
+			fail("OrganizationService.removeOrgOrgRelation(null) did not throw MissingParameterException as expected");
 		} catch (MissingParameterException e) {
-			assertTrue(true);
 		}
 	}
 

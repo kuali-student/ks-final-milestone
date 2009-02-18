@@ -294,7 +294,7 @@ public interface OrganizationService extends DictionaryService, SearchService, E
     public Boolean isDescendant(@WebParam(name="orgId")String orgId, @WebParam(name="descendantOrgId")String descendantOrgId, @WebParam(name="orgHierarchy")String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of identifiers for the "descendant" organizations of the specified organization in the given organization hierarchy. Information about the distance from the original organization is not passed in this call, so this can be seen as a flattened and de-duplicated representation.
+     * Retrieves the list of identifiers for the "descendant" organizations of the specified organization in the given organization hierarchy. Information about the distance from the original organization is not passed returned by this call, so this can be seen as a flattened and de-duplicated representation.
      * @param orgId identifier of the "ancestor" organization
      * @param orgHierarchy identifier of the organization hierarchy to be checked against
      * @return list of identifiers for the "descendant" organizations for the specified organization
@@ -306,7 +306,7 @@ public interface OrganizationService extends DictionaryService, SearchService, E
     public List<String> getAllDescendants(@WebParam(name="orgId")String orgId, @WebParam(name="orgHierarchy")String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of identifiers for the "ancestor" organizations of the specified organization in the given organization hierarchy. Information about the distance from the original organization is not passed in this call, so this can be seen as a flattened and de-duplicated representation.
+     * Retrieves the list of identifiers for the "ancestor" organizations of the specified organization in the given organization hierarchy. Information about the distance from the original organization is not passed returned by this call, so this can be seen as a flattened and de-duplicated representation.
      * @param orgId identifier of the "descendant" organization
      * @param orgHierarchy identifier of the organization hierarchy to be checked against
      * @return list of identifiers for the "ancestor" organizations of the specified organization
