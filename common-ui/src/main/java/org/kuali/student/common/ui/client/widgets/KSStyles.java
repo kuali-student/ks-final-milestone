@@ -30,6 +30,10 @@ public interface KSStyles {
 	public static final String KS_POPUP_HEADER = "KS-Popup-Header";
 	public static final String KS_HELP_TEXT = "KS-Help-Text";
 	public static final String KS_HELP_TEXT_PANEL = "KS-Help-Text-Panel";
+	public static final String KS_HELP_TEXT_OK = "KS-Help-Text-OK";
+	public static final String KS_HELP_TEXT_PANEL_OK = "KS-Help-Text-Panel-OK";
+	public static final String KS_HELP_TEXT_ERROR = "KS-Help-Text-Error";
+	public static final String KS_HELP_TEXT_PANEL_ERROR = "KS-Help-Text-Panel-Error";
 	public static final String KS_HELP_POPUP_FRAME = "KS-Help-Frame";
 	public static final String KS_POPUP = "KS-Popup";
 	public static final String KS_INFO_POPUP = "KS-Info-Popup";
