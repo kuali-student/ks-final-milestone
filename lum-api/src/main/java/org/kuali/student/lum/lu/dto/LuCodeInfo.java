@@ -31,7 +31,7 @@ import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuCodeInfo implements Serializable, Idable, HasAttributes {
+public class LuCodeInfo implements Serializable, HasAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
 	private MetaInfo metaInfo;
 
 	@XmlAttribute
-	private String key;
+	private String type;
 
 	public String getDesc() {
 		return desc;
@@ -86,21 +86,11 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
 		this.metaInfo = metaInfo;
 	}
 
-	public String getKey() {
-		return key;
+	public String getType() {
+		return type;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	@Override
-	public String getId() {
-		return key;
-	}
-
-	@Override
-	public void setId(String id) {
-		this.key = id;
+	public void setType(String type) {
+		this.type = type;
 	}
 }
