@@ -2,17 +2,78 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student.lum</groupId>
-	<artifactId>ks-lum</artifactId>
+	<artifactId>ks-lum-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>KS LUM-Aggregate</name>
-	<description>KS Learning Unit Management Aggregate POM</description>
+	<name>KS LUM Parent</name>
+	<description>KS Learning Unit Management POM</description>
 	<packaging>pom</packaging>
 
+	<url>http://student.kuali.org/site/lum/${project.version}</url>
+	
+	<properties>
+		<ks.core.version>0.0.1-SNAPSHOT</ks.core.version>
+	</properties>
+	
+	<parent>
+		<groupId>org.kuali.student.core</groupId>
+		<artifactId>ks-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
 	<modules>
 		<module>lum-api</module>
 		<module>lum-impl</module>
 		<module>lum-ui</module>
 		<module>lum-web</module>
 	</modules>
+	
+	<distributionManagement>
+		<site>
+			<id>ks.site</id>
+			<url>
+				dav:https://www.kuali.org:8443/student/site/lum/${project.version}
+			</url>
+		</site>
+	</distributionManagement>
+	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${javadoc.plugin.version}</version>
+				
+				<configuration>
+					<maxmemory>256m</maxmemory>
+					<aggregate>true</aggregate>
+					<show>private</show>
+					<source>1.6</source>
+					<links>
+						<link>http://cxf.apache.org/javadoc/2.1/</link>
+						<link>
+							http://java.sun.com/javase/6/docs/api/
+						</link>
+						<link>
+							http://java.sun.com/javaee/5/docs/api/
+						</link>
+						<link>
+							http://static.springframework.org/spring/docs/2.5.x/api/
+						</link>
+						<link>
+							http://student.kuali.org/site/core/${ks.core.version}/apidocs/
+						</link>
+					</links>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+
+			</plugin>
+		</plugins>
+	</reporting>
 
 </project>

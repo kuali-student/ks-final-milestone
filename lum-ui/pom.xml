@@ -6,12 +6,12 @@
 	<artifactId>ks-lum-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>KS lum-ui</name>
+	<name>KS LUM UI</name>
 	<description>KS Learing Unit Management-ui</description>
 
 	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<groupId>org.kuali.student.lum</groupId>
+		<artifactId>ks-lum-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	

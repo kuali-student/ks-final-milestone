@@ -6,12 +6,12 @@
 	<artifactId>ks-lum-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>KS Lum-Web</name>
+	<name>KS LUM Web</name>
 	<description>KS Learning Unit Management-web</description>
 
 	<parent>
-		<groupId>org.kuali.student.core</groupId>
-		<artifactId>ks-parent</artifactId>
+		<groupId>org.kuali.student.lum</groupId>
+		<artifactId>ks-lum-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
