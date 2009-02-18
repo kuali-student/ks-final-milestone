@@ -1,7 +1,9 @@
 package org.kuali.student.core.organization.dao.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -85,27 +87,28 @@ public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements Organiza
 	@Override
 	public List<String> getAllDescendants(String orgId, String orgHierarchy) {
 		Query query = em.createNamedQuery("OrgOrgRelation.getAllDescendants");
-		query.setParameter("orgId", orgId);
 		query.setParameter("orgHierarchy", orgHierarchy);
-		@SuppressWarnings("unchecked")
-		List<String> descendants = query.getResultList();
-		return descendants;
+		return getAllLevels(query, "orgId", orgId);
 	}
 
 	@Override
 	public List<String> getAncestors(String orgId, String orgHierarchy) {
-		List<String> orgList = new ArrayList<String>();
-		// No way to do recursive queries in Derby (yet), so when we want
-		// all ancestors, we'll have to do this a less efficient way
 		Query query = em.createNamedQuery("OrgOrgRelation.getAncestors");
-		query.setParameter("orgId", orgId);
 		query.setParameter("orgHierarchy", orgHierarchy);
+		return getAllLevels(query, "orgId", orgId);
+	}
+
+	private List<String> getAllLevels(Query query, String paramName, String paramValue) {
+		// Eliminate dup's by using a set, but maintain order elements were inserted in
+		Set<String> valSet = new LinkedHashSet<String>();
+		query.setParameter(paramName, paramValue);
 		@SuppressWarnings("unchecked")
-		List<String> result = query.getResultList();
-		if (result.size() > 0) {
-			orgList.addAll(result);
+		List<String> nextLevelList = query.getResultList();
+		valSet.addAll(nextLevelList);
+		for (String resultStr : nextLevelList) {
+			valSet.addAll(getAllLevels(query, paramName, resultStr));
 		}
-		return orgList;
+		return new ArrayList<String>(valSet);
 	}
 
 	@Override

@@ -10,6 +10,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -264,14 +266,23 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Treasurer of the Board of Regents",
 				orgPositionRestrictions.get(1).getTitle());
 	}
+	
+	@Test
+	public void getAncestors() {
+		List<String> ancestors = dao.getAncestors("139", "kuali.org.hierarchy.Main");
+		assertEquals(5, ancestors.size());
+		Set<String> ancestorSet = new TreeSet<String>(ancestors);
+		List<String> testAncestors = Arrays.asList("1","6","138"); // top, middle, bottom
+		assertTrue(ancestorSet.containsAll(testAncestors));
+	}
 
 	@Test
 	public void getAllDescendants() {
-		List<String> descendents = dao.getAllDescendants("1",
-				"kuali.org.hierarchy.Main");
-		assertEquals(2, descendents.size());
-		assertEquals("4", descendents.get(0));
-		assertEquals("2", descendents.get(1));
+		List<String> descendants = dao.getAllDescendants("6", "kuali.org.hierarchy.Main");
+		assertEquals(22, descendants.size());
+		Set<String> descendantSet = new TreeSet<String>(descendants);
+		List<String> testDescendants = Arrays.asList("7","115","139"); // top, middle, bottom
+		assertTrue(descendantSet.containsAll(testDescendants));
 	}
 
 	@Test
@@ -349,11 +360,5 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals(2, orgOrgRelations.size());
 		assertEquals("VPStudentsOffice", orgOrgRelations.get(0).getOrg().getShortName());
 		assertEquals("UndergraduateProgram", orgOrgRelations.get(1).getOrg().getShortName());
-	}
-	
-	@Test
-	public void getAncestors() {
-		List<String> ancestors = dao.getAncestors("26", "kuali.org.hierarchy.Main");
-		assertEquals(2, ancestors.size());
 	}
 }

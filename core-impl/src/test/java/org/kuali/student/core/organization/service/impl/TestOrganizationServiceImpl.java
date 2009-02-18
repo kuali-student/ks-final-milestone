@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -250,8 +251,9 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void getAllDescendants() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<String> descendants = client.getAllDescendants("4", "kuali.org.hierarchy.Main");
-		assertEquals(8,descendants.size());
+		List<String> descendants = client.getAllDescendants("6", "kuali.org.hierarchy.Main");
+		assertEquals(22, descendants.size());
+		assertTrue(descendants.containsAll(Arrays.asList("7", "121", "141")));
 
 		descendants = client.getAllDescendants("4", "Star.Trek");
 		assertTrue(descendants == null || descendants.size() == 0);
@@ -267,7 +269,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	@Test
 	public void getAncestors() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<String> ancestors = client.getAncestors("26", "kuali.org.hierarchy.Main");
-		assertEquals(2,ancestors.size());
+		assertEquals(4,ancestors.size());
+		assertTrue(ancestors.containsAll(Arrays.asList("1", "4", "15", "19")));
 
 		ancestors = client.getAncestors("2", "Star.Trek");
 		assertTrue(ancestors == null || ancestors.size() == 0);
@@ -492,9 +495,13 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetOrgTreeInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		// test getting one level
 		List<OrgTreeInfo> results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 1);
 		assertEquals(9,results.size());
 
+		// test getting the whole tree
+		results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 0);
+		assertEquals(160,results.size());
 	}
 
 	@Test

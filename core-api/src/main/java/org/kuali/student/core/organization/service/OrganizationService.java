@@ -36,7 +36,7 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 @WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface OrganizationService extends DictionaryService, SearchService, EnumerableService{
+public interface OrganizationService extends DictionaryService, SearchService, EnumerableService {
 
     /** 
      * Retrieves the list of organization hierarchies known by this service.
