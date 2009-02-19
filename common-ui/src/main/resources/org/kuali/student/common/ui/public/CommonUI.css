@@ -7,25 +7,22 @@
 	height: 20;
 		
 	border-left: 1px solid #99bbe8;
-	border-right: 1px solid #99bbe8;
-	border-bottom: 1px solid #99bbe8;
+	border-right: 2px solid #4583D5;
+	border-bottom: 2px solid #4583D5;
 	border-top: 1px solid #99bbe8;
 	margin: 2px;
-	
-	font: bold 80%;
-	font-family: sans-serif;
-	
 
-	filter:progid:DXImageTransform.Microsoft.Gradient   
-	(GradientType=0,StartColorStr='#ffffffff',EndColorStr='#99bbe8'); 
-	
+	background-color: #99bbe8;	
 }
 
 .KS-Accordion-Titlebar-Hover{
-	filter:progid:DXImageTransform.Microsoft.Gradient   
-	(GradientType=0,StartColorStr='#99bbe8',EndColorStr='#ffffffff');
-	border: 1px solid black;
-	cursor:hand;
+	background-color: #99bbe8;
+	border-left: 1px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	border-top: 1px solid black;
+
+	cursor:pointer;
 }
 
 .KS-Accordion-Titlebar-Focus{
@@ -33,15 +30,41 @@
 }
 .KS-Accordion-Titlebar-Open{
 
-	filter:progid:DXImageTransform.Microsoft.Gradient   
-	(GradientType=1,StartColorStr='#99bbe8',EndColorStr='#ffffff');
-	background-color: black;
-	border: 1px solid black;
-	font: bold 80%;
+	background-color: #E8C698;
+	border: 2px solid black;
 }
 
-.KS-Accordion-SubMenu-Indent{
+.KS-Accordion-Titlebar-Label{
+	font-weight: bold;
+	font-size: 80%;
+}
+
+.KS-Indent-1{
 	margin-left: 20px;
+}
+
+.KS-Indent-2{
+	margin-left: 40px;
+}
+
+.KS-Indent-3{
+	margin-left: 60px;
+}
+
+.KS-Indent-4{
+	margin-left: 80px;
+}
+
+.KS-Indent-5{
+	margin-left: 100px;
+}
+
+.KS-Indent-6{
+	margin-left: 120px;
+}
+
+.KS-Indent-7{
+	margin-left: 140px;
 }
 
 .KS-Header {
@@ -116,23 +139,20 @@
 .KS-Button{
 	margin: 2px;
 	color:#050;   
-	font: bold 84%;   
-	background-color:#fed;   
-	border: 1px solid;   
-	border-color: #696 #363 #363 #696;
+	font-weight: bold;
+	font-size: 84%;
+	border-right: 1px solid #4583D5;
+	border-bottom: 1px solid #4583D5;
 }
 .KS-Button-Hover{
 	color: #9B251C;
 }
 .KS-Button-Focus{
 	color: #9B251C;
-
 }
 
 .KS-Button-Click{
 	color: #9B251C;
-	filter:progid:DXImageTransform.Microsoft.Gradient   
-	(GradientType=0,StartColorStr='#ffeeddaa',EndColorStr='#ffffffff'); 
 }
 
 .KS-Label{
@@ -140,7 +160,8 @@
 }
 .KS-Checkbox{
 	margin: 2px;
-	font: bold 80%;
+	font-weight: bold;
+	font-size: 80%;
 }
 .KS-Checkbox-Checked{
 	color: #9B251C;
@@ -152,7 +173,8 @@
 }
 .KS-Radio{
 	margin: 2px;
-	font: bold 80%;
+	font-weight: bold;
+	font-size: 80%;
 }
 .KS-Radio-Focus{
 	color: #9B251C;
@@ -202,6 +224,7 @@
 .KS-Help-Popup{
 }
 .KS-Popup-Header{
+
 	background-color:#99bbe8;
 	font-weight: bold;
 	border-style: solid;
@@ -238,11 +261,12 @@
 .KS-Disclosure-Header{
 	font: bold;
 	width: 100%;
-	background-color: #F3F3F3;
+	background-color: #F3F3F3; 
 	
 }
 .KS-Disclosure-Header-Open{
 	font: bold #D54F44;
+	border-bottom: 1px solid #c0c0c0;
 }
 .KS-Disclosure-Content-Open{
 	margin: 5px;
