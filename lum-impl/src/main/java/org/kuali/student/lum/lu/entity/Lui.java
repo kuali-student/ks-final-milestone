@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
@@ -42,6 +45,25 @@ public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 		return attributes;
 	}
 
+	@Column(name="LUI_CODE")
+    private String luiCode;
+
+	@Column(name="MAX_SEATS")
+    private Integer maxSeats;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="EFFECTIVE_DT")
+    private Date effectiveDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="EXPIRATION_DT")
+	private Date expirationDate;
+
+	@Column(name="STATE")
+    private String state;
+
+
+	
 	@Override
 	public void setAttributes(List<LuiAttribute> attributes) {
 		this.attributes = attributes;
@@ -69,6 +91,46 @@ public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getLuiCode() {
+		return luiCode;
+	}
+
+	public void setLuiCode(String luiCode) {
+		this.luiCode = luiCode;
+	}
+
+	public Integer getMaxSeats() {
+		return maxSeats;
+	}
+
+	public void setMaxSeats(Integer maxSeats) {
+		this.maxSeats = maxSeats;
+	}
+
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 }
