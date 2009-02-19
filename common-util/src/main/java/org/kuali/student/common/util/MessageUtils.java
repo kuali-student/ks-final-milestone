@@ -32,11 +32,11 @@ public class MessageUtils {
      *            varargs to be used for interpolation
      * @return the interpolated message
      */
-    public static String interpolate(String message, Map<String, String> data) {
+    public static String interpolate(String message, Map<String, Object> data) {
         if (message != null) {
             Set<String> fields = findFields(message);
             for (String s : fields) {
-                message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s)));
+                message = message.replaceAll("\\$\\{" + s + "\\}", "" + escape(data.get(s).toString()));
             }
         }
         return message;

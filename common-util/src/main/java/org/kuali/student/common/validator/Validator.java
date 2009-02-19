@@ -27,10 +27,10 @@ public class Validator {
         }
     }
 
-    public ValidationResult validate(String key, Object value, Map<String, String> fieldDesc) {
+    public ValidationResult validate(String key, Object value, Map<String, Object> fieldDesc) {
         ValidationResult result = new ValidationResult();
         result.setKey(key);
-        String dataType = fieldDesc.get("dataType").trim();
+        String dataType = fieldDesc.get("dataType").toString().trim();
         if (dataType.equalsIgnoreCase("integer")) {
             validateInteger(value, fieldDesc, result);
         } else if (dataType.equalsIgnoreCase("string")) {
@@ -52,19 +52,19 @@ public class Validator {
         return result;
     }
 
-    private void validateBoolean(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateBoolean(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         // TODO implement this
     }
 
-    private void validateDouble(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateDouble(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         // TODO implement this
     }
 
-    private void validateFloat(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateFloat(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         // TODO implement this
     }
 
-    private void validateLong(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateLong(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         Long v = null;
         Integer minOccurs = getInteger("minOccurs", fieldDesc);
 
@@ -115,7 +115,7 @@ public class Validator {
 
     }
 
-    private void validateInteger(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateInteger(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         Integer v = null;
         Integer minOccurs = getInteger("minOccurs", fieldDesc);
 
@@ -166,7 +166,7 @@ public class Validator {
 
     }
 
-    private void validateDate(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateDate(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         Date v = null;
         Integer minOccurs = getInteger("minOccurs", fieldDesc);
 
@@ -216,7 +216,7 @@ public class Validator {
         }
     }
 
-    private void validateString(Object value, Map<String, String> fieldDesc, ValidationResult result) {
+    private void validateString(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
         Integer maxLength = getInteger("maxLength", fieldDesc);
         Integer minLength = getInteger("minLength", fieldDesc);
         Integer minOccurs = getInteger("minOccurs", fieldDesc);
@@ -272,27 +272,46 @@ public class Validator {
 
     }
 
-    private Integer getInteger(String key, Map<String, String> m) {
+    private Integer getInteger(String key, Map<String, Object> m) {
         Integer result = null;
-        String s = m.get(key);
+        Object o = m.get(key);
+        if(o instanceof Integer)
+            return (Integer)o;
+        if(o == null)
+            return null;
+        if(o instanceof Number)
+            return new Integer(((Number)o).intValue());
+        String s = o.toString();
         if (s != null && s.trim().length() > 0) {
             result = Integer.valueOf(s.trim());
         }
         return result;
     }
 
-    private Long getLong(String key, Map<String, String> m) {
+    private Long getLong(String key, Map<String, Object> m) {
         Long result = null;
-        String s = m.get(key);
+        Object o = m.get(key);
+        if(o instanceof Long)
+            return (Long)o;
+        if(o == null)
+            return null;
+        if(o instanceof Number)
+            return new Long(((Number)o).longValue());
+        String s = o.toString();
         if (s != null && s.trim().length() > 0) {
             result = Long.valueOf(s.trim());
         }
         return result;
     }
 
-    private Date getDate(String key, Map<String, String> m) {
+    private Date getDate(String key, Map<String, Object> m) {
         Date result = null;
-        String s = m.get(key);
+        Object o = m.get(key);
+        if(o instanceof Date)
+            return (Date)o;
+        if(o == null)
+            return null;
+        String s = o.toString();
         if (s != null && s.trim().length() > 0) {
             result = dateParser.parseDate(s.trim());
         }

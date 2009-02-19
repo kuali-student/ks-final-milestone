@@ -2,6 +2,7 @@ package org.kuali.student.common.validator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class ValidatorTest {
         validator.addMessages(messages);
         validator.setDateParser(new ServerDateParser());
         
-        Map<String,String> fieldDesc = new HashMap<String,String>();
+        Map<String,Object> fieldDesc = new HashMap<String,Object>();
         fieldDesc.put("dataType", "string");
         
         String stringToTest = "abcd123";
@@ -133,6 +134,10 @@ public class ValidatorTest {
         assertEquals(1, validate.getMessages().size()); //violates both min and max, errormsg: validation.lengthOutOfRange
         for(String msg : validate.getMessages())
             assertNull(msg);
+        fieldDesc.put("minLength", 3);
+        fieldDesc.put("maxLength", 3);
+        validate = validator.validate("keyValue", stringToTest, fieldDesc);
+        assertEquals(ErrorLevel.ERROR, validate.getErrorLevel());
         
         //test minOccurs
         fieldDesc.put("minLength", "0");
@@ -173,7 +178,7 @@ public class ValidatorTest {
         validator.addMessages(messages);
         validator.setDateParser(new ServerDateParser());
         
-        Map<String,String> fieldDesc = new HashMap<String,String>();
+        Map<String,Object> fieldDesc = new HashMap<String,Object>();
         fieldDesc.put("dataType", "integer");
         
         String stringToTest = "123";
@@ -291,6 +296,12 @@ public class ValidatorTest {
             assertNull(msg);
         validate = validator.validate("keyValue", integerToTest, fieldDesc);
         assertEquals(ErrorLevel.ERROR, validate.getErrorLevel());
+        fieldDesc.put("minValue", 123);
+        fieldDesc.put("maxValue", 124);
+        validate = validator.validate("keyValue", stringToTest, fieldDesc);
+        assertTrue(validate.isOk());
+        validate = validator.validate("keyValue", integerToTest, fieldDesc);
+        assertEquals(ErrorLevel.ERROR, validate.getErrorLevel());
     }
     
     @Test
@@ -305,7 +316,7 @@ public class ValidatorTest {
         validator.addMessages(messages);
         validator.setDateParser(new ServerDateParser());
         
-        Map<String,String> fieldDesc = new HashMap<String,String>();
+        Map<String,Object> fieldDesc = new HashMap<String,Object>();
         fieldDesc.put("dataType", "long");
         
         String stringToTest = "123";
@@ -441,7 +452,7 @@ public class ValidatorTest {
             format.setTimeZone(TimeZone.getTimeZone("GMT-0500"));
         }
         
-        Map<String,String> fieldDesc = new HashMap<String,String>();
+        Map<String,Object> fieldDesc = new HashMap<String,Object>();
         fieldDesc.put("dataType", "date");
         
         String stringToTest = "2009-01-25";
@@ -540,5 +551,10 @@ public class ValidatorTest {
         fieldDesc.put("minValue", "2009-01-25T00:00:00.001-0500");
         validate = validator.validate("keyValue", stringToTest, fieldDesc);
         assertEquals(ErrorLevel.ERROR, validate.getErrorLevel());
+        fieldDesc.put("maxValue", dateToTest);
+        validate = validator.validate("keyValue", stringToTest, fieldDesc);
+        assertEquals(ErrorLevel.ERROR, validate.getErrorLevel());
+        validate = validator.validate("keyValue", dateToTest, fieldDesc);
+        assertEquals(ErrorLevel.OK, validate.getErrorLevel());
     }
 }
