@@ -1,3 +1,49 @@
+.KS-Accordion{
+	
+}
+.KS-Accordion-Titlebar{
+
+	width: 200;
+	height: 20;
+		
+	border-left: 1px solid #99bbe8;
+	border-right: 1px solid #99bbe8;
+	border-bottom: 1px solid #99bbe8;
+	border-top: 1px solid #99bbe8;
+	margin: 2px;
+	
+	font: bold 80%;
+	font-family: sans-serif;
+	
+
+	filter:progid:DXImageTransform.Microsoft.Gradient   
+	(GradientType=0,StartColorStr='#ffffffff',EndColorStr='#99bbe8'); 
+	
+}
+
+.KS-Accordion-Titlebar-Hover{
+	filter:progid:DXImageTransform.Microsoft.Gradient   
+	(GradientType=0,StartColorStr='#99bbe8',EndColorStr='#ffffffff');
+	border: 1px solid black;
+	cursor:hand;
+}
+
+.KS-Accordion-Titlebar-Focus{
+	background-color: #99bbe8;
+}
+.KS-Accordion-Titlebar-Open{
+
+	filter:progid:DXImageTransform.Microsoft.Gradient   
+	(GradientType=1,StartColorStr='#99bbe8',EndColorStr='#ffffff');
+	background-color: black;
+	border: 1px solid black;
+	font: bold 80%;
+}
+
+.KS-Accordion-SubMenu-Indent{
+	margin-left: 20px;
+}
+
 .KS-Header {
 	background-image: url('images/headerback.gif');
 	background-repeat: repeat-x;
@@ -27,32 +73,16 @@
 	background-color: lightgray;
 }
 
-
-.KS-Modal-Dialog-Glass {
-
-
-}
-
 .KS-Blocking-Task-Window{
-
+	width: 400px;
 }
 
 .KS-Blocking-Task-Main{
 	width: 100%;
 }
 
-.KS-Blocking-Task-Header{
-	background-color:lightblue;
-	font-weight: bold;
-	border-style: solid;
-	border-width: thin;
-	border-color: black;
-	margin: 2px;
-	width: 99%;
-}
-
 .KS-Blocking-Task-Item{
-	background-color:lightgrey;
+	background-color:#F3F3F3;
 	border-style: solid;
 	border-width: thin;
 	border-color: black;
@@ -89,72 +119,82 @@
 	font: bold 84%;   
 	background-color:#fed;   
 	border: 1px solid;   
-	border-color: #696 #363 #363 #696;   
-	filter:progid:DXImageTransform.Microsoft.Gradient   
-	(GradientType=0,StartColorStr='#ffffffff',EndColorStr='#ffeeddaa'); 
+	border-color: #696 #363 #363 #696;
 }
 .KS-Button-Hover{
-	color:yellow;
+	color: #9B251C;
 }
 .KS-Button-Focus{
-	color:red;
+	color: #9B251C;
+
 }
+
+.KS-Button-Click{
+	color: #9B251C;
+	filter:progid:DXImageTransform.Microsoft.Gradient   
+	(GradientType=0,StartColorStr='#ffeeddaa',EndColorStr='#ffffffff'); 
+}
+
 .KS-Label{
 	margin: 2px;
 }
 .KS-Checkbox{
-	color:green;
+	margin: 2px;
+	font: bold 80%;
 }
 .KS-Checkbox-Checked{
-	font-weight:  bold;
+	color: #9B251C;
 }
 .KS-Checkbox-Hover{
-	color:blue;
 }
 .KS-Checkbox-Focus{
-	color:red;
+	color: #9B251C;
 }
 .KS-Radio{
-	color:green;
+	margin: 2px;
+	font: bold 80%;
 }
 .KS-Radio-Focus{
-	color:red;
+	color: #9B251C;
 }
 .KS-Radio-Hover{
 }
+
 .KS-Radio-Selected{
-	font-weight:  bold;
+	color: #9B251C;
 }
 .KS-Dropdown{
-	background-color: yellow;
-	border: 1px solid blue;
 }
 .KS-Dropdown-Focus{
-	background-color: green;
+	background-color: #ECF2FA;
 }
 .KS-Dropdown-Hover{
-	background-color: lightblue;
+	background-color: #ECF2FA;
 }
 .KS-Dropdown-Selected{
-	background-color: red;
+
 }
 .KS-Textbox-Hover{
-	background-color: #F4EEDD;
+	background-color: #ECF2FA;
 }
 .KS-Textbox-Focus{
-	background-color: lightblue;
+	background-color: #ECF2FA;
 }
 .KS-Textbox{
-	border: 1px solid blue;
+	margin: 2px;
+	border: 1px solid #4583D5;
 }
 .KS-Textarea-Hover{
-	background-color: #F4EEDD;
+
 }
 .KS-Textarea-Focus{
-	background-color: lightblue;
+	background-color: #ECF2FA;
 }
 .KS-Textarea{
-	border: 1px solid blue;
+	margin: 2px;
+	border: 1px solid #4583D5;
+	height: 200;
+	width: 500;
 }
 .KS-Datefield-Focus{
 	
@@ -162,7 +202,7 @@
 .KS-Help-Popup{
 }
 .KS-Popup-Header{
-	background-color:lightblue;
+	background-color:#99bbe8;
 	font-weight: bold;
 	border-style: solid;
 	border-width: thin;
@@ -196,21 +236,28 @@
 	border:none;
 }
 .KS-Disclosure-Header{
+	font: bold;
+	width: 100%;
+	background-color: #F3F3F3;
+	
 }
 .KS-Disclosure-Header-Open{
-	font: bold;
+	font: bold #D54F44;
 }
 .KS-Disclosure-Content-Open{
+	margin: 5px;
 }
 
 .KS-Disclosure-Section{
-	  width: 75%; 
-      border: 1px solid #AAAAAA; 
+	  width: 75%;
+	  margin: 6px;
+      border: 1px solid #c0c0c0; 
 
 }
 
 KS-Disclosure-Section-Open{
 	width: 100%; 
+
 }
 
 .KS-Mouse-Wait{
