@@ -37,8 +37,6 @@ import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.rules.dto.ReqComponentInfo;
 import org.kuali.student.core.rules.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
@@ -892,19 +890,6 @@ public interface LuService extends DictionaryService, EnumerableService, SearchS
      * @throws OperationFailedException unable to complete request
 	 */
     public List<String> getClusUsingComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves results in tabular form for the specified parameters.
-     * @param searchTypeKey search identifier
-     * @param queryParamValues list of values for search parameters
-     * @return list of results from the query
-     * @throws DoesNotExistException specified search type not found
-     * @throws InvalidParameterException invalid searchTypeKey, queryParamValueList
-     * @throws MissingParameterException searchTypeKey, queryParamValueList not specified
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public List<Result> searchForResults(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name="queryParamValues")List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves CLU ids by criteria
