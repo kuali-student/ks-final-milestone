@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.progress;
 
 import java.util.LinkedList;
 
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
@@ -59,7 +60,7 @@ public class KSBlockingProgressIndicator{
 		for(BlockingTask task: tasks){
 			HorizontalPanel taskPanel = new HorizontalPanel();
 			taskPanel.add(new Label(task.getDescription()));
-			taskPanel.add(new Image("images/twiddler3.gif"));
+			taskPanel.add(new KSImage("images/twiddler3.gif"));
 			taskPanel.addStyleName("KS-Blocking-Task-Item");
 			listPanel.add(taskPanel);
 		}
