@@ -11,7 +11,7 @@ public class KSAccordionMenu extends KSMenu{
 	@Override
 	protected void populateMenu() {
 		this.initWidget(menu);
-		for(MenuItem i: items){
+		for(KSMenuItemData i: items){
 			KSLabel categoryLabel = new KSLabel(indent + i.getLabel());
 /*			if(labelStyle != null){
 				categoryLabel.addStyleName(labelStyle);
