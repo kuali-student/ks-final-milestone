@@ -64,6 +64,7 @@ public interface KSStyles {
 	public static final String KS_IMAGE_CLICK_STYLE = "KS-Image-Click";
 	public static final String KS_IMAGE_HOVER_STYLE = "KS-Image-Hover";
 	public static final String KS_IMAGE_STYLE = "KS-Image";
+	public static final String KS_BLOCKING_TASK_ITEM = "KS-Blocking-Task-Item";
 	
 	
 }
