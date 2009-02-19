@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.widgets;
 
-
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,7 +20,18 @@ public class KSHelpDialog extends KSInfoPopupPanel{
 	private KSButton ok = new KSButton("OK");
 	private HelpInfo helpInfo;
 	
+	public KSHelpDialog() {}
+	
 	public KSHelpDialog(HelpInfo helpInfo) {
+		init(helpInfo);
+	}
+	
+	/**
+	 * Public init methods are discouraged, this one allows a default constructor
+	 * to work with GWT.create()
+	 * @param helpInfo
+	 */
+	public void init(HelpInfo helpInfo) {
 		this.helpInfo = helpInfo;
 		
 		
