@@ -59,6 +59,8 @@ public interface KSStyles {
 	public static final String KS_BLOCKING_TASK_LIST = "KS-Blocking-Task-List";
 	public static final String KS_BLOCKING_TASK_WINDOW = "KS-Blocking-Task-Window";
 	public static final String KS_BLOCKING_TASK_MAIN = "KS-Blocking-Task-Main";
+	public static final String KS_INDENT = "KS-Indent";
+	public static final String KS_ACCORDION_TITLEBAR_LABEL = "KS-Accordion-Titlebar-Label";
 	
 	
 }
