@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
+import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.entity.Org;
@@ -19,7 +19,7 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
-public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements OrganizationDao {
+public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implements OrganizationDao {
 
 	@PersistenceContext(unitName = "Organization")
 	@Override

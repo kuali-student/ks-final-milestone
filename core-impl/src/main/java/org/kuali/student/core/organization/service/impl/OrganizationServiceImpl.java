@@ -798,20 +798,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-//		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-//		
-//		JAXBContext context;
-//		try {
-//			context = JAXBContext.newInstance(SearchTypeInfo.class);
-//			Unmarshaller unmarshaller = context.createUnmarshaller();
-//			ClassPathResource cpr = new ClassPathResource("organization-searchTypeInfo.xml");
-//			SearchTypeInfo s = (SearchTypeInfo)unmarshaller.unmarshal(cpr.getFile());
-//			
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 
 		
 		return null;
