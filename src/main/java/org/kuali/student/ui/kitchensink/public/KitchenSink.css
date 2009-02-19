@@ -1,0 +1,43 @@
+.ExampleListPanel{
+	border-style: solid;
+	border-width: 2px;
+	border-color: gray;	
+}
+
+.ExampleContentPanel {
+	border-style: solid;
+	border-width: 2px;
+	border-color: gray;
+	
+	padding: 10px 10px 10px 10px;
+}
+
+.ExampleTitle {
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.ExampleDescription {
+	font-size: 12px;
+}
+
+.ExampleBlockHeader {
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+	margin-top: 15px;
+}
+
+.ExampleResourceTitle {
+	font-size: 12px;
+	font-weight: bold;
+	margin-top: 15px;
+}
+
+.ExampleResourceDescription {
+	font-size: 14px;
+}
+
+
+    

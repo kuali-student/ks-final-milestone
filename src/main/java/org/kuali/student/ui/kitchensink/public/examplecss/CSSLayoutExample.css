@@ -1,0 +1,119 @@
+.myContainer{
+   width: 500px;
+   height: 500px;
+   border: 1px solid black;
+   background: #ccc;
+   position: relative;
+}
+/* One on the left, the other on the right
+.panel1{
+	width: 50px;
+	height: 50px;
+	float: left;
+	left: 20px;
+	background: pink;
+	
+}
+
+.panel2{
+	width: 50px;
+	height: 50px;
+	float: right;
+	right: 20px;
+	background: pink;
+	
+}
+*/
+/* Fill the height of the container
+.panel1{
+	width: 50px;
+	height: 100%;
+	float: left;
+	left: 20px;
+	background: pink;
+	
+}
+
+.panel2{
+	width: 50px;
+	height: 100%;
+	float: right;
+	right: 20px;
+	background: pink;
+	
+}
+*/
+/*Two columns
+.panel1{
+	width: 20%;
+	height: 100%;
+	float: left;
+	left: 20px;
+	background: gold;
+	
+}
+
+.panel2{
+	width: 80%;
+	height: 100%;
+	float: right;
+	right: 20px;
+	background: pink;
+	
+}
+*/
+/* vertical layout
+.panel1{
+	width: 20%;
+	height: 20%;
+	float: left;
+	left: 20px;
+	background: gold;
+	
+}
+
+.panel2{
+	width: 80%;
+	height: 80%;
+	float: left;
+	right: 20px;
+	background: pink;
+	clear: left;
+	
+}
+*/
+/* Horizontal layout
+.panel1{
+	width: 20%;
+	height: 100%;
+	float: left;
+	left: 20px;
+	background: gold;
+	
+}
+
+.panel2{
+	width: 30%;
+	height: 100%;
+	float: left;
+	background: pink;
+
+}
+*/
+
+.panel1{
+	width: 100%;
+	height: 20%;
+	top: 0px;
+	background: gold;
+	
+}
+.panel2{
+    position: absolute;
+	width: 300px;
+	height: 40px;
+	bottom: 0px;
+	left: 0px;
+	background: pink;
+
+}

@@ -1,0 +1,24 @@
+<module>
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name="com.google.gwt.user.User"/>
+	
+	<!-- Inherit the core Kuali Student UI library, which contains the MVC framework, etc -->
+	<inherits name="org.kuali.student.common.ui.CommonUI"/>
+    
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class="org.kuali.student.ui.kitchensink.client.KitchenSinkEntryPoint"/>
+	
+	<stylesheet src="KitchenSink.css"/>
+	<stylesheet src="examplecss/MyExampleWidget.css"/>
+	<stylesheet src="examplecss/CSSLayoutExample.css"/>
+	<stylesheet src="examplecss/Button.css"/>
+	
+	<script src="js/shCore.js"/>
+	<script src="js/shBrushJava.js"/>
+	<script src="js/shBrushXml.js"/>
+	<script src="js/shBrushCss.js"/>
+	
+	<public path="public"/>
+	<public path="client" />
+</module>
