@@ -29,8 +29,6 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
-import org.kuali.student.core.search.dto.QueryParamValue;
-import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.service.SearchService;
 import org.kuali.student.core.validation.dto.ValidationResult;
 @WebService(name = "OrganizationService", targetNamespace = "http://org.kuali.student/core/organization")
@@ -428,20 +426,6 @@ public interface OrganizationService extends DictionaryService, SearchService, E
      * @throws OperationFailedException unable to complete request
 	 */
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(@WebParam(name="orgId")String orgId) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
-
-    /** 
-     * Retrieves results in tabular form for the specified parameters.
-     * @param searchTypeKey search identifier
-     * @param queryParamValues list of values for search parameters
-     * @return list of results from the query
-     * @throws DoesNotExistException specified search type not found
-     * @throws InvalidParameterException invalid searchTypeKey, queryParamValueList
-     * @throws MissingParameterException searchTypeKey, queryParamValueList not specified
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    //TODO Does this method belong here, or should it go in the search interface or a new search interface?
-    public List<Result> searchForResults(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name="queryParamValues")List<QueryParamValue> queryParamValues) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Searches for identifiers of organizations by complex criteria and logic.

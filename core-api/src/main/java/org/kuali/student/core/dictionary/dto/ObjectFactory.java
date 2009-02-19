@@ -10,9 +10,6 @@ package org.kuali.student.core.dictionary.dto;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
-import org.kuali.student.core.enumerable.dto.EnumeratedValue;
-import org.kuali.student.core.enumerable.dto.EnumeratedValues;
-
 
 /**
  * This object contains factory methods for each 
@@ -64,14 +61,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EnumeratedValue }
-     * 
-     */
-    public EnumeratedValue createEnumeratedValue() {
-        return new EnumeratedValue();
-    }
-
-    /**
      * Create an instance of {@link Type }
      * 
      */
@@ -109,14 +98,6 @@ public class ObjectFactory {
      */
     public Field createField() {
         return new Field();
-    }
-
-    /**
-     * Create an instance of {@link EnumeratedValues }
-     * 
-     */
-    public EnumeratedValues createEnumeratedValues() {
-        return new EnumeratedValues();
     }
 
     /**
