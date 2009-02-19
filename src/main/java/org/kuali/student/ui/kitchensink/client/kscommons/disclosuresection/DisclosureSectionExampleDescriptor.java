@@ -18,7 +18,7 @@ public class DisclosureSectionExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSDisclosure Section";
+        return "KSDisclosureSection";
     }
 
 }

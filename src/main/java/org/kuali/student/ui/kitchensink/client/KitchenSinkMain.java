@@ -2,6 +2,7 @@ package org.kuali.student.ui.kitchensink.client;
 
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
+import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.busywidgetshade.BusyWidgetShadeExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
@@ -71,13 +72,14 @@ public class KitchenSinkMain extends Composite {
         
         VerticalPanel ksCommons = initGroup("KS Common Widgets");
         initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
+        initExample(ksCommons, new AccordionPanelExampleDescriptor());
         initExample(ksCommons, new ButtonExampleDescriptor());
         initExample(ksCommons, new CheckBoxExampleDescriptor());
         initExample(ksCommons, new DatePickerExampleDescriptor());
         initExample(ksCommons, new DisclosureSectionExampleDescriptor());
         initExample(ksCommons, new DropDownExampleDescriptor());
-//        initExample(ksCommons, new HelpExampleDescriptor());
-//        initExample(ksCommons, new HelpLinkExampleDescriptor());
+        initExample(ksCommons, new HelpExampleDescriptor());
+//      initExample(ksCommons, new HelpLinkExampleDescriptor());
         initExample(ksCommons, new InfoPopupExampleDescriptor());
         initExample(ksCommons, new LabelExampleDescriptor());
         initExample(ksCommons, new ListBoxExampleDescriptor());
