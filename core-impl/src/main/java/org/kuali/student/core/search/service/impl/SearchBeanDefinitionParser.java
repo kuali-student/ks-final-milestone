@@ -23,7 +23,7 @@ public class SearchBeanDefinitionParser extends
 		if (element.getLocalName().equals("fieldDescriptor")) {
 			return FieldDescriptor.class;
 		}
-		if (element.getLocalName().equals("searchCriteria")) {
+		if (element.getLocalName().equals("searchCriteriaTypeInfo")) {
 			return SearchCriteriaTypeInfo.class;
 		}
 		if (element.getLocalName().equals("queryParam")) {
@@ -35,7 +35,7 @@ public class SearchBeanDefinitionParser extends
 		if (element.getLocalName().equals("resultColumn")) {
 			return ResultColumnInfo.class;
 		}
-		if (element.getLocalName().equals("searchResult")) {
+		if (element.getLocalName().equals("searchResultTypeInfo")) {
 			return SearchResultTypeInfo.class;
 		}
 		return super.getBeanClass(element);
@@ -59,16 +59,36 @@ public class SearchBeanDefinitionParser extends
 				if(isList(node.getLocalName())){
 					List<?> refList = pc.getDelegate().parseListElement((Element) node, pc.getContainingBeanDefinition());
 					builder.addPropertyValue(node.getLocalName(),refList);
-				}else if(((Element)node).getElementsByTagName("ref").getLength()>0){
-					Object refBean = pc.getDelegate().parsePropertySubElement((Element) ((Element)node).getElementsByTagName("ref").item(0), pc.getContainingBeanDefinition());
-					builder.addPropertyValue(node.getLocalName(), refBean);
 				}else{
-					builder.addPropertyValue(node.getLocalName(), node.getTextContent());
+					Element childElement = getFirstChildElement(node); 
+					if(childElement!=null){
+						if("ref".equals(childElement.getLocalName())){
+							Object childBean = pc.getDelegate().parsePropertySubElement(childElement, pc.getContainingBeanDefinition());
+							builder.addPropertyValue(node.getLocalName(), childBean);
+						}else{
+							Object childBean = pc.getDelegate().parsePropertySubElement((Element)node, pc.getContainingBeanDefinition());
+							builder.addPropertyValue(node.getLocalName(), childBean);
+						}
+					}else{
+						builder.addPropertyValue(node.getLocalName(), node.getTextContent());
+					}
 				}
 			}
 		}
 	}
 
+
+	private Element getFirstChildElement(Node node) {
+		// TODO Auto-generated method stub
+		for(int i = 0;i<node.getChildNodes().getLength();i++){
+			Node childNode = node.getChildNodes().item(i);
+			if(Node.ELEMENT_NODE == childNode.getNodeType()){
+				return (Element) childNode;
+			}
+		}
+		
+		return null;
+	}
 
 	private boolean isList(String localName) {
 		return localName.equals("queryParams")||localName.equals("resultColumns");

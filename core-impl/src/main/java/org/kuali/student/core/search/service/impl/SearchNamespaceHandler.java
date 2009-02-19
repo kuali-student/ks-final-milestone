@@ -9,11 +9,11 @@ public class SearchNamespaceHandler extends NamespaceHandlerSupport {
 	public void init() {
 		BeanDefinitionParser parser = new SearchBeanDefinitionParser();
 		this.registerBeanDefinitionParser("fieldDescriptor", parser);
-		this.registerBeanDefinitionParser("searchCriteria", parser);
+		this.registerBeanDefinitionParser("searchCriteriaTypeInfo", parser);
 		this.registerBeanDefinitionParser("queryParam", parser);
 		this.registerBeanDefinitionParser("resultColumn", parser);
 		this.registerBeanDefinitionParser("searchType", parser);
-		this.registerBeanDefinitionParser("searchResult", parser);
+		this.registerBeanDefinitionParser("searchResultTypeInfo", parser);
 	}
 
 }
