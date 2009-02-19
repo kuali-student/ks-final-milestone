@@ -27,10 +27,10 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private CluIdentifier officialIdentifier;
+	private CluIdentifierInfo officialIdentifier;
 	
 	@XmlElement
-	private List<CluIdentifier> alternateIdentifiers;
+	private List<CluIdentifierInfo> alternateIdentifiers;
 
 	@XmlElement
 	private String studySubjectArea;
@@ -51,10 +51,10 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 	private List<String> participatingOrgs;
 
 	@XmlElement
-	private CluInstructor primaryInstructor;
+	private CluInstructorInfo primaryInstructor;
 
 	@XmlElement
-	private List<CluInstructor> instructors;
+	private List<CluInstructorInfo> instructors;
 
 	@XmlElement
 	private Date effectiveDate;
@@ -75,10 +75,10 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 	private List<LuCodeInfo> luCodes;
 
 	@XmlElement
-	private CluCredit creditInfo;
+	private CluCreditInfo creditInfo;
 
 	@XmlElement
-	private CluPublishing publishingInfo;
+	private CluPublishingInfo publishingInfo;
 
 	@XmlElement
 	private String nextReviewPeriod;
@@ -102,10 +102,10 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 	private boolean isHazardousForDisabledStudents;
 
 	@XmlElement
-	private CluFee feeInfo; 
+	private CluFeeInfo feeInfo; 
 
 	@XmlElement
-	private CluAccounting accountingInfo;
+	private CluAccountingInfo accountingInfo;
 
 	@XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -134,22 +134,22 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 		this.attributes = attributes;
 	}
 
-	public CluIdentifier getOfficialIdentifier() {
+	public CluIdentifierInfo getOfficialIdentifier() {
 		return officialIdentifier;
 	}
 
-	public void setOfficialIdentifier(CluIdentifier officialIdentifier) {
+	public void setOfficialIdentifier(CluIdentifierInfo officialIdentifier) {
 		this.officialIdentifier = officialIdentifier;
 	}
 
-	public List<CluIdentifier> getAlternateIdentifiers() {
+	public List<CluIdentifierInfo> getAlternateIdentifiers() {
 		if (alternateIdentifiers == null) {
-			alternateIdentifiers = new ArrayList<CluIdentifier>();
+			alternateIdentifiers = new ArrayList<CluIdentifierInfo>();
 		}
 		return alternateIdentifiers;
 	}
 
-	public void setAlternateIdentifiers(List<CluIdentifier> alternateIdentifiers) {
+	public void setAlternateIdentifiers(List<CluIdentifierInfo> alternateIdentifiers) {
 		this.alternateIdentifiers = alternateIdentifiers;
 	}
 
@@ -204,22 +204,22 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 		this.participatingOrgs = participatingOrgs;
 	}
 
-	public CluInstructor getPrimaryInstructor() {
+	public CluInstructorInfo getPrimaryInstructor() {
 		return primaryInstructor;
 	}
 
-	public void setPrimaryInstructor(CluInstructor primaryInstructor) {
+	public void setPrimaryInstructor(CluInstructorInfo primaryInstructor) {
 		this.primaryInstructor = primaryInstructor;
 	}
 
-	public List<CluInstructor> getInstructors() {
+	public List<CluInstructorInfo> getInstructors() {
 		if (instructors == null) {
-			instructors = new ArrayList<CluInstructor>();
+			instructors = new ArrayList<CluInstructorInfo>();
 		}
 		return instructors;
 	}
 
-	public void setInstructors(List<CluInstructor> instructors) {
+	public void setInstructors(List<CluInstructorInfo> instructors) {
 		this.instructors = instructors;
 	}
 
@@ -274,19 +274,19 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 		this.luCodes = luCodes;
 	}
 
-	public CluCredit getCreditInfo() {
+	public CluCreditInfo getCreditInfo() {
 		return creditInfo;
 	}
 
-	public void setCreditInfo(CluCredit creditInfo) {
+	public void setCreditInfo(CluCreditInfo creditInfo) {
 		this.creditInfo = creditInfo;
 	}
 
-	public CluPublishing getPublishingInfo() {
+	public CluPublishingInfo getPublishingInfo() {
 		return publishingInfo;
 	}
 
-	public void setPublishingInfo(CluPublishing publishingInfo) {
+	public void setPublishingInfo(CluPublishingInfo publishingInfo) {
 		this.publishingInfo = publishingInfo;
 	}
 
@@ -350,19 +350,19 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 		this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
 	}
 
-	public CluFee getFeeInfo() {
+	public CluFeeInfo getFeeInfo() {
 		return feeInfo;
 	}
 
-	public void setFeeInfo(CluFee feeInfo) {
+	public void setFeeInfo(CluFeeInfo feeInfo) {
 		this.feeInfo = feeInfo;
 	}
 
-	public CluAccounting getAccountingInfo() {
+	public CluAccountingInfo getAccountingInfo() {
 		return accountingInfo;
 	}
 
-	public void setAccountingInfo(CluAccounting accountingInfo) {
+	public void setAccountingInfo(CluAccountingInfo accountingInfo) {
 		this.accountingInfo = accountingInfo;
 	}
 

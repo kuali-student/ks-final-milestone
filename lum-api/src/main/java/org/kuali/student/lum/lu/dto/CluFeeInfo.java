@@ -28,35 +28,13 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluInstructor implements Serializable, HasAttributes {
+public class CluFeeInfo implements Serializable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String orgId;
-
-    @XmlElement
-    private String personId;
-
-    @XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
-
-    public String getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
 
     public Map<String,String> getAttributes() {
         if (attributes == null) {

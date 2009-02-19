@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.core.atp.dto.TimeAmountInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluCredit implements Serializable {
+public class CluCreditInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

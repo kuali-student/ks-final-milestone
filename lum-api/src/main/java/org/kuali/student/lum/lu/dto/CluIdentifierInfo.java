@@ -25,12 +25,9 @@ import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.core.dto.Idable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluIdentifier implements Serializable, Idable {
+public class CluIdentifierInfo implements Serializable, Idable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String cluId;
 
     @XmlElement
     private String code;
@@ -58,14 +55,6 @@ public class CluIdentifier implements Serializable, Idable {
 
     @XmlAttribute
     private String id;
-
-    public String getCluId() {
-        return cluId;
-    }
-
-    public void setCluId(String cluId) {
-        this.cluId = cluId;
-    }
 
     public String getCode() {
         return code;

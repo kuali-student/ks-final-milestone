@@ -32,7 +32,7 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluPublishing implements Serializable, Idable, HasAttributes {
+public class CluPublishingInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,10 +43,10 @@ public class CluPublishing implements Serializable, Idable, HasAttributes {
     private String endCycle;
 
     @XmlElement
-    private CluInstructor primaryInstructor;
+    private CluInstructorInfo primaryInstructor;
 
     @XmlElement
-    private List<CluInstructor> instructors;
+    private List<CluInstructorInfo> instructors;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -77,22 +77,22 @@ public class CluPublishing implements Serializable, Idable, HasAttributes {
         this.endCycle = endCycle;
     }
 
-    public CluInstructor getPrimaryInstructor() {
+    public CluInstructorInfo getPrimaryInstructor() {
         return primaryInstructor;
     }
 
-    public void setPrimaryInstructor(CluInstructor primaryInstructor) {
+    public void setPrimaryInstructor(CluInstructorInfo primaryInstructor) {
         this.primaryInstructor = primaryInstructor;
     }
 
-    public List<CluInstructor> getInstructors() {
+    public List<CluInstructorInfo> getInstructors() {
         if (instructors == null) {
-            instructors = new ArrayList<CluInstructor>();
+            instructors = new ArrayList<CluInstructorInfo>();
         }
         return instructors;
     }
 
-    public void setInstructors(List<CluInstructor> instructors) {
+    public void setInstructors(List<CluInstructorInfo> instructors) {
         this.instructors = instructors;
     }
 

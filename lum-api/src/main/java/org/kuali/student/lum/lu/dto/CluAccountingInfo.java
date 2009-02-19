@@ -28,7 +28,7 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CluFee implements Serializable, HasAttributes {
+public class CluAccountingInfo implements Serializable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
