@@ -1,13 +1,31 @@
 package org.kuali.student.core.organization.service.impl;
 
+import static org.junit.Assert.assertTrue;
+
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.validator.ServerDateParser;
+import org.kuali.student.common.validator.Validator;
+import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dictionary.service.DictionaryService;
+import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -178,6 +196,19 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		//Set all the values on orgInfo
 		orgInfo.setType(orgTypeKey);
+		
+		try {
+            List<ValidationResult> validations = validateOrg("", orgInfo);
+            DataValidationErrorException dataValidationErrorException = null;
+            for (ValidationResult validationResult : validations) {
+                if(validationResult.isError())
+                    dataValidationErrorException = (dataValidationErrorException == null? new DataValidationErrorException(validationResult.getMessages().toString()): new DataValidationErrorException(validationResult.getMessages().toString(),dataValidationErrorException)); 
+            }
+            if(dataValidationErrorException != null)
+                throw dataValidationErrorException;
+        } catch (DoesNotExistException e1) {
+            e1.printStackTrace();
+        }
 
 		Org org = null;
 
@@ -745,6 +776,23 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return updatedOrgPositionRestrictionInfo;
 	}
 
+    public DictionaryService client = new DictionaryServiceImpl(); //TODO this probably needs to be looked up
+    
+    private Map<String, PropertyDescriptor> getBeanInfo(Class<?> clazz) {
+        Map<String,PropertyDescriptor> properties = new HashMap<String, PropertyDescriptor>();
+        BeanInfo beanInfo = null;
+        try {
+            beanInfo = Introspector.getBeanInfo(clazz);
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            properties.put(propertyDescriptor.getName(), propertyDescriptor);
+        }
+        return properties;
+    }
+    
 	@Override
 	public List<ValidationResult> validateOrg(String validationType,
 			OrgInfo orgInfo) throws DoesNotExistException,
@@ -753,8 +801,42 @@ public class OrganizationServiceImpl implements OrganizationService {
 		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgInfo, "orgInfo");
+		
+		List<ValidationResult> results = new ArrayList<ValidationResult>();
 
-		return null;
+		Validator validator = new Validator();
+		validator.setDateParser(new ServerDateParser());
+//		validator.addMessages(null); //TODO this needs to be loaded somehow
+		
+		Map<String, PropertyDescriptor> beanInfo = getBeanInfo(orgInfo.getClass());
+		
+        ObjectStructure objStruct = client.getObjectStructure("orgInfo");
+        List<Type> types = objStruct.getType();
+        for(Type t: types){
+            if(t.getKey().equalsIgnoreCase(orgInfo.getType())){
+                for(State s: t.getState()){
+                    if(s.getKey().equalsIgnoreCase(orgInfo.getState())){
+                        for(Field f: s.getField()){
+                            Map<String, Object> map = f.getFieldDescriptor().toMap();
+                            Object value = null;
+                            PropertyDescriptor propertyDescriptor = beanInfo.get(f.getKey());
+                            if(propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
+                                try {
+                                    value = propertyDescriptor.getReadMethod().invoke(orgInfo);
+                                } catch (Exception e) {
+                                }
+                            } else {
+                                value = orgInfo.getAttributes().get(f.getKey());
+                            }
+                            results.add(validator.validate(f.getKey(), value, map));
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+		return results;
 	}
 
 	@Override

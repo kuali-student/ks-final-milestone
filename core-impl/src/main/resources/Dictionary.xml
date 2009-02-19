@@ -217,5 +217,115 @@
       </state>
     </type>
   </objectStructure>
+  <objectStructure objectTypeKey="orgInfo">
+    <type key="kuali.org.Program">
+      <state key="active">
+        <field key="desc">
+          <fieldDescriptor>
+            <name>Description</name>
+            <desc>Description of this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="longName">
+          <fieldDescriptor>
+            <name>Long Name</name>
+            <desc>The longer name for this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="shortName">
+          <fieldDescriptor>
+            <name>Short Name</name>
+            <desc>The shorter name for this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="Alias">
+          <fieldDescriptor>
+            <name>Alias</name>
+            <desc>The alias for this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="effectiveDate">
+          <fieldDescriptor>
+            <name>Effective Date</name>
+            <desc>Date on which an org becomes active.</desc>
+            <dataType>date</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="expirationDate">
+          <fieldDescriptor>
+            <name>Expiration Date</name>
+            <desc>Date on which an org becomes inactive.</desc>
+            <dataType>date</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+      </state>
+    </type>
+    
+    <type key="kuali.org.College">
+      <state key="updated active">
+        <field key="desc">
+          <fieldDescriptor>
+            <name>Description</name>
+            <desc>Description of this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="longName">
+          <fieldDescriptor>
+            <name>Long Name</name>
+            <desc>The longer name for this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="shortName">
+          <fieldDescriptor>
+            <name>Short Name</name>
+            <desc>The shorter name for this Org.</desc>
+            <dataType>string</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="effectiveDate">
+          <fieldDescriptor>
+            <name>Effective Date</name>
+            <desc>Date on which an org becomes active.</desc>
+            <dataType>date</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+        <field key="expirationDate">
+          <fieldDescriptor>
+            <name>Expiration Date</name>
+            <desc>Date on which an org becomes inactive.</desc>
+            <dataType>date</dataType>
+            <minOccurs>0</minOccurs>
+            <maxOccurs>1</maxOccurs>
+          </fieldDescriptor>
+        </field>
+      </state>
+    </type>
+  </objectStructure>
 
 </Dictionary>

@@ -3,12 +3,16 @@ package org.kuali.student.core.dictionary.service.impl;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.validator.ServerDateParser;
+import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Enum;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
@@ -16,7 +20,7 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dictionary.validator.Validator;
+import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
 
@@ -24,7 +28,7 @@ public class DictionaryServiceTest extends AbstractServiceTest{
     @Client(value = "org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl", port = "8181")
     public DictionaryService client;
     
-    private static final int TOTAL_OBJ = 1;
+    private static final int TOTAL_OBJ = 2;
 	private static final int TOTAL_CLUINFO_TYPES = 2;
 	
 	@Test
@@ -131,6 +135,16 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testValidator(){
+        List<Message> messages = new ArrayList<Message>();
+        Message message = new Message();
+        message.setId("validation.required");
+        message.setValue("Validation Required");
+        messages.add(message);
+        
+        Validator validator = new Validator();
+        validator.addMessages(messages);
+        validator.setDateParser(new ServerDateParser());
+        
 		ObjectStructure objStruct = client.getObjectStructure("cluInfo");
 		List<Type> types = objStruct.getType();
 		for(Type t: types){
@@ -139,20 +153,20 @@ public class DictionaryServiceTest extends AbstractServiceTest{
 					if(s.getKey().equals("proposed")){
 						for(Field f: s.getField()){
 							if(f.getKey().equals("cluId")){
-								Map<String, Object> m = f.getFieldDescriptor().toMap();
-								ValidationResult result = Validator.validate("A", m);
+								Map<String, Object> map = f.getFieldDescriptor().toMap();
+								ValidationResult result = validator.validate(f.getKey(), "A", map);
 								assertTrue("Did not pass validation", result.isOk());
-								result = Validator.validate("ABC123", m);
+								result = validator.validate(f.getKey(), "ABC123", map);
 								assertTrue("Did not pass validation.", result.isOk());
-								result = Validator.validate("ABC123ABC123ABC123ABC123ABC123ABC123", m);
+								result = validator.validate(f.getKey(), "ABC123ABC123ABC123ABC123ABC123ABC123", map);
 								assertTrue("Did not pass validation.", result.isOk());
-								result = Validator.validate("hurrrrr", m);
+								result = validator.validate(f.getKey(), "hurrrrr", map);
 								assertTrue("Validation error was expected, but passed validation.", result.isError());
-								result = Validator.validate("abc", m);
+								result = validator.validate(f.getKey(), "abc", map);
 								assertTrue("Validation error was expected, but passed validation.", result.isError());
-								result = Validator.validate("", m);
+								result = validator.validate(f.getKey(), "", map);
 								assertTrue("Validation error was expected, but passed validation.", result.isError());
-								result = Validator.validate("ABC123ABC123ABC123ABC123ABC123ABC1230", m);
+								result = validator.validate(f.getKey(), "ABC123ABC123ABC123ABC123ABC123ABC1230", map);
 								assertTrue("Validation error was expected, but passed validation.", result.isError());
 							}
 						}
