@@ -90,7 +90,9 @@ public class KSAccordionPanel extends Composite{
         private boolean isOpen = false;
     	
     	AccordionTitleBar(String name) {
-            add(new KSLabel(name));
+    		KSLabel titleLabel = new KSLabel(name);
+    		titleLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
+            add(titleLabel);
             setDefaultStyle();
             addEventHandlers();
         }
@@ -145,9 +147,12 @@ public class KSAccordionPanel extends Composite{
 	            	if(w instanceof FlowPanel){
 	            		Widget firstWidget = ((FlowPanel) w).getWidget(0);
 	            		if(firstWidget instanceof KSAccordionMenu){
-	            			KSAccordionPanel subPanel = ((KSAccordionMenu) firstWidget).getMenu();
-	            			subPanel.resetTitleBars();
-	            			recursiveReset(subPanel);
+	            			//Check to see if the menu is retaining history
+	            			if(!((KSAccordionMenu) firstWidget).isRetainingHistory()){
+		            			KSAccordionPanel subPanel = ((KSAccordionMenu) firstWidget).getMenu();
+		            			subPanel.resetTitleBars();
+		            			recursiveReset(subPanel);
+	            			}
 	            		}
     				}
 	            }
@@ -158,15 +163,6 @@ public class KSAccordionPanel extends Composite{
 		private void openAction(){
 			for (Widget w : widgetList) {
 	            if(w != null){
-/*	            	if(w instanceof FlowPanel){
-	            		Widget firstWidget = ((FlowPanel) w).getWidget(0);
-	            		if(firstWidget instanceof KSAccordionMenu){
-	            			KSAccordionPanel subMenu = ((KSAccordionMenu) firstWidget).getMenu();
-	            			subMenu.resetTitleBars();
-	            			recursiveReset(subMenu);
-	            			
-	            		}
-    				}*/
 	            	content.remove(w);
 	            }
 	        }

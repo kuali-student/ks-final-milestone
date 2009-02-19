@@ -2,20 +2,27 @@ package org.kuali.student.common.ui.client.widgets.menus;
 
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
+
+import com.google.gwt.core.client.GWT;
 
 public class KSAccordionMenu extends KSMenu{
 	
 	private KSAccordionPanel menu = new KSAccordionPanel();
-	private String indent = "";
+	private boolean retainHistory = false;
+	private int level = 0;
 	
 	@Override
 	protected void populateMenu() {
 		this.initWidget(menu);
 		for(KSMenuItemData i: items){
-			KSLabel categoryLabel = new KSLabel(indent + i.getLabel());
-/*			if(labelStyle != null){
-				categoryLabel.addStyleName(labelStyle);
-			}*/
+			
+			KSLabel categoryLabel = new KSLabel(i.getLabel());
+			if(level > 0 && level <= 7){
+				categoryLabel.addStyleName(KSStyles.KS_INDENT + "-" + level);
+			}
+			categoryLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
+			
 			if(i.getClickHandler() != null){
 				categoryLabel.addClickHandler(i.getClickHandler());
 			}
@@ -24,9 +31,9 @@ public class KSAccordionMenu extends KSMenu{
 				menu.addPanel(categoryLabel);
 			}
 			else{
-				KSAccordionMenu subMenu = new KSAccordionMenu();
-				//subMenu.setLabelStyle("KS-Accordion-SubMenu-Indent");
-				subMenu.setIndent(indent + "      ");
+				KSAccordionMenu subMenu = GWT.create(KSAccordionMenu.class);
+				subMenu.setRetainHistory(retainHistory);
+				subMenu.setLevel(level+1);
 				subMenu.setItems(i.getSubItems());
 				menu.addPanel(categoryLabel, subMenu);
 			}
@@ -38,8 +45,22 @@ public class KSAccordionMenu extends KSMenu{
 		return menu;
 	}
 	
-	public void setIndent(String indent){
-		this.indent = indent;
+	public void setLevel(int level){
+		this.level = level;
+	}
+	
+	/**
+	 * Retain the history of all sub menus when a top level menu is closed.  This must be called
+	 * BEFORE the super class method setItems.
+	 * @param retain true if you are retaining history, false if you are clearing it.
+	 * @pre This must be called BEFORE the super class method - setItems.
+	 */
+	public void setRetainHistory(boolean retain){
+		retainHistory = retain;
+	}
+
+	public boolean isRetainingHistory() {
+		return retainHistory;
 	}
 	
 }
