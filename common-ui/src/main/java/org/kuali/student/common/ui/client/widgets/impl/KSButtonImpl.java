@@ -1,4 +1,7 @@
-package org.kuali.student.common.ui.client.widgets;
+package org.kuali.student.common.ui.client.widgets.impl;
+
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -23,96 +26,93 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 
-public class KSButton extends Button{
+public class KSButtonImpl extends KSButton{
 	
-	public KSButton(){
-		super();
-		setupDefaultStyle();
+	private Button button;
+	@Override
+	public void init(String html) {
+		button = new Button(html);
 		
 	}
-	
-	public KSButton(String html){
-		super(html);
-		setupDefaultStyle();
-	}
-	
-	public KSButton(String html,ClickHandler handler){
-		super(html, handler);
-		setupDefaultStyle();
+
+	@Override
+	public void init(String html, ClickHandler handler) {
+		button = new Button(html, handler);
+		
 	}
 	
 	private void setupDefaultStyle(){
-		addStyleName(KSStyles.KS_BUTTON_STYLE);
+		button.addStyleName(KSStyles.KS_BUTTON_STYLE);
 		
-		this.addBlurHandler(new BlurHandler(){
+		button.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
-				KSButton.this.removeStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
+				button.removeStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
 				
 			}	
 		});	
 
-		this.addFocusHandler(new FocusHandler(){
+		button.addFocusHandler(new FocusHandler(){
 			public void onFocus(FocusEvent event) {
-				KSButton.this.addStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
+				button.addStyleName(KSStyles.KS_BUTTON_FOCUS_STYLE);
 
 			}		
 		});
 		
-		this.addMouseOverHandler(new MouseOverHandler(){
+		button.addMouseOverHandler(new MouseOverHandler(){
 			public void onMouseOver(MouseOverEvent event) {
-				KSButton.this.addStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
+				button.addStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
 				
 			}		
 		});
 		
-		this.addMouseOutHandler(new MouseOutHandler(){
+		button.addMouseOutHandler(new MouseOutHandler(){
 
 			public void onMouseOut(MouseOutEvent event) {
-				KSButton.this.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
-				KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
+				button.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
+				button.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
 			}
 			
 		});
 		
-		this.addClickHandler(new ClickHandler(){
+		button.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
-				KSButton.this.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
+				button.removeStyleName(KSStyles.KS_BUTTON_HOVER_STYLE);
 			}
 			
 		});
 		
-		this.addMouseDownHandler(new MouseDownHandler(){
+		button.addMouseDownHandler(new MouseDownHandler(){
 
 			public void onMouseDown(MouseDownEvent event) {
-				KSButton.this.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
+				button.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
 				
 			}
 		});
 		
-		this.addMouseUpHandler(new MouseUpHandler(){
+		button.addMouseUpHandler(new MouseUpHandler(){
 
 			public void onMouseUp(MouseUpEvent event) {
-				KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
+				button.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
 				
 			}
 		});
 		
-		this.addKeyDownHandler(new KeyDownHandler(){
+		button.addKeyDownHandler(new KeyDownHandler(){
 
 			public void onKeyDown(KeyDownEvent event) {
 				if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-					KSButton.this.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
+					button.addStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
 				}
 			}
 			
 		});
 		
-		this.addKeyUpHandler(new KeyUpHandler(){
+		button.addKeyUpHandler(new KeyUpHandler(){
 
 			public void onKeyUp(KeyUpEvent event) {
 				if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-					KSButton.this.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
+					button.removeStyleName(KSStyles.KS_BUTTON_CLICK_STYLE);
 				}
 				
 			}
@@ -120,6 +120,8 @@ public class KSButton extends Button{
 		});
 		
 	}
+
+
 	
 	
 	
