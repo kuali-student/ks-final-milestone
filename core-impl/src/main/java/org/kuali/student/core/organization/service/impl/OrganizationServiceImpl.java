@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
-import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
