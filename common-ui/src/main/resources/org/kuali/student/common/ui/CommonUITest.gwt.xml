@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
 
-	<!-- Inherit the core Web Toolkit stuff.                  -->
-	<inherits name="com.google.gwt.user.User"/>
-	
-	<inherits name="org.kuali.student.core.messages.Message"/>
-  	<inherits name="com.google.gwt.visualization.Visualization"/>
+	<!-- Inherit common-ui.                  -->
+  	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
-  
-  	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
-  	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
-  	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
-  	
-	<!--  <inherits name='org.gwt.mosaic.Mosaic' />
-	<stylesheet src="gwt/standard/Mosaic.css" /> -->
-	
-  	<stylesheet src="CommonUI.css"/>  	
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSButtonImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSButton"/>
-    </replace-with>  	
-    
+    	
 </module>
