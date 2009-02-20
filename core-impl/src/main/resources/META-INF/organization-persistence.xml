@@ -6,7 +6,6 @@
 	<persistence-unit name="Organization" transaction-type="JTA">
 		<class>org.kuali.student.core.entity.Type</class>
 		<class>org.kuali.student.core.entity.Attribute</class>
-		<class>org.kuali.student.core.entity.TypeAttribute</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
@@ -26,7 +25,8 @@
 		<class>org.kuali.student.core.organization.entity.OrgPositionRestriction</class>
 		<class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute</class>
 		<class>org.kuali.student.core.organization.entity.OrgType</class>
-		
+		<class>org.kuali.student.core.organization.entity.OrgTypeAttribute</class>
+				
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>		
 	</persistence-unit>
 </persistence>

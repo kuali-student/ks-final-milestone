@@ -1,37 +1,37 @@
 //TYPES
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.CorporateEntity', 'A legal corporate entity', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Corporate Entity')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.CorporateEntity', 'A legal corporate entity', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Corporate Entity')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Board', 'A Board of Directors', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Board')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Board', 'A Board of Directors', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Board')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Division', 'A Division', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Division')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Division', 'A Division', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Division')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.School', 'A School', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'School')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.School', 'A School', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'School')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Program', 'A Program', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Program')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Program', 'A Program', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Program')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Center', 'A Center', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Center')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Center', 'A Center', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Center')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.College', 'A College', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'College')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.College', 'A College', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'College')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Department', 'A Department', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Department')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Department', 'A Department', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Department')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Office', 'An Office', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Office')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Office', 'An Office', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Office')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Association', 'An Association', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Association')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Association', 'An Association', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Association')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.AdvisoryGroup', 'An Advisory Group', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Advisory Group')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.AdvisoryGroup', 'An Advisory Group', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Advisory Group')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.WorkGroup', 'A group organized for a particular purpose', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Work Group')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.WorkGroup', 'A group organized for a particular purpose', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Work Group')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Section', 'A Section', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Section')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Section', 'A Section', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Section')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Senate', 'A Deliberative body', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Senate')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Senate', 'A Deliberative body', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Senate')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.Committee', 'A Committee', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Committee')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.Committee', 'A Committee', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Committee')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.AdhocCommittee', 'An Adhoc Committee', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Adhoc Committee')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.AdhocCommittee', 'An Adhoc Committee', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Adhoc Committee')
 /
-insert into KS_TYPE_T (DTYPE, TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('OrgType', 'kuali.org.COC', 'A committee that approves curriculum', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'COC')
+insert into KS_ORG_TYPE_T (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('kuali.org.COC', 'A committee that approves curriculum', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'COC')
 /
 
 

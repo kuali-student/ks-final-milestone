@@ -79,7 +79,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		// copy attributes, metadata, and Type
 		orgInfo.setAttributes(toAttributeMap(org.getAttributes()));
 		orgInfo.setMetaInfo(toMetaInfo(org.getMeta(), org.getVersionInd()));
-		orgInfo.setType(org.getType().getKey());
+		orgInfo.setType(org.getType().getId());
 
 		return orgInfo;
 	}

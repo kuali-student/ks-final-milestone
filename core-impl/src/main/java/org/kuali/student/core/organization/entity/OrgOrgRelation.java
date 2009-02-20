@@ -43,7 +43,7 @@ import org.kuali.student.core.entity.MetaEntity;
 					   		 "  FROM OrgOrgRelation oor " +
 					   		 " WHERE oor.org.id = :orgId " +
 					   		 "   AND oor.relatedOrg.id = :comparisonOrgId " +
-					   		 "   AND oor.type.key = :orgOrgRelationTypeKey")
+					   		 "   AND oor.type.id = :orgOrgRelationTypeKey")
 })
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {

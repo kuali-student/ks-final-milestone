@@ -68,7 +68,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 
 		OrgType orgType = new OrgType();
 
-		orgType.setKey("kuali.org.CorporateEntity");
+		orgType.setId("kuali.org.CorporateEntity");
 		orgType.setName("Corporate Entity");
 		orgType.setDesc("A legal corporate entity");
 
@@ -109,7 +109,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public void testDeleteOrganizationByReference() {
 
 		OrgType orgType = new OrgType();
-		orgType.setKey("kauli.org.TestOrgTypeKey1");
+		orgType.setId("kauli.org.TestOrgTypeKey1");
 		orgType.setName("Test OrgType 1");
 		orgType.setDesc("A test OrgType");
 
@@ -171,7 +171,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public void testDeleteOrganizationByKey() {
 
 		OrgType orgType = new OrgType();
-		orgType.setKey("kauli.org.TestOrgTypeKey1");
+		orgType.setId("kauli.org.TestOrgTypeKey1");
 		orgType.setName("Test OrgType 1");
 		orgType.setDesc("A test OrgType");
 
