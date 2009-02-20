@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Composite;
 
 public abstract class KSButton extends Composite{
 
-	public abstract void init(String html);
 	public abstract void init(String html, ClickHandler handler);
 
 }

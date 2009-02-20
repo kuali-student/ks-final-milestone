@@ -16,6 +16,8 @@
 	<stylesheet src="gwt/standard/Mosaic.css" /> -->
 	
   	<stylesheet src="CommonUI.css"/>  	
-  	
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSButtonImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSButton"/>
+    </replace-with>  	
     
 </module>

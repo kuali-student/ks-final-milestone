@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -17,7 +18,7 @@ public class KSHelpDialog extends KSInfoPopupPanel{
 	private HorizontalPanel header = new HorizontalPanel();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	private VerticalPanel main = new VerticalPanel();
-	private KSButton ok = new KSButton("OK");
+	private KSButton ok = GWT.create(KSButton.class);
 	private HelpInfo helpInfo;
 	
 	public KSHelpDialog() {}
@@ -54,14 +55,15 @@ public class KSHelpDialog extends KSInfoPopupPanel{
 		main.add(webFrame);
 		
 		buttonPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
-		buttonPanel.add(ok);
-		ok.addClickHandler(new ClickHandler(){
+		this.ok.init("OK",new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
 				KSHelpDialog.this.hide();
 				
 			}
 		});
+		buttonPanel.add(this.ok);
+
 		main.add(buttonPanel);
 		
 		setupDefaultStyles();

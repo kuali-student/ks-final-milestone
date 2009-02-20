@@ -29,16 +29,14 @@ import com.google.gwt.user.client.ui.Button;
 public class KSButtonImpl extends KSButton{
 	
 	private Button button;
-	@Override
-	public void init(String html) {
-		button = new Button(html);
-		
-	}
 
 	@Override
 	public void init(String html, ClickHandler handler) {
-		button = new Button(html, handler);
-		
+		if(handler != null) {
+			button = new Button(html, handler);
+		} else {
+			button = new Button(html);
+		}
 	}
 	
 	private void setupDefaultStyle(){
