@@ -24,7 +24,7 @@ public class LuLuRelationType {
 	private String id;
 
 	@ManyToMany
-	@JoinTable(name = "KS_LU_REL_TYPE_LU_TYPE_T", joinColumns = @JoinColumn(name = "LU_REL_TYPE_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID", referencedColumnName = "ID"))
+	@JoinTable(name = "KS_LU_REL_TYPE_LU_TYPE_T", joinColumns = @JoinColumn(name = "LU_REL_TYPE_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID", referencedColumnName = "TYPE_KEY"))
 	private List<LuType> luTypes;
 
 	@Column(name = "LU_REL_NAME")
