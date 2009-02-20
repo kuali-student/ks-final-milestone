@@ -5,21 +5,35 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+
+/**
+ * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class RadioButtonList extends SelectItemWidget implements ClickHandler{
     private HorizontalPanel radioPanel = new HorizontalPanel();
     private String name;
     private String selectedValue = null;
+    private List<ChangeHandler> changeHandlers = new ArrayList<ChangeHandler>();
     
 	public RadioButtonList(String name) {
         this.initWidget(radioPanel);
         this.name = name;
 	}
 	
-	@Override
+
+	/**
+	 * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#deSelectItem(java.lang.String)
+	 */
 	public void deSelectItem(String id) {
         for (int i=0; i < radioPanel.getWidgetCount(); i++){
             KSRadioButton radioButton = (KSRadioButton)radioPanel.getWidget(i);
@@ -31,7 +45,9 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
         }		
 	}
 
-	@Override
+	/**
+	 * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#getSelectedItems()
+	 */
 	public List<String> getSelectedItems() {
 	    List<String> items = new ArrayList<String>();
 	    if (selectedValue != null){
@@ -40,7 +56,11 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
 	    return items;
 	}
 
-	@Override
+
+	
+	/**
+	 * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#selectItem(java.lang.String)
+	 */
 	public void selectItem(String id) {
 	    deSelectItem(id);
 	    
@@ -54,7 +74,6 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
 	    }
 	}
 
-    @Override
     public void setListItems(ListItems listItems) {
         super.setListItems(listItems);
         
@@ -73,6 +92,8 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
         if (b.getValue()){
             selectedValue = b.getFormValue();
         }
-   }        
+        
+        super.fireChangeEvent();
+   }
     
 }
