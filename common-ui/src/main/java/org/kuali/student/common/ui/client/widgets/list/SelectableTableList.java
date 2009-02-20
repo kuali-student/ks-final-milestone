@@ -22,7 +22,7 @@ public class SelectableTableList extends SelectItemWidget {
     Map<Integer, String> idMapping = new HashMap();
     Map<String, Integer> rowMapping = new HashMap();
     boolean loaded = false;
-    boolean multiSelect = true;
+    boolean multiSelect = false;
     int selRow = -1;
     
     public SelectableTableList(){
@@ -116,9 +116,11 @@ public class SelectableTableList extends SelectItemWidget {
                                 selections.set(0,sel);
                                 selRow = sel.getRow();
                                 table.setSelections(selections);
-                            } else {
+                            } else if (selections.length() == 1){
                                 selRow = selections.get(0).getRow();
-                            }                            
+                            } else {
+                                selRow = -1;
+                            }
                         }
                         fireChangeEvent();
                     }                   
