@@ -32,11 +32,12 @@ public class KSButtonImpl extends KSButton{
 
 	@Override
 	public void init(String html, ClickHandler handler) {
-		if(handler != null) {
+	    if(handler != null) {
 			button = new Button(html, handler);
 		} else {
 			button = new Button(html);
 		}
+        this.initWidget(button);
 	}
 	
 	private void setupDefaultStyle(){
