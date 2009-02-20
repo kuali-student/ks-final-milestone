@@ -23,20 +23,36 @@ import org.kuali.student.core.entity.MetaEntity;
 public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private String id;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LuiAttribute> attributes;
-	
+
 	@ManyToOne
-	@JoinColumn(name="CLU_ID")
+	@JoinColumn(name = "CLU_ID")
 	private Clu clu;
 
-	
-	@Column(name="ATP_ID")
-	private String atpId; //Foreign Service Key
-	
+	@Column(name = "ATP_ID")
+	private String atpId; // Foreign Service Key
+
+	@Column(name = "LUI_CODE")
+	private String luiCode;
+
+	@Column(name = "MAX_SEATS")
+	private Integer maxSeats;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EFFECTIVE_DT")
+	private Date effectiveDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIRATION_DT")
+	private Date expirationDate;
+
+	@Column(name = "STATE")
+	private String state;
+
 	@Override
 	public List<LuiAttribute> getAttributes() {
 		if (attributes == null) {
@@ -45,25 +61,6 @@ public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 		return attributes;
 	}
 
-	@Column(name="LUI_CODE")
-    private String luiCode;
-
-	@Column(name="MAX_SEATS")
-    private Integer maxSeats;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="EFFECTIVE_DT")
-    private Date effectiveDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="EXPIRATION_DT")
-	private Date expirationDate;
-
-	@Column(name="STATE")
-    private String state;
-
-
-	
 	@Override
 	public void setAttributes(List<LuiAttribute> attributes) {
 		this.attributes = attributes;
