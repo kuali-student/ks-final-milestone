@@ -67,4 +67,9 @@ public interface KSStyles {
 	public static final String KS_BLOCKING_TASK_ITEM = "KS-Blocking-Task-Item";
 	
 	
+	public static final String KS_FLOATPANEL = "KS-FloatPanel";
+
+	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
+	
+	
 }
