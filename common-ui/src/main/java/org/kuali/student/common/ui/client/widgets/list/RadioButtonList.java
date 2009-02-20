@@ -62,7 +62,7 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
 	 * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#selectItem(java.lang.String)
 	 */
 	public void selectItem(String id) {
-	    deSelectItem(id);
+	    deSelectItem(selectedValue);
 	    
 	    for (int i=0; i < radioPanel.getWidgetCount(); i++){
 	        KSRadioButton radioButton = (KSRadioButton)radioPanel.getWidget(i);
