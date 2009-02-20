@@ -1,24 +1,18 @@
 package org.kuali.student.core.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name="KS_TYPE_T")
-public abstract class Type implements AttributeOwner<TypeAttribute> {
+@MappedSuperclass
+public abstract class Type<T extends Attribute<?>> implements AttributeOwner<T> {
 	@Id
 	@Column(name = "TYPE_KEY")
 	private String key;
@@ -32,9 +26,6 @@ public abstract class Type implements AttributeOwner<TypeAttribute> {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expirationDate;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<TypeAttribute> attributes;
 
 	public String getName() {
 		return name;
@@ -60,22 +51,12 @@ public abstract class Type implements AttributeOwner<TypeAttribute> {
 		this.expirationDate = expirationDate;
 	}
 
-	public List<TypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<TypeAttribute>();
-		}
-		return attributes;
-	}
 
-	public void setAttributes(List<TypeAttribute> attributes) {
-		this.attributes = attributes;
-	}
-
-	public String getKey() {
+	public String getId() {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setId(String key) {
 		this.key = key;
 	}
 
