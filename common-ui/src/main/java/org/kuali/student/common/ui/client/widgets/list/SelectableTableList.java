@@ -22,6 +22,8 @@ public class SelectableTableList extends SelectItemWidget {
     Map<Integer, String> idMapping = new HashMap();
     Map<String, Integer> rowMapping = new HashMap();
     boolean loaded = false;
+    boolean multiSelect = true;
+    int selRow = -1;
     
     public SelectableTableList(){
         initWidget(root);
@@ -54,13 +56,24 @@ public class SelectableTableList extends SelectItemWidget {
     }
 
     public void selectItem(String id) {
-        JsArray<Selection> selections = (JsArray<Selection>)JsArray.createArray();
-        
         Selection sel = Selection.createRowSelection(rowMapping.get(id).intValue());
-        selections.set(0,sel);
+        
+        JsArray<Selection> selections;
+        if (multiSelect){
+            selections = table.getSelections();
+        } else {
+            selections = (JsArray<Selection>)JsArray.createArray();
+            selRow = sel.getRow();
+        }
+        
+        selections.set(selections.length(),sel);
         table.setSelections(selections);
     }
 
+    public void enableMultiSelect(boolean b){
+        this.multiSelect = b;
+    }
+    
     public void onLoad() {               
         Runnable onLoadCallback = new Runnable() {
           public void run() {     
@@ -89,19 +102,30 @@ public class SelectableTableList extends SelectItemWidget {
                 row ++;
                 col=0;
             }
-            Options options = Options.create();
-            options.setPageSize(50);
-            options.setPage(Policy.ENABLE);
             
             if (table == null){
                 table = new Table();                
                 table.addSelectHandler(new SelectHandler(){
                     public void onSelect(SelectEvent event) {
+                        if (!multiSelect){
+                            //Make it to only select one row
+                            JsArray<Selection> selections = table.getSelections();
+                            if (selections.length() > 1){
+                                Selection sel = (selections.get(0).getRow() == selRow ? selections.get(1):selections.get(0));
+                                selections = (JsArray<Selection>)JsArray.createArray();
+                                selections.set(0,sel);
+                                selRow = sel.getRow();
+                                table.setSelections(selections);
+                            } else {
+                                selRow = selections.get(0).getRow();
+                            }                            
+                        }
                         fireChangeEvent();
                     }                   
                 });
             }
 
+            Options options = Options.create();
             table.draw(data,options);
             root.setWidget(table);
           }
