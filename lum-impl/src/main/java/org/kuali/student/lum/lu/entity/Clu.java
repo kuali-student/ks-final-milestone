@@ -57,10 +57,12 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Column(name = "STUDY_SUBJECT_AREA")
     private String studySubjectArea;
 	
-	@Column(name = "DESC")
+	@ManyToOne
+	@JoinColumn(name = "CLU_DESC")
 	private RichText desc;
 	
-	@Column(name = "MARKETING_DESC")
+	@ManyToOne
+	@JoinColumn(name = "MARKETING_DESC")
     private RichText marketingDesc;
 
 /*	@Column(name = "ACCREDITING_ORG")
