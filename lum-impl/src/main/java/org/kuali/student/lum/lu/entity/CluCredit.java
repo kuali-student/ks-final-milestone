@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.entity;
  
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -51,19 +53,32 @@ public class CluCredit {
     private Integer instructorUnits;
 
     @Embedded
-    @Column(name = "MIN_TIME_TO_COMPLETE")
+    @AttributeOverrides({
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MIN_TIME_TO_COMPLETE_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MIN_TIME_TO_COMPLETE_TIME"))}
+    )
     private TimeAmount minTimeToComplete;
 
     @Embedded
-    @Column(name = "MAX_TIME_TO_COMPLETE")
+    @AttributeOverrides({
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_TIME_TO_COMPLETE_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_TIME_TO_COMPLETE_TIME"))}
+    )
     private TimeAmount maxTimeToComplete;
 
     @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_ALOW_INACV_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_ALOW_INACV_TIME"))}
+    )
     @Column(name = "MAX_ALLOWABLE_INACTIVITY")
     private TimeAmount maxAllowableInactivity;
 
     @Embedded
-    @Column(name = "MAX_TIME_RESULTS_RECOGNIZED")
+    @AttributeOverrides({
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_TIME_RSLT_RCGZ_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_TIME_RSLT_RCGZ_TIME"))}
+    )
     private TimeAmount maxTimeResultsRecognized;
 
     public String getRepeatCount() {
