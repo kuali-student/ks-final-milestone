@@ -15,11 +15,8 @@
  */
 package org.kuali.student.lum.lu.entity;
  
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,14 +24,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @Entity
 @Table(name = "KS_CLU_ACCOUNTING_T")
