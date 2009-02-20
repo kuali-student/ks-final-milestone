@@ -107,11 +107,32 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 			fail("Should throw VersionMismatchException");
 		} catch (VersionMismatchException e) {
 		}
+		
+		// now test delete (and clean up changes made)
+		StatusInfo si;
+		String orgId = createOrg.getId();
+		try {
+			si = client.deleteOrganization(orgId);
+			assertTrue(si.getSuccess());
+		} catch (DoesNotExistException e) {
+			fail("OrganizationService.deleteOrganization() failed deleting just-created Organization");
+		}
 
+		try {
+			client.removeOrgPersonRelation(orgId);
+			fail("OrganizationService.deleteOrganization() of a deleted Organization did not throw DoesNotExistException as expected");
+		} catch (DoesNotExistException e) {
+		}
+
+		try {
+			client.removeOrgPersonRelation(null);
+			fail("OrganizationService.deleteOrganization(null) did not throw DoesNotExistException as expected");
+		} catch (MissingParameterException e) {
+		}
 	}
 
 	@Test
-	public void testCreateOrgPersonRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
+	public void testCreateDeleteOrgPersonRelation() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
 		OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
@@ -133,15 +154,27 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals("kuali.org.PersonRelation.Dean",createdOPRInfo.getType());
 		assertNotNull(createdOPRInfo.getId());
 
-//		OrgPersonRelationInfo updateInfo = client.getOrgPersonRelation(createdOPRInfo.getId());
-//		updateInfo.setState("Updated Active");
-//		updateInfo.setEffectiveDate(df.parse("20090111"));
-//		updateInfo.setExpirationDate(df.parse("21001211"));
-//		updateInfo.setOrgId("4");
-//		updateInfo.setPersonId("Updated KIM-12345");
-//		updateInfo.setType("kuali.org.PersonRelation.Dean");
+		// now test remove (and clean up changes made)
+		StatusInfo si;
+		String oprId = createdOPRInfo.getId();
+		try {
+			si = client.removeOrgPersonRelation(oprId);
+			assertTrue(si.getSuccess());
+		} catch (DoesNotExistException e) {
+			fail("OrganizationService.removeOrgPersonRelation() failed removing just-created OrgPersonRelation");
+		}
 
+		try {
+			client.removeOrgPersonRelation(oprId);
+			fail("OrganizationService.removeOrgPersonRelation() of a deleted OrgPersonRelation did not throw DoesNotExistException as expected");
+		} catch (DoesNotExistException e) {
+		}
 
+		try {
+			client.removeOrgPersonRelation(null);
+			fail("OrganizationService.removeOrgPersonRelation(null) did not throw DoesNotExistException as expected");
+		} catch (MissingParameterException e) {
+		}
 	}
 
 	@Test
@@ -166,6 +199,28 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals("17",createdOORInfo.getRelatedOrgId());
 		assertEquals("kuali.org.Part",createdOORInfo.getType());
 		assertNotNull(createdOORInfo.getId());
+		
+		// now test remove (and clean up changes made)
+		StatusInfo si;
+		String oorId = createdOORInfo.getId();
+		try {
+			si = client.removeOrgOrgRelation(oorId);
+			assertTrue(si.getSuccess());
+		} catch (DoesNotExistException e) {
+			fail("OrganizationService.removeOrgOrgRelation() failed removing just-created OrgOrgRelation");
+		}
+
+		try {
+			client.removeOrgOrgRelation(oorId);
+			fail("OrganizationService.removeOrgOrgRelation() of a deleted OrgOrgRelation did not throw DoesNotExistException as expected");
+		} catch (DoesNotExistException e) {
+		}
+
+		try {
+			client.removeOrgOrgRelation(null);
+			fail("OrganizationService.removeOrgOrgRelation(null) did not throw MissingParameterException as expected");
+		} catch (MissingParameterException e) {
+		}
 	}
 
 	@Test
@@ -381,7 +436,6 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
-
 	}
 
 
@@ -508,7 +562,7 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 
 		// test getting the whole tree
 		results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 0);
-		assertEquals(164, results.size());
+		assertEquals(160, results.size());
 	}
 
 	@Test
@@ -516,58 +570,6 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertTrue(client.hasOrgOrgRelation("15", "28", "kuali.org.Part"));
 		assertFalse(client.hasOrgOrgRelation("1", "15", "kuali.org.Part"));
 	}
-
-	/*
-	 * Test delete operations
-	 */
-	@Test
-	public void removeOrgOrgRelation() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		StatusInfo si;
-		try {
-			si = client.removeOrgOrgRelation("16");
-			assertTrue(si.getSuccess());
-		} catch (DoesNotExistException e) {
-			assertTrue(false);
-		}
-
-		try {
-			si = client.removeOrgOrgRelation("16");
-			fail("OrganizationService.removeOrgOrgRelation() of a deleted OrgOrgRelation did not throw DoesNotExistException as expected");
-		} catch (DoesNotExistException e) {
-		}
-
-		try {
-			si = client.removeOrgOrgRelation(null);
-			fail("OrganizationService.removeOrgOrgRelation(null) did not throw MissingParameterException as expected");
-		} catch (MissingParameterException e) {
-		}
-	}
-
-	@Test
-	public void removeOrgPersonRelation() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		StatusInfo si;
-		try {
-			si = client.removeOrgPersonRelation("5");
-			assertTrue(si.getSuccess());
-		} catch (DoesNotExistException e) {
-			assertTrue(false);
-		}
-
-		try {
-			si = client.removeOrgPersonRelation("5");
-			assertTrue(false);
-		} catch (DoesNotExistException e) {
-			assertTrue(true);
-		}
-
-		try {
-			si = client.removeOrgPersonRelation(null);
-			assertTrue(false);
-		} catch (MissingParameterException e) {
-			assertTrue(true);
-		}
-	}
-
 
 	@Test
 	public void getOrgPersonIdsByRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
