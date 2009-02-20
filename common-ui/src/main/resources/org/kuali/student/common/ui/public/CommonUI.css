@@ -287,3 +287,15 @@ KS-Disclosure-Section-Open{
 .KS-Mouse-Wait{
 	cursor:wait;
 }
+
+
+.KS-FloatPanel {
+	background-color: aqua;
+	border: solid;
+	border-color: black;
+}
+
+.KS-CollapsableFloatPanel-ButtonPanel {
+	height: 100%;
+	vertical-align: middle;
+}
