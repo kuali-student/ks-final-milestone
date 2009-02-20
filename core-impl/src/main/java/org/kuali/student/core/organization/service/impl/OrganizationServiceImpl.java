@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
+import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.core.dictionary.dto.Field;
@@ -21,6 +22,7 @@ import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -67,6 +69,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
 	private OrganizationDao organizationDao;
+    public DictionaryService dictionaryServiceDelegate = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+
 
 	@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
@@ -771,8 +775,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return updatedOrgPositionRestrictionInfo;
 	}
 
-    public DictionaryService client = new DictionaryServiceImpl(); //TODO this probably needs to be looked up
-    
     private Map<String, PropertyDescriptor> getBeanInfo(Class<?> clazz) {
         Map<String,PropertyDescriptor> properties = new HashMap<String, PropertyDescriptor>();
         BeanInfo beanInfo = null;
@@ -805,7 +807,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		
 		Map<String, PropertyDescriptor> beanInfo = getBeanInfo(orgInfo.getClass());
 		
-        ObjectStructure objStruct = client.getObjectStructure("orgInfo");
+        ObjectStructure objStruct = getObjectStructure("orgInfo");
         List<Type> types = objStruct.getType();
         for(Type t: types){
             if(t.getKey().equalsIgnoreCase(orgInfo.getType())){
@@ -820,8 +822,8 @@ public class OrganizationServiceImpl implements OrganizationService {
                                     value = propertyDescriptor.getReadMethod().invoke(orgInfo);
                                 } catch (Exception e) {
                                 }
-                            } else {
-                                value = orgInfo.getAttributes().get(f.getKey());
+                            } else if(orgInfo instanceof HasAttributes) {
+                                value = ((HasAttributes)orgInfo).getAttributes().get(f.getKey());
                             }
                             results.add(validator.validate(f.getKey(), value, map));
                         }
@@ -960,28 +962,24 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public ObjectStructure getObjectStructure(String objectTypeKey) {
-		// TODO Auto-generated method stub
-		return null;
+		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
 	}
 
 	@Override
 	public List<String> getObjectTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return dictionaryServiceDelegate.getObjectTypes();
 	}
 
 	@Override
 	public boolean validateObject(String objectTypeKey, String stateKey,
 			String info) {
-		// TODO Auto-generated method stub
-		return false;
+		return dictionaryServiceDelegate.validateObject(objectTypeKey, stateKey, info);
 	}
 
 	@Override
 	public boolean validateStructureData(String objectTypeKey, String stateKey,
 			String info) {
-		// TODO Auto-generated method stub
-		return false;
+		return dictionaryServiceDelegate.validateStructureData(objectTypeKey, stateKey, info);
 	}
 
 	@Override
