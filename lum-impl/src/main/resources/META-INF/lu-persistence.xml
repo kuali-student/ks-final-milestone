@@ -6,28 +6,48 @@
 	<persistence-unit name="Lu" transaction-type="JTA">
 		<class>org.kuali.student.core.entity.Type</class>
 		<class>org.kuali.student.core.entity.Attribute</class>
-		<class>org.kuali.student.core.entity.TypeAttribute</class>
 		<class>org.kuali.student.core.entity.Meta</class>
 		<class>org.kuali.student.core.entity.MetaEntity</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
 		
-		<class>org.kuali.student.lum.lu.entity.Clu</class>
-		<class>org.kuali.student.lum.lu.entity.CluAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluCluRelation</class>
-		<class>org.kuali.student.lum.lu.entity.CluSet</class>
-		<class>org.kuali.student.lum.lu.entity.LearningObjective</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelation</class>
-		<class>org.kuali.student.lum.lu.entity.LuDocumentRelationType</class>
-		<class>org.kuali.student.lum.lu.entity.Lui</class>
-		<class>org.kuali.student.lum.lu.entity.LuiAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.LuiLuiRelation</class>
-		<class>org.kuali.student.lum.lu.entity.LuLuRelationType</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatement</class>
-		<class>org.kuali.student.lum.lu.entity.LuStatementType</class>
-		<class>org.kuali.student.lum.lu.entity.LuType</class>
-		<class>org.kuali.student.lum.lu.entity.RequiredComponent</class>
-		<class>org.kuali.student.lum.lu.entity.RequiredComponentType</class>
-		<class>org.kuali.student.lum.lu.entity.ResourceType</class>
+		<class>org.kuali.student.core.entity.Clu</class>
+		<class>org.kuali.student.core.entity.CluAccounting</class>
+		<class>org.kuali.student.core.entity.CluAccountingAttribute</class>
+		<class>org.kuali.student.core.entity.CluAtpTypeKey</class>
+		<class>org.kuali.student.core.entity.CluAttribute</class>
+		<class>org.kuali.student.core.entity.CluCluRelation</class>
+		<class>org.kuali.student.core.entity.CluCredit</class>
+		<class>org.kuali.student.core.entity.CluFee</class>
+		<class>org.kuali.student.core.entity.CluFeeAttribute</class>
+		<class>org.kuali.student.core.entity.CluIdentifier</class>
+		<class>org.kuali.student.core.entity.CluInstructor</class>
+		<class>org.kuali.student.core.entity.CluInstructorAttribute</class>
+		<class>org.kuali.student.core.entity.CluOrg</class>
+		<class>org.kuali.student.core.entity.CluPublishing</class>
+		<class>org.kuali.student.core.entity.CluPublishingAttribute</class>
+		<class>org.kuali.student.core.entity.CluSet</class>
+		<class>org.kuali.student.core.entity.CluSetAttribute</class>
+		<class>org.kuali.student.core.entity.LearningObjective</class>
+		<class>org.kuali.student.core.entity.LuCode</class>
+		<class>org.kuali.student.core.entity.LuCodeAttribute</class>
+		<class>org.kuali.student.core.entity.LuDocumentRelation</class>
+		<class>org.kuali.student.core.entity.LuDocumentRelationAttribute</class>
+		<class>org.kuali.student.core.entity.LuDocumentRelationType</class>
+		<class>org.kuali.student.core.entity.LuDocumentRelationTypeAttribute</class>
+		<class>org.kuali.student.core.entity.Lui</class>
+		<class>org.kuali.student.core.entity.LuiAttribute</class>
+		<class>org.kuali.student.core.entity.LuiLuiRelation</class>
+		<class>org.kuali.student.core.entity.LuiLuiRelationAttribute</class>
+		<class>org.kuali.student.core.entity.LuLuRelationType</class>
+		<class>org.kuali.student.core.entity.LuLuRelationTypeAttribute</class>
+		<class>org.kuali.student.core.entity.LuStatement</class>
+		<class>org.kuali.student.core.entity.LuStatementType</class>
+		<class>org.kuali.student.core.entity.LuType</class>
+		<class>org.kuali.student.core.entity.LuTypeAttribute</class>
+		<class>org.kuali.student.core.entity.RequiredComponent</class>
+		<class>org.kuali.student.core.entity.RequiredComponentType</class>
+		<class>org.kuali.student.core.entity.ResourceType</class>
+
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>		
 	</persistence-unit>
