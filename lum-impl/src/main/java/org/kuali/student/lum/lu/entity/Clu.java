@@ -48,10 +48,12 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name = "OWNER")
     private List<CluAttribute> attributes;
     
-    @OneToOne(mappedBy="clu_official")
+    @OneToOne
+    @JoinColumn(name="OFF_CLU_IDFY_ID")
     private CluIdentifier officialIdentifier;
     
-    @OneToMany(mappedBy="clu_alternate")
+    @OneToMany
+    @JoinTable(name="KS_ALT_CLU_IDFY_JOIN_T",joinColumns=@JoinColumn(name="ALT_CLU_IDFY_ID"), inverseJoinColumns=@JoinColumn(name="CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
     
 	@Column(name = "STUDY_SUBJECT_AREA")

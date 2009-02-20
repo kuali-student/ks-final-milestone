@@ -7,10 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Type;
 
 @Entity
+@Table(name = "KS_LU_DOC_REL_TYPE_T")
 public class LuDocumentRelationType extends
 		Type<LuDocumentRelationTypeAttribute> {
 
