@@ -26,7 +26,8 @@ public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 	@Column(name = "ID")
 	private String id;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<LuiAttribute> attributes;
 
 	@ManyToOne

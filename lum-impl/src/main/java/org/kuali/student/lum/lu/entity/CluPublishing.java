@@ -45,7 +45,8 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
     @JoinTable(name = "KS_CLU_PUBLISHING_INSTRUCTOR_T", joinColumns = @JoinColumn(name = "CLU_PUBLISHING_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTRUCTOR_ID"))
     private List<CluInstructor> instructors;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
     private List<CluPublishingAttribute> attributes;
 
     @Column(name = "CLUPUB_TYPE")

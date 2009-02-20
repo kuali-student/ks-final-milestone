@@ -1,25 +1,33 @@
 package org.kuali.student.lum.lu.entity;
 
-import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.core.entity.Type;
+
 @Entity
-@Table(name="KS_LU_TYPE_T")
-public class LuType {
+@Table(name = "KS_LU_TYPE_T")
+public class LuType extends Type<LuTypeAttribute> {
 
-	@Id
-	@Column(name="ID")
-	private String luTypeKey;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
+	private List<LuTypeAttribute> attributes;
 
-	public String getLuTypeKey() {
-		return luTypeKey;
+	public List<LuTypeAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<LuTypeAttribute>();
+		}
+		return attributes;
 	}
 
-	public void setLuTypeKey(String luTypeKey) {
-		this.luTypeKey = luTypeKey;
+	public void setAttributes(List<LuTypeAttribute> attributes) {
+		this.attributes = attributes;
 	}
-	
-	
+
 }

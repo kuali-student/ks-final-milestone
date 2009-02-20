@@ -55,7 +55,8 @@ public class LuDocumentRelation extends MetaEntity implements
 	@Column(name = "EXPIRATION_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<LuDocumentRelationAttribute> attributes;
 
 	@Column(name = "STATE")

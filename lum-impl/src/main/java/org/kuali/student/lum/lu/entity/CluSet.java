@@ -54,7 +54,8 @@ public class CluSet extends MetaEntity implements
 	@JoinTable(name = "KS_CLU_SET_CLU_T", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
 	private List<Clu> clus;
 	
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<CluSetAttribute> attributes;
 
 	public String getId() {

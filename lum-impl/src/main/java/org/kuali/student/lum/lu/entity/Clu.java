@@ -44,7 +44,8 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @ManyToMany(mappedBy="clus")
     List<CluSet> cluSets;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
     private List<CluAttribute> attributes;
     
     @OneToOne(mappedBy="clu_official")

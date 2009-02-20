@@ -22,6 +22,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -44,7 +45,8 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
     @Column(name = "CLU_INSTRUCTOR_TYPE")
     private String type;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
     private List<CluInstructorAttribute> attributes;
 
     public String getOrgId() {

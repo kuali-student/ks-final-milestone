@@ -22,6 +22,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -42,7 +43,8 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@Column(name = "LU_CODE_VALUE")
 	private String value;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<LuCodeAttribute> attributes;
 
 	@Column(name = "LU_CODE_TYPE")
