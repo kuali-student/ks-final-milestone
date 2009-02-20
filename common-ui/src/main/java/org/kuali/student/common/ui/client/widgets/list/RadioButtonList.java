@@ -89,11 +89,10 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
    public void onClick(ClickEvent event) {
        KSRadioButton b = (KSRadioButton)(event.getSource());
             
-        if (b.getValue()){
+        if (b.getValue() && !b.getFormValue().equals(selectedValue)){
             selectedValue = b.getFormValue();
+            fireChangeEvent();
         }
-        
-        super.fireChangeEvent();
    }
     
 }
