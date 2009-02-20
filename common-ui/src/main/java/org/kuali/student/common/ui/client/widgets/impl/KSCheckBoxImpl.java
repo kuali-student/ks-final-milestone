@@ -33,6 +33,7 @@ public class KSCheckBoxImpl extends KSCheckBox{
 		} else {
 			checkBox = new CheckBox();
 		}
+	    this.initWidget(checkBox);
 		setupDefaultStyle();
 	}
 	
