@@ -17,7 +17,7 @@ import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichText;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
@@ -36,10 +36,10 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 	private String studySubjectArea;
 
 	@XmlElement
-	private RichText desc;
+	private RichTextInfo desc;
 
 	@XmlElement
-	private RichText marketingDesc;
+	private RichTextInfo marketingDesc;
 
 	@XmlElement
 	private String accreditingOrg;
@@ -161,19 +161,19 @@ public class CluInfo implements Serializable, Idable, HasAttributes {
 		this.studySubjectArea = studySubjectArea;
 	}
 
-	public RichText getDesc() {
+	public RichTextInfo getDesc() {
 		return desc;
 	}
 
-	public void setDesc(RichText desc) {
+	public void setDesc(RichTextInfo desc) {
 		this.desc = desc;
 	}
 
-	public RichText getMarketingDesc() {
+	public RichTextInfo getMarketingDesc() {
 		return marketingDesc;
 	}
 
-	public void setMarketingDesc(RichText marketingDesc) {
+	public void setMarketingDesc(RichTextInfo marketingDesc) {
 		this.marketingDesc = marketingDesc;
 	}
 

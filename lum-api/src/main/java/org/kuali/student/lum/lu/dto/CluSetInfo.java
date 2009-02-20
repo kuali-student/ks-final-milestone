@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichText;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -43,7 +43,7 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
     private String name;
 
     @XmlElement
-    private RichText desc;
+    private RichTextInfo desc;
 
     @XmlElement
     private Date effectiveDate;
@@ -78,11 +78,11 @@ public class CluSetInfo implements Serializable, Idable, HasAttributes {
         this.name = name;
     }
 
-    public RichText getDesc() {
+    public RichTextInfo getDesc() {
         return desc;
     }
 
-    public void setDesc(RichText desc) {
+    public void setDesc(RichTextInfo desc) {
         this.desc = desc;
     }
 
