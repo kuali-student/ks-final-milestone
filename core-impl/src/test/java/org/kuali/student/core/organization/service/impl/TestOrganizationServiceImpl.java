@@ -83,7 +83,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		updateInfo.setEffectiveDate(df.parse("20090111"));
 		updateInfo.setExpirationDate(df.parse("21001211"));
 		updateInfo.getAttributes().put("Alias", "Updated OrgAlias");
-
+		updateInfo.getAttributes().put("Alias2", "New OrgAlias2");
+		
 		OrgInfo updated=null;
 		try {
 			updated = client.updateOrganization(updateInfo.getId(), updateInfo);
@@ -100,7 +101,8 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		assertEquals(df.parse("20090111"),updated.getEffectiveDate());
 		assertEquals(df.parse("21001211"),updated.getExpirationDate());
 		assertEquals("Updated OrgAlias",updated.getAttributes().get("Alias"));
-
+		assertEquals("New OrgAlias2",updated.getAttributes().get("Alias2"));
+		
 		//Check version mismatch
 		try {
 			client.updateOrganization(updateInfo.getId(), updateInfo);

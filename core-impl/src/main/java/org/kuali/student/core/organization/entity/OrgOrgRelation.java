@@ -22,29 +22,26 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name="KS_ORG_ORG_RELATION_T")
-@NamedQueries({
-			@NamedQuery(name = "OrgOrgRelation.getAllDescendants", query = "SELECT oor.relatedOrg.id FROM OrgOrgRelation oor "
+@Table(name = "KS_ORG_ORG_RELATION_T")
+@NamedQueries( {
+		@NamedQuery(name = "OrgOrgRelation.getAllDescendants", query = "SELECT oor.relatedOrg.id FROM OrgOrgRelation oor "
 				+ " WHERE oor.org.id = :orgId "
 				+ "   AND oor.type.orgHierarchy.key = :orgHierarchy"),
-			@NamedQuery(name = "OrgOrgRelation.getAncestors", query = "SELECT oor.org.id FROM OrgOrgRelation oor "
+		@NamedQuery(name = "OrgOrgRelation.getAncestors", query = "SELECT oor.org.id FROM OrgOrgRelation oor "
 				+ " WHERE oor.relatedOrg.id = :orgId "
 				+ "   AND oor.type.orgHierarchy.key = :orgHierarchy"),
-			@NamedQuery(name="OrgOrgRelation.getOrgOrgRelationsByIdList", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)"),
-			@NamedQuery(name="OrgOrgRelation.OrgOrgRelation", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.org.id = :orgId"),
-			@NamedQuery(name="OrgOrgRelation.getOrgOrgRelationsByRelatedOrg", query="SELECT oor FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId"),
-			@NamedQuery(name="OrgOrgRelation.getOrgTreeInfo", 
-					   query="SELECT NEW org.kuali.student.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) " +
-					   		"   FROM OrgOrgRelation oor " +
-					   		"  WHERE oor.org.id = :orgId " +
-					   		"    AND oor.type.orgHierarchy.key = :orgHierarchyId "),
-			@NamedQuery(name="OrgOrgRelation.hasOrgOrgRelation", 
-					   query="SELECT COUNT(oor) " +
-					   		 "  FROM OrgOrgRelation oor " +
-					   		 " WHERE oor.org.id = :orgId " +
-					   		 "   AND oor.relatedOrg.id = :comparisonOrgId " +
-					   		 "   AND oor.type.id = :orgOrgRelationTypeKey")
-})
+		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByIdList", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)"),
+		@NamedQuery(name = "OrgOrgRelation.OrgOrgRelation", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.org.id = :orgId"),
+		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByRelatedOrg", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId"),
+		@NamedQuery(name = "OrgOrgRelation.getOrgTreeInfo", query = "SELECT NEW org.kuali.student.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) "
+				+ "   FROM OrgOrgRelation oor "
+				+ "  WHERE oor.org.id = :orgId "
+				+ "    AND oor.type.orgHierarchy.key = :orgHierarchyId "),
+		@NamedQuery(name = "OrgOrgRelation.hasOrgOrgRelation", query = "SELECT COUNT(oor) "
+				+ "  FROM OrgOrgRelation oor "
+				+ " WHERE oor.org.id = :orgId "
+				+ "   AND oor.relatedOrg.id = :comparisonOrgId "
+				+ "   AND oor.type.id = :orgOrgRelationTypeKey") })
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
 	@Id
@@ -52,12 +49,12 @@ public class OrgOrgRelation extends MetaEntity implements
 	private String id;
 
 	@ManyToOne
-    @JoinColumn(name="ORG")
+	@JoinColumn(name = "ORG")
 	private Org org;
 
 	@ManyToOne
-    @JoinColumn(name="RELATED_ORG")
-    private Org relatedOrg;
+	@JoinColumn(name = "RELATED_ORG")
+	private Org relatedOrg;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
@@ -67,11 +64,12 @@ public class OrgOrgRelation extends MetaEntity implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<OrgOrgRelationAttribute> attributes;
 
 	@ManyToOne
-    @JoinColumn(name="RELATION_TYPE")
+	@JoinColumn(name = "RELATION_TYPE")
 	private OrgOrgRelationType type;
 
 	@Column(name = "RELATION_STATE")

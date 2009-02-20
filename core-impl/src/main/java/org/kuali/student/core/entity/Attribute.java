@@ -36,8 +36,8 @@ public abstract class Attribute<T> {
 		this.id = id;
 	}
 
-	public abstract T getOwner();
-	public abstract void setOwner(T owner);
+//	public abstract T getOwner();
+//	public abstract void setOwner(T owner);
 	
 	/**
 	 * AutoGenerate the Id

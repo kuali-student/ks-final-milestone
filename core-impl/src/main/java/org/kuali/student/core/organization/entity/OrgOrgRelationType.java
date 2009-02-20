@@ -21,10 +21,9 @@ import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
 @Table(name = "KS_ORG_ORG_REL_TYPE_T")
-@NamedQueries({
-	@NamedQuery(name="OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy", query="SELECT oort FROM OrgOrgRelationType oort WHERE oort.orgHierarchy.key = :orgHierarchy"),
-	@NamedQuery(name="OrgOrgRelationType.getOrgOrgRelationTypesForOrgType", query="SELECT DISTINCT oort FROM OrgOrgRelation oor JOIN oor.org org JOIN oor.type oort WHERE org.type.id = :orgTypeKey")
-})
+@NamedQueries( {
+		@NamedQuery(name = "OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy", query = "SELECT oort FROM OrgOrgRelationType oort WHERE oort.orgHierarchy.key = :orgHierarchy"),
+		@NamedQuery(name = "OrgOrgRelationType.getOrgOrgRelationTypesForOrgType", query = "SELECT DISTINCT oort FROM OrgOrgRelation oor JOIN oor.org org JOIN oor.type oort WHERE org.type.id = :orgTypeKey") })
 public class OrgOrgRelationType implements
 		AttributeOwner<OrgOrgRelationTypeAttribute> {
 	@Id
@@ -34,7 +33,8 @@ public class OrgOrgRelationType implements
 	@Column(name = "OORT_NAME")
 	private String name;
 
-	@Column(name = "OORT_DESC",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "OORT_DESC", length = 2000)
+	// TODO what is a good number for these long descriptions?
 	private String desc;
 
 	@Column(name = "REV_NAME")
@@ -55,7 +55,8 @@ public class OrgOrgRelationType implements
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<OrgOrgRelationTypeAttribute> attributes;
 
 	@Override

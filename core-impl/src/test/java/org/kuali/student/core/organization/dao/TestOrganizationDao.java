@@ -96,9 +96,9 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("Governors", borgOrg.getAttributes().get(0).getValue());
 
 		OrgAttribute borgAlias = new OrgAttribute();
-		borgAlias.setName("Alias");
-		borgAlias.setValue("Governors");
-		borgAlias.setOwner(borgOrg);
+		borgAlias.setName("Alias2");
+		borgAlias.setValue("Governors2");
+//		borgAlias.setOwner(borgOrg);
 
 		borgOrg.getAttributes().add(borgAlias);
 

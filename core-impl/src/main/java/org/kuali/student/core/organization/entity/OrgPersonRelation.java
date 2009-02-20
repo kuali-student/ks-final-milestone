@@ -22,31 +22,30 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name="KS_ORG_PERSON_REL_T")
-@NamedQueries({
-	@NamedQuery(name="OrgPersonRelation.getAllOrgPersonRelationsByOrg", query="SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
-	@NamedQuery(name="OrgPersonRelation.getAllOrgPersonRelationsByPerson", query="SELECT distinct opr FROM OrgPersonRelation opr WHERE personId = :personId"),
-	@NamedQuery(name="OrgPersonRelation.getOrgPersonRelationsByIdList", query="SELECT  opr FROM OrgPersonRelation opr WHERE id IN (:idList)"),
-	@NamedQuery(name="OrgPersonRelation.getOrgPersonRelationsByPerson", query="SELECT  opr FROM OrgPersonRelation opr WHERE personId = :personId AND org.id = :orgId")
-})
-
-public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgPersonRelationAttribute>{
+@Table(name = "KS_ORG_PERSON_REL_T")
+@NamedQueries( {
+		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByOrg", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
+		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByPerson", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE personId = :personId"),
+		@NamedQuery(name = "OrgPersonRelation.getOrgPersonRelationsByIdList", query = "SELECT  opr FROM OrgPersonRelation opr WHERE id IN (:idList)"),
+		@NamedQuery(name = "OrgPersonRelation.getOrgPersonRelationsByPerson", query = "SELECT  opr FROM OrgPersonRelation opr WHERE personId = :personId AND org.id = :orgId") })
+public class OrgPersonRelation extends MetaEntity implements
+		AttributeOwner<OrgPersonRelationAttribute> {
 	@Id
 	@Column(name = "ORG_PERSON_REL_ID")
 	private String id;
 
 	@ManyToOne
-    @JoinColumn(name="ORG")
+	@JoinColumn(name = "ORG")
 	private Org org;
 
-	//Foreign Key from external Service
+	// Foreign Key from external Service
 	@Column(name = "PERSON_ID")
 	// @ManyToOne
-    // @JoinColumn(name="PERSON_ID")
+	// @JoinColumn(name="PERSON_ID")
 	private String personId;
 
 	@ManyToOne
-    @JoinColumn(name = "ORG_PERSON_REL_TYPE")
+	@JoinColumn(name = "ORG_PERSON_REL_TYPE")
 	private OrgPersonRelationType orgPersonRelationType;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -57,12 +56,12 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	@Column(name = "EXPIRATION_DT")
 	private Date expirationDate;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<OrgPersonRelationAttribute> attributes;
 
 	@Column(name = "ORG_PERSON_REL_STATE")
 	private String state;
-
 
 	/**
 	 * AutoGenerate the Id
@@ -72,11 +71,10 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 		this.id = UUIDHelper.genStringUUID(this.id);
 	}
 
-
 	@Override
 	public List<OrgPersonRelationAttribute> getAttributes() {
-		if(attributes==null){
-			attributes=new ArrayList<OrgPersonRelationAttribute>();
+		if (attributes == null) {
+			attributes = new ArrayList<OrgPersonRelationAttribute>();
 		}
 		return attributes;
 	}
@@ -141,7 +139,5 @@ public class OrgPersonRelation extends MetaEntity implements AttributeOwner<OrgP
 	public void setState(String state) {
 		this.state = state;
 	}
-
-
 
 }

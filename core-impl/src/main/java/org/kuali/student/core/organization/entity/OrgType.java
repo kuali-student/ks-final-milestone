@@ -20,7 +20,8 @@ public class OrgType extends Type<OrgTypeAttribute> {
 	@JoinTable(name = "KS_ORG_TYPE_ORG_PERS_RL_TYPE_T", joinColumns = @JoinColumn(name = "ORG_TYPE_KEY", referencedColumnName = "TYPE_KEY"), inverseJoinColumns = @JoinColumn(name = "ORG_PERSON_RELATION_TYPE_KEY", referencedColumnName = "OPRT_KEY"))
 	private List<OrgPersonRelationType> orgPersonRelationTypes;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
 	private List<OrgTypeAttribute> attributes;
 
 	public void setOrgPersonRelationTypes(

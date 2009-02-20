@@ -16,11 +16,11 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
-	
-	protected static Map<String,String> toAttributeMap(
+
+	protected static Map<String, String> toAttributeMap(
 			List<? extends Attribute<?>> attributes) {
 
-		Map<String,String> attributeInfos = new HashMap<String,String>();
+		Map<String, String> attributeInfos = new HashMap<String, String>();
 
 		for (Attribute<?> attribute : attributes) {
 			attributeInfos.put(attribute.getName(), attribute.getValue());
@@ -30,9 +30,8 @@ public class BaseAssembler {
 	}
 
 	protected static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(
-			Class<A> attributeClass,
-			Map<String,String> attributeMap, O owner, CrudDao dao)
-			throws InvalidParameterException {
+			Class<A> attributeClass, Map<String, String> attributeMap, O owner,
+			CrudDao dao) throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();
 
 		// Delete all the old attributes(if the owner is not null)
@@ -41,23 +40,22 @@ public class BaseAssembler {
 		}
 		owner.getAttributes().clear();
 
-		for (Map.Entry<String,String> attributeEntry : attributeMap.entrySet()) {
+		for (Map.Entry<String, String> attributeEntry : attributeMap.entrySet()) {
 
 			A attribute;
 			try {
 				attribute = attributeClass.newInstance();
 				attribute.setName(attributeEntry.getKey());
 				attribute.setValue(attributeEntry.getValue());
-				attribute.setOwner(owner);
 				attributes.add(attribute);
 			} catch (Exception e) {
-				e.printStackTrace();//TODO Logging
+				e.printStackTrace();// TODO Logging
 			}
 		}
 
 		return attributes;
 	}
-	
+
 	/**
 	 * @param <T>
 	 *            TypeInfo class
@@ -69,12 +67,12 @@ public class BaseAssembler {
 	 *            the typeEntity to copy from
 	 * @return a new TypeInfo
 	 */
-	public static <T extends TypeInfo, S extends Type> T toGenericTypeInfo(
+	public static <T extends TypeInfo, S extends Type<?>> T toGenericTypeInfo(
 			Class<T> typeInfoClass, S typeEntity) {
 		if (typeEntity == null) {
 			return null;
 		}
-		
+
 		T typeInfo;
 		try {
 			// Create a new TypeInfo based on the <T> class and copy the
@@ -84,8 +82,7 @@ public class BaseAssembler {
 					new String[] { "attributes" });
 
 			// Copy the attributes
-			typeInfo
-					.setAttributes(toAttributeMap(typeEntity.getAttributes()));
+			typeInfo.setAttributes(toAttributeMap(typeEntity.getAttributes()));
 
 			return typeInfo;
 
@@ -96,7 +93,7 @@ public class BaseAssembler {
 
 	}
 
-	public static <T extends TypeInfo, S extends Type> List<T> toGenericTypeInfoList(
+	public static <T extends TypeInfo, S extends Type<?>> List<T> toGenericTypeInfoList(
 			Class<T> typeInfoClass, List<S> typeEntities) {
 		List<T> typeInfoList = new ArrayList<T>();
 		for (S typeEntity : typeEntities) {
@@ -104,7 +101,7 @@ public class BaseAssembler {
 		}
 		return typeInfoList;
 	}
-	
+
 	protected static MetaInfo toMetaInfo(Meta meta, long versionInd) {
 
 		MetaInfo metaInfo = new MetaInfo();
@@ -116,5 +113,5 @@ public class BaseAssembler {
 
 		return metaInfo;
 	}
-	
+
 }
