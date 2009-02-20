@@ -18,7 +18,9 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSButtonImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSButton"/>
     </replace-with>
-    
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCheckBoxImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCheckBox"/>
+    </replace-with>    
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
     </replace-with>
