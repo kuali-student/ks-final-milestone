@@ -27,8 +27,11 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDatePickerImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDatePicker"/>
     </replace-with> 
-        <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDisclosureSectionImpl">
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDisclosureSectionImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDisclosureSection"/>
+    </replace-with> 
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDropDown"/>
     </replace-with> 
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
