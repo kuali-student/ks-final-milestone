@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -90,7 +91,8 @@ public class KSAccordionPanel extends Composite{
         private boolean isOpen = false;
     	
     	AccordionTitleBar(String name) {
-    		KSLabel titleLabel = new KSLabel(name);
+    		KSLabel titleLabel = GWT.create(KSLabel.class); 
+    		titleLabel.init(name, false);
     		titleLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
             add(titleLabel);
             setDefaultStyle();

@@ -5,6 +5,7 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Label;
 
 public class KSAccordionMenu extends KSMenu{
 	
@@ -15,16 +16,21 @@ public class KSAccordionMenu extends KSMenu{
 	@Override
 	protected void populateMenu() {
 		this.initWidget(menu);
+		Label label = null;
 		for(KSMenuItemData i: items){
 			
-			KSLabel categoryLabel = new KSLabel(i.getLabel());
+			KSLabel categoryLabel = GWT.create(KSLabel.class);
+			categoryLabel.init(i.getLabel(), false);
+
 			if(level > 0 && level <= 7){
 				categoryLabel.addStyleName(KSStyles.KS_INDENT + "-" + level);
 			}
 			categoryLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
 			
 			if(i.getClickHandler() != null){
-				categoryLabel.addClickHandler(i.getClickHandler());
+				label = categoryLabel.getLabel();
+
+				label.addClickHandler(i.getClickHandler());
 			}
 			
 			if(i.getSubItems().isEmpty()){		
