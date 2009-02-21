@@ -36,4 +36,7 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
     </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSImageImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSImage"/>
+    </replace-with>
 </module>

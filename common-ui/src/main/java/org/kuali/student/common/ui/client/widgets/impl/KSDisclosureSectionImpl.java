@@ -26,7 +26,7 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 	public KSDisclosureSectionImpl(){
 
 	}
-	
+	@Override
 	public void init(String headerText, Widget headerWidget, boolean isOpen) {
 	    if(headerText != null) {
 	    	panel = new DisclosurePanel(headerText, isOpen);
