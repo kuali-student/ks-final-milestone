@@ -2,7 +2,6 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 
 public abstract class KSRadioButton extends Composite {

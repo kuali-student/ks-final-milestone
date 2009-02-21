@@ -48,4 +48,10 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSRadioButtonImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSRadioButton"/>
     </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSStackPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
+    </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSTextBoxImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSTextBox"/>
+    </replace-with>
 </module>

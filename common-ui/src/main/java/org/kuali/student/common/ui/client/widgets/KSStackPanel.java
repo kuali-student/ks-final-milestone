@@ -1,13 +1,8 @@
 package org.kuali.student.common.ui.client.widgets;
 
-import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.Composite;
 
-public class KSStackPanel extends StackPanel{
+public abstract class KSStackPanel extends Composite{ 
 
-	public KSStackPanel() {
-		super();
-		// TODO Auto-generated constructor stub
-		//this.ad
-	}
 	
 }
