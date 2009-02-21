@@ -42,4 +42,10 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSLabelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSLabel"/>
     </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSListBoxImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSListBox"/>
+    </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSRadioButtonImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSRadioButton"/>
+    </replace-with>
 </module>
