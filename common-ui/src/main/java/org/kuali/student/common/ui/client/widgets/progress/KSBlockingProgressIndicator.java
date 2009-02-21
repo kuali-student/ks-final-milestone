@@ -6,8 +6,8 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -57,10 +57,12 @@ public class KSBlockingProgressIndicator{
 		
 		showIndicator();
 		listPanel.clear();
+		KSImage kSImage = GWT.create(KSImage.class);
+		kSImage.init("images/twiddler3.gif");
 		for(BlockingTask task: tasks){
 			HorizontalPanel taskPanel = new HorizontalPanel();
 			taskPanel.add(new Label(task.getDescription()));
-			taskPanel.add(new KSImage("images/twiddler3.gif"));
+			taskPanel.add(kSImage);
 			taskPanel.addStyleName("KS-Blocking-Task-Item");
 			listPanel.add(taskPanel);
 		}
