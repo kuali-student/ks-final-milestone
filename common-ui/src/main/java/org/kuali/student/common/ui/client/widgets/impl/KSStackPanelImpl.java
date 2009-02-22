@@ -13,5 +13,10 @@ public class KSStackPanelImpl extends KSStackPanel{
 		StackPanel stackPanel = new StackPanel();
 		initWidget(stackPanel);
 	}
+
+	@Override
+	public StackPanel getStackPanel() {
+		return stackPanel;
+	}
 	
 }

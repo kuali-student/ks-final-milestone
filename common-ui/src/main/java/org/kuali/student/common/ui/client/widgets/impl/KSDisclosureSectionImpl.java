@@ -165,6 +165,10 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 	public void setVisible(boolean visible) {
 		panel.setVisible(visible);
 	}
+	@Override
+	public DisclosurePanel getPanel() {
+		return panel;
+	}
 	
 
 }

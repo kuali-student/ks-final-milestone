@@ -94,5 +94,9 @@ public class KSImageImpl extends KSImage{
 		});
 		
 	}
+	@Override
+	public Image getImage() {
+		return image;
+	}
 
 }

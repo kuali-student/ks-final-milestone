@@ -54,4 +54,7 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSTextBoxImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSTextBox"/>
     </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSTextAreaImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSTextArea"/>
+    </replace-with>
 </module>

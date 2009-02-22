@@ -85,4 +85,9 @@ public class KSCheckBoxImpl extends KSCheckBox{
 		});
 	}
 
+	@Override
+	public CheckBox getCheckBox() {
+		return checkBox;
+	}
+
 }

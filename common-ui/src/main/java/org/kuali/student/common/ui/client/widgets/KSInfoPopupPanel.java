@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 public class KSInfoPopupPanel extends KSPopupPanel{
 		
@@ -27,7 +28,4 @@ public class KSInfoPopupPanel extends KSPopupPanel{
 	public void show(){
 		super.center();
 	}
-	
-
-	
 }

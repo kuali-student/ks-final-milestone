@@ -127,6 +127,10 @@ public class KSDropDownImpl extends KSDropDown{
 			}
 		}
 	}
+	@Override
+	public ListBox getListBox() {
+		return listBox;
+	}
 	
 	
 	

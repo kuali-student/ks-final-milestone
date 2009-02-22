@@ -120,6 +120,11 @@ public class KSButtonImpl extends KSButton{
 		
 	}
 
+	@Override
+	public Button getButton() {
+		return button;
+	}
+
 
 	
 	

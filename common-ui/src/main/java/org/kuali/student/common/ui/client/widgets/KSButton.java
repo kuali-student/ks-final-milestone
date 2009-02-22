@@ -9,4 +9,6 @@ public abstract class KSButton extends Composite{
 
 	public abstract void init(String html, ClickHandler handler);
 
+	public abstract Button getButton();
+
 }

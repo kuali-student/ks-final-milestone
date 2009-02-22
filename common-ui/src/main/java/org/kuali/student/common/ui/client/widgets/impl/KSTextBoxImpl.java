@@ -20,6 +20,7 @@ public class KSTextBoxImpl extends KSTextBox{
 	
 	public KSTextBoxImpl() {
 		super();
+		textBox = new TextBox();
 		initWidget(textBox);
 		setupDefaultStyle();
 	}
