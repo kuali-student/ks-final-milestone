@@ -24,29 +24,28 @@ public class ListBoxExample extends Composite {
 
     final KSListBox listBox1 = GWT.create(KSListBox.class);
     final KSListBox listBox2 = GWT.create(KSListBox.class);
-    
+
     List<String> institutionList = new ArrayList<String>();
     StringBuffer sb = new StringBuffer("You Have selected < ");
 
     public ListBoxExample() { 
-        
+
         main.addStyleName(STYLE_EXAMPLE);
 
- 
+
         try {
-//        loadLists();
-           listBox1.init(institutionList);
-           listBox1.getListBox().clear();
+            loadLists();
+
+            listBox1.init(institutionList);
             listBox1.getListBox().setMultipleSelect(false);
-                Window.alert("here");
-//        listBox1.getListBox().addChangeHandler(new ChangeHandler() {
-//                @Override
-//                public void onChange(ChangeEvent arg0) {
-//                    ListBox lb = (ListBox)arg0.getSource();
-//                    int i = lb.getSelectedIndex();
-//                    Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
-//
-//                }});
+            listBox1.getListBox().addChangeHandler(new ChangeHandler() {
+                @Override
+                public void onChange(ChangeEvent arg0) {
+                    ListBox lb = (ListBox)arg0.getSource();
+                    int i = lb.getSelectedIndex();
+                    Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
+
+                }});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,8 +81,8 @@ public class ListBoxExample extends Composite {
     }
 
     private void loadLists() {
-        
-        
+
+
         institutionList.add("University of British Columbia");
         institutionList.add("Florida State University");
         institutionList.add("Naval Postgraduate School");
@@ -95,9 +94,5 @@ public class ListBoxExample extends Composite {
         institutionList.add("University of Washington");
         institutionList.add("Carnegie Mellon University");
 
-        for (String s : institutionList) {
-            listBox1.getListBox().addItem(s);
-            listBox2.getListBox().addItem(s);    
-        }
     }
 }
