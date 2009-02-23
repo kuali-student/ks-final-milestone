@@ -6,7 +6,6 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,7 +22,6 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
     private HorizontalPanel radioPanel = new HorizontalPanel();
     private String name;
     private String selectedValue = null;
-    private List<ChangeHandler> changeHandlers = new ArrayList<ChangeHandler>();
     
 	public RadioButtonList(String name) {
         this.initWidget(radioPanel);
