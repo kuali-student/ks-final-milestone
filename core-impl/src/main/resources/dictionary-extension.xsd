@@ -1,67 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns="http://student.kuali.org/xsd/dictionary-extension"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
 	targetNamespace="http://student.kuali.org/xsd/dictionary-extension"
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
-	
-	<xsd:import namespace="http://www.springframework.org/schema/beans" 
-	       schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" />
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" />
 
 	<xsd:complexType name="fieldSelector">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
 				<xsd:choice>
 					<xsd:sequence>
-						<xsd:element name="fieldDescriptor" type="fieldDescriptor" maxOccurs="1" minOccurs="1"></xsd:element>
-						<xsd:element name="isSelector" type="xsd:boolean" maxOccurs="1" minOccurs="0"></xsd:element>
-						<xsd:element name="isDynamic" type="xsd:boolean" maxOccurs="1" minOccurs="0"></xsd:element>
-						<xsd:element name="key" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+						<xsd:element name="fieldDescriptor" type="fieldDescriptor"
+							maxOccurs="1" minOccurs="1"></xsd:element>
+						<xsd:element name="isSelector" type="xsd:boolean"
+							maxOccurs="1" minOccurs="0"></xsd:element>
+						<xsd:element name="isDynamic" type="xsd:boolean"
+							maxOccurs="1" minOccurs="0"></xsd:element>
 					</xsd:sequence>
+					<xsd:element ref="beans:ref" />
 				</xsd:choice>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="stateSelector">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
-					<xsd:sequence>
-						<xsd:element name="fieldSelector" type="fieldSelector"></xsd:element>
-						<xsd:element name="key" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
-					</xsd:sequence>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="field" type="fieldSelector"></xsd:element>
+					<xsd:element ref="beans:ref" />
 				</xsd:choice>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="typeSelector">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
-					<xsd:sequence>
-						<xsd:element name="stateSelector" type="stateSelector"></xsd:element>
-						<xsd:element name="key" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
-					</xsd:sequence>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="state" type="stateSelector"></xsd:element>
+					<xsd:element ref="beans:ref" />
 				</xsd:choice>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="objectStructure">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
-				<xsd:choice>
-					<xsd:sequence>
-						<xsd:element name="typeSelector" type="typeSelector"></xsd:element>
-						<xsd:element name="objectTypeKey" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
-					</xsd:sequence>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="type" type="typeSelector"></xsd:element>
+					<xsd:element ref="beans:ref" />
 				</xsd:choice>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="fieldDescriptor">
 		<xsd:complexContent>
 			<xsd:extension base="beans:identifiedType">
@@ -79,10 +75,15 @@
 							minOccurs="0" maxOccurs="1"></xsd:element>
 						<xsd:element name="validChars" type="xsd:string"
 							minOccurs="0" maxOccurs="1"></xsd:element>
+						<xsd:element name="invalidChars" type="xsd:string"
+							minOccurs="0" maxOccurs="1"></xsd:element>
 						<xsd:element name="minOccurs" type="xsd:int"
 							minOccurs="0" maxOccurs="1"></xsd:element>
 						<xsd:element name="maxOccurs" type="xsd:int"
 							minOccurs="0" maxOccurs="1"></xsd:element>
+						<xsd:element name="readOnly" type="xsd:boolean"
+							minOccurs="0" maxOccurs="1" />
+							
 					</xsd:sequence>
 					<xsd:element ref="beans:ref" maxOccurs="unbounded"
 						minOccurs="0" />
@@ -95,11 +96,11 @@
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
 		name="objectStructure" type="objectStructure" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
-		name="typeSelector" type="typeSelector" />
+		name="type" type="typeSelector" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
 		name="fieldDescriptor" type="fieldDescriptor" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
-		name="stateSelector" type="stateSelector" />
+		name="state" type="stateSelector" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
-		name="fieldSelector" type="fieldSelector" />
+		name="field" type="fieldSelector" />
 </xsd:schema>
