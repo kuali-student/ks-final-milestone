@@ -14,21 +14,30 @@ import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
-import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
 
+/**
+ * This represent a selectable list of items in a table. User can select single item
+ * or multiple items from list. 
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class SelectableTableList extends SelectItemWidget {
     Table table;
     SimplePanel root = new SimplePanel();
     Map<Integer, String> idMapping = new HashMap();
     Map<String, Integer> rowMapping = new HashMap();
     boolean loaded = false;
-    boolean multiSelect = false;
+    boolean multiSelect = true;
     int selRow = -1;
     
     public SelectableTableList(){
         initWidget(root);
     }
     
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#deSelectItem(java.lang.String)
+     */
     public void deSelectItem(String id) {
         JsArray<Selection> selections = table.getSelections();
 
@@ -44,6 +53,9 @@ public class SelectableTableList extends SelectItemWidget {
         table.setSelections(newSelections);
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#getSelectedItems()
+     */
     public List<String> getSelectedItems() {
         JsArray<Selection> selections = table.getSelections();
 
@@ -55,6 +67,9 @@ public class SelectableTableList extends SelectItemWidget {
         return selected;
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#selectItem(java.lang.String)
+     */
     public void selectItem(String id) {
         Selection sel = Selection.createRowSelection(rowMapping.get(id).intValue());
         
@@ -70,6 +85,11 @@ public class SelectableTableList extends SelectItemWidget {
         table.setSelections(selections);
     }
 
+    /**
+     * Sets if multi-select of items is enabled. By default enableMultiSelect is true.
+     * 
+     * @param b
+     */
     public void enableMultiSelect(boolean b){
         this.multiSelect = b;
     }

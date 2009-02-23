@@ -19,7 +19,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * Handler for selection change for SelectItemWidget. 
  * 
  * @author Kuali Student Team
  *
