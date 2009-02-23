@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.dropdown;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +18,17 @@ import com.google.gwt.user.client.ui.ListBox;
 public class DropDownExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
-    List<String> institutionList = new ArrayList<String>();
-      
+     
     final KSDropDown dropDown = GWT.create(KSDropDown.class);
 
     public DropDownExample() {
         
+        main.addStyleName(STYLE_EXAMPLE);
+        
+        dropDown.init(false);
         loadList();
-        dropDown.populateDropDown(institutionList);
-        dropDown.addChangeHandler(new ChangeHandler() {
+
+        dropDown.getListBox().addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
                 ListBox lb = (ListBox)arg0.getSource();
@@ -38,16 +42,16 @@ public class DropDownExample extends Composite {
     }
 
     private void loadList() {
-       institutionList.add("University of British Columbia");
-       institutionList.add("Florida State University");
-       institutionList.add("Naval Postgraduate School");
-       institutionList.add("San Joaquin Delta College");
-       institutionList.add("University of California, Berkeley");
-       institutionList.add("University of Maryland, College Park");
-       institutionList.add("Massachusetts Institute of Technology");
-       institutionList.add("University of Southern California");
-       institutionList.add("University of Washington");
-       institutionList.add("Carnegie Mellon University");
+       dropDown.getListBox().addItem("University of British Columbia");
+       dropDown.getListBox().addItem("Florida State University");
+       dropDown.getListBox().addItem("Naval Postgraduate School");
+       dropDown.getListBox().addItem("San Joaquin Delta College");
+       dropDown.getListBox().addItem("University of California, Berkeley");
+       dropDown.getListBox().addItem("University of Maryland, College Park");
+       dropDown.getListBox().addItem("Massachusetts Institute of Technology");
+       dropDown.getListBox().addItem("University of Southern California");
+       dropDown.getListBox().addItem("University of Washington");
+       dropDown.getListBox().addItem("Carnegie Mellon University");
         
     }
 }

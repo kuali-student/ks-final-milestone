@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.datepicker;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
@@ -16,6 +18,9 @@ public class DatePickerExample extends Composite {
 
     public DatePickerExample() {
         
+        main.addStyleName(STYLE_EXAMPLE);
+
+        
 // Can't do this as have no access to DatePicker in KSDate Picker
 //        ksDatePicker.addValueChangeHandler(new ValueChangeHandler<Date>(){
 //
@@ -25,7 +30,7 @@ public class DatePickerExample extends Composite {
 //            }   
 //        });
         
-        label.setText("Click in the box to open the date picker: ");
+        label.init("Click in the box to open the date picker: ", false);
         
         main.add(label);
         main.add(datePicker);

@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.checkbox;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 
 import com.google.gwt.core.client.GWT;
@@ -27,13 +29,15 @@ public class CheckBoxExample extends Composite {
 
     public CheckBoxExample() {
         
-        checkBox1.setText(CHECK_BOX_1);
-        checkBox2.setText(CHECK_BOX_2);
-        checkBox3.setText(CHECK_BOX_3);
+        main.addStyleName(STYLE_EXAMPLE);
 
-        checkBox1.addClickHandler(new MyClickHandler());
-        checkBox2.addClickHandler(new MyClickHandler());
-        checkBox3.addClickHandler(new MyClickHandler());
+        checkBox1.init(CHECK_BOX_1);
+        checkBox2.init(CHECK_BOX_2);
+        checkBox3.init(CHECK_BOX_3);
+
+        checkBox1.getCheckBox().addClickHandler(new MyClickHandler());
+        checkBox2.getCheckBox().addClickHandler(new MyClickHandler());
+        checkBox3.getCheckBox().addClickHandler(new MyClickHandler());
 
         main.add(checkBox1);
         main.add(checkBox2);
@@ -46,23 +50,24 @@ public class CheckBoxExample extends Composite {
 
         @Override
         public void onClick(ClickEvent event) {
-            KSCheckBox b = (KSCheckBox)(event.getSource());
-            if (b.getText().equals(CHECK_BOX_1)) {
-                box1Checked = b.getValue();
-            }
-            else if (b.getText().equals(CHECK_BOX_2)) {
-                box2Checked = b.getValue();
-            }
-            else if (b.getText().equals(CHECK_BOX_3)) {
-                box3Checked = b.getValue();
-            }
-
-            sb = new StringBuffer();
-            sb.append(box1Checked?" Box 1":" ");
-            sb.append(box2Checked?" Box 2":" ");
-            sb.append(box3Checked?" Box 3":" ");
-
-            Window.alert("You have clicked : " + sb.toString() );
+//TODO
+            //            KSCheckBox b = (KSCheckBox)(event.getSource());
+//            if (b.getCheckBox().getText().equals(CHECK_BOX_1)) {
+//                box1Checked = b.getCheckBox().getValue();
+//            }
+//            else if (b.getCheckBox().getText().equals(CHECK_BOX_2)) {
+//                box2Checked = b.getCheckBox().getValue();
+//            }
+//            else if (b.getCheckBox().getText().equals(CHECK_BOX_3)) {
+//                box3Checked = b.getCheckBox().getValue();
+//            }
+//
+//            sb = new StringBuffer();
+//            sb.append(box1Checked?" Box 1":" ");
+//            sb.append(box2Checked?" Box 2":" ");
+//            sb.append(box3Checked?" Box 3":" ");
+//
+//            Window.alert("You have clicked : " + sb.toString() );
 
         }     
     }

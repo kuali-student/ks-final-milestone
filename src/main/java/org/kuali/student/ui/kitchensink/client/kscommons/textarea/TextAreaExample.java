@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.textarea;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 
@@ -14,6 +16,7 @@ public class TextAreaExample extends Composite {
  
 
     public TextAreaExample() {
+        main.addStyleName(STYLE_EXAMPLE);
 
         main.add(textArea);
         super.initWidget(main);

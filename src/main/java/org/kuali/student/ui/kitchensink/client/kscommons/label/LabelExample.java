@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.label;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.core.client.GWT;
@@ -16,7 +18,9 @@ public class LabelExample extends Composite {
 
     public LabelExample() {
 
-        label1.setText("This is a label");
+        main.addStyleName(STYLE_EXAMPLE);
+
+        label1.init("This is a label", false);
 
         main.add(label1);
 //        panel.add(ksLabel2);

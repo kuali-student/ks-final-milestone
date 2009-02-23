@@ -1,43 +1,61 @@
-.ExampleListPanel{
+.KSinkMainPanel{
+    height: 100%;
+    width: 100%;
+}
+
+.KSinkMenuPanel{
 	border-style: solid;
 	border-width: 2px;
 	border-color: gray;	
+    height: 100%;
+    width: 200px;
 }
 
-.ExampleContentPanel {
+.KSinkContentPanel {
 	border-style: solid;
 	border-width: 2px;
 	border-color: gray;
-	
-	padding: 10px 10px 10px 10px;
+    height: 100%;
+	padding: 20px 20px 20px 20px;
 }
 
-.ExampleTitle {
+.KSinkTitle {
 	font-size: 18px;
 	font-weight: bold;
 	text-decoration: underline;
 }
 
-.ExampleDescription {
+.KSinkDescription {
 	font-size: 12px;
 }
 
-.ExampleBlockHeader {
+.KSinkBlockHeader {
 	font-size: 18px;
 	font-weight: bold;
 	text-decoration: underline;
 	margin-top: 15px;
 }
 
-.ExampleResourceTitle {
+.KSinkResourceTitle {
 	font-size: 12px;
 	font-weight: bold;
 	margin-top: 15px;
 }
 
-.ExampleResourceDescription {
+.KSinkResourceDescription {
 	font-size: 14px;
 }
 
+.KSinkExample {
+	padding: 10px 10px 10px 10px;
+}
+
+.KSinkPopupPanel {
+    height: 100px;
+	width: 100px;
+	border-style: inset;
+	border-width: 2px;
+	border-color: gray;
+}
 
     

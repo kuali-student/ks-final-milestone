@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.button;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
@@ -22,18 +24,14 @@ public class ButtonExample extends Composite {
     final KSButton button3 = GWT.create(KSButton.class);
 
     public ButtonExample() {
-        table.addStyleName("ksButton");
+        table.addStyleName(STYLE_EXAMPLE);
         
-        title.setText("Click a button");
+        title.init("Click a button", false);
         
-        button1.setHTML("Number 1");
-        button2.setHTML("Number 2");
-        button3.setHTML("Number 3");
-        
-        button1.addClickHandler(new MyClickHandler());
-        button2.addClickHandler(new MyClickHandler());
-        button3.addClickHandler(new MyClickHandler());
-        
+        button1.init("Number 1",new MyClickHandler());
+        button2.init("Number 2",new MyClickHandler());
+        button3.init("Number 3",new MyClickHandler());
+             
         int row = 0;
         table.setWidget(row, 1, title);
         
@@ -51,9 +49,10 @@ public class ButtonExample extends Composite {
 
         @Override
         public void onClick(ClickEvent event) {
-            KSButton b = (KSButton)(event.getSource());
-            
-            Window.alert("You clicked button " + b.getText());
+//TODO
+//            KSButton b = (KSButton)(event.getSource());
+//            
+//            Window.alert("You clicked button " + b.getButton().getText());
             
         }     
     }

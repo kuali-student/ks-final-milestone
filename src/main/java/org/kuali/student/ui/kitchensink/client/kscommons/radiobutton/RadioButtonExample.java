@@ -1,7 +1,10 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.radiobutton;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,16 +27,20 @@ public class RadioButtonExample extends Composite {
     final  HorizontalPanel group2Panel = new HorizontalPanel();
     
 
-    final KSRadioButton ksRadio1 = new KSRadioButton(GROUP1, PICK_ME);
-    final KSRadioButton ksRadio2 = new KSRadioButton(GROUP1, PICK_ME);
-    final KSRadioButton ksRadio3 = new KSRadioButton(GROUP1, PICK_ME);
-    final KSRadioButton ksRadio4 = new KSRadioButton(GROUP1, PICK_ME);
+    final KSRadioButton ksRadio1 = GWT.create( KSRadioButton.class);
+    final KSRadioButton ksRadio2 = GWT.create( KSRadioButton.class);
+    final KSRadioButton ksRadio3 = GWT.create( KSRadioButton.class);
+    final KSRadioButton ksRadio4 = GWT.create( KSRadioButton.class);
     
-    final KSRadioButton ksRadio5 = new KSRadioButton(GROUP2, PICK_ME);
-    final KSRadioButton ksRadio6 = new KSRadioButton(GROUP2, PICK_ME);
-    final KSRadioButton ksRadio7 = new KSRadioButton(GROUP2, PICK_ME);
+    final KSRadioButton ksRadio5 = GWT.create( KSRadioButton.class);
+    final KSRadioButton ksRadio6 = GWT.create( KSRadioButton.class);
+    final KSRadioButton ksRadio7 = GWT.create( KSRadioButton.class);
 
     public RadioButtonExample() {
+
+        main.addStyleName(STYLE_EXAMPLE);
+
+        initButtons();
 
         group1Panel.add(ksRadio1); 
         group1Panel.add(ksRadio2);
@@ -53,5 +60,17 @@ public class RadioButtonExample extends Composite {
         super.initWidget(main);
     }
 
+    private void initButtons() {
+        ksRadio1.init(GROUP1, PICK_ME, false);
+        ksRadio2.init(GROUP1, PICK_ME, false);
+        ksRadio3.init(GROUP1, PICK_ME, false);
+        ksRadio4.init(GROUP1, PICK_ME, false);
+        
+        ksRadio5.init(GROUP2, PICK_ME, false);
+        ksRadio6.init(GROUP2, PICK_ME, false);
+        ksRadio7.init(GROUP2, PICK_ME, false);
+
+
+    }
 
 }

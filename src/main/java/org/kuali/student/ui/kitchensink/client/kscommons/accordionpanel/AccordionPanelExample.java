@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -39,10 +41,12 @@ public class AccordionPanelExample extends Composite {
     final KSCheckBox usJoh = GWT.create(KSCheckBox.class);
 
     public AccordionPanelExample() {
+        
+        main.addStyleName(STYLE_EXAMPLE);
 
         loadChoices();
         
-        label.setText("Click on a heading below to show or hide the institution list: ");
+        label.init("Click on a heading below to show or hide the institution list: ", false);
         
         accordion.addPanel("Canadian Institutions", canadian);
         accordion.addPanel("US Institutions", us);
@@ -56,21 +60,21 @@ public class AccordionPanelExample extends Composite {
 
     private void loadChoices() {
 
-        canUbc.setText("University of British Columbia");
-        canUt.setText("University of Toronto");
-        canMcg.setText("McGill University");
+        canUbc.init("University of British Columbia");
+        canUt.init("University of Toronto");
+        canMcg.init("McGill University");
         canadian.add(canUbc);
         canadian.add(canUt);
         canadian.add(canMcg);
 
-        usFsu.setText("Florida State University");
-        usUmd.setText("University of Maryland, College Park");
-        usUw.setText("University of Washington");
-        usUcb.setText("University of California, Berkeley");
-        usMit.setText("Massachusetts Institute of Technology");
-        usUsc.setText("University of Southern California");
-        usCmu.setText("Carnegie Mellon University");
-        usSjdc.setText("San Joaquin Delta College");       
+        usFsu.init("Florida State University");
+        usUmd.init("University of Maryland, College Park");
+        usUw.init("University of Washington");
+        usUcb.init("University of California, Berkeley");
+        usMit.init("Massachusetts Institute of Technology");
+        usUsc.init("University of Southern California");
+        usCmu.init("Carnegie Mellon University");
+        usSjdc.init("San Joaquin Delta College");       
         us.add(usFsu);
         us.add(usUmd);
         us.add(usUw);
@@ -80,10 +84,10 @@ public class AccordionPanelExample extends Composite {
         us.add(usCmu);
         us.add(usSjdc);
 
-        usCam.setText("University of Cambridge");
-        usDel.setText("University of Delhi");
-        usSyd.setText("University of Sydney");
-        usJoh.setText("University of Johannesburg");
+        usCam.init("University of Cambridge");
+        usDel.init("University of Delhi");
+        usSyd.init("University of Sydney");
+        usJoh.init("University of Johannesburg");
         other.add(usCam);
         other.add(usDel);
         other.add(usSyd);

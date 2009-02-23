@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.listbox;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,20 +29,24 @@ public class ListBoxExample extends Composite {
     StringBuffer sb = new StringBuffer("You Have selected < ");
 
     public ListBoxExample() { 
+        
+        main.addStyleName(STYLE_EXAMPLE);
 
         loadLists();
 
-        listBox1.setMultipleSelect(false);
-        listBox1.addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(ChangeEvent arg0) {
-                ListBox lb = (ListBox)arg0.getSource();
-                int i = lb.getSelectedIndex();
-                Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
+        listBox1.init(institutionList);
+        listBox1.getListBox().setMultipleSelect(false);
+//        listBox1.getListBox().addChangeHandler(new ChangeHandler() {
+//            @Override
+//            public void onChange(ChangeEvent arg0) {
+//                ListBox lb = (ListBox)arg0.getSource();
+//                int i = lb.getSelectedIndex();
+//                Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
+//
+//            }});
 
-            }});
-
-        listBox2.setMultipleSelect(true);
+        listBox2.init(institutionList);
+        listBox2.getListBox().setMultipleSelect(true);
 
         // Doesn't quite work yet!
 //      ksListBox2.addChangeHandler(new ChangeHandler() {
@@ -82,8 +88,8 @@ public class ListBoxExample extends Composite {
         institutionList.add("Carnegie Mellon University");
 
         for (String s : institutionList) {
-            listBox1.addItem(s);
-            listBox2.addItem(s);    
+            listBox1.getListBox().addItem(s);
+            listBox2.getListBox().addItem(s);    
         }
     }
 }

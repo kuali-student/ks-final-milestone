@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.richeditor;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
@@ -18,8 +20,10 @@ public class RichEditorExample extends Composite {
 
     public RichEditorExample() {
 
-        label.setText("Click in the box to open the editor: ");
-        
+        label.init("Click in the box to open the editor: ", false);
+
+        main.addStyleName(STYLE_EXAMPLE);
+
         main.add(label);
         main.add(richEditor);
         super.initWidget(main);

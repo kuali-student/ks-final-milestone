@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.*;
+
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
@@ -45,15 +47,10 @@ public class KitchenSinkMain extends Composite {
         super.onLoad();
         if (!loaded) {
             loaded = true;
-            main.setHeight("100%");
-            main.setWidth("100%");
-
-            menuPanel.setHeight("100%");
-            menuPanel.setWidth("200px");
-            menuPanel.setStyleName("ExampleListPanel");
-
-            contentPanel.setHeight("100%");
-            contentPanel.setStyleName("ExampleContentPanel");
+            
+            main.setStyleName(STYLE_MAIN_PANEL);
+            menuPanel.setStyleName(STYLE_MENU_PANEL);
+            contentPanel.setStyleName(STYLE_CONTENT_PANEL);
 
             main.add(menuPanel);
             main.add(contentPanel);
@@ -96,6 +93,7 @@ public class KitchenSinkMain extends Composite {
     private void initExample(final VerticalPanel group, 
                              final KitchenSinkExample example) {
         Label label = new Label(example.getTitle());
+        
         label.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent arg0) {

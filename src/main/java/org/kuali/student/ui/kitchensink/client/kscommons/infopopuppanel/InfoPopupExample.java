@@ -1,5 +1,8 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_POPUP_PANEL;
+
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSInfoPopupPanel;
 
@@ -23,27 +26,31 @@ public class InfoPopupExample extends Composite {
 
     public InfoPopupExample() {
 
-        showButton.setHTML("Click to see Popup");
-        hideButton.setHTML("Click to close Popup");
+        main.addStyleName(STYLE_EXAMPLE);
 
-        infoPopup.add(new Image("images/flowers.jpg") );
-        infoPopup.add(hideButton);
-        
-        hideButton.addClickHandler(new ClickHandler() {
+        showButton.init("Click to see Popup", new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {
                 infoPopup.hide();
                 
             }});
-        
-        showButton.addClickHandler(new ClickHandler() {
+
+        hideButton.init("Click to close Popup", new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {
                 infoPopup.show();
 
             }});
+
+        infoPopup.addHeader("Info Popup Panel");
+        infoPopup.add(new Image("images/flower2.jpg") );
+        infoPopup.addStyleName(STYLE_POPUP_PANEL);
+
+        infoPopup.add(hideButton);
+        
+       
         main.add(showButton);
 
 

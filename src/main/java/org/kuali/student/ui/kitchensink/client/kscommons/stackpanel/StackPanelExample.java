@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.stackpanel;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStackPanel;
 
@@ -16,10 +18,12 @@ public class StackPanelExample extends Composite {
 
     public StackPanelExample() {
 
-        label.setText("Click in the box to open the stack: ");
-        stackPanel.add(new Image("images/flowers.jpg"), "Flowers1");
-        stackPanel.add(new Image("images/flowers.jpg"), "Flowers2");
-        stackPanel.add(new Image("images/flowers.jpg"), "Flowers3");
+        main.addStyleName(STYLE_EXAMPLE);
+
+        label.init("Click in the box to open the stack: ", false);
+//        stackPanel.getStackPanel().add(new Image("images/flower1.jpg"), "Orange");
+//        stackPanel.getStackPanel().add(new Image("images/flower2.jpg"), "Blue");
+//        stackPanel.getStackPanel().add(new Image("images/flower3.jpg"), "Yellow");
         main.add(stackPanel);
         super.initWidget(main);
     }

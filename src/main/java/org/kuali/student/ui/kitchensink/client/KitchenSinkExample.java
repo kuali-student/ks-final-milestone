@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,10 +94,10 @@ public abstract class KitchenSinkExample extends Composite {
         panel.add(description);
         panel.add(exampleLabel);
 
-        title.setStyleName("ExampleTitle");
-        description.setStyleName("ExampleDescription");
-        exampleLabel.setStyleName("ExampleBlockHeader");
-        resourcesLabel.setStyleName("ExampleBlockHeader");
+        title.setStyleName(STYLE_TITLE);
+        description.setStyleName(STYLE_DESCRIPTION);
+        exampleLabel.setStyleName(STYLE_BLOCK_HEADER);
+        resourcesLabel.setStyleName(STYLE_BLOCK_HEADER);
 
         panel.add(getExampleWidget());
         if (resources != null && resources.size() > 0) {
@@ -103,8 +105,8 @@ public abstract class KitchenSinkExample extends Composite {
             for (KitchenSinkResource r : resources) {
                 Label resourceTitle = new Label(r.getTitle());
                 Label resourceDescription = new Label(r.getDescription());
-                resourceTitle.setStyleName("ExampleResourceTitle");
-                resourceDescription.setStyleName("ExampleResourceDescription");
+                resourceTitle.setStyleName(STYLE_RESOURCE_TITLE);
+                resourceDescription.setStyleName(STYLE_RESOURCE_DESCRIPTION);
                 
                 panel.add(resourceTitle);
                 panel.add(resourceDescription);

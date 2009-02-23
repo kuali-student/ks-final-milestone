@@ -1,5 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.textbox;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 
@@ -14,6 +16,7 @@ public class TextBoxExample extends Composite {
  
 
     public TextBoxExample() {
+        main.addStyleName(STYLE_EXAMPLE);
 
         main.add(textBox);
         super.initWidget(main);
