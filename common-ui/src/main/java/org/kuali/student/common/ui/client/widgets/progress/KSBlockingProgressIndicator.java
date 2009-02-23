@@ -63,7 +63,7 @@ public class KSBlockingProgressIndicator{
 			HorizontalPanel taskPanel = new HorizontalPanel();
 			taskPanel.add(new Label(task.getDescription()));
 			taskPanel.add(kSImage);
-			taskPanel.addStyleName("KS-Blocking-Task-Item");
+			taskPanel.addStyleName(KSStyles.KS_BLOCKING_TASK_ITEM);
 			listPanel.add(taskPanel);
 		}
 		
