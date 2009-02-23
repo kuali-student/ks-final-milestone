@@ -66,22 +66,10 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@ManyToOne
 	@JoinColumn(name = "MARKETING_DESC")
     private RichText marketingDesc;
-
-/*	@Column(name = "ACCREDITING_ORG")
-    private String accreditingOrg;
-
-	@Column(name = "ADMIN_ORG")
-    private String adminOrg;
-
-	@Column(name = "PARTICIPATING_ORG")
-    private List<String> participatingOrgs;*/
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CLU_ID")
 	private List<CluOrg> orgs;
-
-	//@OneToOne
-    //private CluInstructor primaryInstructor;
 
 	@OneToMany
 	@JoinTable(name = "KS_CLU_CLU_INSTRUCTOR_T", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTRUCTOR_ID"))
@@ -138,7 +126,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private boolean isHazardousForDisabledStudents;
 
 	@OneToOne
-    private CluFee fee; 
+    private CluFee fee;
 
 	@OneToOne
     private CluAccounting accounting;
@@ -150,11 +138,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private String state;
     
 
-    
-	
-	
-	
-	
 	public String getId() {
         return id;
     }
@@ -242,33 +225,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setMarketingDesc(RichText marketingDesc) {
         this.marketingDesc = marketingDesc;
     }
-
-/*    public String getAccreditingOrg() {
-        return accreditingOrg;
-    }
-
-    public void setAccreditingOrg(String accreditingOrg) {
-        this.accreditingOrg = accreditingOrg;
-    }
-
-    public String getAdminOrg() {
-        return adminOrg;
-    }
-
-    public void setAdminOrg(String adminOrg) {
-        this.adminOrg = adminOrg;
-    }
-    
-    public List<String> getParticipatingOrgs() {
-        if (participatingOrgs == null) {
-            participatingOrgs = new ArrayList<String>();
-        }
-        return participatingOrgs;
-    }
-
-    public void setParticipatingOrgs(List<String> participatingOrgs) {
-        this.participatingOrgs = participatingOrgs;
-    }*/
     
     public List<CluOrg> getOrgs() {
         if (orgs == null) {
@@ -280,14 +236,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setOrgs(List<CluOrg> orgs) {
         this.orgs = orgs;
     }
-
-/*    public CluInstructor getPrimaryInstructor() {
-        return primaryInstructor;
-    }
-
-    public void setPrimaryInstructor(CluInstructor primaryInstructor) {
-        this.primaryInstructor = primaryInstructor;
-    }*/
 
     public List<CluInstructor> getInstructors() {
         if (instructors == null) {
