@@ -31,14 +31,14 @@ public class ModalPopupPanelExample extends Composite {
 
             @Override
             public void onClick(ClickEvent arg0) {
-                popupPanel.hide();
+                popupPanel.show();
                 
             }});
         hideButton.init("Click to close Popup", new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {
-                popupPanel.show();
+                popupPanel.hide();
 
             }});
         

@@ -1,8 +1,12 @@
 package org.kuali.student.ui.kitchensink.client;
 
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.*;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_CONTENT_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MAIN_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MENU_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
@@ -27,6 +31,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,6 +41,12 @@ public class KitchenSinkMain extends Composite {
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     final KSAccordionPanel menuPanel = GWT.create(KSAccordionPanel.class); // menu panel
+    final VerticalPanel welcomePanel = new VerticalPanel();
+    final KSLabel welcomeMsg = GWT.create(KSLabel.class);
+    
+    private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
+        "This is a relatively stable catalog of all widgets developed by Kuali Student. \n\n"  +
+         "Explore the menus on the left to view the widgets";
 
     boolean loaded = false;
 
@@ -48,9 +59,16 @@ public class KitchenSinkMain extends Composite {
         if (!loaded) {
             loaded = true;
             
+            welcomeMsg.init(WELCOME_MSG, true);
+            welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
+            welcomePanel.add(welcomeMsg);
+//            welcomePanel.add(new Image("images/kitchenSink.png"));
+            
             main.setStyleName(STYLE_MAIN_PANEL);
             menuPanel.setStyleName(STYLE_MENU_PANEL);
-            contentPanel.setStyleName(STYLE_CONTENT_PANEL);
+
+            contentPanel.setStyleName(STYLE_CONTENT_PANEL);            
+            contentPanel.add(welcomePanel);
 
             main.add(menuPanel);
             main.add(contentPanel);

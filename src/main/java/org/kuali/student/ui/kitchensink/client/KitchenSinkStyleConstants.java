@@ -12,6 +12,8 @@ public class KitchenSinkStyleConstants {
     public static final String STYLE_BLOCK_HEADER = "KSinkBlockHeader";
     public static final String STYLE_EXAMPLE = "KSinkExample";
     public static final String STYLE_POPUP_PANEL = "KSinkPopupPanel";
+    public static final String STYLE_WELCOME_PANEL = "KSinkWelcomePanel" +
+    		"";
 
 
 }

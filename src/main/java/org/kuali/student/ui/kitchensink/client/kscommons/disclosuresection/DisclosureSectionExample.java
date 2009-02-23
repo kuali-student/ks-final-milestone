@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -22,11 +23,10 @@ public class DisclosureSectionExample extends Composite {
         
         label.init("Test", false);
         section.init("Click Here", null, false);
-        
-        section.getPanel().add(label);
-        
-//            section.getPanel().add(new Image("images/flower3.jpg"));
-        
+
+        section.getPanel().clear();
+        section.getPanel().add(new Image("images/flower3.jpg"));
+       
         main.add(section);
 
         super.initWidget(main);

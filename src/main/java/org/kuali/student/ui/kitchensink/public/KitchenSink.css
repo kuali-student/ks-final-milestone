@@ -25,6 +25,11 @@
 	text-decoration: underline;
 }
 
+.KSinkWelcomPanel {
+	font-size: 18px;
+	font-weight: bold;
+}
+
 .KSinkDescription {
 	font-size: 12px;
 }

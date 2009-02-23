@@ -9,6 +9,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -28,9 +29,9 @@ public class ButtonExample extends Composite {
         
         title.init("Click a button", false);
         
-        button1.init("Number 1",new MyClickHandler());
-        button2.init("Number 2",new MyClickHandler());
-        button3.init("Number 3",new MyClickHandler());
+        button1.init("Button 1",new MyClickHandler());
+        button2.init("Button 2",new MyClickHandler());
+        button3.init("Button 3",new MyClickHandler());
              
         int row = 0;
         table.setWidget(row, 1, title);
@@ -48,12 +49,9 @@ public class ButtonExample extends Composite {
     public class MyClickHandler implements ClickHandler  {
 
         @Override
-        public void onClick(ClickEvent event) {
-//TODO
-//            KSButton b = (KSButton)(event.getSource());
-//            
-//            Window.alert("You clicked button " + b.getButton().getText());
-            
+        public void onClick(ClickEvent event) {           
+            Button b = (Button)(event.getSource());           
+            Window.alert("You clicked: " + b.getText());            
         }     
     }
 }

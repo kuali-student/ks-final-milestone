@@ -32,18 +32,24 @@ public class ListBoxExample extends Composite {
         
         main.addStyleName(STYLE_EXAMPLE);
 
-        loadLists();
-
-        listBox1.init(institutionList);
-        listBox1.getListBox().setMultipleSelect(false);
+ 
+        try {
+//        loadLists();
+           listBox1.init(institutionList);
+           listBox1.getListBox().clear();
+            listBox1.getListBox().setMultipleSelect(false);
+                Window.alert("here");
 //        listBox1.getListBox().addChangeHandler(new ChangeHandler() {
-//            @Override
-//            public void onChange(ChangeEvent arg0) {
-//                ListBox lb = (ListBox)arg0.getSource();
-//                int i = lb.getSelectedIndex();
-//                Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
+//                @Override
+//                public void onChange(ChangeEvent arg0) {
+//                    ListBox lb = (ListBox)arg0.getSource();
+//                    int i = lb.getSelectedIndex();
+//                    Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
 //
-//            }});
+//                }});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         listBox2.init(institutionList);
         listBox2.getListBox().setMultipleSelect(true);
@@ -76,6 +82,8 @@ public class ListBoxExample extends Composite {
     }
 
     private void loadLists() {
+        
+        
         institutionList.add("University of British Columbia");
         institutionList.add("Florida State University");
         institutionList.add("Naval Postgraduate School");
