@@ -2,12 +2,9 @@ package org.kuali.student.ui.kitchensink.client.kscommons.dropdown;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
@@ -19,13 +16,12 @@ public class DropDownExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
      
-    final KSDropDown dropDown = GWT.create(KSDropDown.class);
+    final KSDropDown dropDown = KSWidgetFactory.getDropDownInstance(false);
 
     public DropDownExample() {
         
         main.addStyleName(STYLE_EXAMPLE);
         
-        dropDown.init(false);
         loadList();
 
         dropDown.getListBox().addChangeHandler(new ChangeHandler() {

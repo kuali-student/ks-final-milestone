@@ -2,10 +2,9 @@ package org.kuali.student.ui.kitchensink.client.kscommons.checkbox;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -25,17 +24,13 @@ public class CheckBoxExample extends Composite {
     StringBuffer sb = new StringBuffer();
 
     final VerticalPanel main = new VerticalPanel();
-    final KSCheckBox checkBox1 = GWT.create(KSCheckBox.class);
-    final KSCheckBox checkBox2 = GWT.create(KSCheckBox.class);
-    final KSCheckBox checkBox3 = GWT.create(KSCheckBox.class);
+    final KSCheckBox checkBox1 = KSWidgetFactory.getCheckBoxInstance(CHECK_BOX_1);
+    final KSCheckBox checkBox2 = KSWidgetFactory.getCheckBoxInstance(CHECK_BOX_2);
+    final KSCheckBox checkBox3 = KSWidgetFactory.getCheckBoxInstance(CHECK_BOX_3);
     
     public CheckBoxExample() {
         
         main.addStyleName(STYLE_EXAMPLE);
-
-        checkBox1.init(CHECK_BOX_1);
-        checkBox2.init(CHECK_BOX_2);
-        checkBox3.init(CHECK_BOX_3);
 
         checkBox1.getCheckBox().addClickHandler(new MyClickHandler());
         checkBox2.getCheckBox().addClickHandler(new MyClickHandler());

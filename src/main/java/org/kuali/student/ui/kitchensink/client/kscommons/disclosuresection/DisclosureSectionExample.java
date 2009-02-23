@@ -6,7 +6,6 @@ import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;

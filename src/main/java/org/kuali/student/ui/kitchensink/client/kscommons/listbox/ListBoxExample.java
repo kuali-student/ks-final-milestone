@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSListBox;
+import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Window;
@@ -22,8 +22,8 @@ public class ListBoxExample extends Composite {
     final CaptionPanel panel1 = new CaptionPanel("Single select");
     final CaptionPanel panel2 = new CaptionPanel("Multi select");
 
-    final KSListBox listBox1 = GWT.create(KSListBox.class);
-    final KSListBox listBox2 = GWT.create(KSListBox.class);
+    final KSListBox listBox1 ;
+    final KSListBox listBox2 ;
 
     List<String> institutionList = new ArrayList<String>();
     StringBuffer sb = new StringBuffer("You Have selected < ");
@@ -32,26 +32,20 @@ public class ListBoxExample extends Composite {
 
         main.addStyleName(STYLE_EXAMPLE);
 
+        loadLists();
 
-        try {
-            loadLists();
+        listBox1 = KSWidgetFactory.getListBoxInstance(institutionList, false);
+        listBox1.getListBox().addChangeHandler(new ChangeHandler() {
+            @Override
+            public void onChange(ChangeEvent arg0) {
+                ListBox lb = (ListBox)arg0.getSource();
+                int i = lb.getSelectedIndex();
+                Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
 
-            listBox1.init(institutionList);
-            listBox1.getListBox().setMultipleSelect(false);
-            listBox1.getListBox().addChangeHandler(new ChangeHandler() {
-                @Override
-                public void onChange(ChangeEvent arg0) {
-                    ListBox lb = (ListBox)arg0.getSource();
-                    int i = lb.getSelectedIndex();
-                    Window.alert("You selected <" + lb.getItemText(i).trim() + ">");
+            }});
 
-                }});
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        listBox2.init(institutionList);
-        listBox2.getListBox().setMultipleSelect(true);
+        listBox2 = KSWidgetFactory.getListBoxInstance(institutionList, true);
 
         // Doesn't quite work yet!
 //      ksListBox2.addChangeHandler(new ChangeHandler() {
@@ -81,7 +75,6 @@ public class ListBoxExample extends Composite {
     }
 
     private void loadLists() {
-
 
         institutionList.add("University of British Columbia");
         institutionList.add("Florida State University");

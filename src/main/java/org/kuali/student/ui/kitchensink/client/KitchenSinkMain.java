@@ -16,13 +16,13 @@ import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampl
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.modalpopuppanel.ModalPopupPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.stackpanel.StackPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textbox.TextBoxExampleDescriptor;
 
@@ -31,7 +31,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,8 +39,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class KitchenSinkMain extends Composite {
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
-    final KSAccordionPanel menuPanel = GWT.create(KSAccordionPanel.class); // menu panel
     final VerticalPanel welcomePanel = new VerticalPanel();
+    final KSAccordionPanel menuPanel = GWT.create(KSAccordionPanel.class); // menu panel
     final KSLabel welcomeMsg = GWT.create(KSLabel.class);
     
     private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
@@ -84,7 +83,7 @@ public class KitchenSinkMain extends Composite {
         initExample(gwtExamples, new LayoutExampleDescriptor());
 
         VerticalPanel ksCommons = initGroup("KS Common Widgets");
-        initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
+//        initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
         initExample(ksCommons, new AccordionPanelExampleDescriptor());
         initExample(ksCommons, new ButtonExampleDescriptor());
         initExample(ksCommons, new CheckBoxExampleDescriptor());
@@ -92,13 +91,14 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new DisclosureSectionExampleDescriptor());
         initExample(ksCommons, new DropDownExampleDescriptor());
 //        initExample(ksCommons, new HelpLinkExampleDescriptor());
+        initExample(ksCommons, new ImageExampleDescriptor());
         initExample(ksCommons, new InfoPopupExampleDescriptor());
         initExample(ksCommons, new LabelExampleDescriptor());
         initExample(ksCommons, new ListBoxExampleDescriptor());
         initExample(ksCommons, new ModalPopupPanelExampleDescriptor());
         initExample(ksCommons, new RadioButtonExampleDescriptor());
         initExample(ksCommons, new RichEditorExampleDescriptor());
-        initExample(ksCommons, new StackPanelExampleDescriptor());
+//        initExample(ksCommons, new StackPanelExampleDescriptor());
         initExample(ksCommons, new TextAreaExampleDescriptor());
         initExample(ksCommons, new TextBoxExampleDescriptor());
     }

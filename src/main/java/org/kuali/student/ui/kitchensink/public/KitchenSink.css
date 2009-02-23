@@ -55,6 +55,14 @@
 	padding: 10px 10px 10px 10px;
 }
 
+.KSinkImage {
+	border-style: inset;
+	border-width: 2px;
+	border-color: gray;
+
+	
+}
+
 .KSinkPopupPanel {
     height: 100px;
 	width: 100px;
