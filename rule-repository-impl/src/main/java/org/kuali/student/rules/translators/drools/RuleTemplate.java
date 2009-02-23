@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.generic.DateTool;
 import org.kuali.student.rules.translators.exceptions.RuleSetTranslatorException;
 
@@ -45,9 +46,10 @@ public class RuleTemplate {
         Properties p = new Properties();
         if (!enableLogging) {
 	        // Line below to disables logging, remove to enable
-	        p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
+        	p.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.NullLogSystem");
         }
-        p.setProperty("resource.loader", "class");
+
+        p.setProperty(VelocityEngine.RESOURCE_LOADER, "class");
         p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
         try {
