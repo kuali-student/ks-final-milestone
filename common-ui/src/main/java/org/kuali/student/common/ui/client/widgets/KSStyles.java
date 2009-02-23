@@ -71,5 +71,8 @@ public interface KSStyles {
 
 	public static final String KS_COLLAPSABLEFLOATPANEL = "KS-CollapsableFloatPanel-ButtonPanel";
 	
+	public static final String KS_FORMLAYOUT_DESC = "KS-FormLayout-Description";
+	public static final String KS_FORMLAYOUT_FIELD = "KS-FormLayout-Field";
+	public static final String KS_FORMLAYOUT_LABEL = "KS-FormLayout-Label";
 	
 }

@@ -299,3 +299,15 @@ KS-Disclosure-Section-Open{
 	height: 100%;
 	vertical-align: middle;
 }
+
+.KS-FormLayout-Description {
+	vertical-align: top; 
+	color:gray;
+	font-size:x-small;
+}
+
+.KS-FormLayout-Label {
+	vertical-align: top; 
+	font-weight: bold;
+	text-align: right;
+}
