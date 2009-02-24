@@ -5,12 +5,16 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MENU_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
 
-import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
@@ -32,7 +36,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -41,7 +44,7 @@ public class KitchenSinkMain extends Composite {
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     final VerticalPanel welcomePanel = new VerticalPanel();
-    final KSAccordionPanel menuPanel = GWT.create(KSAccordionPanel.class); // menu panel
+    final KSMenu menuPanel = GWT.create(KSAccordionMenu.class); // TODO update deferred binding in common-ui
     final KSLabel welcomeMsg = GWT.create(KSLabel.class);
     
     private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
@@ -52,6 +55,7 @@ public class KitchenSinkMain extends Composite {
 
     public KitchenSinkMain() {
         super.initWidget(main);
+        initExamples();
     }
 
     protected void onLoad() {
@@ -74,16 +78,17 @@ public class KitchenSinkMain extends Composite {
             main.add(contentPanel);
             main.setCellWidth(menuPanel, "200px");
 
-            initExamples();
         }
     }
 
     private void initExamples() {
-        VerticalPanel gwtExamples = initGroup("GWT Examples");
+        List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+        
+        KSMenuItemData gwtExamples = initGroup("GWT Examples");
         initExample(gwtExamples, new TestExample());
         initExample(gwtExamples, new LayoutExampleDescriptor());
 
-        VerticalPanel ksCommons = initGroup("KS Common Widgets");
+        KSMenuItemData ksCommons = initGroup("KS Common Widgets");
 //        initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
         initExample(ksCommons, new AccordionPanelExampleDescriptor());
         initExample(ksCommons, new BlockingProgressIndicatorExampleDescriptor());
@@ -103,18 +108,23 @@ public class KitchenSinkMain extends Composite {
 //        initExample(ksCommons, new StackPanelExampleDescriptor());
         initExample(ksCommons, new TextAreaExampleDescriptor());
         initExample(ksCommons, new TextBoxExampleDescriptor());
+        
+        items.add(gwtExamples);
+        items.add(ksCommons);
+        menuPanel.setItems(items);
+        
     }
 
-    private VerticalPanel initGroup(String groupName) {
-        VerticalPanel result = new VerticalPanel();
-        menuPanel.addPanel(groupName, result);
-        return result;
+    private KSMenuItemData initGroup(String groupName) {
+        return new KSMenuItemData(groupName);
     }
-    private void initExample(final VerticalPanel group, 
+    
+    private void initExample(final KSMenuItemData group, 
                              final KitchenSinkExample example) {
-        Label label = new Label(example.getTitle());
         
-        label.addClickHandler(new ClickHandler() {
+        KSMenuItemData item = new KSMenuItemData(example.getTitle());
+        
+        item.setClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent arg0) {
                 if (contentPanel.getWidget() != null) {
@@ -123,7 +133,7 @@ public class KitchenSinkMain extends Composite {
                 contentPanel.setWidget(example);                
             }
         });
-        group.add(label);
+        group.addSubItem(item);
     }
 
 
