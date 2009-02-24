@@ -15,18 +15,11 @@
  */
 package org.kuali.student.common.ui.client.widgets.forms;
 
-import java.util.HashMap;
-
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl;
+import org.kuali.student.common.ui.client.widgets.proxy.FormLayoutProxy;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 /**
  * FormLayoutPanel can be used to display fields in a three column form format
@@ -35,19 +28,20 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
  * @author Kuali Student Team
  *
  */
-public class FormLayoutPanel extends Composite {
-    public static final int FORM_LABEL_COL = 0;
-    public static final int FORM_FIELD_COL = 1;
-    public static final int FORM_DESC_COL = 2;
+public class FormLayoutPanel extends FormLayoutProxy {
     
-    SimplePanel form = new SimplePanel();
-    FlexTable table = new FlexTable();
-    HashMap<String, FormField> formFields = new HashMap<String, FormField>();
+    FormLayoutProxy form = GWT.create(FormLayoutPanelImpl.class);
     
     public FormLayoutPanel(){
-        initWidget(form);
+        form.init(null);
+        this.initWidget(form);        
     }
-       
+    
+    public FormLayoutPanel(String title){
+        form.init(title);
+        form.setTitle(title);
+        this.initWidget(form);
+    }
     
     /**
      * Add a field widget to this form. The form field must not contain a 
@@ -56,27 +50,14 @@ public class FormLayoutPanel extends Composite {
      * @param field
      */
     public void addFormField(FormField field){
-        KSLabel label = GWT.create(KSLabel.class);
-        label.init(field.getLabelText(), false);
-        int rowIdx = table.getRowCount();
-        table.setWidget(rowIdx, FORM_LABEL_COL, label);
-        table.setWidget(rowIdx, FORM_FIELD_COL, field.getWidget());
-        table.setText(rowIdx, FORM_DESC_COL, field.getDescription());
-        
-        CellFormatter cf = table.getCellFormatter();
-        cf.setStyleName(rowIdx, FORM_LABEL_COL, KSStyles.KS_FORMLAYOUT_LABEL);
-        cf.setStyleName(rowIdx, FORM_FIELD_COL, KSStyles.KS_FORMLAYOUT_FIELD);
-        cf.setStyleName(rowIdx, FORM_DESC_COL, KSStyles.KS_FORMLAYOUT_DESC);
-        
-        formFields.put(field.getName(), field);
-        form.setWidget(table);
+        form.addFormField(field);
     }    
     
     /**
      * Use to get names for all field widgets contained in this form.
      */
     public String[] getFieldNames(){
-        return (String[])formFields.keySet().toArray();
+        return form.getFieldNames();
     }
     
     /**
@@ -88,7 +69,7 @@ public class FormLayoutPanel extends Composite {
      * @return
      */
     public String getFieldValue(String name){
-        return ((FormField)formFields.get(name)).getText();
+        return form.getFieldValue(name);
     }
     
     /**
@@ -98,15 +79,15 @@ public class FormLayoutPanel extends Composite {
      * @return
      */
     public Widget getFieldWidget(String name){
-        return formFields.get(name).getWidget();
+        return form.getFieldWidget(name);
     }
     
     public FormField getFormRow(int row){
-        String name = ((HasName)table.getWidget(row, FORM_FIELD_COL)).getName();
-        return formFields.get(name);        
+        return form.getFormRow(row);        
     }
    
     public int getRowCount(){
-        return table.getRowCount();
+        return form.getRowCount();
     }
+
 }

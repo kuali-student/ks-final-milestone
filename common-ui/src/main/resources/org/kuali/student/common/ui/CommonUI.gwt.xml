@@ -56,5 +56,15 @@
     </replace-with>
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSTextAreaImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSTextArea"/>
+    </replace-with>     
+
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl"/>
     </replace-with>
+    
+<!-- 
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.SingleColumnFormImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl"/>
+    </replace-with>
+--> 
 </module>
