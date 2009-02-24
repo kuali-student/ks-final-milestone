@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class KSAccordionMenu extends KSMenu{
@@ -16,32 +17,33 @@ public class KSAccordionMenu extends KSMenu{
 	@Override
 	protected void populateMenu() {
 		this.initWidget(menu);
-		Label label = null;
 		for(KSMenuItemData i: items){
 			int level = calculateDepth(i);
 			
 			KSLabel categoryLabel = GWT.create(KSLabel.class);
 			categoryLabel.init(i.getLabel(), false);
-
+			
+			FocusPanel fp = new FocusPanel();
+			fp.setWidget(categoryLabel);
+			fp.setHeight("100%");
+			fp.setWidth("100%");
 			if(level > 0 && level <= 7){
-				categoryLabel.addStyleName(KSStyles.KS_INDENT + "-" + level);
+				fp.addStyleName(KSStyles.KS_INDENT + "-" + level);
 			}
 			categoryLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
 			
 			if(i.getClickHandler() != null){
-				label = categoryLabel.getLabel();
-
-				label.addClickHandler(i.getClickHandler());
+			    fp.addClickHandler(i.getClickHandler());
 			}
 			
 			if(i.getSubItems().isEmpty()){		
-				menu.addPanel(categoryLabel);
+				menu.addPanel(fp);
 			}
 			else{
 				KSAccordionMenu subMenu = GWT.create(KSAccordionMenu.class);
 				subMenu.setRetainHistory(retainHistory);
 				subMenu.setItems(i.getSubItems());
-				menu.addPanel(categoryLabel, subMenu);
+				menu.addPanel(fp, subMenu);
 			}
 		}
 		

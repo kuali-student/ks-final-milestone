@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+@Deprecated
 public class KSHelp extends Composite{
     private SimplePanel helpPanel = new SimplePanel();
     private KSHelpDialog popup;
@@ -16,10 +17,12 @@ public class KSHelp extends Composite{
     private Label helpText = new Label();
     private HelpInfo helpInfo;
 
+    @Deprecated
     public KSHelp() {
         initialize();
     }
 
+    @Deprecated
     public KSHelp(String id){
         helpId = id;  
         initialize();
@@ -35,10 +38,12 @@ public class KSHelp extends Composite{
         helpInfo = testData;
     }
 
+    @Deprecated
     public String getHelpId() {
         return helpId;
     }
 
+    @Deprecated
     public void setHelpId(String helpId) {
         this.helpId = helpId;
     }
