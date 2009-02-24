@@ -5,11 +5,11 @@
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
-	<dict:objectStructure id="cluInfo">
-		<dict:type id="course">
-			<dict:state id="proposed">
-				<dict:field id="cluId">
-					<dict:fieldDescriptor id="fd.cluId">
+	<dict:objectStructure key="cluInfo">
+		<dict:type key="course">
+			<dict:state key="proposed">
+				<dict:field key="cluId">
+					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
 						<dict:dataType>string</dict:dataType>
@@ -39,8 +39,8 @@
 				</dict:field>
 			</dict:state>
 
-			<dict:state id="active">
-				<dict:field id="cluId">
+			<dict:state key="active">
+				<dict:field key="cluId">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
@@ -53,7 +53,7 @@
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="cluCategory">
+				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
@@ -95,9 +95,9 @@
 				</dict:field>
 			</dict:state>
 		</dict:type>
-		<dict:type id="program">
-			<dict:state id="proposed">
-				<dict:field id="cluId">
+		<dict:type key="program">
+			<dict:state key="proposed">
+				<dict:field key="cluId">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
@@ -111,7 +111,7 @@
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="cluCategory">
+				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
@@ -152,8 +152,8 @@
 					<dict:isSelector>true</dict:isSelector>
 				</dict:field>
 			</dict:state>
-			<dict:state id="active">
-				<dict:field id="cluId">
+			<dict:state key="active">
+				<dict:field key="cluId">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Identifier</dict:name>
 						<dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
@@ -166,7 +166,7 @@
 						<dict:readOnly>true</dict:readOnly>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="cluCategory">
+				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>
@@ -209,10 +209,10 @@
 			</dict:state>
 		</dict:type>
 	</dict:objectStructure>
-	<dict:objectStructure id="orgInfo">
-		<dict:type id="kuali.org.Program">
-			<dict:state id="state.orgInfo.active">
-				<dict:field id="desc">
+	<dict:objectStructure key="orgInfo">
+		<dict:type key="kuali.org.Program">
+			<dict:state key="active">
+				<dict:field key="desc">
 					<dict:fieldDescriptor>
 						<dict:name>Description</dict:name>
 						<dict:desc>Description of this Org.</dict:desc>
@@ -221,7 +221,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="longName">
+				<dict:field key="longName">
 					<dict:fieldDescriptor>
 						<dict:name>Long Name</dict:name>
 						<dict:desc>The longer name for this Org.</dict:desc>
@@ -230,7 +230,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="shortName">
+				<dict:field key="shortName">
 					<dict:fieldDescriptor>
 						<dict:name>Short Name</dict:name>
 						<dict:desc>The shorter name for this Org.</dict:desc>
@@ -239,7 +239,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="Alias">
+				<dict:field key="Alias">
 					<dict:fieldDescriptor>
 						<dict:name>Alias</dict:name>
 						<dict:desc>The alias for this Org.</dict:desc>
@@ -248,7 +248,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="effectiveDate">
+				<dict:field key="effectiveDate">
 					<dict:fieldDescriptor>
 						<dict:name>Effective Date</dict:name>
 						<dict:desc>Date on which an org becomes active.</dict:desc>
@@ -257,7 +257,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="expirationDate">
+				<dict:field key="expirationDate">
 					<dict:fieldDescriptor>
 						<dict:name>Expiration Date</dict:name>
 						<dict:desc>Date on which an org becomes inactive.</dict:desc>
@@ -269,9 +269,9 @@
 			</dict:state>
 		</dict:type>
 
-		<dict:type id="kuali.org.College">
-			<dict:state id="updated active">
-				<dict:field id="desc">
+		<dict:type key="kuali.org.College">
+			<dict:state key="updated active">
+				<dict:field key="desc">
 					<dict:fieldDescriptor>
 						<dict:name>Description</dict:name>
 						<dict:desc>Description of this Org.</dict:desc>
@@ -280,7 +280,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="longName">
+				<dict:field key="longName">
 					<dict:fieldDescriptor>
 						<dict:name>Long Name</dict:name>
 						<dict:desc>The longer name for this Org.</dict:desc>
@@ -289,7 +289,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="shortName">
+				<dict:field key="shortName">
 					<dict:fieldDescriptor>
 						<dict:name>Short Name</dict:name>
 						<dict:desc>The shorter name for this Org.</dict:desc>
@@ -298,7 +298,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="effectiveDate">
+				<dict:field key="effectiveDate">
 					<dict:fieldDescriptor>
 						<dict:name>Effective Date</dict:name>
 						<dict:desc>Date on which an org becomes active.</dict:desc>
@@ -307,7 +307,7 @@
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
 				</dict:field>
-				<dict:field id="expirationDate">
+				<dict:field key="expirationDate">
 					<dict:fieldDescriptor>
 						<dict:name>Expiration Date</dict:name>
 						<dict:desc>Date on which an org becomes inactive.</dict:desc>
