@@ -15,8 +15,9 @@
  */
 package org.kuali.student.common.ui.client.widgets.forms;
 
+import org.kuali.student.common.ui.client.dto.HelpInfo;
+
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -32,6 +33,7 @@ public class FormField {
     private String name;
     private String label;
     private String desc;
+    private HelpInfo helpInfo;
       
     public String getLabelText() {
         return label;
@@ -97,5 +99,13 @@ public class FormField {
     
     public void setName(String name){
         this.name = name;
+    }
+
+    public HelpInfo getHelpInfo() {
+        return helpInfo;
+    }
+
+    public void setHelpInfo(HelpInfo helpInfo) {
+        this.helpInfo = helpInfo;
     }
 }

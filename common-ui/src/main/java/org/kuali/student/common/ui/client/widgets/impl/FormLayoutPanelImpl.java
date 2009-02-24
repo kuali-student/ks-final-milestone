@@ -17,12 +17,12 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 import java.util.HashMap;
 
+import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.forms.FormField;
 import org.kuali.student.common.ui.client.widgets.proxy.FormLayoutProxy;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Label;
@@ -58,7 +58,11 @@ public class FormLayoutPanelImpl extends FormLayoutProxy{
         int rowIdx = table.getRowCount();
         table.setWidget(rowIdx, FORM_LABEL_COL, label);
         table.setWidget(rowIdx, FORM_FIELD_COL, field.getWidget());
-        table.setText(rowIdx, FORM_DESC_COL, field.getDescription());
+        
+        KSHelpLink helpLink = new KSHelpLink();
+        field.getHelpInfo().
+        helpLink.setHelpInfo(field.getHelpInfo());
+        table.setWidget(rowIdx, FORM_DESC_COL, helpLink);
 
         CellFormatter cf = table.getCellFormatter();
         cf.setStyleName(rowIdx, FORM_LABEL_COL, KSStyles.KS_FORMLAYOUT_LABEL);
