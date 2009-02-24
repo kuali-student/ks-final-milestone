@@ -10,7 +10,8 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.busywidgetshade.BusyWidgetShadeExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExample;
+import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
@@ -44,7 +45,7 @@ public class KitchenSinkMain extends Composite {
     final KSLabel welcomeMsg = GWT.create(KSLabel.class);
     
     private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
-        "This is a relatively stable catalog of all widgets developed by Kuali Student. \n\n"  +
+        "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
          "Explore the menus on the left to view the widgets";
 
     boolean loaded = false;
@@ -85,6 +86,7 @@ public class KitchenSinkMain extends Composite {
         VerticalPanel ksCommons = initGroup("KS Common Widgets");
 //        initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
         initExample(ksCommons, new AccordionPanelExampleDescriptor());
+        initExample(ksCommons, new BlockingProgressIndicatorExampleDescriptor());
         initExample(ksCommons, new ButtonExampleDescriptor());
         initExample(ksCommons, new CheckBoxExampleDescriptor());
         initExample(ksCommons, new DatePickerExampleDescriptor());
