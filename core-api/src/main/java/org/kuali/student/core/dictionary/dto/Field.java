@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "fieldDescriptor",
-    "isSelector"
+    "selector",
+    "dynamic"
 })
 @XmlRootElement(name = "field")
 public class Field {
