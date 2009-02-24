@@ -67,7 +67,8 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 		
 	}
 	
-	public void add(Widget w){
+	@Override
+    public void add(Widget w){
 		content.add(w);
 	}
 
@@ -79,11 +80,13 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 		return content.iterator();
 	}
 
-	public boolean remove(Widget w) {
+	@Override
+    public boolean remove(Widget w) {
 		return content.remove(w);
 	}
 	
-	public void clear() {
+	@Override
+    public void clear() {
 		content.clear();
 	}
 	
@@ -118,15 +121,18 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 		return panel.getTitle();
 	}
 
-	public boolean isAnimationEnabled() {
+	@Override
+    public boolean isAnimationEnabled() {
 		return panel.isAnimationEnabled();
 	}
 
-	public boolean isOpen() {
+	@Override
+    public boolean isOpen() {
 		return panel.isOpen();
 	}
 
-	public boolean isVisible() {
+	@Override
+    public boolean isVisible() {
 		return panel.isVisible();
 	}
 
@@ -146,7 +152,8 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 		panel.setHeader(headerWidget);
 	}
 
-	public void setOpen(boolean isOpen) {
+	@Override
+    public void setOpen(boolean isOpen) {
 		panel.setOpen(isOpen);
 	}
 
@@ -162,13 +169,11 @@ public class KSDisclosureSectionImpl extends KSDisclosureSection{
 		panel.setTitle(title);
 	}
 
-	public void setVisible(boolean visible) {
+	@Override
+    public void setVisible(boolean visible) {
 		panel.setVisible(visible);
 	}
-	@Override
-	public DisclosurePanel getPanel() {
-		return panel;
-	}
+
 	
 
 }
