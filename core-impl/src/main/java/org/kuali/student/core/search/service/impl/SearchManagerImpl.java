@@ -22,7 +22,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * Loads all search info for a service into memory
  * 
  */
-public class SearchManagerImpl {
+public class SearchManagerImpl implements SearchManager{
 
 	private String searchContextFile;
 	private Map<String, SearchTypeInfo> searchInfoTypeMap;
@@ -31,7 +31,7 @@ public class SearchManagerImpl {
 	private Map<String, String> queryMap;
 
 	@SuppressWarnings("unchecked")
-	public void init() {
+	private void init() {
 		ApplicationContext ac = new FileSystemXmlApplicationContext(searchContextFile);
 		searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
 		searchCriteriaTypeMap = ac.getBeansOfType(SearchCriteriaTypeInfo.class);
@@ -43,10 +43,6 @@ public class SearchManagerImpl {
 		super();
 		this.searchContextFile = searchContextFile;
 		init();
-	}
-
-	public String getQuery(String searchTypeKey) {
-		return queryMap.get(searchTypeKey);
 	}
 
 	public List<Result> searchForResults(String searchTypeKey,

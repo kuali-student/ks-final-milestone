@@ -59,6 +59,8 @@ import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +71,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	private OrganizationDao organizationDao;
     public DictionaryService dictionaryServiceDelegate = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
-
+    private SearchManager searchManager = new SearchManagerImpl("classpath:organization-search-config.xml");//TODO need to update test framework config to allow other things to be injected
 
 	@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
@@ -647,11 +649,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
 		checkForMissingParameter(queryParamValues, "queryParamValues");
 
-		return null;
+		return searchManager.searchForResults(searchTypeKey, queryParamValues, organizationDao);
 	}
 
 	@Override
@@ -877,49 +878,41 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		
-		return null;
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
 	}
 
 	@Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.getSearchCriteriaTypes();
 	}
 
 	@Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-
-		return null;
+		return searchManager.getSearchResultType(searchResultTypeKey);
 	}
 
 	@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.getSearchResultTypes();
 	}
 
 	@Override
 	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-
-		return null;
+		return searchManager.getSearchType(searchTypeKey);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return searchManager.getSearchTypes();
 	}
 
 	@Override
@@ -927,10 +920,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-
-		return null;
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
 	@Override
@@ -938,10 +929,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-
-		return null;
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
 	public OrganizationDao getOrganizationDao() {
@@ -1021,6 +1010,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 		if (param == null) {
 			throw new MissingParameterException(paramName + " can not be null");
 		}
+	}
+
+	public SearchManager getSearchManager() {
+		return searchManager;
+	}
+
+	public void setSearchManager(SearchManager searchManager) {
+		this.searchManager = searchManager;
 	}
 
 

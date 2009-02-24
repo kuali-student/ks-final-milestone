@@ -21,6 +21,7 @@ import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgAttribute;
@@ -33,8 +34,8 @@ import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
+import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
@@ -42,17 +43,15 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	public OrganizationDao dao;
 
 	@Test
-	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-		SearchManager sm = new SearchManager("classpath:organization-search-config.xml");
+	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
 		
-		SearchTypeInfo sti = sm.getSearchType("org.search.orgQuickViewByOrgType");
-		String queryString = sm.getQuery("org.search.orgQuickViewByOrgType");
 		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
 		QueryParamValue qpv1 = new QueryParamValue();
 		qpv1.setKey("org.queryParam.orgType");
 		qpv1.setValue("kuali.org.College");
 		queryParamValues.add(qpv1);
-		List<Result> results = dao.searchForResults(queryString, sti, queryParamValues);
+		List<Result> results = sm.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues, dao);
 		assertEquals(6,results.size());
 		assertEquals(2,results.get(0).getResultCells().size());
 	}
