@@ -20,8 +20,7 @@ public class KSAccordionMenu extends KSMenu{
 		for(KSMenuItemData i: items){
 			int level = calculateDepth(i);
 			
-			KSLabel categoryLabel = GWT.create(KSLabel.class);
-			categoryLabel.init(i.getLabel(), false);
+			KSLabel categoryLabel = new KSLabel(i.getLabel(), false);
 			
 			FocusPanel fp = new FocusPanel();
 			fp.setWidget(categoryLabel);
