@@ -6,6 +6,6 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 @Entity
 @Table(name="KS_R_TYPE_ATTR_T")
-public class LrTypeAttribute extends Attribute<LrType> {
+public class LrTypeAttribute extends Attribute {
 
 }

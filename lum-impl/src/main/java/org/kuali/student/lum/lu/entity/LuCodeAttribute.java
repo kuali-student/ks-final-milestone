@@ -7,6 +7,6 @@ import org.kuali.student.core.entity.Attribute;
 
 @Entity
 @Table(name = "KS_LU_CODE_ATTR_T")
-public class LuCodeAttribute extends Attribute<LuCode> {
+public class LuCodeAttribute extends Attribute {
 
 }

@@ -7,6 +7,6 @@ import org.kuali.student.core.entity.Attribute;
 
 @Entity
 @Table(name = "KS_CLU_SET_ATTR_T")
-public class CluSetAttribute extends Attribute<CluSet> {
+public class CluSetAttribute extends Attribute {
 
 }
