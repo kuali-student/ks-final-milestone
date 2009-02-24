@@ -5,20 +5,21 @@ import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 
 public class KSAccordionMenu extends KSMenu{
 	
 	private KSAccordionPanel menu = new KSAccordionPanel();
 	private boolean retainHistory = false;
-	private int level = 0;
 	
 	@Override
 	protected void populateMenu() {
 		this.initWidget(menu);
 		Label label = null;
 		for(KSMenuItemData i: items){
-			
+			int level = calculateDepth(i);
+			Window.alert("depth: " + level);
 			KSLabel categoryLabel = GWT.create(KSLabel.class);
 			categoryLabel.init(i.getLabel(), false);
 
@@ -39,7 +40,6 @@ public class KSAccordionMenu extends KSMenu{
 			else{
 				KSAccordionMenu subMenu = GWT.create(KSAccordionMenu.class);
 				subMenu.setRetainHistory(retainHistory);
-				subMenu.setLevel(level+1);
 				subMenu.setItems(i.getSubItems());
 				menu.addPanel(categoryLabel, subMenu);
 			}
@@ -51,8 +51,19 @@ public class KSAccordionMenu extends KSMenu{
 		return menu;
 	}
 	
+	@Deprecated
 	public void setLevel(int level){
-		this.level = level;
+		// method does nothing anymore
+	}
+	
+
+	private int calculateDepth(KSMenuItemData item) {
+	    int result = -1;
+	    while (item != null) {
+	        result++;
+	        item = item.getParent();
+	    }
+	    return result;
 	}
 	
 	/**

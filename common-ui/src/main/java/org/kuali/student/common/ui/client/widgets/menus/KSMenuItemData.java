@@ -10,7 +10,7 @@ public class KSMenuItemData {
 	private String label;
 	private ClickHandler clickHandler;
 	private List<KSMenuItemData> subItems = new ArrayList<KSMenuItemData>();
-	
+	private KSMenuItemData parent = null;
 
 	public KSMenuItemData(String label) {
 		super();
@@ -32,9 +32,18 @@ public class KSMenuItemData {
 	
 	public void addSubItem(KSMenuItemData item) {
 		subItems.add(item);
+		item.setParent(this);
 	}
 	
 	public List<KSMenuItemData> getSubItems() {
 		return Collections.unmodifiableList(subItems);
 	}
+
+    public void setParent(KSMenuItemData parent) {
+        this.parent = parent;
+    }
+
+    public KSMenuItemData getParent() {
+        return parent;
+    }
 }
