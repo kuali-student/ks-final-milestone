@@ -60,7 +60,6 @@ public class FormLayoutPanelImpl extends FormLayoutProxy{
         table.setWidget(rowIdx, FORM_FIELD_COL, field.getWidget());
         
         KSHelpLink helpLink = new KSHelpLink();
-        field.getHelpInfo().
         helpLink.setHelpInfo(field.getHelpInfo());
         table.setWidget(rowIdx, FORM_DESC_COL, helpLink);
 
