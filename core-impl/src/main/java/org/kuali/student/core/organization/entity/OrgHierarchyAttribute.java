@@ -7,6 +7,6 @@ import org.kuali.student.core.entity.Attribute;
 
 @Entity
 @Table(name = "KS_ORG_HIERARCHY_ATTR_T")
-public class OrgHierarchyAttribute extends Attribute<OrgHierarchy> {
+public class OrgHierarchyAttribute extends Attribute {
 
 }

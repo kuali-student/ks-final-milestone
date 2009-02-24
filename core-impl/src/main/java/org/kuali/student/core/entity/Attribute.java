@@ -12,7 +12,7 @@ import org.kuali.student.common.util.UUIDHelper;
 @MappedSuperclass
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"NAME", "OWNER"})})
 
-public abstract class Attribute<T> {
+public abstract class Attribute {
 	@Id
 	private String id;
 
@@ -36,9 +36,6 @@ public abstract class Attribute<T> {
 		this.id = id;
 	}
 
-//	public abstract T getOwner();
-//	public abstract void setOwner(T owner);
-	
 	/**
 	 * AutoGenerate the Id
 	 */

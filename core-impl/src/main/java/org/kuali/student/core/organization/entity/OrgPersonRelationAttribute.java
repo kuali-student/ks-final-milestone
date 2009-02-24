@@ -7,6 +7,6 @@ import org.kuali.student.core.entity.Attribute;
 
 @Entity
 @Table(name = "KS_ORG_PERSON_RELATION_ATTR_T")
-public class OrgPersonRelationAttribute extends Attribute<OrgPersonRelation> {
+public class OrgPersonRelationAttribute extends Attribute {
 
 }

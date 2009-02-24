@@ -8,6 +8,6 @@ import org.kuali.student.core.entity.Attribute;
 @Entity
 @Table(name = "KS_ORG_POS_RESTR_ATTR_T")
 public class OrgPositionRestrictionAttribute extends
-		Attribute<OrgPositionRestriction> {
+		Attribute {
 
 }
