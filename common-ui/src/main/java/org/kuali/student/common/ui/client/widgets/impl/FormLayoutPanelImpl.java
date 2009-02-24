@@ -54,8 +54,7 @@ public class FormLayoutPanelImpl extends FormLayoutProxy{
     }
     
     public void addFormField(FormField field){
-        KSLabel label = GWT.create(KSLabel.class);
-        label.init(field.getLabelText(), false);
+        KSLabel label = new KSLabel(field.getLabelText(), false);
         int rowIdx = table.getRowCount();
         table.setWidget(rowIdx, FORM_LABEL_COL, label);
         table.setWidget(rowIdx, FORM_FIELD_COL, field.getWidget());

@@ -33,10 +33,8 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
 	 * @see org.kuali.student.common.ui.client.widgets.list.SelectItemWidget#deSelectItem(java.lang.String)
 	 */
 	public void deSelectItem(String id) {
-		RadioButton radioButton = null;
         for (int i=0; i < radioPanel.getWidgetCount(); i++){
-            KSRadioButton kSRadioButton = (KSRadioButton)radioPanel.getWidget(i);
-            radioButton = kSRadioButton.getRadioButton();
+            KSRadioButton radioButton = (KSRadioButton)radioPanel.getWidget(i);
             if (radioButton.getFormValue().equals(id)){
                 this.selectedValue = null;
                 radioButton.setValue(false);
@@ -63,10 +61,8 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
 	 */
 	public void selectItem(String id) {
 	    deSelectItem(selectedValue);
-		RadioButton radioButton = null;
 	    for (int i=0; i < radioPanel.getWidgetCount(); i++){
-	        KSRadioButton kSRadioButton = (KSRadioButton)radioPanel.getWidget(i);
-	        radioButton = kSRadioButton.getRadioButton();
+	        KSRadioButton radioButton = (KSRadioButton)radioPanel.getWidget(i);
 	        if (radioButton.getFormValue().equals(id)){
 	            this.selectedValue = id;
 	            radioButton.setValue(true);
@@ -79,24 +75,20 @@ public class RadioButtonList extends SelectItemWidget implements ClickHandler{
         super.setListItems(listItems);
         
         radioPanel.clear();
-		RadioButton radioButton = null;
         for (String id:listItems.getItemIds()){
-            KSRadioButton kSRadioButton = GWT.create(KSRadioButton.class);
-            kSRadioButton.init(name, listItems.getItemText(id), false);
-            radioButton = kSRadioButton.getRadioButton();
+            KSRadioButton radioButton = new KSRadioButton(name, listItems.getItemText(id));
             radioButton.setFormValue(id);
             radioButton.addClickHandler(this);
-            radioPanel.add(kSRadioButton);
+            radioPanel.add(radioButton);
         }        
     }
    
    public void onClick(ClickEvent event) {
-       KSRadioButton kSRadioButton = (KSRadioButton)(event.getSource());
-       RadioButton radioButton = kSRadioButton.getRadioButton();    
-        if (radioButton.getValue() && !radioButton.getFormValue().equals(selectedValue)){
-            selectedValue = radioButton.getFormValue();
-            fireChangeEvent();
-        }
+       KSRadioButton radioButton = (KSRadioButton)(event.getSource());   
+       if (radioButton.getValue() && !radioButton.getFormValue().equals(selectedValue)){
+           selectedValue = radioButton.getFormValue();
+           fireChangeEvent();
+       }
    }
     
 }

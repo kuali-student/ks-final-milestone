@@ -91,8 +91,7 @@ public class KSAccordionPanel extends Composite{
         private boolean isOpen = false;
     	
     	AccordionTitleBar(String name) {
-    		KSLabel titleLabel = GWT.create(KSLabel.class); 
-    		titleLabel.init(name, false);
+    		KSLabel titleLabel = new KSLabel(name,false); 
     		titleLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
             add(titleLabel);
             setDefaultStyle();

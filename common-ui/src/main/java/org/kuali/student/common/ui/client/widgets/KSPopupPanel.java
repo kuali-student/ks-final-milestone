@@ -37,8 +37,7 @@ public abstract class KSPopupPanel{
 	
 	public void addHeader(String headerText){
 		headerPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		KSLabel kSLabel = GWT.create(KSLabel.class);
-		kSLabel.init(headerText, false);
+		KSLabel kSLabel = new KSLabel(headerText, false);
 		headerPanel.add(kSLabel);
 		popupPanel.insert(headerPanel, 0);
 	}

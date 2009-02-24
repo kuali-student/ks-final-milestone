@@ -18,7 +18,7 @@ public class KSHelpDialog extends KSInfoPopupPanel{
 	private HorizontalPanel header = new HorizontalPanel();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	private VerticalPanel main = new VerticalPanel();
-	private KSButton ok = GWT.create(KSButton.class);
+	private KSButton ok = new KSButton("OK");
 	private HelpInfo helpInfo;
 	
 	public KSHelpDialog() {}
@@ -55,7 +55,7 @@ public class KSHelpDialog extends KSInfoPopupPanel{
 		main.add(webFrame);
 		
 		buttonPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
-		this.ok.init("OK",new ClickHandler(){
+		this.ok.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
 				KSHelpDialog.this.hide();

@@ -29,7 +29,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 
 public class KSDatePickerImpl extends KSDatePicker{
 	private DatePicker picker = new DatePicker();
-	private KSTextBox dateField = GWT.create(KSTextBox.class);
+	private KSTextBox dateField = new KSTextBox();
 	private PopupPanel popup = new PopupPanel(true);
 	private Date selectedDate = new Date();
 	private Date currentDate = new Date();
@@ -44,8 +44,7 @@ public class KSDatePickerImpl extends KSDatePicker{
 		popup.add(picker);
 		
 		picker.setWidth(dateField.getOffsetWidth() + "px");
-		TextBox textBox = dateField.getTextBox();
-		textBox.addBlurHandler(new BlurHandler(){
+		dateField.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
 				dateField.removeStyleName(KSStyles.KS_DATEFIELD_FOCUS_STYLE);	
 				
@@ -53,12 +52,12 @@ public class KSDatePickerImpl extends KSDatePicker{
 		});
 		
 
-		textBox.addFocusHandler(new FocusHandler(){
+		dateField.addFocusHandler(new FocusHandler(){
 			public void onFocus(FocusEvent event) {
 				dateField.addStyleName(KSStyles.KS_DATEFIELD_FOCUS_STYLE);
 				popup.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop() + dateField.getOffsetHeight());
 				if(justPicked){
-					dateField.getTextBox().selectAll();
+					dateField.selectAll();
 					justPicked = false;
 				}
 				else{
@@ -68,7 +67,7 @@ public class KSDatePickerImpl extends KSDatePicker{
 			}		
 		});
 		
-		textBox.addClickHandler(new ClickHandler(){
+		dateField.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
 				popup.setPopupPosition(getAbsoluteLeft(), getAbsoluteTop() + dateField.getOffsetHeight());
@@ -79,11 +78,11 @@ public class KSDatePickerImpl extends KSDatePicker{
 			
 		});
 		
-		textBox.addKeyPressHandler(new KeyPressHandler(){
+		dateField.addKeyPressHandler(new KeyPressHandler(){
 
 			public void onKeyPress(KeyPressEvent event) {
 				System.out.println(event.getCharCode());
-				String dateText = dateField.getTextBox().getText();
+				String dateText = dateField.getText();
 				String validInput = "0123456789";
 				if(validInput.indexOf(event.getCharCode()) == -1){
 						event.preventDefault();
@@ -92,7 +91,7 @@ public class KSDatePickerImpl extends KSDatePicker{
 			
 		});
 		
-		textBox.addKeyDownHandler(new KeyDownHandler(){
+		dateField.addKeyDownHandler(new KeyDownHandler(){
 
 			public void onKeyDown(KeyDownEvent event) {
 				if(event.getNativeKeyCode() == KeyCodes.KEY_TAB){
@@ -105,30 +104,29 @@ public class KSDatePickerImpl extends KSDatePicker{
 			
 		});
 		
-		textBox.addKeyUpHandler(new KeyUpHandler(){
+		dateField.addKeyUpHandler(new KeyUpHandler(){
 
 			public void onKeyUp(KeyUpEvent event) {
-				TextBox textBox = dateField.getTextBox();
-				String dateText = textBox.getText();
+				String dateText = dateField.getText();
 
 				if(event.getNativeKeyCode() != KeyCodes.KEY_BACKSPACE && event.getNativeKeyCode() != KeyCodes.KEY_DELETE){
 					if(dateText.length() == 2){
-						textBox.setText(dateText + "/");
+						dateField.setText(dateText + "/");
 						String current = df.format(currentDate);
-						Date newDate = df.parse(textBox.getText()+ "01" + current.substring(5));
+						Date newDate = df.parse(dateField.getText()+ "01" + current.substring(5));
 						picker.setCurrentMonth(newDate);
 					}
 					else if(dateText.length() == 5){
-						textBox.setText(dateText + "/");
+						dateField.setText(dateText + "/");
 						String current = df.format(currentDate);
-						Date newDate = df.parse(textBox.getText() + current.substring(6));
-						textBox.setText(df.format(newDate).substring(0, 6));
+						Date newDate = df.parse(dateField.getText() + current.substring(6));
+						dateField.setText(df.format(newDate).substring(0, 6));
 						picker.setCurrentMonth(newDate);
 						picker.setValue(newDate, false);
 						
 					}
 					else if(dateText.length() == 10){
-						Date newDate = df.parse(textBox.getText());
+						Date newDate = df.parse(dateField.getText());
 						picker.setCurrentMonth(newDate);
 						picker.setValue(newDate, false);
 						selectedDate = picker.getValue();
@@ -143,12 +141,11 @@ public class KSDatePickerImpl extends KSDatePicker{
 		picker.addValueChangeHandler(new ValueChangeHandler<Date>(){
 
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				TextBox textBox = dateField.getTextBox();
 				if(picker.getValue() != null){
-					textBox.setText(df.format(picker.getValue()));
+				    dateField.setText(df.format(picker.getValue()));
 					selectedDate = picker.getValue();
 				}
-				textBox.setFocus(true);
+				dateField.setFocus(true);
 				popup.hide();
 				justPicked = true;
 			}	
