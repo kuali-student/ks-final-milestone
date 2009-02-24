@@ -47,7 +47,8 @@ public class Field {
 
     @XmlElement(required = true)
     protected FieldDescriptor fieldDescriptor;
-    protected boolean isSelector;
+    protected boolean selector;
+    protected boolean dynamic;
     @XmlAttribute(required = true)
     protected String key;
 
@@ -76,11 +77,11 @@ public class Field {
     }
 
 	public boolean isSelector() {
-		return isSelector;
+		return selector;
 	}
 
 	public void setSelector(boolean isSelector) {
-		this.isSelector = isSelector;
+		this.selector = isSelector;
 	}
 
 	/**
@@ -106,5 +107,13 @@ public class Field {
     public void setKey(String value) {
         this.key = value;
     }
+
+	public boolean isDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
+	}
 
 }

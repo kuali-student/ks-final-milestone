@@ -12,9 +12,9 @@
 			<xsd:sequence>
 				<xsd:element name="fieldDescriptor" type="fieldDescriptor"
 					maxOccurs="1" minOccurs="1"></xsd:element>
-				<xsd:element name="isSelector" type="xsd:boolean"
+				<xsd:element name="selector" type="xsd:boolean"
 					maxOccurs="1" minOccurs="0"></xsd:element>
-				<xsd:element name="isDynamic" type="xsd:boolean"
+				<xsd:element name="dynamic" type="xsd:boolean"
 					maxOccurs="1" minOccurs="0"></xsd:element>
 			</xsd:sequence>
 			<xsd:element ref="beans:ref" />

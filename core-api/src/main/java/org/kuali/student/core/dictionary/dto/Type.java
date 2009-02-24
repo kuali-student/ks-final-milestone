@@ -103,4 +103,8 @@ public class Type {
         this.key = value;
     }
 
+	public void setState(List<State> state) {
+		this.state = state;
+	}
+
 }

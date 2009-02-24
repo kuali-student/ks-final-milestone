@@ -35,7 +35,7 @@
 						<dict:minOccurs>0</dict:minOccurs>
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
-					<dict:isSelector>true</dict:isSelector>
+					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 
@@ -91,7 +91,7 @@
 						<dict:minOccurs>0</dict:minOccurs>
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
-					<dict:isSelector>true</dict:isSelector>
+					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 		</dict:type>
@@ -149,7 +149,7 @@
 						<dict:minOccurs>0</dict:minOccurs>
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
-					<dict:isSelector>true</dict:isSelector>
+					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 			<dict:state key="active">
@@ -204,7 +204,7 @@
 						<dict:minOccurs>0</dict:minOccurs>
 						<dict:maxOccurs>1</dict:maxOccurs>
 					</dict:fieldDescriptor>
-					<dict:isSelector>true</dict:isSelector>
+					<dict:selector>true</dict:selector>
 				</dict:field>
 			</dict:state>
 		</dict:type>

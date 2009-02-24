@@ -10,9 +10,9 @@ public class DictionaryNamespaceHandler extends NamespaceHandlerSupport {
         BeanDefinitionParser parser = new DictionaryBeanDefinitionParser();
         this.registerBeanDefinitionParser("fieldDescriptor", parser);
         this.registerBeanDefinitionParser("objectStructure", parser);
-        this.registerBeanDefinitionParser("typeSelector", parser);
-        this.registerBeanDefinitionParser("stateSelector", parser);
-        this.registerBeanDefinitionParser("fieldSelector", parser);
+        this.registerBeanDefinitionParser("type", parser);
+        this.registerBeanDefinitionParser("state", parser);
+        this.registerBeanDefinitionParser("field", parser);
     }
 
 }

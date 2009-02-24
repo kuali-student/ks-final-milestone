@@ -103,4 +103,8 @@ public class ObjectStructure {
         this.objectTypeKey = value;
     }
 
+	public void setType(List<Type> type) {
+		this.type = type;
+	}
+
 }

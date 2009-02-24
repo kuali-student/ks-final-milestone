@@ -103,4 +103,8 @@ public class State {
         this.key = value;
     }
 
+	public void setField(List<Field> field) {
+		this.field = field;
+	}
+
 }
