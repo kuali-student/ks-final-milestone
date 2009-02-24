@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+	<search:searchType id="org.search.orgQuickViewByOrgType">
+		<search:name>Organization Quick View By Org Type</search:name>
+		<search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="org.result.orgQuickView" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="org.criteria.orgByOrgType" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchResultTypeInfo id="org.result.orgQuickView">
+		<search:name>Organization Quick View</search:name>
+		<search:desc>Quick view of the Organization</search:desc>
+		<search:resultColumns>
+			<ref bean="org.resultColumn.orgId" />
+			<ref bean="org.resultColumn.orgShortName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+
+	<search:resultColumn id="org.resultColumn.orgId">
+		<search:name>Organization Identifier</search:name>
+		<search:desc>Identifier for the organization</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="org.resultColumn.orgShortName">
+		<search:name>Organization Short Name</search:name>
+		<search:desc>Short name for the organization, recorded as the default
+				listing.</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:fieldDescriptor id="org.fieldDescriptor.orgType"
+		parent="org.fieldDescriptor.orgTypeParent">
+		<search:name>OrgType</search:name>
+		<search:desc>String to be matched against OrganizationType</search:desc>
+		<search:dataType>string</search:dataType>
+		<search:minLength>1</search:minLength>
+		<search:maxLength>50</search:maxLength>
+		<search:maxOccurs>22</search:maxOccurs>
+	</search:fieldDescriptor>
+
+	<search:fieldDescriptor id="org.fieldDescriptor.orgTypeParent">
+		<search:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZ.</search:validChars>
+		<search:minOccurs>1</search:minOccurs>
+		<search:maxOccurs>1</search:maxOccurs>
+	</search:fieldDescriptor>
+	
+	<search:searchType id="nestedSearchType">
+		<search:name>Nested</search:name>
+		<search:desc>Nested Search Type</search:desc>
+		<search:searchResultTypeInfo id="searchResultTypeNested">
+			<search:name>Organization Quick View</search:name>
+			<search:desc>Quick view of the Organization</search:desc>
+			<search:resultColumns>
+				<search:resultColumn id="org.resultColumn.orgIdNested">
+					<search:name>Organization Identifier</search:name>
+					<search:desc>Identifier for the organization</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn id="org.resultColumn.orgIdNested2">
+					<search:name>Organization Identifier</search:name>
+					<search:desc>Identifier for the organization</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<ref bean="org.resultColumn.orgShortName"/>
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgTypeNested">
+			<search:name>OrgByOrgTypeCriteria</search:name>
+			<search:desc>OrgByOrgTypeCriteria Description</search:desc>
+			<search:queryParams>
+				<ref bean="org.queryParam.orgType"/>
+				<search:queryParam id="org.queryParam.orgTypeNested2">
+					<search:fieldDescriptor id="dsdsd2">
+						<search:validChars>ABCDEFGHIJKLMNOPQRSTUVWXYZ.</search:validChars>
+						<search:minOccurs>1</search:minOccurs>
+						<search:maxOccurs>1</search:maxOccurs>
+					</search:fieldDescriptor>
+				</search:queryParam>
+			</search:queryParams>
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+
+	<search:queryParam id="org.queryParam.orgType">
+		<search:fieldDescriptor>
+			<ref bean="org.fieldDescriptor.orgType" />
+		</search:fieldDescriptor>
+	</search:queryParam>
+
+	<search:searchCriteriaTypeInfo id="org.criteria.orgByOrgType">
+		<search:name>OrgByOrgTypeCriteria</search:name>
+		<search:desc>OrgByOrgTypeCriteria Description</search:desc>
+		<search:queryParams>
+			<ref bean="org.queryParam.orgType" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="org.search.orgQuickViewByOrgType">
+					<value>SELECT org.id, org.shortName FROM Org org WHERE
+						org.type.id = :org_queryParam_orgType</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name="com.google.gwt.user.User"/>
+	
+	<inherits name="org.kuali.student.core.messages.Message"/>
+ 
+  	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
+  	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
+  	<inherits name="com.google.gwt.visualization.Visualization"/>  	
+  	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+  	
+	<!--  <inherits name='org.gwt.mosaic.Mosaic' />
+	<stylesheet src="gwt/standard/Mosaic.css" /> -->
+	
+  	<stylesheet src="CommonUI.css"/>  	
+  	
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
+    </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDatePickerImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDatePicker"/>
+    </replace-with> 
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDisclosureSectionImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDisclosureSection"/>
+    </replace-with> 
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDropDown"/>
+    </replace-with> 
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
+    </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSImageImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSImage"/>
+    </replace-with>
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSStackPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
+    </replace-with>
+
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl"/>
+    </replace-with>
+    
+<!-- 
+    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.SingleColumnFormImpl">
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl"/>
+    </replace-with>
+--> 
+</module>
