@@ -24,29 +24,35 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="stateSelector">
-		<xsd:choice maxOccurs="unbounded">
-			<xsd:element name="field" type="fieldSelector"></xsd:element>
-			<xsd:element ref="beans:ref" />
-		</xsd:choice>
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:choice>
+				<xsd:element name="field" type="fieldSelector"></xsd:element>
+				<xsd:element ref="beans:ref" />
+			</xsd:choice>
+		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
-		<xsd:attribute name="parent" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="parent" type="xsd:IDREF"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="typeSelector">
-		<xsd:choice maxOccurs="unbounded">
-			<xsd:element name="state" type="stateSelector"></xsd:element>
-			<xsd:element ref="beans:ref" />
-		</xsd:choice>
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:choice>
+				<xsd:element name="state" type="stateSelector"></xsd:element>
+				<xsd:element ref="beans:ref" />
+			</xsd:choice>
+		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="objectStructure">
-		<xsd:choice maxOccurs="unbounded">
-			<xsd:element name="type" type="typeSelector"></xsd:element>
-			<xsd:element ref="beans:ref" />
-		</xsd:choice>
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:choice>
+				<xsd:element name="type" type="typeSelector"></xsd:element>
+				<xsd:element ref="beans:ref" />
+			</xsd:choice>
+		</xsd:sequence>
 		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
