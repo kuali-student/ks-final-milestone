@@ -26,8 +26,8 @@
  */
 package </xsl:text>
 <xsl:value-of select="$packageName"/>
-
 <xsl:text>;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +37,39 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+
+</xsl:text>
+
+<!-- Determine if it implements Idable (has a 'key' or 'id' element) and if it implements
+	 HasTypeState (has 'type' and 'state' elements) or HasAttributes -->
+<xsl:variable name="hasKey">
+	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='key']" />
+</xsl:variable>
+<xsl:variable name="hasId">
+	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='id']" />
+</xsl:variable>
+<xsl:variable name="hasState">
+	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='state']" />
+</xsl:variable>
+<xsl:variable name="hasType">
+	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='type']" />
+</xsl:variable>
+<xsl:variable name="hasAttributes">
+	<xsl:value-of select="table[@class='structTable']/tr[position()>1]/td[@class='structSName'][text()='attributes']" />
+</xsl:variable>
+
+<!-- import implemented core dto interfaces -->
+<xsl:if test="string-length($hasKey)>0 or string-length($hasId)>0">
+	<xsl:text>import org.kuali.student.core.dto.Idable;&#10;</xsl:text>
+</xsl:if>
+<xsl:if test="string-length($hasState)>0 and string-length($hasType)>0">
+	<xsl:text>import org.kuali.student.core.dto.HasTypeState;&#10;</xsl:text>
+</xsl:if>
+<xsl:if test="string-length($hasAttributes) > 0">
+	<xsl:text>import org.kuali.student.core.dto.HasAttributes;&#10;</xsl:text>
+</xsl:if>
+
+<xsl:text>
 /**
  *</xsl:text>
  <xsl:value-of select="//h3[.='Description']/following-sibling::*[1]"/>
@@ -47,31 +80,52 @@ public class </xsl:text>
 		<xsl:value-of
 			select="concat(upper-case(substring(normalize-space(h2),1,1)),
              substring(normalize-space(h2),2))" />
-		<xsl:text> implements Serializable {&#10;</xsl:text>
+		<xsl:text> implements Serializable</xsl:text>
+
+		<xsl:if test="string-length($hasKey)>0 or string-length($hasId)>0">
+			<xsl:text>, Idable</xsl:text>
+		</xsl:if>
+		<xsl:if test="string-length($hasState)>0 and string-length($hasType)>0">
+			<xsl:text>, HasTypeState</xsl:text>
+		</xsl:if>
+		<xsl:if test="string-length($hasAttributes) > 0">
+			<xsl:text>, HasAttributes</xsl:text>
+		</xsl:if>
+
+		<xsl:text> {&#10;</xsl:text>
 		<xsl:text>&#10;    private static final long serialVersionUID = 1L;&#10;</xsl:text>
 		<xsl:for-each
 			select="table[@class='structTable']/tr[position()>1]">
 			<xsl:choose>
 				<xsl:when
 					test="normalize-space(td[@class='structAttr'])='Yes'">
-					<xsl:text>&#10;    @XmlAttribute&#10;</xsl:text>
+					<xsl:text>&#10;    @XmlAttribute</xsl:text>
+					<!-- changing 'key' to 'id' in DTOs; ensure XML attribute will have 'key' -->
+					<xsl:if test="normalize-space(td[@class='structSName'])='key'" >
+						<xsl:text>(name="key")</xsl:text>
+					</xsl:if>	
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>&#10;    @XmlElement&#10;</xsl:text>
+					<xsl:text>&#10;    @XmlElement</xsl:text>
+					<!-- changing 'key' to 'id' in DTOs; ensure XML element will be 'key' -->
+					<xsl:if test="normalize-space(td[@class='structSName'])='key'" >
+						<xsl:text>("key")</xsl:text>
+					</xsl:if>	
 				</xsl:otherwise>
 			</xsl:choose>
+			<xsl:text>&#10;</xsl:text>
 			<xsl:if test="normalize-space(td[@class='structType'])='attributeList'">
 				<xsl:text>    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)&#10;</xsl:text>
 			</xsl:if>
 			<xsl:text>    private </xsl:text>
 			<xsl:call-template name="deriveType" />
 			<xsl:text> </xsl:text>
-			<xsl:value-of
-				select="normalize-space(td[@class='structSName'])" />
+			<xsl:call-template name="deriveFieldName" />
 			<xsl:text>;&#10;</xsl:text>
-		</xsl:for-each>
-		<!-- do getters/setters -->
 
+		</xsl:for-each>
+		
+		<!-- do getters/setters -->
 		<xsl:for-each
 			select="table[@class='structTable']/tr[position()>1]">
 			<!-- Do Getter -->
@@ -82,9 +136,12 @@ public class </xsl:text>
 			<xsl:text>&#10;    public </xsl:text>
 			<xsl:call-template name="deriveType" />
 			<xsl:text> get</xsl:text>
+			<xsl:call-template name="deriveInitialCapFieldName" />
+			<!--
 			<xsl:value-of
 				select="concat(upper-case(substring(normalize-space(td[@class='structSName']),1,1)),
              substring(normalize-space(td[@class='structSName']),2))" />
+			-->
 			<xsl:text>() {&#10;</xsl:text>
 			<!-- Add initialization if list -->
 			<xsl:if
@@ -109,35 +166,50 @@ public class </xsl:text>
 				<xsl:text>        }&#10;</xsl:text>
 			</xsl:if>
 			<xsl:text>        return </xsl:text>
+			<xsl:call-template name="deriveFieldName" />
+			<!--
 			<xsl:value-of
 				select="normalize-space(td[@class='structSName'])" />
-
+			-->
 			<xsl:text>;&#10;</xsl:text>
 			<xsl:text>    }&#10;</xsl:text>
 
 			<!-- Do Setter -->
 			<xsl:text>&#10;    public void set</xsl:text>
+			<xsl:call-template name="deriveInitialCapFieldName" />
+			<!--
 			<xsl:value-of
 				select="concat(upper-case(substring(normalize-space(td[@class='structSName']),1,1)),
              substring(normalize-space(td[@class='structSName']),2))" />
+			-->
 			<xsl:text>(</xsl:text>
 			<xsl:call-template name="deriveType" />
 			<xsl:text> </xsl:text>
+			<xsl:call-template name="deriveFieldName" />
+			<!--
 			<xsl:value-of
 				select="normalize-space(td[@class='structSName'])" />
+			-->
 			<xsl:text>) {&#10;</xsl:text>
 			<xsl:text>        this.</xsl:text>
+			<xsl:call-template name="deriveFieldName" />
+			<!--
 			<xsl:value-of
 				select="normalize-space(td[@class='structSName'])" />
+			-->
 			<xsl:text> = </xsl:text>
+			<xsl:call-template name="deriveFieldName" />
+			<!--
 			<xsl:value-of
 				select="normalize-space(td[@class='structSName'])" />
+			-->
 			<xsl:text>;&#10;</xsl:text>
 			<xsl:text>    }&#10;</xsl:text>
 		</xsl:for-each>
 
 		<xsl:text>}</xsl:text>
 	</xsl:template>
+
 	<xsl:template name="deriveType">
 		<xsl:choose>
 		    <xsl:when test="normalize-space(td[@class='structType'])='attributeList'">
@@ -174,4 +246,36 @@ public class </xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
+	<xsl:template name="deriveFieldName">
+		<!-- change 'key' in the contract to 'id' in DTO's -->
+		<xsl:variable name="fieldName">
+			<xsl:value-of select="normalize-space(td[@class='structSName'])" />
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$fieldName='key'">
+				<xsl:text>id</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$fieldName" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="deriveInitialCapFieldName">
+		<!-- change 'key' in the contract to 'id' in DTO's -->
+		<xsl:variable name="fieldName">
+			<xsl:value-of select="normalize-space(td[@class='structSName'])" />
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$fieldName='key'">
+				<xsl:text>Id</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat(upper-case(substring($fieldName, 1, 1)),
+											 substring($fieldName, 2))" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
 </xsl:stylesheet>
