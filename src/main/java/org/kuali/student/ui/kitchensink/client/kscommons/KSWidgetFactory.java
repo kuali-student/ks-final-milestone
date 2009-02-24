@@ -33,14 +33,12 @@ public class KSWidgetFactory {
     
     public static KSButton getButtonInstance(String html,
             ClickHandler handler) {        
-        KSButton w = GWT.create(KSButton.class);
-        w.init(html, handler);
+        KSButton w = new KSButton(html, handler);
         return w;       
     }
 
     public static KSCheckBox getCheckBoxInstance(String label) {       
-        KSCheckBox w = GWT.create(KSCheckBox.class);
-        w.init(label);
+        KSCheckBox w = new KSCheckBox(label);
         return w;          
     }
 
@@ -78,16 +76,15 @@ public class KSWidgetFactory {
 
     public static KSLabel getLabelInstance(String text,
             boolean wordWrap) {       
-        KSLabel w = GWT.create(KSLabel.class);
-        w.init(text, wordWrap);
+        KSLabel w = new KSLabel(text);
+        w.setWordWrap(true);
         return w;          
     }
 
     public static KSListBox getListBoxInstance(List <String> list,
             boolean multipleSelect) {       
-        KSListBox w = GWT.create(KSListBox.class);
-        w.init(list);
-        w.getListBox().setMultipleSelect(multipleSelect);
+        KSListBox w = new KSListBox(list);
+        w.setMultipleSelect(multipleSelect);
         return w;          
     }
 
@@ -100,8 +97,7 @@ return w;
     public static KSRadioButton getRadioButtonInstance(String name,
             String label,
             boolean asHTML) {       
-        KSRadioButton w = GWT.create(KSRadioButton.class);
-        w.init(name, label, asHTML);
+        KSRadioButton w = new KSRadioButton(name, label, asHTML);
         return w;          
     }
 

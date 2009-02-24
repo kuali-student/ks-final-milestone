@@ -21,8 +21,8 @@ public class InfoPopupExample extends Composite {
 
     final KSInfoPopupPanel infoPopup = KSWidgetFactory.getInfoPopupPanelInstance();
     
-    final KSButton showButton = GWT.create(KSButton.class);
-    final KSButton hideButton = GWT.create(KSButton.class);
+    final KSButton showButton = new KSButton("Click to see Popup");
+    final KSButton hideButton = new KSButton("Click to close Popup");
 
 
     public InfoPopupExample() {
@@ -30,7 +30,7 @@ public class InfoPopupExample extends Composite {
         main.addStyleName(STYLE_EXAMPLE);
        
 
-        showButton.init("Click to see Popup", new ClickHandler() {
+        showButton.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {
@@ -38,7 +38,7 @@ public class InfoPopupExample extends Composite {
                 
             }});
 
-        hideButton.init("Click to close Popup", new ClickHandler() {
+        hideButton.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {

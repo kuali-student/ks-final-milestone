@@ -32,9 +32,9 @@ public class CheckBoxExample extends Composite {
         
         main.addStyleName(STYLE_EXAMPLE);
 
-        checkBox1.getCheckBox().addClickHandler(new MyClickHandler());
-        checkBox2.getCheckBox().addClickHandler(new MyClickHandler());
-        checkBox3.getCheckBox().addClickHandler(new MyClickHandler());
+        checkBox1.addClickHandler(new MyClickHandler());
+        checkBox2.addClickHandler(new MyClickHandler());
+        checkBox3.addClickHandler(new MyClickHandler());
 
         main.add(checkBox1);
         main.add(checkBox2);

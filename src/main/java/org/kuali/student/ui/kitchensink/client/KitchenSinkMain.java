@@ -45,7 +45,7 @@ public class KitchenSinkMain extends Composite {
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     final VerticalPanel welcomePanel = new VerticalPanel();
     final KSMenu menuPanel = GWT.create(KSAccordionMenu.class); // TODO update deferred binding in common-ui
-    final KSLabel welcomeMsg = GWT.create(KSLabel.class);
+    final KSLabel welcomeMsg =new KSLabel();
     
     private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
         "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
@@ -63,7 +63,8 @@ public class KitchenSinkMain extends Composite {
         if (!loaded) {
             loaded = true;
             
-            welcomeMsg.init(WELCOME_MSG, true);
+            welcomeMsg.setText(WELCOME_MSG);
+            welcomeMsg.setWordWrap(true);
             welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
             welcomePanel.add(welcomeMsg);
 //            welcomePanel.add(new Image("images/kitchenSink.png"));

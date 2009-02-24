@@ -15,7 +15,7 @@ public class DatePickerExample extends Composite {
     final VerticalPanel main = new VerticalPanel();
     
     final KSDatePicker datePicker = KSWidgetFactory.getDatePickerInstance();
-    final KSLabel label = GWT.create(KSLabel.class);
+    final KSLabel label = new KSLabel("Click in the box to open the date picker: ");
 
     public DatePickerExample() {
         
@@ -30,9 +30,7 @@ public class DatePickerExample extends Composite {
 //              Window.alert("You picked " + ksDatePicker.getValue());
 //            }   
 //        });
-        
-        label.init("Click in the box to open the date picker: ", false);
-        
+               
         main.add(label);
         main.add(datePicker);
 

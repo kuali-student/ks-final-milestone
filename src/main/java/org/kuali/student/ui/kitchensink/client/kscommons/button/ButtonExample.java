@@ -19,7 +19,7 @@ public class ButtonExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
     FlexTable table = new FlexTable();
-    final KSLabel title = GWT.create(KSLabel.class);
+    final KSLabel title = new KSLabel("Click a button");
     
     final KSButton button1 ;
     final KSButton button2 ;
@@ -28,7 +28,7 @@ public class ButtonExample extends Composite {
     public ButtonExample() {
         table.addStyleName(STYLE_EXAMPLE);
         
-        title.init("Click a button", false);
+        title.setWordWrap(false);
         
         button1 = KSWidgetFactory.getButtonInstance("Button 1",new MyClickHandler());
         button2 = KSWidgetFactory.getButtonInstance("Button 2",new MyClickHandler());

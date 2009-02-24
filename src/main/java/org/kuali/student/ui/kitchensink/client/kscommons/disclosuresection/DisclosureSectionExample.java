@@ -14,13 +14,13 @@ public class DisclosureSectionExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
     final KSDisclosureSection section = GWT.create(KSDisclosureSection.class);
-    final KSLabel label = GWT.create(KSLabel.class);
+    final KSLabel label;;
 
     public DisclosureSectionExample() { 
         
         main.addStyleName(STYLE_EXAMPLE);
         
-        label.init("Test", false);
+        label = new KSLabel("Test", false);
         section.init("Click Here", null, false);
 
         section.getPanel().clear();

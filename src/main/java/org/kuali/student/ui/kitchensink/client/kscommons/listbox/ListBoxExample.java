@@ -35,7 +35,7 @@ public class ListBoxExample extends Composite {
         loadLists();
 
         listBox1 = KSWidgetFactory.getListBoxInstance(institutionList, false);
-        listBox1.getListBox().addChangeHandler(new ChangeHandler() {
+        listBox1.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
                 ListBox lb = (ListBox)arg0.getSource();
