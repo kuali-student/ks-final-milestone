@@ -19,8 +19,6 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.rules.dto.ReqComponentInfo;
-import org.kuali.student.core.rules.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
@@ -44,6 +42,8 @@ import org.kuali.student.lum.lu.dto.LuiCriteria;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentInfo;
+import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
 
