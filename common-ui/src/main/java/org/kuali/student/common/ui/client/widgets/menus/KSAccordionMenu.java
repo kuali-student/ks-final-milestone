@@ -19,7 +19,7 @@ public class KSAccordionMenu extends KSMenu{
 		Label label = null;
 		for(KSMenuItemData i: items){
 			int level = calculateDepth(i);
-			Window.alert("depth: " + level);
+			
 			KSLabel categoryLabel = GWT.create(KSLabel.class);
 			categoryLabel.init(i.getLabel(), false);
 
