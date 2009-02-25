@@ -77,7 +77,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 				else{
 					for(EnumeratedValue e: enums.getEnumeratedValues()){
 						if(enumValidForDate(e, contextDate)){
-							for(Context c: e.getContexts().getContext()){
+							for(Context c: e.getContexts()){
 								//check context type and value match
 								if(c.getType().equals(enumContextKey) && c.getValue().equals(contextValue)){
 									eVals.add(e);

@@ -10,34 +10,17 @@ package org.kuali.student.core.dictionary.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
-/**
- * <p>Java class for anonymous complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}contexts" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *       &lt;attribute name="key" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "contexts"
@@ -45,62 +28,30 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "enum")
 public class Enum {
 
-    @XmlElement(required = true)
-    protected List<Contexts> contexts;
+    @XmlElement(required = true, name="context")
+    @XmlElementWrapper(name="contexts")
+    protected List<ContextDescriptor> contexts;
     @XmlAttribute(required = true)
     protected String key;
 
-    /**
-     * Gets the value of the contexts property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the contexts property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getContexts().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Contexts }
-     * 
-     * 
-     */
-    public List<Contexts> getContexts() {
+    public List<ContextDescriptor> getContexts() {
         if (contexts == null) {
-            contexts = new ArrayList<Contexts>();
+            contexts = new ArrayList<ContextDescriptor>();
         }
         return this.contexts;
     }
 
-    /**
-     * Gets the value of the key property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getKey() {
-        return key;
-    }
+	public String getKey() {
+		return key;
+	}
 
-    /**
-     * Sets the value of the key property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setKey(String value) {
-        this.key = value;
-    }
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public void setContexts(List<ContextDescriptor> contexts) {
+		this.contexts = contexts;
+	}
+
 
 }

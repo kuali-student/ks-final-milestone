@@ -14,7 +14,6 @@ import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.dictionary.dto.Context;
-import org.kuali.student.core.dictionary.dto.Contexts;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.enumerable.dto.EnumeratedValues;
@@ -307,7 +306,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getSortKey().intValue(), entity1.getSortKey());
         assertEquals(listItem.getValue(), entity1.getValue());
         int i =0;
-        for(Context c: listItem.getContexts().getContext()){
+        for(Context c: listItem.getContexts()){
         	ContextEntity original = entity2.getContextEntityList().get(i);
         	assertEquals(c.getType(), original.getContextKey());
         	assertEquals(c.getValue(), original.getContextValue());
@@ -323,7 +322,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getSortKey().intValue(), entity2.getSortKey());
         assertEquals(listItem.getValue(), entity2.getValue());
         i =0;
-        for(Context c: listItem.getContexts().getContext()){
+        for(Context c: listItem.getContexts()){
         	ContextEntity original = entity2.getContextEntityList().get(i);
         	assertEquals(c.getType(), original.getContextKey());
         	assertEquals(c.getValue(), original.getContextValue());
@@ -374,7 +373,6 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.setSortKey(1);
         dto.setValue("v");
         dto.setAbbrevValue("a");
-        dto.setContexts(new Contexts());
         
         //dto context
         List<Context> dtoContext = new ArrayList<Context>();
@@ -382,7 +380,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         newContext.setType("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
-        dto.getContexts().setContext(dtoContext);
+        dto.setContexts(dtoContext);
 		enumService.addEnumeratedValue("Key2", dto);
 		EnumeratedValues result = enumService.fetchEnumeration("Key2", "ContextA", "1", new Date(baseTime));
 		List<EnumeratedValue> list = result.getEnumeratedValues();
@@ -396,7 +394,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getSortKey(), dto.getSortKey());
         assertEquals(listItem.getValue(), dto.getValue());
         int i =0;
-        for(Context c: listItem.getContexts().getContext()){
+        for(Context c: listItem.getContexts()){
         	Context original = newContext;
         	assertEquals(c.getType(), original.getType());
         	assertEquals(c.getValue(), original.getValue());
@@ -417,7 +415,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.setSortKey(1);
         dto.setValue("v");
         dto.setAbbrevValue("a");
-        dto.setContexts(new Contexts());
+
         
         //dto context
         List<Context> dtoContext = new ArrayList<Context>();
@@ -425,7 +423,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         newContext.setType("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
-        dto.getContexts().setContext(dtoContext);
+        dto.setContexts(dtoContext);
         //add first
 		enumService.addEnumeratedValue("Key3", dto);
 		EnumeratedValues result = enumService.fetchEnumeration("Key3", "ContextA", "1", new Date(baseTime));
@@ -440,7 +438,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getSortKey(), dto.getSortKey());
         assertEquals(listItem.getValue(), dto.getValue());
         int i =0;
-        for(Context c: listItem.getContexts().getContext()){
+        for(Context c: listItem.getContexts()){
         	Context original = newContext;
         	assertEquals(c.getType(), original.getType());
         	assertEquals(c.getValue(), original.getValue());
@@ -451,8 +449,8 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         //update currently fails on context updates
         dto.setCode("newCode");
         dto.setValue("newValue");
-        dto.getContexts().getContext().get(0).setType("newType");
-        dto.getContexts().getContext().get(0).setValue("newContextValue");
+        dto.getContexts().get(0).setType("newType");
+        dto.getContexts().get(0).setValue("newContextValue");
         enumService.updateEnumeratedValue("Key3", "c", dto);
 		
         result = enumService.fetchEnumeration("Key3", "newType", "newContextValue", new Date(baseTime));
@@ -467,7 +465,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(listItem.getSortKey(), dto.getSortKey());
         assertEquals(listItem.getValue(), dto.getValue());
         i =0;
-        for(Context c: listItem.getContexts().getContext()){
+        for(Context c: listItem.getContexts()){
         	assertEquals(c.getType(), "newType");
         	assertEquals(c.getValue(), "newContextValue");
         	i++;
@@ -488,7 +486,6 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         dto.setSortKey(1);
         dto.setValue("v");
         dto.setAbbrevValue("a");
-        dto.setContexts(new Contexts());
         
         //dto context
         List<Context> dtoContext = new ArrayList<Context>();
@@ -496,7 +493,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         newContext.setType("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
-        dto.getContexts().setContext(dtoContext);
+        dto.setContexts(dtoContext);
         //add first
 		enumService.addEnumeratedValue("Key4", dto);
 		enumService.removeEnumeratedValue("Key4", "c");
@@ -621,7 +618,6 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         	
         }
         dto.setSortKey(1);
-        dto.setContexts(new Contexts());
         
         //dto context
         List<Context> dtoContext = new ArrayList<Context>();
@@ -629,7 +625,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         newContext.setType("TheContext");
         newContext.setValue("A");
         dtoContext.add(newContext);
-        dto.getContexts().setContext(dtoContext);
+        dto.setContexts(dtoContext);
 		
 //		EnumeratedValue dto = new EnumeratedValue();
 //        dto.setCode("CODE");

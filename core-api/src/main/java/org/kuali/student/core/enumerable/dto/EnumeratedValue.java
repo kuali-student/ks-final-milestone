@@ -5,11 +5,12 @@
 // Generated on: 2008.10.21 at 02:14:18 PM PDT 
 //
 
-
 package org.kuali.student.core.enumerable.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,228 +18,208 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.dictionary.dto.Contexts;
-
+import org.kuali.student.core.dictionary.dto.Context;
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="code" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="abbrevValue" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="effectiveDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="expirationDate" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
- *         &lt;element name="sortKey" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}contexts"/>
- *         &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;code&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;element name=&quot;abbrevValue&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *         &lt;element name=&quot;effectiveDate&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}date&quot;/&gt;
+ *         &lt;element name=&quot;expirationDate&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}date&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;sortKey&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}int&quot;/&gt;
+ *         &lt;element ref=&quot;{http://www.dto.dictionary.student.kuali.org}contexts&quot;/&gt;
+ *         &lt;element name=&quot;value&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}string&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "code",
-    "abbrevValue",
-    "effectiveDate",
-    "expirationDate",
-    "sortKey",
-    "contexts",
-    "value"
-})
+@XmlType(name = "", propOrder = { "code", "abbrevValue", "effectiveDate",
+		"expirationDate", "sortKey", "contexts", "value" })
 @XmlRootElement(name = "enumeratedValue")
-public class EnumeratedValue implements Serializable{
+public class EnumeratedValue implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(required = true)
-    private String code;
-    
+	private String code;
+
 	@XmlElement(required = true)
-    private String abbrevValue;
-    
+	private String abbrevValue;
+
 	@XmlElement(required = true)
-    private Date effectiveDate;
-    
+	private Date effectiveDate;
+
 	@XmlElement(required = false)
-    private Date expirationDate;
-    
+	private Date expirationDate;
+
 	@XmlElement(required = false)
-    private Integer sortKey;
-    
+	private Integer sortKey;
+
 	@XmlElement(required = true)
-    private Contexts contexts;
-    
+	private List<Context> contexts;
+
 	@XmlElement(required = true)
-    private String value;
+	private String value;
 
-    /**
-     * Gets the value of the code property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCode() {
-        return code;
-    }
+	/**
+	 * Gets the value of the code property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getCode() {
+		return code;
+	}
 
-    /**
-     * Sets the value of the code property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCode(String value) {
-        this.code = value;
-    }
+	/**
+	 * Sets the value of the code property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setCode(String value) {
+		this.code = value;
+	}
 
-    /**
-     * Gets the value of the abbrevValue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAbbrevValue() {
-        return abbrevValue;
-    }
+	/**
+	 * Gets the value of the abbrevValue property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getAbbrevValue() {
+		return abbrevValue;
+	}
 
-    /**
-     * Sets the value of the abbrevValue property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAbbrevValue(String value) {
-        this.abbrevValue = value;
-    }
+	/**
+	 * Sets the value of the abbrevValue property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setAbbrevValue(String value) {
+		this.abbrevValue = value;
+	}
 
-    /**
-     * Gets the value of the effectiveDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Date }
-     *     
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	/**
+	 * Gets the value of the effectiveDate property.
+	 * 
+	 * @return possible object is {@link Date }
+	 * 
+	 */
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    /**
-     * Sets the value of the effectiveDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Date }
-     *     
-     */
-    public void setEffectiveDate(Date value) {
-        this.effectiveDate = value;
-    }
+	/**
+	 * Sets the value of the effectiveDate property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Date }
+	 * 
+	 */
+	public void setEffectiveDate(Date value) {
+		this.effectiveDate = value;
+	}
 
-    /**
-     * Gets the value of the expirationDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Date }
-     *     
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	/**
+	 * Gets the value of the expirationDate property.
+	 * 
+	 * @return possible object is {@link Date }
+	 * 
+	 */
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    /**
-     * Sets the value of the expirationDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Date }
-     *     
-     */
-    public void setExpirationDate(Date value) {
-        this.expirationDate = value;
-    }
+	/**
+	 * Sets the value of the expirationDate property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Date }
+	 * 
+	 */
+	public void setExpirationDate(Date value) {
+		this.expirationDate = value;
+	}
 
-    /**
-     * Gets the value of the sortKey property.
-     * 
-     */
-    public Integer getSortKey() {
-        return sortKey;
-    }
+	/**
+	 * Gets the value of the sortKey property.
+	 * 
+	 */
+	public Integer getSortKey() {
+		return sortKey;
+	}
 
-    /**
-     * Sets the value of the sortKey property.
-     * 
-     */
-    public void setSortKey(Integer value) {
-        this.sortKey = value;
-    }
+	/**
+	 * Sets the value of the sortKey property.
+	 * 
+	 */
+	public void setSortKey(Integer value) {
+		this.sortKey = value;
+	}
 
-    /**
-     * Gets the value of the contexts property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Contexts }
-     *     
-     */
-    public Contexts getContexts() {
-        return contexts;
-    }
+	/**
+	 * Gets the value of the contexts property.
+	 * 
+	 * @return possible object is {@link Contexts }
+	 * 
+	 */
+	public List<Context> getContexts() {
+		if (contexts == null) {
+			contexts = new ArrayList<Context>();
+		}
+		return contexts;
+	}
 
-    /**
-     * Sets the value of the contexts property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Contexts }
-     *     
-     */
-    public void setContexts(Contexts value) {
-        this.contexts = value;
-    }
+	/**
+	 * Sets the value of the contexts property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Contexts }
+	 * 
+	 */
+	public void setContexts(List<Context> value) {
+		this.contexts = value;
+	}
 
-    /**
-     * Gets the value of the key property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValue() {
-        return value;
-    }
+	/**
+	 * Gets the value of the key property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getValue() {
+		return value;
+	}
 
-    /**
-     * Sets the value of the key property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+	/**
+	 * Sets the value of the key property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 }

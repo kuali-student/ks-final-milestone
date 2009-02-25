@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.student.core.dictionary.dto.Context;
 import org.kuali.student.core.dictionary.dto.ContextValueDescriptor;
-import org.kuali.student.core.dictionary.dto.Contexts;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueField;
@@ -55,7 +54,7 @@ public class DozerTest {
         
         POJOConverter.map(dao, dto);
         
-        assertEquals(dao.getContextEntityList().get(0).getContextKey() ,dto.getContexts().getContext().get(0).getType());
+        assertEquals(dao.getContextEntityList().get(0).getContextKey() ,dto.getContexts().get(0).getType());
 
         
         assertEquals(dao.getAbbrevValue(), dto.getAbbrevValue());
@@ -104,7 +103,7 @@ public class DozerTest {
         dto.setSortKey(1);
         dto.setValue("v");
         dto.setAbbrevValue("a");
-        dto.setContexts(new Contexts());
+        dto.setContexts(new ArrayList<Context>());
         
         //dto context
         List<Context> dtoContext = new ArrayList<Context>();
@@ -112,7 +111,7 @@ public class DozerTest {
         newContext.setType("ContextA");
         newContext.setValue("1");
         dtoContext.add(newContext);
-        dto.getContexts().setContext(dtoContext);
+        dto.setContexts(dtoContext);
 
         EnumeratedValueEntity dao = new EnumeratedValueEntity();
         
@@ -142,8 +141,8 @@ public class DozerTest {
         dto2.setSortKey(1);
         dto2.setValue("v2");
         dto2.setAbbrevValue("a2");
-        dto2.setContexts(new Contexts());
-        dto2.getContexts().setContext(dtoContext);
+        dto2.setContexts(new ArrayList<Context>());
+        dto2.setContexts(dtoContext);
         
         listDto.add(dto2);
         

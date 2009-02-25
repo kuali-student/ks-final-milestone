@@ -27,7 +27,7 @@
     <class-b>org.kuali.student.core.enumerable.dto.EnumeratedValue</class-b>
       <field>
         <a>contextEntityList</a>
-        <b>contexts.context</b>
+        <b>contexts</b>
       </field>
   </mapping>
   

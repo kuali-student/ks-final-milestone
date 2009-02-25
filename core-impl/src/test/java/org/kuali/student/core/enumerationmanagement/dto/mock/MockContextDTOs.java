@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.core.dictionary.dto.Context;
-import org.kuali.student.core.dictionary.dto.Contexts;
 
 /**
  * Creates a Contexts (List) of Context DTOs, use to initialize database for testing 
@@ -33,7 +32,7 @@ public class MockContextDTOs {
 	private String contextType = "Type";
 	private String contextValue = "Value";
 
-	private Contexts contexts;
+	private List<Context> contexts;
 
 	/**
 	 * MockContextDTOs Default Constructor
@@ -55,7 +54,7 @@ public class MockContextDTOs {
 	/**
 	 * @return the contexts
 	 */
-	public Contexts getContexts() {
+	public List<Context> getContexts() {
 		return copyContexts(contexts);
 	}
 	
@@ -75,14 +74,12 @@ public class MockContextDTOs {
 	 * @param i initial index value for setting unique field values
 	 * @param j last index value for setting unique field values
 	 */
-	private Contexts createContexts(int initial, int last) {
+	private List<Context> createContexts(int initial, int last) {
 		List<Context> context = new ArrayList<Context>();		
 		for(int i = initial; i < last; i++) {
 			context.add(createContext(i));
 		}
-		Contexts contexts = new Contexts();
-		contexts.setContext(context);
-		return contexts;
+		return context;
 	}
 	
 	/**
@@ -100,14 +97,12 @@ public class MockContextDTOs {
 	 * @return a copy of Contexts
 	 * 
 	 */
-	private Contexts copyContexts(Contexts contexts) {
-		List<Context> src = contexts.getContext();
+	private List<Context> copyContexts(List<Context> contexts) {
+		List<Context> src = contexts;
 		List<Context> copy = new ArrayList<Context>();		
 		for(Context e : src) {
 			copy.add(copyContext(e));
 		}
-		Contexts copyContexts = new Contexts();
-		copyContexts.setContext(copy);
-		return copyContexts;
+		return copy;
 	}
 }
