@@ -72,10 +72,12 @@ public class LumComposite extends Composite {
     ViewMetaData metadata;
     Messages messages;
 
+    final SimplePanel mainLumPanel = new SimplePanel();    
+    
     boolean loaded = false;
 
     public LumComposite() {
-        //super.initWidget(simplePanel);
+        super.initWidget(mainLumPanel);
     }
 
     @Override
@@ -89,6 +91,12 @@ public class LumComposite extends Composite {
             // get a reference to our view meta data and internationalization messages
             metadata = ApplicationContext.getViews().get(LumGuiController.VIEW_NAME);
             messages = metadata.getMessages();
+            
+            Label test = new Label("This is a test");
+            test.setWidth("100px");
+            //mainLumPanel.setSize("200px", "120px");
+            mainLumPanel.add(test);
+            
 		}
 	}
 

@@ -14,6 +14,7 @@ import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.lumgui.client.view.LumComposite;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
 /**
@@ -23,14 +24,14 @@ public class LumGuiController extends Controller {
     public static final String VIEW_NAME = "org.kuali.student.rules.lumgui";
     boolean loaded = false;
 
-    final TabPanel tabs = new TabPanel();
+    final SimplePanel mainPanel = new SimplePanel();
     final LumComposite lumComposite = new LumComposite();
 
     ViewMetaData metadata;
     Messages messages;
 
     public LumGuiController() {
-        super.initWidget(tabs);
+        super.initWidget(mainPanel);
     }
 
     /**
@@ -75,7 +76,7 @@ public class LumGuiController extends Controller {
     }
 
     private void doLayout() {
-
+        mainPanel.add(lumComposite);
     }
 
     private void doEventListenerWiring() {
