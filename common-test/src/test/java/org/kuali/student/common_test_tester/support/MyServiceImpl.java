@@ -10,6 +10,7 @@ public class MyServiceImpl implements MyService {
 
 	private MyDao dao0;
 	private OtherDao otherDao;
+	private SomeClass myClass;
 
 	/**
 	 * @return the dao
@@ -43,6 +44,9 @@ public class MyServiceImpl implements MyService {
 
 	@Override
 	public String saveString(String value) {
+		if(myClass==null){
+			throw new RuntimeException("ListIsNull");
+		}
 		System.out.println("######==" + dao0);
 		if (dao0 == null) {
 			return "";
@@ -59,12 +63,20 @@ public class MyServiceImpl implements MyService {
 
 	@Override
 	public boolean updateValue(String id, String value) {
-		return this.dao0.updateValue(id,value);
+		return this.dao0.updateValue(id, value);
 	}
 
-    @Override
-    public String findValueFromValue(String value) {
-        return this.dao0.findValueFromValue(value).getValue();
-    }
+	@Override
+	public String findValueFromValue(String value) {
+		return this.dao0.findValueFromValue(value).getValue();
+	}
+
+	public SomeClass getMyClass() {
+		return myClass;
+	}
+
+	public void setMyClass(SomeClass myClass) {
+		this.myClass = myClass;
+	}
 
 }

@@ -114,6 +114,11 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 								.value());
 					}
 					System.setProperty("ks.test.port", a.port());
+					if(!"".equals(a.additionalContextFile())){
+						System.setProperty("ks.test.additionalContextFile", a.additionalContextFile());
+					}else{
+						System.setProperty("ks.test.additionalContextFile", "classpath:*noSuchContextFile.xml");
+					}
 				}
 			}
 

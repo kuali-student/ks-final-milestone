@@ -11,4 +11,5 @@ public @interface Client {
 	public String value();
 	public String port() default "8181";
 	public boolean secure() default false;
+	public String additionalContextFile() default "";
 }

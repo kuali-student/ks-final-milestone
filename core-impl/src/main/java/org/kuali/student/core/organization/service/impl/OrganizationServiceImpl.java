@@ -20,7 +20,6 @@ import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
@@ -60,7 +59,6 @@ import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.core.search.dto.SearchTypeInfo;
 import org.kuali.student.core.search.service.impl.SearchManager;
-import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 import org.kuali.student.core.validation.dto.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,8 +68,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
 	private OrganizationDao organizationDao;
-    public DictionaryService dictionaryServiceDelegate = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
-    private SearchManager searchManager = new SearchManagerImpl("classpath:organization-search-config.xml");//TODO need to update test framework config to allow other things to be injected
+    private DictionaryService dictionaryServiceDelegate;// = new DictionaryServiceImpl(); //TODO this should probably be done differently, but I don't want to copy/paste the code in while it might still change
+    private SearchManager searchManager;
 
 	@Override
 	public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId,
@@ -1018,6 +1016,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	public void setSearchManager(SearchManager searchManager) {
 		this.searchManager = searchManager;
+	}
+
+	public DictionaryService getDictionaryServiceDelegate() {
+		return dictionaryServiceDelegate;
+	}
+
+	public void setDictionaryServiceDelegate(
+			DictionaryService dictionaryServiceDelegate) {
+		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
 	}
 
 

@@ -45,7 +45,7 @@ import org.kuali.student.core.search.dto.Result;
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", port = "8181")
+	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", port = "8181",additionalContextFile="classpath:organization-additional-context.xml")
 	public OrganizationService client;
 
 

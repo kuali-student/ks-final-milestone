@@ -29,7 +29,7 @@ import org.springframework.aop.framework.ProxyFactory;
 @PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class ServiceCommonTest extends AbstractServiceTest {
 
-	@Client("org.kuali.student.common_test_tester.support.MyServiceImpl")
+	@Client(value="org.kuali.student.common_test_tester.support.MyServiceImpl",additionalContextFile="classpath:test-my-additional-context.xml")
 	public MyService client;
 
 	@Test

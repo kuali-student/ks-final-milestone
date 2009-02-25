@@ -3,7 +3,7 @@
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="classpath:*-mock-service-context.xml" />
+	<import resource="${ks.test.additionalContextFile}" />
 
 	<bean id="service" class="${ks.test.serviceImplClass}"
 		autowire="byType">
