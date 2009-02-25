@@ -25,7 +25,7 @@
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDisclosureSectionImpl"/>
     </replace-with> 
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDropDown"/>
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDropDownImpl"/>
     </replace-with> 
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>

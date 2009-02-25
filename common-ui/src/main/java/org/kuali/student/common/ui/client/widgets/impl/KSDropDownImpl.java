@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSDropDownAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.dom.client.Element;
@@ -20,7 +21,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class KSDropDownImpl extends KSDropDown{ 
+public class KSDropDownImpl extends KSDropDownAbstract{ 
 
 	private ListBox listBox;
 	private HashMap<String, ?> map;

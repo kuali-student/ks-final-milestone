@@ -11,7 +11,7 @@ public class KSDisclosureSection extends KSDisclosureSectionAbstract{
     KSDisclosureSectionAbstract section = GWT.create(KSDisclosureSectionImpl.class);
 	
 	/**
-     * This constructs a ...
+     * This constructs a KSDisclosureSection that wraps an impl
      * 
      */
     public KSDisclosureSection(String headerText, Widget headerWidget, boolean isOpen) {
