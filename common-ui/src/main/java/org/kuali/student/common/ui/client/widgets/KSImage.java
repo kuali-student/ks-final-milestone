@@ -9,5 +9,4 @@ public abstract class KSImage extends Composite{
 	
 	public abstract void init(String url, int left, int top, int width, int height);
 
-	public abstract Image getImage();
 }

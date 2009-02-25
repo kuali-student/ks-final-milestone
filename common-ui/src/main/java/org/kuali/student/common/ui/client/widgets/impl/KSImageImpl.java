@@ -52,11 +52,11 @@ public class KSImageImpl extends KSImage{
 	}
 	
 	private void setupDefaultStyle(){
-		addStyleName(KSStyles.KS_IMAGE_STYLE);
+	    image.addStyleName(KSStyles.KS_IMAGE_STYLE);
 		
 		image.addMouseOverHandler(new MouseOverHandler(){
 			public void onMouseOver(MouseOverEvent event) {
-				addStyleName(KSStyles.KS_IMAGE_HOVER_STYLE);
+			    image.addStyleName(KSStyles.KS_IMAGE_HOVER_STYLE);
 				
 			}		
 		});
@@ -64,7 +64,7 @@ public class KSImageImpl extends KSImage{
 		image.addMouseOutHandler(new MouseOutHandler(){
 
 			public void onMouseOut(MouseOutEvent event) {
-				removeStyleName(KSStyles.KS_IMAGE_HOVER_STYLE);
+			    image.removeStyleName(KSStyles.KS_IMAGE_HOVER_STYLE);
 			}
 			
 		});
@@ -72,7 +72,7 @@ public class KSImageImpl extends KSImage{
 		image.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
-				removeStyleName(KSStyles.KS_IMAGE_HOVER_STYLE);
+			    image.removeStyleName(KSStyles.KS_IMAGE_HOVER_STYLE);
 			}
 			
 		});
@@ -80,7 +80,7 @@ public class KSImageImpl extends KSImage{
 		image.addMouseDownHandler(new MouseDownHandler(){
 
 			public void onMouseDown(MouseDownEvent event) {
-				addStyleName(KSStyles.KS_IMAGE_CLICK_STYLE);
+			    image.addStyleName(KSStyles.KS_IMAGE_CLICK_STYLE);
 				
 			}
 		});
@@ -88,15 +88,12 @@ public class KSImageImpl extends KSImage{
 		image.addMouseUpHandler(new MouseUpHandler(){
 
 			public void onMouseUp(MouseUpEvent event) {
-				removeStyleName(KSStyles.KS_IMAGE_CLICK_STYLE);
+			    image.removeStyleName(KSStyles.KS_IMAGE_CLICK_STYLE);
 				
 			}
 		});
 		
 	}
-	@Override
-	public Image getImage() {
-		return image;
-	}
+
 
 }
