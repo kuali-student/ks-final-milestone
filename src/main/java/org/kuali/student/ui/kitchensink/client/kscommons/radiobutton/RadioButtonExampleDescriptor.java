@@ -18,7 +18,7 @@ public class RadioButtonExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSRadioButton";
+        return "Radio Button";
     }
 
 }

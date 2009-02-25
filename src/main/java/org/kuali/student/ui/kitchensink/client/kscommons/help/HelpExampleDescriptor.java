@@ -18,7 +18,7 @@ public class HelpExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSHelp";
+        return "Help";
     }
 
 }

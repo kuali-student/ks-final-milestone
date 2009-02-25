@@ -18,7 +18,7 @@ public class BlockingProgressIndicatorExampleDescriptor extends KitchenSinkExamp
     }
  
     public String getTitle() {
-        return "KSBlockingProgressIndicator";
+        return "Blocking Progress Bar";
     }
 
 }

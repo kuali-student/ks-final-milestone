@@ -18,7 +18,7 @@ public class CheckBoxExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSCheckBox";
+        return "Check Box";
     }
 
 }

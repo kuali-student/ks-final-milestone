@@ -18,7 +18,7 @@ public class AccordionPanelExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSAccordionPanel";
+        return "Accordion Panel";
     }
 
 }

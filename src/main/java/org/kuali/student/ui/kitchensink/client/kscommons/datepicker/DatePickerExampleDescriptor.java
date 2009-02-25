@@ -18,7 +18,7 @@ public class DatePickerExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSDatePicker";
+        return "Date Picker";
     }
 
 }

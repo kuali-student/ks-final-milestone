@@ -18,7 +18,7 @@ public class TextAreaExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSTextArea";
+        return "Text Area";
     }
 
 }

@@ -18,7 +18,7 @@ public class ImageExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSImage";
+        return "Image";
     }
 
 }

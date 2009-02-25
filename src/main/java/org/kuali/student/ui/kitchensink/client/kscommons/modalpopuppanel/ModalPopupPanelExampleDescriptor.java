@@ -18,7 +18,7 @@ public class ModalPopupPanelExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSModalPopupPanel";
+        return "Modal Popup Panel";
     }
 
 }

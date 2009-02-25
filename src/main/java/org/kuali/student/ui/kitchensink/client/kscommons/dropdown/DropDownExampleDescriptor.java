@@ -18,7 +18,7 @@ public class DropDownExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSDropDown";
+        return "Drop Down";
     }
 
 }

@@ -18,7 +18,7 @@ public class TextBoxExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSTextBox";
+        return "Text Box";
     }
 
 }

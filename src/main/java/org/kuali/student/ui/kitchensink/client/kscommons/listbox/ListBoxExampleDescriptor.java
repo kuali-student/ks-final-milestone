@@ -18,7 +18,7 @@ public class ListBoxExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSListBox";
+        return "List Box";
     }
 
 }

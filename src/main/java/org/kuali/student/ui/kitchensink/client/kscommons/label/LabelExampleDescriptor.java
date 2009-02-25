@@ -18,7 +18,7 @@ public class LabelExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSLabel";
+        return "Label";
     }
 
 }

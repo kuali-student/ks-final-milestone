@@ -18,7 +18,7 @@ public class StackPanelExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSStackPanel";
+        return "Stack Panel";
     }
 
 }

@@ -18,7 +18,7 @@ public class InfoPopupExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSInfoPopupPanel";
+        return "Info Popup Panel";
     }
 
 }

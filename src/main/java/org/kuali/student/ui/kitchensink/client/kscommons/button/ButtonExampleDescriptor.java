@@ -18,7 +18,7 @@ public class ButtonExampleDescriptor extends KitchenSinkExample {
     }
 
     public String getTitle() {
-        return "KSButton";
+        return "Button";
     }
 
 }

@@ -18,7 +18,7 @@ public class RichEditorExampleDescriptor extends KitchenSinkExample {
     }
  
     public String getTitle() {
-        return "KSRichEditor";
+        return "Rich Editor";
     }
 
 }
