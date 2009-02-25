@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.widgets.KSStyles;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -27,6 +28,7 @@ public class KSDropDownImpl extends KSDropDown{
 	public KSDropDownImpl() {
 
 	}
+	
 	@Override
 	public void init(boolean isMultipleSelect) {
 		listBox = new ListBox(isMultipleSelect);
@@ -35,25 +37,25 @@ public class KSDropDownImpl extends KSDropDown{
 	}
 
 	private void setupDefaultStyle() {
-		addStyleName(KSStyles.KS_DROPDOWN_STYLE);
+	    listBox.addStyleName(KSStyles.KS_DROPDOWN_STYLE);
 		
 		listBox.addBlurHandler(new BlurHandler(){
 			public void onBlur(BlurEvent event) {
-				removeStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
+			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
 				
 			}	
 		});	
 
 		listBox.addFocusHandler(new FocusHandler(){
 			public void onFocus(FocusEvent event) {
-				addStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
+			    listBox.addStyleName(KSStyles.KS_DROPDOWN_FOCUS_STYLE);
 
 			}		
 		});
 		
 		listBox.addMouseOverHandler(new MouseOverHandler(){
 			public void onMouseOver(MouseOverEvent event) {
-				addStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);
+			    listBox.addStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);
 				
 			}		
 		});
@@ -61,7 +63,7 @@ public class KSDropDownImpl extends KSDropDown{
 		listBox.addMouseOutHandler(new MouseOutHandler(){
 
 			public void onMouseOut(MouseOutEvent event) {
-				removeStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);
+			    listBox.removeStyleName(KSStyles.KS_DROPDOWN_HOVER_STYLE);
 				
 			}
 			
@@ -71,10 +73,10 @@ public class KSDropDownImpl extends KSDropDown{
 
 			public void onClick(ClickEvent event) {
 				if(listBox.getSelectedIndex() != -1){
-					addStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
+				    listBox.addStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
 				}
 				else{
-					removeStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
+				    listBox.removeStyleName(KSStyles.KS_DROPDOWN_SELECTED_STYLE);
 				}
 				
 			}
@@ -127,12 +129,29 @@ public class KSDropDownImpl extends KSDropDown{
 			}
 		}
 	}
+
 	@Override
-	public ListBox getListBox() {
-		return listBox;
+    public void addChangeHandler(ChangeHandler handler) {
+	    listBox.addChangeHandler(handler);
 	}
 	
+	@Override
+    public void addItem(String item) {
+        listBox.addItem(item); 
+    }
 	
+	@Override
+    public int getSelectedIndex() {
+	    return listBox.getSelectedIndex();
+	}
 	
-
+    @Override
+    public void removeItem(int index) {
+        listBox.removeItem(index);
+    }
+    
+    @Override
+    public void clear() {
+        listBox.clear();
+    }
 }
