@@ -10,7 +10,7 @@
 		<class>org.kuali.student.core.entity.MetaEntity</class>
 		<class>org.kuali.student.core.entity.RichText</class>
 		<class>org.kuali.student.core.entity.TimeAmount</class>
-		
+
 		<class>org.kuali.student.lum.lu.entity.Clu</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccounting</class>
 		<class>org.kuali.student.lum.lu.entity.CluAccountingAttribute</class>
@@ -29,6 +29,8 @@
 		<class>org.kuali.student.lum.lu.entity.CluSet</class>
 		<class>org.kuali.student.lum.lu.entity.CluSetAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LearningObjective</class>
+		<class>org.kuali.student.lum.lu.entity.LrType</class>
+		<class>org.kuali.student.lum.lu.entity.LrTypeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuCode</class>
 		<class>org.kuali.student.lum.lu.entity.LuCodeAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.LuDocumentRelation</class>
@@ -48,7 +50,6 @@
 		<class>org.kuali.student.lum.lu.entity.RequiredComponent</class>
 		<class>org.kuali.student.lum.lu.entity.RequiredComponentType</class>
 		<class>org.kuali.student.lum.lu.entity.ResourceType</class>
-
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>		
 	</persistence-unit>
