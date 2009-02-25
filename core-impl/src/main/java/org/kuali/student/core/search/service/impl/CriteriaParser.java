@@ -1,5 +1,7 @@
 package org.kuali.student.core.search.service.impl;
 
+import java.util.Map;
+
 import org.kuali.student.core.search.dto.CriteriaInfo;
 import org.kuali.student.core.search.dto.CriteriaSet;
 import org.kuali.student.core.search.dto.Criterion;
@@ -96,22 +98,15 @@ public class CriteriaParser {
 		
 		q+=" WHERE ";
 		CriteriaParseResult pr = new CriteriaParseResult();
-		q+=parse(ci.getCriteria(), pr);
-		q+=parse(ci.getCriterion(), pr);//TODO if the criteriaset is not null add the and or before the criterion
+		q+=parse(ci.getCriteria(), pr.getBindings());
+		q+=parse(ci.getCriterion(), pr.getBindings());//TODO if the criteriaset is not null add the and or before the criterion
 		
 		pr.setQueryString(q);
 		return pr;
 	}
 
-
-	public CriteriaParseResult parseCriteriaSet(CriteriaSet criteriaSet){
-		CriteriaParseResult pr = new CriteriaParseResult();
-		pr.setQueryString( parse(criteriaSet,pr));
-		return pr;
-	}
-
 	private String parse(CriteriaSet criteriaSet,
-			CriteriaParseResult pr) {
+			Map<String,Object> bindings) {
 		if(criteriaSet==null){
 			return "";
 		}
@@ -121,7 +116,7 @@ public class CriteriaParser {
 			if(i>0){
 				s+=" "+criteriaSet.getOperator()+" ";
 			}
-			s+=parse(c,pr);
+			s+=parse(c,bindings);
 			i++;
 		}
 		i=0;
@@ -129,20 +124,20 @@ public class CriteriaParser {
 			if(i>0){
 				s+=" "+criteriaSet.getOperator()+" ";
 			}
-			s+=parse(c,pr);
+			s+=parse(c,bindings);
 			i++;
 		}
 		return s+")";
 	}
 
-	private String parse(Criterion c, CriteriaParseResult pr) {
+	private String parse(Criterion c, Map<String,Object> bindings) {
 		if(c==null){
 			return "";
 		}
 		String s = c.getAttribute().getParentType()+"."+c.getAttribute().getName();
 		s+=" "+translateOperator(c.getOperator());
-		s+=" :_"+pr.getBindings().size(); 
-		pr.getBindings().put("_"+pr.getBindings().size(), c.getValue());//TODO multiple values ie Select w where w.x IN('a','b','c')
+		s+=" :_"+bindings.size(); 
+		bindings.put("_"+bindings.size(), c.getValue());//TODO multiple values ie Select w where w.x IN('a','b','c')
 		return s;
 	}
 
