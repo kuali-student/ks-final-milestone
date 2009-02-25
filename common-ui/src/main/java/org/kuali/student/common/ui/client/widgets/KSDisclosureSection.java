@@ -1,27 +1,55 @@
 package org.kuali.student.common.ui.client.widgets;
 
-import com.google.gwt.user.client.ui.Composite;
+import org.kuali.student.common.ui.client.widgets.impl.KSDisclosureSectionImpl;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Composite; 
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class KSDisclosureSection extends Composite{
+public class KSDisclosureSection extends KSDisclosureSectionAbstract{
+    
+    KSDisclosureSectionAbstract section = GWT.create(KSDisclosureSectionImpl.class);
 	
-	public abstract void init(String headerText, Widget headerWidget, boolean isOpen);
+	/**
+     * This constructs a ...
+     * 
+     */
+    public KSDisclosureSection(String headerText, Widget headerWidget, boolean isOpen) {
+        section.init(headerText, headerWidget, isOpen);
+        this.initWidget(section);
+    }
 
-    public abstract void clear();
+    public void clear(){
+        section.clear();
+    }
 
-    public abstract void add(Widget w);
+    public void add(Widget w){
+        section.add(w);
+    }
 
-    public abstract boolean remove(Widget w);
+    public boolean remove(Widget w){
+        return section.remove(w);
+    }
 
-    public abstract boolean isOpen();
+    public boolean isOpen(){
+        return section.isOpen();
+    }
 
-    public abstract boolean isVisible();
+    public boolean isVisible(){
+        return section.isVisible();
+    }
 
-    public abstract boolean isAnimationEnabled();
+    public boolean isAnimationEnabled(){
+        return section.isAnimationEnabled();
+    }
 
-    public abstract void setOpen(boolean isOpen);
+    public void setOpen(boolean isOpen){
+        section.setOpen( isOpen);
+    }
 
-    public abstract void setVisible(boolean visible);
+    public void setVisible(boolean visible){
+        section.setVisible( visible);
+    }
 
 	
 

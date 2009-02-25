@@ -2,7 +2,7 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
+import org.kuali.student.common.ui.client.widgets.KSDisclosureSectionAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -16,16 +16,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSDisclosureSectionImpl extends KSDisclosureSection{
+public class KSDisclosureSectionImpl extends KSDisclosureSectionAbstract{
 	
 	private DisclosurePanel panel; 
-
-
 	private FlowPanel content = new FlowPanel();
 	
 	public KSDisclosureSectionImpl(){
-
 	}
+	
 	@Override
 	public void init(String headerText, Widget headerWidget, boolean isOpen) {
 	    if(headerText != null) {

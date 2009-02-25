@@ -22,7 +22,7 @@
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDatePicker"/>
     </replace-with> 
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDisclosureSectionImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDisclosureSection"/>
+        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDisclosureSectionImpl"/>
     </replace-with> 
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDropDownImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDropDown"/>
