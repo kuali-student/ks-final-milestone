@@ -10,21 +10,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "LocaleKeyList")
-public class LocaleKeyList implements java.io.Serializable{
+public class LocaleKeyList implements java.io.Serializable {
+	private static final long serialVersionUID = 7277270521969339541L;
 
-  @XmlElement(name = "locale", required = true)
-  protected List<String> locales;
+	@XmlElement(name = "locale", required = true)
+	protected List<String> locales;
 
+	public List<String> getLocales() {
+		if (locales == null) {
+			locales = new ArrayList<String>();
+		}
+		return this.locales;
+	}
 
-  public List<String> getLocales() {
-      if (locales == null) {
-          locales = new ArrayList<String>();
-      }
-      return this.locales;
-  }
+	public void setLocales(List<String> l) {
+		locales = l;
 
-  public void setLocales(List<String> l) {
-      locales = l;
-
-  } 
+	}
 }

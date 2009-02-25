@@ -10,21 +10,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "MessageList")
-public class MessageList implements java.io.Serializable{
+public class MessageList implements java.io.Serializable {
 
-  @XmlElement(name = "message", required = true)
-  protected List<Message> messages;
+	private static final long serialVersionUID = 1L;
 
+	@XmlElement(name = "message", required = true)
+	protected List<Message> messages;
 
-  public List<Message> getMessages() {
-      if (messages == null) {
-          messages = new ArrayList<Message>();
-      }
-      return this.messages;
-  }
+	public List<Message> getMessages() {
+		if (messages == null) {
+			messages = new ArrayList<Message>();
+		}
+		return this.messages;
+	}
 
-  public void setMessages(List<Message> l) {
-      messages = l;
+	public void setMessages(List<Message> l) {
+		messages = l;
 
-  } 
+	}
 }
