@@ -38,6 +38,8 @@ import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.core.search.dto.QueryParamValue;
+import org.kuali.student.core.search.dto.Result;
 
 
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -47,6 +49,18 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 	public OrganizationService client;
 
 
+	@Test
+	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		List<QueryParamValue> queryParamValues = new ArrayList<QueryParamValue>();
+		QueryParamValue qpv1 = new QueryParamValue();
+		qpv1.setKey("org.queryParam.orgType");
+		qpv1.setValue("kuali.org.College");
+		queryParamValues.add(qpv1);
+		List<Result> results = client.searchForResults("org.search.orgQuickViewByOrgType", queryParamValues);
+		assertEquals(6,results.size());
+		assertEquals(2,results.get(0).getResultCells().size());
+	}
+	
 	@Test
 	public void testCreateUpdateOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
