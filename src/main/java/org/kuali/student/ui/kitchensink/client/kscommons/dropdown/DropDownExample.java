@@ -16,7 +16,7 @@ public class DropDownExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
      
-    final KSDropDown dropDown = KSWidgetFactory.getDropDownInstance(false);
+    final KSDropDown dropDown = new KSDropDown(false);
 
     public DropDownExample() {
         
