@@ -1,4 +1,4 @@
-package org.kuali.student.rules.lum.server.convert;
+package org.kuali.student.rules.lumgui.server.convert;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

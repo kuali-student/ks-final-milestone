@@ -1,4 +1,4 @@
-package org.kuali.student.rules.lum.client;
+package org.kuali.student.rules.lumgui.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;

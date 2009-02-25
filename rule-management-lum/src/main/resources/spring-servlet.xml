@@ -14,7 +14,7 @@
 		<property name="urlMap">
 			<map>
 				<entry
-					key="/org.kuali.student.rules.lum.LumGui/LumGuiService">
+					key="/org.kuali.student.rules.lumgui.LumGui/LumGuiService">
 					<ref bean="lumGuiServiceController" />
 				</entry>
 			</map>
@@ -30,10 +30,10 @@
 	</bean>
 
 	<bean id="lumGuiService"
-		class="org.kuali.student.rules.lum.server.gwt.LumGuiServiceImplGWT">
+		class="org.kuali.student.rules.lumgui.server.gwt.LumGuiServiceImplGWT">
 		<property name="serviceImpl">
 			<bean
-			      class="org.kuali.student.rules.lum.server.impl.LumGuiServiceImpl">
+			      class="org.kuali.student.rules.lumgui.server.impl.LumGuiServiceImpl">
 			    <property name="factFinderService" ref="factFinderClient" />
 			</bean>
 		</property>

@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.kuali.student.rules.lum.server.gwt;
+package org.kuali.student.rules.lumgui.server.gwt;
 
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.core.spring.BeanFactory;
-import org.kuali.student.rules.lum.client.service.LumGuiService;
-import org.kuali.student.rules.lum.server.impl.LumGuiServiceImpl;
+import org.kuali.student.rules.lumgui.client.service.LumGuiService;
+import org.kuali.student.rules.lumgui.server.impl.LumGuiServiceImpl;
 import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

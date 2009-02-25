@@ -1,10 +1,10 @@
-package org.kuali.student.rules.lum.client;
+package org.kuali.student.rules.lumgui.client;
 
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.ViewMetadataLoadCallback;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.commons.ui.widgets.ErrorDialog;
-import org.kuali.student.rules.lum.client.controller.LumGuiController;
+import org.kuali.student.rules.lumgui.client.controller.LumGuiController;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;

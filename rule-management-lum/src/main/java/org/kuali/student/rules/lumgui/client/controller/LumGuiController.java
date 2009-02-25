@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.kuali.student.rules.lum.client.controller;
+package org.kuali.student.rules.lumgui.client.controller;
 
 import java.util.List;
 
@@ -11,8 +11,7 @@ import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
-import org.kuali.student.rules.lumgui.client.view.RuleTypesComposite;
-import org.kuali.student.rules.lumgui.client.view.RulesComposite;
+import org.kuali.student.rules.lumgui.client.view.LumComposite;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -24,6 +23,7 @@ public class LumGuiController extends Controller {
     public static final String VIEW_NAME = "org.kuali.student.rules.lumgui";
     boolean loaded = false;
 
+    final TabPanel tabs = new TabPanel();
     final LumComposite lumComposite = new LumComposite();
 
     ViewMetaData metadata;

@@ -9,7 +9,7 @@
 	<context:property-placeholder
 		location="classpath:application.properties" />
 
-	<bean id="lumGuiService"			class="org.kuali.student.rules.lum.server.impl.LumGuiServiceImpl">		<property name="factFinderService" ref="factFinderClient" />
+	<bean id="lumGuiService"			class="org.kuali.student.rules.lumgui.server.impl.LumGuiServiceImpl">		<property name="factFinderService" ref="factFinderClient" />
 	</bean>
     
    <bean id="factFinderClient"
