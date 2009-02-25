@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.ui.client.widgets.impl;
+package org.kuali.student.common.ui.client.widgets.forms.impl;
 
 import java.util.HashMap;
 
@@ -21,7 +21,7 @@ import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.forms.FormField;
-import org.kuali.student.common.ui.client.widgets.proxy.FormLayoutProxy;
+import org.kuali.student.common.ui.client.widgets.forms.FormLayoutPanelAbstract;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasName;
@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
  * @author Kuali Student Team
  *
  */
-public class FormLayoutPanelImpl extends FormLayoutProxy{
+public class FormLayoutPanelImpl extends FormLayoutPanelAbstract{
     public static final int FORM_LABEL_COL = 0;
     public static final int FORM_FIELD_COL = 1;
     public static final int FORM_DESC_COL = 2;

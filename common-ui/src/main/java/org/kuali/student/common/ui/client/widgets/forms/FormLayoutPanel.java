@@ -15,8 +15,7 @@
  */
 package org.kuali.student.common.ui.client.widgets.forms;
 
-import org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl;
-import org.kuali.student.common.ui.client.widgets.proxy.FormLayoutProxy;
+import org.kuali.student.common.ui.client.widgets.forms.impl.FormLayoutPanelImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,9 +27,9 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class FormLayoutPanel extends FormLayoutProxy {
+public class FormLayoutPanel extends FormLayoutPanelAbstract {
     
-    FormLayoutProxy form = GWT.create(FormLayoutPanelImpl.class);
+    FormLayoutPanelAbstract form = GWT.create(FormLayoutPanelImpl.class);
     
     public FormLayoutPanel(){
         form.init(null);

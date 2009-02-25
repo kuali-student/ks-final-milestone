@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.ui.client.widgets.proxy;
+package org.kuali.student.common.ui.client.widgets.forms;
 
-import org.kuali.student.common.ui.client.widgets.forms.FormField;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public abstract class FormLayoutProxy extends Composite{
+public abstract class FormLayoutPanelAbstract extends Composite{
     
     public abstract void addFormField(FormField field);
     
