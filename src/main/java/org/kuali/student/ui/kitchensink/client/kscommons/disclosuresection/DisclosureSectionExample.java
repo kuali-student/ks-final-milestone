@@ -9,11 +9,12 @@ import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DisclosureSectionExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
-    final KSDisclosureSection section = KSWidgetFactory.getDisclosureSectionInstance("Click Here", null, false);
+    final KSDisclosureSection section = new KSDisclosureSection("Click Here", null, false);
     final KSLabel label;;
 
     public DisclosureSectionExample() { 

@@ -63,7 +63,7 @@ public class KSWidgetFactory {
 //      w.init();
         return w;          
     }
-
+/*
     public static KSDisclosureSection getDisclosureSectionInstance(String headerText,
             Widget headerWidget,
             boolean isOpen) {       
@@ -71,7 +71,7 @@ public class KSWidgetFactory {
         w.init(headerText, headerWidget, isOpen);
         return w;          
     }
-
+*/
     public static KSDropDown getDropDownInstance(boolean isMultipleSelect) {       
         KSDropDown w = GWT.create(KSDropDown.class);
         w.init(isMultipleSelect);
