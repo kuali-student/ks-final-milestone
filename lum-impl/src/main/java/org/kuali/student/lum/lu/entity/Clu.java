@@ -25,14 +25,14 @@ import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
-@Table(name = "KS_CLU_T")
+@Table(name = "KSLU_CLU")
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
 
     @ManyToOne
-    @JoinColumn(name="LU_TYPE_ID")
+    @JoinColumn(name="LUTYPE_ID")
     private LuType luType;
     
     @OneToMany(mappedBy="clu")
@@ -49,22 +49,22 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private List<CluAttribute> attributes;
     
     @OneToOne
-    @JoinColumn(name="OFF_CLU_IDFY_ID")
+    @JoinColumn(name="OFFIC_CLU_ID")
     private CluIdentifier officialIdentifier;
     
     @OneToMany
-    @JoinTable(name="KS_ALT_CLU_IDFY_JOIN_T",joinColumns=@JoinColumn(name="ALT_CLU_IDFY_ID"), inverseJoinColumns=@JoinColumn(name="CLU_ID"))
+    @JoinTable(name="KSLU_CLU_JN_CLU_ID",joinColumns=@JoinColumn(name="CLU_ID"), inverseJoinColumns=@JoinColumn(name="ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
     
-	@Column(name = "STUDY_SUBJECT_AREA")
+	@Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
 	
 	@ManyToOne
-	@JoinColumn(name = "CLU_DESC")
+	@JoinColumn(name = "DESCR")
 	private RichText desc;
 	
 	@ManyToOne
-	@JoinColumn(name = "MARKETING_DESC")
+	@JoinColumn(name = "MKTG_DESCR")
     private RichText marketingDesc;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -72,19 +72,19 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	private List<CluOrg> orgs;
 
 	@OneToMany
-	@JoinTable(name = "KS_CLU_CLU_INSTRUCTOR_T", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTRUCTOR_ID"))
+	@JoinTable(name = "KSLU_CLU_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
     private List<CluInstructor> instructors;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
     private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
     private Date expirationDate;
 
 	@Embedded
-	@Column(name = "STD_DURATION")
+	@Column(name = "STD_DUR")
 	private TimeAmount stdDuration;
 
 	@Column(name = "CAN_CREATE_LUI")
@@ -103,26 +103,26 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@OneToOne
     private CluPublishing publishing;
 
-	@Column(name = "NEXT_REVIEW_PERIOD")
+	@Column(name = "NEXT_REVIEW_PER")
     private String nextReviewPeriod;
 
-	@Column(name = "IS_ENROLLABLE")
+	@Column(name = "IS_ENRL")
     private boolean isEnrollable;
 
 	@OneToMany
 	@JoinColumn(name = "CLU_ID")
     private List<CluAtpTypeKey> offeredAtpTypes;
 
-	@Column(name = "HAS_EARLY_DROP_DEADLINE")
+	@Column(name = "HAS_EARLY_DROP_DEDLN")
     private boolean hasEarlyDropDeadline;
 
-	@Column(name = "DEFAULT_ENROLLMENT_ESTIMATE")
+	@Column(name = "DEF_ENRL_EST")
     private int defaultEnrollmentEstimate;
 
-	@Column(name = "DEFAULT_MAX_ENROLLMENT")
+	@Column(name = "DEF_MAX_ENRL")
     private int defaultMaximumEnrollment;
 
-	@Column(name = "IS_HAZARDAOUS_DISABLED_STUDENTS")
+	@Column(name = "IS_HAZR_DISBLD_STU")
     private boolean isHazardousForDisabledStudents;
 
 	@OneToOne

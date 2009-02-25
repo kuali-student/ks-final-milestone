@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KS_LU_TYPE_T")
+@Table(name = "KSLU_LUTYPE")
 public class LuType extends Type<LuTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL)
