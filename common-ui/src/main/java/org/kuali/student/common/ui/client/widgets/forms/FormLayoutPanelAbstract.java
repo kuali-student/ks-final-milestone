@@ -20,7 +20,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This class defines methods for implementations of a form layout panel.
+ * Developers shouldn't reference this class, but should use FormLayoutPanel
+ * directly. 
  * 
  * @author Kuali Student Team
  *
