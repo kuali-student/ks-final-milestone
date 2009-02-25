@@ -2,14 +2,28 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 
+import org.kuali.student.common.ui.client.images.HelpIcons;
+import org.kuali.student.common.ui.client.images.TextIcons;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusListener;
+
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -23,26 +37,45 @@ import com.google.gwt.user.client.ui.RichTextArea.ExtendedFormatter;
  * TODO implement with a clean toolbar and i18n
  */
 public class KSRichEditor extends Composite {
-	private final Panel content = new VerticalPanel();
-	private final Panel toolbar = new HorizontalPanel();
+	private final Grid content = new Grid(2, 1);
+	
 	private final RichTextArea textArea = new RichTextArea();
+	private final KSRichTextToolbar toolbar;
+	private final PopupPanel popup = new PopupPanel();
+	
+	private final KSInfoPopupPanel popoutWindow = new KSInfoPopupPanel();
+	private final KSRichEditor popoutEditor = new KSRichEditor(true);
 	
 	private boolean focused = false;
+	private boolean toolbarShowing = false;
 	
 	private boolean isUsedInPopup = false;
+	private int toolbarHeight;
 	
-	private final FocusListener focusListener = new FocusListener() {
-		public void onFocus(Widget sender) {
+	private int defaultHeight;
+	
+	private HelpIcons images = (HelpIcons) GWT.create(HelpIcons.class);
+	
+	private final FocusHandler focusHandler = new FocusHandler() {
+		@Override
+		public void onFocus(FocusEvent event) {
 			focused = true;
 		}
-		public void onLostFocus(Widget sender) {
+	};
+	
+	private final BlurHandler blurHandler = new BlurHandler() {
+
+		@Override
+		public void onBlur(BlurEvent event) {
 			focused = false;
 		}
 	};
 	
 	private final Timer focusTimer = new Timer() {
 		public void run() {
-			toolbar.setVisible(focused);
+			if(!toolbar.inUse()){
+				showToolbar(focused);
+			}
 		}
 	};
 	
@@ -52,48 +85,101 @@ public class KSRichEditor extends Composite {
 	
 	public KSRichEditor(boolean isUsedInPopup) {
 	    this.isUsedInPopup = isUsedInPopup;
+		
+		//content.setHeight("400px");
+		//content.setWidth("500px");
+		toolbar = new KSRichTextToolbar(textArea);
+		textArea.setWidth("494px");
+		textArea.setHeight("200px");
+		toolbar.setWidth("100%");
+		content.setWidget(0, 0, toolbar);
+		content.setWidget(1, 0, textArea);
+		
+		popoutWindow.add(popoutEditor);
+		
+		Image popoutImage = images.errorIcon().createImage();
+		popoutImage.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				focused = true;
+				popoutEditor.setHTML(textArea.getHTML());
+				popoutWindow.show();
+				
+			}
+		});
+		
+		popoutWindow.addCloseHandler(new CloseHandler(){
+
+			@Override
+			public void onClose(CloseEvent event) {
+				textArea.setHTML(popoutEditor.getHTML());
+				
+			}
+		});
+		
+		popup.add(popoutImage);
+		
 		super.initWidget(content);
-		content.add(toolbar);
-		content.add(textArea);
-				setupToolbar();
 		if(isUsedInPopup){
+			//textArea.setHeight(textArea.getOffsetHeight() - toolbar.getOffsetHeight() + "px");
 	        toolbar.setVisible(true);
 		    
 		}else{
-		    //popup = new AutoHidePopupPanel();
-		textArea.addFocusListener(focusListener);
-		toolbar.setVisible(false);
-/*		popup.addWindowCloseListener(new WindowCloseListener() {
-			public void onWindowClosed() {
-                textArea.setHTML(popup.getHTML());
-			}
-			public String onWindowClosing() {
-				return null;
-			}
-		});*/
-		}
-	}
-	
-	protected void onLoad() {
-		super.onLoad();
-		if(!isUsedInPopup){
-	        focusTimer.scheduleRepeating(250);
-		    
+			textArea.addFocusHandler(focusHandler);
+			textArea.addBlurHandler(blurHandler);
+			toolbar.setVisible(false);
 		}
 	}
 	
 	public RichTextArea getRichTextArea(){
 	    return textArea;
 	}
+	
+	private void showToolbar(boolean show){
+		if(show){
+			if(!toolbarShowing){
+				toolbar.setVisible(true);
+				toolbarHeight = toolbar.getOffsetHeight();
+				textArea.setHeight(textArea.getOffsetHeight()-toolbarHeight + "px");
+				
+				popup.show();
+				int left = textArea.getAbsoluteLeft() + textArea.getOffsetWidth() - popup.getOffsetWidth() -18; 
+				int top = textArea.getAbsoluteTop() + textArea.getOffsetHeight() - popup.getOffsetHeight() -2;
+				popup.setPopupPosition(left, top);
+				//textArea.set
+				
+			}
+			toolbarShowing = true;
+		}
+		else{
+			if(toolbarShowing){
+				popup.hide();
+				toolbar.setVisible(false);
+				textArea.setHeight(textArea.getOffsetHeight()+toolbarHeight + "px");
+			}
+			
+			toolbarShowing = false;
+		}
+	}
+	
+	protected void onLoad() {
+		super.onLoad();
+		System.out.println(textArea.getOffsetWidth());
+		if(!isUsedInPopup){
+	        focusTimer.scheduleRepeating(250);
+		    
+		}
+	}
+	
 	protected void onUnload() {
 		super.onUnload();
         if(!isUsedInPopup){
-
-		focusTimer.cancel();
+        	focusTimer.cancel();
         }
 	}
 
-	private void setupToolbar() {
+/*	private void setupToolbar() {
 		// Get formatters - will be null if not available
 		final ExtendedFormatter ef = textArea.getExtendedFormatter();
 		final BasicFormatter bf = textArea.getBasicFormatter();
@@ -106,116 +192,8 @@ public class KSRichEditor extends Composite {
             }), "Enlarge to edit");
         }
 
-		
-		// A button to toggle 'bold' - BasicFormatters and above - note that the
-		// button won't be shown if the browser can't do this so no checking is
-		// required when the button is pressed
-		if (bf != null) {
-			addToolbarWidget(new PushButton(new Image("images/bold.gif"), new ClickListener() {
-				public void onClick(Widget sender) {
-					bf.toggleBold();
-				}
-			}), "Toggle bold text");
-		}
-		
-        if (bf != null) {
-            addToolbarWidget(new PushButton(new Image("images/italic.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    bf.toggleItalic();
-                }
-            }),"Toggle italic");
-        }
-        
-        if (bf != null) {
-            addToolbarWidget(new PushButton(new Image("images/underline.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    bf.toggleUnderline();
-                }
-            }), "Underline text");
-        }
-        
-		// A button to add horizontal rule - ExtendedFormatters only - note that the
-		// button won't be shown if the browser can't do this so no checking is
-		// required when the button is pressed
-		if (ef != null) {
-			addToolbarWidget(new PushButton(new Image("images/hr.gif"), new ClickListener() {
-				public void onClick(Widget sender) {
-					ef.insertHorizontalRule();
-				}
-			}), "Draw horizontal rule");
-		}
-
-        // A button to format as an ordered list 
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/orderedlist.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.insertOrderedList();
-                }
-            }), "Format as ordered list");
-        }
-        
-        // A button to format as an ordered list 
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/unorderedlist.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.insertUnorderedList();
-                }
-            }), "Format as unordered list");
-        }
-        
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/leftalign.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.leftIndent();
-                }
-            }), "Left align text");
-        }
-	          
-
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/rightalign.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.rightIndent();
-                }
-            }), "Right align text");
-        }
-
-
-        
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/strikethrough.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.toggleStrikethrough();
-                }
-            }), "Strikethrough text");
-        }
-
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/subscript.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.toggleSubscript();
-                }
-            }), "Subscript text");
-        }
-
-        if (ef != null) {
-            addToolbarWidget(new PushButton(new Image("images/superscript.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    ef.toggleSuperscript();
-                }
-            }), "Superscript text");
-        }
-        
-
 	}
-
-
-	private void addToolbarWidget(FocusWidget widget,
-	                              String titleText) {
-		toolbar.add(widget);
-		widget.addFocusListener(focusListener);
-		widget.setTitle(titleText);
-	}
+	}*/
 	
 	
 	
