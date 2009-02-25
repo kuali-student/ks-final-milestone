@@ -20,6 +20,7 @@ public class ImageExample extends Composite {
 
         main.addStyleName(STYLE_EXAMPLE);
         image.addStyleName(STYLE_IMAGE);
+        image.setTitle("This is an image");
         main.add(image);
 
 

@@ -18,6 +18,8 @@ import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.KSStackPanel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -27,10 +29,24 @@ public class KSWidgetFactory {
 
     public static KSAccordionPanel getAccordionPanelInstance() {        
         KSAccordionPanel w = GWT.create(KSAccordionPanel.class);
-//        w.init();
+//      w.init();
         return w;       
     }
-    
+
+    public static KSAccordionMenu getAccordionMenuInstance() {        
+        KSAccordionMenu w = GWT.create(KSAccordionMenu.class);
+//      w.init();
+        return w;       
+    }
+
+    public static KSMenuItemData getMenuItemDataInstance(String label) {        
+        KSMenuItemData w = new KSMenuItemData(label);
+        //        KSMenuItemData w = GWT.create(KSMenuItemData.class);
+//      w.setLabel(label);
+//      w.init();
+        return w;       
+    }
+
     public static KSButton getButtonInstance(String html,
             ClickHandler handler) {        
         KSButton w = new KSButton(html, handler);
@@ -67,7 +83,7 @@ public class KSWidgetFactory {
         w.init(url);
         return w;          
     }
-    
+
     public static KSInfoPopupPanel getInfoPopupPanelInstance() {       
         KSInfoPopupPanel w = GWT.create(KSInfoPopupPanel.class);
 //      w.init();
@@ -91,7 +107,7 @@ public class KSWidgetFactory {
     public static KSModalPopupPanel getModalPopupPanelInstance() {       
         KSModalPopupPanel w = GWT.create(KSModalPopupPanel.class);
 //      w.init();
-return w;          
+        return w;          
     }
 
     public static KSRadioButton getRadioButtonInstance(String name,
@@ -102,27 +118,34 @@ return w;
     }
 
     public static KSRichEditor getRichEditorInstance() {       
-        KSRichEditor w = GWT.create(KSRichEditor.class);
-//        w.init();
-        return w;          
-    }
-    
-    public static KSStackPanel getStackPanelInstance() {       
-        KSStackPanel w = GWT.create(KSStackPanel.class);
-//        w.init();
-        return w;          
-    }
-    
-    public static KSTextArea getTextAreaInstance() {       
-        KSTextArea w = GWT.create(KSTextArea.class);
-//        w.init();
+        KSRichEditor w = null;
+
+        try {
+//          w = new KSRichEditor();
+            w = GWT.create(KSRichEditor.class);
+            //      w.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return w;          
     }
 
-    
+    public static KSStackPanel getStackPanelInstance() {       
+        KSStackPanel w = GWT.create(KSStackPanel.class);
+//      w.init();
+        return w;          
+    }
+
+    public static KSTextArea getTextAreaInstance() {       
+        KSTextArea w = GWT.create(KSTextArea.class);
+//      w.init();
+        return w;          
+    }
+
+
     public static KSTextBox getTextBoxInstance() {       
         KSTextBox w = GWT.create(KSTextBox.class);
-//        w.init();
+//      w.init();
         return w;          
     }
 }

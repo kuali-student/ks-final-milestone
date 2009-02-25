@@ -1,6 +1,7 @@
 package org.kuali.student.ui.kitchensink.client;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_CONTENT_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_IMAGE;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MAIN_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MENU_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
@@ -8,12 +9,15 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
+import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
+import org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu.AccordionMenuExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
@@ -21,6 +25,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampl
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
@@ -45,7 +50,8 @@ public class KitchenSinkMain extends Composite {
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     final VerticalPanel welcomePanel = new VerticalPanel();
     final KSMenu menuPanel = GWT.create(KSAccordionMenu.class); // TODO update deferred binding in common-ui
-    final KSLabel welcomeMsg =new KSLabel();
+    KSLabel welcomeMsg;
+    final KSImage sink = KSWidgetFactory.getImageInstance("images/kitchenSink.png");
     
     private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
         "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
@@ -63,11 +69,12 @@ public class KitchenSinkMain extends Composite {
         if (!loaded) {
             loaded = true;
             
-            welcomeMsg.setText(WELCOME_MSG);
-            welcomeMsg.setWordWrap(true);
+            welcomeMsg = KSWidgetFactory.getLabelInstance(WELCOME_MSG, true);
             welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
             welcomePanel.add(welcomeMsg);
-//            welcomePanel.add(new Image("images/kitchenSink.png"));
+            
+            sink.addStyleName(STYLE_IMAGE);
+//            welcomePanel.add(sink);
             
             main.setStyleName(STYLE_MAIN_PANEL);
             menuPanel.setStyleName(STYLE_MENU_PANEL);
@@ -91,6 +98,7 @@ public class KitchenSinkMain extends Composite {
 
         KSMenuItemData ksCommons = initGroup("KS Common Widgets");
 //        initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
+        initExample(ksCommons, new AccordionMenuExampleDescriptor());
         initExample(ksCommons, new AccordionPanelExampleDescriptor());
         initExample(ksCommons, new BlockingProgressIndicatorExampleDescriptor());
         initExample(ksCommons, new ButtonExampleDescriptor());

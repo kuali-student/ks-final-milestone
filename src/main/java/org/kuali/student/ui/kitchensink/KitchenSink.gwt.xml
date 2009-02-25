@@ -12,7 +12,6 @@
 	<stylesheet src="KitchenSink.css"/>
 	<stylesheet src="examplecss/MyExampleWidget.css"/>
 	<stylesheet src="examplecss/CSSLayoutExample.css"/>
-	<stylesheet src="examplecss/Button.css"/>
 	
 	<script src="js/shCore.js"/>
 	<script src="js/shBrushJava.js"/>
