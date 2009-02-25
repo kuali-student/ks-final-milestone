@@ -13,6 +13,9 @@ public class DictionaryNamespaceHandler extends NamespaceHandlerSupport {
         this.registerBeanDefinitionParser("type", parser);
         this.registerBeanDefinitionParser("state", parser);
         this.registerBeanDefinitionParser("field", parser);
+        this.registerBeanDefinitionParser("enum", parser);
+        this.registerBeanDefinitionParser("contextDescriptor", parser);
+        this.registerBeanDefinitionParser("contextValueDescriptor", parser);  
     }
 
 }

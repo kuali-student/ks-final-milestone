@@ -2,6 +2,8 @@ package org.kuali.student.core.dictionary.service.impl;
 
 import java.util.List;
 
+import org.kuali.student.core.dictionary.dto.ContextDescriptor;
+import org.kuali.student.core.dictionary.dto.ContextValueDescriptor;
 import org.kuali.student.core.dictionary.dto.Field;
 import org.kuali.student.core.dictionary.dto.FieldDescriptor;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
@@ -33,6 +35,15 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
         if (element.getLocalName().equals("field")) {
             return Field.class;
         }
+        if (element.getLocalName().equals("enum")) {
+            return org.kuali.student.core.dictionary.dto.Enum.class;
+        }
+        if (element.getLocalName().equals("contextDescriptor")) {
+            return ContextDescriptor.class;
+        }
+        if (element.getLocalName().equals("contextValueDescriptor")) {
+            return ContextValueDescriptor.class;
+        }
         return super.getBeanClass(element);
     }
 
@@ -42,6 +53,10 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
             builder.addPropertyValue("key", element.getAttribute("key"));
 		}
     	
+		if("contextDescriptor".equals(element.getLocalName())){
+			 builder.addPropertyValue("type", element.getAttribute("type"));
+		}
+		
         if("state".equals(element.getLocalName())){
             List<?> refList = pc.getDelegate().parseListElement(element, pc.getContainingBeanDefinition());
             builder.addPropertyValue("field",refList);
@@ -97,7 +112,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
     }
 
     private boolean isList(String localName) {
-        return false;
+        return "contextDescriptors".equals(localName);
     }
 
 	@Override

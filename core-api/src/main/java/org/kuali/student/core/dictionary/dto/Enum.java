@@ -30,18 +30,12 @@ public class Enum {
 
     @XmlElement(required = true, name="context")
     @XmlElementWrapper(name="contexts")
-    protected List<ContextDescriptor> contexts;
+    protected List<ContextDescriptor> contextDescriptors;
+    
     @XmlAttribute(required = true)
     protected String key;
 
-    public List<ContextDescriptor> getContexts() {
-        if (contexts == null) {
-            contexts = new ArrayList<ContextDescriptor>();
-        }
-        return this.contexts;
-    }
-
-	public String getKey() {
+    public String getKey() {
 		return key;
 	}
 
@@ -49,8 +43,15 @@ public class Enum {
 		this.key = key;
 	}
 
-	public void setContexts(List<ContextDescriptor> contexts) {
-		this.contexts = contexts;
+	public List<ContextDescriptor> getContextDescriptors() {
+        if (contextDescriptors == null) {
+        	contextDescriptors = new ArrayList<ContextDescriptor>();
+        }
+		return contextDescriptors;
+	}
+
+	public void setContextDescriptors(List<ContextDescriptor> contextDescriptors) {
+		this.contextDescriptors = contextDescriptors;
 	}
 
 

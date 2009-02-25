@@ -17,7 +17,7 @@
 		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
-	
+
 	<dict:fieldDescriptor id="childFieldDescriptor"
 		parent="parentFieldDescriptor">
 		<dict:name>Child CLU Identifier</dict:name>
@@ -39,25 +39,22 @@
 						<dict:dataType>string</dict:dataType>
 						<dict:minLength>1</dict:minLength>
 						<dict:maxLength>1</dict:maxLength>
-						<!--
-							<dict:enum key="lu.cluCategories"> <dict:contextDescriptors>
-							<contextDescriptor type="default"> <contextValueDescriptor>
-							<desc>Passes back an unfiltered list. Context value should be
-							null or an empty string.</desc> <dataType>string</dataType>
-							<minLength>0</minLength> <maxLength>0</maxLength>
-							<minOccurs>0</minOccurs> <maxOccurs>1</maxOccurs>
-							</contextValueDescriptor> </contextDescriptor> <contextDescriptor
-							type="org"> <contextValueDescriptor> <desc>Passes back a list of
-							clu categories associated with a particular organization. This is
-							a bad example.</desc> <dataType>string</dataType>
-							<minLength>36</minLength> <maxLength>36</maxLength>
-							<validChars>ABCDEF0123456789-</validChars>
-							<minOccurs>1</minOccurs> <maxOccurs>1</maxOccurs>
-							</contextValueDescriptor> </contextDescriptor>
-							</contextDescriptors> </enum>
-						-->
 						<dict:minOccurs>0</dict:minOccurs>
 						<dict:maxOccurs>1</dict:maxOccurs>
+						<dict:enum key="lu.cluCategories">
+							<dict:contextDescriptors>
+								<dict:contextDescriptor type="default">
+									<dict:contextValueDescriptor>
+										<dict:desc>Passes back an unfiltered list. Context value should be null or an empty string.</dict:desc>
+									</dict:contextValueDescriptor>
+								</dict:contextDescriptor>
+								<dict:contextDescriptor type="org">
+									<dict:contextValueDescriptor>
+										<dict:desc>Passes back a list of clu categories associated with a particular organization. This is a bad example.</dict:desc>
+									</dict:contextValueDescriptor>
+								</dict:contextDescriptor>
+							</dict:contextDescriptors>
+						</dict:enum>
 					</dict:fieldDescriptor>
 					<dict:selector>true</dict:selector>
 				</dict:field>

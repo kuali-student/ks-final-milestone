@@ -80,10 +80,8 @@
 					maxOccurs="1"></xsd:element>
 				<xsd:element name="readOnly" type="xsd:boolean"
 					minOccurs="0" maxOccurs="1" />
-				<!--
-					<xsd:element name="enum" type="enumSelector" minOccurs="0"
+				<xsd:element name="enum" type="enumSelector" minOccurs="0"
 					maxOccurs="1" />
-				-->
 			</xsd:sequence>
 			<xsd:element ref="beans:ref" maxOccurs="unbounded"
 				minOccurs="0" />
@@ -92,15 +90,33 @@
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
-	<!--
-		<xsd:complexType name="enumSelector"> <xsd:sequence> <xsd:element
-		name="contextDescriptorsSelector" type="contextSelector" minOccurs="1"
-		maxOccurs="unbounded"></xsd:element> </xsd:sequence> <xsd:attribute
-		name="key" use="required" type="xsd:string"></xsd:attribute>
-		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
-		</xsd:complexType> <xsd:complexType name="contextSelector">
-	-->
 
+	<xsd:complexType name="enumSelector">
+		<xsd:sequence>
+			<xsd:element name="contextDescriptors" type="contextDescriptorsSelector"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="key" use="required" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:complexType name="contextDescriptorsSelector">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="contextDescriptor" type="contextDescriptorSelector"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="contextDescriptorSelector">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="contextValueDescriptor" type="contextValueDescriptorSelector"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="type" use="required" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:complexType name="contextValueDescriptorSelector">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="desc" type="xsd:string"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
 
 
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
@@ -109,4 +125,5 @@
 		name="fieldDescriptor" type="fieldDescriptor" />
 	<xsd:element xmlns="http://student.kuali.org/xsd/dictionary-extension"
 		name="field" type="fieldSelector" />
+	<xsd:element name="enum" type="enumSelector"></xsd:element>
 </xsd:schema>
