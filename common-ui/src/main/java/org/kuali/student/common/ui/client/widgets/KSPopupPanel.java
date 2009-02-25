@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -67,5 +68,9 @@ public abstract class KSPopupPanel{
 
 	public boolean isShowing() {
 		return isShowing;
+	}
+	
+	public void addCloseHandler(CloseHandler handler){
+		popup.addCloseHandler(handler);
 	}
 }
