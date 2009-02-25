@@ -88,7 +88,7 @@
 			<xsd:element ref="beans:ref" maxOccurs="unbounded"
 				minOccurs="0" />
 		</xsd:choice>
-		<xsd:attribute name="parent" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="parent" type="xsd:IDREF"></xsd:attribute>
 		<xsd:attribute name="id" use="optional" type="xsd:ID"></xsd:attribute>
 	</xsd:complexType>
 
