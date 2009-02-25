@@ -24,7 +24,7 @@ public class DropDownExample extends Composite {
         
         loadList();
 
-        dropDown.getListBox().addChangeHandler(new ChangeHandler() {
+        dropDown.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
                 ListBox lb = (ListBox)arg0.getSource();
@@ -38,16 +38,16 @@ public class DropDownExample extends Composite {
     }
 
     private void loadList() {
-       dropDown.getListBox().addItem("University of British Columbia");
-       dropDown.getListBox().addItem("Florida State University");
-       dropDown.getListBox().addItem("Naval Postgraduate School");
-       dropDown.getListBox().addItem("San Joaquin Delta College");
-       dropDown.getListBox().addItem("University of California, Berkeley");
-       dropDown.getListBox().addItem("University of Maryland, College Park");
-       dropDown.getListBox().addItem("Massachusetts Institute of Technology");
-       dropDown.getListBox().addItem("University of Southern California");
-       dropDown.getListBox().addItem("University of Washington");
-       dropDown.getListBox().addItem("Carnegie Mellon University");
+       dropDown.addItem("University of British Columbia");
+       dropDown.addItem("Florida State University");
+       dropDown.addItem("Naval Postgraduate School");
+       dropDown.addItem("San Joaquin Delta College");
+       dropDown.addItem("University of California, Berkeley");
+       dropDown.addItem("University of Maryland, College Park");
+       dropDown.addItem("Massachusetts Institute of Technology");
+       dropDown.addItem("University of Southern California");
+       dropDown.addItem("University of Washington");
+       dropDown.addItem("Carnegie Mellon University");
         
     }
 }
