@@ -40,12 +40,12 @@
 					<logLevel>INFO</logLevel>
 					<!-- defines which page should be launched when run in hosted mode -->
 					<runTarget>
-						org.kuali.student.rules.devgui.DevelopersGui/DevelopersGui.html
+						org.kuali.student.rules.lum.LumGui/LumGui.html
 					</runTarget>
 					<!-- define which GWT modules get compiled during the build process -->
 					<compileTargets>
 						<param>
-							org.kuali.student.rules.devgui.DevelopersGui
+							org.kuali.student.rules.lum.LumGui
 						</param>
 						<!-- add any other GWT modules in your project that are required -->
 					</compileTargets>
