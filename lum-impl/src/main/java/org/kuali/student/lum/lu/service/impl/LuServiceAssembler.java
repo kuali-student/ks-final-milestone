@@ -132,7 +132,10 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LrTypeInfo toLrTypeInfo(LrType entity) {
 		LrTypeInfo dto = new LrTypeInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto, new String[] { "id", "attributes" });
+
+		dto.setKey(entity.getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 
