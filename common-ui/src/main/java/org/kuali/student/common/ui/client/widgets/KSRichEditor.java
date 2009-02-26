@@ -43,8 +43,8 @@ public class KSRichEditor extends Composite {
 	private final KSRichTextToolbar toolbar;
 	private final PopupPanel popup = new PopupPanel();
 	
-	private final KSInfoPopupPanel popoutWindow = new KSInfoPopupPanel();
-	private final KSRichEditor popoutEditor = new KSRichEditor(true);
+	private KSInfoPopupPanel popoutWindow = null;;
+	private KSRichEditor popoutEditor = null;
 	
 	private boolean focused = false;
 	private boolean toolbarShowing = false;
@@ -94,42 +94,42 @@ public class KSRichEditor extends Composite {
 		toolbar.setWidth("100%");
 		content.setWidget(0, 0, toolbar);
 		content.setWidget(1, 0, textArea);
-		
-		popoutWindow.add(popoutEditor);
-		
-		Image popoutImage = images.errorIcon().createImage();
-		popoutImage.addClickHandler(new ClickHandler(){
 
-			@Override
-			public void onClick(ClickEvent event) {
-				focused = true;
-				popoutEditor.setHTML(textArea.getHTML());
-				popoutWindow.show();
-				
-			}
-		});
-		
-		popoutWindow.addCloseHandler(new CloseHandler(){
+		if (isUsedInPopup) {
+            toolbar.setVisible(true);
+		} else {
+		    popoutWindow = new KSInfoPopupPanel();
+		    popoutEditor = new KSRichEditor(true);
+		    popoutWindow.add(popoutEditor);
+	        Image popoutImage = images.errorIcon().createImage();
+	        popoutImage.addClickHandler(new ClickHandler(){
 
-			@Override
-			public void onClose(CloseEvent event) {
-				textArea.setHTML(popoutEditor.getHTML());
-				
-			}
-		});
-		
-		popup.add(popoutImage);
+	            @Override
+	            public void onClick(ClickEvent event) {
+	                focused = true;
+	                popoutEditor.setHTML(textArea.getHTML());
+	                popoutWindow.show();
+	                
+	            }
+	        });
+	        
+	        popoutWindow.addCloseHandler(new CloseHandler(){
+
+	            @Override
+	            public void onClose(CloseEvent event) {
+	                textArea.setHTML(popoutEditor.getHTML());
+	                
+	            }
+	        });
+	        
+	        popup.add(popoutImage);
+
+	        textArea.addFocusHandler(focusHandler);
+            textArea.addBlurHandler(blurHandler);
+            toolbar.setVisible(false);
+		}
 		
 		super.initWidget(content);
-		if(isUsedInPopup){
-			//textArea.setHeight(textArea.getOffsetHeight() - toolbar.getOffsetHeight() + "px");
-	        toolbar.setVisible(true);
-		    
-		}else{
-			textArea.addFocusHandler(focusHandler);
-			textArea.addBlurHandler(blurHandler);
-			toolbar.setVisible(false);
-		}
 	}
 	
 	public RichTextArea getRichTextArea(){

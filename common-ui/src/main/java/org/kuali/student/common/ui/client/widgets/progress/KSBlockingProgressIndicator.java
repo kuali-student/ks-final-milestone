@@ -6,7 +6,6 @@ import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -20,7 +19,6 @@ public class KSBlockingProgressIndicator{
 	
 	private static final VerticalPanel mainPanel = new VerticalPanel();
 	private static final VerticalPanel listPanel = new VerticalPanel();
-	private static final VerticalPanel headerPanel = new VerticalPanel();
 	
 	private static KSModalPopupPanel popupIndicator = new KSModalPopupPanel();
 	
@@ -57,8 +55,7 @@ public class KSBlockingProgressIndicator{
 		
 		showIndicator();
 		listPanel.clear();
-		KSImage kSImage = GWT.create(KSImage.class);
-		kSImage.init("images/twiddler3.gif");
+		KSImage kSImage = new KSImage("images/twiddler3.gif");
 		for(BlockingTask task: tasks){
 			HorizontalPanel taskPanel = new HorizontalPanel();
 			taskPanel.add(new Label(task.getDescription()));
