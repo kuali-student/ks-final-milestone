@@ -3,13 +3,22 @@ package org.kuali.student.lum.lu.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
+import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.lum.lu.dto.CluCreditInfo;
+import org.kuali.student.lum.lu.dto.CluFeeInfo;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
+import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
@@ -23,9 +32,18 @@ import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.CluAccounting;
+import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
+import org.kuali.student.lum.lu.entity.CluCredit;
+import org.kuali.student.lum.lu.entity.CluFee;
+import org.kuali.student.lum.lu.entity.CluIdentifier;
+import org.kuali.student.lum.lu.entity.CluInstructor;
+import org.kuali.student.lum.lu.entity.CluOrg;
+import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LrType;
+import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
@@ -63,7 +81,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setCluId(entity.getClu().getId());
 		dto.setRelatedCluId(entity.getRelatedClu().getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(),entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 
@@ -81,7 +99,39 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluInfo toCluInfo(Clu entity) {
 		CluInfo dto = new CluInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "officialIdentifier", "alternateIdentifiers",
+						"desc", "marketingDesc", "participatingOrgs", "primaryInstructor",
+						"instructors", "stdDuration", "luCodes", "credit", "publishing",
+						"offeredAtpTypes", "fee", "accounting",
+						"attributes", "metaInfo" });
+		dto.setOfficialIdentifier(toCluIdentifierInfo(entity.getOfficialIdentifier()));
+		dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
+		dto.setDesc(toRichTextInfo(entity.getDesc()));
+		dto.setMarketingDesc(toRichTextInfo(entity.getMarketingDesc()));
+
+		List<String> participatingOrgs = new ArrayList<String>(entity.getOrgs().size());
+		for (CluOrg org : entity.getOrgs()) {
+			participatingOrgs.add(org.getId());
+		}
+		dto.setParticipatingOrgs(participatingOrgs);
+		// TODO dto.setPrimaryInstructor(toCluInstructorInfo(entity.get))
+		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
+		dto.setStdDuration(toTimeAmountInfo(entity.getStdDuration()));
+		dto.setLuCodes(toLuCodeInfos(entity.getLuCodes()));
+		dto.setCreditInfo(toCluCreditInfos(entity.getCredit()));
+		dto.setPublishingInfo(toCluPublishingInfo(entity.getPublishing()));
+
+		List<String> offeredAtpTypes = new ArrayList<String>(entity.getOfferedAtpTypes().size());
+		for (CluAtpTypeKey key : entity.getOfferedAtpTypes()) {
+			offeredAtpTypes.add(key.getAtpTypeKey());
+		}
+		dto.setOfferedAtpTypes(offeredAtpTypes);
+		dto.setFeeInfo(toCluFeeInfo(entity.getFee()));
+		dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
+
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 
@@ -246,15 +296,18 @@ public class LuServiceAssembler extends BaseAssembler {
 		LuStatementInfo dto = new LuStatementInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "children",
-				"requiredComponents", "luStatementType", "attributes", "metaInfo" });
+				"requiredComponents", "luStatementType", "attributes",
+				"metaInfo" });
 
-		List<String> statementIds = new ArrayList<String>(entity.getChildren().size());
+		List<String> statementIds = new ArrayList<String>(entity.getChildren()
+				.size());
 		for (LuStatement statement : entity.getChildren()) {
 			statementIds.add(statement.getId());
 		}
 		dto.setLuStatementIds(statementIds);
 
-		List<String> componentIds = new ArrayList<String>(entity.getRequiredComponents().size());
+		List<String> componentIds = new ArrayList<String>(entity
+				.getRequiredComponents().size());
 		for (ReqComponent reqComponent : entity.getRequiredComponents()) {
 			componentIds.add(reqComponent.getId());
 		}
@@ -303,7 +356,6 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setKey(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-
 		return dto;
 	}
 
@@ -319,9 +371,8 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuiInfo toLuiInfo(Lui entity) {
 		LuiInfo dto = new LuiInfo();
 
-
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "clu", "atpId", "attributes" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "clu", "atpId",
+				"attributes" });
 
 		dto.setCluId(entity.getClu().getId());
 		dto.setAtpKey(entity.getAtpId());
@@ -344,9 +395,8 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
 		LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
 
-
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "lui", "relatedLui", "attributes" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "lui",
+				"relatedLui", "attributes" });
 
 		dto.setLuiId(entity.getLui().getId());
 		dto.setRelatedLuiId(entity.getRelatedLui().getId());
@@ -369,8 +419,8 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
 		ReqComponentInfo dto = new ReqComponentInfo();
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "requiredComponentType", "reqCompField", "meteInfo" });
+		BeanUtils.copyProperties(entity, dto, new String[] {
+				"requiredComponentType", "reqCompField", "meteInfo" });
 
 		dto.setType(entity.getRequiredComponentType().getId());
 		dto.setReqCompField(toReqCompFieldInfos(entity.getReqCompField()));
@@ -383,10 +433,11 @@ public class LuServiceAssembler extends BaseAssembler {
 			ReqComponentType entity) {
 		ReqComponentTypeInfo dto = new ReqComponentTypeInfo();
 
-		BeanUtils.copyProperties(entity, dto,
-				new String[] { "id", "reqCompFieldTypes", "attributes" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "id",
+				"reqCompFieldTypes", "attributes" });
 
-		dto.setReqCompFieldTypes(toReqCompFieldTypeInfos(entity.getReqCompFieldTypes()));
+		dto.setReqCompFieldTypes(toReqCompFieldTypeInfos(entity
+				.getReqCompFieldTypes()));
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
@@ -401,12 +452,14 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	}
 
-	public static List<ReqCompFieldInfo> toReqCompFieldInfos(List<ReqComponentField> entities) {
-		List<ReqCompFieldInfo> fields = new ArrayList<ReqCompFieldInfo>(entities.size());
-		for (ReqComponentField field : entities) {
-			fields.add(toReqCompFieldInfo(field));
+	public static List<ReqCompFieldInfo> toReqCompFieldInfos(
+			List<ReqComponentField> entities) {
+		List<ReqCompFieldInfo> dtos = new ArrayList<ReqCompFieldInfo>(
+				entities.size());
+		for (ReqComponentField entity : entities) {
+			dtos.add(toReqCompFieldInfo(entity));
 		}
-		return fields;
+		return dtos;
 	}
 
 	public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
@@ -417,19 +470,124 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
-	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(List<ReqComponentFieldType> entities) {
-		List<ReqCompFieldTypeInfo> fields = new ArrayList<ReqCompFieldTypeInfo>(entities.size());
-		for (ReqComponentFieldType field : entities) {
-			fields.add(toReqCompFieldTypeInfo(field));
+	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
+			List<ReqComponentFieldType> entities) {
+		List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
+				entities.size());
+		for (ReqComponentFieldType entity : entities) {
+			dtos.add(toReqCompFieldTypeInfo(entity));
 		}
-		return fields;
+		return dtos;
 	}
 
-	public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(ReqComponentFieldType entity) {
+	public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(
+			ReqComponentFieldType entity) {
 		ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
 		// TODO dto.setFieldDescriptor(fieldDescriptor)
+
+		return dto;
+	}
+
+	public static List<CluIdentifierInfo> toCluIdentifierInfos(List<CluIdentifier> entities) {
+		List<CluIdentifierInfo> dtos = new ArrayList<CluIdentifierInfo>(entities.size());
+		for (CluIdentifier entity : entities) {
+			dtos.add(toCluIdentifierInfo(entity));
+		}
+		return dtos;
+	}
+
+	public static CluIdentifierInfo toCluIdentifierInfo(CluIdentifier entity) {
+		CluIdentifierInfo dto = new CluIdentifierInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+
+		return dto;
+	}
+
+	public static List<CluInstructorInfo> toCluInstructorInfos(List<CluInstructor> entities) {
+		List<CluInstructorInfo> dtos = new ArrayList<CluInstructorInfo>(entities.size());
+		for (CluInstructor entity : entities) {
+			dtos.add(toCluInstructorInfo(entity));
+		}
+		return dtos;
+	}
+
+	public static CluInstructorInfo toCluInstructorInfo(CluInstructor entity) {
+		CluInstructorInfo dto = new CluInstructorInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id", "type" });
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+		return dto;
+	}
+
+	public static TimeAmountInfo toTimeAmountInfo(TimeAmount entity) {
+		TimeAmountInfo dto = new TimeAmountInfo();
+
+		BeanUtils.copyProperties(entity, dto);
+
+		return dto;
+	}
+
+	public static List<LuCodeInfo> toLuCodeInfos(List<LuCode> entities) {
+		List<LuCodeInfo> dtos = new ArrayList<LuCodeInfo>(entities.size());
+		for (LuCode entity : entities) {
+			dtos.add(toLuCodeInfo(entity));
+		}
+		return dtos;
+	}
+
+	public static LuCodeInfo toLuCodeInfo(LuCode entity) {
+		LuCodeInfo dto = new LuCodeInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id",
+				"attributes", "metInfo" });
+
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+
+		return dto;
+	}
+
+	public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
+		CluCreditInfo dto = new CluCreditInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" });
+		dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
+		// TODO dto.setMinTimeToComplete(toTimeAmountInfo(entity.getminTimeToComplete));
+		// TODO dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getmaxTimeToComplete));
+		// TODO dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getmaxAllowableInactivity));
+		// TODO dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getmaxTimeResultsRecognized));
+
+		return dto;
+	}
+
+	public static CluPublishingInfo toCluPublishingInfo(CluPublishing entity) {
+		CluPublishingInfo dto = new CluPublishingInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "instructors",
+				"attributes" });
+		// dto.setPrimaryInstructor(toCluInstructorInfo(entity))
+		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+		return dto;
+	}
+
+	public static CluFeeInfo toCluFeeInfo(CluFee entity) {
+		CluFeeInfo dto = new CluFeeInfo();
+
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
+		return dto;
+	}
+
+	public static CluAccountingInfo toCluAccountingInfo(CluAccounting entity) {
+		CluAccountingInfo dto = new CluAccountingInfo();
+
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
