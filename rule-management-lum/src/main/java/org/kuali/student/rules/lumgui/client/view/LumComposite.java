@@ -4,65 +4,26 @@
 package org.kuali.student.rules.lumgui.client.view;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
-import org.kuali.student.commons.ui.logging.client.Logger;
 import org.kuali.student.commons.ui.messages.client.Messages;
 import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.MVC;
-import org.kuali.student.commons.ui.mvc.client.MVCEvent;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelBinding;
-import org.kuali.student.commons.ui.validators.client.ValidationResult;
-import org.kuali.student.commons.ui.validators.client.Validator;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
-import org.kuali.student.commons.ui.widgets.trees.TreeMouseOverListener;
-import org.kuali.student.rules.lumgui.client.DateRange;
 import org.kuali.student.rules.lumgui.client.controller.LumGuiController;
-import org.kuali.student.rules.lumgui.client.model.LumModel;
-import org.kuali.student.rules.lumgui.client.service.LumGuiService;
-import org.kuali.student.rules.factfinder.dto.FactParamDTO;
-import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
-import org.kuali.student.rules.factfinder.dto.FactTypeInfoDTO;
+import org.kuali.student.rules.lumgui.client.model.LumModelObject;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FocusListener;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.SourcesTabEvents;
-import com.google.gwt.user.client.ui.TabListener;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -74,15 +35,14 @@ public class LumComposite extends Composite {
     Controller controller;
     ViewMetaData metadata;
     Messages messages;
-    LumTextArea<LumModel> taPreReqRationale;
-    LumTextArea<LumModel> taNaturalLanguage;
-    LumTextArea<LumModel> taRreReqCourses;
-    LumTextBox<LumModel> tbStatementId;
+    LumTextArea<LumModelObject> taPreReqRationale;
+    LumTextArea<LumModelObject> taNaturalLanguage;
+    LumTextArea<LumModelObject> taRreReqCourses;
+    LumTextBox<LumModelObject> tbStatementId;
     Button btnSearch;
     Button btnComplexLevel;
-    Panel pnlSimpleView;
-    ModelBinding<LumModel> binding;
-    Model<LumModel> lumModel;
+    LumStackPanel<LumModelObject> pnlViews;
+    List<LumUIEventListener> lumUIListeners = new ArrayList<LumUIEventListener>(7); 
     // TODO use button when widgets are ready 
 //    Button btnAddCourses;
 
@@ -110,8 +70,10 @@ public class LumComposite extends Composite {
         messages = metadata.getMessages();
         
         // create and layout the widgets
-        pnlSimpleView = new VerticalPanel();
-        Panel pnlRationale = new VerticalPanel();
+        Panel pnlSimpleView = new VerticalPanel();
+        pnlViews = new LumStackPanel<LumModelObject>(
+                LumModelObject.FieldName.CURRENT_VIEW.toString());
+        Panel pnlRationaleToComplexView = new VerticalPanel();
         Panel pnlPreReqCourses = new VerticalPanel();
         Panel pnlNaturalLanguage = new VerticalPanel();
         HorizontalPanel pnlStatementSearch = new HorizontalPanel();
@@ -125,20 +87,23 @@ public class LumComposite extends Composite {
 //        addBorder(mainLumPanel);
         // end debug
         pnlSimpleView.add(pnlStatementSearch);
-        pnlSimpleView.add(pnlRationale);
+        pnlSimpleView.add(pnlRationaleToComplexView);
         pnlSimpleView.add(pnlPreReqCourses);
         pnlSimpleView.add(pnlNaturalLanguage);
         
+        pnlViews.add(pnlSimpleView);
+        pnlViews.add(new VerticalPanel());
+        
 //        test.setWidth("100px");
 //        mainLumPanel.setSize("950px", "550px");
-        mainLumPanel.add(pnlSimpleView);
+        mainLumPanel.add(pnlViews);
         
         // sizes and layout are to be done AFTER the containing panels
         // are added to mainLumPanel to make size settings effective
         pnlSimpleView.setSize(
                 Double.toString(mainLumPanel.getOffsetWidth()),
                 Double.toString(mainLumPanel.getOffsetHeight()));
-        pnlRationale.setSize(
+        pnlRationaleToComplexView.setSize(
                 Double.toString(pnlSimpleView.getOffsetWidth() * 0.9),
                 Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
         pnlPreReqCourses.setSize(
@@ -148,7 +113,7 @@ public class LumComposite extends Composite {
                 Double.toString(pnlSimpleView.getOffsetWidth() * 0.9),
                 Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
         prepareStatementSearchPanel(pnlStatementSearch);
-        prepareRationalePanel(pnlRationale);
+        prepareRationaleToComplexViewPanel(pnlRationaleToComplexView);
         preparePreReqCoursesPanel(pnlPreReqCourses);
         prepareNaturalLanguagePanel(pnlNaturalLanguage);
     }
@@ -160,18 +125,21 @@ public class LumComposite extends Composite {
     
     private void prepareStatementSearchPanel(Panel parent) {
         btnSearch = new Button("Search");
-        tbStatementId = new LumTextBox<LumModel>(LumModel.FieldName.
+        tbStatementId = new LumTextBox<LumModelObject>(LumModelObject.FieldName.
                 STATEMENT_ID.toString());
         parent.add(new Label("Statement Id"));
         parent.add(tbStatementId);
         parent.add(btnSearch);
     }
     
-    private void prepareRationalePanel(Panel parent) {
-        taPreReqRationale = new LumTextArea<LumModel>(LumModel.FieldName.
+    private void prepareRationaleToComplexViewPanel(Panel parent) {
+        HorizontalPanel topPanel = new HorizontalPanel();
+        taPreReqRationale = new LumTextArea<LumModelObject>(LumModelObject.FieldName.
                 RATIONALE.toString());
-        System.out.println("lum.rationale" + messages.get("lum.rationale"));
-        parent.add(new Label(messages.get("lum.rationale")));
+        btnComplexLevel = new Button("Complex Pre-requisite Rules");
+        topPanel.add(new Label(messages.get("lum.rationale")));
+        topPanel.add(btnComplexLevel);
+        parent.add(topPanel);
         parent.add(taPreReqRationale);
         taPreReqRationale.setSize(
                 Double.toString(parent.getOffsetWidth() * 0.9),
@@ -179,7 +147,7 @@ public class LumComposite extends Composite {
     }
     
     private void preparePreReqCoursesPanel(Panel parent) {
-        taRreReqCourses = new LumTextArea<LumModel>(LumModel.FieldName.
+        taRreReqCourses = new LumTextArea<LumModelObject>(LumModelObject.FieldName.
                 PRE_REQ_COURSES.toString());
 //        btnAddCourses = new Button(messages.get("lum.addPreReqCourses"));
         parent.add(new Label(messages.get("lum.prereqCourses")));
@@ -190,7 +158,7 @@ public class LumComposite extends Composite {
     }
     
     private void prepareNaturalLanguagePanel(Panel parent) {
-        taNaturalLanguage = new LumTextArea<LumModel>(LumModel.FieldName.
+        taNaturalLanguage = new LumTextArea<LumModelObject>(LumModelObject.FieldName.
                 NATURAL_LANGUAGE.toString());
         parent.add(new Label(messages.get("lum.naturalLanguage")));
         parent.add(taNaturalLanguage);
@@ -200,9 +168,23 @@ public class LumComposite extends Composite {
     }
 
     public void setUpListeners() {
-        Model<LumModel> model = (Model<LumModel>) controller.getModel(LumModel.class);
-        lumModel = model;
-        binding = new ModelBinding<LumModel>(model, tbStatementId);
+        Model<LumModelObject> model = (Model<LumModelObject>) controller.getModel(LumModelObject.class);
+        new ModelBinding<LumModelObject>(model, tbStatementId);
+        new ModelBinding<LumModelObject>(model, pnlViews);
+        btnComplexLevel.addClickListener(new ClickListener() {
+            public void onClick(Widget sender) {
+                System.out.println("btnComplexLevel clicked");
+                if (lumUIListeners != null && !lumUIListeners.isEmpty()) {
+                    for (LumUIEventListener listener : lumUIListeners) {
+                        listener.switchToComplexView();
+                    }
+                }
+            }
+        });
+    }
+    
+    public void addLumUIEventListener(LumUIEventListener listener) {
+        lumUIListeners.add(listener);
     }
 
 }

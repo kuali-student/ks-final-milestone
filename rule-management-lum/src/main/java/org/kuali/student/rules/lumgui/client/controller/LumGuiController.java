@@ -10,9 +10,10 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
-import org.kuali.student.rules.lumgui.client.model.LumModel;
+import org.kuali.student.rules.lumgui.client.model.LumModelObject;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.lumgui.client.view.LumComposite;
+import org.kuali.student.rules.lumgui.client.view.LumUIEventListener;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
@@ -23,13 +24,14 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author zzraly
  */
-public class LumGuiController extends Controller {
+public class LumGuiController extends Controller implements LumUIEventListener {
     public static final String VIEW_NAME = "org.kuali.student.rules.lumgui";
     boolean loaded = false;
 
     final SimplePanel mainPanel = new SimplePanel();
     final LumComposite lumComposite = new LumComposite();
-    final Model<LumModel> model = new Model<LumModel>();
+    final Model<LumModelObject> model = new Model<LumModelObject>();
+    final LumModelObject lumModelObject = new LumModelObject();
 
     ViewMetaData metadata;
     Messages messages;
@@ -70,7 +72,7 @@ public class LumGuiController extends Controller {
     }
 
     private void setupModels() {
-        super.initializeModel(LumModel.class, model);
+        super.initializeModel(LumModelObject.class, model);
     }
 
     private void loadModelsData() {
@@ -93,5 +95,16 @@ public class LumGuiController extends Controller {
 
     private void doEventListenerWiring() {
         lumComposite.setUpListeners();
+        lumComposite.addLumUIEventListener(this);
     }
+
+    public void switchToComplexView() {
+        lumModelObject.setCurrentView(LumModelObject.LumView.COMPLEX_VIEW);
+        model.update(lumModelObject);
+    }
+
+    public void switchToSimpleView() {
+        lumModelObject.setCurrentView(LumModelObject.LumView.SIMPLE_VIEW);
+    }
+    
 }

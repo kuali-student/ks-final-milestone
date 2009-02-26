@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
-import org.kuali.student.rules.lumgui.client.model.LumModelObject;
+import org.kuali.student.rules.lumgui.client.model.ILumModelObject;
 
 import com.google.gwt.user.client.ui.TextBox;
 
-public class LumTextBox<T extends LumModelObject> extends TextBox implements ModelWidget<T>{
+public class LumTextBox<T extends ILumModelObject> extends TextBox implements ModelWidget<T>{
     
     private T modelObject;
     private String modelObjectFieldName;

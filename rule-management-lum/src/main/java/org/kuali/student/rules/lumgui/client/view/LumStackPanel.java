@@ -7,19 +7,22 @@ import java.util.List;
 import org.kuali.student.commons.ui.mvc.client.widgets.ModelWidget;
 import org.kuali.student.rules.lumgui.client.model.ILumModelObject;
 
-import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.StackPanel;
 
-public class LumTextArea<T extends ILumModelObject> extends TextArea implements ModelWidget<T>{
-    
+public class LumStackPanel<T extends ILumModelObject> extends StackPanel implements ModelWidget<T> {
+
     private T modelObject;
     private String modelObjectFieldName;
     
-    public LumTextArea(String modelObjectfieldName) {
-        this.modelObjectFieldName = modelObjectfieldName; 
+    public LumStackPanel(String modelObjectFieldName) {
+        this.modelObjectFieldName = modelObjectFieldName;
     }
     
     public void add(T modelObject) {
         this.modelObject = modelObject;
+        showStack(((Integer)modelObject
+                .getValue(modelObjectFieldName)).intValue());
     }
 
     public void addBulk(Collection<T> collection) {
@@ -30,7 +33,6 @@ public class LumTextArea<T extends ILumModelObject> extends TextArea implements 
 
     public void clear() {
         modelObject = null;
-        setText("");
     }
 
     public List<T> getItems() {
@@ -51,7 +53,8 @@ public class LumTextArea<T extends ILumModelObject> extends TextArea implements 
 
     public void update(T modelObject) {
         this.modelObject = modelObject;
-        setText((String)modelObject.getValue(modelObjectFieldName));
+        showStack(((Integer)modelObject
+                .getValue(modelObjectFieldName)).intValue());
     }
 
 }
