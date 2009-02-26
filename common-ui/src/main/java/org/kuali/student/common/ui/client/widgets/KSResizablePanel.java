@@ -1,0 +1,174 @@
+package org.kuali.student.common.ui.client.widgets;
+
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventPreview;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.MouseListenerAdapter;
+import com.google.gwt.user.client.ui.Widget;
+
+public class KSResizablePanel  extends AbsolutePanel {
+
+    Image rightBottomCorner = new Image("images/transparent.gif");
+    //Image bottom = new Image();
+    //Image right = new Image();
+    Widget widget;
+
+    Widget mask = new Image("images/transparent.gif");
+    private final static int Right = 0;
+    private final static int Bottom = 1;
+    private final static int BottomRight = 2;
+    
+    private int handlerOffset = 10;
+    public KSResizablePanel() {
+        //super.setStyleName("resizableComponent");
+
+        mask.setStyleName("KS-ResizablePanel-Mask");
+        
+        rightBottomCorner.setStyleName("KS-ResizablePanel-RightBottomResizableHandler");
+      //  bottom.setStyleName("KS-ResizableComposite-BottomResizableHandler");
+        //right.setStyleName("KS-ResizableComposite-RightResizableHandler");
+
+        super.add(rightBottomCorner);
+        //super.add(bottom);
+        //super.add(right);
+        
+        MouseHandler resizeHandler = new MouseHandler(rightBottomCorner, BottomRight);
+        rightBottomCorner.addMouseDownHandler(resizeHandler);
+        rightBottomCorner.addMouseMoveHandler(resizeHandler);
+        rightBottomCorner.addMouseOutHandler(resizeHandler);
+        rightBottomCorner.addMouseUpHandler(resizeHandler);
+        rightBottomCorner.addMouseOverHandler(resizeHandler);
+        rightBottomCorner.addMouseListener(new PreventDefaultDuringDragging());        
+        
+        DeferredCommand.addCommand(new Command() {
+            public void execute() {
+                reposition();
+            }
+        });
+    }
+
+    private void reposition(){
+        int w = getOffsetWidth();
+        int h = getOffsetHeight();
+    
+        setWidgetPosition(rightBottomCorner, w-handlerOffset, h-handlerOffset);
+
+        if(widget != null && super.getWidgetIndex(widget)!= -1 ){
+            setWidgetPosition(widget, 0, 0);
+        }
+        if(super.getWidgetIndex(mask)!= -1 ){
+            setWidgetPosition(mask, 0, 0);
+        }
+    }
+    public void setWidget(final Widget w){
+        widget = w;
+        super.add(w);
+        
+        DeferredCommand.addCommand(new Command() {
+            public void execute() {
+                if(w.getOffsetWidth()!= 0 && w.getOffsetHeight()!= 0){
+                    setNewSize(w.getOffsetWidth(),w.getOffsetHeight());    
+                }
+            }
+        });
+    }
+    public void setNewSize(int w, int h){
+        setPixelSize(w,h);
+        if(widget!= null){
+            widget.setPixelSize(w-handlerOffset, h-handlerOffset);    
+        }
+        if(super.getWidgetIndex(mask)!= -1 ){
+            mask.setPixelSize(w, h);
+        }
+        reposition();
+    }
+    class MouseHandler implements MouseUpHandler, MouseOverHandler, MouseOutHandler, MouseMoveHandler, MouseDownHandler {
+        private int xoffset, yoffset, h, w;
+        private boolean isResizing;
+
+        Widget dragger;
+        int direction;
+
+        public MouseHandler(Widget dragger, int direction) {
+            this.dragger = dragger;
+            this.direction = direction;
+        }
+
+        public void onMouseMove(MouseMoveEvent event) {
+            if (isResizing) {
+                int newW = w + event.getClientX() - xoffset;
+                int newH = h + event.getClientY() - yoffset;
+                if (this.direction == KSResizablePanel.BottomRight) {
+                    setNewSize(newW, newH);
+                } else if (this.direction == KSResizablePanel.Bottom) {
+                    setNewSize(w, newH);
+                } else if (this.direction == KSResizablePanel.Right) {
+                    setNewSize(newW, h);
+                }
+            }
+        }
+
+        public void onMouseDown(MouseDownEvent event) {
+            w = getOffsetWidth();
+            h = getOffsetHeight();
+            xoffset = event.getClientX();
+            yoffset = event.getClientY();
+            isResizing = true;
+
+            DOM.setCapture(dragger.getElement());
+            add(mask);
+        }
+
+        public void onMouseOut(MouseOutEvent event) {
+        }
+
+        public void onMouseUp(MouseUpEvent event) {
+            isResizing = false;
+            DOM.releaseCapture(dragger.getElement());
+            remove(mask);
+        }
+
+        public void onMouseOver(MouseOverEvent event) {}
+    }
+    class PreventDefaultDuringDragging extends MouseListenerAdapter {
+        private final PreventEventPreview preview = new PreventEventPreview();
+
+        public void onMouseEnter(Widget sender) {
+            DOM.addEventPreview(preview);
+        }
+
+        public void onMouseLeave(Widget sender) {
+            DOM.removeEventPreview(preview);
+        }
+
+        public void removeEventPreview() {
+            DOM.removeEventPreview(preview);
+        }
+
+        private class PreventEventPreview implements EventPreview {
+            public boolean onEventPreview(Event event) {
+                switch (DOM.eventGetType(event)) {
+                    case Event.ONMOUSEDOWN:
+                    case Event.ONMOUSEMOVE:
+                   // case Event.ONMOUSEUP:
+                        DOM.eventPreventDefault(event);
+                }
+                return true;
+            }
+        }
+    }
+}
