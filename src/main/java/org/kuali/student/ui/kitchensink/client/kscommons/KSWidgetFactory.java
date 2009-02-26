@@ -27,16 +27,18 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSWidgetFactory {
 
-    public static KSAccordionPanel getAccordionPanelInstance() {        
-        KSAccordionPanel w = GWT.create(KSAccordionPanel.class);
-//      w.init();
-        return w;       
+    public static KSAccordionPanel getAccordionPanelInstance() {      
+        return new KSAccordionPanel();
+//        KSAccordionPanel w = GWT.create(KSAccordionPanel.class);
+////      w.init();
+//        return w;       
     }
 
-    public static KSAccordionMenu getAccordionMenuInstance() {        
-        KSAccordionMenu w = GWT.create(KSAccordionMenu.class);
-//      w.init();
-        return w;       
+    public static KSAccordionMenu getAccordionMenuInstance() {
+        return new KSAccordionMenu();
+//        KSAccordionMenu w = GWT.create(KSAccordionMenu.class);
+////      w.init();
+//        return w;       
     }
 
     public static KSMenuItemData getMenuItemDataInstance(String label) {        
@@ -72,10 +74,11 @@ public class KSWidgetFactory {
         return w;          
     }
 */
-    public static KSDropDown getDropDownInstance(boolean isMultipleSelect) {       
-        KSDropDown w = GWT.create(KSDropDown.class);
-        w.init(isMultipleSelect);
-        return w;          
+    public static KSDropDown getDropDownInstance(boolean isMultipleSelect) {
+        return new KSDropDown(isMultipleSelect);
+//        KSDropDown w = GWT.create(KSDropDown.class);
+//        w.init(isMultipleSelect);
+//        return w;          
     }
 
     /**
@@ -122,17 +125,18 @@ public class KSWidgetFactory {
         return w;          
     }
 
-    public static KSRichEditor getRichEditorInstance() {       
-        KSRichEditor w = null;
-
-        try {
-//          w = new KSRichEditor();
-            w = GWT.create(KSRichEditor.class);
-            //      w.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return w;          
+    public static KSRichEditor getRichEditorInstance() {
+        return new KSRichEditor();
+//        KSRichEditor w = null;
+//
+//        try {
+////          w = new KSRichEditor();
+//            w = GWT.create(KSRichEditor.class);
+//            //      w.init();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return w;          
     }
 
     public static KSStackPanel getStackPanelInstance() {       
