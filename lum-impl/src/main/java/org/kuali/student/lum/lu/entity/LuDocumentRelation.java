@@ -9,20 +9,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 
 @Entity
-@Table(name = "KSLU_LU_DOC_RELTN")
+@Table(name = "KSLU_LU_DOC_RELTN", uniqueConstraints = { @UniqueConstraint(columnNames = {
+		"CLU_ID", "DOC_ID" }) })
 public class LuDocumentRelation extends MetaEntity implements
 		AttributeOwner<LuDocumentRelationAttribute> {
 	@Id
@@ -33,9 +33,9 @@ public class LuDocumentRelation extends MetaEntity implements
 	@JoinColumn(name = "LU_DOC_RELTN_TYPE_ID")
 	private LuDocumentRelationType luDocumentRelationType;
 
-	@ManyToMany
-	@JoinTable(name = "KSLU_CLU_JN_LU_DOC_RELTN", joinColumns = @JoinColumn(name = "LU_DOC_RELTN_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
-	private List<Clu> clus;
+	@ManyToOne
+	@JoinColumn(name = "CLU_ID")
+	private Clu clu;
 
 	@Column(name = "DOC_ID")
 	private String documentId; // FOREIGN Service Relation
@@ -138,15 +138,12 @@ public class LuDocumentRelation extends MetaEntity implements
 		this.state = state;
 	}
 
-	public void setClus(List<Clu> clus) {
-		this.clus = clus;
+	public void setClu(Clu clu) {
+		this.clu = clu;
 	}
 
-	public List<Clu> getClus() {
-		if (clus == null) {
-			clus = new ArrayList<Clu>();
-		}
-		return clus;
+	public Clu getClu() {
+		return clu;
 	}
 
 }
