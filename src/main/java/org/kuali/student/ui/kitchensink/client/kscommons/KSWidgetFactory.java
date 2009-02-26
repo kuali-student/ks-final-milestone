@@ -78,9 +78,14 @@ public class KSWidgetFactory {
         return w;          
     }
 
+    /**
+     * @deprecated
+     * 
+     * @param url
+     * @return
+     */
     public static KSImage getImageInstance(String url) {       
-        KSImage w = GWT.create(KSImage.class);
-        w.init(url);
+        KSImage w = new KSImage(url);
         return w;          
     }
 

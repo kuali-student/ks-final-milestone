@@ -13,7 +13,7 @@ public class ImageExample extends Composite {
 
     final VerticalPanel main = new VerticalPanel();
     
-    final KSImage image = KSWidgetFactory.getImageInstance("images/flower2.jpg");
+    final KSImage image = new KSImage("images/flower2.jpg");
 
 
     public ImageExample() {
