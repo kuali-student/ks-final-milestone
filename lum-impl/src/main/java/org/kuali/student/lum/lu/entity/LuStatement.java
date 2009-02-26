@@ -1,7 +1,9 @@
 package org.kuali.student.lum.lu.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,80 +14,151 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
+
 @Entity
 @Table(name = "KS_LU_STMT_T")
-public class LuStatement {
-	@Id
-	@Column(name = "ID")
-	private String id;
-	
-	@ManyToOne(optional=true)
-	@JoinColumn(name="PARENT_LU_STMT_ID")
-	private LuStatement parent;
-	
-	@OneToMany(mappedBy="parent")
-	private List<LuStatement> children;
-	
-	@ManyToMany
-	@JoinTable(name="KS_LU_STMT_REQ_COMP_T",joinColumns=@JoinColumn(name="REQ_COMP_ID"),inverseJoinColumns=@JoinColumn(name="LU_STMT_ID"))
-	private List<RequiredComponent> requiredComponents;
-	
-	@ManyToOne
-	@JoinColumn(name="LU_STMT_TYPE_ID")
-	private LuStatementType luStatementType;
-	
-	@ManyToMany
-	@JoinTable(name="KS_CLU_LU_STMT_T",joinColumns=@JoinColumn(name="CLU_ID"),inverseJoinColumns=@JoinColumn(name="LU_STMT_ID"))
-	private List<Clu> clus;
+public class LuStatement extends MetaEntity implements AttributeOwner<LuStatementAttribute>{
+    @Id
+    @Column(name = "ID")
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    @Column(name="NAME")
+    private String name;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Column(name="DESCRIPTION")
+    private String desc;
+    
+    @Column(name="STATE")
+    private String state;
 
-	public LuStatement getParent() {
-		return parent;
-	}
+    @Column(name="OPERATOR")
+    private StatementOperatorTypeKey operator;
+    
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "PARENT_LU_STMT_ID")
+    private LuStatement parent;
 
-	public void setParent(LuStatement parent) {
-		this.parent = parent;
-	}
+    @OneToMany(mappedBy = "parent")
+    private List<LuStatement> children;
 
-	public List<LuStatement> getChildren() {
-		return children;
-	}
+    @ManyToMany
+    @JoinTable(name = "KS_LU_STMT_REQ_COMP_T", joinColumns = @JoinColumn(name = "REQ_COMP_ID"), inverseJoinColumns = @JoinColumn(name = "LU_STMT_ID"))
+    private List<ReqComponent> requiredComponents;
 
-	public void setChildren(List<LuStatement> children) {
-		this.children = children;
-	}
+    @ManyToOne
+    @JoinColumn(name = "LU_STMT_TYPE_ID")
+    private LuStatementType luStatementType;
 
-	public List<RequiredComponent> getRequiredComponents() {
-		return requiredComponents;
-	}
+    @ManyToMany
+    @JoinTable(name = "KS_CLU_LU_STMT_T", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "LU_STMT_ID"))
+    private List<Clu> clus;
 
-	public void setRequiredComponents(List<RequiredComponent> requiredComponents) {
-		this.requiredComponents = requiredComponents;
-	}
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "OWNER")
+    private List<LuStatementAttribute> attributes;
+    
+    /**
+     * AutoGenerate the Id
+     */
+    @Override
+    public void onPrePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
+    
+    public String getId() {
+        return id;
+    }
 
-	public LuStatementType getLuStatementType() {
-		return luStatementType;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setLuStatementType(LuStatementType luStatementType) {
-		this.luStatementType = luStatementType;
-	}
+    public LuStatement getParent() {
+        return parent;
+    }
 
-	public List<Clu> getClus() {
-		return clus;
-	}
+    public void setParent(LuStatement parent) {
+        this.parent = parent;
+    }
 
-	public void setClus(List<Clu> clus) {
-		this.clus = clus;
-	}
-	
-	
-	
+    public List<LuStatement> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<LuStatement> children) {
+        this.children = children;
+    }
+
+    public List<ReqComponent> getRequiredComponents() {
+        return requiredComponents;
+    }
+
+    public void setRequiredComponents(List<ReqComponent> requiredComponents) {
+        this.requiredComponents = requiredComponents;
+    }
+
+    public LuStatementType getLuStatementType() {
+        return luStatementType;
+    }
+
+    public void setLuStatementType(LuStatementType luStatementType) {
+        this.luStatementType = luStatementType;
+    }
+
+    public List<Clu> getClus() {
+        return clus;
+    }
+
+    public void setClus(List<Clu> clus) {
+        this.clus = clus;
+    }
+
+    public StatementOperatorTypeKey getOperator() {
+        return operator;
+    }
+
+    public void setOperator(StatementOperatorTypeKey operator) {
+        this.operator = operator;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    @Override
+    public List<LuStatementAttribute> getAttributes() {
+        if(attributes==null){
+            attributes = new ArrayList<LuStatementAttribute>();
+        }
+        return attributes;
+    }
+
+    @Override
+    public void setAttributes(List<LuStatementAttribute> attributes) {
+        this.attributes=attributes;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

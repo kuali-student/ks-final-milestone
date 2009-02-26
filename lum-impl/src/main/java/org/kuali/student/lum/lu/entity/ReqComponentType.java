@@ -20,16 +20,13 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KS_LU_STMT_TYPE_T")
-public class LuStatementType implements AttributeOwner<LuStatementTypeAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
+@Table(name="KS_REQ_COMP_TYPE_T")
+public class ReqComponentType implements AttributeOwner<ReqComponentTypeAttribute> {
 
-	@ManyToMany
-	@JoinTable(name = "KS_LU_STMT_TYPE_LU_TYPE_T", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID"))
-	private List<LuType> luTypes;
-
+    @Id
+    @Column(name = "ID")
+    private String id;
+	
     @Column(name="NAME")
     private String name;
 
@@ -46,32 +43,28 @@ public class LuStatementType implements AttributeOwner<LuStatementTypeAttribute>
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
-    private List<LuStatementTypeAttribute> attributes;
+    private List<ReqComponentTypeAttribute> attributes;
     
-    @Column(name="STMT_TYPE_KEY", unique=true, nullable=false)
+    @Column(name="REQ_COMPT_TYPE_KEY", unique=true, nullable=false)
     private String key;
-    
+
+    @ManyToMany
+    @JoinTable(name = "KS_REQCOMP_TYPE_REQCOMPFLD_TYPE_T", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"))
+    private List<ReqComponentFieldType> reqCompFieldTypes;
+
     /**
      * AutoGenerate the Id
      */
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
     }
-	
+    
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public List<LuType> getLuTypes() {
-		return luTypes;
-	}
-
-	public void setLuTypes(List<LuType> luTypes) {
-		this.luTypes = luTypes;
 	}
 
     public String getName() {
@@ -106,14 +99,14 @@ public class LuStatementType implements AttributeOwner<LuStatementTypeAttribute>
         this.expirationDate = expirationDate;
     }
 
-    public List<LuStatementTypeAttribute> getAttributes() {
-        if(attributes==null){
-            attributes = new ArrayList<LuStatementTypeAttribute>();
-        }        
+    public List<ReqComponentTypeAttribute> getAttributes() {
+        if(null == attributes) {
+            attributes = new ArrayList<ReqComponentTypeAttribute>();
+        }
         return attributes;
     }
 
-    public void setAttributes(List<LuStatementTypeAttribute> attributes) {
+    public void setAttributes(List<ReqComponentTypeAttribute> attributes) {
         this.attributes = attributes;
     }
 
@@ -123,5 +116,13 @@ public class LuStatementType implements AttributeOwner<LuStatementTypeAttribute>
 
     public void setKey(String key) {
         this.key = key;
-    }	    
+    }
+
+    public List<ReqComponentFieldType> getReqCompFieldTypes() {
+        return reqCompFieldTypes;
+    }
+
+    public void setReqCompFieldTypes(List<ReqComponentFieldType> reqCompFieldTypes) {
+        this.reqCompFieldTypes = reqCompFieldTypes;
+    }	
 }
