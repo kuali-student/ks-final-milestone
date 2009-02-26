@@ -6,7 +6,7 @@ public class LumModelObject implements ILumModelObject {
     
     public enum FieldName{
         STATEMENT_ID, SHOW_ALGEBRA, CURRENT_VIEW,
-        RATIONALE, PRE_REQ_COURSES, NATURAL_LANGUAGE;
+        RATIONALE, PRE_REQ_COURSES, NATURAL_LANGUAGE, ALGEBRA;
     }
     public enum LumView {
         SIMPLE_VIEW, COMPLEX_VIEW;
@@ -21,12 +21,19 @@ public class LumModelObject implements ILumModelObject {
             return viewIndex;
         }
     }
+    
     private String statementId;
     private LumView currentView;
+    
+    //SIMPLE VIEW data
     private String rationale;
     private String preReqCourses;
     private String naturalLanguage;
+    
+    //COMPLEX VIEW data
     private boolean showAlgebra;
+    private String algebra;
+
 
     public LumView getCurrentView() {
         return currentView;
@@ -67,6 +74,13 @@ public class LumModelObject implements ILumModelObject {
     public void setNaturalLanguage(String naturalLanguage) {
         this.naturalLanguage = naturalLanguage;
     }
+    public String getAlgebra() {
+        return algebra;
+    }
+    public void setAlgebra(String algebra) {
+        this.algebra = algebra;
+    }    
+    
     public Object getValue(String fieldName) {
         FieldName enumFieldName = FieldName.valueOf(fieldName);
         if (enumFieldName == FieldName.STATEMENT_ID) {
@@ -81,6 +95,8 @@ public class LumModelObject implements ILumModelObject {
         } else if (enumFieldName == FieldName.PRE_REQ_COURSES) {
             return getPreReqCourses();
         } else if (enumFieldName == FieldName.NATURAL_LANGUAGE) {
+            return getNaturalLanguage();
+        } else if (enumFieldName == FieldName.ALGEBRA) {
             return getNaturalLanguage();
         } else {
             throw new RuntimeException("Unknown fieldName " + fieldName);

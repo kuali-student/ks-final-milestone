@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author stse
+ * @author stse & Zdenek
  */
 public class LumComposite extends Composite {
 
@@ -39,8 +39,10 @@ public class LumComposite extends Composite {
     LumTextArea<LumModelObject> taNaturalLanguage;
     LumTextArea<LumModelObject> taRreReqCourses;
     LumTextBox<LumModelObject> tbStatementId;
+    LumTextBox<LumModelObject> tbAlgebra;
     Button btnSearch;
     Button btnComplexLevel;
+    Button btnSimpleLevel;
     LumSwitchPanel<LumModelObject> pnlViews;
     List<LumUIEventListener> lumUIListeners = new ArrayList<LumUIEventListener>(7); 
     // TODO use button when widgets are ready 
@@ -69,10 +71,12 @@ public class LumComposite extends Composite {
         metadata = ApplicationContext.getViews().get(LumGuiController.VIEW_NAME);
         messages = metadata.getMessages();
         
-        // create and layout the widgets
+        pnlViews = new LumStackPanel<LumModelObject>(LumModelObject.FieldName.CURRENT_VIEW.toString());        
+        
+        /*
+         *     create and layout the widgets for SIMPLE VIEW
+         */
         Panel pnlSimpleView = new VerticalPanel();
-        pnlViews = new LumSwitchPanel<LumModelObject>(
-                LumModelObject.FieldName.CURRENT_VIEW.toString());
         Panel pnlRationaleToComplexView = new VerticalPanel();
         Panel pnlPreReqCourses = new VerticalPanel();
         Panel pnlNaturalLanguage = new VerticalPanel();
@@ -94,13 +98,28 @@ public class LumComposite extends Composite {
         pnlViews.add(pnlSimpleView);
         pnlViews.add(new VerticalPanel());
         pnlViews.showStack(0);
+        /*
+         *     create and layout the widgets for COMPLES VIEW
+         */
+        Panel pnlComplexView = new VerticalPanel();
+        Panel pnlSimpleTreeView = new VerticalPanel();
+        Panel pnlBooleanAlgebraView = new VerticalPanel();
+
+        pnlComplexView.add(pnlSimpleTreeView);
+        pnlComplexView.add(pnlBooleanAlgebraView);
+        pnlComplexView.add(pnlNaturalLanguage);
         
+        pnlViews.add(pnlComplexView);
+        pnlViews.add(new VerticalPanel());
+               
 //        test.setWidth("100px");
 //        mainLumPanel.setSize("950px", "550px");
         mainLumPanel.add(pnlViews);
         
         // sizes and layout are to be done AFTER the containing panels
         // are added to mainLumPanel to make size settings effective
+        
+        //sizes for SIMPLE VIEW
         pnlSimpleView.setSize(
                 Double.toString(mainLumPanel.getOffsetWidth()),
                 Double.toString(mainLumPanel.getOffsetHeight()));
@@ -117,6 +136,23 @@ public class LumComposite extends Composite {
         prepareRationaleToComplexViewPanel(pnlRationaleToComplexView);
         preparePreReqCoursesPanel(pnlPreReqCourses);
         prepareNaturalLanguagePanel(pnlNaturalLanguage);
+        
+        //sizes for COMPLEX VIEW
+        pnlComplexView.setSize(
+                Double.toString(mainLumPanel.getOffsetWidth()),
+                Double.toString(mainLumPanel.getOffsetHeight()));
+        pnlSimpleTreeView.setSize(
+                Double.toString(pnlComplexView.getOffsetWidth() * 0.9),
+                Double.toString(pnlComplexView.getOffsetHeight() * 0.33));
+        pnlBooleanAlgebraView.setSize(
+                Double.toString(pnlComplexView.getOffsetWidth() * 0.9),
+                Double.toString(pnlComplexView.getOffsetHeight() * 0.33));
+        pnlNaturalLanguage.setSize(
+                Double.toString(pnlComplexView.getOffsetWidth() * 0.9),
+                Double.toString(pnlComplexView.getOffsetHeight() * 0.33));
+        prepareSimpleTreePanel(pnlSimpleTreeView);
+        prepareBoleanAlgebraPanel(pnlBooleanAlgebraView);
+        prepareNaturalLanguagePanel(pnlNaturalLanguage);        
     }
     
     // for debugging
@@ -167,6 +203,17 @@ public class LumComposite extends Composite {
                 Double.toString(parent.getOffsetWidth() * 0.9),
                 Double.toString(parent.getOffsetHeight() * 0.8));
     }
+    
+    private void prepareSimpleTreePanel(Panel parent) {
+        btnSimpleLevel = new Button("Simple Rules");
+        parent.add(btnSimpleLevel);
+    } 
+    
+    private void prepareBoleanAlgebraPanel(Panel parent) {
+        parent.add(new Label("Algebra"));
+        tbAlgebra = new LumTextBox<LumModelObject>(LumModelObject.FieldName.ALGEBRA.toString());
+        parent.add(tbAlgebra);
+    }
 
     public void setUpListeners() {
         Model<LumModelObject> model = (Model<LumModelObject>) controller.getModel(LumModelObject.class);
@@ -182,6 +229,16 @@ public class LumComposite extends Composite {
                 }
             }
         });
+        btnSimpleLevel.addClickListener(new ClickListener() {
+            public void onClick(Widget sender) {
+                System.out.println("btnSimpleLevel clicked");
+                if (lumUIListeners != null && !lumUIListeners.isEmpty()) {
+                    for (LumUIEventListener listener : lumUIListeners) {
+                        listener.switchToSimpleView();
+                    }
+                }
+            }
+        });        
     }
     
     public void addLumUIEventListener(LumUIEventListener listener) {

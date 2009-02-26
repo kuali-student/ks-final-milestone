@@ -75,10 +75,8 @@ public class LumGuiController extends Controller implements LumUIEventListener {
         super.initializeModel(LumModelObject.class, model);
     }
 
-    private void loadModelsData() {
-    	
-    	System.out.println("Load Models Data");
-    	   
+    private void loadModelsData() {    	
+    	System.out.println("Load Models Data");   
     }
 
     private void doLayout() {
