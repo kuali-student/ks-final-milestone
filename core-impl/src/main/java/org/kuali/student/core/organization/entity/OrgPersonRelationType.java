@@ -40,21 +40,6 @@ public class OrgPersonRelationType implements
 	@Column(name = "OPRT_DESC", length = 2000)
 	private String desc;
 
-	@Column(name = "REV_NAME")
-	private String revName;
-
-	@Column(name = "REV_DESC")
-	private String revDesc;
-
-	@ManyToMany(mappedBy = "orgPersonRelationTypes")
-	private List<Org> organizations;
-
-	@ManyToMany(mappedBy = "orgPersonRelationTypes")
-	private List<OrgType> organizationTypes;
-
-	@OneToMany(mappedBy = "orgPersonRelationType")
-	private List<OrgPersonRelation> orgPersonRelations;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFFECTIVE_DT")
 	private Date effectiveDate;
@@ -66,6 +51,15 @@ public class OrgPersonRelationType implements
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<OrgPersonRelationTypeAttribute> attributes;
+
+	@ManyToMany(mappedBy = "orgPersonRelationTypes")
+	private List<Org> organizations;
+
+	@ManyToMany(mappedBy = "orgPersonRelationTypes")
+	private List<OrgType> organizationTypes;
+
+	@OneToMany(mappedBy = "orgPersonRelationType")
+	private List<OrgPersonRelation> orgPersonRelations;
 
 	@Override
 	public List<OrgPersonRelationTypeAttribute> getAttributes() {
@@ -94,22 +88,6 @@ public class OrgPersonRelationType implements
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	public String getRevName() {
-		return revName;
-	}
-
-	public void setRevName(String revName) {
-		this.revName = revName;
-	}
-
-	public String getRevDesc() {
-		return revDesc;
-	}
-
-	public void setRevDesc(String revDesc) {
-		this.revDesc = revDesc;
 	}
 
 	public Date getEffectiveDate() {

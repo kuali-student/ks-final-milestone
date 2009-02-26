@@ -416,57 +416,57 @@ insert into KS_ORG_ORG_REL_TYPE_T (OORT_KEY, OORT_DESC, EFFECTIVE_DT, EXPIR_DT, 
 /
 
 //ORG PERSON RELATION TYPE
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.President', 'President', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'President', 'has as President', 'has as President')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.President', 'President', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'President')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.EVPP', 'Executive VP and Provost', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Executive Vice President and Provost' , 'has as Executive Vice President and Provost', 'has as Executive Vice President and Provost')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.EVPP', 'Executive VP and Provost', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Executive Vice President and Provost')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.ViceChancellor', 'Vice Chancellor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Vice Chancellor', 'has as Vice Chancellor', 'has as Vice Chancellor')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.ViceChancellor', 'Vice Chancellor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Vice Chancellor')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.VicePresident', 'Vice President', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Vice President', 'has as Vice President', 'has as Vice President')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.VicePresident', 'Vice President', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Vice President')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AssocDean', 'Associate Dean', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Dean', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.AssocDean', 'Associate Dean', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Dean')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AssocProvost', 'Associate Provost','2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Provost', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.AssocProvost', 'Associate Provost','2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Provost')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Chancellor', 'Chancellor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Chancellor', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Chancellor', 'Chancellor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Chancellor')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Dean', 'Dean', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Dean', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Dean', 'Dean', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Dean')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.ExecutiveOfficer', 'Executive Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Executive Officer', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.ExecutiveOfficer', 'Executive Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Executive Officer')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AdministrativeOfficer', 'Administrative Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Officer', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.AdministrativeOfficer', 'Administrative Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Officer')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Director', 'Director', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Director', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Director', 'Director', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Director')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Head', 'Head', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Head', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Head', 'Head', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Head')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Ex-Officio', 'Ex-Officio Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Ex-Officio Member', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Ex-Officio', 'Ex-Officio Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Ex-Officio Member')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AdminMember', 'Administrative Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Member', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.AdminMember', 'Administrative Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Member')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AdminAssistant', 'Administrative Assistant', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Assistant', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.AdminAssistant', 'Administrative Assistant', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Administrative Assistant')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Member', 'Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Member', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Member', 'Member', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Member')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Registrar', 'Registrar', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Registrar', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Registrar', 'Registrar', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Registrar')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.AssocRegistrar', 'Associate Registrar', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Registrar', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.AssocRegistrar', 'Associate Registrar', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Associate Registrar')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Chair', 'Chair', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Chair', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Chair', 'Chair', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Chair')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Co-Chair', 'Co-Chair', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Co-Chair', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Co-Chair', 'Co-Chair', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Co-Chair')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Officer', 'Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Officer', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Officer', 'Officer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Officer')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Treasurer', 'Treasurer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Treasurer', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Treasurer', 'Treasurer', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Treasurer')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Secretary', 'Secretary', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Secretary', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Secretary', 'Secretary', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Secretary')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Coordinator', 'Coordinator', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Coordinator', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Coordinator', 'Coordinator', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Coordinator')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Rep', 'Representative of a constituency', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Representative of a constituency', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Rep', 'Representative of a constituency', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Representative')
 /
-insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME, REV_DESC, REV_NAME) values ('kuali.org.PersonRelation.Professor', 'Professor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Professor', '', '')
+insert into KS_ORG_PERSON_REL_TYPE_T (OPRT_KEY, OPRT_DESC, EFFECTIVE_DT, EXPIR_DT, OPRT_NAME) values ('kuali.org.PersonRelation.Professor', 'Professor', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Professor')
 /
 
 //ORG POSITION RESTRICTION
