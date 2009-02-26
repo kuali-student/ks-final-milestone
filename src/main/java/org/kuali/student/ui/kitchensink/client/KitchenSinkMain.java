@@ -22,10 +22,12 @@ import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.Accordio
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.button.ButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.collapsablefloatpanel.CollapsableFloatPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
@@ -103,11 +105,12 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new BlockingProgressIndicatorExampleDescriptor());
         initExample(ksCommons, new ButtonExampleDescriptor());
         initExample(ksCommons, new CheckBoxExampleDescriptor());
+        initExample(ksCommons, new CollapsableFloatPanelExampleDescriptor());
         initExample(ksCommons, new DatePickerExampleDescriptor());
         initExample(ksCommons, new DisclosureSectionExampleDescriptor());
         initExample(ksCommons, new DropDownExampleDescriptor());
         initExample(ksCommons, new FloatPanelExampleDescriptor());
-//        initExample(ksCommons, new HelpLinkExampleDescriptor());
+        initExample(ksCommons, new HelpLinkExampleDescriptor());
         initExample(ksCommons, new ImageExampleDescriptor());
         initExample(ksCommons, new InfoPopupExampleDescriptor());
         initExample(ksCommons, new LabelExampleDescriptor());

@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -59,6 +60,13 @@ public class KSWidgetFactory {
         return new KSCheckBox(label);        
     }
 
+    public static KSCollapsableFloatPanel getCollapsablePanelInstance(boolean expanded) {       
+        KSCollapsableFloatPanel w = GWT.create(KSCollapsableFloatPanel.class);
+        //TODO setExpanded causes error - not sure why yet?
+//        w.setExpanded(expanded);
+        return w;        
+      }
+    
     public static KSDatePicker getDatePickerInstance() {       
         KSDatePicker w = GWT.create(KSDatePicker.class);
 //      w.init();
