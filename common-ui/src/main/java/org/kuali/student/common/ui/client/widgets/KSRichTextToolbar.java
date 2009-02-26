@@ -319,11 +319,11 @@ public class KSRichTextToolbar extends Composite{
 	    outer.add(topPanel);
 	    outer.add(bottomPanel);
 	    outer.setWidth("100%");
-	    System.out.println(richText.getOffsetWidth());
+	    //System.out.println(richText.getOffsetWidth());
 	    //outer.setWidth("100%");
 	    //wrapper.setWidth("100%");
-	    //topPanel.setWidth("100%");
-	    //bottomPanel.setWidth("100%");
+	    topPanel.setWidth("100%");
+	    bottomPanel.setWidth("100%");
 	    wrapper.add(outer);
 	    
 	    wrapper.addMouseDownHandler(handler);
@@ -442,7 +442,6 @@ public class KSRichTextToolbar extends Composite{
 	    pb.addMouseDownHandler(handler);
 	    pb.addMouseUpHandler(handler);
 	    pb.setTitle(tip);
-	    pb.setSize("10px", "10px");
 	    return pb;
 	  }
 
@@ -452,7 +451,6 @@ public class KSRichTextToolbar extends Composite{
 	    tb.addMouseDownHandler(handler);
 	    tb.addMouseUpHandler(handler);
 	    tb.setTitle(tip);
-	    tb.setSize("10px", "10px");
 	    return tb;
 	  }
 

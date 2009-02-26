@@ -52,7 +52,7 @@ public abstract class KSPopupPanel{
 	}
 	
 	private void setupDefaultStyle(){
-		popupPanel.setWidth("100%");
+		//popupPanel.setWidth("100%");
 		headerPanel.addStyleName(KSStyles.KS_POPUP_HEADER);
 		popup.addStyleName(KSStyles.KS_POPUP);	
 	}
@@ -72,5 +72,9 @@ public abstract class KSPopupPanel{
 	
 	public void addCloseHandler(CloseHandler handler){
 		popup.addCloseHandler(handler);
+	}
+	
+	public void setAutoHide(boolean autoHide){
+		popup.setAutoHideEnabled(autoHide);
 	}
 }

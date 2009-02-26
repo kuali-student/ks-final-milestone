@@ -75,4 +75,12 @@ public interface KSStyles {
 	public static final String KS_FORMLAYOUT_FIELD = "KS-FormLayout-Field";
 	public static final String KS_FORMLAYOUT_LABEL = "KS-FormLayout-Label";
 	
+	public static final String KS_RICH_TEXT_LARGE = "KS-RichText-Large";
+	public static final String KS_RICH_TEXT_NORMAL = "KS-RichText-Normal";
+	public static final String KS_POPOUT_IMAGE_PANEL = "KS-RichText-Popout-Image-Panel";
+	public static final String KS_RICH_TEXT_POPOUT_GLASS = "KS-RichText-Popout-Glass";
+	public static final String KS_POPOUT_IMAGE = "KS-RichText-Popout-Image";
+	public static final String KS_POPOUT_IMAGE_HOVER = "KS-RichText-Popout-Image-Hover";
+	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
+	
 }

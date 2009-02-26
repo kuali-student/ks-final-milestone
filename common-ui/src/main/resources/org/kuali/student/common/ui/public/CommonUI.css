@@ -311,3 +311,38 @@ KS-Disclosure-Section-Open{
 	font-weight: bold;
 	text-align: right;
 }
+
+.KS-RichText-Large{
+	width: 600px;
+	height: 500px;
+}
+
+.KS-RichText-Normal{
+	width: 500px;
+	height: 250px;
+}
+
+.KS-RichText-Popout-Image-Panel{
+	border: none;
+}
+
+.KS-RichText-Popout-Glass{
+	width:100%;
+	height:100%;
+	border: none;
+ 	filter:alpha(Opacity=20);
+	opacity:0.2;
+ 	background:black;
+}
+
+.KS-RichText-Popout-Image{
+	
+}
+
+.KS-RichText-Popout-Image-Hover{
+	cursor:pointer;
+}
+
+.KS-RichText-Popout-Window{
+	border: 1px solid black;
+}
