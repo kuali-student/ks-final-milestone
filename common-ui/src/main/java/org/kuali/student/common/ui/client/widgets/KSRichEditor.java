@@ -2,7 +2,6 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 
-import org.kuali.student.common.ui.client.images.HelpIcons;
 import org.kuali.student.common.ui.client.images.TextIcons;
 
 import com.google.gwt.core.client.GWT;
@@ -18,26 +17,16 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window.ScrollEvent;
-import com.google.gwt.user.client.Window.ScrollHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.RichTextArea.BasicFormatter;
-import com.google.gwt.user.client.ui.RichTextArea.ExtendedFormatter;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * KS default rich text editor
@@ -61,8 +50,6 @@ public class KSRichEditor extends Composite {
 	
 	private boolean isUsedInPopup = false;
 	private int toolbarHeight;
-	
-	private int defaultHeight;
 	
 	private TextIcons images = (TextIcons) GWT.create(TextIcons.class);
 	private final Image popoutImage = images.popout().createImage();
@@ -121,9 +108,17 @@ public class KSRichEditor extends Composite {
 			popoutWindow.setAutoHide(true);
 			popoutWindow.add(popoutEditor);
 			
-			DockPanel buttonPanel = new DockPanel();
+			HorizontalPanel buttonPanel = new HorizontalPanel();
 			KSButton okButton = new KSButton("OK");
-			buttonPanel.add(okButton, DockPanel.EAST);
+			okButton.addClickHandler(new ClickHandler(){
+
+				@Override
+				public void onClick(ClickEvent event) {
+					popoutWindow.hide();
+					glass.hide();
+				}
+			});
+			buttonPanel.add(okButton);
 			buttonPanel.setWidth("100%");
 			popoutWindow.add(buttonPanel);
 			
