@@ -16,7 +16,9 @@
 package org.kuali.student.lum.lu.dto;
  
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,7 +36,7 @@ public class ReqComponentInfo implements Serializable {
     private String desc;
 
     @XmlElement
-    private ReqCompFieldInfo reqCompField;
+    private List<ReqCompFieldInfo> reqCompField;
 
     @XmlElement
     private Date effectiveDate;
@@ -62,11 +64,14 @@ public class ReqComponentInfo implements Serializable {
         this.desc = desc;
     }
 
-    public ReqCompFieldInfo getReqCompField() {
+    public List<ReqCompFieldInfo> getReqCompField() {
+        if(null == reqCompField) {
+            reqCompField = new ArrayList<ReqCompFieldInfo>();
+        }
         return reqCompField;
     }
 
-    public void setReqCompField(ReqCompFieldInfo reqCompField) {
+    public void setReqCompField(List<ReqCompFieldInfo> reqCompField) {
         this.reqCompField = reqCompField;
     }
 
