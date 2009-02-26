@@ -300,7 +300,7 @@ public class ServiceTestClient {
     
     @Test
     public void testFindBusinessRuleTypesFromTestBeansAndExecute_StaticFact() throws Exception {
-    	System.out.println("*****  testFindBusinessRuleTypesFromTestBeansAndExecute  *****");
+    	System.out.println("*****  testFindBusinessRuleTypesFromTestBeansAndExecute_StaticFact  *****");
 
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
 		List<String> businessRuleIdList2 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_CO_REQ");
@@ -310,9 +310,10 @@ public class ServiceTestClient {
 		
         for(String businessRuleId : businessRuleIdList1) {
     		// Ignore since it has dynamic facts
-    		if (businessRuleId.equals("11223344-1122-1122-1112-100000000032")) {
-    			continue;
-    		}
+    		if (businessRuleId.equals("11223344-1122-1122-1112-100000000032") ||
+    		    businessRuleId.equals("11223344-1122-1122-1112-100000000041")) {
+        			continue;
+        		}
     		
     		System.out.println("Executing Business Rule ID: "+businessRuleId);
     		
@@ -483,7 +484,7 @@ public class ServiceTestClient {
         Assert.assertNotNull(result);
         
         Assert.assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
-        Assert.assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        Assert.assertEquals(2, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         Assert.assertEquals(4, result.getResultList().size());
         Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
@@ -534,9 +535,9 @@ public class ServiceTestClient {
 	        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
 	        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
 	        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
-	        Assert.assertEquals(1, factRowMap1.size());
-	        Assert.assertEquals(1, factRowMap2.size());
-	        Assert.assertEquals(1, factRowMap3.size());
+	        Assert.assertEquals(2, factRowMap1.size());
+	        Assert.assertEquals(2, factRowMap2.size());
+	        Assert.assertEquals(2, factRowMap3.size());
 	        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
 	        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
 	        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
@@ -632,9 +633,9 @@ public class ServiceTestClient {
         Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
         Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
         Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
-        Assert.assertEquals(1, factRowMap1.size());
-        Assert.assertEquals(1, factRowMap2.size());
-        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals(2, factRowMap1.size());
+        Assert.assertEquals(2, factRowMap2.size());
+        Assert.assertEquals(2, factRowMap3.size());
         Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
