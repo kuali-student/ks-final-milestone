@@ -9,14 +9,14 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "KS_LRN_OBJ_CLU_T", uniqueConstraints = @UniqueConstraint(columnNames = {
-		"LRN_OBJ_ID", "CLU_ID" }))
+@Table(name = "KSLU_LO_JN_CLU", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"LO_ID", "CLU_ID" }))
 public class LearningObjective {
 	@Id
 	@Column(name = "ID")
 	private String id;
 	
-	@Column(name = "LRN_OBJ_ID")
+	@Column(name = "LO_ID")
 	private String learningObjectiveId;
 	
 	@ManyToOne

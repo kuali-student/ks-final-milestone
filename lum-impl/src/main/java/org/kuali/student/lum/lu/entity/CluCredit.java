@@ -26,58 +26,60 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
-@Table(name = "KS_CLU_CREDIT_T")
+@Table(name = "KSLU_CLU_CR")
 public class CluCredit {
 
     @Id
     @Column(name = "ID")
     private String id;
     
-    @Column(name = "REPEAT_COUNT")
+    @Column(name = "REPEAT_CNT")
     private String repeatCount;
 
-    @Embedded
-    @Column(name = "REPEAT_TIME")
-    private TimeAmount repeatTime;
-
-    @Column(name = "REPEAT_UNITS")
+    @Column(name = "REPEAT_UNIT")
     private String repeatUnits;
 
-    @Column(name = "MIN_TOTAL_UNITS")
+    @Column(name = "MIN_TOT_UNIT")
     private Integer minTotalUnits;
 
-    @Column(name = "MAX_TOTAL_UNITS")
+    @Column(name = "MAX_TOT_UNIT")
     private Integer maxTotalUnits;
 
-    @Column(name = "INSTRUCTOR_UNITS")
+    @Column(name = "INSTR_UNIT")
     private Integer instructorUnits;
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MIN_TIME_TO_COMPLETE_ATP")),
-        @AttributeOverride(name="timeQuantity", column=@Column(name="MIN_TIME_TO_COMPLETE_TIME"))}
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="REPEAT_TM_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="REPEAT_TM_TMQ"))}
+    )
+    private TimeAmount repeatTime;
+    
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MIN_TM_TO_COMP_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MIN_TM_TO_COMP_TMQ"))}
     )
     private TimeAmount minTimeToComplete;
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_TIME_TO_COMPLETE_ATP")),
-        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_TIME_TO_COMPLETE_TIME"))}
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_TM_TO_COMP_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_TM_TO_COMP_TMQ"))}
     )
     private TimeAmount maxTimeToComplete;
 
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_ALOW_INACV_ATP")),
-        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_ALOW_INACV_TIME"))}
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_ALOW_INACV_TMQ"))}
     )
-    @Column(name = "MAX_ALLOWABLE_INACTIVITY")
     private TimeAmount maxAllowableInactivity;
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_TIME_RSLT_RCGZ_ATP")),
-        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_TIME_RSLT_RCGZ_TIME"))}
+        @AttributeOverride(name="atpDurationTypeKey", column=@Column(name="MAX_TM_RSLT_RCGZ_ATP")),
+        @AttributeOverride(name="timeQuantity", column=@Column(name="MAX_TM_RSLT_RCGZ_TMQ"))}
     )
     private TimeAmount maxTimeResultsRecognized;
 

@@ -30,24 +30,24 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KS_LU_CODE_T")
+@Table(name = "KSLU_LU_CODE")
 public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute> {
 
 	@Id
     @Column(name = "ID")
     private String id;
     
-	@Column(name = "LU_CODE_DESC")
+	@Column(name = "DESCR")
 	private String desc;
 
-	@Column(name = "LU_CODE_VALUE")
+	@Column(name = "VALUE")
 	private String value;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<LuCodeAttribute> attributes;
 
-	@Column(name = "LU_CODE_TYPE")
+	@Column(name = "TYPE")
 	private String type;
 
 	public String getDesc() {

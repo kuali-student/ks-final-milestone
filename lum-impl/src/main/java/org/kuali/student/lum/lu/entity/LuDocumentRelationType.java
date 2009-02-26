@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KS_LU_DOC_REL_TYPE_T")
+@Table(name = "KSLU_LU_DOC_RELTN_TYPE")
 public class LuDocumentRelationType extends
 		Type<LuDocumentRelationTypeAttribute> {
 

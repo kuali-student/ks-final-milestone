@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KS_LU_DOC_REL_ATTR_T")
+@Table(name = "KSLU_LU_DOC_RELTN_ATTR")
 public class LuDocumentRelationAttribute extends Attribute {
 
 }

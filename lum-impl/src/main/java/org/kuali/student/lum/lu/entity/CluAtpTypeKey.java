@@ -27,7 +27,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "KS_CLU_ATP_TYPE_KEY_T")
+@Table(name = "KSLU_CLU_ATP_TYPE_KEY")
 public class CluAtpTypeKey {
 
     @Id

@@ -19,7 +19,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KS_LUI_T")
+@Table(name = "KSLU_LUI")
 public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 
 	@Id
@@ -44,14 +44,14 @@ public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 	private Integer maxSeats;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXP_DT")
 	private Date expirationDate;
 
-	@Column(name = "STATE")
+	@Column(name = "ST")
 	private String state;
 
 	@Override

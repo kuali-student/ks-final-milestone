@@ -9,9 +9,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "KS_RSRC_TYPE_CLU_T", uniqueConstraints = @UniqueConstraint(columnNames = {
+@Table(name = "KSLU_RSRC", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"RSRC_TYPE_ID", "CLU_ID" }))
-public class ResourceType {
+public class Resource {
 
 	@Id
 	@Column(name = "ID")

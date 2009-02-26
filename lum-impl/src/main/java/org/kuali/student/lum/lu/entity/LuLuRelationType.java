@@ -17,20 +17,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "KS_LU_REL_TYPE_T")
+@Table(name = "KSLU_LULU_RELTN_TYPE")
 public class LuLuRelationType {
 	@Id
 	@Column(name = "ID")
 	private String id;
 
 	@ManyToMany
-	@JoinTable(name = "KS_LU_REL_TYPE_LU_TYPE_T", joinColumns = @JoinColumn(name = "LU_REL_TYPE_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID", referencedColumnName = "TYPE_KEY"))
+	@JoinTable(name = "KSLU_LULU_RELTN_TYPE_JN_LU_TYP", joinColumns = @JoinColumn(name = "LULU_RELTN_TYPE_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID", referencedColumnName = "TYPE_KEY"))
 	private List<LuType> luTypes;
 
-	@Column(name = "LU_REL_NAME")
+	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "DESCRIPTION")
+	@Column(name = "DESCR")
 	private String desc;
 
 	@Column(name = "REV_NAME")
@@ -40,11 +40,11 @@ public class LuLuRelationType {
 	private String revDesc;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
 	@OneToMany(cascade = CascadeType.ALL)

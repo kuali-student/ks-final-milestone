@@ -14,38 +14,38 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.entity;
- 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KS_CLUID_T")
+@Table(name = "KSLU_CLU_IDENT")
 public class CluIdentifier {
 
-    @Column(name = "CLUID_CODE")
+    @Column(name = "CD")
     private String code;
 
-    @Column(name = "CLUID_SHORT_NAME")
+    @Column(name = "SHRT_NAME")
     private String shortName;
 
-    @Column(name = "CLUID_LONG_NAME")
+    @Column(name = "LNG_NAME")
     private String longName;
 
-    @Column(name = "CLUID_LEVEL")
+    @Column(name = "LVL")
     private String level;
 
-    @Column(name = "CLUID_DIVISION")
+    @Column(name = "DIV")
     private String division;
 
-    @Column(name = "CLUID_VARIATION")
+    @Column(name = "VARTN")
     private String variation;
 
-    @Column(name = "CLUID_TYPE")
+    @Column(name = "TYPE")
     private String type;
 
-    @Column(name = "CLUID_STATE")
+    @Column(name = "ST")
     private String state;
 
     @Id

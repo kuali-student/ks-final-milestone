@@ -39,7 +39,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private List<LearningObjective> learningObjectives;
 
     @OneToMany(mappedBy="clu")
-    private List<ResourceType> resourceTypes;
+    private List<Resource> resourceTypes;
     
     @ManyToMany(mappedBy="clus")
     List<CluSet> cluSets;
@@ -53,18 +53,18 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private CluIdentifier officialIdentifier;
     
     @OneToMany
-    @JoinTable(name="KSLU_CLU_JN_CLU_ID",joinColumns=@JoinColumn(name="CLU_ID"), inverseJoinColumns=@JoinColumn(name="ALT_CLU_ID"))
+    @JoinTable(name="KSLU_CLU_JN_CLU_IDENT",joinColumns=@JoinColumn(name="CLU_ID"), inverseJoinColumns=@JoinColumn(name="ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
     
 	@Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
 	
 	@ManyToOne
-	@JoinColumn(name = "DESCR")
+	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
 	
 	@ManyToOne
-	@JoinColumn(name = "MKTG_DESCR")
+	@JoinColumn(name = "RT_MKTG_DESCR_ID")
     private RichText marketingDesc;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -98,12 +98,14 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private List<LuCode> luCodes;
 
     @OneToOne
+    @JoinColumn(name = "CR_ID")
     private CluCredit credit;
 
 	@OneToOne
+	@JoinColumn(name = "PUBL_ID")
     private CluPublishing publishing;
 
-	@Column(name = "NEXT_REVIEW_PER")
+	@Column(name = "NEXT_REVIEW_PRD")
     private String nextReviewPeriod;
 
 	@Column(name = "IS_ENRL")
@@ -126,15 +128,17 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     private boolean isHazardousForDisabledStudents;
 
 	@OneToOne
+	@JoinColumn(name = "FEE_ID")
     private CluFee fee;
 
 	@OneToOne
+	@JoinColumn(name = "ACCT_ID")
     private CluAccounting accounting;
 
-	@Column(name = "CLU_TYPE")
+	@Column(name = "TYPE")
     private String type;
 
-	@Column(name = "CLU_STATE")
+	@Column(name = "ST")
     private String state;
     
 
@@ -162,11 +166,11 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
         this.learningObjectives = learningObjectives;
     }
 
-    public List<ResourceType> getResourceTypes() {
+    public List<Resource> getResourceTypes() {
         return resourceTypes;
     }
 
-    public void setResourceTypes(List<ResourceType> resourceTypes) {
+    public void setResourceTypes(List<Resource> resourceTypes) {
         this.resourceTypes = resourceTypes;
     }    
     

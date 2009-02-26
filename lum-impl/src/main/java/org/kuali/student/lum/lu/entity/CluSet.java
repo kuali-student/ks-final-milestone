@@ -22,36 +22,36 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 
 @Entity
-@Table(name = "KS_CLU_SET_T")
+@Table(name = "KSLU_CLU_SET")
 public class CluSet extends MetaEntity implements
 		AttributeOwner<CluSetAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
 
-	@Column(name = "CLU_SET_NAME")
+	@Column(name = "NAME")
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name = "DESCRIPTION")
+	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
 	// private CluCriteria cluCriteria;//TODO Criteria
 
 	@ManyToMany
-	@JoinTable(name = "KS_CLU_SET_JOIN_T", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
+	@JoinTable(name = "KSLU_CLU_SET_JN_CLU_SET", joinColumns = @JoinColumn(name = "CLU_SET_PARENT_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_SET_CHILD_ID"))
 	private List<CluSet> cluSets;
 
 	@ManyToMany
-	@JoinTable(name = "KS_CLU_SET_CLU_T", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
+	@JoinTable(name = "KSLU_CLU_SET_JN_CLU", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
 	private List<Clu> clus;
 	
 	@OneToMany(cascade = CascadeType.ALL)

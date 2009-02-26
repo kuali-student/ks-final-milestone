@@ -29,7 +29,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KS_CLU_FEE_T")
+@Table(name = "KSLU_CLU_FEE")
 public class CluFee implements AttributeOwner<CluFeeAttribute>{
 
     @Id

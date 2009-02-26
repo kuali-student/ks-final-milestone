@@ -30,29 +30,29 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KS_CLU_PUBLISHING_T")
+@Table(name = "KSLU_CLU_PUBL")
 public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "CLUPUB_STARTCYCLE")
+    @Column(name = "START_CYCLE")
     private String startCycle;
 
-    @Column(name = "CLUPUB_ENDCYCLE")
+    @Column(name = "END_CYCLE")
     private String endCycle;
 
     @OneToMany
-    @JoinTable(name = "KS_CLU_PUBLISHING_INSTRUCTOR_T", joinColumns = @JoinColumn(name = "CLU_PUBLISHING_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTRUCTOR_ID"))
+    @JoinTable(name = "KSLU_CLU_PUBL_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_PUBL_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
     private List<CluInstructor> instructors;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
     private List<CluPublishingAttribute> attributes;
 
-    @Column(name = "CLUPUB_TYPE")
+    @Column(name = "TYPE")
     private String type;
 
-    @Column(name = "CLUPUB_STATE")
+    @Column(name = "ST")
     private String state;
 
     @Id

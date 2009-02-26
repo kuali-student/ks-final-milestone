@@ -29,7 +29,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KS_CLU_ACCOUNTING_T")
+@Table(name = "KSLU_CLU_ACCT")
 public class CluAccounting implements AttributeOwner<CluAccountingAttribute> {
 
     @Id

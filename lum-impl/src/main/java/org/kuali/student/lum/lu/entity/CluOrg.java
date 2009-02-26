@@ -21,10 +21,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KS_CLU_ORG_T")
+@Table(name = "KSLU_CLU_ORG")
 public class CluOrg {
 
-    @Column(name = "ORG_TYPE")
+    @Column(name = "TYPE")
     private String type;
 
     @Id

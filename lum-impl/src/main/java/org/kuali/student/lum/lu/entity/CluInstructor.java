@@ -29,20 +29,20 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name = "KS_CLU_INSTRUCTOR_T")
+@Table(name = "KSLU_CLU_INSTR")
 public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
     
     @Id
     @Column(name = "ID")
     private String id;
     
-    @Column(name = "CLU_INSTRUCTOR_ORGID")
+    @Column(name = "ORG_ID")
     private String orgId;
 
-    @Column(name = "CLU_INSTRUCTOR_PERSONID")
+    @Column(name = "PERS_ID")
     private String personId;
     
-    @Column(name = "CLU_INSTRUCTOR_TYPE")
+    @Column(name = "TYPE")
     private String type;
 
 	@OneToMany(cascade = CascadeType.ALL)

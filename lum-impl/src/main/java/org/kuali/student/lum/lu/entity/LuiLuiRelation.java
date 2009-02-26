@@ -19,7 +19,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KS_LUI_REL_T")
+@Table(name = "KSLU_LUILUI_RELTN")
 public class LuiLuiRelation extends MetaEntity implements
 		AttributeOwner<LuiLuiRelationAttribute> {
 	@Id
@@ -35,22 +35,22 @@ public class LuiLuiRelation extends MetaEntity implements
 	private Lui relatedLui;
 
 	@ManyToOne
-	@JoinColumn(name = "LU_REL_TYPE_ID")
+	@JoinColumn(name = "LULU_RELTN_TYPE_ID")
 	private LuLuRelationType luLuRelationType;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<LuiLuiRelationAttribute> attributes;
 
-	@Column(name = "STATE")
+	@Column(name = "ST")
 	private String state;
 
 	public String getId() {
