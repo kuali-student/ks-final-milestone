@@ -21,6 +21,7 @@ import org.kuali.student.core.dictionary.dto.State;
 import org.kuali.student.core.dictionary.dto.Type;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
@@ -773,21 +774,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return updatedOrgPositionRestrictionInfo;
 	}
 
-    private Map<String, PropertyDescriptor> getBeanInfo(Class<?> clazz) {
-        Map<String,PropertyDescriptor> properties = new HashMap<String, PropertyDescriptor>();
-        BeanInfo beanInfo = null;
-        try {
-            beanInfo = Introspector.getBeanInfo(clazz);
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e);
-        }
-        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            properties.put(propertyDescriptor.getName(), propertyDescriptor);
-        }
-        return properties;
+    private Validator createValidator() {
+        Validator validator = new Validator();
+        validator.setDateParser(new ServerDateParser());
+//      validator.addMessages(null); //TODO this needs to be loaded somehow
+        return validator;
     }
-    
+
 	@Override
 	public List<ValidationResult> validateOrg(String validationType,
 			OrgInfo orgInfo) throws DoesNotExistException,
@@ -797,41 +790,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgInfo, "orgInfo");
 		
-		List<ValidationResult> results = new ArrayList<ValidationResult>();
-
-		Validator validator = new Validator();
-		validator.setDateParser(new ServerDateParser());
-//		validator.addMessages(null); //TODO this needs to be loaded somehow
-		
-		Map<String, PropertyDescriptor> beanInfo = getBeanInfo(orgInfo.getClass());
-		
-        ObjectStructure objStruct = getObjectStructure("orgInfo");
-        List<Type> types = objStruct.getType();
-        for(Type t: types){
-            if(t.getKey().equalsIgnoreCase(orgInfo.getType())){
-                for(State s: t.getState()){
-                    if(s.getKey().equalsIgnoreCase(orgInfo.getState())){
-                        for(Field f: s.getField()){
-                            Map<String, Object> map = f.getFieldDescriptor().toMap();
-                            Object value = null;
-                            PropertyDescriptor propertyDescriptor = beanInfo.get(f.getKey());
-                            if(propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
-                                try {
-                                    value = propertyDescriptor.getReadMethod().invoke(orgInfo);
-                                } catch (Exception e) {
-                                }
-                            } else if(orgInfo instanceof HasAttributes) {
-                                value = ((HasAttributes)orgInfo).getAttributes().get(f.getKey());
-                            }
-                            results.add(validator.validate(f.getKey(), value, map));
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-		return results;
+		return createValidator().validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
 	}
 
 	@Override
@@ -843,7 +802,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
 
-		return null;
+        return createValidator().validateTypeStateObject(orgOrgRelationInfo, getObjectStructure("orgOrgRelationInfo"));
 	}
 
 	@Override
@@ -854,7 +813,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		// TODO Auto-generated method stub
 		checkForMissingParameter(validationType, "validationType");
 
-		return null;
+        return createValidator().validateTypeStateObject(orgPersonRelationInfo, getObjectStructure("orgPersonRelationInfo"));
 	}
 
 	@Override
