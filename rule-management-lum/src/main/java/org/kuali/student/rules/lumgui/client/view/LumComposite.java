@@ -26,6 +26,7 @@ import org.kuali.student.commons.ui.widgets.tables.ModelTableSelectionListener;
 import org.kuali.student.commons.ui.widgets.trees.TreeMouseOverListener;
 import org.kuali.student.rules.lumgui.client.DateRange;
 import org.kuali.student.rules.lumgui.client.controller.LumGuiController;
+import org.kuali.student.rules.lumgui.client.model.LumModel;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.factfinder.dto.FactParamDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
@@ -65,7 +66,7 @@ import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author Zdenek
+ * @author stse
  */
 public class LumComposite extends Composite {
 
@@ -73,9 +74,15 @@ public class LumComposite extends Composite {
     Controller controller;
     ViewMetaData metadata;
     Messages messages;
-    TextArea taPreReqRationale;
-    TextArea taNaturalLanguage;
-    TextArea taRreReqCourses;
+    LumTextArea<LumModel> taPreReqRationale;
+    LumTextArea<LumModel> taNaturalLanguage;
+    LumTextArea<LumModel> taRreReqCourses;
+    LumTextBox<LumModel> tbStatementId;
+    Button btnSearch;
+    Button btnComplexLevel;
+    Panel pnlSimpleView;
+    ModelBinding<LumModel> binding;
+    Model<LumModel> lumModel;
     // TODO use button when widgets are ready 
 //    Button btnAddCourses;
 
@@ -103,11 +110,13 @@ public class LumComposite extends Composite {
         messages = metadata.getMessages();
         
         // create and layout the widgets
-        Panel pnlSubMainPanel = new VerticalPanel();
+        pnlSimpleView = new VerticalPanel();
         Panel pnlRationale = new VerticalPanel();
         Panel pnlPreReqCourses = new VerticalPanel();
         Panel pnlNaturalLanguage = new VerticalPanel();
+        HorizontalPanel pnlStatementSearch = new HorizontalPanel();
 
+        pnlStatementSearch.setSpacing(5);
         // debug
 //        addBorder(pnlRationale);
 //        addBorder(pnlPreReqCourses);
@@ -115,28 +124,30 @@ public class LumComposite extends Composite {
 //        addBorder(pnlSubMainPanel);
 //        addBorder(mainLumPanel);
         // end debug
-        pnlSubMainPanel.add(pnlRationale);
-        pnlSubMainPanel.add(pnlPreReqCourses);
-        pnlSubMainPanel.add(pnlNaturalLanguage);
+        pnlSimpleView.add(pnlStatementSearch);
+        pnlSimpleView.add(pnlRationale);
+        pnlSimpleView.add(pnlPreReqCourses);
+        pnlSimpleView.add(pnlNaturalLanguage);
         
 //        test.setWidth("100px");
 //        mainLumPanel.setSize("950px", "550px");
-        mainLumPanel.add(pnlSubMainPanel);
+        mainLumPanel.add(pnlSimpleView);
         
         // sizes and layout are to be done AFTER the containing panels
         // are added to mainLumPanel to make size settings effective
-        pnlSubMainPanel.setSize(
+        pnlSimpleView.setSize(
                 Double.toString(mainLumPanel.getOffsetWidth()),
                 Double.toString(mainLumPanel.getOffsetHeight()));
         pnlRationale.setSize(
-                Double.toString(pnlSubMainPanel.getOffsetWidth() * 0.9),
-                Double.toString(pnlSubMainPanel.getOffsetHeight() * 0.33));
+                Double.toString(pnlSimpleView.getOffsetWidth() * 0.9),
+                Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
         pnlPreReqCourses.setSize(
-                Double.toString(pnlSubMainPanel.getOffsetWidth() * 0.9),
-                Double.toString(pnlSubMainPanel.getOffsetHeight() * 0.33));
+                Double.toString(pnlSimpleView.getOffsetWidth() * 0.9),
+                Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
         pnlNaturalLanguage.setSize(
-                Double.toString(pnlSubMainPanel.getOffsetWidth() * 0.9),
-                Double.toString(pnlSubMainPanel.getOffsetHeight() * 0.33));
+                Double.toString(pnlSimpleView.getOffsetWidth() * 0.9),
+                Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
+        prepareStatementSearchPanel(pnlStatementSearch);
         prepareRationalePanel(pnlRationale);
         preparePreReqCoursesPanel(pnlPreReqCourses);
         prepareNaturalLanguagePanel(pnlNaturalLanguage);
@@ -147,8 +158,18 @@ public class LumComposite extends Composite {
         widget.getElement().getStyle().setProperty("border", "1px solid #87b3ff");
     }
     
+    private void prepareStatementSearchPanel(Panel parent) {
+        btnSearch = new Button("Search");
+        tbStatementId = new LumTextBox<LumModel>(LumModel.FieldName.
+                STATEMENT_ID.toString());
+        parent.add(new Label("Statement Id"));
+        parent.add(tbStatementId);
+        parent.add(btnSearch);
+    }
+    
     private void prepareRationalePanel(Panel parent) {
-        taPreReqRationale = new TextArea();
+        taPreReqRationale = new LumTextArea<LumModel>(LumModel.FieldName.
+                RATIONALE.toString());
         System.out.println("lum.rationale" + messages.get("lum.rationale"));
         parent.add(new Label(messages.get("lum.rationale")));
         parent.add(taPreReqRationale);
@@ -158,7 +179,8 @@ public class LumComposite extends Composite {
     }
     
     private void preparePreReqCoursesPanel(Panel parent) {
-        taRreReqCourses = new TextArea();
+        taRreReqCourses = new LumTextArea<LumModel>(LumModel.FieldName.
+                PRE_REQ_COURSES.toString());
 //        btnAddCourses = new Button(messages.get("lum.addPreReqCourses"));
         parent.add(new Label(messages.get("lum.prereqCourses")));
         parent.add(taRreReqCourses);
@@ -168,7 +190,8 @@ public class LumComposite extends Composite {
     }
     
     private void prepareNaturalLanguagePanel(Panel parent) {
-        taNaturalLanguage = new TextArea();
+        taNaturalLanguage = new LumTextArea<LumModel>(LumModel.FieldName.
+                NATURAL_LANGUAGE.toString());
         parent.add(new Label(messages.get("lum.naturalLanguage")));
         parent.add(taNaturalLanguage);
         taNaturalLanguage.setSize(
@@ -176,7 +199,10 @@ public class LumComposite extends Composite {
                 Double.toString(parent.getOffsetHeight() * 0.8));
     }
 
-
-
+    public void setUpListeners() {
+        Model<LumModel> model = (Model<LumModel>) controller.getModel(LumModel.class);
+        lumModel = model;
+        binding = new ModelBinding<LumModel>(model, tbStatementId);
+    }
 
 }

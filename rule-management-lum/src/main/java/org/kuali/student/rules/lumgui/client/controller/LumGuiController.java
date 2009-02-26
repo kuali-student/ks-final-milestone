@@ -10,6 +10,7 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.rules.lumgui.client.model.LumModel;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.lumgui.client.view.LumComposite;
 
@@ -28,6 +29,7 @@ public class LumGuiController extends Controller {
 
     final SimplePanel mainPanel = new SimplePanel();
     final LumComposite lumComposite = new LumComposite();
+    final Model<LumModel> model = new Model<LumModel>();
 
     ViewMetaData metadata;
     Messages messages;
@@ -68,7 +70,7 @@ public class LumGuiController extends Controller {
     }
 
     private void setupModels() {
-
+        super.initializeModel(LumModel.class, model);
     }
 
     private void loadModelsData() {
@@ -90,6 +92,6 @@ public class LumGuiController extends Controller {
     }
 
     private void doEventListenerWiring() {
-
+        lumComposite.setUpListeners();
     }
 }
