@@ -3,7 +3,7 @@ package org.kuali.student.common.ui.client.widgets.progress;
 import java.util.LinkedList;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
-import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
+import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -20,7 +20,7 @@ public class KSBlockingProgressIndicator{
 	private static final VerticalPanel mainPanel = new VerticalPanel();
 	private static final VerticalPanel listPanel = new VerticalPanel();
 	
-	private static KSModalPopupPanel popupIndicator = new KSModalPopupPanel();
+	private static KSModalDialogPanel popupIndicator = new KSModalDialogPanel();
 	
 	private static boolean initialized = false;
 	
@@ -31,7 +31,7 @@ public class KSBlockingProgressIndicator{
 		
 		popupIndicator.addHeader("Processing...");
 		
-		popupIndicator.add(mainPanel);
+		popupIndicator.setWidget(mainPanel);
 		setupDefaultStyle();
 		initialized = true;
 	}
