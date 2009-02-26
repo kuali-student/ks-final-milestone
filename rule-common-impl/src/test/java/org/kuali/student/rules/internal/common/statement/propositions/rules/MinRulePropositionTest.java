@@ -247,7 +247,11 @@ public class MinRulePropositionTest {
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
 		Assert.assertNull(report.getSuccessMessage());
-        Assert.assertEquals("Minimum of 2010-01-01T01:00:00.000-0800 not met. Minimum found: 2000-01-01T01:00:00.000-0800.", report.getFailureMessage());
+        Assert.assertEquals("Minimum of 2010-01-01T01:00:00.000" +
+        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		" not met. Minimum found: 2000-01-01T01:00:00.000" +
+        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		".", report.getFailureMessage());
     }
 
     @Test
@@ -309,6 +313,10 @@ public class MinRulePropositionTest {
 		Assert.assertNotNull(report);
 		Assert.assertNotNull(report.getFailureMessage());
 		Assert.assertNull(report.getSuccessMessage());
-        Assert.assertEquals("Minimum of 2010-01-01T01:00:00.000-0800 not met. Minimum found: 2000-01-01T01:00:00.000-0800.", report.getFailureMessage());
+        Assert.assertEquals("Minimum of 2010-01-01T01:00:00.000" +
+        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		" not met. Minimum found: 2000-01-01T01:00:00.000" +
+        		BusinessRuleUtil.getDefaultIsoTimeZone() +
+        		".", report.getFailureMessage());
     }
 }
