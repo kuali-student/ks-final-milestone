@@ -4,7 +4,6 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_IMAGE;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
