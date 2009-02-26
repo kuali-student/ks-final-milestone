@@ -1,17 +1,17 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_IMAGE;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_POPUP_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSInfoPopupPanel;
 import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class InfoPopupExample extends Composite {
@@ -19,10 +19,11 @@ public class InfoPopupExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
 
-    final KSInfoPopupPanel infoPopup = KSWidgetFactory.getInfoPopupPanelInstance();
+    final KSInfoPopupPanel infoPopup = new KSInfoPopupPanel();
     
     final KSButton showButton = new KSButton("Click to see Popup");
     final KSButton hideButton = new KSButton("Click to close Popup");
+    private KSImage image = new KSImage("images/flower3.jpg");
 
 
     public InfoPopupExample() {
@@ -48,8 +49,9 @@ public class InfoPopupExample extends Composite {
 
 
         try {
+            image.addStyleName(STYLE_IMAGE);
             infoPopup.addHeader("Info Popup Panel");
-            infoPopup.add(KSWidgetFactory.getImageInstance("images/flower3.jpg") );
+            infoPopup.add(new KSImage("images/flower3.jpg") );
             infoPopup.addStyleName(STYLE_POPUP_PANEL);
         }
         catch (Exception e) {

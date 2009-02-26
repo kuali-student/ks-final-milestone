@@ -4,9 +4,9 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel;
-import org.kuali.student.common.ui.client.widgets.KSFloatPanel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -18,7 +18,7 @@ public class CollapsableFloatPanelExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
 
-    final KSCollapsableFloatPanel floatPanel = KSWidgetFactory.getCollapsablePanelInstance(true);
+    final KSCollapsableFloatPanel floatPanel = GWT.create(KSCollapsableFloatPanel.class);
     final VerticalPanel contentPanel = new VerticalPanel();
 
     final KSButton showButton ;
@@ -29,7 +29,7 @@ public class CollapsableFloatPanelExample extends Composite {
 
         main.addStyleName(STYLE_EXAMPLE);
 
-        showButton = KSWidgetFactory.getButtonInstance("Click to see Popup",
+        showButton = new KSButton("Click to see Popup",
                 new ClickHandler() {
 
             @Override
@@ -39,7 +39,7 @@ public class CollapsableFloatPanelExample extends Composite {
             }});
 
 
-        hideButton = KSWidgetFactory.getButtonInstance("Click to close Popup", 
+        hideButton = new KSButton("Click to close Popup", 
                 new ClickHandler() {
 
             @Override
@@ -47,7 +47,7 @@ public class CollapsableFloatPanelExample extends Composite {
                 floatPanel.hide();
 
             }});
-        contentPanel.add(KSWidgetFactory.getImageInstance("images/flower3.jpg") );
+        contentPanel.add(new KSImage("images/flower3.jpg") );
         contentPanel.add(hideButton);
 
         floatPanel.setWidget(contentPanel);

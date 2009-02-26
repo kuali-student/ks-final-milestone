@@ -5,7 +5,6 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,7 +17,7 @@ public class ModalPopupPanelExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
 
-    final KSModalPopupPanel popupPanel = KSWidgetFactory.getModalPopupPanelInstance();   
+    final KSModalPopupPanel popupPanel = new KSModalPopupPanel();   
     final KSButton showButton ;
     final KSButton hideButton ;
 
@@ -26,14 +25,14 @@ public class ModalPopupPanelExample extends Composite {
     public ModalPopupPanelExample() {
         main.addStyleName(STYLE_EXAMPLE);
 
-        showButton = KSWidgetFactory.getButtonInstance("Click to see Popup", new ClickHandler() {
+        showButton = new KSButton("Click to see Popup", new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {
                 popupPanel.show();
                 
             }});
-        hideButton = KSWidgetFactory.getButtonInstance("Click to close Popup", new ClickHandler() {
+        hideButton = new KSButton("Click to close Popup", new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent arg0) {

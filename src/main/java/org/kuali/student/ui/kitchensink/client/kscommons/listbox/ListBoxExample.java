@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSListBox;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -34,7 +33,8 @@ public class ListBoxExample extends Composite {
 
         loadLists();
 
-        listBox1 = KSWidgetFactory.getListBoxInstance(institutionList, false);
+        listBox1 = new KSListBox(institutionList);
+        listBox1.setMultipleSelect(false);
         listBox1.addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(ChangeEvent arg0) {
@@ -45,7 +45,8 @@ public class ListBoxExample extends Composite {
             }});
 
 
-        listBox2 = KSWidgetFactory.getListBoxInstance(institutionList, true);
+        listBox2 = new KSListBox(institutionList);
+        listBox2.setMultipleSelect(true);
 
         // Doesn't quite work yet!
 //      ksListBox2.addChangeHandler(new ChangeHandler() {

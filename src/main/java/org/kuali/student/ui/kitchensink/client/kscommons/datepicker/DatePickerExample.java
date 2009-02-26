@@ -4,7 +4,6 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
@@ -14,8 +13,8 @@ public class DatePickerExample extends Composite {
 
     final VerticalPanel main = new VerticalPanel();
     
-    final KSDatePicker datePicker = KSWidgetFactory.getDatePickerInstance();
-    final KSLabel label = KSWidgetFactory.getLabelInstance("Click in the box to open the date picker: ", false);
+    final KSDatePicker datePicker = GWT.create(KSDatePicker.class);
+    final KSLabel label = new KSLabel("Click in the box to open the date picker: ", false);
 
     public DatePickerExample() {
         

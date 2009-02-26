@@ -10,7 +10,6 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.menus.KSAccordionMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,8 +47,8 @@ public class AccordionMenuExample extends Composite {
     private  VerticalPanel afrPanel =  new VerticalPanel() ;
 
     private KSButton submitButton ;
-    private final KSLabel label = KSWidgetFactory.getLabelInstance("Click on a menu item below to show available choices on the right: ", false);   
-    private final KSAccordionMenu menu = KSWidgetFactory.getAccordionMenuInstance();
+    private final KSLabel label = new KSLabel("Click on a menu item below to show available choices on the right: ", false);   
+    private final KSAccordionMenu menu = new KSAccordionMenu();
 
     private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
 
@@ -66,7 +65,7 @@ public class AccordionMenuExample extends Composite {
 
         buildMenu();
         buildCheckboxes();
-        submitButton = KSWidgetFactory.getButtonInstance("Submit", new MyClickHandler() );
+        submitButton = new KSButton("Submit", new MyClickHandler() );
         buttonPanel.add(submitButton);
 
         leftPanel.add(menu);
@@ -85,18 +84,18 @@ public class AccordionMenuExample extends Composite {
 
 
     private void buildMenu() {
-        KSMenuItemData menu1 = KSWidgetFactory.getMenuItemDataInstance(NA);
+        KSMenuItemData menu1 = new KSMenuItemData(NA);
 
-        KSMenuItemData menu11 = KSWidgetFactory.getMenuItemDataInstance(CAN);
-        KSMenuItemData menu12 = KSWidgetFactory.getMenuItemDataInstance(USA);
+        KSMenuItemData menu11 = new KSMenuItemData(CAN);
+        KSMenuItemData menu12 = new KSMenuItemData(USA);
         menu1.addSubItem(menu11);
         menu1.addSubItem(menu12);
 
-        KSMenuItemData menu2 = KSWidgetFactory.getMenuItemDataInstance(ROW);
+        KSMenuItemData menu2 = new KSMenuItemData(ROW);
 
-        KSMenuItemData menu21 = KSWidgetFactory.getMenuItemDataInstance(AFR);
-        KSMenuItemData menu22 = KSWidgetFactory.getMenuItemDataInstance(ASI);
-        KSMenuItemData menu23 = KSWidgetFactory.getMenuItemDataInstance(EUR);
+        KSMenuItemData menu21 = new KSMenuItemData(AFR);
+        KSMenuItemData menu22 = new KSMenuItemData(ASI);
+        KSMenuItemData menu23 = new KSMenuItemData(EUR);
         menu2.addSubItem(menu21);
         menu2.addSubItem(menu22);
         menu2.addSubItem(menu23);
@@ -119,38 +118,38 @@ public class AccordionMenuExample extends Composite {
 
     private void buildCheckboxes() {
 
-        canList.add(KSWidgetFactory.getCheckBoxInstance("University of British Columbia"));
-        canList.add(KSWidgetFactory.getCheckBoxInstance("University of Toronto"));
-        canList.add(KSWidgetFactory.getCheckBoxInstance("McGill University"));
+        canList.add(new KSCheckBox("University of British Columbia"));
+        canList.add(new KSCheckBox("University of Toronto"));
+        canList.add(new KSCheckBox("McGill University"));
         for ( KSCheckBox box : canList) {
             canPanel.add(box);
         }
 
-        usList.add(KSWidgetFactory.getCheckBoxInstance("Florida State University"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("University of Maryland, College Park"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("University of Washington"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("University of California, Berkeley"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("Massachusetts Institute of Technology"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("University of Southern California"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("Carnegie Mellon University"));
-        usList.add(KSWidgetFactory.getCheckBoxInstance("San Joaquin Delta College"));
+        usList.add(new KSCheckBox("Florida State University"));
+        usList.add(new KSCheckBox("University of Maryland, College Park"));
+        usList.add(new KSCheckBox("University of Washington"));
+        usList.add(new KSCheckBox("University of California, Berkeley"));
+        usList.add(new KSCheckBox("Massachusetts Institute of Technology"));
+        usList.add(new KSCheckBox("University of Southern California"));
+        usList.add(new KSCheckBox("Carnegie Mellon University"));
+        usList.add(new KSCheckBox("San Joaquin Delta College"));
         for ( KSCheckBox box : usList) {
             usPanel.add(box);
         }
         
-        eurList.add(KSWidgetFactory.getCheckBoxInstance("University of Cambridge, UK"));
-        eurList.add(KSWidgetFactory.getCheckBoxInstance("Paris-Sorbonne University, France"));
+        eurList.add(new KSCheckBox("University of Cambridge, UK"));
+        eurList.add(new KSCheckBox("Paris-Sorbonne University, France"));
         for ( KSCheckBox box : eurList) {
             eurPanel.add(box);
         }     
         
-        asiList.add(KSWidgetFactory.getCheckBoxInstance("University of Delhi, India"));
+        asiList.add(new KSCheckBox("University of Delhi, India"));
         for ( KSCheckBox box : asiList) {
             asiPanel.add(box);
         }    
         
-        afrList.add(KSWidgetFactory.getCheckBoxInstance("University of Johannesburg, South Africa"));
-        afrList.add(KSWidgetFactory.getCheckBoxInstance("Makarere University, Uganda"));
+        afrList.add(new KSCheckBox("University of Johannesburg, South Africa"));
+        afrList.add(new KSCheckBox("Makarere University, Uganda"));
         for ( KSCheckBox box : afrList) {
             afrPanel.add(box);
         }

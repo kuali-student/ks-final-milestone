@@ -14,12 +14,12 @@ public class RichEditorExample extends Composite {
     final VerticalPanel main = new VerticalPanel();
     
     KSRichEditor richEditor;    
-    final KSLabel label = KSWidgetFactory.getLabelInstance("Click in the box to open the editor: ", false);
+    final KSLabel label = new KSLabel("Click in the box to open the editor: ", false);
 
     public RichEditorExample() {
 
         try {
-            richEditor = KSWidgetFactory.getRichEditorInstance();
+            richEditor = new KSRichEditor();
         } catch (Exception e) {
             e.printStackTrace();
         }  

@@ -4,8 +4,9 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSFloatPanel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
+import org.kuali.student.common.ui.client.widgets.KSImage;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -17,7 +18,7 @@ public class FloatPanelExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
 
-    final KSFloatPanel floatPanel = KSWidgetFactory.getFloatPanelInstance();
+    final KSFloatPanel floatPanel = GWT.create(KSFloatPanel.class);
     final VerticalPanel contentPanel = new VerticalPanel();
 
     final KSButton showRightButton ;
@@ -29,7 +30,7 @@ public class FloatPanelExample extends Composite {
 
         main.addStyleName(STYLE_EXAMPLE);
 
-        showRightButton = KSWidgetFactory.getButtonInstance("Click to see Popup Right",
+        showRightButton = new KSButton("Click to see Popup Right",
                 new ClickHandler() {
 
             @Override
@@ -39,7 +40,7 @@ public class FloatPanelExample extends Composite {
 
             }});
 
-        showLeftButton = KSWidgetFactory.getButtonInstance("Click to see Popup Left",
+        showLeftButton = new KSButton("Click to see Popup Left",
                 new ClickHandler() {
 
             @Override
@@ -50,7 +51,7 @@ public class FloatPanelExample extends Composite {
             }});
 
 
-        hideButton = KSWidgetFactory.getButtonInstance("Click to close Popup", 
+        hideButton = new KSButton("Click to close Popup", 
                 new ClickHandler() {
 
             @Override
@@ -58,7 +59,7 @@ public class FloatPanelExample extends Composite {
                 floatPanel.hide();
 
             }});
-        contentPanel.add(KSWidgetFactory.getImageInstance("images/flower2.jpg") );
+        contentPanel.add(new KSImage("images/flower2.jpg") );
         contentPanel.add(hideButton);
 
         floatPanel.setWidget(contentPanel);

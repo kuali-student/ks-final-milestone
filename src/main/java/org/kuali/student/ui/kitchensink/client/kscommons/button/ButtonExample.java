@@ -4,9 +4,7 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -19,7 +17,7 @@ public class ButtonExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
     FlexTable table = new FlexTable();
-    final KSLabel title = KSWidgetFactory.getLabelInstance("Click a button", false);
+    final KSLabel title = new KSLabel("Click a button", false);
     
     final KSButton button1 ;
     final KSButton button2 ;
@@ -28,9 +26,9 @@ public class ButtonExample extends Composite {
     public ButtonExample() {
         table.addStyleName(STYLE_EXAMPLE);
                
-        button1 = KSWidgetFactory.getButtonInstance("Button 1",new MyClickHandler());
-        button2 = KSWidgetFactory.getButtonInstance("Button 2",new MyClickHandler());
-        button3 = KSWidgetFactory.getButtonInstance("Button 3",new MyClickHandler());
+        button1 = new KSButton("Button 1",new MyClickHandler());
+        button2 = new KSButton("Button 2",new MyClickHandler());
+        button3 = new KSButton("Button 3",new MyClickHandler());
 
         int row = 0;
         table.setWidget(row, 1, title);

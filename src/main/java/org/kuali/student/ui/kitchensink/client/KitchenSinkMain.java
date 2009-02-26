@@ -16,7 +16,6 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenu;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.LayoutExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.gwtexamples.TestExample;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu.AccordionMenuExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.accordionpanel.AccordionPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.blockingprogressindicator.BlockingProgressIndicatorExampleDescriptor;
@@ -38,7 +37,6 @@ import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorEx
 import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textbox.TextBoxExampleDescriptor;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -51,9 +49,9 @@ public class KitchenSinkMain extends Composite {
     final HorizontalPanel main = new HorizontalPanel();
     final SimplePanel contentPanel = new SimplePanel(); // content panel
     final VerticalPanel welcomePanel = new VerticalPanel();
-    final KSMenu menuPanel = GWT.create(KSAccordionMenu.class); // TODO update deferred binding in common-ui
+    final KSMenu menuPanel = new KSAccordionMenu(); // TODO update deferred binding in common-ui
     KSLabel welcomeMsg;
-    final KSImage sink = KSWidgetFactory.getImageInstance("images/kitchenSink.png");
+    final KSImage sink = new KSImage("images/kitchenSink.png");
     
     private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
         "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
@@ -71,7 +69,7 @@ public class KitchenSinkMain extends Composite {
         if (!loaded) {
             loaded = true;
             
-            welcomeMsg = KSWidgetFactory.getLabelInstance(WELCOME_MSG, true);
+            welcomeMsg = new KSLabel(WELCOME_MSG, true);
             welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
             welcomePanel.add(welcomeMsg);
             

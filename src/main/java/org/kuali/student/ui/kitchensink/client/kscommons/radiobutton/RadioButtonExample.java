@@ -3,7 +3,6 @@ package org.kuali.student.ui.kitchensink.client.kscommons.radiobutton;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -27,14 +26,14 @@ public class RadioButtonExample extends Composite {
     final  HorizontalPanel group2Panel = new HorizontalPanel();
     
 
-    final KSRadioButton ksRadio1 = KSWidgetFactory.getRadioButtonInstance(GROUP1, PICK_ME, false);
-    final KSRadioButton ksRadio2 = KSWidgetFactory.getRadioButtonInstance(GROUP1, PICK_ME, false);
-    final KSRadioButton ksRadio3 = KSWidgetFactory.getRadioButtonInstance(GROUP1, PICK_ME, false);
-    final KSRadioButton ksRadio4 = KSWidgetFactory.getRadioButtonInstance(GROUP1, PICK_ME, false);
+    final KSRadioButton ksRadio1 = new KSRadioButton(GROUP1, PICK_ME, false);
+    final KSRadioButton ksRadio2 = new KSRadioButton(GROUP1, PICK_ME, false);
+    final KSRadioButton ksRadio3 = new KSRadioButton(GROUP1, PICK_ME, false);
+    final KSRadioButton ksRadio4 = new KSRadioButton(GROUP1, PICK_ME, false);
     
-    final KSRadioButton ksRadio5 = KSWidgetFactory.getRadioButtonInstance(GROUP2, PICK_ME, false);
-    final KSRadioButton ksRadio6 = KSWidgetFactory.getRadioButtonInstance(GROUP2, PICK_ME, false);
-    final KSRadioButton ksRadio7 = KSWidgetFactory.getRadioButtonInstance(GROUP2, PICK_ME, false);
+    final KSRadioButton ksRadio5 = new KSRadioButton(GROUP2, PICK_ME, false);
+    final KSRadioButton ksRadio6 = new KSRadioButton(GROUP2, PICK_ME, false);
+    final KSRadioButton ksRadio7 = new KSRadioButton(GROUP2, PICK_ME, false);
 
     public RadioButtonExample() {
         

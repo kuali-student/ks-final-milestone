@@ -3,7 +3,6 @@ package org.kuali.student.ui.kitchensink.client.kscommons.checkbox;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,9 +23,9 @@ public class CheckBoxExample extends Composite {
     StringBuffer sb = new StringBuffer();
 
     final VerticalPanel main = new VerticalPanel();
-    final KSCheckBox checkBox1 = KSWidgetFactory.getCheckBoxInstance(CHECK_BOX_1);
-    final KSCheckBox checkBox2 = KSWidgetFactory.getCheckBoxInstance(CHECK_BOX_2);
-    final KSCheckBox checkBox3 = KSWidgetFactory.getCheckBoxInstance(CHECK_BOX_3);
+    final KSCheckBox checkBox1 = new KSCheckBox(CHECK_BOX_1);
+    final KSCheckBox checkBox2 = new KSCheckBox(CHECK_BOX_2);
+    final KSCheckBox checkBox3 = new KSCheckBox(CHECK_BOX_3);
     
     public CheckBoxExample() {
         

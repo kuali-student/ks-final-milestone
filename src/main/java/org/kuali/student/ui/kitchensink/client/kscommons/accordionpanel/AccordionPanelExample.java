@@ -6,7 +6,6 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,13 +17,13 @@ public class AccordionPanelExample extends Composite {
     final VerticalPanel us = new VerticalPanel();
     final VerticalPanel other = new VerticalPanel();
     
-    final KSLabel label = KSWidgetFactory.getLabelInstance("Click on a heading below to show or hide the images: ", false);
+    final KSLabel label = new KSLabel("Click on a heading below to show or hide the images: ", false);
     
-    final KSImage image1 = KSWidgetFactory.getImageInstance("images/flower1.jpg");
-    final KSImage image2 = KSWidgetFactory.getImageInstance("images/flower2.jpg");
-    final KSImage image3 = KSWidgetFactory.getImageInstance("images/flower3.jpg");
+    final KSImage image1 = new KSImage("images/flower1.jpg");
+    final KSImage image2 = new KSImage("images/flower2.jpg");
+    final KSImage image3 = new KSImage("images/flower3.jpg");
 
-    final KSAccordionPanel accordion = KSWidgetFactory.getAccordionPanelInstance();
+    final KSAccordionPanel accordion = new KSAccordionPanel();
 
 
     public AccordionPanelExample() {
