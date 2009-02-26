@@ -10,12 +10,15 @@ import org.kuali.student.commons.ui.mvc.client.ApplicationContext;
 import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
+import org.kuali.student.rules.lumgui.client.model.LumModel;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.lumgui.client.view.LumComposite;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author zzraly
@@ -26,6 +29,7 @@ public class LumGuiController extends Controller {
 
     final SimplePanel mainPanel = new SimplePanel();
     final LumComposite lumComposite = new LumComposite();
+    final Model<LumModel> model = new Model<LumModel>();
 
     ViewMetaData metadata;
     Messages messages;
@@ -66,7 +70,7 @@ public class LumGuiController extends Controller {
     }
 
     private void setupModels() {
-
+        super.initializeModel(LumModel.class, model);
     }
 
     private void loadModelsData() {
@@ -77,9 +81,17 @@ public class LumGuiController extends Controller {
 
     private void doLayout() {
         mainPanel.add(lumComposite);
+        mainPanel.setSize("850px", "450px");
+        lumComposite.setSize("850px", "450px");
+        lumComposite.layoutWidgets();
+    }
+
+    // for debugging
+    private void addBorder(Widget widget) {
+        widget.getElement().getStyle().setProperty("border", "1px solid #87b3ff");
     }
 
     private void doEventListenerWiring() {
-
+        lumComposite.setUpListeners();
     }
 }
