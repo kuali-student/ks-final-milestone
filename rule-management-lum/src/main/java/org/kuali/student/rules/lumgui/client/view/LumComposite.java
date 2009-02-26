@@ -71,7 +71,7 @@ public class LumComposite extends Composite {
         metadata = ApplicationContext.getViews().get(LumGuiController.VIEW_NAME);
         messages = metadata.getMessages();
         
-        pnlViews = new LumStackPanel<LumModelObject>(LumModelObject.FieldName.CURRENT_VIEW.toString());        
+        pnlViews = new LumSwitchPanel<LumModelObject>(LumModelObject.FieldName.CURRENT_VIEW.toString());        
         
         /*
          *     create and layout the widgets for SIMPLE VIEW
