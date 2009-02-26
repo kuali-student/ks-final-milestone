@@ -53,6 +53,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ContextDescriptor }
+     * 
+     */
+    public ContextDescriptor createContextDescriptor() {
+        return new ContextDescriptor();
+    }
+    
+    /**
+     * Create an instance of {@link ContextValueDescriptor }
+     * 
+     */
+    public ContextValueDescriptor createContextValueDescriptor() {
+        return new ContextValueDescriptor();
+    }
+    
+    /**
      * Create an instance of {@link Dictionary }
      * 
      */
