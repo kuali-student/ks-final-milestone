@@ -453,8 +453,8 @@
 		<property name="name" value="P3" />
 		<property name="description"
 			value="Enumeration of required pre-requisite courses" />
-        <property name="successMessage" value="Pre-requisite course requirement met: #metSet#" />
-		<property name="failureMessage" value="Pre-requisite course requirement not met. #needed# of #unmetSet# is still required." />
+        <property name="successMessage" value="Pre-requisite course requirement met: $prop_intersection_metset" />
+		<property name="failureMessage" value="Pre-requisite course requirement not met. $prop_intersection_diff of $prop_intersection_unmetset is still required." />
 		<property name="comparisonDataTypeKey"
 			value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide4" />
@@ -468,8 +468,8 @@
 			value="11223344-1122-1122-1112-100000000016" />
 		<property name="name" value="P4" />
 		<property name="description" value="Credits check" />
-		<property name="successMessage" value="Credit check successful. Total credits: #sum#" />
-		<property name="failureMessage" value="Credit check failed. Sum is short by #needed#" />
+		<property name="successMessage" value="Credit check successful. Total credits: $prop_sum" />
+		<property name="failureMessage" value="Credit check failed. Sum is short by $prop_sum_diff" />
 		<property name="comparisonDataTypeKey"
 			value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide5" />

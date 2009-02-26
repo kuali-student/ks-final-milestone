@@ -12,27 +12,69 @@ import java.util.Map.Entry;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.AbstractProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
+import org.kuali.student.rules.internal.common.utils.VelocityTemplateEngine;
+import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractRuleProposition<T> implements Proposition {
+public abstract class AbstractRuleProposition<T> implements RuleProposition {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(AbstractRuleProposition.class);
-
-	public final static String STATIC_FACT_COLUMN = "static.column";
 
 	protected Proposition proposition;
 
 	protected FactResultDTO criteriaDTO = null;
 	protected FactResultDTO factDTO = null;
-	protected String factColumn = STATIC_FACT_COLUMN;
+	protected String factColumn = MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN;
+
+    protected String id;
+    protected String propositionName;
+    protected PropositionType propositionType;
+    protected PropositionReport report;
+    protected RulePropositionDTO ruleProposition;
+    protected String expectedValue;
+    protected String comparisonOperator;
+    protected String comparisonOperatorDataType;
+    protected FactResultDTO factResultDTO;
+
+    protected Boolean reportBuilt = Boolean.FALSE;
 	
-	public FactResultColumnInfoDTO getFactResultColumnInfo(FactResultDTO factResult, String columnKey) {
+    private final VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
+    
+    private final Map<String,Object> contextMap = new HashMap<String, Object>();
+
+    public AbstractRuleProposition() {}
+    
+    public AbstractRuleProposition(String id, String propositionName, PropositionType type, RulePropositionDTO ruleProposition) {
+		if (id == null || id.isEmpty()) {
+			throw new PropositionException("Proposition id cannot be null");
+		} else if (propositionName == null || propositionName.isEmpty()) {
+			throw new PropositionException("Proposition name cannot be null");
+		} else if (ruleProposition == null) {
+			throw new PropositionException("Rule proposition cannot be null");
+//		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
+//			throw new PropositionException("Rule proposition comparison operator cannot be null");
+//		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
+//			throw new PropositionException("Rule proposition expected value cannot be null");
+		}
+
+    	this.id = id;
+        this.propositionName = propositionName;
+        this.ruleProposition = ruleProposition;
+        this.report = new PropositionReport(propositionName, type);
+        this.expectedValue = ruleProposition.getRightHandSide().getExpectedValue();
+        this.comparisonOperator = ruleProposition.getComparisonOperatorTypeKey();
+        this.comparisonOperatorDataType = ruleProposition.getComparisonOperatorTypeKey();
+    }
+
+    public FactResultColumnInfoDTO getFactResultColumnInfo(FactResultDTO factResult, String columnKey) {
 		if (factResult == null) {
 			throw new PropositionException("FactResultDTO cannot be null");
 		}
@@ -78,10 +120,10 @@ public abstract class AbstractRuleProposition<T> implements Proposition {
     	FactResultTypeInfoDTO factResultTypeInfo = new FactResultTypeInfoDTO();
     	Map<String, FactResultColumnInfoDTO> columnMap = new HashMap<String, FactResultColumnInfoDTO>();
     	FactResultColumnInfoDTO columnInfo = new FactResultColumnInfoDTO();
-    	columnInfo.setKey(STATIC_FACT_COLUMN);
+    	columnInfo.setKey(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN);
     	columnInfo.setDescription("Static Fact Column");
     	columnInfo.setDataType(columnDataType);
-    	columnInfo.setName(STATIC_FACT_COLUMN);
+    	columnInfo.setName(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN);
     	columnMap.put(columnInfo.getKey(), columnInfo);
     	factResultTypeInfo.setResultColumnsMap(columnMap);
     	factResult.setFactResultTypeInfo(factResultTypeInfo);
@@ -89,7 +131,7 @@ public abstract class AbstractRuleProposition<T> implements Proposition {
     	List<Map<String,String>> resultList = new ArrayList<Map<String,String>>();
 		for(String value : factList.split("\\s*,\\s*")) {
     		Map<String,String> row = new HashMap<String, String>();
-    		row.put(STATIC_FACT_COLUMN, value);
+    		row.put(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, value);
     		resultList.add(row);
     	}
     	
@@ -190,17 +232,98 @@ public abstract class AbstractRuleProposition<T> implements Proposition {
 					+ "\nProposition result="+this.proposition.getResult());
 		}
 		FactResultColumnInfoDTO columnInfo = getFactResultColumnInfo(factDTO, factColumn);
-		FactResultDTO factResult = createFactResult(columnInfo, this.proposition.getResultValues());
-		this.proposition.getReport().setPropositionResult(factResult);
-		this.proposition.getReport().setCriteriaResult(criteriaDTO);
-		this.proposition.getReport().setFactResult(factDTO);
+		this.factResultDTO = createFactResult(columnInfo, this.proposition.getResultValues());
+		this.report.setPropositionResult(this.factResultDTO);
+		this.report.setCriteriaResult(criteriaDTO);
+		this.report.setFactResult(factDTO);
+		((AbstractProposition<?>) this.proposition).buildMessageContextMap(); 
+
+		Map<String, Object> propContextMap = this.proposition.getMessageContextMap();
+		addMessageContext(propContextMap);
+		buildMessageContextMap();
+		
 		return b;
 	}
 	
-	@Override
-	public PropositionReport buildReport() {
-		return this.proposition.buildReport();
-	}
+	/**
+	 * Builds a message from the <code>messageTemplate</code>.
+	 * 
+	 * @param messageTemplate Velocity template
+	 * @return Message
+	 */
+    protected String buildMessage(String messageTemplate) {
+    	return templateEngine.evaluate(this.contextMap, messageTemplate);
+    }
+
+    /**
+     * Builds the message context map.
+     */
+    private void buildMessageContextMap() {
+        if (this.comparisonOperator != null) {
+	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_OPERATOR, this.comparisonOperator.toString());
+        }
+        if (this.comparisonOperatorDataType != null) {
+	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_OPERATOR_DATATYPE, this.comparisonOperatorDataType);
+        }
+        if (this.expectedValue != null) {
+	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_EXPECTEDVALUE, this.expectedValue);
+        }
+    	addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_FACT, this.factDTO);
+        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_RESULT, this.factResultDTO);
+        addMessageContext("resultValues", this.proposition.getResultValues());
+    }
+
+    /**
+     * Adds a key and value to the message context map.
+     * 
+     * @param key Key
+     * @param value Value for key
+     */
+    private void addMessageContext(String key, Object value) {
+    	this.contextMap.put(key, value);
+    }
+
+    /**
+     * Adds a message context map to the current message context map.
+     * 
+     * @param contextMap Message context map
+     */
+    private void addMessageContext(Map<String, Object> contextMap) {
+    	this.contextMap.putAll(contextMap);
+    }
+    
+
+    /**
+     * Generates a proposition report.
+     * 
+     * Success/failure message is optionally set by the rule proposition.
+     * If success/failure message is not set then a generic success/failure 
+     * message is generated.
+     */
+    public abstract PropositionReport buildReport();
+
+    protected PropositionReport buildDefaultReport(String successMessage, String failureMessage) {
+        // Build success message
+        if (this.proposition.getResult()) {
+    		if(this.ruleProposition.getSuccessMessage() == null || this.ruleProposition.getSuccessMessage().trim().isEmpty()) {
+    			report.setSuccessMessage(successMessage);
+    		} else {
+	    		String msg = buildMessage(this.ruleProposition.getSuccessMessage());
+	    		report.setSuccessMessage(msg);
+    		}
+            return report;
+        }
+        // Build failure message
+		if(this.ruleProposition.getFailureMessage() == null || this.ruleProposition.getFailureMessage().trim().isEmpty()) {
+	        String msg = buildMessage(failureMessage);
+	        report.setFailureMessage(msg);
+		} else {
+			String msg = buildMessage(this.ruleProposition.getFailureMessage());
+	        report.setFailureMessage(msg);
+		}
+		reportBuilt = Boolean.TRUE;
+        return report;
+    }
 
 	@Override
 	public String getId() {
@@ -214,7 +337,7 @@ public abstract class AbstractRuleProposition<T> implements Proposition {
 
 	@Override
 	public PropositionReport getReport() {
-		return this.proposition.getReport();
+    	return (reportBuilt ? report : buildReport());
 	}
 
 	@Override

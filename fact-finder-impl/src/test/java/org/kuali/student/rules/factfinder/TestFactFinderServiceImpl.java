@@ -83,12 +83,14 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         FactResultDTO result = client.fetchFact(factTypeKey, factStructureDTO);
         
         assertEquals(result.getFactResultTypeInfo().getKey(), "result.courseCreditInfo");
-        assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        assertEquals(3, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         assertEquals(2, result.getResultList().size());
         // Can't assume any order of the result list
         assertTrue(containsResult(result.getResultList(), "resultColumn.credit", "2.5"));
         assertTrue(containsResult(result.getResultList(), "resultColumn.credit", "3.5"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 201 (2.5) Contemporary Issues in Psychology"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 202 (3.5) Thinking Clearly about Psychology"));
     }
     
     @Test
@@ -106,13 +108,16 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         FactResultDTO result = client.fetchFact(factTypeKey, factStructureDTO);
         
         assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
-        assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        assertEquals(2, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         assertEquals(3, result.getResultList().size());
         // Can't assume any order of the result list
         assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
         assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 201"));
         assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 202"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 200 (3) Experimental Psychology and Laboratory"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 201 (2.5) Contemporary Issues in Psychology"));
+        assertTrue(containsResult(result.getResultList(), "resultColumn.description", "Psychology 202 (3.5) Thinking Clearly about Psychology"));
     }
     
     @Test
@@ -123,6 +128,8 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         
         FactResultTypeInfoDTO factResultType = factType.getFactResultTypeInfo();        
         assertEquals("resultColumn.credit", factResultType.getResultColumnsMap().get("resultColumn.credit").getKey());
+        assertEquals("resultColumn.cluId", factResultType.getResultColumnsMap().get("resultColumn.cluId").getKey());
+        assertEquals("resultColumn.description", factResultType.getResultColumnsMap().get("resultColumn.description").getKey());
         
         FactCriteriaTypeInfoDTO factCriteriaType = factType.getFactCriteriaTypeInfo();
         assertEquals(3, factCriteriaType.getFactParamMap().size());
@@ -138,5 +145,6 @@ public class TestFactFinderServiceImpl extends AbstractServiceTest {
         
         assertEquals(2, factTypeInfoList.size());
         assertEquals("fact.earned_credit_list", factTypeInfoList.get(0).getFactTypeKey());
+        assertEquals("fact.completed_course_list", factTypeInfoList.get(1).getFactTypeKey());
     }
 }

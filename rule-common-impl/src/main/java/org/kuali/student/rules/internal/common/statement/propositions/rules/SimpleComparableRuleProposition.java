@@ -6,8 +6,11 @@ import java.util.Map;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.propositions.SimpleComparableProposition;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
@@ -15,21 +18,9 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class SimpleComparableRuleProposition<T extends Comparable<T>> extends AbstractRuleProposition<T> {
 
-	public final static String SIMPLE_COMPARABLE_COLUMN_KEY = "key.proposition.column.simplecomparable";
-
 	public SimpleComparableRuleProposition(String id, String propositionName, 
 			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
-		if (id == null || id.isEmpty()) {
-			throw new PropositionException("Proposition id cannot be null");
-		} else if (propositionName == null || propositionName.isEmpty()) {
-			throw new PropositionException("Proposition name cannot be null");
-		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
-			throw new PropositionException("Comparison operator cannot be null");
-		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
-			throw new PropositionException("Expected value cannot be null");
-		} else if (ruleProposition == null) {
-			throw new PropositionException("Rule proposition cannot be null");
-		}
+    	super(id, propositionName, PropositionType.SIMPLECOMPARABLE, ruleProposition);
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
@@ -57,21 +48,10 @@ public class SimpleComparableRuleProposition<T extends Comparable<T>> extends Ab
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			// Get only the first column (column 1)
-			//List<Map<String,String>> resultList = factDTO.getResultList();
-			//String value = resultList.get(0).entrySet().iterator().next().getValue();
-			
-			//Map<String, FactResultColumnInfoDTO> columnMetaData = factDTO.getFactResultTypeInfo().getResultColumnsMap();
-			// Get only the first column (column 1)
-			//FactResultColumnInfoDTO info = columnMetaData.entrySet().iterator().next().getValue();
-
-			//String dataType = info.getDataType();
-			//factObject = (T) BusinessRuleUtil.convertToDataType(dataType, value);
-
-			factColumn = fact.getResultColumnKeyTranslations().get(SIMPLE_COMPARABLE_COLUMN_KEY);
+			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_COLUMN_KEY);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Intersection fact column not found for key '"+
-						SIMPLE_COMPARABLE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+						MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
 			List<T> factList = getList(factDTO, factColumn);
@@ -100,4 +80,9 @@ public class SimpleComparableRuleProposition<T extends Comparable<T>> extends Ab
 		super.proposition = new SimpleComparableProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factObject, ruleProposition); 
 	}
+
+    @Override
+    public PropositionReport buildReport() {
+        return buildDefaultReport(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_SUCCESS_MESSAGE, MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_FAILURE_MESSAGE);
+    }
 }

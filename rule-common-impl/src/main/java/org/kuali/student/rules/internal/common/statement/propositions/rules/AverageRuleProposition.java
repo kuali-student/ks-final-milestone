@@ -22,27 +22,20 @@ import java.util.Map;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.AverageProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class AverageRuleProposition<E extends Number> extends AbstractRuleProposition<E> {
 
-	public final static String AVERAGE_COLUMN_KEY = "key.proposition.column.average";
-
 	public AverageRuleProposition(String id, String propositionName, 
 			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
-		if (propositionName == null || propositionName.isEmpty()) {
-			throw new PropositionException("Proposition name cannot be null");
-		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
-			throw new PropositionException("Comparison operator cannot be null");
-		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
-			throw new PropositionException("Expected value cannot be null");
-		} else if (ruleProposition == null) {
-			throw new PropositionException("Rule proposition cannot be null");
-		}
+    	super(id, propositionName, PropositionType.AVERAGE, ruleProposition);
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
@@ -70,10 +63,10 @@ public class AverageRuleProposition<E extends Number> extends AbstractRulePropos
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			factColumn = fact.getResultColumnKeyTranslations().get(AVERAGE_COLUMN_KEY);
+			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Average column not found for key '"+
-						AVERAGE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+						MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
 			factList = getList(factDTO, factColumn);
@@ -98,6 +91,11 @@ public class AverageRuleProposition<E extends Number> extends AbstractRulePropos
 		}
 
 		super.proposition = new AverageProposition<E>(id, propositionName, 
-				comparisonOperator, expectedValue, factList, ruleProposition); 
+				comparisonOperator, expectedValue, factList); 
 	}
+
+    @Override
+    public PropositionReport buildReport() {
+        return buildDefaultReport(MessageContextConstants.PROPOSITION_AVERAGE_SUCCESS_MESSAGE, MessageContextConstants.PROPOSITION_AVERAGE_FAILURE_MESSAGE);
+    }
 }

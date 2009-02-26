@@ -41,6 +41,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.AverageRuleProposition;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
@@ -383,13 +384,13 @@ public class RuleSetExecutorDroolsImplTest {
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
 
 		Map<String,String> averageResultColumnKey = new HashMap<String, String>();
-		averageResultColumnKey.put(AverageRuleProposition.AVERAGE_COLUMN_KEY, "column1");
+		averageResultColumnKey.put(MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY, "column1");
 		factStructure1.setResultColumnKeyTranslations(averageResultColumnKey);
 
 		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
 		
 		Map<String,String> subsetResultColumnKey = new HashMap<String, String>();
-		subsetResultColumnKey.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "column1");
+		subsetResultColumnKey.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "column1");
 
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
 		factStructure3.setResultColumnKeyTranslations(subsetResultColumnKey);
@@ -472,13 +473,13 @@ public class RuleSetExecutorDroolsImplTest {
 		FactStructureDTO factStructure1 = createFactStructure("subset.id.1", "course.subset.criteria");
 
 		Map<String,String> averageResultColumnKey = new HashMap<String, String>();
-		averageResultColumnKey.put(AverageRuleProposition.AVERAGE_COLUMN_KEY, "column1");
+		averageResultColumnKey.put(MessageContextConstants.PROPOSITION_AVERAGE_COLUMN_KEY, "column1");
 		factStructure1.setResultColumnKeyTranslations(averageResultColumnKey);
 
 		yvfAverage.setFactStructureList(Arrays.asList(factStructure1));
 		
 		Map<String,String> intersectionResultColumnKey = new HashMap<String, String>();
-		intersectionResultColumnKey.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "column1");
+		intersectionResultColumnKey.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "column1");
 
 		FactStructureDTO factStructure3 = createFactStructure("subset.id.2", "course.subset.criteria");
 		factStructure3.setResultColumnKeyTranslations(intersectionResultColumnKey);

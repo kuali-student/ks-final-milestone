@@ -4,13 +4,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -186,89 +184,5 @@ public class MinPropositionTest {
 
     	Assert.assertFalse(result);
     	Assert.assertTrue(minProp.getResultValues().contains(cal1.getTime()));
-    }
-
-    @Test
-    public void testMinProposition_BigDecimal_SuccessMessage() throws Exception {
-    	BigDecimal number = new BigDecimal(75.0);
-    	MinProposition<BigDecimal> minProp = new MinProposition<BigDecimal>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
-    			ruleProposition);
-
-    	Boolean result = minProp.apply();
-
-    	Assert.assertTrue(result);
-        Assert.assertEquals(MinProposition.DEFAULT_SUCCESS_MESSAGE, minProp.getReport().getSuccessMessage());
-    }
-
-    @Test
-    public void testMinProposition_BigDecimal_FailureMessage() throws Exception {
-    	BigDecimal number = new BigDecimal(85.0);
-    	MinProposition<BigDecimal> minProp = new MinProposition<BigDecimal>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
-    			ruleProposition);
-
-    	Boolean result = minProp.apply();
-
-    	Assert.assertFalse(result);
-        Assert.assertEquals("Minimum not met. Minimum found: 75.0", minProp.getReport().getFailureMessage());
-    }
-
-    @Test
-    public void testMinProposition_Date_GreaterThan_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-    	MinProposition<Date> minProp = new MinProposition<Date>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN, cal1.getTime(), 
-    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}),
-    			ruleProposition);
-
-    	Boolean result = minProp.apply();
-
-    	Assert.assertFalse(result);
-    	String expected = "Minimum not met. Minimum found: 2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-        Assert.assertEquals(expected, minProp.getReport().getFailureMessage());
-    }
-
-    @Test
-    public void testMinProposition_Calendar_GreaterThan_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-    	MinProposition<Calendar> minProp = new MinProposition<Calendar>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN, cal1, 
-    			Arrays.asList(new Calendar[]{cal1, cal2}),
-    			ruleProposition);
-
-    	Boolean result = minProp.apply();
-
-    	Assert.assertFalse(result);
-    	String expected = "Minimum not met. Minimum found: 2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-        Assert.assertEquals(expected, minProp.getReport().getFailureMessage());
-    }
-
-    @Test
-    public void testMinProposition_GregorianCalendar_GreaterThan_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-		GregorianCalendar gregCal1 = new GregorianCalendar();
-		gregCal1.setTime(cal1.getTime());
-		GregorianCalendar gregCal2 = new GregorianCalendar();
-		gregCal2.setTime(cal2.getTime());
-		
-    	MinProposition<Calendar> minProp = new MinProposition<Calendar>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN, gregCal1, 
-    			Arrays.asList(new Calendar[]{gregCal1, gregCal2}),
-    			ruleProposition);
-
-    	Boolean result = minProp.apply();
-
-    	Assert.assertFalse(result);
-    	String expected = "Minimum not met. Minimum found: 2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-        Assert.assertEquals(expected, minProp.getReport().getFailureMessage());
     }
 }

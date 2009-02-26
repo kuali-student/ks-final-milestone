@@ -38,11 +38,9 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     Set<E> factSet;
     Collection<?> resultValues;
 
-    public final static String DEFAULT_SUCCESS_MESSAGE = "Subset constraint fulfilled";
-    public final static String DEFAULT_FAILURE_MESSAGE = "#needed# of #unmetSet# is still required";
-
-    public final static String NEEDED_REPORT_TEMPLATE_TOKEN = "needed";
-    public final static String UNMET_REPORT_TEMPLATE_TOKEN = "unmetSet";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_MET = "prop_subset_metset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_UNMET = "prop_subset_unmetset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE = "prop_subset_diff";
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -52,7 +50,7 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
 
     public SubsetProposition(String id, String propositionName, 
     		Set<E> criteriaSet, Set<E> factSet, RulePropositionDTO ruleProposition) {
-        super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()), ruleProposition);
+        super(id, propositionName, PropositionType.SUBSET, ComparisonOperator.EQUAL_TO, new Integer(criteriaSet.size()));
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<E>() : factSet);
     }
@@ -76,16 +74,13 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    public PropositionReport buildReport() {
-        // TODO: Use the operator to compute exact message
+    public void buildMessageContextMap() {
         Integer count = met.size();
         Set<E> unMet = andNot();
-        Integer needed = super.expectedValue - count;
-        addMessageToken(NEEDED_REPORT_TEMPLATE_TOKEN, needed.toString());
-        addMessageToken(UNMET_REPORT_TEMPLATE_TOKEN, unMet.toString());
-        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
-		reportBuilt = Boolean.TRUE;
-        return report;
+        Integer diff = super.expectedValue - count;
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_MET, this.met.toString());
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_UNMET, unMet.toString());
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE, diff.toString());
     }
 
     /**
@@ -106,8 +101,8 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
      * @return
      */
     public Set<E> andNot() {
-        HashSet<E> rval = new HashSet<E>(criteriaSet);
-        rval.removeAll(factSet);
+        HashSet<E> rval = new HashSet<E>(factSet);
+        rval.removeAll(criteriaSet);
 
         return rval;
     }

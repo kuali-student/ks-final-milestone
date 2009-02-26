@@ -4,13 +4,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -187,88 +185,5 @@ public class MaxPropositionTest {
 
     	Assert.assertTrue(result);
     	Assert.assertTrue(maxProp.getResultValues().contains(cal2.getTime()));
-    }
-
-    @Test
-    public void testMaxProposition_BigDecimal_SuccessMessage() throws Exception {
-    	BigDecimal number = new BigDecimal(85.0);
-    	MaxProposition<BigDecimal> maxProp = new MaxProposition<BigDecimal>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
-    			ruleProposition);
-
-    	Boolean result = maxProp.apply();
-
-    	Assert.assertTrue(result);
-        Assert.assertEquals(MaxProposition.DEFAULT_SUCCESS_MESSAGE, maxProp.getReport().getSuccessMessage());
-    }
-
-    @Test
-    public void testMaxProposition_BigDecimal_FailureMessage() throws Exception {
-    	BigDecimal number = new BigDecimal(95.0);
-    	MaxProposition<BigDecimal> maxProp = new MaxProposition<BigDecimal>(
-    			"A-1", "A",
-    			ComparisonOperator.GREATER_THAN_OR_EQUAL_TO, number, gradeList,
-    			ruleProposition);
-
-    	Boolean result = maxProp.apply();
-
-    	Assert.assertFalse(result);
-        Assert.assertEquals("Maximum not met. Maximum found: 85.0", maxProp.getReport().getFailureMessage());
-    }
-
-    @Test
-    public void testMaxProposition_Date_LessThan_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-    	MaxProposition<Date> maxProp = new MaxProposition<Date>(
-    			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, cal1.getTime(), 
-    			Arrays.asList(new Date[]{cal1.getTime(), cal2.getTime()}),
-    			ruleProposition);
-
-    	Boolean result = maxProp.apply();
-
-    	Assert.assertFalse(result);
-    	String expected = "Maximum not met. Maximum found: 2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-        Assert.assertEquals(expected, maxProp.getReport().getFailureMessage());
-    }
-
-    @Test
-    public void testMaxProposition_Calendar_LessThan_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-    	MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
-    			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, cal1, 
-    			Arrays.asList(new Calendar[]{cal1, cal2}),
-    			ruleProposition);
-
-    	Boolean result = maxProp.apply();
-    	String expected = "Maximum not met. Maximum found: 2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-    	Assert.assertFalse(result);
-        Assert.assertEquals(expected, maxProp.getReport().getFailureMessage());
-    }
-
-    @Test
-    public void testMaxProposition_GregorianCalendar_LessThan_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-		GregorianCalendar gregCal1 = new GregorianCalendar();
-		gregCal1.setTime(cal1.getTime());
-		GregorianCalendar gregCal2 = new GregorianCalendar();
-		gregCal2.setTime(cal2.getTime());
-
-		MaxProposition<Calendar> maxProp = new MaxProposition<Calendar>(
-    			"A-1", "A",
-    			ComparisonOperator.LESS_THAN, gregCal1, 
-    			Arrays.asList(new Calendar[]{gregCal1, gregCal2}),
-    			ruleProposition);
-
-    	Boolean result = maxProp.apply();
-
-    	String expected = "Maximum not met. Maximum found: 2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-    	Assert.assertFalse(result);
-        Assert.assertEquals(expected, maxProp.getReport().getFailureMessage());
     }
 }

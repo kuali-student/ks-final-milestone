@@ -39,7 +39,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
@@ -151,7 +151,7 @@ public class ServiceTestClient {
         fs.setAnchorFlag(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
         
         fs.setStaticFact(staticFact);
@@ -177,7 +177,7 @@ public class ServiceTestClient {
         fs.setAnchorFlag(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
         
         fs.setStaticFact(staticFact);
@@ -577,7 +577,7 @@ public class ServiceTestClient {
         // Test criteria facts
         Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
         Assert.assertEquals(1, criteriaRowMap.size());
-        Assert.assertEquals("CPR101", criteriaRowMap.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR101", criteriaRowMap.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
 
         // Test facts
         Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
@@ -586,13 +586,13 @@ public class ServiceTestClient {
         Assert.assertEquals(1, factRowMap1.size());
         Assert.assertEquals(1, factRowMap2.size());
         Assert.assertEquals(1, factRowMap3.size());
-        Assert.assertEquals("CPR101", factRowMap1.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
-        Assert.assertEquals("CPR201", factRowMap2.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
-        Assert.assertEquals("CPR301", factRowMap3.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR101", factRowMap1.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR201", factRowMap2.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR301", factRowMap3.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
 
 		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
         Assert.assertEquals(1, propositionResult1.getResultList().size());
-		Assert.assertTrue(containsResult(propositionResult1.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CPR101"));
     }
 
     @Test

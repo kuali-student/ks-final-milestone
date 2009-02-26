@@ -39,9 +39,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 import org.kuali.student.rules.internal.common.entity.RuleElementType;
 import org.kuali.student.rules.internal.common.entity.YieldValueFunctionType;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.AbstractRuleProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
-import org.kuali.student.rules.internal.common.statement.propositions.rules.SumRuleProposition;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.utils.ServiceFactory;
 import org.kuali.student.rules.repository.dto.RuleSetDTO;
 import org.kuali.student.rules.repository.service.RuleRepositoryService;
@@ -170,7 +168,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         fs.setAnchorFlag(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
         
         fs.setStaticFact(staticFact);
@@ -196,7 +194,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         fs.setAnchorFlag(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+        resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
         
         fs.setStaticFact(staticFact);
@@ -288,7 +286,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         fs.setStaticFact(false);
 
         Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-        resultColumnKeyMap.put(SumRuleProposition.SUM_COLUMN_KEY, "resultColumn.credit");
+        resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_SUM_COLUMN_KEY, "resultColumn.credit");
         fs.setResultColumnKeyTranslations(resultColumnKeyMap);
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -386,25 +384,18 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testFindBusinessRuleTypesFromTestBeans() throws Exception {
-    	System.out.println("*****  testFindBusinessRuleTypesFromTestBeans  *****");
-
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
 		Assert.assertNotNull(businessRuleIdList1);
-		System.out.println("Business Rule ID1: "+businessRuleIdList1);
 		List<String> businessRuleIdList2 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_CO_REQ");
 		Assert.assertNotNull(businessRuleIdList2);
-		System.out.println("Business Rule ID2: "+businessRuleIdList2);
     }
     
     @Test
     public void testFindBusinessRuleTypesFromTestBeansAndExecute_StaticFact() throws Exception {
-    	System.out.println("*****  testFindBusinessRuleTypesFromTestBeansAndExecute_StaticFact  *****");
-
 		List<String> businessRuleIdList1 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_PRE_REQ");
 		List<String> businessRuleIdList2 = ruleManagementService.findBusinessRuleIdsByBusinessRuleType("KUALI_CO_REQ");
 
 		businessRuleIdList1.addAll(businessRuleIdList2);
-		System.out.println("Business Rule ID1: "+businessRuleIdList1);
 		
         for(String businessRuleId : businessRuleIdList1) {
     		// Ignore since it has dynamic facts
@@ -413,25 +404,17 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     			continue;
     		}
     		
-    		System.out.println("Executing Business Rule ID: "+businessRuleId);
-    		
     		// Update business rule to translate/compile and create a new rule set in the rule repository
     		BusinessRuleInfoDTO businessRuleInfo = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
     		ruleManagementService.updateBusinessRule(businessRuleId, businessRuleInfo);
     		
     		ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
     		Assert.assertNotNull(executionResult);
-    		System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
-	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
-	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
         }
     }
     
     @Test
     public void testCreateBusinessRule() throws Exception {
-    	System.out.println("*****  testCreateBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRuleInfo("CHEM200PRE_REQ", "CHEM100");
 
     	String businessRuleId = null;
@@ -439,9 +422,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
     		Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
-    		
-    		System.out.println("Business Rule ID:   "+businessRule2.getId());
-	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -449,15 +429,12 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     
     @Test
     public void testCreateEmptyBusinessRule() throws Exception {
-    	System.out.println("\n\n*****  testCreateEmptyBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule1 = generateNewEmptyBusinessRuleInfo("1000", "CHEM200PRE_REQ", "CHEM100");
 
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
-	        System.out.println("Business Rule ID:   "+businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule Display Name: "+businessRule2.getName());
 	        Assert.assertEquals(businessRule1.getName(), businessRule2.getName());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
@@ -466,27 +443,18 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     
     @Test
     public void testCreateAndFetchBusinessRule() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndFetchBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule = createIntersectionBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100");
 
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
 	        Assert.assertNotNull(businessRuleId);
-	        System.out.println("businessRuleId:         "+businessRuleId);
 	        
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:       "+businessRule.getId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
-	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
 	        Assert.assertNotNull(ruleSet);
-	        System.out.println("RuleSet Name:           "+ruleSet.getName());
-	        System.out.println("RuleSet UUID:           "+ruleSet.getUUID());
-	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
-	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -494,32 +462,22 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testUpdateBusinessRule() throws Exception {
-    	System.out.println("\n\n*****  testUpdateBusinessRule  *****");
     	BusinessRuleInfoDTO businessRule = createIntersectionBusinessRuleInfo("CHEM200PRE_REQ", "CHEM100");
     	
     	String businessRuleId = null;
     	try {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
 	        Assert.assertNotNull(businessRuleId);
-	        System.out.println("businessRuleId:         "+businessRuleId);
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        String status = ruleManagementService.updateBusinessRule(businessRuleId, businessRule).getState();
 	        Assert.assertNotNull(status);
-	        System.out.println("status:                 "+status);
 	
 	        // fetchDetailedBusinessRuleInfo fails 
 	        businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
-	        System.out.println("Business Rule ID:       "+businessRule.getId());
-	        System.out.println("Business Rule Display Name:     "+businessRule.getName());
-	        System.out.println("Business Compiled ID:   "+businessRule.getCompiledId());
 	        
 	        RuleSetDTO ruleSet = ruleRepositoryService.fetchRuleSet(businessRule.getCompiledId());
 	        Assert.assertNotNull(ruleSet);
-	        System.out.println("RuleSet Name:           "+ruleSet.getName());
-	        System.out.println("RuleSet UUID:           "+ruleSet.getUUID());
-	        System.out.println("RuleSet Version Number: "+ruleSet.getVersionNumber());
-	        System.out.println("RuleSet Source:\n"+ruleSet.getContent());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -527,7 +485,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testCreateBusinessRuleAndExecute_StaticFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateBusinessRuleAndExecute  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRuleInfo("CHEM100PRE_REQ", "CHEM100");
 
     	String businessRuleId = null;
@@ -535,18 +492,10 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
     		BusinessRuleInfoDTO businessRule = ruleManagementService.fetchBusinessRuleInfo(businessRuleId);
 	        Assert.assertNotNull(businessRule);
-	        System.out.println("Business Rule ID:        "+businessRule.getId());
-	        System.out.println("Business Rule Display Name:      "+businessRule.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, null);
 
 	        Assert.assertNotNull(executionResult);
-	        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
-	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
-	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-	        System.out.println("Execution log:\n"+executionResult.getExecutionLog());
     	} finally {
     		//ruleManagementService.deleteBusinessRule(businessRuleId);
     	}
@@ -554,19 +503,12 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testFindFactTypes() throws Exception {
-    	System.out.println("\n\n*****  testFindFactTypes  *****");
     	List<FactTypeInfoDTO> factTypes = factFinderService.findFactTypes();
         Assert.assertNotNull(factTypes);
-    	for(FactTypeInfoDTO factTypeInfo : factTypes) {
-    		System.out.println("Fact type name:        "+factTypeInfo.getName());
-    		System.out.println("Fact type description: "+factTypeInfo.getDescription());
-    		System.out.println("Fact type key:         "+factTypeInfo.getFactTypeKey());
-    	}
     }
 
     @Test
     public void testFetchDynamicFact() throws Exception {
-    	System.out.println("\n\n*****  testFetchDynamicFact  *****");
         String factTypeKey = "fact.completed_course_list";
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("factParam.studentId", "student1");
@@ -579,7 +521,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertNotNull(result);
         
         Assert.assertEquals(result.getFactResultTypeInfo().getKey(), "result.completedCourseInfo");
-        Assert.assertEquals(1, result.getFactResultTypeInfo().getResultColumnsMap().size());
+        Assert.assertEquals(2, result.getFactResultTypeInfo().getResultColumnsMap().size());
         
         Assert.assertEquals(4, result.getResultList().size());
         Assert.assertTrue(containsResult(result.getResultList(), "resultColumn.cluId", "PSYC 200"));
@@ -590,7 +532,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testCreateAndExecuteBusinessRule_DynamicFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRule_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRule("CHEM200PRE_REQ", "CHEM200", false);
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -601,20 +542,11 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
     		businessRuleId = ruleManagementService.createBusinessRule(businessRule1).getId();
             Assert.assertNotNull(businessRuleId);
     		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-	        System.out.println("Business Rule ID:        "+businessRule2.getId());
-	        System.out.println("Business Rule Name:      "+businessRule2.getName());
 
 	        ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
             Assert.assertNotNull(executionResult);
-	        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-	        System.out.println("Execution error message: "+executionResult.getErrorMessage());
-	        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-	        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
-	        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-	        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
+            Assert.assertNotNull(executionResult.getExecutionLog());
 	        Assert.assertTrue(executionResult.getReport().isSuccessful());
-
-
 	        // Test proposition reports
 	        Assert.assertEquals(1, executionResult.getReport().getPropositionReports().size());
 	        
@@ -632,9 +564,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 	        Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
 	        Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
 	        Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
-	        Assert.assertEquals(1, factRowMap1.size());
-	        Assert.assertEquals(1, factRowMap2.size());
-	        Assert.assertEquals(1, factRowMap3.size());
+	        Assert.assertEquals(2, factRowMap1.size());
+	        Assert.assertEquals(2, factRowMap2.size());
+	        Assert.assertEquals(2, factRowMap3.size());
 	        Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
 	        Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
 	        Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
@@ -649,19 +581,11 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testCreateAndExecuteBusinessRuleTest_StaticFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRuleTest_StaticFact  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRuleInfo("CHEM100PRE_REQ_TEST", "CHEM100");
     	businessRule1.setId("xxx");
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, null);
         Assert.assertNotNull(executionResult);
-
-        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-        System.out.println("Execution error message: "+executionResult.getErrorMessage());
-        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
-        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
         
         // Test proposition reports
@@ -675,7 +599,7 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         // Test criteria facts
         Map<String,String> criteriaRowMap = prDTO.getCriteriaResult().getResultList().get(0);
         Assert.assertEquals(1, criteriaRowMap.size());
-        Assert.assertEquals("CPR101", criteriaRowMap.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR101", criteriaRowMap.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
 
         // Test facts
         Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
@@ -684,18 +608,17 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Assert.assertEquals(1, factRowMap1.size());
         Assert.assertEquals(1, factRowMap2.size());
         Assert.assertEquals(1, factRowMap3.size());
-        Assert.assertEquals("CPR101", factRowMap1.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
-        Assert.assertEquals("CPR201", factRowMap2.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
-        Assert.assertEquals("CPR301", factRowMap3.get(IntersectionRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR101", factRowMap1.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR201", factRowMap2.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
+        Assert.assertEquals("CPR301", factRowMap3.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
 
 		FactResultDTO propositionResult1 = prDTO.getPropositionResult();
         Assert.assertEquals(1, propositionResult1.getResultList().size());
-		Assert.assertTrue(containsResult(propositionResult1.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(containsResult(propositionResult1.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CPR101"));
     }
 
     @Test
     public void testCreateAndExecuteBusinessRuleTest_DynamicFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteBusinessRuleTest_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule1 = createIntersectionBusinessRule("CHEM100PRE_REQ", "CHEM100", false);
     	businessRule1.setId("xxx");
 
@@ -704,13 +627,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRuleTest(businessRule1, paramMap);
         Assert.assertNotNull(executionResult);
-
-        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-        System.out.println("Execution error message: "+executionResult.getErrorMessage());
-        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
-        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
 
         // Test proposition reports
@@ -730,9 +646,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         Map<String,String> factRowMap1 = prDTO.getFactResult().getResultList().get(0);
         Map<String,String> factRowMap2 = prDTO.getFactResult().getResultList().get(1);
         Map<String,String> factRowMap3 = prDTO.getFactResult().getResultList().get(2);
-        Assert.assertEquals(1, factRowMap1.size());
-        Assert.assertEquals(1, factRowMap2.size());
-        Assert.assertEquals(1, factRowMap3.size());
+        Assert.assertEquals(2, factRowMap1.size());
+        Assert.assertEquals(2, factRowMap2.size());
+        Assert.assertEquals(2, factRowMap3.size());
         Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
@@ -744,7 +660,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
     @Test
     public void testCreateAndExecuteComplexBusinessRule_DynamicFact() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact  *****");
     	BusinessRuleInfoDTO businessRule = createSumBusinessRule("MATH100PRE_REQ", "MATH100");
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -753,19 +668,9 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         String businessRuleId = ruleManagementService.createBusinessRule(businessRule).getId();
         Assert.assertNotNull(businessRuleId);
 		BusinessRuleInfoDTO businessRule2 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
-        System.out.println("columnMap:        "+businessRule2.getBusinessRuleElementList().get(0).getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(0).getResultColumnKeyTranslations());
-        System.out.println("columnMap:        "+businessRule2.getBusinessRuleElementList().get(0).getBusinessRuleProposition().getLeftHandSide().getYieldValueFunction().getFactStructureList().get(1).getResultColumnKeyTranslations());
-        System.out.println("Business Rule ID:        "+businessRule2.getId());
-        System.out.println("Business Rule Name:      "+businessRule2.getName());
 
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
         Assert.assertNotNull(executionResult);
-        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-        System.out.println("Execution error message: "+executionResult.getErrorMessage());
-        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-        System.out.println("Report failure message:  "+executionResult.getReport().getFailureMessage());
-        System.out.println("Report success message:  "+executionResult.getReport().getSuccessMessage());
-        //System.out.println("Execution log:\n"+executionResult.getExecutionLog());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
         
         Assert.assertTrue(getProposition(executionResult.getReport().getPropositionReports(), "P1").isSuccessful());
@@ -789,7 +694,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	/*@Test
     public void testCreateAndExecuteComplexBusinessRuleWithNoReport_DynamicFact2() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRuleWithNoReport_DynamicFact2  *****");
     	String businessRuleId = "11223344-1122-1122-1112-100000000032";
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -803,12 +707,10 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
         Assert.assertNotNull(executionResult1);
         Assert.assertTrue(executionResult1);
-        System.out.println("Execution result:        "+executionResult1);
 	}*/
 
 	@Test
     public void testCreateAndExecuteComplexBusinessRule_DynamicFact3() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteComplexBusinessRule_DynamicFact3  *****");
     	String businessRuleId = "11223344-1122-1122-1112-100000000032";
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -821,9 +723,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         ExecutionResultDTO executionResult = ruleExecutionService.executeBusinessRule(businessRuleId, paramMap);
 
         Assert.assertNotNull(executionResult);
-        System.out.println("Execution result:        "+executionResult.isExecutionSuccessful());
-        System.out.println("Report success:          "+executionResult.getReport().isSuccessful());
-
         Assert.assertTrue(executionResult.isExecutionSuccessful());
         Assert.assertTrue(executionResult.getReport().isSuccessful());
 
@@ -848,17 +747,17 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
         // Test criteria facts
         Map<String,String> criteriaRowMap = prP1.getCriteriaResult().getResultList().get(0);
 		Assert.assertEquals(1, criteriaRowMap.size());
-        Assert.assertEquals("PSYC 200", criteriaRowMap.get(AbstractRuleProposition.STATIC_FACT_COLUMN));
+        Assert.assertEquals("PSYC 200", criteriaRowMap.get(MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN));
 
         // Test facts - Assume rows are ordered
         Map<String,String> factRowMap1 = prP1.getFactResult().getResultList().get(0);
         Map<String,String> factRowMap2 = prP1.getFactResult().getResultList().get(1);
         Map<String,String> factRowMap3 = prP1.getFactResult().getResultList().get(2);
         Map<String,String> factRowMap4 = prP1.getFactResult().getResultList().get(3);
-        Assert.assertEquals(1, factRowMap1.size());
-        Assert.assertEquals(1, factRowMap2.size());
-        Assert.assertEquals(1, factRowMap3.size());
-        Assert.assertEquals(1, factRowMap4.size());
+        Assert.assertEquals(2, factRowMap1.size());
+        Assert.assertEquals(2, factRowMap2.size());
+        Assert.assertEquals(2, factRowMap3.size());
+        Assert.assertEquals(2, factRowMap4.size());
         Assert.assertEquals("PSYC 200", factRowMap1.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 201", factRowMap2.get("resultColumn.cluId"));
         Assert.assertEquals("PSYC 202", factRowMap3.get("resultColumn.cluId"));
@@ -880,7 +779,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	@Test
 	public void testCreateAndExecuteAgenda_OneBusinessRule() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteAgenda_OneBusinessRule  *****");
     	// Update business rule to create a compiled/executable rule
     	String businessRuleId = "11223344-1122-1122-1112-100000000011";
     	BusinessRuleInfoDTO businessRule = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId);
@@ -942,7 +840,6 @@ public class IntegrationTest extends AbstractIntegrationServiceTest {
 
 	@Test
 	public void testCreateAndExecuteAgenda_TwoBusinessRule() throws Exception {
-    	System.out.println("\n\n*****  testCreateAndExecuteAgenda_TwoBusinessRule  *****");
     	// Update business rule to change state to ACTIVE and compile an executable rule
     	String businessRuleId1 = "11223344-1122-1122-1112-100000000011";
     	BusinessRuleInfoDTO businessRule1 = ruleManagementService.fetchDetailedBusinessRuleInfo(businessRuleId1);

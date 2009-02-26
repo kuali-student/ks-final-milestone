@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
@@ -38,10 +37,7 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     T fact;
     List<Boolean> resultValues;
     
-    public final static String DEFAULT_SUCCESS_MESSAGE = "Comparison constraint fulfilled";
-    public final static String DEFAULT_FAILURE_MESSAGE = "#fact# not #operator# #expectedValue#";
-
-    public final static String FACT_REPORT_TEMPLATE_TOKEN = "fact";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_SIMPLE_COMPARABLE_FACT = "prop_simple_comp_fact";
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -51,16 +47,13 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
 
     public SimpleComparableProposition(String id, String propositionName, 
     		ComparisonOperator operator, T expectedValue, T fact, RulePropositionDTO ruleProposition) {
-        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue, ruleProposition);
+        super(id, propositionName, PropositionType.SIMPLECOMPARABLE, operator, expectedValue);
 
         this.fact = fact;
     }
 
     // ~ Methods ----------------------------------------------------------------
 
-    /* (non-Javadoc)
-    * @see org.kuali.rules.constraint.Constraint#apply()
-    */
     @Override
     public Boolean apply() {
         sanityCheck();
@@ -73,15 +66,10 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
-     */
     @Override
-    public PropositionReport buildReport() {
+    public void buildMessageContextMap() {
         String s = getTypeAsString(this.fact);
-    	addMessageToken(FACT_REPORT_TEMPLATE_TOKEN, s);
-        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
-    	return report;
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_SIMPLE_COMPARABLE_FACT, s);
     }
 
     private void sanityCheck() {

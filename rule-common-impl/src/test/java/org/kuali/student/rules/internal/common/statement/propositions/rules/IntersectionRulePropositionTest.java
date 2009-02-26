@@ -10,6 +10,7 @@ import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.IntersectionRuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
@@ -70,19 +71,19 @@ public class IntersectionRulePropositionTest {
 
 		FactResultDTO criteriaResult = report.getCriteriaResult();
 		Assert.assertEquals(2, criteriaResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CPR101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CHEM101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(criteriaResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CHEM101"));
 
 		FactResultDTO factResult = report.getFactResult();
 		Assert.assertEquals(3, factResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CPR101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "MATH101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CHEM101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "MATH101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(factResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CHEM101"));
 
 		FactResultDTO propositionResult = report.getPropositionResult();
         Assert.assertEquals(2, propositionResult.getResultList().size());
-		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CPR101"));
-		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), IntersectionRuleProposition.STATIC_FACT_COLUMN, "CHEM101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CPR101"));
+		Assert.assertTrue(CommonTestUtil.containsResult(propositionResult.getResultList(), MessageContextConstants.PROPOSITION_STATIC_FACT_COLUMN, "CHEM101"));
 	}
 
 	@Test
@@ -104,6 +105,7 @@ public class IntersectionRulePropositionTest {
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		//Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2", report.getFailureMessage());
+		Assert.assertEquals("-1 of [] is still required", report.getFailureMessage());
 	}
 
 	@Test
@@ -125,6 +127,7 @@ public class IntersectionRulePropositionTest {
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		//Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected only 2 or less", report.getFailureMessage());
+		Assert.assertEquals("-1 of [] is still required", report.getFailureMessage());
 	}
 
 	@Test
@@ -146,6 +149,7 @@ public class IntersectionRulePropositionTest {
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		//Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected less than 2", report.getFailureMessage());
+		Assert.assertEquals("-1 of [] is still required", report.getFailureMessage());
 	}
 
 	@Test
@@ -167,6 +171,7 @@ public class IntersectionRulePropositionTest {
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		//Assert.assertEquals("Found 3 course(s) [CHEM101, CPR101, MATH101] but expected not 3", report.getFailureMessage());
+		Assert.assertEquals("0 of [] is still required", report.getFailureMessage());
 	}
 
 	@Test
@@ -188,6 +193,7 @@ public class IntersectionRulePropositionTest {
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		//Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected more than 3", report.getFailureMessage());
+		Assert.assertEquals("1 of [] is still required", report.getFailureMessage());
 	}
 
 	@Test
@@ -209,6 +215,7 @@ public class IntersectionRulePropositionTest {
 		Assert.assertFalse(proposition.getResult());
 		Assert.assertNotNull(report);
 		//Assert.assertEquals("Found 2 course(s) [CPR101, MATH101] but expected 3 or more", report.getFailureMessage());
+		Assert.assertEquals("1 of [] is still required", report.getFailureMessage());
 	}
 
 	@Test
@@ -217,7 +224,7 @@ public class IntersectionRulePropositionTest {
 
 		FactStructureDTO fs1 = CommonTestUtil.createFactStructure("fact.id.1", "course.intersection.criteria");
 		Map<String,String> resultColumnKeyMap = new HashMap<String, String>();
-		resultColumnKeyMap.put(IntersectionRuleProposition.INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
+		resultColumnKeyMap.put(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY, "resultColumn.cluId");
 		fs1.setResultColumnKeyTranslations(resultColumnKeyMap);
 
 		FactStructureDTO fs2 = CommonTestUtil.createFactStructure("fact.id.2", "course.intersection.fact");

@@ -33,6 +33,8 @@ public class LUIPerson {
     
     private String cluId;
     
+    private String description;
+
     private Double credits;
 
     
@@ -98,5 +100,19 @@ public class LUIPerson {
      */
     public void setCredits(Double cretids) {
         this.credits = cretids;
-    }    
+    }
+
+    /**
+     * @return Clu description
+     */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description Clu description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}    
 }

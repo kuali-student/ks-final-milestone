@@ -71,6 +71,7 @@ public class FactFinderServiceImpl implements FactFinderService {
                     Map<String, String> resultColumn = new HashMap<String, String>();
                     resultColumn.put("resultColumn.cluId", String.valueOf(lpr.getCluId()));
                     resultColumn.put("resultColumn.credit", String.valueOf(lpr.getCredits()));
+                    resultColumn.put("resultColumn.description", String.valueOf(lpr.getDescription()));
                     resultValueList.add(resultColumn);
                 }
             }
@@ -78,6 +79,7 @@ public class FactFinderServiceImpl implements FactFinderService {
             for (LUIPerson lpr : luiPersonList) {
                 Map<String, String> resultColumn = new HashMap<String, String>();
                 resultColumn.put("resultColumn.cluId", lpr.getCluId());
+                resultColumn.put("resultColumn.description", String.valueOf(lpr.getDescription()));
                 resultValueList.add(resultColumn);
             }
         } else if ("fact.clusetId".equalsIgnoreCase(factTypeKey)) {

@@ -3,6 +3,7 @@ package org.kuali.student.rules.internal.common.utils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,11 @@ public class CommonTestUtil {
     }
   
 	public static Calendar createDate(int year, int month, int day, int hourOfDay, int minute) {
-    	Calendar cal = Calendar.getInstance();
+		return createGregorianCalendar(year, month, day, hourOfDay, minute);
+    }
+
+	public static GregorianCalendar createGregorianCalendar(int year, int month, int day, int hourOfDay, int minute) {
+		GregorianCalendar cal = new GregorianCalendar();
     	cal.set(year, month-1, day, hourOfDay, minute, 0);
     	cal.set(Calendar.MILLISECOND, 0);
     	return cal;

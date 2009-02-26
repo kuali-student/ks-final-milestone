@@ -34,25 +34,4 @@ public class SubsetPropositionTest {
         Assert.assertFalse(result);
         Assert.assertEquals(0, prop.getResultValues().size());
     }
-
-	@Test
-    public void testSubsetTrue_SuccessMessage() throws Exception {
-        SubsetProposition<String> prop = new SubsetProposition<String>("A-1", "A", set1, set2, ruleProposition);
-
-        Boolean result = prop.apply();
-
-        Assert.assertTrue(result);
-        Assert.assertEquals(SubsetProposition.DEFAULT_SUCCESS_MESSAGE, prop.getReport().getSuccessMessage());
-    }
-
-    @Test
-    public void testSubsetFalse_FailureMessage() throws Exception {
-        SubsetProposition<String> prop = new SubsetProposition<String>("A-1", "A", set3, set2, ruleProposition);
-
-        Boolean result = prop.apply();
-
-        Assert.assertFalse(result);
-        Assert.assertEquals("1 of [BIOL101] is still required", prop.getReport().getFailureMessage());
-    }
-
 }

@@ -7,7 +7,6 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.CommonTestUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
@@ -166,36 +165,5 @@ public class SimpleComparablePropositionTest {
 
         Assert.assertTrue(result);
 		Assert.assertTrue(comparableProp.getResultValues().contains(new Boolean(true)));
-    }
-
-	@Test
-    public void testSimpleComparableProposition_SuccessMessage() throws Exception {
-    	SimpleComparableProposition<String> comparableProp = new SimpleComparableProposition<String>(
-    			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, "Hi Kuali", "Hi Kuali",
-    			ruleProposition);
-
-    	Boolean result = comparableProp.apply();
-
-        Assert.assertTrue(result);
-        Assert.assertEquals("Comparison constraint fulfilled", comparableProp.getReport().getSuccessMessage());
-    }
-    
-    @Test
-    public void testSimpleComparableProposition_Calendar_EqualTo_FailureMessage() throws Exception {
-		Calendar cal1 = CommonTestUtil.createDate(2000, 1, 1, 1, 0);
-		Calendar cal2 = CommonTestUtil.createDate(2010, 1, 1, 1, 0);
-    	SimpleComparableProposition<Calendar> comparableProp = new SimpleComparableProposition<Calendar>(
-    			"A-1", "A",
-    			ComparisonOperator.EQUAL_TO, cal1, cal2,
-    			ruleProposition);
-
-    	Boolean result = comparableProp.apply();
-
-        Assert.assertFalse(result);
-    	String date1 = "2010-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-    	String date2 = "2000-01-01T01:00:00.000"+BusinessRuleUtil.getDefaultIsoTimeZone();
-    	String expected = date1 + " not EQUAL_TO " + date2;
-        Assert.assertEquals(expected, comparableProp.getReport().getFailureMessage());
     }
 }

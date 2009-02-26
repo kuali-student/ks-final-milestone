@@ -17,7 +17,7 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
     public StatisticsProposition(String id, String propositionName, 
     		ComparisonOperator operator, StatFunction function, Double expectedValue, Collection<T> fact,
     		RulePropositionDTO ruleProposition) {
-        super(id, propositionName, null, operator, expectedValue, ruleProposition);
+        super(id, propositionName, null, operator, expectedValue);
         this.fact = fact;
         this.function = function;
     }
@@ -32,8 +32,8 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
 	}
 
 	@Override
-    public PropositionReport buildReport() {
-        if (result) {
+    public void buildMessageContextMap() {
+        /*if (result) {
             report.setSuccessMessage("Statistics " + function + " constraint fulfilled");
             return report;
         }
@@ -41,7 +41,7 @@ public class StatisticsProposition<T extends Number> extends AbstractProposition
         // TODO: Use the operator to compute exact message
         String advice = String.format("Statistics %1$s not met, calculate value is %2$s expected:  %3$s", function, computedValue, super.expectedValue);
         report.setFailureMessage(advice);
-        return report;
+        return report;*/
 	}
 	
 	public Double getComputedValue() {

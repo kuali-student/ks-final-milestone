@@ -135,7 +135,7 @@ public class DroolsTestUtil {
 		"        AverageRuleProposition<java.math.BigDecimal> propositionP1 = new AverageRuleProposition<java.math.BigDecimal>( \n" +
 		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
 		"        propositionP1.apply(); \n" +
-		"        prop.addProposition(propositionP1.getProposition()); \n" +
+		"        prop.addProposition(propositionP1); \n" +
 		"        insert(propositionP1.getProposition()); \n" +
 		"\n" +
 		"        String uuidP2 = \"P2-a46c7596-8052-4d83-bcc0-da4744436ed3\"; \n" +
@@ -145,7 +145,7 @@ public class DroolsTestUtil {
 		"        IntersectionRuleProposition<java.lang.Integer> propositionP2 = new IntersectionRuleProposition<java.lang.Integer>( \n" +
 		"            uuidP2, \"P2\", rulePropositionP2, factMap ); \n" +
 		"        propositionP2.apply(); \n" +
-		"        prop.addProposition(propositionP2.getProposition()); \n" +
+		"        prop.addProposition(propositionP2); \n" +
 		"        insert(propositionP2.getProposition()); \n" +
 		
 		"end \n" +
@@ -211,7 +211,7 @@ public class DroolsTestUtil {
 		"        AverageRuleProposition<java.math.BigDecimal> propositionP1 = new AverageRuleProposition<java.math.BigDecimal>( \n" +
 		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
 		"        propositionP1.apply(); \n" +
-		"        prop.addProposition(propositionP1.getProposition()); \n" +
+		"        prop.addProposition(propositionP1); \n" +
 		"        insert(propositionP1.getProposition()); \n" +
 		
 		"end \n" +
@@ -272,7 +272,7 @@ public class DroolsTestUtil {
 		"        IntersectionRuleProposition<java.lang.Integer> propositionP1 = new IntersectionRuleProposition<java.lang.Integer>( \n" +
 		"            uuidP1, \"P1\", rulePropositionP1, factMap ); \n" +
 		"        propositionP1.apply(); \n" +
-		"        prop.addProposition(propositionP1.getProposition()); \n" +
+		"        prop.addProposition(propositionP1); \n" +
 		"        insert(propositionP1.getProposition()); \n" +
 		"end \n" +
 

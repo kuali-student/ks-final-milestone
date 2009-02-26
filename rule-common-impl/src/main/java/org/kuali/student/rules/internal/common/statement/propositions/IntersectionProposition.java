@@ -20,8 +20,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -32,14 +30,9 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
  */
 public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 
-    public final static String DEFAULT_SUCCESS_MESSAGE = "Intersection constraint fulfilled";
-    public final static String DEFAULT_FAILURE_MESSAGE = "#needed# of #unmetSet# is still required";
-
-    public final static String NEEDED_REPORT_TEMPLATE_TOKEN = "needed";
-    public final static String MET_COUNT_REPORT_TEMPLATE_TOKEN = "metCount";
-    public final static String UNMET_COUNT_REPORT_TEMPLATE_TOKEN = "unmetCount";
-    public final static String MET_REPORT_TEMPLATE_TOKEN = "metSet";
-    public final static String UNMET_REPORT_TEMPLATE_TOKEN = "unmetSet";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_DIFF = "prop_intersection_diff";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_MET = "prop_intersection_metset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_UNMET = "prop_intersection_unmetset";
 
     // ~ Instance fields --------------------------------------------------------
 	private Set<T> met;
@@ -56,8 +49,8 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
 
     public IntersectionProposition(String id, String propositionName, 
     		ComparisonOperator operator, Integer expectedValue,
-            Set<T> criteriaSet, Set<T> factSet, RulePropositionDTO ruleProposition) {
-        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue, ruleProposition);
+            Set<T> criteriaSet, Set<T> factSet) {
+        super(id, propositionName, PropositionType.INTERSECTION, operator, expectedValue);
         this.criteriaSet = criteriaSet;
         this.factSet = (factSet == null ? new HashSet<T>() : factSet);
     }
@@ -82,21 +75,16 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
      * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
      */
     @Override
-    public PropositionReport buildReport() {
+    public void buildMessageContextMap() {
         Integer count = met.size();
         Integer expectedValue = (Integer) super.expectedValue;
-        addMessageToken(MET_COUNT_REPORT_TEMPLATE_TOKEN, Integer.toString(met.size()));
-        addMessageToken(MET_REPORT_TEMPLATE_TOKEN, met.toString());
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_MET, met.toString());
 
         Set<T> unMet = andNot();
         Integer needed = expectedValue - count;
-        addMessageToken(NEEDED_REPORT_TEMPLATE_TOKEN, needed.toString());
-        addMessageToken(UNMET_COUNT_REPORT_TEMPLATE_TOKEN, Integer.toString(unMet.size()));
-        addMessageToken(UNMET_REPORT_TEMPLATE_TOKEN, unMet.toString());
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_DIFF, needed.toString());
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_UNMET, unMet.toString());
 
-        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
-        return report;
-        
         /*if (result) {
 	        report.setSuccessMessage("Intersection constraint fulfilled");
 	        return report;

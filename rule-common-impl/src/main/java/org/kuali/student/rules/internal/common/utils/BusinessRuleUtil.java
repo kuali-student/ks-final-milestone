@@ -512,15 +512,27 @@ public class BusinessRuleUtil {
      * @param dateObject A date object  
      * @return
      */
-    public static String formatDate(Date date) {
+    public static String formatIsoDate(Date date) {
     	return isoDateFormat.format(date).toString();
     }
 
+    /**
+     * Formats a <code>date</code> according to <code>pattern</code>.
+     * 
+     * @param date Date to format
+     * @param pattern Date format pattern
+     * @return Formatted date
+     */
     public static String formatDate(Date date, String pattern) {
     	dateFormat.applyPattern(pattern);
     	return dateFormat.format(date).toString();
     }
-    
+
+    /**
+     * Returns the default ISO time zone.
+     * 
+     * @return Default ISO time zone
+     */
     public static String getDefaultIsoTimeZone() {
     	dateFormat.applyPattern("Z");
     	return dateFormat.format(date).toString();

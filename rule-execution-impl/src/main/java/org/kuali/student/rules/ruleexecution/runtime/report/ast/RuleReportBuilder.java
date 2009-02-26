@@ -27,6 +27,7 @@ import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
 import org.kuali.student.rules.internal.common.runtime.ast.Function;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
@@ -97,9 +98,9 @@ public class RuleReportBuilder implements ReportBuilder {
         return ruleReport;
     }
     
-    private List<PropositionReport> createPropositionReport(Collection<Proposition> propositionList) {
+    private List<PropositionReport> createPropositionReport(Collection<RuleProposition> propositionList) {
         List<PropositionReport> propositionReportList = new ArrayList<PropositionReport>();
-        for(Proposition prop : propositionList) {
+        for(RuleProposition prop : propositionList) {
         	prop.getReport().setSuccessful(prop.getResult());
         	propositionReportList.add(prop.buildReport());
         }

@@ -22,29 +22,20 @@ import java.util.Set;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.IntersectionProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class IntersectionRuleProposition<E> extends AbstractRuleProposition<E> {
 
-	public final static String INTERSECTION_COLUMN_KEY = "key.proposition.column.intersection";
-
 	public IntersectionRuleProposition(String id, String propositionName, 
 			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
-		if (id == null || id.isEmpty()) {
-			throw new PropositionException("Proposition id cannot be null");
-		} else if (propositionName == null || propositionName.isEmpty()) {
-			throw new PropositionException("Proposition name cannot be null");
-		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
-			throw new PropositionException("Comparison operator cannot be null");
-		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
-			throw new PropositionException("Expected value cannot be null");
-		} else if (ruleProposition == null) {
-			throw new PropositionException("Rule proposition cannot be null");
-		}
+    	super(id, propositionName, PropositionType.INTERSECTION, ruleProposition);
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
@@ -77,10 +68,10 @@ public class IntersectionRuleProposition<E> extends AbstractRuleProposition<E> {
 			String criteriaKey = FactUtil.createCriteriaKey(criteria);
 			criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
 
-			String column = criteria.getResultColumnKeyTranslations().get(INTERSECTION_COLUMN_KEY);
+			String column = criteria.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
 				throw new PropositionException("Intersection criteria column not found for key '"+
-						INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + criteria.getFactStructureId());
+						MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + criteria.getFactStructureId());
 			}
 
 			criteriaSet = getSet(criteriaDTO, column);
@@ -103,10 +94,10 @@ public class IntersectionRuleProposition<E> extends AbstractRuleProposition<E> {
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			factColumn = fact.getResultColumnKeyTranslations().get(INTERSECTION_COLUMN_KEY);
+			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Intersection fact column not found for key '"+
-						INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+						MessageContextConstants.PROPOSITION_INTERSECTION_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
 			factSet = getSet(factDTO, factColumn);
@@ -134,7 +125,11 @@ public class IntersectionRuleProposition<E> extends AbstractRuleProposition<E> {
 		}
 
 		super.proposition = new IntersectionProposition<E>(id, propositionName, 
-        		comparisonOperator, expectedValue, criteriaSet, factSet, ruleProposition); 
+        		comparisonOperator, expectedValue, criteriaSet, factSet); 
 	}
-	
+
+    @Override
+    public PropositionReport buildReport() {
+        return buildDefaultReport(MessageContextConstants.PROPOSITION_INTERSECTION_SUCCESS_MESSAGE, MessageContextConstants.PROPOSITION_INTERSECTION_FAILURE_MESSAGE);
+    }
 }

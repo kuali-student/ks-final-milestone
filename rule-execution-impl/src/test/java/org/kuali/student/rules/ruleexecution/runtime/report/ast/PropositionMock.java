@@ -4,9 +4,10 @@ import java.util.Collection;
 
 import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
-public class PropositionMock implements Proposition {
+public class PropositionMock implements RuleProposition {
 	private String id;
 	private String propositionName;
 	private PropositionReport propositionReport;

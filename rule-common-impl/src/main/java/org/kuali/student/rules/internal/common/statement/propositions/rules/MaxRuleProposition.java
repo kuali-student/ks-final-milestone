@@ -22,8 +22,11 @@ import java.util.Set;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.MaxProposition;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
@@ -31,21 +34,9 @@ import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class MaxRuleProposition<T extends Comparable<T>> extends AbstractRuleProposition<T> {
 
-	public final static String MAX_COLUMN_KEY = "key.proposition.column.min";
-
 	public MaxRuleProposition(String id, String propositionName, 
 			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
-		if (id == null || id.isEmpty()) {
-			throw new PropositionException("Proposition id cannot be null");
-		} else if (propositionName == null || propositionName.isEmpty()) {
-			throw new PropositionException("Proposition name cannot be null");
-		} else if (ruleProposition.getComparisonOperatorTypeKey() == null) {
-			throw new PropositionException("Comparison operator cannot be null");
-		} else if (ruleProposition.getRightHandSide().getExpectedValue() == null) {
-			throw new PropositionException("Expected value cannot be null");
-		} else if (ruleProposition == null) {
-			throw new PropositionException("Rule proposition cannot be null");
-		}
+    	super(id, propositionName, PropositionType.MAX, ruleProposition);
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
@@ -73,10 +64,10 @@ public class MaxRuleProposition<T extends Comparable<T>> extends AbstractRulePro
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			factColumn = fact.getResultColumnKeyTranslations().get(MAX_COLUMN_KEY);
+			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_MAX_COLUMN_KEY);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Max column not found for key '"+
-						MAX_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+						MessageContextConstants.PROPOSITION_MAX_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
 			factSet = getSet(factDTO, factColumn);
@@ -104,4 +95,9 @@ public class MaxRuleProposition<T extends Comparable<T>> extends AbstractRulePro
 		super.proposition = new MaxProposition<T>(id, propositionName, 
         		comparisonOperator, expectedValue, factSet, ruleProposition); 
 	}
+
+    @Override
+    public PropositionReport buildReport() {
+        return buildDefaultReport(MessageContextConstants.PROPOSITION_MAX_SUCCESS_MESSAGE, MessageContextConstants.PROPOSITION_MAX_FAILURE_MESSAGE);
+    }
 }

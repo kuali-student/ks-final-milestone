@@ -21,25 +21,20 @@ import java.util.Set;
 
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactStructureDTO;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
+import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.propositions.SubsetProposition;
+import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 import org.kuali.student.rules.rulemanagement.dto.YieldValueFunctionDTO;
 
 public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 
-	public final static String SUBSET_COLUMN_KEY = "key.proposition.column.subset";
-
 	public SubsetRuleProposition(String id, String propositionName, 
 			RulePropositionDTO ruleProposition, Map<String, ?> factMap) {
-		if (id == null || id.isEmpty()) {
-			throw new PropositionException("Proposition id cannot be null");
-		} else if (propositionName == null || propositionName.isEmpty()) {
-			throw new PropositionException("Proposition name cannot be null");
-		} else if (ruleProposition == null) {
-			throw new PropositionException("Rule proposition cannot be null");
-		}
+    	super(id, propositionName, PropositionType.SUBSET, ruleProposition);
 
 		YieldValueFunctionDTO yvf = ruleProposition.getLeftHandSide().getYieldValueFunction();
 		List<FactStructureDTO> factStructureList = yvf.getFactStructureList();
@@ -72,10 +67,10 @@ public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 			String criteriaKey = FactUtil.createCriteriaKey(criteria);
 			criteriaDTO = (FactResultDTO) factMap.get(criteriaKey);
 
-			String column = criteria.getResultColumnKeyTranslations().get(SUBSET_COLUMN_KEY);
+			String column = criteria.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY);
 			if (column == null || column.trim().isEmpty()) {
 				throw new PropositionException("Subset criteria column not found for key '"+
-						SUBSET_COLUMN_KEY+"'. Fact structure id: " + criteria.getFactStructureId());
+						MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY+"'. Fact structure id: " + criteria.getFactStructureId());
 			}
 
 			criteriaSet = getSet(criteriaDTO, column);
@@ -97,10 +92,10 @@ public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 	    	String factKey = FactUtil.createFactKey(fact);
 			factDTO = (FactResultDTO) factMap.get(factKey);
 
-			factColumn = fact.getResultColumnKeyTranslations().get(SUBSET_COLUMN_KEY);
+			factColumn = fact.getResultColumnKeyTranslations().get(MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY);
 			if (factColumn == null || factColumn.trim().isEmpty()) {
 				throw new PropositionException("Subset column not found for key '"+
-						SUBSET_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
+						MessageContextConstants.PROPOSITION_SUBSET_COLUMN_KEY+"'. Fact structure id: " + fact.getFactStructureId());
 			}
 
 			factSet = getSet(factDTO, factColumn);
@@ -125,5 +120,9 @@ public class SubsetRuleProposition<E> extends AbstractRuleProposition<E> {
 
 		super.proposition = new SubsetProposition<E>(id, propositionName, criteriaSet, factSet, ruleProposition); 
 	}
-	
+
+    @Override
+    public PropositionReport buildReport() {
+        return buildDefaultReport(MessageContextConstants.PROPOSITION_SUBSET_SUCCESS_MESSAGE, MessageContextConstants.PROPOSITION_SUBSET_FAILURE_MESSAGE);
+    }
 }

@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
+import org.kuali.student.rules.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 
 /**
@@ -32,7 +32,7 @@ import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 public class PropositionContainer {
 
     protected String functionalRuleString;
-    protected Map<String,Proposition> propositionMap = new HashMap<String, Proposition>();
+    protected Map<String,RuleProposition> propositionMap = new HashMap<String, RuleProposition>();
     protected Boolean ruleResult = false;
     protected RuleReport ruleReport = new RuleReport();
     
@@ -51,7 +51,7 @@ public class PropositionContainer {
     /**
      * @return the propositionMap
      */
-    public Map<String, Proposition> getPropositionMap() {
+    public Map<String, RuleProposition> getPropositionMap() {
         return propositionMap;
     }
     
@@ -60,14 +60,14 @@ public class PropositionContainer {
      * 
      * @return Collection of <code>Proposition</code>
      */
-    public Collection<Proposition> getPropositions() {
+    public Collection<RuleProposition> getPropositions() {
         return this.propositionMap.values();
     }
     
     /**
      * @param propositionMap the propositionMap to set
      */
-    public void setPropositionMap(Map<String, Proposition> propositionMap) {
+    public void setPropositionMap(Map<String, RuleProposition> propositionMap) {
         this.propositionMap = propositionMap;
     }
     /**
@@ -76,7 +76,7 @@ public class PropositionContainer {
      * 
      * @param proposition A proposition
      */
-    public void addProposition(Proposition proposition) {
+    public void addProposition(RuleProposition proposition) {
         propositionMap.put(proposition.getPropositionName(), proposition);
     }
     /**
@@ -86,7 +86,7 @@ public class PropositionContainer {
      * @param propositionName
      * @return
      */
-    public Proposition getProposition(String propositionName) {
+    public RuleProposition getProposition(String propositionName) {
         return propositionMap.get(propositionName);
     }
     /**

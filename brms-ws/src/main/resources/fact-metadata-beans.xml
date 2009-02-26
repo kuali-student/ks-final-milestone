@@ -58,6 +58,15 @@
                         <property name="dataType" value="java.lang.String"/>                                                
                     </bean>
                 </entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
 				<entry>
 					<key><value>resultColumn.credit</value></key>
 					<bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
@@ -87,6 +96,15 @@
 						<property name="dataType" value="java.lang.String"/>												
 					</bean>
 				</entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
 			</map>
 		</property>
 	</bean>
@@ -104,6 +122,15 @@
                         <property name="key" value="resultColumn.cluId"/>
                         <property name="name" value="resultColumn.cluId"/>
                         <property name="description" value="Course Name"/>
+                        <property name="dataType" value="java.lang.String"/>                                                
+                    </bean>
+                </entry>
+                <entry>
+                    <key><value>resultColumn.description</value></key>
+                    <bean class="org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO">
+                        <property name="key" value="resultColumn.description"/>
+                        <property name="name" value="resultColumn.description"/>
+                        <property name="description" value="CLU Description"/>
                         <property name="dataType" value="java.lang.String"/>                                                
                     </bean>
                 </entry>

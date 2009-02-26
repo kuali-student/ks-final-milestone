@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
-import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
-import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
  * A constraint that specifies that sum of a list of values is less than the required amount.
@@ -32,11 +30,9 @@ import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
  */
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
     // ~ Instance fields --------------------------------------------------------
-    public final static String DEFAULT_SUCCESS_MESSAGE = "Sum constraint fulfilled";
-    public final static String DEFAULT_FAILURE_MESSAGE = "Sum is short by #needed#";
-    
-    public final static String SUM_REPORT_MESSAGE_TOKEN = "sum";
-    public final static String NEEDED_REPORT_MESSAGE_TOKEN = "needed";
+
+	public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_SUM = "prop_sum";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE = "prop_sum_diff";
     
 	private BigDecimal sum;
     List<E> factSet;
@@ -48,9 +44,8 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
     }
 
     public SumProposition(String id, String propositionName, 
-    		ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet,
-    		RulePropositionDTO ruleProposition) {
-        super(id, propositionName, PropositionType.SUM, operator, expectedValue, ruleProposition);
+    		ComparisonOperator operator, BigDecimal expectedValue, List<E> factSet) {
+        super(id, propositionName, PropositionType.SUM, operator, expectedValue);
     	if (factSet == null || factSet.size() == 0) {
     		throw new IllegalArgumentException("Fact set cannot be null");
     	}
@@ -71,25 +66,17 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.rules.constraint.AbstractConstraint#cacheAdvice(java.lang.String, java.lang.Object[])
-     */
     @Override
-    public PropositionReport buildReport() {
-        addMessageToken(SUM_REPORT_MESSAGE_TOKEN, sum.toString());
-        // TODO: Use the operator to compute exact message
-        BigDecimal needed = expectedValue.subtract(sum);
-        addMessageToken(NEEDED_REPORT_MESSAGE_TOKEN, needed.toString());
-        buildDefaultReport(DEFAULT_SUCCESS_MESSAGE, DEFAULT_FAILURE_MESSAGE);
-        return report;
+    public void buildMessageContextMap() {
+    	addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_SUM, sum.toString());
+        BigDecimal difference = expectedValue.subtract(sum);
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE, difference.toString());
     }
 
     /**
-     * This method sums all the element in the fact list
+     * This method sums all the element in the fact list.
      * 
-     * @return
+     * @return Sum of all the element in the fact list
      */
     protected BigDecimal sum() {
         BigDecimal sum = new BigDecimal("0.0");
