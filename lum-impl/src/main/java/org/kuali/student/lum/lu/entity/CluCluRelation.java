@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "KS_CLU_REL_T")
+@Table(name = "KSLU_CLUCLU_RELTN")
 public class CluCluRelation {
 	
 	@Id
@@ -28,21 +28,21 @@ public class CluCluRelation {
 	private Clu relatedClu;
 	
 	@ManyToOne
-	@JoinColumn(name="LU_REL_TYPE_ID")
+	@JoinColumn(name="LU_RELTN_TYPE_ID")
 	private LuLuRelationType luLuRelationType;
 	
-	@Column(name = "CLU_REL_REQ")
+	@Column(name = "CLU_RELTN_REQ")
 	private boolean cluRelationRequired;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
     private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@Column(name = "STATE")
+	@Column(name = "ST")
 	private String state;
 
 	
