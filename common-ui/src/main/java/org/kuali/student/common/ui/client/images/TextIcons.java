@@ -40,4 +40,6 @@ public interface TextIcons extends ImageBundle{
     AbstractImagePrototype ul();
 
     AbstractImagePrototype underline();
+    
+    AbstractImagePrototype popout();
 }
