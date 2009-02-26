@@ -1,11 +1,22 @@
 package org.kuali.student.common.validator;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.util.MessageUtils;
+import org.kuali.student.core.dictionary.dto.Field;
+import org.kuali.student.core.dictionary.dto.ObjectStructure;
+import org.kuali.student.core.dictionary.dto.State;
+import org.kuali.student.core.dictionary.dto.Type;
+import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.messages.dto.Message;
 import org.kuali.student.core.validation.dto.ValidationResult;
 
@@ -52,16 +63,180 @@ public class Validator {
         return result;
     }
 
+    private Map<String, PropertyDescriptor> getBeanInfo(Class<?> clazz) {
+        Map<String,PropertyDescriptor> properties = new HashMap<String, PropertyDescriptor>();
+        BeanInfo beanInfo = null;
+        try {
+            beanInfo = Introspector.getBeanInfo(clazz);
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            properties.put(propertyDescriptor.getName(), propertyDescriptor);
+        }
+        return properties;
+    }
+    
+    public List<ValidationResult> validateTypeStateObject(HasTypeState object, ObjectStructure objStruct) {
+        List<ValidationResult> results = new ArrayList<ValidationResult>();
+
+        Map<String, PropertyDescriptor> beanInfo = getBeanInfo(object.getClass());
+        
+        List<Type> types = objStruct.getType();
+        for(Type t: types){
+            if(t.getKey().equalsIgnoreCase(object.getType())){
+                for(State s: t.getState()){
+                    if(s.getKey().equalsIgnoreCase(object.getState())){
+                        for(Field f: s.getField()){
+                            Map<String, Object> map = f.getFieldDescriptor().toMap();
+                            Object value = null;
+                            PropertyDescriptor propertyDescriptor = beanInfo.get(f.getKey());
+                            if(propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
+                                try {
+                                    value = propertyDescriptor.getReadMethod().invoke(object);
+                                } catch (Exception e) {
+                                }
+                            } else if(object instanceof HasAttributes) {
+                                value = ((HasAttributes)object).getAttributes().get(f.getKey());
+                            }
+                            results.add(validate(f.getKey(), value, map));
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        return results;
+    }
+
     private void validateBoolean(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
-        // TODO implement this
+        Integer minOccurs = getInteger("minOccurs", fieldDesc);
+
+        if (value == null) {
+            if (minOccurs != null && minOccurs > 0) {
+                result.addError(messages.get("validation.required"));
+            }
+            return;
+        }
+
+        if (!(value instanceof Boolean)) {
+            String s = value.toString().trim();
+            if (s.equals("")) {
+                if (minOccurs != null && minOccurs > 0) {
+                    result.addError(messages.get("validation.required"));
+                }
+                return;
+            } else {
+                try {
+                    Boolean.valueOf(value.toString());
+                } catch (Exception e) {
+                    result.addError(messages.get("validation.mustBeBoolean"));
+                }
+            }
+        }
+
     }
 
     private void validateDouble(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
-        // TODO implement this
+        Double v = null;
+        Integer minOccurs = getInteger("minOccurs", fieldDesc);
+
+        if (value == null) {
+            if (minOccurs != null && minOccurs > 0) {
+                result.addError(messages.get("validation.required"));
+            }
+            return;
+        }
+
+        if (value instanceof Number) {
+            v = ((Number) value).doubleValue();
+        } else {
+            String s = value.toString().trim();
+            if (s.equals("")) {
+                if (minOccurs != null && minOccurs > 0) {
+                    result.addError(messages.get("validation.required"));
+                }
+                return;
+            } else {
+                try {
+                    v = Double.valueOf(value.toString());
+                } catch (Exception e) {
+                    result.addError(messages.get("validation.mustBeDouble"));
+                }
+            }
+        }
+
+        if (result.isOk()) {
+            Double maxValue = getDouble("maxValue", fieldDesc);
+            Double minValue = getDouble("minValue", fieldDesc);
+
+            if (maxValue != null && minValue != null) {
+                // validate range
+                if (v > maxValue || v < minValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.outOfRange"), fieldDesc));
+                }
+            } else if (maxValue != null) {
+                if (v > maxValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.maxValueFailed"), fieldDesc));
+                }
+            } else if (minValue != null) {
+                if (v < minValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.minValueFailed"), fieldDesc));
+                }
+            }
+        }
     }
 
     private void validateFloat(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
-        // TODO implement this
+        Float v = null;
+        Integer minOccurs = getInteger("minOccurs", fieldDesc);
+
+        if (value == null) {
+            if (minOccurs != null && minOccurs > 0) {
+                result.addError(messages.get("validation.required"));
+            }
+            return;
+        }
+
+        if (value instanceof Number) {
+            v = ((Number) value).floatValue();
+        } else {
+            String s = value.toString().trim();
+            if (s.equals("")) {
+                if (minOccurs != null && minOccurs > 0) {
+                    result.addError(messages.get("validation.required"));
+                }
+                return;
+            } else {
+                try {
+                    v = Float.valueOf(value.toString());
+                } catch (Exception e) {
+                    result.addError(messages.get("validation.mustBeFloat"));
+                }
+            }
+        }
+
+        if (result.isOk()) {
+            Float maxValue = getFloat("maxValue", fieldDesc);
+            Float minValue = getFloat("minValue", fieldDesc);
+
+            if (maxValue != null && minValue != null) {
+                // validate range
+                if (v > maxValue || v < minValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.outOfRange"), fieldDesc));
+                }
+            } else if (maxValue != null) {
+                if (v > maxValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.maxValueFailed"), fieldDesc));
+                }
+            } else if (minValue != null) {
+                if (v < minValue) {
+                    result.addError(MessageUtils.interpolate(messages.get("validation.minValueFailed"), fieldDesc));
+                }
+            }
+        }
     }
 
     private void validateLong(Object value, Map<String, Object> fieldDesc, ValidationResult result) {
@@ -88,7 +263,7 @@ public class Validator {
                 try {
                     v = Long.valueOf(value.toString());
                 } catch (Exception e) {
-                    result.addError(messages.get("validation.mustBeInteger"));
+                    result.addError(messages.get("validation.mustBeLong"));
                 }
             }
         }
@@ -280,7 +455,7 @@ public class Validator {
         if(o == null)
             return null;
         if(o instanceof Number)
-            return new Integer(((Number)o).intValue());
+            return ((Number)o).intValue();
         String s = o.toString();
         if (s != null && s.trim().length() > 0) {
             result = Integer.valueOf(s.trim());
@@ -296,10 +471,42 @@ public class Validator {
         if(o == null)
             return null;
         if(o instanceof Number)
-            return new Long(((Number)o).longValue());
+            return ((Number)o).longValue();
         String s = o.toString();
         if (s != null && s.trim().length() > 0) {
             result = Long.valueOf(s.trim());
+        }
+        return result;
+    }
+
+    private Float getFloat(String key, Map<String, Object> m) {
+        Float result = null;
+        Object o = m.get(key);
+        if(o instanceof Float)
+            return (Float)o;
+        if(o == null)
+            return null;
+        if(o instanceof Number)
+            return ((Number)o).floatValue();
+        String s = o.toString();
+        if (s != null && s.trim().length() > 0) {
+            result = Float.valueOf(s.trim());
+        }
+        return result;
+    }
+
+    private Double getDouble(String key, Map<String, Object> m) {
+        Double result = null;
+        Object o = m.get(key);
+        if(o instanceof Double)
+            return (Double)o;
+        if(o == null)
+            return null;
+        if(o instanceof Number)
+            return ((Number)o).doubleValue();
+        String s = o.toString();
+        if (s != null && s.trim().length() > 0) {
+            result = Double.valueOf(s.trim());
         }
         return result;
     }
