@@ -1,12 +1,22 @@
 package org.kuali.student.common.ui.client.widgets;
 
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Image;
+import org.kuali.student.common.ui.client.widgets.impl.KSImageImpl;
 
-public abstract class KSImage extends Composite{
-	public abstract void init(String url); 
+import com.google.gwt.core.client.GWT;
+
+
+public class KSImage extends KSImageAbstract{
+    
+    KSImageAbstract image = GWT.create(KSImageImpl.class);
+    
+    public KSImage(String url) {
+        image.init(url);
+        this.initWidget(image);
+    }
 	
-	public abstract void init(String url, int left, int top, int width, int height);
-
+	public KSImage(String url, int left, int top, int width, int height){
+	    image.init( url,  left,  top,  width,  height);
+	    this.initWidget(image);
+	}
 }

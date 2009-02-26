@@ -1,6 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.widgets.KSImage;
+import org.kuali.student.common.ui.client.widgets.KSImageAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 
 
@@ -17,7 +18,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Image;
 
-public class KSImageImpl extends KSImage{
+public class KSImageImpl extends KSImageAbstract{
 
 	private Image image;
 	
