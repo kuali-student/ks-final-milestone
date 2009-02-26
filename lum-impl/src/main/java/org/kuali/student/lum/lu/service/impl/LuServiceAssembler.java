@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.core.service.impl.BaseAssembler;
-import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluCriteria;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
@@ -16,9 +14,7 @@ import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuStatementInfo;
 import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiCriteria;
 import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
@@ -34,8 +30,8 @@ import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
-import org.kuali.student.lum.lu.entity.RequiredComponent;
-import org.kuali.student.lum.lu.entity.RequiredComponentType;
+import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.springframework.beans.BeanUtils;
 
 public class LuServiceAssembler extends BaseAssembler {
@@ -280,17 +276,17 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static List<ReqComponentTypeInfo> toReqComponentInfo(
-			List<RequiredComponentType> entities) {
+			List<ReqComponentType> entities) {
 		List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(
 				entities.size());
-		for (RequiredComponentType entity : entities) {
+		for (ReqComponentType entity : entities) {
 			dtos.add(toReqComponentTypeInfo(entity));
 		}
 		return dtos;
 
 	}
 
-	public static ReqComponentInfo toReqComponentInfo(RequiredComponent entity) {
+	public static ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
 		ReqComponentInfo dto = new ReqComponentInfo();
 
 		// TODO Fill in
@@ -299,7 +295,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	}
 
 	public static ReqComponentTypeInfo toReqComponentTypeInfo(
-			RequiredComponentType entity) {
+			ReqComponentType entity) {
 		ReqComponentTypeInfo dto = new ReqComponentTypeInfo();
 
 		// TODO Fill in
