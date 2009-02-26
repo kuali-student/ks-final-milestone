@@ -3,6 +3,8 @@ package org.kuali.student.lum.lu.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.service.impl.BaseAssembler;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -49,14 +51,16 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	public static CluCluRelationInfo toCluCluRelationInfo(CluCluRelation entity) {
 		CluCluRelationInfo dto = new CluCluRelationInfo();
-		BeanUtils.copyProperties(entity, dto, new String[] { "cluId",
-				"relatedCluId", "attributes", "metaInfo" });
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "cluId", "relatedCluId", "cluRelationRequired",
+						"attributes", "metaInfo" });
 
-		// TODO dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		// TODO dto.setMetaInfo(toMetaInfo(org.getMeta(),
-		// entity.getVersionInd()));
+		dto.setIsCluRelationRequired(entity.isCluRelationRequired());
 		dto.setCluId(entity.getClu().getId());
 		dto.setRelatedCluId(entity.getRelatedClu().getId());
+		// TODO dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		// TODO dto.setMetaInfo(toMetaInfo(entity.getMeta(),
+		// entity.getVersionInd()));
 
 		return dto;
 
@@ -92,7 +96,25 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluSetInfo toCluSetInfo(CluSet entity) {
 		CluSetInfo dto = new CluSetInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
+				"cluCriteria", "cluSets", "clus", "attributes", "metaInfo" });
+
+		dto.setDesc(toRichTextInfo(entity.getDesc()));
+		// TODO dto.setCluCriteria()
+		List<String> cluSetIds = new ArrayList<String>(entity.getCluSets().size());
+		for (CluSet id : entity.getCluSets()) {
+			cluSetIds.add(id.getId());
+		}
+		dto.setCluSetIds(cluSetIds);
+
+		List<String> cluIds = new ArrayList<String>(entity.getClus().size());
+		for (Clu id : entity.getClus()) {
+			cluIds.add(id.getId());
+		}
+		dto.setCluIds(cluIds);
+
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 
@@ -116,7 +138,8 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	}
 
-	public static List<LuDocRelationTypeInfo> toLuDocRelationType(List<LuDocumentRelationType> entities) {
+	public static List<LuDocRelationTypeInfo> toLuDocRelationType(
+			List<LuDocumentRelationType> entities) {
 		List<LuDocRelationTypeInfo> dtos = new ArrayList<LuDocRelationTypeInfo>(
 				entities.size());
 		for (LuDocumentRelationType entity : entities) {
@@ -185,9 +208,10 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
-	public static List<LuStatementInfo> toLuStatementInfos(List<LuStatement> entities) {
-		List<LuStatementInfo> dtos = new ArrayList<LuStatementInfo>(
-				entities.size());
+	public static List<LuStatementInfo> toLuStatementInfos(
+			List<LuStatement> entities) {
+		List<LuStatementInfo> dtos = new ArrayList<LuStatementInfo>(entities
+				.size());
 		for (LuStatement entity : entities) {
 			dtos.add(toLuStatementInfo(entity));
 		}
@@ -301,5 +325,14 @@ public class LuServiceAssembler extends BaseAssembler {
 		// TODO Fill in
 
 		return dto;
+	}
+
+	public static RichTextInfo toRichTextInfo(RichText entity) {
+		RichTextInfo dto = new RichTextInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+
+		return dto;
+
 	}
 }
