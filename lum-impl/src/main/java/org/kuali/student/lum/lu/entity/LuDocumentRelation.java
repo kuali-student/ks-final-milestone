@@ -22,7 +22,7 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
 
 @Entity
-@Table(name = "KS_LU_DOC_REL_T")
+@Table(name = "KSLU_LU_DOC_RELTN")
 public class LuDocumentRelation extends MetaEntity implements
 		AttributeOwner<LuDocumentRelationAttribute> {
 	@Id
@@ -30,11 +30,11 @@ public class LuDocumentRelation extends MetaEntity implements
 	private String id;
 
 	@ManyToOne
-	@JoinColumn(name = "LU_DOC_REL_TYPE_ID")
+	@JoinColumn(name = "LU_DOC_RELTN_TYPE_ID")
 	private LuDocumentRelationType luDocumentRelationType;
 
 	@ManyToMany
-	@JoinTable(name = "KS_CLU_LU_DOC_REL_T", joinColumns = @JoinColumn(name = "LU_DOC_REL_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
+	@JoinTable(name = "KSLU_CLU_JN_LU_DOC_RELTN", joinColumns = @JoinColumn(name = "LU_DOC_RELTN_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
 	private List<Clu> clus;
 
 	@Column(name = "DOC_ID")
@@ -44,22 +44,22 @@ public class LuDocumentRelation extends MetaEntity implements
 	private String title;
 
 	@ManyToOne
-	@JoinColumn(name = "DESCRIPTION")
+	@JoinColumn(name = "DESCR")
 	private RichText desc;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<LuDocumentRelationAttribute> attributes;
 
-	@Column(name = "STATE")
+	@Column(name = "ST")
 	private String state;
 
 	public String getId() {
