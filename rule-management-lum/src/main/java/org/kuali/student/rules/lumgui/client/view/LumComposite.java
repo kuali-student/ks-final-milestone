@@ -41,7 +41,7 @@ public class LumComposite extends Composite {
     LumTextBox<LumModelObject> tbStatementId;
     Button btnSearch;
     Button btnComplexLevel;
-    LumStackPanel<LumModelObject> pnlViews;
+    LumSwitchPanel<LumModelObject> pnlViews;
     List<LumUIEventListener> lumUIListeners = new ArrayList<LumUIEventListener>(7); 
     // TODO use button when widgets are ready 
 //    Button btnAddCourses;
@@ -71,7 +71,7 @@ public class LumComposite extends Composite {
         
         // create and layout the widgets
         Panel pnlSimpleView = new VerticalPanel();
-        pnlViews = new LumStackPanel<LumModelObject>(
+        pnlViews = new LumSwitchPanel<LumModelObject>(
                 LumModelObject.FieldName.CURRENT_VIEW.toString());
         Panel pnlRationaleToComplexView = new VerticalPanel();
         Panel pnlPreReqCourses = new VerticalPanel();
@@ -93,6 +93,7 @@ public class LumComposite extends Composite {
         
         pnlViews.add(pnlSimpleView);
         pnlViews.add(new VerticalPanel());
+        pnlViews.showStack(0);
         
 //        test.setWidth("100px");
 //        mainLumPanel.setSize("950px", "550px");

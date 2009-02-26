@@ -4,7 +4,7 @@
 	<classpathentry kind="src" output="rule-management-lum/target/test-classes" path="rule-management-lum/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="rule-management-lum/target/classes" path="rule-management-lum/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="rule-management-lum/target/test-classes" path="rule-management-lum/src/test/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk 1.6.0_03"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
