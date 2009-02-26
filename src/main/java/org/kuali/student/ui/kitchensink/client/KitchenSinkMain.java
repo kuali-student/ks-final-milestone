@@ -25,7 +25,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.checkbox.CheckBoxExampl
 import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
@@ -106,6 +106,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new DatePickerExampleDescriptor());
         initExample(ksCommons, new DisclosureSectionExampleDescriptor());
         initExample(ksCommons, new DropDownExampleDescriptor());
+        initExample(ksCommons, new FloatPanelExampleDescriptor());
 //        initExample(ksCommons, new HelpLinkExampleDescriptor());
         initExample(ksCommons, new ImageExampleDescriptor());
         initExample(ksCommons, new InfoPopupExampleDescriptor());

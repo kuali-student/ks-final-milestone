@@ -49,7 +49,7 @@ public class InfoPopupExample extends Composite {
 
         try {
             infoPopup.addHeader("Info Popup Panel");
-            infoPopup.add(new Image("images/flower2.jpg") );
+            infoPopup.add(KSWidgetFactory.getImageInstance("images/flower3.jpg") );
             infoPopup.addStyleName(STYLE_POPUP_PANEL);
         }
         catch (Exception e) {

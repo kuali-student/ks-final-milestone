@@ -14,17 +14,15 @@ import com.google.gwt.user.client.ui.Widget;
 public class DisclosureSectionExample extends Composite {
 
     final HorizontalPanel main = new HorizontalPanel();
-    final KSDisclosureSection section = new KSDisclosureSection("Click Here", null, false);
-    final KSLabel label;;
+    final KSDisclosureSection section = KSWidgetFactory.getDisclosureSectionInstance("Click Here", null, false);
+    final KSLabel label = KSWidgetFactory.getLabelInstance("Test", false);
 
     public DisclosureSectionExample() { 
         
         main.addStyleName(STYLE_EXAMPLE);
         
-        label = new KSLabel("Test", false);
-
         section.clear();
-        section.add(new Image("images/flower3.jpg"));
+        section.add(KSWidgetFactory.getImageInstance("images/flower3.jpg"));
        
         main.add(section);
 

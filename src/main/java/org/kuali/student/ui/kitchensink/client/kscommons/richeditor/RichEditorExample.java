@@ -13,11 +13,17 @@ public class RichEditorExample extends Composite {
 
     final VerticalPanel main = new VerticalPanel();
     
-    final KSRichEditor richEditor = KSWidgetFactory.getRichEditorInstance();    
+    KSRichEditor richEditor;    
     final KSLabel label = KSWidgetFactory.getLabelInstance("Click in the box to open the editor: ", false);
 
     public RichEditorExample() {
 
+        try {
+            richEditor = KSWidgetFactory.getRichEditorInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }  
+        
         main.addStyleName(STYLE_EXAMPLE);
 
         main.add(label);

@@ -22,7 +22,7 @@ public class StackPanelExample extends Composite {
         main.addStyleName(STYLE_EXAMPLE);
         
         try {
-            stackPanel.getStackPanel().add(new Image("images/flower1.jpg"), "Orange");
+            stackPanel.getStackPanel().add(KSWidgetFactory.getImageInstance("images/flower1.jpg"), "Orange");
 //            stackPanel.getStackPanel().add(new Image("images/flower2.jpg"), "Blue");
 //            stackPanel.getStackPanel().add(new Image("images/flower3.jpg"), "Yellow");
         } catch (Exception e) {

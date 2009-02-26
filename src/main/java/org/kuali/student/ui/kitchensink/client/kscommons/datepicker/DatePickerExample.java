@@ -15,7 +15,7 @@ public class DatePickerExample extends Composite {
     final VerticalPanel main = new VerticalPanel();
     
     final KSDatePicker datePicker = KSWidgetFactory.getDatePickerInstance();
-    final KSLabel label = new KSLabel("Click in the box to open the date picker: ");
+    final KSLabel label = KSWidgetFactory.getLabelInstance("Click in the box to open the date picker: ", false);
 
     public DatePickerExample() {
         

@@ -48,7 +48,7 @@ public class AccordionMenuExample extends Composite {
     private  VerticalPanel afrPanel =  new VerticalPanel() ;
 
     private KSButton submitButton ;
-    private final KSLabel label = KSWidgetFactory.getLabelInstance("Click on a menu item below show available choices on the right: ", false);   
+    private final KSLabel label = KSWidgetFactory.getLabelInstance("Click on a menu item below to show available choices on the right: ", false);   
     private final KSAccordionMenu menu = KSWidgetFactory.getAccordionMenuInstance();
 
     private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();

@@ -4,6 +4,7 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
 import org.kuali.student.common.ui.client.widgets.KSHelpLink;
+import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -17,19 +18,19 @@ public class HelpLinkExample extends Composite {
     final FlexTable table = new FlexTable();
     private HelpInfo helpInfo;
 
-    final KSHelpLink helpLink =  GWT.create(KSHelpLink.class);
+    final KSHelpLink helpLink =  KSWidgetFactory.getHelpLinkInstance();
 
 
     public HelpLinkExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-
-        helpInfo = buildTestHelpInfo();
-        helpLink.setHelpInfo(helpInfo);
-           Window.alert("Title" +   helpLink.getHelpInfo().getTitle()
-        + "\n" + helpLink.getHelpInfo().getUrl());     
+//
+//        helpInfo = buildTestHelpInfo();
+//        helpLink.setHelpInfo(helpInfo);
+//        Window.alert("Title" +   helpLink.getHelpInfo().getTitle()
+//        + "\n" + helpLink.getHelpInfo().getUrl());     
                 
-                main.add(helpLink);
+        main.add(helpLink);
 
         super.initWidget(main);
     }

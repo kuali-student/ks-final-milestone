@@ -8,6 +8,8 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSFloatPanel;
+import org.kuali.student.common.ui.client.widgets.KSHelpLink;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSInfoPopupPanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -42,22 +44,19 @@ public class KSWidgetFactory {
     }
 
     public static KSMenuItemData getMenuItemDataInstance(String label) {        
-        KSMenuItemData w = new KSMenuItemData(label);
+        return new KSMenuItemData(label);
         //        KSMenuItemData w = GWT.create(KSMenuItemData.class);
 //      w.setLabel(label);
-//      w.init();
-        return w;       
+//      w.init();  
     }
 
     public static KSButton getButtonInstance(String html,
             ClickHandler handler) {        
-        KSButton w = new KSButton(html, handler);
-        return w;       
+        return new KSButton(html, handler);     
     }
 
     public static KSCheckBox getCheckBoxInstance(String label) {       
-        KSCheckBox w = new KSCheckBox(label);
-        return w;          
+        return new KSCheckBox(label);        
     }
 
     public static KSDatePicker getDatePickerInstance() {       
@@ -65,15 +64,14 @@ public class KSWidgetFactory {
 //      w.init();
         return w;          
     }
-/*
+
     public static KSDisclosureSection getDisclosureSectionInstance(String headerText,
             Widget headerWidget,
             boolean isOpen) {       
-        KSDisclosureSection w = GWT.create(KSDisclosureSection.class);
-        w.init(headerText, headerWidget, isOpen);
-        return w;          
+        return new KSDisclosureSection(headerText, headerWidget, isOpen);
+         
     }
-*/
+
     public static KSDropDown getDropDownInstance(boolean isMultipleSelect) {
         return new KSDropDown(isMultipleSelect);
 //        KSDropDown w = GWT.create(KSDropDown.class);
@@ -81,15 +79,19 @@ public class KSWidgetFactory {
 //        return w;          
     }
 
-    /**
-     * @deprecated
-     * 
-     * @param url
-     * @return
-     */
+
+    public static KSFloatPanel getFloatPanelInstance() {       
+      KSFloatPanel w = GWT.create(KSFloatPanel.class);
+//      w.init( );
+      return w;        
+    }
+
+    public static KSHelpLink getHelpLinkInstance() {       
+        return new KSHelpLink();       
+    }
+    
     public static KSImage getImageInstance(String url) {       
-        KSImage w = new KSImage(url);
-        return w;          
+        return new KSImage(url);       
     }
 
     public static KSInfoPopupPanel getInfoPopupPanelInstance() {       
@@ -121,22 +123,13 @@ public class KSWidgetFactory {
     public static KSRadioButton getRadioButtonInstance(String name,
             String label,
             boolean asHTML) {       
-        KSRadioButton w = new KSRadioButton(name, label, asHTML);
-        return w;          
+        return new KSRadioButton(name, label, asHTML);
+      
     }
 
     public static KSRichEditor getRichEditorInstance() {
         return new KSRichEditor();
-//        KSRichEditor w = null;
-//
-//        try {
-////          w = new KSRichEditor();
-//            w = GWT.create(KSRichEditor.class);
-//            //      w.init();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return w;          
+        
     }
 
     public static KSStackPanel getStackPanelInstance() {       
@@ -146,15 +139,13 @@ public class KSWidgetFactory {
     }
 
     public static KSTextArea getTextAreaInstance() {       
-        KSTextArea w = GWT.create(KSTextArea.class);
-//      w.init();
-        return w;          
+        return new KSTextArea();
+        
     }
 
 
     public static KSTextBox getTextBoxInstance() {       
-        KSTextBox w = GWT.create(KSTextBox.class);
-//      w.init();
-        return w;          
+        return new KSTextBox();
+       
     }
 }
