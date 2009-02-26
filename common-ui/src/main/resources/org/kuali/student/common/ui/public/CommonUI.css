@@ -1,3 +1,13 @@
+.KS-ResizablePanel-RightBottomResizableHandler{
+width: 10px;
+height:10px;
+cursor: SE-resize;
+background: gray;
+
+}
+.KS-ResizablePanel-Mask{
+z-index: 99;
+}
 .KS-Accordion{
 	
 }
