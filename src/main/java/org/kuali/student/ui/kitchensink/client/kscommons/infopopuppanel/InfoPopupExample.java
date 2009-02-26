@@ -7,7 +7,6 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
 import org.kuali.student.common.ui.client.widgets.KSInfoPopupPanel;
-import org.kuali.student.ui.kitchensink.client.kscommons.KSWidgetFactory;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
