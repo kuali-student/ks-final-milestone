@@ -1,19 +1,27 @@
 package org.kuali.student.lum.lu.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.MetaEntity;
+
 @Entity
 @Table(name = "KSLU_CLUCLU_RELTN")
-public class CluCluRelation {
+public class CluCluRelation extends MetaEntity implements
+		AttributeOwner<CluCluRelationAttribute> {
 	
 	@Id
 	@Column(name="ID")
@@ -45,6 +53,9 @@ public class CluCluRelation {
 	@Column(name = "ST")
 	private String state;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER")
+	private List<CluCluRelationAttribute> attributes;
 	
 	public String getId() {
 		return id;
@@ -110,4 +121,14 @@ public class CluCluRelation {
 		this.state = state;
 	}
 	
+	public List<CluCluRelationAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<CluCluRelationAttribute>();
+		}
+		return attributes;
+	}
+
+	public void setAttributes(List<CluCluRelationAttribute> attributes) {
+		this.attributes = attributes;
+	}
 }
