@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class KSHelpDialog extends KSInfoPopupPanel{
+public class KSHelpDialog extends KSInfoDialogPanel{
 	
 	private Frame webFrame = new Frame();
 	private HorizontalPanel header = new HorizontalPanel();
@@ -67,7 +67,7 @@ public class KSHelpDialog extends KSInfoPopupPanel{
 		main.add(buttonPanel);
 		
 		setupDefaultStyles();
-		this.add(main);
+		this.setWidget(main);
 	}
 	
 	private void setupDefaultStyles() {

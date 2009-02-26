@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * KS default rich text editor
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * TODO implement with a clean toolbar and i18n
  */
 public class KSRichEditor extends Composite {
+	private final VerticalPanel windowPanel = new VerticalPanel();
 	private final Grid content = new Grid(2, 1);
 	
 	private final RichTextArea textArea = new RichTextArea();
@@ -42,7 +44,7 @@ public class KSRichEditor extends Composite {
 	private final PopupPanel popoutImagePanel = new PopupPanel();
 	private PopupPanel glass = new PopupPanel();
 	
-	private final KSInfoPopupPanel popoutWindow = new KSInfoPopupPanel();
+	private final KSInfoDialogPanel popoutWindow = new KSInfoDialogPanel();
 	private KSRichEditor popoutEditor = null;
 	
 	private boolean focused = false;
@@ -106,7 +108,8 @@ public class KSRichEditor extends Composite {
 			
 			popoutEditor = new KSRichEditor(true);
 			popoutWindow.setAutoHide(true);
-			popoutWindow.add(popoutEditor);
+			windowPanel.add(popoutEditor);
+			
 			
 			HorizontalPanel buttonPanel = new HorizontalPanel();
 			KSButton okButton = new KSButton("OK");
@@ -120,7 +123,8 @@ public class KSRichEditor extends Composite {
 			});
 			buttonPanel.add(okButton);
 			buttonPanel.setWidth("100%");
-			popoutWindow.add(buttonPanel);
+			windowPanel.add(buttonPanel);
+			
 			
 			popoutImage.addClickHandler(new ClickHandler(){
 
@@ -153,8 +157,8 @@ public class KSRichEditor extends Composite {
 				}
 			});
 			
-			
-			
+			windowPanel.setSize("500px", "500px");
+			popoutWindow.setWidget(windowPanel);
 		}
 	}
 	
