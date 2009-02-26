@@ -12,12 +12,19 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.Window.ScrollEvent;
+import com.google.gwt.user.client.Window.ScrollHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,6 +33,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.RichTextArea.BasicFormatter;
@@ -41,9 +49,11 @@ public class KSRichEditor extends Composite {
 	
 	private final RichTextArea textArea = new RichTextArea();
 	private final KSRichTextToolbar toolbar;
-	private final PopupPanel popup = new PopupPanel();
 	
-	private KSInfoPopupPanel popoutWindow = null;;
+	private final PopupPanel popoutImagePanel = new PopupPanel();
+	private PopupPanel glass = new PopupPanel();
+	
+	private final KSInfoPopupPanel popoutWindow = new KSInfoPopupPanel();
 	private KSRichEditor popoutEditor = null;
 	
 	private boolean focused = false;
@@ -54,7 +64,8 @@ public class KSRichEditor extends Composite {
 	
 	private int defaultHeight;
 	
-	private HelpIcons images = (HelpIcons) GWT.create(HelpIcons.class);
+	private TextIcons images = (TextIcons) GWT.create(TextIcons.class);
+	private final Image popoutImage = images.popout().createImage();
 	
 	private final FocusHandler focusHandler = new FocusHandler() {
 		@Override
@@ -85,51 +96,71 @@ public class KSRichEditor extends Composite {
 	
 	public KSRichEditor(boolean isUsedInPopup) {
 	    this.isUsedInPopup = isUsedInPopup;
-		
-		//content.setHeight("400px");
-		//content.setWidth("500px");
+
 		toolbar = new KSRichTextToolbar(textArea);
-		textArea.setWidth("494px");
-		textArea.setHeight("200px");
-		toolbar.setWidth("100%");
 		content.setWidget(0, 0, toolbar);
 		content.setWidget(1, 0, textArea);
-
-		if (isUsedInPopup) {
-            toolbar.setVisible(true);
-		} else {
-		    popoutWindow = new KSInfoPopupPanel();
-		    popoutEditor = new KSRichEditor(true);
-		    popoutWindow.add(popoutEditor);
-	        Image popoutImage = images.errorIcon().createImage();
-	        popoutImage.addClickHandler(new ClickHandler(){
-
-	            @Override
-	            public void onClick(ClickEvent event) {
-	                focused = true;
-	                popoutEditor.setHTML(textArea.getHTML());
-	                popoutWindow.show();
-	                
-	            }
-	        });
-	        
-	        popoutWindow.addCloseHandler(new CloseHandler(){
-
-	            @Override
-	            public void onClose(CloseEvent event) {
-	                textArea.setHTML(popoutEditor.getHTML());
-	                
-	            }
-	        });
-	        
-	        popup.add(popoutImage);
-
-	        textArea.addFocusHandler(focusHandler);
-            textArea.addBlurHandler(blurHandler);
-            toolbar.setVisible(false);
-		}
+		
+		setupDefaultStyle();
 		
 		super.initWidget(content);
+		
+		if(isUsedInPopup){
+	        toolbar.setVisible(true);
+	        textArea.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
+		}
+		else
+		{
+			textArea.addFocusHandler(focusHandler);
+			textArea.addBlurHandler(blurHandler);
+			textArea.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
+			
+			toolbar.setVisible(false);
+			
+			popoutEditor = new KSRichEditor(true);
+			popoutWindow.setAutoHide(true);
+			popoutWindow.add(popoutEditor);
+			
+			DockPanel buttonPanel = new DockPanel();
+			KSButton okButton = new KSButton("OK");
+			buttonPanel.add(okButton, DockPanel.EAST);
+			buttonPanel.setWidth("100%");
+			popoutWindow.add(buttonPanel);
+			
+			popoutImage.addClickHandler(new ClickHandler(){
+
+				@Override
+				public void onClick(ClickEvent event) {
+					focused = true;
+					textArea.setEnabled(false);
+					popoutEditor.setHTML(textArea.getHTML());
+					glass.show();	
+					popoutWindow.show();
+					//if(popoutWindow.)
+					popoutImagePanel.hide();
+					popoutEditor.textArea.setFocus(true);	
+				}
+			});
+
+			popoutImagePanel.add(popoutImage);
+			
+			
+			popoutWindow.addCloseHandler(new CloseHandler(){
+
+				@Override
+				public void onClose(CloseEvent event) {
+					textArea.setHTML(popoutEditor.getHTML());
+					textArea.setEnabled(true);
+					textArea.setFocus(true);
+					popoutWindow.hide();
+					glass.hide();
+					popoutImagePanel.show();
+				}
+			});
+			
+			
+			
+		}
 	}
 	
 	public RichTextArea getRichTextArea(){
@@ -143,24 +174,48 @@ public class KSRichEditor extends Composite {
 				toolbarHeight = toolbar.getOffsetHeight();
 				textArea.setHeight(textArea.getOffsetHeight()-toolbarHeight + "px");
 				
-				popup.show();
-				int left = textArea.getAbsoluteLeft() + textArea.getOffsetWidth() - popup.getOffsetWidth() -18; 
-				int top = textArea.getAbsoluteTop() + textArea.getOffsetHeight() - popup.getOffsetHeight() -2;
-				popup.setPopupPosition(left, top);
-				//textArea.set
+				if(!isUsedInPopup){
+					popoutImagePanel.show();
+					int left = textArea.getAbsoluteLeft() + textArea.getOffsetWidth() - popoutImagePanel.getOffsetWidth() -18; 
+					int top = textArea.getAbsoluteTop() + textArea.getOffsetHeight() - popoutImagePanel.getOffsetHeight() -2;
+					popoutImagePanel.setPopupPosition(left, top);
+				}
 				
 			}
 			toolbarShowing = true;
 		}
 		else{
 			if(toolbarShowing){
-				popup.hide();
+				popoutImagePanel.hide();
 				toolbar.setVisible(false);
 				textArea.setHeight(textArea.getOffsetHeight()+toolbarHeight + "px");
 			}
 			
 			toolbarShowing = false;
 		}
+	}
+	
+	private void setupDefaultStyle(){
+		popoutImagePanel.addStyleName(KSStyles.KS_POPOUT_IMAGE_PANEL);
+		glass.addStyleName(KSStyles.KS_RICH_TEXT_POPOUT_GLASS);
+		popoutWindow.addStyleName(KSStyles.KS_POPOUT_WINDOW);
+		popoutImage.addStyleName(KSStyles.KS_POPOUT_IMAGE);
+		popoutImage.addMouseOverHandler(new MouseOverHandler(){
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				popoutImage.addStyleName(KSStyles.KS_POPOUT_IMAGE_HOVER);
+			}
+		});
+		
+		popoutImage.addMouseOutHandler(new MouseOutHandler(){
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				popoutImage.removeStyleName(KSStyles.KS_POPOUT_IMAGE_HOVER);
+			}
+		});
+		
 	}
 	
 	protected void onLoad() {
@@ -178,25 +233,6 @@ public class KSRichEditor extends Composite {
         	focusTimer.cancel();
         }
 	}
-
-/*	private void setupToolbar() {
-		// Get formatters - will be null if not available
-		final ExtendedFormatter ef = textArea.getExtendedFormatter();
-		final BasicFormatter bf = textArea.getBasicFormatter();
-        if (bf != null && !isUsedInPopup) {
-            addToolbarWidget(new PushButton(new Image("images/popup2.gif"), new ClickListener() {
-                public void onClick(Widget sender) {
-                    //popup.setHTML(textArea.getHTML());
-                    //popup.showPopup();
-                }
-            }), "Enlarge to edit");
-        }
-
-	}
-	}*/
-	
-	
-	
 	
 	// delegate methods to RichTextArea
 	public String getHTML() {
