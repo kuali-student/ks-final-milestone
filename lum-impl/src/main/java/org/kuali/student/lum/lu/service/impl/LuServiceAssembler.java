@@ -18,6 +18,8 @@ import org.kuali.student.lum.lu.dto.LuStatementTypeInfo;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldInfo;
+import org.kuali.student.lum.lu.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
@@ -33,6 +35,8 @@ import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.entity.ReqComponentField;
+import org.kuali.student.lum.lu.entity.ReqComponentFieldType;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.springframework.beans.BeanUtils;
 
@@ -58,9 +62,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setIsCluRelationRequired(entity.isCluRelationRequired());
 		dto.setCluId(entity.getClu().getId());
 		dto.setRelatedCluId(entity.getRelatedClu().getId());
-		// TODO dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		// TODO dto.setMetaInfo(toMetaInfo(entity.getMeta(),
-		// entity.getVersionInd()));
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(),entity.getVersionInd()));
 
 		return dto;
 
@@ -101,7 +104,8 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		dto.setDesc(toRichTextInfo(entity.getDesc()));
 		// TODO dto.setCluCriteria()
-		List<String> cluSetIds = new ArrayList<String>(entity.getCluSets().size());
+		List<String> cluSetIds = new ArrayList<String>(entity.getCluSets()
+				.size());
 		for (CluSet id : entity.getCluSets()) {
 			cluSetIds.add(id.getId());
 		}
@@ -132,7 +136,8 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LrTypeInfo toLrTypeInfo(LrType entity) {
 		LrTypeInfo dto = new LrTypeInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id", "attributes" });
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "id", "attributes" });
 
 		dto.setKey(entity.getId());
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
@@ -156,7 +161,14 @@ public class LuServiceAssembler extends BaseAssembler {
 			LuDocumentRelation entity) {
 		LuDocRelationInfo dto = new LuDocRelationInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto, new String[] { "desc",
+				"luDocumentRelationType", "attributes", "metInfo" });
+
+		dto.setCluId(entity.getClu().getId());
+		dto.setDesc(toRichTextInfo(entity.getDesc()));
+		dto.setType(entity.getLuDocumentRelationType().getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
@@ -186,7 +198,11 @@ public class LuServiceAssembler extends BaseAssembler {
 			LuDocumentRelationType entity) {
 		LuDocRelationTypeInfo dto = new LuDocRelationTypeInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "id", "attributes" });
+
+		dto.setKey(entity.getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
@@ -206,7 +222,11 @@ public class LuServiceAssembler extends BaseAssembler {
 			LuLuRelationType entity) {
 		LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "id", "attributes" });
+
+		dto.setKey(entity.getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
@@ -225,7 +245,23 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuStatementInfo toLuStatementInfo(LuStatement entity) {
 		LuStatementInfo dto = new LuStatementInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto, new String[] { "children",
+				"requiredComponents", "luStatementType", "attributes", "metaInfo" });
+
+		List<String> statementIds = new ArrayList<String>(entity.getChildren().size());
+		for (LuStatement statement : entity.getChildren()) {
+			statementIds.add(statement.getId());
+		}
+		dto.setLuStatementIds(statementIds);
+
+		List<String> componentIds = new ArrayList<String>(entity.getRequiredComponents().size());
+		for (ReqComponent reqComponent : entity.getRequiredComponents()) {
+			componentIds.add(reqComponent.getId());
+		}
+		dto.setReqComponentIds(componentIds);
+		dto.setType(entity.getLuStatementType().getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
@@ -245,7 +281,7 @@ public class LuServiceAssembler extends BaseAssembler {
 			LuStatementType entity) {
 		LuStatementTypeInfo dto = new LuStatementTypeInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto, new String[] { "id", "luTypes" });
 
 		return dto;
 	}
@@ -261,7 +297,12 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuTypeInfo toLuTypeInfo(LuType entity) {
 		LuTypeInfo dto = new LuTypeInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "id", "attributes" });
+
+		dto.setKey(entity.getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
+
 
 		return dto;
 	}
@@ -278,7 +319,13 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuiInfo toLuiInfo(Lui entity) {
 		LuiInfo dto = new LuiInfo();
 
-		// TODO Fill in
+
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "clu", "atpId", "attributes" });
+
+		dto.setCluId(entity.getClu().getId());
+		dto.setAtpKey(entity.getAtpId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
@@ -297,7 +344,13 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
 		LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
 
-		// TODO Fill in
+
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "lui", "relatedLui", "attributes" });
+
+		dto.setLuiId(entity.getLui().getId());
+		dto.setRelatedLuiId(entity.getRelatedLui().getId());
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
@@ -316,7 +369,12 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static ReqComponentInfo toReqComponentInfo(ReqComponent entity) {
 		ReqComponentInfo dto = new ReqComponentInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "requiredComponentType", "reqCompField", "meteInfo" });
+
+		dto.setType(entity.getRequiredComponentType().getId());
+		dto.setReqCompField(toReqCompFieldInfos(entity.getReqCompField()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
 
 		return dto;
 	}
@@ -325,7 +383,11 @@ public class LuServiceAssembler extends BaseAssembler {
 			ReqComponentType entity) {
 		ReqComponentTypeInfo dto = new ReqComponentTypeInfo();
 
-		// TODO Fill in
+		BeanUtils.copyProperties(entity, dto,
+				new String[] { "id", "reqCompFieldTypes", "attributes" });
+
+		dto.setReqCompFieldTypes(toReqCompFieldTypeInfos(entity.getReqCompFieldTypes()));
+		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
 	}
@@ -337,5 +399,38 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		return dto;
 
+	}
+
+	public static List<ReqCompFieldInfo> toReqCompFieldInfos(List<ReqComponentField> entities) {
+		List<ReqCompFieldInfo> fields = new ArrayList<ReqCompFieldInfo>(entities.size());
+		for (ReqComponentField field : entities) {
+			fields.add(toReqCompFieldInfo(field));
+		}
+		return fields;
+	}
+
+	public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
+		ReqCompFieldInfo dto = new ReqCompFieldInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+
+		return dto;
+	}
+
+	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(List<ReqComponentFieldType> entities) {
+		List<ReqCompFieldTypeInfo> fields = new ArrayList<ReqCompFieldTypeInfo>(entities.size());
+		for (ReqComponentFieldType field : entities) {
+			fields.add(toReqCompFieldTypeInfo(field));
+		}
+		return fields;
+	}
+
+	public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(ReqComponentFieldType entity) {
+		ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
+
+		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+		// TODO dto.setFieldDescriptor(fieldDescriptor)
+
+		return dto;
 	}
 }
