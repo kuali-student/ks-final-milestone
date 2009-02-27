@@ -32,13 +32,25 @@ public class KSAccordionMenu extends KSMenu{
 			}*/
 			
 			if(i.getSubItems().isEmpty()){		
-				menu.addPanel(categoryLabel, i.getClickHandler());
+				if(i.getClickHandler() != null)
+				{
+					menu.addPanel(categoryLabel, i.getClickHandler());
+				}
+				else{
+					menu.addPanel(categoryLabel);
+				}
 			}
 			else{
 				KSAccordionMenu subMenu = GWT.create(KSAccordionMenu.class);
 				subMenu.setRetainHistory(retainHistory);
 				subMenu.setItems(i.getSubItems());
-				menu.addPanel(categoryLabel, i.getClickHandler(), subMenu);
+				if(i.getClickHandler() != null)
+				{
+					menu.addPanel(categoryLabel, i.getClickHandler(), subMenu);
+				}
+				else{
+					menu.addPanel(categoryLabel, subMenu);
+				}
 			}
 		}
 		
