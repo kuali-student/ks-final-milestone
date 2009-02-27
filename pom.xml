@@ -27,6 +27,7 @@
 			<version>2.5.4</version>
 		</dependency>
 	</dependencies>
+	
 	<distributionManagement>
 		<repository>
 			<id>kuali.release</id>
@@ -43,6 +44,7 @@
 			</url>
 		</snapshotRepository>
 	</distributionManagement>
+	
 	<build>
 		<plugins>
 			<plugin>
