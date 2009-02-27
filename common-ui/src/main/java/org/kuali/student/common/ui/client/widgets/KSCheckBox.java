@@ -42,7 +42,8 @@ public class KSCheckBox extends CheckBox{
             }       
         });
         
-        this.addMouseOverHandler(new MouseOverHandler(){
+        //hover does not function fully for check boxes as is
+/*        this.addMouseOverHandler(new MouseOverHandler(){
             public void onMouseOver(MouseOverEvent event) {
                 KSCheckBox.this.addStyleName(KSStyles.KS_CHECKBOX_HOVER_STYLE);
                 
@@ -56,7 +57,7 @@ public class KSCheckBox extends CheckBox{
                 
             }
             
-        });
+        });*/
         
         this.addClickHandler(new ClickHandler(){
 
