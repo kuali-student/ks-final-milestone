@@ -14,7 +14,7 @@ public class ReqComponentFieldType {
     @Id
     @Column(name = "ID")
     private String id;
-	    
+
     @Column(name="REQ_COMP_FILED_TYPE_KEY", unique=true, nullable=false)
     private String key;
 
@@ -24,7 +24,7 @@ public class ReqComponentFieldType {
     public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
     }
-          
+
 	public String getId() {
 		return id;
 	}
@@ -39,5 +39,5 @@ public class ReqComponentFieldType {
 
     public void setKey(String key) {
         this.key = key;
-    }	
+    }
 }

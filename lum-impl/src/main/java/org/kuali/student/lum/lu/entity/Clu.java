@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -26,6 +28,9 @@ import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
 @Table(name = "KSLU_CLU")
+@NamedQueries({
+	@NamedQuery(name="Clu.findClusByIdList", query="SELECT c FROM Clu WHERE id IN (:idList)")
+})
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -34,39 +39,39 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @ManyToOne
     @JoinColumn(name="LUTYPE_ID")
     private LuType luType;
-    
+
     @OneToMany(mappedBy="clu")
     private List<LearningObjective> learningObjectives;
 
     @OneToMany(mappedBy="clu")
     private List<Resource> resourceTypes;
-    
+
     @ManyToMany(mappedBy="clus")
     List<CluSet> cluSets;
-    
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
     private List<CluAttribute> attributes;
-    
+
     @OneToOne
     @JoinColumn(name="OFFIC_CLU_ID")
     private CluIdentifier officialIdentifier;
-    
+
     @OneToMany
     @JoinTable(name="KSLU_CLU_JN_CLU_IDENT",joinColumns=@JoinColumn(name="CLU_ID"), inverseJoinColumns=@JoinColumn(name="ALT_CLU_ID"))
     private List<CluIdentifier> alternateIdentifiers;
-    
+
 	@Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "RT_MKTG_DESCR_ID")
     private RichText marketingDesc;
-	
+
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CLU_ID")
 	private List<CluOrg> orgs;
@@ -140,7 +145,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
 	@Column(name = "ST")
     private String state;
-    
+
 
 	public String getId() {
         return id;
@@ -149,7 +154,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public LuType getLuType() {
         return luType;
     }
@@ -157,7 +162,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setLuType(LuType luType) {
         this.luType = luType;
     }
-    
+
     public List<LearningObjective> getLearningObjectives() {
         return learningObjectives;
     }
@@ -172,8 +177,8 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
     public void setResourceTypes(List<Resource> resourceTypes) {
         this.resourceTypes = resourceTypes;
-    }    
-    
+    }
+
     @Override
     public List<CluAttribute> getAttributes() {
         if (attributes == null) {
@@ -185,8 +190,8 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     @Override
     public void setAttributes(List<CluAttribute> attributes) {
         this.attributes = attributes;
-    }    
-    
+    }
+
     public CluIdentifier getOfficialIdentifier() {
         return officialIdentifier;
     }
@@ -205,7 +210,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setAlternateIdentifiers(List<CluIdentifier> alternateIdentifiers) {
         this.alternateIdentifiers = alternateIdentifiers;
     }
-    
+
     public String getStudySubjectArea() {
         return studySubjectArea;
     }
@@ -213,7 +218,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setStudySubjectArea(String studySubjectArea) {
         this.studySubjectArea = studySubjectArea;
     }
-    
+
     public RichText getDesc() {
         return desc;
     }
@@ -221,7 +226,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setDesc(RichText desc) {
         this.desc = desc;
     }
-    
+
     public RichText getMarketingDesc() {
         return marketingDesc;
     }
@@ -229,7 +234,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setMarketingDesc(RichText marketingDesc) {
         this.marketingDesc = marketingDesc;
     }
-    
+
     public List<CluOrg> getOrgs() {
         if (orgs == null) {
             orgs = new ArrayList<CluOrg>();
@@ -251,7 +256,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setInstructors(List<CluInstructor> instructors) {
         this.instructors = instructors;
     }
-    
+
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -275,7 +280,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setStdDuration(TimeAmount stdDuration) {
         this.stdDuration = stdDuration;
     }
-    
+
     public boolean isCanCreateLui() {
         return canCreateLui;
     }
@@ -302,7 +307,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setLuCodes(List<LuCode> luCodes) {
         this.luCodes = luCodes;
     }
-    
+
     public CluCredit getCredit() {
         return credit;
     }
@@ -361,7 +366,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
     public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
         this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
     }
-    
+
     public int getDefaultMaximumEnrollment() {
         return defaultMaximumEnrollment;
     }
