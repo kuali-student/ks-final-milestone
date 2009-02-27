@@ -7,7 +7,12 @@ import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCreditInfo;
@@ -48,6 +53,7 @@ import org.kuali.student.lum.lu.entity.LuDocumentRelation;
 import org.kuali.student.lum.lu.entity.LuDocumentRelationType;
 import org.kuali.student.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.LuStatementAttribute;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.entity.Lui;
@@ -332,14 +338,68 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	}
 
-	public static LuStatementTypeInfo toLuStatementTypeInfo(
-			LuStatementType entity) {
-		LuStatementTypeInfo dto = new LuStatementTypeInfo();
+    public static LuStatement toLuStatementRelation(boolean isUpdate, LuStatementInfo stmtInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException, OperationFailedException {
+        LuStatement stmt;
+        if (isUpdate) {
+            stmt = dao.fetch(LuStatement.class, stmtInfo.getId());
+            if (stmt == null) {
+                throw new DoesNotExistException("LuStatement does not exist for id: " + stmtInfo.getId());
+            }
+            if (!String.valueOf(stmt.getVersionInd()).equals(stmtInfo.getMetaInfo().getVersionInd())) {
+                throw new VersionMismatchException("LuStatement to be updated is not the current version");
+            }
+        } else {
+            stmt = new LuStatement();
+        }
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id", "luTypes" });
+        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"luStatementIds", "reqComponentIds", "attributes", "metaInfo", "type",});        
 
-		return dto;
-	}
+        // Copy generic attributes
+        stmt.setAttributes(toGenericAttributes(LuStatementAttribute.class, stmtInfo.getAttributes(), stmt, dao));
+
+        // Search for and copy the type
+        LuStatementType stmtType = dao.fetch(LuStatementType.class, stmtInfo.getType());
+        if (stmtType == null) {
+            throw new InvalidParameterException(
+                    "LuStatementType does not exist for id: " + stmtInfo.getType());
+        }
+        stmt.setLuStatementType(stmtType);
+        
+        // Copy nested statements
+        List<LuStatement> stmtList = new ArrayList<LuStatement>();        
+        for(String stmtId : stmtInfo.getLuStatementIds()) {
+            if(stmtId == stmtInfo.getId()) {
+                throw new OperationFailedException("LuStatement nested within itself. LuStatement Id: " + stmtInfo.getId());
+            }
+            
+            LuStatement nestedStmt = dao.fetch(LuStatement.class, stmtId);
+            if (null == nestedStmt) {
+                throw new DoesNotExistException("Nested LuStatement does not exist for id: " + stmtId + ". Parent LuStatement: " + stmtInfo.getId());
+            }
+            
+            stmtList.add(nestedStmt);
+        }
+        stmt.setChildren(stmtList);
+                
+        // Copy nested requirements
+        List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
+        for(String reqId: stmtInfo.getReqComponentIds()) {
+            ReqComponent reqComp = dao.fetch(ReqComponent.class, reqId);
+            
+            if(null == reqComp) {
+                throw new DoesNotExistException("Nested Requirement does not exist for id: " + reqId + ". Parent LuStatement Id: " + stmtInfo.getId());
+            }   
+            
+            reqCompList.add(reqComp);
+        }
+        stmt.setRequiredComponents(reqCompList);
+                
+        return stmt;
+    }
+	
+	public static LuStatementTypeInfo toLuStatementTypeInfo(LuStatementType entity) {
+        return toGenericTypeInfo(LuStatementTypeInfo.class, entity);
+    }
 
 	public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
 		List<LuTypeInfo> dtos = new ArrayList<LuTypeInfo>(entities.size());
@@ -431,6 +491,54 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
+    public static ReqComponent toReqComponentRelation(boolean isUpdate, 
+            ReqComponentInfo reqCompInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
+        ReqComponent reqComp;
+        if (isUpdate) {
+            reqComp = dao.fetch(ReqComponent.class, reqCompInfo.getId());
+            if (reqComp == null) {
+                throw new DoesNotExistException("ReqComponent does not exist for id: " + reqCompInfo.getId());
+            }
+            if (!String.valueOf(reqComp.getVersionInd()).equals(reqCompInfo.getMetaInfo().getVersionInd())) {
+                throw new VersionMismatchException("ReqComponent to be updated is not the current version");
+            }
+        } else {
+            reqComp = new ReqComponent();
+        }
+        
+        BeanUtils.copyProperties(reqCompInfo, reqComp, new String[]{"reqCompField, metaInfo, type"});        
+        
+        // Search for and copy the type
+        ReqComponentType reqCompType = dao.fetch(ReqComponentType.class, reqCompInfo.getType());
+        if (reqCompType == null) {
+            throw new InvalidParameterException(
+                    "ReqComponentType does not exist for id: " + reqCompInfo.getType());
+        }
+        reqComp.setRequiredComponentType(reqCompType);
+        
+        
+        // Create and copy ReqCompFields
+        List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
+        for(ReqCompFieldInfo reqCompFiledInfo : reqCompInfo.getReqCompField()) {
+            ReqComponentField reqCompField = new ReqComponentField();            
+            BeanUtils.copyProperties(reqCompFiledInfo, reqCompField);
+            reqCompFieldList.add(reqCompField);
+        }
+        reqComp.setReqCompField(reqCompFieldList);        
+        
+        return reqComp;
+    }
+    
+
+    public static List<ReqComponentTypeInfo> toReqComponentTypeInfos(List<ReqComponentType> entities) {
+        List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
+        for (ReqComponentType entity : entities) {
+            dtos.add(toReqComponentTypeInfo(entity));
+        }
+        return dtos;
+
+    }
+    
     public static ReqComponentTypeInfo toReqComponentTypeInfo(ReqComponentType entity) {
         return toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
     }
@@ -454,14 +562,16 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dtos;
 	}
 
-	public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
-		ReqCompFieldInfo dto = new ReqCompFieldInfo();
+    public static ReqCompFieldInfo toReqCompFieldInfo(ReqComponentField entity) {
+        if (null == entity) {
+            return null;
+        }
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-
-		return dto;
-	}
-
+        ReqCompFieldInfo dto = new ReqCompFieldInfo();
+        BeanUtils.copyProperties(entity, dto);
+        return dto;
+    }
+	
 	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
 			List<ReqComponentFieldType> entities) {
 		List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
@@ -472,12 +582,12 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dtos;
 	}
 
-	public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(
+
+    public static ReqCompFieldTypeInfo toReqCompFieldTypeInfo(
 			ReqComponentFieldType entity) {
 		ReqCompFieldTypeInfo dto = new ReqCompFieldTypeInfo();
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
-		// TODO dto.setFieldDescriptor(fieldDescriptor)
 
 		return dto;
 	}
