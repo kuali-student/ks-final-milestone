@@ -52,7 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LuServiceImpl implements LuService {
 
 	private LuDao luDao;
-	
+
 	@Override
 	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
 			String cluId) throws AlreadyExistsException, DoesNotExistException,
@@ -363,6 +363,8 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// TODO Auto-generated method stub
+
+		checkForMissingParameter(cluId, "cluId");
 		return null;
 	}
 
@@ -395,6 +397,9 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
+
+		checkForMissingParameter(luTypeKey, "luTypeKey");
+		checkForMissingParameter(luState, "luState");
 		return null;
 	}
 
@@ -448,6 +453,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
+		checkForMissingParameter(cluIdList, "cluIdList");
 		return null;
 	}
 
@@ -456,6 +462,8 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
+		checkForMissingParameter(luTypeKey, "luTypeKey");
+		checkForMissingParameter(luState, "lustate");
 		return null;
 	}
 
@@ -1244,5 +1252,20 @@ public class LuServiceImpl implements LuService {
 	public void setLuDao(LuDao luDao) {
 		this.luDao = luDao;
 	}
+
+	/**
+	 * Check for missing parameter and thow localized exception if missing
+	 *
+	 * @param param
+	 * @param parameter name
+	 * @throws MissingParameterException
+	 */
+	private void checkForMissingParameter(Object param, String paramName)
+			throws MissingParameterException {
+		if (param == null) {
+			throw new MissingParameterException(paramName + " can not be null");
+		}
+	}
+
 
 }
