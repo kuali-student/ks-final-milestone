@@ -18,32 +18,32 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name="KS_REQ_COMP_T")
+@Table(name="KSLU_REQ_COM")
 public class ReqComponent extends MetaEntity {
 	@Id
 	@Column(name = "ID")
 	private String id;
 	
-    @Column(name="DESCRIPTION")
+    @Column(name="DESCR")
     private String desc;
 
-    @Column(name="STATE")
+    @Column(name="ST")
     private String state;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFFECTIVE_DT")
+    @Column(name = "EFF_DT")
     private Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIRATION_DT")
+    @Column(name = "EXPIR_DT")
     private Date expirationDate;    
 
     @ManyToOne
-    @JoinColumn(name="REQ_COMP_TYPE_ID")
+    @JoinColumn(name="REQ_COM_TYPE_ID")
     private ReqComponentType requiredComponentType;
     
     @OneToMany
-    @JoinTable(name = "KS_REQ_COMP_REQ_COMP_FIELD_T", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_ID"))
+    @JoinTable(name = "KSLU_REQ_COM_JN_REQ_COM_FIELD", joinColumns = @JoinColumn(name = "REQ_COM_FIELD_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_ID"))
     private List<ReqComponentField> reqCompField;
     
     /**

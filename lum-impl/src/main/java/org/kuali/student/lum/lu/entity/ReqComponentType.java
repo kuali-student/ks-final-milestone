@@ -20,7 +20,7 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name="KS_REQ_COMP_TYPE_T")
+@Table(name="KSLU_REQ_COM_TYPE")
 public class ReqComponentType implements AttributeOwner<ReqComponentTypeAttribute> {
 
     @Id
@@ -30,26 +30,26 @@ public class ReqComponentType implements AttributeOwner<ReqComponentTypeAttribut
     @Column(name="NAME")
     private String name;
 
-    @Column(name="DESCRIPTION")
+    @Column(name="DESCR")
     private String desc;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFFECTIVE_DT")
+    @Column(name = "EFF_DT")
     private Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIRATION_DT")
+    @Column(name = "EXPIR_DT")
     private Date expirationDate;    
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER")
     private List<ReqComponentTypeAttribute> attributes;
     
-    @Column(name="REQ_COMPT_TYPE_KEY", unique=true, nullable=false)
+    @Column(name="REQ_COM_TYPE_KEY", unique=true, nullable=false)
     private String key;
 
     @ManyToMany
-    @JoinTable(name = "KS_REQCOMP_TYPE_REQCOMPFLD_TYPE_T", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"))
+    @JoinTable(name = "KSLU_REQCOMTYP_JN_REQCOMFLDTYP", joinColumns = @JoinColumn(name = "REQ_COM_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COM_TYPE_ID"))
     private List<ReqComponentFieldType> reqCompFieldTypes;
 
     /**
