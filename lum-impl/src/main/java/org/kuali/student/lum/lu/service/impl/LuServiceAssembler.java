@@ -87,7 +87,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	}
 
-	public List<CluInfo> toCluInfos(List<Clu> entities) {
+	public static List<CluInfo> toCluInfos(List<Clu> entities) {
 		List<CluInfo> dtos = new ArrayList<CluInfo>(entities.size());
 		for (Clu entity : entities) {
 			dtos.add(toCluInfo(entity));
@@ -569,7 +569,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "instructors",
 				"attributes" });
-		// dto.setPrimaryInstructor(toCluInstructorInfo(entity))
+		// TODO dto.setPrimaryInstructor(toCluInstructorInfo(entity))
 		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 

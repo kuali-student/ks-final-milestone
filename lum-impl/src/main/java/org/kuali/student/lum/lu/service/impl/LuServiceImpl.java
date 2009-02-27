@@ -44,6 +44,7 @@ import org.kuali.student.lum.lu.dto.LuiLuiRelationCriteria;
 import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
+import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -454,7 +455,8 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		checkForMissingParameter(cluIdList, "cluIdList");
-		return null;
+		List<Clu> clus = luDao.getClusByIdList(cluIdList);
+		return LuServiceAssembler.toCluInfos(clus);
 	}
 
 	@Override
