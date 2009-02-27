@@ -5,13 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class MinProposition<T extends Comparable<T>> extends AbstractProposition<T> {
     private T min;
 	private Collection<T> fact;
-
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_MIN = "prop_min";
 
     public MinProposition() {
     }
@@ -38,6 +37,6 @@ public class MinProposition<T extends Comparable<T>> extends AbstractProposition
     @Override
     public void buildMessageContextMap() {
         String minStr = getTypeAsString(this.min);
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_MIN, minStr);
+        addMessageContext(MessageContextConstants.PROPOSITION_MIN_MESSAGE_CTX_KEY_MIN, minStr);
     }
 }

@@ -5,13 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 public class MaxProposition<T extends Comparable<T>> extends AbstractProposition<T> {
     private T max;
 	private Collection<T> fact;
-
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_MAX = "prop_max";
 
     public MaxProposition() {
     }
@@ -38,6 +37,6 @@ public class MaxProposition<T extends Comparable<T>> extends AbstractProposition
     @Override
     public void buildMessageContextMap() {
         String maxStr = getTypeAsString(this.max);
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_MAX, maxStr);
+        addMessageContext(MessageContextConstants.PROPOSITION_MAX_MESSAGE_CTX_KEY_MAX, maxStr);
     }
 }

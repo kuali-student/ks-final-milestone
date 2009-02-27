@@ -38,9 +38,9 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
     Set<E> factSet;
     Collection<?> resultValues;
 
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_MET = "prop_subset_metset";
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_UNMET = "prop_subset_unmetset";
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE = "prop_subset_diff";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_MET = "prop_subset_metset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET = "prop_subset_unmetset";
+    public final static String PROPOSITION_MESSAGE_CONTEXT_KEY_DIFFERENCE = "prop_subset_diff";
 
     // ~ Constructors -----------------------------------------------------------
 
@@ -78,9 +78,9 @@ public class SubsetProposition<E> extends AbstractProposition<Integer> {
         Integer count = met.size();
         Set<E> unMet = andNot();
         Integer diff = super.expectedValue - count;
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_MET, this.met.toString());
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_UNMET, unMet.toString());
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE, diff.toString());
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_MET, this.met);
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_UNMET, unMet);
+        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_KEY_DIFFERENCE, diff);
     }
 
     /**

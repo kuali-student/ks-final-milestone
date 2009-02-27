@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 
 /**
  * A constraint that specifies that a fact set must be a subset of a given size of a given set of criteria.
@@ -29,10 +30,6 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
  * @author <a href="mailto:randy@berkeley.edu">Randy Ballew</a>
  */
 public class IntersectionProposition<T> extends AbstractProposition<Integer> {
-
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_DIFF = "prop_intersection_diff";
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_MET = "prop_intersection_metset";
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_UNMET = "prop_intersection_unmetset";
 
     // ~ Instance fields --------------------------------------------------------
 	private Set<T> met;
@@ -78,12 +75,12 @@ public class IntersectionProposition<T> extends AbstractProposition<Integer> {
     public void buildMessageContextMap() {
         Integer count = met.size();
         Integer expectedValue = (Integer) super.expectedValue;
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_MET, met.toString());
+        addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_MET, met);
 
         Set<T> unMet = andNot();
         Integer needed = expectedValue - count;
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_DIFF, needed.toString());
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_INTERSECT_UNMET, unMet.toString());
+        addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_DIFF, needed);
+        addMessageContext(MessageContextConstants.PROPOSITION_INTERSECT_MESSAGE_CTX_KEY_UNMET, unMet);
 
         /*if (result) {
 	        report.setSuccessMessage("Intersection constraint fulfilled");

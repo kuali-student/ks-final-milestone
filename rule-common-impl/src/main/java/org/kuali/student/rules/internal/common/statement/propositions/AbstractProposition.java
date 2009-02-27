@@ -109,7 +109,7 @@ public abstract class AbstractProposition<T> implements Proposition {
 	    return truthValue;
     }
     
-    protected void addMessageContext(String token, String value) {
+    protected void addMessageContext(String token, Object value) {
     	this.contextMap.put(token, value);
     }
     

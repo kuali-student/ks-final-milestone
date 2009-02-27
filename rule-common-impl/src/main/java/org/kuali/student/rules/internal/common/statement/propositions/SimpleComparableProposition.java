@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.rulemanagement.dto.RulePropositionDTO;
 
 /**
@@ -37,8 +38,6 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     T fact;
     List<Boolean> resultValues;
     
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_SIMPLE_COMPARABLE_FACT = "prop_simple_comp_fact";
-
     // ~ Constructors -----------------------------------------------------------
 
     public SimpleComparableProposition() {
@@ -69,7 +68,7 @@ public class SimpleComparableProposition<T extends Comparable<T>> extends Abstra
     @Override
     public void buildMessageContextMap() {
         String s = getTypeAsString(this.fact);
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_SIMPLE_COMPARABLE_FACT, s);
+        addMessageContext(MessageContextConstants.PROPOSITION_SIMPLE_COMPARABLE_MESSAGE_CTX_KEY_FACT, s);
     }
 
     private void sanityCheck() {

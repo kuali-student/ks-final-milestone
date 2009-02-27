@@ -180,11 +180,11 @@ public class SumRulePropositionTest {
 		yvf.setFactStructureList(Arrays.asList(fs));
 		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, expectedValue.toString(), ComparisonOperator.GREATER_THAN_OR_EQUAL_TO.toString());
 		ruleProposition.setSuccessMessage(
-				"#set( $sum=$prop_result.getResultList().get(0).get(\"resultColumn.credit\") )"
+				"#set( $sum=$prop_result_fr.getResultList().get(0).get(\"resultColumn.credit\") )"
 				+ "\nSum successful\n"
 				+ "#set( $totalGrade = 0 )"
-				+ "#set( $rowCount = $prop_fact.getResultList().size() )"
-				+ "#foreach( $columnMap in $prop_fact.getResultList() )"
+				+ "#set( $rowCount = $prop_fact_fr.getResultList().size() )"
+				+ "#foreach( $columnMap in $prop_fact_fr.getResultList() )"
 				+ "    #set( $grd = $mathTool.toNumber($columnMap.get(\"resultColumn.grade\")) )"
 				+ "    #set( $totalGrade = $totalGrade + $grd )"
 				+ "    CLU ID:    $columnMap.get(\"resultColumn.cluId\")\n"
@@ -254,12 +254,12 @@ public class SumRulePropositionTest {
 		yvf.setFactStructureList(Arrays.asList(fs));
 		RulePropositionDTO ruleProposition = CommonTestUtil.createRuleProposition(yvf, new BigDecimal(111).toString(), ComparisonOperator.EQUAL_TO.toString());
 		ruleProposition.setFailureMessage(
-				"#set( $result=$prop_result.getResultList().get(0).get(\"resultColumn.credit\") )"
+				"#set( $result=$prop_result_fr.getResultList().get(0).get(\"resultColumn.credit\") )"
 				+ "\n#set( $resultNumber = $mathTool.toNumber($result) )"
-				+ "\n#set( $expectedNumber = $mathTool.toNumber($prop_expectedValue) )"
+				+ "\n#set( $expectedNumber = $mathTool.toNumber($prop_expected_value_str) )"
 				+ "\n#set( $needed = ($expectedNumber - $resultNumber) )"
 				+ "\nSum failure. Sum is short by $needed. "
-				+ "Sum must be equal to $prop_expectedValue.0.");
+				+ "Sum must be equal to $prop_expected_value_str.0.");
 
 		Map<String, Object> factMap = getFactMap(fs, "resultColumn.credit");
 		

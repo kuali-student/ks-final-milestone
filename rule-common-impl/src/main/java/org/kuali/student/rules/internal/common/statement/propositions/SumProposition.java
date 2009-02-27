@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 
 /**
  * A constraint that specifies that sum of a list of values is less than the required amount.
@@ -31,9 +32,6 @@ import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
 public class SumProposition<E extends Number> extends AbstractProposition<BigDecimal> {
     // ~ Instance fields --------------------------------------------------------
 
-	public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_SUM = "prop_sum";
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE = "prop_sum_diff";
-    
 	private BigDecimal sum;
     List<E> factSet;
 
@@ -68,9 +66,9 @@ public class SumProposition<E extends Number> extends AbstractProposition<BigDec
 
     @Override
     public void buildMessageContextMap() {
-    	addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_SUM, sum.toString());
+    	addMessageContext(MessageContextConstants.PROPOSITION_SUM_MESSAGE_CTX_KEY_SUM, sum.toString());
         BigDecimal difference = expectedValue.subtract(sum);
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE, difference.toString());
+        addMessageContext(MessageContextConstants.PROPOSITION_SUM_MESSAGE_CTX_KEY_SUM_DIFF, difference.toString());
     }
 
     /**

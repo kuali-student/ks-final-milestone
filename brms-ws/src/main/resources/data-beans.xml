@@ -453,8 +453,8 @@
 		<property name="name" value="P3" />
 		<property name="description"
 			value="Enumeration of required pre-requisite courses" />
-        <property name="successMessage" value="Pre-requisite course requirement met: $prop_intersection_metset" />
-		<property name="failureMessage" value="Pre-requisite course requirement not met. $prop_intersection_diff of $prop_intersection_unmetset is still required." />
+        <property name="successMessage" value="Pre-requisite course requirement met: $prop_intersection_met_set" />
+		<property name="failureMessage" value="Pre-requisite course requirement not met. $prop_intersection_diff_set of $prop_intersection_unmet_set is still required." />
 		<property name="comparisonDataTypeKey"
 			value="java.math.BigDecimal" />
 		<property name="leftHandSide" ref="leftHandSide4" />

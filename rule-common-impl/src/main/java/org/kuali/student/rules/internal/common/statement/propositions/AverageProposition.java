@@ -20,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.rules.internal.common.entity.ComparisonOperator;
+import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 
 public class AverageProposition<E extends Number> extends SumProposition<E> {
 	private BigDecimal average;
     private BigDecimal listSize;
-    
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_AVERAGE = "proposition_average";
-    public final static String PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE = "proposition_average_diff";
     
 	public AverageProposition(String id, 
 							  String propositionName, 
@@ -55,8 +53,8 @@ public class AverageProposition<E extends Number> extends SumProposition<E> {
 
     @Override
     public void buildMessageContextMap() {
-    	addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_AVERAGE, average.toString());
+    	addMessageContext(MessageContextConstants.PROPOSITION_AVERAGE_MESSAGE_CTX_KEY, average.toString());
         BigDecimal needed = expectedValue.subtract(average);
-        addMessageContext(PROPOSITION_MESSAGE_CONTEXT_TOKEN_DIFFERENCE, needed.toString());
+        addMessageContext(MessageContextConstants.PROPOSITION_AVERAGE_MESSAGE_CTX_KEY_DIFF, needed.toString());
     }
 }

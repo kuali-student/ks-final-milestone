@@ -260,16 +260,16 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
      */
     private void buildMessageContextMap() {
         if (this.comparisonOperator != null) {
-	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_OPERATOR, this.comparisonOperator.toString());
+	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CTX_KEY_OPERATOR, this.comparisonOperator.toString());
         }
         if (this.comparisonOperatorDataType != null) {
-	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_OPERATOR_DATATYPE, this.comparisonOperatorDataType);
+	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CTX_KEY_OPERATOR_DATATYPE, this.comparisonOperatorDataType);
         }
         if (this.expectedValue != null) {
-	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_EXPECTEDVALUE, this.expectedValue);
+	        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CTX_KEY_EXPECTEDVALUE, this.expectedValue);
         }
-    	addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_FACT, this.factDTO);
-        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CONTEXT_KEY_RESULT, this.factResultDTO);
+    	addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CTX_KEY_FACT, this.factDTO);
+        addMessageContext(MessageContextConstants.PROPOSITION_MESSAGE_CTX_KEY_RESULT, this.factResultDTO);
         addMessageContext("resultValues", this.proposition.getResultValues());
     }
 
