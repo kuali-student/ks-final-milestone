@@ -14,11 +14,11 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KS_LU_STMT_TYPE_T")
+@Table(name = "KSLU_STMT_TYPE_T")
 public class LuStatementType extends Type<LuStatementTypeAttribute> {
 
 	@ManyToMany
-	@JoinTable(name = "KS_LU_STMT_TYPE_LU_TYPE_T", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID"))
+	@JoinTable(name = "KSLU_LU_STMT_TYPE_JN_LU_TYPE", joinColumns = @JoinColumn(name = "LU_STMT_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "LU_TYPE_ID"))
 	private List<LuType> luTypes;
    
     @OneToMany(cascade = CascadeType.ALL)
