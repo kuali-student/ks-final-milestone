@@ -431,20 +431,10 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
-	public static ReqComponentTypeInfo toReqComponentTypeInfo(
-			ReqComponentType entity) {
-		ReqComponentTypeInfo dto = new ReqComponentTypeInfo();
-
-		BeanUtils.copyProperties(entity, dto, new String[] { "id",
-				"reqCompFieldTypes", "attributes" });
-
-		dto.setReqCompFieldTypes(toReqCompFieldTypeInfos(entity
-				.getReqCompFieldTypes()));
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-
-		return dto;
-	}
-
+    public static ReqComponentTypeInfo toReqComponentTypeInfo(ReqComponentType entity) {
+        return toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
+    }
+	
 	public static RichTextInfo toRichTextInfo(RichText entity) {
 		RichTextInfo dto = new RichTextInfo();
 
