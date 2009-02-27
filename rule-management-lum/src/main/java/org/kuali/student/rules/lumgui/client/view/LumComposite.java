@@ -35,18 +35,23 @@ public class LumComposite extends Composite {
     Controller controller;
     ViewMetaData metadata;
     Messages messages;
+    LumSwitchPanel<LumModelObject> pnlViews;
+    List<LumUIEventListener> lumUIListeners = new ArrayList<LumUIEventListener>(7);     
+    
+    //SIMPLE VIEW widgets
+    Button btnSearch;
+    Button btnComplexLevel;    
     LumTextArea<LumModelObject> taPreReqRationale;
     LumTextArea<LumModelObject> taNaturalLanguage;
     LumTextArea<LumModelObject> taRreReqCourses;
     LumTextBox<LumModelObject> tbStatementId;
-    LumTextBox<LumModelObject> tbAlgebra;
-    Button btnSearch;
-    Button btnComplexLevel;
-    Button btnSimpleLevel;
-    LumSwitchPanel<LumModelObject> pnlViews;
-    List<LumUIEventListener> lumUIListeners = new ArrayList<LumUIEventListener>(7); 
     // TODO use button when widgets are ready 
-//    Button btnAddCourses;
+//  Button btnAddCourses;  
+    
+    //COMPLEX VIEW widgets
+    Button btnSimpleLevel;
+    LumTextBox<LumModelObject> tbAlgebra;
+    LumTextArea<LumModelObject> taNaturalLanguage2;    
 
     final SimplePanel mainLumPanel = new SimplePanel();    
     
@@ -102,10 +107,11 @@ public class LumComposite extends Composite {
         Panel pnlComplexView = new VerticalPanel();
         Panel pnlSimpleTreeView = new VerticalPanel();
         Panel pnlBooleanAlgebraView = new VerticalPanel();
+        Panel pnlNaturalLanguage2 = new VerticalPanel();        
 
         pnlComplexView.add(pnlSimpleTreeView);
         pnlComplexView.add(pnlBooleanAlgebraView);
-        pnlComplexView.add(pnlNaturalLanguage);
+        pnlComplexView.add(pnlNaturalLanguage2);
         
         pnlViews.add(pnlComplexView);
                
@@ -129,7 +135,7 @@ public class LumComposite extends Composite {
                 Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
         pnlNaturalLanguage.setSize(
                 Double.toString(pnlSimpleView.getOffsetWidth() * 0.9),
-                Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));
+                Double.toString(pnlSimpleView.getOffsetHeight() * 0.33));                      
         prepareStatementSearchPanel(pnlStatementSearch);
         prepareRationaleToComplexViewPanel(pnlRationaleToComplexView);
         preparePreReqCoursesPanel(pnlPreReqCourses);
@@ -145,12 +151,12 @@ public class LumComposite extends Composite {
         pnlBooleanAlgebraView.setSize(
                 Double.toString(pnlComplexView.getOffsetWidth() * 0.9),
                 Double.toString(pnlComplexView.getOffsetHeight() * 0.33));
-        pnlNaturalLanguage.setSize(
+        pnlNaturalLanguage2.setSize(
                 Double.toString(pnlComplexView.getOffsetWidth() * 0.9),
-                Double.toString(pnlComplexView.getOffsetHeight() * 0.33));
-        prepareSimpleTreePanel(pnlSimpleTreeView);
-        prepareBoleanAlgebraPanel(pnlBooleanAlgebraView);
-        prepareNaturalLanguagePanel(pnlNaturalLanguage);        
+                Double.toString(pnlComplexView.getOffsetHeight() * 0.33)); 
+        prepareSimpleTreePanel(pnlSimpleTreeView); 
+        prepareBoleanAlgebraPanel(pnlBooleanAlgebraView);        
+        prepareNaturalLanguagePanel2(pnlNaturalLanguage2);        
     }
     
     // for debugging
@@ -199,7 +205,7 @@ public class LumComposite extends Composite {
         parent.add(taNaturalLanguage);
         taNaturalLanguage.setSize(
                 Double.toString(parent.getOffsetWidth() * 0.9),
-                Double.toString(parent.getOffsetHeight() * 0.8));
+                Double.toString(parent.getOffsetHeight() * 0.8));         
     }
     
     private void prepareSimpleTreePanel(Panel parent) {
@@ -212,6 +218,16 @@ public class LumComposite extends Composite {
         tbAlgebra = new LumTextBox<LumModelObject>(LumModelObject.FieldName.ALGEBRA.toString());
         parent.add(tbAlgebra);
     }
+    
+    private void prepareNaturalLanguagePanel2(Panel parent) {
+        taNaturalLanguage2 = new LumTextArea<LumModelObject>(LumModelObject.FieldName.
+                NATURAL_LANGUAGE.toString());
+        parent.add(new Label(messages.get("lum.naturalLanguage")));
+        parent.add(taNaturalLanguage2);
+        taNaturalLanguage2.setSize(
+                Double.toString(parent.getOffsetWidth() * 0.9),
+                Double.toString(parent.getOffsetHeight() * 0.8));      
+    }    
 
     public void setUpListeners() {
         Model<LumModelObject> model = (Model<LumModelObject>) controller.getModel(LumModelObject.class);
