@@ -29,7 +29,7 @@ public class BaseAssembler {
 		return attributeInfos;
 	}
 
-	protected static <A extends Attribute, O extends AttributeOwner<A>> List<A> toGenericAttributes(
+	public static <A extends Attribute, O extends AttributeOwner<A>> List<A> toGenericAttributes(
 			Class<A> attributeClass, Map<String, String> attributeMap, O owner,
 			CrudDao dao) throws InvalidParameterException {
 		List<A> attributes = new ArrayList<A>();
