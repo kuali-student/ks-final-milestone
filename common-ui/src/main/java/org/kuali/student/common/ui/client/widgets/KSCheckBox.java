@@ -61,7 +61,7 @@ public class KSCheckBox extends CheckBox{
         this.addClickHandler(new ClickHandler(){
 
             public void onClick(ClickEvent event) {
-                if(KSCheckBox.this.isChecked()){
+                if(KSCheckBox.this.getValue()){
                     KSCheckBox.this.addStyleName(KSStyles.KS_CHECKBOX_CHECKED_STYLE);
                 }
                 else{
