@@ -64,6 +64,9 @@ public class KSRichEditor extends Composite {
 		@Override
 		public void onFocus(FocusEvent event) {
 			focused = true;
+			if(!toolbar.inUse()){
+				showToolbar(focused);
+			}
 		}
 	};
 	
@@ -72,18 +75,12 @@ public class KSRichEditor extends Composite {
 		@Override
 		public void onBlur(BlurEvent event) {
 			focused = false;
-		}
-	};
-	
-	private final Timer focusTimer = new Timer() {
-		public void run() {
 			if(!toolbar.inUse()){
 				showToolbar(focused);
 			}
-
-				
 		}
 	};
+	
 	
 	public KSRichEditor(){
 		this(false);
@@ -234,17 +231,10 @@ public class KSRichEditor extends Composite {
 	
 	protected void onLoad() {
 		super.onLoad();
-		if(!isUsedInPopup){
-	        focusTimer.scheduleRepeating(250);
-		    
-		}
 	}
 	
 	protected void onUnload() {
 		super.onUnload();
-        if(!isUsedInPopup){
-        	focusTimer.cancel();
-        }
         popoutImagePanel.hide();
 	}
 	
