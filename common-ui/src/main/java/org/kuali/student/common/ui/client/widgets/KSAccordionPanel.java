@@ -46,6 +46,19 @@ public class KSAccordionPanel extends Composite{
         setupPanelContent(titleBar, subContent);
     }
     
+	public void addPanel(Widget titleWidget, ClickHandler clickHandler, Widget subContent) {
+		AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
+        setupPanelContent(titleBar, subContent);
+        titleBar.addClickHandler(clickHandler);
+		
+	}
+	
+	public void addPanel(Widget titleWidget, ClickHandler clickHandler) {
+		AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
+        setupPanelContent(titleBar, null);
+        titleBar.addClickHandler(clickHandler);
+	}
+    
     public void addPanel(Widget titleWidget, Widget subContent) {
         AccordionTitleBar titleBar = new AccordionTitleBar(titleWidget);
         setupPanelContent(titleBar, subContent);
@@ -232,4 +245,6 @@ public class KSAccordionPanel extends Composite{
 	        }
         }
     }
+
+
 }

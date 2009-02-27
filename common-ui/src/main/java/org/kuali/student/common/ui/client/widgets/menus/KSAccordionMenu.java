@@ -22,27 +22,23 @@ public class KSAccordionMenu extends KSMenu{
 			
 			KSLabel categoryLabel = new KSLabel(i.getLabel(), false);
 			
-			FocusPanel fp = new FocusPanel();
-			fp.setWidget(categoryLabel);
-			fp.setHeight("100%");
-			fp.setWidth("100%");
 			if(level > 0 && level <= 7){
-				fp.addStyleName(KSStyles.KS_INDENT + "-" + level);
+				categoryLabel.addStyleName(KSStyles.KS_INDENT + "-" + level);
 			}
 			categoryLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
 			
-			if(i.getClickHandler() != null){
+/*			if(i.getClickHandler() != null){
 			    fp.addClickHandler(i.getClickHandler());
-			}
+			}*/
 			
 			if(i.getSubItems().isEmpty()){		
-				menu.addPanel(fp);
+				menu.addPanel(categoryLabel, i.getClickHandler());
 			}
 			else{
 				KSAccordionMenu subMenu = GWT.create(KSAccordionMenu.class);
 				subMenu.setRetainHistory(retainHistory);
 				subMenu.setItems(i.getSubItems());
-				menu.addPanel(fp, subMenu);
+				menu.addPanel(categoryLabel, i.getClickHandler(), subMenu);
 			}
 		}
 		
