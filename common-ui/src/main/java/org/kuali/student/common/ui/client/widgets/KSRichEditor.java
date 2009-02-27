@@ -44,7 +44,7 @@ public class KSRichEditor extends Composite {
 	private final PopupPanel popoutImagePanel = new PopupPanel();
 	private PopupPanel glass = new PopupPanel();
 	
-	private final KSResizableDialogPanel popoutWindow = new KSResizableDialogPanel();
+	private final KSInfoDialogPanel popoutWindow = new KSInfoDialogPanel();
 	private KSRichEditor popoutEditor = null;
 	
 	private boolean focused = false;
