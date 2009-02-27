@@ -556,10 +556,10 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" });
 		dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
-		// TODO dto.setMinTimeToComplete(toTimeAmountInfo(entity.getminTimeToComplete));
-		// TODO dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getmaxTimeToComplete));
-		// TODO dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getmaxAllowableInactivity));
-		// TODO dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getmaxTimeResultsRecognized));
+		dto.setMinTimeToComplete(toTimeAmountInfo(entity.getMinTimeToComplete()));
+		dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getMaxTimeToComplete()));
+		dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getMaxAllowableInactivity()));
+		dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getMaxTimeResultsRecognized()));
 
 		return dto;
 	}
