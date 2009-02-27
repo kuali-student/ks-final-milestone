@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KSLU_STMT_TYPE_T")
+@Table(name = "KSLU_STMT_TYPE")
 public class LuStatementType extends Type<LuStatementTypeAttribute> {
 
 	@ManyToMany

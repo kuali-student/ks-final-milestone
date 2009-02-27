@@ -20,7 +20,7 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 @Entity
-@Table(name = "KS_LU_STMT_T")
+@Table(name = "KSLU_STMT")
 public class LuStatement extends MetaEntity implements AttributeOwner<LuStatementAttribute>{
     @Id
     @Column(name = "ID")
@@ -29,10 +29,10 @@ public class LuStatement extends MetaEntity implements AttributeOwner<LuStatemen
     @Column(name="NAME")
     private String name;
 
-    @Column(name="DESCRIPTION")
+    @Column(name="DESCR")
     private String desc;
     
-    @Column(name="STATE")
+    @Column(name="ST")
     private String state;
 
     @Column(name="OPERATOR")
@@ -46,7 +46,7 @@ public class LuStatement extends MetaEntity implements AttributeOwner<LuStatemen
     private List<LuStatement> children;
 
     @ManyToMany
-    @JoinTable(name = "KS_LU_STMT_REQ_COMP_T", joinColumns = @JoinColumn(name = "REQ_COMP_ID"), inverseJoinColumns = @JoinColumn(name = "LU_STMT_ID"))
+    @JoinTable(name = "KSLU_STMT_JN_REQ_COM", joinColumns = @JoinColumn(name = "REQ_COM_ID"), inverseJoinColumns = @JoinColumn(name = "LU_STMT_ID"))
     private List<ReqComponent> requiredComponents;
 
     @ManyToOne
