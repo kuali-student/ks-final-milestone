@@ -9,6 +9,7 @@ package org.kuali.student.rules.rulemanagement.entity;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -31,6 +32,7 @@ import org.kuali.student.rules.internal.common.entity.BusinessRuleTypeKey;
 @NamedQueries({@NamedQuery(name = "BusinessRuleType.findByKeyAndAnchorType", query = "SELECT c FROM BusinessRuleType c WHERE c.businessRuleTypeKey = :businessRuleTypeKey AND c.anchorTypeKey = :anchorTypeKey"), @NamedQuery(name = "BusinessRuleType.findBusinessRuleTypes", query = "SELECT c.businessRuleTypeKey FROM BusinessRuleType c"), @NamedQuery(name = "BusinessRuleType.findUniqueAnchorTypes", query = "SELECT DISTINCT c.anchorTypeKey FROM BusinessRuleType c order by c.anchorTypeKey ASC")})
 public class BusinessRuleType {
     @Id
+    @Column(name="brt_id")
     private String id;
 
     private BusinessRuleTypeKey businessRuleTypeKey;

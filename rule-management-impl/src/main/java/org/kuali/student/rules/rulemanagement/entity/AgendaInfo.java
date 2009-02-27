@@ -12,9 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,6 +40,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
               @NamedQuery(name = "AgendaInfo.findUniqueAgendaTypes", query = "SELECT DISTINCT a.type FROM AgendaInfo a ORDER BY a.type ASC")})
 public class AgendaInfo {
     @Id
+    @Column(name="ai_id")
     private String id;
 
     private String type;
@@ -46,6 +50,8 @@ public class AgendaInfo {
 
     //TODO: Change this to @OnetoMany relation after they fix the bug HHH-3410
     @ManyToMany(fetch = FetchType.EAGER)
+    // Added @JoinTable so table name is less then 31 characters for Oracle (Oracle table name limit is 30 characters)
+    @JoinTable(name="AgendaBusinessruleType_T", joinColumns={@JoinColumn(name="ai_id")}, inverseJoinColumns={@JoinColumn(name="brt_id")})
     private List<BusinessRuleType> businessRuleTypeInfoList;
 
     private String agendaOrchestration;
