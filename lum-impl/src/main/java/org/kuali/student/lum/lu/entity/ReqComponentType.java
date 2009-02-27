@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name="KS_REQ_COMP_TYPE_T")
+@Table(name="KSLU_REQ_COM_TYPE")
 public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     
     @OneToMany(cascade = CascadeType.ALL)
@@ -22,7 +22,7 @@ public class ReqComponentType extends Type<ReqComponentTypeAttribute> {
     private List<ReqComponentTypeAttribute> attributes;
     
     @ManyToMany
-    @JoinTable(name = "KS_REQCOMP_TYPE_REQCOMPFLD_TYPE_T", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"))
+    @JoinTable(name = "KSLU_REQCOMTYP_JN_REQCOMFLDTYP", joinColumns = @JoinColumn(name = "REQ_COMP_FIELD_TYPE_ID"), inverseJoinColumns = @JoinColumn(name = "REQ_COMP_TYPE_ID"))
     private List<ReqComponentFieldType> reqCompFieldTypes;
 
     public List<ReqComponentTypeAttribute> getAttributes() {
