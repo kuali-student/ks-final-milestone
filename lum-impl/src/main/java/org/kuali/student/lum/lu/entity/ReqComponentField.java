@@ -8,19 +8,18 @@ import javax.persistence.Table;
 import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
-@Table(name="KSLU_REQ_COM_FIELD")
+@Table(name="KS_REQ_COMP_FIELD_T")
 public class ReqComponentField {
 	@Id
 	@Column(name = "ID")
 	private String id;
 	
-    @Column(name="REQ_COM_FIELD_KEY")
+    @Column(name="REQ_COMP_FIELD_KEY")
     private String key;
 
     @Column(name="VALUE")
     private String value;
-    
-   
+       
     /**
      * AutoGenerate the Id
      */
