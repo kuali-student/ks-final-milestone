@@ -25,4 +25,14 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 		List<Clu> resultList = query.getResultList();
 		return resultList;
 	}
+
+	@Override
+	public List<Clu> getClusByLuType(String luTypeKey, String luState) {
+		Query query = em.createNamedQuery("Clu.getClusByLuType");
+		query.setParameter("luTypeKey", luTypeKey);
+		query.setParameter("luState", luState);
+		@SuppressWarnings("unchecked")
+		List<Clu> resultList = query.getResultList();
+		return resultList;
+	}
 }

@@ -1,5 +1,6 @@
 package org.kuali.student.lum.lu.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -363,10 +364,11 @@ public class LuServiceImpl implements LuService {
 	public CluInfo getClu(String cluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 
 		checkForMissingParameter(cluId, "cluId");
-		return null;
+
+		Clu clu = luDao.fetch(Clu.class, cluId);
+		return LuServiceAssembler.toCluInfo(clu);
 	}
 
 	@Override
@@ -397,11 +399,14 @@ public class LuServiceImpl implements LuService {
 	public List<String> getCluIdsByLuType(String luTypeKey, String luState)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(luState, "luState");
-		return null;
+		List<Clu> clus = luDao.getClusByLuType(luTypeKey, luState);
+		List<String> ids = new ArrayList<String>(clus.size());
+		for (Clu clu : clus) {
+			ids.add(clu.getId());
+		}
+		return ids;
 	}
 
 	@Override
@@ -453,7 +458,6 @@ public class LuServiceImpl implements LuService {
 	public List<CluInfo> getClusByIdList(List<String> cluIdList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(cluIdList, "cluIdList");
 		List<Clu> clus = luDao.getClusByIdList(cluIdList);
 		return LuServiceAssembler.toCluInfos(clus);
@@ -463,10 +467,10 @@ public class LuServiceImpl implements LuService {
 	public List<CluInfo> getClusByLuType(String luTypeKey, String luState)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(luState, "lustate");
-		return null;
+		List<Clu> clus = luDao.getClusByLuType(luTypeKey, luState);
+		return LuServiceAssembler.toCluInfos(clus);
 	}
 
 	@Override

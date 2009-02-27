@@ -29,7 +29,8 @@ import org.kuali.student.core.entity.TimeAmount;
 @Entity
 @Table(name = "KSLU_CLU")
 @NamedQueries({
-	@NamedQuery(name="Clu.findClusByIdList", query="SELECT c FROM Clu WHERE id IN (:idList)")
+	@NamedQuery(name="Clu.findClusByIdList", query="SELECT c FROM Clu c WHERE id IN (:idList)"),
+	@NamedQuery(name="Clu.getClusByLuType", query="SELECT c FROM Clu c WHERE state = :luState AND type = :luTypeLey")
 })
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
