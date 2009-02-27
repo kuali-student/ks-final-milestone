@@ -693,4 +693,30 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		return dto;
 	}
+
+	public static TimeAmount toTimeAmount(TimeAmountInfo timeAmountInfo) {
+		TimeAmount timeAmount = new TimeAmount();
+		BeanUtils.copyProperties(timeAmountInfo, timeAmount);
+		return timeAmount;
+	}
+
+	public static RichText toRichText(RichTextInfo richTextInfo) {
+		RichText richText = new RichText();
+		BeanUtils.copyProperties(richTextInfo, richText);
+		return richText;
+	}
+
+	public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
+		CluCredit cluCredit = new CluCredit();
+		
+		cluCredit.setMaxAllowableInactivity(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));
+		cluCredit.setMaxTimeResultsRecognized(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeResultsRecognized()));
+		cluCredit.setMaxTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
+		cluCredit.setMinTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
+		cluCredit.setRepeatTime(LuServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
+	
+		BeanUtils.copyProperties(cluCreditInfo,cluCredit,new String[]{"maxAllowableInactivity,maxTimeResultsRecognized,maxTimeToComplete,minTimeToComplete"});
+	
+		return cluCredit;
+	}
 }

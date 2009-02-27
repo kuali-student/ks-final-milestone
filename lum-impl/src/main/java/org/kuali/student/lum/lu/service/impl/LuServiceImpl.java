@@ -8,7 +8,6 @@ import javax.jws.WebService;
 
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -33,8 +32,10 @@ import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCriteria;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
+import org.kuali.student.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationInfo;
 import org.kuali.student.lum.lu.dto.LuDocRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
@@ -48,7 +49,20 @@ import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.CluAccounting;
+import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
+import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
+import org.kuali.student.lum.lu.entity.CluAttribute;
+import org.kuali.student.lum.lu.entity.CluFee;
+import org.kuali.student.lum.lu.entity.CluFeeAttribute;
 import org.kuali.student.lum.lu.entity.CluIdentifier;
+import org.kuali.student.lum.lu.entity.CluInstructor;
+import org.kuali.student.lum.lu.entity.CluInstructorAttribute;
+import org.kuali.student.lum.lu.entity.CluOrg;
+import org.kuali.student.lum.lu.entity.CluPublishing;
+import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
+import org.kuali.student.lum.lu.entity.LuCode;
+import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.beans.BeanUtils;
@@ -145,6 +159,8 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(cluInfo, "cluInfo");
 		
+		//TODO add cascading persists to all the nested entities
+		
 		Clu clu = new Clu();
 		
 		LuType luType = luDao.fetch(LuType.class,luTypeKey);
@@ -160,31 +176,79 @@ public class LuServiceImpl implements LuService {
 			clu.getAlternateIdentifiers().add(identifier);
 		}
 		
-		RichText desc = new RichText();
-		desc.setFormatted(cluInfo.getDesc().getFormatted());
-		desc.setPlain(cluInfo.getDesc().getPlain());
-		clu.setDesc(desc);
+		clu.setDesc(LuServiceAssembler.toRichText(cluInfo.getDesc()));
+		clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
 
-		RichText marketingDesc = new RichText();
-		marketingDesc.setFormatted(cluInfo.getMarketingDesc().getFormatted());
-		marketingDesc.setPlain(cluInfo.getMarketingDesc().getPlain());
-		clu.setMarketingDesc(marketingDesc);
-
+		for(String orgId:cluInfo.getParticipatingOrgs()){
+			CluOrg cluOrg = new CluOrg();
+			cluOrg.setOrgId(orgId);
+			clu.getParticipatingOrgs().add(cluOrg);
+		}
 		
-//		clu.setAccounting(accounting);
-//		clu.setAccreditingOrg(accreditingOrg);
-//		clu.setAdminOrg(adminOrg);
-//		clu.setAlternateIdentifiers(alternateIdentifiers);
-//		clu.setAttributes(attributes);
-//		clu.setCanCreateLui(canCreateLui);
-//		clu.setCluSets(cluSets);
-//		clu.setCredit(credit);
-//		clu.setDefaultEnrollmentEstimate(defaultEnrollmentEstimate);
-//		clu.setDefaultMaximumEnrollment(defaultMaximumEnrollment);
-//		clu.set
-//		
-		// TODO Auto-generated method stub
-		return null;
+		CluInstructor primaryInstructor = new CluInstructor();
+		BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),primaryInstructor,new String[]{"attributes"});
+		primaryInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), primaryInstructor, luDao));
+		clu.setPrimaryInstructor(primaryInstructor);
+		
+		for(CluInstructorInfo instructorInfo: cluInfo.getInstructors()){
+			CluInstructor instructor = new CluInstructor();
+			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
+			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
+			clu.getInstructors().add(instructor);
+		}
+	
+		clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
+		
+		for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
+			LuCode luCode = new LuCode();
+			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
+			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
+			clu.getLuCodes().add(luCode);
+		}
+		
+		clu.setCredit(LuServiceAssembler.toCluCredit(cluInfo.getCreditInfo()));
+		
+		CluPublishing cluPublishing = new CluPublishing();
+		BeanUtils.copyProperties(cluInfo.getPublishingInfo(),cluPublishing,new String[]{"attributes","instructors","primaryInstructor"});
+		cluPublishing.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), cluPublishing, luDao));
+		
+		CluInstructor primaryPubInstructor = new CluInstructor();
+		BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),primaryPubInstructor,new String[]{"attributes"});
+		primaryPubInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), primaryPubInstructor, luDao));
+		cluPublishing.setPrimaryInstructor(primaryPubInstructor);
+		
+		for(CluInstructorInfo instructorInfo: cluInfo.getPublishingInfo().getInstructors()){
+			CluInstructor instructor = new CluInstructor();
+			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
+			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
+			cluPublishing.getInstructors().add(instructor);
+		}
+
+		clu.setPublishing(cluPublishing);
+
+		for(String atpTypeKey : cluInfo.getOfferedAtpTypes()){
+			CluAtpTypeKey cluAtpTypeKey = new CluAtpTypeKey();
+			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
+			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
+		}
+			
+		CluFee cluFee = new CluFee();
+		cluFee.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, cluInfo.getFeeInfo().getAttributes(), cluFee, luDao));
+		clu.setFee(cluFee);
+		
+		CluAccounting cluAccounting = new CluAccounting();
+		cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), cluAccounting, luDao));
+		clu.setAccounting(cluAccounting);
+		
+		clu.setAttributes(LuServiceAssembler.toGenericAttributes(CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
+		
+		//Now copy all not standard properties
+		BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs",
+					"primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo"});
+
+		luDao.create(clu);
+		
+		return LuServiceAssembler.toCluInfo(clu);
 	}
 
 	@Override
