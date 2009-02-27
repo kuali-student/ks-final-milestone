@@ -245,6 +245,7 @@ public class KSRichEditor extends Composite {
         if(!isUsedInPopup){
         	focusTimer.cancel();
         }
+        popoutImagePanel.hide();
 	}
 	
 	// delegate methods to RichTextArea
