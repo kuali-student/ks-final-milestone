@@ -19,6 +19,7 @@ import org.kuali.student.rules.lumgui.client.model.LumModelObject;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -50,9 +51,15 @@ public class LumComposite extends Composite {
     
     //COMPLEX VIEW widgets
     Button btnSimpleLevel;
+    Button btnAddRequirement;
+    Button btnCancelRequirement;
     LumTextBox<LumModelObject> tbAlgebra;
     LumTextArea<LumModelObject> taNaturalLanguage2;    
 
+    //REQUIREMENT DIALOG widgets
+    LumDialog<LumModelObject> dgCompRequirement;
+    Button btnCloseDialog;    
+    
     final SimplePanel mainLumPanel = new SimplePanel();    
     
     boolean loaded = false;
@@ -108,7 +115,7 @@ public class LumComposite extends Composite {
         Panel pnlSimpleTreeView = new VerticalPanel();
         Panel pnlBooleanAlgebraView = new VerticalPanel();
         Panel pnlNaturalLanguage2 = new VerticalPanel();        
-
+      //  addBorder(pnlNaturalLanguage2);
         pnlComplexView.add(pnlSimpleTreeView);
         pnlComplexView.add(pnlBooleanAlgebraView);
         pnlComplexView.add(pnlNaturalLanguage2);
@@ -123,7 +130,7 @@ public class LumComposite extends Composite {
         // sizes and layout are to be done AFTER the containing panels
         // are added to mainLumPanel to make size settings effective
         
-        //sizes for SIMPLE VIEW
+        //setup widgets for SIMPLE VIEW
         pnlSimpleView.setSize(
                 Double.toString(mainLumPanel.getOffsetWidth()),
                 Double.toString(mainLumPanel.getOffsetHeight()));
@@ -141,7 +148,7 @@ public class LumComposite extends Composite {
         preparePreReqCoursesPanel(pnlPreReqCourses);
         prepareNaturalLanguagePanel(pnlNaturalLanguage);
         
-        //sizes for COMPLEX VIEW
+        //setup widgets for COMPLEX VIEW
         pnlComplexView.setSize(
                 Double.toString(mainLumPanel.getOffsetWidth()),
                 Double.toString(mainLumPanel.getOffsetHeight()));
@@ -156,7 +163,11 @@ public class LumComposite extends Composite {
                 Double.toString(pnlComplexView.getOffsetHeight() * 0.33)); 
         prepareSimpleTreePanel(pnlSimpleTreeView); 
         prepareBoleanAlgebraPanel(pnlBooleanAlgebraView);        
-        prepareNaturalLanguagePanel2(pnlNaturalLanguage2);        
+        prepareNaturalLanguagePanel2(pnlNaturalLanguage2);  
+        
+        //setup widgets for Requirement DIALOG
+        dgCompRequirement = new LumDialog("test");
+        prepareRequirementDialog(dgCompRequirement);
     }
     
     // for debugging
@@ -211,6 +222,8 @@ public class LumComposite extends Composite {
     private void prepareSimpleTreePanel(Panel parent) {
         btnSimpleLevel = new Button("Simple Rules");
         parent.add(btnSimpleLevel);
+        btnAddRequirement = new Button("Add");
+        parent.add(btnAddRequirement);        
     } 
     
     private void prepareBoleanAlgebraPanel(Panel parent) {
@@ -223,16 +236,32 @@ public class LumComposite extends Composite {
         taNaturalLanguage2 = new LumTextArea<LumModelObject>(LumModelObject.FieldName.
                 NATURAL_LANGUAGE.toString());
         parent.add(new Label(messages.get("lum.naturalLanguage")));
-        parent.add(taNaturalLanguage2);
-        taNaturalLanguage2.setSize(
-                Double.toString(parent.getOffsetWidth() * 0.9),
-                Double.toString(parent.getOffsetHeight() * 0.8));      
+        parent.add(taNaturalLanguage2);        
+        //taNaturalLanguage2.setSize(
+        //        Double.toString(parent.getOffsetWidth() * 0.9),
+        //        Double.toString(parent.getOffsetHeight() * 0.8));         
     }    
 
+    private void prepareRequirementDialog(DialogBox parent) {
+        parent.setAnimationEnabled(true);
+        parent.setText("Add a Requirement");
+        
+        VerticalPanel dialogContents = new VerticalPanel();
+        btnCancelRequirement = new Button("Cancel");
+        dialogContents.add(btnCancelRequirement);
+        dialogContents.setSpacing(4);
+        parent.setWidget(dialogContents);
+        
+        dialogContents.setSize(
+                Double.toString(100),
+                Double.toString(50));          
+    }         
+    
     public void setUpListeners() {
         Model<LumModelObject> model = (Model<LumModelObject>) controller.getModel(LumModelObject.class);
         new ModelBinding<LumModelObject>(model, tbStatementId);
         new ModelBinding<LumModelObject>(model, pnlViews);
+        new ModelBinding<LumModelObject>(model, dgCompRequirement);
         btnComplexLevel.addClickListener(new ClickListener() {
             public void onClick(Widget sender) {
                 System.out.println("btnComplexLevel clicked");
@@ -252,7 +281,27 @@ public class LumComposite extends Composite {
                     }
                 }
             }
+        });       
+        btnAddRequirement.addClickListener(new ClickListener() {
+            public void onClick(Widget sender) {
+                System.out.println("btnAddRequirement clicked");
+                if (lumUIListeners != null && !lumUIListeners.isEmpty()) {
+                    for (LumUIEventListener listener : lumUIListeners) {
+                        listener.showRequirementDialog();
+                    }
+                }
+            }
         });        
+        btnCancelRequirement.addClickListener(new ClickListener() {
+            public void onClick(Widget sender) {
+                System.out.println("btnCancelRequirement clicked");
+                if (lumUIListeners != null && !lumUIListeners.isEmpty()) {
+                    for (LumUIEventListener listener : lumUIListeners) {
+                        listener.hideRequirementDialog();
+                    }
+                }
+            }
+        });          
     }
     
     public void addLumUIEventListener(LumUIEventListener listener) {

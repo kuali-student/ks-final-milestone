@@ -76,7 +76,9 @@ public class LumGuiController extends Controller implements LumUIEventListener {
     }
 
     private void loadModelsData() {    	
-    	System.out.println("Load Models Data");   
+    	System.out.println("Load Models Data");
+    	lumModelObject.setShowAlgebra(false);
+    	lumModelObject.setShowRequirementDialog(false);
     }
 
     private void doLayout() {
@@ -105,5 +107,14 @@ public class LumGuiController extends Controller implements LumUIEventListener {
         lumModelObject.setCurrentView(LumModelObject.LumView.SIMPLE_VIEW);
         model.update(lumModelObject);
     }
+ 
+    public void showRequirementDialog() {
+        lumModelObject.setShowRequirementDialog(true);
+        model.update(lumModelObject);        
+    }
     
+    public void hideRequirementDialog() {
+        lumModelObject.setShowRequirementDialog(false);
+        model.update(lumModelObject);        
+    }    
 }

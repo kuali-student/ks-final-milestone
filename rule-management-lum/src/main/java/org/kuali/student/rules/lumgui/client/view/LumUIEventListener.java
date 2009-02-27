@@ -4,5 +4,6 @@ public interface LumUIEventListener {
 
     void switchToComplexView();
     void switchToSimpleView();
-    
+    void showRequirementDialog();
+    void hideRequirementDialog();
 }

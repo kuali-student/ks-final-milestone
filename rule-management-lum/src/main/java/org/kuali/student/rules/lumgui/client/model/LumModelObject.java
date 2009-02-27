@@ -32,6 +32,7 @@ public class LumModelObject implements ILumModelObject {
     
     //COMPLEX VIEW data
     private boolean showAlgebra;
+    private boolean showRequirementDialog;
     private String algebra;
 
 
@@ -79,7 +80,13 @@ public class LumModelObject implements ILumModelObject {
     }
     public void setAlgebra(String algebra) {
         this.algebra = algebra;
-    }    
+    }        
+    public boolean isShowRequirementDialog() {
+        return showRequirementDialog;
+    }
+    public void setShowRequirementDialog(boolean showRequirementDialog) {
+        this.showRequirementDialog = showRequirementDialog;
+    }
     
     public Object getValue(String fieldName) {
         FieldName enumFieldName = FieldName.valueOf(fieldName);
@@ -101,6 +108,5 @@ public class LumModelObject implements ILumModelObject {
         } else {
             throw new RuntimeException("Unknown fieldName " + fieldName);
         }
-    }
-        
+    }        
 }
