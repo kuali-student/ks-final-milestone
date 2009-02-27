@@ -44,7 +44,7 @@ public class KSRichEditor extends Composite {
 	private final PopupPanel popoutImagePanel = new PopupPanel();
 	private PopupPanel glass = new PopupPanel();
 	
-	private final KSInfoDialogPanel popoutWindow = new KSInfoDialogPanel();
+	private final KSResizableDialogPanel popoutWindow = new KSResizableDialogPanel();
 	private KSRichEditor popoutEditor = null;
 	
 	private boolean focused = false;
@@ -55,6 +55,9 @@ public class KSRichEditor extends Composite {
 	
 	private TextIcons images = (TextIcons) GWT.create(TextIcons.class);
 	private final Image popoutImage = images.popout().createImage();
+	
+	private int height;
+	private int width;
 	
 	private final FocusHandler focusHandler = new FocusHandler() {
 		@Override
@@ -68,6 +71,7 @@ public class KSRichEditor extends Composite {
 		@Override
 		public void onBlur(BlurEvent event) {
 			focused = false;
+			popoutImagePanel.hide();
 		}
 	};
 	
@@ -156,8 +160,7 @@ public class KSRichEditor extends Composite {
 					popoutImagePanel.show();
 				}
 			});
-			
-			windowPanel.setSize("500px", "500px");
+			//windowPanel.setSize("100%", "100%");
 			popoutWindow.setWidget(windowPanel);
 		}
 	}
@@ -171,11 +174,11 @@ public class KSRichEditor extends Composite {
 			if(!toolbarShowing){
 				toolbar.setVisible(true);
 				toolbarHeight = toolbar.getOffsetHeight();
-				textArea.setHeight(textArea.getOffsetHeight()-toolbarHeight + "px");
+				textArea.setHeight(height-toolbarHeight + "px");
 				
 				if(!isUsedInPopup){
 					popoutImagePanel.show();
-					int left = textArea.getAbsoluteLeft() + textArea.getOffsetWidth() - popoutImagePanel.getOffsetWidth() -18; 
+					int left = textArea.getAbsoluteLeft() + width - popoutImagePanel.getOffsetWidth() -18; 
 					int top = textArea.getAbsoluteTop() + textArea.getOffsetHeight() - popoutImagePanel.getOffsetHeight() -2;
 					popoutImagePanel.setPopupPosition(left, top);
 				}
@@ -185,9 +188,9 @@ public class KSRichEditor extends Composite {
 		}
 		else{
 			if(toolbarShowing){
-				popoutImagePanel.hide();
+				//popoutImagePanel.hide();
 				toolbar.setVisible(false);
-				textArea.setHeight(textArea.getOffsetHeight()+toolbarHeight + "px");
+				textArea.setHeight(height + "px");
 			}
 			
 			toolbarShowing = false;
@@ -219,7 +222,8 @@ public class KSRichEditor extends Composite {
 	
 	protected void onLoad() {
 		super.onLoad();
-		System.out.println(textArea.getOffsetWidth());
+		height = textArea.getOffsetHeight();
+		width = textArea.getOffsetWidth();
 		if(!isUsedInPopup){
 	        focusTimer.scheduleRepeating(250);
 		    
