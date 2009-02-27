@@ -18,27 +18,27 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
+
 @Entity
-@Table(name = "KSLU_CLU_ORG")
+@Table(name = "KSLU_CLU_JN_ORG")
 public class CluOrg {
-
-    @Column(name = "TYPE")
-    private String type;
-
+	
     @Id
     @Column(name = "ID")
     private String id;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    @Column(name = "ORG_ID")
+    private String orgId; //External service key
+    
+    @PrePersist
+	public void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+    
     public String getId() {
         return id;
     }
@@ -46,4 +46,13 @@ public class CluOrg {
     public void setId(String id) {
         this.id = id;
     }
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
 }

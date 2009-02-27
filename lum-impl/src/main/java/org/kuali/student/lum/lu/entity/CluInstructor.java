@@ -42,9 +42,6 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
     @Column(name = "PERS_ID")
     private String personId;
     
-    @Column(name = "TYPE")
-    private String type;
-
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
     private List<CluInstructorAttribute> attributes;
@@ -65,14 +62,6 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
         this.personId = personId;
     }
     
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public List<CluInstructorAttribute> getAttributes() {
         if (attributes == null) {
             attributes = new ArrayList<CluInstructorAttribute>();

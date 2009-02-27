@@ -109,13 +109,15 @@ public class LuServiceAssembler extends BaseAssembler {
 		dto.setAlternateIdentifiers(toCluIdentifierInfos(entity.getAlternateIdentifiers()));
 		dto.setDesc(toRichTextInfo(entity.getDesc()));
 		dto.setMarketingDesc(toRichTextInfo(entity.getMarketingDesc()));
+		dto.setAccreditingOrg(entity.getAccreditingOrg());
+		dto.setAdminOrg(entity.getAdminOrg());
 
-		List<String> participatingOrgs = new ArrayList<String>(entity.getOrgs().size());
-		for (CluOrg org : entity.getOrgs()) {
-			participatingOrgs.add(org.getId());
+		List<String> participatingOrgs = new ArrayList<String>(entity.getParticipatingOrgs().size());
+		for (CluOrg cluOrg : entity.getParticipatingOrgs()) {
+			participatingOrgs.add(cluOrg.getOrgId());
 		}
 		dto.setParticipatingOrgs(participatingOrgs);
-		// TODO dto.setPrimaryInstructor(toCluInstructorInfo(entity.get))
+		dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
 		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
 		dto.setStdDuration(toTimeAmountInfo(entity.getStdDuration()));
 		dto.setLuCodes(toLuCodeInfos(entity.getLuCodes()));
@@ -569,7 +571,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		BeanUtils.copyProperties(entity, dto, new String[] { "instructors",
 				"attributes" });
-		// TODO dto.setPrimaryInstructor(toCluInstructorInfo(entity))
+		dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
 		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 

@@ -28,42 +28,41 @@ import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
 @Table(name = "KSLU_CLU")
-@NamedQueries({
-	@NamedQuery(name="Clu.findClusByIdList", query="SELECT c FROM Clu c WHERE id IN (:idList)"),
-	@NamedQuery(name="Clu.getClusByLuType", query="SELECT c FROM Clu c WHERE state = :luState AND type = :luTypeLey")
-})
+@NamedQueries( {
+		@NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE id IN (:idList)"),
+		@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE state = :luState AND type = :luTypeLey") })
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
 
-    @ManyToOne
-    @JoinColumn(name="LUTYPE_ID")
-    private LuType luType;
+	@ManyToOne
+	@JoinColumn(name = "LUTYPE_ID")
+	private LuType luType;
 
-    @OneToMany(mappedBy="clu")
-    private List<LearningObjective> learningObjectives;
+	@OneToMany(mappedBy = "clu")
+	private List<LearningObjective> learningObjectives;
 
-    @OneToMany(mappedBy="clu")
-    private List<Resource> resourceTypes;
+	@OneToMany(mappedBy = "clu")
+	private List<Resource> resourceTypes;
 
-    @ManyToMany(mappedBy="clus")
-    List<CluSet> cluSets;
+	@ManyToMany(mappedBy = "clus")
+	private List<CluSet> cluSets;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
-    private List<CluAttribute> attributes;
+	private List<CluAttribute> attributes;
 
-    @OneToOne
-    @JoinColumn(name="OFFIC_CLU_ID")
-    private CluIdentifier officialIdentifier;
+	@OneToOne
+	@JoinColumn(name = "OFFIC_CLU_ID")
+	private CluIdentifier officialIdentifier;
 
-    @OneToMany
-    @JoinTable(name="KSLU_CLU_JN_CLU_IDENT",joinColumns=@JoinColumn(name="CLU_ID"), inverseJoinColumns=@JoinColumn(name="ALT_CLU_ID"))
-    private List<CluIdentifier> alternateIdentifiers;
+	@OneToMany
+	@JoinTable(name = "KSLU_CLU_JN_CLU_IDENT", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_CLU_ID"))
+	private List<CluIdentifier> alternateIdentifiers;
 
 	@Column(name = "STDY_SUBJ_AREA")
-    private String studySubjectArea;
+	private String studySubjectArea;
 
 	@ManyToOne
 	@JoinColumn(name = "RT_DESCR_ID")
@@ -71,349 +70,390 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
 	@ManyToOne
 	@JoinColumn(name = "RT_MKTG_DESCR_ID")
-    private RichText marketingDesc;
+	private RichText marketingDesc;
 
-	@OneToMany(cascade=CascadeType.ALL)
+	@Column(name = "ACCRED_ORG_ID")
+	private String accreditingOrg;
+
+	@Column(name = "ADMIN_ORG_ID")
+	private String adminOrg;
+
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CLU_ID")
-	private List<CluOrg> orgs;
+	private List<CluOrg> participatingOrgs;
 
+	@ManyToOne
+	@JoinColumn(name="PRI_INSTR_ID")
+	private CluInstructor primaryInstructor;
+	
 	@OneToMany
 	@JoinTable(name = "KSLU_CLU_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
     private List<CluInstructor> instructors;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
-    private Date effectiveDate;
+	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
-    private Date expirationDate;
+	private Date expirationDate;
 
 	@Embedded
 	@Column(name = "STD_DUR")
 	private TimeAmount stdDuration;
 
 	@Column(name = "CAN_CREATE_LUI")
-    private boolean canCreateLui;
+	private boolean canCreateLui;
 
 	@Column(name = "REF_URL")
-    private String referenceURL;
+	private String referenceURL;
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name = "CLU_ID")
-    private List<LuCode> luCodes;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "CLU_ID")
+	private List<LuCode> luCodes;
 
-    @OneToOne
-    @JoinColumn(name = "CR_ID")
-    private CluCredit credit;
+	@OneToOne
+	@JoinColumn(name = "CR_ID")
+	private CluCredit credit;
 
 	@OneToOne
 	@JoinColumn(name = "PUBL_ID")
-    private CluPublishing publishing;
+	private CluPublishing publishing;
 
 	@Column(name = "NEXT_REVIEW_PRD")
-    private String nextReviewPeriod;
+	private String nextReviewPeriod;
 
 	@Column(name = "IS_ENRL")
-    private boolean isEnrollable;
+	private boolean isEnrollable;
 
 	@OneToMany
 	@JoinColumn(name = "CLU_ID")
-    private List<CluAtpTypeKey> offeredAtpTypes;
+	private List<CluAtpTypeKey> offeredAtpTypes;
 
 	@Column(name = "HAS_EARLY_DROP_DEDLN")
-    private boolean hasEarlyDropDeadline;
+	private boolean hasEarlyDropDeadline;
 
 	@Column(name = "DEF_ENRL_EST")
-    private int defaultEnrollmentEstimate;
+	private int defaultEnrollmentEstimate;
 
 	@Column(name = "DEF_MAX_ENRL")
-    private int defaultMaximumEnrollment;
+	private int defaultMaximumEnrollment;
 
 	@Column(name = "IS_HAZR_DISBLD_STU")
-    private boolean isHazardousForDisabledStudents;
+	private boolean isHazardousForDisabledStudents;
 
 	@OneToOne
 	@JoinColumn(name = "FEE_ID")
-    private CluFee fee;
+	private CluFee fee;
 
 	@OneToOne
 	@JoinColumn(name = "ACCT_ID")
-    private CluAccounting accounting;
+	private CluAccounting accounting;
 
 	@Column(name = "TYPE")
-    private String type;
+	private String type;
 
 	@Column(name = "ST")
-    private String state;
-
+	private String state;
 
 	public String getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public LuType getLuType() {
-        return luType;
-    }
+	public LuType getLuType() {
+		return luType;
+	}
 
-    public void setLuType(LuType luType) {
-        this.luType = luType;
-    }
+	public void setLuType(LuType luType) {
+		this.luType = luType;
+	}
 
-    public List<LearningObjective> getLearningObjectives() {
-        return learningObjectives;
-    }
+	public List<LearningObjective> getLearningObjectives() {
+		return learningObjectives;
+	}
 
-    public void setLearningObjectives(List<LearningObjective> learningObjectives) {
-        this.learningObjectives = learningObjectives;
-    }
+	public void setLearningObjectives(List<LearningObjective> learningObjectives) {
+		this.learningObjectives = learningObjectives;
+	}
 
-    public List<Resource> getResourceTypes() {
-        return resourceTypes;
-    }
+	public List<Resource> getResourceTypes() {
+		return resourceTypes;
+	}
 
-    public void setResourceTypes(List<Resource> resourceTypes) {
-        this.resourceTypes = resourceTypes;
-    }
+	public void setResourceTypes(List<Resource> resourceTypes) {
+		this.resourceTypes = resourceTypes;
+	}
 
-    @Override
-    public List<CluAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluAttribute>();
-        }
-        return attributes;
-    }
+	@Override
+	public List<CluAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<CluAttribute>();
+		}
+		return attributes;
+	}
 
-    @Override
-    public void setAttributes(List<CluAttribute> attributes) {
-        this.attributes = attributes;
-    }
+	@Override
+	public void setAttributes(List<CluAttribute> attributes) {
+		this.attributes = attributes;
+	}
 
-    public CluIdentifier getOfficialIdentifier() {
-        return officialIdentifier;
-    }
+	public CluIdentifier getOfficialIdentifier() {
+		return officialIdentifier;
+	}
 
-    public void setOfficialIdentifier(CluIdentifier officialIdentifier) {
-        this.officialIdentifier = officialIdentifier;
-    }
+	public void setOfficialIdentifier(CluIdentifier officialIdentifier) {
+		this.officialIdentifier = officialIdentifier;
+	}
 
-    public List<CluIdentifier> getAlternateIdentifiers() {
-        if (alternateIdentifiers == null) {
-            alternateIdentifiers = new ArrayList<CluIdentifier>();
-        }
-        return alternateIdentifiers;
-    }
+	public List<CluIdentifier> getAlternateIdentifiers() {
+		if (alternateIdentifiers == null) {
+			alternateIdentifiers = new ArrayList<CluIdentifier>();
+		}
+		return alternateIdentifiers;
+	}
 
-    public void setAlternateIdentifiers(List<CluIdentifier> alternateIdentifiers) {
-        this.alternateIdentifiers = alternateIdentifiers;
-    }
+	public void setAlternateIdentifiers(List<CluIdentifier> alternateIdentifiers) {
+		this.alternateIdentifiers = alternateIdentifiers;
+	}
 
-    public String getStudySubjectArea() {
-        return studySubjectArea;
-    }
+	public String getStudySubjectArea() {
+		return studySubjectArea;
+	}
 
-    public void setStudySubjectArea(String studySubjectArea) {
-        this.studySubjectArea = studySubjectArea;
-    }
+	public void setStudySubjectArea(String studySubjectArea) {
+		this.studySubjectArea = studySubjectArea;
+	}
 
-    public RichText getDesc() {
-        return desc;
-    }
+	public RichText getDesc() {
+		return desc;
+	}
 
-    public void setDesc(RichText desc) {
-        this.desc = desc;
-    }
+	public void setDesc(RichText desc) {
+		this.desc = desc;
+	}
 
-    public RichText getMarketingDesc() {
-        return marketingDesc;
-    }
+	public RichText getMarketingDesc() {
+		return marketingDesc;
+	}
 
-    public void setMarketingDesc(RichText marketingDesc) {
-        this.marketingDesc = marketingDesc;
-    }
+	public void setMarketingDesc(RichText marketingDesc) {
+		this.marketingDesc = marketingDesc;
+	}
 
-    public List<CluOrg> getOrgs() {
-        if (orgs == null) {
-            orgs = new ArrayList<CluOrg>();
-        }
-        return orgs;
-    }
+	public List<CluInstructor> getInstructors() {
+		if (instructors == null) {
+			instructors = new ArrayList<CluInstructor>();
+		}
+		return instructors;
+	}
 
-    public void setOrgs(List<CluOrg> orgs) {
-        this.orgs = orgs;
-    }
+	public void setInstructors(List<CluInstructor> instructors) {
+		this.instructors = instructors;
+	}
 
-    public List<CluInstructor> getInstructors() {
-        if (instructors == null) {
-            instructors = new ArrayList<CluInstructor>();
-        }
-        return instructors;
-    }
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
 
-    public void setInstructors(List<CluInstructor> instructors) {
-        this.instructors = instructors;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public TimeAmount getStdDuration() {
+		return stdDuration;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public void setStdDuration(TimeAmount stdDuration) {
+		this.stdDuration = stdDuration;
+	}
 
-    public TimeAmount getStdDuration() {
-        return stdDuration;
-    }
+	public boolean isCanCreateLui() {
+		return canCreateLui;
+	}
 
-    public void setStdDuration(TimeAmount stdDuration) {
-        this.stdDuration = stdDuration;
-    }
+	public void setCanCreateLui(boolean canCreateLui) {
+		this.canCreateLui = canCreateLui;
+	}
 
-    public boolean isCanCreateLui() {
-        return canCreateLui;
-    }
+	public String getReferenceURL() {
+		return referenceURL;
+	}
 
-    public void setCanCreateLui(boolean canCreateLui) {
-        this.canCreateLui = canCreateLui;
-    }
+	public void setReferenceURL(String referenceURL) {
+		this.referenceURL = referenceURL;
+	}
 
-    public String getReferenceURL() {
-        return referenceURL;
-    }
+	public List<LuCode> getLuCodes() {
+		if (luCodes == null) {
+			luCodes = new ArrayList<LuCode>();
+		}
+		return luCodes;
+	}
 
-    public void setReferenceURL(String referenceURL) {
-        this.referenceURL = referenceURL;
-    }
+	public void setLuCodes(List<LuCode> luCodes) {
+		this.luCodes = luCodes;
+	}
 
-    public List<LuCode> getLuCodes() {
-        if (luCodes == null) {
-            luCodes = new ArrayList<LuCode>();
-        }
-        return luCodes;
-    }
+	public CluCredit getCredit() {
+		return credit;
+	}
 
-    public void setLuCodes(List<LuCode> luCodes) {
-        this.luCodes = luCodes;
-    }
+	public void setCredit(CluCredit credit) {
+		this.credit = credit;
+	}
 
-    public CluCredit getCredit() {
-        return credit;
-    }
+	public CluPublishing getPublishing() {
+		return publishing;
+	}
 
-    public void setCredit(CluCredit credit) {
-        this.credit = credit;
-    }
+	public void setPublishing(CluPublishing publishing) {
+		this.publishing = publishing;
+	}
 
-    public CluPublishing getPublishing() {
-        return publishing;
-    }
+	public String getNextReviewPeriod() {
+		return nextReviewPeriod;
+	}
 
-    public void setPublishing(CluPublishing publishing) {
-        this.publishing = publishing;
-    }
+	public void setNextReviewPeriod(String nextReviewPeriod) {
+		this.nextReviewPeriod = nextReviewPeriod;
+	}
 
-    public String getNextReviewPeriod() {
-        return nextReviewPeriod;
-    }
+	public boolean isEnrollable() {
+		return isEnrollable;
+	}
 
-    public void setNextReviewPeriod(String nextReviewPeriod) {
-        this.nextReviewPeriod = nextReviewPeriod;
-    }
+	public void setEnrollable(boolean isEnrollable) {
+		this.isEnrollable = isEnrollable;
+	}
 
-    public boolean isEnrollable() {
-        return isEnrollable;
-    }
+	public List<CluAtpTypeKey> getOfferedAtpTypes() {
+		if (offeredAtpTypes == null) {
+			offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
+		}
+		return offeredAtpTypes;
+	}
 
-    public void setEnrollable(boolean isEnrollable) {
-        this.isEnrollable = isEnrollable;
-    }
+	public void setOfferedAtpTypes(List<CluAtpTypeKey> offeredAtpTypes) {
+		this.offeredAtpTypes = offeredAtpTypes;
+	}
 
-    public List<CluAtpTypeKey> getOfferedAtpTypes() {
-        if (offeredAtpTypes == null) {
-            offeredAtpTypes = new ArrayList<CluAtpTypeKey>();
-        }
-        return offeredAtpTypes;
-    }
+	public boolean isHasEarlyDropDeadline() {
+		return hasEarlyDropDeadline;
+	}
 
-    public void setOfferedAtpTypes(List<CluAtpTypeKey> offeredAtpTypes) {
-        this.offeredAtpTypes = offeredAtpTypes;
-    }
+	public void setHasEarlyDropDeadline(boolean hasEarlyDropDeadline) {
+		this.hasEarlyDropDeadline = hasEarlyDropDeadline;
+	}
 
-    public boolean isHasEarlyDropDeadline() {
-        return hasEarlyDropDeadline;
-    }
+	public int getDefaultEnrollmentEstimate() {
+		return defaultEnrollmentEstimate;
+	}
 
-    public void setHasEarlyDropDeadline(boolean hasEarlyDropDeadline) {
-        this.hasEarlyDropDeadline = hasEarlyDropDeadline;
-    }
+	public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
+		this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
+	}
 
-    public int getDefaultEnrollmentEstimate() {
-        return defaultEnrollmentEstimate;
-    }
+	public int getDefaultMaximumEnrollment() {
+		return defaultMaximumEnrollment;
+	}
 
-    public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
-        this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
-    }
+	public void setDefaultMaximumEnrollment(int defaultMaximumEnrollment) {
+		this.defaultMaximumEnrollment = defaultMaximumEnrollment;
+	}
 
-    public int getDefaultMaximumEnrollment() {
-        return defaultMaximumEnrollment;
-    }
+	public boolean isHazardousForDisabledStudents() {
+		return isHazardousForDisabledStudents;
+	}
 
-    public void setDefaultMaximumEnrollment(int defaultMaximumEnrollment) {
-        this.defaultMaximumEnrollment = defaultMaximumEnrollment;
-    }
+	public void setHazardousForDisabledStudents(
+			boolean isHazardousForDisabledStudents) {
+		this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
+	}
 
-    public boolean isHazardousForDisabledStudents() {
-        return isHazardousForDisabledStudents;
-    }
+	public CluFee getFee() {
+		return fee;
+	}
 
-    public void setHazardousForDisabledStudents(
-            boolean isHazardousForDisabledStudents) {
-        this.isHazardousForDisabledStudents = isHazardousForDisabledStudents;
-    }
+	public void setFee(CluFee fee) {
+		this.fee = fee;
+	}
 
-    public CluFee getFee() {
-        return fee;
-    }
+	public CluAccounting getAccounting() {
+		return accounting;
+	}
 
-    public void setFee(CluFee fee) {
-        this.fee = fee;
-    }
+	public void setAccounting(CluAccounting accounting) {
+		this.accounting = accounting;
+	}
 
-    public CluAccounting getAccounting() {
-        return accounting;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setAccounting(CluAccounting accounting) {
-        this.accounting = accounting;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public String getAccreditingOrg() {
+		return accreditingOrg;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setAccreditingOrg(String accreditingOrg) {
+		this.accreditingOrg = accreditingOrg;
+	}
+
+	public String getAdminOrg() {
+		return adminOrg;
+	}
+
+	public void setAdminOrg(String adminOrg) {
+		this.adminOrg = adminOrg;
+	}
+
+	public List<CluOrg> getParticipatingOrgs() {
+		if (participatingOrgs == null) {
+			participatingOrgs = new ArrayList<CluOrg>();
+		}
+		return participatingOrgs;
+	}
+
+	public void setParticipatingOrgs(List<CluOrg> participatingOrgs) {
+		this.participatingOrgs = participatingOrgs;
+	}
+
+	public List<CluSet> getCluSets() {
+		return cluSets;
+	}
+
+	public void setCluSets(List<CluSet> cluSets) {
+		this.cluSets = cluSets;
+	}
+
+	public CluInstructor getPrimaryInstructor() {
+		return primaryInstructor;
+	}
+
+	public void setPrimaryInstructor(CluInstructor primaryInstructor) {
+		this.primaryInstructor = primaryInstructor;
+	}
 }

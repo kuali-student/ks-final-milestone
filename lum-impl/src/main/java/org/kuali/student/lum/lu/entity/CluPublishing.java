@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.entity;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,91 +34,101 @@ import org.kuali.student.core.entity.AttributeOwner;
 @Table(name = "KSLU_CLU_PUBL")
 public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 
-    private static final long serialVersionUID = 1L;
+	@Column(name = "START_CYCLE")
+	private String startCycle;
 
-    @Column(name = "START_CYCLE")
-    private String startCycle;
+	@Column(name = "END_CYCLE")
+	private String endCycle;
 
-    @Column(name = "END_CYCLE")
-    private String endCycle;
+	@ManyToOne
+	@JoinColumn(name = "PRI_INSTR_ID")
+	private CluInstructor primaryInstructor;
 
-    @OneToMany
-    @JoinTable(name = "KSLU_CLU_PUBL_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_PUBL_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
-    private List<CluInstructor> instructors;
+	@OneToMany
+	@JoinTable(name = "KSLU_CLU_PUBL_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_PUBL_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
+	private List<CluInstructor> instructors;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
-    private List<CluPublishingAttribute> attributes;
+	private List<CluPublishingAttribute> attributes;
 
-    @Column(name = "TYPE")
-    private String type;
+	@Column(name = "TYPE")
+	private String type;
 
-    @Column(name = "ST")
-    private String state;
+	@Column(name = "ST")
+	private String state;
 
-    @Id
-    @Column(name = "ID")
-    private String id;
+	@Id
+	@Column(name = "ID")
+	private String id;
 
-    public String getStartCycle() {
-        return startCycle;
-    }
+	public String getStartCycle() {
+		return startCycle;
+	}
 
-    public void setStartCycle(String startCycle) {
-        this.startCycle = startCycle;
-    }
+	public void setStartCycle(String startCycle) {
+		this.startCycle = startCycle;
+	}
 
-    public String getEndCycle() {
-        return endCycle;
-    }
+	public String getEndCycle() {
+		return endCycle;
+	}
 
-    public void setEndCycle(String endCycle) {
-        this.endCycle = endCycle;
-    }
+	public void setEndCycle(String endCycle) {
+		this.endCycle = endCycle;
+	}
 
-    public List<CluInstructor> getInstructors() {
-        if (instructors == null) {
-            instructors = new ArrayList<CluInstructor>();
-        }
-        return instructors;
-    }
+	public List<CluInstructor> getInstructors() {
+		if (instructors == null) {
+			instructors = new ArrayList<CluInstructor>();
+		}
+		return instructors;
+	}
 
-    public void setInstructors(List<CluInstructor> instructors) {
-        this.instructors = instructors;
-    }
+	public void setInstructors(List<CluInstructor> instructors) {
+		this.instructors = instructors;
+	}
 
-    public List<CluPublishingAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<CluPublishingAttribute>();
-        }
-        return attributes;
-    }
+	public List<CluPublishingAttribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new ArrayList<CluPublishingAttribute>();
+		}
+		return attributes;
+	}
 
-    public void setAttributes(List<CluPublishingAttribute> attributes) {
-        this.attributes = attributes;
-    }
+	public void setAttributes(List<CluPublishingAttribute> attributes) {
+		this.attributes = attributes;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public CluInstructor getPrimaryInstructor() {
+		return primaryInstructor;
+	}
+
+	public void setPrimaryInstructor(CluInstructor primaryInstructor) {
+		this.primaryInstructor = primaryInstructor;
+	}
 }
