@@ -28,8 +28,8 @@ import javax.persistence.Table;
 import org.kuali.student.poc.common.util.UUIDHelper;
 
 /**
- * Maps a set of Business Rule Types to form an AgendaInfo and a specif instance of Business Rules form an Agenda for this
- * AgendaInfo
+ * Maps a set of Business Rule Types to form an AgendaInfo and 
+ * a specific instance of Business Rules to form an Agenda for this AgendaInfo
  * 
  * @author Kuali Student Team (kamal.kuali@gmail.com)
  */
@@ -40,7 +40,7 @@ import org.kuali.student.poc.common.util.UUIDHelper;
               @NamedQuery(name = "AgendaInfo.findUniqueAgendaTypes", query = "SELECT DISTINCT a.type FROM AgendaInfo a ORDER BY a.type ASC")})
 public class AgendaInfo {
     @Id
-    @Column(name="ai_id")
+    @Column(name="AGENDA_ID")
     private String id;
 
     private String type;
@@ -51,7 +51,7 @@ public class AgendaInfo {
     //TODO: Change this to @OnetoMany relation after they fix the bug HHH-3410
     @ManyToMany(fetch = FetchType.EAGER)
     // Added @JoinTable so table name is less then 31 characters for Oracle (Oracle table name limit is 30 characters)
-    @JoinTable(name="AgendaBusinessruleType_T", joinColumns={@JoinColumn(name="ai_id")}, inverseJoinColumns={@JoinColumn(name="brt_id")})
+    @JoinTable(name="Agenda_BusinessRuleType_T", joinColumns={@JoinColumn(name="AGENDA_ID")}, inverseJoinColumns={@JoinColumn(name="BUSINESS_RULE_TYPE_ID")})
     private List<BusinessRuleType> businessRuleTypeInfoList;
 
     private String agendaOrchestration;
