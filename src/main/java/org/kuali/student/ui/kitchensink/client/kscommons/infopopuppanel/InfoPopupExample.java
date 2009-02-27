@@ -6,7 +6,7 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSImage;
-import org.kuali.student.common.ui.client.widgets.KSInfoPopupPanel;
+import org.kuali.student.common.ui.client.widgets.KSInfoDialogPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,7 +20,7 @@ public class InfoPopupExample extends Composite {
     final SimplePanel main = new SimplePanel();
 
     private final VerticalPanel containerPanel = new VerticalPanel();
-    final KSInfoPopupPanel infoPopup = new KSInfoPopupPanel();
+    final KSInfoDialogPanel infoPopup = new KSInfoDialogPanel();
 
     final KSButton showButton = new KSButton("Click to see Popup");
     final KSButton hideButton = new KSButton("Click to close Popup");

@@ -4,7 +4,7 @@ import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_POPUP_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSModalPopupPanel;
+import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,7 +18,7 @@ public class ModalPopupPanelExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
 
-    final KSModalPopupPanel popupPanel = new KSModalPopupPanel();   
+    final KSModalDialogPanel popupPanel = new KSModalDialogPanel();   
     
     private final VerticalPanel containerPanel = new VerticalPanel();
     KSButton showButton ;
