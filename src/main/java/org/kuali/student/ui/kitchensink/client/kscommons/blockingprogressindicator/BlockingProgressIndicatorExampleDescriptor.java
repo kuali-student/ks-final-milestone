@@ -10,7 +10,7 @@ public class BlockingProgressIndicatorExampleDescriptor extends KitchenSinkExamp
         super.addResource("java", "BlockingProgressExample.java", "kscommons/blockingprogressindicator/BlockingProgressIndicatorExample.java", "Example usage of KSBlockingProgressIndicator.");
     }
     public String getDescription() {       
-        return "BlockingProgressIndicator...... "; 
+        return "BlockingProgressIndicator displays a modal popup that shows the status of some long running task. Multiple tasks can be included on the display"; 
     }
 
     public Widget getExampleWidget() {
