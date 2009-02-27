@@ -150,9 +150,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name = "ACCT_ID")
 	private CluAccounting accounting;
 
-	@Column(name = "TYPE")
-	private String type;
-
 	@Column(name = "ST")
 	private String state;
 
@@ -396,14 +393,6 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 
 	public void setAccounting(CluAccounting accounting) {
 		this.accounting = accounting;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getState() {

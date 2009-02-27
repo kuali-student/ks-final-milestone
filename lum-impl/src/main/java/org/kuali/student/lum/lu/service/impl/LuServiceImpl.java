@@ -8,6 +8,7 @@ import javax.jws.WebService;
 
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.entity.RichText;
 import org.kuali.student.core.enumerable.dto.EnumeratedValue;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.CircularReferenceException;
@@ -30,6 +31,7 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.dto.CluCluRelationCriteria;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCriteria;
+import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LrTypeInfo;
@@ -46,7 +48,10 @@ import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.CluIdentifier;
+import org.kuali.student.lum.lu.entity.LuType;
 import org.kuali.student.lum.lu.service.LuService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/lum/lu")
@@ -137,6 +142,47 @@ public class LuServiceImpl implements LuService {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
+		checkForMissingParameter(luTypeKey, "luTypeKey");
+		checkForMissingParameter(cluInfo, "cluInfo");
+		
+		Clu clu = new Clu();
+		
+		LuType luType = luDao.fetch(LuType.class,luTypeKey);
+		clu.setLuType(luType);
+		
+		CluIdentifier officialIdentifier = new CluIdentifier();
+		BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier);
+		clu.setOfficialIdentifier(officialIdentifier);
+
+		for(CluIdentifierInfo cluIdInfo : cluInfo.getAlternateIdentifiers()){
+			CluIdentifier identifier = new CluIdentifier();
+			BeanUtils.copyProperties(cluIdInfo, identifier);
+			clu.getAlternateIdentifiers().add(identifier);
+		}
+		
+		RichText desc = new RichText();
+		desc.setFormatted(cluInfo.getDesc().getFormatted());
+		desc.setPlain(cluInfo.getDesc().getPlain());
+		clu.setDesc(desc);
+
+		RichText marketingDesc = new RichText();
+		marketingDesc.setFormatted(cluInfo.getMarketingDesc().getFormatted());
+		marketingDesc.setPlain(cluInfo.getMarketingDesc().getPlain());
+		clu.setMarketingDesc(marketingDesc);
+
+		
+//		clu.setAccounting(accounting);
+//		clu.setAccreditingOrg(accreditingOrg);
+//		clu.setAdminOrg(adminOrg);
+//		clu.setAlternateIdentifiers(alternateIdentifiers);
+//		clu.setAttributes(attributes);
+//		clu.setCanCreateLui(canCreateLui);
+//		clu.setCluSets(cluSets);
+//		clu.setCredit(credit);
+//		clu.setDefaultEnrollmentEstimate(defaultEnrollmentEstimate);
+//		clu.setDefaultMaximumEnrollment(defaultMaximumEnrollment);
+//		clu.set
+//		
 		// TODO Auto-generated method stub
 		return null;
 	}
