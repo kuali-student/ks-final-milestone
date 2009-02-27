@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ModalPopupPanelExample extends Composite {
 
@@ -18,8 +19,10 @@ public class ModalPopupPanelExample extends Composite {
     final SimplePanel main = new SimplePanel();
 
     final KSModalPopupPanel popupPanel = new KSModalPopupPanel();   
-    final KSButton showButton ;
-    final KSButton hideButton ;
+    
+    private final VerticalPanel containerPanel = new VerticalPanel();
+    KSButton showButton ;
+    KSButton hideButton ;
 
 
     public ModalPopupPanelExample() {
@@ -40,10 +43,12 @@ public class ModalPopupPanelExample extends Composite {
 
             }});
         
-        popupPanel.addHeader("Modal Popup Panel");
-        popupPanel.add(new Image("images/flower1.jpg") );
-        popupPanel.add(hideButton);
+//        containerPanel.add("Modal Popup Panel");
+        containerPanel.add(new Image("images/flower1.jpg") );
+        containerPanel.add(hideButton);
+        popupPanel.setWidget(containerPanel);
         popupPanel.addStyleName(STYLE_POPUP_PANEL);
+        popupPanel.setModal(true);
 
         main.add(showButton);
 
