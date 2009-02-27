@@ -58,6 +58,7 @@ public class KSRichEditor extends Composite {
 	
 	private int height;
 	private int width;
+	private boolean dimensionsObtained = false;
 	
 	private final FocusHandler focusHandler = new FocusHandler() {
 		@Override
@@ -71,7 +72,6 @@ public class KSRichEditor extends Composite {
 		@Override
 		public void onBlur(BlurEvent event) {
 			focused = false;
-			popoutImagePanel.hide();
 		}
 	};
 	
@@ -80,6 +80,8 @@ public class KSRichEditor extends Composite {
 			if(!toolbar.inUse()){
 				showToolbar(focused);
 			}
+
+				
 		}
 	};
 	
@@ -170,9 +172,19 @@ public class KSRichEditor extends Composite {
 	}
 	
 	private void showToolbar(boolean show){
+		
+		if(!dimensionsObtained){
+			height = textArea.getOffsetHeight();
+			width = textArea.getOffsetWidth();
+			dimensionsObtained = true;
+		}
+		
+		
 		if(show){
 			if(!toolbarShowing){
 				toolbar.setVisible(true);
+				//firefox fix
+				
 				toolbarHeight = toolbar.getOffsetHeight();
 				textArea.setHeight(height-toolbarHeight + "px");
 				
@@ -188,11 +200,11 @@ public class KSRichEditor extends Composite {
 		}
 		else{
 			if(toolbarShowing){
-				//popoutImagePanel.hide();
+				
 				toolbar.setVisible(false);
 				textArea.setHeight(height + "px");
 			}
-			
+			popoutImagePanel.hide();	
 			toolbarShowing = false;
 		}
 	}
@@ -222,8 +234,6 @@ public class KSRichEditor extends Composite {
 	
 	protected void onLoad() {
 		super.onLoad();
-		height = textArea.getOffsetHeight();
-		width = textArea.getOffsetWidth();
 		if(!isUsedInPopup){
 	        focusTimer.scheduleRepeating(250);
 		    

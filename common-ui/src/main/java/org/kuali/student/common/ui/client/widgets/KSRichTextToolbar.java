@@ -193,6 +193,7 @@ public class KSRichTextToolbar extends Composite{
 	        // keyboard, or uses one of the browser's built-in keyboard shortcuts.
 	        updateStatus();
 	      }
+	      inUse = false;
 	      richText.setFocus(true);
 	    }
 
@@ -234,6 +235,7 @@ public class KSRichTextToolbar extends Composite{
 				}
 			}
 			else{
+				inUse = false;
 				richText.setFocus(true);
 			}
 			
