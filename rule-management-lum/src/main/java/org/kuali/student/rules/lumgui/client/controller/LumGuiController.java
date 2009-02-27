@@ -103,6 +103,7 @@ public class LumGuiController extends Controller implements LumUIEventListener {
 
     public void switchToSimpleView() {
         lumModelObject.setCurrentView(LumModelObject.LumView.SIMPLE_VIEW);
+        model.update(lumModelObject);
     }
     
 }

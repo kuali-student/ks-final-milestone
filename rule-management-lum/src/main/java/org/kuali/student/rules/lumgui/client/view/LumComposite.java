@@ -96,8 +96,6 @@ public class LumComposite extends Composite {
         pnlSimpleView.add(pnlNaturalLanguage);
         
         pnlViews.add(pnlSimpleView);
-        pnlViews.add(new VerticalPanel());
-        pnlViews.showStack(0);
         /*
          *     create and layout the widgets for COMPLES VIEW
          */
@@ -110,11 +108,11 @@ public class LumComposite extends Composite {
         pnlComplexView.add(pnlNaturalLanguage);
         
         pnlViews.add(pnlComplexView);
-        pnlViews.add(new VerticalPanel());
                
 //        test.setWidth("100px");
 //        mainLumPanel.setSize("950px", "550px");
         mainLumPanel.add(pnlViews);
+        pnlViews.showStack(0);
         
         // sizes and layout are to be done AFTER the containing panels
         // are added to mainLumPanel to make size settings effective
