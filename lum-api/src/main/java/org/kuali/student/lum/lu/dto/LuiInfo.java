@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +31,10 @@ import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+
+/**
+ *Detailed information about a single LUI.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuiInfo implements Serializable, Idable, HasAttributes {
 
@@ -56,7 +60,7 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
+    private Map<String, String> attributes;
 
     @XmlElement
     private MetaInfo metaInfo;
@@ -67,6 +71,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
     @XmlAttribute
     private String id;
 
+    /**
+     * Code identifier/name for the LUI. This is typically used in human readable form (e.g. ENGL 100 section 123).
+     */
     public String getLuiCode() {
         return luiCode;
     }
@@ -75,6 +82,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.luiCode = luiCode;
     }
 
+    /**
+     * Unique identifier for a Canonical Learning Unit (CLU).
+     */
     public String getCluId() {
         return cluId;
     }
@@ -83,6 +93,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.cluId = cluId;
     }
 
+    /**
+     * Unique identifier for an Academic Time Period (ATP).
+     */
     public String getAtpKey() {
         return atpKey;
     }
@@ -91,6 +104,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.atpKey = atpKey;
     }
 
+    /**
+     * Maximum number of "seats" that the LUI will hold for registration.
+     */
     public Integer getMaxSeats() {
         return maxSeats;
     }
@@ -99,6 +115,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.maxSeats = maxSeats;
     }
 
+    /**
+     * Date and time that this LUI became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     */
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -107,6 +126,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.effectiveDate = effectiveDate;
     }
 
+    /**
+     * Date and time that this LUI expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     */
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -115,17 +137,23 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.expirationDate = expirationDate;
     }
 
-    public Map<String,String> getAttributes() {
+    /**
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
+    public Map<String, String> getAttributes() {
         if (attributes == null) {
-            attributes = new HashMap<String,String>();
+            attributes = new HashMap<String, String>();
         }
         return attributes;
     }
 
-    public void setAttributes(Map<String,String> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
+    /**
+     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     */
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -134,6 +162,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.metaInfo = metaInfo;
     }
 
+    /**
+     * The current status of the LUI. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
+     */
     public String getState() {
         return state;
     }
@@ -142,6 +173,9 @@ public class LuiInfo implements Serializable, Idable, HasAttributes {
         this.state = state;
     }
 
+    /**
+     * Unique identifier for a Learning Unit Instance (LUI). This is optional, due to the identifier being set at the time of creation. Once the LUI has been created, this should be seen as required.
+     */
     public String getId() {
         return id;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,13 +27,17 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.core.dto.HasTypeState;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.dto.MetaInfo;
 import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+/**
+ *Information about the LU to document relation.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
+public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,7 +61,7 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
+    private Map<String, String> attributes;
 
     @XmlElement
     private MetaInfo metaInfo;
@@ -71,6 +75,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
     @XmlAttribute
     private String id;
 
+    /**
+     * Unique identifier for a Canonical Learning Unit (CLU).
+     */
     public String getCluId() {
         return cluId;
     }
@@ -79,6 +86,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.cluId = cluId;
     }
 
+    /**
+     * Unique identifier for a document.
+     */
     public String getDocumentId() {
         return documentId;
     }
@@ -87,6 +97,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.documentId = documentId;
     }
 
+    /**
+     * The title of the document usage in the context of the CLU.
+     */
     public String getTitle() {
         return title;
     }
@@ -95,6 +108,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.title = title;
     }
 
+    /**
+     * The description of the document usage in the context of the CLU.
+     */
     public RichTextInfo getDesc() {
         return desc;
     }
@@ -103,6 +119,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.desc = desc;
     }
 
+    /**
+     * Date and time that this LU Doc Relation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     */
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -111,6 +130,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.effectiveDate = effectiveDate;
     }
 
+    /**
+     * Date and time that this LU Doc Relation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     */
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -119,17 +141,23 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.expirationDate = expirationDate;
     }
 
-    public Map<String,String> getAttributes() {
+    /**
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
+    public Map<String, String> getAttributes() {
         if (attributes == null) {
-            attributes = new HashMap<String,String>();
+            attributes = new HashMap<String, String>();
         }
         return attributes;
     }
 
-    public void setAttributes(Map<String,String> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
+    /**
+     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     */
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
@@ -138,6 +166,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.metaInfo = metaInfo;
     }
 
+    /**
+     * Unique identifier for an LU document relationship type. Describes the type of usage of the document.
+     */
     public String getType() {
         return type;
     }
@@ -146,6 +177,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.type = type;
     }
 
+    /**
+     * The current status of the LU to document relationship. The values for this field are constrained to those in the luDocRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
+     */
     public String getState() {
         return state;
     }
@@ -154,6 +188,9 @@ public class LuDocRelationInfo implements Serializable, Idable, HasAttributes {
         this.state = state;
     }
 
+    /**
+     * Unique identifier for a LU to document relation. This is optional, due to the identifier being set at the time of creation. Once the connection has been created, this should be seen as required.
+     */
     public String getId() {
         return id;
     }

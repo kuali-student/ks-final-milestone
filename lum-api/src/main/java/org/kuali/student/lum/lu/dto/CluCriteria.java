@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,10 @@ import org.kuali.student.core.search.dto.Criterion;
 import org.kuali.student.core.search.dto.SearchIndexedType;
 import org.kuali.student.core.search.dto.SearchRelationship;
 
+
+/**
+ *Specifies a search for CLU identifiers.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluCriteria implements Serializable {
 
@@ -45,6 +49,9 @@ public class CluCriteria implements Serializable {
     @XmlElement
     private Criterion criterion;
 
+    /**
+     * The types this search should be executed against. A type of "cluInfo" is automatically included. Types are restricted to those within the service.
+     */
     public List<SearchIndexedType> getTypes() {
         if (types == null) {
             types = new ArrayList<SearchIndexedType>();
@@ -56,6 +63,9 @@ public class CluCriteria implements Serializable {
         this.types = types;
     }
 
+    /**
+     * List of attribute to attribute relationships. Not required if the search doesn't extend beyond the included object.
+     */
     public List<SearchRelationship> getRelationships() {
         if (relationships == null) {
             relationships = new ArrayList<SearchRelationship>();
@@ -67,6 +77,9 @@ public class CluCriteria implements Serializable {
         this.relationships = relationships;
     }
 
+    /**
+     * Contains a set of criterion structures and/or other criteria sets along with the operation to apply to the set.
+     */
     public CriteriaSet getCriteria() {
         return criteria;
     }
@@ -75,6 +88,9 @@ public class CluCriteria implements Serializable {
         this.criteria = criteria;
     }
 
+    /**
+     * Contains information about a constraint on a single field in a search.
+     */
     public Criterion getCriterion() {
         return criterion;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,17 +22,25 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.core.dto.Idable;
+
+/**
+ *Detailed information about a requirement component field value.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ReqCompFieldInfo implements Serializable {
+public class ReqCompFieldInfo implements Serializable, Idable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String value;
 
-    @XmlAttribute
-    private String key;
+    @XmlAttribute(name="key")
+    private String id;
 
+    /**
+     * Value for this requirement component field.
+     */
     public String getValue() {
         return value;
     }
@@ -41,11 +49,14 @@ public class ReqCompFieldInfo implements Serializable {
         this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    /**
+     * Unique identifier for a requirement component field type.
+     */
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
 }

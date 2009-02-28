@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2009 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.student.lum.lu.dto;
- 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +30,9 @@ import org.kuali.student.core.dto.HasAttributes;
 import org.kuali.student.core.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+/**
+ *Information about a learning result type.
+ */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LrTypeInfo implements Serializable, Idable, HasAttributes {
 
@@ -49,11 +52,14 @@ public class LrTypeInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String,String> attributes;
+    private Map<String, String> attributes;
 
-    @XmlAttribute
-    private String key;
+    @XmlAttribute(name="key")
+    private String id;
 
+    /**
+     * Friendly name of the learning result type
+     */
     public String getName() {
         return name;
     }
@@ -62,6 +68,9 @@ public class LrTypeInfo implements Serializable, Idable, HasAttributes {
         this.name = name;
     }
 
+    /**
+     * Narrative description of the learning result type
+     */
     public String getDesc() {
         return desc;
     }
@@ -70,6 +79,9 @@ public class LrTypeInfo implements Serializable, Idable, HasAttributes {
         this.desc = desc;
     }
 
+    /**
+     * Date and time that this learning result type became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     */
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -78,6 +90,9 @@ public class LrTypeInfo implements Serializable, Idable, HasAttributes {
         this.effectiveDate = effectiveDate;
     }
 
+    /**
+     * Date and time that this learning result type expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     */
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -86,32 +101,28 @@ public class LrTypeInfo implements Serializable, Idable, HasAttributes {
         this.expirationDate = expirationDate;
     }
 
-    public Map<String,String> getAttributes() {
+    /**
+     * List of key/value pairs, typically used for dynamic attributes.
+     */
+    public Map<String, String> getAttributes() {
         if (attributes == null) {
-            attributes = new HashMap<String,String>();
+            attributes = new HashMap<String, String>();
         }
         return attributes;
     }
 
-    public void setAttributes(Map<String,String> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 
-    public String getKey() {
-        return key;
+    /**
+     * Unique identifier for a learning result type.
+     */
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
-
-	@Override
-	public String getId() {
-		return key;
-	}
-
-	@Override
-	public void setId(String id) {
-		this.key=id;
-	}
 }
