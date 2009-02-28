@@ -18,25 +18,13 @@
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
     </replace-with>
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSDatePickerImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSDatePicker"/>
-    </replace-with> 
 
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
     </replace-with>
-
+<!--
     <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSStackPanelImpl">
         <when-type-is class="org.kuali.student.common.ui.client.widgets.KSStackPanel"/>
-    </replace-with>
-<!-- 
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl"/>
-    </replace-with>
-    
+    </replace-with> -->
 
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.SingleColumnFormImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.impl.FormLayoutPanelImpl"/>
-    </replace-with>
---> 
 </module>

@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.menus;
 import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
+import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -10,8 +11,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class KSAccordionMenu extends KSMenu{
-	
-	private KSAccordionPanel menu = new KSAccordionPanel();
+	//TODO make this work with KSAccordionPanel
+	private KSAccordionPanelImpl menu = new KSAccordionPanelImpl();
 	private boolean retainHistory = false;
 	
 	@Override
@@ -56,7 +57,7 @@ public class KSAccordionMenu extends KSMenu{
 		
 	}
 	
-	public KSAccordionPanel getMenu(){
+	public KSAccordionPanelImpl getMenu(){
 		return menu;
 	}
 	

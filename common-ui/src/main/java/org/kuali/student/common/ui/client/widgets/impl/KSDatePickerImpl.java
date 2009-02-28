@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.impl;
 import java.util.Date;
 
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
+import org.kuali.student.common.ui.client.widgets.KSDatePickerAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
 
@@ -27,7 +28,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-public class KSDatePickerImpl extends KSDatePicker{
+public class KSDatePickerImpl extends KSDatePickerAbstract {
 	private DatePicker picker = new DatePicker();
 	private KSTextBox dateField = new KSTextBox();
 	private PopupPanel popup = new PopupPanel(true);
