@@ -55,6 +55,10 @@ public class LumComposite extends Composite {
     Button btnCancelRequirement;
     LumTextBox<LumModelObject> tbAlgebra;
     LumTextArea<LumModelObject> taNaturalLanguage2;    
+    ModelBinding<LumModelObject> binding1;
+    ModelBinding<LumModelObject> binding2;
+    ModelBinding<LumModelObject> binding3;
+    LumRuleTable<LumModelObject> ruleTable; 
 
     //REQUIREMENT DIALOG widgets
     LumDialog<LumModelObject> dgCompRequirement;
@@ -106,6 +110,12 @@ public class LumComposite extends Composite {
         pnlSimpleView.add(pnlRationaleToComplexView);
         pnlSimpleView.add(pnlPreReqCourses);
         pnlSimpleView.add(pnlNaturalLanguage);
+        
+        // TODO test remove when done
+        ruleTable = 
+            new LumRuleTable<LumModelObject>(LumModelObject.FieldName.STATEMENT.toString());
+        pnlSimpleView.add(ruleTable);
+        // end test
         
         pnlViews.add(pnlSimpleView);
         /*
@@ -259,8 +269,9 @@ public class LumComposite extends Composite {
     
     public void setUpListeners() {
         Model<LumModelObject> model = (Model<LumModelObject>) controller.getModel(LumModelObject.class);
-        new ModelBinding<LumModelObject>(model, tbStatementId);
-        new ModelBinding<LumModelObject>(model, pnlViews);
+        binding1 = new ModelBinding<LumModelObject>(model, tbStatementId);
+        binding2 = new ModelBinding<LumModelObject>(model, pnlViews);
+        binding3 = new ModelBinding<LumModelObject>(model, ruleTable);
         new ModelBinding<LumModelObject>(model, dgCompRequirement);
         btnComplexLevel.addClickListener(new ClickListener() {
             public void onClick(Widget sender) {

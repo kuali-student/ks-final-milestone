@@ -11,6 +11,8 @@ import org.kuali.student.commons.ui.mvc.client.Controller;
 import org.kuali.student.commons.ui.mvc.client.model.Model;
 import org.kuali.student.commons.ui.viewmetadata.client.ViewMetaData;
 import org.kuali.student.rules.lumgui.client.model.LumModelObject;
+import org.kuali.student.rules.lumgui.client.model.RequirementComponentVO;
+import org.kuali.student.rules.lumgui.client.model.StatementVO;
 import org.kuali.student.rules.lumgui.client.service.LumGuiService;
 import org.kuali.student.rules.lumgui.client.view.LumComposite;
 import org.kuali.student.rules.lumgui.client.view.LumUIEventListener;
@@ -79,6 +81,48 @@ public class LumGuiController extends Controller implements LumUIEventListener {
     	System.out.println("Load Models Data");
     	lumModelObject.setShowAlgebra(false);
     	lumModelObject.setShowRequirementDialog(false);
+    	lumModelObject.setCurrentView(LumModelObject.LumView.SIMPLE_VIEW);
+    	//TODO remove when done test
+    	lumModelObject.setStatement(getTestStatement());
+    	// end test
+    	model.update(lumModelObject);
+    }
+    
+    private StatementVO getTestStatement() {
+        StatementVO statement = new StatementVO();
+        StatementVO subStatement1 = new StatementVO();
+        StatementVO subStatement2 = new StatementVO();
+        RequirementComponentVO rc1 = new RequirementComponentVO();
+        RequirementComponentVO rc2 = new RequirementComponentVO();
+        RequirementComponentVO rc3 = new RequirementComponentVO();
+        RequirementComponentVO rc4 = new RequirementComponentVO();
+        
+        
+        rc1.setDesc("Student must have completed all of BIO 110, BIO 112, BIO 116, BIO 118");
+        rc1.setId("RC_1");
+        rc2.setDesc("Minimum GPA of 2.5");
+        rc2.setId("RC_2");
+        rc3.setDesc("Student must have completed 8 units from First Year Psyc");
+        rc3.setId("RC_3");
+        rc4.setDesc("Student must have completed 6 units from Pre-med Chemistry");
+        rc4.setId("RC_4");
+        
+        subStatement1.setOperator(StatementVO.Operator.AND);
+        subStatement1.addRequirementComponent(rc1);
+        subStatement1.addRequirementComponent(rc2);
+        subStatement1.setId("statement 1");
+        
+        subStatement2.setOperator(StatementVO.Operator.OR);
+        subStatement2.addRequirementComponent(rc3);
+        subStatement2.addRequirementComponent(rc4);
+        subStatement2.setId("statement 2");
+        
+        statement.setOperator(StatementVO.Operator.AND);
+        statement.addStatement(subStatement1);
+        statement.addStatement(subStatement2);
+        statement.setId("root statement");
+        
+        return statement;
     }
 
     private void doLayout() {

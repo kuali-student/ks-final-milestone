@@ -44,6 +44,7 @@ public class LumTextBox<T extends ILumModelObject> extends TextBox implements Mo
     }
 
     public void remove(T modelObject) {
+        clear();
     }
 
     public void select(T modelObject) {

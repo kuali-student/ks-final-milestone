@@ -44,6 +44,7 @@ public class LumTextArea<T extends ILumModelObject> extends TextArea implements 
     }
 
     public void remove(T modelObject) {
+        clear();
     }
 
     public void select(T modelObject) {

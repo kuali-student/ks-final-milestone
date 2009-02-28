@@ -4,11 +4,12 @@ public class LumModelObject implements ILumModelObject {
     
     static final long serialVersionUID = 91283749088L;
     
-    public enum FieldName{
+    public static enum FieldName{
         STATEMENT_ID, SHOW_ALGEBRA, CURRENT_VIEW,
-        RATIONALE, PRE_REQ_COURSES, NATURAL_LANGUAGE, ALGEBRA;
+        RATIONALE, PRE_REQ_COURSES, NATURAL_LANGUAGE, ALGEBRA,
+        STATEMENT;
     }
-    public enum LumView {
+    public static enum LumView {
         SIMPLE_VIEW, COMPLEX_VIEW;
         
         public int getViewIndex() {
@@ -34,6 +35,7 @@ public class LumModelObject implements ILumModelObject {
     private boolean showAlgebra;
     private boolean showRequirementDialog;
     private String algebra;
+    private StatementVO statement;
 
 
     public LumView getCurrentView() {
@@ -88,6 +90,13 @@ public class LumModelObject implements ILumModelObject {
         this.showRequirementDialog = showRequirementDialog;
     }
     
+    }
+    public StatementVO getStatement() {
+        return statement;
+    }
+    public void setStatement(StatementVO statement) {
+        this.statement = statement;
+    }
     public Object getValue(String fieldName) {
         FieldName enumFieldName = FieldName.valueOf(fieldName);
         if (enumFieldName == FieldName.STATEMENT_ID) {
@@ -105,6 +114,8 @@ public class LumModelObject implements ILumModelObject {
             return getNaturalLanguage();
         } else if (enumFieldName == FieldName.ALGEBRA) {
             return getNaturalLanguage();
+        } else if (enumFieldName == FieldName.STATEMENT) {
+            return getStatement();
         } else {
             throw new RuntimeException("Unknown fieldName " + fieldName);
         }
