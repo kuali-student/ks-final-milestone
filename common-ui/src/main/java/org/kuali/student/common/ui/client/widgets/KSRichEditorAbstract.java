@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 import org.kuali.student.common.ui.client.images.TextIcons;
-import org.kuali.student.common.ui.client.widgets.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -35,43 +34,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  * TODO implement with a clean toolbar and i18n
  */
-public class KSRichEditor extends KSRichEditorAbstract {
-    private KSRichEditorAbstract richEditor = GWT.create(KSRichEditorImpl.class);
-    
-	public KSRichEditor(){
-	    init(false);
-	    initWidget(richEditor);
-	}
-
-
-	public KSRichEditor(boolean isUsedInPopup) {
-	    init(true);
-	    initWidget(richEditor);
-	}
+public abstract class KSRichEditorAbstract extends Composite {
 	
-	public RichTextArea getRichTextArea(){
-	    return richEditor.getRichTextArea();
-	}
+	public abstract RichTextArea getRichTextArea();
 	
 	// delegate methods to RichTextArea
-	public String getHTML() {
-		return richEditor.getHTML();
-	}
+	public abstract String getHTML();
 
-	public String getText() {
-		return richEditor.getText();
-	}
+	public abstract String getText();
 
-	public void setHTML(String html) {
-	    richEditor.setHTML(html);
-	}
+	public abstract void setHTML(String html);
 
-	public void setText(String text) {
-	    richEditor.setText(text);
-	}
+	public abstract void setText(String text);
 
-
-    public void init(boolean isUsedInPopup) {
-        richEditor.init(isUsedInPopup);
-    }
+    public abstract void init(boolean isUsedInPopup);
 }
