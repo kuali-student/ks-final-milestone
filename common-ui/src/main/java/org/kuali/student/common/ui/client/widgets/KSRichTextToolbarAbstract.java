@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import org.kuali.student.common.ui.client.images.TextIcons;
-import org.kuali.student.common.ui.client.widgets.impl.KSRichTextToolbarImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -36,32 +35,94 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSRichTextToolbar extends KSRichTextToolbarAbstract{ 
-
-    private KSRichTextToolbarAbstract richTextToolbar = GWT.create(KSRichTextToolbarImpl.class);
-
-    /**
-     * Creates a new toolbar that drives the given rich text area.
-     * 
-     * @param richText the rich text area to be controlled
-     */
-    public KSRichTextToolbar(RichTextArea richText) {
-        init(richText);
-        initWidget(richTextToolbar);
-    }
+public abstract class KSRichTextToolbarAbstract extends Composite{ 
 
 
+	  /**
+	   * This {@link Constants} interface is used to make the toolbar's strings
+	   * internationalizable.
+	   */
+	  public interface Strings extends Constants {
 
-    public boolean inUse(){
-        return richTextToolbar.inUse();
-    }
+	    String black();
 
+	    String blue();
 
+	    String bold();
 
-    @Override
-    public void init(RichTextArea richText) {
-        richTextToolbar.init(richText);
-        
-    }
+	    String color();
+
+	    String createLink();
+
+	    String font();
+
+	    String green();
+
+	    String hr();
+
+	    String indent();
+
+	    String insertImage();
+
+	    String italic();
+
+	    String justifyCenter();
+
+	    String justifyLeft();
+
+	    String justifyRight();
+
+	    String large();
+
+	    String medium();
+
+	    String normal();
+
+	    String ol();
+
+	    String outdent();
+
+	    String red();
+
+	    String removeFormat();
+
+	    String removeLink();
+
+	    String size();
+
+	    String small();
+
+	    String strikeThrough();
+
+	    String subscript();
+
+	    String superscript();
+
+	    String ul();
+
+	    String underline();
+
+	    String white();
+
+	    String xlarge();
+
+	    String xsmall();
+
+	    String xxlarge();
+
+	    String xxsmall();
+
+	    String yellow();
+	  }
+
+	  
+	  public abstract boolean inUse();
+
+	  /**
+	   * init a new toolbar that drives the given rich text area.
+	   * 
+	   * @param richText the rich text area to be controlled
+	   */
+	  public abstract void init(RichTextArea richText);
 
 }
