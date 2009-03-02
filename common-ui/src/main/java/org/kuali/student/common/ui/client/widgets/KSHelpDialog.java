@@ -36,7 +36,7 @@ public class KSHelpDialog extends KSInfoDialogPanel{
 		this.helpInfo = helpInfo;
 		
 		
-		this.addHeader(helpInfo.getTitle());
+		this.setHeader(helpInfo.getTitle());
 		
 		main.add(header);
 		
