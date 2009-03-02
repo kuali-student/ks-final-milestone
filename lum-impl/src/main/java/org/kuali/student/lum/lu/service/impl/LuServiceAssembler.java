@@ -467,12 +467,12 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
-	public static List<ReqComponentTypeInfo> toReqComponentInfo(
-			List<ReqComponentType> entities) {
-		List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(
+	public static List<ReqComponentInfo> toReqComponentInfos(
+			List<ReqComponent> entities) {
+		List<ReqComponentInfo> dtos = new ArrayList<ReqComponentInfo>(
 				entities.size());
-		for (ReqComponentType entity : entities) {
-			dtos.add(toReqComponentTypeInfo(entity));
+		for (ReqComponent entity : entities) {
+			dtos.add(toReqComponentInfo(entity));
 		}
 		return dtos;
 

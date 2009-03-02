@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,6 +21,8 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name="KSLU_REQ_COM")
+@NamedQueries( {
+        @NamedQuery(name = "ReqComponent.getReqComponentsByType", query = "SELECT r FROM ReqComponent r WHERE requiredComponentType = :reqComponentTypeKey") })
 public class ReqComponent extends MetaEntity {
 	@Id
 	@Column(name = "ID")

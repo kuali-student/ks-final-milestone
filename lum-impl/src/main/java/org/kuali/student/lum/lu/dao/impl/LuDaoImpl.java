@@ -9,6 +9,8 @@ import javax.persistence.Query;
 import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
+import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 	@PersistenceContext(unitName = "Lu")
@@ -35,4 +37,22 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
 		List<Clu> resultList = query.getResultList();
 		return resultList;
 	}
+
+    @Override
+    public List<LuStatement> getLuStatementsForLuStatementType(String luStatementTypeKey) {
+        Query query = em.createNamedQuery("LuStatement.getLuStatementsForLuStatementType");
+        query.setParameter("luStatementTypeKey", luStatementTypeKey);
+        @SuppressWarnings("unchecked")
+        List<LuStatement> resultList = query.getResultList();
+        return resultList;
+    }
+
+    @Override
+    public List<ReqComponent> getReqComponentsByType(String reqComponentTypeKey) {
+        Query query = em.createNamedQuery("ReqComponent.getReqComponentsByType");
+        query.setParameter("reqComponentTypeKey", reqComponentTypeKey);
+        @SuppressWarnings("unchecked")
+        List<ReqComponent> resultList = query.getResultList();
+        return resultList;
+    }
 }

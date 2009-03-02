@@ -20,6 +20,10 @@ import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.exceptions.UnsupportedActionException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgOrgRelationType;
+import org.kuali.student.core.organization.service.impl.OrganizationAssembler;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
 import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
@@ -63,7 +67,11 @@ import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
+import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
+import org.kuali.student.lum.lu.entity.ReqComponent;
+import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.service.LuService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -300,8 +308,21 @@ public class LuServiceImpl implements LuService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	    checkForMissingParameter(luStatementType, "luStatementType");
+	    checkForMissingParameter(luStatementInfo, "luStatementInfo");
+	
+	    LuStatement luStatement = null;
+	    
+	    try {
+            luStatement = LuServiceAssembler.toLuStatementRelation(false, luStatementInfo, luDao);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("Version Mismatch.", e);
+        }
+	    
+        luDao.create(luStatement);
+	    
+	    return LuServiceAssembler.toLuStatementInfo(luStatement);
 	}
 
 	@Override
@@ -332,8 +353,21 @@ public class LuServiceImpl implements LuService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+      
+	    checkForMissingParameter(reqComponentType, "reqComponentType");
+	    checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+        
+        ReqComponent reqComp = null;
+        
+        try {
+            reqComp = LuServiceAssembler.toReqComponentRelation(false, reqComponentInfo, luDao);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("Version Mismatch.", e);
+        }
+        
+        luDao.create(reqComp);
+        
+        return LuServiceAssembler.toReqComponentInfo(reqComp);
 	}
 
 	@Override
@@ -377,8 +411,20 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+        checkForMissingParameter(luStatementId, "luStatementId");
+
+        LuStatement stmt = luDao.fetch(LuStatement.class, luStatementId);
+
+        if(stmt==null){
+            throw new DoesNotExistException("LuStatement does not exist for id: "+luStatementId);
+        }
+
+        luDao.delete(stmt);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
 	}
 
 	@Override
@@ -404,8 +450,20 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+
+        checkForMissingParameter(reqComponentId, "reqComponentId");
+
+        ReqComponent reqComp = luDao.fetch(ReqComponent.class, reqComponentId);
+
+        if(reqComp==null){
+            throw new DoesNotExistException("ReqComponent does not exist for id: "+reqComponentId);
+        }
+
+        luDao.delete(reqComp);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
 	}
 
 	@Override
@@ -747,23 +805,23 @@ public class LuServiceImpl implements LuService {
 	public LuStatementInfo getLuStatement(String luStatementId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    	    
+	    return LuServiceAssembler.toLuStatementInfo(luDao.fetch(LuStatement.class, luStatementId));
 	}
 
 	@Override
 	public LuStatementTypeInfo getLuStatementType(String luStatementTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        
+        return LuServiceAssembler.toLuStatementTypeInfo(luDao.fetch(LuStatementType.class, luStatementTypeKey));
 	}
 
 	@Override
 	public List<LuStatementTypeInfo> getLuStatementTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	    return LuServiceAssembler.toLuStatementTypeInfos(luDao.find(LuStatementType.class));
 	}
 
 	@Override
@@ -771,16 +829,18 @@ public class LuServiceImpl implements LuService {
 			String luStatementTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        // TODO Auto-generated method stub
+        return null;
 	}
 
 	@Override
 	public List<LuStatementInfo> getLuStatementsByType(String luStatementTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(luStatementTypeKey, "luStatementTypeKey");
+
+        List<LuStatement> luStatements = luDao.getLuStatementsForLuStatementType(luStatementTypeKey);
+        return LuServiceAssembler.toLuStatementInfos(luStatements);
 	}
 
 	@Override
@@ -927,23 +987,23 @@ public class LuServiceImpl implements LuService {
 	public ReqComponentInfo getReqComponent(String reqComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    
+	    return LuServiceAssembler.toReqComponentInfo(luDao.fetch(ReqComponent.class, reqComponentId));
 	}
 
 	@Override
 	public ReqComponentTypeInfo getReqComponentType(String reqComponentTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+        return LuServiceAssembler.toReqComponentTypeInfo(luDao.fetch(ReqComponentType.class, reqComponentTypeKey));	    
 	}
 
 	@Override
 	public List<ReqComponentTypeInfo> getReqComponentTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+
+	    return LuServiceAssembler.toReqComponentTypeInfos(luDao.find(ReqComponentType.class));
 	}
 
 	@Override
@@ -960,8 +1020,10 @@ public class LuServiceImpl implements LuService {
 			String reqComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(reqComponentTypeKey, "reqComponentTypeKey");
+
+        List<ReqComponent> reqComponents = luDao.getReqComponentsByType(reqComponentTypeKey);
+        return LuServiceAssembler.toReqComponentInfos(reqComponents);
 	}
 
 	@Override
@@ -1174,8 +1236,24 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+        //Check Missing params
+        checkForMissingParameter(luStatementId, "luStatementId");
+        checkForMissingParameter(luStatementInfo, "luStatementInfo");
+
+        //Set all the values on luStatementInfo
+        luStatementInfo.setId(luStatementId);
+
+        LuStatement stmt = null;
+
+        //Update persistence entity from the luStatementInfo
+        stmt = LuServiceAssembler.toLuStatementRelation(true, luStatementInfo, luDao);
+
+        //Update the luStatement
+        LuStatement updatedStmt = luDao.update(stmt);
+
+        //Copy back to an luStatementInfo and return
+        LuStatementInfo updLuStatementInfo = LuServiceAssembler.toLuStatementInfo(updatedStmt);
+        return updLuStatementInfo;
 	}
 
 	@Override
@@ -1215,8 +1293,24 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+        //Check Missing params
+        checkForMissingParameter(reqComponentId, "reqComponentId");
+        checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
+
+        //Set all the values on reqComponentInfo
+        reqComponentInfo.setId(reqComponentId);
+
+        ReqComponent reqComp = null;
+
+        //Update persistence entity from the reqComponentInfo
+        reqComp = LuServiceAssembler.toReqComponentRelation(true, reqComponentInfo, luDao);
+
+        //Update the reqComponen
+        ReqComponent updatedReqComp = luDao.update(reqComp);
+
+        //Copy back to an reqComponentInfo and return
+        ReqComponentInfo updReqCompInfo = LuServiceAssembler.toReqComponentInfo(updatedReqComp);
+        return updReqCompInfo;
 	}
 
 	@Override
@@ -1370,7 +1464,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	/**
-	 * Check for missing parameter and thow localized exception if missing
+	 * Check for missing parameter and throw localized exception if missing
 	 *
 	 * @param param
 	 * @param parameter name

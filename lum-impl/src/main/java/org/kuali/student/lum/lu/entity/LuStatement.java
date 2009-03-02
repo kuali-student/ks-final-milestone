@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,6 +23,8 @@ import org.kuali.student.lum.lu.typekey.StatementOperatorTypeKey;
 
 @Entity
 @Table(name = "KSLU_STMT")
+@NamedQueries( {
+        @NamedQuery(name = "LuStatement.getLuStatementsForLuStatementType", query = "SELECT ls FROM LuStatement ls WHERE luStatementType = :luStatementTypeKey") })
 public class LuStatement extends MetaEntity implements AttributeOwner<LuStatementAttribute>{
     @Id
     @Column(name = "ID")
