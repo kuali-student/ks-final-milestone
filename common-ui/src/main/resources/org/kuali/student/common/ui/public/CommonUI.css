@@ -11,7 +11,8 @@
 @import url("KSFormLayout.css");
 @import url("KSHelpLink.css");
 @import url("KSImage.css");
-@import url("KSInfoDialog.css");
+@import url("KSInfoDialogPanel.css");
+@import url("KSModalDialogPanel.css");
 @import url("KSLabel.css");
 @import url("KSListBox.css");
 @import url("KSRadioButton.css");
