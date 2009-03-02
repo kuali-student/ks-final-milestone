@@ -83,4 +83,6 @@ public interface KSStyles {
 	public static final String KS_POPOUT_IMAGE_HOVER = "KS-RichText-Popout-Image-Hover";
 	public static final String KS_POPOUT_WINDOW = "KS-RichText-Popout-Window";
 	
+	public static final String KS_DIALOG_CAPTION = "KS-Dialog-Caption";
+	
 }
