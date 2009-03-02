@@ -3,6 +3,8 @@ package org.kuali.student.core.organization.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.core.atp.dto.TimeAmountInfo;
+import org.kuali.student.core.entity.TimeAmount;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.VersionMismatchException;
@@ -138,7 +140,9 @@ public class OrganizationAssembler extends BaseAssembler{
 	public static OrgPositionRestrictionInfo toOrgPositionRestrictionInfo(OrgPositionRestriction restriction) {
 		OrgPositionRestrictionInfo restrictionInfo = new OrgPositionRestrictionInfo();
 
-		BeanUtils.copyProperties(restriction, restrictionInfo, new String[] { "attributes", "metaInfo","orgId","personRelationType" });
+		BeanUtils.copyProperties(restriction, restrictionInfo, new String[] { "attributes", "metaInfo","orgId","personRelationType","stdDuration" });
+		restrictionInfo.setStdDuration(new TimeAmountInfo());
+		BeanUtils.copyProperties(restriction.getStdDuration(), restrictionInfo.getStdDuration());
 
 		restrictionInfo.setOrgId(restriction.getOrg().getId());
 		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
@@ -359,7 +363,10 @@ public class OrganizationAssembler extends BaseAssembler{
 
 		// Copy all basic properties
 		BeanUtils.copyProperties(orgPositionRestrictionInfo, orgPositionRestriction, new String[] { "personRelationType",
-				"attributes", "metaInfo", "org" });
+				"attributes", "metaInfo", "org", "stdDuration" });
+		
+		orgPositionRestriction.setStdDuration(new TimeAmount());
+		BeanUtils.copyProperties(orgPositionRestrictionInfo.getStdDuration(), orgPositionRestriction.getStdDuration());
 
 		// Copy Attributes
 		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));

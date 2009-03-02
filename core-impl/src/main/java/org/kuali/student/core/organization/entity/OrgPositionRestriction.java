@@ -19,6 +19,7 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
 @Table(name = "KS_ORG_POS_RESTR_T")
@@ -49,7 +50,7 @@ public class OrgPositionRestriction extends MetaEntity implements
 	private String title;
 
 	@Embedded
-	private TimeAmountInfo stdDuration;
+	private TimeAmount stdDuration;
 
 	@Column(name = "MIN_NUM_RSTNS")
 	private Integer minNumRelations;
@@ -93,11 +94,11 @@ public class OrgPositionRestriction extends MetaEntity implements
 		this.title = title;
 	}
 
-	public TimeAmountInfo getStdDuration() {
+	public TimeAmount getStdDuration() {
 		return stdDuration;
 	}
 
-	public void setStdDuration(TimeAmountInfo stdDuration) {
+	public void setStdDuration(TimeAmount stdDuration) {
 		this.stdDuration = stdDuration;
 	}
 
