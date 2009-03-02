@@ -29,7 +29,7 @@ public class KSBlockingProgressIndicator{
 		
 		mainPanel.add(listPanel);
 		
-		popupIndicator.addHeader("Processing...");
+		popupIndicator.setHeader("Processing...");
 		
 		popupIndicator.setWidget(mainPanel);
 		setupDefaultStyle();
