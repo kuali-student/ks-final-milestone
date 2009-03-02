@@ -20,7 +20,7 @@ public class ButtonExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
     VerticalPanel buttonPanel = new VerticalPanel();
-    final KSLabel title = new KSLabel("Click a button", false);
+    final KSLabel title = new KSLabel("Click a button: - ", false);
     
     final KSButton button1 = new KSButton("Default Button",new MyClickHandler());
     final KSButton button2 = new KSButton("Bordered Button",new MyClickHandler());
