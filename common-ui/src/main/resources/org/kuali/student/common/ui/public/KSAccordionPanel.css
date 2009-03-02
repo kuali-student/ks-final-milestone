@@ -1,0 +1,40 @@
+.KS-Accordion{
+	
+}
+.KS-Accordion-Titlebar{
+
+	width: 200;
+	height: 20;
+		
+	border-left: 1px solid #99bbe8;
+	border-right: 2px solid #4583D5;
+	border-bottom: 2px solid #4583D5;
+	border-top: 1px solid #99bbe8;
+	margin: 2px;
+
+	background-color: #99bbe8;	
+}
+
+.KS-Accordion-Titlebar-Hover{
+	background-color: #99bbe8;
+	border-left: 1px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	border-top: 1px solid black;
+
+	cursor:pointer;
+}
+
+.KS-Accordion-Titlebar-Focus{
+	background-color: #99bbe8;
+}
+.KS-Accordion-Titlebar-Open{
+
+	background-color: #E8C698;
+	border: 2px solid black;
+}
+
+.KS-Accordion-Titlebar-Label{
+	font-weight: bold;
+	font-size: 80%;
+}
