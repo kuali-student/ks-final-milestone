@@ -31,7 +31,7 @@ public class KSLabel extends Label{
                 KSLabel.this.removeStyleName(KSStyles.KS_LABEL_HOVER_STYLE);
                 
             }
-            
+            	
         });*/
 
     }
