@@ -1,5 +1,8 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.button;
 
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_BUTTON_FANCY;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_BUTTON_LARGE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_BUTTON_RED;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -10,35 +13,34 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ButtonExample extends Composite {
 
     final SimplePanel main = new SimplePanel();
-    FlexTable table = new FlexTable();
+    VerticalPanel buttonPanel = new VerticalPanel();
     final KSLabel title = new KSLabel("Click a button", false);
     
-    final KSButton button1 ;
-    final KSButton button2 ;
-    final KSButton button3 ;
+    final KSButton button1 = new KSButton("Default Button",new MyClickHandler());
+    final KSButton button2 = new KSButton("Bordered Button",new MyClickHandler());
+    final KSButton button3 = new KSButton("Large Button",new MyClickHandler());
+    final KSButton button4 = new KSButton("Fancy Button",new MyClickHandler());
 
     public ButtonExample() {
-        table.addStyleName(STYLE_EXAMPLE);
                
-        button1 = new KSButton("Button 1",new MyClickHandler());
-        button2 = new KSButton("Button 2",new MyClickHandler());
-        button3 = new KSButton("Button 3",new MyClickHandler());
+        buttonPanel.add(title);
+        buttonPanel.add( button1);
+        buttonPanel.add( button2);
+        buttonPanel.add( button3);
+        buttonPanel.add( button4);
+        
+        buttonPanel.addStyleName(STYLE_EXAMPLE);
+        button2.addStyleName(STYLE_BUTTON_RED);
+        button3.addStyleName(STYLE_BUTTON_LARGE);
+        button4.addStyleName(STYLE_BUTTON_FANCY);
 
-        int row = 0;
-        table.setWidget(row, 1, title);
-        
-        row++;
-        table.setWidget(row,0, button1);
-        table.setWidget(row,1, button2);
-        table.setWidget(row,2, button3);
-        
-        main.add(table);
+        main.add(buttonPanel);
 
         super.initWidget(main);
     }
