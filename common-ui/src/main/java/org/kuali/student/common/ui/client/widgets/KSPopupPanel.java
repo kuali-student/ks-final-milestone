@@ -8,24 +8,36 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSPopupPanel {
 	private final PopupPanel popup = new PopupPanel();
-	private final SimplePanel content = new SimplePanel();
+//	private final SimplePanel content = new SimplePanel();
 	
 	private boolean isShowing = false;
 	
 	
 	public KSPopupPanel(){
 		
-		popup.add(content);
+	//	popup.add(content);
 		
 		setupDefaultStyle();
 	}
-	
-	public void setWidget(Widget w){
-		content.setWidget(w);
-		//content.setSize("500px", "500px");
-		//popup.setSize("500px", "500px");
+	public int getX(){
+	    //return popup.get.getPopupLeft();
+	    return popup.getAbsoluteLeft();
 	}
-	
+    public int getY(){
+       // return popup.getPopupTop();
+        return popup.getAbsoluteTop();
+    }
+	public void setLocation(int x, int y){
+	    popup.setPopupPosition(x, y);
+	}
+	public void setWidget(Widget w){
+	//	content.setWidget(w);
+	    popup.setWidget(w);
+	}
+	public void setPixelSize(int w, int h){
+      //  content.setPixelSize(w,h);
+        popup.setPixelSize(w,h);
+	}
 
 	public void show(){
 		popup.show();

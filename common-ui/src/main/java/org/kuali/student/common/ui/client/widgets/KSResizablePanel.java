@@ -32,7 +32,7 @@ public class KSResizablePanel  extends AbsolutePanel {
     private final static int Bottom = 1;
     private final static int BottomRight = 2;
     
-    private int handlerOffset = 10;
+    private int handlerOffset = 5;
     public KSResizablePanel() {
         //super.setStyleName("resizableComponent");
 
@@ -81,7 +81,7 @@ public class KSResizablePanel  extends AbsolutePanel {
         DeferredCommand.addCommand(new Command() {
             public void execute() {
                 if(w.getOffsetWidth()!= 0 && w.getOffsetHeight()!= 0){
-                    setNewSize(w.getOffsetWidth(),w.getOffsetHeight());    
+                    setNewSize(w.getOffsetWidth()+handlerOffset,w.getOffsetHeight()+handlerOffset);    
                 }
             }
         });
