@@ -71,7 +71,7 @@ public class KSRichEditor extends KSRichEditorAbstract {
 	}
 
 
-    public void init(boolean isUsedInPopup) {
+    protected void init(boolean isUsedInPopup) {
         richEditor.init(isUsedInPopup);
     }
 }

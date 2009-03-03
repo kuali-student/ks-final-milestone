@@ -19,7 +19,7 @@ public abstract class KSDropDownAbstract extends Composite{
 	 * 
 	 * @param isMultipleSelect
 	 */
-	public void init(boolean isMultipleSelect){}
+	protected void init(boolean isMultipleSelect){}
 
     public abstract void addChangeHandler(ChangeHandler handler);
 

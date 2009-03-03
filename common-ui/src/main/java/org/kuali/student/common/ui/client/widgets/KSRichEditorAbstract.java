@@ -47,5 +47,5 @@ public abstract class KSRichEditorAbstract extends Composite {
 
 	public abstract void setText(String text);
 
-    public abstract void init(boolean isUsedInPopup);
+    protected abstract void init(boolean isUsedInPopup);
 }

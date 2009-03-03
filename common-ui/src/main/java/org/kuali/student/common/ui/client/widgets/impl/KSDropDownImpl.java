@@ -31,7 +31,7 @@ public class KSDropDownImpl extends KSDropDownAbstract{
 	}
 	
 	@Override
-	public void init(boolean isMultipleSelect) {
+    protected void init(boolean isMultipleSelect) {
 		listBox = new ListBox(isMultipleSelect);
         this.initWidget(listBox);
 		setupDefaultStyle();

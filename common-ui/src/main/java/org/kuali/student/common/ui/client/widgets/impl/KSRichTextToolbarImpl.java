@@ -247,7 +247,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	   * 
 	   * @param richText the rich text area to be controlled
 	   */
-	  public void init(RichTextArea richText) {
+	  protected void init(RichTextArea richText) {
 	    this.richText = richText;
 	    this.basic = richText.getBasicFormatter();
 	    this.extended = richText.getExtendedFormatter();

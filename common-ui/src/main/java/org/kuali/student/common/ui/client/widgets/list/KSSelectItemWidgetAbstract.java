@@ -69,7 +69,7 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
         this.name = name;         
     }
 
-    public abstract void init(String name);
+    protected abstract void init(String name);
 
     public abstract void onClick(ClickEvent event);
 

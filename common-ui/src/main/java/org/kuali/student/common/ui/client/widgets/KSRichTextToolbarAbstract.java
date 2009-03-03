@@ -123,6 +123,6 @@ public abstract class KSRichTextToolbarAbstract extends Composite{
 	   * 
 	   * @param richText the rich text area to be controlled
 	   */
-	  public abstract void init(RichTextArea richText);
+	  protected abstract void init(RichTextArea richText);
 
 }

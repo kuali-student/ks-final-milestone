@@ -27,13 +27,13 @@ public class KSImageImpl extends KSImageAbstract{
 
 	}
 	@Override
-	public void init(String url) {
+	protected void init(String url) {
 		image = new Image(url);
         this.initWidget(image);
 		DOM.setElementAttribute(image.getElement(), "src", url); 
 	}
-	@Override	
-	public void init(String url, int left, int top, int width, int height) {
+	@Override
+    protected void init(String url, int left, int top, int width, int height) {
 		image = new Image(url, left, top, width, height);
         this.initWidget(image);
 		DOM.setElementAttribute(image.getElement(), "src", url); 

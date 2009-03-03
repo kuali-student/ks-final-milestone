@@ -22,7 +22,7 @@ public abstract class KSDisclosureSectionAbstract extends Composite{
 	 * @param headerWidget
 	 * @param isOpen
 	 */
-	public void init(String headerText, Widget headerWidget, boolean isOpen){}
+	protected void init(String headerText, Widget headerWidget, boolean isOpen){}
 
     public abstract void clear();
 

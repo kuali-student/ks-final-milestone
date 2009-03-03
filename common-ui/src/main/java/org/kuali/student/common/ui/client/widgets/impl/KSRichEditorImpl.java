@@ -96,7 +96,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	}
 	
 	@Override
-    public void init(boolean isUsedInPopup) {
+    protected void init(boolean isUsedInPopup) {
 	    this.isUsedInPopup = isUsedInPopup;		
 		setupDefaultStyle();
 				

@@ -59,7 +59,7 @@ public class KSRichTextToolbar extends KSRichTextToolbarAbstract{
 
 
     @Override
-    public void init(RichTextArea richText) {
+    protected void init(RichTextArea richText) {
         richTextToolbar.init(richText);
         
     }
