@@ -17,6 +17,7 @@ import org.kuali.student.rules.internal.common.statement.report.PropositionRepor
 import org.kuali.student.rules.internal.common.statement.report.RuleReport;
 import org.kuali.student.rules.ruleexecution.runtime.drools.DroolsRuleBase;
 import org.kuali.student.rules.ruleexecution.runtime.drools.SimpleExecutorDroolsImpl;
+import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 import org.kuali.student.rules.ruleexecution.runtime.report.ast.RuleReportBuilder;
 
 public class RuleReportBuilderTest {
@@ -48,7 +49,7 @@ public class RuleReportBuilderTest {
 	private PropositionReport subsetReport = new PropositionReport("F", PropositionType.SUBSET);
 	private PropositionReport sumReport = new PropositionReport("G", PropositionType.SUM);
 
-	private RuleReportBuilder ruleReportBuilder;
+	private ReportBuilder ruleReportBuilder;
     private final static DroolsRuleBase ruleBase = new DroolsRuleBase();
 	private static SimpleExecutorDroolsImpl executor = new SimpleExecutorDroolsImpl();
 

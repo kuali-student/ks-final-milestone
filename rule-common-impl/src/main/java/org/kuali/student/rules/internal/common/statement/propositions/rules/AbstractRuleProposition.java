@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import org.kuali.student.rules.factfinder.dto.FactResultColumnInfoDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.factfinder.dto.FactResultTypeInfoDTO;
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.MessageContextConstants;
 import org.kuali.student.rules.internal.common.statement.exceptions.PropositionException;
 import org.kuali.student.rules.internal.common.statement.propositions.AbstractProposition;
@@ -45,6 +46,8 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
     protected FactResultDTO factResultDTO;
 
     protected Boolean reportBuilt = Boolean.FALSE;
+    
+    private BooleanMessage booleanMessage;
 	
     private final VelocityTemplateEngine templateEngine = new VelocityTemplateEngine();
     
@@ -302,8 +305,15 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
      */
     public abstract PropositionReport buildReport();
 
+    /**
+     * Builds a default proposition report.
+     * 
+     * @param successMessage Proposition success message
+     * @param failureMessage Proposition failure message
+     * @return Proposition report
+     */
     protected PropositionReport buildDefaultReport(String successMessage, String failureMessage) {
-        // Build success message
+    	// Build success message
         if (this.proposition.getResult()) {
     		if(this.ruleProposition.getSuccessMessage() == null || this.ruleProposition.getSuccessMessage().trim().isEmpty()) {
     			report.setSuccessMessage(successMessage);
@@ -311,6 +321,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	    		String msg = buildMessage(this.ruleProposition.getSuccessMessage());
 	    		report.setSuccessMessage(msg);
     		}
+        	this.booleanMessage = new BooleanMessage(this.getPropositionName(), this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
             return report;
         }
         // Build failure message
@@ -321,8 +332,23 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 			String msg = buildMessage(this.ruleProposition.getFailureMessage());
 	        report.setFailureMessage(msg);
 		}
-		reportBuilt = Boolean.TRUE;
+    	this.booleanMessage = new BooleanMessage(this.getPropositionName(), this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
+		this.reportBuilt = Boolean.TRUE;
         return report;
+    }
+    
+    /**
+	 * Gets a boolean message.
+	 * A success or failure explanation of the results of the 
+	 * proposition constraint.
+     * 
+     * @return Boolean message
+     */
+    public BooleanMessage getBooleanMessage() {
+    	if(!this.reportBuilt) {
+    		buildReport();
+    	}
+    	return this.booleanMessage;
     }
 
 	@Override
@@ -335,9 +361,18 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 		return this.proposition.getPropositionName();
 	}
 
+	/**
+	 * Gets a proposition report. 
+	 * An explanation of the results of the constraint.
+	 * 
+	 * @return Proposition report
+	 */
 	@Override
 	public PropositionReport getReport() {
-    	return (reportBuilt ? report : buildReport());
+    	if(!this.reportBuilt) {
+    		buildReport();
+    	}
+    	return this.report;
 	}
 
 	@Override

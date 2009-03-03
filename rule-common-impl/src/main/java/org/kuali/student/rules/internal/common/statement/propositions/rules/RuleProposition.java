@@ -2,6 +2,7 @@ package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.Collection;
 
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -46,15 +47,19 @@ public interface RuleProposition {
 	public Collection<?> getResultValues();	
 
 	/**
-     * Builds a proposition report.
-     * 
-     * @return Proposition report
-     */
-	public PropositionReport buildReport();
-
-	/**
-	 * An explanation of the results of the constraint.
-	 * @return the advice
+	 * Gets a proposition report. 
+	 * An explanation of the results of the proposition constraint.
+	 * 
+	 * @return Proposition report
 	 */
 	public PropositionReport getReport();
+
+	/**
+	 * Gets a boolean message.
+	 * A success or failure explanation of the results of the 
+	 * proposition constraint.
+	 * 
+	 * @return Boolean message
+	 */
+    public BooleanMessage getBooleanMessage();
 }

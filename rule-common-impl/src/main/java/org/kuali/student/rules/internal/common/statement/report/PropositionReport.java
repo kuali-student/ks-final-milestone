@@ -15,9 +15,6 @@
  */
 package org.kuali.student.rules.internal.common.statement.report;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.student.rules.factfinder.dto.FactResultDTO;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 
@@ -42,7 +39,7 @@ public class PropositionReport {
     /**
      * True for successful report; otherwise false for an unsuccessful report
      */
-	private boolean successful = false;
+	private Boolean successful = false;
 	
 	/**
 	 * Successful report message
@@ -101,7 +98,7 @@ public class PropositionReport {
 	 * Returns true if report is successful.
 	 * @return True if report is successful; otherwise false
 	 */
-    public boolean isSuccessful() {
+    public Boolean isSuccessful() {
 		return this.successful;
 	}
 	
@@ -109,7 +106,7 @@ public class PropositionReport {
 	 * Set success to true if report is successful; otherwise set it to false.
      * @param success True if report is successful; otherwise false
      */
-	public void setSuccessful(final boolean success) {
+	public void setSuccessful(final Boolean success) {
 		this.successful = success;
 	}
 

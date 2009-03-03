@@ -15,44 +15,25 @@
  */
 package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BinaryTree;
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
-import org.kuali.student.rules.internal.common.runtime.ast.Function;
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
-import org.kuali.student.rules.internal.common.statement.propositions.Proposition;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 import org.kuali.student.rules.internal.common.statement.report.RuleReport;
-import org.kuali.student.rules.ruleexecution.exceptions.RuleSetExecutionException;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 import org.kuali.student.rules.ruleexecution.runtime.report.ReportBuilder;
 
 /**
  * This is a sample file to launch a rule package from a rule source file.
  */
-public class RuleReportBuilder implements ReportBuilder {
-    private HashMap<String, Boolean> nodeValueMap;
-    private HashMap<String, String> nodeMessageMap;
-    private boolean ruleResult;
-    private String functionString;
-    
-    private final static String SUCCESS_MESSAGE_LOGGER = "org.kuali.student.rules.runtime.ast.success";
-    private final static String FAILURE_MESSAGE_LOGGER = "org.kuali.student.rules.runtime.ast.failure";
-    private final static String SUCCESS_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/SuccessMessageLogger.drl";
-    private final static String FAILURE_MESSAGE_LOGGER_DRL = "/drools/drls/org/kuali/student/rules/rulesetexecution/runtime/ast/FailureMessageLogger.drl";
-
-    private SimpleExecutor executor;
-    
+public class RuleReportBuilder extends AbstractMessageBuilder implements ReportBuilder {
     public RuleReportBuilder(SimpleExecutor executor) {
-        this.executor = executor;
-    	setup();
+    	super(executor);
     }
 
     /**
@@ -62,30 +43,18 @@ public class RuleReportBuilder implements ReportBuilder {
      * @return The proposition container <code>propContainer</code> with a report
      */
     public RuleReport buildReport(PropositionContainer propContainer) {
-        BinaryTree ASTtree = null;
-        ruleResult = propContainer.getRuleResult();
-
-        try {
-            // set the functionString and Maps from the proposition container
-            fillStringAndMap(propContainer, ruleResult);
-
-            // go parse function in buildTree
-            ASTtree = new BinaryTree(nodeValueMap, nodeMessageMap);
-            BooleanNode root = ASTtree.buildTree(functionString);
-            ASTtree.traverseTreePostOrder(root, null);
-
-            List<BooleanNode> treeNodes = ASTtree.getAllNodes();
-            this.executor.execute(treeNodes);
-        } catch (Throwable t) {
-            throw new RuleSetExecutionException("Building rule report failed: " + t.getMessage(), t);
+    	HashMap<String, BooleanMessage> nodeMessageMap = new HashMap<String, BooleanMessage>();
+        for (RuleProposition proposition : propContainer.getPropositions()) {
+        	BooleanMessage booleanMessage = proposition.getBooleanMessage();
+        	nodeMessageMap.put(proposition.getPropositionName(), booleanMessage);
         }
-
         // This is the final rule report message summary
-        String message = ASTtree.getRoot().getNodeMessage();
+    	String message = super.buildMessage(propContainer.getFunctionalRuleString(), nodeMessageMap);
+        
         RuleReport ruleReport = propContainer.getRuleReport();
-        ruleReport.setSuccessful(ruleResult);
+        ruleReport.setSuccessful(propContainer.getRuleResult());
 
-        if (ruleResult == true) {
+        if (propContainer.getRuleResult() == true) {
             ruleReport.setSuccessMessage(message);
         } else {
             ruleReport.setFailureMessage(message);
@@ -102,46 +71,8 @@ public class RuleReportBuilder implements ReportBuilder {
         List<PropositionReport> propositionReportList = new ArrayList<PropositionReport>();
         for(RuleProposition prop : propositionList) {
         	prop.getReport().setSuccessful(prop.getResult());
-        	propositionReportList.add(prop.buildReport());
+        	propositionReportList.add(prop.getReport());
         }
         return propositionReportList;
-    }
-
-    private void fillStringAndMap(PropositionContainer propContainer, boolean ruleResult) {
-        nodeValueMap = new HashMap<String, Boolean>();
-        nodeMessageMap = new HashMap<String, String>();
-        functionString = propContainer.getFunctionalRuleString();
-
-        if (functionString == null || functionString.isEmpty()) {
-        	throw new RuleSetExecutionException("Boolean function is null. Rule may not have been executed.");
-        }
-        
-        Function func = new Function(functionString);
-        List<String> funcVars = func.getVariables();
-
-        for (String var : funcVars) {
-            Boolean value = propContainer.getProposition(var).getResult();
-            nodeValueMap.put(var, value);
-
-            PropositionReport report = propContainer.getProposition(var).buildReport();
-            String message = "Rule execution result undefined";
-
-            if (ruleResult == true) {
-                message = report.getSuccessMessage();
-            } else {
-                message = report.getFailureMessage();
-            }
-            nodeMessageMap.put(var, message);
-        }
-    }
-
-    /**
-     * Setup default rule sets
-     */
-    private void setup() {
-        Reader source1 = new InputStreamReader(RuleReportBuilder.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
-        this.executor.addRuleSet(SUCCESS_MESSAGE_LOGGER, source1);
-        Reader source2 = new InputStreamReader(RuleReportBuilder.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
-        this.executor.addRuleSet(FAILURE_MESSAGE_LOGGER, source2);
     }
 }

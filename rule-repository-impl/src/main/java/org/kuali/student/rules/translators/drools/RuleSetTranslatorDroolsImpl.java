@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.drools.repository.StateItem;
-import org.kuali.student.rules.internal.common.runtime.ast.Function;
+import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunction;
 import org.kuali.student.rules.internal.common.utils.BusinessRuleUtil;
 import org.kuali.student.rules.internal.common.utils.FactUtil;
 import org.kuali.student.rules.repository.drools.rule.DroolsConstants;
@@ -171,7 +171,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     										   Date effectiveStartTime,
     										   Date effectiveEndTime) {
     	removeInvalidCharacters(anchor);
-        Function function = new Function(functionString);
+        BooleanFunction function = new BooleanFunction(functionString);
 
         CurrentDateTime date = new CurrentDateTime();
         long effStartDate = date.getDateAsLong(effectiveStartTime);
@@ -201,7 +201,7 @@ public class RuleSetTranslatorDroolsImpl implements RuleSetTranslator {
     									   String functionString,
     									   Map<String, RulePropositionDTO> functionalPropositionMap) {
     	removeInvalidCharacters(anchor);
-        Function function = new Function(functionString);
+        BooleanFunction function = new BooleanFunction(functionString);
 
         // Create the final composite rule for the function
         List<String> symbols = function.getSymbols();
