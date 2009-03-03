@@ -1,0 +1,18 @@
+.KSinkTextArea {
+
+	width: 300px;
+	height: 100px;
+
+}
+
+.KSinkTextAreaFancy {
+	border: 5px orange;
+	border-style: dotted;
+	font-family: fantasy;
+	background-color: #ffcccc;
+	color: #990000;
+	scrollbar-base-color: orange;
+    scrollbar-arrow-color: red;
+    scrollbar-DarkShadow-Color: blue; 
+	
+}

@@ -27,6 +27,9 @@ public class KitchenSinkStyleConstants {
 
     public static final String STYLE_MODAL_DIALOG_PANEL = "KSinkModalDialogPanel";
     
+    public static final String STYLE_TEXTAREA = "KSinkTextArea";
+    public static final String STYLE_TEXTAREA_FANCY = "KSinkTextAreaFancy";
+
     public static final String STYLE_TEXTBOX_BORDER = "KSinkTextBoxBorder";
     public static final String STYLE_TEXTBOX_BACKGROUND = "KSinkTextBoxBackground";
     public static final String STYLE_TEXTBOX_LARGE = "KSinkTextBoxLarge";
