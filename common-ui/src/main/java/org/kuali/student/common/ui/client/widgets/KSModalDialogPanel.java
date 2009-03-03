@@ -13,6 +13,7 @@ public class KSModalDialogPanel extends KSDialogPanel{
 		super();
 		setupDefaultStyle();
 		super.setModal(true);
+		super.setResizable(false);
 		
 		Window.addResizeHandler(new ResizeHandler(){
 

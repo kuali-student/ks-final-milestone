@@ -92,10 +92,10 @@ public class KSDialogPanel extends KSPopupPanel{
     public void setResizable(boolean resizable){
     	this.resizable = resizable;
     	if(resizable){
-    		//dialogContainer.remove(content);
+    		dialogContainer.remove(content);
     		dialogContainer.add(resizableContent);
         }else{
-        	//dialogContainer.remove(resizableContent);
+        	dialogContainer.remove(resizableContent);
     		dialogContainer.add(content);         
         }
         
