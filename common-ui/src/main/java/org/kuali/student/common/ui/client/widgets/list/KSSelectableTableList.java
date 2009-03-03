@@ -87,6 +87,28 @@ public class KSSelectableTableList extends KSSelectItemWidgetAbstract {
      */
     public void onClick(ClickEvent event) {}
 
+    public void addSelectionChangeHandler(SelectionChangeHandler handler) {
+        selectItemWidget.addSelectionChangeHandler(handler);
+    }
 
+    protected void fireChangeEvent() {
+        selectItemWidget.fireChangeEvent();
+    }
+
+    public ListItems getListItems() {
+        return selectItemWidget.getListItems();
+    }
+
+    public String getName() {
+        return selectItemWidget.getName();
+    }
+
+    public void setListItems(ListItems listItems) {
+        selectItemWidget.setListItems(listItems);
+    }
+
+    public void setName(String name) {
+        selectItemWidget.setName(name);
+    }
     
 }
