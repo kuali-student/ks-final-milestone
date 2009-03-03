@@ -1,34 +1,25 @@
 package org.kuali.student.core.messages.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import org.kuali.student.core.messages.MessageException;
 import org.kuali.student.core.messages.dao.MessageManagementDAO;
 import org.kuali.student.core.messages.entity.MessageEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
-@Repository
 public class MessageManagementDAOImpl implements MessageManagementDAO {
     private EntityManager entityManager;
     
     final static Logger logger = LoggerFactory.getLogger(MessageManagementDAOImpl.class);
     
-    @PersistenceContext(name = "Message")
+    @PersistenceContext(unitName = "MessageManagement")
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -65,7 +56,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	public List<String> getLocales() {
 		List<String> locales = new ArrayList<String>();
     	try{
-	        Query query = entityManager.createQuery("SELECT distinct locale FROM MessageEntity m");
+	        Query query = entityManager.createQuery("SELECT distinct m.locale FROM MessageEntity m");
 	        locales = (List<String>) query.getResultList();
     	}
         catch(Exception e){
@@ -78,7 +69,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	public List<String> getMessageGroups() {
 		List<String> groups = new ArrayList<String>();
     	try{
-	        Query query = entityManager.createQuery("SELECT distinct groupName FROM MessageEntity m");
+	        Query query = entityManager.createQuery("SELECT distinct m.groupName FROM MessageEntity m");
 	        groups = (List<String>) query.getResultList();
     	}
         catch(Exception e){
