@@ -24,7 +24,7 @@
 	<stylesheet src="examplecss/FloatPanelExample.css"/>
 	<stylesheet src="examplecss/HelpLinkExample.css"/>	
 	<stylesheet src="examplecss/ImageExample.css"/>
-	<stylesheet src="examplecss/InfoPopupPanelExample.css"/>
+	<stylesheet src="examplecss/InfoDialogPanelExample.css"/>
 	<stylesheet src="examplecss/LabelExample.css"/>
 	<stylesheet src="examplecss/ListBoxExample.css"/>
 	<stylesheet src="examplecss/ModalPopupPanelExample.css"/>
