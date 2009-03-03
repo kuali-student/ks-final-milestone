@@ -1,8 +1,8 @@
 .KS-ResizablePanel-RightBottomResizableHandler{
-width: 10px;
-height:10px;
+width: 16px;
+height:16px;
 cursor: SE-resize;
-background: gray;
+
 z-index: 99;
 
 }
