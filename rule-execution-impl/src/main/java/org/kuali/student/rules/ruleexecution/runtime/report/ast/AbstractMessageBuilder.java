@@ -10,6 +10,7 @@ import org.kuali.student.rules.internal.common.runtime.ast.BinaryMessageTree;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanFunction;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.runtime.ast.BooleanNode;
+import org.kuali.student.rules.internal.common.runtime.ast.Message;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 
 public abstract class AbstractMessageBuilder {
@@ -33,7 +34,7 @@ public abstract class AbstractMessageBuilder {
      * @param messageContainer Contains a list of messages
      * @return A message
      */
-    public String buildMessage(String booleanExpression, Map<String, BooleanMessage> messageMap) {
+    public String buildMessage(String booleanExpression, Map<String, ? extends Message> messageMap) {
         BinaryMessageTree ASTtree = null;
 
         try {
@@ -56,18 +57,18 @@ public abstract class AbstractMessageBuilder {
         return message;
     }
 
-    private Map<String, BooleanMessage> buildMessageMap(String booleanExpression, Map<String, BooleanMessage> messageMap) {
+    private Map<String, BooleanMessage> buildMessageMap(String booleanExpression, Map<String, ? extends Message> messageMap) {
     	Map<String, BooleanMessage> nodeMessageMap = new HashMap<String, BooleanMessage>();
 
         if (booleanExpression == null || booleanExpression.isEmpty()) {
-        	throw new RuntimeException("Boolean rule is null.");
+        	throw new RuntimeException("Boolean expression is null.");
         }
         
         BooleanFunction func = new BooleanFunction(booleanExpression);
         List<String> funcVars = func.getVariables();
 
         for (String id : funcVars) {
-        	BooleanMessage booleanMessage = messageMap.get(id);
+        	BooleanMessage booleanMessage = messageMap.get(id).getBooleanMessage();
             nodeMessageMap.put(id, booleanMessage);
         }
         
@@ -78,9 +79,9 @@ public abstract class AbstractMessageBuilder {
      * Setup default rule sets
      */
     private void setup() {
-        Reader source1 = new InputStreamReader(BooleanMessageBuilder.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
+        Reader source1 = new InputStreamReader(MessageBuilder.class.getResourceAsStream(SUCCESS_MESSAGE_LOGGER_DRL));
         this.executor.addRuleSet(SUCCESS_MESSAGE_LOGGER, source1);
-        Reader source2 = new InputStreamReader(BooleanMessageBuilder.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
+        Reader source2 = new InputStreamReader(MessageBuilder.class.getResourceAsStream(FAILURE_MESSAGE_LOGGER_DRL));
         this.executor.addRuleSet(FAILURE_MESSAGE_LOGGER, source2);
     }
 }

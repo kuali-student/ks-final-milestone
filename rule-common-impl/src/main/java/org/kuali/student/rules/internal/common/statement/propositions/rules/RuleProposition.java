@@ -2,12 +2,12 @@ package org.kuali.student.rules.internal.common.statement.propositions.rules;
 
 import java.util.Collection;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
+import org.kuali.student.rules.internal.common.runtime.ast.Message;
 import org.kuali.student.rules.internal.common.statement.exceptions.IllegalPropositionStateException;
 import org.kuali.student.rules.internal.common.statement.propositions.PropositionType;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
 
-public interface RuleProposition {
+public interface RuleProposition extends Message {
 	/**
 	 * Evaluates the proposition to a truth value
 	 * @return <code>true</code> if the constraint is met.
@@ -53,13 +53,4 @@ public interface RuleProposition {
 	 * @return Proposition report
 	 */
 	public PropositionReport getReport();
-
-	/**
-	 * Gets a boolean message.
-	 * A success or failure explanation of the results of the 
-	 * proposition constraint.
-	 * 
-	 * @return Boolean message
-	 */
-    public BooleanMessage getBooleanMessage();
 }

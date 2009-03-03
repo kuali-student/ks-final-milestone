@@ -321,7 +321,7 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 	    		String msg = buildMessage(this.ruleProposition.getSuccessMessage());
 	    		report.setSuccessMessage(msg);
     		}
-        	this.booleanMessage = new BooleanMessage(this.getPropositionName(), this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
+        	this.booleanMessage = new BooleanMessage(this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
             return report;
         }
         // Build failure message
@@ -332,11 +332,20 @@ public abstract class AbstractRuleProposition<T> implements RuleProposition {
 			String msg = buildMessage(this.ruleProposition.getFailureMessage());
 	        report.setFailureMessage(msg);
 		}
-    	this.booleanMessage = new BooleanMessage(this.getPropositionName(), this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
+    	this.booleanMessage = new BooleanMessage(this.getResult(), report.getSuccessMessage(), report.getFailureMessage()); 
 		this.reportBuilt = Boolean.TRUE;
         return report;
     }
     
+	/**
+	 * Gets the message id.
+	 * 
+	 * @return Message id
+	 */
+    public String getMessageId() {
+		return this.getPropositionName();
+	}
+
     /**
 	 * Gets a boolean message.
 	 * A success or failure explanation of the results of the 

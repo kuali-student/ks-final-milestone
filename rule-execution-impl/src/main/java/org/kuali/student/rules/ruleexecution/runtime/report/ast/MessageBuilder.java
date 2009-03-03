@@ -1,11 +1,11 @@
 package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessageContainer;
+import org.kuali.student.rules.internal.common.runtime.ast.MessageContainer;
 import org.kuali.student.rules.ruleexecution.runtime.SimpleExecutor;
 
-public class BooleanMessageBuilder extends AbstractMessageBuilder {
+public class MessageBuilder extends AbstractMessageBuilder {
 
-	public BooleanMessageBuilder(SimpleExecutor executor) {
+	public MessageBuilder(SimpleExecutor executor) {
 		super(executor);
 	}
 
@@ -17,7 +17,7 @@ public class BooleanMessageBuilder extends AbstractMessageBuilder {
      * @param messageContainer Contains a list of messages
      * @return A message
      */
-    public String buildMessage(String booleanRule, BooleanMessageContainer messageContainer) {
+    public String buildMessage(String booleanRule, MessageContainer messageContainer) {
         return super.buildMessage(booleanRule, messageContainer.getMessageMap());
     }
 }

@@ -59,8 +59,12 @@ public class PropositionMock implements RuleProposition {
 	}
 
     public BooleanMessage getBooleanMessage() {
-    	BooleanMessage bm = new BooleanMessage(this.getPropositionName(), this.getResult(), 
+    	BooleanMessage bm = new BooleanMessage(this.getResult(), 
     			propositionReport.getSuccessMessage(), propositionReport.getFailureMessage()); 
     	return bm;
     }
+
+	public String getMessageId() {
+		return this.getPropositionName();
+	}
 }

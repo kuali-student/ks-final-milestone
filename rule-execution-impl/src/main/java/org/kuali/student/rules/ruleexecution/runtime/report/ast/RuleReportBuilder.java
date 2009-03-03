@@ -17,10 +17,8 @@ package org.kuali.student.rules.ruleexecution.runtime.report.ast;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.student.rules.internal.common.runtime.ast.BooleanMessage;
 import org.kuali.student.rules.internal.common.statement.PropositionContainer;
 import org.kuali.student.rules.internal.common.statement.propositions.rules.RuleProposition;
 import org.kuali.student.rules.internal.common.statement.report.PropositionReport;
@@ -39,29 +37,24 @@ public class RuleReportBuilder extends AbstractMessageBuilder implements ReportB
     /**
      * Creates proposition result report.
      * 
-     * @param propContainer Contains a list of propositions
+     * @param pc Contains a list of propositions
      * @return The proposition container <code>propContainer</code> with a report
      */
-    public RuleReport buildReport(PropositionContainer propContainer) {
-    	HashMap<String, BooleanMessage> nodeMessageMap = new HashMap<String, BooleanMessage>();
-        for (RuleProposition proposition : propContainer.getPropositions()) {
-        	BooleanMessage booleanMessage = proposition.getBooleanMessage();
-        	nodeMessageMap.put(proposition.getPropositionName(), booleanMessage);
-        }
+    public RuleReport buildReport(PropositionContainer pc) {
         // This is the final rule report message summary
-    	String message = super.buildMessage(propContainer.getFunctionalRuleString(), nodeMessageMap);
+    	String message = super.buildMessage(pc.getFunctionalRuleString(), pc.getPropositionMap());
         
-        RuleReport ruleReport = propContainer.getRuleReport();
-        ruleReport.setSuccessful(propContainer.getRuleResult());
+        RuleReport ruleReport = pc.getRuleReport();
+        ruleReport.setSuccessful(pc.getRuleResult());
 
-        if (propContainer.getRuleResult() == true) {
+        if (pc.getRuleResult() == true) {
             ruleReport.setSuccessMessage(message);
         } else {
             ruleReport.setFailureMessage(message);
         }
 
-        propContainer.setRuleReport(ruleReport);
-        List<PropositionReport> propositionReportList = createPropositionReport(propContainer.getPropositions());
+        pc.setRuleReport(ruleReport);
+        List<PropositionReport> propositionReportList = createPropositionReport(pc.getPropositions());
         ruleReport.setPropositionReports(propositionReportList);
         
         return ruleReport;

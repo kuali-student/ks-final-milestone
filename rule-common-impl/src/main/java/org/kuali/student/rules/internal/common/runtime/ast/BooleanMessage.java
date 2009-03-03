@@ -1,20 +1,14 @@
 package org.kuali.student.rules.internal.common.runtime.ast;
 
 public class BooleanMessage {
-	private String id;
 	private Boolean succesful;
 	private String successMessage; 
 	private String failureMessage;
 
-	public BooleanMessage(String id, Boolean succesful, String successMessage, String failureMessage) {
-    	this.id = id;
+	public BooleanMessage(Boolean succesful, String successMessage, String failureMessage) {
     	this.succesful = succesful;
     	this.successMessage = successMessage; 
     	this.failureMessage = failureMessage;
-	}
-
-	public String getId() {
-		return this.id;
 	}
 
 	public Boolean isSuccesful() {
@@ -30,7 +24,7 @@ public class BooleanMessage {
 	}
 	
 	public String toString() {
-		return "[id="+this.id + ", successful=" + this.succesful
+		return "[successful=" + this.succesful
 			+ ", successMessage='" + this.successMessage
 			+ "', failureMessage='" + this.failureMessage
 			+ "']";
