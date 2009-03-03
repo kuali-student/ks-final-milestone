@@ -1,79 +1,27 @@
 package org.kuali.student.common.ui.client.widgets.menus;
 
-import org.kuali.student.common.ui.client.widgets.KSAccordionPanel;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSStyles;
+import java.util.List;
+
+
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
+import org.kuali.student.common.ui.client.widgets.menus.impl.KSAccordionMenuImpl;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Label;
 
-public class KSAccordionMenu extends KSMenu{
+public class KSAccordionMenu extends KSAccordionMenuAbstract{ 
 	//TODO make this work with KSAccordionPanel
-	private KSAccordionPanelImpl menu = new KSAccordionPanelImpl();
-	private boolean retainHistory = false;
+	private KSAccordionMenuAbstract accordionMenu = new KSAccordionMenuImpl();
+	
+	public KSAccordionMenu(){
+	    initWidget(accordionMenu);
+	}
 	
 	@Override
 	protected void populateMenu() {
-		this.initWidget(menu);
-		for(KSMenuItemData i: items){
-			int level = calculateDepth(i);
-			
-			KSLabel categoryLabel = new KSLabel(i.getLabel(), false);
-			
-			if(level > 0 && level <= 7){
-				categoryLabel.addStyleName(KSStyles.KS_INDENT + "-" + level);
-			}
-			categoryLabel.addStyleName(KSStyles.KS_ACCORDION_TITLEBAR_LABEL);
-			
-/*			if(i.getClickHandler() != null){
-			    fp.addClickHandler(i.getClickHandler());
-			}*/
-			
-			if(i.getSubItems().isEmpty()){		
-				if(i.getClickHandler() != null)
-				{
-					menu.addPanel(categoryLabel, i.getClickHandler());
-				}
-				else{
-					menu.addPanel(categoryLabel);
-				}
-			}
-			else{
-				KSAccordionMenu subMenu = GWT.create(KSAccordionMenu.class);
-				subMenu.setRetainHistory(retainHistory);
-				subMenu.setItems(i.getSubItems());
-				if(i.getClickHandler() != null)
-				{
-					menu.addPanel(categoryLabel, i.getClickHandler(), subMenu);
-				}
-				else{
-					menu.addPanel(categoryLabel, subMenu);
-				}
-			}
-		}
-		
+	    accordionMenu.populateMenu();
 	}
 	
 	public KSAccordionPanelImpl getMenu(){
-		return menu;
-	}
-	
-	@Deprecated
-	public void setLevel(int level){
-		// method does nothing anymore
-	}
-	
-
-	private int calculateDepth(KSMenuItemData item) {
-	    int result = -1;
-	    while (item != null) {
-	        result++;
-	        item = item.getParent();
-	    }
-	    return result;
+		return accordionMenu.getMenu();
 	}
 	
 	/**
@@ -83,11 +31,21 @@ public class KSAccordionMenu extends KSMenu{
 	 * @pre This must be called BEFORE the super class method - setItems.
 	 */
 	public void setRetainHistory(boolean retain){
-		retainHistory = retain;
+	    accordionMenu.setRetainHistory(retain);
 	}
 
 	public boolean isRetainingHistory() {
-		return retainHistory;
+		return accordionMenu.isRetainingHistory();
 	}
+
+    @Override
+    public List<KSMenuItemData> getItems() {
+        return accordionMenu.getItems();
+    }
+
+    @Override
+    public void setItems(List<KSMenuItemData> items) {
+        accordionMenu.setItems(items);
+    }
 	
 }
