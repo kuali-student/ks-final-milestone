@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,80 +16,67 @@ import com.google.gwt.user.client.ui.RadioButton;
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 
  * 
- * @author Kuali Student Team
+ * @author Kuali Student Team 
  *
  */
-public class KSRadioButtonList extends KSSelectItemWidget implements ClickHandler{
-    private HorizontalPanel radioPanel = new HorizontalPanel();
-    private String name;
-    private String selectedValue = null;
+public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements ClickHandler{
+    private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
+
     
 	public KSRadioButtonList(String name) {
-        this.initWidget(radioPanel);
-        this.name = name;
+        initWidget(selectItemWidget);
+        init(name);
 	}
 	
+	protected void init(String name) {
+	    selectItemWidget.init(name);
+	}
+
 
 	/**
-	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidget#deSelectItem(java.lang.String)
+	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
 	 */
 	public void deSelectItem(String id) {
-        for (int i=0; i < radioPanel.getWidgetCount(); i++){
-            KSRadioButton radioButton = (KSRadioButton)radioPanel.getWidget(i);
-            if (radioButton.getFormValue().equals(id)){
-                this.selectedValue = null;
-                radioButton.setValue(false);
-                break;
-            }
-        }		
+	    selectItemWidget.deSelectItem(id);	
 	}
 
 	/**
-	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidget#getSelectedItems()
+	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#getSelectedItems()
 	 */
 	public List<String> getSelectedItems() {
-	    List<String> items = new ArrayList<String>();
-	    if (selectedValue != null){
-	        items.add(selectedValue);
-	    }
-	    return items;
+	    return selectItemWidget.getSelectedItems();
 	}
 
 
 	
 	/**
-	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidget#selectItem(java.lang.String)
+	 * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#selectItem(java.lang.String)
 	 */
 	public void selectItem(String id) {
-	    deSelectItem(selectedValue);
-	    for (int i=0; i < radioPanel.getWidgetCount(); i++){
-	        KSRadioButton radioButton = (KSRadioButton)radioPanel.getWidget(i);
-	        if (radioButton.getFormValue().equals(id)){
-	            this.selectedValue = id;
-	            radioButton.setValue(true);
-	            break;
-	        }
-	    }
+	    selectItemWidget.selectItem(id);
 	}
 
     public void setListItems(ListItems listItems) {
-        super.setListItems(listItems);
-        
-        radioPanel.clear();
-        for (String id:listItems.getItemIds()){
-            KSRadioButton radioButton = new KSRadioButton(name, listItems.getItemText(id));
-            radioButton.setFormValue(id);
-            radioButton.addClickHandler(this);
-            radioPanel.add(radioButton);
-        }        
+        selectItemWidget.setListItems(listItems);      
     }
+
+    @Override
+    public void onClick(ClickEvent event) {
+        selectItemWidget.onClick(event);
+        
+    }
+
+    public void setMultipleSelect(boolean isMultipleSelect) {}
+
+    /**
+     * This overridden method is not used
+     * 
+     * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onLoad()
+     */
+    @Override
+    public void onLoad() {}
    
-   public void onClick(ClickEvent event) {
-       KSRadioButton radioButton = (KSRadioButton)(event.getSource());   
-       if (radioButton.getValue() && !radioButton.getFormValue().equals(selectedValue)){
-           selectedValue = radioButton.getFormValue();
-           fireChangeEvent();
-       }
-   }
-    
+
 }
+
+
