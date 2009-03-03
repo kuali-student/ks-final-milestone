@@ -29,7 +29,7 @@ import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescr
 import org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel.InfoDialogExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.modalpopuppanel.ModalPopupPanelExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.modaldialogpanel.ModalDialogPanelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.radiobutton.RadioButtonExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.richeditor.RichEditorExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.textarea.TextAreaExampleDescriptor;
@@ -113,7 +113,7 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new InfoDialogExampleDescriptor());
         initExample(ksCommons, new LabelExampleDescriptor());
         initExample(ksCommons, new ListBoxExampleDescriptor());
-        initExample(ksCommons, new ModalPopupPanelExampleDescriptor());
+        initExample(ksCommons, new ModalDialogPanelExampleDescriptor());
         initExample(ksCommons, new RadioButtonExampleDescriptor());
 //        initExample(ksCommons, new RadioButtonListExampleDescriptor()); //TODO
         initExample(ksCommons, new RichEditorExampleDescriptor());

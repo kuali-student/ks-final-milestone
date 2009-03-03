@@ -1,7 +1,7 @@
-package org.kuali.student.ui.kitchensink.client.kscommons.modalpopuppanel;
+package org.kuali.student.ui.kitchensink.client.kscommons.modaldialogpanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_INFO_DIALOG_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MODAL_DIALOG_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ModalPopupPanelExample extends Composite {
+public class ModalDialogPanelExample extends Composite {
 
 
     final SimplePanel main = new SimplePanel();
@@ -25,7 +25,7 @@ public class ModalPopupPanelExample extends Composite {
     KSButton hideButton ;
 
 
-    public ModalPopupPanelExample() {
+    public ModalDialogPanelExample() {
         main.addStyleName(STYLE_EXAMPLE);
 
         showButton = new KSButton("Click to see Popup", new ClickHandler() {
@@ -47,7 +47,8 @@ public class ModalPopupPanelExample extends Composite {
         containerPanel.add(new Image("images/flower1.jpg") );
         containerPanel.add(hideButton);
         popupPanel.setWidget(containerPanel);
-        popupPanel.addStyleName(STYLE_INFO_DIALOG_PANEL);
+        popupPanel.setHeader("Modal Dialog Example");
+        popupPanel.addStyleName(STYLE_MODAL_DIALOG_PANEL);
         popupPanel.setModal(true);
 
         main.add(showButton);

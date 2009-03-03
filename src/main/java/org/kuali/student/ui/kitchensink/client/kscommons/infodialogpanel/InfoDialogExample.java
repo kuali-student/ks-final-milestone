@@ -51,11 +51,11 @@ public class InfoDialogExample extends Composite {
 
 
         image.addStyleName(STYLE_IMAGE);
-//        infoPopup.addHeader("Info Dialog Panel");
         containerPanel.add(new KSImage("images/flower3.jpg") );
         containerPanel.addStyleName(STYLE_INFO_DIALOG_PANEL);
         containerPanel.add(hideButton);
-        
+
+        infoPopup.setHeader("Info Dialog Panel");
         infoPopup.setWidget(containerPanel);
 
         main.add(showButton);
