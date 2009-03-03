@@ -84,6 +84,18 @@
 		</bean>-->
 
 	<!-- JPA EntityManagerFactory -->
+	<bean id="postProcessorList" class="java.util.ArrayList">
+		<constructor-arg index="0">
+			<list>
+				<bean id="ricePostProcessor"
+					class="org.kuali.rice.core.jpa.spring.RicePersistenceUnitPostProcessor">
+					<property name="jtaDataSource"
+						ref="dataSource" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="jpaConfig"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="location"
@@ -104,6 +116,7 @@
 			value="${ks.test.persistenceLocation}" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaPropertyMap" ref="jpaConfig" />
+		<property name="persistenceUnitPostProcessors" ref="postProcessorList" />
 	</bean>
 
 
