@@ -67,6 +67,7 @@ import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
+import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 import org.kuali.student.lum.lu.entity.ReqComponentType;
 import org.kuali.student.lum.lu.service.LuService;
@@ -867,8 +868,11 @@ public class LuServiceImpl implements LuService {
 	public LuiInfo getLui(String luiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		checkForMissingParameter(luiId, "luiId");
+
+		Lui lui = luDao.fetch(Lui.class, luiId);
+		return LuServiceAssembler.toLuiInfo(lui);
 	}
 
 	@Override

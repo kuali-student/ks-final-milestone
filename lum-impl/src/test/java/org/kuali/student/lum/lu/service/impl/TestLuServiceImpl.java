@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
 
@@ -67,5 +69,24 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 
+	}
+	
+	@Test
+	public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		LuiInfo luiInfo;
+		try {
+			luiInfo = client.getLui("notARealLui");
+			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
+		} catch (DoesNotExistException dnee) {
+		} catch (Exception e) {
+			fail("LuService.getLui() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
+		}
+		try {
+			luiInfo = client.getLui(null);
+			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
+		} catch (MissingParameterException mpe) {
+		}
+		luiInfo = client.getLui("LUI-1");
+		assertEquals("CLU-1", luiInfo.getCluId());
 	}
 }
