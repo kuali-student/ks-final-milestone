@@ -23,8 +23,10 @@ public class KitchenSinkStyleConstants {
     public static final String STYLE_BUTTON_RED = "KSinkButtonRed" ;
     public static final String STYLE_BUTTON_FANCY = "KSinkButtonFancy" ;
     
+    public static final String STYLE_DISCLOSURE_SECTION = "KSinkDisclosureSection";
+    
     public static final String STYLE_INFO_DIALOG_PANEL = "KSinkInfoDialogPanel";
-
+    
     public static final String STYLE_MODAL_DIALOG_PANEL = "KSinkModalDialogPanel";
     
     public static final String STYLE_TEXTAREA = "KSinkTextArea";

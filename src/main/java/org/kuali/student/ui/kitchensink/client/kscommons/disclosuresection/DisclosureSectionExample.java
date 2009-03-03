@@ -1,6 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_DISCLOSURE_SECTION;
 
 import org.kuali.student.common.ui.client.widgets.KSDisclosureSection;
 import org.kuali.student.common.ui.client.widgets.KSImage;
@@ -21,6 +22,7 @@ public class DisclosureSectionExample extends Composite {
         
         section.clear();
         section.add(new KSImage("images/flower3.jpg"));
+        section.addStyleName(STYLE_DISCLOSURE_SECTION);
        
         main.add(section);
 
