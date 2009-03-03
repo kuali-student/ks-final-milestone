@@ -352,7 +352,7 @@ public class LuServiceAssembler extends BaseAssembler {
             stmt = new LuStatement();
         }
 
-        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"luStatementIds", "reqComponentIds", "attributes", "metaInfo", "type",});        
+        BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"luStatementIds", "reqComponentIds", "attributes", "metaInfo", "type",});
 
         // Copy generic attributes
         stmt.setAttributes(toGenericAttributes(LuStatementAttribute.class, stmtInfo.getAttributes(), stmt, dao));
@@ -364,39 +364,39 @@ public class LuServiceAssembler extends BaseAssembler {
                     "LuStatementType does not exist for id: " + stmtInfo.getType());
         }
         stmt.setLuStatementType(stmtType);
-        
+
         // Copy nested statements
-        List<LuStatement> stmtList = new ArrayList<LuStatement>();        
+        List<LuStatement> stmtList = new ArrayList<LuStatement>();
         for(String stmtId : stmtInfo.getLuStatementIds()) {
             if(stmtId == stmtInfo.getId()) {
                 throw new OperationFailedException("LuStatement nested within itself. LuStatement Id: " + stmtInfo.getId());
             }
-            
+
             LuStatement nestedStmt = dao.fetch(LuStatement.class, stmtId);
             if (null == nestedStmt) {
                 throw new DoesNotExistException("Nested LuStatement does not exist for id: " + stmtId + ". Parent LuStatement: " + stmtInfo.getId());
             }
-            
+
             stmtList.add(nestedStmt);
         }
         stmt.setChildren(stmtList);
-                
+
         // Copy nested requirements
         List<ReqComponent> reqCompList = new ArrayList<ReqComponent>();
         for(String reqId: stmtInfo.getReqComponentIds()) {
             ReqComponent reqComp = dao.fetch(ReqComponent.class, reqId);
-            
+
             if(null == reqComp) {
                 throw new DoesNotExistException("Nested Requirement does not exist for id: " + reqId + ". Parent LuStatement Id: " + stmtInfo.getId());
-            }   
-            
+            }
+
             reqCompList.add(reqComp);
         }
         stmt.setRequiredComponents(reqCompList);
-                
+
         return stmt;
     }
-	
+
 	public static LuStatementTypeInfo toLuStatementTypeInfo(LuStatementType entity) {
         return toGenericTypeInfo(LuStatementTypeInfo.class, entity);
     }
@@ -491,7 +491,7 @@ public class LuServiceAssembler extends BaseAssembler {
 		return dto;
 	}
 
-    public static ReqComponent toReqComponentRelation(boolean isUpdate, 
+    public static ReqComponent toReqComponentRelation(boolean isUpdate,
             ReqComponentInfo reqCompInfo, LuDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
         ReqComponent reqComp;
         if (isUpdate) {
@@ -505,9 +505,9 @@ public class LuServiceAssembler extends BaseAssembler {
         } else {
             reqComp = new ReqComponent();
         }
-        
-        BeanUtils.copyProperties(reqCompInfo, reqComp, new String[]{"reqCompField, metaInfo, type"});        
-        
+
+        BeanUtils.copyProperties(reqCompInfo, reqComp, new String[]{"reqCompField, metaInfo, type"});
+
         // Search for and copy the type
         ReqComponentType reqCompType = dao.fetch(ReqComponentType.class, reqCompInfo.getType());
         if (reqCompType == null) {
@@ -515,20 +515,20 @@ public class LuServiceAssembler extends BaseAssembler {
                     "ReqComponentType does not exist for id: " + reqCompInfo.getType());
         }
         reqComp.setRequiredComponentType(reqCompType);
-        
-        
+
+
         // Create and copy ReqCompFields
         List<ReqComponentField> reqCompFieldList = new ArrayList<ReqComponentField>();
         for(ReqCompFieldInfo reqCompFiledInfo : reqCompInfo.getReqCompField()) {
-            ReqComponentField reqCompField = new ReqComponentField();            
+            ReqComponentField reqCompField = new ReqComponentField();
             BeanUtils.copyProperties(reqCompFiledInfo, reqCompField);
             reqCompFieldList.add(reqCompField);
         }
-        reqComp.setReqCompField(reqCompFieldList);        
-        
+        reqComp.setReqCompField(reqCompFieldList);
+
         return reqComp;
     }
-    
+
 
     public static List<ReqComponentTypeInfo> toReqComponentTypeInfos(List<ReqComponentType> entities) {
         List<ReqComponentTypeInfo> dtos = new ArrayList<ReqComponentTypeInfo>(entities.size());
@@ -538,11 +538,11 @@ public class LuServiceAssembler extends BaseAssembler {
         return dtos;
 
     }
-    
+
     public static ReqComponentTypeInfo toReqComponentTypeInfo(ReqComponentType entity) {
         return toGenericTypeInfo(ReqComponentTypeInfo.class, entity);
     }
-	
+
 	public static RichTextInfo toRichTextInfo(RichText entity) {
 		RichTextInfo dto = new RichTextInfo();
 
@@ -571,7 +571,7 @@ public class LuServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto);
         return dto;
     }
-	
+
 	public static List<ReqCompFieldTypeInfo> toReqCompFieldTypeInfos(
 			List<ReqComponentFieldType> entities) {
 		List<ReqCompFieldTypeInfo> dtos = new ArrayList<ReqCompFieldTypeInfo>(
@@ -619,7 +619,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluInstructorInfo toCluInstructorInfo(CluInstructor entity) {
 		CluInstructorInfo dto = new CluInstructorInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id", "type" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "id", "attributes" });
 		dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
 		return dto;
@@ -656,7 +656,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
 		CluCreditInfo dto = new CluCreditInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" });
+		BeanUtils.copyProperties(entity, dto, new String[] { "id", "repeatTime" , "minTimeToComplete", "maxTimeToComplete", "maxAllowableInactivity", "maxTimeResultsRecognized"});
 		dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
 		dto.setMinTimeToComplete(toTimeAmountInfo(entity.getMinTimeToComplete()));
 		dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getMaxTimeToComplete()));
@@ -669,7 +669,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluPublishingInfo toCluPublishingInfo(CluPublishing entity) {
 		CluPublishingInfo dto = new CluPublishingInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "instructors",
+		BeanUtils.copyProperties(entity, dto, new String[] { "primaryInstructor", "instructors",
 				"attributes" });
 		dto.setPrimaryInstructor(toCluInstructorInfo(entity.getPrimaryInstructor()));
 		dto.setInstructors(toCluInstructorInfos(entity.getInstructors()));
@@ -708,15 +708,15 @@ public class LuServiceAssembler extends BaseAssembler {
 
 	public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
 		CluCredit cluCredit = new CluCredit();
-		
+
 		cluCredit.setMaxAllowableInactivity(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));
 		cluCredit.setMaxTimeResultsRecognized(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeResultsRecognized()));
 		cluCredit.setMaxTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
 		cluCredit.setMinTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
 		cluCredit.setRepeatTime(LuServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
-	
+
 		BeanUtils.copyProperties(cluCreditInfo,cluCredit,new String[]{"maxAllowableInactivity,maxTimeResultsRecognized,maxTimeToComplete,minTimeToComplete"});
-	
+
 		return cluCredit;
 	}
 }
