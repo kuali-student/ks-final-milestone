@@ -6,10 +6,12 @@ import java.util.List;
 import org.kuali.student.common.ui.client.widgets.impl.KSAccordionPanelImpl;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSAccordionMenuImpl;
 
+import com.google.gwt.core.client.GWT;
+
 
 public class KSAccordionMenu extends KSAccordionMenuAbstract{ 
 	//TODO make this work with KSAccordionPanel
-	private KSAccordionMenuAbstract accordionMenu = new KSAccordionMenuImpl();
+	private KSAccordionMenuAbstract accordionMenu = GWT.create(KSAccordionMenuImpl.class);
 	
 	public KSAccordionMenu(){
 	    initWidget(accordionMenu);
