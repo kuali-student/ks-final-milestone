@@ -11,6 +11,7 @@ public class KSInfoDialogPanel extends KSDialogPanel{
 		super();
 		super.setModal(false);
 		super.setAutoHide(true);
+		super.setResizable(true);
 		
 		Window.addResizeHandler(new ResizeHandler(){
 			public void onResize(ResizeEvent event) {

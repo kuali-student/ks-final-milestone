@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -21,50 +22,85 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSDialogPanel extends KSPopupPanel{
-    private final KSResizablePanel resizePanel = new KSResizablePanel();
-    VerticalPanel dialogPanel = new VerticalPanel();
-    SimplePanel contentPanel = new SimplePanel();
-    SimplePanel buttonPanel = new SimplePanel();
-    Label dialogTitleLabel = new Label();
+    private final KSResizablePanel resizableContent = new KSResizablePanel();
+    //private final SimplePanel content = new SimplePanel();
+    private boolean resizable = false;
+    private Label dialogTitleLabel = new Label();
+    private final SimplePanel content = new SimplePanel();	
+    private final VerticalPanel dialogContainer = new VerticalPanel();
+	private final HorizontalPanel headerPanel = new HorizontalPanel();
+	private final FocusPanel focusPanel = new FocusPanel();
+	private Widget w;
+	
+	public KSDialogPanel(){
+		
+        dialogContainer.add(resizableContent);
+        super.setWidget(dialogContainer);
 
-    public KSDialogPanel() {
-        //dialogPanel.setPixelSize(200, 200);
-        dialogPanel.add(dialogTitleLabel);
-        dialogPanel.add(contentPanel);
-        dialogPanel.add(buttonPanel);
-        
-        dialogTitleLabel.setStyleName(KSStyles.KS_DIALOG_CAPTION);
-        resizePanel.setWidget(dialogPanel);
-        super.setWidget(resizePanel);
-        // super.
-
+		setupDefaultStyle();
         SimpleWindowMover resizeHandler = new SimpleWindowMover();
-        dialogTitleLabel.addMouseDownHandler(resizeHandler);
-        dialogTitleLabel.addMouseMoveHandler(resizeHandler);
-        dialogTitleLabel.addMouseOutHandler(resizeHandler);
-        dialogTitleLabel.addMouseUpHandler(resizeHandler);
-        dialogTitleLabel.addMouseOverHandler(resizeHandler);
+        focusPanel.addMouseDownHandler(resizeHandler);
+        focusPanel.addMouseMoveHandler(resizeHandler);
+        focusPanel.addMouseOutHandler(resizeHandler);
+        focusPanel.addMouseUpHandler(resizeHandler);
+        focusPanel.addMouseOverHandler(resizeHandler);
+	}
+	
+	
+	public void setHeader(String headerText){
+		headerPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
+		dialogTitleLabel = new Label(headerText, false);
+		focusPanel.add(dialogTitleLabel);
+		headerPanel.add(focusPanel);
+		dialogContainer.insert(headerPanel, 0);
+	}
+	
+	public boolean removeHeader(){
+		return dialogContainer.remove(headerPanel);
+	}
+	
+	private void setupDefaultStyle(){
+		headerPanel.addStyleName(KSStyles.KS_POPUP_HEADER);
+		
+	}
+	
+    public void setWidget(Widget w) {
+    	this.w = w;
+            //resizableContent.setWidget(w);
+        	//content.setWidget(w);
     }
+    
+    public void show(){
+    	super.show();
+    	if(resizable){
+    		resizableContent.setWidget(w);
+    	}else{
+    		 content.setWidget(w);
+    	}
+    }
+    
+    public void center(){
+    	super.center();
+    	if(resizable){
+    		resizableContent.setWidget(w);
+    	}else{
+    		 content.setWidget(w);
+    	}
+    }
+
+    
     public void setResizable(boolean resizable){
-        if(resizable){
-            resizePanel.setWidget(dialogPanel);
-            super.setWidget(resizePanel);
+    	this.resizable = resizable;
+    	if(resizable){
+    		//dialogContainer.remove(content);
+    		dialogContainer.add(resizableContent);
         }else{
-            super.setWidget(dialogPanel);
-            
+        	//dialogContainer.remove(resizableContent);
+    		dialogContainer.add(content);         
         }
+        
     }
-    public void setHeader(String title) {
-        dialogTitleLabel.setText(title);
-    }
-
-    public void setContent(Widget w) {
-        contentPanel.setWidget(w);
-    }
-    public void setButtonPanel(Widget w){
-        buttonPanel.setWidget(w);
-    }
-
+    
     class SimpleWindowMover implements MouseUpHandler, MouseOverHandler, MouseOutHandler, MouseMoveHandler, MouseDownHandler {
         private int offsetX, offsetY;
         private boolean isMoving = false;
@@ -77,7 +113,7 @@ public class KSDialogPanel extends KSPopupPanel{
                 // dialogTitleLabel.removeStyleName("");
                 isMoving = false;
             }
-            DOM.releaseCapture(dialogTitleLabel.getElement());
+            DOM.releaseCapture(focusPanel.getElement());
         }
 
         @Override
@@ -102,40 +138,14 @@ public class KSDialogPanel extends KSPopupPanel{
 
             isMoving = true;
 
-            DOM.setCapture(dialogTitleLabel.getElement());
+            DOM.setCapture(focusPanel.getElement());
         }
     }
-	/*
-    private final SimplePanel content = new SimplePanel();	
-    private final VerticalPanel dialogContainer = new VerticalPanel();
-	private final HorizontalPanel headerPanel = new HorizontalPanel();
-	
-	public KSDialogPanel(){
-		
-        dialogContainer.add(content);
-        super.setWidget(dialogContainer);
+    
 
-		setupDefaultStyle();
-	}
 	
+
 	
-	public void addHeader(String headerText){
-		headerPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		KSLabel kSLabel = new KSLabel(headerText, false);
-		headerPanel.add(kSLabel);
-		dialogContainer.insert(headerPanel, 0);
-	}
+
 	
-	public boolean removeHeader(){
-		return dialogContainer.remove(headerPanel);
-	}
-	
-    public void setWidget(Widget w) {
-        content.setWidget(w);
-    }
-	
-	private void setupDefaultStyle(){
-		headerPanel.addStyleName(KSStyles.KS_POPUP_HEADER);
-	}
-	*/
 }

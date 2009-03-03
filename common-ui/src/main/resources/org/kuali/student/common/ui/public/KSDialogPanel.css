@@ -1,13 +1,8 @@
-.KS-Dialog-Caption{
+.KS-Popup-Header{
+	background-color:#99bbe8;
 	font-weight: bold;
-}
-.KS-ResizablePanel-RightBottomResizableHandler{
-width: 10px;
-height:10px;
-cursor: SE-resize;
-background: gray;
-
-}
-.KS-ResizablePanel-Mask{
-z-index: 99;
+	border-bottom: 1px solid black;
+	margin-bottom: 2px;
+	width: 100%;
+	cursor: move;
 }

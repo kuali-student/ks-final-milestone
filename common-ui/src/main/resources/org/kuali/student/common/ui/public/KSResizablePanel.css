@@ -3,6 +3,7 @@ width: 10px;
 height:10px;
 cursor: SE-resize;
 background: gray;
+z-index: 99;
 
 }
 .KS-ResizablePanel-Mask{
