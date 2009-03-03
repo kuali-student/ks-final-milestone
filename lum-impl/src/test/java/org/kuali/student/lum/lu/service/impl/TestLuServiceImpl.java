@@ -29,24 +29,43 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testClu() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		CluInfo clu = client.getClu("CLU-1");
+		assertNotNull(clu);
+		assertEquals(clu.getId(), "CLU-1");
+
+		try {
+			clu = client.getClu("CLX-1");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+
+		try {
+			clu = client.getClu(null);
+			assertTrue(false);
+		} catch (MissingParameterException e) {
+			assertTrue(true);
+		}
+
+
 		List<String> ids = new ArrayList<String>(1);
 		ids.add("CLU-2");
 		List<CluInfo> clus = client.getClusByIdList(ids);
 		assertNotNull(clus);
 		assertEquals(1, clus.size());
-		
+
 		ids.clear();
 		ids.add("CLX-42");
 		clus = client.getClusByIdList(ids);
 		assertTrue(clus == null || clus.size() == 0);
-		
+
 		try {
 			clus = client.getClusByIdList(null);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
-		
-		
+
+
 	}
 }
