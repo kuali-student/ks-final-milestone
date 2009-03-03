@@ -23,6 +23,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -50,6 +51,10 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@Column(name = "TYPE")
 	private String type;
 
+	@ManyToOne
+	@JoinColumn(name="CLU_ID")
+	private Clu clu;
+	
 	public String getDesc() {
 		return desc;
 	}
@@ -83,6 +88,14 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Clu getClu() {
+		return clu;
+	}
+
+	public void setClu(Clu clu) {
+		this.clu = clu;
 	}
 
 	public String getId() {

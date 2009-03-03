@@ -18,7 +18,10 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import org.kuali.student.common.util.UUIDHelper;
 
 @Entity
 @Table(name = "KSLU_CLU_IDENT")
@@ -52,6 +55,11 @@ public class CluIdentifier {
     @Column(name = "ID")
     private String id;
 
+	@PrePersist
+	public final void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+    
     public String getCode() {
         return code;
     }

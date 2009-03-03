@@ -26,8 +26,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
@@ -40,11 +42,11 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 	@Column(name = "END_CYCLE")
 	private String endCycle;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PRI_INSTR_ID")
 	private CluInstructor primaryInstructor;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_PUBL_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_PUBL_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
 	private List<CluInstructor> instructors;
 
@@ -62,6 +64,11 @@ public class CluPublishing implements AttributeOwner<CluPublishingAttribute> {
 	@Column(name = "ID")
 	private String id;
 
+	@PrePersist
+	public final void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
 	public String getStartCycle() {
 		return startCycle;
 	}

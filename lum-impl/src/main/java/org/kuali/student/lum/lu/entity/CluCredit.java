@@ -21,8 +21,10 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
@@ -83,6 +85,11 @@ public class CluCredit {
     )
     private TimeAmount maxTimeResultsRecognized;
 
+	@PrePersist
+	public final void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+    
     public String getRepeatCount() {
         return repeatCount;
     }

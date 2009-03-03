@@ -18,7 +18,10 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -36,6 +39,11 @@ public class CluAtpTypeKey {
     
     @Column(name = "ATP_TYPE_KEY")
     private String atpTypeKey;
+    
+	@PrePersist
+	public final void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
     
     public String getAtpTypeKey() {
         return atpTypeKey;

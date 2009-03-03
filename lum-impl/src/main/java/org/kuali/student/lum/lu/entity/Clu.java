@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.RichText;
@@ -40,10 +41,10 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name = "LUTYPE_ID")
 	private LuType luType;
 
-	@OneToMany(mappedBy = "clu")
+	@OneToMany(mappedBy = "clu",cascade=CascadeType.ALL)
 	private List<LearningObjective> learningObjectives;
 
-	@OneToMany(mappedBy = "clu")
+	@OneToMany(mappedBy = "clu",cascade=CascadeType.ALL)
 	private List<Resource> resourceTypes;
 
 	@ManyToMany(mappedBy = "clus")
@@ -53,22 +54,22 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name = "OWNER")
 	private List<CluAttribute> attributes;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "OFFIC_CLU_ID")
 	private CluIdentifier officialIdentifier;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_JN_CLU_IDENT", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_CLU_ID"))
 	private List<CluIdentifier> alternateIdentifiers;
 
 	@Column(name = "STDY_SUBJ_AREA")
 	private String studySubjectArea;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_DESCR_ID")
 	private RichText desc;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "RT_MKTG_DESCR_ID")
 	private RichText marketingDesc;
 
@@ -82,11 +83,11 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name = "CLU_ID")
 	private List<CluOrg> participatingOrgs;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PRI_INSTR_ID")
 	private CluInstructor primaryInstructor;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
     private List<CluInstructor> instructors;
 
@@ -112,11 +113,11 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@JoinColumn(name = "CLU_ID")
 	private List<LuCode> luCodes;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CR_ID")
 	private CluCredit credit;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "PUBL_ID")
 	private CluPublishing publishing;
 
@@ -126,7 +127,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Column(name = "IS_ENRL")
 	private boolean isEnrollable;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CLU_ID")
 	private List<CluAtpTypeKey> offeredAtpTypes;
 
@@ -142,17 +143,22 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Column(name = "IS_HAZR_DISBLD_STU")
 	private boolean isHazardousForDisabledStudents;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "FEE_ID")
 	private CluFee fee;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "ACCT_ID")
 	private CluAccounting accounting;
 
 	@Column(name = "ST")
 	private String state;
 
+	@Override
+	protected void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -445,4 +451,5 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	public void setPrimaryInstructor(CluInstructor primaryInstructor) {
 		this.primaryInstructor = primaryInstructor;
 	}
+
 }

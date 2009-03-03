@@ -24,8 +24,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
@@ -39,7 +41,12 @@ public class CluFee implements AttributeOwner<CluFeeAttribute>{
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
     private List<CluFeeAttribute> attributes;
-    
+	
+	@PrePersist
+	public final void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
     public List<CluFeeAttribute> getAttributes() {
         if (attributes == null) {
             attributes = new ArrayList<CluFeeAttribute>();

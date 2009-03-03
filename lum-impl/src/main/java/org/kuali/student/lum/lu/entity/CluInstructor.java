@@ -24,8 +24,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
@@ -46,6 +48,11 @@ public class CluInstructor implements AttributeOwner<CluInstructorAttribute> {
 	@JoinColumn(name = "OWNER")
     private List<CluInstructorAttribute> attributes;
 
+	@PrePersist
+	public final void prePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
+	
     public String getOrgId() {
         return orgId;
     }

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
@@ -56,6 +57,11 @@ public class CluCluRelation extends MetaEntity implements
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<CluCluRelationAttribute> attributes;
+	
+	@Override
+	public final void onPrePersist() {
+		this.id = UUIDHelper.genStringUUID(this.id);
+	}
 	
 	public String getId() {
 		return id;
