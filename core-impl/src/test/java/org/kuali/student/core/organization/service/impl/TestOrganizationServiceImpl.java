@@ -40,6 +40,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.search.dto.QueryParamValue;
 import org.kuali.student.core.search.dto.Result;
+import org.kuali.student.core.validation.dto.ValidationResult;
 
 
 @Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
@@ -635,5 +636,33 @@ public class TestOrganizationServiceImpl extends AbstractServiceTest {
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
+	}
+	
+	@Test
+	public void testValidateMethods() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    OrgInfo orgInfo = new OrgInfo();
+	    
+	    orgInfo.setType("kuali.org.Program");
+	    orgInfo.setState("active");
+	    
+        List<ValidationResult> validations = client.validateOrg("", orgInfo);
+	    for (ValidationResult validationResult : validations) {
+            assertTrue(validationResult.isOk());
+        }
+	    
+	    //TODO uncomment this when dictionary gets written
+//	    OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
+//	    
+//        validations = client.validateOrgOrgRelation("", orgOrgRelationInfo);
+//        for (ValidationResult validationResult : validations) {
+//            assertTrue(validationResult.isOk());
+//        }
+//        
+//        OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
+//        
+//        validations = client.validateOrgPersonRelation("", orgPersonRelationInfo);
+//        for (ValidationResult validationResult : validations) {
+//            assertTrue(validationResult.isOk());
+//        }
 	}
 }

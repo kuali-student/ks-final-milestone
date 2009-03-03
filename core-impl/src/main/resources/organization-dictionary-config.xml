@@ -32,7 +32,20 @@
 					</dict:fieldDescriptor>
 					<dict:selector>false</dict:selector>
 				</dict:field>
-				<dict:field key="cluId">
+        <dict:field key="cluId">
+          <dict:fieldDescriptor>
+            <dict:name>CLU Identifier</dict:name>
+            <dict:desc>Unique identifier for a Canonical Learning Unit (CLU).</dict:desc>
+            <dict:dataType>string</dict:dataType>
+            <dict:minLength>1</dict:minLength>
+            <dict:maxLength>36</dict:maxLength>
+            <dict:validChars>ABCDEF0123456789-</dict:validChars>
+            <dict:minOccurs>0</dict:minOccurs>
+            <dict:maxOccurs>1</dict:maxOccurs>
+            <dict:readOnly>true</dict:readOnly>
+          </dict:fieldDescriptor>
+        </dict:field>
+				<dict:field key="cluCategory">
 					<dict:fieldDescriptor>
 						<dict:name>CLU Category</dict:name>
 						<dict:desc>Allows for categorization of CLUs.</dict:desc>

@@ -24,7 +24,7 @@ import org.kuali.student.core.validation.dto.ValidationResult;
 
 
 public class DictionaryServiceTest extends AbstractServiceTest{
-    @Client(value = "org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl", port = "8181")
+    @Client(value = "org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl", port = "8181")
     public DictionaryService client;
     
     private static final int TOTAL_OBJ = 2;
