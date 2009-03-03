@@ -26,8 +26,5 @@ public class KSInfoDialogPanel extends KSDialogPanel{
 	private void setupDefaultStyle(){
 		super.addStyleName(KSStyles.KS_INFO_POPUP);
 	}
-	
-	public void show(){
-		super.center();
-	}
+
 }

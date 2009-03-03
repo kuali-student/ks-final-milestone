@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KSResizablePanel  extends AbsolutePanel {
 
-    Image rightBottomCorner = new Image("images/twiddler3.gif");
+    Image rightBottomCorner = new Image("images/corner.png");
     //Image bottom = new Image();
     //Image right = new Image();
     Widget widget;
@@ -39,6 +39,7 @@ public class KSResizablePanel  extends AbsolutePanel {
         mask.setStyleName("KS-ResizablePanel-Mask");
         
         rightBottomCorner.setStyleName("KS-ResizablePanel-RightBottomResizableHandler");
+        rightBottomCorner.setPixelSize(16, 16);
       //  bottom.setStyleName("KS-ResizableComposite-BottomResizableHandler");
         //right.setStyleName("KS-ResizableComposite-RightResizableHandler");
 
@@ -81,7 +82,6 @@ public class KSResizablePanel  extends AbsolutePanel {
         DeferredCommand.addCommand(new Command() {
             public void execute() {
                 if(w.getOffsetWidth()!= 0 && w.getOffsetHeight()!= 0){
-                	System.out.println("Got Here");
                     setNewSize(w.getOffsetWidth()+handlerOffset,w.getOffsetHeight()+handlerOffset);    
                 }
                 

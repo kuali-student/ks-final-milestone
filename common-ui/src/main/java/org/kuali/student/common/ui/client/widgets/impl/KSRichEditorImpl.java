@@ -26,6 +26,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -40,9 +41,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * TODO implement with a clean toolbar and i18n
  */
 public class KSRichEditorImpl extends KSRichEditorAbstract {
-	private final VerticalPanel windowPanel = new VerticalPanel();
-	//private final Grid content = new Grid(2, 1);
-	private final VerticalPanel content = new VerticalPanel();
+	private final FlowPanel textPanel = new FlowPanel();
+	private final FlowPanel content = new FlowPanel();
 	
 	private final RichTextArea textArea = new RichTextArea();
 	private final KSRichTextToolbar toolbar;
@@ -90,16 +90,10 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	
 	public KSRichEditorImpl(){
 	    toolbar = new KSRichTextToolbar(textArea);
-	    //content.setWidget(0, 0, toolbar);
-        //content.setWidget(1, 0, textArea);
 	    content.add(toolbar);
-	    content.add(textArea);
+	    textPanel.add(textArea);
+	    content.add(textPanel);
         super.initWidget(content);
-        content.setWidth("500px");
-        //content.setWidth("500px");
-        //content.setHeight("500px");
-        //textArea.setWidth("100%");
-        //textArea.setHeight("100%");
 	}
 	
 	@Override
@@ -109,19 +103,16 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 				
 		if(isUsedInPopup){
 	        toolbar.setVisible(true);
-	       // content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
-	        //textArea.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
-	        //content.setWidth("800px");
-	        //content.setWidth("500px");
-	        //content.setHeight("500px");
-	        //textArea.setWidth("100%");
-	        //textArea.setHeight("100%");
+	        content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
+	        textArea.setWidth("100%");
+	        textArea.setHeight("100%");
 		}
 		else
 		{
 			textArea.addFocusHandler(focusHandler);
 			textArea.addBlurHandler(blurHandler);
 			textArea.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
+			content.addStyleName(KSStyles.KS_RICH_TEXT_NORMAL);
 			
 			toolbar.setVisible(false);
 			
@@ -129,7 +120,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 			popoutEditor.init(true);
 			popoutWindow.setAutoHide(true);
 			popoutWindow.setHeader("TextEditor");
-			windowPanel.add(popoutEditor);
+			//windowPanel.add(popoutEditor);
 			
 			
 			HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -144,7 +135,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 			});
 			buttonPanel.add(okButton);
 			buttonPanel.setWidth("100%");
-			windowPanel.add(buttonPanel);
+			//windowPanel.add(buttonPanel);
 			
 			
 			popoutImage.addClickHandler(new ClickHandler(){
@@ -248,16 +239,6 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	
 	protected void onLoad() {
 		super.onLoad();
-		if(isUsedInPopup){
-	        toolbar.setVisible(true);
-	       // content.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
-	        //textArea.addStyleName(KSStyles.KS_RICH_TEXT_LARGE);
-	        //content.setWidth("800px");
-	        content.setWidth("500px");
-	        content.setHeight("500px");
-	        textArea.setWidth("100%");
-	        textArea.setHeight("500px");
-		}
 	}
 	
 	protected void onUnload() {

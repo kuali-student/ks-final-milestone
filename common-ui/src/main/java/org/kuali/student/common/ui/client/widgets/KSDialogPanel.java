@@ -24,12 +24,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class KSDialogPanel extends KSPopupPanel{
     private final KSResizablePanel resizableContent = new KSResizablePanel();
     //private final SimplePanel content = new SimplePanel();
-    private boolean resizable = false;
+    private boolean resizable = true;
     private Label dialogTitleLabel = new Label();
     private final SimplePanel content = new SimplePanel();	
     private final VerticalPanel dialogContainer = new VerticalPanel();
 	private final HorizontalPanel headerPanel = new HorizontalPanel();
 	private final FocusPanel focusPanel = new FocusPanel();
+	private boolean loaded = false;
 	private Widget w;
 	
 	public KSDialogPanel(){
@@ -41,9 +42,7 @@ public class KSDialogPanel extends KSPopupPanel{
         SimpleWindowMover resizeHandler = new SimpleWindowMover();
         focusPanel.addMouseDownHandler(resizeHandler);
         focusPanel.addMouseMoveHandler(resizeHandler);
-        focusPanel.addMouseOutHandler(resizeHandler);
         focusPanel.addMouseUpHandler(resizeHandler);
-        focusPanel.addMouseOverHandler(resizeHandler);
 	}
 	
 	
@@ -66,26 +65,40 @@ public class KSDialogPanel extends KSPopupPanel{
 	
     public void setWidget(Widget w) {
     	this.w = w;
-            //resizableContent.setWidget(w);
-        	//content.setWidget(w);
+    	loaded = false;
     }
     
     public void show(){
     	super.show();
-    	if(resizable){
-    		resizableContent.setWidget(w);
-    	}else{
-    		 content.setWidget(w);
-    	}
+    	
+        if(resizable){
+        	if(!loaded){
+        		resizableContent.setWidget(w);
+        		loaded = true;
+        	}
+        }else{
+        	if(!loaded){
+        		content.setWidget(w);
+        		loaded = true;
+        	}
+        }
+
     }
     
     public void center(){
     	super.center();
-    	if(resizable){
-    		resizableContent.setWidget(w);
-    	}else{
-    		 content.setWidget(w);
-    	}
+        if(resizable){
+        	if(!loaded){
+        		resizableContent.setWidget(w);
+        		loaded = true;
+        	}
+        }else{
+        	if(!loaded){
+        		content.setWidget(w);
+        		loaded = true;
+        	}
+        }
+
     }
 
     
@@ -98,10 +111,10 @@ public class KSDialogPanel extends KSPopupPanel{
         	dialogContainer.remove(resizableContent);
     		dialogContainer.add(content);         
         }
-        
+        loaded = false;
     }
     
-    class SimpleWindowMover implements MouseUpHandler, MouseOverHandler, MouseOutHandler, MouseMoveHandler, MouseDownHandler {
+    class SimpleWindowMover implements MouseUpHandler, MouseMoveHandler, MouseDownHandler {
         private int offsetX, offsetY;
         private boolean isMoving = false;
 
@@ -110,18 +123,10 @@ public class KSDialogPanel extends KSPopupPanel{
         @Override
         public void onMouseUp(MouseUpEvent event) {
             if (isMoving) {
-                // dialogTitleLabel.removeStyleName("");
+
                 isMoving = false;
             }
             DOM.releaseCapture(focusPanel.getElement());
-        }
-
-        @Override
-        public void onMouseOver(MouseOverEvent event) {}
-
-        @Override
-        public void onMouseOut(MouseOutEvent event) {
-        // dialogTitleLabel.removeStyleName("MoveCursor");
         }
 
         @Override
