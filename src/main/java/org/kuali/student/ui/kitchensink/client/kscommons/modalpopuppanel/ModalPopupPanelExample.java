@@ -1,7 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.modalpopuppanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_POPUP_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_INFO_DIALOG_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSModalDialogPanel;
@@ -47,7 +47,7 @@ public class ModalPopupPanelExample extends Composite {
         containerPanel.add(new Image("images/flower1.jpg") );
         containerPanel.add(hideButton);
         popupPanel.setWidget(containerPanel);
-        popupPanel.addStyleName(STYLE_POPUP_PANEL);
+        popupPanel.addStyleName(STYLE_INFO_DIALOG_PANEL);
         popupPanel.setModal(true);
 
         main.add(showButton);

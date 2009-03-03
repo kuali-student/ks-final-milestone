@@ -1,6 +1,11 @@
 package org.kuali.student.ui.kitchensink.client;
 
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.*;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_DESCRIPTION;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_RESOURCE_DESCRIPTION;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_RESOURCE_TITLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_TAB_PANEL;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_TITLE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +18,18 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class KitchenSinkExample extends Composite {
-    final VerticalPanel panel = new VerticalPanel();
+    final VerticalPanel main = new VerticalPanel();
+    private final TabPanel tabPanel = new TabPanel();
+
     final Label title = new Label(getTitle());
     final Label description = new Label(getDescription());
-    final Label exampleLabel = new Label("Example:");
-    final Label resourcesLabel = new Label("Resources:");
+    final Label exampleLabel = new Label("Example");
+    private VerticalPanel resourcePanel;
 
     boolean loaded = false;
 
@@ -32,7 +40,7 @@ public abstract class KitchenSinkExample extends Composite {
     }
 
     public KitchenSinkExample() {
-        super.initWidget(panel);
+        super.initWidget(main);
     }
 
     protected void onLoad() {
@@ -90,30 +98,36 @@ public abstract class KitchenSinkExample extends Composite {
     }
 
     private void populate() {
-        panel.add(title);
-        panel.add(description);
-        panel.add(exampleLabel);
-
+        
+        main.add(title);
+        main.add(description);      
+        main.add(tabPanel);
+        
         title.setStyleName(STYLE_TITLE);
         description.setStyleName(STYLE_DESCRIPTION);
-        exampleLabel.setStyleName(STYLE_BLOCK_HEADER);
-        resourcesLabel.setStyleName(STYLE_BLOCK_HEADER);
+        tabPanel.setStyleName(STYLE_TAB_PANEL);
+        main.setStyleName(STYLE_EXAMPLE_PANEL);
 
-        panel.add(getExampleWidget());
+        tabPanel.add(getExampleWidget(), exampleLabel);
+        
         if (resources != null && resources.size() > 0) {
-            panel.add(resourcesLabel);
             for (KitchenSinkResource r : resources) {
+                resourcePanel = new VerticalPanel();
                 Label resourceTitle = new Label(r.getTitle());
                 Label resourceDescription = new Label(r.getDescription());
                 resourceTitle.setStyleName(STYLE_RESOURCE_TITLE);
                 resourceDescription.setStyleName(STYLE_RESOURCE_DESCRIPTION);
                 
-                panel.add(resourceTitle);
-                panel.add(resourceDescription);
-                panel.add(createCodeBlock(r.getType(), r.getContent()));
+                resourcePanel.add(resourceTitle);
+                resourcePanel.add(resourceDescription);
+                resourcePanel.add(createCodeBlock(r.getType(), r.getContent()));
+                
+                tabPanel.add(resourcePanel, translateResourceType(r.getType()));
             }
         }
         doHighlight();
+        
+        tabPanel.selectTab(0);
     }
 
     public static final native void initHighlighter() /*-{
@@ -160,6 +174,18 @@ public abstract class KitchenSinkExample extends Composite {
             result++;
         }
         return result;
+    }
+    
+    private String translateResourceType(String resourceType) {
+        if (resourceType.equals("css")) {
+            return "Styles";
+        }
+        else if (resourceType.equals("java")) {
+            return "Code";
+        }
+        else { 
+            return "Other";
+        }
     }
 
 }

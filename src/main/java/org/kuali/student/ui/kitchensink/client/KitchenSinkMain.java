@@ -1,7 +1,6 @@
 package org.kuali.student.ui.kitchensink.client;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_CONTENT_PANEL;
-import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_IMAGE;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MAIN_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_MENU_PANEL;
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_WELCOME_PANEL;
@@ -26,9 +25,8 @@ import org.kuali.student.ui.kitchensink.client.kscommons.datepicker.DatePickerEx
 import org.kuali.student.ui.kitchensink.client.kscommons.disclosuresection.DisclosureSectionExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.dropdown.DropDownExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.floatpanel.FloatPanelExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.helplink.HelpLinkExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.image.ImageExampleDescriptor;
-import org.kuali.student.ui.kitchensink.client.kscommons.infopopuppanel.InfoPopupExampleDescriptor;
+import org.kuali.student.ui.kitchensink.client.kscommons.infodialogpanel.InfoDialogExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.label.LabelExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.listbox.ListBoxExampleDescriptor;
 import org.kuali.student.ui.kitchensink.client.kscommons.modalpopuppanel.ModalPopupPanelExampleDescriptor;
@@ -51,11 +49,11 @@ public class KitchenSinkMain extends Composite {
     final VerticalPanel welcomePanel = new VerticalPanel();
     final KSMenu menuPanel = new KSAccordionMenu(); // TODO update deferred binding in common-ui
     KSLabel welcomeMsg;
-    final KSImage sink = new KSImage("images/kitchenSink.png");
-    
-    private final static String WELCOME_MSG = "Welcome to the Kuali Student Kitchen Sink \n\n" +
-        "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
-         "Explore the menus on the left to view the widgets";
+    final KSImage ksImage = new KSImage("images/KULSTP.jpg");
+
+    private final static String WELCOME_MSG = "\n\n Welcome to the Kuali Student Kitchen Sink \n\n" +
+    "This is a catalog of all widgets developed by Kuali Student. \n\n"  +
+    "Explore the menus on the left to view the widgets";
 
     boolean loaded = false;
 
@@ -68,14 +66,16 @@ public class KitchenSinkMain extends Composite {
         super.onLoad();
         if (!loaded) {
             loaded = true;
-            
+
+//            ksImage.addStyleName(STYLE_IMAGE);
+            ksImage.setSize("200px", "100px");
+      
+            welcomePanel.add(ksImage);
             welcomeMsg = new KSLabel(WELCOME_MSG, true);
             welcomePanel.addStyleName(STYLE_WELCOME_PANEL);
             welcomePanel.add(welcomeMsg);
-            
-            sink.addStyleName(STYLE_IMAGE);
-//            welcomePanel.add(sink);
-            
+
+
             main.setStyleName(STYLE_MAIN_PANEL);
             menuPanel.setStyleName(STYLE_MENU_PANEL);
 
@@ -91,13 +91,13 @@ public class KitchenSinkMain extends Composite {
 
     private void initExamples() {
         List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-        
+
         KSMenuItemData gwtExamples = initGroup("GWT Examples");
         initExample(gwtExamples, new TestExample());
         initExample(gwtExamples, new LayoutExampleDescriptor());
 
         KSMenuItemData ksCommons = initGroup("KS Common Widgets");
-//        initExample(ksCommons, new BusyWidgetShadeExampleDescriptor());
+//      initExample(ksCommons, new BusyWidgetShadeExampleDescriptor()); //Required?
         initExample(ksCommons, new AccordionMenuExampleDescriptor());
         initExample(ksCommons, new AccordionPanelExampleDescriptor());
         initExample(ksCommons, new BlockingProgressIndicatorExampleDescriptor());
@@ -108,33 +108,35 @@ public class KitchenSinkMain extends Composite {
         initExample(ksCommons, new DisclosureSectionExampleDescriptor());
         initExample(ksCommons, new DropDownExampleDescriptor());
         initExample(ksCommons, new FloatPanelExampleDescriptor());
-        initExample(ksCommons, new HelpLinkExampleDescriptor());
+//        initExample(ksCommons, new HelpLinkExampleDescriptor());  //TODO
         initExample(ksCommons, new ImageExampleDescriptor());
-        initExample(ksCommons, new InfoPopupExampleDescriptor());
+        initExample(ksCommons, new InfoDialogExampleDescriptor());
         initExample(ksCommons, new LabelExampleDescriptor());
         initExample(ksCommons, new ListBoxExampleDescriptor());
         initExample(ksCommons, new ModalPopupPanelExampleDescriptor());
         initExample(ksCommons, new RadioButtonExampleDescriptor());
+//        initExample(ksCommons, new RadioButtonListExampleDescriptor()); //TODO
         initExample(ksCommons, new RichEditorExampleDescriptor());
-//        initExample(ksCommons, new StackPanelExampleDescriptor());
+//      initExample(ksCommons, new SelectableTableListExampleDescriptor()); //TODO
+//      initExample(ksCommons, new StackPanelExampleDescriptor());  //Deprecated?
         initExample(ksCommons, new TextAreaExampleDescriptor());
         initExample(ksCommons, new TextBoxExampleDescriptor());
-        
+
         items.add(gwtExamples);
         items.add(ksCommons);
         menuPanel.setItems(items);
-        
+
     }
 
     private KSMenuItemData initGroup(String groupName) {
         return new KSMenuItemData(groupName);
     }
-    
+
     private void initExample(final KSMenuItemData group, 
-                             final KitchenSinkExample example) {
-        
+            final KitchenSinkExample example) {
+
         KSMenuItemData item = new KSMenuItemData(example.getTitle());
-        
+
         item.setClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent arg0) {

@@ -8,6 +8,7 @@ public class RichEditorExampleDescriptor extends KitchenSinkExample {
     public RichEditorExampleDescriptor() {
         super();
         super.addResource("java", "RichEditorExample.java", "kscommons/richeditor/RichEditorExample.java", "Example usage of KSRichEditor.");
+        super.addResource("css", "RichEditorExample.css", "examplecss/RichEditorExample.css", "Example styling of KSRichEditor.");
     }
     public String getDescription() {       
         return "RichEditor is text editor that allows complex styling and formatting. Exact functionality will depend on the browser"; 

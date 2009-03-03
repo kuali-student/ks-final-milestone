@@ -19,19 +19,31 @@
 	padding: 20px 20px 20px 20px;
 }
 
+.KSinkExamplePanel {
+	padding: 5px 5px 5px 5px;
+}
+
+
+
+.KSinkTabPanel {
+
+	width: 100%;
+    height: 300px;
+}
 .KSinkTitle {
 	font-size: 18px;
 	font-weight: bold;
 	text-decoration: underline;
 }
 
-.KSinkWelcomPanel {
+.KSinkWelcomePanel {
 	font-size: 18px;
 	font-weight: bold;
 }
 
 .KSinkDescription {
 	font-size: 12px;
+
 }
 
 .KSinkBlockHeader {
@@ -54,15 +66,6 @@
 .KSinkExample {
 	padding: 10px 10px 10px 10px;
 }
-
-.KSinkImage {
-	border-style: inset;
-	border-width: 2px;
-	border-color: gray;
-
-	
-}
-
 .KSinkPopupPanel {
     height: 250px;
 	width: 250px;
