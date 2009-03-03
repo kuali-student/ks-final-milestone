@@ -1,3 +1,6 @@
+// LU Type
+INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFFECTIVEDATE, EXPIRATIONDATE, NAME) values ('luType.shell.course', 'A Shell Course', '2000-01-01 00:00:00.0', '2000-12-31 00:00:00.0', 'Course')
+
 // CluInstructor
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID) VALUES ('INSTR-1', 'ORG-1', 'PersonID')
 /
