@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.jws.WebService;
 
-import org.apache.derby.impl.sql.catalog.SYSFOREIGNKEYSRowFactory;
 import org.kuali.student.core.dictionary.dto.ObjectStructure;
 import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.springframework.context.ApplicationContext;
