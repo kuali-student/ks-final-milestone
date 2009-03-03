@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.TimeAmount;
