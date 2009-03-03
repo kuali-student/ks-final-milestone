@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.core.entity.Attribute;
 @Entity
-@Table(name="KS_LU_STMT_ATTR")
+@Table(name="KSLU_STMT_ATTR")
 public class LuStatementAttribute extends Attribute {
 
 }
