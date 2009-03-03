@@ -928,8 +928,9 @@ public class LuServiceImpl implements LuService {
 	public List<LuiInfo> getLuisByIdList(List<String> luiIdList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(luiIdList, "luiIdList");
+		List<Lui> luis = luDao.getLuisByIdList(luiIdList);
+		return LuServiceAssembler.toLuiInfos(luis);
 	}
 
 	@Override

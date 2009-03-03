@@ -10,6 +10,7 @@ import org.kuali.student.core.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.LuStatement;
+import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.ReqComponent;
 
 public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
@@ -55,4 +56,13 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao{
         List<ReqComponent> resultList = query.getResultList();
         return resultList;
     }
+
+	@Override
+	public List<Lui> getLuisByIdList(List<String> luiIds) {
+		Query query = em.createNamedQuery("Lui.getLuisByIdList");
+        query.setParameter("luiIdList", luiIds);
+        @SuppressWarnings("unchecked")
+		List<Lui> luis = query.getResultList();
+        return luis;
+	}
 }

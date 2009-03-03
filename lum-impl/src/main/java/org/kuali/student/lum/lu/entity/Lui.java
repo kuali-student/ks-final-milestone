@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +22,9 @@ import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LUI")
+@NamedQueries({
+	@NamedQuery(name="Lui.getLuisByIdList", query="SELECT l FROM Lui l WHERE l.id IN (:luiIdList)")
+})
 public class Lui extends MetaEntity implements AttributeOwner<LuiAttribute> {
 
 	@Id

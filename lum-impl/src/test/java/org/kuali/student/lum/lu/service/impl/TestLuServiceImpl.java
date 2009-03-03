@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -67,8 +68,6 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
-
-
 	}
 	
 	@Test
@@ -88,5 +87,23 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 		luiInfo = client.getLui("LUI-1");
 		assertEquals("CLU-1", luiInfo.getCluId());
+	}
+	
+	@Test
+	public void testGetLuisByIdList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		List<LuiInfo> luiInfos;
+		try {
+			luiInfos = client.getLuisByIdList(null);
+			fail("LuService.getLuiByIdList() did not throw MissingParameterException for null Lui ID");
+		} catch (MissingParameterException mpe) {
+		} catch (Exception e) {
+			fail("LuService.getLuiByIdList() threw unexpected " + e.getClass().getSimpleName() + " for null Lui ID");
+		}
+		luiInfos = client.getLuisByIdList(Arrays.asList("Not a LUI ID", "Another one that ain't"));
+		assertTrue(luiInfos == null || luiInfos.size() == 0);
+		
+		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-3"));
+		assertEquals("CLU-1", luiInfos.get(0).getCluId());
+		assertEquals("CLU-2", luiInfos.get(1).getCluId());
 	}
 }
