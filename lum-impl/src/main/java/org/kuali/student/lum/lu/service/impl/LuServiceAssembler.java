@@ -714,8 +714,8 @@ public class LuServiceAssembler extends BaseAssembler {
 		cluCredit.setMaxTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
 		cluCredit.setMinTimeToComplete(LuServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
 		cluCredit.setRepeatTime(LuServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
-
-		BeanUtils.copyProperties(cluCreditInfo,cluCredit,new String[]{"maxAllowableInactivity,maxTimeResultsRecognized,maxTimeToComplete,minTimeToComplete"});
+		
+		BeanUtils.copyProperties(cluCreditInfo,cluCredit,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
 
 		return cluCredit;
 	}
