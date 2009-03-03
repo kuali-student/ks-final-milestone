@@ -14,6 +14,7 @@
 	<stylesheet src="examplecss/CSSLayoutExample.css"/>
 	<stylesheet src="examplecss/ButtonExample.css"/>
 	<stylesheet src="examplecss/ImageExample.css"/>
+	<stylesheet src="examplecss/TextBoxExample.css"/>
 	
 	<script src="js/shCore.js"/>
 	<script src="js/shBrushJava.js"/>
