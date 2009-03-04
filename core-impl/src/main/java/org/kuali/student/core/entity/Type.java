@@ -19,9 +19,11 @@ public abstract class Type<T extends Attribute> implements AttributeOwner<T> {
 	private String desc;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
 	public String getName() {
