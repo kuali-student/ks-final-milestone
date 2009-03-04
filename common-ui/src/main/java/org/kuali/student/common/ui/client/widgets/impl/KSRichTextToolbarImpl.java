@@ -1,6 +1,6 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
-import org.kuali.student.common.ui.client.images.TextIcons;
+import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract;
 import org.kuali.student.common.ui.client.widgets.KSRichTextToolbarAbstract.Strings;
 
@@ -195,7 +195,7 @@ public class KSRichTextToolbarImpl extends KSRichTextToolbarAbstract{
 	      RichTextArea.FontSize.LARGE, RichTextArea.FontSize.X_LARGE,
 	      RichTextArea.FontSize.XX_LARGE};
 
-	  private TextIcons images = (TextIcons) GWT.create(TextIcons.class);
+	  private KSImages images = (KSImages) GWT.create(KSImages.class);
 	  private Strings strings = (Strings) GWT.create(KSRichTextToolbarAbstract.Strings.class);
 	  private EventHandler handler = new EventHandler();
 

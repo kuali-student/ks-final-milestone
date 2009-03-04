@@ -1,7 +1,7 @@
 package org.kuali.student.common.ui.client.widgets.impl;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
-import org.kuali.student.common.ui.client.images.HelpIcons;
+import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.widgets.KSHelpDialog;
 import org.kuali.student.common.ui.client.widgets.KSHelpLinkAbstract;
 import org.kuali.student.common.ui.client.widgets.KSStyles;
@@ -21,7 +21,7 @@ public class KSHelpLinkImpl extends KSHelpLinkAbstract {
     
     private final Label helpText = new Label();
     private final Label validationText = new Label();
-    private final HelpIcons icons = GWT.create(HelpIcons.class);
+    private final KSImages icons = GWT.create(KSImages.class);
     private final HorizontalPanel panel = new HorizontalPanel();
     private final SimplePanel iconPanel = new SimplePanel();
     private final VerticalPanel labelPanel = new VerticalPanel();

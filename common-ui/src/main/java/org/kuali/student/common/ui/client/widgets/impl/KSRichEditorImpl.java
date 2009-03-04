@@ -2,7 +2,7 @@ package org.kuali.student.common.ui.client.widgets.impl;
 
 
 
-import org.kuali.student.common.ui.client.images.TextIcons;
+import org.kuali.student.common.ui.client.images.KSImages;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSInfoDialogPanel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditorAbstract;
@@ -59,7 +59,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	private boolean isUsedInPopup = false;
 	private int toolbarHeight;
 	
-	private TextIcons images = (TextIcons) GWT.create(TextIcons.class);
+	private KSImages images = (KSImages) GWT.create(KSImages.class);
 	private final Image popoutImage = images.popout().createImage();
 	
 	private int height;
