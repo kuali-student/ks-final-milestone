@@ -407,8 +407,14 @@ public class LuServiceImpl implements LuService {
 			InvalidParameterException, MissingParameterException,
 			DependentObjectsExistException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    checkForMissingParameter(cluId, "cluId");
+
+	    luDao.delete(Clu.class, cluId);
+		
+	    StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(true);
+		
+		return statusInfo;
 	}
 
 	@Override

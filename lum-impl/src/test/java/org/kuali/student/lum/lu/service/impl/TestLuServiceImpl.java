@@ -20,8 +20,10 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.atp.dto.TimeAmountInfo;
 import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DependentObjectsExistException;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
@@ -258,7 +260,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testCluCrud() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException{
+	public void testCluCrud() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
 		CluInfo clu = new CluInfo();
@@ -972,6 +974,31 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertEquals(createdClu.getId(), updatedClu.getId());
 
+		//Test Optimistic locking
+		try{
+			updatedClu = client.updateClu(createdClu.getId(), createdClu);
+			fail("Should have thrown VersionMismatchException");
+		}catch(VersionMismatchException e){
+			
+		}
+
+		//Test Delete
+		try{
+			client.getClu(createdClu.getId());
+		}catch(DoesNotExistException e){
+			fail("Should not have thrown DoesNotExistException");
+		}
+		
+		StatusInfo status = client.deleteClu(createdClu.getId());
+		assertTrue(status.getSuccess());
+		
+		try{
+			client.getClu(createdClu.getId());
+			fail("Should have thrown DoesNotExistException");
+		}catch(DoesNotExistException e){
+			
+		}
+		
 	}
 
 	@Test
