@@ -22,7 +22,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KS_ORG_PERSON_REL_T")
+@Table(name = "KSOR_ORG_PERS_RELTN")
 @NamedQueries( {
 		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByOrg", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE opr.org.id = :orgId"),
 		@NamedQuery(name = "OrgPersonRelation.getAllOrgPersonRelationsByPerson", query = "SELECT distinct opr FROM OrgPersonRelation opr WHERE personId = :personId"),
@@ -31,7 +31,7 @@ import org.kuali.student.core.entity.MetaEntity;
 public class OrgPersonRelation extends MetaEntity implements
 		AttributeOwner<OrgPersonRelationAttribute> {
 	@Id
-	@Column(name = "ORG_PERSON_REL_ID")
+	@Column(name = "ID")
 	private String id;
 
 	@ManyToOne
@@ -39,28 +39,28 @@ public class OrgPersonRelation extends MetaEntity implements
 	private Org org;
 
 	// Foreign Key from external Service
-	@Column(name = "PERSON_ID")
+	@Column(name = "PERS_ID")
 	// @ManyToOne
 	// @JoinColumn(name="PERSON_ID")
 	private String personId;
 
 	@ManyToOne
-	@JoinColumn(name = "ORG_PERSON_REL_TYPE")
+	@JoinColumn(name = "ORG_PERS_RELTN_TYPE")
 	private OrgPersonRelationType orgPersonRelationType;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<OrgPersonRelationAttribute> attributes;
 
-	@Column(name = "ORG_PERSON_REL_STATE")
+	@Column(name = "ST")
 	private String state;
 
 	/**

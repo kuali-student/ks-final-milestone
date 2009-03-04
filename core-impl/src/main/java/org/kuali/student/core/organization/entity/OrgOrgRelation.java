@@ -22,7 +22,7 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name = "KS_ORG_ORG_RELATION_T")
+@Table(name = "KSOR_ORG_ORG_RELTN")
 @NamedQueries( {
 		@NamedQuery(name = "OrgOrgRelation.getAllDescendants", query = "SELECT oor.relatedOrg.id FROM OrgOrgRelation oor "
 				+ " WHERE oor.org.id = :orgId "
@@ -45,7 +45,7 @@ import org.kuali.student.core.entity.MetaEntity;
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
 	@Id
-	@Column(name = "ORG_KEY")
+	@Column(name = "ID")
 	private String id;
 
 	@ManyToOne
@@ -57,7 +57,7 @@ public class OrgOrgRelation extends MetaEntity implements
 	private Org relatedOrg;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -69,10 +69,10 @@ public class OrgOrgRelation extends MetaEntity implements
 	private List<OrgOrgRelationAttribute> attributes;
 
 	@ManyToOne
-	@JoinColumn(name = "RELATION_TYPE")
+	@JoinColumn(name = "TYPE")
 	private OrgOrgRelationType type;
 
-	@Column(name = "RELATION_STATE")
+	@Column(name = "ST")
 	private String state;
 
 	/**

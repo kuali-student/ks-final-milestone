@@ -6,8 +6,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KS_ORG_POS_RESTR_ATTR_T")
-public class OrgPositionRestrictionAttribute extends
-		Attribute {
+@Table(name = "KSOR_ORG_POS_RESTR_ATTR")
+public class OrgPositionRestrictionAttribute extends Attribute {
 
 }

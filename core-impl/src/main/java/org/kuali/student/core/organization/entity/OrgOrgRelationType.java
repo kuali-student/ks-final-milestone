@@ -18,42 +18,43 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KS_ORG_ORG_REL_TYPE_T")
+@Table(name = "KSOR_ORG_ORG_RELTN_TYPE")
 @NamedQueries( {
 		@NamedQuery(name = "OrgOrgRelationType.getOrgOrgRelationTypesForOrgHierarchy", query = "SELECT oort FROM OrgOrgRelationType oort WHERE oort.orgHierarchy.id = :orgHierarchy"),
 		@NamedQuery(name = "OrgOrgRelationType.getOrgOrgRelationTypesForOrgType", query = "SELECT DISTINCT oort FROM OrgOrgRelation oor JOIN oor.org org JOIN oor.type oort WHERE org.type.id = :orgTypeKey") })
-public class OrgOrgRelationType implements
-		AttributeOwner<OrgOrgRelationTypeAttribute> {
-	@Id
-	@Column(name = "OORT_KEY")
+public class OrgOrgRelationType extends Type<OrgOrgRelationTypeAttribute> {
+    //implements AttributeOwner<OrgOrgRelationTypeAttribute> {
+	/*@Id
+	@Column(name = "ID")
 	private String id;
 
-	@Column(name = "OORT_NAME")
+	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "OORT_DESC", length = 2000)
+	@Column(name = "DESCR", length = 2000)
 	// TODO what is a good number for these long descriptions?
-	private String desc;
+	private String desc;*/
 
 	@Column(name = "REV_NAME")
 	private String revName;
 
-	@Column(name = "REV_DESC")
+	@Column(name = "REV_DESCR")
 	private String revDesc;
 
 	@ManyToOne
-	@JoinColumn(name = "ORG_HIERARCHY")
+	@JoinColumn(name = "ORG_HIRCHY")
 	private OrgHierarchy orgHierarchy;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	/*@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
-	private Date expirationDate;
+	private Date expirationDate;*/
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
@@ -72,7 +73,7 @@ public class OrgOrgRelationType implements
 		this.attributes = attributes;
 	}
 
-	public String getName() {
+/*	public String getName() {
 		return name;
 	}
 
@@ -86,7 +87,7 @@ public class OrgOrgRelationType implements
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
+	}*/
 
 	public String getRevName() {
 		return revName;
@@ -112,7 +113,7 @@ public class OrgOrgRelationType implements
 		this.orgHierarchy = orgHierarchy;
 	}
 
-	public Date getEffectiveDate() {
+/*	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
 
@@ -134,6 +135,6 @@ public class OrgOrgRelationType implements
 
 	public void setId(String id) {
 		this.id = id;
-	}
+	}*/
 
 }

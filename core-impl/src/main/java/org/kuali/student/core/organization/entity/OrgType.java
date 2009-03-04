@@ -14,10 +14,12 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KS_ORG_TYPE_T")
+@Table(name = "KSOR_ORG_TYPE")
 public class OrgType extends Type<OrgTypeAttribute> {
 	@ManyToMany
-	@JoinTable(name = "KS_ORG_TYPE_ORG_PERS_RL_TYPE_T", joinColumns = @JoinColumn(name = "ORG_TYPE_KEY", referencedColumnName = "TYPE_KEY"), inverseJoinColumns = @JoinColumn(name = "ORG_PERSON_RELATION_TYPE_KEY", referencedColumnName = "OPRT_KEY"))
+	@JoinTable(name = "KSOR_ORG_TYPE_JN_ORG_PERRL_TYP", 
+	        joinColumns = @JoinColumn(name = "ORG_TYPE_ID", referencedColumnName = "TYPE_KEY"), 
+	        inverseJoinColumns = @JoinColumn(name = "ORG_PERS_RELTN_TYPE_ID", referencedColumnName = "TYPE_KEY"))
 	private List<OrgPersonRelationType> orgPersonRelationTypes;
 
 	@OneToMany(cascade = CascadeType.ALL)

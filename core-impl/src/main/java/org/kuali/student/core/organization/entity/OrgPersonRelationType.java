@@ -18,35 +18,36 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.Type;
 
 @Entity
-@Table(name = "KS_ORG_PERSON_REL_TYPE_T")
+@Table(name = "KSOR_ORG_PERS_RELTN_TYPE")
 @NamedQueries( {
 		@NamedQuery(name = "OrgPersonRelationType.getOrgPersonRelationTypesForOrgType", query = "SELECT oprt FROM OrgPersonRelationType oprt JOIN oprt.organizationTypes ot WHERE ot.id = :orgTypeKey"),
 		@NamedQuery(name = "OrgPersonRelationType.getPersonIdsForOrgByRelationType", query = "SELECT DISTINCT opr.personId FROM OrgPersonRelation opr JOIN opr.org o JOIN opr.orgPersonRelationType t WHERE o.id = :orgId AND t.id = :orgPersonRelationTypeKey"),
 		@NamedQuery(name = "OrgPersonRelationType.hasOrgPersonRelation", query = "SELECT COUNT(oprt) FROM OrgPersonRelationType oprt JOIN oprt.orgPersonRelations relations JOIN oprt.organizations orgs WHERE relations.personId = :personId AND orgs.id = :orgId AND oprt.id = :orgPersonRelationTypeKey") })
-public class OrgPersonRelationType implements
-		AttributeOwner<OrgPersonRelationTypeAttribute> {
+public class OrgPersonRelationType extends Type<OrgPersonRelationTypeAttribute> {
+    //implements AttributeOwner<OrgPersonRelationTypeAttribute> {
 	/*
 	 * Assuming that that we don't need Attributes on this type
 	 */
-	@Id
-	@Column(name = "OPRT_KEY")
+	/*@Id
+	@Column(name = "ID")
 	private String id;
 
-	@Column(name = "OPRT_NAME")
+	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "OPRT_DESC", length = 2000)
+	@Column(name = "DESCR", length = 2000)
 	private String desc;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIR_DT")
-	private Date expirationDate;
+	private Date expirationDate;*/
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
@@ -74,7 +75,7 @@ public class OrgPersonRelationType implements
 		this.attributes = attributes;
 	}
 
-	public String getName() {
+/*	public String getName() {
 		return name;
 	}
 
@@ -112,7 +113,7 @@ public class OrgPersonRelationType implements
 
 	public void setId(String id) {
 		this.id = id;
-	}
+	}*/
 
 	public List<Org> getOrganizations() {
 		if (null == organizations) {

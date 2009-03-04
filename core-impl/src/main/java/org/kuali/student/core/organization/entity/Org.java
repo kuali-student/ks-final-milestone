@@ -24,34 +24,34 @@ import org.kuali.student.core.entity.AttributeOwner;
 import org.kuali.student.core.entity.MetaEntity;
 
 @Entity
-@Table(name="KS_ORG_T")
+@Table(name="KSOR_ORG")
 @NamedQueries({
 	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)")
 })
 public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	
 	@Id
-	@Column(name = "ORG_ID")
+	@Column(name = "ID")
 	private String id; 
 	
-	@Column(name = "ORG_LONG_NAME")
+	@Column(name = "LNG_NAME")
 	private String longName; 
 	
-	@Column(name = "ORG_SHORT_NAME")
+	@Column(name = "SHRT_NAME")
 	private String shortName; 
 	
-	@Column(name = "ORG_SHORT_DESC",length=500)//TODO what is a good number for these short descriptions?
+	@Column(name = "SHRT_DESCR",length=500)//TODO what is a good number for these short descriptions?
 	private String shortDesc; 
 	
-	@Column(name = "ORG_LONG_DESC",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "LNG_DESCR",length=2000)//TODO what is a good number for these long descriptions?
 	private String longDesc; 
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate; 
 	
 	@OneToMany(cascade = CascadeType.ALL)//, mappedBy = "owner")
@@ -59,20 +59,20 @@ public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	private List<OrgAttribute> attributes;
 	
 	@ManyToOne
-    @JoinColumn(name="ORG_TYPE")
+    @JoinColumn(name="TYPE")
 	private OrgType type; 
 	
 	@ManyToMany
 	@JoinTable(
-	        name="KS_ORG_ORG_PERS_REL_TYPE_T",
+	        name="KSOR_ORG_JN_ORG_PERS_REL_TYPE",
 	        joinColumns=
-	            @JoinColumn(name="ORG_KEY", referencedColumnName="ORG_ID"),
+	            @JoinColumn(name="ORG_ID", referencedColumnName="ID"),
 	        inverseJoinColumns=
-	            @JoinColumn(name="ORG_PERSON_RELATION_TYPE_KEY", referencedColumnName="OPRT_KEY")
+	            @JoinColumn(name="ORG_PERS_RELTN_TYPE_ID", referencedColumnName="TYPE_KEY")
 	    )
 	private List<OrgPersonRelationType> orgPersonRelationTypes;
 
-	@Column(name = "ORG_STATE")
+	@Column(name = "ST")
 	private String state;
 	
 	/**

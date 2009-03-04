@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import org.kuali.student.core.entity.Attribute;
 
 @Entity
-@Table(name = "KS_ORG_HIERARCHY_ATTR_T")
+@Table(name = "KSOR_ORG_HIRCHY_ATTR")
 public class OrgHierarchyAttribute extends Attribute {
 
 }

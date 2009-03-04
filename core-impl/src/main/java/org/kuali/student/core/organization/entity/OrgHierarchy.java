@@ -20,17 +20,17 @@ import javax.persistence.TemporalType;
 import org.kuali.student.core.entity.AttributeOwner;
 
 @Entity
-@Table(name="KS_ORG_HIERARCHY_T")
+@Table(name="KSOR_ORG_HIRCHY")
 public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	
 	@Id
-	@Column(name = "ORG_HIERARCHY_KEY")
+	@Column(name = "ID")
 	private String id;
 	
-	@Column(name = "ORG_HIERARCHY_NAME")
+	@Column(name = "NAME")
 	private String name; 
 	
-	@Column(name = "ORG_HIERARCHY_DESC",length=2000)//TODO what is a good number for these long descriptions?
+	@Column(name = "DESCR",length=2000)//TODO what is a good number for these long descriptions?
 	private String desc; 
 
 	@ManyToOne
@@ -38,20 +38,20 @@ public class OrgHierarchy implements AttributeOwner<OrgHierarchyAttribute>{
 	private Org rootOrg; 
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFFECTIVE_DT")
+	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXPIRATION_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;  
 
 	@ManyToMany
 	@JoinTable(
-	        name="KS_ORG_HIERARCHY_ORG_TYPE_T",
+	        name="KSOR_ORG_HIRCHY_JN_ORG_TYPE",
 	        joinColumns=
-	            @JoinColumn(name="ORG_HIERARCHY_KEY", referencedColumnName="ORG_HIERARCHY_KEY"),
+	            @JoinColumn(name="ORG_HIRCHY_ID", referencedColumnName="ID"),
 	        inverseJoinColumns=
-	            @JoinColumn(name="ORG_TYPE_KEY", referencedColumnName="TYPE_KEY")
+	            @JoinColumn(name="ORG_TYPE_ID", referencedColumnName="TYPE_KEY")
 	    )
 	private List<OrgType> organizationTypes;
 	

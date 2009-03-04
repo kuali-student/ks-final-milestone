@@ -21,7 +21,7 @@ import org.kuali.student.core.entity.MetaEntity;
 import org.kuali.student.core.entity.TimeAmount;
 
 @Entity
-@Table(name = "KS_ORG_POS_RESTR_T")
+@Table(name = "KSOR_ORG_POS_RESTR")
 @NamedQueries( {
 		@NamedQuery(name = "OrgPositionRestriction.findOrgPositionRestrictions", query = "SELECT opr FROM OrgPositionRestriction opr WHERE opr.org.id = :orgId"),
 		@NamedQuery(name = "OrgPositionRestriction.validatePositionRestriction", query = "SELECT COUNT(opr) "
@@ -32,29 +32,31 @@ import org.kuali.student.core.entity.TimeAmount;
 public class OrgPositionRestriction extends MetaEntity implements
 		AttributeOwner<OrgPositionRestrictionAttribute> {
 	@Id
+	@Column(name = "ID")
 	private String id;
+	
 	@ManyToOne
 	@JoinColumn(name = "ORG")
 	private Org org;
 
 	@ManyToOne
-	@JoinColumn(name = "PERSON_RELATION_TYPE")
+	@JoinColumn(name = "PERS_RELTN_TYPE")
 	private OrgPersonRelationType personRelationType;
 
-	@Column(name = "ORG_POS_RSTRC_DESC", length = 2000)
+	@Column(name = "DESCR", length = 2000)
 	// TODO what is a good number for these long descriptions?
 	private String desc;
 
-	@Column(name = "ORG_POS_RSTRC_TITLE")
+	@Column(name = "TTL")
 	private String title;
 
 	@Embedded
 	private TimeAmount stdDuration;
 
-	@Column(name = "MIN_NUM_RSTNS")
+	@Column(name = "MIN_NUM_RELTN")
 	private Integer minNumRelations;
 
-	@Column(name = "MAX_NUM_RSTNS")
+	@Column(name = "MAX_NUM_RELTN")
 	private String maxNumRelations;
 
 	@OneToMany(cascade = CascadeType.ALL)
