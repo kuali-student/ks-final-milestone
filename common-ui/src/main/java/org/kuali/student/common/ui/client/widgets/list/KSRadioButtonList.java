@@ -1,16 +1,14 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasName;
 
 
 /**
@@ -19,7 +17,7 @@ import com.google.gwt.user.client.ui.RadioButton;
  * @author Kuali Student Team 
  *
  */
-public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements ClickHandler{
+public class KSRadioButtonList extends Composite implements HasName, ClickHandler{
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 
     
@@ -76,6 +74,25 @@ public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements Cli
     @Override
     public void onLoad() {}
    
+    public void addSelectionChangeHandler(SelectionChangeHandler handler) {
+        selectItemWidget.addSelectionChangeHandler(handler);
+    }
+
+    protected void fireChangeEvent() {
+        selectItemWidget.fireChangeEvent();
+    }
+
+    public ListItems getListItems() {
+        return selectItemWidget.getListItems();
+    }
+
+    public String getName() {
+        return selectItemWidget.getName();
+    }
+
+    public void setName(String name) {
+        selectItemWidget.setName(name);
+    }
 
 }
 
