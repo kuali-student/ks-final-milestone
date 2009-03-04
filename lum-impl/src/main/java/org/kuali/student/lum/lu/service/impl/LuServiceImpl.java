@@ -49,7 +49,6 @@ import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.ReqComponentTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
-import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
 import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
@@ -62,6 +61,7 @@ import org.kuali.student.lum.lu.entity.CluInstructorAttribute;
 import org.kuali.student.lum.lu.entity.CluOrg;
 import org.kuali.student.lum.lu.entity.CluPublishing;
 import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
+import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
 import org.kuali.student.lum.lu.entity.LuStatement;
@@ -164,14 +164,14 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(cluInfo, "cluInfo");
-		
+
 		//TODO add cascading persists to all the nested entities
-		
+
 		Clu clu = new Clu();
-		
+
 		LuType luType = luDao.fetch(LuType.class,luTypeKey);
 		clu.setLuType(luType);
-		
+
 		CluIdentifier officialIdentifier = new CluIdentifier();
 		BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), officialIdentifier);
 		clu.setOfficialIdentifier(officialIdentifier);
@@ -181,7 +181,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(cluIdInfo, identifier);
 			clu.getAlternateIdentifiers().add(identifier);
 		}
-		
+
 		clu.setDesc(LuServiceAssembler.toRichText(cluInfo.getDesc()));
 		clu.setMarketingDesc(LuServiceAssembler.toRichText(cluInfo.getMarketingDesc()));
 
@@ -190,39 +190,39 @@ public class LuServiceImpl implements LuService {
 			cluOrg.setOrgId(orgId);
 			clu.getParticipatingOrgs().add(cluOrg);
 		}
-		
+
 		CluInstructor primaryInstructor = new CluInstructor();
 		BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),primaryInstructor,new String[]{"attributes"});
 		primaryInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(), primaryInstructor, luDao));
 		clu.setPrimaryInstructor(primaryInstructor);
-		
+
 		for(CluInstructorInfo instructorInfo: cluInfo.getInstructors()){
 			CluInstructor instructor = new CluInstructor();
 			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
 			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
 			clu.getInstructors().add(instructor);
 		}
-	
+
 		clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
-		
+
 		for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
 			LuCode luCode = new LuCode();
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
 			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
 			clu.getLuCodes().add(luCode);
 		}
-		
+
 		clu.setCredit(LuServiceAssembler.toCluCredit(cluInfo.getCreditInfo()));
-		
+
 		CluPublishing cluPublishing = new CluPublishing();
 		BeanUtils.copyProperties(cluInfo.getPublishingInfo(),cluPublishing,new String[]{"attributes","instructors","primaryInstructor"});
 		cluPublishing.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublishingAttribute.class, cluInfo.getPublishingInfo().getAttributes(), cluPublishing, luDao));
-		
+
 		CluInstructor primaryPubInstructor = new CluInstructor();
 		BeanUtils.copyProperties(cluInfo.getPublishingInfo().getPrimaryInstructor(),primaryPubInstructor,new String[]{"attributes"});
 		primaryPubInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPublishingInfo().getPrimaryInstructor().getAttributes(), primaryPubInstructor, luDao));
 		cluPublishing.setPrimaryInstructor(primaryPubInstructor);
-		
+
 		for(CluInstructorInfo instructorInfo: cluInfo.getPublishingInfo().getInstructors()){
 			CluInstructor instructor = new CluInstructor();
 			BeanUtils.copyProperties(instructorInfo,instructor,new String[]{"attributes"});
@@ -237,23 +237,23 @@ public class LuServiceImpl implements LuService {
 			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
 			clu.getOfferedAtpTypes().add(cluAtpTypeKey);
 		}
-			
+
 		CluFee cluFee = new CluFee();
 		cluFee.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, cluInfo.getFeeInfo().getAttributes(), cluFee, luDao));
 		clu.setFee(cluFee);
-		
+
 		CluAccounting cluAccounting = new CluAccounting();
 		cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), cluAccounting, luDao));
 		clu.setAccounting(cluAccounting);
-		
+
 		clu.setAttributes(LuServiceAssembler.toGenericAttributes(CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
-		
+
 		//Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
 					"primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo"});
 
 		luDao.create(clu);
-		
+
 		return LuServiceAssembler.toCluInfo(clu);
 	}
 
@@ -306,20 +306,20 @@ public class LuServiceImpl implements LuService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	
+
 	    checkForMissingParameter(luStatementType, "luStatementType");
 	    checkForMissingParameter(luStatementInfo, "luStatementInfo");
-	
+
 	    LuStatement luStatement = null;
-	    
+
 	    try {
             luStatement = LuServiceAssembler.toLuStatementRelation(false, luStatementInfo, luDao);
         } catch (VersionMismatchException e) {
             throw new OperationFailedException("Version Mismatch.", e);
         }
-	    
+
         luDao.create(luStatement);
-	    
+
 	    return LuServiceAssembler.toLuStatementInfo(luStatement);
 	}
 
@@ -351,20 +351,20 @@ public class LuServiceImpl implements LuService {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-      
+
 	    checkForMissingParameter(reqComponentType, "reqComponentType");
 	    checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
-        
+
         ReqComponent reqComp = null;
-        
+
         try {
             reqComp = LuServiceAssembler.toReqComponentRelation(false, reqComponentInfo, luDao);
         } catch (VersionMismatchException e) {
             throw new OperationFailedException("Version Mismatch.", e);
         }
-        
+
         luDao.create(reqComp);
-        
+
         return LuServiceAssembler.toReqComponentInfo(reqComp);
 	}
 
@@ -471,7 +471,7 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
-	}
+		}
 
 	@Override
 	public List<CluInfo> getAllClusInCluSet(String cluSetId)
@@ -480,7 +480,7 @@ public class LuServiceImpl implements LuService {
 			PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
-	}
+		}
 
 	@Override
 	public List<String> getAllowedLrScaleTypesForLuType(String luTypeKey,
@@ -589,8 +589,13 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetId, "cluSetId");
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		List<String> ids = new ArrayList<String>(cluSet.getClus().size());
+		for (Clu clu : cluSet.getClus()) {
+			ids.add(clu.getId());
+		}
+		return ids;
 	}
 
 	@Override
@@ -598,8 +603,13 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetId, "cluSetId");
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		List<String> ids = new ArrayList<String>(cluSet.getClus().size());
+		for (CluSet cluSet2 : cluSet.getCluSets()) {
+			ids.add(cluSet2.getId());
+		}
+		return ids;
 	}
 
 	@Override
@@ -617,8 +627,9 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetIdList, "cluSetIdList");
+		List<CluSet> cluSets = luDao.getCluSetInfoByIdList(cluSetIdList);
+		return LuServiceAssembler.toCluSetInfos(cluSets);
 	}
 
 	@Override
@@ -654,8 +665,13 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		checkForMissingParameter(cluSetId, "cluSetId");
+		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+		List<CluInfo> clus = new ArrayList<CluInfo>(cluSet.getClus().size());
+		for (Clu clu : cluSet.getClus()) {
+			clus.add(LuServiceAssembler.toCluInfo(clu));
+		}
+		return clus;
 	}
 
 	@Override
@@ -804,7 +820,7 @@ public class LuServiceImpl implements LuService {
 	public LuStatementInfo getLuStatement(String luStatementId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	    	    
+
 	    return LuServiceAssembler.toLuStatementInfo(luDao.fetch(LuStatement.class, luStatementId));
 	}
 
@@ -812,14 +828,14 @@ public class LuServiceImpl implements LuService {
 	public LuStatementTypeInfo getLuStatementType(String luStatementTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-        
+
         return LuServiceAssembler.toLuStatementTypeInfo(luDao.fetch(LuStatementType.class, luStatementTypeKey));
 	}
 
 	@Override
 	public List<LuStatementTypeInfo> getLuStatementTypes()
 			throws OperationFailedException {
-	
+
 	    return LuServiceAssembler.toLuStatementTypeInfos(luDao.find(LuStatementType.class));
 	}
 
@@ -868,7 +884,7 @@ public class LuServiceImpl implements LuService {
 	public LuiInfo getLui(String luiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		
+
 		checkForMissingParameter(luiId, "luiId");
 
 		Lui lui = luDao.fetch(Lui.class, luiId);
@@ -990,7 +1006,7 @@ public class LuServiceImpl implements LuService {
 	public ReqComponentInfo getReqComponent(String reqComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	    
+
 	    return LuServiceAssembler.toReqComponentInfo(luDao.fetch(ReqComponent.class, reqComponentId));
 	}
 
@@ -999,7 +1015,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-        return LuServiceAssembler.toReqComponentTypeInfo(luDao.fetch(ReqComponentType.class, reqComponentTypeKey));	    
+        return LuServiceAssembler.toReqComponentTypeInfo(luDao.fetch(ReqComponentType.class, reqComponentTypeKey));
 	}
 
 	@Override

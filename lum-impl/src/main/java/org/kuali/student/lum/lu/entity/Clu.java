@@ -31,7 +31,7 @@ import org.kuali.student.core.entity.TimeAmount;
 @Table(name = "KSLU_CLU")
 @NamedQueries( {
 		@NamedQuery(name = "Clu.findClusByIdList", query = "SELECT c FROM Clu c WHERE id IN (:idList)"),
-		@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE state = :luState AND type = :luTypeLey") })
+		@NamedQuery(name = "Clu.getClusByLuType", query = "SELECT c FROM Clu c WHERE state = :luState AND luType.id = :luTypeKey") })
 public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@Id
 	@Column(name = "ID")
@@ -86,7 +86,7 @@ public class Clu extends MetaEntity implements AttributeOwner<CluAttribute> {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PRI_INSTR_ID")
 	private CluInstructor primaryInstructor;
-	
+
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "KSLU_CLU_JN_CLU_INSTR", joinColumns = @JoinColumn(name = "CLU_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_INSTR_ID"))
     private List<CluInstructor> instructors;

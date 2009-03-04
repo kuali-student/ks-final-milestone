@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,6 +25,11 @@ import org.kuali.student.core.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_CLU_SET")
+@NamedQueries( {
+	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE id IN (:cluSetIdList)")
+})
+
+
 public class CluSet extends MetaEntity implements
 		AttributeOwner<CluSetAttribute> {
 	@Id
@@ -53,7 +60,7 @@ public class CluSet extends MetaEntity implements
 	@ManyToMany
 	@JoinTable(name = "KSLU_CLU_SET_JN_CLU", joinColumns = @JoinColumn(name = "CLU_SET_ID"), inverseJoinColumns = @JoinColumn(name = "CLU_ID"))
 	private List<Clu> clus;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OWNER")
 	private List<CluSetAttribute> attributes;
