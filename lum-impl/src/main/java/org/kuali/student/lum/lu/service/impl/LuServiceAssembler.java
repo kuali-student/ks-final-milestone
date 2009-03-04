@@ -720,4 +720,34 @@ public class LuServiceAssembler extends BaseAssembler {
 
 		return cluCredit;
 	}
+	
+	public static void copyCluCredit(CluCreditInfo cluCreditInfo, CluCredit entity) {
+		if(entity.getMaxAllowableInactivity()==null){
+			entity.setMaxAllowableInactivity(new TimeAmount());
+		}
+		BeanUtils.copyProperties(cluCreditInfo.getMaxAllowableInactivity(),entity.getMaxAllowableInactivity());
+		
+		if(entity.getMaxTimeResultsRecognized()==null){
+			entity.setMaxTimeResultsRecognized(new TimeAmount());
+		}
+		BeanUtils.copyProperties(cluCreditInfo.getMaxTimeResultsRecognized(),entity.getMaxTimeResultsRecognized());
+		
+		if(entity.getMaxTimeToComplete()==null){
+			entity.setMaxTimeToComplete(new TimeAmount());
+		}
+		BeanUtils.copyProperties(cluCreditInfo.getMaxTimeToComplete(),entity.getMaxTimeToComplete());
+		
+		if(entity.getMinTimeToComplete()==null){
+			entity.setMinTimeToComplete(new TimeAmount());
+		}
+		BeanUtils.copyProperties(cluCreditInfo.getMinTimeToComplete(),entity.getMinTimeToComplete());
+		
+		if(entity.getRepeatTime()==null){
+			entity.setRepeatTime(new TimeAmount());
+		}
+		BeanUtils.copyProperties(cluCreditInfo.getRepeatTime(),entity.getRepeatTime());
+				
+		BeanUtils.copyProperties(cluCreditInfo,entity,new String[]{"repeatTime","minTimeToComplete","maxTimeToComplete","maxAllowableInactivity","maxTimeResultsRecognized"});
+
+	}
 }
