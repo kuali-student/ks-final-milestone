@@ -1253,7 +1253,7 @@ public class LuServiceImpl implements LuService {
 		if(clu.getOfficialIdentifier()==null){
 			clu.setOfficialIdentifier(new CluIdentifier());
 		}
-		BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier());
+		BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu.getOfficialIdentifier(), new String[]{"id"});
 
 		//Update the list of Alternate Identifiers
 		//Get a map of Id->object of all the currently persisted objects in the list
@@ -1369,6 +1369,10 @@ public class LuServiceImpl implements LuService {
 			LuCode luCode = oldLuCodeMap.remove(luCodeInfo.getId());
 			if(luCode == null){
 				luCode = new LuCode();
+			}else{
+				if (!String.valueOf(luCode.getVersionInd()).equals(luCodeInfo.getMetaInfo().getVersionInd())){
+					throw new VersionMismatchException("LuCode to be updated is not the current version");
+				}
 			}
 			//Do Copy
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
@@ -1379,13 +1383,6 @@ public class LuServiceImpl implements LuService {
 		//Now delete anything left over
 		for(Entry<String, LuCode> entry:oldLuCodeMap.entrySet()){
 			luDao.delete(entry.getValue());
-		}
-		
-		for(LuCodeInfo luCodeInfo:cluInfo.getLuCodes()){
-			LuCode luCode = new LuCode();
-			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode, luDao));
-			BeanUtils.copyProperties(luCodeInfo,luCode,new String[]{"attributes","metaInfo"});
-			clu.getLuCodes().add(luCode);
 		}
 		
 		if(clu.getCredit()==null){
@@ -1474,9 +1471,13 @@ public class LuServiceImpl implements LuService {
 		//Now copy all not standard properties
 		BeanUtils.copyProperties(cluInfo,clu,new String[]{"luType","officialIdentifier","alternateIdentifiers","desc","marketingDesc","participatingOrgs","luCodes",
 					"primaryInstructor","instructors","stdDuration","codeInfo","publishingInfo","offeredAtpTypes","feeInfo","accountingInfo","attributes","metaInfo"});
-
-		Clu updated = luDao.update(clu);
-		
+		Clu updated;
+		try{
+			updated = luDao.update(clu);
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
 		return LuServiceAssembler.toCluInfo(updated);
 	}
 

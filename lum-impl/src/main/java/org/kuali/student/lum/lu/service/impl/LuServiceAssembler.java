@@ -605,7 +605,7 @@ public class LuServiceAssembler extends BaseAssembler {
 	public static CluIdentifierInfo toCluIdentifierInfo(CluIdentifier entity) {
 		CluIdentifierInfo dto = new CluIdentifierInfo();
 
-		BeanUtils.copyProperties(entity, dto, new String[] { "id" });
+		BeanUtils.copyProperties(entity, dto);
 
 		return dto;
 	}

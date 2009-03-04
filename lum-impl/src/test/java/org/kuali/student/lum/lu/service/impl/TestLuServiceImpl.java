@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -26,6 +27,7 @@ import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCreditInfo;
@@ -256,7 +258,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testCluCrud() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+	public void testCluCrud() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException{
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
 		CluInfo clu = new CluInfo();
@@ -616,6 +618,359 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdClu.getMetaInfo().getCreateTime());
 
 		assertNotNull(createdClu.getId());
+		
+		//Now Update the Clu!
+		createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey1", "AccountingAttrValue1");
+		createdClu.getAccountingInfo().getAttributes().remove("AccountingAttrKey2");
+		createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey3", "AccountingAttrValue3");
+
+		createdClu.setAccreditingOrg("UPEXT_ACCREDITING_ORG_ID");
+
+		createdClu.setAdminOrg("UPEXT_ADMIN_ORG_ID");
+
+		createdClu.getOfficialIdentifier().setCode("UPoffId_code");
+		createdClu.getOfficialIdentifier().setDivision("UPoffId_division");
+		createdClu.getOfficialIdentifier().setLevel("UPoffId_level");
+		createdClu.getOfficialIdentifier().setLongName("UPoffId_longName");
+		createdClu.getOfficialIdentifier().setShortName("UPoffId_shortName");
+		createdClu.getOfficialIdentifier().setState("UPoffId_state");
+		createdClu.getOfficialIdentifier().setType("UPoffId_type");
+		createdClu.getOfficialIdentifier().setVariation("UPoffId_variation");
+
+		createdClu.getAlternateIdentifiers().get(0).setCode("UPcluId1_code");
+		createdClu.getAlternateIdentifiers().get(0).setDivision("UPcluId1_division");
+		createdClu.getAlternateIdentifiers().get(0).setLevel("UPcluId1_level");
+		createdClu.getAlternateIdentifiers().get(0).setLongName("UPcluId1_longName");
+		createdClu.getAlternateIdentifiers().get(0).setShortName("UPcluId1_shortName");
+		createdClu.getAlternateIdentifiers().get(0).setState("UPcluId1_state");
+		createdClu.getAlternateIdentifiers().get(0).setType("UPcluId1_type");
+		createdClu.getAlternateIdentifiers().get(0).setVariation("UPcluId1_variation");
+
+		createdClu.getAlternateIdentifiers().remove(1);
+		
+		CluIdentifierInfo cluId3 = new CluIdentifierInfo();
+		cluId3.setCode("cluId3_code");
+		cluId3.setDivision("cluId3_division");
+		cluId3.setLevel("cluId3_level");
+		cluId3.setLongName("cluId3_longName");
+		cluId3.setShortName("cluId3_shortName");
+		cluId3.setState("cluId3_state");
+		cluId3.setType("cluId3_type");
+		cluId3.setVariation("cluId3_variation");
+		createdClu.getAlternateIdentifiers().add(cluId3);
+
+		createdClu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
+		createdClu.getAttributes().remove("cluAttrKey2");
+		createdClu.getAttributes().put("cluAttrKey3", "cluAttrValue3");
+
+		createdClu.setCanCreateLui(false);
+
+		//CreditInfo
+		createdClu.getCreditInfo().getMaxAllowableInactivity().setAtpDurationTypeKey("UPEXT_MXAI_ID");
+		createdClu.getCreditInfo().getMaxAllowableInactivity().setTimeQuantity(new Integer(91111));
+		
+		createdClu.getCreditInfo().getMaxTimeResultsRecognized().setAtpDurationTypeKey("UPEXT_MXTRR_ID");
+		createdClu.getCreditInfo().getMaxTimeResultsRecognized().setTimeQuantity(new Integer(92222));
+		
+		createdClu.getCreditInfo().getMaxTimeToComplete().setAtpDurationTypeKey("UPEXT_MXTTC_ID");
+		createdClu.getCreditInfo().getMaxTimeToComplete().setTimeQuantity(new Integer(93333));
+
+		createdClu.getCreditInfo().getMinTimeToComplete().setAtpDurationTypeKey("UPEXT_MNTTC_ID");
+		createdClu.getCreditInfo().getMinTimeToComplete().setTimeQuantity(new Integer(94444));
+		
+		createdClu.getCreditInfo().getRepeatTime().setAtpDurationTypeKey("UPEXT_RT_ID");
+		createdClu.getCreditInfo().getRepeatTime().setTimeQuantity(new Integer(95555));
+
+		createdClu.getCreditInfo().setInstructorUnits(new Integer(954321));
+		createdClu.getCreditInfo().setMaxTotalUnits(new Integer(920202));
+		createdClu.getCreditInfo().setMinTotalUnits(new Integer(93131));
+		createdClu.getCreditInfo().setRepeatCount("4");//RepeatCount is integer or unbounded
+		createdClu.getCreditInfo().setRepeatUnits("unbounded");
+
+		createdClu.setDefaultEnrollmentEstimate(9545);
+		createdClu.setDefaultMaximumEnrollment(9999);
+
+		createdClu.getDesc().setFormatted("UP<p>DESC FORMATTED</p>");
+		createdClu.getDesc().setPlain("UPDESC PLAIN");
+
+		createdClu.setEffectiveDate(df.parse("20190203"));
+		createdClu.setExpirationDate(df.parse("21091231"));
+
+		createdClu.setEnrollable(false);
+
+		createdClu.getFeeInfo().getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
+		createdClu.getFeeInfo().getAttributes().remove("FeeAttrKey2");
+		createdClu.getFeeInfo().getAttributes().put("FeeAttrKey3", "FeeAttrValue3");
+
+		createdClu.setHasEarlyDropDeadline(false);
+
+		createdClu.setHazardousForDisabledStudents(false);
+
+		createdClu.getPrimaryInstructor().setOrgId("UPEXT_orgId_1");
+		createdClu.getPrimaryInstructor().setPersonId("UPEXT_personId_1");
+		createdClu.getPrimaryInstructor().getAttributes().put("PrimaryInstAttrKey1", "PrimaryInstAttrValue1");
+		createdClu.getPrimaryInstructor().getAttributes().remove("PrimaryInstAttrKey2");
+		createdClu.getPrimaryInstructor().getAttributes().put("PrimaryInstAttrKey3", "PrimaryInstAttrValue3");
+
+		createdClu.getInstructors().get(0).setOrgId("UPEXT_orgId_2");
+		createdClu.getInstructors().get(0).setPersonId("UPEXT_personId_2");
+		createdClu.getInstructors().get(0).getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
+		createdClu.getInstructors().get(0).getAttributes().remove("Inst1AttrKey2");
+		createdClu.getInstructors().get(0).getAttributes().put("Inst1AttrKey3", "Inst1AttrValue3");
+
+		createdClu.getInstructors().remove(1);
+		
+		CluInstructorInfo instructor3 = new CluInstructorInfo();
+		instructor3.setOrgId("EXT_orgId_3");
+		instructor3.setPersonId("EXT_personId_3");
+		instructor3.getAttributes().put("Inst3AttrKey1", "Inst3AttrValue1");
+		instructor3.getAttributes().put("Inst3AttrKey2", "Inst3AttrValue2");
+		createdClu.getInstructors().add(instructor3);
+
+		createdClu.getLuCodes().get(0).setDesc("UPluCode1_desc");
+		createdClu.getLuCodes().get(0).setValue("UPluCode1_value");
+		createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
+		createdClu.getLuCodes().get(0).getAttributes().remove("luCode1AttrKey2");
+		createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey3", "luCode1AttrValue3");
+
+		createdClu.getLuCodes().remove(1);
+		
+		LuCodeInfo luCode3 = new LuCodeInfo();
+		luCode3.setId("luCode3.key");
+		luCode3.setDesc("luCode3_desc");
+		luCode3.setValue("luCode3_value");
+		luCode3.getAttributes().put("luCode3AttrKey1", "luCode3AttrValue1");
+		luCode3.getAttributes().put("luCode3AttrKey2", "luCode3AttrValue2");
+		createdClu.getLuCodes().add(luCode3);
+
+		createdClu.getMarketingDesc().setFormatted("UP<p>marketingDesc FORMATTED</p>");
+		createdClu.getMarketingDesc().setPlain("UPmarketingDesc PLAIN");
+		
+		createdClu.setNextReviewPeriod("UPnextReviewPeriod");
+
+		createdClu.getOfferedAtpTypes().remove(1);
+		createdClu.getOfferedAtpTypes().add("offeredAtpType3");
+
+		createdClu.getParticipatingOrgs().remove(1);
+		createdClu.getParticipatingOrgs().add("EXT_Participating_ORG_ID3");
+
+		createdClu.getPublishingInfo().setEndCycle("UPendCycle");
+		createdClu.getPublishingInfo().setStartCycle("UPstartCycle");
+		createdClu.getPublishingInfo().setState("UPstate");
+		createdClu.getPublishingInfo().setType("UPtype");
+		createdClu.getPublishingInfo().getAttributes().put("publishingInfoAttrKey1", "publishingInfoAttrValue1");
+		createdClu.getPublishingInfo().getAttributes().remove("publishingInfoAttrKey2");
+		createdClu.getPublishingInfo().getAttributes().put("publishingInfoAttrKey3", "publishingInfoAttrValue3");
+
+		createdClu.getPublishingInfo().getPrimaryInstructor().setOrgId("UPEXT_orgId_234");
+		createdClu.getPublishingInfo().getPrimaryInstructor().setPersonId("UPEXT_personId_2451");
+		createdClu.getPublishingInfo().getPrimaryInstructor().getAttributes().put("PubPrimaryInstAttrKey1", "PubPrimaryInstAttrValue1");
+		createdClu.getPublishingInfo().getPrimaryInstructor().getAttributes().remove("PubPrimaryInstAttrKey2");
+		createdClu.getPublishingInfo().getPrimaryInstructor().getAttributes().put("PubPrimaryInstAttrKey3", "PubPrimaryInstAttrValue3");
+
+		createdClu.getPublishingInfo().getInstructors().get(0).setOrgId("UPEXT_orgId_2");
+		createdClu.getPublishingInfo().getInstructors().get(0).setPersonId("UPEXT_personId_2");
+		createdClu.getPublishingInfo().getInstructors().get(0).getAttributes().put("PubInst1AttrKey1", "PubInst1AttrValue1");
+		createdClu.getPublishingInfo().getInstructors().get(0).getAttributes().remove("PubInst1AttrKey2");
+		createdClu.getPublishingInfo().getInstructors().get(0).getAttributes().put("PubInst1AttrKey3", "PubInst1AttrValue3");
+
+		createdClu.getPublishingInfo().getInstructors().remove(1);
+		
+		CluInstructorInfo pubInstructor3 = new CluInstructorInfo();
+		pubInstructor3.setOrgId("EXT_orgId_3");
+		pubInstructor3.setPersonId("EXT_personId_3");
+		pubInstructor3.getAttributes().put("PubInst3AttrKey1", "PubInst3AttrValue1");
+		pubInstructor3.getAttributes().put("PubInst3AttrKey2", "PubInst3AttrValue2");
+		createdClu.getPublishingInfo().getInstructors().add(pubInstructor3);
+
+		createdClu.setReferenceURL("UPhttp://student.kuali.org/clus");
+
+		createdClu.setState("UPClu state");
+
+		createdClu.getStdDuration().setAtpDurationTypeKey("UPEXT_stdDuration_Id1");
+		createdClu.getStdDuration().setTimeQuantity(new Integer(97867));
+
+		createdClu.setType("luType.shell.program");
+
+		//Do Update
+		CluInfo updatedClu = client.updateClu(createdClu.getId(), createdClu);
+		
+		//Validate Results
+		assertNotNull(updatedClu);
+
+		assertEquals("AccountingAttrValue1", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey1"));
+		assertEquals("AccountingAttrValue3", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey3"));
+		assertEquals(2,updatedClu.getAccountingInfo().getAttributes().size());
+		
+		assertEquals("UPEXT_ACCREDITING_ORG_ID", updatedClu.getAccreditingOrg());
+		assertEquals("UPEXT_ADMIN_ORG_ID", updatedClu.getAdminOrg());
+
+		assertEquals("UPoffId_code",updatedClu.getOfficialIdentifier().getCode());
+		assertEquals("UPoffId_division",updatedClu.getOfficialIdentifier().getDivision());
+		assertEquals("UPoffId_level",updatedClu.getOfficialIdentifier().getLevel());
+		assertEquals("UPoffId_longName",updatedClu.getOfficialIdentifier().getLongName());
+		assertEquals("UPoffId_shortName",updatedClu.getOfficialIdentifier().getShortName());
+		assertEquals("UPoffId_state",updatedClu.getOfficialIdentifier().getState());
+		assertEquals("UPoffId_type",updatedClu.getOfficialIdentifier().getType());
+		assertEquals("UPoffId_variation",updatedClu.getOfficialIdentifier().getVariation());
+
+		assertEquals("UPcluId1_code",updatedClu.getAlternateIdentifiers().get(0).getCode());
+		assertEquals("UPcluId1_division",updatedClu.getAlternateIdentifiers().get(0).getDivision());
+		assertEquals("UPcluId1_level",updatedClu.getAlternateIdentifiers().get(0).getLevel());
+		assertEquals("UPcluId1_longName",updatedClu.getAlternateIdentifiers().get(0).getLongName());
+		assertEquals("UPcluId1_shortName",updatedClu.getAlternateIdentifiers().get(0).getShortName());
+		assertEquals("UPcluId1_state",updatedClu.getAlternateIdentifiers().get(0).getState());
+		assertEquals("UPcluId1_type",updatedClu.getAlternateIdentifiers().get(0).getType());
+		assertEquals("UPcluId1_variation",updatedClu.getAlternateIdentifiers().get(0).getVariation());
+
+		assertEquals("cluId3_code",updatedClu.getAlternateIdentifiers().get(1).getCode());
+		assertEquals("cluId3_division",updatedClu.getAlternateIdentifiers().get(1).getDivision());
+		assertEquals("cluId3_level",updatedClu.getAlternateIdentifiers().get(1).getLevel());
+		assertEquals("cluId3_longName",updatedClu.getAlternateIdentifiers().get(1).getLongName());
+		assertEquals("cluId3_shortName",updatedClu.getAlternateIdentifiers().get(1).getShortName());
+		assertEquals("cluId3_state",updatedClu.getAlternateIdentifiers().get(1).getState());
+		assertEquals("cluId3_type",updatedClu.getAlternateIdentifiers().get(1).getType());
+		assertEquals("cluId3_variation",updatedClu.getAlternateIdentifiers().get(1).getVariation());
+
+		assertEquals(2,updatedClu.getAlternateIdentifiers().size());
+		
+		assertEquals("cluAttrValue1",updatedClu.getAttributes().get("cluAttrKey1"));
+		assertEquals("cluAttrValue3",updatedClu.getAttributes().get("cluAttrKey3"));
+		assertEquals(2,updatedClu.getAttributes().size());
+
+		assertFalse(updatedClu.isCanCreateLui());
+
+		assertEquals("UPEXT_MXAI_ID",updatedClu.getCreditInfo().getMaxAllowableInactivity().getAtpDurationTypeKey());
+		assertEquals(Integer.valueOf(91111),updatedClu.getCreditInfo().getMaxAllowableInactivity().getTimeQuantity());
+		assertEquals("UPEXT_MXTRR_ID",updatedClu.getCreditInfo().getMaxTimeResultsRecognized().getAtpDurationTypeKey());
+		assertEquals(Integer.valueOf(92222),updatedClu.getCreditInfo().getMaxTimeResultsRecognized().getTimeQuantity());
+		assertEquals("UPEXT_MXTTC_ID",updatedClu.getCreditInfo().getMaxTimeToComplete().getAtpDurationTypeKey());
+		assertEquals(Integer.valueOf(93333),updatedClu.getCreditInfo().getMaxTimeToComplete().getTimeQuantity());
+		assertEquals("UPEXT_MNTTC_ID",updatedClu.getCreditInfo().getMinTimeToComplete().getAtpDurationTypeKey());
+		assertEquals(Integer.valueOf(94444),updatedClu.getCreditInfo().getMinTimeToComplete().getTimeQuantity());
+		assertEquals("UPEXT_RT_ID",updatedClu.getCreditInfo().getRepeatTime().getAtpDurationTypeKey());
+		assertEquals(Integer.valueOf(95555),updatedClu.getCreditInfo().getRepeatTime().getTimeQuantity());
+		assertEquals(Integer.valueOf(954321), updatedClu.getCreditInfo().getInstructorUnits());
+		assertEquals(Integer.valueOf(920202), updatedClu.getCreditInfo().getMaxTotalUnits());
+		assertEquals(Integer.valueOf(93131), updatedClu.getCreditInfo().getMinTotalUnits());
+		assertEquals("4",updatedClu.getCreditInfo().getRepeatCount());
+		assertEquals("unbounded",updatedClu.getCreditInfo().getRepeatUnits());
+
+		assertEquals(9545,updatedClu.getDefaultEnrollmentEstimate());
+		assertEquals(9999,updatedClu.getDefaultMaximumEnrollment());
+
+		assertEquals("UP<p>DESC FORMATTED</p>",updatedClu.getDesc().getFormatted());
+		assertEquals("UPDESC PLAIN",updatedClu.getDesc().getPlain());
+
+		assertEquals(df.parse("20190203"),updatedClu.getEffectiveDate());
+		assertEquals(df.parse("21091231"),updatedClu.getExpirationDate());
+
+		assertFalse(updatedClu.isEnrollable());
+
+		assertEquals("FeeAttrValue1",updatedClu.getFeeInfo().getAttributes().get("FeeAttrKey1"));
+		assertEquals("FeeAttrValue3",updatedClu.getFeeInfo().getAttributes().get("FeeAttrKey3"));
+		assertEquals(2,updatedClu.getFeeInfo().getAttributes().size());
+
+		assertFalse(updatedClu.isHasEarlyDropDeadline());
+		assertFalse(updatedClu.isHazardousForDisabledStudents());
+
+		assertEquals("UPEXT_orgId_1",updatedClu.getPrimaryInstructor().getOrgId());
+		assertEquals("UPEXT_personId_1",updatedClu.getPrimaryInstructor().getPersonId());
+		assertEquals("PrimaryInstAttrValue1",updatedClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey1"));
+		assertEquals("PrimaryInstAttrValue3",updatedClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey3"));
+		assertEquals(2,updatedClu.getPrimaryInstructor().getAttributes().size());
+		
+		assertEquals(2,updatedClu.getInstructors().size());
+		
+		assertEquals("UPEXT_orgId_2",updatedClu.getInstructors().get(0).getOrgId());
+		assertEquals("UPEXT_personId_2",updatedClu.getInstructors().get(0).getPersonId());
+		assertEquals("Inst1AttrValue1",updatedClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey1"));
+		assertEquals("Inst1AttrValue3",updatedClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey3"));
+		assertEquals(2,updatedClu.getInstructors().get(0).getAttributes().size());
+
+		assertEquals("EXT_orgId_3",updatedClu.getInstructors().get(1).getOrgId());
+		assertEquals("EXT_personId_3",updatedClu.getInstructors().get(1).getPersonId());
+		assertEquals("Inst3AttrValue1",updatedClu.getInstructors().get(1).getAttributes().get("Inst3AttrKey1"));
+		assertEquals("Inst3AttrValue2",updatedClu.getInstructors().get(1).getAttributes().get("Inst3AttrKey2"));
+		assertEquals(2,updatedClu.getInstructors().get(1).getAttributes().size());
+		
+		assertEquals(2,updatedClu.getLuCodes().size());
+		
+		assertEquals("luCode1.key",updatedClu.getLuCodes().get(0).getId());
+		assertEquals("UPluCode1_desc",updatedClu.getLuCodes().get(0).getDesc());
+		assertEquals("UPluCode1_value",updatedClu.getLuCodes().get(0).getValue());
+		assertEquals("luCode1AttrValue1",updatedClu.getLuCodes().get(0).getAttributes().get("luCode1AttrKey1"));
+		assertEquals("luCode1AttrValue3",updatedClu.getLuCodes().get(0).getAttributes().get("luCode1AttrKey3"));
+		assertEquals(2, updatedClu.getLuCodes().get(0).getAttributes().size());
+		assertNotNull(updatedClu.getLuCodes().get(0).getMetaInfo());
+		assertNotNull(updatedClu.getLuCodes().get(0).getMetaInfo().getVersionInd());
+		assertNotNull(updatedClu.getLuCodes().get(0).getMetaInfo().getCreateTime());
+		assertNotNull(updatedClu.getLuCodes().get(0).getMetaInfo().getUpdateTime());
+
+		assertEquals("luCode3.key",updatedClu.getLuCodes().get(1).getId());
+		assertEquals("luCode3_desc",updatedClu.getLuCodes().get(1).getDesc());
+		assertEquals("luCode3_value",updatedClu.getLuCodes().get(1).getValue());
+		assertEquals("luCode3AttrValue1",updatedClu.getLuCodes().get(1).getAttributes().get("luCode3AttrKey1"));
+		assertEquals("luCode3AttrValue2",updatedClu.getLuCodes().get(1).getAttributes().get("luCode3AttrKey2"));
+		assertNotNull(updatedClu.getLuCodes().get(1).getMetaInfo());
+		assertNotNull(updatedClu.getLuCodes().get(1).getMetaInfo().getVersionInd());
+		assertNotNull(updatedClu.getLuCodes().get(1).getMetaInfo().getCreateTime());
+		assertNotNull(updatedClu.getLuCodes().get(1).getMetaInfo().getUpdateTime());
+
+		assertEquals("UP<p>marketingDesc FORMATTED</p>",updatedClu.getMarketingDesc().getFormatted());
+		assertEquals("UPmarketingDesc PLAIN",updatedClu.getMarketingDesc().getPlain());
+
+		assertEquals("UPnextReviewPeriod",updatedClu.getNextReviewPeriod());
+
+		assertEquals("offeredAtpType1",updatedClu.getOfferedAtpTypes().get(0));
+		assertEquals("offeredAtpType3",updatedClu.getOfferedAtpTypes().get(1));
+		assertEquals(2,updatedClu.getOfferedAtpTypes().size());
+
+		assertEquals("EXT_Participating_ORG_ID1",updatedClu.getParticipatingOrgs().get(0));
+		assertEquals("EXT_Participating_ORG_ID3",updatedClu.getParticipatingOrgs().get(1));
+		assertEquals(2,updatedClu.getParticipatingOrgs().size());
+		
+		assertEquals("UPendCycle",updatedClu.getPublishingInfo().getEndCycle());
+		assertEquals("UPstartCycle",updatedClu.getPublishingInfo().getStartCycle());
+		assertEquals("UPstate",updatedClu.getPublishingInfo().getState());
+		assertEquals("UPtype",updatedClu.getPublishingInfo().getType());
+		assertEquals("publishingInfoAttrValue1",updatedClu.getPublishingInfo().getAttributes().get("publishingInfoAttrKey1"));
+		assertEquals("publishingInfoAttrValue3",updatedClu.getPublishingInfo().getAttributes().get("publishingInfoAttrKey3"));
+		assertEquals(2,updatedClu.getPublishingInfo().getAttributes().size());
+		
+		assertEquals("UPEXT_orgId_234",updatedClu.getPublishingInfo().getPrimaryInstructor().getOrgId());
+		assertEquals("UPEXT_personId_2451",updatedClu.getPublishingInfo().getPrimaryInstructor().getPersonId());
+		assertEquals("PubPrimaryInstAttrValue1",updatedClu.getPublishingInfo().getPrimaryInstructor().getAttributes().get("PubPrimaryInstAttrKey1"));
+		assertEquals("PubPrimaryInstAttrValue3",updatedClu.getPublishingInfo().getPrimaryInstructor().getAttributes().get("PubPrimaryInstAttrKey3"));
+		assertEquals(2,updatedClu.getPublishingInfo().getPrimaryInstructor().getAttributes().size());
+		
+		assertEquals("UPEXT_orgId_2",updatedClu.getPublishingInfo().getInstructors().get(0).getOrgId());
+		assertEquals("UPEXT_personId_2",updatedClu.getPublishingInfo().getInstructors().get(0).getPersonId());
+		assertEquals("PubInst1AttrValue1",updatedClu.getPublishingInfo().getInstructors().get(0).getAttributes().get("PubInst1AttrKey1"));
+		assertEquals("PubInst1AttrValue3",updatedClu.getPublishingInfo().getInstructors().get(0).getAttributes().get("PubInst1AttrKey3"));
+		assertEquals(2,updatedClu.getPublishingInfo().getInstructors().get(0).getAttributes().size());
+		
+		assertEquals("EXT_orgId_3",updatedClu.getPublishingInfo().getInstructors().get(1).getOrgId());
+		assertEquals("EXT_personId_3",updatedClu.getPublishingInfo().getInstructors().get(1).getPersonId());
+		assertEquals("PubInst3AttrValue1",updatedClu.getPublishingInfo().getInstructors().get(1).getAttributes().get("PubInst3AttrKey1"));
+		assertEquals("PubInst3AttrValue2",updatedClu.getPublishingInfo().getInstructors().get(1).getAttributes().get("PubInst3AttrKey2"));
+		assertEquals(2,updatedClu.getPublishingInfo().getInstructors().get(1).getAttributes().size());
+
+		assertEquals("UPhttp://student.kuali.org/clus",updatedClu.getReferenceURL());
+
+		assertEquals("UPClu state",updatedClu.getState());
+
+		assertEquals("UPEXT_stdDuration_Id1",updatedClu.getStdDuration().getAtpDurationTypeKey());
+		assertEquals(Integer.valueOf(97867),updatedClu.getStdDuration().getTimeQuantity());
+
+		assertEquals("luType.shell.program",updatedClu.getType());
+
+		assertNotNull(updatedClu.getMetaInfo());
+		assertNotNull(updatedClu.getMetaInfo().getVersionInd());
+		assertNotNull(updatedClu.getMetaInfo().getCreateTime());
+		assertNotNull(updatedClu.getMetaInfo().getUpdateTime());
+
+		assertEquals(createdClu.getId(), updatedClu.getId());
 
 	}
 
