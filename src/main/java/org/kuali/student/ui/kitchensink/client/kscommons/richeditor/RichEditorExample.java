@@ -1,6 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.richeditor;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_RICH_EDITOR;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
@@ -17,11 +18,9 @@ public class RichEditorExample extends Composite {
 
     public RichEditorExample() {
 
-        try {
-            richEditor = new KSRichEditor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }  
+        richEditor = new KSRichEditor();
+        richEditor.addStyleName(STYLE_RICH_EDITOR);
+ 
         
         main.addStyleName(STYLE_EXAMPLE);
 

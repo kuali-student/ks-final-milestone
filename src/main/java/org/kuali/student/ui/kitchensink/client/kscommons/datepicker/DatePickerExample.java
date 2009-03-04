@@ -1,11 +1,12 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.datepicker;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_DATE_PICKER;
+
 
 import org.kuali.student.common.ui.client.widgets.KSDatePicker;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -19,6 +20,7 @@ public class DatePickerExample extends Composite {
     public DatePickerExample() {
         
         main.addStyleName(STYLE_EXAMPLE);
+        datePicker.addStyleName(STYLE_DATE_PICKER);
 
         
 // Can't do this as have no access to DatePicker in KSDate Picker

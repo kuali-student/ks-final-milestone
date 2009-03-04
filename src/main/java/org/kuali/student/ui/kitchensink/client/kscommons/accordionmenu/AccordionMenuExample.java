@@ -1,6 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.accordionmenu;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_ACCORDION_MENU;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,8 @@ public class AccordionMenuExample extends Composite {
         main.add(examplePanel);
         main.add(buttonPanel);
 
+        menu.addStyleName(STYLE_ACCORDION_MENU);
+
         super.initWidget(main);
 
 
@@ -127,11 +130,7 @@ public class AccordionMenuExample extends Composite {
 
         usList.add(new KSCheckBox("Florida State University"));
         usList.add(new KSCheckBox("University of Maryland, College Park"));
-        usList.add(new KSCheckBox("University of Washington"));
         usList.add(new KSCheckBox("University of California, Berkeley"));
-        usList.add(new KSCheckBox("Massachusetts Institute of Technology"));
-        usList.add(new KSCheckBox("University of Southern California"));
-        usList.add(new KSCheckBox("Carnegie Mellon University"));
         usList.add(new KSCheckBox("San Joaquin Delta College"));
         for ( KSCheckBox box : usList) {
             usPanel.add(box);

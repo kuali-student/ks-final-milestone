@@ -1,6 +1,7 @@
 package org.kuali.student.ui.kitchensink.client.kscommons.floatpanel;
 
 import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_EXAMPLE;
+import static org.kuali.student.ui.kitchensink.client.KitchenSinkStyleConstants.STYLE_FLOAT_PANEL;
 
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSFloatPanel;
@@ -61,6 +62,7 @@ public class FloatPanelExample extends Composite {
             }});
         contentPanel.add(new KSImage("images/flower2.jpg") );
         contentPanel.add(hideButton);
+        contentPanel.addStyleName(STYLE_FLOAT_PANEL);
 
         floatPanel.setWidget(contentPanel);
         floatPanel.setHeightRatio(25);

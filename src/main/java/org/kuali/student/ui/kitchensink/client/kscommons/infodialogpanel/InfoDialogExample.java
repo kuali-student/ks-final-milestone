@@ -30,7 +30,8 @@ public class InfoDialogExample extends Composite {
     public InfoDialogExample() {
 
         main.addStyleName(STYLE_EXAMPLE);
-
+        image.addStyleName(STYLE_IMAGE);
+        containerPanel.addStyleName(STYLE_INFO_DIALOG_PANEL);
 
         showButton.addClickHandler(new ClickHandler() {
 
@@ -48,11 +49,7 @@ public class InfoDialogExample extends Composite {
 
             }});
 
-
-
-        image.addStyleName(STYLE_IMAGE);
         containerPanel.add(new KSImage("images/flower3.jpg") );
-        containerPanel.addStyleName(STYLE_INFO_DIALOG_PANEL);
         containerPanel.add(hideButton);
 
         infoPopup.setHeader("Info Dialog Panel");
