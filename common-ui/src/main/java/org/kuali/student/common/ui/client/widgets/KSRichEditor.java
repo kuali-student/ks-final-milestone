@@ -2,7 +2,6 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 
-import org.kuali.student.common.ui.client.images.TextIcons;
 import org.kuali.student.common.ui.client.widgets.impl.KSRichEditorImpl;
 
 import com.google.gwt.core.client.GWT;

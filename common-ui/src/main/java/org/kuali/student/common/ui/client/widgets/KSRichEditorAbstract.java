@@ -2,7 +2,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 
 
-import org.kuali.student.common.ui.client.images.TextIcons;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
