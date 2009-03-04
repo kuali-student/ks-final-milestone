@@ -39,9 +39,9 @@ public interface KSStyles {
 	public static final String KS_INFO_POPUP = "KS-Info-Popup";
 	public static final String KS_MODAL_POPUP = "KS-Modal-Popup";
 	public static final String KS_MODAL_GLASS = "KS-Modal-Dialog-Glass";
-	public static final String KS_LISTBOX_STYLE = "TODO";
-	public static final String KS_LISTBOX_FOCUS_STYLE = "TODO";
-	public static final String KS_LISTBOX_HOVER_STYLE = "TODO";
+	public static final String KS_LISTBOX_STYLE = "KS-Listbox";
+	public static final String KS_LISTBOX_FOCUS_STYLE = "KS-Listbox-Focus";
+	public static final String KS_LISTBOX_HOVER_STYLE = "KS-Listbox-Hover";
 	public static final String KS_DISCLOSURE_CONTENTPANEL_STYLE = "KS-Disclosure-Content";
 	public static final String KS_DISCLOSURE_HEADER_STYLE = "KS-Disclosure-Header";
 	public static final String KS_DISCLOSURE_OPEN_HEADER_STYLE = "KS-Disclosure-Header-Open";
