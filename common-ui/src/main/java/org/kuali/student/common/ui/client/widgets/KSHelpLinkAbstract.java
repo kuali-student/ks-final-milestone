@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.widgets;
 
 import org.kuali.student.common.ui.client.dto.HelpInfo;
-import org.kuali.student.common.ui.client.images.HelpIcons;
 
 import com.google.gwt.user.client.ui.Composite;
 
