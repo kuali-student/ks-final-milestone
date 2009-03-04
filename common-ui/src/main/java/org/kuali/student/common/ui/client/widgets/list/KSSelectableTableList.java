@@ -1,25 +1,11 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.list.impl.KSSelectableTableListImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.visualization.client.AjaxLoader;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.Selection;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
-import com.google.gwt.visualization.client.events.SelectHandler;
-import com.google.gwt.visualization.client.visualizations.Table;
-import com.google.gwt.visualization.client.visualizations.Table.Options;
 
 /**
  * This represent a selectable list of items in a table. User can select single item
@@ -28,7 +14,7 @@ import com.google.gwt.visualization.client.visualizations.Table.Options;
  * @author Kuali Student Team
  *
  */
-public class KSSelectableTableList extends Composite implements HasName { 
+public class KSSelectableTableList extends KSSelectItemWidgetAbstract { 
 
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSSelectableTableListImpl.class);
  

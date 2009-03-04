@@ -7,8 +7,6 @@ import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImp
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasName;
 
 
 /**
@@ -17,7 +15,7 @@ import com.google.gwt.user.client.ui.HasName;
  * @author Kuali Student Team 
  *
  */
-public class KSRadioButtonList extends Composite implements HasName, ClickHandler{
+public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements ClickHandler{
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 
     
