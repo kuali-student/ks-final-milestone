@@ -27,6 +27,7 @@ import org.kuali.student.core.exceptions.MissingParameterException;
 import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.lu.dto.CluAccountingInfo;
+import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluCreditInfo;
 import org.kuali.student.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
@@ -35,6 +36,7 @@ import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.dto.CluPublishingInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.lum.lu.dto.LuiInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -617,5 +619,27 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	}
 
+	@Test
+	public void testCluCluRelationCrud() throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        
+	    CluCluRelationInfo cluCluRelationInfo = new CluCluRelationInfo();
+	    
+	    cluCluRelationInfo.setEffectiveDate(df.parse("20080101"));
+	    cluCluRelationInfo.setExpirationDate(df.parse("20100101"));
+	    cluCluRelationInfo.setIsCluRelationRequired(true);
+	    cluCluRelationInfo.setState("hello");
+	    cluCluRelationInfo.setType("goodbye");
+	    
+	    LuLuRelationTypeInfo luLuRelationTypeInfo = new LuLuRelationTypeInfo();
+	    luLuRelationTypeInfo.setDesc("my desc");
+	    luLuRelationTypeInfo.setEffectiveDate(df.parse("20080101"));
+	    luLuRelationTypeInfo.setExpirationDate(df.parse("20100101"));
+	    luLuRelationTypeInfo.setName("bob");
+	    luLuRelationTypeInfo.setRevDesc("rev desc");
+	    luLuRelationTypeInfo.setRevName("rev name");
+	    
+	    client.createCluCluRelation("CLU-1", "CLU-2", luLuRelationTypeInfo, cluCluRelationInfo);
+	}
 
 }

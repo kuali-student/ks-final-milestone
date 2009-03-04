@@ -16,9 +16,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.entity.AttributeOwner;
+import org.kuali.student.core.entity.MetaEntity;
+
 @Entity
 @Table(name = "KSLU_LULU_RELTN_TYPE")
-public class LuLuRelationType {
+public class LuLuRelationType extends MetaEntity implements AttributeOwner<LuLuRelationTypeAttribute> {
 	@Id
 	@Column(name = "ID")
 	private String id;
@@ -59,6 +63,11 @@ public class LuLuRelationType {
 		this.luTypes = luTypes;
 	}
 
+    @Override
+    public final void onPrePersist() {
+        this.id = UUIDHelper.genStringUUID(this.id);
+    }
+    
 	public String getId() {
 		return id;
 	}

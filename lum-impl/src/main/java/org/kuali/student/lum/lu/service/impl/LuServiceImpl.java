@@ -58,6 +58,8 @@ import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
 import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
 import org.kuali.student.lum.lu.entity.CluAttribute;
+import org.kuali.student.lum.lu.entity.CluCluRelation;
+import org.kuali.student.lum.lu.entity.CluCluRelationAttribute;
 import org.kuali.student.lum.lu.entity.CluCredit;
 import org.kuali.student.lum.lu.entity.CluFee;
 import org.kuali.student.lum.lu.entity.CluFeeAttribute;
@@ -70,6 +72,8 @@ import org.kuali.student.lum.lu.entity.CluPublishingAttribute;
 import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.LuCode;
 import org.kuali.student.lum.lu.entity.LuCodeAttribute;
+import org.kuali.student.lum.lu.entity.LuLuRelationType;
+import org.kuali.student.lum.lu.entity.LuLuRelationTypeAttribute;
 import org.kuali.student.lum.lu.entity.LuStatement;
 import org.kuali.student.lum.lu.entity.LuStatementType;
 import org.kuali.student.lum.lu.entity.LuType;
@@ -265,14 +269,38 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public CluCluRelationInfo createCluCluRelation(String cluId,
-			String relatedCluId, LuLuRelationTypeInfo luLuRelationType,
+			String relatedCluId, LuLuRelationTypeInfo luLuRelationTypeInfo,
 			CluCluRelationInfo cluCluRelationInfo)
 			throws AlreadyExistsException, CircularReferenceException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(cluId, "cluId");
+        checkForMissingParameter(relatedCluId, "relatedCluId");
+        checkForMissingParameter(luLuRelationTypeInfo, "luLuRelationType");
+        checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
+        
+        Clu clu = luDao.fetch(Clu.class, cluId);
+        Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
+        
+        CluCluRelation cluCluRelation = new CluCluRelation();
+        BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation, new String[] { "cluId", "relatedCluId", "isCluRelationRequired", "attributes", "metaInfo" });
+        
+        cluCluRelation.setClu(clu);
+        cluCluRelation.setRelatedClu(relatedClu);
+        cluCluRelation.setCluRelationRequired(cluCluRelationInfo.getIsCluRelationRequired() == null? true: cluCluRelationInfo.getIsCluRelationRequired()); //TODO maybe this is unnecessary, contract specifies not null
+        cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(CluCluRelationAttribute.class, cluCluRelationInfo.getAttributes(), cluCluRelation, luDao));
+        
+        LuLuRelationType luLuRelationType = new LuLuRelationType();
+        BeanUtils.copyProperties(luLuRelationTypeInfo, luLuRelationType, new String[] { "attributes" });
+        luLuRelationType.setAttributes(LuServiceAssembler.toGenericAttributes(LuLuRelationTypeAttribute.class, luLuRelationTypeInfo.getAttributes(), luLuRelationType, luDao));
+        
+        cluCluRelation.setLuLuRelationType(luLuRelationType);
+        
+        luDao.create(luLuRelationType);
+        luDao.create(cluCluRelation);
+        
+		return LuServiceAssembler.toCluCluRelationInfo(cluCluRelation);
 	}
 
 	@Override
