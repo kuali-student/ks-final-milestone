@@ -16,6 +16,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -55,6 +57,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	
 	private boolean focused = false;
 	private boolean toolbarShowing = false;
+	private boolean popoutActive = false;
 	
 	private boolean isUsedInPopup = false;
 	private int toolbarHeight;
@@ -69,9 +72,11 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	private final FocusHandler focusHandler = new FocusHandler() {
 		@Override
 		public void onFocus(FocusEvent event) {
-			focused = true;
-			if(!toolbar.inUse()){
-				showToolbar(focused);
+			if(!popoutActive){
+				focused = true;
+				if(!toolbar.inUse()){
+					showToolbar(focused);
+				}
 			}
 		}
 	};
@@ -79,10 +84,12 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 	private final BlurHandler blurHandler = new BlurHandler() {
 
 		@Override
-		public void onBlur(BlurEvent event) {
-			focused = false;
-			if(!toolbar.inUse()){
-				showToolbar(focused);
+		public void onBlur(BlurEvent event) {			
+			if(!popoutActive){
+				focused = false;
+				if(!toolbar.inUse()){
+					showToolbar(focused);
+				}
 			}
 		}
 	};
@@ -151,6 +158,14 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 					popoutEditor.textArea.setFocus(true);
 				}
 			});
+			
+			popoutImage.addMouseDownHandler(new MouseDownHandler(){
+
+				@Override
+				public void onMouseDown(MouseDownEvent event) {
+					popoutActive = true;
+				}
+			});
 
 			popoutImagePanel.add(popoutImage);
 			
@@ -165,6 +180,7 @@ public class KSRichEditorImpl extends KSRichEditorAbstract {
 					popoutWindow.hide();
 					glass.hide();
 					popoutImagePanel.show();
+					popoutActive = false;
 				}
 			});
 
